@@ -32,29 +32,12 @@
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeId"><span>Employee Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fullName"><span>Full Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="fathersName"><span>Fathers Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="mothersName"><span>Mothers Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="birthDate"><span>Birth Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="age"><span>Age</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="maritalStatus"><span>Marital Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="gender"><span>Gender</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="religion"><span>Religion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="permanentAddress"><span>Permanent Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="presentAddress"><span>Present Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="nId"><span>N Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="tin"><span>Tin</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="contactNumber"><span>Contact Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="email"><span>Email</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="bloodGroup"><span>Blood Group</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="emergencyContact"><span>Emergency Contact</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeStatus"><span>Employee Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employmentType"><span>Employment Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="terminationDate"><span>Termination Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="reasonOfTermination"><span>Reason Of Termination</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="userAccount"><span>User Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="departmentId"><span>Department</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="designationId"><span>Designation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
+                <th jhiSortBy="userAccount"><span>User Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
@@ -62,26 +45,8 @@
                 <td><a [routerLink]="['/employee', employee.id, 'view' ]">{{employee.id}}</a></td>
                 <td>{{employee.employeeId}}</td>
                 <td>{{employee.fullName}}</td>
-                <td>{{employee.fathersName}}</td>
-                <td>{{employee.mothersName}}</td>
-                <td>{{employee.birthDate | date:'mediumDate'}}</td>
-                <td>{{employee.age}}</td>
-                <td>{{employee.maritalStatus}}</td>
-                <td>{{employee.gender}}</td>
-                <td>{{employee.religion}}</td>
-                <td>{{employee.permanentAddress}}</td>
-                <td>{{employee.presentAddress}}</td>
-                <td>{{employee.nId}}</td>
-                <td>{{employee.tin}}</td>
-                <td>{{employee.contactNumber}}</td>
-                <td>{{employee.email}}</td>
-                <td>{{employee.bloodGroup}}</td>
-                <td>{{employee.emergencyContact}}</td>
                 <td>{{employee.employeeStatus}}</td>
                 <td>{{employee.employmentType}}</td>
-                <td>{{employee.terminationDate | date:'mediumDate'}}</td>
-                <td>{{employee.reasonOfTermination}}</td>
-                <td>{{employee.userAccount}}</td>
                 <td>
                     <div *ngIf="employee.departmentId">
                         <a [routerLink]="['../department', employee.departmentId , 'view' ]" >{{employee.departmentId}}</a>
@@ -92,6 +57,7 @@
                         <a [routerLink]="['../designation', employee.designationId , 'view' ]" >{{employee.designationId}}</a>
                     </div>
                 </td>
+                <td>{{employee.userAccount}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

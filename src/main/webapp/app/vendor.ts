@@ -42,7 +42,9 @@ import {
     faHome,
     faCog,
     faIdCard,
-    faChess
+    faChess,
+    faUserCog,
+    faUserEdit
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -83,6 +85,8 @@ library.add(faAsterisk);
 library.add(faCog);
 library.add(faIdCard);
 library.add(faChess);
+library.add(faUserCog);
+library.add(faUserEdit);
 
 import 'quill/dist/quill.js';
 import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';

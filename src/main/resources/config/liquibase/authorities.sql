@@ -1,0 +1,17 @@
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_COLD_STORAGE_MANAGER');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_COLD_STORAGE_SUPERVISOR');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_DELIVERY_MAN');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_ELECTRICIAN');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_HELPER');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_HR_ADMIN_EXECUTIVE');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_IT_OPERATOR');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_JUNIOR_EXECUTIVE');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_MICROBIOLOGIST');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_OFFICE_ASSISTANT');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_OPERATOR');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_PLANT_ENGINEER');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_PRODUCTION_MANAGER');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_QA_EXECUTIVE');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_SHIFT_IN_CHARGE');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_SUPERVISOR');
+INSERT INTO soptorshi.jhi_authority (name) VALUES ('ROLE_WORKER');
