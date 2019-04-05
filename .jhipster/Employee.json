@@ -1,0 +1,125 @@
+{
+    "name": "Employee",
+    "fields": [
+        {
+            "fieldName": "employeeId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fullName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fathersName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "mothersName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "birthDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "age",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "maritalStatus",
+            "fieldType": "MaritalStatus",
+            "fieldValues": "MARRIED,UNMARRIED,SEPARATED"
+        },
+        {
+            "fieldName": "gender",
+            "fieldType": "Gender",
+            "fieldValues": "MALE,FEMALE,OTHERS"
+        },
+        {
+            "fieldName": "religion",
+            "fieldType": "Religion",
+            "fieldValues": "ISLAM,HINDU,BUDDHIST,CHRISTIANS,OTHERS"
+        },
+        {
+            "fieldName": "permanentAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "presentAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "nId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "tin",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactNumber",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "bloodGroup",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "emergencyContact",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "employeeStatus",
+            "fieldType": "EmployeeStatus",
+            "fieldValues": "ACTIVE,TERMINATED"
+        },
+        {
+            "fieldName": "employmentType",
+            "fieldType": "EmploymentType",
+            "fieldValues": "PERMANENT,TEMPORARY,ADHOC,PART_TIME"
+        },
+        {
+            "fieldName": "terminationDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "reasonOfTermination",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "userAccount",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "department",
+            "otherEntityRelationshipName": "employee",
+            "relationshipName": "department",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "designation",
+            "otherEntityRelationshipName": "employee",
+            "relationshipName": "designation",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190405124354",
+    "entityTableName": "employee",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

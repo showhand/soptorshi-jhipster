@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-reference-information-heading">Create or edit a Reference Information</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!referenceInformation.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="referenceInformation.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="referenceInformation.name" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_designation">Designation</label>
+                    <input type="text" class="form-control" name="designation" id="field_designation"
+                        [(ngModel)]="referenceInformation.designation" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_organization">Organization</label>
+                    <input type="text" class="form-control" name="organization" id="field_organization"
+                        [(ngModel)]="referenceInformation.organization" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_contactNumber">Contact Number</label>
+                    <input type="text" class="form-control" name="contactNumber" id="field_contactNumber"
+                        [(ngModel)]="referenceInformation.contactNumber" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" [(ngModel)]="referenceInformation.employeeId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
