@@ -1,0 +1,64 @@
+{
+    "generator-jhipster": {
+        "promptValues": {
+            "packageName": "org.soptorshi"
+        },
+        "jhipsterVersion": "5.8.2",
+        "applicationType": "monolith",
+        "baseName": "soptorshi",
+        "packageName": "org.soptorshi",
+        "packageFolder": "org/soptorshi",
+        "serverPort": "8080",
+        "authenticationType": "session",
+        "cacheProvider": "ehcache",
+        "enableHibernateCache": false,
+        "websocket": "spring-websocket",
+        "databaseType": "sql",
+        "devDatabaseType": "mysql",
+        "prodDatabaseType": "mysql",
+        "searchEngine": "elasticsearch",
+        "messageBroker": false,
+        "serviceDiscoveryType": false,
+        "buildTool": "maven",
+        "enableSwaggerCodegen": true,
+        "rememberMeKey": "04f66efc075a171d9b8e9de789edd93d16315a23082bff079052c3ebfacb4f9e5a367237d875fc7cca5d93ee5d8bd83c627d",
+        "clientFramework": "angularX",
+        "useSass": false,
+        "clientPackageManager": "npm",
+        "testFrameworks": [],
+        "jhiPrefix": "jhi",
+        "entitySuffix": "",
+        "dtoSuffix": "DTO",
+        "otherModules": [
+            {
+                "name": "generator-jhipster-nav-element",
+                "version": "2.1.4"
+            },
+            {
+                "name": "generator-jhipster-docker",
+                "version": "2.5.0"
+            },
+            {
+                "name": "generator-jhipster-primeng-charts",
+                "version": "1.2.0"
+            },
+            {
+                "name": "generator-jhipster-leafletmap",
+                "version": "2.0.0"
+            },
+            {
+                "name": "generator-jhipster-stripe-payment",
+                "version": "1.0.9"
+            },
+            {
+                "name": "generator-jhipster-angular-material-integration",
+                "version": "1.0.17"
+            },
+            {
+                "name": "generator-jhipster-database-backup",
+                "version": "1.0.7"
+            }
+        ],
+        "enableTranslation": false
+    }
+}
