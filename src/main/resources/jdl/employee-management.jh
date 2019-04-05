@@ -1,0 +1,132 @@
+entity Department{
+	name String,
+    shortName String
+}
+
+entity Designation{
+	name String,
+    shortName String,
+    description String
+}
+
+entity Employee{
+	employeeId String,
+    fullName String,
+    fathersName String,
+    mothersName String,
+    birthDate LocalDate,
+    age Double,
+    maritalStatus MaritalStatus,
+    gender Gender,
+    religion Religion,
+    permanentAddress String,
+    presentAddress String,
+    nId String,
+    tin String,
+    contactNumber String,
+    email String,
+    bloodGroup String,
+    emergencyContact String,
+    employeeStatus EmployeeStatus,
+    employmentType EmploymentType,
+    terminationDate LocalDate,
+    reasonOfTermination String,
+    userAccount Boolean
+}
+
+entity Attachment{
+	fileName String,
+    path String
+}
+
+entity AcademicInformation{
+	degree String,
+    boardOrUniversity String,
+    passingYear Integer,
+    group String
+}
+
+entity TrainingInformation{
+	name String,
+    subject String,
+    organization String
+}
+
+entity FamilyInformation{
+	name String,
+    relation String,
+    contactNumber String
+}
+
+entity ReferenceInformation{
+	name String,
+    designation String,
+    organization String,
+    contactNumber String
+}
+
+entity ExperienceInformation{
+	organization String,
+    designation String,
+    startDate LocalDate,
+    endDate LocalDate,
+    employmentType EmploymentType
+}
+
+enum MaritalStatus{
+	MARRIED, UNMARRIED, SEPARATED
+}
+
+enum Gender{
+	MALE, FEMALE, OTHERS
+}
+
+enum EmploymentType{
+	PERMANENT, TEMPORARY, ADHOC, PART_TIME
+}
+
+enum EmployeeStatus{
+	ACTIVE, TERMINATED
+}
+
+enum Religion{
+	ISLAM, HINDU, BUDDHIST, CHRISTIANS, OTHERS
+}
+
+relationship OneToOne{
+    Employee{department} to Department
+}
+
+relationship OneToMany{
+	AcademicInformation{attachment} to Attachment,
+    ExperienceInformation{attachment} to Attachment,
+    TrainingInformation{attachment} to Attachment
+}
+
+relationship ManyToOne{
+    Employee{designation} to Designation
+}
+
+relationship ManyToOne{
+	AcademicInformation{employee} to Employee,
+    ExperienceInformation{employee} to Employee,
+    FamilyInformation{employee} to Employee,
+    TrainingInformation{employee} to Employee,
+    ReferenceInformation{employee} to Employee
+}
+
+
+paginate * with infinite-scroll
+search * with elasticsearch
+service * with serviceClass
+
+// Set pagination options
+
+//paginate Job with pagination
+
+// Use Data Transfert Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+
+

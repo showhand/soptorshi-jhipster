@@ -1,0 +1,46 @@
+{
+    "name": "AcademicInformation",
+    "fields": [
+        {
+            "fieldName": "degree",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "boardOrUniversity",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "passingYear",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "group",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "attachment",
+            "otherEntityRelationshipName": "academicInformation",
+            "relationshipName": "attachment"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "academicInformation",
+            "relationshipName": "employee",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190405124356",
+    "entityTableName": "academic_information",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

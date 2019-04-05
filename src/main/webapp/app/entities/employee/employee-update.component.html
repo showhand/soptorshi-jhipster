@@ -1,0 +1,175 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-employee-heading">Create or edit a Employee</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!employee.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="employee.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employeeId">Employee Id</label>
+                    <input type="text" class="form-control" name="employeeId" id="field_employeeId"
+                        [(ngModel)]="employee.employeeId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fullName">Full Name</label>
+                    <input type="text" class="form-control" name="fullName" id="field_fullName"
+                        [(ngModel)]="employee.fullName" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fathersName">Fathers Name</label>
+                    <input type="text" class="form-control" name="fathersName" id="field_fathersName"
+                        [(ngModel)]="employee.fathersName" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_mothersName">Mothers Name</label>
+                    <input type="text" class="form-control" name="mothersName" id="field_mothersName"
+                        [(ngModel)]="employee.mothersName" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_birthDate">Birth Date</label>
+                    <div class="input-group">
+                        <input id="field_birthDate" type="text" class="form-control" name="birthDate" ngbDatepicker  #birthDateDp="ngbDatepicker" [(ngModel)]="employee.birthDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="birthDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_age">Age</label>
+                    <input type="number" class="form-control" name="age" id="field_age"
+                        [(ngModel)]="employee.age" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_maritalStatus">Marital Status</label>
+                    <select class="form-control" name="maritalStatus" [(ngModel)]="employee.maritalStatus" id="field_maritalStatus" >
+                        <option value="MARRIED">MARRIED</option>
+                        <option value="UNMARRIED">UNMARRIED</option>
+                        <option value="SEPARATED">SEPARATED</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_gender">Gender</label>
+                    <select class="form-control" name="gender" [(ngModel)]="employee.gender" id="field_gender" >
+                        <option value="MALE">MALE</option>
+                        <option value="FEMALE">FEMALE</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_religion">Religion</label>
+                    <select class="form-control" name="religion" [(ngModel)]="employee.religion" id="field_religion" >
+                        <option value="ISLAM">ISLAM</option>
+                        <option value="HINDU">HINDU</option>
+                        <option value="BUDDHIST">BUDDHIST</option>
+                        <option value="CHRISTIANS">CHRISTIANS</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_permanentAddress">Permanent Address</label>
+                    <input type="text" class="form-control" name="permanentAddress" id="field_permanentAddress"
+                        [(ngModel)]="employee.permanentAddress" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentAddress">Present Address</label>
+                    <input type="text" class="form-control" name="presentAddress" id="field_presentAddress"
+                        [(ngModel)]="employee.presentAddress" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_nId">N Id</label>
+                    <input type="text" class="form-control" name="nId" id="field_nId"
+                        [(ngModel)]="employee.nId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_tin">Tin</label>
+                    <input type="text" class="form-control" name="tin" id="field_tin"
+                        [(ngModel)]="employee.tin" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_contactNumber">Contact Number</label>
+                    <input type="text" class="form-control" name="contactNumber" id="field_contactNumber"
+                        [(ngModel)]="employee.contactNumber" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_email">Email</label>
+                    <input type="text" class="form-control" name="email" id="field_email"
+                        [(ngModel)]="employee.email" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bloodGroup">Blood Group</label>
+                    <input type="text" class="form-control" name="bloodGroup" id="field_bloodGroup"
+                        [(ngModel)]="employee.bloodGroup" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_emergencyContact">Emergency Contact</label>
+                    <input type="text" class="form-control" name="emergencyContact" id="field_emergencyContact"
+                        [(ngModel)]="employee.emergencyContact" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employeeStatus">Employee Status</label>
+                    <select class="form-control" name="employeeStatus" [(ngModel)]="employee.employeeStatus" id="field_employeeStatus" >
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="TERMINATED">TERMINATED</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employmentType">Employment Type</label>
+                    <select class="form-control" name="employmentType" [(ngModel)]="employee.employmentType" id="field_employmentType" >
+                        <option value="PERMANENT">PERMANENT</option>
+                        <option value="TEMPORARY">TEMPORARY</option>
+                        <option value="ADHOC">ADHOC</option>
+                        <option value="PART_TIME">PART_TIME</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_terminationDate">Termination Date</label>
+                    <div class="input-group">
+                        <input id="field_terminationDate" type="text" class="form-control" name="terminationDate" ngbDatepicker  #terminationDateDp="ngbDatepicker" [(ngModel)]="employee.terminationDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="terminationDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reasonOfTermination">Reason Of Termination</label>
+                    <input type="text" class="form-control" name="reasonOfTermination" id="field_reasonOfTermination"
+                        [(ngModel)]="employee.reasonOfTermination" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_userAccount">User Account</label>
+                    <input type="checkbox" class="form-control" name="userAccount" id="field_userAccount"
+                        [(ngModel)]="employee.userAccount" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_department">Department</label>
+                    <select class="form-control" id="field_department" name="department" [(ngModel)]="employee.departmentId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_designation">Designation</label>
+                    <select class="form-control" id="field_designation" name="designation" [(ngModel)]="employee.designationId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
