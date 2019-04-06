@@ -4,7 +4,7 @@
             <h2 id="jhi-employee-heading">Create or edit a Employee</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!employee.id">
+                <div class="form-group form-inline" [hidden]="!employee.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
                         [(ngModel)]="employee.id" readonly />
@@ -141,24 +141,24 @@
                     <input type="text" class="form-control" name="reasonOfTermination" id="field_reasonOfTermination"
                         [(ngModel)]="employee.reasonOfTermination" />
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_userAccount">User Account</label>
+                <div class="form-group form-inline">
                     <input type="checkbox" class="form-control" name="userAccount" id="field_userAccount"
-                        [(ngModel)]="employee.userAccount" />
+                    [(ngModel)]="employee.userAccount" />
+                    <label class="form-control-label" for="field_userAccount">User Account </label>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_department">Department</label>
                     <select class="form-control" id="field_department" name="department" [(ngModel)]="employee.departmentId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.id}}</option>
+                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_designation">Designation</label>
                     <select class="form-control" id="field_designation" name="designation" [(ngModel)]="employee.designationId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.id}}</option>
+                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.name}}</option>
                     </select>
                 </div>
             </div>
@@ -172,4 +172,15 @@
             </div>
         </form>
     </div>
+    <div class="col-4">
+        <div *ngIf="!employee.id">
+            <div class="row">
+                <img src='user.png' height="200" width="200" class="rounded" alt="User">
+            </div>
+        </div>
+        <div class="row">
+            <input type="file" class="form-control-file border">
+        </div>
+    </div>
 </div>
+
