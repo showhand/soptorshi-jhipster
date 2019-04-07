@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { JhiAlertService } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
 import { IEmployee } from 'app/shared/model/employee.model';
+import { NgbTab, NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import { EmployeeService } from 'app/entities/employee/employee.service';
 
 @Component({
     selector: 'jhi-employee-management',
@@ -10,13 +12,21 @@ import { IEmployee } from 'app/shared/model/employee.model';
 })
 export class EmployeeManagementComponent implements OnInit {
     employee: IEmployee;
-
-    constructor(protected jhiAlertService: JhiAlertService, protected activatedRoute: ActivatedRoute) {}
+    @ViewChild('#tabSet') tabSet: NgbTabset;
+    constructor(
+        protected jhiAlertService: JhiAlertService,
+        protected activatedRoute: ActivatedRoute,
+        protected employeeService: EmployeeService
+    ) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ employee }) => {
             this.employee = employee;
         });
+    }
+
+    tabSelected($event: Event) {
+        this.employeeService.selectedTabId = $event.type;
     }
 
     previousState() {

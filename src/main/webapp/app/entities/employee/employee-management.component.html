@@ -1,17 +1,17 @@
 <div class=" row ">
     <div class="col-md-12">
-        <ngb-tabset justify="center">
-            <ngb-tab title="Personal Information">
+        <ngb-tabset justify="center" #tabSet="ngbTabSet">
+            <ngb-tab title="Personal Information" id="personalInformation">
                 <ng-template ngbTabContent>
                     <jhi-employee-update employee="employee"></jhi-employee-update>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="Academic Information">
+            <ngb-tab title="Academic Information" id="academicInformation">
                 <ng-template ngbTabContent>
                     <jhi-academic-information employee="employee"></jhi-academic-information>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="Experience Information">
+            <ngb-tab title="Experience Information" id="experienceInformation">
                 <ng-template ngbTabContent>
                     <jhi-experience-information employee="employee"></jhi-experience-information>
                 </ng-template>

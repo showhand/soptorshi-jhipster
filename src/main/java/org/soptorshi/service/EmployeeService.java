@@ -32,6 +32,7 @@ public class EmployeeService {
 
     private final EmployeeSearchRepository employeeSearchRepository;
 
+
     public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, EmployeeSearchRepository employeeSearchRepository) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
