@@ -11,17 +11,20 @@ import {
     employeeRoute,
     employeePopupRoute
 } from './';
+import { EmployeeManagementComponent } from './employee-management.component';
+import { MatTabsModule } from '@angular/material';
 
 const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [SoptorshiSharedModule, MatTabsModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         EmployeeComponent,
         EmployeeDetailComponent,
         EmployeeUpdateComponent,
         EmployeeDeleteDialogComponent,
-        EmployeeDeletePopupComponent
+        EmployeeDeletePopupComponent,
+        EmployeeManagementComponent
     ],
     entryComponents: [EmployeeComponent, EmployeeUpdateComponent, EmployeeDeleteDialogComponent, EmployeeDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -1,8 +1,10 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { MatTabsModule } from '@angular/material';
 
 @NgModule({
     imports: [
+        MatTabsModule,
         RouterModule.forChild([
             {
                 path: 'department',
