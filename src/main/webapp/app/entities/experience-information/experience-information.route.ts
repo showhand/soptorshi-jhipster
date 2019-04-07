@@ -30,7 +30,7 @@ export class ExperienceInformationResolve implements Resolve<IExperienceInformat
 
 export const experienceInformationRoute: Routes = [
     {
-        path: '',
+        path: 'home',
         component: ExperienceInformationComponent,
         data: {
             authorities: ['ROLE_USER'],

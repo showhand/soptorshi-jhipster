@@ -18,4 +18,8 @@ export class EmployeeManagementComponent implements OnInit {
             this.employee = employee;
         });
     }
+
+    previousState() {
+        window.history.back();
+    }
 }

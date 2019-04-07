@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,12 +10,15 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { ExperienceInformationService } from './experience-information.service';
+import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-experience-information',
     templateUrl: './experience-information.component.html'
 })
 export class ExperienceInformationComponent implements OnInit, OnDestroy {
+    @Input()
+    employee: IEmployee;
     experienceInformations: IExperienceInformation[];
     currentAccount: any;
     eventSubscriber: Subscription;

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,12 +10,15 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { AcademicInformationService } from './academic-information.service';
+import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-academic-information',
     templateUrl: './academic-information.component.html'
 })
 export class AcademicInformationComponent implements OnInit, OnDestroy {
+    @Input()
+    employee: IEmployee;
     academicInformations: IAcademicInformation[];
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -115,6 +118,7 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        if (this.employee == undefined) this.jhiAlertService.error('Please fill up employee personal information', null, null);
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
