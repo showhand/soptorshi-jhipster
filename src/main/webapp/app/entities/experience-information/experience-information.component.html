@@ -1,7 +1,4 @@
-<div *ngIf="employee==undefined">
-    <jhi-alert></jhi-alert>
-</div>
-<div *ngIf="employee!=undefined">
+<div>
     <h2 id="page-heading">
         <span>Experience Informations</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-experience-information" [routerLink]="['/experience-information/new']">
@@ -31,7 +28,7 @@
     <div class="table-responsive" *ngIf="experienceInformations">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="organization"><span>Organization</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="designation"><span>Designation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -42,7 +39,7 @@
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let experienceInformation of experienceInformations ;trackBy: trackId">
                 <td><a [routerLink]="['/experience-information', experienceInformation.id, 'view' ]">{{experienceInformation.id}}</a></td>
                 <td>{{experienceInformation.organization}}</td>
@@ -82,5 +79,14 @@
             </tr>
             </tbody>
         </table>
+    </div>
+    <!-- Pager is not implemented yet, so this is normal pagination instead -->
+    <div *ngIf="experienceInformations && experienceInformations.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
     </div>
 </div>

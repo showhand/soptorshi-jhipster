@@ -9,6 +9,8 @@ import org.soptorshi.service.DepartmentService;
 import org.soptorshi.service.dto.DepartmentDTO;
 import org.soptorshi.service.mapper.DepartmentMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.DepartmentCriteria;
+import org.soptorshi.service.DepartmentQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -73,6 +75,9 @@ public class DepartmentResourceIntTest {
     private DepartmentSearchRepository mockDepartmentSearchRepository;
 
     @Autowired
+    private DepartmentQueryService departmentQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -94,7 +99,7 @@ public class DepartmentResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final DepartmentResource departmentResource = new DepartmentResource(departmentService);
+        final DepartmentResource departmentResource = new DepartmentResource(departmentService, departmentQueryService);
         this.restDepartmentMockMvc = MockMvcBuilders.standaloneSetup(departmentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -196,6 +201,119 @@ public class DepartmentResourceIntTest {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.shortName").value(DEFAULT_SHORT_NAME.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllDepartmentsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        departmentRepository.saveAndFlush(department);
+
+        // Get all the departmentList where name equals to DEFAULT_NAME
+        defaultDepartmentShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the departmentList where name equals to UPDATED_NAME
+        defaultDepartmentShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDepartmentsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        departmentRepository.saveAndFlush(department);
+
+        // Get all the departmentList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultDepartmentShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the departmentList where name equals to UPDATED_NAME
+        defaultDepartmentShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDepartmentsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        departmentRepository.saveAndFlush(department);
+
+        // Get all the departmentList where name is not null
+        defaultDepartmentShouldBeFound("name.specified=true");
+
+        // Get all the departmentList where name is null
+        defaultDepartmentShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDepartmentsByShortNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        departmentRepository.saveAndFlush(department);
+
+        // Get all the departmentList where shortName equals to DEFAULT_SHORT_NAME
+        defaultDepartmentShouldBeFound("shortName.equals=" + DEFAULT_SHORT_NAME);
+
+        // Get all the departmentList where shortName equals to UPDATED_SHORT_NAME
+        defaultDepartmentShouldNotBeFound("shortName.equals=" + UPDATED_SHORT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDepartmentsByShortNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        departmentRepository.saveAndFlush(department);
+
+        // Get all the departmentList where shortName in DEFAULT_SHORT_NAME or UPDATED_SHORT_NAME
+        defaultDepartmentShouldBeFound("shortName.in=" + DEFAULT_SHORT_NAME + "," + UPDATED_SHORT_NAME);
+
+        // Get all the departmentList where shortName equals to UPDATED_SHORT_NAME
+        defaultDepartmentShouldNotBeFound("shortName.in=" + UPDATED_SHORT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDepartmentsByShortNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        departmentRepository.saveAndFlush(department);
+
+        // Get all the departmentList where shortName is not null
+        defaultDepartmentShouldBeFound("shortName.specified=true");
+
+        // Get all the departmentList where shortName is null
+        defaultDepartmentShouldNotBeFound("shortName.specified=false");
+    }
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultDepartmentShouldBeFound(String filter) throws Exception {
+        restDepartmentMockMvc.perform(get("/api/departments?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(department.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)));
+
+        // Check, that the count call also returns 1
+        restDepartmentMockMvc.perform(get("/api/departments/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultDepartmentShouldNotBeFound(String filter) throws Exception {
+        restDepartmentMockMvc.perform(get("/api/departments?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restDepartmentMockMvc.perform(get("/api/departments/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

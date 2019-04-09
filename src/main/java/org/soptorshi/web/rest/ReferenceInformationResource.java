@@ -4,6 +4,8 @@ import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
 import org.soptorshi.service.dto.ReferenceInformationDTO;
+import org.soptorshi.service.dto.ReferenceInformationCriteria;
+import org.soptorshi.service.ReferenceInformationQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +38,11 @@ public class ReferenceInformationResource {
 
     private final ReferenceInformationService referenceInformationService;
 
-    public ReferenceInformationResource(ReferenceInformationService referenceInformationService) {
+    private final ReferenceInformationQueryService referenceInformationQueryService;
+
+    public ReferenceInformationResource(ReferenceInformationService referenceInformationService, ReferenceInformationQueryService referenceInformationQueryService) {
         this.referenceInformationService = referenceInformationService;
+        this.referenceInformationQueryService = referenceInformationQueryService;
     }
 
     /**
@@ -84,14 +89,27 @@ public class ReferenceInformationResource {
      * GET  /reference-informations : get all the referenceInformations.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of referenceInformations in body
      */
     @GetMapping("/reference-informations")
-    public ResponseEntity<List<ReferenceInformationDTO>> getAllReferenceInformations(Pageable pageable) {
-        log.debug("REST request to get a page of ReferenceInformations");
-        Page<ReferenceInformationDTO> page = referenceInformationService.findAll(pageable);
+    public ResponseEntity<List<ReferenceInformationDTO>> getAllReferenceInformations(ReferenceInformationCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get ReferenceInformations by criteria: {}", criteria);
+        Page<ReferenceInformationDTO> page = referenceInformationQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/reference-informations");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * GET  /reference-informations/count : count all the referenceInformations.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/reference-informations/count")
+    public ResponseEntity<Long> countReferenceInformations(ReferenceInformationCriteria criteria) {
+        log.debug("REST request to count ReferenceInformations by criteria: {}", criteria);
+        return ResponseEntity.ok().body(referenceInformationQueryService.countByCriteria(criteria));
     }
 
     /**

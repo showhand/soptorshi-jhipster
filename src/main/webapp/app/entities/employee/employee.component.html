@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Employees</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-employee" [routerLink]="['/employee/employee-management-new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-employee" [routerLink]="['/employee/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Employee
@@ -28,25 +28,65 @@
     <div class="table-responsive" *ngIf="employees">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeId"><span>Employee Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fullName"><span>Full Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fathersName"><span>Fathers Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="mothersName"><span>Mothers Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="birthDate"><span>Birth Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="maritalStatus"><span>Marital Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="gender"><span>Gender</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="religion"><span>Religion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="permanentAddress"><span>Permanent Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="presentAddress"><span>Present Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="nId"><span>N Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="tin"><span>Tin</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="contactNumber"><span>Contact Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="email"><span>Email</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="bloodGroup"><span>Blood Group</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="emergencyContact"><span>Emergency Contact</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeStatus"><span>Employee Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employmentType"><span>Employment Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="terminationDate"><span>Termination Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="reasonOfTermination"><span>Reason Of Termination</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="userAccount"><span>User Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="photo"><span>Photo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="departmentId"><span>Department</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="designationId"><span>Designation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="userAccount"><span>User Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th></th>
+            <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let employee of employees ;trackBy: trackId">
                 <td><a [routerLink]="['/employee', employee.id, 'view' ]">{{employee.id}}</a></td>
                 <td>{{employee.employeeId}}</td>
                 <td>{{employee.fullName}}</td>
+                <td>{{employee.fathersName}}</td>
+                <td>{{employee.mothersName}}</td>
+                <td>{{employee.birthDate | date:'mediumDate'}}</td>
+                <td>{{employee.maritalStatus}}</td>
+                <td>{{employee.gender}}</td>
+                <td>{{employee.religion}}</td>
+                <td>{{employee.permanentAddress}}</td>
+                <td>{{employee.presentAddress}}</td>
+                <td>{{employee.nId}}</td>
+                <td>{{employee.tin}}</td>
+                <td>{{employee.contactNumber}}</td>
+                <td>{{employee.email}}</td>
+                <td>{{employee.bloodGroup}}</td>
+                <td>{{employee.emergencyContact}}</td>
                 <td>{{employee.employeeStatus}}</td>
                 <td>{{employee.employmentType}}</td>
+                <td>{{employee.terminationDate | date:'mediumDate'}}</td>
+                <td>{{employee.reasonOfTermination}}</td>
+                <td>{{employee.userAccount}}</td>
+                <td>
+                    <a *ngIf="employee.photo" (click)="openFile(employee.photoContentType, employee.photo)">
+                        <img [src]="'data:' + employee.photoContentType + ';base64,' + employee.photo" style="max-height: 30px;" alt="employee image"/>
+                    </a>
+                    <span *ngIf="employee.photo">{{employee.photoContentType}}, {{byteSize(employee.photo)}}</span>
+                </td>
                 <td>
                     <div *ngIf="employee.departmentId">
                         <a [routerLink]="['../department', employee.departmentId , 'view' ]" >{{employee.departmentId}}</a>
@@ -57,7 +97,6 @@
                         <a [routerLink]="['../designation', employee.designationId , 'view' ]" >{{employee.designationId}}</a>
                     </div>
                 </td>
-                <td>{{employee.userAccount}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
@@ -85,5 +124,14 @@
             </tr>
             </tbody>
         </table>
+    </div>
+    <!-- Pager is not implemented yet, so this is normal pagination instead -->
+    <div *ngIf="employees && employees.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
     </div>
 </div>

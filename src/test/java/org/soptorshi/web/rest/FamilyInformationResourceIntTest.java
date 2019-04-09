@@ -3,12 +3,15 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.FamilyInformation;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.FamilyInformationRepository;
 import org.soptorshi.repository.search.FamilyInformationSearchRepository;
 import org.soptorshi.service.FamilyInformationService;
 import org.soptorshi.service.dto.FamilyInformationDTO;
 import org.soptorshi.service.mapper.FamilyInformationMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.FamilyInformationCriteria;
+import org.soptorshi.service.FamilyInformationQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -76,6 +79,9 @@ public class FamilyInformationResourceIntTest {
     private FamilyInformationSearchRepository mockFamilyInformationSearchRepository;
 
     @Autowired
+    private FamilyInformationQueryService familyInformationQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -97,7 +103,7 @@ public class FamilyInformationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final FamilyInformationResource familyInformationResource = new FamilyInformationResource(familyInformationService);
+        final FamilyInformationResource familyInformationResource = new FamilyInformationResource(familyInformationService, familyInformationQueryService);
         this.restFamilyInformationMockMvc = MockMvcBuilders.standaloneSetup(familyInformationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -203,6 +209,178 @@ public class FamilyInformationResourceIntTest {
             .andExpect(jsonPath("$.relation").value(DEFAULT_RELATION.toString()))
             .andExpect(jsonPath("$.contactNumber").value(DEFAULT_CONTACT_NUMBER.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllFamilyInformationsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        familyInformationRepository.saveAndFlush(familyInformation);
+
+        // Get all the familyInformationList where name equals to DEFAULT_NAME
+        defaultFamilyInformationShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the familyInformationList where name equals to UPDATED_NAME
+        defaultFamilyInformationShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFamilyInformationsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        familyInformationRepository.saveAndFlush(familyInformation);
+
+        // Get all the familyInformationList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultFamilyInformationShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the familyInformationList where name equals to UPDATED_NAME
+        defaultFamilyInformationShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFamilyInformationsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        familyInformationRepository.saveAndFlush(familyInformation);
+
+        // Get all the familyInformationList where name is not null
+        defaultFamilyInformationShouldBeFound("name.specified=true");
+
+        // Get all the familyInformationList where name is null
+        defaultFamilyInformationShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllFamilyInformationsByRelationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        familyInformationRepository.saveAndFlush(familyInformation);
+
+        // Get all the familyInformationList where relation equals to DEFAULT_RELATION
+        defaultFamilyInformationShouldBeFound("relation.equals=" + DEFAULT_RELATION);
+
+        // Get all the familyInformationList where relation equals to UPDATED_RELATION
+        defaultFamilyInformationShouldNotBeFound("relation.equals=" + UPDATED_RELATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFamilyInformationsByRelationIsInShouldWork() throws Exception {
+        // Initialize the database
+        familyInformationRepository.saveAndFlush(familyInformation);
+
+        // Get all the familyInformationList where relation in DEFAULT_RELATION or UPDATED_RELATION
+        defaultFamilyInformationShouldBeFound("relation.in=" + DEFAULT_RELATION + "," + UPDATED_RELATION);
+
+        // Get all the familyInformationList where relation equals to UPDATED_RELATION
+        defaultFamilyInformationShouldNotBeFound("relation.in=" + UPDATED_RELATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFamilyInformationsByRelationIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        familyInformationRepository.saveAndFlush(familyInformation);
+
+        // Get all the familyInformationList where relation is not null
+        defaultFamilyInformationShouldBeFound("relation.specified=true");
+
+        // Get all the familyInformationList where relation is null
+        defaultFamilyInformationShouldNotBeFound("relation.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllFamilyInformationsByContactNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        familyInformationRepository.saveAndFlush(familyInformation);
+
+        // Get all the familyInformationList where contactNumber equals to DEFAULT_CONTACT_NUMBER
+        defaultFamilyInformationShouldBeFound("contactNumber.equals=" + DEFAULT_CONTACT_NUMBER);
+
+        // Get all the familyInformationList where contactNumber equals to UPDATED_CONTACT_NUMBER
+        defaultFamilyInformationShouldNotBeFound("contactNumber.equals=" + UPDATED_CONTACT_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFamilyInformationsByContactNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        familyInformationRepository.saveAndFlush(familyInformation);
+
+        // Get all the familyInformationList where contactNumber in DEFAULT_CONTACT_NUMBER or UPDATED_CONTACT_NUMBER
+        defaultFamilyInformationShouldBeFound("contactNumber.in=" + DEFAULT_CONTACT_NUMBER + "," + UPDATED_CONTACT_NUMBER);
+
+        // Get all the familyInformationList where contactNumber equals to UPDATED_CONTACT_NUMBER
+        defaultFamilyInformationShouldNotBeFound("contactNumber.in=" + UPDATED_CONTACT_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFamilyInformationsByContactNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        familyInformationRepository.saveAndFlush(familyInformation);
+
+        // Get all the familyInformationList where contactNumber is not null
+        defaultFamilyInformationShouldBeFound("contactNumber.specified=true");
+
+        // Get all the familyInformationList where contactNumber is null
+        defaultFamilyInformationShouldNotBeFound("contactNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllFamilyInformationsByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        familyInformation.setEmployee(employee);
+        familyInformationRepository.saveAndFlush(familyInformation);
+        Long employeeId = employee.getId();
+
+        // Get all the familyInformationList where employee equals to employeeId
+        defaultFamilyInformationShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the familyInformationList where employee equals to employeeId + 1
+        defaultFamilyInformationShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultFamilyInformationShouldBeFound(String filter) throws Exception {
+        restFamilyInformationMockMvc.perform(get("/api/family-informations?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(familyInformation.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].relation").value(hasItem(DEFAULT_RELATION)))
+            .andExpect(jsonPath("$.[*].contactNumber").value(hasItem(DEFAULT_CONTACT_NUMBER)));
+
+        // Check, that the count call also returns 1
+        restFamilyInformationMockMvc.perform(get("/api/family-informations/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultFamilyInformationShouldNotBeFound(String filter) throws Exception {
+        restFamilyInformationMockMvc.perform(get("/api/family-informations?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restFamilyInformationMockMvc.perform(get("/api/family-informations/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

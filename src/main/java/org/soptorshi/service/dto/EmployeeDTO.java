@@ -1,7 +1,9 @@
 package org.soptorshi.service.dto;
 import java.time.LocalDate;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Lob;
 import org.soptorshi.domain.enumeration.MaritalStatus;
 import org.soptorshi.domain.enumeration.Gender;
 import org.soptorshi.domain.enumeration.Religion;
@@ -15,38 +17,49 @@ public class EmployeeDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private String employeeId;
 
+    @NotNull
     private String fullName;
 
+    @NotNull
     private String fathersName;
 
+    @NotNull
     private String mothersName;
 
+    @NotNull
     private LocalDate birthDate;
 
-    private Double age;
-
+    @NotNull
     private MaritalStatus maritalStatus;
 
+    @NotNull
     private Gender gender;
 
+    @NotNull
     private Religion religion;
 
+    @NotNull
     private String permanentAddress;
 
+    @NotNull
     private String presentAddress;
 
+    @NotNull
     private String nId;
 
     private String tin;
 
+    @NotNull
     private String contactNumber;
 
     private String email;
 
     private String bloodGroup;
 
+    @NotNull
     private String emergencyContact;
 
     private EmployeeStatus employeeStatus;
@@ -59,6 +72,10 @@ public class EmployeeDTO implements Serializable {
 
     private Boolean userAccount;
 
+    @Lob
+    private byte[] photo;
+
+    private String photoContentType;
 
     private Long departmentId;
 
@@ -110,14 +127,6 @@ public class EmployeeDTO implements Serializable {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public Double getAge() {
-        return age;
-    }
-
-    public void setAge(Double age) {
-        this.age = age;
     }
 
     public MaritalStatus getMaritalStatus() {
@@ -248,6 +257,22 @@ public class EmployeeDTO implements Serializable {
         this.userAccount = userAccount;
     }
 
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoContentType() {
+        return photoContentType;
+    }
+
+    public void setPhotoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+    }
+
     public Long getDepartmentId() {
         return departmentId;
     }
@@ -294,7 +319,6 @@ public class EmployeeDTO implements Serializable {
             ", fathersName='" + getFathersName() + "'" +
             ", mothersName='" + getMothersName() + "'" +
             ", birthDate='" + getBirthDate() + "'" +
-            ", age=" + getAge() +
             ", maritalStatus='" + getMaritalStatus() + "'" +
             ", gender='" + getGender() + "'" +
             ", religion='" + getReligion() + "'" +
@@ -311,6 +335,7 @@ public class EmployeeDTO implements Serializable {
             ", terminationDate='" + getTerminationDate() + "'" +
             ", reasonOfTermination='" + getReasonOfTermination() + "'" +
             ", userAccount='" + isUserAccount() + "'" +
+            ", photo='" + getPhoto() + "'" +
             ", department=" + getDepartmentId() +
             ", designation=" + getDesignationId() +
             "}";

@@ -3,12 +3,15 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.ReferenceInformation;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.ReferenceInformationRepository;
 import org.soptorshi.repository.search.ReferenceInformationSearchRepository;
 import org.soptorshi.service.ReferenceInformationService;
 import org.soptorshi.service.dto.ReferenceInformationDTO;
 import org.soptorshi.service.mapper.ReferenceInformationMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.ReferenceInformationCriteria;
+import org.soptorshi.service.ReferenceInformationQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -79,6 +82,9 @@ public class ReferenceInformationResourceIntTest {
     private ReferenceInformationSearchRepository mockReferenceInformationSearchRepository;
 
     @Autowired
+    private ReferenceInformationQueryService referenceInformationQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -100,7 +106,7 @@ public class ReferenceInformationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ReferenceInformationResource referenceInformationResource = new ReferenceInformationResource(referenceInformationService);
+        final ReferenceInformationResource referenceInformationResource = new ReferenceInformationResource(referenceInformationService, referenceInformationQueryService);
         this.restReferenceInformationMockMvc = MockMvcBuilders.standaloneSetup(referenceInformationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -210,6 +216,218 @@ public class ReferenceInformationResourceIntTest {
             .andExpect(jsonPath("$.organization").value(DEFAULT_ORGANIZATION.toString()))
             .andExpect(jsonPath("$.contactNumber").value(DEFAULT_CONTACT_NUMBER.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+
+        // Get all the referenceInformationList where name equals to DEFAULT_NAME
+        defaultReferenceInformationShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the referenceInformationList where name equals to UPDATED_NAME
+        defaultReferenceInformationShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+
+        // Get all the referenceInformationList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultReferenceInformationShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the referenceInformationList where name equals to UPDATED_NAME
+        defaultReferenceInformationShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+
+        // Get all the referenceInformationList where name is not null
+        defaultReferenceInformationShouldBeFound("name.specified=true");
+
+        // Get all the referenceInformationList where name is null
+        defaultReferenceInformationShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByDesignationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+
+        // Get all the referenceInformationList where designation equals to DEFAULT_DESIGNATION
+        defaultReferenceInformationShouldBeFound("designation.equals=" + DEFAULT_DESIGNATION);
+
+        // Get all the referenceInformationList where designation equals to UPDATED_DESIGNATION
+        defaultReferenceInformationShouldNotBeFound("designation.equals=" + UPDATED_DESIGNATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByDesignationIsInShouldWork() throws Exception {
+        // Initialize the database
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+
+        // Get all the referenceInformationList where designation in DEFAULT_DESIGNATION or UPDATED_DESIGNATION
+        defaultReferenceInformationShouldBeFound("designation.in=" + DEFAULT_DESIGNATION + "," + UPDATED_DESIGNATION);
+
+        // Get all the referenceInformationList where designation equals to UPDATED_DESIGNATION
+        defaultReferenceInformationShouldNotBeFound("designation.in=" + UPDATED_DESIGNATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByDesignationIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+
+        // Get all the referenceInformationList where designation is not null
+        defaultReferenceInformationShouldBeFound("designation.specified=true");
+
+        // Get all the referenceInformationList where designation is null
+        defaultReferenceInformationShouldNotBeFound("designation.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByOrganizationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+
+        // Get all the referenceInformationList where organization equals to DEFAULT_ORGANIZATION
+        defaultReferenceInformationShouldBeFound("organization.equals=" + DEFAULT_ORGANIZATION);
+
+        // Get all the referenceInformationList where organization equals to UPDATED_ORGANIZATION
+        defaultReferenceInformationShouldNotBeFound("organization.equals=" + UPDATED_ORGANIZATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByOrganizationIsInShouldWork() throws Exception {
+        // Initialize the database
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+
+        // Get all the referenceInformationList where organization in DEFAULT_ORGANIZATION or UPDATED_ORGANIZATION
+        defaultReferenceInformationShouldBeFound("organization.in=" + DEFAULT_ORGANIZATION + "," + UPDATED_ORGANIZATION);
+
+        // Get all the referenceInformationList where organization equals to UPDATED_ORGANIZATION
+        defaultReferenceInformationShouldNotBeFound("organization.in=" + UPDATED_ORGANIZATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByOrganizationIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+
+        // Get all the referenceInformationList where organization is not null
+        defaultReferenceInformationShouldBeFound("organization.specified=true");
+
+        // Get all the referenceInformationList where organization is null
+        defaultReferenceInformationShouldNotBeFound("organization.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByContactNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+
+        // Get all the referenceInformationList where contactNumber equals to DEFAULT_CONTACT_NUMBER
+        defaultReferenceInformationShouldBeFound("contactNumber.equals=" + DEFAULT_CONTACT_NUMBER);
+
+        // Get all the referenceInformationList where contactNumber equals to UPDATED_CONTACT_NUMBER
+        defaultReferenceInformationShouldNotBeFound("contactNumber.equals=" + UPDATED_CONTACT_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByContactNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+
+        // Get all the referenceInformationList where contactNumber in DEFAULT_CONTACT_NUMBER or UPDATED_CONTACT_NUMBER
+        defaultReferenceInformationShouldBeFound("contactNumber.in=" + DEFAULT_CONTACT_NUMBER + "," + UPDATED_CONTACT_NUMBER);
+
+        // Get all the referenceInformationList where contactNumber equals to UPDATED_CONTACT_NUMBER
+        defaultReferenceInformationShouldNotBeFound("contactNumber.in=" + UPDATED_CONTACT_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByContactNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+
+        // Get all the referenceInformationList where contactNumber is not null
+        defaultReferenceInformationShouldBeFound("contactNumber.specified=true");
+
+        // Get all the referenceInformationList where contactNumber is null
+        defaultReferenceInformationShouldNotBeFound("contactNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferenceInformationsByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        referenceInformation.setEmployee(employee);
+        referenceInformationRepository.saveAndFlush(referenceInformation);
+        Long employeeId = employee.getId();
+
+        // Get all the referenceInformationList where employee equals to employeeId
+        defaultReferenceInformationShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the referenceInformationList where employee equals to employeeId + 1
+        defaultReferenceInformationShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultReferenceInformationShouldBeFound(String filter) throws Exception {
+        restReferenceInformationMockMvc.perform(get("/api/reference-informations?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(referenceInformation.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].designation").value(hasItem(DEFAULT_DESIGNATION)))
+            .andExpect(jsonPath("$.[*].organization").value(hasItem(DEFAULT_ORGANIZATION)))
+            .andExpect(jsonPath("$.[*].contactNumber").value(hasItem(DEFAULT_CONTACT_NUMBER)));
+
+        // Check, that the count call also returns 1
+        restReferenceInformationMockMvc.perform(get("/api/reference-informations/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultReferenceInformationShouldNotBeFound(String filter) throws Exception {
+        restReferenceInformationMockMvc.perform(get("/api/reference-informations?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restReferenceInformationMockMvc.perform(get("/api/reference-informations/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

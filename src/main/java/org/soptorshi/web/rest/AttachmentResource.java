@@ -4,6 +4,8 @@ import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
 import org.soptorshi.service.dto.AttachmentDTO;
+import org.soptorshi.service.dto.AttachmentCriteria;
+import org.soptorshi.service.AttachmentQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +38,11 @@ public class AttachmentResource {
 
     private final AttachmentService attachmentService;
 
-    public AttachmentResource(AttachmentService attachmentService) {
+    private final AttachmentQueryService attachmentQueryService;
+
+    public AttachmentResource(AttachmentService attachmentService, AttachmentQueryService attachmentQueryService) {
         this.attachmentService = attachmentService;
+        this.attachmentQueryService = attachmentQueryService;
     }
 
     /**
@@ -84,14 +89,27 @@ public class AttachmentResource {
      * GET  /attachments : get all the attachments.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of attachments in body
      */
     @GetMapping("/attachments")
-    public ResponseEntity<List<AttachmentDTO>> getAllAttachments(Pageable pageable) {
-        log.debug("REST request to get a page of Attachments");
-        Page<AttachmentDTO> page = attachmentService.findAll(pageable);
+    public ResponseEntity<List<AttachmentDTO>> getAllAttachments(AttachmentCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Attachments by criteria: {}", criteria);
+        Page<AttachmentDTO> page = attachmentQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/attachments");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * GET  /attachments/count : count all the attachments.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/attachments/count")
+    public ResponseEntity<Long> countAttachments(AttachmentCriteria criteria) {
+        log.debug("REST request to count Attachments by criteria: {}", criteria);
+        return ResponseEntity.ok().body(attachmentQueryService.countByCriteria(criteria));
     }
 
     /**

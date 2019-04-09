@@ -39,7 +39,6 @@ export interface IEmployee {
     fathersName?: string;
     mothersName?: string;
     birthDate?: Moment;
-    age?: number;
     maritalStatus?: MaritalStatus;
     gender?: Gender;
     religion?: Religion;
@@ -56,6 +55,8 @@ export interface IEmployee {
     terminationDate?: Moment;
     reasonOfTermination?: string;
     userAccount?: boolean;
+    photoContentType?: string;
+    photo?: any;
     departmentId?: number;
     designationId?: number;
 }
@@ -68,7 +69,6 @@ export class Employee implements IEmployee {
         public fathersName?: string,
         public mothersName?: string,
         public birthDate?: Moment,
-        public age?: number,
         public maritalStatus?: MaritalStatus,
         public gender?: Gender,
         public religion?: Religion,
@@ -85,6 +85,8 @@ export class Employee implements IEmployee {
         public terminationDate?: Moment,
         public reasonOfTermination?: string,
         public userAccount?: boolean,
+        public photoContentType?: string,
+        public photo?: any,
         public departmentId?: number,
         public designationId?: number
     ) {

@@ -4,6 +4,8 @@ import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
 import org.soptorshi.service.dto.DesignationDTO;
+import org.soptorshi.service.dto.DesignationCriteria;
+import org.soptorshi.service.DesignationQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +38,11 @@ public class DesignationResource {
 
     private final DesignationService designationService;
 
-    public DesignationResource(DesignationService designationService) {
+    private final DesignationQueryService designationQueryService;
+
+    public DesignationResource(DesignationService designationService, DesignationQueryService designationQueryService) {
         this.designationService = designationService;
+        this.designationQueryService = designationQueryService;
     }
 
     /**
@@ -84,14 +89,27 @@ public class DesignationResource {
      * GET  /designations : get all the designations.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of designations in body
      */
     @GetMapping("/designations")
-    public ResponseEntity<List<DesignationDTO>> getAllDesignations(Pageable pageable) {
-        log.debug("REST request to get a page of Designations");
-        Page<DesignationDTO> page = designationService.findAll(pageable);
+    public ResponseEntity<List<DesignationDTO>> getAllDesignations(DesignationCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Designations by criteria: {}", criteria);
+        Page<DesignationDTO> page = designationQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/designations");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * GET  /designations/count : count all the designations.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/designations/count")
+    public ResponseEntity<Long> countDesignations(DesignationCriteria criteria) {
+        log.debug("REST request to count Designations by criteria: {}", criteria);
+        return ResponseEntity.ok().body(designationQueryService.countByCriteria(criteria));
     }
 
     /**

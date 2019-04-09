@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface FamilyInformationRepository extends JpaRepository<FamilyInformation, Long> {
+public interface FamilyInformationRepository extends JpaRepository<FamilyInformation, Long>, JpaSpecificationExecutor<FamilyInformation> {
 
 }

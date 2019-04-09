@@ -11,7 +11,6 @@ import {
     experienceInformationRoute,
     experienceInformationPopupRoute
 } from './';
-import { EmployeeComponent } from 'app/entities/employee';
 
 const ENTITY_STATES = [...experienceInformationRoute, ...experienceInformationPopupRoute];
 
@@ -26,13 +25,6 @@ const ENTITY_STATES = [...experienceInformationRoute, ...experienceInformationPo
     ],
     entryComponents: [
         ExperienceInformationComponent,
-        ExperienceInformationUpdateComponent,
-        ExperienceInformationDeleteDialogComponent,
-        ExperienceInformationDeletePopupComponent
-    ],
-    exports: [
-        ExperienceInformationComponent,
-        ExperienceInformationDetailComponent,
         ExperienceInformationUpdateComponent,
         ExperienceInformationDeleteDialogComponent,
         ExperienceInformationDeletePopupComponent

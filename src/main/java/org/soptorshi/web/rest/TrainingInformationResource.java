@@ -4,6 +4,8 @@ import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
 import org.soptorshi.service.dto.TrainingInformationDTO;
+import org.soptorshi.service.dto.TrainingInformationCriteria;
+import org.soptorshi.service.TrainingInformationQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +38,11 @@ public class TrainingInformationResource {
 
     private final TrainingInformationService trainingInformationService;
 
-    public TrainingInformationResource(TrainingInformationService trainingInformationService) {
+    private final TrainingInformationQueryService trainingInformationQueryService;
+
+    public TrainingInformationResource(TrainingInformationService trainingInformationService, TrainingInformationQueryService trainingInformationQueryService) {
         this.trainingInformationService = trainingInformationService;
+        this.trainingInformationQueryService = trainingInformationQueryService;
     }
 
     /**
@@ -84,14 +89,27 @@ public class TrainingInformationResource {
      * GET  /training-informations : get all the trainingInformations.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of trainingInformations in body
      */
     @GetMapping("/training-informations")
-    public ResponseEntity<List<TrainingInformationDTO>> getAllTrainingInformations(Pageable pageable) {
-        log.debug("REST request to get a page of TrainingInformations");
-        Page<TrainingInformationDTO> page = trainingInformationService.findAll(pageable);
+    public ResponseEntity<List<TrainingInformationDTO>> getAllTrainingInformations(TrainingInformationCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get TrainingInformations by criteria: {}", criteria);
+        Page<TrainingInformationDTO> page = trainingInformationQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/training-informations");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * GET  /training-informations/count : count all the trainingInformations.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/training-informations/count")
+    public ResponseEntity<Long> countTrainingInformations(TrainingInformationCriteria criteria) {
+        log.debug("REST request to count TrainingInformations by criteria: {}", criteria);
+        return ResponseEntity.ok().body(trainingInformationQueryService.countByCriteria(criteria));
     }
 
     /**

@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ExperienceInformationRepository extends JpaRepository<ExperienceInformation, Long> {
+public interface ExperienceInformationRepository extends JpaRepository<ExperienceInformation, Long>, JpaSpecificationExecutor<ExperienceInformation> {
 
 }

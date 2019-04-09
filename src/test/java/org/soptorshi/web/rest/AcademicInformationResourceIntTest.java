@@ -3,12 +3,16 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.AcademicInformation;
+import org.soptorshi.domain.Attachment;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.AcademicInformationRepository;
 import org.soptorshi.repository.search.AcademicInformationSearchRepository;
 import org.soptorshi.service.AcademicInformationService;
 import org.soptorshi.service.dto.AcademicInformationDTO;
 import org.soptorshi.service.mapper.AcademicInformationMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.AcademicInformationCriteria;
+import org.soptorshi.service.AcademicInformationQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -79,6 +83,9 @@ public class AcademicInformationResourceIntTest {
     private AcademicInformationSearchRepository mockAcademicInformationSearchRepository;
 
     @Autowired
+    private AcademicInformationQueryService academicInformationQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -100,7 +107,7 @@ public class AcademicInformationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AcademicInformationResource academicInformationResource = new AcademicInformationResource(academicInformationService);
+        final AcademicInformationResource academicInformationResource = new AcademicInformationResource(academicInformationService, academicInformationQueryService);
         this.restAcademicInformationMockMvc = MockMvcBuilders.standaloneSetup(academicInformationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -210,6 +217,264 @@ public class AcademicInformationResourceIntTest {
             .andExpect(jsonPath("$.passingYear").value(DEFAULT_PASSING_YEAR))
             .andExpect(jsonPath("$.group").value(DEFAULT_GROUP.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByDegreeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where degree equals to DEFAULT_DEGREE
+        defaultAcademicInformationShouldBeFound("degree.equals=" + DEFAULT_DEGREE);
+
+        // Get all the academicInformationList where degree equals to UPDATED_DEGREE
+        defaultAcademicInformationShouldNotBeFound("degree.equals=" + UPDATED_DEGREE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByDegreeIsInShouldWork() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where degree in DEFAULT_DEGREE or UPDATED_DEGREE
+        defaultAcademicInformationShouldBeFound("degree.in=" + DEFAULT_DEGREE + "," + UPDATED_DEGREE);
+
+        // Get all the academicInformationList where degree equals to UPDATED_DEGREE
+        defaultAcademicInformationShouldNotBeFound("degree.in=" + UPDATED_DEGREE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByDegreeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where degree is not null
+        defaultAcademicInformationShouldBeFound("degree.specified=true");
+
+        // Get all the academicInformationList where degree is null
+        defaultAcademicInformationShouldNotBeFound("degree.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByBoardOrUniversityIsEqualToSomething() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where boardOrUniversity equals to DEFAULT_BOARD_OR_UNIVERSITY
+        defaultAcademicInformationShouldBeFound("boardOrUniversity.equals=" + DEFAULT_BOARD_OR_UNIVERSITY);
+
+        // Get all the academicInformationList where boardOrUniversity equals to UPDATED_BOARD_OR_UNIVERSITY
+        defaultAcademicInformationShouldNotBeFound("boardOrUniversity.equals=" + UPDATED_BOARD_OR_UNIVERSITY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByBoardOrUniversityIsInShouldWork() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where boardOrUniversity in DEFAULT_BOARD_OR_UNIVERSITY or UPDATED_BOARD_OR_UNIVERSITY
+        defaultAcademicInformationShouldBeFound("boardOrUniversity.in=" + DEFAULT_BOARD_OR_UNIVERSITY + "," + UPDATED_BOARD_OR_UNIVERSITY);
+
+        // Get all the academicInformationList where boardOrUniversity equals to UPDATED_BOARD_OR_UNIVERSITY
+        defaultAcademicInformationShouldNotBeFound("boardOrUniversity.in=" + UPDATED_BOARD_OR_UNIVERSITY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByBoardOrUniversityIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where boardOrUniversity is not null
+        defaultAcademicInformationShouldBeFound("boardOrUniversity.specified=true");
+
+        // Get all the academicInformationList where boardOrUniversity is null
+        defaultAcademicInformationShouldNotBeFound("boardOrUniversity.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByPassingYearIsEqualToSomething() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where passingYear equals to DEFAULT_PASSING_YEAR
+        defaultAcademicInformationShouldBeFound("passingYear.equals=" + DEFAULT_PASSING_YEAR);
+
+        // Get all the academicInformationList where passingYear equals to UPDATED_PASSING_YEAR
+        defaultAcademicInformationShouldNotBeFound("passingYear.equals=" + UPDATED_PASSING_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByPassingYearIsInShouldWork() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where passingYear in DEFAULT_PASSING_YEAR or UPDATED_PASSING_YEAR
+        defaultAcademicInformationShouldBeFound("passingYear.in=" + DEFAULT_PASSING_YEAR + "," + UPDATED_PASSING_YEAR);
+
+        // Get all the academicInformationList where passingYear equals to UPDATED_PASSING_YEAR
+        defaultAcademicInformationShouldNotBeFound("passingYear.in=" + UPDATED_PASSING_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByPassingYearIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where passingYear is not null
+        defaultAcademicInformationShouldBeFound("passingYear.specified=true");
+
+        // Get all the academicInformationList where passingYear is null
+        defaultAcademicInformationShouldNotBeFound("passingYear.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByPassingYearIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where passingYear greater than or equals to DEFAULT_PASSING_YEAR
+        defaultAcademicInformationShouldBeFound("passingYear.greaterOrEqualThan=" + DEFAULT_PASSING_YEAR);
+
+        // Get all the academicInformationList where passingYear greater than or equals to UPDATED_PASSING_YEAR
+        defaultAcademicInformationShouldNotBeFound("passingYear.greaterOrEqualThan=" + UPDATED_PASSING_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByPassingYearIsLessThanSomething() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where passingYear less than or equals to DEFAULT_PASSING_YEAR
+        defaultAcademicInformationShouldNotBeFound("passingYear.lessThan=" + DEFAULT_PASSING_YEAR);
+
+        // Get all the academicInformationList where passingYear less than or equals to UPDATED_PASSING_YEAR
+        defaultAcademicInformationShouldBeFound("passingYear.lessThan=" + UPDATED_PASSING_YEAR);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByGroupIsEqualToSomething() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where group equals to DEFAULT_GROUP
+        defaultAcademicInformationShouldBeFound("group.equals=" + DEFAULT_GROUP);
+
+        // Get all the academicInformationList where group equals to UPDATED_GROUP
+        defaultAcademicInformationShouldNotBeFound("group.equals=" + UPDATED_GROUP);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByGroupIsInShouldWork() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where group in DEFAULT_GROUP or UPDATED_GROUP
+        defaultAcademicInformationShouldBeFound("group.in=" + DEFAULT_GROUP + "," + UPDATED_GROUP);
+
+        // Get all the academicInformationList where group equals to UPDATED_GROUP
+        defaultAcademicInformationShouldNotBeFound("group.in=" + UPDATED_GROUP);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByGroupIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        academicInformationRepository.saveAndFlush(academicInformation);
+
+        // Get all the academicInformationList where group is not null
+        defaultAcademicInformationShouldBeFound("group.specified=true");
+
+        // Get all the academicInformationList where group is null
+        defaultAcademicInformationShouldNotBeFound("group.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByAttachmentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Attachment attachment = AttachmentResourceIntTest.createEntity(em);
+        em.persist(attachment);
+        em.flush();
+        academicInformation.addAttachment(attachment);
+        academicInformationRepository.saveAndFlush(academicInformation);
+        Long attachmentId = attachment.getId();
+
+        // Get all the academicInformationList where attachment equals to attachmentId
+        defaultAcademicInformationShouldBeFound("attachmentId.equals=" + attachmentId);
+
+        // Get all the academicInformationList where attachment equals to attachmentId + 1
+        defaultAcademicInformationShouldNotBeFound("attachmentId.equals=" + (attachmentId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAcademicInformationsByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        academicInformation.setEmployee(employee);
+        academicInformationRepository.saveAndFlush(academicInformation);
+        Long employeeId = employee.getId();
+
+        // Get all the academicInformationList where employee equals to employeeId
+        defaultAcademicInformationShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the academicInformationList where employee equals to employeeId + 1
+        defaultAcademicInformationShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultAcademicInformationShouldBeFound(String filter) throws Exception {
+        restAcademicInformationMockMvc.perform(get("/api/academic-informations?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(academicInformation.getId().intValue())))
+            .andExpect(jsonPath("$.[*].degree").value(hasItem(DEFAULT_DEGREE)))
+            .andExpect(jsonPath("$.[*].boardOrUniversity").value(hasItem(DEFAULT_BOARD_OR_UNIVERSITY)))
+            .andExpect(jsonPath("$.[*].passingYear").value(hasItem(DEFAULT_PASSING_YEAR)))
+            .andExpect(jsonPath("$.[*].group").value(hasItem(DEFAULT_GROUP)));
+
+        // Check, that the count call also returns 1
+        restAcademicInformationMockMvc.perform(get("/api/academic-informations/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultAcademicInformationShouldNotBeFound(String filter) throws Exception {
+        restAcademicInformationMockMvc.perform(get("/api/academic-informations?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restAcademicInformationMockMvc.perform(get("/api/academic-informations/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

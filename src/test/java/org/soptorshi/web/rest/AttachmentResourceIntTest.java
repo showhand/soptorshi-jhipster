@@ -3,12 +3,17 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.Attachment;
+import org.soptorshi.domain.AcademicInformation;
+import org.soptorshi.domain.TrainingInformation;
+import org.soptorshi.domain.ExperienceInformation;
 import org.soptorshi.repository.AttachmentRepository;
 import org.soptorshi.repository.search.AttachmentSearchRepository;
 import org.soptorshi.service.AttachmentService;
 import org.soptorshi.service.dto.AttachmentDTO;
 import org.soptorshi.service.mapper.AttachmentMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.AttachmentCriteria;
+import org.soptorshi.service.AttachmentQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -73,6 +78,9 @@ public class AttachmentResourceIntTest {
     private AttachmentSearchRepository mockAttachmentSearchRepository;
 
     @Autowired
+    private AttachmentQueryService attachmentQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -94,7 +102,7 @@ public class AttachmentResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AttachmentResource attachmentResource = new AttachmentResource(attachmentService);
+        final AttachmentResource attachmentResource = new AttachmentResource(attachmentService, attachmentQueryService);
         this.restAttachmentMockMvc = MockMvcBuilders.standaloneSetup(attachmentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -196,6 +204,176 @@ public class AttachmentResourceIntTest {
             .andExpect(jsonPath("$.fileName").value(DEFAULT_FILE_NAME.toString()))
             .andExpect(jsonPath("$.path").value(DEFAULT_PATH.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllAttachmentsByFileNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attachmentRepository.saveAndFlush(attachment);
+
+        // Get all the attachmentList where fileName equals to DEFAULT_FILE_NAME
+        defaultAttachmentShouldBeFound("fileName.equals=" + DEFAULT_FILE_NAME);
+
+        // Get all the attachmentList where fileName equals to UPDATED_FILE_NAME
+        defaultAttachmentShouldNotBeFound("fileName.equals=" + UPDATED_FILE_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttachmentsByFileNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        attachmentRepository.saveAndFlush(attachment);
+
+        // Get all the attachmentList where fileName in DEFAULT_FILE_NAME or UPDATED_FILE_NAME
+        defaultAttachmentShouldBeFound("fileName.in=" + DEFAULT_FILE_NAME + "," + UPDATED_FILE_NAME);
+
+        // Get all the attachmentList where fileName equals to UPDATED_FILE_NAME
+        defaultAttachmentShouldNotBeFound("fileName.in=" + UPDATED_FILE_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttachmentsByFileNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attachmentRepository.saveAndFlush(attachment);
+
+        // Get all the attachmentList where fileName is not null
+        defaultAttachmentShouldBeFound("fileName.specified=true");
+
+        // Get all the attachmentList where fileName is null
+        defaultAttachmentShouldNotBeFound("fileName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttachmentsByPathIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attachmentRepository.saveAndFlush(attachment);
+
+        // Get all the attachmentList where path equals to DEFAULT_PATH
+        defaultAttachmentShouldBeFound("path.equals=" + DEFAULT_PATH);
+
+        // Get all the attachmentList where path equals to UPDATED_PATH
+        defaultAttachmentShouldNotBeFound("path.equals=" + UPDATED_PATH);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttachmentsByPathIsInShouldWork() throws Exception {
+        // Initialize the database
+        attachmentRepository.saveAndFlush(attachment);
+
+        // Get all the attachmentList where path in DEFAULT_PATH or UPDATED_PATH
+        defaultAttachmentShouldBeFound("path.in=" + DEFAULT_PATH + "," + UPDATED_PATH);
+
+        // Get all the attachmentList where path equals to UPDATED_PATH
+        defaultAttachmentShouldNotBeFound("path.in=" + UPDATED_PATH);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttachmentsByPathIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attachmentRepository.saveAndFlush(attachment);
+
+        // Get all the attachmentList where path is not null
+        defaultAttachmentShouldBeFound("path.specified=true");
+
+        // Get all the attachmentList where path is null
+        defaultAttachmentShouldNotBeFound("path.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttachmentsByAcademicInformationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        AcademicInformation academicInformation = AcademicInformationResourceIntTest.createEntity(em);
+        em.persist(academicInformation);
+        em.flush();
+        attachment.setAcademicInformation(academicInformation);
+        attachmentRepository.saveAndFlush(attachment);
+        Long academicInformationId = academicInformation.getId();
+
+        // Get all the attachmentList where academicInformation equals to academicInformationId
+        defaultAttachmentShouldBeFound("academicInformationId.equals=" + academicInformationId);
+
+        // Get all the attachmentList where academicInformation equals to academicInformationId + 1
+        defaultAttachmentShouldNotBeFound("academicInformationId.equals=" + (academicInformationId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAttachmentsByTrainingInformationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        TrainingInformation trainingInformation = TrainingInformationResourceIntTest.createEntity(em);
+        em.persist(trainingInformation);
+        em.flush();
+        attachment.setTrainingInformation(trainingInformation);
+        attachmentRepository.saveAndFlush(attachment);
+        Long trainingInformationId = trainingInformation.getId();
+
+        // Get all the attachmentList where trainingInformation equals to trainingInformationId
+        defaultAttachmentShouldBeFound("trainingInformationId.equals=" + trainingInformationId);
+
+        // Get all the attachmentList where trainingInformation equals to trainingInformationId + 1
+        defaultAttachmentShouldNotBeFound("trainingInformationId.equals=" + (trainingInformationId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAttachmentsByExperienceInformationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        ExperienceInformation experienceInformation = ExperienceInformationResourceIntTest.createEntity(em);
+        em.persist(experienceInformation);
+        em.flush();
+        attachment.setExperienceInformation(experienceInformation);
+        attachmentRepository.saveAndFlush(attachment);
+        Long experienceInformationId = experienceInformation.getId();
+
+        // Get all the attachmentList where experienceInformation equals to experienceInformationId
+        defaultAttachmentShouldBeFound("experienceInformationId.equals=" + experienceInformationId);
+
+        // Get all the attachmentList where experienceInformation equals to experienceInformationId + 1
+        defaultAttachmentShouldNotBeFound("experienceInformationId.equals=" + (experienceInformationId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultAttachmentShouldBeFound(String filter) throws Exception {
+        restAttachmentMockMvc.perform(get("/api/attachments?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(attachment.getId().intValue())))
+            .andExpect(jsonPath("$.[*].fileName").value(hasItem(DEFAULT_FILE_NAME)))
+            .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)));
+
+        // Check, that the count call also returns 1
+        restAttachmentMockMvc.perform(get("/api/attachments/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultAttachmentShouldNotBeFound(String filter) throws Exception {
+        restAttachmentMockMvc.perform(get("/api/attachments?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restAttachmentMockMvc.perform(get("/api/attachments/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

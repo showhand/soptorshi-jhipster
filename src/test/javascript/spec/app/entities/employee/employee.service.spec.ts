@@ -32,7 +32,6 @@ describe('Service Tests', () => {
                 'AAAAAAA',
                 'AAAAAAA',
                 currentDate,
-                0,
                 MaritalStatus.MARRIED,
                 Gender.MALE,
                 Religion.ISLAM,
@@ -48,7 +47,9 @@ describe('Service Tests', () => {
                 EmploymentType.PERMANENT,
                 currentDate,
                 'AAAAAAA',
-                false
+                false,
+                'image/png',
+                'AAAAAAA'
             );
         });
 
@@ -102,7 +103,6 @@ describe('Service Tests', () => {
                         fathersName: 'BBBBBB',
                         mothersName: 'BBBBBB',
                         birthDate: currentDate.format(DATE_FORMAT),
-                        age: 1,
                         maritalStatus: 'BBBBBB',
                         gender: 'BBBBBB',
                         religion: 'BBBBBB',
@@ -118,7 +118,8 @@ describe('Service Tests', () => {
                         employmentType: 'BBBBBB',
                         terminationDate: currentDate.format(DATE_FORMAT),
                         reasonOfTermination: 'BBBBBB',
-                        userAccount: true
+                        userAccount: true,
+                        photo: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -146,7 +147,6 @@ describe('Service Tests', () => {
                         fathersName: 'BBBBBB',
                         mothersName: 'BBBBBB',
                         birthDate: currentDate.format(DATE_FORMAT),
-                        age: 1,
                         maritalStatus: 'BBBBBB',
                         gender: 'BBBBBB',
                         religion: 'BBBBBB',
@@ -162,7 +162,8 @@ describe('Service Tests', () => {
                         employmentType: 'BBBBBB',
                         terminationDate: currentDate.format(DATE_FORMAT),
                         reasonOfTermination: 'BBBBBB',
-                        userAccount: true
+                        userAccount: true,
+                        photo: 'BBBBBB'
                     },
                     elemDefault
                 );

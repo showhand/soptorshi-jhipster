@@ -4,6 +4,8 @@ import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
 import org.soptorshi.service.dto.AcademicInformationDTO;
+import org.soptorshi.service.dto.AcademicInformationCriteria;
+import org.soptorshi.service.AcademicInformationQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +38,11 @@ public class AcademicInformationResource {
 
     private final AcademicInformationService academicInformationService;
 
-    public AcademicInformationResource(AcademicInformationService academicInformationService) {
+    private final AcademicInformationQueryService academicInformationQueryService;
+
+    public AcademicInformationResource(AcademicInformationService academicInformationService, AcademicInformationQueryService academicInformationQueryService) {
         this.academicInformationService = academicInformationService;
+        this.academicInformationQueryService = academicInformationQueryService;
     }
 
     /**
@@ -84,14 +89,27 @@ public class AcademicInformationResource {
      * GET  /academic-informations : get all the academicInformations.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of academicInformations in body
      */
     @GetMapping("/academic-informations")
-    public ResponseEntity<List<AcademicInformationDTO>> getAllAcademicInformations(Pageable pageable) {
-        log.debug("REST request to get a page of AcademicInformations");
-        Page<AcademicInformationDTO> page = academicInformationService.findAll(pageable);
+    public ResponseEntity<List<AcademicInformationDTO>> getAllAcademicInformations(AcademicInformationCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get AcademicInformations by criteria: {}", criteria);
+        Page<AcademicInformationDTO> page = academicInformationQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/academic-informations");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * GET  /academic-informations/count : count all the academicInformations.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/academic-informations/count")
+    public ResponseEntity<Long> countAcademicInformations(AcademicInformationCriteria criteria) {
+        log.debug("REST request to count AcademicInformations by criteria: {}", criteria);
+        return ResponseEntity.ok().body(academicInformationQueryService.countByCriteria(criteria));
     }
 
     /**
