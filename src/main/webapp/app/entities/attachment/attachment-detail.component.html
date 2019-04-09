@@ -5,13 +5,12 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>File Name</span></dt>
+                <dt><span>File</span></dt>
                 <dd>
-                    <span>{{attachment.fileName}}</span>
-                </dd>
-                <dt><span>Path</span></dt>
-                <dd>
-                    <span>{{attachment.path}}</span>
+                    <div *ngIf="attachment.file">
+                        <a (click)="openFile(attachment.fileContentType, attachment.file)">open</a>
+                        {{attachment.fileContentType}}, {{byteSize(attachment.file)}}
+                    </div>
                 </dd>
                 <dt><span>Academic Information</span></dt>
                 <dd>

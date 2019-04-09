@@ -30,8 +30,7 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="fileName"><span>File Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="path"><span>Path</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="file"><span>File</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="academicInformationId"><span>Academic Information</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="trainingInformationId"><span>Training Information</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="experienceInformationId"><span>Experience Information</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -41,8 +40,10 @@
             <tbody>
             <tr *ngFor="let attachment of attachments ;trackBy: trackId">
                 <td><a [routerLink]="['/attachment', attachment.id, 'view' ]">{{attachment.id}}</a></td>
-                <td>{{attachment.fileName}}</td>
-                <td>{{attachment.path}}</td>
+                <td>
+                    <a *ngIf="attachment.file" (click)="openFile(attachment.fileContentType, attachment.file)">open</a>
+                    <span *ngIf="attachment.file">{{attachment.fileContentType}}, {{byteSize(attachment.file)}}</span>
+                </td>
                 <td>
                     <div *ngIf="attachment.academicInformationId">
                         <a [routerLink]="['../academic-information', attachment.academicInformationId , 'view' ]" >{{attachment.academicInformationId}}</a>

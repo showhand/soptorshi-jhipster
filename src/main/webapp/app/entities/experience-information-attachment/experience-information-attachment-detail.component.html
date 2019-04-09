@@ -1,0 +1,36 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="experienceInformationAttachment">
+            <h2><span>Experience Information Attachment</span> {{experienceInformationAttachment.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>File</span></dt>
+                <dd>
+                    <div *ngIf="experienceInformationAttachment.file">
+                        <a (click)="openFile(experienceInformationAttachment.fileContentType, experienceInformationAttachment.file)">open</a>
+                        {{experienceInformationAttachment.fileContentType}}, {{byteSize(experienceInformationAttachment.file)}}
+                    </div>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="experienceInformationAttachment.employeeId">
+                        <a [routerLink]="['/employee', experienceInformationAttachment.employeeId, 'view']">{{experienceInformationAttachment.employeeEmployeeId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/experience-information-attachment', experienceInformationAttachment.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

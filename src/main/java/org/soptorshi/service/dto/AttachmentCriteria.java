@@ -24,10 +24,6 @@ public class AttachmentCriteria implements Serializable {
 
     private LongFilter id;
 
-    private StringFilter fileName;
-
-    private StringFilter path;
-
     private LongFilter academicInformationId;
 
     private LongFilter trainingInformationId;
@@ -40,22 +36,6 @@ public class AttachmentCriteria implements Serializable {
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public StringFilter getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(StringFilter fileName) {
-        this.fileName = fileName;
-    }
-
-    public StringFilter getPath() {
-        return path;
-    }
-
-    public void setPath(StringFilter path) {
-        this.path = path;
     }
 
     public LongFilter getAcademicInformationId() {
@@ -94,8 +74,6 @@ public class AttachmentCriteria implements Serializable {
         final AttachmentCriteria that = (AttachmentCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(fileName, that.fileName) &&
-            Objects.equals(path, that.path) &&
             Objects.equals(academicInformationId, that.academicInformationId) &&
             Objects.equals(trainingInformationId, that.trainingInformationId) &&
             Objects.equals(experienceInformationId, that.experienceInformationId);
@@ -105,8 +83,6 @@ public class AttachmentCriteria implements Serializable {
     public int hashCode() {
         return Objects.hash(
         id,
-        fileName,
-        path,
         academicInformationId,
         trainingInformationId,
         experienceInformationId
@@ -117,8 +93,6 @@ public class AttachmentCriteria implements Serializable {
     public String toString() {
         return "AttachmentCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (fileName != null ? "fileName=" + fileName + ", " : "") +
-                (path != null ? "path=" + path + ", " : "") +
                 (academicInformationId != null ? "academicInformationId=" + academicInformationId + ", " : "") +
                 (trainingInformationId != null ? "trainingInformationId=" + trainingInformationId + ", " : "") +
                 (experienceInformationId != null ? "experienceInformationId=" + experienceInformationId + ", " : "") +

@@ -93,12 +93,6 @@ public class AttachmentQueryService extends QueryService<Attachment> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), Attachment_.id));
             }
-            if (criteria.getFileName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getFileName(), Attachment_.fileName));
-            }
-            if (criteria.getPath() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getPath(), Attachment_.path));
-            }
             if (criteria.getAcademicInformationId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAcademicInformationId(),
                     root -> root.join(Attachment_.academicInformation, JoinType.LEFT).get(AcademicInformation_.id)));

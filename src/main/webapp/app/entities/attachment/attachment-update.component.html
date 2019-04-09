@@ -10,14 +10,22 @@
                         [(ngModel)]="attachment.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_fileName">File Name</label>
-                    <input type="text" class="form-control" name="fileName" id="field_fileName"
-                        [(ngModel)]="attachment.fileName" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_path">Path</label>
-                    <input type="text" class="form-control" name="path" id="field_path"
-                        [(ngModel)]="attachment.path" />
+                    <label class="form-control-label" for="field_file">File</label>
+                    <div>
+                        <div *ngIf="attachment.file" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(attachment.fileContentType, attachment.file)">open</a><br>
+                            <span class="pull-left">{{attachment.fileContentType}}, {{byteSize(attachment.file)}}</span>
+                            <button type="button" (click)="attachment.file=null;attachment.fileContentType=null;"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_file" (change)="setFileData($event, attachment, 'file', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="file" id="field_file"
+                        [(ngModel)]="attachment.file" />
+                    <input type="hidden" class="form-control" name="fileContentType" id="field_fileContentType"
+                        [(ngModel)]="attachment.fileContentType" />
                 </div>
 
                 <div class="form-group">

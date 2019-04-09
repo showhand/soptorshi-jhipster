@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-academic-information-attachment-heading">Create or edit a Academic Information Attachment</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!academicInformationAttachment.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="academicInformationAttachment.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_file">File</label>
+                    <div>
+                        <div *ngIf="academicInformationAttachment.file" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(academicInformationAttachment.fileContentType, academicInformationAttachment.file)">open</a><br>
+                            <span class="pull-left">{{academicInformationAttachment.fileContentType}}, {{byteSize(academicInformationAttachment.file)}}</span>
+                            <button type="button" (click)="academicInformationAttachment.file=null;academicInformationAttachment.fileContentType=null;"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_file" (change)="setFileData($event, academicInformationAttachment, 'file', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="file" id="field_file"
+                        [(ngModel)]="academicInformationAttachment.file" required/>
+                    <input type="hidden" class="form-control" name="fileContentType" id="field_fileContentType"
+                        [(ngModel)]="academicInformationAttachment.fileContentType" />
+                    <div [hidden]="!(editForm.controls.file?.dirty && editForm.controls.file?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.file?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" [(ngModel)]="academicInformationAttachment.employeeId"  required>
+                        <option *ngIf="!editForm.value.employee" [ngValue]="null" selected></option>
+                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.employeeId}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.employee?.dirty && editForm.controls.employee?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.employee?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

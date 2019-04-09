@@ -1,43 +1,45 @@
 {
-    "name": "Attachment",
-    "fields": [
-        {
-            "fieldName": "fileName",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "path",
-            "fieldType": "String"
-        }
-    ],
+    "fluentMethods": true,
+    "clientRootFolder": "",
     "relationships": [
         {
             "relationshipName": "academicInformation",
             "otherEntityName": "academicInformation",
             "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "otherEntityField": "id",
+            "otherEntityRelationshipNameUndefined": false,
+            "otherEntityRelationshipName": "attachment"
         },
         {
             "relationshipName": "trainingInformation",
             "otherEntityName": "trainingInformation",
             "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "otherEntityField": "id",
+            "otherEntityRelationshipNameUndefined": false,
+            "otherEntityRelationshipName": "attachment"
         },
         {
             "relationshipName": "experienceInformation",
             "otherEntityName": "experienceInformation",
             "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "otherEntityField": "id",
+            "otherEntityRelationshipNameUndefined": false,
+            "otherEntityRelationshipName": "attachment"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "file",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
         }
     ],
     "changelogDate": "20190405124355",
-    "entityTableName": "attachment",
     "dto": "mapstruct",
-    "pagination": "pager",
+    "searchEngine": "elasticsearch",
     "service": "serviceClass",
+    "entityTableName": "attachment",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*",
-    "searchEngine": "elasticsearch"
+    "pagination": "pager"
 }
