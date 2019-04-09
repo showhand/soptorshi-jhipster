@@ -30,6 +30,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
@@ -54,11 +55,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = SoptorshiApp.class)
 public class AttachmentResourceIntTest {
 
-    private static final String DEFAULT_FILE_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_FILE_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_PATH = "AAAAAAAAAA";
-    private static final String UPDATED_PATH = "BBBBBBBBBB";
+    private static final byte[] DEFAULT_FILE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_FILE = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_FILE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_FILE_CONTENT_TYPE = "image/png";
 
     @Autowired
     private AttachmentRepository attachmentRepository;
@@ -119,8 +119,8 @@ public class AttachmentResourceIntTest {
      */
     public static Attachment createEntity(EntityManager em) {
         Attachment attachment = new Attachment()
-            .fileName(DEFAULT_FILE_NAME)
-            .path(DEFAULT_PATH);
+            .file(DEFAULT_FILE)
+            .fileContentType(DEFAULT_FILE_CONTENT_TYPE);
         return attachment;
     }
 
@@ -145,8 +145,8 @@ public class AttachmentResourceIntTest {
         List<Attachment> attachmentList = attachmentRepository.findAll();
         assertThat(attachmentList).hasSize(databaseSizeBeforeCreate + 1);
         Attachment testAttachment = attachmentList.get(attachmentList.size() - 1);
-        assertThat(testAttachment.getFileName()).isEqualTo(DEFAULT_FILE_NAME);
-        assertThat(testAttachment.getPath()).isEqualTo(DEFAULT_PATH);
+        assertThat(testAttachment.getFile()).isEqualTo(DEFAULT_FILE);
+        assertThat(testAttachment.getFileContentType()).isEqualTo(DEFAULT_FILE_CONTENT_TYPE);
 
         // Validate the Attachment in Elasticsearch
         verify(mockAttachmentSearchRepository, times(1)).save(testAttachment);
@@ -186,8 +186,8 @@ public class AttachmentResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attachment.getId().intValue())))
-            .andExpect(jsonPath("$.[*].fileName").value(hasItem(DEFAULT_FILE_NAME.toString())))
-            .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH.toString())));
+            .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
     }
     
     @Test
@@ -201,86 +201,8 @@ public class AttachmentResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(attachment.getId().intValue()))
-            .andExpect(jsonPath("$.fileName").value(DEFAULT_FILE_NAME.toString()))
-            .andExpect(jsonPath("$.path").value(DEFAULT_PATH.toString()));
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttachmentsByFileNameIsEqualToSomething() throws Exception {
-        // Initialize the database
-        attachmentRepository.saveAndFlush(attachment);
-
-        // Get all the attachmentList where fileName equals to DEFAULT_FILE_NAME
-        defaultAttachmentShouldBeFound("fileName.equals=" + DEFAULT_FILE_NAME);
-
-        // Get all the attachmentList where fileName equals to UPDATED_FILE_NAME
-        defaultAttachmentShouldNotBeFound("fileName.equals=" + UPDATED_FILE_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttachmentsByFileNameIsInShouldWork() throws Exception {
-        // Initialize the database
-        attachmentRepository.saveAndFlush(attachment);
-
-        // Get all the attachmentList where fileName in DEFAULT_FILE_NAME or UPDATED_FILE_NAME
-        defaultAttachmentShouldBeFound("fileName.in=" + DEFAULT_FILE_NAME + "," + UPDATED_FILE_NAME);
-
-        // Get all the attachmentList where fileName equals to UPDATED_FILE_NAME
-        defaultAttachmentShouldNotBeFound("fileName.in=" + UPDATED_FILE_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttachmentsByFileNameIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        attachmentRepository.saveAndFlush(attachment);
-
-        // Get all the attachmentList where fileName is not null
-        defaultAttachmentShouldBeFound("fileName.specified=true");
-
-        // Get all the attachmentList where fileName is null
-        defaultAttachmentShouldNotBeFound("fileName.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttachmentsByPathIsEqualToSomething() throws Exception {
-        // Initialize the database
-        attachmentRepository.saveAndFlush(attachment);
-
-        // Get all the attachmentList where path equals to DEFAULT_PATH
-        defaultAttachmentShouldBeFound("path.equals=" + DEFAULT_PATH);
-
-        // Get all the attachmentList where path equals to UPDATED_PATH
-        defaultAttachmentShouldNotBeFound("path.equals=" + UPDATED_PATH);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttachmentsByPathIsInShouldWork() throws Exception {
-        // Initialize the database
-        attachmentRepository.saveAndFlush(attachment);
-
-        // Get all the attachmentList where path in DEFAULT_PATH or UPDATED_PATH
-        defaultAttachmentShouldBeFound("path.in=" + DEFAULT_PATH + "," + UPDATED_PATH);
-
-        // Get all the attachmentList where path equals to UPDATED_PATH
-        defaultAttachmentShouldNotBeFound("path.in=" + UPDATED_PATH);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttachmentsByPathIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        attachmentRepository.saveAndFlush(attachment);
-
-        // Get all the attachmentList where path is not null
-        defaultAttachmentShouldBeFound("path.specified=true");
-
-        // Get all the attachmentList where path is null
-        defaultAttachmentShouldNotBeFound("path.specified=false");
+            .andExpect(jsonPath("$.fileContentType").value(DEFAULT_FILE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.file").value(Base64Utils.encodeToString(DEFAULT_FILE)));
     }
 
     @Test
@@ -347,8 +269,8 @@ public class AttachmentResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attachment.getId().intValue())))
-            .andExpect(jsonPath("$.[*].fileName").value(hasItem(DEFAULT_FILE_NAME)))
-            .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)));
+            .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
 
         // Check, that the count call also returns 1
         restAttachmentMockMvc.perform(get("/api/attachments/count?sort=id,desc&" + filter))
@@ -396,8 +318,8 @@ public class AttachmentResourceIntTest {
         // Disconnect from session so that the updates on updatedAttachment are not directly saved in db
         em.detach(updatedAttachment);
         updatedAttachment
-            .fileName(UPDATED_FILE_NAME)
-            .path(UPDATED_PATH);
+            .file(UPDATED_FILE)
+            .fileContentType(UPDATED_FILE_CONTENT_TYPE);
         AttachmentDTO attachmentDTO = attachmentMapper.toDto(updatedAttachment);
 
         restAttachmentMockMvc.perform(put("/api/attachments")
@@ -409,8 +331,8 @@ public class AttachmentResourceIntTest {
         List<Attachment> attachmentList = attachmentRepository.findAll();
         assertThat(attachmentList).hasSize(databaseSizeBeforeUpdate);
         Attachment testAttachment = attachmentList.get(attachmentList.size() - 1);
-        assertThat(testAttachment.getFileName()).isEqualTo(UPDATED_FILE_NAME);
-        assertThat(testAttachment.getPath()).isEqualTo(UPDATED_PATH);
+        assertThat(testAttachment.getFile()).isEqualTo(UPDATED_FILE);
+        assertThat(testAttachment.getFileContentType()).isEqualTo(UPDATED_FILE_CONTENT_TYPE);
 
         // Validate the Attachment in Elasticsearch
         verify(mockAttachmentSearchRepository, times(1)).save(testAttachment);
@@ -471,8 +393,8 @@ public class AttachmentResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attachment.getId().intValue())))
-            .andExpect(jsonPath("$.[*].fileName").value(hasItem(DEFAULT_FILE_NAME)))
-            .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)));
+            .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package org.soptorshi.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Lob;
 
 /**
  * A DTO for the Attachment entity.
@@ -9,10 +10,10 @@ public class AttachmentDTO implements Serializable {
 
     private Long id;
 
-    private String fileName;
+    @Lob
+    private byte[] file;
 
-    private String path;
-
+    private String fileContentType;
 
     private Long academicInformationId;
 
@@ -28,20 +29,20 @@ public class AttachmentDTO implements Serializable {
         this.id = id;
     }
 
-    public String getFileName() {
-        return fileName;
+    public byte[] getFile() {
+        return file;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFile(byte[] file) {
+        this.file = file;
     }
 
-    public String getPath() {
-        return path;
+    public String getFileContentType() {
+        return fileContentType;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setFileContentType(String fileContentType) {
+        this.fileContentType = fileContentType;
     }
 
     public Long getAcademicInformationId() {
@@ -93,8 +94,7 @@ public class AttachmentDTO implements Serializable {
     public String toString() {
         return "AttachmentDTO{" +
             "id=" + getId() +
-            ", fileName='" + getFileName() + "'" +
-            ", path='" + getPath() + "'" +
+            ", file='" + getFile() + "'" +
             ", academicInformation=" + getAcademicInformationId() +
             ", trainingInformation=" + getTrainingInformationId() +
             ", experienceInformation=" + getExperienceInformationId() +

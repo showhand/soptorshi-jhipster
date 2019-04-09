@@ -23,11 +23,12 @@ public class Attachment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "file_name")
-    private String fileName;
+    @Lob
+    @Column(name = "jhi_file")
+    private byte[] file;
 
-    @Column(name = "path")
-    private String path;
+    @Column(name = "jhi_file_content_type")
+    private String fileContentType;
 
     @ManyToOne
     @JsonIgnoreProperties("attachments")
@@ -50,30 +51,30 @@ public class Attachment implements Serializable {
         this.id = id;
     }
 
-    public String getFileName() {
-        return fileName;
+    public byte[] getFile() {
+        return file;
     }
 
-    public Attachment fileName(String fileName) {
-        this.fileName = fileName;
+    public Attachment file(byte[] file) {
+        this.file = file;
         return this;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFile(byte[] file) {
+        this.file = file;
     }
 
-    public String getPath() {
-        return path;
+    public String getFileContentType() {
+        return fileContentType;
     }
 
-    public Attachment path(String path) {
-        this.path = path;
+    public Attachment fileContentType(String fileContentType) {
+        this.fileContentType = fileContentType;
         return this;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setFileContentType(String fileContentType) {
+        this.fileContentType = fileContentType;
     }
 
     public AcademicInformation getAcademicInformation() {
@@ -140,8 +141,8 @@ public class Attachment implements Serializable {
     public String toString() {
         return "Attachment{" +
             "id=" + getId() +
-            ", fileName='" + getFileName() + "'" +
-            ", path='" + getPath() + "'" +
+            ", file='" + getFile() + "'" +
+            ", fileContentType='" + getFileContentType() + "'" +
             "}";
     }
 }

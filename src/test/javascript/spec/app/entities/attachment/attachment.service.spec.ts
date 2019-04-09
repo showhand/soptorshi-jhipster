@@ -21,7 +21,7 @@ describe('Service Tests', () => {
             service = injector.get(AttachmentService);
             httpMock = injector.get(HttpTestingController);
 
-            elemDefault = new Attachment(0, 'AAAAAAA', 'AAAAAAA');
+            elemDefault = new Attachment(0, 'image/png', 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -55,8 +55,7 @@ describe('Service Tests', () => {
             it('should update a Attachment', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        fileName: 'BBBBBB',
-                        path: 'BBBBBB'
+                        file: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -73,8 +72,7 @@ describe('Service Tests', () => {
             it('should return a list of Attachment', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        fileName: 'BBBBBB',
-                        path: 'BBBBBB'
+                        file: 'BBBBBB'
                     },
                     elemDefault
                 );

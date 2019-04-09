@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IAttachment } from 'app/shared/model/attachment.model';
 import { AttachmentService } from './attachment.service';
 import { IAcademicInformation } from 'app/shared/model/academic-information.model';
@@ -28,6 +28,7 @@ export class AttachmentUpdateComponent implements OnInit {
     experienceinformations: IExperienceInformation[];
 
     constructor(
+        protected dataUtils: JhiDataUtils,
         protected jhiAlertService: JhiAlertService,
         protected attachmentService: AttachmentService,
         protected academicInformationService: AcademicInformationService,
@@ -71,6 +72,18 @@ export class AttachmentUpdateComponent implements OnInit {
                 (res: IExperienceInformation[]) => (this.experienceinformations = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+    }
+
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
+    }
+
+    setFileData(event, entity, field, isImage) {
+        this.dataUtils.setFileData(event, entity, field, isImage);
     }
 
     previousState() {
