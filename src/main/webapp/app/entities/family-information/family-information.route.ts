@@ -31,7 +31,7 @@ export class FamilyInformationResolve implements Resolve<IFamilyInformation> {
 
 export const familyInformationRoute: Routes = [
     {
-        path: '',
+        path: 'home',
         component: FamilyInformationComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams

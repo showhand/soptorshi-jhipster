@@ -31,7 +31,7 @@ export class ReferenceInformationResolve implements Resolve<IReferenceInformatio
 
 export const referenceInformationRoute: Routes = [
     {
-        path: '',
+        path: 'home',
         component: ReferenceInformationComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams

@@ -31,7 +31,7 @@ export class TrainingInformationResolve implements Resolve<ITrainingInformation>
 
 export const trainingInformationRoute: Routes = [
     {
-        path: '',
+        path: 'home',
         component: TrainingInformationComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,12 +10,15 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { AcademicInformationService } from './academic-information.service';
+import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-academic-information',
     templateUrl: './academic-information.component.html'
 })
 export class AcademicInformationComponent implements OnInit, OnDestroy {
+    @Input()
+    employee: IEmployee;
     currentAccount: any;
     academicInformations: IAcademicInformation[];
     error: any;
@@ -41,11 +44,13 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
+        console.log('######');
+        console.log(this.activatedRoute.data);
         this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.page = data.pagingParams.page;
-            this.previousPage = data.pagingParams.page;
-            this.reverse = data.pagingParams.ascending;
-            this.predicate = data.pagingParams.predicate;
+            this.page = data.pagingParams == undefined ? 1 : data.pagingParams;
+            this.previousPage = data.pagingParams == undefined ? 1 : data.pagingParams;
+            this.reverse = data.pagingParams == undefined ? true : data.pagingParams.ascending;
+            this.predicate = data.pagingParams == undefined ? 'id' : data.pagingParams.predicate;
         });
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']

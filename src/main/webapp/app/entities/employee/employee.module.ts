@@ -11,17 +11,34 @@ import {
     employeeRoute,
     employeePopupRoute
 } from './';
+import { EmployeeManagementComponent } from './employee-management.component';
+import { MatTabsModule } from '@angular/material';
+import { SoptorshiAcademicInformationModule } from 'app/entities/academic-information/academic-information.module';
+import { SoptorshiExperienceInformationModule } from 'app/entities/experience-information/experience-information.module';
+import { SoptorshiFamilyInformationModule } from 'app/entities/family-information/family-information.module';
+import { SoptorshiTrainingInformationModule } from 'app/entities/training-information/training-information.module';
+import { SoptorshiReferenceInformationModule } from 'app/entities/reference-information/reference-information.module';
 
 const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [
+        SoptorshiSharedModule,
+        MatTabsModule,
+        SoptorshiAcademicInformationModule,
+        SoptorshiExperienceInformationModule,
+        SoptorshiFamilyInformationModule,
+        SoptorshiTrainingInformationModule,
+        SoptorshiReferenceInformationModule,
+        RouterModule.forChild(ENTITY_STATES)
+    ],
     declarations: [
         EmployeeComponent,
         EmployeeDetailComponent,
         EmployeeUpdateComponent,
         EmployeeDeleteDialogComponent,
-        EmployeeDeletePopupComponent
+        EmployeeDeletePopupComponent,
+        EmployeeManagementComponent
     ],
     entryComponents: [EmployeeComponent, EmployeeUpdateComponent, EmployeeDeleteDialogComponent, EmployeeDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -12,6 +12,7 @@ import { EmployeeDetailComponent } from './employee-detail.component';
 import { EmployeeUpdateComponent } from './employee-update.component';
 import { EmployeeDeletePopupComponent } from './employee-delete-dialog.component';
 import { IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeManagementComponent } from 'app/entities/employee/employee-management.component';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeResolve implements Resolve<IEmployee> {
@@ -40,6 +41,29 @@ export const employeeRoute: Routes = [
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
             pageTitle: 'Employees'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':id/employee-management',
+        resolve: {
+            employee: EmployeeResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Employee Management'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'employee-management-new',
+        component: EmployeeManagementComponent,
+        resolve: {
+            employee: EmployeeResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'EmployeeManagement'
         },
         canActivate: [UserRouteAccessService]
     },

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -17,6 +17,7 @@ import { DesignationService } from 'app/entities/designation';
     templateUrl: './employee-update.component.html'
 })
 export class EmployeeUpdateComponent implements OnInit {
+    @Input()
     employee: IEmployee;
     isSaving: boolean;
 
