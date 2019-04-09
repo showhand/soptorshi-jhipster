@@ -81,6 +81,21 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'attachment',
                 loadChildren: './attachment/attachment.module#SoptorshiAttachmentModule'
+            },
+            {
+                path: 'academic-information-attachment',
+                loadChildren:
+                    './academic-information-attachment/academic-information-attachment.module#SoptorshiAcademicInformationAttachmentModule'
+            },
+            {
+                path: 'experience-information-attachment',
+                loadChildren:
+                    './experience-information-attachment/experience-information-attachment.module#SoptorshiExperienceInformationAttachmentModule'
+            },
+            {
+                path: 'training-information-attachment',
+                loadChildren:
+                    './training-information-attachment/training-information-attachment.module#SoptorshiTrainingInformationAttachmentModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
