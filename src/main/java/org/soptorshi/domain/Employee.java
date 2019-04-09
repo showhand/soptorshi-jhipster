@@ -4,6 +4,7 @@ package org.soptorshi.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
@@ -34,49 +35,58 @@ public class Employee implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "employee_id")
+    @NotNull
+    @Column(name = "employee_id", nullable = false)
     private String employeeId;
 
-    @Column(name = "full_name")
+    @NotNull
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(name = "fathers_name")
+    @NotNull
+    @Column(name = "fathers_name", nullable = false)
     private String fathersName;
 
-    @Column(name = "mothers_name")
+    @NotNull
+    @Column(name = "mothers_name", nullable = false)
     private String mothersName;
 
-    @Column(name = "birth_date")
+    @NotNull
+    @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
-    @Column(name = "age")
-    private Double age;
-
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "marital_status")
+    @Column(name = "marital_status", nullable = false)
     private MaritalStatus maritalStatus;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender")
+    @Column(name = "gender", nullable = false)
     private Gender gender;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "religion")
+    @Column(name = "religion", nullable = false)
     private Religion religion;
 
-    @Column(name = "permanent_address")
+    @NotNull
+    @Column(name = "permanent_address", nullable = false)
     private String permanentAddress;
 
-    @Column(name = "present_address")
+    @NotNull
+    @Column(name = "present_address", nullable = false)
     private String presentAddress;
 
-    @Column(name = "n_id")
+    @NotNull
+    @Column(name = "n_id", nullable = false)
     private String nId;
 
     @Column(name = "tin")
     private String tin;
 
-    @Column(name = "contact_number")
+    @NotNull
+    @Column(name = "contact_number", nullable = false)
     private String contactNumber;
 
     @Column(name = "email")
@@ -85,7 +95,8 @@ public class Employee implements Serializable {
     @Column(name = "blood_group")
     private String bloodGroup;
 
-    @Column(name = "emergency_contact")
+    @NotNull
+    @Column(name = "emergency_contact", nullable = false)
     private String emergencyContact;
 
     @Enumerated(EnumType.STRING)
@@ -104,6 +115,13 @@ public class Employee implements Serializable {
 
     @Column(name = "user_account")
     private Boolean userAccount;
+
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo;
+
+    @Column(name = "photo_content_type")
+    private String photoContentType;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -185,19 +203,6 @@ public class Employee implements Serializable {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public Double getAge() {
-        return age;
-    }
-
-    public Employee age(Double age) {
-        this.age = age;
-        return this;
-    }
-
-    public void setAge(Double age) {
-        this.age = age;
     }
 
     public MaritalStatus getMaritalStatus() {
@@ -408,6 +413,32 @@ public class Employee implements Serializable {
         this.userAccount = userAccount;
     }
 
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public Employee photo(byte[] photo) {
+        this.photo = photo;
+        return this;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoContentType() {
+        return photoContentType;
+    }
+
+    public Employee photoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+        return this;
+    }
+
+    public void setPhotoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+    }
+
     public Department getDepartment() {
         return department;
     }
@@ -464,7 +495,6 @@ public class Employee implements Serializable {
             ", fathersName='" + getFathersName() + "'" +
             ", mothersName='" + getMothersName() + "'" +
             ", birthDate='" + getBirthDate() + "'" +
-            ", age=" + getAge() +
             ", maritalStatus='" + getMaritalStatus() + "'" +
             ", gender='" + getGender() + "'" +
             ", religion='" + getReligion() + "'" +
@@ -481,6 +511,8 @@ public class Employee implements Serializable {
             ", terminationDate='" + getTerminationDate() + "'" +
             ", reasonOfTermination='" + getReasonOfTermination() + "'" +
             ", userAccount='" + isUserAccount() + "'" +
+            ", photo='" + getPhoto() + "'" +
+            ", photoContentType='" + getPhotoContentType() + "'" +
             "}";
     }
 }

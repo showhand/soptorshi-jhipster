@@ -3,12 +3,16 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.ExperienceInformation;
+import org.soptorshi.domain.Attachment;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.ExperienceInformationRepository;
 import org.soptorshi.repository.search.ExperienceInformationSearchRepository;
 import org.soptorshi.service.ExperienceInformationService;
 import org.soptorshi.service.dto.ExperienceInformationDTO;
 import org.soptorshi.service.mapper.ExperienceInformationMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.ExperienceInformationCriteria;
+import org.soptorshi.service.ExperienceInformationQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -85,6 +89,9 @@ public class ExperienceInformationResourceIntTest {
     private ExperienceInformationSearchRepository mockExperienceInformationSearchRepository;
 
     @Autowired
+    private ExperienceInformationQueryService experienceInformationQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -106,7 +113,7 @@ public class ExperienceInformationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ExperienceInformationResource experienceInformationResource = new ExperienceInformationResource(experienceInformationService);
+        final ExperienceInformationResource experienceInformationResource = new ExperienceInformationResource(experienceInformationService, experienceInformationQueryService);
         this.restExperienceInformationMockMvc = MockMvcBuilders.standaloneSetup(experienceInformationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -220,6 +227,331 @@ public class ExperienceInformationResourceIntTest {
             .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()))
             .andExpect(jsonPath("$.employmentType").value(DEFAULT_EMPLOYMENT_TYPE.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByOrganizationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where organization equals to DEFAULT_ORGANIZATION
+        defaultExperienceInformationShouldBeFound("organization.equals=" + DEFAULT_ORGANIZATION);
+
+        // Get all the experienceInformationList where organization equals to UPDATED_ORGANIZATION
+        defaultExperienceInformationShouldNotBeFound("organization.equals=" + UPDATED_ORGANIZATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByOrganizationIsInShouldWork() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where organization in DEFAULT_ORGANIZATION or UPDATED_ORGANIZATION
+        defaultExperienceInformationShouldBeFound("organization.in=" + DEFAULT_ORGANIZATION + "," + UPDATED_ORGANIZATION);
+
+        // Get all the experienceInformationList where organization equals to UPDATED_ORGANIZATION
+        defaultExperienceInformationShouldNotBeFound("organization.in=" + UPDATED_ORGANIZATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByOrganizationIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where organization is not null
+        defaultExperienceInformationShouldBeFound("organization.specified=true");
+
+        // Get all the experienceInformationList where organization is null
+        defaultExperienceInformationShouldNotBeFound("organization.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByDesignationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where designation equals to DEFAULT_DESIGNATION
+        defaultExperienceInformationShouldBeFound("designation.equals=" + DEFAULT_DESIGNATION);
+
+        // Get all the experienceInformationList where designation equals to UPDATED_DESIGNATION
+        defaultExperienceInformationShouldNotBeFound("designation.equals=" + UPDATED_DESIGNATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByDesignationIsInShouldWork() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where designation in DEFAULT_DESIGNATION or UPDATED_DESIGNATION
+        defaultExperienceInformationShouldBeFound("designation.in=" + DEFAULT_DESIGNATION + "," + UPDATED_DESIGNATION);
+
+        // Get all the experienceInformationList where designation equals to UPDATED_DESIGNATION
+        defaultExperienceInformationShouldNotBeFound("designation.in=" + UPDATED_DESIGNATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByDesignationIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where designation is not null
+        defaultExperienceInformationShouldBeFound("designation.specified=true");
+
+        // Get all the experienceInformationList where designation is null
+        defaultExperienceInformationShouldNotBeFound("designation.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByStartDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where startDate equals to DEFAULT_START_DATE
+        defaultExperienceInformationShouldBeFound("startDate.equals=" + DEFAULT_START_DATE);
+
+        // Get all the experienceInformationList where startDate equals to UPDATED_START_DATE
+        defaultExperienceInformationShouldNotBeFound("startDate.equals=" + UPDATED_START_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByStartDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where startDate in DEFAULT_START_DATE or UPDATED_START_DATE
+        defaultExperienceInformationShouldBeFound("startDate.in=" + DEFAULT_START_DATE + "," + UPDATED_START_DATE);
+
+        // Get all the experienceInformationList where startDate equals to UPDATED_START_DATE
+        defaultExperienceInformationShouldNotBeFound("startDate.in=" + UPDATED_START_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByStartDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where startDate is not null
+        defaultExperienceInformationShouldBeFound("startDate.specified=true");
+
+        // Get all the experienceInformationList where startDate is null
+        defaultExperienceInformationShouldNotBeFound("startDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByStartDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where startDate greater than or equals to DEFAULT_START_DATE
+        defaultExperienceInformationShouldBeFound("startDate.greaterOrEqualThan=" + DEFAULT_START_DATE);
+
+        // Get all the experienceInformationList where startDate greater than or equals to UPDATED_START_DATE
+        defaultExperienceInformationShouldNotBeFound("startDate.greaterOrEqualThan=" + UPDATED_START_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByStartDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where startDate less than or equals to DEFAULT_START_DATE
+        defaultExperienceInformationShouldNotBeFound("startDate.lessThan=" + DEFAULT_START_DATE);
+
+        // Get all the experienceInformationList where startDate less than or equals to UPDATED_START_DATE
+        defaultExperienceInformationShouldBeFound("startDate.lessThan=" + UPDATED_START_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByEndDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where endDate equals to DEFAULT_END_DATE
+        defaultExperienceInformationShouldBeFound("endDate.equals=" + DEFAULT_END_DATE);
+
+        // Get all the experienceInformationList where endDate equals to UPDATED_END_DATE
+        defaultExperienceInformationShouldNotBeFound("endDate.equals=" + UPDATED_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByEndDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where endDate in DEFAULT_END_DATE or UPDATED_END_DATE
+        defaultExperienceInformationShouldBeFound("endDate.in=" + DEFAULT_END_DATE + "," + UPDATED_END_DATE);
+
+        // Get all the experienceInformationList where endDate equals to UPDATED_END_DATE
+        defaultExperienceInformationShouldNotBeFound("endDate.in=" + UPDATED_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByEndDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where endDate is not null
+        defaultExperienceInformationShouldBeFound("endDate.specified=true");
+
+        // Get all the experienceInformationList where endDate is null
+        defaultExperienceInformationShouldNotBeFound("endDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByEndDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where endDate greater than or equals to DEFAULT_END_DATE
+        defaultExperienceInformationShouldBeFound("endDate.greaterOrEqualThan=" + DEFAULT_END_DATE);
+
+        // Get all the experienceInformationList where endDate greater than or equals to UPDATED_END_DATE
+        defaultExperienceInformationShouldNotBeFound("endDate.greaterOrEqualThan=" + UPDATED_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByEndDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where endDate less than or equals to DEFAULT_END_DATE
+        defaultExperienceInformationShouldNotBeFound("endDate.lessThan=" + DEFAULT_END_DATE);
+
+        // Get all the experienceInformationList where endDate less than or equals to UPDATED_END_DATE
+        defaultExperienceInformationShouldBeFound("endDate.lessThan=" + UPDATED_END_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByEmploymentTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where employmentType equals to DEFAULT_EMPLOYMENT_TYPE
+        defaultExperienceInformationShouldBeFound("employmentType.equals=" + DEFAULT_EMPLOYMENT_TYPE);
+
+        // Get all the experienceInformationList where employmentType equals to UPDATED_EMPLOYMENT_TYPE
+        defaultExperienceInformationShouldNotBeFound("employmentType.equals=" + UPDATED_EMPLOYMENT_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByEmploymentTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where employmentType in DEFAULT_EMPLOYMENT_TYPE or UPDATED_EMPLOYMENT_TYPE
+        defaultExperienceInformationShouldBeFound("employmentType.in=" + DEFAULT_EMPLOYMENT_TYPE + "," + UPDATED_EMPLOYMENT_TYPE);
+
+        // Get all the experienceInformationList where employmentType equals to UPDATED_EMPLOYMENT_TYPE
+        defaultExperienceInformationShouldNotBeFound("employmentType.in=" + UPDATED_EMPLOYMENT_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByEmploymentTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+
+        // Get all the experienceInformationList where employmentType is not null
+        defaultExperienceInformationShouldBeFound("employmentType.specified=true");
+
+        // Get all the experienceInformationList where employmentType is null
+        defaultExperienceInformationShouldNotBeFound("employmentType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByAttachmentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Attachment attachment = AttachmentResourceIntTest.createEntity(em);
+        em.persist(attachment);
+        em.flush();
+        experienceInformation.addAttachment(attachment);
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+        Long attachmentId = attachment.getId();
+
+        // Get all the experienceInformationList where attachment equals to attachmentId
+        defaultExperienceInformationShouldBeFound("attachmentId.equals=" + attachmentId);
+
+        // Get all the experienceInformationList where attachment equals to attachmentId + 1
+        defaultExperienceInformationShouldNotBeFound("attachmentId.equals=" + (attachmentId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationsByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        experienceInformation.setEmployee(employee);
+        experienceInformationRepository.saveAndFlush(experienceInformation);
+        Long employeeId = employee.getId();
+
+        // Get all the experienceInformationList where employee equals to employeeId
+        defaultExperienceInformationShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the experienceInformationList where employee equals to employeeId + 1
+        defaultExperienceInformationShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultExperienceInformationShouldBeFound(String filter) throws Exception {
+        restExperienceInformationMockMvc.perform(get("/api/experience-informations?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(experienceInformation.getId().intValue())))
+            .andExpect(jsonPath("$.[*].organization").value(hasItem(DEFAULT_ORGANIZATION)))
+            .andExpect(jsonPath("$.[*].designation").value(hasItem(DEFAULT_DESIGNATION)))
+            .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
+            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].employmentType").value(hasItem(DEFAULT_EMPLOYMENT_TYPE.toString())));
+
+        // Check, that the count call also returns 1
+        restExperienceInformationMockMvc.perform(get("/api/experience-informations/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultExperienceInformationShouldNotBeFound(String filter) throws Exception {
+        restExperienceInformationMockMvc.perform(get("/api/experience-informations?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restExperienceInformationMockMvc.perform(get("/api/experience-informations/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

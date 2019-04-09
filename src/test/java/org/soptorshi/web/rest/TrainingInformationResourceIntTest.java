@@ -3,12 +3,16 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.TrainingInformation;
+import org.soptorshi.domain.Attachment;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.TrainingInformationRepository;
 import org.soptorshi.repository.search.TrainingInformationSearchRepository;
 import org.soptorshi.service.TrainingInformationService;
 import org.soptorshi.service.dto.TrainingInformationDTO;
 import org.soptorshi.service.mapper.TrainingInformationMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.TrainingInformationCriteria;
+import org.soptorshi.service.TrainingInformationQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -76,6 +80,9 @@ public class TrainingInformationResourceIntTest {
     private TrainingInformationSearchRepository mockTrainingInformationSearchRepository;
 
     @Autowired
+    private TrainingInformationQueryService trainingInformationQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -97,7 +104,7 @@ public class TrainingInformationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final TrainingInformationResource trainingInformationResource = new TrainingInformationResource(trainingInformationService);
+        final TrainingInformationResource trainingInformationResource = new TrainingInformationResource(trainingInformationService, trainingInformationQueryService);
         this.restTrainingInformationMockMvc = MockMvcBuilders.standaloneSetup(trainingInformationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -203,6 +210,197 @@ public class TrainingInformationResourceIntTest {
             .andExpect(jsonPath("$.subject").value(DEFAULT_SUBJECT.toString()))
             .andExpect(jsonPath("$.organization").value(DEFAULT_ORGANIZATION.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllTrainingInformationsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        trainingInformationRepository.saveAndFlush(trainingInformation);
+
+        // Get all the trainingInformationList where name equals to DEFAULT_NAME
+        defaultTrainingInformationShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the trainingInformationList where name equals to UPDATED_NAME
+        defaultTrainingInformationShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingInformationsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        trainingInformationRepository.saveAndFlush(trainingInformation);
+
+        // Get all the trainingInformationList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultTrainingInformationShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the trainingInformationList where name equals to UPDATED_NAME
+        defaultTrainingInformationShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingInformationsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        trainingInformationRepository.saveAndFlush(trainingInformation);
+
+        // Get all the trainingInformationList where name is not null
+        defaultTrainingInformationShouldBeFound("name.specified=true");
+
+        // Get all the trainingInformationList where name is null
+        defaultTrainingInformationShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingInformationsBySubjectIsEqualToSomething() throws Exception {
+        // Initialize the database
+        trainingInformationRepository.saveAndFlush(trainingInformation);
+
+        // Get all the trainingInformationList where subject equals to DEFAULT_SUBJECT
+        defaultTrainingInformationShouldBeFound("subject.equals=" + DEFAULT_SUBJECT);
+
+        // Get all the trainingInformationList where subject equals to UPDATED_SUBJECT
+        defaultTrainingInformationShouldNotBeFound("subject.equals=" + UPDATED_SUBJECT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingInformationsBySubjectIsInShouldWork() throws Exception {
+        // Initialize the database
+        trainingInformationRepository.saveAndFlush(trainingInformation);
+
+        // Get all the trainingInformationList where subject in DEFAULT_SUBJECT or UPDATED_SUBJECT
+        defaultTrainingInformationShouldBeFound("subject.in=" + DEFAULT_SUBJECT + "," + UPDATED_SUBJECT);
+
+        // Get all the trainingInformationList where subject equals to UPDATED_SUBJECT
+        defaultTrainingInformationShouldNotBeFound("subject.in=" + UPDATED_SUBJECT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingInformationsBySubjectIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        trainingInformationRepository.saveAndFlush(trainingInformation);
+
+        // Get all the trainingInformationList where subject is not null
+        defaultTrainingInformationShouldBeFound("subject.specified=true");
+
+        // Get all the trainingInformationList where subject is null
+        defaultTrainingInformationShouldNotBeFound("subject.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingInformationsByOrganizationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        trainingInformationRepository.saveAndFlush(trainingInformation);
+
+        // Get all the trainingInformationList where organization equals to DEFAULT_ORGANIZATION
+        defaultTrainingInformationShouldBeFound("organization.equals=" + DEFAULT_ORGANIZATION);
+
+        // Get all the trainingInformationList where organization equals to UPDATED_ORGANIZATION
+        defaultTrainingInformationShouldNotBeFound("organization.equals=" + UPDATED_ORGANIZATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingInformationsByOrganizationIsInShouldWork() throws Exception {
+        // Initialize the database
+        trainingInformationRepository.saveAndFlush(trainingInformation);
+
+        // Get all the trainingInformationList where organization in DEFAULT_ORGANIZATION or UPDATED_ORGANIZATION
+        defaultTrainingInformationShouldBeFound("organization.in=" + DEFAULT_ORGANIZATION + "," + UPDATED_ORGANIZATION);
+
+        // Get all the trainingInformationList where organization equals to UPDATED_ORGANIZATION
+        defaultTrainingInformationShouldNotBeFound("organization.in=" + UPDATED_ORGANIZATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingInformationsByOrganizationIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        trainingInformationRepository.saveAndFlush(trainingInformation);
+
+        // Get all the trainingInformationList where organization is not null
+        defaultTrainingInformationShouldBeFound("organization.specified=true");
+
+        // Get all the trainingInformationList where organization is null
+        defaultTrainingInformationShouldNotBeFound("organization.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingInformationsByAttachmentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Attachment attachment = AttachmentResourceIntTest.createEntity(em);
+        em.persist(attachment);
+        em.flush();
+        trainingInformation.addAttachment(attachment);
+        trainingInformationRepository.saveAndFlush(trainingInformation);
+        Long attachmentId = attachment.getId();
+
+        // Get all the trainingInformationList where attachment equals to attachmentId
+        defaultTrainingInformationShouldBeFound("attachmentId.equals=" + attachmentId);
+
+        // Get all the trainingInformationList where attachment equals to attachmentId + 1
+        defaultTrainingInformationShouldNotBeFound("attachmentId.equals=" + (attachmentId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllTrainingInformationsByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        trainingInformation.setEmployee(employee);
+        trainingInformationRepository.saveAndFlush(trainingInformation);
+        Long employeeId = employee.getId();
+
+        // Get all the trainingInformationList where employee equals to employeeId
+        defaultTrainingInformationShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the trainingInformationList where employee equals to employeeId + 1
+        defaultTrainingInformationShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultTrainingInformationShouldBeFound(String filter) throws Exception {
+        restTrainingInformationMockMvc.perform(get("/api/training-informations?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(trainingInformation.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].subject").value(hasItem(DEFAULT_SUBJECT)))
+            .andExpect(jsonPath("$.[*].organization").value(hasItem(DEFAULT_ORGANIZATION)));
+
+        // Check, that the count call also returns 1
+        restTrainingInformationMockMvc.perform(get("/api/training-informations/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultTrainingInformationShouldNotBeFound(String filter) throws Exception {
+        restTrainingInformationMockMvc.perform(get("/api/training-informations?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restTrainingInformationMockMvc.perform(get("/api/training-informations/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

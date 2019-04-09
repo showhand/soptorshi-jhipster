@@ -3,54 +3,83 @@
     "fields": [
         {
             "fieldName": "employeeId",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "fullName",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "fathersName",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "mothersName",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "birthDate",
-            "fieldType": "LocalDate"
-        },
-        {
-            "fieldName": "age",
-            "fieldType": "Double"
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "maritalStatus",
             "fieldType": "MaritalStatus",
-            "fieldValues": "MARRIED,UNMARRIED,SEPARATED"
+            "fieldValues": "MARRIED,UNMARRIED,SEPARATED",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "gender",
             "fieldType": "Gender",
-            "fieldValues": "MALE,FEMALE,OTHERS"
+            "fieldValues": "MALE,FEMALE,OTHERS",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "religion",
             "fieldType": "Religion",
-            "fieldValues": "ISLAM,HINDU,BUDDHIST,CHRISTIANS,OTHERS"
+            "fieldValues": "ISLAM,HINDU,BUDDHIST,CHRISTIANS,OTHERS",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "permanentAddress",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "presentAddress",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "nId",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "tin",
@@ -58,7 +87,10 @@
         },
         {
             "fieldName": "contactNumber",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "email",
@@ -70,7 +102,10 @@
         },
         {
             "fieldName": "emergencyContact",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "employeeStatus",
@@ -93,6 +128,11 @@
         {
             "fieldName": "userAccount",
             "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "photo",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
         }
     ],
     "relationships": [
@@ -115,9 +155,9 @@
     "changelogDate": "20190405124354",
     "entityTableName": "employee",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "pagination": "pager",
     "service": "serviceClass",
-    "jpaMetamodelFiltering": false,
+    "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",
     "applications": "*",

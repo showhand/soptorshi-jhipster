@@ -20,6 +20,8 @@ import * as moment from 'moment';
 import { SoptorshiprimengModule } from './primeng/primeng.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
+import { MatButton, MatButtonModule, MatCheckbox, MatTab, MatTabsModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     imports: [
@@ -37,7 +39,10 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         SoptorshiprimengModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         SoptorshiEntityModule,
-        SoptorshiAppRoutingModule
+        SoptorshiAppRoutingModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatTabsModule
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
     providers: [

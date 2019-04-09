@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -30,10 +31,14 @@ export class ReferenceInformationResolve implements Resolve<IReferenceInformatio
 
 export const referenceInformationRoute: Routes = [
     {
-        path: '',
+        path: 'home',
         component: ReferenceInformationComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
         data: {
             authorities: ['ROLE_USER'],
+            defaultSort: 'id,asc',
             pageTitle: 'ReferenceInformations'
         },
         canActivate: [UserRouteAccessService]

@@ -25,10 +25,6 @@
                 <dd>
                     <span>{{employee.birthDate}}</span>
                 </dd>
-                <dt><span>Age</span></dt>
-                <dd>
-                    <span>{{employee.age}}</span>
-                </dd>
                 <dt><span>Marital Status</span></dt>
                 <dd>
                     <span>{{employee.maritalStatus}}</span>
@@ -92,6 +88,15 @@
                 <dt><span>User Account</span></dt>
                 <dd>
                     <span>{{employee.userAccount}}</span>
+                </dd>
+                <dt><span>Photo</span></dt>
+                <dd>
+                    <div *ngIf="employee.photo">
+                        <a (click)="openFile(employee.photoContentType, employee.photo)">
+                            <img [src]="'data:' + employee.photoContentType + ';base64,' + employee.photo" style="max-width: 100%;" alt="employee image"/>
+                        </a>
+                        {{employee.photoContentType}}, {{byteSize(employee.photo)}}
+                    </div>
                 </dd>
                 <dt><span>Department</span></dt>
                 <dd>

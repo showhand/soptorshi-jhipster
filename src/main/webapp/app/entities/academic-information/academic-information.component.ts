@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
@@ -10,39 +10,48 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { AcademicInformationService } from './academic-information.service';
+import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-academic-information',
     templateUrl: './academic-information.component.html'
 })
 export class AcademicInformationComponent implements OnInit, OnDestroy {
-    academicInformations: IAcademicInformation[];
+    @Input()
+    employee: IEmployee;
     currentAccount: any;
+    academicInformations: IAcademicInformation[];
+    error: any;
+    success: any;
     eventSubscriber: Subscription;
-    itemsPerPage: number;
+    currentSearch: string;
+    routeData: any;
     links: any;
+    totalItems: any;
+    itemsPerPage: any;
     page: any;
     predicate: any;
+    previousPage: any;
     reverse: any;
-    totalItems: number;
-    currentSearch: string;
 
     constructor(
         protected academicInformationService: AcademicInformationService,
-        protected jhiAlertService: JhiAlertService,
-        protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
+        protected jhiAlertService: JhiAlertService,
+        protected accountService: AccountService,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected router: Router,
+        protected eventManager: JhiEventManager
     ) {
-        this.academicInformations = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
-        this.page = 0;
-        this.links = {
-            last: 0
-        };
-        this.predicate = 'id';
-        this.reverse = true;
+        console.log('######');
+        console.log(this.activatedRoute.data);
+        this.routeData = this.activatedRoute.data.subscribe(data => {
+            this.page = data.pagingParams == undefined ? 1 : data.pagingParams;
+            this.previousPage = data.pagingParams == undefined ? 1 : data.pagingParams;
+            this.reverse = data.pagingParams == undefined ? true : data.pagingParams.ascending;
+            this.predicate = data.pagingParams == undefined ? 'id' : data.pagingParams.predicate;
+        });
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
@@ -53,8 +62,8 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
         if (this.currentSearch) {
             this.academicInformationService
                 .search({
+                    page: this.page - 1,
                     query: this.currentSearch,
-                    page: this.page,
                     size: this.itemsPerPage,
                     sort: this.sort()
                 })
@@ -66,7 +75,7 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
         }
         this.academicInformationService
             .query({
-                page: this.page,
+                page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
             })
@@ -76,26 +85,35 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
             );
     }
 
-    reset() {
-        this.page = 0;
-        this.academicInformations = [];
-        this.loadAll();
+    loadPage(page: number) {
+        if (page !== this.previousPage) {
+            this.previousPage = page;
+            this.transition();
+        }
     }
 
-    loadPage(page) {
-        this.page = page;
+    transition() {
+        this.router.navigate(['/academic-information'], {
+            queryParams: {
+                page: this.page,
+                size: this.itemsPerPage,
+                search: this.currentSearch,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        });
         this.loadAll();
     }
 
     clear() {
-        this.academicInformations = [];
-        this.links = {
-            last: 0
-        };
         this.page = 0;
-        this.predicate = 'id';
-        this.reverse = true;
         this.currentSearch = '';
+        this.router.navigate([
+            '/academic-information',
+            {
+                page: this.page,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        ]);
         this.loadAll();
     }
 
@@ -103,14 +121,16 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
         if (!query) {
             return this.clear();
         }
-        this.academicInformations = [];
-        this.links = {
-            last: 0
-        };
         this.page = 0;
-        this.predicate = '_score';
-        this.reverse = false;
         this.currentSearch = query;
+        this.router.navigate([
+            '/academic-information',
+            {
+                search: this.currentSearch,
+                page: this.page,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        ]);
         this.loadAll();
     }
 
@@ -131,7 +151,7 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInAcademicInformations() {
-        this.eventSubscriber = this.eventManager.subscribe('academicInformationListModification', response => this.reset());
+        this.eventSubscriber = this.eventManager.subscribe('academicInformationListModification', response => this.loadAll());
     }
 
     sort() {
@@ -145,9 +165,7 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
     protected paginateAcademicInformations(data: IAcademicInformation[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-        for (let i = 0; i < data.length; i++) {
-            this.academicInformations.push(data[i]);
-        }
+        this.academicInformations = data;
     }
 
     protected onError(errorMessage: string) {

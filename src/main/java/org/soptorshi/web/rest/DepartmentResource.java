@@ -4,6 +4,8 @@ import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
 import org.soptorshi.service.dto.DepartmentDTO;
+import org.soptorshi.service.dto.DepartmentCriteria;
+import org.soptorshi.service.DepartmentQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +38,11 @@ public class DepartmentResource {
 
     private final DepartmentService departmentService;
 
-    public DepartmentResource(DepartmentService departmentService) {
+    private final DepartmentQueryService departmentQueryService;
+
+    public DepartmentResource(DepartmentService departmentService, DepartmentQueryService departmentQueryService) {
         this.departmentService = departmentService;
+        this.departmentQueryService = departmentQueryService;
     }
 
     /**
@@ -84,14 +89,27 @@ public class DepartmentResource {
      * GET  /departments : get all the departments.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of departments in body
      */
     @GetMapping("/departments")
-    public ResponseEntity<List<DepartmentDTO>> getAllDepartments(Pageable pageable) {
-        log.debug("REST request to get a page of Departments");
-        Page<DepartmentDTO> page = departmentService.findAll(pageable);
+    public ResponseEntity<List<DepartmentDTO>> getAllDepartments(DepartmentCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Departments by criteria: {}", criteria);
+        Page<DepartmentDTO> page = departmentQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/departments");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * GET  /departments/count : count all the departments.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/departments/count")
+    public ResponseEntity<Long> countDepartments(DepartmentCriteria criteria) {
+        log.debug("REST request to count Departments by criteria: {}", criteria);
+        return ResponseEntity.ok().body(departmentQueryService.countByCriteria(criteria));
     }
 
     /**

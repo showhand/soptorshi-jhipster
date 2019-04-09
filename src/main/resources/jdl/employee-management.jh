@@ -10,28 +10,28 @@ entity Designation{
 }
 
 entity Employee{
-	employeeId String,
-    fullName String,
-    fathersName String,
-    mothersName String,
-    birthDate LocalDate,
-    age Double,
-    maritalStatus MaritalStatus,
-    gender Gender,
-    religion Religion,
-    permanentAddress String,
-    presentAddress String,
-    nId String,
+	employeeId String required,
+    fullName String required,
+    fathersName String required,
+    mothersName String required,
+    birthDate LocalDate required,
+    maritalStatus MaritalStatus required,
+    gender Gender required,
+    religion Religion required,
+    permanentAddress String required,
+    presentAddress String required,
+    nId String required,
     tin String,
-    contactNumber String,
+    contactNumber String required,
     email String,
     bloodGroup String,
-    emergencyContact String,
+    emergencyContact String required,
     employeeStatus EmployeeStatus,
     employmentType EmploymentType,
     terminationDate LocalDate,
     reasonOfTermination String,
-    userAccount Boolean
+    userAccount Boolean,
+    photo ImageBlob
 }
 
 entity Attachment{
@@ -116,7 +116,7 @@ relationship ManyToOne{
 }
 
 
-paginate * with infinite-scroll
+paginate * with pager
 search * with elasticsearch
 service * with serviceClass
 
@@ -126,6 +126,7 @@ service * with serviceClass
 
 // Use Data Transfert Objects (DTO)
 dto * with mapstruct
+filter all
 
 // Set service options to all except few
 

@@ -29,6 +29,13 @@ const ENTITY_STATES = [...referenceInformationRoute, ...referenceInformationPopu
         ReferenceInformationDeleteDialogComponent,
         ReferenceInformationDeletePopupComponent
     ],
+    exports: [
+        ReferenceInformationComponent,
+        ReferenceInformationDetailComponent,
+        ReferenceInformationUpdateComponent,
+        ReferenceInformationDeleteDialogComponent,
+        ReferenceInformationDeletePopupComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiReferenceInformationModule {}

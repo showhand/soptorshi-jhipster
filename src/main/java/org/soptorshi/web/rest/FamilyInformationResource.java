@@ -4,6 +4,8 @@ import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
 import org.soptorshi.service.dto.FamilyInformationDTO;
+import org.soptorshi.service.dto.FamilyInformationCriteria;
+import org.soptorshi.service.FamilyInformationQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +38,11 @@ public class FamilyInformationResource {
 
     private final FamilyInformationService familyInformationService;
 
-    public FamilyInformationResource(FamilyInformationService familyInformationService) {
+    private final FamilyInformationQueryService familyInformationQueryService;
+
+    public FamilyInformationResource(FamilyInformationService familyInformationService, FamilyInformationQueryService familyInformationQueryService) {
         this.familyInformationService = familyInformationService;
+        this.familyInformationQueryService = familyInformationQueryService;
     }
 
     /**
@@ -84,14 +89,27 @@ public class FamilyInformationResource {
      * GET  /family-informations : get all the familyInformations.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of familyInformations in body
      */
     @GetMapping("/family-informations")
-    public ResponseEntity<List<FamilyInformationDTO>> getAllFamilyInformations(Pageable pageable) {
-        log.debug("REST request to get a page of FamilyInformations");
-        Page<FamilyInformationDTO> page = familyInformationService.findAll(pageable);
+    public ResponseEntity<List<FamilyInformationDTO>> getAllFamilyInformations(FamilyInformationCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get FamilyInformations by criteria: {}", criteria);
+        Page<FamilyInformationDTO> page = familyInformationQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/family-informations");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * GET  /family-informations/count : count all the familyInformations.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/family-informations/count")
+    public ResponseEntity<Long> countFamilyInformations(FamilyInformationCriteria criteria) {
+        log.debug("REST request to count FamilyInformations by criteria: {}", criteria);
+        return ResponseEntity.ok().body(familyInformationQueryService.countByCriteria(criteria));
     }
 
     /**

@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from './employee.service';
 import { IDepartment } from 'app/shared/model/department.model';
@@ -17,6 +17,7 @@ import { DesignationService } from 'app/entities/designation';
     templateUrl: './employee-update.component.html'
 })
 export class EmployeeUpdateComponent implements OnInit {
+    @Input()
     employee: IEmployee;
     isSaving: boolean;
 
@@ -27,10 +28,12 @@ export class EmployeeUpdateComponent implements OnInit {
     terminationDateDp: any;
 
     constructor(
+        protected dataUtils: JhiDataUtils,
         protected jhiAlertService: JhiAlertService,
         protected employeeService: EmployeeService,
         protected departmentService: DepartmentService,
         protected designationService: DesignationService,
+        protected elementRef: ElementRef,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -40,7 +43,7 @@ export class EmployeeUpdateComponent implements OnInit {
             this.employee = employee;
         });
         this.departmentService
-            .query({ filter: 'employee-is-null' })
+            .query({ 'employeeId.specified': 'false' })
             .pipe(
                 filter((mayBeOk: HttpResponse<IDepartment[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IDepartment[]>) => response.body)
@@ -71,6 +74,22 @@ export class EmployeeUpdateComponent implements OnInit {
                 map((response: HttpResponse<IDesignation[]>) => response.body)
             )
             .subscribe((res: IDesignation[]) => (this.designations = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
+    }
+
+    setFileData(event, entity, field, isImage) {
+        this.dataUtils.setFileData(event, entity, field, isImage);
+    }
+
+    clearInputImage(field: string, fieldContentType: string, idInput: string) {
+        this.dataUtils.clearInputImage(this.employee, this.elementRef, field, fieldContentType, idInput);
     }
 
     previousState() {

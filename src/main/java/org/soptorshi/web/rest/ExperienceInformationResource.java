@@ -4,6 +4,8 @@ import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
 import org.soptorshi.service.dto.ExperienceInformationDTO;
+import org.soptorshi.service.dto.ExperienceInformationCriteria;
+import org.soptorshi.service.ExperienceInformationQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +38,11 @@ public class ExperienceInformationResource {
 
     private final ExperienceInformationService experienceInformationService;
 
-    public ExperienceInformationResource(ExperienceInformationService experienceInformationService) {
+    private final ExperienceInformationQueryService experienceInformationQueryService;
+
+    public ExperienceInformationResource(ExperienceInformationService experienceInformationService, ExperienceInformationQueryService experienceInformationQueryService) {
         this.experienceInformationService = experienceInformationService;
+        this.experienceInformationQueryService = experienceInformationQueryService;
     }
 
     /**
@@ -84,14 +89,27 @@ public class ExperienceInformationResource {
      * GET  /experience-informations : get all the experienceInformations.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of experienceInformations in body
      */
     @GetMapping("/experience-informations")
-    public ResponseEntity<List<ExperienceInformationDTO>> getAllExperienceInformations(Pageable pageable) {
-        log.debug("REST request to get a page of ExperienceInformations");
-        Page<ExperienceInformationDTO> page = experienceInformationService.findAll(pageable);
+    public ResponseEntity<List<ExperienceInformationDTO>> getAllExperienceInformations(ExperienceInformationCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get ExperienceInformations by criteria: {}", criteria);
+        Page<ExperienceInformationDTO> page = experienceInformationQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/experience-informations");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * GET  /experience-informations/count : count all the experienceInformations.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/experience-informations/count")
+    public ResponseEntity<Long> countExperienceInformations(ExperienceInformationCriteria criteria) {
+        log.debug("REST request to count ExperienceInformations by criteria: {}", criteria);
+        return ResponseEntity.ok().body(experienceInformationQueryService.countByCriteria(criteria));
     }
 
     /**

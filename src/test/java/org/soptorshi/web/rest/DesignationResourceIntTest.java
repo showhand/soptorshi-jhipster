@@ -9,6 +9,8 @@ import org.soptorshi.service.DesignationService;
 import org.soptorshi.service.dto.DesignationDTO;
 import org.soptorshi.service.mapper.DesignationMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.DesignationCriteria;
+import org.soptorshi.service.DesignationQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -76,6 +78,9 @@ public class DesignationResourceIntTest {
     private DesignationSearchRepository mockDesignationSearchRepository;
 
     @Autowired
+    private DesignationQueryService designationQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -97,7 +102,7 @@ public class DesignationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final DesignationResource designationResource = new DesignationResource(designationService);
+        final DesignationResource designationResource = new DesignationResource(designationService, designationQueryService);
         this.restDesignationMockMvc = MockMvcBuilders.standaloneSetup(designationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -203,6 +208,159 @@ public class DesignationResourceIntTest {
             .andExpect(jsonPath("$.shortName").value(DEFAULT_SHORT_NAME.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where name equals to DEFAULT_NAME
+        defaultDesignationShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the designationList where name equals to UPDATED_NAME
+        defaultDesignationShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultDesignationShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the designationList where name equals to UPDATED_NAME
+        defaultDesignationShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where name is not null
+        defaultDesignationShouldBeFound("name.specified=true");
+
+        // Get all the designationList where name is null
+        defaultDesignationShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByShortNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where shortName equals to DEFAULT_SHORT_NAME
+        defaultDesignationShouldBeFound("shortName.equals=" + DEFAULT_SHORT_NAME);
+
+        // Get all the designationList where shortName equals to UPDATED_SHORT_NAME
+        defaultDesignationShouldNotBeFound("shortName.equals=" + UPDATED_SHORT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByShortNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where shortName in DEFAULT_SHORT_NAME or UPDATED_SHORT_NAME
+        defaultDesignationShouldBeFound("shortName.in=" + DEFAULT_SHORT_NAME + "," + UPDATED_SHORT_NAME);
+
+        // Get all the designationList where shortName equals to UPDATED_SHORT_NAME
+        defaultDesignationShouldNotBeFound("shortName.in=" + UPDATED_SHORT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByShortNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where shortName is not null
+        defaultDesignationShouldBeFound("shortName.specified=true");
+
+        // Get all the designationList where shortName is null
+        defaultDesignationShouldNotBeFound("shortName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByDescriptionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where description equals to DEFAULT_DESCRIPTION
+        defaultDesignationShouldBeFound("description.equals=" + DEFAULT_DESCRIPTION);
+
+        // Get all the designationList where description equals to UPDATED_DESCRIPTION
+        defaultDesignationShouldNotBeFound("description.equals=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByDescriptionIsInShouldWork() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where description in DEFAULT_DESCRIPTION or UPDATED_DESCRIPTION
+        defaultDesignationShouldBeFound("description.in=" + DEFAULT_DESCRIPTION + "," + UPDATED_DESCRIPTION);
+
+        // Get all the designationList where description equals to UPDATED_DESCRIPTION
+        defaultDesignationShouldNotBeFound("description.in=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByDescriptionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where description is not null
+        defaultDesignationShouldBeFound("description.specified=true");
+
+        // Get all the designationList where description is null
+        defaultDesignationShouldNotBeFound("description.specified=false");
+    }
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultDesignationShouldBeFound(String filter) throws Exception {
+        restDesignationMockMvc.perform(get("/api/designations?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(designation.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
+
+        // Check, that the count call also returns 1
+        restDesignationMockMvc.perform(get("/api/designations/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultDesignationShouldNotBeFound(String filter) throws Exception {
+        restDesignationMockMvc.perform(get("/api/designations?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restDesignationMockMvc.perform(get("/api/designations/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

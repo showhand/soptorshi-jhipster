@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { JhiDataUtils } from 'ng-jhipster';
 
 import { IEmployee } from 'app/shared/model/employee.model';
 
@@ -10,7 +11,7 @@ import { IEmployee } from 'app/shared/model/employee.model';
 export class EmployeeDetailComponent implements OnInit {
     employee: IEmployee;
 
-    constructor(protected activatedRoute: ActivatedRoute) {}
+    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ employee }) => {
@@ -18,6 +19,13 @@ export class EmployeeDetailComponent implements OnInit {
         });
     }
 
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
+    }
     previousState() {
         window.history.back();
     }
