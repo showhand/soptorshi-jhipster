@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IAcademicInformation } from 'app/shared/model/academic-information.model';
+import { IEmployee } from 'app/shared/model/employee.model';
 
 type EntityResponseType = HttpResponse<IAcademicInformation>;
 type EntityArrayResponseType = HttpResponse<IAcademicInformation[]>;
@@ -13,6 +14,7 @@ type EntityArrayResponseType = HttpResponse<IAcademicInformation[]>;
 export class AcademicInformationService {
     public resourceUrl = SERVER_API_URL + 'api/academic-informations';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/academic-informations';
+    public employee: IEmployee;
 
     constructor(protected http: HttpClient) {}
 

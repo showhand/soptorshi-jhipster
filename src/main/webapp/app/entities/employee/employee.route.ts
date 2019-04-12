@@ -46,6 +46,7 @@ export const employeeRoute: Routes = [
     },
     {
         path: ':id/employee-management',
+        component: EmployeeManagementComponent,
         resolve: {
             employee: EmployeeResolve
         },

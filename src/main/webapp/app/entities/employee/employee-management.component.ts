@@ -14,6 +14,8 @@ import { Table } from 'primeng/table';
 export class EmployeeManagementComponent implements OnInit, AfterContentInit {
     employee: IEmployee;
     activeTabId: string;
+    editable: boolean;
+    showEditOrCancelButton: boolean;
     @ViewChild('#tabSet') tabSet: NgbTabset;
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -22,16 +24,35 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
     ) {}
 
     ngOnInit() {
+        this.showEditOrCancelButton = true;
         this.activatedRoute.data.subscribe(({ employee }) => {
             this.employee = employee;
         });
+
         this.activeTabId = this.employeeService.selectedTabId;
     }
 
-    ngAfterContentInit(): void {}
+    ngAfterContentInit(): void {
+        if (this.employee.id === undefined) this.editable = true;
+        else this.editable = false;
+    }
+
+    edit(): void {
+        this.editable = true;
+    }
+
+    cancelEdit(): void {
+        if (this.employee.id === undefined) this.previousState();
+        else this.editable = false;
+    }
 
     tabSelected($event: any) {
         this.employeeService.selectedTabId = $event.nextId;
+        if (this.employeeService.selectedTabId === 'personalInformation') {
+            this.showEditOrCancelButton = true;
+        } else {
+            this.showEditOrCancelButton = false;
+        }
     }
 
     previousState() {

@@ -27,17 +27,20 @@ export class AcademicInformationUpdateComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        console.log('##############');
+        console.log(this.academicInformationService.employee);
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ academicInformation }) => {
             this.academicInformation = academicInformation;
+            this.academicInformationService.employee = this.academicInformationService.employee;
         });
-        this.employeeService
+        /*this.employeeService
             .query()
             .pipe(
                 filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IEmployee[]>) => response.body)
             )
-            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));*/
     }
 
     previousState() {

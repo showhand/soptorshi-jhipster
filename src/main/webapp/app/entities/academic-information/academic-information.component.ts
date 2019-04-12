@@ -18,7 +18,7 @@ import { IEmployee } from 'app/shared/model/employee.model';
 })
 export class AcademicInformationComponent implements OnInit, OnDestroy {
     @Input()
-    employee: IEmployee;
+    employee: IEmployee = <IEmployee>{};
     currentAccount: any;
     academicInformations: IAcademicInformation[];
     error: any;
@@ -47,10 +47,10 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
         console.log('######');
         console.log(this.activatedRoute.data);
         this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.page = data.pagingParams == undefined ? 1 : data.pagingParams;
-            this.previousPage = data.pagingParams == undefined ? 1 : data.pagingParams;
-            this.reverse = data.pagingParams == undefined ? true : data.pagingParams.ascending;
-            this.predicate = data.pagingParams == undefined ? 'id' : data.pagingParams.predicate;
+            this.page = data.pagingParams === undefined ? 1 : data.pagingParams;
+            this.previousPage = data.pagingParams === undefined ? 1 : data.pagingParams;
+            this.reverse = data.pagingParams === undefined ? true : data.pagingParams.ascending;
+            this.predicate = data.pagingParams === undefined ? 'id' : data.pagingParams.predicate;
         });
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
@@ -135,11 +135,20 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
-        });
-        this.registerChangeInAcademicInformations();
+        console.log('Employee*****');
+        console.log(this.employee);
+        console.log('############');
+        if (this.employee.id === undefined) {
+            this.jhiAlertService.error('Please fill up personal information');
+            this.academicInformationService.employee = <IEmployee>{};
+        } else {
+            this.academicInformationService.employee = this.employee;
+            this.loadAll();
+            this.accountService.identity().then(account => {
+                this.currentAccount = account;
+            });
+            this.registerChangeInAcademicInformations();
+        }
     }
 
     ngOnDestroy() {

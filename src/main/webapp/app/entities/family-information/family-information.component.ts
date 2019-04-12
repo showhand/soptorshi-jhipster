@@ -45,10 +45,10 @@ export class FamilyInformationComponent implements OnInit, OnDestroy {
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.page = data.pagingParams == undefined ? 1 : data.pagingParams.page;
-            this.previousPage = data.pagingParams == undefined ? 1 : data.pagingParams.page;
-            this.reverse = data.pagingParams == undefined ? true : data.pagingParams.ascending;
-            this.predicate = data.pagingParams == undefined ? 'id' : data.pagingParams.predicate;
+            this.page = data.pagingParams === undefined ? 1 : data.pagingParams.page;
+            this.previousPage = data.pagingParams === undefined ? 1 : data.pagingParams.page;
+            this.reverse = data.pagingParams === undefined ? true : data.pagingParams.ascending;
+            this.predicate = data.pagingParams === undefined ? 'id' : data.pagingParams.predicate;
         });
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
@@ -133,11 +133,15 @@ export class FamilyInformationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
-        });
-        this.registerChangeInFamilyInformations();
+        if (this.employee.id === undefined) {
+            this.jhiAlertService.error('Please fill up employee personal information');
+        } else {
+            this.loadAll();
+            this.accountService.identity().then(account => {
+                this.currentAccount = account;
+            });
+            this.registerChangeInFamilyInformations();
+        }
     }
 
     ngOnDestroy() {

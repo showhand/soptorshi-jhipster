@@ -16,7 +16,9 @@ type EntityArrayResponseType = HttpResponse<IEmployee[]>;
 export class EmployeeService {
     public resourceUrl = SERVER_API_URL + 'api/employees';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/employees';
-    public selectedTabId: string = '';
+    public selectedTabId = '';
+    public departmentMap: any;
+    public designationMap: any;
 
     constructor(protected http: HttpClient) {}
 
