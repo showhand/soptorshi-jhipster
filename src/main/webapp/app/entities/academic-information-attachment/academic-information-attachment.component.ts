@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -8,12 +8,15 @@ import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IAcademicInformationAttachment } from 'app/shared/model/academic-information-attachment.model';
 import { AccountService } from 'app/core';
 import { AcademicInformationAttachmentService } from './academic-information-attachment.service';
+import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-academic-information-attachment',
     templateUrl: './academic-information-attachment.component.html'
 })
 export class AcademicInformationAttachmentComponent implements OnInit, OnDestroy {
+    @Input()
+    employee: IEmployee;
     academicInformationAttachments: IAcademicInformationAttachment[];
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -49,19 +52,13 @@ export class AcademicInformationAttachmentComponent implements OnInit, OnDestroy
                 );
             return;
         }
-        this.academicInformationAttachmentService
-            .query()
-            .pipe(
-                filter((res: HttpResponse<IAcademicInformationAttachment[]>) => res.ok),
-                map((res: HttpResponse<IAcademicInformationAttachment[]>) => res.body)
-            )
-            .subscribe(
-                (res: IAcademicInformationAttachment[]) => {
-                    this.academicInformationAttachments = res;
-                    this.currentSearch = '';
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+
+        this.academicInformationAttachmentService.findByEmployee(this.employee.id).subscribe(
+            (res: HttpResponse<IAcademicInformationAttachment[]>) => {
+                this.academicInformationAttachments = res.body;
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
     }
 
     search(query) {

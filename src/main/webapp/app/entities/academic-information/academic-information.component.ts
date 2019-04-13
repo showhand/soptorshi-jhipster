@@ -77,7 +77,8 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
             .query({
                 page: this.page - 1,
                 size: this.itemsPerPage,
-                sort: this.sort()
+                sort: this.sort(),
+                'employeeId.equals': this.employee.id
             })
             .subscribe(
                 (res: HttpResponse<IAcademicInformation[]>) => this.paginateAcademicInformations(res.body, res.headers),

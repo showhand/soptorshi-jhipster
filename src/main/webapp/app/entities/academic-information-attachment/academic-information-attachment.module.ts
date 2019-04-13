@@ -29,6 +29,12 @@ const ENTITY_STATES = [...academicInformationAttachmentRoute, ...academicInforma
         AcademicInformationAttachmentDeleteDialogComponent,
         AcademicInformationAttachmentDeletePopupComponent
     ],
+    exports: [
+        AcademicInformationAttachmentComponent,
+        AcademicInformationAttachmentUpdateComponent,
+        AcademicInformationAttachmentDeleteDialogComponent,
+        AcademicInformationAttachmentDeletePopupComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiAcademicInformationAttachmentModule {}

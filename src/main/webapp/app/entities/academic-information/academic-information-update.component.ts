@@ -49,6 +49,7 @@ export class AcademicInformationUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.academicInformation.employeeId = this.academicInformationService.employee.id;
         if (this.academicInformation.id !== undefined) {
             this.subscribeToSaveResponse(this.academicInformationService.update(this.academicInformation));
         } else {
