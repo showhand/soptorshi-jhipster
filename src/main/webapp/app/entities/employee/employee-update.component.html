@@ -241,14 +241,14 @@
                     <label class="form-control-label" for="field_department">Department</label>
                     <select class="form-control" id="field_department" name="department" [(ngModel)]="employee.departmentId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.id}}</option>
+                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_designation">Designation</label>
                     <select class="form-control" id="field_designation" name="designation" [(ngModel)]="employee.designationId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.id}}</option>
+                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.name}}</option>
                     </select>
                 </div>
             </div>

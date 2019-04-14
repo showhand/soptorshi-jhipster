@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -41,29 +41,30 @@ export class FamilyInformationDeleteDialogComponent {
 })
 export class FamilyInformationDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
-
+    @Input()
+    familyInformation: IFamilyInformation;
+    @Output()
+    showFamilyInformationSection: EventEmitter<any> = new EventEmitter();
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
     ngOnInit() {
-        this.activatedRoute.data.subscribe(({ familyInformation }) => {
-            setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(FamilyInformationDeleteDialogComponent as Component, {
-                    size: 'lg',
-                    backdrop: 'static'
-                });
-                this.ngbModalRef.componentInstance.familyInformation = familyInformation;
-                this.ngbModalRef.result.then(
-                    result => {
-                        this.router.navigate(['/family-information', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    },
-                    reason => {
-                        this.router.navigate(['/family-information', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    }
-                );
-            }, 0);
-        });
+        setTimeout(() => {
+            this.ngbModalRef = this.modalService.open(FamilyInformationDeleteDialogComponent as Component, {
+                size: 'lg',
+                backdrop: 'static'
+            });
+            this.ngbModalRef.componentInstance.familyInformation = this.familyInformation;
+            this.ngbModalRef.result.then(
+                result => {
+                    this.showFamilyInformationSection.emit();
+                    this.ngbModalRef = null;
+                },
+                reason => {
+                    this.showFamilyInformationSection.emit();
+                    this.ngbModalRef = null;
+                }
+            );
+        }, 0);
     }
 
     ngOnDestroy() {

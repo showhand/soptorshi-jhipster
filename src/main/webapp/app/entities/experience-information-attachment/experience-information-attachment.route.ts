@@ -30,66 +30,6 @@ export class ExperienceInformationAttachmentResolve implements Resolve<IExperien
     }
 }
 
-export const experienceInformationAttachmentRoute: Routes = [
-    {
-        path: '',
-        component: ExperienceInformationAttachmentComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'ExperienceInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':id/view',
-        component: ExperienceInformationAttachmentDetailComponent,
-        resolve: {
-            experienceInformationAttachment: ExperienceInformationAttachmentResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'ExperienceInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'new',
-        component: ExperienceInformationAttachmentUpdateComponent,
-        resolve: {
-            experienceInformationAttachment: ExperienceInformationAttachmentResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'ExperienceInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':id/edit',
-        component: ExperienceInformationAttachmentUpdateComponent,
-        resolve: {
-            experienceInformationAttachment: ExperienceInformationAttachmentResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'ExperienceInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService]
-    }
-];
+export const experienceInformationAttachmentRoute: Routes = [];
 
-export const experienceInformationAttachmentPopupRoute: Routes = [
-    {
-        path: ':id/delete',
-        component: ExperienceInformationAttachmentDeletePopupComponent,
-        resolve: {
-            experienceInformationAttachment: ExperienceInformationAttachmentResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'ExperienceInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-    }
-];
+export const experienceInformationAttachmentPopupRoute: Routes = [];

@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="employee">
-            <h2><span>Employee</span> {{employee.id}}</h2>
+            <h2><span>Employee Personal Information</span></h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -101,13 +101,13 @@
                 <dt><span>Department</span></dt>
                 <dd>
                     <div *ngIf="employee.departmentId">
-                        <a [routerLink]="['/department', employee.departmentId, 'view']">{{employee.departmentId}}</a>
+                        {{employeeService.departmentMap[employee.departmentId].name}}
                     </div>
                 </dd>
                 <dt><span>Designation</span></dt>
                 <dd>
                     <div *ngIf="employee.designationId">
-                        <a [routerLink]="['/designation', employee.designationId, 'view']">{{employee.designationId}}</a>
+                        {{employeeService.designationMap[employee.designationId].name}}
                     </div>
                 </dd>
             </dl>
@@ -119,8 +119,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/employee', employee.id, 'edit']"
-                    class="btn btn-primary">
+                    class="btn btn-primary" (click)="edit()">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
         </div>

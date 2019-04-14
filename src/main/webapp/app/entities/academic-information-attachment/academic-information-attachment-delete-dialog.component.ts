@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -40,30 +40,32 @@ export class AcademicInformationAttachmentDeleteDialogComponent {
     template: ''
 })
 export class AcademicInformationAttachmentDeletePopupComponent implements OnInit, OnDestroy {
+    @Input()
+    academicInformationAttachment: IAcademicInformationAttachment;
+    @Output()
+    showAcademicInformationAttachment: EventEmitter<any> = new EventEmitter();
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
     ngOnInit() {
-        this.activatedRoute.data.subscribe(({ academicInformationAttachment }) => {
-            setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(AcademicInformationAttachmentDeleteDialogComponent as Component, {
-                    size: 'lg',
-                    backdrop: 'static'
-                });
-                this.ngbModalRef.componentInstance.academicInformationAttachment = academicInformationAttachment;
-                this.ngbModalRef.result.then(
-                    result => {
-                        this.router.navigate(['/academic-information-attachment', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    },
-                    reason => {
-                        this.router.navigate(['/academic-information-attachment', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    }
-                );
-            }, 0);
-        });
+        setTimeout(() => {
+            this.ngbModalRef = this.modalService.open(AcademicInformationAttachmentDeleteDialogComponent as Component, {
+                size: 'lg',
+                backdrop: 'static'
+            });
+            this.ngbModalRef.componentInstance.academicInformationAttachment = this.academicInformationAttachment;
+            this.ngbModalRef.result.then(
+                result => {
+                    this.showAcademicInformationAttachment.emit();
+                    this.ngbModalRef = null;
+                },
+                reason => {
+                    this.showAcademicInformationAttachment.emit();
+                    this.ngbModalRef = null;
+                }
+            );
+        }, 0);
     }
 
     ngOnDestroy() {

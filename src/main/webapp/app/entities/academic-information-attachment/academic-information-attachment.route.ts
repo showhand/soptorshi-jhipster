@@ -29,28 +29,28 @@ export class AcademicInformationAttachmentResolve implements Resolve<IAcademicIn
 }
 
 export const academicInformationAttachmentRoute: Routes = [
-    {
-        path: '',
-        component: AcademicInformationAttachmentComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'AcademicInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':id/view',
-        component: AcademicInformationAttachmentDetailComponent,
-        resolve: {
-            academicInformationAttachment: AcademicInformationAttachmentResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'AcademicInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
+    // {
+    //     path: 'home',
+    //     component: AcademicInformationAttachmentComponent,
+    //     data: {
+    //         authorities: ['ROLE_USER'],
+    //         pageTitle: 'AcademicInformationAttachments'
+    //     },
+    //     canActivate: [UserRouteAccessService]
+    // },
+    // {
+    //     path: ':id/view',
+    //     component: AcademicInformationAttachmentDetailComponent,
+    //     resolve: {
+    //         academicInformationAttachment: AcademicInformationAttachmentResolve
+    //     },
+    //     data: {
+    //         authorities: ['ROLE_USER'],
+    //         pageTitle: 'AcademicInformationAttachments'
+    //     },
+    //     canActivate: [UserRouteAccessService]
+    // },
+    /*{
         path: 'new',
         component: AcademicInformationAttachmentUpdateComponent,
         resolve: {
@@ -73,7 +73,7 @@ export const academicInformationAttachmentRoute: Routes = [
             pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
-    }
+    }*/
 ];
 
 export const academicInformationAttachmentPopupRoute: Routes = [

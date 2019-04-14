@@ -1,29 +1,14 @@
-<div>
-    <h2 id="page-heading">
-        <span>Academic Information Attachments</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-academic-information-attachment" [routerLink]="['/academic-information-attachment/new']">
+<div *ngIf="showAcademicInformationAttachmentSection">
+    <h3 id="page-heading">
+        <span></span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-academic-information-attachment" (click)="addAcademicInformationAttachment()">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
-            Create new Academic Information Attachment
+            Add attachment
             </span>
         </button>
-    </h2>
-    <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+    </h3>
+
     <br/>
     <div class="table-responsive" *ngIf="academicInformationAttachments">
         <table class="table table-striped">
@@ -31,7 +16,6 @@
             <tr>
             <th><span>ID</span></th>
             <th><span>File</span></th>
-            <th><span>Employee</span></th>
             <th></th>
             </tr>
             </thead>
@@ -42,27 +26,23 @@
                     <a *ngIf="academicInformationAttachment.file" (click)="openFile(academicInformationAttachment.fileContentType, academicInformationAttachment.file)">open</a>
                     <span *ngIf="academicInformationAttachment.file">{{academicInformationAttachment.fileContentType}}, {{byteSize(academicInformationAttachment.file)}}</span>
                 </td>
-                <td>
-                    <div *ngIf="academicInformationAttachment.employeeId">
-                        <a [routerLink]="['../employee', academicInformationAttachment.employeeId , 'view' ]" >{{academicInformationAttachment.employeeEmployeeId}}</a>
-                    </div>
-                </td>
+
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/academic-information-attachment', academicInformationAttachment.id, 'view' ]"
+                                (click)="viewAcademicInformationAttachment(academicInformationAttachment)"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/academic-information-attachment', academicInformationAttachment.id, 'edit']"
+                                (click)="edit(academicInformationAttachment)"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'academic-information-attachment', { outlets: { popup: academicInformationAttachment.id + '/delete'} }]"
+                                (click)="delete(academicInformationAttachment)"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
@@ -76,3 +56,9 @@
         </table>
     </div>
 </div>
+<div *ngIf="!showAcademicInformationAttachmentSection">
+    <jhi-academic-information-attachment-update *ngIf="showAddOrUpdateSection" [academicInformationAttachment]="academicInformationAttachment" (showAcademicInformationAttachmentSection)="showAcademicInformationAttachment()"></jhi-academic-information-attachment-update>
+    <jhi-academic-information-attachment-detail *ngIf="!showAddOrUpdateSection" [academicInformationAttachment]="academicInformationAttachment" (showAcademicInformationAttachmentSection)="showAcademicInformationAttachment()" (editAcademicInformationAttachment)="editAcademicInformationAttachment()"></jhi-academic-information-attachment-detail>
+</div>
+
+<jhi-academic-information-attachment-delete-popup *ngIf="showDeleteDialog" [academicInformationAttachment]="academicInformationAttachment" (showAcademicInformationAttachment)="showAcademicInformationAttachment()"></jhi-academic-information-attachment-delete-popup>

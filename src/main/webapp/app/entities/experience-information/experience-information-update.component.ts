@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -15,7 +15,10 @@ import { EmployeeService } from 'app/entities/employee';
     templateUrl: './experience-information-update.component.html'
 })
 export class ExperienceInformationUpdateComponent implements OnInit {
+    @Input()
     experienceInformation: IExperienceInformation;
+    @Output()
+    showExperienceInformationSection: EventEmitter<any> = new EventEmitter();
     isSaving: boolean;
 
     employees: IEmployee[];
@@ -31,20 +34,10 @@ export class ExperienceInformationUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ experienceInformation }) => {
-            this.experienceInformation = experienceInformation;
-        });
-        this.employeeService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IEmployee[]>) => response.body)
-            )
-            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
-        window.history.back();
+        this.showExperienceInformationSection.emit();
     }
 
     save() {

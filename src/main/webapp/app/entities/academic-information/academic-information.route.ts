@@ -30,7 +30,7 @@ export class AcademicInformationResolve implements Resolve<IAcademicInformation>
 }
 
 export const academicInformationRoute: Routes = [
-    {
+    /*{
         path: 'home',
         component: AcademicInformationComponent,
         resolve: {
@@ -78,11 +78,11 @@ export const academicInformationRoute: Routes = [
             pageTitle: 'AcademicInformations'
         },
         canActivate: [UserRouteAccessService]
-    }
+    }*/
 ];
 
 export const academicInformationPopupRoute: Routes = [
-    {
+    /*{
         path: ':id/delete',
         component: AcademicInformationDeletePopupComponent,
         resolve: {
@@ -94,5 +94,5 @@ export const academicInformationPopupRoute: Routes = [
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
-    }
+    }*/
 ];

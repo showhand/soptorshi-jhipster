@@ -1,32 +1,14 @@
-<div *ngIf="employee==undefined">
-    <jhi-alert></jhi-alert>
-</div>
-<div *ngIf="employee!=undefined">
+<div *ngIf="showExperienceInformationSection">
     <h2 id="page-heading">
-        <span>Experience Informations</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-experience-information" [routerLink]="['/experience-information/new']">
+        <span></span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-experience-information" (click)="addExperienceInformation()">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
-            Create new Experience Information
+            Add
             </span>
         </button>
     </h2>
-    <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+
     <br/>
     <div class="table-responsive" *ngIf="experienceInformations">
         <table class="table table-striped">
@@ -38,7 +20,6 @@
             <th jhiSortBy="startDate"><span>Start Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="endDate"><span>End Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employmentType"><span>Employment Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="employeeId"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -50,27 +31,22 @@
                 <td>{{experienceInformation.startDate | date:'mediumDate'}}</td>
                 <td>{{experienceInformation.endDate | date:'mediumDate'}}</td>
                 <td>{{experienceInformation.employmentType}}</td>
-                <td>
-                    <div *ngIf="experienceInformation.employeeId">
-                        <a [routerLink]="['../employee', experienceInformation.employeeId , 'view' ]" >{{experienceInformation.employeeId}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/experience-information', experienceInformation.id, 'view' ]"
+                                (click)="viewExperienceInformation(experienceInformation)"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/experience-information', experienceInformation.id, 'edit']"
+                                (click)="edit(experienceInformation)"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'experience-information', { outlets: { popup: experienceInformation.id + '/delete'} }]"
+                                (click)="delete(experienceInformation)"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
@@ -93,3 +69,12 @@
         </div>
     </div>
 </div>
+
+
+<div *ngIf="!showExperienceInformationSection">
+    <jhi-experience-information-update *ngIf="showAddOrUpdateSection"  [experienceInformation]="experienceInformation" (showExperienceInformationSection)="showExperienceInformation()"></jhi-experience-information-update>
+    <jhi-experience-information-detail *ngIf="!showAddOrUpdateSection" [experienceInformation]="experienceInformation" (showExperienceInformationSection)="showExperienceInformation()" (editExperienceInformation)="editExperienceInformation()"></jhi-experience-information-detail>
+</div>
+
+<jhi-experience-information-delete-popup *ngIf="showDeleteDialog" [experienceInformation]="experienceInformation" (showExperienceInformationSection)="showExperienceInformation()"></jhi-experience-information-delete-popup>
+

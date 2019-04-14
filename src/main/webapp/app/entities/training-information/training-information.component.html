@@ -1,29 +1,14 @@
-<div>
+<div *ngIf="showTrainingInformationSection">
     <h2 id="page-heading">
-        <span>Training Informations</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-training-information" [routerLink]="['/training-information/new']">
+        <span></span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-training-information" (click)="addTrainingInformation()">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
-            Create new Training Information
+            Add
             </span>
         </button>
     </h2>
-    <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+
     <br/>
     <div class="table-responsive" *ngIf="trainingInformations">
         <table class="table table-striped">
@@ -33,7 +18,6 @@
             <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="subject"><span>Subject</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="organization"><span>Organization</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="employeeId"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -43,27 +27,22 @@
                 <td>{{trainingInformation.name}}</td>
                 <td>{{trainingInformation.subject}}</td>
                 <td>{{trainingInformation.organization}}</td>
-                <td>
-                    <div *ngIf="trainingInformation.employeeId">
-                        <a [routerLink]="['../employee', trainingInformation.employeeId , 'view' ]" >{{trainingInformation.employeeId}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/training-information', trainingInformation.id, 'view' ]"
+                                (click)="viewTrainingInformation(trainingInformation)"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/training-information', trainingInformation.id, 'edit']"
+                                (click)="edit(trainingInformation)"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'training-information', { outlets: { popup: trainingInformation.id + '/delete'} }]"
+                                (click)="delete(trainingInformation)"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
@@ -86,3 +65,11 @@
         </div>
     </div>
 </div>
+
+<div *ngIf="!showTrainingInformationSection">
+    <jhi-training-information-update *ngIf="showAddOrUpdateSection"  [trainingInformation]="trainingInformation" (showTrainingInformationSection)="showTrainingInformation()"></jhi-training-information-update>
+    <jhi-training-information-detail *ngIf="!showAddOrUpdateSection" [trainingInformation]="trainingInformation" (showTrainingInformationSection)="showTrainingInformation()" (editTrainingInformation)="editTrainingInformation()"></jhi-training-information-detail>
+</div>
+
+<jhi-training-information-delete-popup *ngIf="showDeleteDialog" [trainingInformation]="trainingInformation" (showTrainingInformationSection)="showTrainingInformation()"></jhi-training-information-delete-popup>
+

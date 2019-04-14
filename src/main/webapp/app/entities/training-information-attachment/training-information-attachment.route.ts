@@ -28,66 +28,6 @@ export class TrainingInformationAttachmentResolve implements Resolve<ITrainingIn
     }
 }
 
-export const trainingInformationAttachmentRoute: Routes = [
-    {
-        path: '',
-        component: TrainingInformationAttachmentComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'TrainingInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':id/view',
-        component: TrainingInformationAttachmentDetailComponent,
-        resolve: {
-            trainingInformationAttachment: TrainingInformationAttachmentResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'TrainingInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'new',
-        component: TrainingInformationAttachmentUpdateComponent,
-        resolve: {
-            trainingInformationAttachment: TrainingInformationAttachmentResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'TrainingInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':id/edit',
-        component: TrainingInformationAttachmentUpdateComponent,
-        resolve: {
-            trainingInformationAttachment: TrainingInformationAttachmentResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'TrainingInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService]
-    }
-];
+export const trainingInformationAttachmentRoute: Routes = [];
 
-export const trainingInformationAttachmentPopupRoute: Routes = [
-    {
-        path: ':id/delete',
-        component: TrainingInformationAttachmentDeletePopupComponent,
-        resolve: {
-            trainingInformationAttachment: TrainingInformationAttachmentResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'TrainingInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-    }
-];
+export const trainingInformationAttachmentPopupRoute: Routes = [];

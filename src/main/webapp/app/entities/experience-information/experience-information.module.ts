@@ -12,11 +12,12 @@ import {
     experienceInformationPopupRoute
 } from './';
 import { EmployeeComponent } from 'app/entities/employee';
+import { SoptorshiFamilyInformationModule } from 'app/entities/family-information/family-information.module';
 
 const ENTITY_STATES = [...experienceInformationRoute, ...experienceInformationPopupRoute];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES), SoptorshiFamilyInformationModule],
     declarations: [
         ExperienceInformationComponent,
         ExperienceInformationDetailComponent,

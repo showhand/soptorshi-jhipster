@@ -28,6 +28,12 @@ export class AcademicInformationAttachmentService {
         return this.http.get<IAcademicInformationAttachment>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
+    findByEmployee(employeeId: number): Observable<EntityArrayResponseType> {
+        return this.http.get<IAcademicInformationAttachment[]>(`${this.resourceUrl}/employeeId/${employeeId}`, {
+            observe: 'response'
+        });
+    }
+
     query(req?: any): Observable<EntityArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<IAcademicInformationAttachment[]>(this.resourceUrl, { params: options, observe: 'response' });

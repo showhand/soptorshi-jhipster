@@ -25,12 +25,6 @@
                 <dd>
                     <span>{{experienceInformation.employmentType}}</span>
                 </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="experienceInformation.employeeId">
-                        <a [routerLink]="['/employee', experienceInformation.employeeId, 'view']">{{experienceInformation.employeeId}}</a>
-                    </div>
-                </dd>
             </dl>
 
             <button type="submit"
@@ -40,7 +34,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/experience-information', experienceInformation.id, 'edit']"
+                    (click)="edit()"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>

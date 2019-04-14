@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { IFamilyInformation } from 'app/shared/model/family-information.model';
+import { FamilyInformation, IFamilyInformation } from 'app/shared/model/family-information.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
@@ -19,6 +19,9 @@ import { IEmployee } from 'app/shared/model/employee.model';
 export class FamilyInformationComponent implements OnInit, OnDestroy {
     @Input()
     employee: IEmployee;
+    @Output()
+    closeEmployeeManagement: EventEmitter<any> = new EventEmitter();
+    familyInformation: IFamilyInformation;
     currentAccount: any;
     familyInformations: IFamilyInformation[];
     error: any;
@@ -33,6 +36,9 @@ export class FamilyInformationComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    showFamilyInformationManagementSection: boolean;
+    showAddOrUpdateSection: boolean;
+    showDeleteDialog: boolean;
 
     constructor(
         protected familyInformationService: FamilyInformationService,
@@ -44,38 +50,19 @@ export class FamilyInformationComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
-        this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.page = data.pagingParams == undefined ? 1 : data.pagingParams.page;
-            this.previousPage = data.pagingParams == undefined ? 1 : data.pagingParams.page;
-            this.reverse = data.pagingParams == undefined ? true : data.pagingParams.ascending;
-            this.predicate = data.pagingParams == undefined ? 'id' : data.pagingParams.predicate;
-        });
-        this.currentSearch =
-            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-                ? this.activatedRoute.snapshot.params['search']
-                : '';
+        this.page = 1;
+        this.previousPage = 1;
+        this.reverse = true;
+        this.predicate = 'id';
     }
 
     loadAll() {
-        if (this.currentSearch) {
-            this.familyInformationService
-                .search({
-                    page: this.page - 1,
-                    query: this.currentSearch,
-                    size: this.itemsPerPage,
-                    sort: this.sort()
-                })
-                .subscribe(
-                    (res: HttpResponse<IFamilyInformation[]>) => this.paginateFamilyInformations(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            return;
-        }
         this.familyInformationService
             .query({
                 page: this.page - 1,
                 size: this.itemsPerPage,
-                sort: this.sort()
+                sort: this.sort(),
+                'employeeId.equals': this.employee.id
             })
             .subscribe(
                 (res: HttpResponse<IFamilyInformation[]>) => this.paginateFamilyInformations(res.body, res.headers),
@@ -133,11 +120,16 @@ export class FamilyInformationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
-        });
-        this.registerChangeInFamilyInformations();
+        if (this.employee.id === undefined) {
+            this.jhiAlertService.error('Please fill up employee personal information');
+        } else {
+            this.showFamilyInformationManagementSection = true;
+            this.loadAll();
+            this.accountService.identity().then(account => {
+                this.currentAccount = account;
+            });
+            this.registerChangeInFamilyInformations();
+        }
     }
 
     ngOnDestroy() {
@@ -158,6 +150,46 @@ export class FamilyInformationComponent implements OnInit, OnDestroy {
             result.push('id');
         }
         return result;
+    }
+
+    close() {
+        this.closeEmployeeManagement.emit();
+    }
+
+    showFamilyInformation() {
+        this.loadAll();
+        this.showFamilyInformationManagementSection = true;
+        this.showDeleteDialog = false;
+        this.familyInformation = new FamilyInformation();
+    }
+
+    delete(familyInformation: IFamilyInformation) {
+        this.familyInformation = familyInformation;
+        this.showDeleteDialog = true;
+    }
+
+    addFamilyInformation() {
+        this.familyInformation = new FamilyInformation();
+        this.familyInformation.employeeId = this.employee.id;
+        this.showFamilyInformationManagementSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    edit(familyInformation: IFamilyInformation) {
+        this.familyInformation = familyInformation;
+        this.showFamilyInformationManagementSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    editFamilyInformation() {
+        this.showFamilyInformationManagementSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    viewFamilyInformation(familyInformation: IFamilyInformation) {
+        this.familyInformation = familyInformation;
+        this.showAddOrUpdateSection = false;
+        this.showFamilyInformationManagementSection = false;
     }
 
     protected paginateFamilyInformations(data: IFamilyInformation[], headers: HttpHeaders) {

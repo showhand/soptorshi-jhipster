@@ -1,23 +1,33 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
-import { ITrainingInformationAttachment } from 'app/shared/model/training-information-attachment.model';
+import { ITrainingInformationAttachment, TrainingInformationAttachment } from 'app/shared/model/training-information-attachment.model';
 import { AccountService } from 'app/core';
 import { TrainingInformationAttachmentService } from './training-information-attachment.service';
+import { IEmployee } from 'app/shared/model/employee.model';
+import { AcademicInformationAttachment, IAcademicInformationAttachment } from 'app/shared/model/academic-information-attachment.model';
 
 @Component({
     selector: 'jhi-training-information-attachment',
     templateUrl: './training-information-attachment.component.html'
 })
 export class TrainingInformationAttachmentComponent implements OnInit, OnDestroy {
+    @Input()
+    employee: IEmployee;
+    @Output()
+    closeEmployeeManagement: EventEmitter<any> = new EventEmitter();
+    trainingInformationAttachment: ITrainingInformationAttachment;
     trainingInformationAttachments: ITrainingInformationAttachment[];
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;
+    showTrainingInformationAttachmentSection: boolean;
+    showAddOrUpdateSection: boolean;
+    showDeleteDialog: boolean;
 
     constructor(
         protected trainingInformationAttachmentService: TrainingInformationAttachmentService,
@@ -26,42 +36,15 @@ export class TrainingInformationAttachmentComponent implements OnInit, OnDestroy
         protected eventManager: JhiEventManager,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
-    ) {
-        this.currentSearch =
-            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-                ? this.activatedRoute.snapshot.params['search']
-                : '';
-    }
+    ) {}
 
     loadAll() {
-        if (this.currentSearch) {
-            this.trainingInformationAttachmentService
-                .search({
-                    query: this.currentSearch
-                })
-                .pipe(
-                    filter((res: HttpResponse<ITrainingInformationAttachment[]>) => res.ok),
-                    map((res: HttpResponse<ITrainingInformationAttachment[]>) => res.body)
-                )
-                .subscribe(
-                    (res: ITrainingInformationAttachment[]) => (this.trainingInformationAttachments = res),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            return;
-        }
-        this.trainingInformationAttachmentService
-            .query()
-            .pipe(
-                filter((res: HttpResponse<ITrainingInformationAttachment[]>) => res.ok),
-                map((res: HttpResponse<ITrainingInformationAttachment[]>) => res.body)
-            )
-            .subscribe(
-                (res: ITrainingInformationAttachment[]) => {
-                    this.trainingInformationAttachments = res;
-                    this.currentSearch = '';
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        this.trainingInformationAttachmentService.findByEmployee(this.employee.id).subscribe(
+            (res: HttpResponse<ITrainingInformationAttachment[]>) => {
+                this.trainingInformationAttachments = res.body;
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
     }
 
     search(query) {
@@ -79,6 +62,8 @@ export class TrainingInformationAttachmentComponent implements OnInit, OnDestroy
 
     ngOnInit() {
         this.loadAll();
+        this.showTrainingInformationAttachmentSection = true;
+        this.showDeleteDialog = false;
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
@@ -107,5 +92,42 @@ export class TrainingInformationAttachmentComponent implements OnInit, OnDestroy
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    showTrainingInformationAttachment() {
+        this.loadAll();
+        this.showTrainingInformationAttachmentSection = true;
+        this.showDeleteDialog = false;
+        this.trainingInformationAttachment = new TrainingInformationAttachment();
+        this.trainingInformationAttachment.employeeId = this.employee.id;
+    }
+
+    delete(trainingInformationAttachment: IAcademicInformationAttachment) {
+        this.trainingInformationAttachment = trainingInformationAttachment;
+        this.showDeleteDialog = true;
+    }
+
+    addTrainingInformationAttachment() {
+        this.trainingInformationAttachment = new TrainingInformationAttachment();
+        this.trainingInformationAttachment.employeeId = this.employee.id;
+        this.showAddOrUpdateSection = true;
+        this.showTrainingInformationAttachmentSection = false;
+    }
+
+    edit(trainingInformationAttachment: IAcademicInformationAttachment) {
+        this.trainingInformationAttachment = trainingInformationAttachment;
+        this.showTrainingInformationAttachmentSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    editTrainingInformationAttachment() {
+        this.showTrainingInformationAttachmentSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    viewTrainingInformationAttachment(trainingInformationAttachment: IAcademicInformationAttachment) {
+        this.trainingInformationAttachment = trainingInformationAttachment;
+        this.showTrainingInformationAttachmentSection = false;
+        this.showAddOrUpdateSection = false;
     }
 }
