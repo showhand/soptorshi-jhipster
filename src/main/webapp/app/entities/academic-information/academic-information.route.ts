@@ -82,7 +82,7 @@ export const academicInformationRoute: Routes = [
 ];
 
 export const academicInformationPopupRoute: Routes = [
-    {
+    /*{
         path: ':id/delete',
         component: AcademicInformationDeletePopupComponent,
         resolve: {
@@ -94,5 +94,5 @@ export const academicInformationPopupRoute: Routes = [
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
-    }
+    }*/
 ];

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -41,29 +41,31 @@ export class AcademicInformationDeleteDialogComponent {
 })
 export class AcademicInformationDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
+    @Input()
+    academicInformation: IAcademicInformation;
+    @Output()
+    showAcademicInformationSection: EventEmitter<any> = new EventEmitter();
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
     ngOnInit() {
-        this.activatedRoute.data.subscribe(({ academicInformation }) => {
-            setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(AcademicInformationDeleteDialogComponent as Component, {
-                    size: 'lg',
-                    backdrop: 'static'
-                });
-                this.ngbModalRef.componentInstance.academicInformation = academicInformation;
-                this.ngbModalRef.result.then(
-                    result => {
-                        this.router.navigate(['/academic-information', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    },
-                    reason => {
-                        this.router.navigate(['/academic-information', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    }
-                );
-            }, 0);
-        });
+        setTimeout(() => {
+            this.ngbModalRef = this.modalService.open(AcademicInformationDeleteDialogComponent as Component, {
+                size: 'lg',
+                backdrop: 'static'
+            });
+            this.ngbModalRef.componentInstance.academicInformation = this.academicInformation;
+            this.ngbModalRef.result.then(
+                result => {
+                    this.showAcademicInformationSection.emit();
+                    this.ngbModalRef = null;
+                },
+                reason => {
+                    this.showAcademicInformationSection.emit();
+                    this.ngbModalRef = null;
+                }
+            );
+        }, 0);
     }
 
     ngOnDestroy() {

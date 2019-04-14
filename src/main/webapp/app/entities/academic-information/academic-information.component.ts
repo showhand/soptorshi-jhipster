@@ -38,6 +38,7 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
     reverse: any;
     showAcademicInformationManagementSection: boolean;
     showAddOrUpdateSection: boolean;
+    showDeleteDialog: boolean;
 
     constructor(
         protected academicInformationService: AcademicInformationService,
@@ -148,6 +149,7 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
         } else {
             this.academicInformationService.employee = this.employee;
             this.showAcademicInformationManagementSection = true;
+            this.showDeleteDialog = false;
             this.loadAll();
             this.accountService.identity().then(account => {
                 this.currentAccount = account;
@@ -183,7 +185,13 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
     showAcademicInformation() {
         this.loadAll();
         this.showAcademicInformationManagementSection = true;
+        this.showDeleteDialog = false;
         this.academicInformation = new AcademicInformation();
+    }
+
+    delete(academicInformation: IAcademicInformation) {
+        this.academicInformation = academicInformation;
+        this.showDeleteDialog = true;
     }
 
     addAcademicInformation() {

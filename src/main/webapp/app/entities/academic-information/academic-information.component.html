@@ -68,7 +68,7 @@
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'academic-information', { outlets: { popup: academicInformation.id + '/delete'} }]"
+                                (click) = "delete(academicInformation)"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
@@ -100,3 +100,5 @@
     <jhi-academic-information-update *ngIf="showAddOrUpdateSection"  [academicInformation]="academicInformation" (showAcademicInformationSection)="showAcademicInformation()"></jhi-academic-information-update>
     <jhi-academic-information-detail *ngIf="!showAddOrUpdateSection" [academicInformation]="academicInformation" (showAcademicInformationSection)="showAcademicInformation()" (editAcademicInformation)="editAcademicInformation()"></jhi-academic-information-detail>
 </div>
+
+<jhi-academic-information-delete-popup *ngIf="showDeleteDialog" [academicInformation]="academicInformation" (showAcademicInformationSection)="showAcademicInformation()"></jhi-academic-information-delete-popup>
