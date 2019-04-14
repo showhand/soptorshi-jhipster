@@ -18,6 +18,7 @@ import { SoptorshiExperienceInformationModule } from 'app/entities/experience-in
 import { SoptorshiFamilyInformationModule } from 'app/entities/family-information/family-information.module';
 import { SoptorshiTrainingInformationModule } from 'app/entities/training-information/training-information.module';
 import { SoptorshiReferenceInformationModule } from 'app/entities/reference-information/reference-information.module';
+import { SoptorshiAcademicInformationAttachmentModule } from 'app/entities/academic-information-attachment/academic-information-attachment.module';
 
 const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
 
@@ -30,7 +31,8 @@ const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
         SoptorshiFamilyInformationModule,
         SoptorshiTrainingInformationModule,
         SoptorshiReferenceInformationModule,
-        RouterModule.forChild(ENTITY_STATES)
+        RouterModule.forChild(ENTITY_STATES),
+        SoptorshiAcademicInformationAttachmentModule
     ],
     declarations: [
         EmployeeComponent,

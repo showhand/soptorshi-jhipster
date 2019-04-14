@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -16,6 +16,8 @@ import { EmployeeService } from 'app/entities/employee';
 export class AcademicInformationAttachmentUpdateComponent implements OnInit {
     @Input()
     academicInformationAttachment: IAcademicInformationAttachment;
+    @Output()
+    showAcademicInformationAttachmentSection: EventEmitter<any> = new EventEmitter();
     isSaving: boolean;
 
     employees: IEmployee[];
@@ -30,7 +32,7 @@ export class AcademicInformationAttachmentUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ academicInformationAttachment }) => {
+        /*this.activatedRoute.data.subscribe(({ academicInformationAttachment }) => {
             this.academicInformationAttachment = academicInformationAttachment;
         });
         this.employeeService
@@ -39,7 +41,7 @@ export class AcademicInformationAttachmentUpdateComponent implements OnInit {
                 filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IEmployee[]>) => response.body)
             )
-            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));*/
     }
 
     byteSize(field) {
@@ -55,7 +57,7 @@ export class AcademicInformationAttachmentUpdateComponent implements OnInit {
     }
 
     previousState() {
-        window.history.back();
+        this.showAcademicInformationAttachmentSection.emit();
     }
 
     save() {

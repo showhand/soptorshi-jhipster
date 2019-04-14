@@ -94,7 +94,7 @@ public class AcademicInformationAttachmentResource {
      * @return the ResponseEntity with status 200 (OK) and the list of academicInformationAttachments in body
      */
     @GetMapping("/academic-information-attachments/employeeId/{employeeId}")
-    public List<AcademicInformationAttachmentDTO> getAllAttachmentByEmployee(@PathParam("employeeId") Long employeeId){
+    public List<AcademicInformationAttachmentDTO> getAllAttachmentByEmployee(@PathVariable Long employeeId){
         log.debug("REST request to get all AcademicInformationAttachments by employee id: "+employeeId);
         return academicInformationAttachmentService.findAllByEmployeeId(employeeId);
     }

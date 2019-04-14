@@ -3,7 +3,6 @@
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-academic-information-attachment-heading">Create or edit a Academic Information Attachment</h2>
             <div>
-                <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!academicInformationAttachment.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
@@ -34,7 +33,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_employee">Employee</label>
                     <select class="form-control" id="field_employee" name="employee" [(ngModel)]="academicInformationAttachment.employeeId"  required>
                         <option *ngIf="!editForm.value.employee" [ngValue]="null" selected></option>
@@ -46,7 +45,7 @@
                         [hidden]="!editForm.controls.employee?.errors?.required">
                         This field is required.
                     </small>
-                </div>
+                </div>-->
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

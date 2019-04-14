@@ -29,7 +29,7 @@ export class AcademicInformationAttachmentService {
     }
 
     findByEmployee(employeeId: number): Observable<EntityArrayResponseType> {
-        return this.http.get<IAcademicInformationAttachment[]>(`${this.resourceSearchUrl}/employeeId/${employeeId}`, {
+        return this.http.get<IAcademicInformationAttachment[]>(`${this.resourceUrl}/employeeId/${employeeId}`, {
             observe: 'response'
         });
     }
