@@ -124,8 +124,9 @@ export class ExperienceInformationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        if (this.employee.id === undefined) this.jhiAlertService.error('Please fill up employee personal information');
-        else {
+        if (this.employee.id === undefined) {
+            this.jhiAlertService.error('Please fill up employee personal information');
+        } else {
             this.showExperienceInformationSection = true;
             this.showDeleteDialog = false;
             this.loadAll();

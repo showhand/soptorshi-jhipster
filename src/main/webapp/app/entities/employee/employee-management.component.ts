@@ -44,8 +44,11 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
     }
 
     cancelEdit(): void {
-        if (this.employee.id === undefined) this.previousState();
-        else this.editable = false;
+        if (this.employee.id === undefined) {
+            this.previousState();
+        } else {
+            this.editable = false;
+        }
     }
 
     tabSelected($event: any) {
