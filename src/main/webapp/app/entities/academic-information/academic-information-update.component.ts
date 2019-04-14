@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,7 +14,10 @@ import { EmployeeService } from 'app/entities/employee';
     templateUrl: './academic-information-update.component.html'
 })
 export class AcademicInformationUpdateComponent implements OnInit {
+    @Input()
     academicInformation: IAcademicInformation;
+    @Output()
+    showAcademicInformationSection: EventEmitter<any> = new EventEmitter();
     isSaving: boolean;
 
     employees: IEmployee[];
@@ -27,13 +30,11 @@ export class AcademicInformationUpdateComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        console.log('##############');
-        console.log(this.academicInformationService.employee);
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ academicInformation }) => {
+        /*this.activatedRoute.data.subscribe(({ academicInformation }) => {
             this.academicInformation = academicInformation;
             this.academicInformationService.employee = this.academicInformationService.employee;
-        });
+        });*/
         /*this.employeeService
             .query()
             .pipe(
@@ -44,7 +45,8 @@ export class AcademicInformationUpdateComponent implements OnInit {
     }
 
     previousState() {
-        window.history.back();
+        // window.history.back();
+        this.showAcademicInformationSection.emit();
     }
 
     save() {

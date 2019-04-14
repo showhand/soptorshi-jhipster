@@ -13,7 +13,7 @@ import {
 } from './';
 import { SoptorshiAcademicInformationAttachmentModule } from 'app/entities/academic-information-attachment/academic-information-attachment.module';
 
-const ENTITY_STATES = [...academicInformationRoute, ...academicInformationPopupRoute];
+const ENTITY_STATES = [...academicInformationPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, SoptorshiAcademicInformationAttachmentModule, RouterModule.forChild(ENTITY_STATES)],

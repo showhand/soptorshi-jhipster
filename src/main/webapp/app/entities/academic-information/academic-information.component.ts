@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { IAcademicInformation } from 'app/shared/model/academic-information.model';
+import { AcademicInformation, IAcademicInformation } from 'app/shared/model/academic-information.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
@@ -19,8 +19,11 @@ import { IEmployee } from 'app/shared/model/employee.model';
 export class AcademicInformationComponent implements OnInit, OnDestroy {
     @Input()
     employee: IEmployee = <IEmployee>{};
+    @Output()
+    closeEmployeeManagement: EventEmitter<any> = new EventEmitter();
     currentAccount: any;
     academicInformations: IAcademicInformation[];
+    academicInformation: IAcademicInformation;
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -33,6 +36,8 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    showAcademicInformationManagementSection: boolean;
+    showAddOrUpdateSection: boolean;
 
     constructor(
         protected academicInformationService: AcademicInformationService,
@@ -44,14 +49,16 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
-        console.log('######');
-        console.log(this.activatedRoute.data);
-        this.routeData = this.activatedRoute.data.subscribe(data => {
+        /*this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams === undefined ? 1 : data.pagingParams;
             this.previousPage = data.pagingParams === undefined ? 1 : data.pagingParams;
             this.reverse = data.pagingParams === undefined ? true : data.pagingParams.ascending;
             this.predicate = data.pagingParams === undefined ? 'id' : data.pagingParams.predicate;
-        });
+        });*/
+        this.page = 1;
+        this.previousPage = 1;
+        this.reverse = true;
+        this.predicate = 'id';
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
@@ -59,7 +66,7 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.academicInformationService
                 .search({
                     page: this.page - 1,
@@ -72,7 +79,7 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
-        }
+        }*/
         this.academicInformationService
             .query({
                 page: this.page - 1,
@@ -136,14 +143,11 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        console.log('Employee*****');
-        console.log(this.employee);
-        console.log('############');
         if (this.employee.id === undefined) {
             this.jhiAlertService.error('Please fill up personal information');
-            this.academicInformationService.employee = <IEmployee>{};
         } else {
             this.academicInformationService.employee = this.employee;
+            this.showAcademicInformationManagementSection = true;
             this.loadAll();
             this.accountService.identity().then(account => {
                 this.currentAccount = account;
@@ -170,6 +174,39 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
             result.push('id');
         }
         return result;
+    }
+
+    close() {
+        this.closeEmployeeManagement.emit();
+    }
+
+    showAcademicInformation() {
+        this.loadAll();
+        this.showAcademicInformationManagementSection = true;
+        this.academicInformation = new AcademicInformation();
+    }
+
+    addAcademicInformation() {
+        this.academicInformation = new AcademicInformation();
+        this.showAcademicInformationManagementSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    edit(academicInformation: IAcademicInformation) {
+        this.academicInformation = academicInformation;
+        this.showAcademicInformationManagementSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    editAcademicInformation() {
+        this.showAcademicInformationManagementSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    viewAcademicInformation(academicInformation: IAcademicInformation) {
+        this.academicInformation = academicInformation;
+        this.showAddOrUpdateSection = false;
+        this.showAcademicInformationManagementSection = false;
     }
 
     protected paginateAcademicInformations(data: IAcademicInformation[], headers: HttpHeaders) {

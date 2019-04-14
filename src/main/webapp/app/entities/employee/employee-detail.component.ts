@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiDataUtils } from 'ng-jhipster';
 
@@ -12,14 +12,16 @@ import { EmployeeService } from 'app/entities/employee/employee.service';
 export class EmployeeDetailComponent implements OnInit {
     @Input()
     employee: IEmployee;
+    @Input()
+    editable: boolean;
+    @Output()
+    closeEmployeeManagement: EventEmitter<any> = new EventEmitter();
+    @Output()
+    enableEdit: EventEmitter<any> = new EventEmitter();
 
     constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, protected employeeService: EmployeeService) {}
 
-    ngOnInit() {
-        this.activatedRoute.data.subscribe(({ employee }) => {
-            this.employee = employee;
-        });
-    }
+    ngOnInit() {}
 
     byteSize(field) {
         return this.dataUtils.byteSize(field);
@@ -29,6 +31,15 @@ export class EmployeeDetailComponent implements OnInit {
         return this.dataUtils.openFile(contentType, field);
     }
     previousState() {
-        window.history.back();
+        // window.history.back();
+        this.closeEmployeeManagement.emit();
+    }
+
+    disableEdit() {
+        this.editable = false;
+    }
+
+    edit() {
+        this.enableEdit.emit();
     }
 }

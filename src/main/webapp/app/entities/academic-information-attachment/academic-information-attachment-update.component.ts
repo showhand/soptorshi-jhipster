@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,6 +14,7 @@ import { EmployeeService } from 'app/entities/employee';
     templateUrl: './academic-information-attachment-update.component.html'
 })
 export class AcademicInformationAttachmentUpdateComponent implements OnInit {
+    @Input()
     academicInformationAttachment: IAcademicInformationAttachment;
     isSaving: boolean;
 

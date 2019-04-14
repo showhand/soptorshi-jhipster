@@ -112,17 +112,16 @@
                 </dd>
             </dl>
 
-           <!-- <button type="submit"
+            <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
 
             <button type="button"
-                    [routerLink]="['/employee', employee.id, 'edit']"
-                    class="btn btn-primary">
+                    class="btn btn-primary" (click)="edit()">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>-->
+            </button>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
-<div>
+<div *ngIf="!showEmployeeManagement">
     <h2 id="page-heading">
         <span>Employees</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-employee" [routerLink]="['/employee/employee-management-new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-employee" (click)="addNewEmployee()">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Employee
@@ -64,7 +64,7 @@
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/employee', employee.id, 'employee-management' ]"
+                                (click) = "viewEmployee(employee)"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
@@ -98,4 +98,7 @@
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
     </div>
+</div>
+<div *ngIf="showEmployeeManagement">
+    <jhi-employee-management [employee]="employee" (hideEmployeeManagement)="hideEmployeeManagement()"></jhi-employee-management>
 </div>

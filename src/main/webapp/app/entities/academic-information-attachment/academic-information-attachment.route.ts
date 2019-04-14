@@ -50,7 +50,7 @@ export const academicInformationAttachmentRoute: Routes = [
     //     },
     //     canActivate: [UserRouteAccessService]
     // },
-    {
+    /*{
         path: 'new',
         component: AcademicInformationAttachmentUpdateComponent,
         resolve: {
@@ -73,7 +73,7 @@ export const academicInformationAttachmentRoute: Routes = [
             pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
-    }
+    }*/
 ];
 
 export const academicInformationAttachmentPopupRoute: Routes = [

@@ -4,16 +4,16 @@
         <ngb-tabset justify="center" #tabSet="ngbTabset" (tabChange)="tabSelected($event)" [activeId]="activeTabId">
             <ngb-tab title="Personal Information" id="personalInformation" >
                 <ng-template ngbTabContent>
-                    <jhi-employee-update employee="employee" *ngIf="editable"></jhi-employee-update>
-                    <jhi-employee-detail employee="employee" *ngIf="!editable"></jhi-employee-detail>
+                    <jhi-employee-update [employee]="employee" *ngIf="editable" [editable]="editable" (disableEdit)="disablePersonalInformationEdit()"  (closeEmployeeManagement)="previousState()"></jhi-employee-update>
+                    <jhi-employee-detail [employee]="employee" *ngIf="!editable" [editable]="editable" (enableEdit)="enablePersonalInformationEdit()" (closeEmployeeManagement)="previousState()"></jhi-employee-detail>
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Academic Information" id="academicInformation" >
                 <ng-template ngbTabContent>
-                    <jhi-academic-information [employee]="employee"></jhi-academic-information>
+                    <jhi-academic-information [employee]="employee" ></jhi-academic-information>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="Experience Information" id="experienceInformation" >
+            <!--<ngb-tab title="Experience Information" id="experienceInformation" >
                 <ng-template ngbTabContent>
                     <jhi-experience-information [employee]="employee"></jhi-experience-information>
                 </ng-template>
@@ -34,14 +34,14 @@
                     <jhi-reference-information [employee]="employee"></jhi-reference-information>
                 </ng-template>
             </ngb-tab>
-
+-->
         </ngb-tabset>
     </div>
 </div>
-<div class="row">
+<!--<div class="row">
     <div class="col-md-12" align="right">
         <button class="btn btn-primary" *ngIf="editable && showEditOrCancelButton" (click)="cancelEdit()">Cancel</button>
         <button class="btn btn-primary" *ngIf="!editable && showEditOrCancelButton" (click)="edit()">Edit</button>
         <button class="btn btn-success" (click)="previousState()" >Back</button>
     </div>
-</div>
+</div>-->

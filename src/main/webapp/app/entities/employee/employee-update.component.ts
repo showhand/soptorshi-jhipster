@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -19,6 +19,12 @@ import { DesignationService } from 'app/entities/designation';
 export class EmployeeUpdateComponent implements OnInit {
     @Input()
     employee: IEmployee;
+    @Input()
+    editable: boolean;
+    @Output()
+    closeEmployeeManagement: EventEmitter<any> = new EventEmitter();
+    @Output()
+    disableEdit: EventEmitter<any> = new EventEmitter();
     isSaving: boolean;
 
     departments: IDepartment[];
@@ -39,9 +45,9 @@ export class EmployeeUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ employee }) => {
+        /* this.activatedRoute.data.subscribe(({ employee }) => {
             this.employee = employee;
-        });
+        });*/
         this.departmentService
             .query({ 'employeeId.specified': 'false' })
             .pipe(
@@ -93,7 +99,9 @@ export class EmployeeUpdateComponent implements OnInit {
     }
 
     previousState() {
-        window.history.back();
+        // window.history.back();
+        // this.editable = false;
+        this.closeEmployeeManagement.emit();
     }
 
     save() {
@@ -103,10 +111,17 @@ export class EmployeeUpdateComponent implements OnInit {
         } else {
             this.subscribeToSaveResponse(this.employeeService.create(this.employee));
         }
+        this.disableEdit.emit();
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IEmployee>>) {
-        result.subscribe((res: HttpResponse<IEmployee>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe(
+            (res: HttpResponse<IEmployee>) => {
+                this.employee = res.body;
+                this.onSaveSuccess();
+            },
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
     }
 
     protected onSaveSuccess() {

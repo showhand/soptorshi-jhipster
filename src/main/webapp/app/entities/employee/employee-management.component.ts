@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { JhiAlertService } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
 import { IEmployee } from 'app/shared/model/employee.model';
@@ -12,7 +12,12 @@ import { Table } from 'primeng/table';
     styles: []
 })
 export class EmployeeManagementComponent implements OnInit, AfterContentInit {
+    @Input()
     employee: IEmployee;
+    @Input()
+    showEmployeeManagement: boolean;
+    @Output()
+    hideEmployeeManagement: EventEmitter<any> = new EventEmitter();
     activeTabId: string;
     editable: boolean;
     showEditOrCancelButton: boolean;
@@ -25,17 +30,14 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
 
     ngOnInit() {
         this.showEditOrCancelButton = true;
-        this.activatedRoute.data.subscribe(({ employee }) => {
-            this.employee = employee;
-        });
-
+        // this.activatedRoute.data.subscribe(({ employee }) => {
+        //     this.employee = employee;
+        // });
+        this.editable = this.employee.id === undefined ? true : false;
         this.activeTabId = this.employeeService.selectedTabId;
     }
 
-    ngAfterContentInit(): void {
-        if (this.employee.id === undefined) this.editable = true;
-        else this.editable = false;
-    }
+    ngAfterContentInit(): void {}
 
     edit(): void {
         this.editable = true;
@@ -56,6 +58,15 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
     }
 
     previousState() {
-        window.history.back();
+        // window.history.back();
+        this.hideEmployeeManagement.emit();
+    }
+
+    enablePersonalInformationEdit() {
+        this.editable = true;
+    }
+
+    disablePersonalInformationEdit() {
+        this.editable = false;
     }
 }

@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
-import { IEmployee } from 'app/shared/model/employee.model';
+import { Employee, IEmployee } from 'app/shared/model/employee.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
@@ -36,6 +36,8 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    showEmployeeManagement: boolean;
+    employee: IEmployee;
 
     constructor(
         protected employeeService: EmployeeService,
@@ -180,6 +182,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.showEmployeeManagement = false;
         this.employeeService.departmentMap = {};
         this.employeeService.designationMap = {};
         this.loadAll();
@@ -209,6 +212,22 @@ export class EmployeeComponent implements OnInit, OnDestroy {
 
     registerChangeInEmployees() {
         this.eventSubscriber = this.eventManager.subscribe('employeeListModification', response => this.loadAll());
+    }
+
+    addNewEmployee() {
+        this.employee = new Employee();
+        this.showEmployeeManagement = true;
+    }
+
+    viewEmployee(employee: IEmployee) {
+        this.employee = employee;
+        this.showEmployeeManagement = true;
+    }
+
+    hideEmployeeManagement() {
+        this.showEmployeeManagement = false;
+        this.employee = new Employee();
+        this.loadAll();
     }
 
     sort() {
