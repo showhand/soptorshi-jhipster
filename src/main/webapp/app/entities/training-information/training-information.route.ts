@@ -30,7 +30,7 @@ export class TrainingInformationResolve implements Resolve<ITrainingInformation>
 }
 
 export const trainingInformationRoute: Routes = [
-    {
+    /*{
         path: 'home',
         component: TrainingInformationComponent,
         resolve: {
@@ -78,11 +78,11 @@ export const trainingInformationRoute: Routes = [
             pageTitle: 'TrainingInformations'
         },
         canActivate: [UserRouteAccessService]
-    }
+    }*/
 ];
 
 export const trainingInformationPopupRoute: Routes = [
-    {
+    /* {
         path: ':id/delete',
         component: TrainingInformationDeletePopupComponent,
         resolve: {
@@ -94,5 +94,5 @@ export const trainingInformationPopupRoute: Routes = [
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
-    }
+    }*/
 ];

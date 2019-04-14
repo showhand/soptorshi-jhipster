@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="showExperienceInformationAttachmentSection">
     <h2 id="page-heading">
         <span>Experience Information Attachments</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-experience-information-attachment" [routerLink]="['/experience-information-attachment/new']">
@@ -8,7 +8,6 @@
             </span>
         </button>
     </h2>
-    <jhi-alert></jhi-alert>
     <div class="row">
         <div class="col-sm-12">
             <form name="searchForm" class="form-inline">
@@ -76,3 +75,9 @@
         </table>
     </div>
 </div>
+<div *ngIf="!showExperienceInformationAttachmentSection">
+    <jhi-experience-information-attachment-update *ngIf="showAddOrUpdateSection" [experienceInformationAttachment]="experienceInformationAttachment" (showExperienceInformationAttachmentSection)="showExperienceInformationAttachment()"></jhi-experience-information-attachment-update>
+    <jhi-experience-information-attachment-detail *ngIf="!showAddOrUpdateSection" [experienceInformationAttachment]="experienceInformationAttachment" (showExperienceInformationAttachmentSection)="showExperienceInformationAttachment()" (editExperienceInformationAttachment)="editexperienceInformationAttachment()"></jhi-experience-information-attachment-detail>
+</div>
+
+<jhi-experience-information-attachment-delete-popup *ngIf="showDeleteDialog" [experienceInformationAttachment]="experienceInformationAttachment" (showExperienceInformationSection)="showExperienceInformationAttachment()"></jhi-experience-information-attachment-delete-popup>
