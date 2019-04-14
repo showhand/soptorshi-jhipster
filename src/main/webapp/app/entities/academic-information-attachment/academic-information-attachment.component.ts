@@ -33,12 +33,7 @@ export class AcademicInformationAttachmentComponent implements OnInit, OnDestroy
         protected eventManager: JhiEventManager,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
-    ) {
-        this.currentSearch =
-            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-                ? this.activatedRoute.snapshot.params['search']
-                : '';
-    }
+    ) {}
 
     loadAll() {
         this.academicInformationAttachmentService.findByEmployee(this.employee.id).subscribe(

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,7 +14,10 @@ import { EmployeeService } from 'app/entities/employee';
     templateUrl: './training-information-attachment-update.component.html'
 })
 export class TrainingInformationAttachmentUpdateComponent implements OnInit {
+    @Input()
     trainingInformationAttachment: ITrainingInformationAttachment;
+    @Output()
+    showTrainingInformationAttachmentSection: EventEmitter<any> = new EventEmitter();
     isSaving: boolean;
 
     employees: IEmployee[];
@@ -29,16 +32,6 @@ export class TrainingInformationAttachmentUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ trainingInformationAttachment }) => {
-            this.trainingInformationAttachment = trainingInformationAttachment;
-        });
-        this.employeeService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IEmployee[]>) => response.body)
-            )
-            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -54,7 +47,7 @@ export class TrainingInformationAttachmentUpdateComponent implements OnInit {
     }
 
     previousState() {
-        window.history.back();
+        this.showTrainingInformationAttachmentSection.emit();
     }
 
     save() {

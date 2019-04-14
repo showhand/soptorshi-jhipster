@@ -124,6 +124,8 @@ export class TrainingInformationComponent implements OnInit, OnDestroy {
         if (this.employee.id === undefined) {
             this.jhiAlertService.error('Please fill up employee personal information');
         } else {
+            this.showTrainingInformationSection = true;
+            this.showDeleteDialog = false;
             this.loadAll();
             this.accountService.identity().then(account => {
                 this.currentAccount = account;

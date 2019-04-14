@@ -29,6 +29,7 @@ const ENTITY_STATES = [...trainingInformationAttachmentRoute, ...trainingInforma
         TrainingInformationAttachmentDeleteDialogComponent,
         TrainingInformationAttachmentDeletePopupComponent
     ],
+    exports: [TrainingInformationAttachmentComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiTrainingInformationAttachmentModule {}
