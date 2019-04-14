@@ -29,6 +29,7 @@ const ENTITY_STATES = [...experienceInformationAttachmentRoute, ...experienceInf
         ExperienceInformationAttachmentDeleteDialogComponent,
         ExperienceInformationAttachmentDeletePopupComponent
     ],
+    exports: [ExperienceInformationAttachmentComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiExperienceInformationAttachmentModule {}

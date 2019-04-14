@@ -68,6 +68,13 @@ public class ExperienceInformationAttachmentService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
+    @Transactional(readOnly = true)
+    public List<ExperienceInformationAttachmentDTO> findAllByEmployee(Long employeeId){
+        log.debug("Request to get all ExperienceInformationAttachments by employee id-->"+employeeId);
+        return experienceInformationAttachmentRepository.findByEmployeeId(employeeId).stream()
+            .map(experienceInformationAttachmentMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
 
     /**
      * Get one experienceInformationAttachment by id.

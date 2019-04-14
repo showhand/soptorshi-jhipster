@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { IExperienceInformation } from 'app/shared/model/experience-information.model';
+import { ExperienceInformation, IExperienceInformation } from 'app/shared/model/experience-information.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
@@ -19,7 +19,10 @@ import { IEmployee } from 'app/shared/model/employee.model';
 export class ExperienceInformationComponent implements OnInit, OnDestroy {
     @Input()
     employee: IEmployee;
+    @Output()
+    closeEmployeeManagement: EventEmitter<any> = new EventEmitter();
     currentAccount: any;
+    experienceInformation: IExperienceInformation;
     experienceInformations: IExperienceInformation[];
     error: any;
     success: any;
@@ -33,6 +36,9 @@ export class ExperienceInformationComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    showExperienceInformationSection: boolean;
+    showAddOrUpdateSection: boolean;
+    showDeleteDialog: boolean;
 
     constructor(
         protected experienceInformationService: ExperienceInformationService,
@@ -44,12 +50,10 @@ export class ExperienceInformationComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
-        this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.page = data.pagingParams === undefined ? 1 : data.pagingParams.page;
-            this.previousPage = data.pagingParams === undefined ? 1 : data.pagingParams.page;
-            this.reverse = data.pagingParams === undefined ? true : data.pagingParams.ascending;
-            this.predicate = data.pagingParams === undefined ? 'id' : data.pagingParams.predicate;
-        });
+        this.page = 1;
+        this.previousPage = 1;
+        this.reverse = true;
+        this.predicate = 'id';
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
@@ -57,25 +61,12 @@ export class ExperienceInformationComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
-            this.experienceInformationService
-                .search({
-                    page: this.page - 1,
-                    query: this.currentSearch,
-                    size: this.itemsPerPage,
-                    sort: this.sort()
-                })
-                .subscribe(
-                    (res: HttpResponse<IExperienceInformation[]>) => this.paginateExperienceInformations(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            return;
-        }
         this.experienceInformationService
             .query({
                 page: this.page - 1,
                 size: this.itemsPerPage,
-                sort: this.sort()
+                sort: this.sort(),
+                'employeeId.equals': this.employee.id
             })
             .subscribe(
                 (res: HttpResponse<IExperienceInformation[]>) => this.paginateExperienceInformations(res.body, res.headers),
@@ -135,6 +126,8 @@ export class ExperienceInformationComponent implements OnInit, OnDestroy {
     ngOnInit() {
         if (this.employee.id === undefined) this.jhiAlertService.error('Please fill up employee personal information');
         else {
+            this.showExperienceInformationSection = true;
+            this.showDeleteDialog = false;
             this.loadAll();
             this.accountService.identity().then(account => {
                 this.currentAccount = account;
@@ -171,5 +164,44 @@ export class ExperienceInformationComponent implements OnInit, OnDestroy {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    close() {
+        this.closeEmployeeManagement.emit();
+    }
+
+    showExperienceInformation() {
+        this.loadAll();
+        this.showExperienceInformationSection = true;
+        this.showDeleteDialog = false;
+        this.experienceInformation = new ExperienceInformation();
+    }
+    delete(experienceInformation: ExperienceInformation) {
+        this.experienceInformation = this.experienceInformation;
+        this.showDeleteDialog = true;
+    }
+
+    addExperienceInformation() {
+        this.experienceInformation = new ExperienceInformation();
+        this.experienceInformation.employeeId = this.employee.id;
+        this.showExperienceInformationSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    edit(experienceInformation: IExperienceInformation) {
+        this.experienceInformation = experienceInformation;
+        this.showExperienceInformationSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    editExperienceInformation() {
+        this.showExperienceInformationSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    viewExperienceInformation(experienceInformation: IExperienceInformation) {
+        this.experienceInformation = experienceInformation;
+        this.showAddOrUpdateSection = false;
+        this.showExperienceInformationSection = false;
     }
 }

@@ -9,14 +9,14 @@
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Academic Information" id="academicInformation" >
-                <ng-template ngbTabContent>
+                <ng-template ngbTabContent align="center">
                     <div class="row" *ngIf="employee.id===undefined" align="center">
                         <div class="card bg-warning text-white">
                             <div class="card-body" align="center">Please fill up employee personal information</div>
                         </div>
                     </div>
                     <div class="row" *ngIf="employee.id!==undefined">
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <div class="card">
                                 <div class="card-header bg-primary text-white">Academic Information</div>
                                 <div class="card-body">
@@ -24,7 +24,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <div class="card">
                                 <div class="card-header bg-primary text-white" >Academic Information Attachment</div>
                                 <div class="card-body">
@@ -37,7 +37,7 @@
                 </ng-template>
             </ngb-tab>
             <ngb-tab title="Family Information" id="familyInformation" >
-                <ng-template ngbTabContent>
+                <ng-template ngbTabContent align="center">
                     <div class="row" *ngIf="employee.id===undefined" align="center">
                         <div class="card bg-warning text-white">
                             <div class="card-body" align="center">Please fill up employee personal information</div>
@@ -55,9 +55,33 @@
                     </div>
                 </ng-template>
             </ngb-tab>
-            <!--<ngb-tab title="Experience Information" id="experienceInformation" >
+            <ngb-tab title="Experience Information" id="experienceInformation" >
                 <ng-template ngbTabContent>
-                    <jhi-experience-information [employee]="employee"></jhi-experience-information>
+                    <div class="row" *ngIf="employee.id===undefined" align="center">
+                        <div class="card bg-warning text-white">
+                            <div class="card-body" align="center">Please fill up employee personal information</div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="employee.id!==undefined">
+                        <div class="col-md-7">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">Academic Information</div>
+                                <div class="card-body">
+                                    <jhi-experience-information [employee]="employee"></jhi-experience-information>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white" >Academic Information Attachment</div>
+                                <div class="card-body">
+                                    <jhi-experience-information-attachment [employee]="employee"></jhi-experience-information-attachment>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </ng-template>
             </ngb-tab>
 
@@ -70,7 +94,7 @@
                 <ng-template ngbTabContent>
                     <jhi-reference-information [employee]="employee"></jhi-reference-information>
                 </ng-template>
-            </ngb-tab>-->
+            </ngb-tab>
         </ngb-tabset>
     </div>
 </div>

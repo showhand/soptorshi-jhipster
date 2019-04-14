@@ -100,6 +100,11 @@ public class TrainingInformationAttachmentResource {
         return ResponseUtil.wrapOrNotFound(trainingInformationAttachmentDTO);
     }
 
+    @GetMapping("/training-information-attachments/employeeId/{employeeId}")
+    public List<TrainingInformationAttachmentDTO> getTrainingInformationAttachmentByEmployeeId(@PathVariable Long employeeId){
+        return trainingInformationAttachmentService.findAllByEmployeeId(employeeId);
+    }
+
     /**
      * DELETE  /training-information-attachments/:id : delete the "id" trainingInformationAttachment.
      *

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -41,29 +41,31 @@ export class ExperienceInformationDeleteDialogComponent {
 })
 export class ExperienceInformationDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
+    @Input()
+    experienceInformation: IExperienceInformation;
+    @Output()
+    showExperienceInformationSection: EventEmitter<any> = new EventEmitter();
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
     ngOnInit() {
-        this.activatedRoute.data.subscribe(({ experienceInformation }) => {
-            setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(ExperienceInformationDeleteDialogComponent as Component, {
-                    size: 'lg',
-                    backdrop: 'static'
-                });
-                this.ngbModalRef.componentInstance.experienceInformation = experienceInformation;
-                this.ngbModalRef.result.then(
-                    result => {
-                        this.router.navigate(['/experience-information', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    },
-                    reason => {
-                        this.router.navigate(['/experience-information', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    }
-                );
-            }, 0);
-        });
+        setTimeout(() => {
+            this.ngbModalRef = this.modalService.open(ExperienceInformationDeleteDialogComponent as Component, {
+                size: 'lg',
+                backdrop: 'static'
+            });
+            this.ngbModalRef.componentInstance.experienceInformation = this.experienceInformation;
+            this.ngbModalRef.result.then(
+                result => {
+                    this.showExperienceInformationSection.emit();
+                    this.ngbModalRef = null;
+                },
+                reason => {
+                    this.showExperienceInformationSection.emit();
+                    this.ngbModalRef = null;
+                }
+            );
+        }, 0);
     }
 
     ngOnDestroy() {

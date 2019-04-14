@@ -69,6 +69,13 @@ public class TrainingInformationAttachmentService {
     }
 
 
+    public List<TrainingInformationAttachmentDTO> findAllByEmployeeId(Long employeeId){
+        return trainingInformationAttachmentRepository.findByEmployeeId(employeeId).stream()
+            .map(trainingInformationAttachmentMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+
     /**
      * Get one trainingInformationAttachment by id.
      *
