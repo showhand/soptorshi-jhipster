@@ -1,16 +1,17 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { ITrainingInformation } from 'app/shared/model/training-information.model';
+import { ITrainingInformation, TrainingInformation } from 'app/shared/model/training-information.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { TrainingInformationService } from './training-information.service';
 import { IEmployee } from 'app/shared/model/employee.model';
+import { AcademicInformation, IAcademicInformation } from 'app/shared/model/academic-information.model';
 
 @Component({
     selector: 'jhi-training-information',
@@ -19,7 +20,10 @@ import { IEmployee } from 'app/shared/model/employee.model';
 export class TrainingInformationComponent implements OnInit, OnDestroy {
     @Input()
     employee: IEmployee;
+    @Output()
+    closeEmployeeManagement: EventEmitter<any> = new EventEmitter();
     currentAccount: any;
+    trainingInformation: ITrainingInformation;
     trainingInformations: ITrainingInformation[];
     error: any;
     success: any;
@@ -33,6 +37,9 @@ export class TrainingInformationComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    showTrainingInformationSection: boolean;
+    showAddOrUpdateSection: boolean;
+    showDeleteDialog: boolean;
 
     constructor(
         protected trainingInformationService: TrainingInformationService,
@@ -44,38 +51,19 @@ export class TrainingInformationComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
-        this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.page = data.pagingParams === undefined ? 1 : data.pagingParams.page;
-            this.previousPage = data.pagingParams === undefined ? 1 : data.pagingParams.page;
-            this.reverse = data.pagingParams === undefined ? true : data.pagingParams.ascending;
-            this.predicate = data.pagingParams === undefined ? 'id' : data.pagingParams.predicate;
-        });
-        this.currentSearch =
-            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-                ? this.activatedRoute.snapshot.params['search']
-                : '';
+        this.page = 1;
+        this.previousPage = 1;
+        this.reverse = true;
+        this.predicate = 'id';
     }
 
     loadAll() {
-        if (this.currentSearch) {
-            this.trainingInformationService
-                .search({
-                    page: this.page - 1,
-                    query: this.currentSearch,
-                    size: this.itemsPerPage,
-                    sort: this.sort()
-                })
-                .subscribe(
-                    (res: HttpResponse<ITrainingInformation[]>) => this.paginateTrainingInformations(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            return;
-        }
         this.trainingInformationService
             .query({
                 page: this.page - 1,
                 size: this.itemsPerPage,
-                sort: this.sort()
+                sort: this.sort(),
+                'employeeId.equals': this.employee.id
             })
             .subscribe(
                 (res: HttpResponse<ITrainingInformation[]>) => this.paginateTrainingInformations(res.body, res.headers),
@@ -172,5 +160,45 @@ export class TrainingInformationComponent implements OnInit, OnDestroy {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    close() {
+        this.closeEmployeeManagement.emit();
+    }
+
+    showTrainingInformation() {
+        this.loadAll();
+        this.showTrainingInformationSection = true;
+        this.showDeleteDialog = false;
+        this.trainingInformation = new TrainingInformation();
+    }
+
+    delete(trainingInformation: ITrainingInformation) {
+        this.trainingInformation = trainingInformation;
+        this.showDeleteDialog = true;
+    }
+
+    addTrainingInformation() {
+        this.trainingInformation = new TrainingInformation();
+        this.trainingInformation.employeeId = this.employee.id;
+        this.showTrainingInformationSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    edit(trainingInformation: ITrainingInformation) {
+        this.trainingInformation = trainingInformation;
+        this.showTrainingInformationSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    editTrainingInformation() {
+        this.showTrainingInformationSection = false;
+        this.showAddOrUpdateSection = true;
+    }
+
+    viewTrainingInformation(trainingInformation: ITrainingInformation) {
+        this.trainingInformation = trainingInformation;
+        this.showAddOrUpdateSection = false;
+        this.showTrainingInformationSection = false;
     }
 }

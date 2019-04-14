@@ -17,12 +17,7 @@
                 <dd>
                     <span>{{trainingInformation.organization}}</span>
                 </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="trainingInformation.employeeId">
-                        <a [routerLink]="['/employee', trainingInformation.employeeId, 'view']">{{trainingInformation.employeeId}}</a>
-                    </div>
-                </dd>
+
             </dl>
 
             <button type="submit"
@@ -32,7 +27,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/training-information', trainingInformation.id, 'edit']"
+                    (click)="edit()"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>

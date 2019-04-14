@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -41,29 +41,31 @@ export class TrainingInformationDeleteDialogComponent {
 })
 export class TrainingInformationDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
+    @Input()
+    trainingInformation: ITrainingInformation;
+    @Output()
+    showTrainingInformationSection: EventEmitter<any> = new EventEmitter();
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
     ngOnInit() {
-        this.activatedRoute.data.subscribe(({ trainingInformation }) => {
-            setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(TrainingInformationDeleteDialogComponent as Component, {
-                    size: 'lg',
-                    backdrop: 'static'
-                });
-                this.ngbModalRef.componentInstance.trainingInformation = trainingInformation;
-                this.ngbModalRef.result.then(
-                    result => {
-                        this.router.navigate(['/training-information', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    },
-                    reason => {
-                        this.router.navigate(['/training-information', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    }
-                );
-            }, 0);
-        });
+        setTimeout(() => {
+            this.ngbModalRef = this.modalService.open(TrainingInformationDeleteDialogComponent as Component, {
+                size: 'lg',
+                backdrop: 'static'
+            });
+            this.ngbModalRef.componentInstance.trainingInformation = this.trainingInformation;
+            this.ngbModalRef.result.then(
+                result => {
+                    this.showTrainingInformationSection.emit();
+                    this.ngbModalRef = null;
+                },
+                reason => {
+                    this.showTrainingInformationSection.emit();
+                    this.ngbModalRef = null;
+                }
+            );
+        }, 0);
     }
 
     ngOnDestroy() {

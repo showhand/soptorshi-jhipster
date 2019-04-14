@@ -60,10 +60,6 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
         this.previousPage = 1;
         this.reverse = true;
         this.predicate = 'id';
-        this.currentSearch =
-            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-                ? this.activatedRoute.snapshot.params['search']
-                : '';
     }
 
     loadAll() {
