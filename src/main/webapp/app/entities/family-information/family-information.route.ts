@@ -30,7 +30,7 @@ export class FamilyInformationResolve implements Resolve<IFamilyInformation> {
 }
 
 export const familyInformationRoute: Routes = [
-    {
+    /*{
         path: 'home',
         component: FamilyInformationComponent,
         resolve: {
@@ -78,11 +78,11 @@ export const familyInformationRoute: Routes = [
             pageTitle: 'FamilyInformations'
         },
         canActivate: [UserRouteAccessService]
-    }
+    }*/
 ];
 
 export const familyInformationPopupRoute: Routes = [
-    {
+    /*{
         path: ':id/delete',
         component: FamilyInformationDeletePopupComponent,
         resolve: {
@@ -94,5 +94,5 @@ export const familyInformationPopupRoute: Routes = [
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
-    }
+    }*/
 ];

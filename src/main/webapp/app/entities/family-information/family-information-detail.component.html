@@ -32,7 +32,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/family-information', familyInformation.id, 'edit']"
+                    (click)="edit()"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>

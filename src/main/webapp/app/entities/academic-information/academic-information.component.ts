@@ -67,20 +67,6 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        /*if (this.currentSearch) {
-            this.academicInformationService
-                .search({
-                    page: this.page - 1,
-                    query: this.currentSearch,
-                    size: this.itemsPerPage,
-                    sort: this.sort()
-                })
-                .subscribe(
-                    (res: HttpResponse<IAcademicInformation[]>) => this.paginateAcademicInformations(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            return;
-        }*/
         this.academicInformationService
             .query({
                 page: this.page - 1,

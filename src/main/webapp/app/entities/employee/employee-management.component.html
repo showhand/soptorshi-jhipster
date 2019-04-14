@@ -36,17 +36,31 @@
                     </div>
                 </ng-template>
             </ngb-tab>
+            <ngb-tab title="Family Information" id="familyInformation" >
+                <ng-template ngbTabContent>
+                    <div class="row" *ngIf="employee.id===undefined" align="center">
+                        <div class="card bg-warning text-white">
+                            <div class="card-body" align="center">Please fill up employee personal information</div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="employee.id!==undefined">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">Family  Information</div>
+                                <div class="card-body">
+                                    <jhi-family-information [employee]="employee"></jhi-family-information>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
             <!--<ngb-tab title="Experience Information" id="experienceInformation" >
                 <ng-template ngbTabContent>
                     <jhi-experience-information [employee]="employee"></jhi-experience-information>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="Family Information" id="familyInformation" >
-                <ng-template ngbTabContent>
-                    <jhi-family-information [employee]="employee"></jhi-family-information>
-                </ng-template>
 
-            </ngb-tab>
             <ngb-tab title="Training Information" id="trainingInformation" >
                 <ng-template ngbTabContent>
                     <jhi-training-information [employee]="employee"></jhi-training-information>
@@ -56,8 +70,7 @@
                 <ng-template ngbTabContent>
                     <jhi-reference-information [employee]="employee"></jhi-reference-information>
                 </ng-template>
-            </ngb-tab>
--->
+            </ngb-tab>-->
         </ngb-tabset>
     </div>
 </div>
