@@ -16,9 +16,6 @@ type EntityArrayResponseType = HttpResponse<IEmployee[]>;
 export class EmployeeService {
     public resourceUrl = SERVER_API_URL + 'api/employees';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/employees';
-    public selectedTabId = '';
-    public departmentMap: any;
-    public designationMap: any;
 
     constructor(protected http: HttpClient) {}
 
@@ -63,6 +60,7 @@ export class EmployeeService {
     protected convertDateFromClient(employee: IEmployee): IEmployee {
         const copy: IEmployee = Object.assign({}, employee, {
             birthDate: employee.birthDate != null && employee.birthDate.isValid() ? employee.birthDate.format(DATE_FORMAT) : null,
+            joiningDate: employee.joiningDate != null && employee.joiningDate.isValid() ? employee.joiningDate.format(DATE_FORMAT) : null,
             terminationDate:
                 employee.terminationDate != null && employee.terminationDate.isValid() ? employee.terminationDate.format(DATE_FORMAT) : null
         });
@@ -72,6 +70,7 @@ export class EmployeeService {
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
             res.body.birthDate = res.body.birthDate != null ? moment(res.body.birthDate) : null;
+            res.body.joiningDate = res.body.joiningDate != null ? moment(res.body.joiningDate) : null;
             res.body.terminationDate = res.body.terminationDate != null ? moment(res.body.terminationDate) : null;
         }
         return res;
@@ -81,6 +80,7 @@ export class EmployeeService {
         if (res.body) {
             res.body.forEach((employee: IEmployee) => {
                 employee.birthDate = employee.birthDate != null ? moment(employee.birthDate) : null;
+                employee.joiningDate = employee.joiningDate != null ? moment(employee.joiningDate) : null;
                 employee.terminationDate = employee.terminationDate != null ? moment(employee.terminationDate) : null;
             });
         }

@@ -1,7 +1,6 @@
 package org.soptorshi.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -9,8 +8,6 @@ import javax.persistence.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.EmploymentType;
@@ -45,8 +42,6 @@ public class ExperienceInformation implements Serializable {
     @Column(name = "employment_type")
     private EmploymentType employmentType;
 
-    @OneToMany(mappedBy = "experienceInformation")
-    private Set<Attachment> attachments = new HashSet<>();
     @ManyToOne
     @JsonIgnoreProperties("experienceInformations")
     private Employee employee;
@@ -123,31 +118,6 @@ public class ExperienceInformation implements Serializable {
 
     public void setEmploymentType(EmploymentType employmentType) {
         this.employmentType = employmentType;
-    }
-
-    public Set<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public ExperienceInformation attachments(Set<Attachment> attachments) {
-        this.attachments = attachments;
-        return this;
-    }
-
-    public ExperienceInformation addAttachment(Attachment attachment) {
-        this.attachments.add(attachment);
-        attachment.setExperienceInformation(this);
-        return this;
-    }
-
-    public ExperienceInformation removeAttachment(Attachment attachment) {
-        this.attachments.remove(attachment);
-        attachment.setExperienceInformation(null);
-        return this;
-    }
-
-    public void setAttachments(Set<Attachment> attachments) {
-        this.attachments = attachments;
     }
 
     public Employee getEmployee() {

@@ -184,6 +184,21 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_joiningDate">Joining Date</label>
+                    <div class="input-group">
+                        <input id="field_joiningDate" type="text" class="form-control" name="joiningDate" ngbDatepicker  #joiningDateDp="ngbDatepicker" [(ngModel)]="employee.joiningDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="joiningDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_manager">Manager</label>
+                    <input type="number" class="form-control" name="manager" id="field_manager"
+                        [(ngModel)]="employee.manager" />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_employeeStatus">Employee Status</label>
                     <select class="form-control" name="employeeStatus" [(ngModel)]="employee.employeeStatus" id="field_employeeStatus" >
                         <option value="ACTIVE">ACTIVE</option>
@@ -241,14 +256,14 @@
                     <label class="form-control-label" for="field_department">Department</label>
                     <select class="form-control" id="field_department" name="department" [(ngModel)]="employee.departmentId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.name}}</option>
+                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.id}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_designation">Designation</label>
                     <select class="form-control" id="field_designation" name="designation" [(ngModel)]="employee.designationId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.name}}</option>
+                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.id}}</option>
                     </select>
                 </div>
             </div>

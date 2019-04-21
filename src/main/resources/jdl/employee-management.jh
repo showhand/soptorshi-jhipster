@@ -26,6 +26,8 @@ entity Employee{
     email String,
     bloodGroup String,
     emergencyContact String required,
+    joiningDate LocalDate,
+    manager Long,
     employeeStatus EmployeeStatus,
     employmentType EmploymentType,
     terminationDate LocalDate,
@@ -34,10 +36,7 @@ entity Employee{
     photo ImageBlob
 }
 
-entity Attachment{
-	fileName String,
-    path String
-}
+
 
 entity AcademicInformation{
 	degree String,
@@ -97,11 +96,7 @@ relationship OneToOne{
     Employee{department} to Department
 }
 
-relationship OneToMany{
-	AcademicInformation{attachment} to Attachment,
-    ExperienceInformation{attachment} to Attachment,
-    TrainingInformation{attachment} to Attachment
-}
+
 
 relationship ManyToOne{
     Employee{designation} to Designation

@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="employee">
-            <h2><span>Employee Personal Information</span></h2>
+            <h2><span>Employee</span> {{employee.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -69,6 +69,14 @@
                 <dd>
                     <span>{{employee.emergencyContact}}</span>
                 </dd>
+                <dt><span>Joining Date</span></dt>
+                <dd>
+                    <span>{{employee.joiningDate}}</span>
+                </dd>
+                <dt><span>Manager</span></dt>
+                <dd>
+                    <span>{{employee.manager}}</span>
+                </dd>
                 <dt><span>Employee Status</span></dt>
                 <dd>
                     <span>{{employee.employeeStatus}}</span>
@@ -101,13 +109,13 @@
                 <dt><span>Department</span></dt>
                 <dd>
                     <div *ngIf="employee.departmentId">
-                        {{employeeService.departmentMap[employee.departmentId].name}}
+                        <a [routerLink]="['/department', employee.departmentId, 'view']">{{employee.departmentId}}</a>
                     </div>
                 </dd>
                 <dt><span>Designation</span></dt>
                 <dd>
                     <div *ngIf="employee.designationId">
-                        {{employeeService.designationMap[employee.designationId].name}}
+                        <a [routerLink]="['/designation', employee.designationId, 'view']">{{employee.designationId}}</a>
                     </div>
                 </dd>
             </dl>
@@ -119,7 +127,8 @@
             </button>
 
             <button type="button"
-                    class="btn btn-primary" (click)="edit()">
+                    [routerLink]="['/employee', employee.id, 'edit']"
+                    class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
         </div>

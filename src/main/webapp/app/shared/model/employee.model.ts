@@ -1,6 +1,4 @@
 import { Moment } from 'moment';
-import { IDepartment } from 'app/shared/model/department.model';
-import { IDesignation } from 'app/shared/model/designation.model';
 
 export const enum MaritalStatus {
     MARRIED = 'MARRIED',
@@ -52,6 +50,8 @@ export interface IEmployee {
     email?: string;
     bloodGroup?: string;
     emergencyContact?: string;
+    joiningDate?: Moment;
+    manager?: number;
     employeeStatus?: EmployeeStatus;
     employmentType?: EmploymentType;
     terminationDate?: Moment;
@@ -60,9 +60,7 @@ export interface IEmployee {
     photoContentType?: string;
     photo?: any;
     departmentId?: number;
-    department?: IDepartment;
     designationId?: number;
-    designation?: IDesignation;
 }
 
 export class Employee implements IEmployee {
@@ -84,6 +82,8 @@ export class Employee implements IEmployee {
         public email?: string,
         public bloodGroup?: string,
         public emergencyContact?: string,
+        public joiningDate?: Moment,
+        public manager?: number,
         public employeeStatus?: EmployeeStatus,
         public employmentType?: EmploymentType,
         public terminationDate?: Moment,
@@ -92,9 +92,7 @@ export class Employee implements IEmployee {
         public photoContentType?: string,
         public photo?: any,
         public departmentId?: number,
-        public department?: IDepartment,
-        public designationId?: number,
-        public designation?: IDesignation
+        public designationId?: number
     ) {
         this.userAccount = this.userAccount || false;
     }

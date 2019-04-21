@@ -29,6 +29,70 @@ export class ExperienceInformationResolve implements Resolve<IExperienceInformat
     }
 }
 
-export const experienceInformationRoute: Routes = [];
+export const experienceInformationRoute: Routes = [
+    {
+        path: '',
+        component: ExperienceInformationComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            defaultSort: 'id,asc',
+            pageTitle: 'ExperienceInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':id/view',
+        component: ExperienceInformationDetailComponent,
+        resolve: {
+            experienceInformation: ExperienceInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'new',
+        component: ExperienceInformationUpdateComponent,
+        resolve: {
+            experienceInformation: ExperienceInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':id/edit',
+        component: ExperienceInformationUpdateComponent,
+        resolve: {
+            experienceInformation: ExperienceInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    }
+];
 
-export const experienceInformationPopupRoute: Routes = [];
+export const experienceInformationPopupRoute: Routes = [
+    {
+        path: ':id/delete',
+        component: ExperienceInformationDeletePopupComponent,
+        resolve: {
+            experienceInformation: ExperienceInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformations'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    }
+];

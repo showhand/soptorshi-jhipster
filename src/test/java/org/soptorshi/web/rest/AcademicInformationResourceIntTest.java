@@ -3,7 +3,6 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.AcademicInformation;
-import org.soptorshi.domain.Attachment;
 import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.AcademicInformationRepository;
 import org.soptorshi.repository.search.AcademicInformationSearchRepository;
@@ -400,25 +399,6 @@ public class AcademicInformationResourceIntTest {
         // Get all the academicInformationList where group is null
         defaultAcademicInformationShouldNotBeFound("group.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllAcademicInformationsByAttachmentIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Attachment attachment = AttachmentResourceIntTest.createEntity(em);
-        em.persist(attachment);
-        em.flush();
-        academicInformation.addAttachment(attachment);
-        academicInformationRepository.saveAndFlush(academicInformation);
-        Long attachmentId = attachment.getId();
-
-        // Get all the academicInformationList where attachment equals to attachmentId
-        defaultAcademicInformationShouldBeFound("attachmentId.equals=" + attachmentId);
-
-        // Get all the academicInformationList where attachment equals to attachmentId + 1
-        defaultAcademicInformationShouldNotBeFound("attachmentId.equals=" + (attachmentId + 1));
-    }
-
 
     @Test
     @Transactional

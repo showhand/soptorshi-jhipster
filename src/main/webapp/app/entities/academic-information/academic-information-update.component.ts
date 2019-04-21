@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,10 +14,7 @@ import { EmployeeService } from 'app/entities/employee';
     templateUrl: './academic-information-update.component.html'
 })
 export class AcademicInformationUpdateComponent implements OnInit {
-    @Input()
     academicInformation: IAcademicInformation;
-    @Output()
-    showAcademicInformationSection: EventEmitter<any> = new EventEmitter();
     isSaving: boolean;
 
     employees: IEmployee[];
@@ -31,27 +28,24 @@ export class AcademicInformationUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        /*this.activatedRoute.data.subscribe(({ academicInformation }) => {
+        this.activatedRoute.data.subscribe(({ academicInformation }) => {
             this.academicInformation = academicInformation;
-            this.academicInformationService.employee = this.academicInformationService.employee;
-        });*/
-        /*this.employeeService
+        });
+        this.employeeService
             .query()
             .pipe(
                 filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IEmployee[]>) => response.body)
             )
-            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));*/
+            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
-        // window.history.back();
-        this.showAcademicInformationSection.emit();
+        window.history.back();
     }
 
     save() {
         this.isSaving = true;
-        this.academicInformation.employeeId = this.academicInformationService.employee.id;
         if (this.academicInformation.id !== undefined) {
             this.subscribeToSaveResponse(this.academicInformationService.update(this.academicInformation));
         } else {

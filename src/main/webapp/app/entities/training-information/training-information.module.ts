@@ -29,13 +29,6 @@ const ENTITY_STATES = [...trainingInformationRoute, ...trainingInformationPopupR
         TrainingInformationDeleteDialogComponent,
         TrainingInformationDeletePopupComponent
     ],
-    exports: [
-        TrainingInformationComponent,
-        TrainingInformationDetailComponent,
-        TrainingInformationUpdateComponent,
-        TrainingInformationDeleteDialogComponent,
-        TrainingInformationDeletePopupComponent
-    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiTrainingInformationModule {}

@@ -43,6 +43,8 @@ describe('Service Tests', () => {
                 'AAAAAAA',
                 'AAAAAAA',
                 'AAAAAAA',
+                currentDate,
+                0,
                 EmployeeStatus.ACTIVE,
                 EmploymentType.PERMANENT,
                 currentDate,
@@ -58,6 +60,7 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         birthDate: currentDate.format(DATE_FORMAT),
+                        joiningDate: currentDate.format(DATE_FORMAT),
                         terminationDate: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
@@ -76,6 +79,7 @@ describe('Service Tests', () => {
                     {
                         id: 0,
                         birthDate: currentDate.format(DATE_FORMAT),
+                        joiningDate: currentDate.format(DATE_FORMAT),
                         terminationDate: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
@@ -83,6 +87,7 @@ describe('Service Tests', () => {
                 const expected = Object.assign(
                     {
                         birthDate: currentDate,
+                        joiningDate: currentDate,
                         terminationDate: currentDate
                     },
                     returnedFromService
@@ -114,6 +119,8 @@ describe('Service Tests', () => {
                         email: 'BBBBBB',
                         bloodGroup: 'BBBBBB',
                         emergencyContact: 'BBBBBB',
+                        joiningDate: currentDate.format(DATE_FORMAT),
+                        manager: 1,
                         employeeStatus: 'BBBBBB',
                         employmentType: 'BBBBBB',
                         terminationDate: currentDate.format(DATE_FORMAT),
@@ -127,6 +134,7 @@ describe('Service Tests', () => {
                 const expected = Object.assign(
                     {
                         birthDate: currentDate,
+                        joiningDate: currentDate,
                         terminationDate: currentDate
                     },
                     returnedFromService
@@ -158,6 +166,8 @@ describe('Service Tests', () => {
                         email: 'BBBBBB',
                         bloodGroup: 'BBBBBB',
                         emergencyContact: 'BBBBBB',
+                        joiningDate: currentDate.format(DATE_FORMAT),
+                        manager: 1,
                         employeeStatus: 'BBBBBB',
                         employmentType: 'BBBBBB',
                         terminationDate: currentDate.format(DATE_FORMAT),
@@ -170,6 +180,7 @@ describe('Service Tests', () => {
                 const expected = Object.assign(
                     {
                         birthDate: currentDate,
+                        joiningDate: currentDate,
                         terminationDate: currentDate
                     },
                     returnedFromService

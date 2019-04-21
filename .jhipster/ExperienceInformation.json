@@ -25,12 +25,6 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "attachment",
-            "otherEntityRelationshipName": "experienceInformation",
-            "relationshipName": "attachment"
-        },
-        {
             "relationshipType": "many-to-one",
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "experienceInformation",

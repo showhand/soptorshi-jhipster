@@ -5,15 +5,11 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
-import { Employee, IEmployee } from 'app/shared/model/employee.model';
+import { IEmployee } from 'app/shared/model/employee.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { EmployeeService } from './employee.service';
-import { DepartmentService } from 'app/entities/department';
-import { IDepartment } from 'app/shared/model/department.model';
-import { IDesignation } from 'app/shared/model/designation.model';
-import { DesignationService } from 'app/entities/designation';
 
 @Component({
     selector: 'jhi-employee',
@@ -22,8 +18,6 @@ import { DesignationService } from 'app/entities/designation';
 export class EmployeeComponent implements OnInit, OnDestroy {
     currentAccount: any;
     employees: IEmployee[];
-    departments: IDepartment[];
-    designations: IDesignation[];
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -36,8 +30,6 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
-    showEmployeeManagement: boolean;
-    employee: IEmployee;
 
     constructor(
         protected employeeService: EmployeeService,
@@ -47,9 +39,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
         protected activatedRoute: ActivatedRoute,
         protected dataUtils: JhiDataUtils,
         protected router: Router,
-        protected eventManager: JhiEventManager,
-        protected departmentService: DepartmentService,
-        protected designationService: DesignationService
+        protected eventManager: JhiEventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -62,47 +52,6 @@ export class EmployeeComponent implements OnInit, OnDestroy {
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
                 : '';
-    }
-
-    loadAllDepartment() {
-        this.departmentService
-            .query({
-                page: -1,
-                size: 1000,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<IDepartment[]>) => this.extractPaginatedDepartments(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-
-        return;
-    }
-
-    loadAllDesignation() {
-        this.designationService
-            .query({
-                page: -1,
-                size: 1000,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<IDesignation[]>) => this.extractPaginatedDesignations(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-        return;
-    }
-
-    protected extractPaginatedDepartments(data: IDepartment[], headers: HttpHeaders) {
-        this.departments = [];
-        this.departments = data;
-        data.forEach((d: IDepartment) => (this.employeeService.departmentMap[d.id] = d));
-    }
-
-    protected extractPaginatedDesignations(data: IDesignation[], headers: HttpHeaders) {
-        this.designations = [];
-        this.designations = data;
-        data.forEach((d: IDesignation) => (this.employeeService.designationMap[d.id] = d));
     }
 
     loadAll() {
@@ -182,12 +131,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.showEmployeeManagement = false;
-        this.employeeService.departmentMap = {};
-        this.employeeService.designationMap = {};
         this.loadAll();
-        this.loadAllDepartment();
-        this.loadAllDesignation();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
@@ -212,22 +156,6 @@ export class EmployeeComponent implements OnInit, OnDestroy {
 
     registerChangeInEmployees() {
         this.eventSubscriber = this.eventManager.subscribe('employeeListModification', response => this.loadAll());
-    }
-
-    addNewEmployee() {
-        this.employee = new Employee();
-        this.showEmployeeManagement = true;
-    }
-
-    viewEmployee(employee: IEmployee) {
-        this.employee = employee;
-        this.showEmployeeManagement = true;
-    }
-
-    hideEmployeeManagement() {
-        this.showEmployeeManagement = false;
-        this.employee = new Employee();
-        this.loadAll();
     }
 
     sort() {

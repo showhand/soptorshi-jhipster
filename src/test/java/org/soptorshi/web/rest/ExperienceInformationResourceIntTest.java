@@ -3,7 +3,6 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.ExperienceInformation;
-import org.soptorshi.domain.Attachment;
 import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.ExperienceInformationRepository;
 import org.soptorshi.repository.search.ExperienceInformationSearchRepository;
@@ -476,25 +475,6 @@ public class ExperienceInformationResourceIntTest {
         // Get all the experienceInformationList where employmentType is null
         defaultExperienceInformationShouldNotBeFound("employmentType.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllExperienceInformationsByAttachmentIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Attachment attachment = AttachmentResourceIntTest.createEntity(em);
-        em.persist(attachment);
-        em.flush();
-        experienceInformation.addAttachment(attachment);
-        experienceInformationRepository.saveAndFlush(experienceInformation);
-        Long attachmentId = attachment.getId();
-
-        // Get all the experienceInformationList where attachment equals to attachmentId
-        defaultExperienceInformationShouldBeFound("attachmentId.equals=" + attachmentId);
-
-        // Get all the experienceInformationList where attachment equals to attachmentId + 1
-        defaultExperienceInformationShouldNotBeFound("attachmentId.equals=" + (attachmentId + 1));
-    }
-
 
     @Test
     @Transactional
