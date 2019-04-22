@@ -11,6 +11,7 @@ import {
     employeeRoute,
     employeePopupRoute
 } from './';
+import { EmployeeManagementComponent } from 'app/entities/employee/employee-management.component';
 
 const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
 
@@ -21,9 +22,16 @@ const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
         EmployeeDetailComponent,
         EmployeeUpdateComponent,
         EmployeeDeleteDialogComponent,
-        EmployeeDeletePopupComponent
+        EmployeeDeletePopupComponent,
+        EmployeeManagementComponent
     ],
-    entryComponents: [EmployeeComponent, EmployeeUpdateComponent, EmployeeDeleteDialogComponent, EmployeeDeletePopupComponent],
+    entryComponents: [
+        EmployeeComponent,
+        EmployeeUpdateComponent,
+        EmployeeDeleteDialogComponent,
+        EmployeeDeletePopupComponent,
+        EmployeeManagementComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiEmployeeModule {}

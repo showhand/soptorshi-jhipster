@@ -1,131 +1,25 @@
-<jhi-alert></jhi-alert>
-<div class=" row ">
-    <div class="col-md-12">
-        <ngb-tabset justify="center" #tabSet="ngbTabset" (tabChange)="tabSelected($event)" [activeId]="activeTabId">
-            <ngb-tab title="Personal Information" id="personalInformation" >
-                <ng-template ngbTabContent>
-                    <jhi-employee-update [employee]="employee" *ngIf="editable" [editable]="editable" (disableEdit)="disablePersonalInformationEdit()"  (closeEmployeeManagement)="previousState()"></jhi-employee-update>
-                    <jhi-employee-detail [employee]="employee" *ngIf="!editable" [editable]="editable" (enableEdit)="enablePersonalInformationEdit()" (closeEmployeeManagement)="previousState()"></jhi-employee-detail>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Academic Information" id="academicInformation" >
-                <ng-template ngbTabContent align="center">
-                    <div class="row" *ngIf="employee.id===undefined" align="center">
-                        <div class="card bg-warning text-white">
-                            <div class="card-body" align="center">Please fill up employee personal information</div>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="employee.id!==undefined">
-                        <div class="col-md-7">
-                            <div class="card">
-                                <div class="card-header bg-primary text-white">Academic Information</div>
-                                <div class="card-body">
-                                    <jhi-academic-information [employee]="employee"  (closeEmployeeManagement)="previousState()" ></jhi-academic-information>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="card">
-                                <div class="card-header bg-primary text-white" >Academic Information Attachment</div>
-                                <div class="card-body">
-                                    <jhi-academic-information-attachment [employee]="employee"></jhi-academic-information-attachment>
-                                </div>
-                            </div>
+<div class="row justify-content-center">
+    <div class="col-md-3">
+        <div *ngIf="employee.id==undefined">
+            <img src="user.png" class="rounded" alt="user" width="304" height="250">
+        </div>
+        <div *ngIf="employee.id">
+            <img [src]="'data:' + employee.photoContentType + ';base64,' + employee.photo" width="304" height="236" alt="employee image"/>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header " align="right">
+                <button class="btn btn-primary"><fa-icon icon="edit" fixedWidth="true"></fa-icon></button>
+                <button class="btn btn-success"><fa-icon icon="plus" fixedWidth="true"></fa-icon></button>
+            </div>
+            <div class="card-body" height="236">
+                <div class="row">
+                    <div class="col-md-4">Full Name</div>
+                    <div class="col-md-8">{{employee.fullName}}</div>
 
-                        </div>
-                    </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Family Information" id="familyInformation" >
-                <ng-template ngbTabContent align="center">
-                    <div class="row" *ngIf="employee.id===undefined" align="center">
-                        <div class="card bg-warning text-white">
-                            <div class="card-body" align="center">Please fill up employee personal information</div>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="employee.id!==undefined">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header bg-primary text-white">Family  Information</div>
-                                <div class="card-body">
-                                    <jhi-family-information [employee]="employee" (closeEmployeeManagement)="previousState()" ></jhi-family-information>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Experience Information" id="experienceInformation" >
-                <ng-template ngbTabContent>
-                    <div class="row" *ngIf="employee.id===undefined" align="center">
-                        <div class="card bg-warning text-white">
-                            <div class="card-body" align="center">Please fill up employee personal information</div>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="employee.id!==undefined">
-                        <div class="col-md-7">
-                            <div class="card">
-                                <div class="card-header bg-primary text-white">Experience Information</div>
-                                <div class="card-body">
-                                    <jhi-experience-information [employee]="employee" (closeEmployeeManagement)="previousState()" ></jhi-experience-information>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="card">
-                                <div class="card-header bg-primary text-white" >Experience Information Attachment</div>
-                                <div class="card-body">
-                                    <jhi-experience-information-attachment [employee]="employee"></jhi-experience-information-attachment>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </ng-template>
-            </ngb-tab>
-
-            <ngb-tab title="Training Information" id="trainingInformation" >
-                <ng-template ngbTabContent>
-                    <div class="row" *ngIf="employee.id===undefined" align="center">
-                        <div class="card bg-warning text-white">
-                            <div class="card-body" align="center">Please fill up employee personal information</div>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="employee.id!==undefined">
-                        <div class="col-md-7">
-                            <div class="card">
-                                <div class="card-header bg-primary text-white">Training Information</div>
-                                <div class="card-body">
-                                    <jhi-training-information [employee]="employee" (closeEmployeeManagement)="previousState()" ></jhi-training-information>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="card">
-                                <div class="card-header bg-primary text-white" >Training Information Attachment</div>
-                                <div class="card-body">
-                                    <jhi-training-information-attachment [employee]="employee"></jhi-training-information-attachment>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab title="Reference Information" id="referenceInformation" >
-                <ng-template ngbTabContent>
-<!--                    <jhi-reference-information [employee]="employee"></jhi-reference-information>-->
-                </ng-template>
-            </ngb-tab>
-        </ngb-tabset>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<!--<div class="row">
-    <div class="col-md-12" align="right">
-        <button class="btn btn-primary" *ngIf="editable && showEditOrCancelButton" (click)="cancelEdit()">Cancel</button>
-        <button class="btn btn-primary" *ngIf="!editable && showEditOrCancelButton" (click)="edit()">Edit</button>
-        <button class="btn btn-success" (click)="previousState()" >Back</button>
-    </div>
-</div>-->
