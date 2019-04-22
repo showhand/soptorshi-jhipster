@@ -31,7 +31,7 @@
     <div class="col-8">
         <div class="table-responsive" *ngIf="employees">
             <table class="table table-striped">
-                <thead>
+                <!--<thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                     <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="employeeId"><span>Employee Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -49,10 +49,21 @@
                     <th jhiSortBy="designationId"><span>Designation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th></th>
                 </tr>
-                </thead>
+                </thead>-->
                 <tbody>
                 <tr *ngFor="let employee of employees ;trackBy: trackId">
-                    <td><a [routerLink]="['/employee', employee.id, 'view' ]">{{employee.id}}</a></td>
+                    <td>
+                        <a *ngIf="employee.photo" (click)="openFile(employee.photoContentType, employee.photo)">
+                            <img [src]="'data:' + employee.photoContentType + ';base64,' + employee.photo" width="165" height="170" alt="employee image"/>
+                        </a>
+                    </td>
+                    <td>
+                       <h3>{{employee.employeeId}}</h3>
+                        <p>Full Name: <b>{{employee.fullName}}</b></p>
+                        <p>Department: <b>{{departmentMap[employee.departmentId].name}}</b></p>
+                        <p>Designation: <b>{{designationMap[employee.designationId].name}}</b></p>
+                    </td>
+                   <!-- <td><a [routerLink]="['/employee', employee.id, 'view' ]">{{employee.id}}</a></td>
                     <td>{{employee.employeeId}}</td>
                     <td>{{employee.fullName}}</td>
                     <td>{{employee.joiningDate | date:'mediumDate'}}</td>
@@ -75,9 +86,9 @@
                         <div *ngIf="employee.designationId">
                             <a [routerLink]="['../designation', employee.designationId , 'view' ]" >{{employee.designationId}}</a>
                         </div>
-                    </td>
+                    </td>-->
                     <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
+                        <div class="btn-group-vertical">
                             <button type="submit"
                                     [routerLink]="['/employee', employee.id, 'view' ]"
                                     class="btn btn-info btn-sm">
@@ -89,6 +100,12 @@
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/employee',employee.id,'employee-management']"
+                                    class="btn btn-secondary btn-sm">
+                                <fa-icon [icon]="'addressBook'"></fa-icon>
+                                <span class="d-none d-md-inline">Additional Information</span>
                             </button>
                             <button type="submit"
                                     [routerLink]="['/', 'employee', { outlets: { popup: employee.id + '/delete'} }]"

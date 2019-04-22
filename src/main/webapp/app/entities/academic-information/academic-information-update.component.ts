@@ -30,6 +30,8 @@ export class AcademicInformationUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ academicInformation }) => {
             this.academicInformation = academicInformation;
+            console.log('got academic information');
+            console.log(this.academicInformation);
         });
         this.employeeService
             .query()

@@ -51,17 +51,10 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './designation/designation.module#SoptorshiDesignationModule'
             },
             {
-                path: 'employee',
-                loadChildren: './employee/employee.module#SoptorshiEmployeeModule'
-            },
-            {
                 path: 'attachment',
                 loadChildren: './attachment/attachment.module#SoptorshiAttachmentModule'
             },
-            {
-                path: 'academic-information',
-                loadChildren: './academic-information/academic-information.module#SoptorshiAcademicInformationModule'
-            },
+
             {
                 path: 'training-information',
                 loadChildren: './training-information/training-information.module#SoptorshiTrainingInformationModule'
@@ -101,10 +94,7 @@ import { MatTabsModule } from '@angular/material';
                 path: 'employee',
                 loadChildren: './employee/employee.module#SoptorshiEmployeeModule'
             },
-            {
-                path: 'academic-information',
-                loadChildren: './academic-information/academic-information.module#SoptorshiAcademicInformationModule'
-            },
+
             {
                 path: 'training-information',
                 loadChildren: './training-information/training-information.module#SoptorshiTrainingInformationModule'

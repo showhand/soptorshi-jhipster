@@ -1,25 +1,65 @@
 <div class="row justify-content-center">
-    <div class="col-md-3">
-        <div *ngIf="employee.id==undefined">
-            <img src="user.png" class="rounded" alt="user" width="304" height="250">
-        </div>
-        <div *ngIf="employee.id">
-            <img [src]="'data:' + employee.photoContentType + ';base64,' + employee.photo" width="304" height="236" alt="employee image"/>
-        </div>
+    <div class="col-8">
+        <h2>Additional Information</h2>
+        <hr/>
     </div>
-    <div class="col-md-5">
-        <div class="card">
-            <div class="card-header " align="right">
-                <button class="btn btn-primary"><fa-icon icon="edit" fixedWidth="true"></fa-icon></button>
-                <button class="btn btn-success"><fa-icon icon="plus" fixedWidth="true"></fa-icon></button>
-            </div>
-            <div class="card-body" height="236">
-                <div class="row">
-                    <div class="col-md-4">Full Name</div>
-                    <div class="col-md-8">{{employee.fullName}}</div>
+</div>
 
-                </div>
-            </div>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div class="col-md-12">
+            <h3>Academic Information</h3>
+            <button [routerLink]="['/academic-information',employee.id,'new-for-employee']" class="btn btn-secondary float-right" ><fa-icon [icon]="'plus'"></fa-icon></button>
         </div>
     </div>
 </div>
+        <div class="row justify-content-center">
+
+            <div class="col-md-8">
+                <div class="table-responsive" *ngIf="academicInformationList">
+                    <table class="table table-stripped">
+                        <thead>
+                        <th>Degree</th>
+                        <th>Board or University</th>
+                        <th>Passing year</th>
+                        <th>Group/Subject</th>
+                        <th></th>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let academicInformation of academicInformationList">
+                            <td>{{academicInformation.degree}}</td>
+                            <td>{{academicInformation.boardOrUniversity}}</td>
+                            <td>{{academicInformation.passingYear}}</td>
+                            <td>{{academicInformation.group}}</td>
+                            <td>
+                                <div class="btn-group flex-btn-group-container">
+                                    <button type="submit"
+                                            [routerLink]="['/academic-information', academicInformation.id, 'view' ]"
+                                            class="btn btn-info btn-sm">
+                                        <fa-icon [icon]="'eye'"></fa-icon>
+                                        <span class="d-none d-md-inline">View</span>
+                                    </button>
+                                    <button type="submit"
+                                            [routerLink]="['/academic-information', academicInformation.id, 'edit']"
+                                            class="btn btn-primary btn-sm">
+                                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                        <span class="d-none d-md-inline">Edit</span>
+                                    </button>
+                                    <button type="submit"
+                                            [routerLink]="['/', 'academic-information', { outlets: { popup: academicInformation.id + '/delete'} }]"
+                                            replaceUrl="true"
+                                            queryParamsHandling="merge"
+                                            class="btn btn-danger btn-sm">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                        <span class="d-none d-md-inline">Delete</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+

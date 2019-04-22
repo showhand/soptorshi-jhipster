@@ -32,6 +32,13 @@ const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
         EmployeeDeletePopupComponent,
         EmployeeManagementComponent
     ],
+    exports: [
+        EmployeeComponent,
+        EmployeeUpdateComponent,
+        EmployeeDeleteDialogComponent,
+        EmployeeDeletePopupComponent,
+        EmployeeManagementComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiEmployeeModule {}

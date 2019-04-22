@@ -11,6 +11,7 @@ import {
     academicInformationRoute,
     academicInformationPopupRoute
 } from './';
+import { EmployeeManagementModule } from 'app/employee-management/employee-management.module';
 
 const ENTITY_STATES = [...academicInformationRoute, ...academicInformationPopupRoute];
 
