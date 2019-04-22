@@ -9,6 +9,8 @@ import { DesignationService } from 'app/entities/designation';
 import { AcademicInformationService } from 'app/entities/academic-information';
 import { IAcademicInformation } from 'app/shared/model/academic-information.model';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { AcademicInformationAttachmentService } from 'app/entities/academic-information-attachment';
+import { IAcademicInformationAttachment } from 'app/shared/model/academic-information-attachment.model';
 
 @Component({
     selector: 'jhi-employee-management',
@@ -18,6 +20,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 export class EmployeeManagementComponent implements OnInit, AfterContentInit {
     employee: IEmployee;
     academicInformationList: IAcademicInformation[];
+    academicInformationAttachmentList: IAcademicInformationAttachment[];
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -25,7 +28,8 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
         protected activatedRoute: ActivatedRoute,
         protected employeeService: EmployeeService,
         protected designationService: DesignationService,
-        protected academicInformationService: AcademicInformationService
+        protected academicInformationService: AcademicInformationService,
+        protected academicInformationAttachmentService: AcademicInformationAttachmentService
     ) {}
 
     loadAll() {
@@ -38,6 +42,17 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
             .subscribe(
                 (res: HttpResponse<IAcademicInformation[]>) => (this.academicInformationList = res.body),
                 (res: HttpErrorResponse) => this.jhiAlertService.error('Error in retrieving academic information data')
+            );
+
+        this.academicInformationAttachmentService
+            .query({
+                'employeeId.equals': this.employee.id,
+                page: 0,
+                size: 1000
+            })
+            .subscribe(
+                (res: HttpResponse<IAcademicInformationAttachment[]>) => (this.academicInformationAttachmentList = res.body),
+                (res: HttpErrorResponse) => this.jhiAlertService.error('Error in retrieving academic attachments')
             );
     }
 
