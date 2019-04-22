@@ -12,12 +12,12 @@
                         {{academicInformationAttachment.fileContentType}}, {{byteSize(academicInformationAttachment.file)}}
                     </div>
                 </dd>
-                <!--<dt><span>Employee</span></dt>
+                <dt><span>Employee</span></dt>
                 <dd>
                     <div *ngIf="academicInformationAttachment.employeeId">
                         <a [routerLink]="['/employee', academicInformationAttachment.employeeId, 'view']">{{academicInformationAttachment.employeeEmployeeId}}</a>
                     </div>
-                </dd>-->
+                </dd>
             </dl>
 
             <button type="submit"
@@ -27,7 +27,7 @@
             </button>
 
             <button type="button"
-                    (click)="edit()"
+                    [routerLink]="['/academic-information-attachment', academicInformationAttachment.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>

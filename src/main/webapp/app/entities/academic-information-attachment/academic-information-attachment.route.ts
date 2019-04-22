@@ -30,7 +30,7 @@ export class AcademicInformationAttachmentResolve implements Resolve<IAcademicIn
 
 export const academicInformationAttachmentRoute: Routes = [
     {
-        path: 'home',
+        path: '',
         component: AcademicInformationAttachmentComponent,
         data: {
             authorities: ['ROLE_USER'],

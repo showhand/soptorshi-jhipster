@@ -1,30 +1,23 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
-import { AcademicInformationAttachment, IAcademicInformationAttachment } from 'app/shared/model/academic-information-attachment.model';
+import { IAcademicInformationAttachment } from 'app/shared/model/academic-information-attachment.model';
 import { AccountService } from 'app/core';
 import { AcademicInformationAttachmentService } from './academic-information-attachment.service';
-import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-academic-information-attachment',
     templateUrl: './academic-information-attachment.component.html'
 })
 export class AcademicInformationAttachmentComponent implements OnInit, OnDestroy {
-    @Input()
-    employee: IEmployee;
-    academicInformationAttachment: IAcademicInformationAttachment;
     academicInformationAttachments: IAcademicInformationAttachment[];
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;
-    showAcademicInformationAttachmentSection: boolean;
-    showAddOrUpdateSection: boolean;
-    showDeleteDialog: boolean;
 
     constructor(
         protected academicInformationAttachmentService: AcademicInformationAttachmentService,
@@ -33,15 +26,42 @@ export class AcademicInformationAttachmentComponent implements OnInit, OnDestroy
         protected eventManager: JhiEventManager,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
-    ) {}
+    ) {
+        this.currentSearch =
+            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
+                ? this.activatedRoute.snapshot.params['search']
+                : '';
+    }
 
     loadAll() {
-        this.academicInformationAttachmentService.findByEmployee(this.employee.id).subscribe(
-            (res: HttpResponse<IAcademicInformationAttachment[]>) => {
-                this.academicInformationAttachments = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        if (this.currentSearch) {
+            this.academicInformationAttachmentService
+                .search({
+                    query: this.currentSearch
+                })
+                .pipe(
+                    filter((res: HttpResponse<IAcademicInformationAttachment[]>) => res.ok),
+                    map((res: HttpResponse<IAcademicInformationAttachment[]>) => res.body)
+                )
+                .subscribe(
+                    (res: IAcademicInformationAttachment[]) => (this.academicInformationAttachments = res),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+            return;
+        }
+        this.academicInformationAttachmentService
+            .query()
+            .pipe(
+                filter((res: HttpResponse<IAcademicInformationAttachment[]>) => res.ok),
+                map((res: HttpResponse<IAcademicInformationAttachment[]>) => res.body)
+            )
+            .subscribe(
+                (res: IAcademicInformationAttachment[]) => {
+                    this.academicInformationAttachments = res;
+                    this.currentSearch = '';
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     search(query) {
@@ -58,8 +78,6 @@ export class AcademicInformationAttachmentComponent implements OnInit, OnDestroy
     }
 
     ngOnInit() {
-        this.showAcademicInformationAttachmentSection = true;
-        this.showDeleteDialog = false;
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
@@ -85,43 +103,6 @@ export class AcademicInformationAttachmentComponent implements OnInit, OnDestroy
 
     registerChangeInAcademicInformationAttachments() {
         this.eventSubscriber = this.eventManager.subscribe('academicInformationAttachmentListModification', response => this.loadAll());
-    }
-
-    showAcademicInformationAttachment() {
-        this.loadAll();
-        this.showAcademicInformationAttachmentSection = true;
-        this.showDeleteDialog = false;
-        this.academicInformationAttachment = new AcademicInformationAttachment();
-        this.academicInformationAttachment.employeeId = this.employee.id;
-    }
-
-    delete(academicInformationAttachment: IAcademicInformationAttachment) {
-        this.academicInformationAttachment = academicInformationAttachment;
-        this.showDeleteDialog = true;
-    }
-
-    addAcademicInformationAttachment() {
-        this.academicInformationAttachment = new AcademicInformationAttachment();
-        this.academicInformationAttachment.employeeId = this.employee.id;
-        this.showAddOrUpdateSection = true;
-        this.showAcademicInformationAttachmentSection = false;
-    }
-
-    edit(academicInformationAttachment: IAcademicInformationAttachment) {
-        this.academicInformationAttachment = academicInformationAttachment;
-        this.showAcademicInformationAttachmentSection = false;
-        this.showAddOrUpdateSection = true;
-    }
-
-    editAcademicInformationAttachment() {
-        this.showAcademicInformationAttachmentSection = false;
-        this.showAddOrUpdateSection = true;
-    }
-
-    viewAcademicInformationAttachment(academicInformationAttachment: IAcademicInformationAttachment) {
-        this.academicInformationAttachment = academicInformationAttachment;
-        this.showAcademicInformationAttachmentSection = false;
-        this.showAddOrUpdateSection = false;
     }
 
     protected onError(errorMessage: string) {
