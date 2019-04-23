@@ -18,6 +18,7 @@ export class ExperienceInformationAttachmentResolve implements Resolve<IExperien
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IExperienceInformationAttachment> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<ExperienceInformationAttachment>) => response.ok),
@@ -25,11 +26,87 @@ export class ExperienceInformationAttachmentResolve implements Resolve<IExperien
                     (experienceInformationAttachment: HttpResponse<ExperienceInformationAttachment>) => experienceInformationAttachment.body
                 )
             );
+        } else if (employeeId) {
+            let experienceInformationAttachment: IExperienceInformationAttachment = new ExperienceInformationAttachment();
+            experienceInformationAttachment.employeeId = employeeId;
+            return of(experienceInformationAttachment);
         }
         return of(new ExperienceInformationAttachment());
     }
 }
 
-export const experienceInformationAttachmentRoute: Routes = [];
+export const experienceInformationAttachmentRoute: Routes = [
+    {
+        path: '',
+        component: ExperienceInformationAttachmentComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':id/view',
+        component: ExperienceInformationAttachmentDetailComponent,
+        resolve: {
+            experienceInformationAttachment: ExperienceInformationAttachmentResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'new',
+        component: ExperienceInformationAttachmentUpdateComponent,
+        resolve: {
+            experienceInformationAttachment: ExperienceInformationAttachmentResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
+        component: ExperienceInformationAttachmentUpdateComponent,
+        resolve: {
+            experienceInformationAttachment: ExperienceInformationAttachmentResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':id/edit',
+        component: ExperienceInformationAttachmentUpdateComponent,
+        resolve: {
+            experienceInformationAttachment: ExperienceInformationAttachmentResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    }
+];
 
-export const experienceInformationAttachmentPopupRoute: Routes = [];
+export const experienceInformationAttachmentPopupRoute: Routes = [
+    {
+        path: ':id/delete',
+        component: ExperienceInformationAttachmentDeletePopupComponent,
+        resolve: {
+            experienceInformationAttachment: ExperienceInformationAttachmentResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    }
+];
