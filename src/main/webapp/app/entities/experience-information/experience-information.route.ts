@@ -19,11 +19,16 @@ export class ExperienceInformationResolve implements Resolve<IExperienceInformat
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IExperienceInformation> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<ExperienceInformation>) => response.ok),
                 map((experienceInformation: HttpResponse<ExperienceInformation>) => experienceInformation.body)
             );
+        } else if (employeeId) {
+            let experienceInformation: IExperienceInformation = new ExperienceInformation();
+            experienceInformation.employeeId = employeeId;
+            return of(experienceInformation);
         }
         return of(new ExperienceInformation());
     }
@@ -57,6 +62,18 @@ export const experienceInformationRoute: Routes = [
     },
     {
         path: 'new',
+        component: ExperienceInformationUpdateComponent,
+        resolve: {
+            experienceInformation: ExperienceInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
         component: ExperienceInformationUpdateComponent,
         resolve: {
             experienceInformation: ExperienceInformationResolve
