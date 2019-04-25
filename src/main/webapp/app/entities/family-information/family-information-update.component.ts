@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,10 +14,7 @@ import { EmployeeService } from 'app/entities/employee';
     templateUrl: './family-information-update.component.html'
 })
 export class FamilyInformationUpdateComponent implements OnInit {
-    @Input()
     familyInformation: IFamilyInformation;
-    @Output()
-    showFamilyInformationSection: EventEmitter<any> = new EventEmitter();
     isSaving: boolean;
 
     employees: IEmployee[];
@@ -31,20 +28,20 @@ export class FamilyInformationUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        // this.activatedRoute.data.subscribe(({ familyInformation }) => {
-        //     this.familyInformation = familyInformation;
-        // });
-        // this.employeeService
-        //     .query()
-        //     .pipe(
-        //         filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
-        //         map((response: HttpResponse<IEmployee[]>) => response.body)
-        //     )
-        //     .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.activatedRoute.data.subscribe(({ familyInformation }) => {
+            this.familyInformation = familyInformation;
+        });
+        this.employeeService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IEmployee[]>) => response.body)
+            )
+            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
-        this.showFamilyInformationSection.emit();
+        window.history.back();
     }
 
     save() {

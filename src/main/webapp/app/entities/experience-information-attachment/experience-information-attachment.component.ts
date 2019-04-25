@@ -1,33 +1,23 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
-import {
-    ExperienceInformationAttachment,
-    IExperienceInformationAttachment
-} from 'app/shared/model/experience-information-attachment.model';
+import { IExperienceInformationAttachment } from 'app/shared/model/experience-information-attachment.model';
 import { AccountService } from 'app/core';
 import { ExperienceInformationAttachmentService } from './experience-information-attachment.service';
-import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-experience-information-attachment',
     templateUrl: './experience-information-attachment.component.html'
 })
 export class ExperienceInformationAttachmentComponent implements OnInit, OnDestroy {
-    @Input()
-    employee: IEmployee;
-    experienceInformationAttachment: IExperienceInformationAttachment;
     experienceInformationAttachments: IExperienceInformationAttachment[];
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;
-    showExperienceInformationAttachmentSection: boolean;
-    showAddOrUpdateSection: boolean;
-    showDeleteDialog: boolean;
 
     constructor(
         protected experienceInformationAttachmentService: ExperienceInformationAttachmentService,
@@ -44,12 +34,34 @@ export class ExperienceInformationAttachmentComponent implements OnInit, OnDestr
     }
 
     loadAll() {
-        this.experienceInformationAttachmentService.findByEmployee(this.employee.id).subscribe(
-            (res: HttpResponse<IExperienceInformationAttachment[]>) => {
-                this.experienceInformationAttachments = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        if (this.currentSearch) {
+            this.experienceInformationAttachmentService
+                .search({
+                    query: this.currentSearch
+                })
+                .pipe(
+                    filter((res: HttpResponse<IExperienceInformationAttachment[]>) => res.ok),
+                    map((res: HttpResponse<IExperienceInformationAttachment[]>) => res.body)
+                )
+                .subscribe(
+                    (res: IExperienceInformationAttachment[]) => (this.experienceInformationAttachments = res),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+            return;
+        }
+        this.experienceInformationAttachmentService
+            .query()
+            .pipe(
+                filter((res: HttpResponse<IExperienceInformationAttachment[]>) => res.ok),
+                map((res: HttpResponse<IExperienceInformationAttachment[]>) => res.body)
+            )
+            .subscribe(
+                (res: IExperienceInformationAttachment[]) => {
+                    this.experienceInformationAttachments = res;
+                    this.currentSearch = '';
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     search(query) {
@@ -66,8 +78,6 @@ export class ExperienceInformationAttachmentComponent implements OnInit, OnDestr
     }
 
     ngOnInit() {
-        this.showExperienceInformationAttachmentSection = true;
-        this.showDeleteDialog = false;
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
@@ -97,42 +107,5 @@ export class ExperienceInformationAttachmentComponent implements OnInit, OnDestr
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
-    }
-
-    showExperienceInformationAttachment() {
-        this.loadAll();
-        this.showExperienceInformationAttachmentSection = true;
-        this.showDeleteDialog = false;
-        this.experienceInformationAttachment = new ExperienceInformationAttachment();
-        this.experienceInformationAttachment.employeeId = this.employee.id;
-    }
-
-    delete(experienceInformationAttachment: IExperienceInformationAttachment) {
-        this.experienceInformationAttachment = experienceInformationAttachment;
-        this.showDeleteDialog = true;
-    }
-
-    addexperienceInformationAttachment() {
-        this.experienceInformationAttachment = new ExperienceInformationAttachment();
-        this.experienceInformationAttachment.employeeId = this.employee.id;
-        this.showAddOrUpdateSection = true;
-        this.showExperienceInformationAttachmentSection = false;
-    }
-
-    edit(experienceInformationAttachment: IExperienceInformationAttachment) {
-        this.experienceInformationAttachment = experienceInformationAttachment;
-        this.showExperienceInformationAttachmentSection = false;
-        this.showAddOrUpdateSection = true;
-    }
-
-    editexperienceInformationAttachment() {
-        this.showExperienceInformationAttachmentSection = false;
-        this.showAddOrUpdateSection = true;
-    }
-
-    viewexperienceInformationAttachment(experienceInformationAttachment: IExperienceInformationAttachment) {
-        this.experienceInformationAttachment = experienceInformationAttachment;
-        this.showExperienceInformationAttachmentSection = false;
-        this.showAddOrUpdateSection = false;
     }
 }

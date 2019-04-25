@@ -87,6 +87,10 @@ public class EmployeeCriteria implements Serializable {
 
     private StringFilter emergencyContact;
 
+    private LocalDateFilter joiningDate;
+
+    private LongFilter manager;
+
     private EmployeeStatusFilter employeeStatus;
 
     private EmploymentTypeFilter employmentType;
@@ -237,6 +241,22 @@ public class EmployeeCriteria implements Serializable {
         this.emergencyContact = emergencyContact;
     }
 
+    public LocalDateFilter getJoiningDate() {
+        return joiningDate;
+    }
+
+    public void setJoiningDate(LocalDateFilter joiningDate) {
+        this.joiningDate = joiningDate;
+    }
+
+    public LongFilter getManager() {
+        return manager;
+    }
+
+    public void setManager(LongFilter manager) {
+        this.manager = manager;
+    }
+
     public EmployeeStatusFilter getEmployeeStatus() {
         return employeeStatus;
     }
@@ -321,6 +341,8 @@ public class EmployeeCriteria implements Serializable {
             Objects.equals(email, that.email) &&
             Objects.equals(bloodGroup, that.bloodGroup) &&
             Objects.equals(emergencyContact, that.emergencyContact) &&
+            Objects.equals(joiningDate, that.joiningDate) &&
+            Objects.equals(manager, that.manager) &&
             Objects.equals(employeeStatus, that.employeeStatus) &&
             Objects.equals(employmentType, that.employmentType) &&
             Objects.equals(terminationDate, that.terminationDate) &&
@@ -350,6 +372,8 @@ public class EmployeeCriteria implements Serializable {
         email,
         bloodGroup,
         emergencyContact,
+        joiningDate,
+        manager,
         employeeStatus,
         employmentType,
         terminationDate,
@@ -380,6 +404,8 @@ public class EmployeeCriteria implements Serializable {
                 (email != null ? "email=" + email + ", " : "") +
                 (bloodGroup != null ? "bloodGroup=" + bloodGroup + ", " : "") +
                 (emergencyContact != null ? "emergencyContact=" + emergencyContact + ", " : "") +
+                (joiningDate != null ? "joiningDate=" + joiningDate + ", " : "") +
+                (manager != null ? "manager=" + manager + ", " : "") +
                 (employeeStatus != null ? "employeeStatus=" + employeeStatus + ", " : "") +
                 (employmentType != null ? "employmentType=" + employmentType + ", " : "") +
                 (terminationDate != null ? "terminationDate=" + terminationDate + ", " : "") +

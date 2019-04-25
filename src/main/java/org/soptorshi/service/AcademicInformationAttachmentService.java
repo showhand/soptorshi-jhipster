@@ -68,15 +68,6 @@ public class AcademicInformationAttachmentService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-    @Transactional(readOnly = true)
-    public List<AcademicInformationAttachmentDTO> findAllByEmployeeId(Long employeeId){
-        log.debug("Requested to get all attachment for employee id-->"+employeeId);
-        return academicInformationAttachmentRepository.findByEmployeeId(employeeId)
-            .stream()
-            .map(academicInformationAttachmentMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
-    }
-
 
     /**
      * Get one academicInformationAttachment by id.

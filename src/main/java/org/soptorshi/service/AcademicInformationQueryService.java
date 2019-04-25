@@ -105,10 +105,6 @@ public class AcademicInformationQueryService extends QueryService<AcademicInform
             if (criteria.getGroup() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getGroup(), AcademicInformation_.group));
             }
-            if (criteria.getAttachmentId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAttachmentId(),
-                    root -> root.join(AcademicInformation_.attachments, JoinType.LEFT).get(Attachment_.id)));
-            }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),
                     root -> root.join(AcademicInformation_.employee, JoinType.LEFT).get(Employee_.id)));

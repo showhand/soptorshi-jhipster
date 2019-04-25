@@ -3,6 +3,7 @@
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-academic-information-attachment-heading">Create or edit a Academic Information Attachment</h2>
             <div>
+                <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!academicInformationAttachment.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"

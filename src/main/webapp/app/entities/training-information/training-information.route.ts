@@ -19,19 +19,24 @@ export class TrainingInformationResolve implements Resolve<ITrainingInformation>
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ITrainingInformation> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<TrainingInformation>) => response.ok),
                 map((trainingInformation: HttpResponse<TrainingInformation>) => trainingInformation.body)
             );
+        } else if (employeeId) {
+            const trainingInformation: ITrainingInformation = new TrainingInformation();
+            trainingInformation.employeeId = employeeId;
+            return of(trainingInformation);
         }
         return of(new TrainingInformation());
     }
 }
 
 export const trainingInformationRoute: Routes = [
-    /*{
-        path: 'home',
+    {
+        path: '',
         component: TrainingInformationComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
@@ -68,6 +73,18 @@ export const trainingInformationRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: ':employeeId/new',
+        component: TrainingInformationUpdateComponent,
+        resolve: {
+            trainingInformation: TrainingInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'TrainingInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/edit',
         component: TrainingInformationUpdateComponent,
         resolve: {
@@ -78,11 +95,11 @@ export const trainingInformationRoute: Routes = [
             pageTitle: 'TrainingInformations'
         },
         canActivate: [UserRouteAccessService]
-    }*/
+    }
 ];
 
 export const trainingInformationPopupRoute: Routes = [
-    /* {
+    {
         path: ':id/delete',
         component: TrainingInformationDeletePopupComponent,
         resolve: {
@@ -94,5 +111,5 @@ export const trainingInformationPopupRoute: Routes = [
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
-    }*/
+    }
 ];

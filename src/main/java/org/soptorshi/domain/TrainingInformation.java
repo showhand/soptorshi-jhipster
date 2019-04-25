@@ -1,15 +1,12 @@
 package org.soptorshi.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -35,8 +32,6 @@ public class TrainingInformation implements Serializable {
     @Column(name = "jhi_organization")
     private String organization;
 
-    @OneToMany(mappedBy = "trainingInformation")
-    private Set<Attachment> attachments = new HashSet<>();
     @ManyToOne
     @JsonIgnoreProperties("trainingInformations")
     private Employee employee;
@@ -87,31 +82,6 @@ public class TrainingInformation implements Serializable {
 
     public void setOrganization(String organization) {
         this.organization = organization;
-    }
-
-    public Set<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public TrainingInformation attachments(Set<Attachment> attachments) {
-        this.attachments = attachments;
-        return this;
-    }
-
-    public TrainingInformation addAttachment(Attachment attachment) {
-        this.attachments.add(attachment);
-        attachment.setTrainingInformation(this);
-        return this;
-    }
-
-    public TrainingInformation removeAttachment(Attachment attachment) {
-        this.attachments.remove(attachment);
-        attachment.setTrainingInformation(null);
-        return this;
-    }
-
-    public void setAttachments(Set<Attachment> attachments) {
-        this.attachments = attachments;
     }
 
     public Employee getEmployee() {

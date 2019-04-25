@@ -99,6 +99,12 @@ public class Employee implements Serializable {
     @Column(name = "emergency_contact", nullable = false)
     private String emergencyContact;
 
+    @Column(name = "joining_date")
+    private LocalDate joiningDate;
+
+    @Column(name = "manager")
+    private Long manager;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "employee_status")
     private EmployeeStatus employeeStatus;
@@ -348,6 +354,32 @@ public class Employee implements Serializable {
         this.emergencyContact = emergencyContact;
     }
 
+    public LocalDate getJoiningDate() {
+        return joiningDate;
+    }
+
+    public Employee joiningDate(LocalDate joiningDate) {
+        this.joiningDate = joiningDate;
+        return this;
+    }
+
+    public void setJoiningDate(LocalDate joiningDate) {
+        this.joiningDate = joiningDate;
+    }
+
+    public Long getManager() {
+        return manager;
+    }
+
+    public Employee manager(Long manager) {
+        this.manager = manager;
+        return this;
+    }
+
+    public void setManager(Long manager) {
+        this.manager = manager;
+    }
+
     public EmployeeStatus getEmployeeStatus() {
         return employeeStatus;
     }
@@ -506,6 +538,8 @@ public class Employee implements Serializable {
             ", email='" + getEmail() + "'" +
             ", bloodGroup='" + getBloodGroup() + "'" +
             ", emergencyContact='" + getEmergencyContact() + "'" +
+            ", joiningDate='" + getJoiningDate() + "'" +
+            ", manager=" + getManager() +
             ", employeeStatus='" + getEmployeeStatus() + "'" +
             ", employmentType='" + getEmploymentType() + "'" +
             ", terminationDate='" + getTerminationDate() + "'" +

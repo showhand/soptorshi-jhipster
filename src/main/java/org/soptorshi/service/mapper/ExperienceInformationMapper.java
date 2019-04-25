@@ -14,7 +14,6 @@ public interface ExperienceInformationMapper extends EntityMapper<ExperienceInfo
     @Mapping(source = "employee.id", target = "employeeId")
     ExperienceInformationDTO toDto(ExperienceInformation experienceInformation);
 
-    @Mapping(target = "attachments", ignore = true)
     @Mapping(source = "employeeId", target = "employee")
     ExperienceInformation toEntity(ExperienceInformationDTO experienceInformationDTO);
 

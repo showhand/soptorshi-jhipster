@@ -51,17 +51,10 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './designation/designation.module#SoptorshiDesignationModule'
             },
             {
-                path: 'employee',
-                loadChildren: './employee/employee.module#SoptorshiEmployeeModule'
-            },
-            {
                 path: 'attachment',
                 loadChildren: './attachment/attachment.module#SoptorshiAttachmentModule'
             },
-            {
-                path: 'academic-information',
-                loadChildren: './academic-information/academic-information.module#SoptorshiAcademicInformationModule'
-            },
+
             {
                 path: 'training-information',
                 loadChildren: './training-information/training-information.module#SoptorshiTrainingInformationModule'
@@ -96,6 +89,19 @@ import { MatTabsModule } from '@angular/material';
                 path: 'training-information-attachment',
                 loadChildren:
                     './training-information-attachment/training-information-attachment.module#SoptorshiTrainingInformationAttachmentModule'
+            },
+            {
+                path: 'employee',
+                loadChildren: './employee/employee.module#SoptorshiEmployeeModule'
+            },
+
+            {
+                path: 'training-information',
+                loadChildren: './training-information/training-information.module#SoptorshiTrainingInformationModule'
+            },
+            {
+                path: 'experience-information',
+                loadChildren: './experience-information/experience-information.module#SoptorshiExperienceInformationModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

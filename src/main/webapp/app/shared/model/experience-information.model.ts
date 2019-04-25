@@ -1,5 +1,4 @@
 import { Moment } from 'moment';
-import { IAttachment } from 'app/shared/model/attachment.model';
 
 export const enum EmploymentType {
     PERMANENT = 'PERMANENT',
@@ -15,7 +14,6 @@ export interface IExperienceInformation {
     startDate?: Moment;
     endDate?: Moment;
     employmentType?: EmploymentType;
-    attachments?: IAttachment[];
     employeeId?: number;
 }
 
@@ -27,7 +25,6 @@ export class ExperienceInformation implements IExperienceInformation {
         public startDate?: Moment,
         public endDate?: Moment,
         public employmentType?: EmploymentType,
-        public attachments?: IAttachment[],
         public employeeId?: number
     ) {}
 }

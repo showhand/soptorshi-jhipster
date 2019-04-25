@@ -14,7 +14,6 @@ public interface TrainingInformationMapper extends EntityMapper<TrainingInformat
     @Mapping(source = "employee.id", target = "employeeId")
     TrainingInformationDTO toDto(TrainingInformation trainingInformation);
 
-    @Mapping(target = "attachments", ignore = true)
     @Mapping(source = "employeeId", target = "employee")
     TrainingInformation toEntity(TrainingInformationDTO trainingInformationDTO);
 

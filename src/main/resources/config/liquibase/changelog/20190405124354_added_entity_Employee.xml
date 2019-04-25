@@ -86,6 +86,14 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="joining_date" type="date">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="manager" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
             <column name="employee_status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

@@ -108,10 +108,6 @@ public class ExperienceInformationQueryService extends QueryService<ExperienceIn
             if (criteria.getEmploymentType() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmploymentType(), ExperienceInformation_.employmentType));
             }
-            if (criteria.getAttachmentId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAttachmentId(),
-                    root -> root.join(ExperienceInformation_.attachments, JoinType.LEFT).get(Attachment_.id)));
-            }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),
                     root -> root.join(ExperienceInformation_.employee, JoinType.LEFT).get(Employee_.id)));

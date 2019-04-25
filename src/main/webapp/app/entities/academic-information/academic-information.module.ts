@@ -11,12 +11,12 @@ import {
     academicInformationRoute,
     academicInformationPopupRoute
 } from './';
-import { SoptorshiAcademicInformationAttachmentModule } from 'app/entities/academic-information-attachment/academic-information-attachment.module';
+import { EmployeeManagementModule } from 'app/employee-management/employee-management.module';
 
-const ENTITY_STATES = [...academicInformationPopupRoute];
+const ENTITY_STATES = [...academicInformationRoute, ...academicInformationPopupRoute];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, SoptorshiAcademicInformationAttachmentModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         AcademicInformationComponent,
         AcademicInformationDetailComponent,
@@ -26,13 +26,6 @@ const ENTITY_STATES = [...academicInformationPopupRoute];
     ],
     entryComponents: [
         AcademicInformationComponent,
-        AcademicInformationUpdateComponent,
-        AcademicInformationDeleteDialogComponent,
-        AcademicInformationDeletePopupComponent
-    ],
-    exports: [
-        AcademicInformationComponent,
-        AcademicInformationDetailComponent,
         AcademicInformationUpdateComponent,
         AcademicInformationDeleteDialogComponent,
         AcademicInformationDeletePopupComponent

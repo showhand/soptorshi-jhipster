@@ -36,7 +36,7 @@
             </button>
 
             <button type="button"
-                    (click)="edit()"
+                    [routerLink]="['/academic-information', academicInformation.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>

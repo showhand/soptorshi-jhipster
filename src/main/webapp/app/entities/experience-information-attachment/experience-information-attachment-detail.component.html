@@ -12,12 +12,7 @@
                         {{experienceInformationAttachment.fileContentType}}, {{byteSize(experienceInformationAttachment.file)}}
                     </div>
                 </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="experienceInformationAttachment.employeeId">
-                        <a [routerLink]="['/employee', experienceInformationAttachment.employeeId, 'view']">{{experienceInformationAttachment.employeeEmployeeId}}</a>
-                    </div>
-                </dd>
+
             </dl>
 
             <button type="submit"
@@ -27,7 +22,7 @@
             </button>
 
             <button type="button"
-                    (click)="edit()"
+                    [routerLink]="['/experience-information-attachment', experienceInformationAttachment.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>

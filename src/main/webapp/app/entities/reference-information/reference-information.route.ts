@@ -19,11 +19,16 @@ export class ReferenceInformationResolve implements Resolve<IReferenceInformatio
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IReferenceInformation> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<ReferenceInformation>) => response.ok),
                 map((referenceInformation: HttpResponse<ReferenceInformation>) => referenceInformation.body)
             );
+        } else if (employeeId) {
+            const referenceInformation: IReferenceInformation = new ReferenceInformation();
+            referenceInformation.employeeId = employeeId;
+            return of(referenceInformation);
         }
         return of(new ReferenceInformation());
     }
@@ -57,6 +62,18 @@ export const referenceInformationRoute: Routes = [
     },
     {
         path: 'new',
+        component: ReferenceInformationUpdateComponent,
+        resolve: {
+            referenceInformation: ReferenceInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ReferenceInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
         component: ReferenceInformationUpdateComponent,
         resolve: {
             referenceInformation: ReferenceInformationResolve

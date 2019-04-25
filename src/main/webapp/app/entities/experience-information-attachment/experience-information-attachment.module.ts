@@ -11,12 +11,11 @@ import {
     experienceInformationAttachmentRoute,
     experienceInformationAttachmentPopupRoute
 } from './';
-import { SoptorshiExperienceInformationModule } from 'app/entities/experience-information/experience-information.module';
 
 const ENTITY_STATES = [...experienceInformationAttachmentRoute, ...experienceInformationAttachmentPopupRoute];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES), SoptorshiExperienceInformationModule],
+    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         ExperienceInformationAttachmentComponent,
         ExperienceInformationAttachmentDetailComponent,
@@ -30,7 +29,6 @@ const ENTITY_STATES = [...experienceInformationAttachmentRoute, ...experienceInf
         ExperienceInformationAttachmentDeleteDialogComponent,
         ExperienceInformationAttachmentDeletePopupComponent
     ],
-    exports: [ExperienceInformationAttachmentComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiExperienceInformationAttachmentModule {}

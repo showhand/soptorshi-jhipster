@@ -1,29 +1,23 @@
-import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { AcademicInformation, IAcademicInformation } from 'app/shared/model/academic-information.model';
+import { IAcademicInformation } from 'app/shared/model/academic-information.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { AcademicInformationService } from './academic-information.service';
-import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-academic-information',
     templateUrl: './academic-information.component.html'
 })
 export class AcademicInformationComponent implements OnInit, OnDestroy {
-    @Input()
-    employee: IEmployee = <IEmployee>{};
-    @Output()
-    closeEmployeeManagement: EventEmitter<any> = new EventEmitter();
     currentAccount: any;
     academicInformations: IAcademicInformation[];
-    academicInformation: IAcademicInformation;
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -36,9 +30,6 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
-    showAcademicInformationManagementSection: boolean;
-    showAddOrUpdateSection: boolean;
-    showDeleteDialog: boolean;
 
     constructor(
         protected academicInformationService: AcademicInformationService,
@@ -50,25 +41,38 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
-        /*this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.page = data.pagingParams === undefined ? 1 : data.pagingParams;
-            this.previousPage = data.pagingParams === undefined ? 1 : data.pagingParams;
-            this.reverse = data.pagingParams === undefined ? true : data.pagingParams.ascending;
-            this.predicate = data.pagingParams === undefined ? 'id' : data.pagingParams.predicate;
-        });*/
-        this.page = 1;
-        this.previousPage = 1;
-        this.reverse = true;
-        this.predicate = 'id';
+        this.routeData = this.activatedRoute.data.subscribe(data => {
+            this.page = data.pagingParams.page;
+            this.previousPage = data.pagingParams.page;
+            this.reverse = data.pagingParams.ascending;
+            this.predicate = data.pagingParams.predicate;
+        });
+        this.currentSearch =
+            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
+                ? this.activatedRoute.snapshot.params['search']
+                : '';
     }
 
     loadAll() {
+        if (this.currentSearch) {
+            this.academicInformationService
+                .search({
+                    page: this.page - 1,
+                    query: this.currentSearch,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<IAcademicInformation[]>) => this.paginateAcademicInformations(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+            return;
+        }
         this.academicInformationService
             .query({
                 page: this.page - 1,
                 size: this.itemsPerPage,
-                sort: this.sort(),
-                'employeeId.equals': this.employee.id
+                sort: this.sort()
             })
             .subscribe(
                 (res: HttpResponse<IAcademicInformation[]>) => this.paginateAcademicInformations(res.body, res.headers),
@@ -126,18 +130,11 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        if (this.employee.id === undefined) {
-            this.jhiAlertService.error('Please fill up personal information');
-        } else {
-            this.academicInformationService.employee = this.employee;
-            this.showAcademicInformationManagementSection = true;
-            this.showDeleteDialog = false;
-            this.loadAll();
-            this.accountService.identity().then(account => {
-                this.currentAccount = account;
-            });
-            this.registerChangeInAcademicInformations();
-        }
+        this.loadAll();
+        this.accountService.identity().then(account => {
+            this.currentAccount = account;
+        });
+        this.registerChangeInAcademicInformations();
     }
 
     ngOnDestroy() {
@@ -158,45 +155,6 @@ export class AcademicInformationComponent implements OnInit, OnDestroy {
             result.push('id');
         }
         return result;
-    }
-
-    close() {
-        this.closeEmployeeManagement.emit();
-    }
-
-    showAcademicInformation() {
-        this.loadAll();
-        this.showAcademicInformationManagementSection = true;
-        this.showDeleteDialog = false;
-        this.academicInformation = new AcademicInformation();
-    }
-
-    delete(academicInformation: IAcademicInformation) {
-        this.academicInformation = academicInformation;
-        this.showDeleteDialog = true;
-    }
-
-    addAcademicInformation() {
-        this.academicInformation = new AcademicInformation();
-        this.showAcademicInformationManagementSection = false;
-        this.showAddOrUpdateSection = true;
-    }
-
-    edit(academicInformation: IAcademicInformation) {
-        this.academicInformation = academicInformation;
-        this.showAcademicInformationManagementSection = false;
-        this.showAddOrUpdateSection = true;
-    }
-
-    editAcademicInformation() {
-        this.showAcademicInformationManagementSection = false;
-        this.showAddOrUpdateSection = true;
-    }
-
-    viewAcademicInformation(academicInformation: IAcademicInformation) {
-        this.academicInformation = academicInformation;
-        this.showAddOrUpdateSection = false;
-        this.showAcademicInformationManagementSection = false;
     }
 
     protected paginateAcademicInformations(data: IAcademicInformation[], headers: HttpHeaders) {

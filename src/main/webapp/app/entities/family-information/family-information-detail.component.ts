@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { IFamilyInformation } from 'app/shared/model/family-information.model';
@@ -8,21 +8,17 @@ import { IFamilyInformation } from 'app/shared/model/family-information.model';
     templateUrl: './family-information-detail.component.html'
 })
 export class FamilyInformationDetailComponent implements OnInit {
-    @Input()
     familyInformation: IFamilyInformation;
-    @Output()
-    showFamilyInformationSection: EventEmitter<any> = new EventEmitter();
-    @Output()
-    editFamilyInformation: EventEmitter<any> = new EventEmitter();
 
     constructor(protected activatedRoute: ActivatedRoute) {}
 
-    ngOnInit() {}
-    edit() {
-        this.editFamilyInformation.emit();
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ familyInformation }) => {
+            this.familyInformation = familyInformation;
+        });
     }
 
     previousState() {
-        this.showFamilyInformationSection.emit();
+        window.history.back();
     }
 }

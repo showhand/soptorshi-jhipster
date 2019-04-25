@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { ITrainingInformationAttachment } from 'app/shared/model/training-information-attachment.model';
-import { IAcademicInformationAttachment } from 'app/shared/model/academic-information-attachment.model';
 
 type EntityResponseType = HttpResponse<ITrainingInformationAttachment>;
 type EntityArrayResponseType = HttpResponse<ITrainingInformationAttachment[]>;
@@ -27,12 +26,6 @@ export class TrainingInformationAttachmentService {
 
     find(id: number): Observable<EntityResponseType> {
         return this.http.get<ITrainingInformationAttachment>(`${this.resourceUrl}/${id}`, { observe: 'response' });
-    }
-
-    findByEmployee(employeeId: number): Observable<EntityArrayResponseType> {
-        return this.http.get<ITrainingInformationAttachment[]>(`${this.resourceUrl}/employeeId/${employeeId}`, {
-            observe: 'response'
-        });
     }
 
     query(req?: any): Observable<EntityArrayResponseType> {

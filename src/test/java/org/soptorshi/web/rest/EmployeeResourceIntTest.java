@@ -109,6 +109,12 @@ public class EmployeeResourceIntTest {
     private static final String DEFAULT_EMERGENCY_CONTACT = "AAAAAAAAAA";
     private static final String UPDATED_EMERGENCY_CONTACT = "BBBBBBBBBB";
 
+    private static final LocalDate DEFAULT_JOINING_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_JOINING_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final Long DEFAULT_MANAGER = 1L;
+    private static final Long UPDATED_MANAGER = 2L;
+
     private static final EmployeeStatus DEFAULT_EMPLOYEE_STATUS = EmployeeStatus.ACTIVE;
     private static final EmployeeStatus UPDATED_EMPLOYEE_STATUS = EmployeeStatus.TERMINATED;
 
@@ -204,6 +210,8 @@ public class EmployeeResourceIntTest {
             .email(DEFAULT_EMAIL)
             .bloodGroup(DEFAULT_BLOOD_GROUP)
             .emergencyContact(DEFAULT_EMERGENCY_CONTACT)
+            .joiningDate(DEFAULT_JOINING_DATE)
+            .manager(DEFAULT_MANAGER)
             .employeeStatus(DEFAULT_EMPLOYEE_STATUS)
             .employmentType(DEFAULT_EMPLOYMENT_TYPE)
             .terminationDate(DEFAULT_TERMINATION_DATE)
@@ -251,6 +259,8 @@ public class EmployeeResourceIntTest {
         assertThat(testEmployee.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testEmployee.getBloodGroup()).isEqualTo(DEFAULT_BLOOD_GROUP);
         assertThat(testEmployee.getEmergencyContact()).isEqualTo(DEFAULT_EMERGENCY_CONTACT);
+        assertThat(testEmployee.getJoiningDate()).isEqualTo(DEFAULT_JOINING_DATE);
+        assertThat(testEmployee.getManager()).isEqualTo(DEFAULT_MANAGER);
         assertThat(testEmployee.getEmployeeStatus()).isEqualTo(DEFAULT_EMPLOYEE_STATUS);
         assertThat(testEmployee.getEmploymentType()).isEqualTo(DEFAULT_EMPLOYMENT_TYPE);
         assertThat(testEmployee.getTerminationDate()).isEqualTo(DEFAULT_TERMINATION_DATE);
@@ -560,6 +570,8 @@ public class EmployeeResourceIntTest {
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())))
             .andExpect(jsonPath("$.[*].bloodGroup").value(hasItem(DEFAULT_BLOOD_GROUP.toString())))
             .andExpect(jsonPath("$.[*].emergencyContact").value(hasItem(DEFAULT_EMERGENCY_CONTACT.toString())))
+            .andExpect(jsonPath("$.[*].joiningDate").value(hasItem(DEFAULT_JOINING_DATE.toString())))
+            .andExpect(jsonPath("$.[*].manager").value(hasItem(DEFAULT_MANAGER.intValue())))
             .andExpect(jsonPath("$.[*].employeeStatus").value(hasItem(DEFAULT_EMPLOYEE_STATUS.toString())))
             .andExpect(jsonPath("$.[*].employmentType").value(hasItem(DEFAULT_EMPLOYMENT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].terminationDate").value(hasItem(DEFAULT_TERMINATION_DATE.toString())))
@@ -596,6 +608,8 @@ public class EmployeeResourceIntTest {
             .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL.toString()))
             .andExpect(jsonPath("$.bloodGroup").value(DEFAULT_BLOOD_GROUP.toString()))
             .andExpect(jsonPath("$.emergencyContact").value(DEFAULT_EMERGENCY_CONTACT.toString()))
+            .andExpect(jsonPath("$.joiningDate").value(DEFAULT_JOINING_DATE.toString()))
+            .andExpect(jsonPath("$.manager").value(DEFAULT_MANAGER.intValue()))
             .andExpect(jsonPath("$.employeeStatus").value(DEFAULT_EMPLOYEE_STATUS.toString()))
             .andExpect(jsonPath("$.employmentType").value(DEFAULT_EMPLOYMENT_TYPE.toString()))
             .andExpect(jsonPath("$.terminationDate").value(DEFAULT_TERMINATION_DATE.toString()))
@@ -1258,6 +1272,138 @@ public class EmployeeResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllEmployeesByJoiningDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where joiningDate equals to DEFAULT_JOINING_DATE
+        defaultEmployeeShouldBeFound("joiningDate.equals=" + DEFAULT_JOINING_DATE);
+
+        // Get all the employeeList where joiningDate equals to UPDATED_JOINING_DATE
+        defaultEmployeeShouldNotBeFound("joiningDate.equals=" + UPDATED_JOINING_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByJoiningDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where joiningDate in DEFAULT_JOINING_DATE or UPDATED_JOINING_DATE
+        defaultEmployeeShouldBeFound("joiningDate.in=" + DEFAULT_JOINING_DATE + "," + UPDATED_JOINING_DATE);
+
+        // Get all the employeeList where joiningDate equals to UPDATED_JOINING_DATE
+        defaultEmployeeShouldNotBeFound("joiningDate.in=" + UPDATED_JOINING_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByJoiningDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where joiningDate is not null
+        defaultEmployeeShouldBeFound("joiningDate.specified=true");
+
+        // Get all the employeeList where joiningDate is null
+        defaultEmployeeShouldNotBeFound("joiningDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByJoiningDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where joiningDate greater than or equals to DEFAULT_JOINING_DATE
+        defaultEmployeeShouldBeFound("joiningDate.greaterOrEqualThan=" + DEFAULT_JOINING_DATE);
+
+        // Get all the employeeList where joiningDate greater than or equals to UPDATED_JOINING_DATE
+        defaultEmployeeShouldNotBeFound("joiningDate.greaterOrEqualThan=" + UPDATED_JOINING_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByJoiningDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where joiningDate less than or equals to DEFAULT_JOINING_DATE
+        defaultEmployeeShouldNotBeFound("joiningDate.lessThan=" + DEFAULT_JOINING_DATE);
+
+        // Get all the employeeList where joiningDate less than or equals to UPDATED_JOINING_DATE
+        defaultEmployeeShouldBeFound("joiningDate.lessThan=" + UPDATED_JOINING_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByManagerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where manager equals to DEFAULT_MANAGER
+        defaultEmployeeShouldBeFound("manager.equals=" + DEFAULT_MANAGER);
+
+        // Get all the employeeList where manager equals to UPDATED_MANAGER
+        defaultEmployeeShouldNotBeFound("manager.equals=" + UPDATED_MANAGER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByManagerIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where manager in DEFAULT_MANAGER or UPDATED_MANAGER
+        defaultEmployeeShouldBeFound("manager.in=" + DEFAULT_MANAGER + "," + UPDATED_MANAGER);
+
+        // Get all the employeeList where manager equals to UPDATED_MANAGER
+        defaultEmployeeShouldNotBeFound("manager.in=" + UPDATED_MANAGER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByManagerIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where manager is not null
+        defaultEmployeeShouldBeFound("manager.specified=true");
+
+        // Get all the employeeList where manager is null
+        defaultEmployeeShouldNotBeFound("manager.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByManagerIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where manager greater than or equals to DEFAULT_MANAGER
+        defaultEmployeeShouldBeFound("manager.greaterOrEqualThan=" + DEFAULT_MANAGER);
+
+        // Get all the employeeList where manager greater than or equals to UPDATED_MANAGER
+        defaultEmployeeShouldNotBeFound("manager.greaterOrEqualThan=" + UPDATED_MANAGER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByManagerIsLessThanSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where manager less than or equals to DEFAULT_MANAGER
+        defaultEmployeeShouldNotBeFound("manager.lessThan=" + DEFAULT_MANAGER);
+
+        // Get all the employeeList where manager less than or equals to UPDATED_MANAGER
+        defaultEmployeeShouldBeFound("manager.lessThan=" + UPDATED_MANAGER);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllEmployeesByEmployeeStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
@@ -1539,6 +1685,8 @@ public class EmployeeResourceIntTest {
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
             .andExpect(jsonPath("$.[*].bloodGroup").value(hasItem(DEFAULT_BLOOD_GROUP)))
             .andExpect(jsonPath("$.[*].emergencyContact").value(hasItem(DEFAULT_EMERGENCY_CONTACT)))
+            .andExpect(jsonPath("$.[*].joiningDate").value(hasItem(DEFAULT_JOINING_DATE.toString())))
+            .andExpect(jsonPath("$.[*].manager").value(hasItem(DEFAULT_MANAGER.intValue())))
             .andExpect(jsonPath("$.[*].employeeStatus").value(hasItem(DEFAULT_EMPLOYEE_STATUS.toString())))
             .andExpect(jsonPath("$.[*].employmentType").value(hasItem(DEFAULT_EMPLOYMENT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].terminationDate").value(hasItem(DEFAULT_TERMINATION_DATE.toString())))
@@ -1609,6 +1757,8 @@ public class EmployeeResourceIntTest {
             .email(UPDATED_EMAIL)
             .bloodGroup(UPDATED_BLOOD_GROUP)
             .emergencyContact(UPDATED_EMERGENCY_CONTACT)
+            .joiningDate(UPDATED_JOINING_DATE)
+            .manager(UPDATED_MANAGER)
             .employeeStatus(UPDATED_EMPLOYEE_STATUS)
             .employmentType(UPDATED_EMPLOYMENT_TYPE)
             .terminationDate(UPDATED_TERMINATION_DATE)
@@ -1643,6 +1793,8 @@ public class EmployeeResourceIntTest {
         assertThat(testEmployee.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testEmployee.getBloodGroup()).isEqualTo(UPDATED_BLOOD_GROUP);
         assertThat(testEmployee.getEmergencyContact()).isEqualTo(UPDATED_EMERGENCY_CONTACT);
+        assertThat(testEmployee.getJoiningDate()).isEqualTo(UPDATED_JOINING_DATE);
+        assertThat(testEmployee.getManager()).isEqualTo(UPDATED_MANAGER);
         assertThat(testEmployee.getEmployeeStatus()).isEqualTo(UPDATED_EMPLOYEE_STATUS);
         assertThat(testEmployee.getEmploymentType()).isEqualTo(UPDATED_EMPLOYMENT_TYPE);
         assertThat(testEmployee.getTerminationDate()).isEqualTo(UPDATED_TERMINATION_DATE);
@@ -1726,6 +1878,8 @@ public class EmployeeResourceIntTest {
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
             .andExpect(jsonPath("$.[*].bloodGroup").value(hasItem(DEFAULT_BLOOD_GROUP)))
             .andExpect(jsonPath("$.[*].emergencyContact").value(hasItem(DEFAULT_EMERGENCY_CONTACT)))
+            .andExpect(jsonPath("$.[*].joiningDate").value(hasItem(DEFAULT_JOINING_DATE.toString())))
+            .andExpect(jsonPath("$.[*].manager").value(hasItem(DEFAULT_MANAGER.intValue())))
             .andExpect(jsonPath("$.[*].employeeStatus").value(hasItem(DEFAULT_EMPLOYEE_STATUS.toString())))
             .andExpect(jsonPath("$.[*].employmentType").value(hasItem(DEFAULT_EMPLOYMENT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].terminationDate").value(hasItem(DEFAULT_TERMINATION_DATE.toString())))

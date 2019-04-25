@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { IAcademicInformation } from 'app/shared/model/academic-information.model';
@@ -8,22 +8,17 @@ import { IAcademicInformation } from 'app/shared/model/academic-information.mode
     templateUrl: './academic-information-detail.component.html'
 })
 export class AcademicInformationDetailComponent implements OnInit {
-    @Input()
     academicInformation: IAcademicInformation;
-    @Output()
-    showAcademicInformationSection: EventEmitter<any> = new EventEmitter();
-    @Output()
-    editAcademicInformation: EventEmitter<any> = new EventEmitter();
 
     constructor(protected activatedRoute: ActivatedRoute) {}
 
-    ngOnInit() {}
-
-    edit() {
-        this.editAcademicInformation.emit();
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ academicInformation }) => {
+            this.academicInformation = academicInformation;
+        });
     }
 
     previousState() {
-        this.showAcademicInformationSection.emit();
+        window.history.back();
     }
 }

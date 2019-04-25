@@ -102,10 +102,6 @@ public class TrainingInformationQueryService extends QueryService<TrainingInform
             if (criteria.getOrganization() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getOrganization(), TrainingInformation_.organization));
             }
-            if (criteria.getAttachmentId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAttachmentId(),
-                    root -> root.join(TrainingInformation_.attachments, JoinType.LEFT).get(Attachment_.id)));
-            }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),
                     root -> root.join(TrainingInformation_.employee, JoinType.LEFT).get(Employee_.id)));

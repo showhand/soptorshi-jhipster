@@ -1,14 +1,29 @@
-<div *ngIf="showExperienceInformationAttachmentSection">
+<div>
     <h2 id="page-heading">
-        <span></span>
+        <span>Experience Information Attachments</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-experience-information-attachment" [routerLink]="['/experience-information-attachment/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
-            Add
+            Create new Experience Information Attachment
             </span>
         </button>
     </h2>
-
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <br/>
     <div class="table-responsive" *ngIf="experienceInformationAttachments">
         <table class="table table-striped">
@@ -61,9 +76,3 @@
         </table>
     </div>
 </div>
-<div *ngIf="!showExperienceInformationAttachmentSection">
-    <jhi-experience-information-attachment-update *ngIf="showAddOrUpdateSection" [experienceInformationAttachment]="experienceInformationAttachment" (showExperienceInformationAttachmentSection)="showExperienceInformationAttachment()"></jhi-experience-information-attachment-update>
-    <jhi-experience-information-attachment-detail *ngIf="!showAddOrUpdateSection" [experienceInformationAttachment]="experienceInformationAttachment" (showExperienceInformationAttachmentSection)="showExperienceInformationAttachment()" (editExperienceInformationAttachment)="editexperienceInformationAttachment()"></jhi-experience-information-attachment-detail>
-</div>
-
-<jhi-experience-information-attachment-delete-popup *ngIf="showDeleteDialog" [experienceInformationAttachment]="experienceInformationAttachment" (showExperienceInformationSection)="showExperienceInformationAttachment()"></jhi-experience-information-attachment-delete-popup>

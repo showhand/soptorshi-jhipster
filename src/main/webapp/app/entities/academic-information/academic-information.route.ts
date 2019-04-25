@@ -12,26 +12,34 @@ import { AcademicInformationDetailComponent } from './academic-information-detai
 import { AcademicInformationUpdateComponent } from './academic-information-update.component';
 import { AcademicInformationDeletePopupComponent } from './academic-information-delete-dialog.component';
 import { IAcademicInformation } from 'app/shared/model/academic-information.model';
+import { Employee, IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeService } from 'app/entities/employee';
+import { pipe } from 'rxjs/internal/util/pipe';
 
 @Injectable({ providedIn: 'root' })
 export class AcademicInformationResolve implements Resolve<IAcademicInformation> {
-    constructor(private service: AcademicInformationService) {}
+    constructor(private service: AcademicInformationService, private employeeService: EmployeeService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAcademicInformation> {
+        let academicInformation = new AcademicInformation();
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<AcademicInformation>) => response.ok),
                 map((academicInformation: HttpResponse<AcademicInformation>) => academicInformation.body)
             );
+        } else if (employeeId) {
+            academicInformation.employeeId = employeeId;
+            return of(academicInformation);
         }
-        return of(new AcademicInformation());
+        return of(academicInformation);
     }
 }
 
 export const academicInformationRoute: Routes = [
-    /*{
-        path: 'home',
+    {
+        path: '',
         component: AcademicInformationComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
@@ -56,7 +64,31 @@ export const academicInformationRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: ':employeeId/employee-based-view',
+        component: AcademicInformationDetailComponent,
+        resolve: {
+            academicInformation: AcademicInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'AcademicInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: 'new',
+        component: AcademicInformationUpdateComponent,
+        resolve: {
+            academicInformation: AcademicInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'AcademicInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new-for-employee',
         component: AcademicInformationUpdateComponent,
         resolve: {
             academicInformation: AcademicInformationResolve
@@ -78,11 +110,11 @@ export const academicInformationRoute: Routes = [
             pageTitle: 'AcademicInformations'
         },
         canActivate: [UserRouteAccessService]
-    }*/
+    }
 ];
 
 export const academicInformationPopupRoute: Routes = [
-    /*{
+    {
         path: ':id/delete',
         component: AcademicInformationDeletePopupComponent,
         resolve: {
@@ -94,5 +126,5 @@ export const academicInformationPopupRoute: Routes = [
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
-    }*/
+    }
 ];

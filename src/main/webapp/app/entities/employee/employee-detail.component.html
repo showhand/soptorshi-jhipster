@@ -1,17 +1,13 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="employee">
-            <h2><span>Employee Personal Information</span></h2>
+            <h2><span>{{employee.fullName}}</span></h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
                 <dt><span>Employee Id</span></dt>
                 <dd>
                     <span>{{employee.employeeId}}</span>
-                </dd>
-                <dt><span>Full Name</span></dt>
-                <dd>
-                    <span>{{employee.fullName}}</span>
                 </dd>
                 <dt><span>Fathers Name</span></dt>
                 <dd>
@@ -69,6 +65,14 @@
                 <dd>
                     <span>{{employee.emergencyContact}}</span>
                 </dd>
+                <dt><span>Joining Date</span></dt>
+                <dd>
+                    <span>{{employee.joiningDate}}</span>
+                </dd>
+                <dt><span>Manager</span></dt>
+                <dd>
+                    <span>{{employee.manager}}</span>
+                </dd>
                 <dt><span>Employee Status</span></dt>
                 <dd>
                     <span>{{employee.employeeStatus}}</span>
@@ -98,18 +102,19 @@
                         {{employee.photoContentType}}, {{byteSize(employee.photo)}}
                     </div>
                 </dd>
-                <dt><span>Department</span></dt>
+                <!-- Below codes are disabled, as already the information are shown in the initial view-->
+                <!--<dt><span>Department</span></dt>
                 <dd>
                     <div *ngIf="employee.departmentId">
-                        {{employeeService.departmentMap[employee.departmentId].name}}
+                        <a [routerLink]="['/department', employee.departmentId, 'view']">{{employee.departmentId}}</a>
                     </div>
                 </dd>
                 <dt><span>Designation</span></dt>
                 <dd>
                     <div *ngIf="employee.designationId">
-                        {{employeeService.designationMap[employee.designationId].name}}
+                        <a [routerLink]="['/designation', employee.designationId, 'view']">{{employee.designationId}}</a>
                     </div>
-                </dd>
+                </dd>-->
             </dl>
 
             <button type="submit"
@@ -119,7 +124,8 @@
             </button>
 
             <button type="button"
-                    class="btn btn-primary" (click)="edit()">
+                    [routerLink]="['/employee', employee.id, 'edit']"
+                    class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
         </div>

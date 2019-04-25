@@ -41,8 +41,6 @@ public class ExperienceInformationCriteria implements Serializable {
 
     private EmploymentTypeFilter employmentType;
 
-    private LongFilter attachmentId;
-
     private LongFilter employeeId;
 
     public LongFilter getId() {
@@ -93,14 +91,6 @@ public class ExperienceInformationCriteria implements Serializable {
         this.employmentType = employmentType;
     }
 
-    public LongFilter getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(LongFilter attachmentId) {
-        this.attachmentId = attachmentId;
-    }
-
     public LongFilter getEmployeeId() {
         return employeeId;
     }
@@ -126,7 +116,6 @@ public class ExperienceInformationCriteria implements Serializable {
             Objects.equals(startDate, that.startDate) &&
             Objects.equals(endDate, that.endDate) &&
             Objects.equals(employmentType, that.employmentType) &&
-            Objects.equals(attachmentId, that.attachmentId) &&
             Objects.equals(employeeId, that.employeeId);
     }
 
@@ -139,7 +128,6 @@ public class ExperienceInformationCriteria implements Serializable {
         startDate,
         endDate,
         employmentType,
-        attachmentId,
         employeeId
         );
     }
@@ -153,7 +141,6 @@ public class ExperienceInformationCriteria implements Serializable {
                 (startDate != null ? "startDate=" + startDate + ", " : "") +
                 (endDate != null ? "endDate=" + endDate + ", " : "") +
                 (employmentType != null ? "employmentType=" + employmentType + ", " : "") +
-                (attachmentId != null ? "attachmentId=" + attachmentId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }

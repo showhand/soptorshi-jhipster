@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -86,17 +85,6 @@ public class AcademicInformationAttachmentResource {
     public List<AcademicInformationAttachmentDTO> getAllAcademicInformationAttachments() {
         log.debug("REST request to get all AcademicInformationAttachments");
         return academicInformationAttachmentService.findAll();
-    }
-
-    /**
-     * GET  /academic-information-attachments/employeeId/{employeeId} : get all the academicInformationAttachments by employee id.
-     *
-     * @return the ResponseEntity with status 200 (OK) and the list of academicInformationAttachments in body
-     */
-    @GetMapping("/academic-information-attachments/employeeId/{employeeId}")
-    public List<AcademicInformationAttachmentDTO> getAllAttachmentByEmployee(@PathVariable Long employeeId){
-        log.debug("REST request to get all AcademicInformationAttachments by employee id: "+employeeId);
-        return academicInformationAttachmentService.findAllByEmployeeId(employeeId);
     }
 
     /**

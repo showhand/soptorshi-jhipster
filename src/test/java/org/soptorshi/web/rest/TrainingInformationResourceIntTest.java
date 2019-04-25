@@ -3,7 +3,6 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.TrainingInformation;
-import org.soptorshi.domain.Attachment;
 import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.TrainingInformationRepository;
 import org.soptorshi.repository.search.TrainingInformationSearchRepository;
@@ -327,25 +326,6 @@ public class TrainingInformationResourceIntTest {
         // Get all the trainingInformationList where organization is null
         defaultTrainingInformationShouldNotBeFound("organization.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllTrainingInformationsByAttachmentIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Attachment attachment = AttachmentResourceIntTest.createEntity(em);
-        em.persist(attachment);
-        em.flush();
-        trainingInformation.addAttachment(attachment);
-        trainingInformationRepository.saveAndFlush(trainingInformation);
-        Long attachmentId = attachment.getId();
-
-        // Get all the trainingInformationList where attachment equals to attachmentId
-        defaultTrainingInformationShouldBeFound("attachmentId.equals=" + attachmentId);
-
-        // Get all the trainingInformationList where attachment equals to attachmentId + 1
-        defaultTrainingInformationShouldNotBeFound("attachmentId.equals=" + (attachmentId + 1));
-    }
-
 
     @Test
     @Transactional

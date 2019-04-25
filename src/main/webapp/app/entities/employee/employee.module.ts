@@ -11,33 +11,12 @@ import {
     employeeRoute,
     employeePopupRoute
 } from './';
-import { EmployeeManagementComponent } from './employee-management.component';
-import { MatTabsModule } from '@angular/material';
-import { SoptorshiAcademicInformationModule } from 'app/entities/academic-information/academic-information.module';
-import { SoptorshiExperienceInformationModule } from 'app/entities/experience-information/experience-information.module';
-import { SoptorshiFamilyInformationModule } from 'app/entities/family-information/family-information.module';
-import { SoptorshiTrainingInformationModule } from 'app/entities/training-information/training-information.module';
-import { SoptorshiReferenceInformationModule } from 'app/entities/reference-information/reference-information.module';
-import { SoptorshiAcademicInformationAttachmentModule } from 'app/entities/academic-information-attachment/academic-information-attachment.module';
-import { SoptorshiExperienceInformationAttachmentModule } from 'app/entities/experience-information-attachment/experience-information-attachment.module';
-import { SoptorshiTrainingInformationAttachmentModule } from 'app/entities/training-information-attachment/training-information-attachment.module';
+import { EmployeeManagementComponent } from 'app/entities/employee/employee-management.component';
 
 const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
 
 @NgModule({
-    imports: [
-        SoptorshiSharedModule,
-        MatTabsModule,
-        SoptorshiAcademicInformationModule,
-        SoptorshiExperienceInformationModule,
-        SoptorshiFamilyInformationModule,
-        SoptorshiTrainingInformationModule,
-        SoptorshiReferenceInformationModule,
-        RouterModule.forChild(ENTITY_STATES),
-        SoptorshiAcademicInformationAttachmentModule,
-        SoptorshiExperienceInformationAttachmentModule,
-        SoptorshiTrainingInformationAttachmentModule
-    ],
+    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         EmployeeComponent,
         EmployeeDetailComponent,
@@ -46,7 +25,20 @@ const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
         EmployeeDeletePopupComponent,
         EmployeeManagementComponent
     ],
-    entryComponents: [EmployeeComponent, EmployeeUpdateComponent, EmployeeDeleteDialogComponent, EmployeeDeletePopupComponent],
+    entryComponents: [
+        EmployeeComponent,
+        EmployeeUpdateComponent,
+        EmployeeDeleteDialogComponent,
+        EmployeeDeletePopupComponent,
+        EmployeeManagementComponent
+    ],
+    exports: [
+        EmployeeComponent,
+        EmployeeUpdateComponent,
+        EmployeeDeleteDialogComponent,
+        EmployeeDeletePopupComponent,
+        EmployeeManagementComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiEmployeeModule {}

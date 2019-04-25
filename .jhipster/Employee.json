@@ -108,6 +108,14 @@
             ]
         },
         {
+            "fieldName": "joiningDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "manager",
+            "fieldType": "Long"
+        },
+        {
             "fieldName": "employeeStatus",
             "fieldType": "EmployeeStatus",
             "fieldValues": "ACTIVE,TERMINATED"

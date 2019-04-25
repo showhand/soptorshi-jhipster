@@ -20,12 +20,6 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "attachment",
-            "otherEntityRelationshipName": "academicInformation",
-            "relationshipName": "attachment"
-        },
-        {
             "relationshipType": "many-to-one",
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "academicInformation",

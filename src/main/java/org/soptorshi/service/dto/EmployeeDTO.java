@@ -62,6 +62,10 @@ public class EmployeeDTO implements Serializable {
     @NotNull
     private String emergencyContact;
 
+    private LocalDate joiningDate;
+
+    private Long manager;
+
     private EmployeeStatus employeeStatus;
 
     private EmploymentType employmentType;
@@ -217,6 +221,22 @@ public class EmployeeDTO implements Serializable {
         this.emergencyContact = emergencyContact;
     }
 
+    public LocalDate getJoiningDate() {
+        return joiningDate;
+    }
+
+    public void setJoiningDate(LocalDate joiningDate) {
+        this.joiningDate = joiningDate;
+    }
+
+    public Long getManager() {
+        return manager;
+    }
+
+    public void setManager(Long manager) {
+        this.manager = manager;
+    }
+
     public EmployeeStatus getEmployeeStatus() {
         return employeeStatus;
     }
@@ -330,6 +350,8 @@ public class EmployeeDTO implements Serializable {
             ", email='" + getEmail() + "'" +
             ", bloodGroup='" + getBloodGroup() + "'" +
             ", emergencyContact='" + getEmergencyContact() + "'" +
+            ", joiningDate='" + getJoiningDate() + "'" +
+            ", manager=" + getManager() +
             ", employeeStatus='" + getEmployeeStatus() + "'" +
             ", employmentType='" + getEmploymentType() + "'" +
             ", terminationDate='" + getTerminationDate() + "'" +

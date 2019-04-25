@@ -1,6 +1,5 @@
 package org.soptorshi.web.rest;
 import org.soptorshi.service.ExperienceInformationAttachmentService;
-import org.soptorshi.service.dto.ExperienceInformationDTO;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.service.dto.ExperienceInformationAttachmentDTO;
@@ -99,12 +98,6 @@ public class ExperienceInformationAttachmentResource {
         log.debug("REST request to get ExperienceInformationAttachment : {}", id);
         Optional<ExperienceInformationAttachmentDTO> experienceInformationAttachmentDTO = experienceInformationAttachmentService.findOne(id);
         return ResponseUtil.wrapOrNotFound(experienceInformationAttachmentDTO);
-    }
-
-    @GetMapping("/experience-information-attachments/employeeId/{employeeId}")
-    public List<ExperienceInformationAttachmentDTO> getExperienceInformation(@PathVariable Long employeeId){
-        log.debug("REST request to get ExperienceInformationAttachments by emplyee id: {}", employeeId);
-        return experienceInformationAttachmentService.findAllByEmployee(employeeId);
     }
 
     /**

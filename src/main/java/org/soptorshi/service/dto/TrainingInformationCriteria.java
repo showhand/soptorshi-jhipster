@@ -30,8 +30,6 @@ public class TrainingInformationCriteria implements Serializable {
 
     private StringFilter organization;
 
-    private LongFilter attachmentId;
-
     private LongFilter employeeId;
 
     public LongFilter getId() {
@@ -66,14 +64,6 @@ public class TrainingInformationCriteria implements Serializable {
         this.organization = organization;
     }
 
-    public LongFilter getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(LongFilter attachmentId) {
-        this.attachmentId = attachmentId;
-    }
-
     public LongFilter getEmployeeId() {
         return employeeId;
     }
@@ -97,7 +87,6 @@ public class TrainingInformationCriteria implements Serializable {
             Objects.equals(name, that.name) &&
             Objects.equals(subject, that.subject) &&
             Objects.equals(organization, that.organization) &&
-            Objects.equals(attachmentId, that.attachmentId) &&
             Objects.equals(employeeId, that.employeeId);
     }
 
@@ -108,7 +97,6 @@ public class TrainingInformationCriteria implements Serializable {
         name,
         subject,
         organization,
-        attachmentId,
         employeeId
         );
     }
@@ -120,7 +108,6 @@ public class TrainingInformationCriteria implements Serializable {
                 (name != null ? "name=" + name + ", " : "") +
                 (subject != null ? "subject=" + subject + ", " : "") +
                 (organization != null ? "organization=" + organization + ", " : "") +
-                (attachmentId != null ? "attachmentId=" + attachmentId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }

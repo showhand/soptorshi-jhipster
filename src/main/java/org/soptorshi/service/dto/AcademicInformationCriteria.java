@@ -32,8 +32,6 @@ public class AcademicInformationCriteria implements Serializable {
 
     private StringFilter group;
 
-    private LongFilter attachmentId;
-
     private LongFilter employeeId;
 
     public LongFilter getId() {
@@ -76,14 +74,6 @@ public class AcademicInformationCriteria implements Serializable {
         this.group = group;
     }
 
-    public LongFilter getAttachmentId() {
-        return attachmentId;
-    }
-
-    public void setAttachmentId(LongFilter attachmentId) {
-        this.attachmentId = attachmentId;
-    }
-
     public LongFilter getEmployeeId() {
         return employeeId;
     }
@@ -108,7 +98,6 @@ public class AcademicInformationCriteria implements Serializable {
             Objects.equals(boardOrUniversity, that.boardOrUniversity) &&
             Objects.equals(passingYear, that.passingYear) &&
             Objects.equals(group, that.group) &&
-            Objects.equals(attachmentId, that.attachmentId) &&
             Objects.equals(employeeId, that.employeeId);
     }
 
@@ -120,7 +109,6 @@ public class AcademicInformationCriteria implements Serializable {
         boardOrUniversity,
         passingYear,
         group,
-        attachmentId,
         employeeId
         );
     }
@@ -133,7 +121,6 @@ public class AcademicInformationCriteria implements Serializable {
                 (boardOrUniversity != null ? "boardOrUniversity=" + boardOrUniversity + ", " : "") +
                 (passingYear != null ? "passingYear=" + passingYear + ", " : "") +
                 (group != null ? "group=" + group + ", " : "") +
-                (attachmentId != null ? "attachmentId=" + attachmentId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }

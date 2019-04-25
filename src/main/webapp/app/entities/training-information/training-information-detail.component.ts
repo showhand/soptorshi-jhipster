@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ITrainingInformation } from 'app/shared/model/training-information.model';
@@ -8,22 +8,17 @@ import { ITrainingInformation } from 'app/shared/model/training-information.mode
     templateUrl: './training-information-detail.component.html'
 })
 export class TrainingInformationDetailComponent implements OnInit {
-    @Input()
     trainingInformation: ITrainingInformation;
-    @Output()
-    showTrainingInformationSection: EventEmitter<any> = new EventEmitter();
-    @Output()
-    editTrainingInformation: EventEmitter<any> = new EventEmitter();
 
     constructor(protected activatedRoute: ActivatedRoute) {}
 
-    ngOnInit() {}
-
-    edit() {
-        this.editTrainingInformation.emit();
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ trainingInformation }) => {
+            this.trainingInformation = trainingInformation;
+        });
     }
 
     previousState() {
-        this.showTrainingInformationSection.emit();
+        window.history.back();
     }
 }

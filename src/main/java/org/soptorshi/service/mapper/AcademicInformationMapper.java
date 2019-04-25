@@ -14,7 +14,6 @@ public interface AcademicInformationMapper extends EntityMapper<AcademicInformat
     @Mapping(source = "employee.id", target = "employeeId")
     AcademicInformationDTO toDto(AcademicInformation academicInformation);
 
-    @Mapping(target = "attachments", ignore = true)
     @Mapping(source = "employeeId", target = "employee")
     AcademicInformation toEntity(AcademicInformationDTO academicInformationDTO);
 

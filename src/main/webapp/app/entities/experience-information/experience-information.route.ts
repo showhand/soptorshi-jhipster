@@ -19,16 +19,97 @@ export class ExperienceInformationResolve implements Resolve<IExperienceInformat
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IExperienceInformation> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<ExperienceInformation>) => response.ok),
                 map((experienceInformation: HttpResponse<ExperienceInformation>) => experienceInformation.body)
             );
+        } else if (employeeId) {
+            let experienceInformation: IExperienceInformation = new ExperienceInformation();
+            experienceInformation.employeeId = employeeId;
+            return of(experienceInformation);
         }
         return of(new ExperienceInformation());
     }
 }
 
-export const experienceInformationRoute: Routes = [];
+export const experienceInformationRoute: Routes = [
+    {
+        path: '',
+        component: ExperienceInformationComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            defaultSort: 'id,asc',
+            pageTitle: 'ExperienceInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':id/view',
+        component: ExperienceInformationDetailComponent,
+        resolve: {
+            experienceInformation: ExperienceInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'new',
+        component: ExperienceInformationUpdateComponent,
+        resolve: {
+            experienceInformation: ExperienceInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
+        component: ExperienceInformationUpdateComponent,
+        resolve: {
+            experienceInformation: ExperienceInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':id/edit',
+        component: ExperienceInformationUpdateComponent,
+        resolve: {
+            experienceInformation: ExperienceInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    }
+];
 
-export const experienceInformationPopupRoute: Routes = [];
+export const experienceInformationPopupRoute: Routes = [
+    {
+        path: ':id/delete',
+        component: ExperienceInformationDeletePopupComponent,
+        resolve: {
+            experienceInformation: ExperienceInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ExperienceInformations'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    }
+];
