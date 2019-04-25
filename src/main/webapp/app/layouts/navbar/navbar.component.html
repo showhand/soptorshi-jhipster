@@ -1,4 +1,10 @@
-<nav class="navbar navbar-dark navbar-expand-md bg-dark">
+<style>
+    .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+</style>
+<nav class="navbar navbar-dark navbar-expand-md bg-dark fixed-top" >
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
         <span class="logo-img"></span>
         <span class="navbar-title">Soptorshi</span> <span class="navbar-version">{{version}}</span>
