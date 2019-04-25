@@ -29,13 +29,6 @@ const ENTITY_STATES = [...familyInformationRoute, ...familyInformationPopupRoute
         FamilyInformationDeleteDialogComponent,
         FamilyInformationDeletePopupComponent
     ],
-    exports: [
-        FamilyInformationComponent,
-        FamilyInformationDetailComponent,
-        FamilyInformationUpdateComponent,
-        FamilyInformationDeleteDialogComponent,
-        FamilyInformationDeletePopupComponent
-    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiFamilyInformationModule {}

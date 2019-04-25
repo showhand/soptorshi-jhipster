@@ -18,16 +18,94 @@ export class TrainingInformationAttachmentResolve implements Resolve<ITrainingIn
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ITrainingInformationAttachment> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
+
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<TrainingInformationAttachment>) => response.ok),
                 map((trainingInformationAttachment: HttpResponse<TrainingInformationAttachment>) => trainingInformationAttachment.body)
             );
+        } else if (employeeId) {
+            let trainingInformationAttachment: ITrainingInformationAttachment = new TrainingInformationAttachment();
+            trainingInformationAttachment.employeeId = employeeId;
+            return of(trainingInformationAttachment);
         }
         return of(new TrainingInformationAttachment());
     }
 }
 
-export const trainingInformationAttachmentRoute: Routes = [];
+export const trainingInformationAttachmentRoute: Routes = [
+    {
+        path: '',
+        component: TrainingInformationAttachmentComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'TrainingInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':id/view',
+        component: TrainingInformationAttachmentDetailComponent,
+        resolve: {
+            trainingInformationAttachment: TrainingInformationAttachmentResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'TrainingInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'new',
+        component: TrainingInformationAttachmentUpdateComponent,
+        resolve: {
+            trainingInformationAttachment: TrainingInformationAttachmentResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'TrainingInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
+        component: TrainingInformationAttachmentUpdateComponent,
+        resolve: {
+            trainingInformationAttachment: TrainingInformationAttachmentResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'TrainingInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':id/edit',
+        component: TrainingInformationAttachmentUpdateComponent,
+        resolve: {
+            trainingInformationAttachment: TrainingInformationAttachmentResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'TrainingInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService]
+    }
+];
 
-export const trainingInformationAttachmentPopupRoute: Routes = [];
+export const trainingInformationAttachmentPopupRoute: Routes = [
+    {
+        path: ':id/delete',
+        component: TrainingInformationAttachmentDeletePopupComponent,
+        resolve: {
+            trainingInformationAttachment: TrainingInformationAttachmentResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'TrainingInformationAttachments'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    }
+];

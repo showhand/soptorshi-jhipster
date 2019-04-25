@@ -11,6 +11,8 @@ import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department';
 import { IDesignation } from 'app/shared/model/designation.model';
 import { DesignationService } from 'app/entities/designation';
+import { IUser, User, UserService } from 'app/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'jhi-employee-update',
@@ -26,6 +28,8 @@ export class EmployeeUpdateComponent implements OnInit {
     birthDateDp: any;
     joiningDateDp: any;
     terminationDateDp: any;
+    user: User;
+    authorities: any[];
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -34,7 +38,9 @@ export class EmployeeUpdateComponent implements OnInit {
         protected departmentService: DepartmentService,
         protected designationService: DesignationService,
         protected elementRef: ElementRef,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        protected userService: UserService,
+        protected modalService: NgbModal
     ) {}
 
     ngOnInit() {
@@ -74,6 +80,71 @@ export class EmployeeUpdateComponent implements OnInit {
                 map((response: HttpResponse<IDesignation[]>) => response.body)
             )
             .subscribe((res: IDesignation[]) => (this.designations = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    activationCheckboxChanged(content) {
+        this.user = new User();
+        if (this.employee.userAccount) {
+            this.modalService.open(content);
+
+            this.userService.find(this.employee.employeeId).subscribe(
+                response => {
+                    this.user = response.body;
+                },
+                error => {
+                    console.log('In error portion');
+                    this.user = new User();
+                    this.user.login = this.employee.employeeId;
+                    this.user.email = this.employee.email;
+                }
+            );
+
+            this.userService.authorities().subscribe(authorities => {
+                this.authorities = authorities;
+            });
+        } else {
+            this.userService.find(this.employee.employeeId).subscribe(
+                user => {
+                    this.user = user.body;
+                    if (this.user != undefined) {
+                        this.user.activated = false;
+                        this.userService.update(this.user).subscribe(response => {
+                            this.jhiAlertService.info('User account disabled');
+                        });
+                    }
+                },
+                error => {}
+            );
+        }
+    }
+
+    cancelUserCreation() {
+        this.modalService.dismissAll();
+    }
+
+    saveUser() {
+        this.userService.find(this.user.login).subscribe(
+            response => {
+                let user: IUser = response.body;
+                user.activated = this.user.activated;
+                user.authorities = this.user.authorities;
+                this.userService.update(user).subscribe(
+                    response => {
+                        this.jhiAlertService.info('User Successfully Updated');
+                        this.modalService.dismissAll();
+                    },
+                    () => {
+                        this.jhiAlertService.error('Error in updating user');
+                    }
+                );
+            },
+            error => {
+                this.userService.create(this.user).subscribe(response => {
+                    this.jhiAlertService.info('User Successfully Created');
+                    this.modalService.dismissAll();
+                });
+            }
+        );
     }
 
     byteSize(field) {

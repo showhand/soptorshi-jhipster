@@ -16,6 +16,14 @@ import { IExperienceInformation } from 'app/shared/model/experience-information.
 import { IExperienceInformationAttachment } from 'app/shared/model/experience-information-attachment.model';
 import { ExperienceInformationService } from 'app/entities/experience-information';
 import { ExperienceInformationAttachmentService } from 'app/entities/experience-information-attachment';
+import { FamilyInformationService } from 'app/entities/family-information';
+import { IFamilyInformation } from 'app/shared/model/family-information.model';
+import { ReferenceInformationService } from 'app/entities/reference-information';
+import { IReferenceInformation } from 'app/shared/model/reference-information.model';
+import { ITrainingInformation } from 'app/shared/model/training-information.model';
+import { ITrainingInformationAttachment } from 'app/shared/model/training-information-attachment.model';
+import { TrainingInformationService } from 'app/entities/training-information';
+import { TrainingInformationAttachmentService } from 'app/entities/training-information-attachment';
 
 @Component({
     selector: 'jhi-employee-management',
@@ -28,6 +36,10 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
     academicInformationAttachmentList: IAcademicInformationAttachment[];
     experienceInformations: IExperienceInformation[];
     experienceInformationAttachments: IExperienceInformationAttachment[];
+    familyInformations: IFamilyInformation[];
+    referenceInformations: IReferenceInformation[];
+    trainingInformations: ITrainingInformation[];
+    trainingInformationAttachments: ITrainingInformationAttachment[];
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -38,7 +50,11 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
         protected academicInformationService: AcademicInformationService,
         protected academicInformationAttachmentService: AcademicInformationAttachmentService,
         protected experienceInformationService: ExperienceInformationService,
-        protected experienceInformationAttachmentService: ExperienceInformationAttachmentService
+        protected experienceInformationAttachmentService: ExperienceInformationAttachmentService,
+        protected familyInformationService: FamilyInformationService,
+        protected referenceInformationService: ReferenceInformationService,
+        protected trainingInformationService: TrainingInformationService,
+        protected trainingInformationAttachmentService: TrainingInformationAttachmentService
     ) {}
 
     loadAll() {
@@ -92,6 +108,50 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
                     this.experienceInformationAttachments = res;
                 },
                 (res: HttpErrorResponse) => this.jhiAlertService.error('Error in fetching experience information attachments')
+            );
+
+        this.familyInformationService
+            .query({
+                'employeeId.equals': this.employee.id
+            })
+            .subscribe(
+                (res: HttpResponse<IFamilyInformation[]>) => (this.familyInformations = res.body),
+                (error: HttpErrorResponse) => this.jhiAlertService.error('Error in fetching family information')
+            );
+
+        this.referenceInformationService
+            .query({
+                'employeeId.equals': this.employee.id
+            })
+            .subscribe(
+                (res: HttpResponse<IReferenceInformation[]>) => (this.referenceInformations = res.body),
+                (error: HttpErrorResponse) => this.jhiAlertService.error('Error in fetching reference information')
+            );
+
+        this.trainingInformationService
+            .query({
+                'employeeId.equals': this.employee.id,
+                page: 0,
+                size: 1000
+            })
+            .subscribe(
+                (res: HttpResponse<ITrainingInformation[]>) => (this.trainingInformations = res.body),
+                (error: HttpErrorResponse) => this.jhiAlertService.error('Error in fetching training information')
+            );
+
+        this.trainingInformationAttachmentService
+            .query({
+                'employeeId.equals': this.employee.id
+            })
+            .pipe(
+                filter((res: HttpResponse<ITrainingInformationAttachment[]>) => res.ok),
+                map((res: HttpResponse<ITrainingInformationAttachment[]>) => res.body)
+            )
+            .subscribe(
+                (res: ITrainingInformationAttachment[]) => {
+                    this.trainingInformationAttachments = res;
+                },
+                (res: HttpErrorResponse) => this.jhiAlertService.error('Error in fetching training information attachments')
             );
     }
 

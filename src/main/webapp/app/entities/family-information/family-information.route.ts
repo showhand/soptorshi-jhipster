@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
-import { UserRouteAccessService } from 'app/core';
+import { IUser, UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { FamilyInformation } from 'app/shared/model/family-information.model';
@@ -19,19 +19,24 @@ export class FamilyInformationResolve implements Resolve<IFamilyInformation> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IFamilyInformation> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<FamilyInformation>) => response.ok),
                 map((familyInformation: HttpResponse<FamilyInformation>) => familyInformation.body)
             );
+        } else if (employeeId) {
+            const familyInformation: IFamilyInformation = new FamilyInformation();
+            familyInformation.employeeId = employeeId;
+            return of(familyInformation);
         }
         return of(new FamilyInformation());
     }
 }
 
 export const familyInformationRoute: Routes = [
-    /*{
-        path: 'home',
+    {
+        path: '',
         component: FamilyInformationComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
@@ -68,6 +73,18 @@ export const familyInformationRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: ':employeeId/new',
+        component: FamilyInformationUpdateComponent,
+        resolve: {
+            familyInformation: FamilyInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'FamilyInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/edit',
         component: FamilyInformationUpdateComponent,
         resolve: {
@@ -78,11 +95,11 @@ export const familyInformationRoute: Routes = [
             pageTitle: 'FamilyInformations'
         },
         canActivate: [UserRouteAccessService]
-    }*/
+    }
 ];
 
 export const familyInformationPopupRoute: Routes = [
-    /*{
+    {
         path: ':id/delete',
         component: FamilyInformationDeletePopupComponent,
         resolve: {
@@ -94,5 +111,5 @@ export const familyInformationPopupRoute: Routes = [
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
-    }*/
+    }
 ];

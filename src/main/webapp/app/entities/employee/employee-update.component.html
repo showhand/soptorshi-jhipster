@@ -229,10 +229,12 @@
                     <input type="text" class="form-control" name="reasonOfTermination" id="field_reasonOfTermination"
                         [(ngModel)]="employee.reasonOfTermination" />
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_userAccount">User Account</label>
-                    <input type="checkbox" class="form-control" name="userAccount" id="field_userAccount"
-                        [(ngModel)]="employee.userAccount" />
+                <div class="form-group inline">
+                    <div class="row">
+                        <div class="col-12"><input  type="checkbox"  name="userAccount" id="field_userAccount"
+                                                     [(ngModel)]="employee.userAccount"  (ngModelChange)="activationCheckboxChanged(content)" /> <label class="form-control-label" for="field_userAccount">User Account</label></div>
+                    </div>
+
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_photo">Photo</label>
@@ -256,14 +258,14 @@
                     <label class="form-control-label" for="field_department">Department</label>
                     <select class="form-control" id="field_department" name="department" [(ngModel)]="employee.departmentId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.id}}</option>
+                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_designation">Designation</label>
                     <select class="form-control" id="field_designation" name="designation" [(ngModel)]="employee.designationId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.id}}</option>
+                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.name}}</option>
                     </select>
                 </div>
             </div>
@@ -278,3 +280,90 @@
         </form>
     </div>
 </div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Create User</h4>
+    </div>
+    <div class="modal-body">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="myUserLabel">
+                Create or edit a User
+            </h2>
+            <div>
+
+
+                <div class="form-group">
+                    <label class="form-control-label">Login</label>
+                    <input readonly type="text" class="form-control" name="login" #loginInput="ngModel"
+                           [(ngModel)]="user.login" required minlength="1" maxlength="50" pattern="^[_.@A-Za-z0-9-]*$">
+
+                    <div *ngIf="loginInput.dirty && loginInput.invalid">
+                        <small class="form-text text-danger"
+                               *ngIf="loginInput.errors.required">
+                            This field is required.
+                        </small>
+
+                        <small class="form-text text-danger"
+                               *ngIf="loginInput.errors.maxlength"
+                        >
+                            This field cannot be longer than 50 characters.
+                        </small>
+
+                        <small class="form-text text-danger"
+                               *ngIf="loginInput.errors.pattern">
+                            This field can only contain letters, digits and e-mail addresses.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label">Email</label>
+                    <input type="email" readonly class="form-control" name="email" #emailInput="ngModel"
+                           [(ngModel)]="user.email" minlength="5" required maxlength="254" email>
+
+                    <div *ngIf="emailInput.dirty && emailInput.invalid">
+                        <small class="form-text text-danger"
+                               *ngIf="emailInput.errors.required">
+                            This field is required.
+                        </small>
+
+                        <small class="form-text text-danger"
+                               *ngIf="emailInput.errors.maxlength"
+                        >
+                            This field cannot be longer than 100 characters.
+                        </small>
+
+                        <small class="form-text text-danger"
+                               *ngIf="emailInput.errors.minlength"
+                        >
+                            This field is required to be at least 5 characters.
+                        </small>
+
+                        <small class="form-text text-danger"
+                               *ngIf="emailInput.errors.email">
+                            Your email is invalid.
+                        </small>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Profiles</label>
+                    <select class="form-control" multiple name="authority" [(ngModel)]="user.authorities">
+                        <option *ngFor="let authority of authorities" [value]="authority">{{authority}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-secondary" (click)="cancelUserCreation()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span
+                >Cancel</span>
+                </button>
+                <button type="button"  class="btn btn-primary" (click)="saveUser()" >
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

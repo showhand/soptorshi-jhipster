@@ -19,11 +19,16 @@ export class TrainingInformationResolve implements Resolve<ITrainingInformation>
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ITrainingInformation> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<TrainingInformation>) => response.ok),
                 map((trainingInformation: HttpResponse<TrainingInformation>) => trainingInformation.body)
             );
+        } else if (employeeId) {
+            const trainingInformation: ITrainingInformation = new TrainingInformation();
+            trainingInformation.employeeId = employeeId;
+            return of(trainingInformation);
         }
         return of(new TrainingInformation());
     }
@@ -57,6 +62,18 @@ export const trainingInformationRoute: Routes = [
     },
     {
         path: 'new',
+        component: TrainingInformationUpdateComponent,
+        resolve: {
+            trainingInformation: TrainingInformationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'TrainingInformations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
         component: TrainingInformationUpdateComponent,
         resolve: {
             trainingInformation: TrainingInformationResolve

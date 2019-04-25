@@ -34,6 +34,7 @@ public class TrainingInformationAttachment implements Serializable {
 
     @ManyToOne(optional = false)
     @NotNull
+    @JsonIgnoreProperties("trainingInformationAttachments")
     private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
