@@ -3,6 +3,8 @@ import org.soptorshi.service.AcademicInformationAttachmentService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.service.dto.AcademicInformationAttachmentDTO;
+import org.soptorshi.service.dto.AcademicInformationAttachmentCriteria;
+import org.soptorshi.service.AcademicInformationAttachmentQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +34,11 @@ public class AcademicInformationAttachmentResource {
 
     private final AcademicInformationAttachmentService academicInformationAttachmentService;
 
-    public AcademicInformationAttachmentResource(AcademicInformationAttachmentService academicInformationAttachmentService) {
+    private final AcademicInformationAttachmentQueryService academicInformationAttachmentQueryService;
+
+    public AcademicInformationAttachmentResource(AcademicInformationAttachmentService academicInformationAttachmentService, AcademicInformationAttachmentQueryService academicInformationAttachmentQueryService) {
         this.academicInformationAttachmentService = academicInformationAttachmentService;
+        this.academicInformationAttachmentQueryService = academicInformationAttachmentQueryService;
     }
 
     /**
@@ -79,12 +84,26 @@ public class AcademicInformationAttachmentResource {
     /**
      * GET  /academic-information-attachments : get all the academicInformationAttachments.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of academicInformationAttachments in body
      */
     @GetMapping("/academic-information-attachments")
-    public List<AcademicInformationAttachmentDTO> getAllAcademicInformationAttachments() {
-        log.debug("REST request to get all AcademicInformationAttachments");
-        return academicInformationAttachmentService.findAll();
+    public ResponseEntity<List<AcademicInformationAttachmentDTO>> getAllAcademicInformationAttachments(AcademicInformationAttachmentCriteria criteria) {
+        log.debug("REST request to get AcademicInformationAttachments by criteria: {}", criteria);
+        List<AcademicInformationAttachmentDTO> entityList = academicInformationAttachmentQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /academic-information-attachments/count : count all the academicInformationAttachments.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/academic-information-attachments/count")
+    public ResponseEntity<Long> countAcademicInformationAttachments(AcademicInformationAttachmentCriteria criteria) {
+        log.debug("REST request to count AcademicInformationAttachments by criteria: {}", criteria);
+        return ResponseEntity.ok().body(academicInformationAttachmentQueryService.countByCriteria(criteria));
     }
 
     /**

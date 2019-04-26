@@ -1,32 +1,5 @@
 {
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "relationships": [
-        {
-            "relationshipName": "academicInformation",
-            "otherEntityName": "academicInformation",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id",
-            "otherEntityRelationshipNameUndefined": false,
-            "otherEntityRelationshipName": "attachment"
-        },
-        {
-            "relationshipName": "trainingInformation",
-            "otherEntityName": "trainingInformation",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id",
-            "otherEntityRelationshipNameUndefined": false,
-            "otherEntityRelationshipName": "attachment"
-        },
-        {
-            "relationshipName": "experienceInformation",
-            "otherEntityName": "experienceInformation",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id",
-            "otherEntityRelationshipNameUndefined": false,
-            "otherEntityRelationshipName": "attachment"
-        }
-    ],
+    "name": "Attachment",
     "fields": [
         {
             "fieldName": "file",
@@ -34,12 +7,37 @@
             "fieldTypeBlobContent": "any"
         }
     ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "academicInformation",
+            "otherEntityRelationshipName": "attachment",
+            "relationshipName": "academicInformation",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "trainingInformation",
+            "otherEntityRelationshipName": "attachment",
+            "relationshipName": "trainingInformation",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "experienceInformation",
+            "otherEntityRelationshipName": "attachment",
+            "relationshipName": "experienceInformation",
+            "otherEntityField": "id"
+        }
+    ],
     "changelogDate": "20190405124355",
-    "dto": "mapstruct",
-    "searchEngine": "elasticsearch",
-    "service": "serviceClass",
     "entityTableName": "attachment",
-    "databaseType": "sql",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
-    "pagination": "pager"
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
 }

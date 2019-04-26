@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -40,7 +40,8 @@ export class EmployeeUpdateComponent implements OnInit {
         protected elementRef: ElementRef,
         protected activatedRoute: ActivatedRoute,
         protected userService: UserService,
-        protected modalService: NgbModal
+        protected modalService: NgbModal,
+        protected router: Router
     ) {}
 
     ngOnInit() {
@@ -177,7 +178,17 @@ export class EmployeeUpdateComponent implements OnInit {
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IEmployee>>) {
-        result.subscribe((res: HttpResponse<IEmployee>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe(
+            (res: HttpResponse<IEmployee>) => {
+                if (this.employee.id) {
+                    this.onSaveSuccess();
+                } else {
+                    let employee: IEmployee = res.body;
+                    this.router.navigate(['/employee', employee.id, 'employee-management']);
+                }
+            },
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
     }
 
     protected onSaveSuccess() {

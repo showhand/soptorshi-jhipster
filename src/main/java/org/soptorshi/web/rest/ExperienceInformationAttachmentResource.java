@@ -3,6 +3,8 @@ import org.soptorshi.service.ExperienceInformationAttachmentService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.service.dto.ExperienceInformationAttachmentDTO;
+import org.soptorshi.service.dto.ExperienceInformationAttachmentCriteria;
+import org.soptorshi.service.ExperienceInformationAttachmentQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +34,11 @@ public class ExperienceInformationAttachmentResource {
 
     private final ExperienceInformationAttachmentService experienceInformationAttachmentService;
 
-    public ExperienceInformationAttachmentResource(ExperienceInformationAttachmentService experienceInformationAttachmentService) {
+    private final ExperienceInformationAttachmentQueryService experienceInformationAttachmentQueryService;
+
+    public ExperienceInformationAttachmentResource(ExperienceInformationAttachmentService experienceInformationAttachmentService, ExperienceInformationAttachmentQueryService experienceInformationAttachmentQueryService) {
         this.experienceInformationAttachmentService = experienceInformationAttachmentService;
+        this.experienceInformationAttachmentQueryService = experienceInformationAttachmentQueryService;
     }
 
     /**
@@ -79,12 +84,26 @@ public class ExperienceInformationAttachmentResource {
     /**
      * GET  /experience-information-attachments : get all the experienceInformationAttachments.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of experienceInformationAttachments in body
      */
     @GetMapping("/experience-information-attachments")
-    public List<ExperienceInformationAttachmentDTO> getAllExperienceInformationAttachments() {
-        log.debug("REST request to get all ExperienceInformationAttachments");
-        return experienceInformationAttachmentService.findAll();
+    public ResponseEntity<List<ExperienceInformationAttachmentDTO>> getAllExperienceInformationAttachments(ExperienceInformationAttachmentCriteria criteria) {
+        log.debug("REST request to get ExperienceInformationAttachments by criteria: {}", criteria);
+        List<ExperienceInformationAttachmentDTO> entityList = experienceInformationAttachmentQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /experience-information-attachments/count : count all the experienceInformationAttachments.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/experience-information-attachments/count")
+    public ResponseEntity<Long> countExperienceInformationAttachments(ExperienceInformationAttachmentCriteria criteria) {
+        log.debug("REST request to count ExperienceInformationAttachments by criteria: {}", criteria);
+        return ResponseEntity.ok().body(experienceInformationAttachmentQueryService.countByCriteria(criteria));
     }
 
     /**

@@ -229,7 +229,7 @@
                     <input type="text" class="form-control" name="reasonOfTermination" id="field_reasonOfTermination"
                         [(ngModel)]="employee.reasonOfTermination" />
                 </div>
-                <div class="form-group inline">
+                <div class="form-group inline" *ngIf="employee.id">
                     <div class="row">
                         <div class="col-12"><input  type="checkbox"  name="userAccount" id="field_userAccount"
                                                      [(ngModel)]="employee.userAccount"  (ngModelChange)="activationCheckboxChanged(content)" /> <label class="form-control-label" for="field_userAccount">User Account</label></div>
