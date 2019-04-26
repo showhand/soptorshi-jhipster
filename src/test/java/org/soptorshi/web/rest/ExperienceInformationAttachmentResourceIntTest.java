@@ -10,6 +10,8 @@ import org.soptorshi.service.ExperienceInformationAttachmentService;
 import org.soptorshi.service.dto.ExperienceInformationAttachmentDTO;
 import org.soptorshi.service.mapper.ExperienceInformationAttachmentMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.ExperienceInformationAttachmentCriteria;
+import org.soptorshi.service.ExperienceInformationAttachmentQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -72,6 +74,9 @@ public class ExperienceInformationAttachmentResourceIntTest {
     private ExperienceInformationAttachmentSearchRepository mockExperienceInformationAttachmentSearchRepository;
 
     @Autowired
+    private ExperienceInformationAttachmentQueryService experienceInformationAttachmentQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -93,7 +98,7 @@ public class ExperienceInformationAttachmentResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ExperienceInformationAttachmentResource experienceInformationAttachmentResource = new ExperienceInformationAttachmentResource(experienceInformationAttachmentService);
+        final ExperienceInformationAttachmentResource experienceInformationAttachmentResource = new ExperienceInformationAttachmentResource(experienceInformationAttachmentService, experienceInformationAttachmentQueryService);
         this.restExperienceInformationAttachmentMockMvc = MockMvcBuilders.standaloneSetup(experienceInformationAttachmentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -200,6 +205,60 @@ public class ExperienceInformationAttachmentResourceIntTest {
             .andExpect(jsonPath("$.fileContentType").value(DEFAULT_FILE_CONTENT_TYPE))
             .andExpect(jsonPath("$.file").value(Base64Utils.encodeToString(DEFAULT_FILE)));
     }
+
+    @Test
+    @Transactional
+    public void getAllExperienceInformationAttachmentsByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        experienceInformationAttachment.setEmployee(employee);
+        experienceInformationAttachmentRepository.saveAndFlush(experienceInformationAttachment);
+        Long employeeId = employee.getId();
+
+        // Get all the experienceInformationAttachmentList where employee equals to employeeId
+        defaultExperienceInformationAttachmentShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the experienceInformationAttachmentList where employee equals to employeeId + 1
+        defaultExperienceInformationAttachmentShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultExperienceInformationAttachmentShouldBeFound(String filter) throws Exception {
+        restExperienceInformationAttachmentMockMvc.perform(get("/api/experience-information-attachments?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(experienceInformationAttachment.getId().intValue())))
+            .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
+
+        // Check, that the count call also returns 1
+        restExperienceInformationAttachmentMockMvc.perform(get("/api/experience-information-attachments/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultExperienceInformationAttachmentShouldNotBeFound(String filter) throws Exception {
+        restExperienceInformationAttachmentMockMvc.perform(get("/api/experience-information-attachments?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restExperienceInformationAttachmentMockMvc.perform(get("/api/experience-information-attachments/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

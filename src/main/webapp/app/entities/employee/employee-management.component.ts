@@ -1,6 +1,6 @@
 import { AfterContentInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { NgbTab, NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeService } from 'app/entities/employee/employee.service';
@@ -54,7 +54,8 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
         protected familyInformationService: FamilyInformationService,
         protected referenceInformationService: ReferenceInformationService,
         protected trainingInformationService: TrainingInformationService,
-        protected trainingInformationAttachmentService: TrainingInformationAttachmentService
+        protected trainingInformationAttachmentService: TrainingInformationAttachmentService,
+        protected router: Router
     ) {}
 
     loadAll() {
@@ -172,7 +173,7 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
     ngAfterContentInit(): void {}
 
     previousState() {
-        window.history.back();
+        this.router.navigate(['/employee']);
     }
 
     enablePersonalInformationEdit() {}

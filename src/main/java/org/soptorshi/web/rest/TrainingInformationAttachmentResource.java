@@ -3,6 +3,8 @@ import org.soptorshi.service.TrainingInformationAttachmentService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.service.dto.TrainingInformationAttachmentDTO;
+import org.soptorshi.service.dto.TrainingInformationAttachmentCriteria;
+import org.soptorshi.service.TrainingInformationAttachmentQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +34,11 @@ public class TrainingInformationAttachmentResource {
 
     private final TrainingInformationAttachmentService trainingInformationAttachmentService;
 
-    public TrainingInformationAttachmentResource(TrainingInformationAttachmentService trainingInformationAttachmentService) {
+    private final TrainingInformationAttachmentQueryService trainingInformationAttachmentQueryService;
+
+    public TrainingInformationAttachmentResource(TrainingInformationAttachmentService trainingInformationAttachmentService, TrainingInformationAttachmentQueryService trainingInformationAttachmentQueryService) {
         this.trainingInformationAttachmentService = trainingInformationAttachmentService;
+        this.trainingInformationAttachmentQueryService = trainingInformationAttachmentQueryService;
     }
 
     /**
@@ -79,12 +84,26 @@ public class TrainingInformationAttachmentResource {
     /**
      * GET  /training-information-attachments : get all the trainingInformationAttachments.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of trainingInformationAttachments in body
      */
     @GetMapping("/training-information-attachments")
-    public List<TrainingInformationAttachmentDTO> getAllTrainingInformationAttachments() {
-        log.debug("REST request to get all TrainingInformationAttachments");
-        return trainingInformationAttachmentService.findAll();
+    public ResponseEntity<List<TrainingInformationAttachmentDTO>> getAllTrainingInformationAttachments(TrainingInformationAttachmentCriteria criteria) {
+        log.debug("REST request to get TrainingInformationAttachments by criteria: {}", criteria);
+        List<TrainingInformationAttachmentDTO> entityList = trainingInformationAttachmentQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /training-information-attachments/count : count all the trainingInformationAttachments.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/training-information-attachments/count")
+    public ResponseEntity<Long> countTrainingInformationAttachments(TrainingInformationAttachmentCriteria criteria) {
+        log.debug("REST request to count TrainingInformationAttachments by criteria: {}", criteria);
+        return ResponseEntity.ok().body(trainingInformationAttachmentQueryService.countByCriteria(criteria));
     }
 
     /**

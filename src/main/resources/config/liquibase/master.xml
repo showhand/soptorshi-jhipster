@@ -26,7 +26,6 @@
     <include file="config/liquibase/changelog/20190405124359_added_entity_constraints_ReferenceInformation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124400_added_entity_constraints_ExperienceInformation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190409091345_employee-filter-added.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190409161130_attachment-modification.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190409164949_added_entity_constraints_AcademicInformationAttachment.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190409172216_added_entity_constraints_ExperienceInformationAttachment.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190409172411_added_entity_constraints_TrainingInformationAttachment.xml" relativeToChangelogFile="false"/>

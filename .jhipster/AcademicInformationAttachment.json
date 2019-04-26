@@ -1,17 +1,5 @@
 {
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "relationships": [
-        {
-            "relationshipName": "employee",
-            "otherEntityName": "employee",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "employeeId"
-        }
-    ],
+    "name": "AcademicInformationAttachment",
     "fields": [
         {
             "fieldName": "file",
@@ -22,12 +10,24 @@
             ]
         }
     ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "academicInformationAttachment",
+            "relationshipValidateRules": "required",
+            "relationshipName": "employee",
+            "otherEntityField": "employeeId"
+        }
+    ],
     "changelogDate": "20190409164949",
-    "dto": "mapstruct",
-    "searchEngine": "elasticsearch",
-    "service": "serviceClass",
     "entityTableName": "academic_attachment",
-    "databaseType": "sql",
-    "jpaMetamodelFiltering": false,
-    "pagination": "no"
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
 }
