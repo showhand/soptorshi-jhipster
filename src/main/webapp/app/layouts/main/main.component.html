@@ -144,6 +144,25 @@
                     </li>
                 </ul>
             </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a (click)="employeeManagement=!employeeManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
+                     <span>
+                        <fa-icon icon="user-cog"></fa-icon>
+                        <span>
+                            Employee Manag.
+                        </span>
+                    </span>
+                </a>
+                <ul [ngbCollapse]="!employeeManagement" class="list-unstyled" id="employee-management">
+                    <li>
+                        <a class="dropdown-item" routerLink="employee" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <fa-icon icon="user-edit" fixedWidth="true"></fa-icon>
+                            <span>Employee</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
             <li>
                 <a href="#">About</a>
             </li>
