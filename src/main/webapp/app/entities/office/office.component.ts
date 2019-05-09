@@ -3,21 +3,21 @@ import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/ht
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { IEmployee } from 'app/shared/model/employee.model';
+import { IOffice } from 'app/shared/model/office.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
-import { EmployeeService } from './employee.service';
+import { OfficeService } from './office.service';
 
 @Component({
-    selector: 'jhi-employee',
-    templateUrl: './employee.component.html'
+    selector: 'jhi-office',
+    templateUrl: './office.component.html'
 })
-export class EmployeeComponent implements OnInit, OnDestroy {
+export class OfficeComponent implements OnInit, OnDestroy {
     currentAccount: any;
-    employees: IEmployee[];
+    offices: IOffice[];
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -32,12 +32,11 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     reverse: any;
 
     constructor(
-        protected employeeService: EmployeeService,
+        protected officeService: OfficeService,
         protected parseLinks: JhiParseLinks,
         protected jhiAlertService: JhiAlertService,
         protected accountService: AccountService,
         protected activatedRoute: ActivatedRoute,
-        protected dataUtils: JhiDataUtils,
         protected router: Router,
         protected eventManager: JhiEventManager
     ) {
@@ -56,7 +55,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
 
     loadAll() {
         if (this.currentSearch) {
-            this.employeeService
+            this.officeService
                 .search({
                     page: this.page - 1,
                     query: this.currentSearch,
@@ -64,19 +63,19 @@ export class EmployeeComponent implements OnInit, OnDestroy {
                     sort: this.sort()
                 })
                 .subscribe(
-                    (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                    (res: HttpResponse<IOffice[]>) => this.paginateOffices(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
         }
-        this.employeeService
+        this.officeService
             .query({
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
             })
             .subscribe(
-                (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                (res: HttpResponse<IOffice[]>) => this.paginateOffices(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -89,7 +88,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     }
 
     transition() {
-        this.router.navigate(['/employee'], {
+        this.router.navigate(['/office'], {
             queryParams: {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -104,7 +103,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
         this.page = 0;
         this.currentSearch = '';
         this.router.navigate([
-            '/employee',
+            '/office',
             {
                 page: this.page,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
@@ -120,7 +119,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
         this.page = 0;
         this.currentSearch = query;
         this.router.navigate([
-            '/employee',
+            '/office',
             {
                 search: this.currentSearch,
                 page: this.page,
@@ -135,27 +134,19 @@ export class EmployeeComponent implements OnInit, OnDestroy {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
-        this.registerChangeInEmployees();
+        this.registerChangeInOffices();
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: IEmployee) {
+    trackId(index: number, item: IOffice) {
         return item.id;
     }
 
-    byteSize(field) {
-        return this.dataUtils.byteSize(field);
-    }
-
-    openFile(contentType, field) {
-        return this.dataUtils.openFile(contentType, field);
-    }
-
-    registerChangeInEmployees() {
-        this.eventSubscriber = this.eventManager.subscribe('employeeListModification', response => this.loadAll());
+    registerChangeInOffices() {
+        this.eventSubscriber = this.eventManager.subscribe('officeListModification', response => this.loadAll());
     }
 
     sort() {
@@ -166,10 +157,10 @@ export class EmployeeComponent implements OnInit, OnDestroy {
         return result;
     }
 
-    protected paginateEmployees(data: IEmployee[], headers: HttpHeaders) {
+    protected paginateOffices(data: IOffice[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-        this.employees = data;
+        this.offices = data;
     }
 
     protected onError(errorMessage: string) {

@@ -83,6 +83,8 @@ public class EmployeeDTO implements Serializable {
 
     private Long departmentId;
 
+    private Long officeId;
+
     private Long designationId;
 
     public Long getId() {
@@ -301,6 +303,14 @@ public class EmployeeDTO implements Serializable {
         this.departmentId = departmentId;
     }
 
+    public Long getOfficeId() {
+        return officeId;
+    }
+
+    public void setOfficeId(Long officeId) {
+        this.officeId = officeId;
+    }
+
     public Long getDesignationId() {
         return designationId;
     }
@@ -359,6 +369,7 @@ public class EmployeeDTO implements Serializable {
             ", userAccount='" + isUserAccount() + "'" +
             ", photo='" + getPhoto() + "'" +
             ", department=" + getDepartmentId() +
+            ", office=" + getOfficeId() +
             ", designation=" + getDesignationId() +
             "}";
     }

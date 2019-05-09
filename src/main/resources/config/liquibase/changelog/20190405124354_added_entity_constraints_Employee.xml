@@ -14,6 +14,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="department"/>
 
+        <addForeignKeyConstraint baseColumnNames="office_id"
+                                 baseTableName="employee"
+                                 constraintName="fk_employee_office_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="office"/>
+
         <addForeignKeyConstraint baseColumnNames="designation_id"
                                  baseTableName="employee"
                                  constraintName="fk_employee_designation_id"

@@ -166,6 +166,10 @@ public class EmployeeQueryService extends QueryService<Employee> {
                 specification = specification.and(buildSpecification(criteria.getDepartmentId(),
                     root -> root.join(Employee_.department, JoinType.LEFT).get(Department_.id)));
             }
+            if (criteria.getOfficeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getOfficeId(),
+                    root -> root.join(Employee_.office, JoinType.LEFT).get(Office_.id)));
+            }
             if (criteria.getDesignationId() != null) {
                 specification = specification.and(buildSpecification(criteria.getDesignationId(),
                     root -> root.join(Employee_.designation, JoinType.LEFT).get(Designation_.id)));

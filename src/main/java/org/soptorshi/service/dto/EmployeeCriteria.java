@@ -103,6 +103,8 @@ public class EmployeeCriteria implements Serializable {
 
     private LongFilter departmentId;
 
+    private LongFilter officeId;
+
     private LongFilter designationId;
 
     public LongFilter getId() {
@@ -305,6 +307,14 @@ public class EmployeeCriteria implements Serializable {
         this.departmentId = departmentId;
     }
 
+    public LongFilter getOfficeId() {
+        return officeId;
+    }
+
+    public void setOfficeId(LongFilter officeId) {
+        this.officeId = officeId;
+    }
+
     public LongFilter getDesignationId() {
         return designationId;
     }
@@ -349,6 +359,7 @@ public class EmployeeCriteria implements Serializable {
             Objects.equals(reasonOfTermination, that.reasonOfTermination) &&
             Objects.equals(userAccount, that.userAccount) &&
             Objects.equals(departmentId, that.departmentId) &&
+            Objects.equals(officeId, that.officeId) &&
             Objects.equals(designationId, that.designationId);
     }
 
@@ -380,6 +391,7 @@ public class EmployeeCriteria implements Serializable {
         reasonOfTermination,
         userAccount,
         departmentId,
+        officeId,
         designationId
         );
     }
@@ -412,6 +424,7 @@ public class EmployeeCriteria implements Serializable {
                 (reasonOfTermination != null ? "reasonOfTermination=" + reasonOfTermination + ", " : "") +
                 (userAccount != null ? "userAccount=" + userAccount + ", " : "") +
                 (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
+                (officeId != null ? "officeId=" + officeId + ", " : "") +
                 (designationId != null ? "designationId=" + designationId + ", " : "") +
             "}";
     }

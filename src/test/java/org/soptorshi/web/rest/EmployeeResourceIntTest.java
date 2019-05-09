@@ -4,6 +4,7 @@ import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.Department;
+import org.soptorshi.domain.Office;
 import org.soptorshi.domain.Designation;
 import org.soptorshi.repository.EmployeeRepository;
 import org.soptorshi.repository.search.EmployeeSearchRepository;
@@ -1640,6 +1641,25 @@ public class EmployeeResourceIntTest {
 
         // Get all the employeeList where department equals to departmentId + 1
         defaultEmployeeShouldNotBeFound("departmentId.equals=" + (departmentId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByOfficeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Office office = OfficeResourceIntTest.createEntity(em);
+        em.persist(office);
+        em.flush();
+        employee.setOffice(office);
+        employeeRepository.saveAndFlush(employee);
+        Long officeId = office.getId();
+
+        // Get all the employeeList where office equals to officeId
+        defaultEmployeeShouldBeFound("officeId.equals=" + officeId);
+
+        // Get all the employeeList where office equals to officeId + 1
+        defaultEmployeeShouldNotBeFound("officeId.equals=" + (officeId + 1));
     }
 
 

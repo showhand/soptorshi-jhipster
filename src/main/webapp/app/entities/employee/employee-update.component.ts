@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -9,10 +9,10 @@ import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from './employee.service';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department';
+import { IOffice } from 'app/shared/model/office.model';
+import { OfficeService } from 'app/entities/office';
 import { IDesignation } from 'app/shared/model/designation.model';
 import { DesignationService } from 'app/entities/designation';
-import { IUser, User, UserService } from 'app/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'jhi-employee-update',
@@ -24,24 +24,22 @@ export class EmployeeUpdateComponent implements OnInit {
 
     departments: IDepartment[];
 
+    offices: IOffice[];
+
     designations: IDesignation[];
     birthDateDp: any;
     joiningDateDp: any;
     terminationDateDp: any;
-    user: User;
-    authorities: any[];
 
     constructor(
         protected dataUtils: JhiDataUtils,
         protected jhiAlertService: JhiAlertService,
         protected employeeService: EmployeeService,
         protected departmentService: DepartmentService,
+        protected officeService: OfficeService,
         protected designationService: DesignationService,
         protected elementRef: ElementRef,
-        protected activatedRoute: ActivatedRoute,
-        protected userService: UserService,
-        protected modalService: NgbModal,
-        protected router: Router
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -74,6 +72,31 @@ export class EmployeeUpdateComponent implements OnInit {
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.officeService
+            .query({ 'employeeId.specified': 'false' })
+            .pipe(
+                filter((mayBeOk: HttpResponse<IOffice[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IOffice[]>) => response.body)
+            )
+            .subscribe(
+                (res: IOffice[]) => {
+                    if (!this.employee.officeId) {
+                        this.offices = res;
+                    } else {
+                        this.officeService
+                            .find(this.employee.officeId)
+                            .pipe(
+                                filter((subResMayBeOk: HttpResponse<IOffice>) => subResMayBeOk.ok),
+                                map((subResponse: HttpResponse<IOffice>) => subResponse.body)
+                            )
+                            .subscribe(
+                                (subRes: IOffice) => (this.offices = [subRes].concat(res)),
+                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+                            );
+                    }
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
         this.designationService
             .query()
             .pipe(
@@ -81,71 +104,6 @@ export class EmployeeUpdateComponent implements OnInit {
                 map((response: HttpResponse<IDesignation[]>) => response.body)
             )
             .subscribe((res: IDesignation[]) => (this.designations = res), (res: HttpErrorResponse) => this.onError(res.message));
-    }
-
-    activationCheckboxChanged(content) {
-        this.user = new User();
-        if (this.employee.userAccount) {
-            this.modalService.open(content);
-
-            this.userService.find(this.employee.employeeId).subscribe(
-                response => {
-                    this.user = response.body;
-                },
-                error => {
-                    console.log('In error portion');
-                    this.user = new User();
-                    this.user.login = this.employee.employeeId;
-                    this.user.email = this.employee.email;
-                }
-            );
-
-            this.userService.authorities().subscribe(authorities => {
-                this.authorities = authorities;
-            });
-        } else {
-            this.userService.find(this.employee.employeeId).subscribe(
-                user => {
-                    this.user = user.body;
-                    if (this.user != undefined) {
-                        this.user.activated = false;
-                        this.userService.update(this.user).subscribe(response => {
-                            this.jhiAlertService.info('User account disabled');
-                        });
-                    }
-                },
-                error => {}
-            );
-        }
-    }
-
-    cancelUserCreation() {
-        this.modalService.dismissAll();
-    }
-
-    saveUser() {
-        this.userService.find(this.user.login).subscribe(
-            response => {
-                let user: IUser = response.body;
-                user.activated = this.user.activated;
-                user.authorities = this.user.authorities;
-                this.userService.update(user).subscribe(
-                    response => {
-                        this.jhiAlertService.info('User Successfully Updated');
-                        this.modalService.dismissAll();
-                    },
-                    () => {
-                        this.jhiAlertService.error('Error in updating user');
-                    }
-                );
-            },
-            error => {
-                this.userService.create(this.user).subscribe(response => {
-                    this.jhiAlertService.info('User Successfully Created');
-                    this.modalService.dismissAll();
-                });
-            }
-        );
     }
 
     byteSize(field) {
@@ -178,17 +136,7 @@ export class EmployeeUpdateComponent implements OnInit {
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IEmployee>>) {
-        result.subscribe(
-            (res: HttpResponse<IEmployee>) => {
-                if (this.employee.id) {
-                    this.onSaveSuccess();
-                } else {
-                    let employee: IEmployee = res.body;
-                    this.router.navigate(['/employee', employee.id, 'employee-management']);
-                }
-            },
-            (res: HttpErrorResponse) => this.onSaveError()
-        );
+        result.subscribe((res: HttpResponse<IEmployee>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     protected onSaveSuccess() {
@@ -205,6 +153,10 @@ export class EmployeeUpdateComponent implements OnInit {
     }
 
     trackDepartmentById(index: number, item: IDepartment) {
+        return item.id;
+    }
+
+    trackOfficeById(index: number, item: IOffice) {
         return item.id;
     }
 

@@ -5,92 +5,92 @@ import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Employee } from 'app/shared/model/employee.model';
-import { EmployeeService } from './employee.service';
-import { EmployeeComponent } from './employee.component';
-import { EmployeeDetailComponent } from './employee-detail.component';
-import { EmployeeUpdateComponent } from './employee-update.component';
-import { EmployeeDeletePopupComponent } from './employee-delete-dialog.component';
-import { IEmployee } from 'app/shared/model/employee.model';
+import { Office } from 'app/shared/model/office.model';
+import { OfficeService } from './office.service';
+import { OfficeComponent } from './office.component';
+import { OfficeDetailComponent } from './office-detail.component';
+import { OfficeUpdateComponent } from './office-update.component';
+import { OfficeDeletePopupComponent } from './office-delete-dialog.component';
+import { IOffice } from 'app/shared/model/office.model';
 
 @Injectable({ providedIn: 'root' })
-export class EmployeeResolve implements Resolve<IEmployee> {
-    constructor(private service: EmployeeService) {}
+export class OfficeResolve implements Resolve<IOffice> {
+    constructor(private service: OfficeService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IEmployee> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IOffice> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
-                filter((response: HttpResponse<Employee>) => response.ok),
-                map((employee: HttpResponse<Employee>) => employee.body)
+                filter((response: HttpResponse<Office>) => response.ok),
+                map((office: HttpResponse<Office>) => office.body)
             );
         }
-        return of(new Employee());
+        return of(new Office());
     }
 }
 
-export const employeeRoute: Routes = [
+export const officeRoute: Routes = [
     {
         path: '',
-        component: EmployeeComponent,
+        component: OfficeComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Employees'
+            pageTitle: 'Offices'
         },
         canActivate: [UserRouteAccessService]
     },
     {
         path: ':id/view',
-        component: EmployeeDetailComponent,
+        component: OfficeDetailComponent,
         resolve: {
-            employee: EmployeeResolve
+            office: OfficeResolve
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Employees'
+            pageTitle: 'Offices'
         },
         canActivate: [UserRouteAccessService]
     },
     {
         path: 'new',
-        component: EmployeeUpdateComponent,
+        component: OfficeUpdateComponent,
         resolve: {
-            employee: EmployeeResolve
+            office: OfficeResolve
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Employees'
+            pageTitle: 'Offices'
         },
         canActivate: [UserRouteAccessService]
     },
     {
         path: ':id/edit',
-        component: EmployeeUpdateComponent,
+        component: OfficeUpdateComponent,
         resolve: {
-            employee: EmployeeResolve
+            office: OfficeResolve
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Employees'
+            pageTitle: 'Offices'
         },
         canActivate: [UserRouteAccessService]
     }
 ];
 
-export const employeePopupRoute: Routes = [
+export const officePopupRoute: Routes = [
     {
         path: ':id/delete',
-        component: EmployeeDeletePopupComponent,
+        component: OfficeDeletePopupComponent,
         resolve: {
-            employee: EmployeeResolve
+            office: OfficeResolve
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Employees'
+            pageTitle: 'Offices'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
