@@ -105,8 +105,8 @@
 <div>
     <router-outlet name="navbar"></router-outlet>
 </div>
-<div class="wrapper">
-    <nav id="sidebar">
+<div class="wrapper" [ngSwitch]="isAuthenticated()">
+    <nav id="sidebar" *ngSwitchCase="true" >
         <div class="sidebar-header">
             <h3>Bootstrap Sidebar</h3>
         </div>
