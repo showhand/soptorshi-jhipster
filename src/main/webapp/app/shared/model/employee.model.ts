@@ -60,6 +60,7 @@ export interface IEmployee {
     photoContentType?: string;
     photo?: any;
     departmentId?: number;
+    officeId?: number;
     designationId?: number;
 }
 
@@ -92,6 +93,7 @@ export class Employee implements IEmployee {
         public photoContentType?: string,
         public photo?: any,
         public departmentId?: number,
+        public officeId?: number,
         public designationId?: number
     ) {
         this.userAccount = this.userAccount || false;

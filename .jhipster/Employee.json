@@ -153,6 +153,14 @@
             "ownerSide": true
         },
         {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "office",
+            "otherEntityRelationshipName": "employee",
+            "relationshipName": "office",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
             "relationshipType": "many-to-one",
             "otherEntityName": "designation",
             "otherEntityRelationshipName": "employee",

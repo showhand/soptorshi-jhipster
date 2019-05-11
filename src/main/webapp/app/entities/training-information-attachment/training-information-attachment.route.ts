@@ -39,7 +39,7 @@ export const trainingInformationAttachmentRoute: Routes = [
         path: '',
         component: TrainingInformationAttachmentComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'TrainingInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -51,7 +51,7 @@ export const trainingInformationAttachmentRoute: Routes = [
             trainingInformationAttachment: TrainingInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'TrainingInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -63,7 +63,7 @@ export const trainingInformationAttachmentRoute: Routes = [
             trainingInformationAttachment: TrainingInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'TrainingInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -75,7 +75,7 @@ export const trainingInformationAttachmentRoute: Routes = [
             trainingInformationAttachment: TrainingInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'TrainingInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -87,7 +87,7 @@ export const trainingInformationAttachmentRoute: Routes = [
             trainingInformationAttachment: TrainingInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'TrainingInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -102,7 +102,7 @@ export const trainingInformationAttachmentPopupRoute: Routes = [
             trainingInformationAttachment: TrainingInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'TrainingInformationAttachments'
         },
         canActivate: [UserRouteAccessService],

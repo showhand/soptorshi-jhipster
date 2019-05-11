@@ -9,6 +9,8 @@ import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from './employee.service';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department';
+import { IOffice } from 'app/shared/model/office.model';
+import { OfficeService } from 'app/entities/office';
 import { IDesignation } from 'app/shared/model/designation.model';
 import { DesignationService } from 'app/entities/designation';
 import { IUser, User, UserService } from 'app/core';
@@ -24,6 +26,8 @@ export class EmployeeUpdateComponent implements OnInit {
 
     departments: IDepartment[];
 
+    offices: IOffice[];
+
     designations: IDesignation[];
     birthDateDp: any;
     joiningDateDp: any;
@@ -36,6 +40,7 @@ export class EmployeeUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected employeeService: EmployeeService,
         protected departmentService: DepartmentService,
+        protected officeService: OfficeService,
         protected designationService: DesignationService,
         protected elementRef: ElementRef,
         protected activatedRoute: ActivatedRoute,
@@ -68,6 +73,31 @@ export class EmployeeUpdateComponent implements OnInit {
                             )
                             .subscribe(
                                 (subRes: IDepartment) => (this.departments = [subRes].concat(res)),
+                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+                            );
+                    }
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        this.officeService
+            .query({ 'employeeId.specified': 'false' })
+            .pipe(
+                filter((mayBeOk: HttpResponse<IOffice[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IOffice[]>) => response.body)
+            )
+            .subscribe(
+                (res: IOffice[]) => {
+                    if (!this.employee.officeId) {
+                        this.offices = res;
+                    } else {
+                        this.officeService
+                            .find(this.employee.officeId)
+                            .pipe(
+                                filter((subResMayBeOk: HttpResponse<IOffice>) => subResMayBeOk.ok),
+                                map((subResponse: HttpResponse<IOffice>) => subResponse.body)
+                            )
+                            .subscribe(
+                                (subRes: IOffice) => (this.offices = [subRes].concat(res)),
                                 (subRes: HttpErrorResponse) => this.onError(subRes.message)
                             );
                     }
@@ -205,6 +235,10 @@ export class EmployeeUpdateComponent implements OnInit {
     }
 
     trackDepartmentById(index: number, item: IDepartment) {
+        return item.id;
+    }
+
+    trackOfficeById(index: number, item: IOffice) {
         return item.id;
     }
 

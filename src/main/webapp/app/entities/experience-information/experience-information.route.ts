@@ -42,7 +42,7 @@ export const experienceInformationRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             defaultSort: 'id,asc',
             pageTitle: 'ExperienceInformations'
         },
@@ -55,7 +55,7 @@ export const experienceInformationRoute: Routes = [
             experienceInformation: ExperienceInformationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ExperienceInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -67,7 +67,7 @@ export const experienceInformationRoute: Routes = [
             experienceInformation: ExperienceInformationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ExperienceInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -79,7 +79,7 @@ export const experienceInformationRoute: Routes = [
             experienceInformation: ExperienceInformationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ExperienceInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -91,7 +91,7 @@ export const experienceInformationRoute: Routes = [
             experienceInformation: ExperienceInformationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ExperienceInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -106,7 +106,7 @@ export const experienceInformationPopupRoute: Routes = [
             experienceInformation: ExperienceInformationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ExperienceInformations'
         },
         canActivate: [UserRouteAccessService],

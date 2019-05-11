@@ -40,7 +40,7 @@ export const experienceInformationAttachmentRoute: Routes = [
         path: '',
         component: ExperienceInformationAttachmentComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ExperienceInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -52,7 +52,7 @@ export const experienceInformationAttachmentRoute: Routes = [
             experienceInformationAttachment: ExperienceInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ExperienceInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -64,7 +64,7 @@ export const experienceInformationAttachmentRoute: Routes = [
             experienceInformationAttachment: ExperienceInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ExperienceInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -76,7 +76,7 @@ export const experienceInformationAttachmentRoute: Routes = [
             experienceInformationAttachment: ExperienceInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ExperienceInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -88,7 +88,7 @@ export const experienceInformationAttachmentRoute: Routes = [
             experienceInformationAttachment: ExperienceInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ExperienceInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -103,7 +103,7 @@ export const experienceInformationAttachmentPopupRoute: Routes = [
             experienceInformationAttachment: ExperienceInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'ExperienceInformationAttachments'
         },
         canActivate: [UserRouteAccessService],

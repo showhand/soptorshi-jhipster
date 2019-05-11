@@ -1,13 +1,13 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12">
         <jhi-alert></jhi-alert>
     </div>
 </div>
 <div class="row justify-content-center">
-    <div class="col-4">
+    <div class="col-6">
         <h2 id="page-heading">Designations</h2>
     </div>
-    <div class="col-4">
+    <div class="col-6">
         <form name="searchForm" class="form-inline">
             <div class="input-group w-100 mt-3">
                 <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Search Designations">
@@ -25,7 +25,7 @@
     </div>
 </div>
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12">
         <br/>
         <div class="table-responsive" *ngIf="designations">
             <table class="table table-striped">

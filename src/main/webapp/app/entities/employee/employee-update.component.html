@@ -262,6 +262,13 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_office">Office</label>
+                    <select class="form-control" id="field_office" name="office" [(ngModel)]="employee.officeId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="officeOption.id" *ngFor="let officeOption of offices; trackBy: trackOfficeById">{{officeOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_designation">Designation</label>
                     <select class="form-control" id="field_designation" name="designation" [(ngModel)]="employee.designationId" >
                         <option [ngValue]="null"></option>

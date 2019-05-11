@@ -133,6 +133,10 @@ public class Employee implements Serializable {
     @JoinColumn(unique = true)
     private Department department;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Office office;
+
     @ManyToOne
     @JsonIgnoreProperties("employees")
     private Designation designation;
@@ -482,6 +486,19 @@ public class Employee implements Serializable {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Office getOffice() {
+        return office;
+    }
+
+    public Employee office(Office office) {
+        this.office = office;
+        return this;
+    }
+
+    public void setOffice(Office office) {
+        this.office = office;
     }
 
     public Designation getDesignation() {

@@ -47,6 +47,8 @@ public final class AuthoritiesConstants {
 
     public static final String QA_EXECUTIVE = "ROLE_QA_EXECUTIVE";
 
+    public static final String EMPLOYEE_MANAGEMENT = "ROLE_EMPLOYEE_MANAGEMENT";
+
 
     private AuthoritiesConstants() {
     }
