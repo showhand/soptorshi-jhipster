@@ -39,7 +39,7 @@ export const academicInformationAttachmentRoute: Routes = [
         path: '',
         component: AcademicInformationAttachmentComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -51,7 +51,7 @@ export const academicInformationAttachmentRoute: Routes = [
             academicInformationAttachment: AcademicInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -63,7 +63,7 @@ export const academicInformationAttachmentRoute: Routes = [
             academicInformationAttachment: AcademicInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -75,7 +75,7 @@ export const academicInformationAttachmentRoute: Routes = [
             academicInformationAttachment: AcademicInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -87,7 +87,7 @@ export const academicInformationAttachmentRoute: Routes = [
             academicInformationAttachment: AcademicInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -102,7 +102,7 @@ export const academicInformationAttachmentPopupRoute: Routes = [
             academicInformationAttachment: AcademicInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService],

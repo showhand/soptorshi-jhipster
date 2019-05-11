@@ -42,7 +42,7 @@ export const trainingInformationRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             defaultSort: 'id,asc',
             pageTitle: 'TrainingInformations'
         },
@@ -55,7 +55,7 @@ export const trainingInformationRoute: Routes = [
             trainingInformation: TrainingInformationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'TrainingInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -67,7 +67,7 @@ export const trainingInformationRoute: Routes = [
             trainingInformation: TrainingInformationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'TrainingInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -79,7 +79,7 @@ export const trainingInformationRoute: Routes = [
             trainingInformation: TrainingInformationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'TrainingInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -91,7 +91,7 @@ export const trainingInformationRoute: Routes = [
             trainingInformation: TrainingInformationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'TrainingInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -106,7 +106,7 @@ export const trainingInformationPopupRoute: Routes = [
             trainingInformation: TrainingInformationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
             pageTitle: 'TrainingInformations'
         },
         canActivate: [UserRouteAccessService],

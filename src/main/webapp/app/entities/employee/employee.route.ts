@@ -38,7 +38,7 @@ export const employeeRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Employees'
         },
@@ -51,7 +51,7 @@ export const employeeRoute: Routes = [
             employee: EmployeeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employee Management'
         }
     },
@@ -62,7 +62,7 @@ export const employeeRoute: Routes = [
             employee: EmployeeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employee Management'
         }
     },
@@ -73,7 +73,7 @@ export const employeeRoute: Routes = [
             employee: EmployeeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employees'
         },
         canActivate: [UserRouteAccessService]
@@ -85,7 +85,7 @@ export const employeeRoute: Routes = [
             employee: EmployeeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employees'
         },
         canActivate: [UserRouteAccessService]
@@ -97,7 +97,7 @@ export const employeeRoute: Routes = [
             employee: EmployeeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employees'
         },
         canActivate: [UserRouteAccessService]
@@ -112,7 +112,7 @@ export const employeePopupRoute: Routes = [
             employee: EmployeeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employees'
         },
         canActivate: [UserRouteAccessService],

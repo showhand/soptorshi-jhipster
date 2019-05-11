@@ -272,7 +272,7 @@
                     <label class="form-control-label" for="field_designation">Designation</label>
                     <select class="form-control" id="field_designation" name="designation" [(ngModel)]="employee.designationId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.id}}</option>
+                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.name}}</option>
                     </select>
                 </div>
             </div>

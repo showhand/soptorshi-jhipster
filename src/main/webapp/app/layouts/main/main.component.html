@@ -8,6 +8,16 @@
         min-width: 250px;
         max-width: 250px;
         min-height: 100vh;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .main{
+        margin-left: 250px;
     }
 
     #sidebar.active {
@@ -144,7 +154,7 @@
                     </li>
                 </ul>
             </li>
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN']">
                 <a (click)="employeeManagement=!employeeManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="user-cog"></fa-icon>
@@ -188,7 +198,7 @@
             </li>
         </ul>
     </nav>
-    <div class="container-fluid" style="padding-top:70px;padding-bottom:30px;">
+    <div class="container-fluid  main"  style="padding-top:70px;padding-bottom:30px;">
         <div class="card jh-card" >
             <router-outlet></router-outlet>
             <router-outlet name="popup"></router-outlet>
