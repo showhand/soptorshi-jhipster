@@ -13,7 +13,7 @@
         top: 0;
         left: 0;
         overflow-x: hidden;
-        padding-top: 20px;
+        padding-top: 50px;
     }
 
     .main{
@@ -117,14 +117,10 @@
 </div>
 <div class="wrapper" [ngSwitch]="isAuthenticated()">
     <nav id="sidebar" *ngSwitchCase="true" >
-        <div class="sidebar-header">
-            <h3>Bootstrap Sidebar</h3>
-        </div>
-
         <ul class="list-unstyled components">
 
-            <p>Dummy Heading</p>
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+           <!-- <p>Dummy Heading</p>-->
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="'ROLE_ADMIN'">
                 <a (click)="configuration=!configuration" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="cog"></fa-icon>

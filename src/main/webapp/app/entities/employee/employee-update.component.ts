@@ -29,6 +29,7 @@ export class EmployeeUpdateComponent implements OnInit {
     offices: IOffice[];
 
     designations: IDesignation[];
+    managers: IEmployee[];
     birthDateDp: any;
     joiningDateDp: any;
     terminationDateDp: any;
@@ -54,6 +55,12 @@ export class EmployeeUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ employee }) => {
             this.employee = employee;
         });
+        this.employeeService
+            .query({ 'designationId.in': '1,2,3,4,5,6,7' })
+            .subscribe(
+                (res: HttpResponse<IEmployee[]>) => (this.managers = res.body),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
         this.departmentService
             .query({ 'employeeId.specified': 'false' })
             .pipe(
