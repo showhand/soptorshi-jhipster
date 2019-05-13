@@ -73,6 +73,14 @@ entity Office{
     description String,
     location String
 }
+
+entity FinancialAccountYear{
+    startDate LocalDate,
+    endDate LocalDate,
+    previousYear Long,
+    status Boolean
+}
+
 entity AcademicInformationAttachment (academic_attachment) {
   file AnyBlob required
 }
@@ -134,8 +142,8 @@ relationship ManyToOne {
   TrainingInformationAttachment{employee(employeeId) required} to Employee
 }
 
-dto Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office with mapstruct
-paginate Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office with pager
-service Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office with serviceClass
-search Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office with elasticsearch
-filter Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office
+dto Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear with mapstruct
+paginate Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear with pager
+service Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear with serviceClass
+search Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear with elasticsearch
+filter Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear
