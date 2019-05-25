@@ -1,0 +1,33 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="tax">
+            <h2><span>Tax</span> {{tax.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Rate</span></dt>
+                <dd>
+                    <span>{{tax.rate}}</span>
+                </dd>
+                <dt><span>Financial Account Year</span></dt>
+                <dd>
+                    <div *ngIf="tax.financialAccountYearId">
+                        <a [routerLink]="['/financial-account-year', tax.financialAccountYearId, 'view']">{{tax.financialAccountYearId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/tax', tax.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

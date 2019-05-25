@@ -1,0 +1,84 @@
+{
+    "name": "MonthlySalary",
+    "fields": [
+        {
+            "fieldName": "month",
+            "fieldType": "MonthType",
+            "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "basic",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "houseRent",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "medicalAllowance",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "otherAllowance",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "absent",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "fine",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "advanceHO",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "advanceFactory",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "providendFund",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "tax",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "loanAmount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "payable",
+            "fieldType": "BigDecimal"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "monthlySalary",
+            "relationshipName": "employee",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20190514160139",
+    "entityTableName": "monthly_salary",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

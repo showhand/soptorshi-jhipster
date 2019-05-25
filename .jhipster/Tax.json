@@ -1,0 +1,29 @@
+{
+    "name": "Tax",
+    "fields": [
+        {
+            "fieldName": "rate",
+            "fieldType": "Double"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "financialAccountYear",
+            "otherEntityRelationshipName": "tax",
+            "relationshipName": "financialAccountYear",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20190514160136",
+    "entityTableName": "tax",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}
