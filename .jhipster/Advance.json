@@ -1,0 +1,54 @@
+{
+    "name": "Advance",
+    "fields": [
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "reason",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        },
+        {
+            "fieldName": "providedOn",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "paymentStatus",
+            "fieldType": "PaymentStatus",
+            "fieldValues": "PAID,NOT_PAID"
+        },
+        {
+            "fieldName": "left",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "advance",
+            "relationshipName": "employee",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190514160140",
+    "entityTableName": "advance",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

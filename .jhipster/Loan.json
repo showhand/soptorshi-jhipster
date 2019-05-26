@@ -1,0 +1,56 @@
+{
+    "name": "Loan",
+    "fields": [
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "takenOn",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "monthlyPayable",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "paymentStatus",
+            "fieldType": "PaymentStatus",
+            "fieldValues": "PAID,NOT_PAID"
+        },
+        {
+            "fieldName": "left",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "modifiedDate",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "loan",
+            "relationshipName": "employee",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190514160142",
+    "entityTableName": "loan",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}
