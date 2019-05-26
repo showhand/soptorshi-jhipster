@@ -27,7 +27,7 @@ export class ExperienceInformationAttachmentResolve implements Resolve<IExperien
                 )
             );
         } else if (employeeId) {
-            let experienceInformationAttachment: IExperienceInformationAttachment = new ExperienceInformationAttachment();
+            const experienceInformationAttachment: IExperienceInformationAttachment = new ExperienceInformationAttachment();
             experienceInformationAttachment.employeeId = employeeId;
             return of(experienceInformationAttachment);
         }

@@ -2,5 +2,5 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class SidebarService {
-    public toggleSidenav: boolean = false;
+    public toggleSidenav: any = false;
 }

@@ -26,7 +26,7 @@ export class ExperienceInformationResolve implements Resolve<IExperienceInformat
                 map((experienceInformation: HttpResponse<ExperienceInformation>) => experienceInformation.body)
             );
         } else if (employeeId) {
-            let experienceInformation: IExperienceInformation = new ExperienceInformation();
+            const experienceInformation: IExperienceInformation = new ExperienceInformation();
             experienceInformation.employeeId = employeeId;
             return of(experienceInformation);
         }

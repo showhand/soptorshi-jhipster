@@ -21,13 +21,13 @@ export class AcademicInformationResolve implements Resolve<IAcademicInformation>
     constructor(private service: AcademicInformationService, private employeeService: EmployeeService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAcademicInformation> {
-        let academicInformation = new AcademicInformation();
+        const academicInformation = new AcademicInformation();
         const id = route.params['id'] ? route.params['id'] : null;
         const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<AcademicInformation>) => response.ok),
-                map((academicInformation: HttpResponse<AcademicInformation>) => academicInformation.body)
+                map((ai: HttpResponse<AcademicInformation>) => ai.body)
             );
         } else if (employeeId) {
             academicInformation.employeeId = employeeId;

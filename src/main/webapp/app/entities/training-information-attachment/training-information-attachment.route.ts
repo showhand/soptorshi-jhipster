@@ -26,7 +26,7 @@ export class TrainingInformationAttachmentResolve implements Resolve<ITrainingIn
                 map((trainingInformationAttachment: HttpResponse<TrainingInformationAttachment>) => trainingInformationAttachment.body)
             );
         } else if (employeeId) {
-            let trainingInformationAttachment: ITrainingInformationAttachment = new TrainingInformationAttachment();
+            const trainingInformationAttachment: ITrainingInformationAttachment = new TrainingInformationAttachment();
             trainingInformationAttachment.employeeId = employeeId;
             return of(trainingInformationAttachment);
         }

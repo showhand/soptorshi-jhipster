@@ -30,8 +30,8 @@ export class UserMgmtResolve implements Resolve<any> {
             return this.service.find(id);
         } else if (employeeId) {
             this.employeeService.find(employeeId).subscribe((res: HttpResponse<IEmployee>) => {
-                let user: IUser = new User();
-                let employee: IEmployee = res.body;
+                const user: IUser = new User();
+                const employee: IEmployee = res.body;
                 user.email = employee.email;
                 user.login = employee.employeeId;
                 return user;

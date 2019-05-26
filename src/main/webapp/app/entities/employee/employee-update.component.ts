@@ -144,7 +144,7 @@ export class EmployeeUpdateComponent implements OnInit {
             this.userService.find(this.employee.employeeId).subscribe(
                 user => {
                     this.user = user.body;
-                    if (this.user != undefined) {
+                    if (this.user !== undefined) {
                         this.user.activated = false;
                         this.userService.update(this.user).subscribe(response => {
                             this.jhiAlertService.info('User account disabled');
@@ -163,11 +163,11 @@ export class EmployeeUpdateComponent implements OnInit {
     saveUser() {
         this.userService.find(this.user.login).subscribe(
             response => {
-                let user: IUser = response.body;
+                const user: IUser = response.body;
                 user.activated = this.user.activated;
                 user.authorities = this.user.authorities;
                 this.userService.update(user).subscribe(
-                    response => {
+                    res => {
                         this.jhiAlertService.info('User Successfully Updated');
                         this.modalService.dismissAll();
                     },
@@ -220,7 +220,7 @@ export class EmployeeUpdateComponent implements OnInit {
                 if (this.employee.id) {
                     this.onSaveSuccess();
                 } else {
-                    let employee: IEmployee = res.body;
+                    const employee: IEmployee = res.body;
                     this.router.navigate(['/employee', employee.id, 'employee-management']);
                 }
             },

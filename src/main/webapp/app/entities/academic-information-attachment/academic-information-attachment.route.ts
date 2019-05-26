@@ -26,7 +26,7 @@ export class AcademicInformationAttachmentResolve implements Resolve<IAcademicIn
                 map((academicInformationAttachment: HttpResponse<AcademicInformationAttachment>) => academicInformationAttachment.body)
             );
         } else if (employeeId) {
-            let academicInformationAttachment: IAcademicInformationAttachment = new AcademicInformationAttachment();
+            const academicInformationAttachment: IAcademicInformationAttachment = new AcademicInformationAttachment();
             academicInformationAttachment.employeeId = employeeId;
             return of(academicInformationAttachment);
         }
