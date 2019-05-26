@@ -6,7 +6,7 @@ Main page styles
     display: inline-block;
     width: 347px;
     height: 497px;
-    background: url('../../content/images/jhipster_family_member_3.svg') no-repeat center top;
+    background: url('../../content/images/seven-oceans.jpg') no-repeat center top;
     background-size: contain;
 }
 
@@ -18,6 +18,10 @@ Main page styles
     only screen and (min-resolution: 2dppx) {
     .hipster {
         background: url('../../content/images/jhipster_family_member_3.svg') no-repeat center top;
+        background-size: contain;
+    }
+    .sevenOceans {
+        background: url('../../content/images/seven-oceans.jpg') no-repeat center top;
         background-size: contain;
     }
 }
