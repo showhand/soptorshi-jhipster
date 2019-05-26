@@ -9,6 +9,10 @@ import { AccountService } from 'app/core';
     templateUrl: './main.component.html'
 })
 export class JhiMainComponent implements OnInit {
+    configuration: any;
+    employeeManagement: any;
+    holidayManagement: any;
+
     constructor(private titleService: Title, private router: Router, private accountService: AccountService) {}
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {

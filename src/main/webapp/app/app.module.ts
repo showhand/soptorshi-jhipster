@@ -17,7 +17,6 @@ import { SoptorshiHomeModule } from './home/home.module';
 import { SoptorshiAccountModule } from './account/account.module';
 import { SoptorshiEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
-import { SoptorshiprimengModule } from './primeng/primeng.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
 import { MatButton, MatButtonModule, MatCheckbox, MatTab, MatTabsModule } from '@angular/material';
@@ -37,7 +36,6 @@ import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
         SoptorshiCoreModule,
         SoptorshiHomeModule,
         SoptorshiAccountModule,
-        SoptorshiprimengModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         SoptorshiEntityModule,
         SoptorshiAppRoutingModule,
