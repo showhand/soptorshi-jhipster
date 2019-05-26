@@ -39,15 +39,7 @@ import {
     faTrashAlt,
     faAsterisk,
     faTasks,
-    faHome,
-    faCog,
-    faIdCard,
-    faChess,
-    faUserCog,
-    faUserEdit,
-    faEdit,
-    faAddressBook,
-    faBuilding
+    faHome
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -85,17 +77,5 @@ library.add(faCalendarAlt);
 library.add(faSearch);
 library.add(faTrashAlt);
 library.add(faAsterisk);
-library.add(faCog);
-library.add(faIdCard);
-library.add(faChess);
-library.add(faUserCog);
-library.add(faUserEdit);
-library.add(faEdit);
-library.add(faAddressBook);
-library.add(faBuilding);
-
-import 'quill/dist/quill.js';
-import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';
-import 'chart.js/src/chart.js';
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

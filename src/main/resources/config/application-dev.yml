@@ -36,9 +36,9 @@ spring:
             indent-output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/soptorshi?useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
-        username: ${SOPTORSHI_USERNAME}
-        password: ${SOPTORSHI_PASSWORD}
+        url: jdbc:mysql://localhost:3306/soptorshi?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+        username: root
+        password:
         hikari:
             poolName: Hikari
             auto-commit: false
@@ -65,23 +65,17 @@ spring:
     liquibase:
         contexts: dev
     mail:
-        host: smtp.gmail.com
-        port: 587
-        username: ${SOPTORSHI_EMAIL}
-        password: ${SOPTORSHI_EMAIL_PASSWORD}
-        protocol: smtp
-        tls: true
-        properties.mail.smtp:
-            auth: true
-            starttls.enable: true
-            ssl.trust: smtp.gmail.com
+        host: localhost
+        port: 25
+        username:
+        password:
     messages:
         cache-duration: PT1S # 1 second, see the ISO 8601 standard
     thymeleaf:
         cache: false
 
 server:
-    port: 8080
+    port: 80
 
 # ===================================================================
 # JHipster specific properties
@@ -110,7 +104,7 @@ jhipster:
             key: 04f66efc075a171d9b8e9de789edd93d16315a23082bff079052c3ebfacb4f9e5a367237d875fc7cca5d93ee5d8bd83c627d
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: soptorshi@localhost
-        base-url: http://127.0.0.1:8080
+        base-url: http://127.0.0.1:80
     metrics:
         logs: # Reports metrics in the logs
             enabled: false
