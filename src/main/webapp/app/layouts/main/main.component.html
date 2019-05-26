@@ -218,7 +218,8 @@
             </li>-->
         </ul>
     </nav>
-    <div class="container-fluid  main"  style="padding-top:70px;padding-bottom:30px;">
+    <!--[ngStyle]="{'mergin-left': isAuthenticated()?'250px':'0px'}"-->
+    <div class="container-fluid " [ngClass]="isAuthenticated()?'main':''"  [ngStyle]="{'mergin-left': isAuthenticated()?'250px':'0px'}" style="padding-top:70px;padding-bottom:30px;">
         <div class="card jh-card" >
             <router-outlet></router-outlet>
             <router-outlet name="popup"></router-outlet>

@@ -5,7 +5,6 @@ import org.soptorshi.domain.User;
 import org.soptorshi.repository.UserRepository;
 import org.soptorshi.repository.search.UserSearchRepository;
 import org.soptorshi.security.AuthoritiesConstants;
-import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.MailService;
 import org.soptorshi.service.UserService;
 import org.soptorshi.service.dto.UserDTO;
