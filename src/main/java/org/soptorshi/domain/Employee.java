@@ -129,12 +129,12 @@ public class Employee implements Serializable {
     @Column(name = "photo_content_type")
     private String photoContentType;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @ManyToOne
+    @JsonIgnoreProperties("employees")
     private Department department;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @ManyToOne
+    @JsonIgnoreProperties("employees")
     private Office office;
 
     @ManyToOne

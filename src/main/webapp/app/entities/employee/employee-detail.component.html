@@ -105,19 +105,19 @@
                 <dt><span>Department</span></dt>
                 <dd>
                     <div *ngIf="employee.departmentId">
-                        <a [routerLink]="['/department', employee.departmentId, 'view']">{{employee.departmentId}}</a>
+                        <span>{{department.name}}</span>
                     </div>
                 </dd>
                 <dt><span>Office</span></dt>
                 <dd>
                     <div *ngIf="employee.officeId">
-                        <a [routerLink]="['/office', employee.officeId, 'view']">{{employee.officeId}}</a>
+                        <span>{{office.name}}</span>
                     </div>
                 </dd>
                 <dt><span>Designation</span></dt>
                 <dd>
                     <div *ngIf="employee.designationId">
-                        <a [routerLink]="['/designation', employee.designationId, 'view']">{{employee.designationId}}</a>
+                        <span>{{designation.name}}</span>
                     </div>
                 </dd>
             </dl>

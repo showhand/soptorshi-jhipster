@@ -25,9 +25,11 @@
             <column name="rate" type="double">
                 <constraints nullable="true" />
             </column>
+
             <column name="financial_account_year_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_tax_financial_account_year_id" />
+                <constraints nullable="true" />
             </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         

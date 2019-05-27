@@ -120,11 +120,15 @@
             <column name="photo_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+
             <column name="department_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_employee_department_id" />
-            </column>            <column name="office_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_employee_office_id" />
+                <constraints nullable="true" />
             </column>
+
+            <column name="office_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
             <column name="designation_id" type="bigint">
                 <constraints nullable="true" />
             </column>

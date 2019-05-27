@@ -211,7 +211,7 @@ enum EmploymentType {
   PART_TIME
 }
 
-relationship OneToOne {
+relationship ManyToOne {
   Employee{department} to Department,
   Employee{office} to Office,
   Salary{employee} to Employee,

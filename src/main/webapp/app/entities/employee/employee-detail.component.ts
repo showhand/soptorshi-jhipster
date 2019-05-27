@@ -3,6 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { JhiDataUtils } from 'ng-jhipster';
 
 import { IEmployee } from 'app/shared/model/employee.model';
+import { IDepartment } from 'app/shared/model/department.model';
+import { IDesignation } from 'app/shared/model/designation.model';
+import { IOffice } from 'app/shared/model/office.model';
+import { DepartmentService } from 'app/entities/department';
+import { DesignationService } from 'app/entities/designation';
+import { OfficeService } from 'app/entities/office';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
     selector: 'jhi-employee-detail',
@@ -10,12 +17,31 @@ import { IEmployee } from 'app/shared/model/employee.model';
 })
 export class EmployeeDetailComponent implements OnInit {
     employee: IEmployee;
+    department: IDepartment;
+    designation: IDesignation;
+    office: IOffice;
 
-    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
+    constructor(
+        protected dataUtils: JhiDataUtils,
+        protected activatedRoute: ActivatedRoute,
+        protected departmentService: DepartmentService,
+        protected designationService: DesignationService,
+        protected officeService: OfficeService
+    ) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ employee }) => {
             this.employee = employee;
+
+            this.departmentService
+                .find(this.employee.departmentId)
+                .subscribe((res: HttpResponse<IDepartment>) => (this.department = res.body));
+
+            this.designationService
+                .find(this.employee.designationId)
+                .subscribe((res: HttpResponse<IDesignation>) => (this.designation = res.body));
+
+            this.officeService.find(this.employee.officeId).subscribe((res: HttpResponse<IOffice>) => (this.office = res.body));
         });
     }
 

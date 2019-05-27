@@ -8,12 +8,11 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
+            "relationshipType": "many-to-one",
             "otherEntityName": "financialAccountYear",
             "otherEntityRelationshipName": "tax",
             "relationshipName": "financialAccountYear",
-            "otherEntityField": "id",
-            "ownerSide": true
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20190514160136",
