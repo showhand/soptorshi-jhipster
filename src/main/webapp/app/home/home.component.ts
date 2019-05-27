@@ -44,6 +44,8 @@ export class HomeComponent implements OnInit {
             .subscribe(
                 (res: HttpResponse<IEmployee[]>) => {
                     this.employee = res.body[0];
+                    console.log('Logged employee');
+                    console.log(this.employee);
                     this.fetchAdditionalInformation();
                 },
                 (res: HttpErrorResponse) => this.jhiAlertService.error('Error in fetching logged employee information')
