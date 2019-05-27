@@ -9,23 +9,42 @@
 
             <br/>
 
-
             <div [ngSwitch]="isAuthenticated()">
                 <div class="alert alert-success" *ngSwitchCase="true">
                 <span id="home-logged-message" *ngIf="account"
                 > You are logged in as user "{{account.login}}". </span>
                 </div>
 
-                <div class="alert alert-warning" *ngSwitchCase="false">
-                    <span>If you want to </span>
-                    <a class="alert-link" (click)="login()">sign in</a>
-                </div>
             </div>
 
         </div>
     </div>
     <div class="row" *ngSwitchCase="true">
-        <h1>Profile</h1>
+        <div class="col-4" *ngIf="employee!==undefined && employee.photo!==undefined">
+            <img [src]="'data:' + employee.photoContentType + ';base64,' + employee.photo" width="70" height="75" alt="employee image"/>
+        </div>
+        <div class="col-4" *ngIf="employee!==undefined && employee.photo=== undefined">
+            <span class="user img-fluid rounded"></span>
+        </div>
+        <div class="col-4">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>Name</td>
+                    <td>{{employee.fullName}}</td>
+                </tr>
+                <tr>
+                    <td>Department</td>
+                    <td>{{department.name}}</td>
+                </tr>
+                <tr>
+                    <td>Designation</td>
+                    <td>{{designation.name}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-4"></div>
     </div>
 </div>
 
