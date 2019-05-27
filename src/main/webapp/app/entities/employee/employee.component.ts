@@ -10,10 +10,6 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { EmployeeService } from './employee.service';
-import { DepartmentService } from 'app/entities/department';
-import { Designation, IDesignation } from 'app/shared/model/designation.model';
-import { DesignationService } from 'app/entities/designation';
-import { IDepartment } from 'app/shared/model/department.model';
 
 @Component({
     selector: 'jhi-employee',
@@ -34,10 +30,6 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
-    departments: IDepartment[];
-    departmentMap: any;
-    designations: IDesignation[];
-    designationMap: any;
 
     constructor(
         protected employeeService: EmployeeService,
@@ -47,9 +39,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
         protected activatedRoute: ActivatedRoute,
         protected dataUtils: JhiDataUtils,
         protected router: Router,
-        protected eventManager: JhiEventManager,
-        protected departmentService: DepartmentService,
-        protected designationService: DesignationService
+        protected eventManager: JhiEventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -88,40 +78,6 @@ export class EmployeeComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
-            );
-
-        this.departmentService
-            .query({
-                page: 0,
-                size: 1000,
-                sort: this.sort()
-            })
-            .subscribe(
-                (response: HttpResponse<IDepartment[]>) => {
-                    this.departments = response.body;
-                    this.departmentMap = {};
-                    this.departments.forEach((d: IDepartment) => (this.departmentMap[d.id] = d));
-                },
-                (errorResponse: HttpErrorResponse) => {
-                    this.jhiAlertService.error('Error in fetching department data');
-                }
-            );
-
-        this.designationService
-            .query({
-                page: 0,
-                size: 1000,
-                sort: this.sort()
-            })
-            .subscribe(
-                (response: HttpResponse<IDesignation[]>) => {
-                    this.designations = response.body;
-                    this.designationMap = {};
-                    this.designations.forEach((d: IDesignation) => (this.designationMap[d.id] = d));
-                },
-                (errorResponse: HttpErrorResponse) => {
-                    this.jhiAlertService.error('Error in fetching designation data');
-                }
             );
     }
 

@@ -49,9 +49,11 @@
             <column name="modified_on" type="date">
                 <constraints nullable="true" />
             </column>
+
             <column name="employee_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_salary_employee_id" />
+                <constraints nullable="true" />
             </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         

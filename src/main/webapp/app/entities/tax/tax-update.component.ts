@@ -32,28 +32,13 @@ export class TaxUpdateComponent implements OnInit {
             this.tax = tax;
         });
         this.financialAccountYearService
-            .query({ 'taxId.specified': 'false' })
+            .query()
             .pipe(
                 filter((mayBeOk: HttpResponse<IFinancialAccountYear[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IFinancialAccountYear[]>) => response.body)
             )
             .subscribe(
-                (res: IFinancialAccountYear[]) => {
-                    if (!this.tax.financialAccountYearId) {
-                        this.financialaccountyears = res;
-                    } else {
-                        this.financialAccountYearService
-                            .find(this.tax.financialAccountYearId)
-                            .pipe(
-                                filter((subResMayBeOk: HttpResponse<IFinancialAccountYear>) => subResMayBeOk.ok),
-                                map((subResponse: HttpResponse<IFinancialAccountYear>) => subResponse.body)
-                            )
-                            .subscribe(
-                                (subRes: IFinancialAccountYear) => (this.financialaccountyears = [subRes].concat(res)),
-                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-                            );
-                    }
-                },
+                (res: IFinancialAccountYear[]) => (this.financialaccountyears = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
