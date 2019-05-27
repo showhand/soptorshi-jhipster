@@ -6,8 +6,8 @@ import { LoginModalService, AccountService, Account } from 'app/core';
 import { Employee, IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Department } from 'app/shared/model/department.model';
-import { Designation } from 'app/shared/model/designation.model';
+import { Department, IDepartment } from 'app/shared/model/department.model';
+import { Designation, IDesignation } from 'app/shared/model/designation.model';
 import { DepartmentService } from 'app/entities/department';
 import { DesignationService } from 'app/entities/designation';
 import { filter, map } from 'rxjs/operators';
@@ -44,26 +44,25 @@ export class HomeComponent implements OnInit {
             .subscribe(
                 (res: HttpResponse<IEmployee[]>) => {
                     this.employee = res.body[0];
+                    console.log('Logged employee');
+                    console.log(this.employee);
+                    this.fetchAdditionalInformation();
                 },
                 (res: HttpErrorResponse) => this.jhiAlertService.error('Error in fetching logged employee information')
             );
     }
 
     fetchAdditionalInformation() {
-        this.departmentService.find(this.employee.departmentId).pipe(
-            filter((response: HttpResponse<Department>) => response.ok),
-            map((response: HttpResponse<Employee>) => (this.department = response.body))
-        );
-
-        this.designationService.find(this.employee.designationId).pipe(
-            filter((response: HttpResponse<Designation>) => response.ok),
-            map((response: HttpResponse<Designation>) => (this.designation = response.body))
-        );
+        this.departmentService.find(this.employee.departmentId).subscribe((res: HttpResponse<IDepartment>) => (this.department = res.body));
+        this.designationService
+            .find(this.employee.designationId)
+            .subscribe((res: HttpResponse<IDesignation>) => (this.designation = res.body));
     }
 
     ngOnInit() {
         this.accountService.identity().then((account: Account) => {
             this.account = account;
+            this.fetchLoggedEmployeeInformation();
         });
         this.registerAuthenticationSuccess();
     }

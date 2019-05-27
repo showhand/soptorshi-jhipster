@@ -63,12 +63,11 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
+            "relationshipType": "many-to-one",
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "monthlySalary",
             "relationshipName": "employee",
-            "otherEntityField": "id",
-            "ownerSide": true
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20190514160139",

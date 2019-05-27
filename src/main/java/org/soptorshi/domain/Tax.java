@@ -1,6 +1,7 @@
 package org.soptorshi.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -25,8 +26,8 @@ public class Tax implements Serializable {
     @Column(name = "rate")
     private Double rate;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @ManyToOne
+    @JsonIgnoreProperties("taxes")
     private FinancialAccountYear financialAccountYear;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

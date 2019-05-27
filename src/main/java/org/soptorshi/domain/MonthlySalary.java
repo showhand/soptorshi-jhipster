@@ -1,6 +1,7 @@
 package org.soptorshi.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -68,8 +69,8 @@ public class MonthlySalary implements Serializable {
     @Column(name = "payable", precision = 10, scale = 2)
     private BigDecimal payable;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @ManyToOne
+    @JsonIgnoreProperties("monthlySalaries")
     private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

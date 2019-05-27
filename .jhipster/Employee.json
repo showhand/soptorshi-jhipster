@@ -145,20 +145,18 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
+            "relationshipType": "many-to-one",
             "otherEntityName": "department",
             "otherEntityRelationshipName": "employee",
             "relationshipName": "department",
-            "otherEntityField": "id",
-            "ownerSide": true
+            "otherEntityField": "id"
         },
         {
-            "relationshipType": "one-to-one",
+            "relationshipType": "many-to-one",
             "otherEntityName": "office",
             "otherEntityRelationshipName": "employee",
             "relationshipName": "office",
-            "otherEntityField": "id",
-            "ownerSide": true
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",

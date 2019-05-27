@@ -108,6 +108,7 @@ public class UserResource {
             Set<String> authorities = userDTO.getAuthorities();
             authorities.add(AuthoritiesConstants.USER);
             userDTO.setAuthorities(authorities);
+            userDTO.setActivated(true);
             User newUser = userService.createUser(userDTO);
             mailService.sendCreationEmail(newUser);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))

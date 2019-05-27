@@ -32,30 +32,12 @@ export class MonthlySalaryUpdateComponent implements OnInit {
             this.monthlySalary = monthlySalary;
         });
         this.employeeService
-            .query({ 'monthlySalaryId.specified': 'false' })
+            .query()
             .pipe(
                 filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IEmployee[]>) => response.body)
             )
-            .subscribe(
-                (res: IEmployee[]) => {
-                    if (!this.monthlySalary.employeeId) {
-                        this.employees = res;
-                    } else {
-                        this.employeeService
-                            .find(this.monthlySalary.employeeId)
-                            .pipe(
-                                filter((subResMayBeOk: HttpResponse<IEmployee>) => subResMayBeOk.ok),
-                                map((subResponse: HttpResponse<IEmployee>) => subResponse.body)
-                            )
-                            .subscribe(
-                                (subRes: IEmployee) => (this.employees = [subRes].concat(res)),
-                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-                            );
-                    }
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
