@@ -5,10 +5,9 @@
         </div>
         <div class="col-md-9">
             <h1 class="display-4">Welcome, Seven Oceans!</h1>
-            <p class="lead">You are not logged in. Please <a class="alert-link" (click)="login()">sign in</a> </p>
-
             <br/>
-
+            <p class="lead">You are not logged in. Please <a class="alert-link" (click)="login()"><u>sign in</u></a> </p>
+            <br/>
             <div [ngSwitch]="isAuthenticated()">
                 <div class="alert alert-success" *ngSwitchCase="true">
                 <span id="home-logged-message" *ngIf="account"
