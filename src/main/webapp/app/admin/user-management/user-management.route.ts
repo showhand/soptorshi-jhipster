@@ -2,13 +2,10 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
 
-import { AccountService, IUser, User, UserService } from 'app/core';
+import { AccountService, User, UserService } from 'app/core';
 import { UserMgmtComponent } from './user-management.component';
 import { UserMgmtDetailComponent } from './user-management-detail.component';
 import { UserMgmtUpdateComponent } from './user-management-update.component';
-import { EmployeeService } from 'app/entities/employee';
-import { HttpResponse } from '@angular/common/http';
-import { IEmployee } from 'app/shared/model/employee.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserResolve implements CanActivate {
@@ -21,21 +18,12 @@ export class UserResolve implements CanActivate {
 
 @Injectable({ providedIn: 'root' })
 export class UserMgmtResolve implements Resolve<any> {
-    constructor(private service: UserService, private employeeService: EmployeeService) {}
+    constructor(private service: UserService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const id = route.params['login'] ? route.params['login'] : null;
-        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id);
-        } else if (employeeId) {
-            this.employeeService.find(employeeId).subscribe((res: HttpResponse<IEmployee>) => {
-                const user: IUser = new User();
-                const employee: IEmployee = res.body;
-                user.email = employee.email;
-                user.login = employee.employeeId;
-                return user;
-            });
         }
         return new User();
     }
@@ -65,13 +53,6 @@ export const userMgmtRoute: Routes = [
     },
     {
         path: 'user-management/new',
-        component: UserMgmtUpdateComponent,
-        resolve: {
-            user: UserMgmtResolve
-        }
-    },
-    {
-        path: ':employeeId/user-management/new',
         component: UserMgmtUpdateComponent,
         resolve: {
             user: UserMgmtResolve
