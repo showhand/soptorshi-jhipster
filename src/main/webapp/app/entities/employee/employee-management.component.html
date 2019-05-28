@@ -22,7 +22,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <button class="btn btn-primary float-right jh-create-entity create-family-information" [routerLink]="['/family-information', employee.id,'new']">
+                        <button class="btn btn-secondary float-right jh-create-entity create-family-information" [routerLink]="['/family-information', employee.id,'new']">
                             <fa-icon [icon]="'plus'"></fa-icon>
                         </button>
                     </div>
@@ -54,7 +54,7 @@
                                             </button>
                                             <button type="submit"
                                                     [routerLink]="['/family-information', familyInformation.id, 'edit']"
-                                                    class="btn btn-primary btn-sm">
+                                                    class="btn btn-secondary btn-sm">
                                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                                 <span class="d-none d-md-inline">Edit</span>
                                             </button>
@@ -83,7 +83,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <button  class="btn btn-primary float-right jh-create-entity create-reference-information" [routerLink]="['/reference-information', employee.id,'new']">
+                        <button  class="btn btn-secondary float-right jh-create-entity create-reference-information" [routerLink]="['/reference-information', employee.id,'new']">
                             <fa-icon [icon]="'plus'"></fa-icon>
                         </button>
                     </div>
@@ -117,7 +117,7 @@
                                             </button>
                                             <button type="submit"
                                                     [routerLink]="['/reference-information', referenceInformation.id, 'edit']"
-                                                    class="btn btn-primary btn-sm">
+                                                    class="btn btn-secondary btn-sm">
                                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                                 <span class="d-none d-md-inline">Edit</span>
                                             </button>
@@ -146,7 +146,7 @@
 <br/>
 
 <div class="card">
-    <div class="card-header bg-primary text-white">Academic Information</div>
+    <div class="card-header bg-secondary text-white">Academic Information</div>
     <div class="card-body">
         <div class="row">
             <div class="col-8">
@@ -184,7 +184,7 @@
                                             </button>
                                             <button type="submit"
                                                     [routerLink]="['/academic-information', academicInformation.id, 'edit']"
-                                                    class="btn btn-primary btn-sm">
+                                                    class="btn btn-secondary btn-sm">
                                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                                 <span class="d-none d-md-inline">Edit</span>
                                             </button>
@@ -211,7 +211,7 @@
                 <div class="row">
                     <div class="col-md-12"><h3>Attachments</h3></div>
                     <div class="col-md-12">
-                        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-academic-information-attachment"
+                        <button id="jh-create-entity" class="btn btn-secondary float-right jh-create-entity create-academic-information-attachment"
                                 [routerLink]="['/academic-information-attachment', employee.id, 'new-for-employee' ]"
                         >
                             <fa-icon [icon]="'plus'"></fa-icon>
@@ -244,7 +244,7 @@
                                         </button>
                                         <button type="submit"
                                                 [routerLink]="['/academic-information-attachment', academicInformationAttachment.id,'edit']"
-                                                class="btn btn-primary btn-sm">
+                                                class="btn btn-secondary btn-sm">
                                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                             <span class="d-none d-md-inline">Edit</span>
                                         </button>
@@ -277,7 +277,7 @@
                 <div class="row">
                     <div class="col-12"><h3>Experience Information</h3></div>
                     <div class="col-12">
-                        <button  class="btn btn-primary float-right jh-create-entity create-experience-information" [routerLink]="['/experience-information',employee.id,'new']">
+                        <button  class="btn btn-secondary float-right jh-create-entity create-experience-information" [routerLink]="['/experience-information',employee.id,'new']">
                             <fa-icon [icon]="'plus'"></fa-icon></button>
                     </div>
                     <div class="col-12">
@@ -312,7 +312,7 @@
                                         </button>
                                         <button type="submit"
                                                 [routerLink]="['/experience-information', experienceInformation.id, 'edit']"
-                                                class="btn btn-primary btn-sm">
+                                                class="btn btn-secondary btn-sm">
                                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                             <span class="d-none d-md-inline">Edit</span>
                                         </button>
@@ -336,9 +336,9 @@
 
             <div class="col-4">
                 <div class="row">
-                    <div class="col-12"><h3>Attachment</h3></div>
+                    <div class="col-12"><h3>Attachments</h3></div>
                     <div class="col-12">
-                        <button  class="btn btn-primary float-right jh-create-entity create-experience-information-attachment" [routerLink]="['/experience-information-attachment',employee.id,'new']">
+                        <button  class="btn btn-secondary float-right jh-create-entity create-experience-information-attachment" [routerLink]="['/experience-information-attachment',employee.id,'new']">
                             <fa-icon [icon]="'plus'"></fa-icon>
                         </button>
                     </div>
@@ -368,7 +368,7 @@
                                         </button>
                                         <button type="submit"
                                                 [routerLink]="['/experience-information-attachment', experienceInformationAttachment.id, 'edit']"
-                                                class="btn btn-primary btn-sm">
+                                                class="btn btn-secondary btn-sm">
                                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                             <span class="d-none d-md-inline">Edit</span>
                                         </button>
@@ -400,7 +400,7 @@
                 <div class="row">
                     <div class="col-12"><h3>Training Information</h3></div>
                     <div class="col-12">
-                        <button  class="btn btn-primary float-right jh-create-entity create-training-information" [routerLink]="['/training-information',employee.id,'new']">
+                        <button  class="btn btn-secondary float-right jh-create-entity create-training-information" [routerLink]="['/training-information',employee.id,'new']">
                             <fa-icon [icon]="'plus'"></fa-icon>
                         </button>
                     </div>
@@ -432,7 +432,7 @@
                                             </button>
                                             <button type="submit"
                                                     [routerLink]="['/training-information', trainingInformation.id, 'edit']"
-                                                    class="btn btn-primary btn-sm">
+                                                    class="btn btn-secondary btn-sm">
                                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                                 <span class="d-none d-md-inline">Edit</span>
                                             </button>
@@ -456,10 +456,10 @@
             <div class="col-4">
                 <div class="row">
                     <div class="col-12">
-                        <h3>Training Information Attachments</h3>
+                        <h3>Attachments</h3>
                     </div>
                     <div class="col-12">
-                        <button  class="btn btn-primary float-right jh-create-entity create-training-information-attachment" [routerLink]="['/training-information-attachment', employee.id,'new']">
+                        <button  class="btn btn-secondary float-right jh-create-entity create-training-information-attachment" [routerLink]="['/training-information-attachment', employee.id,'new']">
                             <fa-icon [icon]="'plus'"></fa-icon>
                         </button>
                     </div>
@@ -491,7 +491,7 @@
                                             </button>
                                             <button type="submit"
                                                     [routerLink]="['/training-information-attachment', trainingInformationAttachment.id, 'edit']"
-                                                    class="btn btn-primary btn-sm">
+                                                    class="btn btn-secondary btn-sm">
                                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                                 <span class="d-none d-md-inline">Edit</span>
                                             </button>
