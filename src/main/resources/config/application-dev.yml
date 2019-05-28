@@ -81,7 +81,7 @@ spring:
         cache: false
 
 server:
-    port: 80
+    port: 8080
 
 # ===================================================================
 # JHipster specific properties
@@ -110,7 +110,7 @@ jhipster:
             key: 04f66efc075a171d9b8e9de789edd93d16315a23082bff079052c3ebfacb4f9e5a367237d875fc7cca5d93ee5d8bd83c627d
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: soptorshi@localhost
-        base-url: http://127.0.0.1:80
+        base-url: http://127.0.0.1:8080
     metrics:
         logs: # Reports metrics in the logs
             enabled: false

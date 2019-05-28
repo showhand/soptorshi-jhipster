@@ -8,7 +8,7 @@
         "baseName": "soptorshi",
         "packageName": "org.soptorshi",
         "packageFolder": "org/soptorshi",
-        "serverPort": "80",
+        "serverPort": "8080",
         "authenticationType": "session",
         "cacheProvider": "ehcache",
         "enableHibernateCache": false,
