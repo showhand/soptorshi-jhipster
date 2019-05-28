@@ -64,6 +64,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
 
                 // previousState was set in the authExpiredInterceptor before being redirected to login modal.
                 // since login is successful, go to stored previousState and clear previousState
+                location.reload();
                 const redirect = this.stateStorageService.getUrl();
                 if (redirect) {
                     this.stateStorageService.storeUrl(null);
@@ -75,13 +76,13 @@ export class JhiLoginModalComponent implements AfterViewInit {
             });
     }
 
-    register() {
-        this.activeModal.dismiss('to state register');
-        this.router.navigate(['/register']);
-    }
-
     requestResetPassword() {
         this.activeModal.dismiss('to state requestReset');
         this.router.navigate(['/reset', 'request']);
     }
+
+    /*register() {
+      this.activeModal.dismiss('to state register');
+      this.router.navigate(['/register']);
+    }*/
 }

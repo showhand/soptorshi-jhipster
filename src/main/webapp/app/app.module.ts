@@ -19,6 +19,9 @@ import { SoptorshiEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
+import { MatButton, MatButtonModule, MatCheckbox, MatTab, MatTabsModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 
 @NgModule({
     imports: [
@@ -35,7 +38,11 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         SoptorshiAccountModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         SoptorshiEntityModule,
-        SoptorshiAppRoutingModule
+        SoptorshiAppRoutingModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatTabsModule,
+        NgxPageScrollCoreModule
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
     providers: [
