@@ -173,7 +173,7 @@
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN']">
                 <a (click)="holidayManagement=!holidayManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
                      <span>
-                        <fa-icon icon="tractor" fixedWidth="true"></fa-icon>
+                        <fa-icon icon="calendar-alt" fixedWidth="true"></fa-icon>
                         <span>
                             Holiday Manag.
                         </span>
@@ -182,13 +182,13 @@
                 <ul [ngbCollapse]="!holidayManagement" class="list-unstyled" id="holiday-management">
                     <li>
                         <a class="dropdown-item" routerLink="holiday-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                            <fa-icon icon="cubes" fixedWidth="true"></fa-icon>
+                            <fa-icon icon="bars" fixedWidth="true"></fa-icon>
                             <span>Holiday Type</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="holiday" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                            <fa-icon icon="bus" fixedWidth="true"></fa-icon>
+                            <fa-icon icon="plane" fixedWidth="true"></fa-icon>
                             <span>Holiday</span>
                         </a>
                     </li>
