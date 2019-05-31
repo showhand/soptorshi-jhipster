@@ -2,14 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { IHoliday } from 'app/shared/model/holiday.model';
 import { AccountService } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { DATE_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
 import { HolidayService } from './holiday.service';
+import moment = require('moment');
 
 @Component({
     selector: 'jhi-holiday',
@@ -26,6 +26,15 @@ export class HolidayComponent implements OnInit, OnDestroy {
     reverse: any;
     totalItems: number;
     currentSearch: string;
+    year: number = moment().get('year');
+    startOfYear = moment()
+        .year(this.year)
+        .startOf('year')
+        .format(DATE_FORMAT);
+    endOfYear = moment()
+        .year(this.year)
+        .endOf('year')
+        .format(DATE_FORMAT);
 
     constructor(
         protected holidayService: HolidayService,
@@ -68,7 +77,9 @@ export class HolidayComponent implements OnInit, OnDestroy {
             .query({
                 page: this.page,
                 size: this.itemsPerPage,
-                sort: this.sort()
+                sort: this.sort(),
+                'fromDate.greaterOrEqualThan': this.startOfYear,
+                'toDate.lessOrEqualThan': this.endOfYear
             })
             .subscribe(
                 (res: HttpResponse<IHoliday[]>) => this.paginateHolidays(res.body, res.headers),

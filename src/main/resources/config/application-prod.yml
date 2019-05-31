@@ -56,8 +56,8 @@ spring:
     mail:
         host: smtp.gmail.com
         port: 587
-        username: ${SOPTORSHI_EMAIL}
-        password: ${SOPTORSHI_EMAIL_PASSWORD}
+        username: soptorshi793@gmail.com
+        password: Soptorshisevenoceans1
         protocol: smtp
         tls: true
         properties.mail.smtp:
@@ -87,7 +87,7 @@ spring:
 #        ciphers: TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 ,TLS_DHE_RSA_WITH_AES_128_GCM_SHA256 ,TLS_DHE_RSA_WITH_AES_256_GCM_SHA384 ,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA,TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA,TLS_RSA_WITH_CAMELLIA_256_CBC_SHA,TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA,TLS_RSA_WITH_CAMELLIA_128_CBC_SHA
 # ===================================================================
 server:
-    port: 80
+    port: 8080
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
@@ -113,8 +113,8 @@ jhipster:
             # security key (this key should be unique for your application, and kept secret)
             key: 04f66efc075a171d9b8e9de789edd93d16315a23082bff079052c3ebfacb4f9e5a367237d875fc7cca5d93ee5d8bd83c627d
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: soptorshi@localhost
-        base-url: http://my-server-url-to-change # Modify according to your server's URL
+        from: soptorshi793@gmail.com
+        base-url: http://103.230.180.146 # Modify according to your server's URL
     metrics:
         logs: # Reports metrics in the logs
             enabled: false

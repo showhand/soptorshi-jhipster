@@ -4,7 +4,7 @@
             <span class="hipster img-fluid rounded"></span>
         </div>
         <div class="col-md-9">
-            <h1 class="display-4">Welcome, Seven Oceans!</h1>
+            <h1 class="display-4">Welcome to Seven Oceans!</h1>
             <p class="lead">You are not logged in. Please <a class="alert-link" (click)="login()">sign in</a> </p>
 
             <br/>
@@ -21,7 +21,7 @@
     </div>
     <div class="row" *ngSwitchCase="true">
         <div class="col-4" *ngIf="employee!==undefined && employee.photo!==undefined">
-            <img [src]="'data:' + employee.photoContentType + ';base64,' + employee.photo" width="70" height="75" alt="employee image"/>
+            <img [src]="'data:' + employee.photoContentType + ';base64,' + employee.photo" class="rounded-circle" width="170" height="165" alt="employee image"/>
         </div>
         <div class="col-4" *ngIf="employee!==undefined && employee.photo=== undefined">
             <span class="user img-fluid rounded"></span>

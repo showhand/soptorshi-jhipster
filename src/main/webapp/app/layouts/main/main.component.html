@@ -111,6 +111,7 @@
         background: #444444;
     }
 </style>
+
 <jhi-page-ribbon></jhi-page-ribbon>
 <div>
     <router-outlet name="navbar"></router-outlet>
@@ -172,7 +173,7 @@
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN']">
                 <a (click)="holidayManagement=!holidayManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
                      <span>
-                        <fa-icon icon="lights-holiday"></fa-icon>
+                        <fa-icon icon="calendar-alt" fixedWidth="true"></fa-icon>
                         <span>
                             Holiday Manag.
                         </span>
@@ -181,13 +182,13 @@
                 <ul [ngbCollapse]="!holidayManagement" class="list-unstyled" id="holiday-management">
                     <li>
                         <a class="dropdown-item" routerLink="holiday-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                            <fa-icon icon="fonticons-fi" fixedWidth="true"></fa-icon>
+                            <fa-icon icon="bars" fixedWidth="true"></fa-icon>
                             <span>Holiday Type</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="holiday" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                            <fa-icon icon="tree-palm" fixedWidth="true"></fa-icon>
+                            <fa-icon icon="plane" fixedWidth="true"></fa-icon>
                             <span>Holiday</span>
                         </a>
                     </li>
@@ -219,7 +220,7 @@
         </ul>
     </nav>
     <!--[ngStyle]="{'mergin-left': isAuthenticated()?'250px':'0px'}"-->
-    <div class="container-fluid " [ngClass]="isAuthenticated()?'main':''"  [ngStyle]="{'mergin-left': isAuthenticated()?'250px':'0px'}" style="padding-top:70px;padding-bottom:30px;">
+    <div class="container-fluid" [ngClass]="isAuthenticated()?'main':''"  [ngStyle]="{'mergin-left': isAuthenticated()?'250px':'0px'}" style="padding-top:70px;padding-bottom:30px;">
         <div class="card jh-card" >
             <router-outlet></router-outlet>
             <router-outlet name="popup"></router-outlet>
