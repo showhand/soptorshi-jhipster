@@ -3,6 +3,7 @@ import { Router, ActivatedRouteSnapshot, NavigationEnd, NavigationError } from '
 
 import { Title } from '@angular/platform-browser';
 import { AccountService } from 'app/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
     selector: 'jhi-main',
@@ -12,8 +13,14 @@ export class JhiMainComponent implements OnInit {
     configuration: any;
     employeeManagement: any;
     holidayManagement: any;
+    isDesktop: boolean;
 
-    constructor(private titleService: Title, private router: Router, private accountService: AccountService) {}
+    constructor(
+        private titleService: Title,
+        private router: Router,
+        private accountService: AccountService,
+        private deviceDetectorService: DeviceDetectorService
+    ) {}
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
         let title: string = routeSnapshot.data && routeSnapshot.data['pageTitle'] ? routeSnapshot.data['pageTitle'] : 'soptorshiApp';
@@ -24,6 +31,8 @@ export class JhiMainComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isDesktop = this.deviceDetectorService.isDesktop();
+
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.titleService.setTitle(this.getPageTitle(this.router.routerState.snapshot.root));

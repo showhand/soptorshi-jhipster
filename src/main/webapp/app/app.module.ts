@@ -22,6 +22,7 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
 import { MatButton, MatButtonModule, MatCheckbox, MatTab, MatTabsModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 
 @NgModule({
     imports: [
@@ -42,6 +43,7 @@ import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
         BrowserAnimationsModule,
         MatButtonModule,
         MatTabsModule,
+        DeviceDetectorModule.forRoot(),
         NgxPageScrollCoreModule
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
