@@ -14,7 +14,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.crypto.SealedObject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -107,7 +112,13 @@ public class HolidayServiceImpl implements HolidayService {
     @Transactional(readOnly = true)
     public Page<HolidayDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Holidays for query {}", query);
-        return holidaySearchRepository.search(queryStringQuery(query), pageable)
-            .map(holidayMapper::toDto);
+        Page<Holiday> result = holidaySearchRepository.search(queryStringQuery(query), pageable);
+        List<Long> ids = new ArrayList<>();
+        result.forEach(r -> ids.add(r.getId()));
+        List<Holiday> holidayList = holidayRepository.findAllById(ids);
+        result.stream().forEach(x -> holidayList.forEach(
+            a -> x.setHolidayType(a.getId().equals(x.getId()) ? a.getHolidayType() :
+            x.getHolidayType())));
+        return result.map(holidayMapper::toDto);
     }
 }
