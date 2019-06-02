@@ -48,7 +48,9 @@ import {
     faEdit,
     faAddressBook,
     faBuilding,
-    faPlane
+    faPlane,
+    faDonate,
+    faDollarSign
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -95,6 +97,8 @@ library.add(faEdit);
 library.add(faAddressBook);
 library.add(faBuilding);
 library.add(faPlane);
+library.add(faDonate);
+library.add(faDollarSign);
 
 import 'quill/dist/quill.js';
 import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';
