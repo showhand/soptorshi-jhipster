@@ -27,14 +27,7 @@ export class PayrollManagementUpdateComponent implements OnInit {
         window.history.back();
     }
 
-    save() {
-        this.isSaving = true;
-        if (this.payrollManagement.id !== undefined) {
-            this.subscribeToSaveResponse(this.payrollManagementService.update(this.payrollManagement));
-        } else {
-            this.subscribeToSaveResponse(this.payrollManagementService.create(this.payrollManagement));
-        }
-    }
+    save() {}
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IPayrollManagement>>) {
         result.subscribe((res: HttpResponse<IPayrollManagement>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
