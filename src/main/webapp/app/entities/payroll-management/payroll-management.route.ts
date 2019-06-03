@@ -17,13 +17,6 @@ export class PayrollManagementResolve implements Resolve<IPayrollManagement> {
     constructor(private service: PayrollManagementService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IPayrollManagement> {
-        const id = route.params['id'] ? route.params['id'] : null;
-        if (id) {
-            return this.service.find(id).pipe(
-                filter((response: HttpResponse<PayrollManagement>) => response.ok),
-                map((payrollManagement: HttpResponse<PayrollManagement>) => payrollManagement.body)
-            );
-        }
         return of(new PayrollManagement());
     }
 }
