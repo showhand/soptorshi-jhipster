@@ -1,0 +1,68 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-designation-wise-allowance-heading">Create or edit a Designation Wise Allowance</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!designationWiseAllowance.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="designationWiseAllowance.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_allowanceType">Allowance Type</label>
+                    <select class="form-control" name="allowanceType" [(ngModel)]="designationWiseAllowance.allowanceType" id="field_allowanceType" >
+                        <option value="HOUSE_RENT">HOUSE_RENT</option>
+                        <option value="MEDICAL_ALLOWANCE">MEDICAL_ALLOWANCE</option>
+                        <option value="FESTIVAL_BONUS">FESTIVAL_BONUS</option>
+                        <option value="OVERTIME_ALLOWANCE">OVERTIME_ALLOWANCE</option>
+                        <option value="OTHER_ALLOWANCE">OTHER_ALLOWANCE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_allowanceCategory">Allowance Category</label>
+                    <select class="form-control" name="allowanceCategory" [(ngModel)]="designationWiseAllowance.allowanceCategory" id="field_allowanceCategory" >
+                        <option value="MONTHLY">MONTHLY</option>
+                        <option value="SPECIFIC">SPECIFIC</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amount">Amount</label>
+                    <input type="number" class="form-control" name="amount" id="field_amount"
+                        [(ngModel)]="designationWiseAllowance.amount" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                        [(ngModel)]="designationWiseAllowance.modifiedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="designationWiseAllowance.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_designation">Designation</label>
+                    <select class="form-control" id="field_designation" name="designation" [(ngModel)]="designationWiseAllowance.designationId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

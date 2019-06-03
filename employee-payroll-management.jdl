@@ -1,0 +1,281 @@
+// JDL definition for application 'soptorshi' generated with command 'jhipster export-jdl'
+
+entity Department {
+  name String,
+  shortName String
+}
+entity Designation {
+  name String,
+  shortName String,
+  description String
+}
+entity Employee {
+  employeeId String required,
+  fullName String required,
+  fathersName String required,
+  mothersName String required,
+  birthDate LocalDate required,
+  maritalStatus MaritalStatus required,
+  gender Gender required,
+  religion Religion required,
+  permanentAddress String required,
+  presentAddress String required,
+  nId String required,
+  tin String,
+  contactNumber String required,
+  email String,
+  bloodGroup String,
+  emergencyContact String required,
+  joiningDate LocalDate,
+  manager Long,
+  employeeStatus EmployeeStatus,
+  employmentType EmploymentType,
+  terminationDate LocalDate,
+  reasonOfTermination String,
+  userAccount Boolean,
+  photo ImageBlob
+}
+entity Attachment {
+  file AnyBlob
+}
+entity AcademicInformation {
+  degree String,
+  boardOrUniversity String,
+  passingYear Integer,
+  group String
+}
+entity TrainingInformation {
+  name String,
+  subject String,
+  organization String
+}
+entity FamilyInformation {
+  name String,
+  relation String,
+  contactNumber String
+}
+entity ReferenceInformation {
+  name String,
+  designation String,
+  organization String,
+  contactNumber String
+}
+entity ExperienceInformation {
+  organization String,
+  designation String,
+  startDate LocalDate,
+  endDate LocalDate,
+  employmentType EmploymentType
+}
+entity AcademicInformationAttachment (academic_attachment) {
+  file AnyBlob required
+}
+entity ExperienceInformationAttachment (experience_attachment) {
+  file AnyBlob required
+}
+entity TrainingInformationAttachment (training_attachment) {
+  file AnyBlob required
+}
+entity Office {
+  name String,
+  description String,
+  location String
+}
+entity FinancialAccountYear {
+  startDate LocalDate,
+  endDate LocalDate,
+  previousYear Long,
+  status Boolean
+}
+entity Tax {
+  minimumSalary BigDecimal,
+  rate Double,
+  taxStatus TaxStatus
+}
+
+enum TaxStatus{
+	ACTIVE,
+    INACTIVE
+}
+entity Salary {
+  basic BigDecimal required,
+  houseRent Double required,
+  medicalAllowance Double required,
+  incrementRate Double,
+  otherAllowance Double,
+  modifiedBy Long,
+  modifiedOn LocalDate
+}
+
+entity DesignationWiseAllowance{
+  allowanceType AllowanceType,
+  allowanceCategory AllowanceCategory,
+  amount BigDecimal,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+
+enum AllowanceCategory{
+  MONTHLY,
+  SPECIFIC
+}
+
+entity ProvidentFund {
+  startDate LocalDate,
+  rate Double,
+  status Boolean,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity MonthlySalary {
+  month MonthType required,
+  basic BigDecimal required,
+  houseRent Double,
+  medicalAllowance Double,
+  otherAllowance Double,
+  absent Integer,
+  fine BigDecimal,
+  advanceHO BigDecimal,
+  advanceFactory BigDecimal,
+  providendFund Double,
+  tax Double,
+  loanAmount BigDecimal,
+  payable BigDecimal,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity Advance {
+  amount BigDecimal,
+  reason AnyBlob,
+  providedOn LocalDate,
+  paymentStatus PaymentStatus,
+  left BigDecimal,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity Fine {
+  amount BigDecimal required,
+  reason AnyBlob required,
+  fineDate LocalDate required,
+  monthlyPayable Double,
+  paymentStatus PaymentStatus,
+  left BigDecimal,
+  modifiedBy String,
+  modifiedDate LocalDate
+}
+entity Loan {
+  amount BigDecimal required,
+  takenOn LocalDate,
+  monthlyPayable Double,
+  paymentStatus PaymentStatus,
+  left BigDecimal,
+  modifiedBy String,
+  modifiedDate LocalDate
+}
+entity HolidayType {
+  name String required,
+  moonDependency YesOrNo required
+}
+entity Holiday {
+  fromDate LocalDate required,
+  toDate LocalDate required,
+  numberOfDays Integer required
+}
+
+enum MaritalStatus {
+  MARRIED,
+  UNMARRIED,
+  SEPARATED
+}
+
+enum Gender {
+  MALE,
+  FEMALE,
+  OTHERS
+}
+
+enum Religion {
+  ISLAM,
+  HINDU,
+  BUDDHIST,
+  CHRISTIANS,
+  OTHERS
+}
+
+enum EmployeeStatus {
+  ACTIVE,
+  TERMINATED
+}
+
+enum EmploymentType {
+  PERMANENT,
+  TEMPORARY,
+  ADHOC,
+  PART_TIME
+}
+
+enum MonthType {
+  JANUARY,
+  FEBRUARY,
+  MARCH,
+  APRIL,
+  MAY,
+  JUNE,
+  JULY,
+  AUGUST,
+  SEPTEMBER,
+  OCTOBER,
+  NOVEMBER,
+  DECEMBER
+}
+
+enum PaymentStatus {
+  PAID,
+  NOT_PAID
+}
+
+enum YesOrNo {
+  YES,
+  NO
+}
+
+enum AllowanceType{
+    HOUSE_RENT,
+    MEDICAL_ALLOWANCE,
+    FESTIVAL_BONUS,
+    OVERTIME_ALLOWANCE,
+    OTHER_ALLOWANCE
+}
+
+relationship ManyToOne {
+  Employee{department} to Department,
+  Employee{office} to Office,
+  Employee{designation} to Designation,
+  Attachment{academicInformation} to AcademicInformation,
+  Attachment{trainingInformation} to TrainingInformation,
+  Attachment{experienceInformation} to ExperienceInformation,
+  AcademicInformation{employee} to Employee,
+  TrainingInformation{employee} to Employee,
+  FamilyInformation{employee} to Employee,
+  ReferenceInformation{employee} to Employee,
+  ExperienceInformation{employee} to Employee,
+  AcademicInformationAttachment{employee(employeeId) required} to Employee,
+  ExperienceInformationAttachment{employee(employeeId) required} to Employee,
+  TrainingInformationAttachment{employee(employeeId) required} to Employee,
+  Tax{financialAccountYear} to FinancialAccountYear,
+  Salary{employee} to Employee,
+  MonthlySalary{employee} to Employee,
+  Advance{employee} to Employee,
+  Fine{employee} to Employee,
+  Loan{employee} to Employee,
+  DesignationWiseAllowance{designation} to Designation,
+  Holiday{holidayType(name)} to HolidayType
+}
+
+dto Department, DesignationWiseAllowance, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday with mapstruct
+paginate Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan with pager
+paginate HolidayType, Holiday, DesignationWiseAllowance with infinite-scroll
+service Department, DesignationWiseAllowance, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan with serviceClass
+service HolidayType, Holiday with serviceImpl
+search Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan with elasticsearch
+filter Department, DesignationWiseAllowance, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday
