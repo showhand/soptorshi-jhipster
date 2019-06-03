@@ -24,6 +24,10 @@
             ]
         },
         {
+            "fieldName": "monthlyPayable",
+            "fieldType": "Double"
+        },
+        {
             "fieldName": "paymentStatus",
             "fieldType": "PaymentStatus",
             "fieldValues": "PAID,NOT_PAID"
@@ -34,7 +38,7 @@
         },
         {
             "fieldName": "modifiedBy",
-            "fieldType": "Long"
+            "fieldType": "String"
         },
         {
             "fieldName": "modifiedDate",

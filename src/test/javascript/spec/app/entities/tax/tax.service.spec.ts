@@ -5,7 +5,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import { TaxService } from 'app/entities/tax/tax.service';
-import { ITax, Tax } from 'app/shared/model/tax.model';
+import { ITax, Tax, TaxStatus } from 'app/shared/model/tax.model';
 
 describe('Service Tests', () => {
     describe('Tax Service', () => {
@@ -21,7 +21,7 @@ describe('Service Tests', () => {
             service = injector.get(TaxService);
             httpMock = injector.get(HttpTestingController);
 
-            elemDefault = new Tax(0, 0);
+            elemDefault = new Tax(0, 0, 0, TaxStatus.ACTIVE);
         });
 
         describe('Service methods', async () => {
@@ -55,7 +55,9 @@ describe('Service Tests', () => {
             it('should update a Tax', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        rate: 1
+                        minimumSalary: 1,
+                        rate: 1,
+                        taxStatus: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -72,7 +74,9 @@ describe('Service Tests', () => {
             it('should return a list of Tax', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        rate: 1
+                        minimumSalary: 1,
+                        rate: 1,
+                        taxStatus: 'BBBBBB'
                     },
                     elemDefault
                 );

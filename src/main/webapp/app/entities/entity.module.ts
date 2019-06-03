@@ -170,6 +170,34 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'payroll-management',
                 loadChildren: './payroll-management/payroll-management.module#SoptorshiPayrollManagementModule'
+            },
+            {
+                path: 'tax',
+                loadChildren: './tax/tax.module#SoptorshiTaxModule'
+            },
+            {
+                path: 'designation-wise-allowance',
+                loadChildren: './designation-wise-allowance/designation-wise-allowance.module#SoptorshiDesignationWiseAllowanceModule'
+            },
+            {
+                path: 'provident-fund',
+                loadChildren: './provident-fund/provident-fund.module#SoptorshiProvidentFundModule'
+            },
+            {
+                path: 'monthly-salary',
+                loadChildren: './monthly-salary/monthly-salary.module#SoptorshiMonthlySalaryModule'
+            },
+            {
+                path: 'advance',
+                loadChildren: './advance/advance.module#SoptorshiAdvanceModule'
+            },
+            {
+                path: 'fine',
+                loadChildren: './fine/fine.module#SoptorshiFineModule'
+            },
+            {
+                path: 'loan',
+                loadChildren: './loan/loan.module#SoptorshiLoanModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

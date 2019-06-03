@@ -44,6 +44,9 @@ public class Fine implements Serializable {
     @Column(name = "fine_date", nullable = false)
     private LocalDate fineDate;
 
+    @Column(name = "monthly_payable")
+    private Double monthlyPayable;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
@@ -52,7 +55,7 @@ public class Fine implements Serializable {
     private BigDecimal left;
 
     @Column(name = "modified_by")
-    private Long modifiedBy;
+    private String modifiedBy;
 
     @Column(name = "modified_date")
     private LocalDate modifiedDate;
@@ -122,6 +125,19 @@ public class Fine implements Serializable {
         this.fineDate = fineDate;
     }
 
+    public Double getMonthlyPayable() {
+        return monthlyPayable;
+    }
+
+    public Fine monthlyPayable(Double monthlyPayable) {
+        this.monthlyPayable = monthlyPayable;
+        return this;
+    }
+
+    public void setMonthlyPayable(Double monthlyPayable) {
+        this.monthlyPayable = monthlyPayable;
+    }
+
     public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
@@ -148,16 +164,16 @@ public class Fine implements Serializable {
         this.left = left;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public Fine modifiedBy(Long modifiedBy) {
+    public Fine modifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
         return this;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -216,9 +232,10 @@ public class Fine implements Serializable {
             ", reason='" + getReason() + "'" +
             ", reasonContentType='" + getReasonContentType() + "'" +
             ", fineDate='" + getFineDate() + "'" +
+            ", monthlyPayable=" + getMonthlyPayable() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", left=" + getLeft() +
-            ", modifiedBy=" + getModifiedBy() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedDate='" + getModifiedDate() + "'" +
             "}";
     }

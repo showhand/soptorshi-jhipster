@@ -9,6 +9,7 @@ import javax.validation.constraints.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.MonthType;
@@ -68,6 +69,12 @@ public class MonthlySalary implements Serializable {
 
     @Column(name = "payable", precision = 10, scale = 2)
     private BigDecimal payable;
+
+    @Column(name = "modified_by")
+    private String modifiedBy;
+
+    @Column(name = "modified_on")
+    private LocalDate modifiedOn;
 
     @ManyToOne
     @JsonIgnoreProperties("monthlySalaries")
@@ -251,6 +258,32 @@ public class MonthlySalary implements Serializable {
         this.payable = payable;
     }
 
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public MonthlySalary modifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+        return this;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public LocalDate getModifiedOn() {
+        return modifiedOn;
+    }
+
+    public MonthlySalary modifiedOn(LocalDate modifiedOn) {
+        this.modifiedOn = modifiedOn;
+        return this;
+    }
+
+    public void setModifiedOn(LocalDate modifiedOn) {
+        this.modifiedOn = modifiedOn;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -302,6 +335,8 @@ public class MonthlySalary implements Serializable {
             ", tax=" + getTax() +
             ", loanAmount=" + getLoanAmount() +
             ", payable=" + getPayable() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
+            ", modifiedOn='" + getModifiedOn() + "'" +
             "}";
     }
 }

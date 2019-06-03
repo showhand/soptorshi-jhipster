@@ -25,11 +25,13 @@ public class FineDTO implements Serializable {
     @NotNull
     private LocalDate fineDate;
 
+    private Double monthlyPayable;
+
     private PaymentStatus paymentStatus;
 
     private BigDecimal left;
 
-    private Long modifiedBy;
+    private String modifiedBy;
 
     private LocalDate modifiedDate;
 
@@ -76,6 +78,14 @@ public class FineDTO implements Serializable {
         this.fineDate = fineDate;
     }
 
+    public Double getMonthlyPayable() {
+        return monthlyPayable;
+    }
+
+    public void setMonthlyPayable(Double monthlyPayable) {
+        this.monthlyPayable = monthlyPayable;
+    }
+
     public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
@@ -92,11 +102,11 @@ public class FineDTO implements Serializable {
         this.left = left;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -144,9 +154,10 @@ public class FineDTO implements Serializable {
             ", amount=" + getAmount() +
             ", reason='" + getReason() + "'" +
             ", fineDate='" + getFineDate() + "'" +
+            ", monthlyPayable=" + getMonthlyPayable() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", left=" + getLeft() +
-            ", modifiedBy=" + getModifiedBy() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedDate='" + getModifiedDate() + "'" +
             ", employee=" + getEmployeeId() +
             "}";

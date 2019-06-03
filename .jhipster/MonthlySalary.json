@@ -59,6 +59,14 @@
         {
             "fieldName": "payable",
             "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
         }
     ],
     "relationships": [

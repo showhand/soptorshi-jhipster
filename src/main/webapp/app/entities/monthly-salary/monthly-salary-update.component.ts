@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { IMonthlySalary } from 'app/shared/model/monthly-salary.model';
 import { MonthlySalaryService } from './monthly-salary.service';
@@ -18,6 +19,7 @@ export class MonthlySalaryUpdateComponent implements OnInit {
     isSaving: boolean;
 
     employees: IEmployee[];
+    modifiedOnDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,

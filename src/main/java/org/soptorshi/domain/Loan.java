@@ -46,7 +46,7 @@ public class Loan implements Serializable {
     private BigDecimal left;
 
     @Column(name = "modified_by")
-    private Long modifiedBy;
+    private String modifiedBy;
 
     @Column(name = "modified_date")
     private LocalDate modifiedDate;
@@ -129,16 +129,16 @@ public class Loan implements Serializable {
         this.left = left;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public Loan modifiedBy(Long modifiedBy) {
+    public Loan modifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
         return this;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -198,7 +198,7 @@ public class Loan implements Serializable {
             ", monthlyPayable=" + getMonthlyPayable() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", left=" + getLeft() +
-            ", modifiedBy=" + getModifiedBy() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedDate='" + getModifiedDate() + "'" +
             "}";
     }

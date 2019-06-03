@@ -99,6 +99,9 @@ public class FineQueryService extends QueryService<Fine> {
             if (criteria.getFineDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFineDate(), Fine_.fineDate));
             }
+            if (criteria.getMonthlyPayable() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMonthlyPayable(), Fine_.monthlyPayable));
+            }
             if (criteria.getPaymentStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getPaymentStatus(), Fine_.paymentStatus));
             }
@@ -106,7 +109,7 @@ public class FineQueryService extends QueryService<Fine> {
                 specification = specification.and(buildRangeSpecification(criteria.getLeft(), Fine_.left));
             }
             if (criteria.getModifiedBy() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getModifiedBy(), Fine_.modifiedBy));
+                specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), Fine_.modifiedBy));
             }
             if (criteria.getModifiedDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedDate(), Fine_.modifiedDate));

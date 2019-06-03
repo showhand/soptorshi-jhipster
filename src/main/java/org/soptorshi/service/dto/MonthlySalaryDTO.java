@@ -1,4 +1,5 @@
 package org.soptorshi.service.dto;
+import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -39,6 +40,10 @@ public class MonthlySalaryDTO implements Serializable {
     private BigDecimal loanAmount;
 
     private BigDecimal payable;
+
+    private String modifiedBy;
+
+    private LocalDate modifiedOn;
 
 
     private Long employeeId;
@@ -155,6 +160,22 @@ public class MonthlySalaryDTO implements Serializable {
         this.payable = payable;
     }
 
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public LocalDate getModifiedOn() {
+        return modifiedOn;
+    }
+
+    public void setModifiedOn(LocalDate modifiedOn) {
+        this.modifiedOn = modifiedOn;
+    }
+
     public Long getEmployeeId() {
         return employeeId;
     }
@@ -201,6 +222,8 @@ public class MonthlySalaryDTO implements Serializable {
             ", tax=" + getTax() +
             ", loanAmount=" + getLoanAmount() +
             ", payable=" + getPayable() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
+            ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +
             "}";
     }

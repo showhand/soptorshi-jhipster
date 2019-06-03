@@ -103,7 +103,7 @@ public class ProvidentFundQueryService extends QueryService<ProvidentFund> {
                 specification = specification.and(buildSpecification(criteria.getStatus(), ProvidentFund_.status));
             }
             if (criteria.getModifiedBy() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getModifiedBy(), ProvidentFund_.modifiedBy));
+                specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), ProvidentFund_.modifiedBy));
             }
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), ProvidentFund_.modifiedOn));

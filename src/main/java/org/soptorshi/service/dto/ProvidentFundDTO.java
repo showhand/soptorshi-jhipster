@@ -16,7 +16,7 @@ public class ProvidentFundDTO implements Serializable {
 
     private Boolean status;
 
-    private Long modifiedBy;
+    private String modifiedBy;
 
     private LocalDate modifiedOn;
 
@@ -53,11 +53,11 @@ public class ProvidentFundDTO implements Serializable {
         this.status = status;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -97,7 +97,7 @@ public class ProvidentFundDTO implements Serializable {
             ", startDate='" + getStartDate() + "'" +
             ", rate=" + getRate() +
             ", status='" + isStatus() + "'" +
-            ", modifiedBy=" + getModifiedBy() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";
     }

@@ -74,8 +74,8 @@ public class AdvanceResourceIntTest {
     private static final BigDecimal DEFAULT_LEFT = new BigDecimal(1);
     private static final BigDecimal UPDATED_LEFT = new BigDecimal(2);
 
-    private static final Long DEFAULT_MODIFIED_BY = 1L;
-    private static final Long UPDATED_MODIFIED_BY = 2L;
+    private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final LocalDate DEFAULT_MODIFIED_ON = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_MODIFIED_ON = LocalDate.now(ZoneId.systemDefault());
@@ -224,7 +224,7 @@ public class AdvanceResourceIntTest {
             .andExpect(jsonPath("$.[*].providedOn").value(hasItem(DEFAULT_PROVIDED_ON.toString())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
     
@@ -245,7 +245,7 @@ public class AdvanceResourceIntTest {
             .andExpect(jsonPath("$.providedOn").value(DEFAULT_PROVIDED_ON.toString()))
             .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS.toString()))
             .andExpect(jsonPath("$.left").value(DEFAULT_LEFT.intValue()))
-            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.intValue()))
+            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
 
@@ -473,33 +473,6 @@ public class AdvanceResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllAdvancesByModifiedByIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        advanceRepository.saveAndFlush(advance);
-
-        // Get all the advanceList where modifiedBy greater than or equals to DEFAULT_MODIFIED_BY
-        defaultAdvanceShouldBeFound("modifiedBy.greaterOrEqualThan=" + DEFAULT_MODIFIED_BY);
-
-        // Get all the advanceList where modifiedBy greater than or equals to UPDATED_MODIFIED_BY
-        defaultAdvanceShouldNotBeFound("modifiedBy.greaterOrEqualThan=" + UPDATED_MODIFIED_BY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAdvancesByModifiedByIsLessThanSomething() throws Exception {
-        // Initialize the database
-        advanceRepository.saveAndFlush(advance);
-
-        // Get all the advanceList where modifiedBy less than or equals to DEFAULT_MODIFIED_BY
-        defaultAdvanceShouldNotBeFound("modifiedBy.lessThan=" + DEFAULT_MODIFIED_BY);
-
-        // Get all the advanceList where modifiedBy less than or equals to UPDATED_MODIFIED_BY
-        defaultAdvanceShouldBeFound("modifiedBy.lessThan=" + UPDATED_MODIFIED_BY);
-    }
-
-
-    @Test
-    @Transactional
     public void getAllAdvancesByModifiedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
@@ -596,7 +569,7 @@ public class AdvanceResourceIntTest {
             .andExpect(jsonPath("$.[*].providedOn").value(hasItem(DEFAULT_PROVIDED_ON.toString())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
         // Check, that the count call also returns 1
@@ -738,7 +711,7 @@ public class AdvanceResourceIntTest {
             .andExpect(jsonPath("$.[*].providedOn").value(hasItem(DEFAULT_PROVIDED_ON.toString())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
 

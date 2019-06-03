@@ -36,11 +36,13 @@ public class FineCriteria implements Serializable {
 
     private LocalDateFilter fineDate;
 
+    private DoubleFilter monthlyPayable;
+
     private PaymentStatusFilter paymentStatus;
 
     private BigDecimalFilter left;
 
-    private LongFilter modifiedBy;
+    private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedDate;
 
@@ -70,6 +72,14 @@ public class FineCriteria implements Serializable {
         this.fineDate = fineDate;
     }
 
+    public DoubleFilter getMonthlyPayable() {
+        return monthlyPayable;
+    }
+
+    public void setMonthlyPayable(DoubleFilter monthlyPayable) {
+        this.monthlyPayable = monthlyPayable;
+    }
+
     public PaymentStatusFilter getPaymentStatus() {
         return paymentStatus;
     }
@@ -86,11 +96,11 @@ public class FineCriteria implements Serializable {
         this.left = left;
     }
 
-    public LongFilter getModifiedBy() {
+    public StringFilter getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(LongFilter modifiedBy) {
+    public void setModifiedBy(StringFilter modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -124,6 +134,7 @@ public class FineCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(fineDate, that.fineDate) &&
+            Objects.equals(monthlyPayable, that.monthlyPayable) &&
             Objects.equals(paymentStatus, that.paymentStatus) &&
             Objects.equals(left, that.left) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
@@ -137,6 +148,7 @@ public class FineCriteria implements Serializable {
         id,
         amount,
         fineDate,
+        monthlyPayable,
         paymentStatus,
         left,
         modifiedBy,
@@ -151,6 +163,7 @@ public class FineCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (fineDate != null ? "fineDate=" + fineDate + ", " : "") +
+                (monthlyPayable != null ? "monthlyPayable=" + monthlyPayable + ", " : "") +
                 (paymentStatus != null ? "paymentStatus=" + paymentStatus + ", " : "") +
                 (left != null ? "left=" + left + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +

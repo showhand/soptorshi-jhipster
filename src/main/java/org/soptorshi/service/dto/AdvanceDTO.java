@@ -25,7 +25,7 @@ public class AdvanceDTO implements Serializable {
 
     private BigDecimal left;
 
-    private Long modifiedBy;
+    private String modifiedBy;
 
     private LocalDate modifiedOn;
 
@@ -88,11 +88,11 @@ public class AdvanceDTO implements Serializable {
         this.left = left;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -142,7 +142,7 @@ public class AdvanceDTO implements Serializable {
             ", providedOn='" + getProvidedOn() + "'" +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", left=" + getLeft() +
-            ", modifiedBy=" + getModifiedBy() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +
             "}";

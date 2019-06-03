@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,6 +44,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.soptorshi.domain.enumeration.TaxStatus;
 /**
  * Test class for the TaxResource REST controller.
  *
@@ -52,8 +54,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = SoptorshiApp.class)
 public class TaxResourceIntTest {
 
+    private static final BigDecimal DEFAULT_MINIMUM_SALARY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_MINIMUM_SALARY = new BigDecimal(2);
+
     private static final Double DEFAULT_RATE = 1D;
     private static final Double UPDATED_RATE = 2D;
+
+    private static final TaxStatus DEFAULT_TAX_STATUS = TaxStatus.ACTIVE;
+    private static final TaxStatus UPDATED_TAX_STATUS = TaxStatus.INACTIVE;
 
     @Autowired
     private TaxRepository taxRepository;
@@ -114,7 +122,9 @@ public class TaxResourceIntTest {
      */
     public static Tax createEntity(EntityManager em) {
         Tax tax = new Tax()
-            .rate(DEFAULT_RATE);
+            .minimumSalary(DEFAULT_MINIMUM_SALARY)
+            .rate(DEFAULT_RATE)
+            .taxStatus(DEFAULT_TAX_STATUS);
         return tax;
     }
 
@@ -139,7 +149,9 @@ public class TaxResourceIntTest {
         List<Tax> taxList = taxRepository.findAll();
         assertThat(taxList).hasSize(databaseSizeBeforeCreate + 1);
         Tax testTax = taxList.get(taxList.size() - 1);
+        assertThat(testTax.getMinimumSalary()).isEqualTo(DEFAULT_MINIMUM_SALARY);
         assertThat(testTax.getRate()).isEqualTo(DEFAULT_RATE);
+        assertThat(testTax.getTaxStatus()).isEqualTo(DEFAULT_TAX_STATUS);
 
         // Validate the Tax in Elasticsearch
         verify(mockTaxSearchRepository, times(1)).save(testTax);
@@ -179,7 +191,9 @@ public class TaxResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tax.getId().intValue())))
-            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())));
+            .andExpect(jsonPath("$.[*].minimumSalary").value(hasItem(DEFAULT_MINIMUM_SALARY.intValue())))
+            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())))
+            .andExpect(jsonPath("$.[*].taxStatus").value(hasItem(DEFAULT_TAX_STATUS.toString())));
     }
     
     @Test
@@ -193,7 +207,48 @@ public class TaxResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(tax.getId().intValue()))
-            .andExpect(jsonPath("$.rate").value(DEFAULT_RATE.doubleValue()));
+            .andExpect(jsonPath("$.minimumSalary").value(DEFAULT_MINIMUM_SALARY.intValue()))
+            .andExpect(jsonPath("$.rate").value(DEFAULT_RATE.doubleValue()))
+            .andExpect(jsonPath("$.taxStatus").value(DEFAULT_TAX_STATUS.toString()));
+    }
+
+    @Test
+    @Transactional
+    public void getAllTaxesByMinimumSalaryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where minimumSalary equals to DEFAULT_MINIMUM_SALARY
+        defaultTaxShouldBeFound("minimumSalary.equals=" + DEFAULT_MINIMUM_SALARY);
+
+        // Get all the taxList where minimumSalary equals to UPDATED_MINIMUM_SALARY
+        defaultTaxShouldNotBeFound("minimumSalary.equals=" + UPDATED_MINIMUM_SALARY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTaxesByMinimumSalaryIsInShouldWork() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where minimumSalary in DEFAULT_MINIMUM_SALARY or UPDATED_MINIMUM_SALARY
+        defaultTaxShouldBeFound("minimumSalary.in=" + DEFAULT_MINIMUM_SALARY + "," + UPDATED_MINIMUM_SALARY);
+
+        // Get all the taxList where minimumSalary equals to UPDATED_MINIMUM_SALARY
+        defaultTaxShouldNotBeFound("minimumSalary.in=" + UPDATED_MINIMUM_SALARY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTaxesByMinimumSalaryIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where minimumSalary is not null
+        defaultTaxShouldBeFound("minimumSalary.specified=true");
+
+        // Get all the taxList where minimumSalary is null
+        defaultTaxShouldNotBeFound("minimumSalary.specified=false");
     }
 
     @Test
@@ -237,6 +292,45 @@ public class TaxResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllTaxesByTaxStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where taxStatus equals to DEFAULT_TAX_STATUS
+        defaultTaxShouldBeFound("taxStatus.equals=" + DEFAULT_TAX_STATUS);
+
+        // Get all the taxList where taxStatus equals to UPDATED_TAX_STATUS
+        defaultTaxShouldNotBeFound("taxStatus.equals=" + UPDATED_TAX_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTaxesByTaxStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where taxStatus in DEFAULT_TAX_STATUS or UPDATED_TAX_STATUS
+        defaultTaxShouldBeFound("taxStatus.in=" + DEFAULT_TAX_STATUS + "," + UPDATED_TAX_STATUS);
+
+        // Get all the taxList where taxStatus equals to UPDATED_TAX_STATUS
+        defaultTaxShouldNotBeFound("taxStatus.in=" + UPDATED_TAX_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTaxesByTaxStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where taxStatus is not null
+        defaultTaxShouldBeFound("taxStatus.specified=true");
+
+        // Get all the taxList where taxStatus is null
+        defaultTaxShouldNotBeFound("taxStatus.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllTaxesByFinancialAccountYearIsEqualToSomething() throws Exception {
         // Initialize the database
         FinancialAccountYear financialAccountYear = FinancialAccountYearResourceIntTest.createEntity(em);
@@ -261,7 +355,9 @@ public class TaxResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tax.getId().intValue())))
-            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())));
+            .andExpect(jsonPath("$.[*].minimumSalary").value(hasItem(DEFAULT_MINIMUM_SALARY.intValue())))
+            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())))
+            .andExpect(jsonPath("$.[*].taxStatus").value(hasItem(DEFAULT_TAX_STATUS.toString())));
 
         // Check, that the count call also returns 1
         restTaxMockMvc.perform(get("/api/taxes/count?sort=id,desc&" + filter))
@@ -309,7 +405,9 @@ public class TaxResourceIntTest {
         // Disconnect from session so that the updates on updatedTax are not directly saved in db
         em.detach(updatedTax);
         updatedTax
-            .rate(UPDATED_RATE);
+            .minimumSalary(UPDATED_MINIMUM_SALARY)
+            .rate(UPDATED_RATE)
+            .taxStatus(UPDATED_TAX_STATUS);
         TaxDTO taxDTO = taxMapper.toDto(updatedTax);
 
         restTaxMockMvc.perform(put("/api/taxes")
@@ -321,7 +419,9 @@ public class TaxResourceIntTest {
         List<Tax> taxList = taxRepository.findAll();
         assertThat(taxList).hasSize(databaseSizeBeforeUpdate);
         Tax testTax = taxList.get(taxList.size() - 1);
+        assertThat(testTax.getMinimumSalary()).isEqualTo(UPDATED_MINIMUM_SALARY);
         assertThat(testTax.getRate()).isEqualTo(UPDATED_RATE);
+        assertThat(testTax.getTaxStatus()).isEqualTo(UPDATED_TAX_STATUS);
 
         // Validate the Tax in Elasticsearch
         verify(mockTaxSearchRepository, times(1)).save(testTax);
@@ -382,7 +482,9 @@ public class TaxResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tax.getId().intValue())))
-            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())));
+            .andExpect(jsonPath("$.[*].minimumSalary").value(hasItem(DEFAULT_MINIMUM_SALARY.intValue())))
+            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())))
+            .andExpect(jsonPath("$.[*].taxStatus").value(hasItem(DEFAULT_TAX_STATUS.toString())));
     }
 
     @Test

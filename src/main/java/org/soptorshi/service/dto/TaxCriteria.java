@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.TaxStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -9,6 +10,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 
 /**
  * Criteria class for the Tax entity. This class is used in TaxResource to
@@ -19,12 +21,21 @@ import io.github.jhipster.service.filter.StringFilter;
  * fix type specific filters.
  */
 public class TaxCriteria implements Serializable {
+    /**
+     * Class for filtering TaxStatus
+     */
+    public static class TaxStatusFilter extends Filter<TaxStatus> {
+    }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
+    private BigDecimalFilter minimumSalary;
+
     private DoubleFilter rate;
+
+    private TaxStatusFilter taxStatus;
 
     private LongFilter financialAccountYearId;
 
@@ -36,12 +47,28 @@ public class TaxCriteria implements Serializable {
         this.id = id;
     }
 
+    public BigDecimalFilter getMinimumSalary() {
+        return minimumSalary;
+    }
+
+    public void setMinimumSalary(BigDecimalFilter minimumSalary) {
+        this.minimumSalary = minimumSalary;
+    }
+
     public DoubleFilter getRate() {
         return rate;
     }
 
     public void setRate(DoubleFilter rate) {
         this.rate = rate;
+    }
+
+    public TaxStatusFilter getTaxStatus() {
+        return taxStatus;
+    }
+
+    public void setTaxStatus(TaxStatusFilter taxStatus) {
+        this.taxStatus = taxStatus;
     }
 
     public LongFilter getFinancialAccountYearId() {
@@ -64,7 +91,9 @@ public class TaxCriteria implements Serializable {
         final TaxCriteria that = (TaxCriteria) o;
         return
             Objects.equals(id, that.id) &&
+            Objects.equals(minimumSalary, that.minimumSalary) &&
             Objects.equals(rate, that.rate) &&
+            Objects.equals(taxStatus, that.taxStatus) &&
             Objects.equals(financialAccountYearId, that.financialAccountYearId);
     }
 
@@ -72,7 +101,9 @@ public class TaxCriteria implements Serializable {
     public int hashCode() {
         return Objects.hash(
         id,
+        minimumSalary,
         rate,
+        taxStatus,
         financialAccountYearId
         );
     }
@@ -81,7 +112,9 @@ public class TaxCriteria implements Serializable {
     public String toString() {
         return "TaxCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (minimumSalary != null ? "minimumSalary=" + minimumSalary + ", " : "") +
                 (rate != null ? "rate=" + rate + ", " : "") +
+                (taxStatus != null ? "taxStatus=" + taxStatus + ", " : "") +
                 (financialAccountYearId != null ? "financialAccountYearId=" + financialAccountYearId + ", " : "") +
             "}";
     }

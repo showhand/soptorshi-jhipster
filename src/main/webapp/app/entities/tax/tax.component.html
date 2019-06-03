@@ -30,7 +30,9 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="minimumSalary"><span>Minimum Salary</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="rate"><span>Rate</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="taxStatus"><span>Tax Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="financialAccountYearId"><span>Financial Account Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -38,7 +40,9 @@
             <tbody>
             <tr *ngFor="let tax of taxes ;trackBy: trackId">
                 <td><a [routerLink]="['/tax', tax.id, 'view' ]">{{tax.id}}</a></td>
+                <td>{{tax.minimumSalary}}</td>
                 <td>{{tax.rate}}</td>
+                <td>{{tax.taxStatus}}</td>
                 <td>
                     <div *ngIf="tax.financialAccountYearId">
                         <a [routerLink]="['../financial-account-year', tax.financialAccountYearId , 'view' ]" >{{tax.financialAccountYearId}}</a>

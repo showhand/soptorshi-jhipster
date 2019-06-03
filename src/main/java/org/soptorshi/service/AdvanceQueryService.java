@@ -106,7 +106,7 @@ public class AdvanceQueryService extends QueryService<Advance> {
                 specification = specification.and(buildRangeSpecification(criteria.getLeft(), Advance_.left));
             }
             if (criteria.getModifiedBy() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getModifiedBy(), Advance_.modifiedBy));
+                specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), Advance_.modifiedBy));
             }
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), Advance_.modifiedOn));

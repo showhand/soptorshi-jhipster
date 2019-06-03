@@ -33,6 +33,7 @@
             <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="reason"><span>Reason</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fineDate"><span>Fine Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="monthlyPayable"><span>Monthly Payable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="paymentStatus"><span>Payment Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="left"><span>Left</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -50,6 +51,7 @@
                     <span *ngIf="fine.reason">{{fine.reasonContentType}}, {{byteSize(fine.reason)}}</span>
                 </td>
                 <td>{{fine.fineDate | date:'mediumDate'}}</td>
+                <td>{{fine.monthlyPayable}}</td>
                 <td>{{fine.paymentStatus}}</td>
                 <td>{{fine.left}}</td>
                 <td>{{fine.modifiedBy}}</td>

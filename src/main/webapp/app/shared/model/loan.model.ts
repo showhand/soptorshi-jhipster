@@ -12,7 +12,7 @@ export interface ILoan {
     monthlyPayable?: number;
     paymentStatus?: PaymentStatus;
     left?: number;
-    modifiedBy?: number;
+    modifiedBy?: string;
     modifiedDate?: Moment;
     employeeId?: number;
 }
@@ -25,7 +25,7 @@ export class Loan implements ILoan {
         public monthlyPayable?: number,
         public paymentStatus?: PaymentStatus,
         public left?: number,
-        public modifiedBy?: number,
+        public modifiedBy?: string,
         public modifiedDate?: Moment,
         public employeeId?: number
     ) {}

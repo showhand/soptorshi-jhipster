@@ -45,7 +45,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="modified_by" type="bigint">
+            <column name="modified_by" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 

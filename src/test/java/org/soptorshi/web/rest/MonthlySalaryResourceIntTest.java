@@ -32,6 +32,8 @@ import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
@@ -92,6 +94,12 @@ public class MonthlySalaryResourceIntTest {
 
     private static final BigDecimal DEFAULT_PAYABLE = new BigDecimal(1);
     private static final BigDecimal UPDATED_PAYABLE = new BigDecimal(2);
+
+    private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_MODIFIED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_MODIFIED_ON = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private MonthlySalaryRepository monthlySalaryRepository;
@@ -164,7 +172,9 @@ public class MonthlySalaryResourceIntTest {
             .providendFund(DEFAULT_PROVIDEND_FUND)
             .tax(DEFAULT_TAX)
             .loanAmount(DEFAULT_LOAN_AMOUNT)
-            .payable(DEFAULT_PAYABLE);
+            .payable(DEFAULT_PAYABLE)
+            .modifiedBy(DEFAULT_MODIFIED_BY)
+            .modifiedOn(DEFAULT_MODIFIED_ON);
         return monthlySalary;
     }
 
@@ -202,6 +212,8 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getTax()).isEqualTo(DEFAULT_TAX);
         assertThat(testMonthlySalary.getLoanAmount()).isEqualTo(DEFAULT_LOAN_AMOUNT);
         assertThat(testMonthlySalary.getPayable()).isEqualTo(DEFAULT_PAYABLE);
+        assertThat(testMonthlySalary.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
+        assertThat(testMonthlySalary.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
         // Validate the MonthlySalary in Elasticsearch
         verify(mockMonthlySalarySearchRepository, times(1)).save(testMonthlySalary);
@@ -291,7 +303,9 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].providendFund").value(hasItem(DEFAULT_PROVIDEND_FUND.doubleValue())))
             .andExpect(jsonPath("$.[*].tax").value(hasItem(DEFAULT_TAX.doubleValue())))
             .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())));
+            .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
     
     @Test
@@ -317,7 +331,9 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.providendFund").value(DEFAULT_PROVIDEND_FUND.doubleValue()))
             .andExpect(jsonPath("$.tax").value(DEFAULT_TAX.doubleValue()))
             .andExpect(jsonPath("$.loanAmount").value(DEFAULT_LOAN_AMOUNT.intValue()))
-            .andExpect(jsonPath("$.payable").value(DEFAULT_PAYABLE.intValue()));
+            .andExpect(jsonPath("$.payable").value(DEFAULT_PAYABLE.intValue()))
+            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
+            .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
 
     @Test
@@ -856,6 +872,111 @@ public class MonthlySalaryResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllMonthlySalariesByModifiedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where modifiedBy equals to DEFAULT_MODIFIED_BY
+        defaultMonthlySalaryShouldBeFound("modifiedBy.equals=" + DEFAULT_MODIFIED_BY);
+
+        // Get all the monthlySalaryList where modifiedBy equals to UPDATED_MODIFIED_BY
+        defaultMonthlySalaryShouldNotBeFound("modifiedBy.equals=" + UPDATED_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByModifiedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where modifiedBy in DEFAULT_MODIFIED_BY or UPDATED_MODIFIED_BY
+        defaultMonthlySalaryShouldBeFound("modifiedBy.in=" + DEFAULT_MODIFIED_BY + "," + UPDATED_MODIFIED_BY);
+
+        // Get all the monthlySalaryList where modifiedBy equals to UPDATED_MODIFIED_BY
+        defaultMonthlySalaryShouldNotBeFound("modifiedBy.in=" + UPDATED_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByModifiedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where modifiedBy is not null
+        defaultMonthlySalaryShouldBeFound("modifiedBy.specified=true");
+
+        // Get all the monthlySalaryList where modifiedBy is null
+        defaultMonthlySalaryShouldNotBeFound("modifiedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByModifiedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where modifiedOn equals to DEFAULT_MODIFIED_ON
+        defaultMonthlySalaryShouldBeFound("modifiedOn.equals=" + DEFAULT_MODIFIED_ON);
+
+        // Get all the monthlySalaryList where modifiedOn equals to UPDATED_MODIFIED_ON
+        defaultMonthlySalaryShouldNotBeFound("modifiedOn.equals=" + UPDATED_MODIFIED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByModifiedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where modifiedOn in DEFAULT_MODIFIED_ON or UPDATED_MODIFIED_ON
+        defaultMonthlySalaryShouldBeFound("modifiedOn.in=" + DEFAULT_MODIFIED_ON + "," + UPDATED_MODIFIED_ON);
+
+        // Get all the monthlySalaryList where modifiedOn equals to UPDATED_MODIFIED_ON
+        defaultMonthlySalaryShouldNotBeFound("modifiedOn.in=" + UPDATED_MODIFIED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByModifiedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where modifiedOn is not null
+        defaultMonthlySalaryShouldBeFound("modifiedOn.specified=true");
+
+        // Get all the monthlySalaryList where modifiedOn is null
+        defaultMonthlySalaryShouldNotBeFound("modifiedOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByModifiedOnIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where modifiedOn greater than or equals to DEFAULT_MODIFIED_ON
+        defaultMonthlySalaryShouldBeFound("modifiedOn.greaterOrEqualThan=" + DEFAULT_MODIFIED_ON);
+
+        // Get all the monthlySalaryList where modifiedOn greater than or equals to UPDATED_MODIFIED_ON
+        defaultMonthlySalaryShouldNotBeFound("modifiedOn.greaterOrEqualThan=" + UPDATED_MODIFIED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByModifiedOnIsLessThanSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where modifiedOn less than or equals to DEFAULT_MODIFIED_ON
+        defaultMonthlySalaryShouldNotBeFound("modifiedOn.lessThan=" + DEFAULT_MODIFIED_ON);
+
+        // Get all the monthlySalaryList where modifiedOn less than or equals to UPDATED_MODIFIED_ON
+        defaultMonthlySalaryShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllMonthlySalariesByEmployeeIsEqualToSomething() throws Exception {
         // Initialize the database
         Employee employee = EmployeeResourceIntTest.createEntity(em);
@@ -892,7 +1013,9 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].providendFund").value(hasItem(DEFAULT_PROVIDEND_FUND.doubleValue())))
             .andExpect(jsonPath("$.[*].tax").value(hasItem(DEFAULT_TAX.doubleValue())))
             .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())));
+            .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
         // Check, that the count call also returns 1
         restMonthlySalaryMockMvc.perform(get("/api/monthly-salaries/count?sort=id,desc&" + filter))
@@ -952,7 +1075,9 @@ public class MonthlySalaryResourceIntTest {
             .providendFund(UPDATED_PROVIDEND_FUND)
             .tax(UPDATED_TAX)
             .loanAmount(UPDATED_LOAN_AMOUNT)
-            .payable(UPDATED_PAYABLE);
+            .payable(UPDATED_PAYABLE)
+            .modifiedBy(UPDATED_MODIFIED_BY)
+            .modifiedOn(UPDATED_MODIFIED_ON);
         MonthlySalaryDTO monthlySalaryDTO = monthlySalaryMapper.toDto(updatedMonthlySalary);
 
         restMonthlySalaryMockMvc.perform(put("/api/monthly-salaries")
@@ -977,6 +1102,8 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getTax()).isEqualTo(UPDATED_TAX);
         assertThat(testMonthlySalary.getLoanAmount()).isEqualTo(UPDATED_LOAN_AMOUNT);
         assertThat(testMonthlySalary.getPayable()).isEqualTo(UPDATED_PAYABLE);
+        assertThat(testMonthlySalary.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
+        assertThat(testMonthlySalary.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
         // Validate the MonthlySalary in Elasticsearch
         verify(mockMonthlySalarySearchRepository, times(1)).save(testMonthlySalary);
@@ -1049,7 +1176,9 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].providendFund").value(hasItem(DEFAULT_PROVIDEND_FUND.doubleValue())))
             .andExpect(jsonPath("$.[*].tax").value(hasItem(DEFAULT_TAX.doubleValue())))
             .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())));
+            .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
 
     @Test

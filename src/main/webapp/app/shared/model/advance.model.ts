@@ -13,7 +13,7 @@ export interface IAdvance {
     providedOn?: Moment;
     paymentStatus?: PaymentStatus;
     left?: number;
-    modifiedBy?: number;
+    modifiedBy?: string;
     modifiedOn?: Moment;
     employeeId?: number;
 }
@@ -27,7 +27,7 @@ export class Advance implements IAdvance {
         public providedOn?: Moment,
         public paymentStatus?: PaymentStatus,
         public left?: number,
-        public modifiedBy?: number,
+        public modifiedBy?: string,
         public modifiedOn?: Moment,
         public employeeId?: number
     ) {}

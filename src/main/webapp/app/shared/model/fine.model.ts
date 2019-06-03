@@ -11,9 +11,10 @@ export interface IFine {
     reasonContentType?: string;
     reason?: any;
     fineDate?: Moment;
+    monthlyPayable?: number;
     paymentStatus?: PaymentStatus;
     left?: number;
-    modifiedBy?: number;
+    modifiedBy?: string;
     modifiedDate?: Moment;
     employeeId?: number;
 }
@@ -25,9 +26,10 @@ export class Fine implements IFine {
         public reasonContentType?: string,
         public reason?: any,
         public fineDate?: Moment,
+        public monthlyPayable?: number,
         public paymentStatus?: PaymentStatus,
         public left?: number,
-        public modifiedBy?: number,
+        public modifiedBy?: string,
         public modifiedDate?: Moment,
         public employeeId?: number
     ) {}

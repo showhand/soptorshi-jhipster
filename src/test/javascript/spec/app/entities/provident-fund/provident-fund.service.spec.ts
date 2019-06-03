@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new ProvidentFund(0, currentDate, 0, false, 0, currentDate);
+            elemDefault = new ProvidentFund(0, currentDate, 0, false, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
@@ -76,7 +76,7 @@ describe('Service Tests', () => {
                         startDate: currentDate.format(DATE_FORMAT),
                         rate: 1,
                         status: true,
-                        modifiedBy: 1,
+                        modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
@@ -103,7 +103,7 @@ describe('Service Tests', () => {
                         startDate: currentDate.format(DATE_FORMAT),
                         rate: 1,
                         status: true,
-                        modifiedBy: 1,
+                        modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
