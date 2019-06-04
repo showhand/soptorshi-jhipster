@@ -27,14 +27,7 @@ export class AllowanceManagementUpdateComponent implements OnInit {
         window.history.back();
     }
 
-    save() {
-        this.isSaving = true;
-        if (this.allowanceManagement.id !== undefined) {
-            this.subscribeToSaveResponse(this.allowanceManagementService.update(this.allowanceManagement));
-        } else {
-            this.subscribeToSaveResponse(this.allowanceManagementService.create(this.allowanceManagement));
-        }
-    }
+    save() {}
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IAllowanceManagement>>) {
         result.subscribe((res: HttpResponse<IAllowanceManagement>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());

@@ -24,15 +24,7 @@ export class AllowanceManagementDeleteDialogComponent {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmDelete(id: number) {
-        this.allowanceManagementService.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'allowanceManagementListModification',
-                content: 'Deleted an allowanceManagement'
-            });
-            this.activeModal.dismiss(true);
-        });
-    }
+    confirmDelete(id: number) {}
 }
 
 @Component({
@@ -44,27 +36,7 @@ export class AllowanceManagementDeletePopupComponent implements OnInit, OnDestro
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
-    ngOnInit() {
-        this.activatedRoute.data.subscribe(({ allowanceManagement }) => {
-            setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(AllowanceManagementDeleteDialogComponent as Component, {
-                    size: 'lg',
-                    backdrop: 'static'
-                });
-                this.ngbModalRef.componentInstance.allowanceManagement = allowanceManagement;
-                this.ngbModalRef.result.then(
-                    result => {
-                        this.router.navigate(['/allowance-management', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    },
-                    reason => {
-                        this.router.navigate(['/allowance-management', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    }
-                );
-            }, 0);
-        });
-    }
+    ngOnInit() {}
 
     ngOnDestroy() {
         this.ngbModalRef = null;

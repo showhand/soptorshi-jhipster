@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Designation Wise Allowances</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-designation-wise-allowance" [routerLink]="['/designation-wise-allowance/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-designation-wise-allowance" [routerLink]="['/designation-wise-allowance', designation.id,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Designation Wise Allowance
@@ -29,25 +29,27 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th ><span></span> <fa-icon ></fa-icon></th>
             <th jhiSortBy="allowanceType"><span>Allowance Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="allowanceCategory"><span>Allowance Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="designationId"><span>Designation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="amount"><span>Amount(% of basic)</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!--<th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <th jhiSortBy="designationId" *ngIf="showDesignationColumn!==false"><span>Designation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-            <tr *ngFor="let designationWiseAllowance of designationWiseAllowances ;trackBy: trackId">
-                <td><a [routerLink]="['/designation-wise-allowance', designationWiseAllowance.id, 'view' ]">{{designationWiseAllowance.id}}</a></td>
+            <tr *ngFor="let designationWiseAllowance of designationWiseAllowances ; let i=index;trackBy: trackId">
+                <td>{{i+1}}</td>
+                <!--<td><a [routerLink]="['/designation-wise-allowance', designationWiseAllowance.id, 'view' ]">{{designationWiseAllowance.id}}</a></td>-->
                 <td>{{designationWiseAllowance.allowanceType}}</td>
                 <td>{{designationWiseAllowance.allowanceCategory}}</td>
-                <td>{{designationWiseAllowance.amount}}</td>
-                <td>{{designationWiseAllowance.modifiedBy}}</td>
-                <td>{{designationWiseAllowance.modifiedOn | date:'mediumDate'}}</td>
-                <td>
+                <td *ngIf="designationWiseAllowance.allowanceType=='OVERTIME_ALLOWANCE'">{{designationWiseAllowance.amount}}(hourly)</td>
+                <td *ngIf="designationWiseAllowance.allowanceType!='OVERTIME_ALLOWANCE'">{{designationWiseAllowance.amount}}</td>
+                <!--<td>{{designationWiseAllowance.modifiedBy}}</td>
+                <td>{{designationWiseAllowance.modifiedOn | date:'mediumDate'}}</td>-->
+                <td *ngIf="showDesignationColumn!==false">
                     <div *ngIf="designationWiseAllowance.designationId">
                         <a [routerLink]="['../designation', designationWiseAllowance.designationId , 'view' ]" >{{designationWiseAllowance.designationId}}</a>
                     </div>

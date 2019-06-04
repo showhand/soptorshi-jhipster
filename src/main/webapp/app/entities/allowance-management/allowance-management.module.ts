@@ -11,11 +11,12 @@ import {
     allowanceManagementRoute,
     allowanceManagementPopupRoute
 } from './';
+import { SoptorshiDesignationWiseAllowanceModule } from 'app/entities/designation-wise-allowance/designation-wise-allowance.module';
 
 const ENTITY_STATES = [...allowanceManagementRoute, ...allowanceManagementPopupRoute];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [SoptorshiSharedModule, SoptorshiDesignationWiseAllowanceModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         AllowanceManagementComponent,
         AllowanceManagementDetailComponent,

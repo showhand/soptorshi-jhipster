@@ -18,11 +18,16 @@ export class DesignationWiseAllowanceResolve implements Resolve<IDesignationWise
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IDesignationWiseAllowance> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const designation = route.params['designation'] ? route.params['designation'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<DesignationWiseAllowance>) => response.ok),
                 map((designationWiseAllowance: HttpResponse<DesignationWiseAllowance>) => designationWiseAllowance.body)
             );
+        } else if (designation) {
+            const designationWiseAllowance = new DesignationWiseAllowance();
+            designationWiseAllowance.designationId = designation;
+            return of(designationWiseAllowance);
         }
         return of(new DesignationWiseAllowance());
     }
@@ -30,7 +35,7 @@ export class DesignationWiseAllowanceResolve implements Resolve<IDesignationWise
 
 export const designationWiseAllowanceRoute: Routes = [
     {
-        path: '',
+        path: '/allowance',
         component: DesignationWiseAllowanceComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -52,6 +57,18 @@ export const designationWiseAllowanceRoute: Routes = [
     },
     {
         path: 'new',
+        component: DesignationWiseAllowanceUpdateComponent,
+        resolve: {
+            designationWiseAllowance: DesignationWiseAllowanceResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'DesignationWiseAllowances'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':designation/new',
         component: DesignationWiseAllowanceUpdateComponent,
         resolve: {
             designationWiseAllowance: DesignationWiseAllowanceResolve

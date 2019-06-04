@@ -13,24 +13,12 @@
                 <dd>
                     <span>{{designationWiseAllowance.allowanceCategory}}</span>
                 </dd>
-                <dt><span>Amount</span></dt>
+                <dt *ngIf="designationWiseAllowance.allowanceType==='OVERTIME_ALLOWANCE'"><span>Amount (hourly)</span></dt>
+                <dt *ngIf="designationWiseAllowance.allowanceType!=='OVERTIME_ALLOWANCE'"><span>Amount (% of basic)</span></dt>
                 <dd>
                     <span>{{designationWiseAllowance.amount}}</span>
                 </dd>
-                <dt><span>Modified By</span></dt>
-                <dd>
-                    <span>{{designationWiseAllowance.modifiedBy}}</span>
-                </dd>
-                <dt><span>Modified On</span></dt>
-                <dd>
-                    <span>{{designationWiseAllowance.modifiedOn}}</span>
-                </dd>
-                <dt><span>Designation</span></dt>
-                <dd>
-                    <div *ngIf="designationWiseAllowance.designationId">
-                        <a [routerLink]="['/designation', designationWiseAllowance.designationId, 'view']">{{designationWiseAllowance.designationId}}</a>
-                    </div>
-                </dd>
+
             </dl>
 
             <button type="submit"

@@ -50,7 +50,13 @@ import {
     faBuilding,
     faPlane,
     faDonate,
-    faDollarSign
+    faDollarSign,
+    faMoneyCheck,
+    faHandHolding,
+    faMoneyBillWave,
+    faMoneyBillAlt,
+    faCreditCard,
+    faPiggyBank
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -99,6 +105,12 @@ library.add(faBuilding);
 library.add(faPlane);
 library.add(faDonate);
 library.add(faDollarSign);
+library.add(faMoneyCheck);
+library.add(faHandHolding);
+library.add(faMoneyBillWave);
+library.add(faMoneyBillAlt);
+library.add(faCreditCard);
+library.add(faPiggyBank);
 
 import 'quill/dist/quill.js';
 import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';

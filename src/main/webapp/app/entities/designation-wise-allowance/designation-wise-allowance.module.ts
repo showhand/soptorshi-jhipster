@@ -29,6 +29,7 @@ const ENTITY_STATES = [...designationWiseAllowanceRoute, ...designationWiseAllow
         DesignationWiseAllowanceDeleteDialogComponent,
         DesignationWiseAllowanceDeletePopupComponent
     ],
+    exports: [DesignationWiseAllowanceComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiDesignationWiseAllowanceModule {}

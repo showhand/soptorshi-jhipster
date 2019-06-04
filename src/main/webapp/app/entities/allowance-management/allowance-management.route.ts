@@ -17,13 +17,6 @@ export class AllowanceManagementResolve implements Resolve<IAllowanceManagement>
     constructor(private service: AllowanceManagementService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAllowanceManagement> {
-        const id = route.params['id'] ? route.params['id'] : null;
-        if (id) {
-            return this.service.find(id).pipe(
-                filter((response: HttpResponse<AllowanceManagement>) => response.ok),
-                map((allowanceManagement: HttpResponse<AllowanceManagement>) => allowanceManagement.body)
-            );
-        }
         return of(new AllowanceManagement());
     }
 }

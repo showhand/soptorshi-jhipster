@@ -27,32 +27,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_amount">Amount</label>
+                    <label *ngIf="designationWiseAllowance.allowanceType=='OVERTIME_ALLOWANCE'" class="form-control-label" for="field_amount">Amount (hourly)</label>
+                    <label *ngIf="designationWiseAllowance.allowanceType!='OVERTIME_ALLOWANCE'" class="form-control-label" for="field_amount">Amount (% of basic)</label>
                     <input type="number" class="form-control" name="amount" id="field_amount"
                         [(ngModel)]="designationWiseAllowance.amount" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
-                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
-                        [(ngModel)]="designationWiseAllowance.modifiedBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
-                    <div class="input-group">
-                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="designationWiseAllowance.modifiedOn"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_designation">Designation</label>
-                    <select class="form-control" id="field_designation" name="designation" [(ngModel)]="designationWiseAllowance.designationId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.id}}</option>
-                    </select>
                 </div>
             </div>
             <div>

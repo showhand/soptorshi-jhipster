@@ -204,13 +204,44 @@
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
                 <a (click)="payrollManagement=!payrollManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
                      <span>
-                        <fa-icon icon="cog"></fa-icon>
+                        <fa-icon icon="money-check"></fa-icon>
                         <span>
                             Payroll Management
                         </span>
                     </span>
                 </a>
                 <ul [ngbCollapse]="!payrollManagement" class="list-unstyled" id="payrollManagement">
+
+                    <li>
+                        <a class="dropdown-item" routerLink="allowance-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="hand-holding" fixedWidth="true"></fa-icon>
+                            <span>Allowance Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="fine-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="money-bill-wave" fixedWidth="true"></fa-icon>
+                            <span>Fine Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="advance-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="money-bill-alt" fixedWidth="true"></fa-icon>
+                            <span>Advance Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="loan-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="credit-card" fixedWidth="true"></fa-icon>
+                            <span>Loan Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="provident-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="piggy-bank" fixedWidth="true"></fa-icon>
+                            <span>Provident Management</span>
+                        </a>
+                    </li>
 
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
                         <a  routerLink="payroll-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">

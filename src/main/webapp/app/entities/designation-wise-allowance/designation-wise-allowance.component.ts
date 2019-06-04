@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,12 +10,18 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { DesignationWiseAllowanceService } from './designation-wise-allowance.service';
+import { Designation } from 'app/shared/model/designation.model';
 
 @Component({
     selector: 'jhi-designation-wise-allowance',
     templateUrl: './designation-wise-allowance.component.html'
 })
 export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
+    @Input()
+    designation: Designation;
+    @Input()
+    showDesignationColumn: boolean;
+
     designationWiseAllowances: IDesignationWiseAllowance[];
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -64,16 +70,30 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
                 );
             return;
         }
-        this.designationWiseAllowanceService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<IDesignationWiseAllowance[]>) => this.paginateDesignationWiseAllowances(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        if (this.designation !== undefined) {
+            this.designationWiseAllowanceService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    'designationId.equals': this.designation.id,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<IDesignationWiseAllowance[]>) => this.paginateDesignationWiseAllowances(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.designationWiseAllowanceService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<IDesignationWiseAllowance[]>) => this.paginateDesignationWiseAllowances(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
     }
 
     reset() {
@@ -115,6 +135,7 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.designationWiseAllowances = [];
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
