@@ -2,10 +2,10 @@ import { Office } from 'app/shared/model/office.model';
 import { Designation } from 'app/shared/model/designation.model';
 
 export interface IAllowanceManagement {
-    office?: Office;
-    designation?: Designation;
+    officeId?: number;
+    designationId?: number;
 }
 
 export class AllowanceManagement implements IAllowanceManagement {
-    constructor(public office?: Office, public designation?: Designation) {}
+    constructor(public officeId?: number, public designationId?: number) {}
 }

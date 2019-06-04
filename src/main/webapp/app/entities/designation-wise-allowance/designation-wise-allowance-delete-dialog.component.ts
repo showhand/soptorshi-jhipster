@@ -54,11 +54,11 @@ export class DesignationWiseAllowanceDeletePopupComponent implements OnInit, OnD
                 this.ngbModalRef.componentInstance.designationWiseAllowance = designationWiseAllowance;
                 this.ngbModalRef.result.then(
                     result => {
-                        this.router.navigate(['/designation-wise-allowance', { outlets: { popup: null } }]);
+                        this.router.navigate(['/designation-wise-allowance/allowance', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     },
                     reason => {
-                        this.router.navigate(['/designation-wise-allowance', { outlets: { popup: null } }]);
+                        this.router.navigate(['/designation-wise-allowance/allowance', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     }
                 );

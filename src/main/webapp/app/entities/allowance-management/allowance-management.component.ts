@@ -56,8 +56,6 @@ export class AllowanceManagementComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<Office[]>) => {
                     this.offices = res.body;
-                    if (!this.allowanceManagementService.allowanceManagement.office)
-                        this.allowanceManagementService.allowanceManagement.office = this.offices[0];
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
@@ -70,8 +68,6 @@ export class AllowanceManagementComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<Designation[]>) => {
                     this.designations = res.body;
-                    if (!this.allowanceManagementService.allowanceManagement.designation)
-                        this.allowanceManagementService.allowanceManagement.designation = this.designations[0];
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );

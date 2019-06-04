@@ -35,7 +35,7 @@ export class DesignationWiseAllowanceResolve implements Resolve<IDesignationWise
 
 export const designationWiseAllowanceRoute: Routes = [
     {
-        path: '/allowance',
+        path: 'allowance',
         component: DesignationWiseAllowanceComponent,
         data: {
             authorities: ['ROLE_USER'],

@@ -18,7 +18,7 @@ import { Designation } from 'app/shared/model/designation.model';
 })
 export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
     @Input()
-    designation: Designation;
+    designationId: number;
     @Input()
     showDesignationColumn: boolean;
 
@@ -56,6 +56,8 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+        console.log('Designation id');
+        console.log(this.designationId);
         if (this.currentSearch) {
             this.designationWiseAllowanceService
                 .search({
@@ -70,12 +72,12 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
                 );
             return;
         }
-        if (this.designation !== undefined) {
+        if (this.designationId) {
             this.designationWiseAllowanceService
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    'designationId.equals': this.designation.id,
+                    'designationId.equals': this.designationId,
                     sort: this.sort()
                 })
                 .subscribe(
