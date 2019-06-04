@@ -97,13 +97,17 @@ enum TaxStatus{
 	ACTIVE,
     INACTIVE
 }
+
+enum SalaryStatus{
+    ACTIVE,
+    NOT_ACTIVE
+}
 entity Salary {
   basic BigDecimal required,
-  houseRent Double required,
-  medicalAllowance Double required,
-  incrementRate Double,
-  otherAllowance Double,
-  modifiedBy Long,
+  startedOn LocalDate,
+  endedOn LocalDate,
+  salaryStatus SalaryStatus,
+  modifiedBy String,
   modifiedOn LocalDate
 }
 

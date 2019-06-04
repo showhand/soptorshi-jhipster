@@ -96,20 +96,17 @@ public class SalaryQueryService extends QueryService<Salary> {
             if (criteria.getBasic() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getBasic(), Salary_.basic));
             }
-            if (criteria.getHouseRent() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getHouseRent(), Salary_.houseRent));
+            if (criteria.getStartedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getStartedOn(), Salary_.startedOn));
             }
-            if (criteria.getMedicalAllowance() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMedicalAllowance(), Salary_.medicalAllowance));
+            if (criteria.getEndedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getEndedOn(), Salary_.endedOn));
             }
-            if (criteria.getIncrementRate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getIncrementRate(), Salary_.incrementRate));
-            }
-            if (criteria.getOtherAllowance() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getOtherAllowance(), Salary_.otherAllowance));
+            if (criteria.getSalaryStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getSalaryStatus(), Salary_.salaryStatus));
             }
             if (criteria.getModifiedBy() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getModifiedBy(), Salary_.modifiedBy));
+                specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), Salary_.modifiedBy));
             }
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), Salary_.modifiedOn));

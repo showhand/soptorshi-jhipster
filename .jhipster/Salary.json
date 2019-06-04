@@ -9,30 +9,21 @@
             ]
         },
         {
-            "fieldName": "houseRent",
-            "fieldType": "Double",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldName": "startedOn",
+            "fieldType": "LocalDate"
         },
         {
-            "fieldName": "medicalAllowance",
-            "fieldType": "Double",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldName": "endedOn",
+            "fieldType": "LocalDate"
         },
         {
-            "fieldName": "incrementRate",
-            "fieldType": "Double"
-        },
-        {
-            "fieldName": "otherAllowance",
-            "fieldType": "Double"
+            "fieldName": "salaryStatus",
+            "fieldType": "SalaryStatus",
+            "fieldValues": "ACTIVE,NOT_ACTIVE"
         },
         {
             "fieldName": "modifiedBy",
-            "fieldType": "Long"
+            "fieldType": "String"
         },
         {
             "fieldName": "modifiedOn",

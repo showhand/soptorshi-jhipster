@@ -59,6 +59,8 @@ export class SalaryService {
 
     protected convertDateFromClient(salary: ISalary): ISalary {
         const copy: ISalary = Object.assign({}, salary, {
+            startedOn: salary.startedOn != null && salary.startedOn.isValid() ? salary.startedOn.format(DATE_FORMAT) : null,
+            endedOn: salary.endedOn != null && salary.endedOn.isValid() ? salary.endedOn.format(DATE_FORMAT) : null,
             modifiedOn: salary.modifiedOn != null && salary.modifiedOn.isValid() ? salary.modifiedOn.format(DATE_FORMAT) : null
         });
         return copy;
@@ -66,6 +68,8 @@ export class SalaryService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
+            res.body.startedOn = res.body.startedOn != null ? moment(res.body.startedOn) : null;
+            res.body.endedOn = res.body.endedOn != null ? moment(res.body.endedOn) : null;
             res.body.modifiedOn = res.body.modifiedOn != null ? moment(res.body.modifiedOn) : null;
         }
         return res;
@@ -74,6 +78,8 @@ export class SalaryService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((salary: ISalary) => {
+                salary.startedOn = salary.startedOn != null ? moment(salary.startedOn) : null;
+                salary.endedOn = salary.endedOn != null ? moment(salary.endedOn) : null;
                 salary.modifiedOn = salary.modifiedOn != null ? moment(salary.modifiedOn) : null;
             });
         }

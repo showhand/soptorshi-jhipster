@@ -201,11 +201,25 @@
                 </ul>
             </li>
 
-            <li>
-                <a  routerLink="payroll-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                    <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
-                    <span>Payroll Management</span>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+                <a (click)="payrollManagement=!payrollManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
+                     <span>
+                        <fa-icon icon="cog"></fa-icon>
+                        <span>
+                            Payroll Management
+                        </span>
+                    </span>
                 </a>
+                <ul [ngbCollapse]="!payrollManagement" class="list-unstyled" id="payrollManagement">
+
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+                        <a  routerLink="payroll-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
+                            <span>Payroll Management</span>
+                        </a>
+                    </li>
+                </ul>
+
             </li>
            <!-- <li>
                 <a href="#">About</a>

@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.SalaryStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -21,6 +22,11 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class SalaryCriteria implements Serializable {
+    /**
+     * Class for filtering SalaryStatus
+     */
+    public static class SalaryStatusFilter extends Filter<SalaryStatus> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -28,15 +34,13 @@ public class SalaryCriteria implements Serializable {
 
     private BigDecimalFilter basic;
 
-    private DoubleFilter houseRent;
+    private LocalDateFilter startedOn;
 
-    private DoubleFilter medicalAllowance;
+    private LocalDateFilter endedOn;
 
-    private DoubleFilter incrementRate;
+    private SalaryStatusFilter salaryStatus;
 
-    private DoubleFilter otherAllowance;
-
-    private LongFilter modifiedBy;
+    private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedOn;
 
@@ -58,43 +62,35 @@ public class SalaryCriteria implements Serializable {
         this.basic = basic;
     }
 
-    public DoubleFilter getHouseRent() {
-        return houseRent;
+    public LocalDateFilter getStartedOn() {
+        return startedOn;
     }
 
-    public void setHouseRent(DoubleFilter houseRent) {
-        this.houseRent = houseRent;
+    public void setStartedOn(LocalDateFilter startedOn) {
+        this.startedOn = startedOn;
     }
 
-    public DoubleFilter getMedicalAllowance() {
-        return medicalAllowance;
+    public LocalDateFilter getEndedOn() {
+        return endedOn;
     }
 
-    public void setMedicalAllowance(DoubleFilter medicalAllowance) {
-        this.medicalAllowance = medicalAllowance;
+    public void setEndedOn(LocalDateFilter endedOn) {
+        this.endedOn = endedOn;
     }
 
-    public DoubleFilter getIncrementRate() {
-        return incrementRate;
+    public SalaryStatusFilter getSalaryStatus() {
+        return salaryStatus;
     }
 
-    public void setIncrementRate(DoubleFilter incrementRate) {
-        this.incrementRate = incrementRate;
+    public void setSalaryStatus(SalaryStatusFilter salaryStatus) {
+        this.salaryStatus = salaryStatus;
     }
 
-    public DoubleFilter getOtherAllowance() {
-        return otherAllowance;
-    }
-
-    public void setOtherAllowance(DoubleFilter otherAllowance) {
-        this.otherAllowance = otherAllowance;
-    }
-
-    public LongFilter getModifiedBy() {
+    public StringFilter getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(LongFilter modifiedBy) {
+    public void setModifiedBy(StringFilter modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -127,10 +123,9 @@ public class SalaryCriteria implements Serializable {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(basic, that.basic) &&
-            Objects.equals(houseRent, that.houseRent) &&
-            Objects.equals(medicalAllowance, that.medicalAllowance) &&
-            Objects.equals(incrementRate, that.incrementRate) &&
-            Objects.equals(otherAllowance, that.otherAllowance) &&
+            Objects.equals(startedOn, that.startedOn) &&
+            Objects.equals(endedOn, that.endedOn) &&
+            Objects.equals(salaryStatus, that.salaryStatus) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(employeeId, that.employeeId);
@@ -141,10 +136,9 @@ public class SalaryCriteria implements Serializable {
         return Objects.hash(
         id,
         basic,
-        houseRent,
-        medicalAllowance,
-        incrementRate,
-        otherAllowance,
+        startedOn,
+        endedOn,
+        salaryStatus,
         modifiedBy,
         modifiedOn,
         employeeId
@@ -156,10 +150,9 @@ public class SalaryCriteria implements Serializable {
         return "SalaryCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (basic != null ? "basic=" + basic + ", " : "") +
-                (houseRent != null ? "houseRent=" + houseRent + ", " : "") +
-                (medicalAllowance != null ? "medicalAllowance=" + medicalAllowance + ", " : "") +
-                (incrementRate != null ? "incrementRate=" + incrementRate + ", " : "") +
-                (otherAllowance != null ? "otherAllowance=" + otherAllowance + ", " : "") +
+                (startedOn != null ? "startedOn=" + startedOn + ", " : "") +
+                (endedOn != null ? "endedOn=" + endedOn + ", " : "") +
+                (salaryStatus != null ? "salaryStatus=" + salaryStatus + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +

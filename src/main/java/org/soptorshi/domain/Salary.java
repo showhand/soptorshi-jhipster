@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.soptorshi.domain.enumeration.SalaryStatus;
+
 /**
  * A Salary.
  */
@@ -30,22 +32,18 @@ public class Salary implements Serializable {
     @Column(name = "basic", precision = 10, scale = 2, nullable = false)
     private BigDecimal basic;
 
-    @NotNull
-    @Column(name = "house_rent", nullable = false)
-    private Double houseRent;
+    @Column(name = "started_on")
+    private LocalDate startedOn;
 
-    @NotNull
-    @Column(name = "medical_allowance", nullable = false)
-    private Double medicalAllowance;
+    @Column(name = "ended_on")
+    private LocalDate endedOn;
 
-    @Column(name = "increment_rate")
-    private Double incrementRate;
-
-    @Column(name = "other_allowance")
-    private Double otherAllowance;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "salary_status")
+    private SalaryStatus salaryStatus;
 
     @Column(name = "modified_by")
-    private Long modifiedBy;
+    private String modifiedBy;
 
     @Column(name = "modified_on")
     private LocalDate modifiedOn;
@@ -76,68 +74,55 @@ public class Salary implements Serializable {
         this.basic = basic;
     }
 
-    public Double getHouseRent() {
-        return houseRent;
+    public LocalDate getStartedOn() {
+        return startedOn;
     }
 
-    public Salary houseRent(Double houseRent) {
-        this.houseRent = houseRent;
+    public Salary startedOn(LocalDate startedOn) {
+        this.startedOn = startedOn;
         return this;
     }
 
-    public void setHouseRent(Double houseRent) {
-        this.houseRent = houseRent;
+    public void setStartedOn(LocalDate startedOn) {
+        this.startedOn = startedOn;
     }
 
-    public Double getMedicalAllowance() {
-        return medicalAllowance;
+    public LocalDate getEndedOn() {
+        return endedOn;
     }
 
-    public Salary medicalAllowance(Double medicalAllowance) {
-        this.medicalAllowance = medicalAllowance;
+    public Salary endedOn(LocalDate endedOn) {
+        this.endedOn = endedOn;
         return this;
     }
 
-    public void setMedicalAllowance(Double medicalAllowance) {
-        this.medicalAllowance = medicalAllowance;
+    public void setEndedOn(LocalDate endedOn) {
+        this.endedOn = endedOn;
     }
 
-    public Double getIncrementRate() {
-        return incrementRate;
+    public SalaryStatus getSalaryStatus() {
+        return salaryStatus;
     }
 
-    public Salary incrementRate(Double incrementRate) {
-        this.incrementRate = incrementRate;
+    public Salary salaryStatus(SalaryStatus salaryStatus) {
+        this.salaryStatus = salaryStatus;
         return this;
     }
 
-    public void setIncrementRate(Double incrementRate) {
-        this.incrementRate = incrementRate;
+    public void setSalaryStatus(SalaryStatus salaryStatus) {
+        this.salaryStatus = salaryStatus;
     }
 
-    public Double getOtherAllowance() {
-        return otherAllowance;
-    }
-
-    public Salary otherAllowance(Double otherAllowance) {
-        this.otherAllowance = otherAllowance;
-        return this;
-    }
-
-    public void setOtherAllowance(Double otherAllowance) {
-        this.otherAllowance = otherAllowance;
-    }
-
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public Salary modifiedBy(Long modifiedBy) {
+    public Salary modifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
         return this;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -193,11 +178,10 @@ public class Salary implements Serializable {
         return "Salary{" +
             "id=" + getId() +
             ", basic=" + getBasic() +
-            ", houseRent=" + getHouseRent() +
-            ", medicalAllowance=" + getMedicalAllowance() +
-            ", incrementRate=" + getIncrementRate() +
-            ", otherAllowance=" + getOtherAllowance() +
-            ", modifiedBy=" + getModifiedBy() +
+            ", startedOn='" + getStartedOn() + "'" +
+            ", endedOn='" + getEndedOn() + "'" +
+            ", salaryStatus='" + getSalaryStatus() + "'" +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";
     }

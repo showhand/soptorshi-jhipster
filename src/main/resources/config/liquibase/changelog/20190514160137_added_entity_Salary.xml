@@ -26,23 +26,19 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="house_rent" type="double">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="medical_allowance" type="double">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="increment_rate" type="double">
+            <column name="started_on" type="date">
                 <constraints nullable="true" />
             </column>
 
-            <column name="other_allowance" type="double">
+            <column name="ended_on" type="date">
                 <constraints nullable="true" />
             </column>
 
-            <column name="modified_by" type="bigint">
+            <column name="salary_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="modified_by" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
