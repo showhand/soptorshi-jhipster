@@ -40,7 +40,7 @@
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "loan",
             "relationshipName": "employee",
-            "otherEntityField": "id"
+            "otherEntityField": "fullName"
         }
     ],
     "changelogDate": "20190514160142",

@@ -31,6 +31,8 @@ public class LoanDTO implements Serializable {
 
     private Long employeeId;
 
+    private String employeeFullName;
+
     public Long getId() {
         return id;
     }
@@ -103,6 +105,14 @@ public class LoanDTO implements Serializable {
         this.employeeId = employeeId;
     }
 
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -136,6 +146,7 @@ public class LoanDTO implements Serializable {
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedDate='" + getModifiedDate() + "'" +
             ", employee=" + getEmployeeId() +
+            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

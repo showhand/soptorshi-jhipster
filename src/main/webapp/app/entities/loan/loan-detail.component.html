@@ -36,7 +36,7 @@
                 <dt><span>Employee</span></dt>
                 <dd>
                     <div *ngIf="loan.employeeId">
-                        <a [routerLink]="['/employee', loan.employeeId, 'view']">{{loan.employeeId}}</a>
+                        <a [routerLink]="['/employee', loan.employeeId, 'view']">{{loan.employeeFullName}}</a>
                     </div>
                 </dd>
             </dl>

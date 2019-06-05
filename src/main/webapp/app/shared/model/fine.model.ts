@@ -15,6 +15,7 @@ export interface IFine {
     modifiedBy?: string;
     modifiedDate?: Moment;
     reason?: any;
+    employeeFullName?: string;
     employeeId?: number;
 }
 
@@ -29,6 +30,7 @@ export class Fine implements IFine {
         public modifiedBy?: string,
         public modifiedDate?: Moment,
         public reason?: any,
+        public employeeFullName?: string,
         public employeeId?: number
     ) {}
 }

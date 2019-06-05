@@ -74,7 +74,7 @@
                     <label class="form-control-label" for="field_employee">Employee</label>
                     <select class="form-control" id="field_employee" name="employee" [(ngModel)]="advance.employeeId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.id}}</option>
+                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
                     </select>
                 </div>
             </div>

@@ -32,6 +32,8 @@ public class AdvanceDTO implements Serializable {
 
     private Long employeeId;
 
+    private String employeeFullName;
+
     public Long getId() {
         return id;
     }
@@ -112,6 +114,14 @@ public class AdvanceDTO implements Serializable {
         this.employeeId = employeeId;
     }
 
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -145,6 +155,7 @@ public class AdvanceDTO implements Serializable {
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +
+            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

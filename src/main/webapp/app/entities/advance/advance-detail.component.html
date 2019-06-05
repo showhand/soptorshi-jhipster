@@ -39,7 +39,7 @@
                 <dt><span>Employee</span></dt>
                 <dd>
                     <div *ngIf="advance.employeeId">
-                        <a [routerLink]="['/employee', advance.employeeId, 'view']">{{advance.employeeId}}</a>
+                        <a [routerLink]="['/employee', advance.employeeId, 'view']">{{advance.employeeFullName}}</a>
                     </div>
                 </dd>
             </dl>

@@ -12,6 +12,7 @@ import org.mapstruct.*;
 public interface LoanMapper extends EntityMapper<LoanDTO, Loan> {
 
     @Mapping(source = "employee.id", target = "employeeId")
+    @Mapping(source = "employee.fullName", target = "employeeFullName")
     LoanDTO toDto(Loan loan);
 
     @Mapping(source = "employeeId", target = "employee")

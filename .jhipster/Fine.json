@@ -1,16 +1,5 @@
 {
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "relationships": [
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "employee",
-            "otherEntityRelationshipName": "fine",
-            "relationshipName": "employee",
-            "otherEntityField": "id",
-            "otherEntityRelationshipNameUndefined": false
-        }
-    ],
+    "name": "Fine",
     "fields": [
         {
             "fieldName": "amount",
@@ -53,12 +42,23 @@
             "fieldTypeBlobContent": "text"
         }
     ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "fine",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName"
+        }
+    ],
     "changelogDate": "20190514160141",
-    "dto": "mapstruct",
-    "searchEngine": "elasticsearch",
-    "service": "serviceClass",
     "entityTableName": "fine",
-    "databaseType": "sql",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
-    "pagination": "pager"
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
 }

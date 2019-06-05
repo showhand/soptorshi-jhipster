@@ -14,6 +14,7 @@ export interface ILoan {
     left?: number;
     modifiedBy?: string;
     modifiedDate?: Moment;
+    employeeFullName?: string;
     employeeId?: number;
 }
 
@@ -27,6 +28,7 @@ export class Loan implements ILoan {
         public left?: number,
         public modifiedBy?: string,
         public modifiedDate?: Moment,
+        public employeeFullName?: string,
         public employeeId?: number
     ) {}
 }

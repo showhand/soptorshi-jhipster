@@ -145,7 +145,6 @@ entity Fine {
 }
 entity Loan {
   amount BigDecimal required,
-  reason TextBlob,
   takenOn LocalDate,
   monthlyPayable Double,
   paymentStatus PaymentStatus,
@@ -162,7 +161,7 @@ entity Holiday {
   toDate LocalDate required,
   numberOfDays Integer required
 }
-
+entity PayrollManagement
 entity DesignationWiseAllowance {
   allowanceType AllowanceType,
   allowanceCategory AllowanceCategory,
@@ -270,7 +269,7 @@ relationship ManyToOne {
   Tax{financialAccountYear} to FinancialAccountYear,
   Salary{employee} to Employee,
   MonthlySalary{employee} to Employee,
-  Advance{employee(fullName)} to Employee,
+  Advance{employee (fullName)} to Employee,
   Fine{employee (fullName)} to Employee,
   Loan{employee (fullName)} to Employee,
   Holiday{holidayType(name)} to HolidayType,

@@ -230,6 +230,18 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'fine',
                 loadChildren: './fine/fine.module#SoptorshiFineModule'
+            },
+            {
+                path: 'advance',
+                loadChildren: './advance/advance.module#SoptorshiAdvanceModule'
+            },
+            {
+                path: 'fine',
+                loadChildren: './fine/fine.module#SoptorshiFineModule'
+            },
+            {
+                path: 'loan',
+                loadChildren: './loan/loan.module#SoptorshiLoanModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

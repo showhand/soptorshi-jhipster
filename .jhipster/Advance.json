@@ -38,7 +38,7 @@
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "advance",
             "relationshipName": "employee",
-            "otherEntityField": "id"
+            "otherEntityField": "fullName"
         }
     ],
     "changelogDate": "20190514160140",

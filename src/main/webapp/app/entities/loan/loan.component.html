@@ -37,7 +37,7 @@
             <th jhiSortBy="left"><span>Left</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedDate"><span>Modified Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="employeeId"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -53,7 +53,7 @@
                 <td>{{loan.modifiedDate | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="loan.employeeId">
-                        <a [routerLink]="['../employee', loan.employeeId , 'view' ]" >{{loan.employeeId}}</a>
+                        <a [routerLink]="['../employee', loan.employeeId , 'view' ]" >{{loan.employeeFullName}}</a>
                     </div>
                 </td>
                 <td class="text-right">
