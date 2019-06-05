@@ -270,7 +270,7 @@ relationship ManyToOne {
   Salary{employee} to Employee,
   MonthlySalary{employee} to Employee,
   Advance{employee (fullName)} to Employee,
-  Fine{employee (fullName)} to Employee,
+  Fine{employee (fullName,employeeId)} to Employee,
   Loan{employee (fullName)} to Employee,
   Holiday{holidayType(name)} to HolidayType,
   DesignationWiseAllowance{designation} to Designation
