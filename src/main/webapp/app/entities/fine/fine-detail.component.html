@@ -9,13 +9,6 @@
                 <dd>
                     <span>{{fine.amount}}</span>
                 </dd>
-                <dt><span>Reason</span></dt>
-                <dd>
-                    <div *ngIf="fine.reason">
-                        <a (click)="openFile(fine.reasonContentType, fine.reason)">open</a>
-                        {{fine.reasonContentType}}, {{byteSize(fine.reason)}}
-                    </div>
-                </dd>
                 <dt><span>Fine Date</span></dt>
                 <dd>
                     <span>{{fine.fineDate}}</span>
@@ -39,6 +32,10 @@
                 <dt><span>Modified Date</span></dt>
                 <dd>
                     <span>{{fine.modifiedDate}}</span>
+                </dd>
+                <dt><span>Reason</span></dt>
+                <dd>
+                    <span>{{fine.reason}}</span>
                 </dd>
                 <dt><span>Employee</span></dt>
                 <dd>

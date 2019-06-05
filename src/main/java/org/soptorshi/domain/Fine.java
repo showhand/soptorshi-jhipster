@@ -32,14 +32,6 @@ public class Fine implements Serializable {
     @Column(name = "amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal amount;
 
-    
-    @Lob
-    @Column(name = "reason", nullable = false)
-    private byte[] reason;
-
-    @Column(name = "reason_content_type", nullable = false)
-    private String reasonContentType;
-
     @NotNull
     @Column(name = "fine_date", nullable = false)
     private LocalDate fineDate;
@@ -59,6 +51,10 @@ public class Fine implements Serializable {
 
     @Column(name = "modified_date")
     private LocalDate modifiedDate;
+
+    @Lob
+    @Column(name = "reason")
+    private String reason;
 
     @ManyToOne
     @JsonIgnoreProperties("fines")
@@ -84,32 +80,6 @@ public class Fine implements Serializable {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
-    }
-
-    public byte[] getReason() {
-        return reason;
-    }
-
-    public Fine reason(byte[] reason) {
-        this.reason = reason;
-        return this;
-    }
-
-    public void setReason(byte[] reason) {
-        this.reason = reason;
-    }
-
-    public String getReasonContentType() {
-        return reasonContentType;
-    }
-
-    public Fine reasonContentType(String reasonContentType) {
-        this.reasonContentType = reasonContentType;
-        return this;
-    }
-
-    public void setReasonContentType(String reasonContentType) {
-        this.reasonContentType = reasonContentType;
     }
 
     public LocalDate getFineDate() {
@@ -190,6 +160,19 @@ public class Fine implements Serializable {
         this.modifiedDate = modifiedDate;
     }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public Fine reason(String reason) {
+        this.reason = reason;
+        return this;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -229,14 +212,13 @@ public class Fine implements Serializable {
         return "Fine{" +
             "id=" + getId() +
             ", amount=" + getAmount() +
-            ", reason='" + getReason() + "'" +
-            ", reasonContentType='" + getReasonContentType() + "'" +
             ", fineDate='" + getFineDate() + "'" +
             ", monthlyPayable=" + getMonthlyPayable() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", left=" + getLeft() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedDate='" + getModifiedDate() + "'" +
+            ", reason='" + getReason() + "'" +
             "}";
     }
 }

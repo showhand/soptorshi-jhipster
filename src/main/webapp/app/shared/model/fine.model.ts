@@ -8,14 +8,13 @@ export const enum PaymentStatus {
 export interface IFine {
     id?: number;
     amount?: number;
-    reasonContentType?: string;
-    reason?: any;
     fineDate?: Moment;
     monthlyPayable?: number;
     paymentStatus?: PaymentStatus;
     left?: number;
     modifiedBy?: string;
     modifiedDate?: Moment;
+    reason?: any;
     employeeId?: number;
 }
 
@@ -23,14 +22,13 @@ export class Fine implements IFine {
     constructor(
         public id?: number,
         public amount?: number,
-        public reasonContentType?: string,
-        public reason?: any,
         public fineDate?: Moment,
         public monthlyPayable?: number,
         public paymentStatus?: PaymentStatus,
         public left?: number,
         public modifiedBy?: string,
         public modifiedDate?: Moment,
+        public reason?: any,
         public employeeId?: number
     ) {}
 }

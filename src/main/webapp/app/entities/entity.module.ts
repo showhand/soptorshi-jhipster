@@ -222,6 +222,14 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'salary',
                 loadChildren: './salary/salary.module#SoptorshiSalaryModule'
+            },
+            {
+                path: 'fine',
+                loadChildren: './fine/fine.module#SoptorshiFineModule'
+            },
+            {
+                path: 'fine',
+                loadChildren: './fine/fine.module#SoptorshiFineModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
