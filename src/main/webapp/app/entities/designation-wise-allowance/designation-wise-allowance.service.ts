@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IDesignationWiseAllowance } from 'app/shared/model/designation-wise-allowance.model';
+import { Designation } from 'app/shared/model/designation.model';
 
 type EntityResponseType = HttpResponse<IDesignationWiseAllowance>;
 type EntityArrayResponseType = HttpResponse<IDesignationWiseAllowance[]>;
@@ -16,6 +17,7 @@ type EntityArrayResponseType = HttpResponse<IDesignationWiseAllowance[]>;
 export class DesignationWiseAllowanceService {
     public resourceUrl = SERVER_API_URL + 'api/designation-wise-allowances';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/designation-wise-allowances';
+    public designationId: number;
 
     constructor(protected http: HttpClient) {}
 

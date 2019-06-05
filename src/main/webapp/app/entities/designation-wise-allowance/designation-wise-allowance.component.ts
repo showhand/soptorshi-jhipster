@@ -11,17 +11,14 @@ import { AccountService } from 'app/core';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { DesignationWiseAllowanceService } from './designation-wise-allowance.service';
 import { Designation } from 'app/shared/model/designation.model';
+import { DesignationService } from 'app/entities/designation';
 
 @Component({
     selector: 'jhi-designation-wise-allowance',
     templateUrl: './designation-wise-allowance.component.html'
 })
 export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
-    @Input()
-    designationId: number;
-    @Input()
-    showDesignationColumn: boolean;
-
+    designations: Designation[];
     designationWiseAllowances: IDesignationWiseAllowance[];
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -39,7 +36,8 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected designationService: DesignationService
     ) {
         this.designationWiseAllowances = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -56,8 +54,8 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        console.log('Designation id');
-        console.log(this.designationId);
+        this.designationWiseAllowances = [];
+
         if (this.currentSearch) {
             this.designationWiseAllowanceService
                 .search({
@@ -72,23 +70,12 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
                 );
             return;
         }
-        if (this.designationId) {
+        if (this.designationWiseAllowanceService.designationId) {
             this.designationWiseAllowanceService
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    'designationId.equals': this.designationId,
-                    sort: this.sort()
-                })
-                .subscribe(
-                    (res: HttpResponse<IDesignationWiseAllowance[]>) => this.paginateDesignationWiseAllowances(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        } else {
-            this.designationWiseAllowanceService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
+                    'designationId.equals': this.designationWiseAllowanceService.designationId,
                     sort: this.sort()
                 })
                 .subscribe(
@@ -136,9 +123,24 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    ngOnInit() {
-        this.designationWiseAllowances = [];
+    fetch() {
         this.loadAll();
+    }
+
+    ngOnInit() {
+        this.designationService
+            .query({
+                page: 0,
+                size: 200,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<Designation[]>) => {
+                    this.designations = res.body;
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        if (this.designationWiseAllowanceService.designationId !== undefined) this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
