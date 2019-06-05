@@ -92,16 +92,6 @@ entity Tax {
   rate Double,
   taxStatus TaxStatus
 }
-
-enum TaxStatus{
-	ACTIVE,
-    INACTIVE
-}
-
-enum SalaryStatus{
-    ACTIVE,
-    NOT_ACTIVE
-}
 entity Salary {
   basic BigDecimal required,
   startedOn LocalDate,
@@ -110,20 +100,6 @@ entity Salary {
   modifiedBy String,
   modifiedOn LocalDate
 }
-
-entity DesignationWiseAllowance{
-  allowanceType AllowanceType,
-  allowanceCategory AllowanceCategory,
-  amount BigDecimal,
-  modifiedBy String,
-  modifiedOn LocalDate
-}
-
-enum AllowanceCategory{
-  MONTHLY,
-  SPECIFIC
-}
-
 entity ProvidentFund {
   startDate LocalDate,
   rate Double,
@@ -159,16 +135,17 @@ entity Advance {
 }
 entity Fine {
   amount BigDecimal required,
-  reason AnyBlob required,
   fineDate LocalDate required,
   monthlyPayable Double,
   paymentStatus PaymentStatus,
   left BigDecimal,
   modifiedBy String,
-  modifiedDate LocalDate
+  modifiedDate LocalDate,
+  reason TextBlob
 }
 entity Loan {
   amount BigDecimal required,
+  reason TextBlob,
   takenOn LocalDate,
   monthlyPayable Double,
   paymentStatus PaymentStatus,
@@ -185,6 +162,15 @@ entity Holiday {
   toDate LocalDate required,
   numberOfDays Integer required
 }
+
+entity DesignationWiseAllowance {
+  allowanceType AllowanceType,
+  allowanceCategory AllowanceCategory,
+  amount BigDecimal,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+
 
 enum MaritalStatus {
   MARRIED,
@@ -218,6 +204,16 @@ enum EmploymentType {
   PART_TIME
 }
 
+enum TaxStatus {
+  ACTIVE,
+  INACTIVE
+}
+
+enum SalaryStatus {
+  ACTIVE,
+  NOT_ACTIVE
+}
+
 enum MonthType {
   JANUARY,
   FEBRUARY,
@@ -243,12 +239,17 @@ enum YesOrNo {
   NO
 }
 
-enum AllowanceType{
-    HOUSE_RENT,
-    MEDICAL_ALLOWANCE,
-    FESTIVAL_BONUS,
-    OVERTIME_ALLOWANCE,
-    OTHER_ALLOWANCE
+enum AllowanceType {
+  HOUSE_RENT,
+  MEDICAL_ALLOWANCE,
+  FESTIVAL_BONUS,
+  OVERTIME_ALLOWANCE,
+  OTHER_ALLOWANCE
+}
+
+enum AllowanceCategory {
+  MONTHLY,
+  SPECIFIC
 }
 
 relationship ManyToOne {
@@ -269,17 +270,17 @@ relationship ManyToOne {
   Tax{financialAccountYear} to FinancialAccountYear,
   Salary{employee} to Employee,
   MonthlySalary{employee} to Employee,
-  Advance{employee} to Employee,
-  Fine{employee} to Employee,
-  Loan{employee} to Employee,
-  DesignationWiseAllowance{designation} to Designation,
-  Holiday{holidayType(name)} to HolidayType
+  Advance{employee(fullName)} to Employee,
+  Fine{employee (fullName)} to Employee,
+  Loan{employee (fullName)} to Employee,
+  Holiday{holidayType(name)} to HolidayType,
+  DesignationWiseAllowance{designation} to Designation
 }
 
-dto Department, DesignationWiseAllowance, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday with mapstruct
+dto Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance with mapstruct
 paginate Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan with pager
 paginate HolidayType, Holiday, DesignationWiseAllowance with infinite-scroll
-service Department, DesignationWiseAllowance, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan with serviceClass
+service Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance with serviceClass
 service HolidayType, Holiday with serviceImpl
-search Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan with elasticsearch
-filter Department, DesignationWiseAllowance, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday
+search Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, PayrollManagement with elasticsearch
+filter Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance
