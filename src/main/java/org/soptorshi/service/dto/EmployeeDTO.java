@@ -83,9 +83,15 @@ public class EmployeeDTO implements Serializable {
 
     private Long departmentId;
 
+    private String departmentName;
+
     private Long officeId;
 
+    private String officeName;
+
     private Long designationId;
+
+    private String designationName;
 
     public Long getId() {
         return id;
@@ -303,6 +309,14 @@ public class EmployeeDTO implements Serializable {
         this.departmentId = departmentId;
     }
 
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
     public Long getOfficeId() {
         return officeId;
     }
@@ -311,12 +325,28 @@ public class EmployeeDTO implements Serializable {
         this.officeId = officeId;
     }
 
+    public String getOfficeName() {
+        return officeName;
+    }
+
+    public void setOfficeName(String officeName) {
+        this.officeName = officeName;
+    }
+
     public Long getDesignationId() {
         return designationId;
     }
 
     public void setDesignationId(Long designationId) {
         this.designationId = designationId;
+    }
+
+    public String getDesignationName() {
+        return designationName;
+    }
+
+    public void setDesignationName(String designationName) {
+        this.designationName = designationName;
     }
 
     @Override
@@ -369,8 +399,11 @@ public class EmployeeDTO implements Serializable {
             ", userAccount='" + isUserAccount() + "'" +
             ", photo='" + getPhoto() + "'" +
             ", department=" + getDepartmentId() +
+            ", department='" + getDepartmentName() + "'" +
             ", office=" + getOfficeId() +
+            ", office='" + getOfficeName() + "'" +
             ", designation=" + getDesignationId() +
+            ", designation='" + getDesignationName() + "'" +
             "}";
     }
 }

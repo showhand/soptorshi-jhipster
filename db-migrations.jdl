@@ -252,9 +252,9 @@ enum AllowanceCategory {
 }
 
 relationship ManyToOne {
-  Employee{department} to Department,
-  Employee{office} to Office,
-  Employee{designation} to Designation,
+  Employee{department (name)} to Department,
+  Employee{office (name)} to Office,
+  Employee{designation (name)} to Designation,
   Attachment{academicInformation} to AcademicInformation,
   Attachment{trainingInformation} to TrainingInformation,
   Attachment{experienceInformation} to ExperienceInformation,

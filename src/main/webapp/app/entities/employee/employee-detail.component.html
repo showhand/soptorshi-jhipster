@@ -1,13 +1,17 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="employee">
-            <h2><span>{{employee.fullName}}</span></h2>
+            <h2><span>Employee</span> {{employee.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
                 <dt><span>Employee Id</span></dt>
                 <dd>
                     <span>{{employee.employeeId}}</span>
+                </dd>
+                <dt><span>Full Name</span></dt>
+                <dd>
+                    <span>{{employee.fullName}}</span>
                 </dd>
                 <dt><span>Fathers Name</span></dt>
                 <dd>
@@ -105,19 +109,19 @@
                 <dt><span>Department</span></dt>
                 <dd>
                     <div *ngIf="employee.departmentId">
-                        <span>{{department.name}}</span>
+                        <a [routerLink]="['/department', employee.departmentId, 'view']">{{employee.departmentName}}</a>
                     </div>
                 </dd>
                 <dt><span>Office</span></dt>
                 <dd>
                     <div *ngIf="employee.officeId">
-                        <span>{{office.name}}</span>
+                        <a [routerLink]="['/office', employee.officeId, 'view']">{{employee.officeName}}</a>
                     </div>
                 </dd>
                 <dt><span>Designation</span></dt>
                 <dd>
                     <div *ngIf="employee.designationId">
-                        <span>{{designation.name}}</span>
+                        <a [routerLink]="['/designation', employee.designationId, 'view']">{{employee.designationName}}</a>
                     </div>
                 </dd>
             </dl>
