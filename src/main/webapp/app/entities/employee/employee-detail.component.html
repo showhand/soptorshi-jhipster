@@ -9,10 +9,6 @@
                 <dd>
                     <span>{{employee.employeeId}}</span>
                 </dd>
-                <dt><span>Full Name</span></dt>
-                <dd>
-                    <span>{{employee.fullName}}</span>
-                </dd>
                 <dt><span>Fathers Name</span></dt>
                 <dd>
                     <span>{{employee.fathersName}}</span>
@@ -109,19 +105,19 @@
                 <dt><span>Department</span></dt>
                 <dd>
                     <div *ngIf="employee.departmentId">
-                        <a [routerLink]="['/department', employee.departmentId, 'view']">{{employee.departmentName}}</a>
+                        <span>{{department.name}}</span>
                     </div>
                 </dd>
                 <dt><span>Office</span></dt>
                 <dd>
                     <div *ngIf="employee.officeId">
-                        <a [routerLink]="['/office', employee.officeId, 'view']">{{employee.officeName}}</a>
+                        <span>{{office.name}}</span>
                     </div>
                 </dd>
                 <dt><span>Designation</span></dt>
                 <dd>
                     <div *ngIf="employee.designationId">
-                        <a [routerLink]="['/designation', employee.designationId, 'view']">{{employee.designationName}}</a>
+                        <span>{{designation.name}}</span>
                     </div>
                 </dd>
             </dl>

@@ -11,6 +11,7 @@ import { FineAdvanceLoanManagementDetailComponent } from './fine-advance-loan-ma
 import { FineAdvanceLoanManagementUpdateComponent } from './fine-advance-loan-management-update.component';
 import { FineAdvanceLoanManagementDeletePopupComponent } from './fine-advance-loan-management-delete-dialog.component';
 import { IFineAdvanceLoanManagement } from 'app/shared/model/fine-advance-loan-management.model';
+import { JhiResolvePagingParams } from 'ng-jhipster';
 
 @Injectable({ providedIn: 'root' })
 export class FineAdvanceLoanManagementResolve implements Resolve<IFineAdvanceLoanManagement> {
@@ -32,8 +33,12 @@ export const fineAdvanceLoanManagementRoute: Routes = [
     {
         path: '',
         component: FineAdvanceLoanManagementComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+            defaultSort: 'id,asc',
             pageTitle: 'FineAdvanceLoanManagements'
         },
         canActivate: [UserRouteAccessService]
