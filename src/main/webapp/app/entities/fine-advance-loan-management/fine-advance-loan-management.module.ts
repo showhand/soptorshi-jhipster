@@ -11,11 +11,12 @@ import {
     fineAdvanceLoanManagementRoute,
     fineAdvanceLoanManagementPopupRoute
 } from './';
+import { SoptorshiEmployeeModule } from 'app/entities/employee/employee.module';
 
 const ENTITY_STATES = [...fineAdvanceLoanManagementRoute, ...fineAdvanceLoanManagementPopupRoute];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES), SoptorshiEmployeeModule],
     declarations: [
         FineAdvanceLoanManagementComponent,
         FineAdvanceLoanManagementDetailComponent,

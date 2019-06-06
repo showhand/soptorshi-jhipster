@@ -9,6 +9,7 @@ import { IFineAdvanceLoanManagement } from 'app/shared/model/fine-advance-loan-m
 import { AccountService } from 'app/core';
 import { FineAdvanceLoanManagementService } from './fine-advance-loan-management.service';
 import { IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeService } from 'app/entities/employee';
 
 @Component({
     selector: 'jhi-fine-advance-loan-management',
@@ -26,58 +27,20 @@ export class FineAdvanceLoanManagementComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    showFinancialSection: boolean;
 
     constructor(
         protected fineAdvanceLoanManagementService: FineAdvanceLoanManagementService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
-    ) {
-        this.currentSearch =
-            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-                ? this.activatedRoute.snapshot.params['search']
-                : '';
-    }
+        protected accountService: AccountService,
+        protected employeeService: EmployeeService
+    ) {}
 
-    loadAll() {
-        if (this.currentSearch) {
-            this.fineAdvanceLoanManagementService
-                .search({
-                    query: this.currentSearch
-                })
-                .pipe(
-                    filter((res: HttpResponse<IFineAdvanceLoanManagement[]>) => res.ok),
-                    map((res: HttpResponse<IFineAdvanceLoanManagement[]>) => res.body)
-                )
-                .subscribe(
-                    (res: IFineAdvanceLoanManagement[]) => (this.fineAdvanceLoanManagements = res),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            return;
-        }
-        this.fineAdvanceLoanManagementService
-            .query()
-            .pipe(
-                filter((res: HttpResponse<IFineAdvanceLoanManagement[]>) => res.ok),
-                map((res: HttpResponse<IFineAdvanceLoanManagement[]>) => res.body)
-            )
-            .subscribe(
-                (res: IFineAdvanceLoanManagement[]) => {
-                    this.fineAdvanceLoanManagements = res;
-                    this.currentSearch = '';
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-    }
+    loadAll() {}
 
-    search(query) {
-        if (!query) {
-            return this.clear();
-        }
-        this.currentSearch = query;
-        this.loadAll();
-    }
+    search(query) {}
 
     clear() {
         this.currentSearch = '';
@@ -86,6 +49,7 @@ export class FineAdvanceLoanManagementComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
+        this.showFinancialSection = true;
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
