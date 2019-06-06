@@ -5,6 +5,11 @@ export const enum PaymentStatus {
     NOT_PAID = 'NOT_PAID'
 }
 
+export const enum FineFetchType {
+    ALL_EMPLOYEE = 'ALL EMPLOYEES',
+    EMPLOYEE_SPECIFIC = 'EMPLOYEE SPECIFIC'
+}
+
 export interface IFine {
     id?: number;
     amount?: number;
