@@ -8,6 +8,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { IFineAdvanceLoanManagement } from 'app/shared/model/fine-advance-loan-management.model';
 import { AccountService } from 'app/core';
 import { FineAdvanceLoanManagementService } from './fine-advance-loan-management.service';
+import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-fine-advance-loan-management',
@@ -16,8 +17,15 @@ import { FineAdvanceLoanManagementService } from './fine-advance-loan-management
 export class FineAdvanceLoanManagementComponent implements OnInit, OnDestroy {
     fineAdvanceLoanManagements: IFineAdvanceLoanManagement[];
     currentAccount: any;
+    employees: IEmployee[];
     eventSubscriber: Subscription;
     currentSearch: string;
+    totalItems: any;
+    itemsPerPage: any;
+    page: any;
+    predicate: any;
+    previousPage: any;
+    reverse: any;
 
     constructor(
         protected fineAdvanceLoanManagementService: FineAdvanceLoanManagementService,
