@@ -23,7 +23,7 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_fromDate">From Date</label>
                     <div class="input-group">
-                        <input id="field_fromDate" type="text" class="form-control" name="fromDate" ngbDatepicker  #fromDateDp="ngbDatepicker" [(ngModel)]="leaveApplication.fromDate"
+                        <input id="field_fromDate" type="text" class="form-control" name="fromDate" ngbDatepicker  #fromDateDp="ngbDatepicker" [(ngModel)]="leaveApplication.fromDate" (ngModelChange)="calculateDifference()"
                         required/>
                         <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="fromDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
@@ -39,7 +39,7 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_toDate">To Date</label>
                     <div class="input-group">
-                        <input id="field_toDate" type="text" class="form-control" name="toDate" ngbDatepicker  #toDateDp="ngbDatepicker" [(ngModel)]="leaveApplication.toDate"
+                        <input id="field_toDate" type="text" class="form-control" name="toDate" ngbDatepicker  #toDateDp="ngbDatepicker" [(ngModel)]="leaveApplication.toDate" (ngModelChange)="calculateDifference()"
                         required/>
                         <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="toDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>

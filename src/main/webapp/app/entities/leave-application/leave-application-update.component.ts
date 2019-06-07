@@ -84,4 +84,11 @@ export class LeaveApplicationUpdateComponent implements OnInit {
     trackLeaveTypeById(index: number, item: ILeaveType) {
         return item.id;
     }
+
+    calculateDifference() {
+        this.leaveApplication.numberOfDays =
+            this.leaveApplication.toDate && this.leaveApplication.fromDate
+                ? this.leaveApplication.toDate.diff(this.leaveApplication.fromDate, 'days') + 1
+                : 0;
+    }
 }
