@@ -13,6 +13,7 @@ export class JhiMainComponent implements OnInit {
     configuration: any;
     employeeManagement: any;
     holidayManagement: any;
+    leaveManagement: any;
     isDesktop: boolean;
 
     constructor(

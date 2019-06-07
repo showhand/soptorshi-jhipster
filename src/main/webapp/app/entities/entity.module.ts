@@ -170,6 +170,18 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'payroll-management',
                 loadChildren: './payroll-management/payroll-management.module#SoptorshiPayrollManagementModule'
+            },
+            {
+                path: 'leave-type',
+                loadChildren: './leave-type/leave-type.module#SoptorshiLeaveTypeModule'
+            },
+            {
+                path: 'leave-application',
+                loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModule'
+            },
+            {
+                path: 'leave-attachment',
+                loadChildren: './leave-attachment/leave-attachment.module#SoptorshiLeaveAttachmentModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

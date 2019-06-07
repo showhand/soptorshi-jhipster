@@ -1,0 +1,154 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-leave-application-heading">Create or edit a Leave Application</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!leaveApplication.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="leaveApplication.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employeeId">Employee Id</label>
+                    <input type="text" class="form-control" name="employeeId" id="field_employeeId"
+                        [(ngModel)]="leaveApplication.employeeId" required/>
+                    <div [hidden]="!(editForm.controls.employeeId?.dirty && editForm.controls.employeeId?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.employeeId?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fromDate">From Date</label>
+                    <div class="input-group">
+                        <input id="field_fromDate" type="text" class="form-control" name="fromDate" ngbDatepicker  #fromDateDp="ngbDatepicker" [(ngModel)]="leaveApplication.fromDate"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="fromDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.fromDate?.dirty && editForm.controls.fromDate?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.fromDate?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_toDate">To Date</label>
+                    <div class="input-group">
+                        <input id="field_toDate" type="text" class="form-control" name="toDate" ngbDatepicker  #toDateDp="ngbDatepicker" [(ngModel)]="leaveApplication.toDate"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="toDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.toDate?.dirty && editForm.controls.toDate?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.toDate?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_numberOfDays">Number Of Days</label>
+                    <input type="number" class="form-control" name="numberOfDays" id="field_numberOfDays"
+                        [(ngModel)]="leaveApplication.numberOfDays" required/>
+                    <div [hidden]="!(editForm.controls.numberOfDays?.dirty && editForm.controls.numberOfDays?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.numberOfDays?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.numberOfDays?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reason">Reason</label>
+                    <input type="text" class="form-control" name="reason" id="field_reason"
+                        [(ngModel)]="leaveApplication.reason" required maxlength="250"/>
+                    <div [hidden]="!(editForm.controls.reason?.dirty && editForm.controls.reason?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.reason?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.reason?.errors?.maxlength">
+                        This field cannot be longer than 250 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_appliedBy">Applied By</label>
+                    <input type="text" class="form-control" name="appliedBy" id="field_appliedBy"
+                        [(ngModel)]="leaveApplication.appliedBy" required/>
+                    <div [hidden]="!(editForm.controls.appliedBy?.dirty && editForm.controls.appliedBy?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.appliedBy?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_appliedOn">Applied On</label>
+                    <div class="d-flex">
+                        <input id="field_appliedOn" type="datetime-local" class="form-control" name="appliedOn" [(ngModel)]="appliedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_actionTakenBy">Action Taken By</label>
+                    <input type="text" class="form-control" name="actionTakenBy" id="field_actionTakenBy"
+                        [(ngModel)]="leaveApplication.actionTakenBy" required/>
+                    <div [hidden]="!(editForm.controls.actionTakenBy?.dirty && editForm.controls.actionTakenBy?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.actionTakenBy?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_actionTakenOn">Action Taken On</label>
+                    <div class="d-flex">
+                        <input id="field_actionTakenOn" type="datetime-local" class="form-control" name="actionTakenOn" [(ngModel)]="actionTakenOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" [(ngModel)]="leaveApplication.status" id="field_status"  required>
+                        <option value="WAITING">WAITING</option>
+                        <option value="ACCEPTED">ACCEPTED</option>
+                        <option value="REJECTED">REJECTED</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.status?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_leaveTypes">Leave Types</label>
+                    <select class="form-control" id="field_leaveTypes" name="leaveTypes" [(ngModel)]="leaveApplication.leaveTypesId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="leaveTypeOption.id" *ngFor="let leaveTypeOption of leavetypes; trackBy: trackLeaveTypeById">{{leaveTypeOption.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

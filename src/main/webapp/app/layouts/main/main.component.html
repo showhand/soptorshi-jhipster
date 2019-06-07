@@ -207,6 +207,30 @@
                     <span>Payroll Management</span>
                 </a>
             </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                <a (click)="leaveManagement=!leaveManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
+                     <span>
+                        <fa-icon icon="calendar-alt" fixedWidth="true"></fa-icon>
+                        <span>
+                            Leave Manag.
+                        </span>
+                    </span>
+                </a>
+                <ul [ngbCollapse]="!leaveManagement" class="list-unstyled" id="leave-management">
+                    <li>
+                        <a class="dropdown-item" routerLink="leave-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <fa-icon icon="bars" fixedWidth="true"></fa-icon>
+                            <span>Leave Type</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="leave-application" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <fa-icon icon="plane" fixedWidth="true"></fa-icon>
+                            <span>Leave</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
            <!-- <li>
                 <a href="#">About</a>
             </li>
