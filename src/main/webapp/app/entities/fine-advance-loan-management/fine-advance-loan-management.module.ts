@@ -12,6 +12,7 @@ import {
     fineAdvanceLoanManagementPopupRoute
 } from './';
 import { SoptorshiEmployeeModule } from 'app/entities/employee/employee.module';
+import { SoptorshiFineModule } from 'app/entities/fine/fine.module';
 
 const ENTITY_STATES = [...fineAdvanceLoanManagementRoute, ...fineAdvanceLoanManagementPopupRoute];
 

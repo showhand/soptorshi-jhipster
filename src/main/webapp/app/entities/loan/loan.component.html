@@ -9,53 +9,27 @@
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+
     <br/>
     <div class="table-responsive" *ngIf="loans">
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="takenOn"><span>Taken On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="monthlyPayable"><span>Monthly Payable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="paymentStatus"><span>Payment Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="left"><span>Left</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedDate"><span>Modified Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let loan of loans ;trackBy: trackId">
-                <td><a [routerLink]="['/loan', loan.id, 'view' ]">{{loan.id}}</a></td>
                 <td>{{loan.amount}}</td>
                 <td>{{loan.takenOn | date:'mediumDate'}}</td>
                 <td>{{loan.monthlyPayable}}</td>
                 <td>{{loan.paymentStatus}}</td>
                 <td>{{loan.left}}</td>
-                <td>{{loan.modifiedBy}}</td>
-                <td>{{loan.modifiedDate | date:'mediumDate'}}</td>
-                <td>
-                    <div *ngIf="loan.employeeId">
-                        <a [routerLink]="['../employee', loan.employeeId , 'view' ]" >{{loan.employeeFullName}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
@@ -71,9 +45,7 @@
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'loan', { outlets: { popup: loan.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                                (click)="delete(loan.id)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline">Delete</span>
@@ -91,6 +63,11 @@
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+    <div class="row" *ngIf="loan.employeeId">
+        <div class="col-12" align="right">
+            <button class="btn btn-danger" (click)="goBack()" >Back</button>
         </div>
     </div>
 </div>

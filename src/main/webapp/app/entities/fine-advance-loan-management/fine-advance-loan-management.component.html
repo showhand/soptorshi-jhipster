@@ -1,15 +1,15 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12">
         <jhi-alert></jhi-alert>
     </div>
 </div>
 <div class="row justify-content-center">
-    <div class="col-4">
+    <div class="col-6">
         <h2 id="page-heading">
             <span> Employeess</span>
         </h2>
     </div>
-    <div class="col-4">
+    <div class="col-6">
         <form name="searchForm" class="form-inline">
             <div class="input-group w-100 mt-3">
                 <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
@@ -28,7 +28,7 @@
     </div>
 </div>
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12">
         <div class="table-responsive" *ngIf="employees">
             <table class="table table-striped">
                 <thead>
@@ -55,10 +55,28 @@
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
-                                    [routerLink]="['/employee', employee.id, 'view' ]"
+                                    [routerLink]="['/fine', employee.employeeLongId,'employee']"
                                     class="btn btn-info btn-sm">
-                                <fa-icon [icon]="'eye'"></fa-icon>
-                                <span class="d-none d-md-inline">Detail</span>
+                                <fa-icon [icon]="'money-bill-wave'"></fa-icon>
+                                <span class="d-none d-md-inline">Fine</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/loan', employee.employeeLongId, 'employee' ]"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'money-bill-alt'"></fa-icon>
+                                <span class="d-none d-md-inline">Loan</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/fine-advance-loan-management', employee.id, 'view' ]"
+                                    class="btn btn-secondary btn-sm">
+                                <fa-icon [icon]="'credit-card'"></fa-icon>
+                                <span class="d-none d-md-inline">Advance</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/fine-advance-loan-management', employee.id, 'view' ]"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'piggy-bank'"></fa-icon>
+                                <span class="d-none d-md-inline">Provident</span>
                             </button>
                         </div>
                     </td>
@@ -76,5 +94,4 @@
             </div>
         </div>
     </div>
-
 </div>

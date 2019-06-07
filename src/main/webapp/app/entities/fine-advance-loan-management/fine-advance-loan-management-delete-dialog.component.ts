@@ -6,6 +6,10 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { IFineAdvanceLoanManagement } from 'app/shared/model/fine-advance-loan-management.model';
 import { FineAdvanceLoanManagementService } from './fine-advance-loan-management.service';
+import { FineService } from 'app/entities/fine';
+import { AdvanceService } from 'app/entities/advance';
+import { LoanService } from 'app/entities/loan';
+import { ProvidentFundService } from 'app/entities/provident-fund';
 
 @Component({
     selector: 'jhi-fine-advance-loan-management-delete-dialog',

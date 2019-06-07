@@ -18,6 +18,7 @@ const ENTITY_STATES = [...fineRoute, ...finePopupRoute];
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [FineComponent, FineDetailComponent, FineUpdateComponent, FineDeleteDialogComponent, FineDeletePopupComponent],
     entryComponents: [FineComponent, FineUpdateComponent, FineDeleteDialogComponent, FineDeletePopupComponent],
+    exports: [FineComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiFineModule {}

@@ -78,12 +78,29 @@ export class FineAdvanceLoanManagementComponent implements OnInit, OnDestroy {
                 sort: this.sort()
             })
             .subscribe(
-                (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                (res: HttpResponse<IEmployee[]>) => {
+                    this.paginateEmployees(res.body, res.headers);
+                },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
 
-    search(query) {}
+    search(query) {
+        if (!query) {
+            return this.clear();
+        }
+        this.page = 0;
+        this.currentSearch = query;
+        this.router.navigate([
+            '/fine-advance-loan-management',
+            {
+                search: this.currentSearch,
+                page: this.page,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        ]);
+        this.loadAll();
+    }
 
     sort() {
         const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
@@ -146,5 +163,6 @@ export class FineAdvanceLoanManagementComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.employees = data;
+        this.employees.forEach((e: IEmployee) => (e.employeeLongId = e.id));
     }
 }

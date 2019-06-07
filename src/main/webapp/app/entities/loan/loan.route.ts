@@ -19,11 +19,16 @@ export class LoanResolve implements Resolve<ILoan> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ILoan> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeLongId = route.params['employeeLongId'] ? route.params['employeeLongId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<Loan>) => response.ok),
                 map((loan: HttpResponse<Loan>) => loan.body)
             );
+        } else if (employeeLongId) {
+            let loan = new Loan();
+            loan.employeeId = employeeLongId;
+            return of(loan);
         }
         return of(new Loan());
     }
@@ -37,7 +42,21 @@ export const loanRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+            defaultSort: 'id,asc',
+            pageTitle: 'Loans'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeLongId/employee',
+        component: LoanComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams,
+            loan: LoanResolve
+        },
+        data: {
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Loans'
         },
@@ -50,7 +69,7 @@ export const loanRoute: Routes = [
             loan: LoanResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'Loans'
         },
         canActivate: [UserRouteAccessService]
@@ -62,7 +81,7 @@ export const loanRoute: Routes = [
             loan: LoanResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'Loans'
         },
         canActivate: [UserRouteAccessService]
@@ -74,7 +93,7 @@ export const loanRoute: Routes = [
             loan: LoanResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'Loans'
         },
         canActivate: [UserRouteAccessService]
@@ -89,7 +108,7 @@ export const loanPopupRoute: Routes = [
             loan: LoanResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'Loans'
         },
         canActivate: [UserRouteAccessService],

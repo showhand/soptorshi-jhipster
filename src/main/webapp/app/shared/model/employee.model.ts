@@ -34,6 +34,7 @@ export const enum EmploymentType {
 
 export interface IEmployee {
     id?: number;
+    employeeLongId?: number;
     employeeId?: string;
     fullName?: string;
     fathersName?: string;
