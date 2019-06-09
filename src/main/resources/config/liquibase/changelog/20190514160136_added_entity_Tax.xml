@@ -22,7 +22,15 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="minimum_salary" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="rate" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="tax_status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 

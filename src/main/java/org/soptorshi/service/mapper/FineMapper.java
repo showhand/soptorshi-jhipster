@@ -12,6 +12,7 @@ import org.mapstruct.*;
 public interface FineMapper extends EntityMapper<FineDTO, Fine> {
 
     @Mapping(source = "employee.id", target = "employeeId")
+    @Mapping(source = "employee.fullName", target = "employeeFullName")
     FineDTO toDto(Fine fine);
 
     @Mapping(source = "employeeId", target = "employee")

@@ -32,17 +32,12 @@ public class Fine implements Serializable {
     @Column(name = "amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal amount;
 
-    
-    @Lob
-    @Column(name = "reason", nullable = false)
-    private byte[] reason;
-
-    @Column(name = "reason_content_type", nullable = false)
-    private String reasonContentType;
-
     @NotNull
     @Column(name = "fine_date", nullable = false)
     private LocalDate fineDate;
+
+    @Column(name = "monthly_payable")
+    private Double monthlyPayable;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
@@ -52,10 +47,14 @@ public class Fine implements Serializable {
     private BigDecimal left;
 
     @Column(name = "modified_by")
-    private Long modifiedBy;
+    private String modifiedBy;
 
     @Column(name = "modified_date")
     private LocalDate modifiedDate;
+
+    @Lob
+    @Column(name = "reason")
+    private String reason;
 
     @ManyToOne
     @JsonIgnoreProperties("fines")
@@ -83,32 +82,6 @@ public class Fine implements Serializable {
         this.amount = amount;
     }
 
-    public byte[] getReason() {
-        return reason;
-    }
-
-    public Fine reason(byte[] reason) {
-        this.reason = reason;
-        return this;
-    }
-
-    public void setReason(byte[] reason) {
-        this.reason = reason;
-    }
-
-    public String getReasonContentType() {
-        return reasonContentType;
-    }
-
-    public Fine reasonContentType(String reasonContentType) {
-        this.reasonContentType = reasonContentType;
-        return this;
-    }
-
-    public void setReasonContentType(String reasonContentType) {
-        this.reasonContentType = reasonContentType;
-    }
-
     public LocalDate getFineDate() {
         return fineDate;
     }
@@ -120,6 +93,19 @@ public class Fine implements Serializable {
 
     public void setFineDate(LocalDate fineDate) {
         this.fineDate = fineDate;
+    }
+
+    public Double getMonthlyPayable() {
+        return monthlyPayable;
+    }
+
+    public Fine monthlyPayable(Double monthlyPayable) {
+        this.monthlyPayable = monthlyPayable;
+        return this;
+    }
+
+    public void setMonthlyPayable(Double monthlyPayable) {
+        this.monthlyPayable = monthlyPayable;
     }
 
     public PaymentStatus getPaymentStatus() {
@@ -148,16 +134,16 @@ public class Fine implements Serializable {
         this.left = left;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public Fine modifiedBy(Long modifiedBy) {
+    public Fine modifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
         return this;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -172,6 +158,19 @@ public class Fine implements Serializable {
 
     public void setModifiedDate(LocalDate modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public Fine reason(String reason) {
+        this.reason = reason;
+        return this;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public Employee getEmployee() {
@@ -213,13 +212,13 @@ public class Fine implements Serializable {
         return "Fine{" +
             "id=" + getId() +
             ", amount=" + getAmount() +
-            ", reason='" + getReason() + "'" +
-            ", reasonContentType='" + getReasonContentType() + "'" +
             ", fineDate='" + getFineDate() + "'" +
+            ", monthlyPayable=" + getMonthlyPayable() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", left=" + getLeft() +
-            ", modifiedBy=" + getModifiedBy() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedDate='" + getModifiedDate() + "'" +
+            ", reason='" + getReason() + "'" +
             "}";
     }
 }

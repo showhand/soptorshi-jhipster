@@ -524,6 +524,7 @@
                     <artifactId>liquibase-maven-plugin</artifactId>
                     <version>${liquibase.version}</version>
                     <configuration>
+                        <clearCheckSums>true</clearCheckSums>
                         <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
                         <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                         <driver>com.mysql.jdbc.Driver</driver>

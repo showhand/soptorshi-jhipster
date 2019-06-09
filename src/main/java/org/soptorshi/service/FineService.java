@@ -3,6 +3,7 @@ package org.soptorshi.service;
 import org.soptorshi.domain.Fine;
 import org.soptorshi.repository.FineRepository;
 import org.soptorshi.repository.search.FineSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.FineDTO;
 import org.soptorshi.service.mapper.FineMapper;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -47,6 +49,8 @@ public class FineService {
     public FineDTO save(FineDTO fineDTO) {
         log.debug("Request to save Fine : {}", fineDTO);
         Fine fine = fineMapper.toEntity(fineDTO);
+        fine.setModifiedBy(SecurityUtils.getCurrentUserLogin().toString());
+        fine.setModifiedDate(LocalDate.now());
         fine = fineRepository.save(fine);
         FineDTO result = fineMapper.toDto(fine);
         fineSearchRepository.save(fine);

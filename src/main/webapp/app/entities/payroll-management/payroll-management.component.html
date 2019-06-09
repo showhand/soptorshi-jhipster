@@ -6,15 +6,32 @@
                 <form >
                     <div class="form-group form-inline">
                         <label  for="office" class="col-3 form-control-label" align="left">Office</label>
-                        <select class="col-9 form-control" name="office" id="office" [(ngModel)]="payrollManagement.office">
-                            <option [ngValue]="officeOption" *ngFor="let officeOption of officeList">{{officeOption.name}}</option>
+                        <select class="col-9 form-control" name="office" id="office" [(ngModel)]="payrollManagement.officeId">
+                            <option [ngValue]="officeOption.id" *ngFor="let officeOption of officeList">{{officeOption.name}}</option>
                         </select>
 
                     </div>
                     <div class="form-group form-inline">
                         <label for="designation" class="col-3 form-control-label" align="left">Designation</label>
-                        <select class="col-9 form-control" name="designation" id="designation" [(ngModel)]="payrollManagement.designation">
-                            <option [ngValue]="designationOption" *ngFor="let designationOption of designationList">{{designationOption.name}}</option>
+                        <select class="col-9 form-control" name="designation" id="designation" [(ngModel)]="payrollManagement.designationId">
+                            <option [ngValue]="designationOption.id" *ngFor="let designationOption of designationList">{{designationOption.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label class="form-control-label" class="col-3" for="monthType">Month</label>
+                        <select  class="col-9 form-control" name="month" [(ngModel)]="payrollManagement.monthType" id="monthType"  required>
+                            <option value="JANUARY">JANUARY</option>
+                            <option value="FEBRUARY">FEBRUARY</option>
+                            <option value="MARCH">MARCH</option>
+                            <option value="APRIL">APRIL</option>
+                            <option value="MAY">MAY</option>
+                            <option value="JUNE">JUNE</option>
+                            <option value="JULY">JULY</option>
+                            <option value="AUGUST">AUGUST</option>
+                            <option value="SEPTEMBER">SEPTEMBER</option>
+                            <option value="OCTOBER">OCTOBER</option>
+                            <option value="NOVEMBER">NOVEMBER</option>
+                            <option value="DECEMBER">DECEMBER</option>
                         </select>
                     </div>
                 </form>
@@ -22,7 +39,7 @@
             </div>
             <div class="card-footer" align="right">
                 <button class="btn btn
-            -secondary">Search</button>
+            -secondary" (click)="fetch()">Fetch</button>
             </div>
         </div>
     </div>
@@ -30,7 +47,28 @@
         <div class="card" style="min-height: 350px;">
             <div class="card-header text-white bg-secondary">Employee List</div>
             <div class="card-body">
-
+                <div class="table-responsive" *ngIf="employees">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th >Employee Id</th>
+                            <th >Name</th>
+                            <th>Salary</th>
+                            <th>Gloss Salary</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let employee of employees">
+                            <td>{{employee.employeeId}}</td>
+                            <td>{{employee.fullName}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

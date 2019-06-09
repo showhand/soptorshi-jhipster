@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SalaryService } from 'app/entities/salary/salary.service';
-import { ISalary, Salary } from 'app/shared/model/salary.model';
+import { ISalary, Salary, SalaryStatus } from 'app/shared/model/salary.model';
 
 describe('Service Tests', () => {
     describe('Salary Service', () => {
@@ -25,13 +25,15 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Salary(0, 0, 0, 0, 0, 0, 0, currentDate);
+            elemDefault = new Salary(0, 0, currentDate, currentDate, SalaryStatus.ACTIVE, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
+                        startedOn: currentDate.format(DATE_FORMAT),
+                        endedOn: currentDate.format(DATE_FORMAT),
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
@@ -49,12 +51,16 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
+                        startedOn: currentDate.format(DATE_FORMAT),
+                        endedOn: currentDate.format(DATE_FORMAT),
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
+                        startedOn: currentDate,
+                        endedOn: currentDate,
                         modifiedOn: currentDate
                     },
                     returnedFromService
@@ -71,11 +77,10 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         basic: 1,
-                        houseRent: 1,
-                        medicalAllowance: 1,
-                        incrementRate: 1,
-                        otherAllowance: 1,
-                        modifiedBy: 1,
+                        startedOn: currentDate.format(DATE_FORMAT),
+                        endedOn: currentDate.format(DATE_FORMAT),
+                        salaryStatus: 'BBBBBB',
+                        modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
@@ -83,6 +88,8 @@ describe('Service Tests', () => {
 
                 const expected = Object.assign(
                     {
+                        startedOn: currentDate,
+                        endedOn: currentDate,
                         modifiedOn: currentDate
                     },
                     returnedFromService
@@ -99,17 +106,18 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         basic: 1,
-                        houseRent: 1,
-                        medicalAllowance: 1,
-                        incrementRate: 1,
-                        otherAllowance: 1,
-                        modifiedBy: 1,
+                        startedOn: currentDate.format(DATE_FORMAT),
+                        endedOn: currentDate.format(DATE_FORMAT),
+                        salaryStatus: 'BBBBBB',
+                        modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
+                        startedOn: currentDate,
+                        endedOn: currentDate,
                         modifiedOn: currentDate
                     },
                     returnedFromService

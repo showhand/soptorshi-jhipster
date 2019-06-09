@@ -7,7 +7,10 @@ import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
+
+import org.soptorshi.domain.enumeration.TaxStatus;
 
 /**
  * A Tax.
@@ -23,8 +26,15 @@ public class Tax implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "minimum_salary", precision = 10, scale = 2)
+    private BigDecimal minimumSalary;
+
     @Column(name = "rate")
     private Double rate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tax_status")
+    private TaxStatus taxStatus;
 
     @ManyToOne
     @JsonIgnoreProperties("taxes")
@@ -39,6 +49,19 @@ public class Tax implements Serializable {
         this.id = id;
     }
 
+    public BigDecimal getMinimumSalary() {
+        return minimumSalary;
+    }
+
+    public Tax minimumSalary(BigDecimal minimumSalary) {
+        this.minimumSalary = minimumSalary;
+        return this;
+    }
+
+    public void setMinimumSalary(BigDecimal minimumSalary) {
+        this.minimumSalary = minimumSalary;
+    }
+
     public Double getRate() {
         return rate;
     }
@@ -50,6 +73,19 @@ public class Tax implements Serializable {
 
     public void setRate(Double rate) {
         this.rate = rate;
+    }
+
+    public TaxStatus getTaxStatus() {
+        return taxStatus;
+    }
+
+    public Tax taxStatus(TaxStatus taxStatus) {
+        this.taxStatus = taxStatus;
+        return this;
+    }
+
+    public void setTaxStatus(TaxStatus taxStatus) {
+        this.taxStatus = taxStatus;
     }
 
     public FinancialAccountYear getFinancialAccountYear() {
@@ -90,7 +126,9 @@ public class Tax implements Serializable {
     public String toString() {
         return "Tax{" +
             "id=" + getId() +
+            ", minimumSalary=" + getMinimumSalary() +
             ", rate=" + getRate() +
+            ", taxStatus='" + getTaxStatus() + "'" +
             "}";
     }
 }

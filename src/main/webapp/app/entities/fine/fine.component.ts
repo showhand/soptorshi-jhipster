@@ -30,6 +30,7 @@ export class FineComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    fine: IFine;
 
     constructor(
         protected fineService: FineService,
@@ -71,6 +72,7 @@ export class FineComponent implements OnInit, OnDestroy {
         }
         this.fineService
             .query({
+                'employeeId.equals': this.fine.employeeId,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -98,6 +100,10 @@ export class FineComponent implements OnInit, OnDestroy {
             }
         });
         this.loadAll();
+    }
+
+    back() {
+        window.history.back();
     }
 
     clear() {
@@ -130,8 +136,15 @@ export class FineComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
+    delete(id: number) {
+        this.fineService.delete(id).subscribe((res: any) => this.loadAll(), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ fine }) => {
+            this.fine = fine;
+            this.loadAll();
+        });
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });

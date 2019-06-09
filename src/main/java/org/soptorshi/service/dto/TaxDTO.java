@@ -1,6 +1,8 @@
 package org.soptorshi.service.dto;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.TaxStatus;
 
 /**
  * A DTO for the Tax entity.
@@ -9,7 +11,11 @@ public class TaxDTO implements Serializable {
 
     private Long id;
 
+    private BigDecimal minimumSalary;
+
     private Double rate;
+
+    private TaxStatus taxStatus;
 
 
     private Long financialAccountYearId;
@@ -22,12 +28,28 @@ public class TaxDTO implements Serializable {
         this.id = id;
     }
 
+    public BigDecimal getMinimumSalary() {
+        return minimumSalary;
+    }
+
+    public void setMinimumSalary(BigDecimal minimumSalary) {
+        this.minimumSalary = minimumSalary;
+    }
+
     public Double getRate() {
         return rate;
     }
 
     public void setRate(Double rate) {
         this.rate = rate;
+    }
+
+    public TaxStatus getTaxStatus() {
+        return taxStatus;
+    }
+
+    public void setTaxStatus(TaxStatus taxStatus) {
+        this.taxStatus = taxStatus;
     }
 
     public Long getFinancialAccountYearId() {
@@ -63,7 +85,9 @@ public class TaxDTO implements Serializable {
     public String toString() {
         return "TaxDTO{" +
             "id=" + getId() +
+            ", minimumSalary=" + getMinimumSalary() +
             ", rate=" + getRate() +
+            ", taxStatus='" + getTaxStatus() + "'" +
             ", financialAccountYear=" + getFinancialAccountYearId() +
             "}";
     }

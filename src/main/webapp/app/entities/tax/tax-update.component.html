@@ -10,9 +10,21 @@
                         [(ngModel)]="tax.id" readonly />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_minimumSalary">Minimum Salary</label>
+                    <input type="number" class="form-control" name="minimumSalary" id="field_minimumSalary"
+                        [(ngModel)]="tax.minimumSalary" />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_rate">Rate</label>
                     <input type="number" class="form-control" name="rate" id="field_rate"
                         [(ngModel)]="tax.rate" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_taxStatus">Tax Status</label>
+                    <select class="form-control" name="taxStatus" [(ngModel)]="tax.taxStatus" id="field_taxStatus" >
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="INACTIVE">INACTIVE</option>
+                    </select>
                 </div>
 
                 <div class="form-group">

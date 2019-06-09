@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService, JhiParseLinks } from 'ng-jhipster';
 
 import { IPayrollManagement, PayrollManagement } from 'app/shared/model/payroll-management.model';
 import { AccountService } from 'app/core';
@@ -12,6 +12,8 @@ import { Office } from 'app/shared/model/office.model';
 import { Designation } from 'app/shared/model/designation.model';
 import { OfficeService } from 'app/entities/office';
 import { DesignationService } from 'app/entities/designation';
+import { EmployeeService } from 'app/entities/employee';
+import { Employee, IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-payroll-management',
@@ -26,6 +28,11 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     designationList: Designation[];
     predicate: any;
     reverse: any;
+    page: number;
+    itemPerPage: number;
+    employees: Employee[];
+    links: any;
+    totalItems: any;
 
     constructor(
         protected payrollManagementService: PayrollManagementService,
@@ -34,11 +41,36 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService,
         protected officeService: OfficeService,
-        protected designationService: DesignationService
+        protected designationService: DesignationService,
+        protected employeeService: EmployeeService,
+        protected parseLinks: JhiParseLinks
     ) {
         this.predicate = 'id';
         this.reverse = false;
         this.payrollManagement = new PayrollManagement();
+        this.page = 1;
+        this.itemPerPage = 15;
+    }
+
+    fetch() {
+        this.employeeService
+            .query({
+                page: this.page - 1,
+                size: this.itemPerPage,
+                'designationId.equals': this.payrollManagement.designationId,
+                'officeId.equals': this.payrollManagement.officeId,
+                'employeeStatus.equals': 'ACTIVE'
+            })
+            .subscribe(
+                (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
+
+    protected paginateEmployees(data: IEmployee[], headers: HttpHeaders) {
+        this.links = this.parseLinks.parse(headers.get('link'));
+        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        this.employees = data;
     }
 
     loadAll() {
@@ -53,7 +85,6 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
                     this.officeList = res.body;
                     console.log('Office list');
                     console.log(this.officeList);
-                    this.payrollManagement.office = this.officeList[0];
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
@@ -67,7 +98,6 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<Designation[]>) => {
                     this.designationList = res.body;
-                    this.payrollManagement.designation = this.designationList[0];
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );

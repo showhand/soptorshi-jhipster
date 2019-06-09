@@ -60,13 +60,11 @@ public class FineResourceIntTest {
     private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
 
-    private static final byte[] DEFAULT_REASON = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_REASON = TestUtil.createByteArray(1, "1");
-    private static final String DEFAULT_REASON_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_REASON_CONTENT_TYPE = "image/png";
-
     private static final LocalDate DEFAULT_FINE_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_FINE_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final Double DEFAULT_MONTHLY_PAYABLE = 1D;
+    private static final Double UPDATED_MONTHLY_PAYABLE = 2D;
 
     private static final PaymentStatus DEFAULT_PAYMENT_STATUS = PaymentStatus.PAID;
     private static final PaymentStatus UPDATED_PAYMENT_STATUS = PaymentStatus.NOT_PAID;
@@ -74,11 +72,14 @@ public class FineResourceIntTest {
     private static final BigDecimal DEFAULT_LEFT = new BigDecimal(1);
     private static final BigDecimal UPDATED_LEFT = new BigDecimal(2);
 
-    private static final Long DEFAULT_MODIFIED_BY = 1L;
-    private static final Long UPDATED_MODIFIED_BY = 2L;
+    private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final LocalDate DEFAULT_MODIFIED_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_MODIFIED_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final String DEFAULT_REASON = "AAAAAAAAAA";
+    private static final String UPDATED_REASON = "BBBBBBBBBB";
 
     @Autowired
     private FineRepository fineRepository;
@@ -140,13 +141,13 @@ public class FineResourceIntTest {
     public static Fine createEntity(EntityManager em) {
         Fine fine = new Fine()
             .amount(DEFAULT_AMOUNT)
-            .reason(DEFAULT_REASON)
-            .reasonContentType(DEFAULT_REASON_CONTENT_TYPE)
             .fineDate(DEFAULT_FINE_DATE)
+            .monthlyPayable(DEFAULT_MONTHLY_PAYABLE)
             .paymentStatus(DEFAULT_PAYMENT_STATUS)
             .left(DEFAULT_LEFT)
             .modifiedBy(DEFAULT_MODIFIED_BY)
-            .modifiedDate(DEFAULT_MODIFIED_DATE);
+            .modifiedDate(DEFAULT_MODIFIED_DATE)
+            .reason(DEFAULT_REASON);
         return fine;
     }
 
@@ -172,13 +173,13 @@ public class FineResourceIntTest {
         assertThat(fineList).hasSize(databaseSizeBeforeCreate + 1);
         Fine testFine = fineList.get(fineList.size() - 1);
         assertThat(testFine.getAmount()).isEqualTo(DEFAULT_AMOUNT);
-        assertThat(testFine.getReason()).isEqualTo(DEFAULT_REASON);
-        assertThat(testFine.getReasonContentType()).isEqualTo(DEFAULT_REASON_CONTENT_TYPE);
         assertThat(testFine.getFineDate()).isEqualTo(DEFAULT_FINE_DATE);
+        assertThat(testFine.getMonthlyPayable()).isEqualTo(DEFAULT_MONTHLY_PAYABLE);
         assertThat(testFine.getPaymentStatus()).isEqualTo(DEFAULT_PAYMENT_STATUS);
         assertThat(testFine.getLeft()).isEqualTo(DEFAULT_LEFT);
         assertThat(testFine.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testFine.getModifiedDate()).isEqualTo(DEFAULT_MODIFIED_DATE);
+        assertThat(testFine.getReason()).isEqualTo(DEFAULT_REASON);
 
         // Validate the Fine in Elasticsearch
         verify(mockFineSearchRepository, times(1)).save(testFine);
@@ -257,13 +258,13 @@ public class FineResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(fine.getId().intValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].reasonContentType").value(hasItem(DEFAULT_REASON_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].reason").value(hasItem(Base64Utils.encodeToString(DEFAULT_REASON))))
             .andExpect(jsonPath("$.[*].fineDate").value(hasItem(DEFAULT_FINE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].monthlyPayable").value(hasItem(DEFAULT_MONTHLY_PAYABLE.doubleValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())));
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())));
     }
     
     @Test
@@ -278,13 +279,13 @@ public class FineResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(fine.getId().intValue()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
-            .andExpect(jsonPath("$.reasonContentType").value(DEFAULT_REASON_CONTENT_TYPE))
-            .andExpect(jsonPath("$.reason").value(Base64Utils.encodeToString(DEFAULT_REASON)))
             .andExpect(jsonPath("$.fineDate").value(DEFAULT_FINE_DATE.toString()))
+            .andExpect(jsonPath("$.monthlyPayable").value(DEFAULT_MONTHLY_PAYABLE.doubleValue()))
             .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS.toString()))
             .andExpect(jsonPath("$.left").value(DEFAULT_LEFT.intValue()))
-            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.intValue()))
-            .andExpect(jsonPath("$.modifiedDate").value(DEFAULT_MODIFIED_DATE.toString()));
+            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
+            .andExpect(jsonPath("$.modifiedDate").value(DEFAULT_MODIFIED_DATE.toString()))
+            .andExpect(jsonPath("$.reason").value(DEFAULT_REASON.toString()));
     }
 
     @Test
@@ -391,6 +392,45 @@ public class FineResourceIntTest {
         defaultFineShouldBeFound("fineDate.lessThan=" + UPDATED_FINE_DATE);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllFinesByMonthlyPayableIsEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where monthlyPayable equals to DEFAULT_MONTHLY_PAYABLE
+        defaultFineShouldBeFound("monthlyPayable.equals=" + DEFAULT_MONTHLY_PAYABLE);
+
+        // Get all the fineList where monthlyPayable equals to UPDATED_MONTHLY_PAYABLE
+        defaultFineShouldNotBeFound("monthlyPayable.equals=" + UPDATED_MONTHLY_PAYABLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByMonthlyPayableIsInShouldWork() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where monthlyPayable in DEFAULT_MONTHLY_PAYABLE or UPDATED_MONTHLY_PAYABLE
+        defaultFineShouldBeFound("monthlyPayable.in=" + DEFAULT_MONTHLY_PAYABLE + "," + UPDATED_MONTHLY_PAYABLE);
+
+        // Get all the fineList where monthlyPayable equals to UPDATED_MONTHLY_PAYABLE
+        defaultFineShouldNotBeFound("monthlyPayable.in=" + UPDATED_MONTHLY_PAYABLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByMonthlyPayableIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where monthlyPayable is not null
+        defaultFineShouldBeFound("monthlyPayable.specified=true");
+
+        // Get all the fineList where monthlyPayable is null
+        defaultFineShouldNotBeFound("monthlyPayable.specified=false");
+    }
 
     @Test
     @Transactional
@@ -511,33 +551,6 @@ public class FineResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllFinesByModifiedByIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        fineRepository.saveAndFlush(fine);
-
-        // Get all the fineList where modifiedBy greater than or equals to DEFAULT_MODIFIED_BY
-        defaultFineShouldBeFound("modifiedBy.greaterOrEqualThan=" + DEFAULT_MODIFIED_BY);
-
-        // Get all the fineList where modifiedBy greater than or equals to UPDATED_MODIFIED_BY
-        defaultFineShouldNotBeFound("modifiedBy.greaterOrEqualThan=" + UPDATED_MODIFIED_BY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllFinesByModifiedByIsLessThanSomething() throws Exception {
-        // Initialize the database
-        fineRepository.saveAndFlush(fine);
-
-        // Get all the fineList where modifiedBy less than or equals to DEFAULT_MODIFIED_BY
-        defaultFineShouldNotBeFound("modifiedBy.lessThan=" + DEFAULT_MODIFIED_BY);
-
-        // Get all the fineList where modifiedBy less than or equals to UPDATED_MODIFIED_BY
-        defaultFineShouldBeFound("modifiedBy.lessThan=" + UPDATED_MODIFIED_BY);
-    }
-
-
-    @Test
-    @Transactional
     public void getAllFinesByModifiedDateIsEqualToSomething() throws Exception {
         // Initialize the database
         fineRepository.saveAndFlush(fine);
@@ -629,13 +642,13 @@ public class FineResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(fine.getId().intValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].reasonContentType").value(hasItem(DEFAULT_REASON_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].reason").value(hasItem(Base64Utils.encodeToString(DEFAULT_REASON))))
             .andExpect(jsonPath("$.[*].fineDate").value(hasItem(DEFAULT_FINE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].monthlyPayable").value(hasItem(DEFAULT_MONTHLY_PAYABLE.doubleValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())));
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())));
 
         // Check, that the count call also returns 1
         restFineMockMvc.perform(get("/api/fines/count?sort=id,desc&" + filter))
@@ -684,13 +697,13 @@ public class FineResourceIntTest {
         em.detach(updatedFine);
         updatedFine
             .amount(UPDATED_AMOUNT)
-            .reason(UPDATED_REASON)
-            .reasonContentType(UPDATED_REASON_CONTENT_TYPE)
             .fineDate(UPDATED_FINE_DATE)
+            .monthlyPayable(UPDATED_MONTHLY_PAYABLE)
             .paymentStatus(UPDATED_PAYMENT_STATUS)
             .left(UPDATED_LEFT)
             .modifiedBy(UPDATED_MODIFIED_BY)
-            .modifiedDate(UPDATED_MODIFIED_DATE);
+            .modifiedDate(UPDATED_MODIFIED_DATE)
+            .reason(UPDATED_REASON);
         FineDTO fineDTO = fineMapper.toDto(updatedFine);
 
         restFineMockMvc.perform(put("/api/fines")
@@ -703,13 +716,13 @@ public class FineResourceIntTest {
         assertThat(fineList).hasSize(databaseSizeBeforeUpdate);
         Fine testFine = fineList.get(fineList.size() - 1);
         assertThat(testFine.getAmount()).isEqualTo(UPDATED_AMOUNT);
-        assertThat(testFine.getReason()).isEqualTo(UPDATED_REASON);
-        assertThat(testFine.getReasonContentType()).isEqualTo(UPDATED_REASON_CONTENT_TYPE);
         assertThat(testFine.getFineDate()).isEqualTo(UPDATED_FINE_DATE);
+        assertThat(testFine.getMonthlyPayable()).isEqualTo(UPDATED_MONTHLY_PAYABLE);
         assertThat(testFine.getPaymentStatus()).isEqualTo(UPDATED_PAYMENT_STATUS);
         assertThat(testFine.getLeft()).isEqualTo(UPDATED_LEFT);
         assertThat(testFine.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testFine.getModifiedDate()).isEqualTo(UPDATED_MODIFIED_DATE);
+        assertThat(testFine.getReason()).isEqualTo(UPDATED_REASON);
 
         // Validate the Fine in Elasticsearch
         verify(mockFineSearchRepository, times(1)).save(testFine);
@@ -771,13 +784,13 @@ public class FineResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(fine.getId().intValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].reasonContentType").value(hasItem(DEFAULT_REASON_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].reason").value(hasItem(Base64Utils.encodeToString(DEFAULT_REASON))))
             .andExpect(jsonPath("$.[*].fineDate").value(hasItem(DEFAULT_FINE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].monthlyPayable").value(hasItem(DEFAULT_MONTHLY_PAYABLE.doubleValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())));
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())));
     }
 
     @Test

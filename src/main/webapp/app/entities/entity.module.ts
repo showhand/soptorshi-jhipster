@@ -170,6 +170,86 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'payroll-management',
                 loadChildren: './payroll-management/payroll-management.module#SoptorshiPayrollManagementModule'
+            },
+            {
+                path: 'tax',
+                loadChildren: './tax/tax.module#SoptorshiTaxModule'
+            },
+            {
+                path: 'designation-wise-allowance',
+                loadChildren: './designation-wise-allowance/designation-wise-allowance.module#SoptorshiDesignationWiseAllowanceModule'
+            },
+            {
+                path: 'provident-fund',
+                loadChildren: './provident-fund/provident-fund.module#SoptorshiProvidentFundModule'
+            },
+            {
+                path: 'monthly-salary',
+                loadChildren: './monthly-salary/monthly-salary.module#SoptorshiMonthlySalaryModule'
+            },
+            {
+                path: 'advance',
+                loadChildren: './advance/advance.module#SoptorshiAdvanceModule'
+            },
+            {
+                path: 'fine',
+                loadChildren: './fine/fine.module#SoptorshiFineModule'
+            },
+            {
+                path: 'loan',
+                loadChildren: './loan/loan.module#SoptorshiLoanModule'
+            },
+            {
+                path: 'fine-management',
+                loadChildren: './fine-management/fine-management.module#SoptorshiFineManagementModule'
+            },
+            {
+                path: 'advance-management',
+                loadChildren: './advance-management/advance-management.module#SoptorshiAdvanceManagementModule'
+            },
+            {
+                path: 'loan-management',
+                loadChildren: './loan-management/loan-management.module#SoptorshiLoanManagementModule'
+            },
+            {
+                path: 'provident-management',
+                loadChildren: './provident-management/provident-management.module#SoptorshiProvidentManagementModule'
+            },
+            {
+                path: 'allowance-management',
+                loadChildren: './allowance-management/allowance-management.module#SoptorshiAllowanceManagementModule'
+            },
+            {
+                path: 'salary',
+                loadChildren: './salary/salary.module#SoptorshiSalaryModule'
+            },
+            {
+                path: 'fine',
+                loadChildren: './fine/fine.module#SoptorshiFineModule'
+            },
+            {
+                path: 'fine',
+                loadChildren: './fine/fine.module#SoptorshiFineModule'
+            },
+            {
+                path: 'advance',
+                loadChildren: './advance/advance.module#SoptorshiAdvanceModule'
+            },
+            {
+                path: 'fine',
+                loadChildren: './fine/fine.module#SoptorshiFineModule'
+            },
+            {
+                path: 'loan',
+                loadChildren: './loan/loan.module#SoptorshiLoanModule'
+            },
+            {
+                path: 'fine-advance-loan-management',
+                loadChildren: './fine-advance-loan-management/fine-advance-loan-management.module#SoptorshiFineAdvanceLoanManagementModule'
+            },
+            {
+                path: 'employee',
+                loadChildren: './employee/employee.module#SoptorshiEmployeeModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

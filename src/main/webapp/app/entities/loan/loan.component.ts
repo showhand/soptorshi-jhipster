@@ -17,6 +17,7 @@ import { LoanService } from './loan.service';
 })
 export class LoanComponent implements OnInit, OnDestroy {
     currentAccount: any;
+    loan: ILoan;
     loans: ILoan[];
     error: any;
     success: any;
@@ -70,6 +71,7 @@ export class LoanComponent implements OnInit, OnDestroy {
         }
         this.loanService
             .query({
+                'employeeId.equals': this.loan.employeeId,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -99,6 +101,10 @@ export class LoanComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
+    delete(id: number) {
+        this.loanService.delete(id).subscribe((response: any) => this.loadAll(), (error: HttpErrorResponse) => this.onError(error.message));
+    }
+
     clear() {
         this.page = 0;
         this.currentSearch = '';
@@ -112,6 +118,9 @@ export class LoanComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
+    goBack() {
+        window.history.back();
+    }
     search(query) {
         if (!query) {
             return this.clear();
@@ -130,7 +139,10 @@ export class LoanComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ loan }) => {
+            this.loan = loan;
+            this.loadAll();
+        });
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });

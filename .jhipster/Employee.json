@@ -149,21 +149,21 @@
             "otherEntityName": "department",
             "otherEntityRelationshipName": "employee",
             "relationshipName": "department",
-            "otherEntityField": "id"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "office",
             "otherEntityRelationshipName": "employee",
             "relationshipName": "office",
-            "otherEntityField": "id"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "designation",
             "otherEntityRelationshipName": "employee",
             "relationshipName": "designation",
-            "otherEntityField": "id"
+            "otherEntityField": "name"
         }
     ],
     "changelogDate": "20190405124354",

@@ -45,7 +45,7 @@ export const academicInformationRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'AcademicInformations'
         },
@@ -58,7 +58,7 @@ export const academicInformationRoute: Routes = [
             academicInformation: AcademicInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'AcademicInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -70,7 +70,7 @@ export const academicInformationRoute: Routes = [
             academicInformation: AcademicInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'AcademicInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -82,7 +82,7 @@ export const academicInformationRoute: Routes = [
             academicInformation: AcademicInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'AcademicInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -94,7 +94,7 @@ export const academicInformationRoute: Routes = [
             academicInformation: AcademicInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'AcademicInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -106,7 +106,7 @@ export const academicInformationRoute: Routes = [
             academicInformation: AcademicInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'AcademicInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -121,7 +121,7 @@ export const academicInformationPopupRoute: Routes = [
             academicInformation: AcademicInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'AcademicInformations'
         },
         canActivate: [UserRouteAccessService],

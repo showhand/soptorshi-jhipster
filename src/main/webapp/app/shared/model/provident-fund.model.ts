@@ -5,7 +5,7 @@ export interface IProvidentFund {
     startDate?: Moment;
     rate?: number;
     status?: boolean;
-    modifiedBy?: number;
+    modifiedBy?: string;
     modifiedOn?: Moment;
 }
 
@@ -15,7 +15,7 @@ export class ProvidentFund implements IProvidentFund {
         public startDate?: Moment,
         public rate?: number,
         public status?: boolean,
-        public modifiedBy?: number,
+        public modifiedBy?: string,
         public modifiedOn?: Moment
     ) {
         this.status = this.status || false;

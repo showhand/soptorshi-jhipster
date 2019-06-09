@@ -25,48 +25,35 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_houseRent">House Rent</label>
-                    <input type="number" class="form-control" name="houseRent" id="field_houseRent"
-                        [(ngModel)]="salary.houseRent" required/>
-                    <div [hidden]="!(editForm.controls.houseRent?.dirty && editForm.controls.houseRent?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.houseRent?.errors?.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.houseRent?.errors?.number">
-                            This field should be a number.
-                        </small>
+                    <label class="form-control-label" for="field_startedOn">Started On</label>
+                    <div class="input-group">
+                        <input id="field_startedOn" type="text" class="form-control" name="startedOn" ngbDatepicker  #startedOnDp="ngbDatepicker" [(ngModel)]="salary.startedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="startedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_medicalAllowance">Medical Allowance</label>
-                    <input type="number" class="form-control" name="medicalAllowance" id="field_medicalAllowance"
-                        [(ngModel)]="salary.medicalAllowance" required/>
-                    <div [hidden]="!(editForm.controls.medicalAllowance?.dirty && editForm.controls.medicalAllowance?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.medicalAllowance?.errors?.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.medicalAllowance?.errors?.number">
-                            This field should be a number.
-                        </small>
+                    <label class="form-control-label" for="field_endedOn">Ended On</label>
+                    <div class="input-group">
+                        <input id="field_endedOn" type="text" class="form-control" name="endedOn" ngbDatepicker  #endedOnDp="ngbDatepicker" [(ngModel)]="salary.endedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="endedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_incrementRate">Increment Rate</label>
-                    <input type="number" class="form-control" name="incrementRate" id="field_incrementRate"
-                        [(ngModel)]="salary.incrementRate" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_otherAllowance">Other Allowance</label>
-                    <input type="number" class="form-control" name="otherAllowance" id="field_otherAllowance"
-                        [(ngModel)]="salary.otherAllowance" />
+                    <label class="form-control-label" for="field_salaryStatus">Salary Status</label>
+                    <select class="form-control" name="salaryStatus" [(ngModel)]="salary.salaryStatus" id="field_salaryStatus" >
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="NOT_ACTIVE">NOT_ACTIVE</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_modifiedBy">Modified By</label>
-                    <input type="number" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
                         [(ngModel)]="salary.modifiedBy" />
                 </div>
                 <div class="form-group">

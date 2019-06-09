@@ -12,6 +12,7 @@ import org.mapstruct.*;
 public interface AdvanceMapper extends EntityMapper<AdvanceDTO, Advance> {
 
     @Mapping(source = "employee.id", target = "employeeId")
+    @Mapping(source = "employee.fullName", target = "employeeFullName")
     AdvanceDTO toDto(Advance advance);
 
     @Mapping(source = "employeeId", target = "employee")

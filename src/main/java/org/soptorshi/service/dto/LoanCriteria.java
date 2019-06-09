@@ -42,7 +42,7 @@ public class LoanCriteria implements Serializable {
 
     private BigDecimalFilter left;
 
-    private LongFilter modifiedBy;
+    private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedDate;
 
@@ -96,11 +96,11 @@ public class LoanCriteria implements Serializable {
         this.left = left;
     }
 
-    public LongFilter getModifiedBy() {
+    public StringFilter getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(LongFilter modifiedBy) {
+    public void setModifiedBy(StringFilter modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 

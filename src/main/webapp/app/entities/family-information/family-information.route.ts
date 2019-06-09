@@ -42,7 +42,7 @@ export const familyInformationRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'FamilyInformations'
         },
@@ -55,7 +55,7 @@ export const familyInformationRoute: Routes = [
             familyInformation: FamilyInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'FamilyInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -67,7 +67,7 @@ export const familyInformationRoute: Routes = [
             familyInformation: FamilyInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'FamilyInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -79,7 +79,7 @@ export const familyInformationRoute: Routes = [
             familyInformation: FamilyInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'FamilyInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -91,7 +91,7 @@ export const familyInformationRoute: Routes = [
             familyInformation: FamilyInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'FamilyInformations'
         },
         canActivate: [UserRouteAccessService]
@@ -106,7 +106,7 @@ export const familyInformationPopupRoute: Routes = [
             familyInformation: FamilyInformationResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'FamilyInformations'
         },
         canActivate: [UserRouteAccessService],

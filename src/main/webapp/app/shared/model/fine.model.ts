@@ -5,16 +5,22 @@ export const enum PaymentStatus {
     NOT_PAID = 'NOT_PAID'
 }
 
+export const enum FineFetchType {
+    ALL_EMPLOYEE = 'ALL EMPLOYEES',
+    EMPLOYEE_SPECIFIC = 'EMPLOYEE SPECIFIC'
+}
+
 export interface IFine {
     id?: number;
     amount?: number;
-    reasonContentType?: string;
-    reason?: any;
     fineDate?: Moment;
+    monthlyPayable?: number;
     paymentStatus?: PaymentStatus;
     left?: number;
-    modifiedBy?: number;
+    modifiedBy?: string;
     modifiedDate?: Moment;
+    reason?: any;
+    employeeFullName?: string;
     employeeId?: number;
 }
 
@@ -22,13 +28,14 @@ export class Fine implements IFine {
     constructor(
         public id?: number,
         public amount?: number,
-        public reasonContentType?: string,
-        public reason?: any,
         public fineDate?: Moment,
+        public monthlyPayable?: number,
         public paymentStatus?: PaymentStatus,
         public left?: number,
-        public modifiedBy?: number,
+        public modifiedBy?: string,
         public modifiedDate?: Moment,
+        public reason?: any,
+        public employeeFullName?: string,
         public employeeId?: number
     ) {}
 }

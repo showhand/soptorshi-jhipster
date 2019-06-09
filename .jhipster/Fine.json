@@ -9,19 +9,15 @@
             ]
         },
         {
-            "fieldName": "reason",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "any",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "fineDate",
             "fieldType": "LocalDate",
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "monthlyPayable",
+            "fieldType": "Double"
         },
         {
             "fieldName": "paymentStatus",
@@ -34,11 +30,16 @@
         },
         {
             "fieldName": "modifiedBy",
-            "fieldType": "Long"
+            "fieldType": "String"
         },
         {
             "fieldName": "modifiedDate",
             "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "reason",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
         }
     ],
     "relationships": [
@@ -47,7 +48,7 @@
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "fine",
             "relationshipName": "employee",
-            "otherEntityField": "id"
+            "otherEntityField": "fullName"
         }
     ],
     "changelogDate": "20190514160141",

@@ -16,21 +16,22 @@ public class AdvanceDTO implements Serializable {
     private BigDecimal amount;
 
     @Lob
-    private byte[] reason;
+    private String reason;
 
-    private String reasonContentType;
     private LocalDate providedOn;
 
     private PaymentStatus paymentStatus;
 
     private BigDecimal left;
 
-    private Long modifiedBy;
+    private String modifiedBy;
 
     private LocalDate modifiedOn;
 
 
     private Long employeeId;
+
+    private String employeeFullName;
 
     public Long getId() {
         return id;
@@ -48,20 +49,12 @@ public class AdvanceDTO implements Serializable {
         this.amount = amount;
     }
 
-    public byte[] getReason() {
+    public String getReason() {
         return reason;
     }
 
-    public void setReason(byte[] reason) {
+    public void setReason(String reason) {
         this.reason = reason;
-    }
-
-    public String getReasonContentType() {
-        return reasonContentType;
-    }
-
-    public void setReasonContentType(String reasonContentType) {
-        this.reasonContentType = reasonContentType;
     }
 
     public LocalDate getProvidedOn() {
@@ -88,11 +81,11 @@ public class AdvanceDTO implements Serializable {
         this.left = left;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -110,6 +103,14 @@ public class AdvanceDTO implements Serializable {
 
     public void setEmployeeId(Long employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
     }
 
     @Override
@@ -142,9 +143,10 @@ public class AdvanceDTO implements Serializable {
             ", providedOn='" + getProvidedOn() + "'" +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", left=" + getLeft() +
-            ", modifiedBy=" + getModifiedBy() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +
+            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

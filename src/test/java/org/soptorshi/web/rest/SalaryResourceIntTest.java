@@ -46,6 +46,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.soptorshi.domain.enumeration.SalaryStatus;
 /**
  * Test class for the SalaryResource REST controller.
  *
@@ -58,20 +59,17 @@ public class SalaryResourceIntTest {
     private static final BigDecimal DEFAULT_BASIC = new BigDecimal(1);
     private static final BigDecimal UPDATED_BASIC = new BigDecimal(2);
 
-    private static final Double DEFAULT_HOUSE_RENT = 1D;
-    private static final Double UPDATED_HOUSE_RENT = 2D;
+    private static final LocalDate DEFAULT_STARTED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_STARTED_ON = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Double DEFAULT_MEDICAL_ALLOWANCE = 1D;
-    private static final Double UPDATED_MEDICAL_ALLOWANCE = 2D;
+    private static final LocalDate DEFAULT_ENDED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_ENDED_ON = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Double DEFAULT_INCREMENT_RATE = 1D;
-    private static final Double UPDATED_INCREMENT_RATE = 2D;
+    private static final SalaryStatus DEFAULT_SALARY_STATUS = SalaryStatus.ACTIVE;
+    private static final SalaryStatus UPDATED_SALARY_STATUS = SalaryStatus.NOT_ACTIVE;
 
-    private static final Double DEFAULT_OTHER_ALLOWANCE = 1D;
-    private static final Double UPDATED_OTHER_ALLOWANCE = 2D;
-
-    private static final Long DEFAULT_MODIFIED_BY = 1L;
-    private static final Long UPDATED_MODIFIED_BY = 2L;
+    private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final LocalDate DEFAULT_MODIFIED_ON = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_MODIFIED_ON = LocalDate.now(ZoneId.systemDefault());
@@ -136,10 +134,9 @@ public class SalaryResourceIntTest {
     public static Salary createEntity(EntityManager em) {
         Salary salary = new Salary()
             .basic(DEFAULT_BASIC)
-            .houseRent(DEFAULT_HOUSE_RENT)
-            .medicalAllowance(DEFAULT_MEDICAL_ALLOWANCE)
-            .incrementRate(DEFAULT_INCREMENT_RATE)
-            .otherAllowance(DEFAULT_OTHER_ALLOWANCE)
+            .startedOn(DEFAULT_STARTED_ON)
+            .endedOn(DEFAULT_ENDED_ON)
+            .salaryStatus(DEFAULT_SALARY_STATUS)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
         return salary;
@@ -167,10 +164,9 @@ public class SalaryResourceIntTest {
         assertThat(salaryList).hasSize(databaseSizeBeforeCreate + 1);
         Salary testSalary = salaryList.get(salaryList.size() - 1);
         assertThat(testSalary.getBasic()).isEqualTo(DEFAULT_BASIC);
-        assertThat(testSalary.getHouseRent()).isEqualTo(DEFAULT_HOUSE_RENT);
-        assertThat(testSalary.getMedicalAllowance()).isEqualTo(DEFAULT_MEDICAL_ALLOWANCE);
-        assertThat(testSalary.getIncrementRate()).isEqualTo(DEFAULT_INCREMENT_RATE);
-        assertThat(testSalary.getOtherAllowance()).isEqualTo(DEFAULT_OTHER_ALLOWANCE);
+        assertThat(testSalary.getStartedOn()).isEqualTo(DEFAULT_STARTED_ON);
+        assertThat(testSalary.getEndedOn()).isEqualTo(DEFAULT_ENDED_ON);
+        assertThat(testSalary.getSalaryStatus()).isEqualTo(DEFAULT_SALARY_STATUS);
         assertThat(testSalary.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testSalary.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
@@ -222,44 +218,6 @@ public class SalaryResourceIntTest {
 
     @Test
     @Transactional
-    public void checkHouseRentIsRequired() throws Exception {
-        int databaseSizeBeforeTest = salaryRepository.findAll().size();
-        // set the field null
-        salary.setHouseRent(null);
-
-        // Create the Salary, which fails.
-        SalaryDTO salaryDTO = salaryMapper.toDto(salary);
-
-        restSalaryMockMvc.perform(post("/api/salaries")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(salaryDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Salary> salaryList = salaryRepository.findAll();
-        assertThat(salaryList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkMedicalAllowanceIsRequired() throws Exception {
-        int databaseSizeBeforeTest = salaryRepository.findAll().size();
-        // set the field null
-        salary.setMedicalAllowance(null);
-
-        // Create the Salary, which fails.
-        SalaryDTO salaryDTO = salaryMapper.toDto(salary);
-
-        restSalaryMockMvc.perform(post("/api/salaries")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(salaryDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Salary> salaryList = salaryRepository.findAll();
-        assertThat(salaryList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllSalaries() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
@@ -270,11 +228,10 @@ public class SalaryResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(salary.getId().intValue())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
-            .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.doubleValue())))
-            .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.doubleValue())))
-            .andExpect(jsonPath("$.[*].incrementRate").value(hasItem(DEFAULT_INCREMENT_RATE.doubleValue())))
-            .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.doubleValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
+            .andExpect(jsonPath("$.[*].startedOn").value(hasItem(DEFAULT_STARTED_ON.toString())))
+            .andExpect(jsonPath("$.[*].endedOn").value(hasItem(DEFAULT_ENDED_ON.toString())))
+            .andExpect(jsonPath("$.[*].salaryStatus").value(hasItem(DEFAULT_SALARY_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
     
@@ -290,11 +247,10 @@ public class SalaryResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(salary.getId().intValue()))
             .andExpect(jsonPath("$.basic").value(DEFAULT_BASIC.intValue()))
-            .andExpect(jsonPath("$.houseRent").value(DEFAULT_HOUSE_RENT.doubleValue()))
-            .andExpect(jsonPath("$.medicalAllowance").value(DEFAULT_MEDICAL_ALLOWANCE.doubleValue()))
-            .andExpect(jsonPath("$.incrementRate").value(DEFAULT_INCREMENT_RATE.doubleValue()))
-            .andExpect(jsonPath("$.otherAllowance").value(DEFAULT_OTHER_ALLOWANCE.doubleValue()))
-            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.intValue()))
+            .andExpect(jsonPath("$.startedOn").value(DEFAULT_STARTED_ON.toString()))
+            .andExpect(jsonPath("$.endedOn").value(DEFAULT_ENDED_ON.toString()))
+            .andExpect(jsonPath("$.salaryStatus").value(DEFAULT_SALARY_STATUS.toString()))
+            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
 
@@ -339,158 +295,173 @@ public class SalaryResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSalariesByHouseRentIsEqualToSomething() throws Exception {
+    public void getAllSalariesByStartedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
 
-        // Get all the salaryList where houseRent equals to DEFAULT_HOUSE_RENT
-        defaultSalaryShouldBeFound("houseRent.equals=" + DEFAULT_HOUSE_RENT);
+        // Get all the salaryList where startedOn equals to DEFAULT_STARTED_ON
+        defaultSalaryShouldBeFound("startedOn.equals=" + DEFAULT_STARTED_ON);
 
-        // Get all the salaryList where houseRent equals to UPDATED_HOUSE_RENT
-        defaultSalaryShouldNotBeFound("houseRent.equals=" + UPDATED_HOUSE_RENT);
+        // Get all the salaryList where startedOn equals to UPDATED_STARTED_ON
+        defaultSalaryShouldNotBeFound("startedOn.equals=" + UPDATED_STARTED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllSalariesByHouseRentIsInShouldWork() throws Exception {
+    public void getAllSalariesByStartedOnIsInShouldWork() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
 
-        // Get all the salaryList where houseRent in DEFAULT_HOUSE_RENT or UPDATED_HOUSE_RENT
-        defaultSalaryShouldBeFound("houseRent.in=" + DEFAULT_HOUSE_RENT + "," + UPDATED_HOUSE_RENT);
+        // Get all the salaryList where startedOn in DEFAULT_STARTED_ON or UPDATED_STARTED_ON
+        defaultSalaryShouldBeFound("startedOn.in=" + DEFAULT_STARTED_ON + "," + UPDATED_STARTED_ON);
 
-        // Get all the salaryList where houseRent equals to UPDATED_HOUSE_RENT
-        defaultSalaryShouldNotBeFound("houseRent.in=" + UPDATED_HOUSE_RENT);
+        // Get all the salaryList where startedOn equals to UPDATED_STARTED_ON
+        defaultSalaryShouldNotBeFound("startedOn.in=" + UPDATED_STARTED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllSalariesByHouseRentIsNullOrNotNull() throws Exception {
+    public void getAllSalariesByStartedOnIsNullOrNotNull() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
 
-        // Get all the salaryList where houseRent is not null
-        defaultSalaryShouldBeFound("houseRent.specified=true");
+        // Get all the salaryList where startedOn is not null
+        defaultSalaryShouldBeFound("startedOn.specified=true");
 
-        // Get all the salaryList where houseRent is null
-        defaultSalaryShouldNotBeFound("houseRent.specified=false");
+        // Get all the salaryList where startedOn is null
+        defaultSalaryShouldNotBeFound("startedOn.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllSalariesByMedicalAllowanceIsEqualToSomething() throws Exception {
+    public void getAllSalariesByStartedOnIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
 
-        // Get all the salaryList where medicalAllowance equals to DEFAULT_MEDICAL_ALLOWANCE
-        defaultSalaryShouldBeFound("medicalAllowance.equals=" + DEFAULT_MEDICAL_ALLOWANCE);
+        // Get all the salaryList where startedOn greater than or equals to DEFAULT_STARTED_ON
+        defaultSalaryShouldBeFound("startedOn.greaterOrEqualThan=" + DEFAULT_STARTED_ON);
 
-        // Get all the salaryList where medicalAllowance equals to UPDATED_MEDICAL_ALLOWANCE
-        defaultSalaryShouldNotBeFound("medicalAllowance.equals=" + UPDATED_MEDICAL_ALLOWANCE);
+        // Get all the salaryList where startedOn greater than or equals to UPDATED_STARTED_ON
+        defaultSalaryShouldNotBeFound("startedOn.greaterOrEqualThan=" + UPDATED_STARTED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllSalariesByMedicalAllowanceIsInShouldWork() throws Exception {
+    public void getAllSalariesByStartedOnIsLessThanSomething() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
 
-        // Get all the salaryList where medicalAllowance in DEFAULT_MEDICAL_ALLOWANCE or UPDATED_MEDICAL_ALLOWANCE
-        defaultSalaryShouldBeFound("medicalAllowance.in=" + DEFAULT_MEDICAL_ALLOWANCE + "," + UPDATED_MEDICAL_ALLOWANCE);
+        // Get all the salaryList where startedOn less than or equals to DEFAULT_STARTED_ON
+        defaultSalaryShouldNotBeFound("startedOn.lessThan=" + DEFAULT_STARTED_ON);
 
-        // Get all the salaryList where medicalAllowance equals to UPDATED_MEDICAL_ALLOWANCE
-        defaultSalaryShouldNotBeFound("medicalAllowance.in=" + UPDATED_MEDICAL_ALLOWANCE);
+        // Get all the salaryList where startedOn less than or equals to UPDATED_STARTED_ON
+        defaultSalaryShouldBeFound("startedOn.lessThan=" + UPDATED_STARTED_ON);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSalariesByEndedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        salaryRepository.saveAndFlush(salary);
+
+        // Get all the salaryList where endedOn equals to DEFAULT_ENDED_ON
+        defaultSalaryShouldBeFound("endedOn.equals=" + DEFAULT_ENDED_ON);
+
+        // Get all the salaryList where endedOn equals to UPDATED_ENDED_ON
+        defaultSalaryShouldNotBeFound("endedOn.equals=" + UPDATED_ENDED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllSalariesByMedicalAllowanceIsNullOrNotNull() throws Exception {
+    public void getAllSalariesByEndedOnIsInShouldWork() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
 
-        // Get all the salaryList where medicalAllowance is not null
-        defaultSalaryShouldBeFound("medicalAllowance.specified=true");
+        // Get all the salaryList where endedOn in DEFAULT_ENDED_ON or UPDATED_ENDED_ON
+        defaultSalaryShouldBeFound("endedOn.in=" + DEFAULT_ENDED_ON + "," + UPDATED_ENDED_ON);
 
-        // Get all the salaryList where medicalAllowance is null
-        defaultSalaryShouldNotBeFound("medicalAllowance.specified=false");
+        // Get all the salaryList where endedOn equals to UPDATED_ENDED_ON
+        defaultSalaryShouldNotBeFound("endedOn.in=" + UPDATED_ENDED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllSalariesByIncrementRateIsEqualToSomething() throws Exception {
+    public void getAllSalariesByEndedOnIsNullOrNotNull() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
 
-        // Get all the salaryList where incrementRate equals to DEFAULT_INCREMENT_RATE
-        defaultSalaryShouldBeFound("incrementRate.equals=" + DEFAULT_INCREMENT_RATE);
+        // Get all the salaryList where endedOn is not null
+        defaultSalaryShouldBeFound("endedOn.specified=true");
 
-        // Get all the salaryList where incrementRate equals to UPDATED_INCREMENT_RATE
-        defaultSalaryShouldNotBeFound("incrementRate.equals=" + UPDATED_INCREMENT_RATE);
+        // Get all the salaryList where endedOn is null
+        defaultSalaryShouldNotBeFound("endedOn.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllSalariesByIncrementRateIsInShouldWork() throws Exception {
+    public void getAllSalariesByEndedOnIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
 
-        // Get all the salaryList where incrementRate in DEFAULT_INCREMENT_RATE or UPDATED_INCREMENT_RATE
-        defaultSalaryShouldBeFound("incrementRate.in=" + DEFAULT_INCREMENT_RATE + "," + UPDATED_INCREMENT_RATE);
+        // Get all the salaryList where endedOn greater than or equals to DEFAULT_ENDED_ON
+        defaultSalaryShouldBeFound("endedOn.greaterOrEqualThan=" + DEFAULT_ENDED_ON);
 
-        // Get all the salaryList where incrementRate equals to UPDATED_INCREMENT_RATE
-        defaultSalaryShouldNotBeFound("incrementRate.in=" + UPDATED_INCREMENT_RATE);
+        // Get all the salaryList where endedOn greater than or equals to UPDATED_ENDED_ON
+        defaultSalaryShouldNotBeFound("endedOn.greaterOrEqualThan=" + UPDATED_ENDED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllSalariesByIncrementRateIsNullOrNotNull() throws Exception {
+    public void getAllSalariesByEndedOnIsLessThanSomething() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
 
-        // Get all the salaryList where incrementRate is not null
-        defaultSalaryShouldBeFound("incrementRate.specified=true");
+        // Get all the salaryList where endedOn less than or equals to DEFAULT_ENDED_ON
+        defaultSalaryShouldNotBeFound("endedOn.lessThan=" + DEFAULT_ENDED_ON);
 
-        // Get all the salaryList where incrementRate is null
-        defaultSalaryShouldNotBeFound("incrementRate.specified=false");
+        // Get all the salaryList where endedOn less than or equals to UPDATED_ENDED_ON
+        defaultSalaryShouldBeFound("endedOn.lessThan=" + UPDATED_ENDED_ON);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSalariesBySalaryStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        salaryRepository.saveAndFlush(salary);
+
+        // Get all the salaryList where salaryStatus equals to DEFAULT_SALARY_STATUS
+        defaultSalaryShouldBeFound("salaryStatus.equals=" + DEFAULT_SALARY_STATUS);
+
+        // Get all the salaryList where salaryStatus equals to UPDATED_SALARY_STATUS
+        defaultSalaryShouldNotBeFound("salaryStatus.equals=" + UPDATED_SALARY_STATUS);
     }
 
     @Test
     @Transactional
-    public void getAllSalariesByOtherAllowanceIsEqualToSomething() throws Exception {
+    public void getAllSalariesBySalaryStatusIsInShouldWork() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
 
-        // Get all the salaryList where otherAllowance equals to DEFAULT_OTHER_ALLOWANCE
-        defaultSalaryShouldBeFound("otherAllowance.equals=" + DEFAULT_OTHER_ALLOWANCE);
+        // Get all the salaryList where salaryStatus in DEFAULT_SALARY_STATUS or UPDATED_SALARY_STATUS
+        defaultSalaryShouldBeFound("salaryStatus.in=" + DEFAULT_SALARY_STATUS + "," + UPDATED_SALARY_STATUS);
 
-        // Get all the salaryList where otherAllowance equals to UPDATED_OTHER_ALLOWANCE
-        defaultSalaryShouldNotBeFound("otherAllowance.equals=" + UPDATED_OTHER_ALLOWANCE);
+        // Get all the salaryList where salaryStatus equals to UPDATED_SALARY_STATUS
+        defaultSalaryShouldNotBeFound("salaryStatus.in=" + UPDATED_SALARY_STATUS);
     }
 
     @Test
     @Transactional
-    public void getAllSalariesByOtherAllowanceIsInShouldWork() throws Exception {
+    public void getAllSalariesBySalaryStatusIsNullOrNotNull() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
 
-        // Get all the salaryList where otherAllowance in DEFAULT_OTHER_ALLOWANCE or UPDATED_OTHER_ALLOWANCE
-        defaultSalaryShouldBeFound("otherAllowance.in=" + DEFAULT_OTHER_ALLOWANCE + "," + UPDATED_OTHER_ALLOWANCE);
+        // Get all the salaryList where salaryStatus is not null
+        defaultSalaryShouldBeFound("salaryStatus.specified=true");
 
-        // Get all the salaryList where otherAllowance equals to UPDATED_OTHER_ALLOWANCE
-        defaultSalaryShouldNotBeFound("otherAllowance.in=" + UPDATED_OTHER_ALLOWANCE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSalariesByOtherAllowanceIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        salaryRepository.saveAndFlush(salary);
-
-        // Get all the salaryList where otherAllowance is not null
-        defaultSalaryShouldBeFound("otherAllowance.specified=true");
-
-        // Get all the salaryList where otherAllowance is null
-        defaultSalaryShouldNotBeFound("otherAllowance.specified=false");
+        // Get all the salaryList where salaryStatus is null
+        defaultSalaryShouldNotBeFound("salaryStatus.specified=false");
     }
 
     @Test
@@ -531,33 +502,6 @@ public class SalaryResourceIntTest {
         // Get all the salaryList where modifiedBy is null
         defaultSalaryShouldNotBeFound("modifiedBy.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllSalariesByModifiedByIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        salaryRepository.saveAndFlush(salary);
-
-        // Get all the salaryList where modifiedBy greater than or equals to DEFAULT_MODIFIED_BY
-        defaultSalaryShouldBeFound("modifiedBy.greaterOrEqualThan=" + DEFAULT_MODIFIED_BY);
-
-        // Get all the salaryList where modifiedBy greater than or equals to UPDATED_MODIFIED_BY
-        defaultSalaryShouldNotBeFound("modifiedBy.greaterOrEqualThan=" + UPDATED_MODIFIED_BY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSalariesByModifiedByIsLessThanSomething() throws Exception {
-        // Initialize the database
-        salaryRepository.saveAndFlush(salary);
-
-        // Get all the salaryList where modifiedBy less than or equals to DEFAULT_MODIFIED_BY
-        defaultSalaryShouldNotBeFound("modifiedBy.lessThan=" + DEFAULT_MODIFIED_BY);
-
-        // Get all the salaryList where modifiedBy less than or equals to UPDATED_MODIFIED_BY
-        defaultSalaryShouldBeFound("modifiedBy.lessThan=" + UPDATED_MODIFIED_BY);
-    }
-
 
     @Test
     @Transactional
@@ -652,11 +596,10 @@ public class SalaryResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(salary.getId().intValue())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
-            .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.doubleValue())))
-            .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.doubleValue())))
-            .andExpect(jsonPath("$.[*].incrementRate").value(hasItem(DEFAULT_INCREMENT_RATE.doubleValue())))
-            .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.doubleValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
+            .andExpect(jsonPath("$.[*].startedOn").value(hasItem(DEFAULT_STARTED_ON.toString())))
+            .andExpect(jsonPath("$.[*].endedOn").value(hasItem(DEFAULT_ENDED_ON.toString())))
+            .andExpect(jsonPath("$.[*].salaryStatus").value(hasItem(DEFAULT_SALARY_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
         // Check, that the count call also returns 1
@@ -706,10 +649,9 @@ public class SalaryResourceIntTest {
         em.detach(updatedSalary);
         updatedSalary
             .basic(UPDATED_BASIC)
-            .houseRent(UPDATED_HOUSE_RENT)
-            .medicalAllowance(UPDATED_MEDICAL_ALLOWANCE)
-            .incrementRate(UPDATED_INCREMENT_RATE)
-            .otherAllowance(UPDATED_OTHER_ALLOWANCE)
+            .startedOn(UPDATED_STARTED_ON)
+            .endedOn(UPDATED_ENDED_ON)
+            .salaryStatus(UPDATED_SALARY_STATUS)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
         SalaryDTO salaryDTO = salaryMapper.toDto(updatedSalary);
@@ -724,10 +666,9 @@ public class SalaryResourceIntTest {
         assertThat(salaryList).hasSize(databaseSizeBeforeUpdate);
         Salary testSalary = salaryList.get(salaryList.size() - 1);
         assertThat(testSalary.getBasic()).isEqualTo(UPDATED_BASIC);
-        assertThat(testSalary.getHouseRent()).isEqualTo(UPDATED_HOUSE_RENT);
-        assertThat(testSalary.getMedicalAllowance()).isEqualTo(UPDATED_MEDICAL_ALLOWANCE);
-        assertThat(testSalary.getIncrementRate()).isEqualTo(UPDATED_INCREMENT_RATE);
-        assertThat(testSalary.getOtherAllowance()).isEqualTo(UPDATED_OTHER_ALLOWANCE);
+        assertThat(testSalary.getStartedOn()).isEqualTo(UPDATED_STARTED_ON);
+        assertThat(testSalary.getEndedOn()).isEqualTo(UPDATED_ENDED_ON);
+        assertThat(testSalary.getSalaryStatus()).isEqualTo(UPDATED_SALARY_STATUS);
         assertThat(testSalary.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testSalary.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
@@ -791,11 +732,10 @@ public class SalaryResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(salary.getId().intValue())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
-            .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.doubleValue())))
-            .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.doubleValue())))
-            .andExpect(jsonPath("$.[*].incrementRate").value(hasItem(DEFAULT_INCREMENT_RATE.doubleValue())))
-            .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.doubleValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
+            .andExpect(jsonPath("$.[*].startedOn").value(hasItem(DEFAULT_STARTED_ON.toString())))
+            .andExpect(jsonPath("$.[*].endedOn").value(hasItem(DEFAULT_ENDED_ON.toString())))
+            .andExpect(jsonPath("$.[*].salaryStatus").value(hasItem(DEFAULT_SALARY_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
 

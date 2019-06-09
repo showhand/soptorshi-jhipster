@@ -26,15 +26,12 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="reason" type="longblob">
-                <constraints nullable="false" />
-            </column>
-            <column name="reason_content_type" type="varchar(255)">
+            <column name="fine_date" type="date">
                 <constraints nullable="false" />
             </column>
 
-            <column name="fine_date" type="date">
-                <constraints nullable="false" />
+            <column name="monthly_payable" type="double">
+                <constraints nullable="true" />
             </column>
 
             <column name="payment_status" type="varchar(255)">
@@ -45,11 +42,15 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="modified_by" type="bigint">
+            <column name="modified_by" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
             <column name="modified_date" type="date">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="reason" type="clob">
                 <constraints nullable="true" />
             </column>
 
