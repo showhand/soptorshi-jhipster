@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="fine">
-            <h2><span>Fine</span> {{fine.id}}</h2>
+            <h2><span>Fine</span> {{fine.employeeFullName}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -37,12 +37,7 @@
                 <dd>
                     <span>{{fine.reason}}</span>
                 </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="fine.employeeId">
-                        <a [routerLink]="['/employee', fine.employeeId, 'view']">{{fine.employeeFullName}}</a>
-                    </div>
-                </dd>
+
             </dl>
 
             <button type="submit"

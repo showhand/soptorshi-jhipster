@@ -20,6 +20,7 @@ export class LoanResolve implements Resolve<ILoan> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ILoan> {
         const id = route.params['id'] ? route.params['id'] : null;
         const employeeLongId = route.params['employeeLongId'] ? route.params['employeeLongId'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<Loan>) => response.ok),
@@ -28,6 +29,10 @@ export class LoanResolve implements Resolve<ILoan> {
         } else if (employeeLongId) {
             let loan = new Loan();
             loan.employeeId = employeeLongId;
+            return of(loan);
+        } else if (employeeId) {
+            let loan = new Loan();
+            loan.employeeId = employeeId;
             return of(loan);
         }
         return of(new Loan());
@@ -65,6 +70,18 @@ export const loanRoute: Routes = [
     {
         path: ':id/view',
         component: LoanDetailComponent,
+        resolve: {
+            loan: LoanResolve
+        },
+        data: {
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+            pageTitle: 'Loans'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
+        component: LoanUpdateComponent,
         resolve: {
             loan: LoanResolve
         },

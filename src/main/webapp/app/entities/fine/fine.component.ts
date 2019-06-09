@@ -136,6 +136,10 @@ export class FineComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
+    delete(id: number) {
+        this.fineService.delete(id).subscribe((res: any) => this.loadAll(), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ fine }) => {
             this.fine = fine;

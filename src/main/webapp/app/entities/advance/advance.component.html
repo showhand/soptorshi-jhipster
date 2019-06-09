@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Advances</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-advance" [routerLink]="['/advance/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-advance" [routerLink]="['/advance', advance.employeeId,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Advance

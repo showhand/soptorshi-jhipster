@@ -20,8 +20,8 @@ export class FineResolve implements Resolve<IFine> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IFine> {
         const id = route.params['id'] ? route.params['id'] : null;
         const employeeLongId = route.params['employeeLongId'] ? route.params['employeeLongId'] : null;
-        console.log('id--->' + id);
-        console.log('employee long id --->' + employeeLongId);
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
+
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<Fine>) => response.ok),
@@ -30,6 +30,10 @@ export class FineResolve implements Resolve<IFine> {
         } else if (employeeLongId) {
             let fine = new Fine();
             fine.employeeId = employeeLongId;
+            return of(fine);
+        } else if (employeeId) {
+            let fine = new Fine();
+            fine.employeeId = employeeId;
             return of(fine);
         }
         return of(new Fine());
@@ -67,6 +71,18 @@ export const fineRoute: Routes = [
     {
         path: ':id/view',
         component: FineDetailComponent,
+        resolve: {
+            fine: FineResolve
+        },
+        data: {
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+            pageTitle: 'Fines'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
+        component: FineUpdateComponent,
         resolve: {
             fine: FineResolve
         },
