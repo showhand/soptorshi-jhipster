@@ -86,6 +86,12 @@ export class FineAdvanceLoanManagementDetailComponent implements OnInit {
             this.providentPredicate = data.providentPagingParams.predicate;
         });
     }
+    loadPage(page: number) {
+        if (page !== this.previousPage) {
+            this.previousPage = page;
+            this.transition();
+        }
+    }
 
     loadAll() {
         this.fineService

@@ -28,11 +28,11 @@ export class FineResolve implements Resolve<IFine> {
                 map((fine: HttpResponse<Fine>) => fine.body)
             );
         } else if (employeeLongId) {
-            let fine = new Fine();
+            const fine = new Fine();
             fine.employeeId = employeeLongId;
             return of(fine);
         } else if (employeeId) {
-            let fine = new Fine();
+            const fine = new Fine();
             fine.employeeId = employeeId;
             return of(fine);
         }

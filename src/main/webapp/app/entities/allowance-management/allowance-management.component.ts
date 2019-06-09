@@ -31,7 +31,7 @@ export class AllowanceManagementComponent implements OnInit, OnDestroy {
     showInformation: boolean;
 
     constructor(
-        protected allowanceManagementService: AllowanceManagementService,
+        public allowanceManagementService: AllowanceManagementService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected activatedRoute: ActivatedRoute,
@@ -46,8 +46,9 @@ export class AllowanceManagementComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.allowanceManagementService.allowanceManagement == undefined)
+        if (this.allowanceManagementService.allowanceManagement === undefined) {
             this.allowanceManagementService.allowanceManagement = new AllowanceManagement();
+        }
         this.officeService
             .query({
                 page: 0,

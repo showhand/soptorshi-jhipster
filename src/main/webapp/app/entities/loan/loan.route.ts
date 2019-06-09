@@ -27,11 +27,11 @@ export class LoanResolve implements Resolve<ILoan> {
                 map((loan: HttpResponse<Loan>) => loan.body)
             );
         } else if (employeeLongId) {
-            let loan = new Loan();
+            const loan = new Loan();
             loan.employeeId = employeeLongId;
             return of(loan);
         } else if (employeeId) {
-            let loan = new Loan();
+            const loan = new Loan();
             loan.employeeId = employeeId;
             return of(loan);
         }

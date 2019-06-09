@@ -1,7 +1,8 @@
+<!--
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="allowanceManagement">
-            <h2><span>Allowance Management</span> {{allowanceManagement.id}}</h2>
+            <h2><span>Allowance Management</span> {{allowanceManagement}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -14,10 +15,11 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/allowance-management', allowanceManagement.id, 'edit']"
+                    [routerLink]="['/allowance-management', allowanceManagement, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
         </div>
     </div>
 </div>
+-->

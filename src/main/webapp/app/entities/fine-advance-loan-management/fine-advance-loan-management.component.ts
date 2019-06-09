@@ -33,7 +33,7 @@ export class FineAdvanceLoanManagementComponent implements OnInit, OnDestroy {
     links: any;
 
     constructor(
-        protected fineAdvanceLoanManagementService: FineAdvanceLoanManagementService,
+        public fineAdvanceLoanManagementService: FineAdvanceLoanManagementService,
         protected jhiAlertService: JhiAlertService,
         protected parseLinks: JhiParseLinks,
         protected eventManager: JhiEventManager,

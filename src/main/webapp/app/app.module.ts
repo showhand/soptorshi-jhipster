@@ -23,7 +23,7 @@ import { MatButton, MatButtonModule, MatCheckbox, MatTab, MatTabsModule } from '
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { DeviceDetectorModule } from 'ngx-device-detector';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
+// import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
     imports: [
@@ -45,8 +45,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
         MatButtonModule,
         MatTabsModule,
         DeviceDetectorModule.forRoot(),
-        NgxPageScrollCoreModule,
-        Ng2SmartTableModule
+        NgxPageScrollCoreModule
+        // Ng2SmartTableModule
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
     providers: [

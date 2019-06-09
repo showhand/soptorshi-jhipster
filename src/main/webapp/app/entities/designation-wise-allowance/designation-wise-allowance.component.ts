@@ -31,13 +31,13 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
     currentSearch: string;
 
     constructor(
-        protected designationWiseAllowanceService: DesignationWiseAllowanceService,
+        public designationWiseAllowanceService: DesignationWiseAllowanceService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService,
-        protected designationService: DesignationService
+        public designationService: DesignationService
     ) {
         this.designationWiseAllowances = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -140,7 +140,9 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
-        if (this.designationWiseAllowanceService.designationId !== undefined) this.loadAll();
+        if (this.designationWiseAllowanceService.designationId !== undefined) {
+            this.loadAll();
+        }
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });

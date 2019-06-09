@@ -237,8 +237,9 @@ export class EmployeeComponent implements OnInit, OnDestroy {
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         console.log('Employee data');
         console.log(data);
-        if (this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE'])) this.employees = data;
-        else {
+        if (this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE'])) {
+            this.employees = data;
+        } else {
             this.employees = [];
             console.log('IN here');
             for (let i = 0; i < data.length; i++) {

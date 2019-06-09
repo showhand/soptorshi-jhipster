@@ -150,7 +150,7 @@
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
-                        <a class="dropdown-item" routerLink="financial-account-year" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="financial-account-year" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="donate" fixedWidth="true"></fa-icon>
                             <span>Financial Account Year</span>
                         </a>
@@ -243,20 +243,20 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="provident-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="provident-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="piggy-bank" fixedWidth="true"></fa-icon>
                             <span>Provident Management</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="monthly-salary" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="monthly-salary" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Monthly Salary</span>
                         </a>
                     </li>
 
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
-                        <a  routerLink="payroll-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a  routerLink="payroll-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
                             <span>Payroll Management</span>
                         </a>

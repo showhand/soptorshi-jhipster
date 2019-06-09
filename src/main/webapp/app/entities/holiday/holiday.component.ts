@@ -9,7 +9,7 @@ import { AccountService } from 'app/core';
 
 import { DATE_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
 import { HolidayService } from './holiday.service';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
     selector: 'jhi-holiday',
