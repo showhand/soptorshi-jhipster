@@ -57,8 +57,8 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             .query({
                 page: this.page - 1,
                 size: this.itemPerPage,
-                'designationId.equals': this.payrollManagement.designation.id,
-                'officeId.equals': this.payrollManagement.office.id,
+                'designationId.equals': this.payrollManagement.designationId,
+                'officeId.equals': this.payrollManagement.officeId,
                 'employeeStatus.equals': 'ACTIVE'
             })
             .subscribe(
@@ -85,7 +85,6 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
                     this.officeList = res.body;
                     console.log('Office list');
                     console.log(this.officeList);
-                    this.payrollManagement.office = this.officeList[0];
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
@@ -99,7 +98,6 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<Designation[]>) => {
                     this.designationList = res.body;
-                    this.payrollManagement.designation = this.designationList[0];
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );

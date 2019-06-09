@@ -6,15 +6,32 @@
                 <form >
                     <div class="form-group form-inline">
                         <label  for="office" class="col-3 form-control-label" align="left">Office</label>
-                        <select class="col-9 form-control" name="office" id="office" [(ngModel)]="payrollManagement.office">
-                            <option [ngValue]="officeOption" *ngFor="let officeOption of officeList">{{officeOption.name}}</option>
+                        <select class="col-9 form-control" name="office" id="office" [(ngModel)]="payrollManagement.officeId">
+                            <option [ngValue]="officeOption.id" *ngFor="let officeOption of officeList">{{officeOption.name}}</option>
                         </select>
 
                     </div>
                     <div class="form-group form-inline">
                         <label for="designation" class="col-3 form-control-label" align="left">Designation</label>
-                        <select class="col-9 form-control" name="designation" id="designation" [(ngModel)]="payrollManagement.designation">
-                            <option [ngValue]="designationOption" *ngFor="let designationOption of designationList">{{designationOption.name}}</option>
+                        <select class="col-9 form-control" name="designation" id="designation" [(ngModel)]="payrollManagement.designationId">
+                            <option [ngValue]="designationOption.id" *ngFor="let designationOption of designationList">{{designationOption.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label class="form-control-label" class="col-3" for="monthType">Month</label>
+                        <select  class="col-9 form-control" name="month" [(ngModel)]="payrollManagement.monthType" id="monthType"  required>
+                            <option value="JANUARY">JANUARY</option>
+                            <option value="FEBRUARY">FEBRUARY</option>
+                            <option value="MARCH">MARCH</option>
+                            <option value="APRIL">APRIL</option>
+                            <option value="MAY">MAY</option>
+                            <option value="JUNE">JUNE</option>
+                            <option value="JULY">JULY</option>
+                            <option value="AUGUST">AUGUST</option>
+                            <option value="SEPTEMBER">SEPTEMBER</option>
+                            <option value="OCTOBER">OCTOBER</option>
+                            <option value="NOVEMBER">NOVEMBER</option>
+                            <option value="DECEMBER">DECEMBER</option>
                         </select>
                     </div>
                 </form>

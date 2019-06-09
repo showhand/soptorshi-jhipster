@@ -248,6 +248,12 @@
                             <span>Provident Management</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="monthly-salary" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Monthly Salary</span>
+                        </a>
+                    </li>
 
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
                         <a  routerLink="payroll-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
