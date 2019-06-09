@@ -52,7 +52,10 @@ import {
     faDonate,
     faDollarSign,
     faStar,
-    faCar
+    faCar,
+    faCheck,
+    faHistory,
+    faSuperscript
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -103,6 +106,9 @@ library.add(faDonate);
 library.add(faDollarSign);
 library.add(faStar);
 library.add(faCar);
+library.add(faCheck);
+library.add(faHistory);
+library.add(faSuperscript);
 
 import 'quill/dist/quill.js';
 import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';

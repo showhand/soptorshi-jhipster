@@ -12,6 +12,7 @@ import { LeaveApplicationUpdateComponent } from './leave-application-update.comp
 import { LeaveApplicationDeletePopupComponent } from './leave-application-delete-dialog.component';
 import { ILeaveApplication } from 'app/shared/model/leave-application.model';
 import { OthersLeaveApplicationComponent } from 'app/entities/leave-application/others-leave-application.component';
+import { ReviewLeaveApplicationComponent } from 'app/entities/leave-application/review-leave-application.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveApplicationResolve implements Resolve<ILeaveApplication> {
@@ -84,6 +85,18 @@ export const leaveApplicationRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'LeaveApplications'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'review',
+        component: ReviewLeaveApplicationComponent,
+        resolve: {
+            leaveApplication: LeaveApplicationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ReviewLeaveApplication'
         },
         canActivate: [UserRouteAccessService]
     }
