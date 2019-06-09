@@ -3,7 +3,6 @@ package org.soptorshi.service;
 import org.soptorshi.domain.Advance;
 import org.soptorshi.repository.AdvanceRepository;
 import org.soptorshi.repository.search.AdvanceSearchRepository;
-import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.AdvanceDTO;
 import org.soptorshi.service.mapper.AdvanceMapper;
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -49,8 +47,6 @@ public class AdvanceService {
     public AdvanceDTO save(AdvanceDTO advanceDTO) {
         log.debug("Request to save Advance : {}", advanceDTO);
         Advance advance = advanceMapper.toEntity(advanceDTO);
-        advance.setModifiedBy(SecurityUtils.getCurrentUserLogin().toString());
-        advance.setModifiedOn(LocalDate.now());
         advance = advanceRepository.save(advance);
         AdvanceDTO result = advanceMapper.toDto(advance);
         advanceSearchRepository.save(advance);

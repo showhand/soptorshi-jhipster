@@ -32,10 +32,7 @@ public class Advance implements Serializable {
 
     @Lob
     @Column(name = "reason")
-    private byte[] reason;
-
-    @Column(name = "reason_content_type")
-    private String reasonContentType;
+    private String reason;
 
     @Column(name = "provided_on")
     private LocalDate providedOn;
@@ -79,30 +76,17 @@ public class Advance implements Serializable {
         this.amount = amount;
     }
 
-    public byte[] getReason() {
+    public String getReason() {
         return reason;
     }
 
-    public Advance reason(byte[] reason) {
+    public Advance reason(String reason) {
         this.reason = reason;
         return this;
     }
 
-    public void setReason(byte[] reason) {
+    public void setReason(String reason) {
         this.reason = reason;
-    }
-
-    public String getReasonContentType() {
-        return reasonContentType;
-    }
-
-    public Advance reasonContentType(String reasonContentType) {
-        this.reasonContentType = reasonContentType;
-        return this;
-    }
-
-    public void setReasonContentType(String reasonContentType) {
-        this.reasonContentType = reasonContentType;
     }
 
     public LocalDate getProvidedOn() {
@@ -210,7 +194,6 @@ public class Advance implements Serializable {
             "id=" + getId() +
             ", amount=" + getAmount() +
             ", reason='" + getReason() + "'" +
-            ", reasonContentType='" + getReasonContentType() + "'" +
             ", providedOn='" + getProvidedOn() + "'" +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", left=" + getLeft() +

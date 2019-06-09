@@ -16,21 +16,8 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_reason">Reason</label>
-                    <div>
-                        <div *ngIf="advance.reason" class="form-text text-danger clearfix">
-                            <a class="pull-left" (click)="openFile(advance.reasonContentType, advance.reason)">open</a><br>
-                            <span class="pull-left">{{advance.reasonContentType}}, {{byteSize(advance.reason)}}</span>
-                            <button type="button" (click)="advance.reason=null;advance.reasonContentType=null;"
-                                    class="btn btn-secondary btn-xs pull-right">
-                                <fa-icon [icon]="'times'"></fa-icon>
-                            </button>
-                        </div>
-                        <input type="file" id="file_reason" (change)="setFileData($event, advance, 'reason', false)"/>
-                    </div>
-                    <input type="hidden" class="form-control" name="reason" id="field_reason"
-                        [(ngModel)]="advance.reason" />
-                    <input type="hidden" class="form-control" name="reasonContentType" id="field_reasonContentType"
-                        [(ngModel)]="advance.reasonContentType" />
+                    <textarea class="form-control" name="reason" id="field_reason"
+                        [(ngModel)]="advance.reason" ></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_providedOn">Provided On</label>

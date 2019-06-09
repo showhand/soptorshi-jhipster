@@ -11,10 +11,7 @@
                 </dd>
                 <dt><span>Reason</span></dt>
                 <dd>
-                    <div *ngIf="advance.reason">
-                        <a (click)="openFile(advance.reasonContentType, advance.reason)">open</a>
-                        {{advance.reasonContentType}}, {{byteSize(advance.reason)}}
-                    </div>
+                    <span>{{advance.reason}}</span>
                 </dd>
                 <dt><span>Provided On</span></dt>
                 <dd>

@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Advances</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-advance" [routerLink]="['/advance', advance.employeeId,'new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-advance" [routerLink]="['/advance/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Advance
@@ -45,10 +45,7 @@
             <tr *ngFor="let advance of advances ;trackBy: trackId">
                 <td><a [routerLink]="['/advance', advance.id, 'view' ]">{{advance.id}}</a></td>
                 <td>{{advance.amount}}</td>
-                <td>
-                    <a *ngIf="advance.reason" (click)="openFile(advance.reasonContentType, advance.reason)">open</a>
-                    <span *ngIf="advance.reason">{{advance.reasonContentType}}, {{byteSize(advance.reason)}}</span>
-                </td>
+                <td>{{advance.reason}}</td>
                 <td>{{advance.providedOn | date:'mediumDate'}}</td>
                 <td>{{advance.paymentStatus}}</td>
                 <td>{{advance.left}}</td>

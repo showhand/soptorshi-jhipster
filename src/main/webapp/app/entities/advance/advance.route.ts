@@ -12,8 +12,6 @@ import { AdvanceDetailComponent } from './advance-detail.component';
 import { AdvanceUpdateComponent } from './advance-update.component';
 import { AdvanceDeletePopupComponent } from './advance-delete-dialog.component';
 import { IAdvance } from 'app/shared/model/advance.model';
-import { Loan } from 'app/shared/model/loan.model';
-import { LoanResolve } from 'app/entities/loan';
 
 @Injectable({ providedIn: 'root' })
 export class AdvanceResolve implements Resolve<IAdvance> {
@@ -21,21 +19,11 @@ export class AdvanceResolve implements Resolve<IAdvance> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAdvance> {
         const id = route.params['id'] ? route.params['id'] : null;
-        const employeeLongId = route.params['employeeLongId'] ? route.params['employeeLongId'] : null;
-        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<Advance>) => response.ok),
                 map((advance: HttpResponse<Advance>) => advance.body)
             );
-        } else if (employeeLongId) {
-            let advance = new Advance();
-            advance.employeeId = employeeLongId;
-            return of(advance);
-        } else if (employeeId) {
-            let advance = new Advance();
-            advance.employeeId = employeeId;
-            return of(advance);
         }
         return of(new Advance());
     }
@@ -49,21 +37,7 @@ export const advanceRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER,ROLE_ADMIN'],
-            defaultSort: 'id,asc',
-            pageTitle: 'Advances'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':employeeLongId/employee',
-        component: AdvanceComponent,
-        resolve: {
-            pagingParams: JhiResolvePagingParams,
-            advance: AdvanceResolve
-        },
-        data: {
-            authorities: ['ROLE_USER,ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
             pageTitle: 'Advances'
         },
@@ -76,19 +50,7 @@ export const advanceRoute: Routes = [
             advance: AdvanceResolve
         },
         data: {
-            authorities: ['ROLE_USER,ROLE_ADMIN'],
-            pageTitle: 'Advances'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':employeeId/new',
-        component: AdvanceUpdateComponent,
-        resolve: {
-            advance: AdvanceResolve
-        },
-        data: {
-            authorities: ['ROLE_USER,ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Advances'
         },
         canActivate: [UserRouteAccessService]
@@ -100,7 +62,7 @@ export const advanceRoute: Routes = [
             advance: AdvanceResolve
         },
         data: {
-            authorities: ['ROLE_USER,ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Advances'
         },
         canActivate: [UserRouteAccessService]
@@ -112,7 +74,7 @@ export const advanceRoute: Routes = [
             advance: AdvanceResolve
         },
         data: {
-            authorities: ['ROLE_USER,ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Advances'
         },
         canActivate: [UserRouteAccessService]
@@ -127,7 +89,7 @@ export const advancePopupRoute: Routes = [
             advance: AdvanceResolve
         },
         data: {
-            authorities: ['ROLE_USER,ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Advances'
         },
         canActivate: [UserRouteAccessService],

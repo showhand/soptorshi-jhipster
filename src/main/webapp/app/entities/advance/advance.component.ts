@@ -16,7 +16,6 @@ import { AdvanceService } from './advance.service';
     templateUrl: './advance.component.html'
 })
 export class AdvanceComponent implements OnInit, OnDestroy {
-    advance: IAdvance;
     currentAccount: any;
     advances: IAdvance[];
     error: any;
@@ -72,7 +71,6 @@ export class AdvanceComponent implements OnInit, OnDestroy {
         }
         this.advanceService
             .query({
-                'employeeId.equals': this.advance.employeeId,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -133,10 +131,7 @@ export class AdvanceComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.activatedRoute.data.subscribe(({ advance }) => {
-            this.advance = advance;
-            this.loadAll();
-        });
+        this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });

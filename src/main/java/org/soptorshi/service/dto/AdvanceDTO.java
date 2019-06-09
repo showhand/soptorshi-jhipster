@@ -16,9 +16,8 @@ public class AdvanceDTO implements Serializable {
     private BigDecimal amount;
 
     @Lob
-    private byte[] reason;
+    private String reason;
 
-    private String reasonContentType;
     private LocalDate providedOn;
 
     private PaymentStatus paymentStatus;
@@ -50,20 +49,12 @@ public class AdvanceDTO implements Serializable {
         this.amount = amount;
     }
 
-    public byte[] getReason() {
+    public String getReason() {
         return reason;
     }
 
-    public void setReason(byte[] reason) {
+    public void setReason(String reason) {
         this.reason = reason;
-    }
-
-    public String getReasonContentType() {
-        return reasonContentType;
-    }
-
-    public void setReasonContentType(String reasonContentType) {
-        this.reasonContentType = reasonContentType;
     }
 
     public LocalDate getProvidedOn() {

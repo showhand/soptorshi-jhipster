@@ -8,7 +8,7 @@
         {
             "fieldName": "reason",
             "fieldType": "byte[]",
-            "fieldTypeBlobContent": "any"
+            "fieldTypeBlobContent": "text"
         },
         {
             "fieldName": "providedOn",

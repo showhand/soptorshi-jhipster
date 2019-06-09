@@ -8,7 +8,6 @@ export const enum PaymentStatus {
 export interface IAdvance {
     id?: number;
     amount?: number;
-    reasonContentType?: string;
     reason?: any;
     providedOn?: Moment;
     paymentStatus?: PaymentStatus;
@@ -23,7 +22,6 @@ export class Advance implements IAdvance {
     constructor(
         public id?: number,
         public amount?: number,
-        public reasonContentType?: string,
         public reason?: any,
         public providedOn?: Moment,
         public paymentStatus?: PaymentStatus,

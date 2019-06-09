@@ -26,10 +26,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="reason" type="longblob">
-                <constraints nullable="true" />
-            </column>
-            <column name="reason_content_type" type="varchar(255)">
+            <column name="reason" type="clob">
                 <constraints nullable="true" />
             </column>
 
