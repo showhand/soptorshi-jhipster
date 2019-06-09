@@ -6,7 +6,7 @@ import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { ILeaveApplication } from 'app/shared/model/leave-application.model';
-import { AccountService } from 'app/core';
+import { Account, AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { LeaveApplicationService } from './leave-application.service';
@@ -17,7 +17,7 @@ import { LeaveApplicationService } from './leave-application.service';
 })
 export class LeaveApplicationComponent implements OnInit, OnDestroy {
     leaveApplications: ILeaveApplication[];
-    currentAccount: any;
+    currentAccount: Account;
     eventSubscriber: Subscription;
     itemsPerPage: number;
     links: any;
@@ -56,7 +56,8 @@ export class LeaveApplicationComponent implements OnInit, OnDestroy {
                     query: this.currentSearch,
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort()
+                    sort: this.sort(),
+                    'employeeId.equals': this.currentAccount.login
                 })
                 .subscribe(
                     (res: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(res.body, res.headers),
@@ -68,7 +69,8 @@ export class LeaveApplicationComponent implements OnInit, OnDestroy {
             .query({
                 page: this.page,
                 size: this.itemsPerPage,
-                sort: this.sort()
+                sort: this.sort(),
+                'employeeId.equals': this.currentAccount.login
             })
             .subscribe(
                 (res: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(res.body, res.headers),
@@ -115,9 +117,9 @@ export class LeaveApplicationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
+            this.loadAll();
         });
         this.registerChangeInLeaveApplications();
     }

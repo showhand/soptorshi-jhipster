@@ -11,6 +11,7 @@ import { LeaveApplicationDetailComponent } from './leave-application-detail.comp
 import { LeaveApplicationUpdateComponent } from './leave-application-update.component';
 import { LeaveApplicationDeletePopupComponent } from './leave-application-delete-dialog.component';
 import { ILeaveApplication } from 'app/shared/model/leave-application.model';
+import { OthersLeaveApplicationComponent } from 'app/entities/leave-application/others-leave-application.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveApplicationResolve implements Resolve<ILeaveApplication> {
@@ -53,6 +54,18 @@ export const leaveApplicationRoute: Routes = [
     {
         path: 'new',
         component: LeaveApplicationUpdateComponent,
+        resolve: {
+            leaveApplication: LeaveApplicationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'LeaveApplications'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'new/others',
+        component: OthersLeaveApplicationComponent,
         resolve: {
             leaveApplication: LeaveApplicationResolve
         },

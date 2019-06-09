@@ -11,6 +11,7 @@ import {
     leaveApplicationRoute,
     leaveApplicationPopupRoute
 } from './';
+import { OthersLeaveApplicationComponent } from './others-leave-application.component';
 
 const ENTITY_STATES = [...leaveApplicationRoute, ...leaveApplicationPopupRoute];
 
@@ -21,7 +22,8 @@ const ENTITY_STATES = [...leaveApplicationRoute, ...leaveApplicationPopupRoute];
         LeaveApplicationDetailComponent,
         LeaveApplicationUpdateComponent,
         LeaveApplicationDeleteDialogComponent,
-        LeaveApplicationDeletePopupComponent
+        LeaveApplicationDeletePopupComponent,
+        OthersLeaveApplicationComponent
     ],
     entryComponents: [
         LeaveApplicationComponent,

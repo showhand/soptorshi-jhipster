@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { ILeaveApplication, LeaveStatus } from 'app/shared/model/leave-application.model';
+import { ILeaveType } from 'app/shared/model/leave-type.model';
+import { Account, AccountService } from 'app/core';
+import { JhiAlertService } from 'ng-jhipster';
+import { LeaveApplicationService } from 'app/entities/leave-application/leave-application.service';
+import { LeaveTypeService } from 'app/entities/leave-type';
 import { ActivatedRoute } from '@angular/router';
+import { DATE_TIME_FORMAT } from 'app/shared';
+import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { JhiAlertService } from 'ng-jhipster';
-import { ILeaveApplication, LeaveStatus } from 'app/shared/model/leave-application.model';
-import { LeaveApplicationService } from './leave-application.service';
-import { ILeaveType } from 'app/shared/model/leave-type.model';
-import { LeaveTypeService } from 'app/entities/leave-type';
-import { Account, AccountService } from 'app/core';
 
 @Component({
-    selector: 'jhi-leave-application-update',
-    templateUrl: './leave-application-update.component.html'
+    selector: 'jhi-others-leave-application',
+    templateUrl: './others-leave-application.component.html',
+    styles: []
 })
-export class LeaveApplicationUpdateComponent implements OnInit {
+export class OthersLeaveApplicationComponent implements OnInit {
     leaveApplication: ILeaveApplication;
     isSaving: boolean;
 
@@ -60,9 +61,12 @@ export class LeaveApplicationUpdateComponent implements OnInit {
         window.history.back();
     }
 
+    clear() {
+        this.leaveApplication = <ILeaveApplication>{};
+    }
+
     save() {
         this.isSaving = true;
-        this.leaveApplication.employeeId = this.account.login;
         this.leaveApplication.appliedBy = this.account.login;
         this.leaveApplication.actionTakenBy = this.account.login;
         this.leaveApplication.status = LeaveStatus.WAITING;
@@ -81,7 +85,8 @@ export class LeaveApplicationUpdateComponent implements OnInit {
 
     protected onSaveSuccess() {
         this.isSaving = false;
-        this.previousState();
+        this.clear();
+        // this.previousState();
     }
 
     protected onSaveError() {

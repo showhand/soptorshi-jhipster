@@ -18,11 +18,11 @@
                 <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
                     <fa-icon [icon]="'trash-alt'"></fa-icon>
                 </button>
-                <button id="jh-create-entity"
+                <!--<button id="jh-create-entity"
                         class="btn btn-primary float-right jh-create-entity create-leave-application"
                         [routerLink]="['/leave-application/new']">
                     <fa-icon [icon]="'plus'"></fa-icon>
-                </button>
+                </button>-->
             </div>
         </form>
     </div>
@@ -40,6 +40,9 @@
                     <th jhiSortBy="employeeId"><span>Employee Id</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
+                    <th jhiSortBy="leaveTypesName"><span>Leave Types</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
                     <th jhiSortBy="fromDate"><span>From Date</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -52,9 +55,9 @@
                     <th jhiSortBy="reason"><span>Reason</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="appliedBy"><span>Applied By</span>
+                    <!--<th jhiSortBy="appliedBy"><span>Applied By</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
+                    </th>-->
                     <th jhiSortBy="appliedOn"><span>Applied On</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -67,10 +70,7 @@
                     <th jhiSortBy="status"><span>Status</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="leaveTypesName"><span>Leave Types</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th></th>
+                    <!--<th></th>-->
                 </tr>
                 </thead>
                 <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
@@ -80,21 +80,21 @@
                         [routerLink]="['/leave-application', leaveApplication.id, 'view' ]">{{leaveApplication.id}}</a>
                     </td>
                     <td>{{leaveApplication.employeeId}}</td>
-                    <td>{{leaveApplication.fromDate | date:'mediumDate'}}</td>
-                    <td>{{leaveApplication.toDate | date:'mediumDate'}}</td>
-                    <td>{{leaveApplication.numberOfDays}}</td>
-                    <td>{{leaveApplication.reason}}</td>
-                    <td>{{leaveApplication.appliedBy}}</td>
-                    <td>{{leaveApplication.appliedOn | date:'medium'}}</td>
-                    <td>{{leaveApplication.actionTakenBy}}</td>
-                    <td>{{leaveApplication.actionTakenOn | date:'medium'}}</td>
-                    <td>{{leaveApplication.status}}</td>
                     <td>
                         <div *ngIf="leaveApplication.leaveTypesId">
                             <a [routerLink]="['../leave-type', leaveApplication.leaveTypesId , 'view' ]">{{leaveApplication.leaveTypesName}}</a>
                         </div>
                     </td>
-                    <td class="text-right" width="20%">
+                    <td>{{leaveApplication.fromDate | date:'mediumDate'}}</td>
+                    <td>{{leaveApplication.toDate | date:'mediumDate'}}</td>
+                    <td>{{leaveApplication.numberOfDays}}</td>
+                    <td>{{leaveApplication.reason}}</td>
+                    <!--<td>{{leaveApplication.appliedBy}}</td>-->
+                    <td>{{leaveApplication.appliedOn | date:'medium'}}</td>
+                    <td>{{leaveApplication.actionTakenBy}}</td>
+                    <td>{{leaveApplication.actionTakenOn | date:'medium'}}</td>
+                    <td>{{leaveApplication.status}}</td>
+                    <!--<td class="text-right" width="20%">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     [routerLink]="['/leave-application', leaveApplication.id, 'view' ]"
@@ -117,7 +117,7 @@
                                 <span class="d-none d-md-inline">Delete</span>
                             </button>
                         </div>
-                    </td>
+                    </td>-->
                 </tr>
                 </tbody>
             </table>
