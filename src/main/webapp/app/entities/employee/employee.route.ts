@@ -39,7 +39,7 @@ export const employeeRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            defaultSort: 'id,asc',
+            defaultSort: 'id,desc',
             pageTitle: 'Employees'
         },
         canActivate: [UserRouteAccessService]
