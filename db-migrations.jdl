@@ -126,7 +126,7 @@ entity MonthlySalary {
 }
 entity Advance {
   amount BigDecimal,
-  reason AnyBlob,
+  reason TextBlob,
   providedOn LocalDate,
   paymentStatus PaymentStatus,
   left BigDecimal,

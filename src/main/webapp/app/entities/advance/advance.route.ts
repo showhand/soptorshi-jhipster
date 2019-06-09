@@ -49,7 +49,7 @@ export const advanceRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER,ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Advances'
         },
@@ -63,7 +63,7 @@ export const advanceRoute: Routes = [
             advance: AdvanceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER,ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Advances'
         },
@@ -76,7 +76,7 @@ export const advanceRoute: Routes = [
             advance: AdvanceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER,ROLE_ADMIN'],
             pageTitle: 'Advances'
         },
         canActivate: [UserRouteAccessService]
@@ -88,7 +88,7 @@ export const advanceRoute: Routes = [
             advance: AdvanceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER,ROLE_ADMIN'],
             pageTitle: 'Advances'
         },
         canActivate: [UserRouteAccessService]
@@ -100,7 +100,7 @@ export const advanceRoute: Routes = [
             advance: AdvanceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER,ROLE_ADMIN'],
             pageTitle: 'Advances'
         },
         canActivate: [UserRouteAccessService]
@@ -112,7 +112,7 @@ export const advanceRoute: Routes = [
             advance: AdvanceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER,ROLE_ADMIN'],
             pageTitle: 'Advances'
         },
         canActivate: [UserRouteAccessService]
@@ -127,7 +127,7 @@ export const advancePopupRoute: Routes = [
             advance: AdvanceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER,ROLE_ADMIN'],
             pageTitle: 'Advances'
         },
         canActivate: [UserRouteAccessService],
