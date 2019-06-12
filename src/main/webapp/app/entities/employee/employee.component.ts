@@ -34,10 +34,6 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
-    departments: IDepartment[];
-    departmentMap: any;
-    designations: IDesignation[];
-    designationMap: any;
     authenticatedEmployee: IEmployee;
 
     constructor(
@@ -105,40 +101,6 @@ export class EmployeeComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
         }
-
-        this.departmentService
-            .query({
-                page: 0,
-                size: 1000,
-                sort: this.sort()
-            })
-            .subscribe(
-                (response: HttpResponse<IDepartment[]>) => {
-                    this.departments = response.body;
-                    this.departmentMap = {};
-                    this.departments.forEach((d: IDepartment) => (this.departmentMap[d.id] = d));
-                },
-                (errorResponse: HttpErrorResponse) => {
-                    this.jhiAlertService.error('Error in fetching department data');
-                }
-            );
-
-        this.designationService
-            .query({
-                page: 0,
-                size: 1000,
-                sort: this.sort()
-            })
-            .subscribe(
-                (response: HttpResponse<IDesignation[]>) => {
-                    this.designations = response.body;
-                    this.designationMap = {};
-                    this.designations.forEach((d: IDesignation) => (this.designationMap[d.id] = d));
-                },
-                (errorResponse: HttpErrorResponse) => {
-                    this.jhiAlertService.error('Error in fetching designation data');
-                }
-            );
     }
 
     loadPage(page: number) {
