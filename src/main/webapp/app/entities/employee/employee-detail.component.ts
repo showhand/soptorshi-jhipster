@@ -32,16 +32,6 @@ export class EmployeeDetailComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ employee }) => {
             this.employee = employee;
-
-            this.departmentService
-                .find(this.employee.departmentId)
-                .subscribe((res: HttpResponse<IDepartment>) => (this.department = res.body));
-
-            this.designationService
-                .find(this.employee.designationId)
-                .subscribe((res: HttpResponse<IDesignation>) => (this.designation = res.body));
-
-            this.officeService.find(this.employee.officeId).subscribe((res: HttpResponse<IOffice>) => (this.office = res.body));
         });
     }
 

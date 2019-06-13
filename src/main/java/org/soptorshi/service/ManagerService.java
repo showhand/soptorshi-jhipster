@@ -3,6 +3,7 @@ package org.soptorshi.service;
 import org.soptorshi.domain.Manager;
 import org.soptorshi.repository.ManagerRepository;
 import org.soptorshi.repository.search.ManagerSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.ManagerDTO;
 import org.soptorshi.service.mapper.ManagerMapper;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -47,6 +49,8 @@ public class ManagerService {
     public ManagerDTO save(ManagerDTO managerDTO) {
         log.debug("Request to save Manager : {}", managerDTO);
         Manager manager = managerMapper.toEntity(managerDTO);
+        manager.modifiedBy(SecurityUtils.getCurrentUserLogin().toString());
+        manager.modifiedOn(LocalDate.now());
         manager = managerRepository.save(manager);
         ManagerDTO result = managerMapper.toDto(manager);
         managerSearchRepository.save(manager);

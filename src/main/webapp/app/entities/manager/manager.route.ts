@@ -18,11 +18,16 @@ export class ManagerResolve implements Resolve<IManager> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IManager> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<Manager>) => response.ok),
                 map((manager: HttpResponse<Manager>) => manager.body)
             );
+        } else if (employeeId) {
+            const manager = new Manager();
+            manager.parentEmployeeId = employeeId;
+            return of(manager);
         }
         return of(new Manager());
     }
@@ -33,7 +38,7 @@ export const managerRoute: Routes = [
         path: '',
         component: ManagerComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Managers'
         },
         canActivate: [UserRouteAccessService]
@@ -45,7 +50,19 @@ export const managerRoute: Routes = [
             manager: ManagerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
+            pageTitle: 'Managers'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
+        component: ManagerUpdateComponent,
+        resolve: {
+            manager: ManagerResolve
+        },
+        data: {
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Managers'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +74,7 @@ export const managerRoute: Routes = [
             manager: ManagerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Managers'
         },
         canActivate: [UserRouteAccessService]
@@ -69,7 +86,7 @@ export const managerRoute: Routes = [
             manager: ManagerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Managers'
         },
         canActivate: [UserRouteAccessService]
@@ -84,7 +101,7 @@ export const managerPopupRoute: Routes = [
             manager: ManagerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Managers'
         },
         canActivate: [UserRouteAccessService],

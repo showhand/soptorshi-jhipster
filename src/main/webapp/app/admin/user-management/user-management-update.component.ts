@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { User, UserService } from 'app/core';
+import { EmployeeService } from 'app/entities/employee';
+import { HttpResponse } from '@angular/common/http';
+import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-user-mgmt-update',
@@ -13,12 +16,28 @@ export class UserMgmtUpdateComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) {}
+    constructor(
+        private userService: UserService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private employeeService: EmployeeService
+    ) {}
 
     ngOnInit() {
         this.isSaving = false;
         this.route.data.subscribe(({ user }) => {
             this.user = user.body ? user.body : user;
+
+            if (this.user.login) {
+                this.employeeService
+                    .query({
+                        'employeeId.equals': this.user.login
+                    })
+                    .subscribe((res: HttpResponse<IEmployee[]>) => {
+                        const employee = res.body[0];
+                        this.user.email = employee.email;
+                    });
+            }
         });
         this.authorities = [];
         this.userService.authorities().subscribe(authorities => {
