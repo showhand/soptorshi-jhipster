@@ -1,0 +1,36 @@
+{
+    "name": "Manager",
+    "fields": [
+        {
+            "fieldName": "parentEmployeeId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "manager",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName"
+        }
+    ],
+    "changelogDate": "20190613164116",
+    "entityTableName": "manager",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}
