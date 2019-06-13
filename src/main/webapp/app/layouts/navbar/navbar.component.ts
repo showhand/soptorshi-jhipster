@@ -33,11 +33,11 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.sidebarService.toggleSidenav = true;
         this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });
-        this.sidebarService.toggleSidenav = false;
     }
 
     collapseNavbar() {
@@ -59,6 +59,7 @@ export class NavbarComponent implements OnInit {
     }
 
     toggleNavbar() {
+        this.sidebarService.toggleSidenav = !this.sidebarService.toggleSidenav;
         this.isNavbarCollapsed = !this.isNavbarCollapsed;
     }
 
