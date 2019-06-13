@@ -22,7 +22,7 @@ export class JhiMainComponent implements OnInit {
         private router: Router,
         private accountService: AccountService,
         private deviceDetectorService: DeviceDetectorService,
-        private sidebarService: SidebarService
+        public sidebarService: SidebarService
     ) {}
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
