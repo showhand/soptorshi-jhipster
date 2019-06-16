@@ -24,12 +24,14 @@ public class LoanDTO implements Serializable {
 
     private BigDecimal left;
 
-    private Long modifiedBy;
+    private String modifiedBy;
 
     private LocalDate modifiedDate;
 
 
     private Long employeeId;
+
+    private String employeeFullName;
 
     public Long getId() {
         return id;
@@ -79,11 +81,11 @@ public class LoanDTO implements Serializable {
         this.left = left;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -101,6 +103,14 @@ public class LoanDTO implements Serializable {
 
     public void setEmployeeId(Long employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
     }
 
     @Override
@@ -133,9 +143,10 @@ public class LoanDTO implements Serializable {
             ", monthlyPayable=" + getMonthlyPayable() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", left=" + getLeft() +
-            ", modifiedBy=" + getModifiedBy() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedDate='" + getModifiedDate() + "'" +
             ", employee=" + getEmployeeId() +
+            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

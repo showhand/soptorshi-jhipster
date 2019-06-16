@@ -24,6 +24,9 @@ import { ITrainingInformation } from 'app/shared/model/training-information.mode
 import { ITrainingInformationAttachment } from 'app/shared/model/training-information-attachment.model';
 import { TrainingInformationService } from 'app/entities/training-information';
 import { TrainingInformationAttachmentService } from 'app/entities/training-information-attachment';
+import { IUser, UserService } from 'app/core';
+import { ManagerService } from 'app/entities/manager';
+import { IManager } from 'app/shared/model/manager.model';
 
 @Component({
     selector: 'jhi-employee-management',
@@ -40,6 +43,8 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
     referenceInformations: IReferenceInformation[];
     trainingInformations: ITrainingInformation[];
     trainingInformationAttachments: ITrainingInformationAttachment[];
+    user: IUser;
+    managers: IManager[];
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -55,10 +60,25 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
         protected referenceInformationService: ReferenceInformationService,
         protected trainingInformationService: TrainingInformationService,
         protected trainingInformationAttachmentService: TrainingInformationAttachmentService,
-        protected router: Router
+        protected router: Router,
+        protected userService: UserService,
+        protected managerService: ManagerService
     ) {}
 
     loadAll() {
+        this.userService
+            .find(this.employee.employeeId)
+            .subscribe(
+                (res: HttpResponse<IUser>) => (this.user = res.body),
+                (res: HttpErrorResponse) => this.jhiAlertService.error('Error in fetching user data')
+            );
+
+        this.managerService
+            .query({
+                'parentEmployeeId.equals': this.employee.employeeId
+            })
+            .subscribe((res: HttpResponse<IManager[]>) => (this.managers = res.body));
+
         this.academicInformationService
             .query({
                 'employeeId.equals': this.employee.id,
@@ -154,6 +174,12 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
                 },
                 (res: HttpErrorResponse) => this.jhiAlertService.error('Error in fetching training information attachments')
             );
+    }
+
+    deleteManager(id: number) {
+        this.managerService
+            .delete(id)
+            .subscribe((res: HttpResponse<any>) => this.loadAll(), (res: HttpErrorResponse) => this.jhiAlertService.error(res.message));
     }
 
     ngOnInit() {

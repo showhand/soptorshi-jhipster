@@ -19,6 +19,8 @@ export class SalaryUpdateComponent implements OnInit {
     isSaving: boolean;
 
     employees: IEmployee[];
+    startedOnDp: any;
+    endedOnDp: any;
     modifiedOnDp: any;
 
     constructor(

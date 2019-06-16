@@ -3,6 +3,7 @@ package org.soptorshi.service;
 import org.soptorshi.domain.Loan;
 import org.soptorshi.repository.LoanRepository;
 import org.soptorshi.repository.search.LoanSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.LoanDTO;
 import org.soptorshi.service.mapper.LoanMapper;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -47,6 +49,8 @@ public class LoanService {
     public LoanDTO save(LoanDTO loanDTO) {
         log.debug("Request to save Loan : {}", loanDTO);
         Loan loan = loanMapper.toEntity(loanDTO);
+        loan.setModifiedBy(SecurityUtils.getCurrentUserLogin().toString());
+        loan.setModifiedDate(LocalDate.now());
         loan = loanRepository.save(loan);
         LoanDTO result = loanMapper.toDto(loan);
         loanSearchRepository.save(loan);

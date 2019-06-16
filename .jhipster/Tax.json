@@ -2,8 +2,17 @@
     "name": "Tax",
     "fields": [
         {
+            "fieldName": "minimumSalary",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "rate",
             "fieldType": "Double"
+        },
+        {
+            "fieldName": "taxStatus",
+            "fieldType": "TaxStatus",
+            "fieldValues": "ACTIVE,INACTIVE"
         }
     ],
     "relationships": [

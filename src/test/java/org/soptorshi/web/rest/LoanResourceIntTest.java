@@ -71,8 +71,8 @@ public class LoanResourceIntTest {
     private static final BigDecimal DEFAULT_LEFT = new BigDecimal(1);
     private static final BigDecimal UPDATED_LEFT = new BigDecimal(2);
 
-    private static final Long DEFAULT_MODIFIED_BY = 1L;
-    private static final Long UPDATED_MODIFIED_BY = 2L;
+    private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final LocalDate DEFAULT_MODIFIED_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_MODIFIED_DATE = LocalDate.now(ZoneId.systemDefault());
@@ -237,7 +237,7 @@ public class LoanResourceIntTest {
             .andExpect(jsonPath("$.[*].monthlyPayable").value(hasItem(DEFAULT_MONTHLY_PAYABLE.doubleValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())));
     }
     
@@ -257,7 +257,7 @@ public class LoanResourceIntTest {
             .andExpect(jsonPath("$.monthlyPayable").value(DEFAULT_MONTHLY_PAYABLE.doubleValue()))
             .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS.toString()))
             .andExpect(jsonPath("$.left").value(DEFAULT_LEFT.intValue()))
-            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.intValue()))
+            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedDate").value(DEFAULT_MODIFIED_DATE.toString()));
     }
 
@@ -524,33 +524,6 @@ public class LoanResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllLoansByModifiedByIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        loanRepository.saveAndFlush(loan);
-
-        // Get all the loanList where modifiedBy greater than or equals to DEFAULT_MODIFIED_BY
-        defaultLoanShouldBeFound("modifiedBy.greaterOrEqualThan=" + DEFAULT_MODIFIED_BY);
-
-        // Get all the loanList where modifiedBy greater than or equals to UPDATED_MODIFIED_BY
-        defaultLoanShouldNotBeFound("modifiedBy.greaterOrEqualThan=" + UPDATED_MODIFIED_BY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLoansByModifiedByIsLessThanSomething() throws Exception {
-        // Initialize the database
-        loanRepository.saveAndFlush(loan);
-
-        // Get all the loanList where modifiedBy less than or equals to DEFAULT_MODIFIED_BY
-        defaultLoanShouldNotBeFound("modifiedBy.lessThan=" + DEFAULT_MODIFIED_BY);
-
-        // Get all the loanList where modifiedBy less than or equals to UPDATED_MODIFIED_BY
-        defaultLoanShouldBeFound("modifiedBy.lessThan=" + UPDATED_MODIFIED_BY);
-    }
-
-
-    @Test
-    @Transactional
     public void getAllLoansByModifiedDateIsEqualToSomething() throws Exception {
         // Initialize the database
         loanRepository.saveAndFlush(loan);
@@ -646,7 +619,7 @@ public class LoanResourceIntTest {
             .andExpect(jsonPath("$.[*].monthlyPayable").value(hasItem(DEFAULT_MONTHLY_PAYABLE.doubleValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())));
 
         // Check, that the count call also returns 1
@@ -785,7 +758,7 @@ public class LoanResourceIntTest {
             .andExpect(jsonPath("$.[*].monthlyPayable").value(hasItem(DEFAULT_MONTHLY_PAYABLE.doubleValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedDate").value(hasItem(DEFAULT_MODIFIED_DATE.toString())));
     }
 

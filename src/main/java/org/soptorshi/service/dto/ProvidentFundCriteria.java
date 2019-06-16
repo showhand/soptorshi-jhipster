@@ -31,7 +31,7 @@ public class ProvidentFundCriteria implements Serializable {
 
     private BooleanFilter status;
 
-    private LongFilter modifiedBy;
+    private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedOn;
 
@@ -67,11 +67,11 @@ public class ProvidentFundCriteria implements Serializable {
         this.status = status;
     }
 
-    public LongFilter getModifiedBy() {
+    public StringFilter getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(LongFilter modifiedBy) {
+    public void setModifiedBy(StringFilter modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 

@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export const enum MonthType {
     JANUARY = 'JANUARY',
     FEBRUARY = 'FEBRUARY',
@@ -28,6 +30,8 @@ export interface IMonthlySalary {
     tax?: number;
     loanAmount?: number;
     payable?: number;
+    modifiedBy?: string;
+    modifiedOn?: Moment;
     employeeId?: number;
 }
 
@@ -47,6 +51,8 @@ export class MonthlySalary implements IMonthlySalary {
         public tax?: number,
         public loanAmount?: number,
         public payable?: number,
+        public modifiedBy?: string,
+        public modifiedOn?: Moment,
         public employeeId?: number
     ) {}
 }

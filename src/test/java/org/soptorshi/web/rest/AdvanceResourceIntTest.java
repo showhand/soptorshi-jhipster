@@ -60,10 +60,8 @@ public class AdvanceResourceIntTest {
     private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
 
-    private static final byte[] DEFAULT_REASON = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_REASON = TestUtil.createByteArray(1, "1");
-    private static final String DEFAULT_REASON_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_REASON_CONTENT_TYPE = "image/png";
+    private static final String DEFAULT_REASON = "AAAAAAAAAA";
+    private static final String UPDATED_REASON = "BBBBBBBBBB";
 
     private static final LocalDate DEFAULT_PROVIDED_ON = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_PROVIDED_ON = LocalDate.now(ZoneId.systemDefault());
@@ -74,8 +72,8 @@ public class AdvanceResourceIntTest {
     private static final BigDecimal DEFAULT_LEFT = new BigDecimal(1);
     private static final BigDecimal UPDATED_LEFT = new BigDecimal(2);
 
-    private static final Long DEFAULT_MODIFIED_BY = 1L;
-    private static final Long UPDATED_MODIFIED_BY = 2L;
+    private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     private static final LocalDate DEFAULT_MODIFIED_ON = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_MODIFIED_ON = LocalDate.now(ZoneId.systemDefault());
@@ -141,7 +139,6 @@ public class AdvanceResourceIntTest {
         Advance advance = new Advance()
             .amount(DEFAULT_AMOUNT)
             .reason(DEFAULT_REASON)
-            .reasonContentType(DEFAULT_REASON_CONTENT_TYPE)
             .providedOn(DEFAULT_PROVIDED_ON)
             .paymentStatus(DEFAULT_PAYMENT_STATUS)
             .left(DEFAULT_LEFT)
@@ -173,7 +170,6 @@ public class AdvanceResourceIntTest {
         Advance testAdvance = advanceList.get(advanceList.size() - 1);
         assertThat(testAdvance.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testAdvance.getReason()).isEqualTo(DEFAULT_REASON);
-        assertThat(testAdvance.getReasonContentType()).isEqualTo(DEFAULT_REASON_CONTENT_TYPE);
         assertThat(testAdvance.getProvidedOn()).isEqualTo(DEFAULT_PROVIDED_ON);
         assertThat(testAdvance.getPaymentStatus()).isEqualTo(DEFAULT_PAYMENT_STATUS);
         assertThat(testAdvance.getLeft()).isEqualTo(DEFAULT_LEFT);
@@ -219,12 +215,11 @@ public class AdvanceResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(advance.getId().intValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].reasonContentType").value(hasItem(DEFAULT_REASON_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].reason").value(hasItem(Base64Utils.encodeToString(DEFAULT_REASON))))
+            .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].providedOn").value(hasItem(DEFAULT_PROVIDED_ON.toString())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
     
@@ -240,12 +235,11 @@ public class AdvanceResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(advance.getId().intValue()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
-            .andExpect(jsonPath("$.reasonContentType").value(DEFAULT_REASON_CONTENT_TYPE))
-            .andExpect(jsonPath("$.reason").value(Base64Utils.encodeToString(DEFAULT_REASON)))
+            .andExpect(jsonPath("$.reason").value(DEFAULT_REASON.toString()))
             .andExpect(jsonPath("$.providedOn").value(DEFAULT_PROVIDED_ON.toString()))
             .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS.toString()))
             .andExpect(jsonPath("$.left").value(DEFAULT_LEFT.intValue()))
-            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.intValue()))
+            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
 
@@ -473,33 +467,6 @@ public class AdvanceResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllAdvancesByModifiedByIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        advanceRepository.saveAndFlush(advance);
-
-        // Get all the advanceList where modifiedBy greater than or equals to DEFAULT_MODIFIED_BY
-        defaultAdvanceShouldBeFound("modifiedBy.greaterOrEqualThan=" + DEFAULT_MODIFIED_BY);
-
-        // Get all the advanceList where modifiedBy greater than or equals to UPDATED_MODIFIED_BY
-        defaultAdvanceShouldNotBeFound("modifiedBy.greaterOrEqualThan=" + UPDATED_MODIFIED_BY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAdvancesByModifiedByIsLessThanSomething() throws Exception {
-        // Initialize the database
-        advanceRepository.saveAndFlush(advance);
-
-        // Get all the advanceList where modifiedBy less than or equals to DEFAULT_MODIFIED_BY
-        defaultAdvanceShouldNotBeFound("modifiedBy.lessThan=" + DEFAULT_MODIFIED_BY);
-
-        // Get all the advanceList where modifiedBy less than or equals to UPDATED_MODIFIED_BY
-        defaultAdvanceShouldBeFound("modifiedBy.lessThan=" + UPDATED_MODIFIED_BY);
-    }
-
-
-    @Test
-    @Transactional
     public void getAllAdvancesByModifiedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
@@ -591,12 +558,11 @@ public class AdvanceResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(advance.getId().intValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].reasonContentType").value(hasItem(DEFAULT_REASON_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].reason").value(hasItem(Base64Utils.encodeToString(DEFAULT_REASON))))
+            .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].providedOn").value(hasItem(DEFAULT_PROVIDED_ON.toString())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
         // Check, that the count call also returns 1
@@ -647,7 +613,6 @@ public class AdvanceResourceIntTest {
         updatedAdvance
             .amount(UPDATED_AMOUNT)
             .reason(UPDATED_REASON)
-            .reasonContentType(UPDATED_REASON_CONTENT_TYPE)
             .providedOn(UPDATED_PROVIDED_ON)
             .paymentStatus(UPDATED_PAYMENT_STATUS)
             .left(UPDATED_LEFT)
@@ -666,7 +631,6 @@ public class AdvanceResourceIntTest {
         Advance testAdvance = advanceList.get(advanceList.size() - 1);
         assertThat(testAdvance.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testAdvance.getReason()).isEqualTo(UPDATED_REASON);
-        assertThat(testAdvance.getReasonContentType()).isEqualTo(UPDATED_REASON_CONTENT_TYPE);
         assertThat(testAdvance.getProvidedOn()).isEqualTo(UPDATED_PROVIDED_ON);
         assertThat(testAdvance.getPaymentStatus()).isEqualTo(UPDATED_PAYMENT_STATUS);
         assertThat(testAdvance.getLeft()).isEqualTo(UPDATED_LEFT);
@@ -733,12 +697,11 @@ public class AdvanceResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(advance.getId().intValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].reasonContentType").value(hasItem(DEFAULT_REASON_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].reason").value(hasItem(Base64Utils.encodeToString(DEFAULT_REASON))))
+            .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].providedOn").value(hasItem(DEFAULT_PROVIDED_ON.toString())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
 

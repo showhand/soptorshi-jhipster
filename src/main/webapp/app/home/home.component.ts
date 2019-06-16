@@ -32,7 +32,13 @@ export class HomeComponent implements OnInit {
         private jhiAlertService: JhiAlertService,
         private departmentService: DepartmentService,
         private designationService: DesignationService
-    ) {}
+    ) {
+        if (this.isAuthenticated()) {
+            setInterval(() => {
+                this.fetchLoggedEmployeeInformation();
+            }, 5000);
+        }
+    }
 
     fetchLoggedEmployeeInformation() {
         this.employeeService

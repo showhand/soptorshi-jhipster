@@ -34,6 +34,7 @@ export const enum EmploymentType {
 
 export interface IEmployee {
     id?: number;
+    employeeLongId?: number;
     employeeId?: string;
     fullName?: string;
     fathersName?: string;
@@ -59,8 +60,11 @@ export interface IEmployee {
     userAccount?: boolean;
     photoContentType?: string;
     photo?: any;
+    departmentName?: string;
     departmentId?: number;
+    officeName?: string;
     officeId?: number;
+    designationName?: string;
     designationId?: number;
 }
 
@@ -92,8 +96,11 @@ export class Employee implements IEmployee {
         public userAccount?: boolean,
         public photoContentType?: string,
         public photo?: any,
+        public departmentName?: string,
         public departmentId?: number,
+        public officeName?: string,
         public officeId?: number,
+        public designationName?: string,
         public designationId?: number
     ) {
         this.userAccount = this.userAccount || false;

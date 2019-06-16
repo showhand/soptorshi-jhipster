@@ -4,6 +4,7 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.SalaryStatus;
 
 /**
  * A DTO for the Salary entity.
@@ -15,17 +16,13 @@ public class SalaryDTO implements Serializable {
     @NotNull
     private BigDecimal basic;
 
-    @NotNull
-    private Double houseRent;
+    private LocalDate startedOn;
 
-    @NotNull
-    private Double medicalAllowance;
+    private LocalDate endedOn;
 
-    private Double incrementRate;
+    private SalaryStatus salaryStatus;
 
-    private Double otherAllowance;
-
-    private Long modifiedBy;
+    private String modifiedBy;
 
     private LocalDate modifiedOn;
 
@@ -48,43 +45,35 @@ public class SalaryDTO implements Serializable {
         this.basic = basic;
     }
 
-    public Double getHouseRent() {
-        return houseRent;
+    public LocalDate getStartedOn() {
+        return startedOn;
     }
 
-    public void setHouseRent(Double houseRent) {
-        this.houseRent = houseRent;
+    public void setStartedOn(LocalDate startedOn) {
+        this.startedOn = startedOn;
     }
 
-    public Double getMedicalAllowance() {
-        return medicalAllowance;
+    public LocalDate getEndedOn() {
+        return endedOn;
     }
 
-    public void setMedicalAllowance(Double medicalAllowance) {
-        this.medicalAllowance = medicalAllowance;
+    public void setEndedOn(LocalDate endedOn) {
+        this.endedOn = endedOn;
     }
 
-    public Double getIncrementRate() {
-        return incrementRate;
+    public SalaryStatus getSalaryStatus() {
+        return salaryStatus;
     }
 
-    public void setIncrementRate(Double incrementRate) {
-        this.incrementRate = incrementRate;
+    public void setSalaryStatus(SalaryStatus salaryStatus) {
+        this.salaryStatus = salaryStatus;
     }
 
-    public Double getOtherAllowance() {
-        return otherAllowance;
-    }
-
-    public void setOtherAllowance(Double otherAllowance) {
-        this.otherAllowance = otherAllowance;
-    }
-
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -130,11 +119,10 @@ public class SalaryDTO implements Serializable {
         return "SalaryDTO{" +
             "id=" + getId() +
             ", basic=" + getBasic() +
-            ", houseRent=" + getHouseRent() +
-            ", medicalAllowance=" + getMedicalAllowance() +
-            ", incrementRate=" + getIncrementRate() +
-            ", otherAllowance=" + getOtherAllowance() +
-            ", modifiedBy=" + getModifiedBy() +
+            ", startedOn='" + getStartedOn() + "'" +
+            ", endedOn='" + getEndedOn() + "'" +
+            ", salaryStatus='" + getSalaryStatus() + "'" +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +
             "}";

@@ -8,13 +8,13 @@ export const enum PaymentStatus {
 export interface IAdvance {
     id?: number;
     amount?: number;
-    reasonContentType?: string;
     reason?: any;
     providedOn?: Moment;
     paymentStatus?: PaymentStatus;
     left?: number;
-    modifiedBy?: number;
+    modifiedBy?: string;
     modifiedOn?: Moment;
+    employeeFullName?: string;
     employeeId?: number;
 }
 
@@ -22,13 +22,13 @@ export class Advance implements IAdvance {
     constructor(
         public id?: number,
         public amount?: number,
-        public reasonContentType?: string,
         public reason?: any,
         public providedOn?: Moment,
         public paymentStatus?: PaymentStatus,
         public left?: number,
-        public modifiedBy?: number,
+        public modifiedBy?: string,
         public modifiedOn?: Moment,
+        public employeeFullName?: string,
         public employeeId?: number
     ) {}
 }

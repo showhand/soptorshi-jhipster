@@ -17,24 +17,26 @@ public class FineDTO implements Serializable {
     @NotNull
     private BigDecimal amount;
 
-    
-    @Lob
-    private byte[] reason;
-
-    private String reasonContentType;
     @NotNull
     private LocalDate fineDate;
+
+    private Double monthlyPayable;
 
     private PaymentStatus paymentStatus;
 
     private BigDecimal left;
 
-    private Long modifiedBy;
+    private String modifiedBy;
 
     private LocalDate modifiedDate;
 
+    @Lob
+    private String reason;
+
 
     private Long employeeId;
+
+    private String employeeFullName;
 
     public Long getId() {
         return id;
@@ -52,28 +54,20 @@ public class FineDTO implements Serializable {
         this.amount = amount;
     }
 
-    public byte[] getReason() {
-        return reason;
-    }
-
-    public void setReason(byte[] reason) {
-        this.reason = reason;
-    }
-
-    public String getReasonContentType() {
-        return reasonContentType;
-    }
-
-    public void setReasonContentType(String reasonContentType) {
-        this.reasonContentType = reasonContentType;
-    }
-
     public LocalDate getFineDate() {
         return fineDate;
     }
 
     public void setFineDate(LocalDate fineDate) {
         this.fineDate = fineDate;
+    }
+
+    public Double getMonthlyPayable() {
+        return monthlyPayable;
+    }
+
+    public void setMonthlyPayable(Double monthlyPayable) {
+        this.monthlyPayable = monthlyPayable;
     }
 
     public PaymentStatus getPaymentStatus() {
@@ -92,11 +86,11 @@ public class FineDTO implements Serializable {
         this.left = left;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -108,12 +102,28 @@ public class FineDTO implements Serializable {
         this.modifiedDate = modifiedDate;
     }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
     public Long getEmployeeId() {
         return employeeId;
     }
 
     public void setEmployeeId(Long employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
     }
 
     @Override
@@ -142,13 +152,15 @@ public class FineDTO implements Serializable {
         return "FineDTO{" +
             "id=" + getId() +
             ", amount=" + getAmount() +
-            ", reason='" + getReason() + "'" +
             ", fineDate='" + getFineDate() + "'" +
+            ", monthlyPayable=" + getMonthlyPayable() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", left=" + getLeft() +
-            ", modifiedBy=" + getModifiedBy() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedDate='" + getModifiedDate() + "'" +
+            ", reason='" + getReason() + "'" +
             ", employee=" + getEmployeeId() +
+            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

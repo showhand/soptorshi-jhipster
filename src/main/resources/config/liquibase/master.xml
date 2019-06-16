@@ -28,6 +28,8 @@
     <include file="config/liquibase/changelog/20190514160142_added_entity_Loan.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190525155822_added_entity_HolidayType.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190525155823_added_entity_Holiday.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190603165435_added_entity_DesignationWiseAllowance.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190613164116_added_entity_Manager.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190603104539_added_entity_LeaveType.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190603104540_added_entity_LeaveApplication.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190603104541_added_entity_LeaveAttachment.xml" relativeToChangelogFile="false"/>
@@ -50,6 +52,9 @@
     <include file="config/liquibase/changelog/20190514160141_added_entity_constraints_Fine.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160142_added_entity_constraints_Loan.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190525155823_added_entity_constraints_Holiday.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190603165435_added_entity_constraints_DesignationWiseAllowance.xml" relativeToChangelogFile="false"/>
+
+    <include file="config/liquibase/changelog/20190613164116_added_entity_constraints_Manager.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190603104540_added_entity_constraints_LeaveApplication.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190603104541_added_entity_constraints_LeaveAttachment.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->

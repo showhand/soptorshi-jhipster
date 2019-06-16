@@ -11,6 +11,7 @@ import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.service.filter.BigDecimalFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the MonthlySalary entity. This class is used in MonthlySalaryResource to
@@ -56,6 +57,10 @@ public class MonthlySalaryCriteria implements Serializable {
     private BigDecimalFilter loanAmount;
 
     private BigDecimalFilter payable;
+
+    private StringFilter modifiedBy;
+
+    private LocalDateFilter modifiedOn;
 
     private LongFilter employeeId;
 
@@ -171,6 +176,22 @@ public class MonthlySalaryCriteria implements Serializable {
         this.payable = payable;
     }
 
+    public StringFilter getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(StringFilter modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public LocalDateFilter getModifiedOn() {
+        return modifiedOn;
+    }
+
+    public void setModifiedOn(LocalDateFilter modifiedOn) {
+        this.modifiedOn = modifiedOn;
+    }
+
     public LongFilter getEmployeeId() {
         return employeeId;
     }
@@ -204,6 +225,8 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(tax, that.tax) &&
             Objects.equals(loanAmount, that.loanAmount) &&
             Objects.equals(payable, that.payable) &&
+            Objects.equals(modifiedBy, that.modifiedBy) &&
+            Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(employeeId, that.employeeId);
     }
 
@@ -224,6 +247,8 @@ public class MonthlySalaryCriteria implements Serializable {
         tax,
         loanAmount,
         payable,
+        modifiedBy,
+        modifiedOn,
         employeeId
         );
     }
@@ -245,6 +270,8 @@ public class MonthlySalaryCriteria implements Serializable {
                 (tax != null ? "tax=" + tax + ", " : "") +
                 (loanAmount != null ? "loanAmount=" + loanAmount + ", " : "") +
                 (payable != null ? "payable=" + payable + ", " : "") +
+                (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
+                (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }

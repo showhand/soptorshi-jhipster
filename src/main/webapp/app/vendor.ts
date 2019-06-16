@@ -51,6 +51,12 @@ import {
     faPlane,
     faDonate,
     faDollarSign,
+    faMoneyCheck,
+    faHandHolding,
+    faMoneyBillWave,
+    faMoneyBillAlt,
+    faCreditCard,
+    faPiggyBank,
     faStar,
     faCar,
     faCheck,
@@ -104,6 +110,12 @@ library.add(faBuilding);
 library.add(faPlane);
 library.add(faDonate);
 library.add(faDollarSign);
+library.add(faMoneyCheck);
+library.add(faHandHolding);
+library.add(faMoneyBillWave);
+library.add(faMoneyBillAlt);
+library.add(faCreditCard);
+library.add(faPiggyBank);
 library.add(faStar);
 library.add(faCar);
 library.add(faCheck);

@@ -43,6 +43,8 @@
             <th jhiSortBy="tax"><span>Tax</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="loanAmount"><span>Loan Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="payable"><span>Payable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeId"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -63,6 +65,8 @@
                 <td>{{monthlySalary.tax}}</td>
                 <td>{{monthlySalary.loanAmount}}</td>
                 <td>{{monthlySalary.payable}}</td>
+                <td>{{monthlySalary.modifiedBy}}</td>
+                <td>{{monthlySalary.modifiedOn | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="monthlySalary.employeeId">
                         <a [routerLink]="['../employee', monthlySalary.employeeId , 'view' ]" >{{monthlySalary.employeeId}}</a>

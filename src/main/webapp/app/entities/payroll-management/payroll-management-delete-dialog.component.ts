@@ -25,13 +25,13 @@ export class PayrollManagementDeleteDialogComponent {
     }
 
     confirmDelete(id: number) {
-        this.payrollManagementService.delete(id).subscribe(response => {
+        /*this.payrollManagementService.delete(id).subscribe(response => {
             this.eventManager.broadcast({
                 name: 'payrollManagementListModification',
                 content: 'Deleted an payrollManagement'
             });
             this.activeModal.dismiss(true);
-        });
+        });*/
     }
 }
 

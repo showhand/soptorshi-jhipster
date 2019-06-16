@@ -93,8 +93,14 @@ public class TaxQueryService extends QueryService<Tax> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), Tax_.id));
             }
+            if (criteria.getMinimumSalary() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMinimumSalary(), Tax_.minimumSalary));
+            }
             if (criteria.getRate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRate(), Tax_.rate));
+            }
+            if (criteria.getTaxStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getTaxStatus(), Tax_.taxStatus));
             }
             if (criteria.getFinancialAccountYearId() != null) {
                 specification = specification.and(buildSpecification(criteria.getFinancialAccountYearId(),

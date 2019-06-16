@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Fine(0, 0, 'image/png', 'AAAAAAA', currentDate, PaymentStatus.PAID, 0, 0, currentDate);
+            elemDefault = new Fine(0, 0, currentDate, 0, PaymentStatus.PAID, 0, 'AAAAAAA', currentDate, 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -74,12 +74,13 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         amount: 1,
-                        reason: 'BBBBBB',
                         fineDate: currentDate.format(DATE_FORMAT),
+                        monthlyPayable: 1,
                         paymentStatus: 'BBBBBB',
                         left: 1,
-                        modifiedBy: 1,
-                        modifiedDate: currentDate.format(DATE_FORMAT)
+                        modifiedBy: 'BBBBBB',
+                        modifiedDate: currentDate.format(DATE_FORMAT),
+                        reason: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -103,12 +104,13 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         amount: 1,
-                        reason: 'BBBBBB',
                         fineDate: currentDate.format(DATE_FORMAT),
+                        monthlyPayable: 1,
                         paymentStatus: 'BBBBBB',
                         left: 1,
-                        modifiedBy: 1,
-                        modifiedDate: currentDate.format(DATE_FORMAT)
+                        modifiedBy: 'BBBBBB',
+                        modifiedDate: currentDate.format(DATE_FORMAT),
+                        reason: 'BBBBBB'
                     },
                     elemDefault
                 );

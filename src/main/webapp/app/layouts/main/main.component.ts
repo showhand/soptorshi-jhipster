@@ -4,6 +4,7 @@ import { Router, ActivatedRouteSnapshot, NavigationEnd, NavigationError } from '
 import { Title } from '@angular/platform-browser';
 import { AccountService } from 'app/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { SidebarService } from 'app/layouts/sidebar/sidebar.service';
 
 @Component({
     selector: 'jhi-main',
@@ -13,6 +14,7 @@ export class JhiMainComponent implements OnInit {
     configuration: any;
     employeeManagement: any;
     holidayManagement: any;
+    payrollManagement: any;
     leaveManagement: any;
     isDesktop: boolean;
 
@@ -20,7 +22,8 @@ export class JhiMainComponent implements OnInit {
         private titleService: Title,
         private router: Router,
         private accountService: AccountService,
-        private deviceDetectorService: DeviceDetectorService
+        private deviceDetectorService: DeviceDetectorService,
+        public sidebarService: SidebarService
     ) {}
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {

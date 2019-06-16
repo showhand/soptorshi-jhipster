@@ -39,7 +39,7 @@ export const employeeRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            defaultSort: 'id,asc',
+            defaultSort: 'id,desc',
             pageTitle: 'Employees'
         },
         canActivate: [UserRouteAccessService]
@@ -53,7 +53,8 @@ export const employeeRoute: Routes = [
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employee Management'
-        }
+        },
+        canActivate: [UserRouteAccessService]
     },
     {
         path: ':id/employee-management',
@@ -64,7 +65,8 @@ export const employeeRoute: Routes = [
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employee Management'
-        }
+        },
+        canActivate: [UserRouteAccessService]
     },
     {
         path: ':id/view',

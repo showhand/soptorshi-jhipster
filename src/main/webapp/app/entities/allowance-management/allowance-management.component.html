@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-md-12">
+        <h4><b>Allowance Management</b></h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card ">
+            <div class="card-header text-white bg-secondary">Select</div>
+            <div class="card-body">
+                <form >
+                    <div class="form-group form-inline">
+                        <label  for="office" class="col-3 form-control-label" align="left">Office</label>
+                        <select class="col-9 form-control" name="office" id="office" [(ngModel)]="allowanceManagementService.allowanceManagement.officeId">
+                            <option [ngValue]="officeOption.id" *ngFor="let officeOption of offices">{{officeOption.name}}</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="designation" class="col-3 form-control-label" align="left">Designation</label>
+                        <select class="col-9 form-control" name="designation" id="designation" [(ngModel)]="allowanceManagementService.allowanceManagement.designationId">
+                            <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
+                        </select>
+                    </div>
+                </form>
+
+            </div>
+            <div class="card-footer" align="right">
+                <button class="btn btn
+            -secondary" (click)="fetch()">Fetch</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card" style="min-height: 350px;">
+            <div class="card-header text-white bg-secondary">Allowances</div>
+            <div class="card-body">
+                <jhi-designation-wise-allowance *ngIf="allowanceManagementService.allowanceManagement.designationId"  [designationId]="allowanceManagementService.allowanceManagement.designationId" [showDesignationColumn]="false"></jhi-designation-wise-allowance>
+            </div>
+        </div>
+    </div>
+</div>
+

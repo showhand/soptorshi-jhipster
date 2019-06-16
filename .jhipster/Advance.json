@@ -8,7 +8,7 @@
         {
             "fieldName": "reason",
             "fieldType": "byte[]",
-            "fieldTypeBlobContent": "any"
+            "fieldTypeBlobContent": "text"
         },
         {
             "fieldName": "providedOn",
@@ -25,7 +25,7 @@
         },
         {
             "fieldName": "modifiedBy",
-            "fieldType": "Long"
+            "fieldType": "String"
         },
         {
             "fieldName": "modifiedOn",
@@ -38,7 +38,7 @@
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "advance",
             "relationshipName": "employee",
-            "otherEntityField": "id"
+            "otherEntityField": "fullName"
         }
     ],
     "changelogDate": "20190514160140",

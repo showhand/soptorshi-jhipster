@@ -18,6 +18,113 @@
 <div class="row justify-content-center">
     <div class="col-6">
         <div class="card">
+            <div class="card-header bg-secondary text-white">User Information</div>
+            <div class="card-body">
+                <div class="row justify-content-center" *ngIf="!user">
+                    <button class="btn btn-secondary" queryParamsHandling="merge" [routerLink]="['/admin',employee.employeeId,'user-management','new']">Create User</button>
+                </div>
+                <div class="row justify-content-center" *ngIf="user">
+                    <div class="col-12">
+                        <dl class="row-md jh-entity-details" >
+                            <dt><span>Login</span></dt>
+                            <dd>
+                                <span>{{user.login}}</span>
+                                <jhi-boolean
+                                    [value]="user.activated"
+                                    textTrue="Activated"
+                                    textFalse="Deactivated">
+                                </jhi-boolean>
+                            </dd>
+                            <dt><span>Roles</span></dt>
+                            <dd>
+                                <ul class="list-unstyled">
+                                    <li *ngFor="let authority of user.authorities">
+                                        <span class="badge badge-info">{{authority}}</span>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit"
+                                [routerLink]="['/admin/user-management', user.login, 'edit']"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline"></span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header text-white bg-secondary">Managers</div>
+            <div class="card-body">
+                <div>
+                    <h2 id="page-heading">
+                        <button id="jh-create-entity" class="btn btn-secondary float-right jh-create-entity create-manager" [routerLink]="['/manager',employee.employeeId,'new']">
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                            <span class="hidden-sm-down" >
+                         </span>
+                        </button>
+                    </h2>
+
+                    <br/>
+                    <div class="table-responsive" *ngIf="managers">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr >
+                                <th ><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+
+                                <th ><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody >
+                            <tr *ngFor="let manager of managers ">
+                                <td><a [routerLink]="['/manager', manager.id, 'view' ]">{{manager.id}}</a></td>
+                                <td>
+                                    <div *ngIf="manager.employeeId">
+                                        {{manager.employeeFullName}}
+                                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <div class="btn-group flex-btn-group-container">
+
+                                        <button type="submit"
+                                                [routerLink]="['/manager', manager.id, 'edit']"
+                                                class="btn btn-primary btn-sm">
+                                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                        <button type="submit"
+                                                (click)="deleteManager(manager.id)"
+                                                replaceUrl="true"
+                                                queryParamsHandling="merge"
+                                                class="btn btn-danger btn-sm">
+                                            <fa-icon [icon]="'times'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <div class="card">
             <div class="card-header bg-secondary text-white">Family Information</div>
             <div class="card-body">
                 <div class="row">
@@ -50,21 +157,21 @@
                                                     [routerLink]="['/family-information', familyInformation.id, 'view' ]"
                                                     class="btn btn-info btn-sm">
                                                 <fa-icon [icon]="'eye'"></fa-icon>
-                                                <span class="d-none d-md-inline">View</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
                                                     [routerLink]="['/family-information', familyInformation.id, 'edit']"
                                                     class="btn btn-secondary btn-sm">
                                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                                <span class="d-none d-md-inline">Edit</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
-                                                    [routerLink]="['/', 'family-information', { outlets: { popup: familyInformation.id + '/delete'} }]"
+                                                    [routerLink]="['/', 'family-information', { outlets: { popup: familyInformation.id + '/'} }]"
                                                     replaceUrl="true"
                                                     queryParamsHandling="merge"
                                                     class="btn btn-danger btn-sm">
                                                 <fa-icon [icon]="'times'"></fa-icon>
-                                                <span class="d-none d-md-inline">Delete</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                         </div>
                                     </td>
@@ -113,21 +220,21 @@
                                                     [routerLink]="['/reference-information', referenceInformation.id, 'view' ]"
                                                     class="btn btn-info btn-sm">
                                                 <fa-icon [icon]="'eye'"></fa-icon>
-                                                <span class="d-none d-md-inline">View</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
                                                     [routerLink]="['/reference-information', referenceInformation.id, 'edit']"
                                                     class="btn btn-secondary btn-sm">
                                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                                <span class="d-none d-md-inline">Edit</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
-                                                    [routerLink]="['/', 'reference-information', { outlets: { popup: referenceInformation.id + '/delete'} }]"
+                                                    [routerLink]="['/', 'reference-information', { outlets: { popup: referenceInformation.id + '/'} }]"
                                                     replaceUrl="true"
                                                     queryParamsHandling="merge"
                                                     class="btn btn-danger btn-sm">
                                                 <fa-icon [icon]="'times'"></fa-icon>
-                                                <span class="d-none d-md-inline">Delete</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                         </div>
                                     </td>
@@ -180,21 +287,21 @@
                                                     [routerLink]="['/academic-information', academicInformation.id, 'view' ]"
                                                     class="btn btn-info btn-sm">
                                                 <fa-icon [icon]="'eye'"></fa-icon>
-                                                <span class="d-none d-md-inline">View</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
                                                     [routerLink]="['/academic-information', academicInformation.id, 'edit']"
                                                     class="btn btn-secondary btn-sm">
                                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                                <span class="d-none d-md-inline">Edit</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
-                                                    [routerLink]="['/', 'academic-information', { outlets: { popup: academicInformation.id + '/delete'} }]"
+                                                    [routerLink]="['/', 'academic-information', { outlets: { popup: academicInformation.id + '/'} }]"
                                                     replaceUrl="true"
                                                     queryParamsHandling="merge"
                                                     class="btn btn-danger btn-sm">
                                                 <fa-icon [icon]="'times'"></fa-icon>
-                                                <span class="d-none d-md-inline">Delete</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                         </div>
                                     </td>
@@ -240,21 +347,21 @@
                                                 [routerLink]="['/academic-information-attachment',academicInformationAttachment.id,'view']"
                                                 class="btn btn-info btn-sm">
                                             <fa-icon [icon]="'eye'"></fa-icon>
-                                            <span class="d-none d-md-inline">View</span>
+                                            <span class="d-none d-md-inline"></span>
                                         </button>
                                         <button type="submit"
                                                 [routerLink]="['/academic-information-attachment', academicInformationAttachment.id,'edit']"
                                                 class="btn btn-secondary btn-sm">
                                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                            <span class="d-none d-md-inline">Edit</span>
+                                            <span class="d-none d-md-inline"></span>
                                         </button>
                                         <button type="submit"
-                                                [routerLink]="['/academic-information-attachment',academicInformationAttachment.id,'delete']"
+                                                [routerLink]="['/academic-information-attachment',academicInformationAttachment.id,'']"
                                                 replaceUrl="true"
                                                 queryParamsHandling="merge"
                                                 class="btn btn-danger btn-sm">
                                             <fa-icon [icon]="'times'"></fa-icon>
-                                            <span class="d-none d-md-inline">Delete</span>
+                                            <span class="d-none d-md-inline"></span>
                                         </button>
                                     </div>
                                 </td>
@@ -308,21 +415,21 @@
                                                 [routerLink]="['/experience-information', experienceInformation.id, 'view' ]"
                                                 class="btn btn-info btn-sm">
                                             <fa-icon [icon]="'eye'"></fa-icon>
-                                            <span class="d-none d-md-inline">View</span>
+                                            <span class="d-none d-md-inline"></span>
                                         </button>
                                         <button type="submit"
                                                 [routerLink]="['/experience-information', experienceInformation.id, 'edit']"
                                                 class="btn btn-secondary btn-sm">
                                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                            <span class="d-none d-md-inline">Edit</span>
+                                            <span class="d-none d-md-inline"></span>
                                         </button>
                                         <button type="submit"
-                                                [routerLink]="['/', 'experience-information', { outlets: { popup: experienceInformation.id + '/delete'} }]"
+                                                [routerLink]="['/', 'experience-information', { outlets: { popup: experienceInformation.id + '/'} }]"
                                                 replaceUrl="true"
                                                 queryParamsHandling="merge"
                                                 class="btn btn-danger btn-sm">
                                             <fa-icon [icon]="'times'"></fa-icon>
-                                            <span class="d-none d-md-inline">Delete</span>
+                                            <span class="d-none d-md-inline"></span>
                                         </button>
                                     </div>
                                 </td>
@@ -364,21 +471,21 @@
                                                 [routerLink]="['/experience-information-attachment', experienceInformationAttachment.id, 'view' ]"
                                                 class="btn btn-info btn-sm">
                                             <fa-icon [icon]="'eye'"></fa-icon>
-                                            <span class="d-none d-md-inline">View</span>
+                                            <span class="d-none d-md-inline"></span>
                                         </button>
                                         <button type="submit"
                                                 [routerLink]="['/experience-information-attachment', experienceInformationAttachment.id, 'edit']"
                                                 class="btn btn-secondary btn-sm">
                                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                            <span class="d-none d-md-inline">Edit</span>
+                                            <span class="d-none d-md-inline"></span>
                                         </button>
                                         <button type="submit"
-                                                [routerLink]="['/', 'experience-information-attachment', { outlets: { popup: experienceInformationAttachment.id + '/delete'} }]"
+                                                [routerLink]="['/', 'experience-information-attachment', { outlets: { popup: experienceInformationAttachment.id + '/'} }]"
                                                 replaceUrl="true"
                                                 queryParamsHandling="merge"
                                                 class="btn btn-danger btn-sm">
                                             <fa-icon [icon]="'times'"></fa-icon>
-                                            <span class="d-none d-md-inline">Delete</span>
+                                            <span class="d-none d-md-inline"></span>
                                         </button>
                                     </div>
                                 </td>
@@ -428,21 +535,21 @@
                                                     [routerLink]="['/training-information', trainingInformation.id, 'view' ]"
                                                     class="btn btn-info btn-sm">
                                                 <fa-icon [icon]="'eye'"></fa-icon>
-                                                <span class="d-none d-md-inline">View</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
                                                     [routerLink]="['/training-information', trainingInformation.id, 'edit']"
                                                     class="btn btn-secondary btn-sm">
                                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                                <span class="d-none d-md-inline">Edit</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
-                                                    [routerLink]="['/', 'training-information', { outlets: { popup: trainingInformation.id + '/delete'} }]"
+                                                    [routerLink]="['/', 'training-information', { outlets: { popup: trainingInformation.id + '/'} }]"
                                                     replaceUrl="true"
                                                     queryParamsHandling="merge"
                                                     class="btn btn-danger btn-sm">
                                                 <fa-icon [icon]="'times'"></fa-icon>
-                                                <span class="d-none d-md-inline">Delete</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                         </div>
                                     </td>
@@ -487,21 +594,21 @@
                                                     [routerLink]="['/training-information-attachment', trainingInformationAttachment.id, 'view' ]"
                                                     class="btn btn-info btn-sm">
                                                 <fa-icon [icon]="'eye'"></fa-icon>
-                                                <span class="d-none d-md-inline">View</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
                                                     [routerLink]="['/training-information-attachment', trainingInformationAttachment.id, 'edit']"
                                                     class="btn btn-secondary btn-sm">
                                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                                <span class="d-none d-md-inline">Edit</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
-                                                    [routerLink]="['/', 'training-information-attachment', { outlets: { popup: trainingInformationAttachment.id + '/delete'} }]"
+                                                    [routerLink]="['/', 'training-information-attachment', { outlets: { popup: trainingInformationAttachment.id + '/'} }]"
                                                     replaceUrl="true"
                                                     queryParamsHandling="merge"
                                                     class="btn btn-danger btn-sm">
                                                 <fa-icon [icon]="'times'"></fa-icon>
-                                                <span class="d-none d-md-inline">Delete</span>
+                                                <span class="d-none d-md-inline"></span>
                                             </button>
                                         </div>
                                     </td>

@@ -33,7 +33,7 @@ public class ProvidentFund implements Serializable {
     private Boolean status;
 
     @Column(name = "modified_by")
-    private Long modifiedBy;
+    private String modifiedBy;
 
     @Column(name = "modified_on")
     private LocalDate modifiedOn;
@@ -86,16 +86,16 @@ public class ProvidentFund implements Serializable {
         this.status = status;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public ProvidentFund modifiedBy(Long modifiedBy) {
+    public ProvidentFund modifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
         return this;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -140,7 +140,7 @@ public class ProvidentFund implements Serializable {
             ", startDate='" + getStartDate() + "'" +
             ", rate=" + getRate() +
             ", status='" + isStatus() + "'" +
-            ", modifiedBy=" + getModifiedBy() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";
     }

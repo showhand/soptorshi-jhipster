@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="advance">
-            <h2><span>Advance</span> {{advance.id}}</h2>
+            <h2><span>Advance</span> {{advance.employeeFullName}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -11,10 +11,7 @@
                 </dd>
                 <dt><span>Reason</span></dt>
                 <dd>
-                    <div *ngIf="advance.reason">
-                        <a (click)="openFile(advance.reasonContentType, advance.reason)">open</a>
-                        {{advance.reasonContentType}}, {{byteSize(advance.reason)}}
-                    </div>
+                    <span>{{advance.reason}}</span>
                 </dd>
                 <dt><span>Provided On</span></dt>
                 <dd>
@@ -36,12 +33,12 @@
                 <dd>
                     <span>{{advance.modifiedOn}}</span>
                 </dd>
-                <dt><span>Employee</span></dt>
+               <!-- <dt><span>Employee</span></dt>
                 <dd>
                     <div *ngIf="advance.employeeId">
-                        <a [routerLink]="['/employee', advance.employeeId, 'view']">{{advance.employeeId}}</a>
+                        <a [routerLink]="['/employee', advance.employeeId, 'view']">{{advance.employeeFullName}}</a>
                     </div>
-                </dd>
+                </dd>-->
             </dl>
 
             <button type="submit"

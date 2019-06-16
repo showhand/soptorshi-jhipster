@@ -15,7 +15,9 @@ export class UserResolve implements CanActivate {
     constructor(private accountService: AccountService) {}
 
     canActivate() {
-        return this.accountService.identity().then(account => this.accountService.hasAnyAuthority(['ROLE_ADMIN']));
+        return this.accountService
+            .identity()
+            .then(account => this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_EMPLOYEE_MANAGEMENT']));
     }
 }
 
@@ -29,13 +31,9 @@ export class UserMgmtResolve implements Resolve<any> {
         if (id) {
             return this.service.find(id);
         } else if (employeeId) {
-            this.employeeService.find(employeeId).subscribe((res: HttpResponse<IEmployee>) => {
-                const user: IUser = new User();
-                const employee: IEmployee = res.body;
-                user.email = employee.email;
-                user.login = employee.employeeId;
-                return user;
-            });
+            const user: IUser = new User();
+            user.login = employeeId;
+            return user;
         }
         return new User();
     }

@@ -26,18 +26,18 @@ export class NavbarComponent implements OnInit {
         private loginModalService: LoginModalService,
         private profileService: ProfileService,
         private router: Router,
-        private sidebarService: SidebarService
+        public sidebarService: SidebarService
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
     }
 
     ngOnInit() {
+        this.sidebarService.toggleSidenav = true;
         this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });
-        this.sidebarService.toggleSidenav = false;
     }
 
     collapseNavbar() {
@@ -59,6 +59,7 @@ export class NavbarComponent implements OnInit {
     }
 
     toggleNavbar() {
+        this.sidebarService.toggleSidenav = !this.sidebarService.toggleSidenav;
         this.isNavbarCollapsed = !this.isNavbarCollapsed;
     }
 

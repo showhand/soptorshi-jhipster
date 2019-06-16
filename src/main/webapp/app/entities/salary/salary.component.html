@@ -31,10 +31,9 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="basic"><span>Basic</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="houseRent"><span>House Rent</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="medicalAllowance"><span>Medical Allowance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="incrementRate"><span>Increment Rate</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="otherAllowance"><span>Other Allowance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="startedOn"><span>Started On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="endedOn"><span>Ended On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="salaryStatus"><span>Salary Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeId"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -45,10 +44,9 @@
             <tr *ngFor="let salary of salaries ;trackBy: trackId">
                 <td><a [routerLink]="['/salary', salary.id, 'view' ]">{{salary.id}}</a></td>
                 <td>{{salary.basic}}</td>
-                <td>{{salary.houseRent}}</td>
-                <td>{{salary.medicalAllowance}}</td>
-                <td>{{salary.incrementRate}}</td>
-                <td>{{salary.otherAllowance}}</td>
+                <td>{{salary.startedOn | date:'mediumDate'}}</td>
+                <td>{{salary.endedOn | date:'mediumDate'}}</td>
+                <td>{{salary.salaryStatus}}</td>
                 <td>{{salary.modifiedBy}}</td>
                 <td>{{salary.modifiedOn | date:'mediumDate'}}</td>
                 <td>

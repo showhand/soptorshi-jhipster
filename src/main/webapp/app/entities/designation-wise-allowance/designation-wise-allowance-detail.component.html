@@ -1,0 +1,37 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="designationWiseAllowance">
+            <h2><span>Designation Wise Allowance</span> {{designationWiseAllowance.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Allowance Type</span></dt>
+                <dd>
+                    <span>{{designationWiseAllowance.allowanceType}}</span>
+                </dd>
+                <dt><span>Allowance Category</span></dt>
+                <dd>
+                    <span>{{designationWiseAllowance.allowanceCategory}}</span>
+                </dd>
+                <dt *ngIf="designationWiseAllowance.allowanceType==='OVERTIME_ALLOWANCE'"><span>Amount (hourly)</span></dt>
+                <dt *ngIf="designationWiseAllowance.allowanceType!=='OVERTIME_ALLOWANCE'"><span>Amount (% of basic)</span></dt>
+                <dd>
+                    <span>{{designationWiseAllowance.amount}}</span>
+                </dd>
+
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/designation-wise-allowance', designationWiseAllowance.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

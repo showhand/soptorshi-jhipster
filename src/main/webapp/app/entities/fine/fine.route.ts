@@ -19,11 +19,22 @@ export class FineResolve implements Resolve<IFine> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IFine> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeLongId = route.params['employeeLongId'] ? route.params['employeeLongId'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
+
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<Fine>) => response.ok),
                 map((fine: HttpResponse<Fine>) => fine.body)
             );
+        } else if (employeeLongId) {
+            const fine = new Fine();
+            fine.employeeId = employeeLongId;
+            return of(fine);
+        } else if (employeeId) {
+            const fine = new Fine();
+            fine.employeeId = employeeId;
+            return of(fine);
         }
         return of(new Fine());
     }
@@ -37,7 +48,21 @@ export const fineRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+            defaultSort: 'id,asc',
+            pageTitle: 'Fines'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeLongId/employee',
+        component: FineComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams,
+            fine: FineResolve
+        },
+        data: {
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Fines'
         },
@@ -50,7 +75,19 @@ export const fineRoute: Routes = [
             fine: FineResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+            pageTitle: 'Fines'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
+        component: FineUpdateComponent,
+        resolve: {
+            fine: FineResolve
+        },
+        data: {
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'Fines'
         },
         canActivate: [UserRouteAccessService]
@@ -62,7 +99,7 @@ export const fineRoute: Routes = [
             fine: FineResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'Fines'
         },
         canActivate: [UserRouteAccessService]
@@ -74,7 +111,7 @@ export const fineRoute: Routes = [
             fine: FineResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'Fines'
         },
         canActivate: [UserRouteAccessService]
@@ -89,7 +126,7 @@ export const finePopupRoute: Routes = [
             fine: FineResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'Fines'
         },
         canActivate: [UserRouteAccessService],

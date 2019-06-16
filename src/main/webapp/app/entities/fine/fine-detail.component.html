@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="fine">
-            <h2><span>Fine</span> {{fine.id}}</h2>
+            <h2><span>Fine</span> {{fine.employeeFullName}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -9,16 +9,13 @@
                 <dd>
                     <span>{{fine.amount}}</span>
                 </dd>
-                <dt><span>Reason</span></dt>
-                <dd>
-                    <div *ngIf="fine.reason">
-                        <a (click)="openFile(fine.reasonContentType, fine.reason)">open</a>
-                        {{fine.reasonContentType}}, {{byteSize(fine.reason)}}
-                    </div>
-                </dd>
                 <dt><span>Fine Date</span></dt>
                 <dd>
                     <span>{{fine.fineDate}}</span>
+                </dd>
+                <dt><span>Monthly Payable</span></dt>
+                <dd>
+                    <span>{{fine.monthlyPayable}}</span>
                 </dd>
                 <dt><span>Payment Status</span></dt>
                 <dd>
@@ -36,12 +33,11 @@
                 <dd>
                     <span>{{fine.modifiedDate}}</span>
                 </dd>
-                <dt><span>Employee</span></dt>
+                <dt><span>Reason</span></dt>
                 <dd>
-                    <div *ngIf="fine.employeeId">
-                        <a [routerLink]="['/employee', fine.employeeId, 'view']">{{fine.employeeId}}</a>
-                    </div>
+                    <span>{{fine.reason}}</span>
                 </dd>
+
             </dl>
 
             <button type="submit"

@@ -27,7 +27,7 @@
         },
         {
             "fieldName": "modifiedBy",
-            "fieldType": "Long"
+            "fieldType": "String"
         },
         {
             "fieldName": "modifiedDate",
@@ -40,7 +40,7 @@
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "loan",
             "relationshipName": "employee",
-            "otherEntityField": "id"
+            "otherEntityField": "fullName"
         }
     ],
     "changelogDate": "20190514160142",

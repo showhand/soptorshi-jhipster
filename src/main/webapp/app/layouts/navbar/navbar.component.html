@@ -9,10 +9,11 @@
         <span class="logo-img"></span>
         <span class="navbar-title">Soptorshi</span> <span class="navbar-version">{{version}}</span>
     </a>
-    <a class="navbar-toggler d-lg-none" href="javascript:void(0);" data-toggle="collapse"
+    <a class="navbar-toggler d-lg-inline" href="javascript:void(0);" data-toggle="collapse"
        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
        aria-label="Toggle navigation" (click)="toggleNavbar()">
         <fa-icon icon="bars"></fa-icon>
+
     </a>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed"
          [ngSwitch]="isAuthenticated()">
@@ -700,6 +701,102 @@
                                         <span>Payroll Management</span>
                                     </a>
                                 </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="tax" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Tax</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="designation-wise-allowance" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Designation Wise Allowance</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="provident-fund" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Provident Fund</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="monthly-salary" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Monthly Salary</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="advance" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Advance</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="fine" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Fine</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="loan" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Loan</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="fine-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Fine Management</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="advance-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Advance Management</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="loan-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Loan Management</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="provident-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Provident Management</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="allowance-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Allowance Management</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="salary" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Salary</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="fine-advance-loan-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Fine Advance Loan Management</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="employee" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Employee</span>
+                        </a>
+                    </li>
+                                <li>
+                        <a class="dropdown-item" routerLink="manager" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Manager</span>
+                        </a>
+                    </li>
                                 <li>
                         <a class="dropdown-item" routerLink="leave-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>

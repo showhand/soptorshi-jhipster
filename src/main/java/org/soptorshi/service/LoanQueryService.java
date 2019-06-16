@@ -109,7 +109,7 @@ public class LoanQueryService extends QueryService<Loan> {
                 specification = specification.and(buildRangeSpecification(criteria.getLeft(), Loan_.left));
             }
             if (criteria.getModifiedBy() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getModifiedBy(), Loan_.modifiedBy));
+                specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), Loan_.modifiedBy));
             }
             if (criteria.getModifiedDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedDate(), Loan_.modifiedDate));
