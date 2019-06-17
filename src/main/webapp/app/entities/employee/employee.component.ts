@@ -14,6 +14,8 @@ import { DepartmentService } from 'app/entities/department';
 import { Designation, IDesignation } from 'app/shared/model/designation.model';
 import { DesignationService } from 'app/entities/designation';
 import { IDepartment } from 'app/shared/model/department.model';
+import { ManagerService } from 'app/entities/manager';
+import { IManager } from 'app/shared/model/manager.model';
 
 @Component({
     selector: 'jhi-employee',
@@ -47,7 +49,8 @@ export class EmployeeComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager,
         protected departmentService: DepartmentService,
         protected designationService: DesignationService,
-        protected userService: UserService
+        protected userService: UserService,
+        protected managerService: ManagerService
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -63,11 +66,24 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        if (this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE'])) {
+            if (this.currentSearch) {
+                this.employeeService
+                    .query({
+                        page: this.page - 1,
+                        'fullName.contains': this.currentSearch,
+                        size: this.itemsPerPage,
+                        sort: this.sort()
+                    })
+                    .subscribe(
+                        (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+                return;
+            }
             this.employeeService
-                .search({
+                .query({
                     page: this.page - 1,
-                    query: this.currentSearch,
                     size: this.itemsPerPage,
                     sort: this.sort()
                 })
@@ -75,30 +91,48 @@ export class EmployeeComponent implements OnInit, OnDestroy {
                     (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
-            return;
-        }
-        if (this.accountService.hasAnyAuthority(['ROLE_ADMIN'])) {
-            this.employeeService
+        } else if (this.accountService.hasAnyAuthority(['ROLE_EMPLOYEE_MANAGEMENT'])) {
+            this.managerService
                 .query({
-                    page: this.page - 1,
-                    size: this.itemsPerPage,
-                    sort: this.sort()
+                    'employeeId.equals': this.authenticatedEmployee.id
                 })
                 .subscribe(
-                    (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        } else {
-            this.employeeService
-                .query({
-                    page: this.page - 1,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'manager.equals': this.authenticatedEmployee.id
-                })
-                .subscribe(
-                    (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
+                    (res: HttpResponse<IManager[]>) => {
+                        const managerId: number[] = [];
+                        res.body.forEach(m => {
+                            managerId.push(m.parentEmployeeId);
+                        });
+                        console.log('###################################');
+                        console.log('manager ids');
+                        console.log(managerId);
+                        if (this.currentSearch) {
+                            this.employeeService
+                                .query({
+                                    page: this.page - 1,
+                                    'fullName.contains': this.currentSearch,
+                                    'id.in': managerId,
+                                    size: this.itemsPerPage,
+                                    sort: this.sort()
+                                })
+                                .subscribe(
+                                    (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                                    (res: HttpErrorResponse) => this.onError(res.message)
+                                );
+                            return;
+                        }
+                        this.employeeService
+                            .query({
+                                page: this.page - 1,
+                                size: this.itemsPerPage,
+                                'id.in': managerId,
+                                sort: this.sort()
+                            })
+                            .subscribe(
+                                (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                                (res: HttpErrorResponse) => this.onError(res.message)
+                            );
+                    },
+                    (error: HttpErrorResponse) => this.onError(error.message)
                 );
         }
     }
@@ -155,6 +189,8 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
+            console.log('current account');
+            console.log(account);
             this.employeeService
                 .query({
                     'employeeId.equals': account.login
@@ -198,21 +234,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     protected paginateEmployees(data: IEmployee[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-        console.log('Employee data');
-        console.log(data);
-        if (this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE'])) {
-            this.employees = data;
-        } else {
-            this.employees = [];
-            console.log('IN here');
-            for (let i = 0; i < data.length; i++) {
-                if ((data[i].manager = this.authenticatedEmployee.id)) {
-                    console.log('Employess to be pushed');
-                    console.log(data[i]);
-                    this.employees.push(data[i]);
-                }
-            }
-        }
+        this.employees = data;
     }
 
     protected onError(errorMessage: string) {

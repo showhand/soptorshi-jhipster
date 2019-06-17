@@ -75,7 +75,7 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
 
         this.managerService
             .query({
-                'parentEmployeeId.equals': this.employee.employeeId
+                'parentEmployeeId.equals': this.employee.id
             })
             .subscribe((res: HttpResponse<IManager[]>) => (this.managers = res.body));
 
@@ -185,6 +185,7 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ employee }) => {
             this.employee = employee;
+            this.employee.employeeLongId = this.employee.id;
             this.loadAll();
         });
     }

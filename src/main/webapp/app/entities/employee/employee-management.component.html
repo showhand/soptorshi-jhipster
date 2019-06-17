@@ -65,7 +65,7 @@
             <div class="card-body">
                 <div>
                     <h2 id="page-heading">
-                        <button id="jh-create-entity" class="btn btn-secondary float-right jh-create-entity create-manager" [routerLink]="['/manager',employee.employeeId,'new']">
+                        <button id="jh-create-entity" class="btn btn-secondary float-right jh-create-entity create-manager" [routerLink]="['/manager',employee.employeeLongId,'new']">
                             <fa-icon [icon]="'plus'"></fa-icon>
                             <span class="hidden-sm-down" >
                          </span>
@@ -77,15 +77,13 @@
                         <table class="table table-striped">
                             <thead>
                             <tr >
-                                <th ><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
 
-                                <th ><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                                <th ><span>Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody >
                             <tr *ngFor="let manager of managers ">
-                                <td><a [routerLink]="['/manager', manager.id, 'view' ]">{{manager.id}}</a></td>
                                 <td>
                                     <div *ngIf="manager.employeeId">
                                         {{manager.employeeFullName}}
