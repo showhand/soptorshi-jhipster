@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Provident Funds</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-provident-fund" [routerLink]="['/provident-fund', providentFund.employeeId,'new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-provident-fund" [routerLink]="['/provident-fund',providentFund.employeeId,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Provident Fund
@@ -33,9 +33,7 @@
             <th jhiSortBy="startDate"><span>Start Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="rate"><span>Rate</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -45,13 +43,7 @@
                 <td>{{providentFund.startDate | date:'mediumDate'}}</td>
                 <td>{{providentFund.rate}}</td>
                 <td>{{providentFund.status}}</td>
-                <td>{{providentFund.modifiedBy}}</td>
                 <td>{{providentFund.modifiedOn | date:'mediumDate'}}</td>
-                <td>
-                    <div *ngIf="providentFund.employeeId">
-                        <a [routerLink]="['../employee', providentFund.employeeId , 'view' ]" >{{providentFund.employeeFullName}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
@@ -87,6 +79,11 @@
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+    <div class="row" *ngIf="providentFund.employeeId" align="right">
+        <div class="col-12">
+            <button class="btn btn-danger" (click)="back()">Back</button>
         </div>
     </div>
 </div>

@@ -57,7 +57,8 @@ export const providentFundRoute: Routes = [
         path: ':employeeLongId/employee',
         component: ProvidentFundComponent,
         resolve: {
-            pagingParams: JhiResolvePagingParams
+            pagingParams: JhiResolvePagingParams,
+            providentFund: ProvidentFundResolve
         },
         data: {
             authorities: ['ROLE_ADMIN'],

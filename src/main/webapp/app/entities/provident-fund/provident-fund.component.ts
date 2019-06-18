@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { IProvidentFund } from 'app/shared/model/provident-fund.model';
+import { IProvidentFund, ProvidentFund } from 'app/shared/model/provident-fund.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
@@ -134,7 +134,11 @@ export class ProvidentFundComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ providentFund }) => {
+            console.log('active route data ---->');
+            this.providentFund = new ProvidentFund();
             this.providentFund = providentFund;
+            console.log('provident fund');
+            console.log(this.providentFund);
             this.loadAll();
         });
         this.accountService.identity().then(account => {
@@ -145,6 +149,10 @@ export class ProvidentFundComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
+    }
+
+    back() {
+        window.history.back();
     }
 
     trackId(index: number, item: IProvidentFund) {
