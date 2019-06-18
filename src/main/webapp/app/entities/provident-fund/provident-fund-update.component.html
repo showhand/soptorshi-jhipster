@@ -18,16 +18,26 @@
                             <button type="button" class="btn btn-secondary" (click)="startDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
+                    <div [hidden]="!(editForm.controls.startDate?.dirty && editForm.controls.startDate?.invalid)">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_rate">Rate</label>
                     <input type="number" class="form-control" name="rate" id="field_rate"
                         [(ngModel)]="providentFund.rate" />
+                    <div [hidden]="!(editForm.controls.rate?.dirty && editForm.controls.rate?.invalid)">
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.rate?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_status">Status</label>
                     <input type="checkbox" class="form-control" name="status" id="field_status"
                         [(ngModel)]="providentFund.status" />
+                    <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_modifiedBy">Modified By</label>
@@ -45,6 +55,13 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" [(ngModel)]="providentFund.employeeId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
+                    </select>
+                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

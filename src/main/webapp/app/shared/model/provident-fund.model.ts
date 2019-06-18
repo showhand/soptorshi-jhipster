@@ -7,6 +7,8 @@ export interface IProvidentFund {
     status?: boolean;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    employeeFullName?: string;
+    employeeId?: number;
 }
 
 export class ProvidentFund implements IProvidentFund {
@@ -16,7 +18,9 @@ export class ProvidentFund implements IProvidentFund {
         public rate?: number,
         public status?: boolean,
         public modifiedBy?: string,
-        public modifiedOn?: Moment
+        public modifiedOn?: Moment,
+        public employeeFullName?: string,
+        public employeeId?: number
     ) {
         this.status = this.status || false;
     }

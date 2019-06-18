@@ -1,8 +1,10 @@
 package org.soptorshi.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
@@ -23,13 +25,16 @@ public class ProvidentFund implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "start_date")
+    
+    @Column(name = "start_date", unique = true)
     private LocalDate startDate;
 
-    @Column(name = "rate")
+    
+    @Column(name = "rate", unique = true)
     private Double rate;
 
-    @Column(name = "status")
+    
+    @Column(name = "status", unique = true)
     private Boolean status;
 
     @Column(name = "modified_by")
@@ -37,6 +42,10 @@ public class ProvidentFund implements Serializable {
 
     @Column(name = "modified_on")
     private LocalDate modifiedOn;
+
+    @ManyToOne
+    @JsonIgnoreProperties("providentFunds")
+    private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -110,6 +119,19 @@ public class ProvidentFund implements Serializable {
 
     public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public ProvidentFund employee(Employee employee) {
+        this.employee = employee;
+        return this;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

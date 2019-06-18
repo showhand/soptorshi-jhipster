@@ -258,6 +258,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'manager',
                 loadChildren: './manager/manager.module#SoptorshiManagerModule'
+            },
+            {
+                path: 'provident-fund',
+                loadChildren: './provident-fund/provident-fund.module#SoptorshiProvidentFundModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

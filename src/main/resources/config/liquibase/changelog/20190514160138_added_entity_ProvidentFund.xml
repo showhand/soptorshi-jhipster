@@ -23,15 +23,15 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="start_date" type="date">
-                <constraints nullable="true" />
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_provident_fund_start_date" />
             </column>
 
             <column name="rate" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_provident_fund_rate" />
             </column>
 
             <column name="status" type="boolean">
-                <constraints nullable="true" />
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_provident_fund_status" />
             </column>
 
             <column name="modified_by" type="varchar(255)">
@@ -39,6 +39,10 @@
             </column>
 
             <column name="modified_on" type="date">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="employee_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
