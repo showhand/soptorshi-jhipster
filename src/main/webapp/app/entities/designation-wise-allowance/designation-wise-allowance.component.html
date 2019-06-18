@@ -5,8 +5,8 @@
             <div class="card-body">
                 <form >
                     <div class="form-group form-inline">
-                        <label for="designation" class="col-3 form-control-label" align="left">Designation</label>
-                        <select class="col-9 form-control" name="designation" id="designation" [(ngModel)]="designationWiseAllowanceService.designationId">
+                        <label for="designation" class="col-4 form-control-label" align="left">Designation</label>
+                        <select class="col-8 form-control" name="designation" id="designation" [(ngModel)]="designationWiseAllowanceService.designationId">
                             <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
                         </select>
                     </div>

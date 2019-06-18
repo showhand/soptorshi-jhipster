@@ -101,9 +101,9 @@ entity Salary {
   modifiedOn LocalDate
 }
 entity ProvidentFund {
-  startDate LocalDate,
-  rate Double,
-  status Boolean,
+  startDate LocalDate unique,
+  rate Double unique,
+  status Boolean unique,
   modifiedBy String,
   modifiedOn LocalDate
 }
@@ -275,6 +275,7 @@ relationship ManyToOne {
   Salary{employee} to Employee,
   MonthlySalary{employee} to Employee,
   Advance{employee(fullName)} to Employee,
+  ProvidentFund{employee(fullName) unique} to Employee,
   Fine{employee(fullName)} to Employee,
   Loan{employee(fullName)} to Employee,
   Holiday{holidayType(name)} to HolidayType,

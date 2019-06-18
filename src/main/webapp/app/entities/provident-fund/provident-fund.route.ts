@@ -19,11 +19,14 @@ export class ProvidentFundResolve implements Resolve<IProvidentFund> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IProvidentFund> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeLongId = route.params['employeeLongId'] ? route.params['employeeLongId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<ProvidentFund>) => response.ok),
                 map((providentFund: HttpResponse<ProvidentFund>) => providentFund.body)
             );
+        } else if (employeeLongId) {
+            const providentFund = new ProvidentFund();
         }
         return of(new ProvidentFund());
     }
@@ -37,7 +40,20 @@ export const providentFundRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
+            defaultSort: 'id,asc',
+            pageTitle: 'ProvidentFunds'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeLongId/employee',
+        component: ProvidentFundComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'ProvidentFunds'
         },
@@ -50,7 +66,7 @@ export const providentFundRoute: Routes = [
             providentFund: ProvidentFundResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'ProvidentFunds'
         },
         canActivate: [UserRouteAccessService]
@@ -62,7 +78,7 @@ export const providentFundRoute: Routes = [
             providentFund: ProvidentFundResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'ProvidentFunds'
         },
         canActivate: [UserRouteAccessService]
@@ -74,7 +90,7 @@ export const providentFundRoute: Routes = [
             providentFund: ProvidentFundResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'ProvidentFunds'
         },
         canActivate: [UserRouteAccessService]
@@ -89,7 +105,7 @@ export const providentFundPopupRoute: Routes = [
             providentFund: ProvidentFundResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'ProvidentFunds'
         },
         canActivate: [UserRouteAccessService],
