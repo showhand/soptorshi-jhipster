@@ -3,6 +3,7 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.ProvidentFund;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.ProvidentFundRepository;
 import org.soptorshi.repository.search.ProvidentFundSearchRepository;
 import org.soptorshi.service.ProvidentFundService;
@@ -471,6 +472,25 @@ public class ProvidentFundResourceIntTest {
 
         // Get all the providentFundList where modifiedOn less than or equals to UPDATED_MODIFIED_ON
         defaultProvidentFundShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllProvidentFundsByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        providentFund.setEmployee(employee);
+        providentFundRepository.saveAndFlush(providentFund);
+        Long employeeId = employee.getId();
+
+        // Get all the providentFundList where employee equals to employeeId
+        defaultProvidentFundShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the providentFundList where employee equals to employeeId + 1
+        defaultProvidentFundShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
     }
 
     /**

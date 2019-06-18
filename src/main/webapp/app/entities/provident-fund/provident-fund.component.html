@@ -35,6 +35,7 @@
             <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -46,6 +47,11 @@
                 <td>{{providentFund.status}}</td>
                 <td>{{providentFund.modifiedBy}}</td>
                 <td>{{providentFund.modifiedOn | date:'mediumDate'}}</td>
+                <td>
+                    <div *ngIf="providentFund.employeeId">
+                        <a [routerLink]="['../employee', providentFund.employeeId , 'view' ]" >{{providentFund.employeeFullName}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

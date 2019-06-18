@@ -4,8 +4,11 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
+import { JhiAlertService } from 'ng-jhipster';
 import { IProvidentFund } from 'app/shared/model/provident-fund.model';
 import { ProvidentFundService } from './provident-fund.service';
+import { IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeService } from 'app/entities/employee';
 
 @Component({
     selector: 'jhi-provident-fund-update',
@@ -14,16 +17,30 @@ import { ProvidentFundService } from './provident-fund.service';
 export class ProvidentFundUpdateComponent implements OnInit {
     providentFund: IProvidentFund;
     isSaving: boolean;
+
+    employees: IEmployee[];
     startDateDp: any;
     modifiedOnDp: any;
 
-    constructor(protected providentFundService: ProvidentFundService, protected activatedRoute: ActivatedRoute) {}
+    constructor(
+        protected jhiAlertService: JhiAlertService,
+        protected providentFundService: ProvidentFundService,
+        protected employeeService: EmployeeService,
+        protected activatedRoute: ActivatedRoute
+    ) {}
 
     ngOnInit() {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ providentFund }) => {
             this.providentFund = providentFund;
         });
+        this.employeeService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IEmployee[]>) => response.body)
+            )
+            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -50,5 +67,13 @@ export class ProvidentFundUpdateComponent implements OnInit {
 
     protected onSaveError() {
         this.isSaving = false;
+    }
+
+    protected onError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackEmployeeById(index: number, item: IEmployee) {
+        return item.id;
     }
 }

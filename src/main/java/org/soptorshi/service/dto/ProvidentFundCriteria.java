@@ -35,6 +35,8 @@ public class ProvidentFundCriteria implements Serializable {
 
     private LocalDateFilter modifiedOn;
 
+    private LongFilter employeeId;
+
     public LongFilter getId() {
         return id;
     }
@@ -83,6 +85,14 @@ public class ProvidentFundCriteria implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public LongFilter getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(LongFilter employeeId) {
+        this.employeeId = employeeId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -99,7 +109,8 @@ public class ProvidentFundCriteria implements Serializable {
             Objects.equals(rate, that.rate) &&
             Objects.equals(status, that.status) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
-            Objects.equals(modifiedOn, that.modifiedOn);
+            Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(employeeId, that.employeeId);
     }
 
     @Override
@@ -110,7 +121,8 @@ public class ProvidentFundCriteria implements Serializable {
         rate,
         status,
         modifiedBy,
-        modifiedOn
+        modifiedOn,
+        employeeId
         );
     }
 
@@ -123,6 +135,7 @@ public class ProvidentFundCriteria implements Serializable {
                 (status != null ? "status=" + status + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
+                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }
 
