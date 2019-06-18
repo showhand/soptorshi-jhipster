@@ -16,6 +16,7 @@ import { ProvidentFundService } from './provident-fund.service';
     templateUrl: './provident-fund.component.html'
 })
 export class ProvidentFundComponent implements OnInit, OnDestroy {
+    providentFund: IProvidentFund;
     currentAccount: any;
     providentFunds: IProvidentFund[];
     error: any;
@@ -55,6 +56,7 @@ export class ProvidentFundComponent implements OnInit, OnDestroy {
 
     loadAll() {
         if (this.currentSearch) {
+            this.currentSearch = this.currentSearch + ' ' + this.providentFund.employeeId;
             this.providentFundService
                 .search({
                     page: this.page - 1,
@@ -70,6 +72,7 @@ export class ProvidentFundComponent implements OnInit, OnDestroy {
         }
         this.providentFundService
             .query({
+                'employeeId.equals': this.providentFund.employeeId,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -130,7 +133,10 @@ export class ProvidentFundComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ providentFund }) => {
+            this.providentFund = providentFund;
+            this.loadAll();
+        });
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
