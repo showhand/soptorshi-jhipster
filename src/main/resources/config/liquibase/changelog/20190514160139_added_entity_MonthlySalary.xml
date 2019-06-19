@@ -34,15 +34,15 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="house_rent" type="double">
+            <column name="house_rent" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="medical_allowance" type="double">
+            <column name="medical_allowance" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="other_allowance" type="double">
+            <column name="other_allowance" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
 
@@ -62,11 +62,11 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="providend_fund" type="double">
+            <column name="provident_fund" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="tax" type="double">
+            <column name="tax" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
 

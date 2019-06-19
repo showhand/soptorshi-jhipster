@@ -15,12 +15,18 @@ import java.math.BigDecimal;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class PayrollService {
 
     private final Logger log = LoggerFactory.getLogger(PayrollService.class);
+
+    private List<Fine> updatableFines;
+    private List<Advance> updatableAdvances;
+    private List<Loan> updatableLoans;
 
     private LoanService loanService;
     private FineService fineService;
@@ -44,8 +50,11 @@ public class PayrollService {
     }
 
     public void generatePayroll(Long officeId, Long designationId, Integer year, MonthType monthType){
-
         monthlySalaryService.delete(year, monthType, officeId, designationId);
+        updatableFines = new ArrayList<>();
+        updatableAdvances = new ArrayList<>();
+        updatableLoans = new ArrayList<>();
+
         List<Employee> employees = employeeService.get(officeId, designationId, EmployeeStatus.ACTIVE);
         List<MonthlySalary> monthlySalaries = new ArrayList<>();
 
@@ -58,30 +67,50 @@ public class PayrollService {
             monthlySalary.setAdvanceHO(calculateAdvance(employee, year, monthType));
             monthlySalary.setLoanAmount(calculateLoan(employee, year, monthType));
             monthlySalary.setBasic(calculateSalary(employee, year, monthType));
-
+            monthlySalary = calculateProvidentFund(monthlySalary);
+            monthlySalary = assignAllowances(monthlySalary);
         }
     }
 
     private MonthlySalary assignAllowances(MonthlySalary monthlySalary){
 
         List<DesignationWiseAllowance> designationWiseAllowances = designationWiseAllowanceService.get(monthlySalary.getEmployee().getDesignation().getId());
-
+        monthlySalary.setOtherAllowance(new BigDecimal(0));
         for(DesignationWiseAllowance designationWiseAllowance: designationWiseAllowances){
-           /* if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.HOUSE_RENT) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
-                monthlySalary.setHouseRent(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));*/
+            if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.HOUSE_RENT) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
+                monthlySalary.setHouseRent(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.MEDICAL_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
+                monthlySalary.setHouseRent(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.OTHER_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
+                monthlySalary.setOtherAllowance(monthlySalary.getOtherAllowance().add(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100)))));
         }
 
+        monthlySalary = calculateSpecialAndOtherAllowances(monthlySalary, designationWiseAllowances);
+        return monthlySalary;
+    }
+
+    private MonthlySalary calculateSpecialAndOtherAllowances(MonthlySalary monthlySalary, List<DesignationWiseAllowance> designationWiseAllowances){
         List<SpecialAllowanceTimeLine> specialAllowanceTimeLines = specialAllowanceTimeLineService.get(monthlySalary.getYear(), monthlySalary.getMonth());
-        BigDecimal totalSpecialAllowances = new BigDecimal(0);
+        Map<AllowanceType, DesignationWiseAllowance> allowanceMap = designationWiseAllowances
+            .stream()
+            .collect(Collectors.toMap(a->a.getAllowanceType(), a->a));
+
         for(SpecialAllowanceTimeLine specialAllowanceTimeLine: specialAllowanceTimeLines){
-           // totalSpecialAllowances = totalSpecialAllowances.add(monthlySalary.getBasic()/spec)
+            if(allowanceMap.containsKey(specialAllowanceTimeLine.getAllowanceType())){
+                monthlySalary
+                    .setOtherAllowance(
+                        monthlySalary.getOtherAllowance()
+                            .add(monthlySalary.getBasic()
+                                .multiply (allowanceMap.get(specialAllowanceTimeLine.getAllowanceType()).getAmount()
+                                    .divide(new BigDecimal(100)))));
+            }
         }
         return monthlySalary;
     }
 
-    private BigDecimal calculateSpecialAndOtherAllowances(MonthlySalary monthlySalary){
-        BigDecimal total = new BigDecimal(0);
-        return total;
+
+    private MonthlySalary calculateProvidentFund(MonthlySalary monthlySalary){
+        return monthlySalary;
     }
 
     private BigDecimal calculateFine(Employee employee, Integer year, MonthType monthType){

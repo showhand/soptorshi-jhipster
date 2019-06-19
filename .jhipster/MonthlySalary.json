@@ -25,15 +25,15 @@
         },
         {
             "fieldName": "houseRent",
-            "fieldType": "Double"
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "medicalAllowance",
-            "fieldType": "Double"
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "otherAllowance",
-            "fieldType": "Double"
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "absent",
@@ -52,12 +52,12 @@
             "fieldType": "BigDecimal"
         },
         {
-            "fieldName": "providendFund",
-            "fieldType": "Double"
+            "fieldName": "providentFund",
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "tax",
-            "fieldType": "Double"
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "loanAmount",

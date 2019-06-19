@@ -27,7 +27,7 @@ export interface IMonthlySalary {
     fine?: number;
     advanceHO?: number;
     advanceFactory?: number;
-    providendFund?: number;
+    providentFund?: number;
     tax?: number;
     loanAmount?: number;
     payable?: number;
@@ -49,7 +49,7 @@ export class MonthlySalary implements IMonthlySalary {
         public fine?: number,
         public advanceHO?: number,
         public advanceFactory?: number,
-        public providendFund?: number,
+        public providentFund?: number,
         public tax?: number,
         public loanAmount?: number,
         public payable?: number,

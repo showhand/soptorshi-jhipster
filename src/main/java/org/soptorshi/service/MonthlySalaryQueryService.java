@@ -123,8 +123,8 @@ public class MonthlySalaryQueryService extends QueryService<MonthlySalary> {
             if (criteria.getAdvanceFactory() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAdvanceFactory(), MonthlySalary_.advanceFactory));
             }
-            if (criteria.getProvidendFund() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getProvidendFund(), MonthlySalary_.providendFund));
+            if (criteria.getProvidentFund() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getProvidentFund(), MonthlySalary_.providentFund));
             }
             if (criteria.getTax() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTax(), MonthlySalary_.tax));
