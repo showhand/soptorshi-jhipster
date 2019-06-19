@@ -36,9 +36,9 @@ public class PayrollService {
     private MonthlySalaryService monthlySalaryService;
     private SpecialAllowanceTimeLineService specialAllowanceTimeLineService;
     private DesignationWiseAllowanceService designationWiseAllowanceService;
+    private ProvidentFundService providentFundService;
 
-
-    public PayrollService(LoanService loanService, FineService fineService, AdvanceService advanceService, SalaryService salaryService, EmployeeService employeeService, MonthlySalaryService monthlySalaryService, SpecialAllowanceTimeLineService specialAllowanceTimeLineService, DesignationWiseAllowanceService designationWiseAllowanceService) {
+    public PayrollService(LoanService loanService, FineService fineService, AdvanceService advanceService, SalaryService salaryService, EmployeeService employeeService, MonthlySalaryService monthlySalaryService, SpecialAllowanceTimeLineService specialAllowanceTimeLineService, DesignationWiseAllowanceService designationWiseAllowanceService, ProvidentFundService providentFundService) {
         this.loanService = loanService;
         this.fineService = fineService;
         this.advanceService = advanceService;
@@ -47,6 +47,7 @@ public class PayrollService {
         this.monthlySalaryService = monthlySalaryService;
         this.specialAllowanceTimeLineService = specialAllowanceTimeLineService;
         this.designationWiseAllowanceService = designationWiseAllowanceService;
+        this.providentFundService = providentFundService;
     }
 
     public void generatePayroll(Long officeId, Long designationId, Integer year, MonthType monthType){
@@ -110,18 +111,31 @@ public class PayrollService {
 
 
     private MonthlySalary calculateProvidentFund(MonthlySalary monthlySalary){
+        ProvidentFund providentFund = providentFundService.get(monthlySalary.getEmployee(), ProvidentFundStatus.ACTIVE);
+        if(providentFund!=null){
+            monthlySalary.setProvidentFund(monthlySalary.getBasic().multiply(BigDecimal.valueOf(providentFund.getRate()/100)));
+        }
         return monthlySalary;
     }
 
     private BigDecimal calculateFine(Employee employee, Integer year, MonthType monthType){
         BigDecimal totalFine = new BigDecimal(0);
+        List<Fine> fines = fineService.get(employee.getId(), PaymentStatus.NOT_PAID);
+        for(Fine fine: fines){
+            BigDecimal fineAmount = fine.getAmount().multiply(BigDecimal.valueOf(fine.getMonthlyPayable()/100));
+            fine.setLeft(totalFine.subtract(fineAmount));
+            if(fine.getLeft().equals(new BigDecimal(0)))
+                fine.setPaymentStatus(PaymentStatus.PAID);
+            totalFine = totalFine.add(fineAmount);
+        }
 
+        updatableFines.addAll(fines);
         return totalFine;
     }
 
     private BigDecimal calculateAdvance(Employee employee, Integer year, MonthType monthType){
         BigDecimal totalAdvance = new BigDecimal(0);
-
+       
         return totalAdvance;
     }
 
