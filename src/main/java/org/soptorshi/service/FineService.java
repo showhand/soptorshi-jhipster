@@ -1,6 +1,9 @@
 package org.soptorshi.service;
 
+import org.soptorshi.domain.Designation;
 import org.soptorshi.domain.Fine;
+import org.soptorshi.domain.Office;
+import org.soptorshi.domain.enumeration.EmployeeStatus;
 import org.soptorshi.repository.FineRepository;
 import org.soptorshi.repository.search.FineSearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -68,6 +72,11 @@ public class FineService {
         log.debug("Request to get all Fines");
         return fineRepository.findAll(pageable)
             .map(fineMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Fine> findByOfficeAndDesignationAndEmployeeStatus(Office office, Designation designation, EmployeeStatus employeeStatus){
+        return fineRepository.findByEmployee_OfficeAndEmployee_DesignationAAndEmployee_EmployeeStatus(office, designation, employeeStatus);
     }
 
 

@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="monju (generated)" id="1560868717497-1">
+        <addColumn tableName="provident_fund">
+            <column name="employee_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1560868717497-2">
+        <addUniqueConstraint columnNames="rate" constraintName="UC_PROVIDENT_FUNDRATE_COL" tableName="provident_fund"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1560868717497-3">
+        <addUniqueConstraint columnNames="start_date" constraintName="UC_PROVIDENT_FUNDSTART_DATE_COL" tableName="provident_fund"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1560868717497-4">
+        <addUniqueConstraint columnNames="status" constraintName="UC_PROVIDENT_FUNDSTATUS_COL" tableName="provident_fund"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1560868717497-5">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="provident_fund" constraintName="FKkcfc37eo2ylvd259l13emwqro" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="employee"/>
+    </changeSet>
+</databaseChangeLog>
