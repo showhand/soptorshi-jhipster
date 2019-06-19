@@ -251,6 +251,11 @@ enum AllowanceType {
   OTHER_ALLOWANCE
 }
 
+enum AllowanceProvideType{
+    NORMAL_ALLOWANCE,
+    FESTIVAL_ALLOWANCE
+}
+
 enum AllowanceCategory {
   MONTHLY,
   SPECIFIC
