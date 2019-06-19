@@ -1,9 +1,11 @@
 package org.soptorshi.service;
 
 import org.soptorshi.domain.Designation;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.Fine;
 import org.soptorshi.domain.Office;
 import org.soptorshi.domain.enumeration.EmployeeStatus;
+import org.soptorshi.domain.enumeration.PaymentStatus;
 import org.soptorshi.repository.FineRepository;
 import org.soptorshi.repository.search.FineSearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -75,8 +77,13 @@ public class FineService {
     }
 
     @Transactional(readOnly = true)
-    public List<Fine> findByOfficeAndDesignationAndEmployeeStatus(Office office, Designation designation, EmployeeStatus employeeStatus){
-        return fineRepository.findByEmployee_OfficeAndEmployee_DesignationAAndEmployee_EmployeeStatus(office, designation, employeeStatus);
+    public List<Fine> get(PaymentStatus paymentStatus, Long officeId, Long designationId, EmployeeStatus employeeStatus){
+        return fineRepository.findByPaymentStatusAndEmployee_Office_IdAndEmployee_Designation_IdAndEmployee_EmployeeStatus(paymentStatus, officeId, designationId, employeeStatus);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Fine> get(Long employeeId, PaymentStatus paymentStatus){
+        return fineRepository.findByEmployee_IdAndPaymentStatus(employeeId, paymentStatus);
     }
 
 

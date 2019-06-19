@@ -1,6 +1,8 @@
 package org.soptorshi.service;
 
+import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.Salary;
+import org.soptorshi.domain.enumeration.SalaryStatus;
 import org.soptorshi.repository.SalaryRepository;
 import org.soptorshi.repository.search.SalarySearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -68,6 +70,11 @@ public class SalaryService {
         log.debug("Request to get all Salaries");
         return salaryRepository.findAll(pageable)
             .map(salaryMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Salary get(Employee employee, SalaryStatus salaryStatus){
+        return salaryRepository.getByEmployeeAndSalaryStatus(employee, salaryStatus);
     }
 
 
