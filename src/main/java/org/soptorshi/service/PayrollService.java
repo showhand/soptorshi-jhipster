@@ -4,9 +4,7 @@ import io.github.jhipster.service.filter.LongFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.*;
-import org.soptorshi.domain.enumeration.EmployeeStatus;
-import org.soptorshi.domain.enumeration.MonthType;
-import org.soptorshi.domain.enumeration.PaymentStatus;
+import org.soptorshi.domain.enumeration.*;
 import org.soptorshi.repository.MonthlySalaryRepository;
 import org.soptorshi.service.dto.EmployeeCriteria;
 import org.soptorshi.service.dto.EmployeeDTO;
@@ -30,15 +28,19 @@ public class PayrollService {
     private SalaryService salaryService;
     private EmployeeService employeeService;
     private MonthlySalaryService monthlySalaryService;
+    private SpecialAllowanceTimeLineService specialAllowanceTimeLineService;
+    private DesignationWiseAllowanceService designationWiseAllowanceService;
 
 
-    public PayrollService(LoanService loanService, FineService fineService, AdvanceService advanceService, SalaryService salaryService, EmployeeService employeeService, MonthlySalaryService monthlySalaryService) {
+    public PayrollService(LoanService loanService, FineService fineService, AdvanceService advanceService, SalaryService salaryService, EmployeeService employeeService, MonthlySalaryService monthlySalaryService, SpecialAllowanceTimeLineService specialAllowanceTimeLineService, DesignationWiseAllowanceService designationWiseAllowanceService) {
         this.loanService = loanService;
         this.fineService = fineService;
         this.advanceService = advanceService;
         this.salaryService = salaryService;
         this.employeeService = employeeService;
         this.monthlySalaryService = monthlySalaryService;
+        this.specialAllowanceTimeLineService = specialAllowanceTimeLineService;
+        this.designationWiseAllowanceService = designationWiseAllowanceService;
     }
 
     public void generatePayroll(Long officeId, Long designationId, Integer year, MonthType monthType){
@@ -62,7 +64,24 @@ public class PayrollService {
 
     private MonthlySalary assignAllowances(MonthlySalary monthlySalary){
 
+        List<DesignationWiseAllowance> designationWiseAllowances = designationWiseAllowanceService.get(monthlySalary.getEmployee().getDesignation().getId());
+
+        for(DesignationWiseAllowance designationWiseAllowance: designationWiseAllowances){
+           /* if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.HOUSE_RENT) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
+                monthlySalary.setHouseRent(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));*/
+        }
+
+        List<SpecialAllowanceTimeLine> specialAllowanceTimeLines = specialAllowanceTimeLineService.get(monthlySalary.getYear(), monthlySalary.getMonth());
+        BigDecimal totalSpecialAllowances = new BigDecimal(0);
+        for(SpecialAllowanceTimeLine specialAllowanceTimeLine: specialAllowanceTimeLines){
+           // totalSpecialAllowances = totalSpecialAllowances.add(monthlySalary.getBasic()/spec)
+        }
         return monthlySalary;
+    }
+
+    private BigDecimal calculateSpecialAndOtherAllowances(MonthlySalary monthlySalary){
+        BigDecimal total = new BigDecimal(0);
+        return total;
     }
 
     private BigDecimal calculateFine(Employee employee, Integer year, MonthType monthType){
