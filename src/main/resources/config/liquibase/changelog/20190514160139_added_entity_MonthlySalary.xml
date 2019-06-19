@@ -22,6 +22,10 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="jhi_year" type="integer">
+                <constraints nullable="false" />
+            </column>
+
             <column name="month" type="varchar(255)">
                 <constraints nullable="false" />
             </column>

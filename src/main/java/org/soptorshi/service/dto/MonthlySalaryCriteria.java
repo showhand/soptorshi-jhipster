@@ -32,6 +32,8 @@ public class MonthlySalaryCriteria implements Serializable {
 
     private LongFilter id;
 
+    private IntegerFilter year;
+
     private MonthTypeFilter month;
 
     private BigDecimalFilter basic;
@@ -70,6 +72,14 @@ public class MonthlySalaryCriteria implements Serializable {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public IntegerFilter getYear() {
+        return year;
+    }
+
+    public void setYear(IntegerFilter year) {
+        this.year = year;
     }
 
     public MonthTypeFilter getMonth() {
@@ -212,6 +222,7 @@ public class MonthlySalaryCriteria implements Serializable {
         final MonthlySalaryCriteria that = (MonthlySalaryCriteria) o;
         return
             Objects.equals(id, that.id) &&
+            Objects.equals(year, that.year) &&
             Objects.equals(month, that.month) &&
             Objects.equals(basic, that.basic) &&
             Objects.equals(houseRent, that.houseRent) &&
@@ -234,6 +245,7 @@ public class MonthlySalaryCriteria implements Serializable {
     public int hashCode() {
         return Objects.hash(
         id,
+        year,
         month,
         basic,
         houseRent,
@@ -257,6 +269,7 @@ public class MonthlySalaryCriteria implements Serializable {
     public String toString() {
         return "MonthlySalaryCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (year != null ? "year=" + year + ", " : "") +
                 (month != null ? "month=" + month + ", " : "") +
                 (basic != null ? "basic=" + basic + ", " : "") +
                 (houseRent != null ? "houseRent=" + houseRent + ", " : "") +

@@ -14,6 +14,9 @@ public class MonthlySalaryDTO implements Serializable {
     private Long id;
 
     @NotNull
+    private Integer year;
+
+    @NotNull
     private MonthType month;
 
     @NotNull
@@ -54,6 +57,14 @@ public class MonthlySalaryDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public MonthType getMonth() {
@@ -209,6 +220,7 @@ public class MonthlySalaryDTO implements Serializable {
     public String toString() {
         return "MonthlySalaryDTO{" +
             "id=" + getId() +
+            ", year=" + getYear() +
             ", month='" + getMonth() + "'" +
             ", basic=" + getBasic() +
             ", houseRent=" + getHouseRent() +

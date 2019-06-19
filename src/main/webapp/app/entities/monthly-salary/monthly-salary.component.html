@@ -30,6 +30,7 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="year"><span>Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="month"><span>Month</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="basic"><span>Basic</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="houseRent"><span>House Rent</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -52,6 +53,7 @@
             <tbody>
             <tr *ngFor="let monthlySalary of monthlySalaries ;trackBy: trackId">
                 <td><a [routerLink]="['/monthly-salary', monthlySalary.id, 'view' ]">{{monthlySalary.id}}</a></td>
+                <td>{{monthlySalary.year}}</td>
                 <td>{{monthlySalary.month}}</td>
                 <td>{{monthlySalary.basic}}</td>
                 <td>{{monthlySalary.houseRent}}</td>

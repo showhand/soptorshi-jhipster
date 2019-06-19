@@ -29,6 +29,10 @@ public class MonthlySalary implements Serializable {
     private Long id;
 
     @NotNull
+    @Column(name = "jhi_year", nullable = false)
+    private Integer year;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "month", nullable = false)
     private MonthType month;
@@ -87,6 +91,19 @@ public class MonthlySalary implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public MonthlySalary year(Integer year) {
+        this.year = year;
+        return this;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public MonthType getMonth() {
@@ -322,6 +339,7 @@ public class MonthlySalary implements Serializable {
     public String toString() {
         return "MonthlySalary{" +
             "id=" + getId() +
+            ", year=" + getYear() +
             ", month='" + getMonth() + "'" +
             ", basic=" + getBasic() +
             ", houseRent=" + getHouseRent() +

@@ -10,6 +10,21 @@
                         [(ngModel)]="monthlySalary.id" readonly />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_year">Year</label>
+                    <input type="number" class="form-control" name="year" id="field_year"
+                        [(ngModel)]="monthlySalary.year" required/>
+                    <div [hidden]="!(editForm.controls.year?.dirty && editForm.controls.year?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.year?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.year?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_month">Month</label>
                     <select class="form-control" name="month" [(ngModel)]="monthlySalary.month" id="field_month"  required>
                         <option value="JANUARY">JANUARY</option>

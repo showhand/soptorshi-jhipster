@@ -44,6 +44,7 @@
     <include file="config/liquibase/changelog/20190409172411_added_entity_constraints_TrainingInformationAttachment.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160136_added_entity_constraints_Tax.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160137_added_entity_constraints_Salary.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190619152842_monthly_salary_year_field_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160139_added_entity_constraints_MonthlySalary.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160140_added_entity_constraints_Advance.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160141_added_entity_constraints_Fine.xml" relativeToChangelogFile="false"/>

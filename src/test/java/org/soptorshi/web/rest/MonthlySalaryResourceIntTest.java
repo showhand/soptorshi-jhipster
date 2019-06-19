@@ -56,6 +56,9 @@ import org.soptorshi.domain.enumeration.MonthType;
 @SpringBootTest(classes = SoptorshiApp.class)
 public class MonthlySalaryResourceIntTest {
 
+    private static final Integer DEFAULT_YEAR = 1;
+    private static final Integer UPDATED_YEAR = 2;
+
     private static final MonthType DEFAULT_MONTH = MonthType.JANUARY;
     private static final MonthType UPDATED_MONTH = MonthType.FEBRUARY;
 
@@ -160,6 +163,7 @@ public class MonthlySalaryResourceIntTest {
      */
     public static MonthlySalary createEntity(EntityManager em) {
         MonthlySalary monthlySalary = new MonthlySalary()
+            .year(DEFAULT_YEAR)
             .month(DEFAULT_MONTH)
             .basic(DEFAULT_BASIC)
             .houseRent(DEFAULT_HOUSE_RENT)
@@ -199,6 +203,7 @@ public class MonthlySalaryResourceIntTest {
         List<MonthlySalary> monthlySalaryList = monthlySalaryRepository.findAll();
         assertThat(monthlySalaryList).hasSize(databaseSizeBeforeCreate + 1);
         MonthlySalary testMonthlySalary = monthlySalaryList.get(monthlySalaryList.size() - 1);
+        assertThat(testMonthlySalary.getYear()).isEqualTo(DEFAULT_YEAR);
         assertThat(testMonthlySalary.getMonth()).isEqualTo(DEFAULT_MONTH);
         assertThat(testMonthlySalary.getBasic()).isEqualTo(DEFAULT_BASIC);
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(DEFAULT_HOUSE_RENT);
@@ -240,6 +245,25 @@ public class MonthlySalaryResourceIntTest {
 
         // Validate the MonthlySalary in Elasticsearch
         verify(mockMonthlySalarySearchRepository, times(0)).save(monthlySalary);
+    }
+
+    @Test
+    @Transactional
+    public void checkYearIsRequired() throws Exception {
+        int databaseSizeBeforeTest = monthlySalaryRepository.findAll().size();
+        // set the field null
+        monthlySalary.setYear(null);
+
+        // Create the MonthlySalary, which fails.
+        MonthlySalaryDTO monthlySalaryDTO = monthlySalaryMapper.toDto(monthlySalary);
+
+        restMonthlySalaryMockMvc.perform(post("/api/monthly-salaries")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(monthlySalaryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<MonthlySalary> monthlySalaryList = monthlySalaryRepository.findAll();
+        assertThat(monthlySalaryList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -291,6 +315,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(monthlySalary.getId().intValue())))
+            .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.doubleValue())))
@@ -319,6 +344,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(monthlySalary.getId().intValue()))
+            .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
             .andExpect(jsonPath("$.month").value(DEFAULT_MONTH.toString()))
             .andExpect(jsonPath("$.basic").value(DEFAULT_BASIC.intValue()))
             .andExpect(jsonPath("$.houseRent").value(DEFAULT_HOUSE_RENT.doubleValue()))
@@ -335,6 +361,72 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByYearIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where year equals to DEFAULT_YEAR
+        defaultMonthlySalaryShouldBeFound("year.equals=" + DEFAULT_YEAR);
+
+        // Get all the monthlySalaryList where year equals to UPDATED_YEAR
+        defaultMonthlySalaryShouldNotBeFound("year.equals=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByYearIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where year in DEFAULT_YEAR or UPDATED_YEAR
+        defaultMonthlySalaryShouldBeFound("year.in=" + DEFAULT_YEAR + "," + UPDATED_YEAR);
+
+        // Get all the monthlySalaryList where year equals to UPDATED_YEAR
+        defaultMonthlySalaryShouldNotBeFound("year.in=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByYearIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where year is not null
+        defaultMonthlySalaryShouldBeFound("year.specified=true");
+
+        // Get all the monthlySalaryList where year is null
+        defaultMonthlySalaryShouldNotBeFound("year.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByYearIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where year greater than or equals to DEFAULT_YEAR
+        defaultMonthlySalaryShouldBeFound("year.greaterOrEqualThan=" + DEFAULT_YEAR);
+
+        // Get all the monthlySalaryList where year greater than or equals to UPDATED_YEAR
+        defaultMonthlySalaryShouldNotBeFound("year.greaterOrEqualThan=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByYearIsLessThanSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where year less than or equals to DEFAULT_YEAR
+        defaultMonthlySalaryShouldNotBeFound("year.lessThan=" + DEFAULT_YEAR);
+
+        // Get all the monthlySalaryList where year less than or equals to UPDATED_YEAR
+        defaultMonthlySalaryShouldBeFound("year.lessThan=" + UPDATED_YEAR);
+    }
+
 
     @Test
     @Transactional
@@ -1001,6 +1093,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(monthlySalary.getId().intValue())))
+            .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.doubleValue())))
@@ -1063,6 +1156,7 @@ public class MonthlySalaryResourceIntTest {
         // Disconnect from session so that the updates on updatedMonthlySalary are not directly saved in db
         em.detach(updatedMonthlySalary);
         updatedMonthlySalary
+            .year(UPDATED_YEAR)
             .month(UPDATED_MONTH)
             .basic(UPDATED_BASIC)
             .houseRent(UPDATED_HOUSE_RENT)
@@ -1089,6 +1183,7 @@ public class MonthlySalaryResourceIntTest {
         List<MonthlySalary> monthlySalaryList = monthlySalaryRepository.findAll();
         assertThat(monthlySalaryList).hasSize(databaseSizeBeforeUpdate);
         MonthlySalary testMonthlySalary = monthlySalaryList.get(monthlySalaryList.size() - 1);
+        assertThat(testMonthlySalary.getYear()).isEqualTo(UPDATED_YEAR);
         assertThat(testMonthlySalary.getMonth()).isEqualTo(UPDATED_MONTH);
         assertThat(testMonthlySalary.getBasic()).isEqualTo(UPDATED_BASIC);
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(UPDATED_HOUSE_RENT);
@@ -1164,6 +1259,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(monthlySalary.getId().intValue())))
+            .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.doubleValue())))
