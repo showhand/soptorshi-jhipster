@@ -103,7 +103,7 @@ entity Salary {
 entity ProvidentFund {
   startDate LocalDate unique,
   rate Double unique,
-  status Boolean unique,
+  status ProvidentFundStatus unique,
   modifiedBy String,
   modifiedOn LocalDate
 }
@@ -207,6 +207,11 @@ enum Religion {
 enum EmployeeStatus {
   ACTIVE,
   TERMINATED
+}
+
+enum ProvidentFundStatus{
+    ACTIVE,
+    NOT_ACTIVE
 }
 
 enum EmploymentType {

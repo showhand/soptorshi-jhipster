@@ -17,7 +17,8 @@
         },
         {
             "fieldName": "status",
-            "fieldType": "Boolean",
+            "fieldType": "ProvidentFundStatus",
+            "fieldValues": "ACTIVE,NOT_ACTIVE",
             "fieldValidateRules": [
                 "unique"
             ]

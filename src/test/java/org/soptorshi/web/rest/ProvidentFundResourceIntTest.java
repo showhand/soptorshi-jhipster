@@ -45,6 +45,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.soptorshi.domain.enumeration.ProvidentFundStatus;
 /**
  * Test class for the ProvidentFundResource REST controller.
  *
@@ -60,8 +61,8 @@ public class ProvidentFundResourceIntTest {
     private static final Double DEFAULT_RATE = 1D;
     private static final Double UPDATED_RATE = 2D;
 
-    private static final Boolean DEFAULT_STATUS = false;
-    private static final Boolean UPDATED_STATUS = true;
+    private static final ProvidentFundStatus DEFAULT_STATUS = ProvidentFundStatus.ACTIVE;
+    private static final ProvidentFundStatus UPDATED_STATUS = ProvidentFundStatus.NOT_ACTIVE;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
@@ -159,7 +160,7 @@ public class ProvidentFundResourceIntTest {
         ProvidentFund testProvidentFund = providentFundList.get(providentFundList.size() - 1);
         assertThat(testProvidentFund.getStartDate()).isEqualTo(DEFAULT_START_DATE);
         assertThat(testProvidentFund.getRate()).isEqualTo(DEFAULT_RATE);
-        assertThat(testProvidentFund.isStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testProvidentFund.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testProvidentFund.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testProvidentFund.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
@@ -203,7 +204,7 @@ public class ProvidentFundResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(providentFund.getId().intValue())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
@@ -221,7 +222,7 @@ public class ProvidentFundResourceIntTest {
             .andExpect(jsonPath("$.id").value(providentFund.getId().intValue()))
             .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
             .andExpect(jsonPath("$.rate").value(DEFAULT_RATE.doubleValue()))
-            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.booleanValue()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
@@ -503,7 +504,7 @@ public class ProvidentFundResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(providentFund.getId().intValue())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
@@ -571,7 +572,7 @@ public class ProvidentFundResourceIntTest {
         ProvidentFund testProvidentFund = providentFundList.get(providentFundList.size() - 1);
         assertThat(testProvidentFund.getStartDate()).isEqualTo(UPDATED_START_DATE);
         assertThat(testProvidentFund.getRate()).isEqualTo(UPDATED_RATE);
-        assertThat(testProvidentFund.isStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testProvidentFund.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testProvidentFund.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testProvidentFund.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
@@ -636,7 +637,7 @@ public class ProvidentFundResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(providentFund.getId().intValue())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }

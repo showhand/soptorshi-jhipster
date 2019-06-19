@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.ProvidentFundStatus;
 
 /**
  * A DTO for the ProvidentFund entity.
@@ -18,7 +19,7 @@ public class ProvidentFundDTO implements Serializable {
     private Double rate;
 
     
-    private Boolean status;
+    private ProvidentFundStatus status;
 
     private String modifiedBy;
 
@@ -53,11 +54,11 @@ public class ProvidentFundDTO implements Serializable {
         this.rate = rate;
     }
 
-    public Boolean isStatus() {
+    public ProvidentFundStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(ProvidentFundStatus status) {
         this.status = status;
     }
 
@@ -120,7 +121,7 @@ public class ProvidentFundDTO implements Serializable {
             "id=" + getId() +
             ", startDate='" + getStartDate() + "'" +
             ", rate=" + getRate() +
-            ", status='" + isStatus() + "'" +
+            ", status='" + getStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +

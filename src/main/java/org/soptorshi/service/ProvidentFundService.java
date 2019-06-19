@@ -3,7 +3,6 @@ package org.soptorshi.service;
 import org.soptorshi.domain.ProvidentFund;
 import org.soptorshi.repository.ProvidentFundRepository;
 import org.soptorshi.repository.search.ProvidentFundSearchRepository;
-import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.ProvidentFundDTO;
 import org.soptorshi.service.mapper.ProvidentFundMapper;
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -49,8 +47,6 @@ public class ProvidentFundService {
     public ProvidentFundDTO save(ProvidentFundDTO providentFundDTO) {
         log.debug("Request to save ProvidentFund : {}", providentFundDTO);
         ProvidentFund providentFund = providentFundMapper.toEntity(providentFundDTO);
-        providentFund.setModifiedBy(SecurityUtils.getCurrentUserLogin().toString());
-        providentFund.setModifiedOn(LocalDate.now());
         providentFund = providentFundRepository.save(providentFund);
         ProvidentFundDTO result = providentFundMapper.toDto(providentFund);
         providentFundSearchRepository.save(providentFund);

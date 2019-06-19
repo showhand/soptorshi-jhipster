@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.ProvidentFundStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -20,6 +21,11 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class ProvidentFundCriteria implements Serializable {
+    /**
+     * Class for filtering ProvidentFundStatus
+     */
+    public static class ProvidentFundStatusFilter extends Filter<ProvidentFundStatus> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -29,7 +35,7 @@ public class ProvidentFundCriteria implements Serializable {
 
     private DoubleFilter rate;
 
-    private BooleanFilter status;
+    private ProvidentFundStatusFilter status;
 
     private StringFilter modifiedBy;
 
@@ -61,11 +67,11 @@ public class ProvidentFundCriteria implements Serializable {
         this.rate = rate;
     }
 
-    public BooleanFilter getStatus() {
+    public ProvidentFundStatusFilter getStatus() {
         return status;
     }
 
-    public void setStatus(BooleanFilter status) {
+    public void setStatus(ProvidentFundStatusFilter status) {
         this.status = status;
     }
 

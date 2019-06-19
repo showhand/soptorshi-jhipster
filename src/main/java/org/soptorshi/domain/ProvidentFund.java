@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.soptorshi.domain.enumeration.ProvidentFundStatus;
+
 /**
  * A ProvidentFund.
  */
@@ -34,8 +36,9 @@ public class ProvidentFund implements Serializable {
     private Double rate;
 
     
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", unique = true)
-    private Boolean status;
+    private ProvidentFundStatus status;
 
     @Column(name = "modified_by")
     private String modifiedBy;
@@ -82,16 +85,16 @@ public class ProvidentFund implements Serializable {
         this.rate = rate;
     }
 
-    public Boolean isStatus() {
+    public ProvidentFundStatus getStatus() {
         return status;
     }
 
-    public ProvidentFund status(Boolean status) {
+    public ProvidentFund status(ProvidentFundStatus status) {
         this.status = status;
         return this;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(ProvidentFundStatus status) {
         this.status = status;
     }
 
@@ -161,7 +164,7 @@ public class ProvidentFund implements Serializable {
             "id=" + getId() +
             ", startDate='" + getStartDate() + "'" +
             ", rate=" + getRate() +
-            ", status='" + isStatus() + "'" +
+            ", status='" + getStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";
