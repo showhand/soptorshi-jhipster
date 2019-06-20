@@ -57,5 +57,6 @@
     <include file="config/liquibase/changelog/20190618143824_provident_fund_refactor.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190619212221_provident_fund_refactored.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160138_added_entity_constraints_ProvidentFund.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190620053556_monthly_payable_advance_added.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
