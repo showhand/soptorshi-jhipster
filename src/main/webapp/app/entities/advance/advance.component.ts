@@ -16,6 +16,7 @@ import { AdvanceService } from './advance.service';
     templateUrl: './advance.component.html'
 })
 export class AdvanceComponent implements OnInit, OnDestroy {
+    advance: IAdvance;
     currentAccount: any;
     advances: IAdvance[];
     error: any;
@@ -69,16 +70,19 @@ export class AdvanceComponent implements OnInit, OnDestroy {
                 );
             return;
         }
-        this.advanceService
-            .query({
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<IAdvance[]>) => this.paginateAdvances(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        if (this.advance.employeeId) {
+            this.advanceService
+                .query({
+                    'employeeId.equals': this.advance.employeeId,
+                    page: this.page - 1,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<IAdvance[]>) => this.paginateAdvances(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
     }
 
     loadPage(page: number) {
@@ -131,15 +135,26 @@ export class AdvanceComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ advance }) => {
+            this.advance = advance;
+            this.loadAll();
+        });
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInAdvances();
     }
 
+    delete(id: number) {
+        this.advanceService.delete(id).subscribe((res: any) => this.loadAll(), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
+    }
+
+    goBack() {
+        window.history.back();
     }
 
     trackId(index: number, item: IAdvance) {

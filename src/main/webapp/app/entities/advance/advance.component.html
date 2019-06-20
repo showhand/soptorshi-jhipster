@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Advances</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-advance" [routerLink]="['/advance/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-advance" [routerLink]="['/advance', advance.employeeId,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Advance
@@ -29,35 +29,25 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="reason"><span>Reason</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="providedOn"><span>Provided On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="monthlyPayable"><span>Monthly Payable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="paymentStatus"><span>Payment Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="left"><span>Left</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let advance of advances ;trackBy: trackId">
-                <td><a [routerLink]="['/advance', advance.id, 'view' ]">{{advance.id}}</a></td>
                 <td>{{advance.amount}}</td>
                 <td>{{advance.reason}}</td>
                 <td>{{advance.providedOn | date:'mediumDate'}}</td>
                 <td>{{advance.monthlyPayable}}</td>
                 <td>{{advance.paymentStatus}}</td>
                 <td>{{advance.left}}</td>
-                <td>{{advance.modifiedBy}}</td>
                 <td>{{advance.modifiedOn | date:'mediumDate'}}</td>
-                <td>
-                    <div *ngIf="advance.employeeId">
-                        <a [routerLink]="['../employee', advance.employeeId , 'view' ]" >{{advance.employeeFullName}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
@@ -93,6 +83,11 @@
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12" align="right">
+            <button class="btn btn-danger" (click)="goBack()">Back</button>
         </div>
     </div>
 </div>
