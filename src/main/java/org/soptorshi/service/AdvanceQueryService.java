@@ -99,6 +99,9 @@ public class AdvanceQueryService extends QueryService<Advance> {
             if (criteria.getProvidedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getProvidedOn(), Advance_.providedOn));
             }
+            if (criteria.getMonthlyPayable() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMonthlyPayable(), Advance_.monthlyPayable));
+            }
             if (criteria.getPaymentStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getPaymentStatus(), Advance_.paymentStatus));
             }

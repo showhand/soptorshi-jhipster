@@ -278,6 +278,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'provident-fund',
                 loadChildren: './provident-fund/provident-fund.module#SoptorshiProvidentFundModule'
+            },
+            {
+                path: 'advance',
+                loadChildren: './advance/advance.module#SoptorshiAdvanceModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

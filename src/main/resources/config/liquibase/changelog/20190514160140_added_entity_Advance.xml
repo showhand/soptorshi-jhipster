@@ -34,6 +34,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="monthly_payable" type="double">
+                <constraints nullable="true" />
+            </column>
+
             <column name="payment_status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

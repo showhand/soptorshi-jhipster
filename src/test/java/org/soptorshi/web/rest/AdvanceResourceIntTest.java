@@ -66,6 +66,9 @@ public class AdvanceResourceIntTest {
     private static final LocalDate DEFAULT_PROVIDED_ON = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_PROVIDED_ON = LocalDate.now(ZoneId.systemDefault());
 
+    private static final Double DEFAULT_MONTHLY_PAYABLE = 1D;
+    private static final Double UPDATED_MONTHLY_PAYABLE = 2D;
+
     private static final PaymentStatus DEFAULT_PAYMENT_STATUS = PaymentStatus.PAID;
     private static final PaymentStatus UPDATED_PAYMENT_STATUS = PaymentStatus.NOT_PAID;
 
@@ -140,6 +143,7 @@ public class AdvanceResourceIntTest {
             .amount(DEFAULT_AMOUNT)
             .reason(DEFAULT_REASON)
             .providedOn(DEFAULT_PROVIDED_ON)
+            .monthlyPayable(DEFAULT_MONTHLY_PAYABLE)
             .paymentStatus(DEFAULT_PAYMENT_STATUS)
             .left(DEFAULT_LEFT)
             .modifiedBy(DEFAULT_MODIFIED_BY)
@@ -171,6 +175,7 @@ public class AdvanceResourceIntTest {
         assertThat(testAdvance.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testAdvance.getReason()).isEqualTo(DEFAULT_REASON);
         assertThat(testAdvance.getProvidedOn()).isEqualTo(DEFAULT_PROVIDED_ON);
+        assertThat(testAdvance.getMonthlyPayable()).isEqualTo(DEFAULT_MONTHLY_PAYABLE);
         assertThat(testAdvance.getPaymentStatus()).isEqualTo(DEFAULT_PAYMENT_STATUS);
         assertThat(testAdvance.getLeft()).isEqualTo(DEFAULT_LEFT);
         assertThat(testAdvance.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
@@ -217,6 +222,7 @@ public class AdvanceResourceIntTest {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].providedOn").value(hasItem(DEFAULT_PROVIDED_ON.toString())))
+            .andExpect(jsonPath("$.[*].monthlyPayable").value(hasItem(DEFAULT_MONTHLY_PAYABLE.doubleValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
@@ -237,6 +243,7 @@ public class AdvanceResourceIntTest {
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.reason").value(DEFAULT_REASON.toString()))
             .andExpect(jsonPath("$.providedOn").value(DEFAULT_PROVIDED_ON.toString()))
+            .andExpect(jsonPath("$.monthlyPayable").value(DEFAULT_MONTHLY_PAYABLE.doubleValue()))
             .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS.toString()))
             .andExpect(jsonPath("$.left").value(DEFAULT_LEFT.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
@@ -347,6 +354,45 @@ public class AdvanceResourceIntTest {
         defaultAdvanceShouldBeFound("providedOn.lessThan=" + UPDATED_PROVIDED_ON);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPayableIsEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPayable equals to DEFAULT_MONTHLY_PAYABLE
+        defaultAdvanceShouldBeFound("monthlyPayable.equals=" + DEFAULT_MONTHLY_PAYABLE);
+
+        // Get all the advanceList where monthlyPayable equals to UPDATED_MONTHLY_PAYABLE
+        defaultAdvanceShouldNotBeFound("monthlyPayable.equals=" + UPDATED_MONTHLY_PAYABLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPayableIsInShouldWork() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPayable in DEFAULT_MONTHLY_PAYABLE or UPDATED_MONTHLY_PAYABLE
+        defaultAdvanceShouldBeFound("monthlyPayable.in=" + DEFAULT_MONTHLY_PAYABLE + "," + UPDATED_MONTHLY_PAYABLE);
+
+        // Get all the advanceList where monthlyPayable equals to UPDATED_MONTHLY_PAYABLE
+        defaultAdvanceShouldNotBeFound("monthlyPayable.in=" + UPDATED_MONTHLY_PAYABLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPayableIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPayable is not null
+        defaultAdvanceShouldBeFound("monthlyPayable.specified=true");
+
+        // Get all the advanceList where monthlyPayable is null
+        defaultAdvanceShouldNotBeFound("monthlyPayable.specified=false");
+    }
 
     @Test
     @Transactional
@@ -560,6 +606,7 @@ public class AdvanceResourceIntTest {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].providedOn").value(hasItem(DEFAULT_PROVIDED_ON.toString())))
+            .andExpect(jsonPath("$.[*].monthlyPayable").value(hasItem(DEFAULT_MONTHLY_PAYABLE.doubleValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
@@ -614,6 +661,7 @@ public class AdvanceResourceIntTest {
             .amount(UPDATED_AMOUNT)
             .reason(UPDATED_REASON)
             .providedOn(UPDATED_PROVIDED_ON)
+            .monthlyPayable(UPDATED_MONTHLY_PAYABLE)
             .paymentStatus(UPDATED_PAYMENT_STATUS)
             .left(UPDATED_LEFT)
             .modifiedBy(UPDATED_MODIFIED_BY)
@@ -632,6 +680,7 @@ public class AdvanceResourceIntTest {
         assertThat(testAdvance.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testAdvance.getReason()).isEqualTo(UPDATED_REASON);
         assertThat(testAdvance.getProvidedOn()).isEqualTo(UPDATED_PROVIDED_ON);
+        assertThat(testAdvance.getMonthlyPayable()).isEqualTo(UPDATED_MONTHLY_PAYABLE);
         assertThat(testAdvance.getPaymentStatus()).isEqualTo(UPDATED_PAYMENT_STATUS);
         assertThat(testAdvance.getLeft()).isEqualTo(UPDATED_LEFT);
         assertThat(testAdvance.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
@@ -699,6 +748,7 @@ public class AdvanceResourceIntTest {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].providedOn").value(hasItem(DEFAULT_PROVIDED_ON.toString())))
+            .andExpect(jsonPath("$.[*].monthlyPayable").value(hasItem(DEFAULT_MONTHLY_PAYABLE.doubleValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].left").value(hasItem(DEFAULT_LEFT.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
