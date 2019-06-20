@@ -6,20 +6,20 @@
                 <form name="selectForm" role="form" novalidate>
                     <div class="form-group form-inline">
                         <label  for="office" class="col-4 form-control-label" align="left">Office</label>
-                        <select class="col-8 form-control" name="office" id="office" [(ngModel)]="payrollManagement.officeId">
+                        <select class="col-8 form-control" name="office" id="office" [(ngModel)]="payrollManagement.officeId" required>
                             <option [ngValue]="officeOption.id" *ngFor="let officeOption of officeList">{{officeOption.name}}</option>
                         </select>
 
                     </div>
                     <div class="form-group form-inline">
                         <label for="designation" class="col-4 form-control-label" align="left">Designation</label>
-                        <select class="col-8 form-control" name="designation" id="designation" [(ngModel)]="payrollManagement.designationId">
+                        <select class="col-8 form-control" name="designation" id="designation" [(ngModel)]="payrollManagement.designationId" required>
                             <option [ngValue]="designationOption.id" *ngFor="let designationOption of designationList">{{designationOption.name}}</option>
                         </select>
                     </div>
                     <div class="form-group form-inline">
                         <label for="year" class="col-4 form-control-label" align="left">Year</label>
-                        <input class="col-8 form-control" id="year" type="number" [ngModel]="year" value="{{year}}"/>
+                        <input class="col-8 form-control" id="year" type="number" [ngModel]="year" value="{{year}}" required/>
                     </div>
                     <div class="form-group form-inline">
                         <label class="form-control-label" class="col-4" for="monthType">Month</label>
@@ -52,6 +52,9 @@
             <div class="card-header text-white bg-secondary">Employee List</div>
             <div class="card-body">
                 <div class="row" *ngIf="payrollGenerated!=null">
+                    <div class="col-12">
+                        <jhi-alert></jhi-alert>
+                    </div>
                     <div class="col-12" align="right" *ngIf="!payrollGenerated">
                         <button class="btn btn-secondary" (click)="generatePayroll()">Generate Payroll</button>
                     </div>

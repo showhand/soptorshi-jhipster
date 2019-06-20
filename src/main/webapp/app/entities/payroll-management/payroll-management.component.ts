@@ -89,6 +89,7 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
                 this.payrollManagement.monthType
             )
             .subscribe((res: any) => {
+                this.jhiAlertService.success('Payroll successfully generated');
                 this.fetch();
             });
     }
@@ -128,6 +129,7 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+        this.reverse = true;
         this.officeService
             .query({
                 page: 0,
