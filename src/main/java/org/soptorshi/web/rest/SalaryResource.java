@@ -17,9 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import javax.xml.ws.Response;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -108,8 +110,8 @@ public class SalaryResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    @GetMapping("/generatePayRoll")
-    public ResponseEntity<Void> generatePayroll(Long officeId, Long designationId, Integer year, MonthType monthType){
+    @GetMapping("/salaries/generatePayRoll/{officeId}/{designationId}/{year}/{monthType}")
+    public ResponseEntity<Void> generatePayroll(@PathVariable("officeId") Long officeId,@PathVariable("designationId") Long designationId,@PathVariable("year") Integer year,@PathVariable("monthType") MonthType monthType){
         payrollService.generatePayroll(officeId, designationId, year, monthType);
         return ResponseEntity.ok().build();
     }

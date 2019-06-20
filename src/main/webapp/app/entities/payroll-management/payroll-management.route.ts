@@ -11,6 +11,7 @@ import { PayrollManagementDetailComponent } from './payroll-management-detail.co
 import { PayrollManagementUpdateComponent } from './payroll-management-update.component';
 import { PayrollManagementDeletePopupComponent } from './payroll-management-delete-dialog.component';
 import { IPayrollManagement } from 'app/shared/model/payroll-management.model';
+import { JhiResolvePagingParams } from 'ng-jhipster';
 
 @Injectable({ providedIn: 'root' })
 export class PayrollManagementResolve implements Resolve<IPayrollManagement> {
@@ -25,6 +26,9 @@ export const payrollManagementRoute: Routes = [
     {
         path: '',
         component: PayrollManagementComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams
+        },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE'],
             pageTitle: 'PayrollManagements'

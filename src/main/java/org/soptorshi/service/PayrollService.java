@@ -75,15 +75,15 @@ public class PayrollService {
             BigDecimal totalPayable = new BigDecimal(0);
             totalPayable = totalPayable
                 .add(monthlySalary.getBasic())
-                .add(monthlySalary.getHouseRent())
-                .add(monthlySalary.getMedicalAllowance())
+                .add(monthlySalary.getHouseRent()==null? BigDecimal.ZERO: monthlySalary.getHouseRent())
+                .add(monthlySalary.getMedicalAllowance()==null? BigDecimal.ZERO: monthlySalary.getMedicalAllowance())
                 .add(monthlySalary.getOtherAllowance());
             BigDecimal totalDeduction = new BigDecimal(0);
             totalDeduction = totalDeduction
-                .add(monthlySalary.getAdvanceFactory())
-                .add(monthlySalary.getFine())
-                .add(monthlySalary.getProvidentFund())
-                .add(monthlySalary.getLoanAmount());
+                .add(monthlySalary.getAdvanceFactory()==null? BigDecimal.ZERO: monthlySalary.getAdvanceFactory())
+                .add(monthlySalary.getFine()==null? BigDecimal.ZERO: monthlySalary.getFine())
+                .add(monthlySalary.getProvidentFund()==null? BigDecimal.ZERO: monthlySalary.getProvidentFund())
+                .add(monthlySalary.getLoanAmount()==null? BigDecimal.ZERO: monthlySalary.getLoanAmount());
 
             monthlySalary.setPayable(totalPayable.subtract(totalDeduction));
 
@@ -191,7 +191,8 @@ public class PayrollService {
     private BigDecimal calculateSalary(Employee employee, Integer year, MonthType monthType){
         BigDecimal totalSalary = new BigDecimal(0);
         Salary activeSalary = salaryService.get(employee, SalaryStatus.ACTIVE);
-        totalSalary = totalSalary.add(activeSalary.getBasic());
+        if(activeSalary!=null)
+            totalSalary = totalSalary.add(activeSalary.getBasic());
         return totalSalary;
     }
 }

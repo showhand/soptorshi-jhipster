@@ -14,12 +14,16 @@ import { OfficeService } from 'app/entities/office';
 import { DesignationService } from 'app/entities/designation';
 import { EmployeeService } from 'app/entities/employee';
 import { Employee, IEmployee } from 'app/shared/model/employee.model';
+import { MonthlySalaryService } from 'app/entities/monthly-salary';
+import { IMonthlySalary, MonthlySalary } from 'app/shared/model/monthly-salary.model';
+import { SalaryService } from 'app/entities/salary';
 
 @Component({
     selector: 'jhi-payroll-management',
     templateUrl: './payroll-management.component.html'
 })
 export class PayrollManagementComponent implements OnInit, OnDestroy {
+    year: number;
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;
@@ -31,8 +35,11 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     page: number;
     itemPerPage: number;
     employees: Employee[];
+    monthlySalaries: MonthlySalary[];
+    monthlySalaryMapWithEmployeeId: any;
     links: any;
     totalItems: any;
+    payrollGenerated: boolean;
 
     constructor(
         protected payrollManagementService: PayrollManagementService,
@@ -43,7 +50,9 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         protected officeService: OfficeService,
         protected designationService: DesignationService,
         protected employeeService: EmployeeService,
-        protected parseLinks: JhiParseLinks
+        protected parseLinks: JhiParseLinks,
+        protected monthlySalaryService: MonthlySalaryService,
+        protected salaryService: SalaryService
     ) {
         this.predicate = 'id';
         this.reverse = false;
@@ -53,6 +62,7 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     }
 
     fetch() {
+        this.monthlySalaryMapWithEmployeeId = {};
         this.employeeService
             .query({
                 page: this.page - 1,
@@ -62,7 +72,51 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
                 'employeeStatus.equals': 'ACTIVE'
             })
             .subscribe(
-                (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                (res: HttpResponse<IEmployee[]>) => {
+                    this.paginateEmployees(res.body, res.headers);
+                    this.getMonthlySalaries(res.body);
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
+
+    public generatePayroll() {
+        this.salaryService
+            .generatePayroll(
+                this.payrollManagement.officeId,
+                this.payrollManagement.designationId,
+                this.year,
+                this.payrollManagement.monthType
+            )
+            .subscribe((res: any) => {
+                this.fetch();
+            });
+    }
+
+    protected getMonthlySalaries(employees: IEmployee[]) {
+        const employeeIds: number[] = [];
+        employees.forEach(e => {
+            employeeIds.push(e.id);
+        });
+
+        this.monthlySalaryService
+            .query({
+                'year.equals': this.year,
+                'month.equals': this.payrollManagement.monthType,
+                'employeeId.in': employeeIds
+            })
+            .subscribe(
+                (res: HttpResponse<IMonthlySalary[]>) => {
+                    if (res.body.length == 0) {
+                        this.payrollGenerated = false;
+                    } else {
+                        this.payrollGenerated = true;
+                        this.monthlySalaryMapWithEmployeeId = {};
+                        res.body.forEach(m => {
+                            this.monthlySalaryMapWithEmployeeId[m.employeeId] = m;
+                        });
+                    }
+                },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -83,8 +137,6 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<Office[]>) => {
                     this.officeList = res.body;
-                    console.log('Office list');
-                    console.log(this.officeList);
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
@@ -104,6 +156,8 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        const date = new Date();
+        this.year = date.getFullYear();
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;

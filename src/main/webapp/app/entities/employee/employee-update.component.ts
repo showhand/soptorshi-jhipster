@@ -62,7 +62,7 @@ export class EmployeeUpdateComponent implements OnInit {
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
         this.departmentService
-            .query({ 'employeeId.specified': 'false' })
+            .query({ 'employeeId.specified': 'false', size: 1000 })
             .pipe(
                 filter((mayBeOk: HttpResponse<IDepartment[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IDepartment[]>) => response.body)
@@ -112,7 +112,22 @@ export class EmployeeUpdateComponent implements OnInit {
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
         this.designationService
-            .query()
+            .query({
+                size: 1000
+            })
+            .pipe(
+                filter((mayBeOk: HttpResponse<IDesignation[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IDesignation[]>) => response.body)
+            )
+            .subscribe((res: IDesignation[]) => (this.designations = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    searchDesignations(event) {
+        this.designations = [];
+        this.designationService
+            .query({
+                'name.in': event.query
+            })
             .pipe(
                 filter((mayBeOk: HttpResponse<IDesignation[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IDesignation[]>) => response.body)
