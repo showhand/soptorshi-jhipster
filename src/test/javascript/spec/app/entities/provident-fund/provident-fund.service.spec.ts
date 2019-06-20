@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { ProvidentFundService } from 'app/entities/provident-fund/provident-fund.service';
-import { IProvidentFund, ProvidentFund } from 'app/shared/model/provident-fund.model';
+import { IProvidentFund, ProvidentFund, ProvidentFundStatus } from 'app/shared/model/provident-fund.model';
 
 describe('Service Tests', () => {
     describe('ProvidentFund Service', () => {
@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new ProvidentFund(0, currentDate, 0, false, 'AAAAAAA', currentDate);
+            elemDefault = new ProvidentFund(0, currentDate, 0, ProvidentFundStatus.ACTIVE, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
@@ -75,7 +75,7 @@ describe('Service Tests', () => {
                     {
                         startDate: currentDate.format(DATE_FORMAT),
                         rate: 1,
-                        status: true,
+                        status: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -102,7 +102,7 @@ describe('Service Tests', () => {
                     {
                         startDate: currentDate.format(DATE_FORMAT),
                         rate: 1,
-                        status: true,
+                        status: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },

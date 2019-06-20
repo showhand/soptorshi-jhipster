@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { IProvidentFund } from 'app/shared/model/provident-fund.model';
+import { IProvidentFund, ProvidentFund } from 'app/shared/model/provident-fund.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
@@ -16,6 +16,7 @@ import { ProvidentFundService } from './provident-fund.service';
     templateUrl: './provident-fund.component.html'
 })
 export class ProvidentFundComponent implements OnInit, OnDestroy {
+    providentFund: IProvidentFund;
     currentAccount: any;
     providentFunds: IProvidentFund[];
     error: any;
@@ -55,6 +56,7 @@ export class ProvidentFundComponent implements OnInit, OnDestroy {
 
     loadAll() {
         if (this.currentSearch) {
+            this.currentSearch = this.currentSearch + ' ' + this.providentFund.employeeId;
             this.providentFundService
                 .search({
                     page: this.page - 1,
@@ -70,6 +72,7 @@ export class ProvidentFundComponent implements OnInit, OnDestroy {
         }
         this.providentFundService
             .query({
+                'employeeId.equals': this.providentFund.employeeId,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -130,7 +133,14 @@ export class ProvidentFundComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ providentFund }) => {
+            console.log('active route data ---->');
+            this.providentFund = new ProvidentFund();
+            this.providentFund = providentFund;
+            console.log('provident fund');
+            console.log(this.providentFund);
+            this.loadAll();
+        });
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
@@ -139,6 +149,10 @@ export class ProvidentFundComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
+    }
+
+    back() {
+        window.history.back();
     }
 
     trackId(index: number, item: IProvidentFund) {

@@ -1,6 +1,11 @@
 package org.soptorshi.service;
 
+import org.soptorshi.domain.Designation;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.Loan;
+import org.soptorshi.domain.Office;
+import org.soptorshi.domain.enumeration.EmployeeStatus;
+import org.soptorshi.domain.enumeration.PaymentStatus;
 import org.soptorshi.repository.LoanRepository;
 import org.soptorshi.repository.search.LoanSearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -15,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -57,6 +63,10 @@ public class LoanService {
         return result;
     }
 
+    public void saveAll(List<Loan> loans){
+        loanRepository.saveAll(loans);
+    }
+
     /**
      * Get all the loans.
      *
@@ -68,6 +78,11 @@ public class LoanService {
         log.debug("Request to get all Loans");
         return loanRepository.findAll(pageable)
             .map(loanMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Loan> get(Employee employee, PaymentStatus paymentStatus){
+        return loanRepository.getByEmployeeAndPaymentStatus(employee, paymentStatus);
     }
 
 
@@ -82,6 +97,11 @@ public class LoanService {
         log.debug("Request to get Loan : {}", id);
         return loanRepository.findById(id)
             .map(loanMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Loan> get(PaymentStatus paymentStatus, Office office, Designation designation, EmployeeStatus employeeStatus){
+        return loanRepository.getByPaymentStatusAndEmployee_OfficeAndEmployee_DesignationAndEmployee_EmployeeStatus(paymentStatus, office, designation, employeeStatus);
     }
 
     /**

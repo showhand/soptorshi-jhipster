@@ -37,6 +37,9 @@ public class Advance implements Serializable {
     @Column(name = "provided_on")
     private LocalDate providedOn;
 
+    @Column(name = "monthly_payable")
+    private Double monthlyPayable;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
@@ -100,6 +103,19 @@ public class Advance implements Serializable {
 
     public void setProvidedOn(LocalDate providedOn) {
         this.providedOn = providedOn;
+    }
+
+    public Double getMonthlyPayable() {
+        return monthlyPayable;
+    }
+
+    public Advance monthlyPayable(Double monthlyPayable) {
+        this.monthlyPayable = monthlyPayable;
+        return this;
+    }
+
+    public void setMonthlyPayable(Double monthlyPayable) {
+        this.monthlyPayable = monthlyPayable;
     }
 
     public PaymentStatus getPaymentStatus() {
@@ -195,6 +211,7 @@ public class Advance implements Serializable {
             ", amount=" + getAmount() +
             ", reason='" + getReason() + "'" +
             ", providedOn='" + getProvidedOn() + "'" +
+            ", monthlyPayable=" + getMonthlyPayable() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", left=" + getLeft() +
             ", modifiedBy='" + getModifiedBy() + "'" +

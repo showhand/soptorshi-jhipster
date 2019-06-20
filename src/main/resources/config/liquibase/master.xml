@@ -30,6 +30,7 @@
     <include file="config/liquibase/changelog/20190525155823_added_entity_Holiday.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190603165435_added_entity_DesignationWiseAllowance.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190613164116_added_entity_Manager.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190619170717_added_entity_SpecialAllowanceTimeLine.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
@@ -44,6 +45,7 @@
     <include file="config/liquibase/changelog/20190409172411_added_entity_constraints_TrainingInformationAttachment.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160136_added_entity_constraints_Tax.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160137_added_entity_constraints_Salary.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190619152842_monthly_salary_year_field_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160139_added_entity_constraints_MonthlySalary.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160140_added_entity_constraints_Advance.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160141_added_entity_constraints_Fine.xml" relativeToChangelogFile="false"/>
@@ -52,5 +54,9 @@
     <include file="config/liquibase/changelog/20190603165435_added_entity_constraints_DesignationWiseAllowance.xml" relativeToChangelogFile="false"/>
 
     <include file="config/liquibase/changelog/20190613164116_added_entity_constraints_Manager.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190618143824_provident_fund_refactor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190619212221_provident_fund_refactored.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190514160138_added_entity_constraints_ProvidentFund.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190620053556_monthly_payable_advance_added.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

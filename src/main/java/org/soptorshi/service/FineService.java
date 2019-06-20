@@ -1,6 +1,11 @@
 package org.soptorshi.service;
 
+import org.soptorshi.domain.Designation;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.Fine;
+import org.soptorshi.domain.Office;
+import org.soptorshi.domain.enumeration.EmployeeStatus;
+import org.soptorshi.domain.enumeration.PaymentStatus;
 import org.soptorshi.repository.FineRepository;
 import org.soptorshi.repository.search.FineSearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -15,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -57,6 +63,10 @@ public class FineService {
         return result;
     }
 
+    public void saveAll(List<Fine> fines){
+        fineRepository.saveAll(fines);
+    }
+
     /**
      * Get all the fines.
      *
@@ -68,6 +78,16 @@ public class FineService {
         log.debug("Request to get all Fines");
         return fineRepository.findAll(pageable)
             .map(fineMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Fine> get(PaymentStatus paymentStatus, Long officeId, Long designationId, EmployeeStatus employeeStatus){
+        return fineRepository.findByPaymentStatusAndEmployee_Office_IdAndEmployee_Designation_IdAndEmployee_EmployeeStatus(paymentStatus, officeId, designationId, employeeStatus);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Fine> get(Long employeeId, PaymentStatus paymentStatus){
+        return fineRepository.findByEmployee_IdAndPaymentStatus(employeeId, paymentStatus);
     }
 
 

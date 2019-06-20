@@ -10,6 +10,7 @@ export interface IAdvance {
     amount?: number;
     reason?: any;
     providedOn?: Moment;
+    monthlyPayable?: number;
     paymentStatus?: PaymentStatus;
     left?: number;
     modifiedBy?: string;
@@ -24,6 +25,7 @@ export class Advance implements IAdvance {
         public amount?: number,
         public reason?: any,
         public providedOn?: Moment,
+        public monthlyPayable?: number,
         public paymentStatus?: PaymentStatus,
         public left?: number,
         public modifiedBy?: string,

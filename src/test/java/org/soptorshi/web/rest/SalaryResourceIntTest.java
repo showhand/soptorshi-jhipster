@@ -6,6 +6,7 @@ import org.soptorshi.domain.Salary;
 import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.SalaryRepository;
 import org.soptorshi.repository.search.SalarySearchRepository;
+import org.soptorshi.service.PayrollService;
 import org.soptorshi.service.SalaryService;
 import org.soptorshi.service.dto.SalaryDTO;
 import org.soptorshi.service.mapper.SalaryMapper;
@@ -113,10 +114,12 @@ public class SalaryResourceIntTest {
 
     private Salary salary;
 
+    private PayrollService payrollService;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final SalaryResource salaryResource = new SalaryResource(salaryService, salaryQueryService);
+        final SalaryResource salaryResource = new SalaryResource(salaryService, salaryQueryService, payrollService);
         this.restSalaryMockMvc = MockMvcBuilders.standaloneSetup(salaryResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

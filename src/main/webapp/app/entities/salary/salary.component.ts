@@ -16,6 +16,7 @@ import { SalaryService } from './salary.service';
     templateUrl: './salary.component.html'
 })
 export class SalaryComponent implements OnInit, OnDestroy {
+    salary: ISalary;
     currentAccount: any;
     salaries: ISalary[];
     error: any;
@@ -55,6 +56,7 @@ export class SalaryComponent implements OnInit, OnDestroy {
 
     loadAll() {
         if (this.currentSearch) {
+            this.currentSearch = this.currentSearch + ' ' + this.salary.employeeId;
             this.salaryService
                 .search({
                     page: this.page - 1,
@@ -70,6 +72,7 @@ export class SalaryComponent implements OnInit, OnDestroy {
         }
         this.salaryService
             .query({
+                'employeeId.equals': this.salary.employeeId,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -112,6 +115,10 @@ export class SalaryComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
+    back() {
+        window.history.back();
+    }
+
     search(query) {
         if (!query) {
             return this.clear();
@@ -130,7 +137,10 @@ export class SalaryComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ salary }) => {
+            this.salary = salary;
+            this.loadAll();
+        });
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });

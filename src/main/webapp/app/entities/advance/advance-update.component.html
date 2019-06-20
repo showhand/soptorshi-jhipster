@@ -4,11 +4,11 @@
             <h2 id="jhi-advance-heading">Create or edit a Advance</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <!--<div class="form-group" [hidden]="!advance.id">
+                <div class="form-group" [hidden]="!advance.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
                         [(ngModel)]="advance.id" readonly />
-                </div>-->
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_amount">Amount</label>
                     <input type="number" class="form-control" name="amount" id="field_amount"
@@ -28,6 +28,11 @@
                             <button type="button" class="btn btn-secondary" (click)="providedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_monthlyPayable">Monthly Payable</label>
+                    <input type="number" class="form-control" name="monthlyPayable" id="field_monthlyPayable"
+                        [(ngModel)]="advance.monthlyPayable" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_paymentStatus">Payment Status</label>
@@ -55,9 +60,9 @@
                             <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
-                </div>-->
+                </div>
 
-               <!-- <div class="form-group">
+                <div class="form-group">
                     <label class="form-control-label" for="field_employee">Employee</label>
                     <select class="form-control" id="field_employee" name="employee" [(ngModel)]="advance.employeeId" >
                         <option [ngValue]="null"></option>

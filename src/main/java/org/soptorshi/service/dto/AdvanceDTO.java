@@ -20,6 +20,8 @@ public class AdvanceDTO implements Serializable {
 
     private LocalDate providedOn;
 
+    private Double monthlyPayable;
+
     private PaymentStatus paymentStatus;
 
     private BigDecimal left;
@@ -63,6 +65,14 @@ public class AdvanceDTO implements Serializable {
 
     public void setProvidedOn(LocalDate providedOn) {
         this.providedOn = providedOn;
+    }
+
+    public Double getMonthlyPayable() {
+        return monthlyPayable;
+    }
+
+    public void setMonthlyPayable(Double monthlyPayable) {
+        this.monthlyPayable = monthlyPayable;
     }
 
     public PaymentStatus getPaymentStatus() {
@@ -141,6 +151,7 @@ public class AdvanceDTO implements Serializable {
             ", amount=" + getAmount() +
             ", reason='" + getReason() + "'" +
             ", providedOn='" + getProvidedOn() + "'" +
+            ", monthlyPayable=" + getMonthlyPayable() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", left=" + getLeft() +
             ", modifiedBy='" + getModifiedBy() + "'" +

@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.ProvidentFundStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -20,6 +21,11 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class ProvidentFundCriteria implements Serializable {
+    /**
+     * Class for filtering ProvidentFundStatus
+     */
+    public static class ProvidentFundStatusFilter extends Filter<ProvidentFundStatus> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -29,11 +35,13 @@ public class ProvidentFundCriteria implements Serializable {
 
     private DoubleFilter rate;
 
-    private BooleanFilter status;
+    private ProvidentFundStatusFilter status;
 
     private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedOn;
+
+    private LongFilter employeeId;
 
     public LongFilter getId() {
         return id;
@@ -59,11 +67,11 @@ public class ProvidentFundCriteria implements Serializable {
         this.rate = rate;
     }
 
-    public BooleanFilter getStatus() {
+    public ProvidentFundStatusFilter getStatus() {
         return status;
     }
 
-    public void setStatus(BooleanFilter status) {
+    public void setStatus(ProvidentFundStatusFilter status) {
         this.status = status;
     }
 
@@ -83,6 +91,14 @@ public class ProvidentFundCriteria implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public LongFilter getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(LongFilter employeeId) {
+        this.employeeId = employeeId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -99,7 +115,8 @@ public class ProvidentFundCriteria implements Serializable {
             Objects.equals(rate, that.rate) &&
             Objects.equals(status, that.status) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
-            Objects.equals(modifiedOn, that.modifiedOn);
+            Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(employeeId, that.employeeId);
     }
 
     @Override
@@ -110,7 +127,8 @@ public class ProvidentFundCriteria implements Serializable {
         rate,
         status,
         modifiedBy,
-        modifiedOn
+        modifiedOn,
+        employeeId
         );
     }
 
@@ -123,6 +141,7 @@ public class ProvidentFundCriteria implements Serializable {
                 (status != null ? "status=" + status + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
+                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }
 

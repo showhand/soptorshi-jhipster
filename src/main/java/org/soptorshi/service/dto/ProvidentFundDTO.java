@@ -1,7 +1,9 @@
 package org.soptorshi.service.dto;
 import java.time.LocalDate;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.ProvidentFundStatus;
 
 /**
  * A DTO for the ProvidentFund entity.
@@ -10,16 +12,23 @@ public class ProvidentFundDTO implements Serializable {
 
     private Long id;
 
+    
     private LocalDate startDate;
 
+    
     private Double rate;
 
-    private Boolean status;
+    
+    private ProvidentFundStatus status;
 
     private String modifiedBy;
 
     private LocalDate modifiedOn;
 
+
+    private Long employeeId;
+
+    private String employeeFullName;
 
     public Long getId() {
         return id;
@@ -45,11 +54,11 @@ public class ProvidentFundDTO implements Serializable {
         this.rate = rate;
     }
 
-    public Boolean isStatus() {
+    public ProvidentFundStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(ProvidentFundStatus status) {
         this.status = status;
     }
 
@@ -67,6 +76,22 @@ public class ProvidentFundDTO implements Serializable {
 
     public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
     }
 
     @Override
@@ -96,9 +121,11 @@ public class ProvidentFundDTO implements Serializable {
             "id=" + getId() +
             ", startDate='" + getStartDate() + "'" +
             ", rate=" + getRate() +
-            ", status='" + isStatus() + "'" +
+            ", status='" + getStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
+            ", employee=" + getEmployeeId() +
+            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

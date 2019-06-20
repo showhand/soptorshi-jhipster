@@ -29,6 +29,10 @@ public class MonthlySalary implements Serializable {
     private Long id;
 
     @NotNull
+    @Column(name = "jhi_year", nullable = false)
+    private Integer year;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "month", nullable = false)
     private MonthType month;
@@ -37,14 +41,14 @@ public class MonthlySalary implements Serializable {
     @Column(name = "basic", precision = 10, scale = 2, nullable = false)
     private BigDecimal basic;
 
-    @Column(name = "house_rent")
-    private Double houseRent;
+    @Column(name = "house_rent", precision = 10, scale = 2)
+    private BigDecimal houseRent;
 
-    @Column(name = "medical_allowance")
-    private Double medicalAllowance;
+    @Column(name = "medical_allowance", precision = 10, scale = 2)
+    private BigDecimal medicalAllowance;
 
-    @Column(name = "other_allowance")
-    private Double otherAllowance;
+    @Column(name = "other_allowance", precision = 10, scale = 2)
+    private BigDecimal otherAllowance;
 
     @Column(name = "absent")
     private Integer absent;
@@ -58,11 +62,11 @@ public class MonthlySalary implements Serializable {
     @Column(name = "advance_factory", precision = 10, scale = 2)
     private BigDecimal advanceFactory;
 
-    @Column(name = "providend_fund")
-    private Double providendFund;
+    @Column(name = "provident_fund", precision = 10, scale = 2)
+    private BigDecimal providentFund;
 
-    @Column(name = "tax")
-    private Double tax;
+    @Column(name = "tax", precision = 10, scale = 2)
+    private BigDecimal tax;
 
     @Column(name = "loan_amount", precision = 10, scale = 2)
     private BigDecimal loanAmount;
@@ -87,6 +91,19 @@ public class MonthlySalary implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public MonthlySalary year(Integer year) {
+        this.year = year;
+        return this;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public MonthType getMonth() {
@@ -115,42 +132,42 @@ public class MonthlySalary implements Serializable {
         this.basic = basic;
     }
 
-    public Double getHouseRent() {
+    public BigDecimal getHouseRent() {
         return houseRent;
     }
 
-    public MonthlySalary houseRent(Double houseRent) {
+    public MonthlySalary houseRent(BigDecimal houseRent) {
         this.houseRent = houseRent;
         return this;
     }
 
-    public void setHouseRent(Double houseRent) {
+    public void setHouseRent(BigDecimal houseRent) {
         this.houseRent = houseRent;
     }
 
-    public Double getMedicalAllowance() {
+    public BigDecimal getMedicalAllowance() {
         return medicalAllowance;
     }
 
-    public MonthlySalary medicalAllowance(Double medicalAllowance) {
+    public MonthlySalary medicalAllowance(BigDecimal medicalAllowance) {
         this.medicalAllowance = medicalAllowance;
         return this;
     }
 
-    public void setMedicalAllowance(Double medicalAllowance) {
+    public void setMedicalAllowance(BigDecimal medicalAllowance) {
         this.medicalAllowance = medicalAllowance;
     }
 
-    public Double getOtherAllowance() {
+    public BigDecimal getOtherAllowance() {
         return otherAllowance;
     }
 
-    public MonthlySalary otherAllowance(Double otherAllowance) {
+    public MonthlySalary otherAllowance(BigDecimal otherAllowance) {
         this.otherAllowance = otherAllowance;
         return this;
     }
 
-    public void setOtherAllowance(Double otherAllowance) {
+    public void setOtherAllowance(BigDecimal otherAllowance) {
         this.otherAllowance = otherAllowance;
     }
 
@@ -206,29 +223,29 @@ public class MonthlySalary implements Serializable {
         this.advanceFactory = advanceFactory;
     }
 
-    public Double getProvidendFund() {
-        return providendFund;
+    public BigDecimal getProvidentFund() {
+        return providentFund;
     }
 
-    public MonthlySalary providendFund(Double providendFund) {
-        this.providendFund = providendFund;
+    public MonthlySalary providentFund(BigDecimal providentFund) {
+        this.providentFund = providentFund;
         return this;
     }
 
-    public void setProvidendFund(Double providendFund) {
-        this.providendFund = providendFund;
+    public void setProvidentFund(BigDecimal providentFund) {
+        this.providentFund = providentFund;
     }
 
-    public Double getTax() {
+    public BigDecimal getTax() {
         return tax;
     }
 
-    public MonthlySalary tax(Double tax) {
+    public MonthlySalary tax(BigDecimal tax) {
         this.tax = tax;
         return this;
     }
 
-    public void setTax(Double tax) {
+    public void setTax(BigDecimal tax) {
         this.tax = tax;
     }
 
@@ -322,6 +339,7 @@ public class MonthlySalary implements Serializable {
     public String toString() {
         return "MonthlySalary{" +
             "id=" + getId() +
+            ", year=" + getYear() +
             ", month='" + getMonth() + "'" +
             ", basic=" + getBasic() +
             ", houseRent=" + getHouseRent() +
@@ -331,7 +349,7 @@ public class MonthlySalary implements Serializable {
             ", fine=" + getFine() +
             ", advanceHO=" + getAdvanceHO() +
             ", advanceFactory=" + getAdvanceFactory() +
-            ", providendFund=" + getProvidendFund() +
+            ", providentFund=" + getProvidentFund() +
             ", tax=" + getTax() +
             ", loanAmount=" + getLoanAmount() +
             ", payable=" + getPayable() +

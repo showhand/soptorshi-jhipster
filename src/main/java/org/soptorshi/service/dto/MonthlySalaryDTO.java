@@ -14,16 +14,19 @@ public class MonthlySalaryDTO implements Serializable {
     private Long id;
 
     @NotNull
+    private Integer year;
+
+    @NotNull
     private MonthType month;
 
     @NotNull
     private BigDecimal basic;
 
-    private Double houseRent;
+    private BigDecimal houseRent;
 
-    private Double medicalAllowance;
+    private BigDecimal medicalAllowance;
 
-    private Double otherAllowance;
+    private BigDecimal otherAllowance;
 
     private Integer absent;
 
@@ -33,9 +36,9 @@ public class MonthlySalaryDTO implements Serializable {
 
     private BigDecimal advanceFactory;
 
-    private Double providendFund;
+    private BigDecimal providentFund;
 
-    private Double tax;
+    private BigDecimal tax;
 
     private BigDecimal loanAmount;
 
@@ -56,6 +59,14 @@ public class MonthlySalaryDTO implements Serializable {
         this.id = id;
     }
 
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
     public MonthType getMonth() {
         return month;
     }
@@ -72,27 +83,27 @@ public class MonthlySalaryDTO implements Serializable {
         this.basic = basic;
     }
 
-    public Double getHouseRent() {
+    public BigDecimal getHouseRent() {
         return houseRent;
     }
 
-    public void setHouseRent(Double houseRent) {
+    public void setHouseRent(BigDecimal houseRent) {
         this.houseRent = houseRent;
     }
 
-    public Double getMedicalAllowance() {
+    public BigDecimal getMedicalAllowance() {
         return medicalAllowance;
     }
 
-    public void setMedicalAllowance(Double medicalAllowance) {
+    public void setMedicalAllowance(BigDecimal medicalAllowance) {
         this.medicalAllowance = medicalAllowance;
     }
 
-    public Double getOtherAllowance() {
+    public BigDecimal getOtherAllowance() {
         return otherAllowance;
     }
 
-    public void setOtherAllowance(Double otherAllowance) {
+    public void setOtherAllowance(BigDecimal otherAllowance) {
         this.otherAllowance = otherAllowance;
     }
 
@@ -128,19 +139,19 @@ public class MonthlySalaryDTO implements Serializable {
         this.advanceFactory = advanceFactory;
     }
 
-    public Double getProvidendFund() {
-        return providendFund;
+    public BigDecimal getProvidentFund() {
+        return providentFund;
     }
 
-    public void setProvidendFund(Double providendFund) {
-        this.providendFund = providendFund;
+    public void setProvidentFund(BigDecimal providentFund) {
+        this.providentFund = providentFund;
     }
 
-    public Double getTax() {
+    public BigDecimal getTax() {
         return tax;
     }
 
-    public void setTax(Double tax) {
+    public void setTax(BigDecimal tax) {
         this.tax = tax;
     }
 
@@ -209,6 +220,7 @@ public class MonthlySalaryDTO implements Serializable {
     public String toString() {
         return "MonthlySalaryDTO{" +
             "id=" + getId() +
+            ", year=" + getYear() +
             ", month='" + getMonth() + "'" +
             ", basic=" + getBasic() +
             ", houseRent=" + getHouseRent() +
@@ -218,7 +230,7 @@ public class MonthlySalaryDTO implements Serializable {
             ", fine=" + getFine() +
             ", advanceHO=" + getAdvanceHO() +
             ", advanceFactory=" + getAdvanceFactory() +
-            ", providendFund=" + getProvidendFund() +
+            ", providentFund=" + getProvidentFund() +
             ", tax=" + getTax() +
             ", loanAmount=" + getLoanAmount() +
             ", payable=" + getPayable() +

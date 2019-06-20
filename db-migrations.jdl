@@ -101,24 +101,25 @@ entity Salary {
   modifiedOn LocalDate
 }
 entity ProvidentFund {
-  startDate LocalDate,
-  rate Double,
-  status Boolean,
+  startDate LocalDate unique,
+  rate Double unique,
+  status ProvidentFundStatus unique,
   modifiedBy String,
   modifiedOn LocalDate
 }
 entity MonthlySalary {
+  year Integer required,
   month MonthType required,
   basic BigDecimal required,
-  houseRent Double,
-  medicalAllowance Double,
-  otherAllowance Double,
+  houseRent BigDecimal,
+  medicalAllowance BigDecimal,
+  otherAllowance BigDecimal,
   absent Integer,
   fine BigDecimal,
   advanceHO BigDecimal,
   advanceFactory BigDecimal,
-  providendFund Double,
-  tax Double,
+  providentFund BigDecimal,
+  tax BigDecimal,
   loanAmount BigDecimal,
   payable BigDecimal,
   modifiedBy String,
@@ -128,6 +129,7 @@ entity Advance {
   amount BigDecimal,
   reason TextBlob,
   providedOn LocalDate,
+  monthlyPayable Double,
   paymentStatus PaymentStatus,
   left BigDecimal,
   modifiedBy String,
@@ -169,6 +171,14 @@ entity DesignationWiseAllowance {
   modifiedOn LocalDate
 }
 
+entity SpecialAllowanceTimeLine{
+  allowanceType AllowanceType,
+  year Integer,
+  month MonthType,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+
 entity Manager{
     parentEmployeeId Long,
     modifiedBy String,
@@ -198,6 +208,11 @@ enum Religion {
 enum EmployeeStatus {
   ACTIVE,
   TERMINATED
+}
+
+enum ProvidentFundStatus{
+    ACTIVE,
+    NOT_ACTIVE
 }
 
 enum EmploymentType {
@@ -250,6 +265,11 @@ enum AllowanceType {
   OTHER_ALLOWANCE
 }
 
+enum AllowanceProvideType{
+    NORMAL_ALLOWANCE,
+    FESTIVAL_ALLOWANCE
+}
+
 enum AllowanceCategory {
   MONTHLY,
   SPECIFIC
@@ -275,16 +295,17 @@ relationship ManyToOne {
   Salary{employee} to Employee,
   MonthlySalary{employee} to Employee,
   Advance{employee(fullName)} to Employee,
+  ProvidentFund{employee(fullName)} to Employee,
   Fine{employee(fullName)} to Employee,
   Loan{employee(fullName)} to Employee,
   Holiday{holidayType(name)} to HolidayType,
   DesignationWiseAllowance{designation} to Designation
 }
 
-dto Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager with mapstruct
-paginate Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan with pager
+dto Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with mapstruct
+paginate Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, SpecialAllowanceTimeLine with pager
 paginate HolidayType, Holiday, DesignationWiseAllowance, Manager with infinite-scroll
-service Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager with serviceClass
+service Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with serviceClass
 service HolidayType, Holiday with serviceImpl
-search Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, Manager with elasticsearch
-filter Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager
+search Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, Manager, SpecialAllowanceTimeLine with elasticsearch
+filter Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine

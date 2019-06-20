@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new MonthlySalary(0, MonthType.JANUARY, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'AAAAAAA', currentDate);
+            elemDefault = new MonthlySalary(0, 0, MonthType.JANUARY, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
@@ -70,6 +70,7 @@ describe('Service Tests', () => {
             it('should update a MonthlySalary', async () => {
                 const returnedFromService = Object.assign(
                     {
+                        year: 1,
                         month: 'BBBBBB',
                         basic: 1,
                         houseRent: 1,
@@ -79,7 +80,7 @@ describe('Service Tests', () => {
                         fine: 1,
                         advanceHO: 1,
                         advanceFactory: 1,
-                        providendFund: 1,
+                        providentFund: 1,
                         tax: 1,
                         loanAmount: 1,
                         payable: 1,
@@ -106,6 +107,7 @@ describe('Service Tests', () => {
             it('should return a list of MonthlySalary', async () => {
                 const returnedFromService = Object.assign(
                     {
+                        year: 1,
                         month: 'BBBBBB',
                         basic: 1,
                         houseRent: 1,
@@ -115,7 +117,7 @@ describe('Service Tests', () => {
                         fine: 1,
                         advanceHO: 1,
                         advanceFactory: 1,
-                        providendFund: 1,
+                        providentFund: 1,
                         tax: 1,
                         loanAmount: 1,
                         payable: 1,

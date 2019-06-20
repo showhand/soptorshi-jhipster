@@ -1,6 +1,8 @@
 package org.soptorshi.service;
 
+import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.ProvidentFund;
+import org.soptorshi.domain.enumeration.ProvidentFundStatus;
 import org.soptorshi.repository.ProvidentFundRepository;
 import org.soptorshi.repository.search.ProvidentFundSearchRepository;
 import org.soptorshi.service.dto.ProvidentFundDTO;
@@ -78,6 +80,11 @@ public class ProvidentFundService {
         log.debug("Request to get ProvidentFund : {}", id);
         return providentFundRepository.findById(id)
             .map(providentFundMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public ProvidentFund get(Employee employee, ProvidentFundStatus status){
+        return providentFundRepository.getByEmployeeAndStatus(employee, status);
     }
 
     /**

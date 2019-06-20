@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="advance">
-            <h2><span>Advance</span> {{advance.employeeFullName}}</h2>
+            <h2><span>Advance</span> {{advance.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -17,6 +17,10 @@
                 <dd>
                     <span>{{advance.providedOn}}</span>
                 </dd>
+                <dt><span>Monthly Payable</span></dt>
+                <dd>
+                    <span>{{advance.monthlyPayable}}</span>
+                </dd>
                 <dt><span>Payment Status</span></dt>
                 <dd>
                     <span>{{advance.paymentStatus}}</span>
@@ -25,7 +29,7 @@
                 <dd>
                     <span>{{advance.left}}</span>
                 </dd>
-                <dt><span>Modified By</span></dt>
+               <!-- <dt><span>Modified By</span></dt>
                 <dd>
                     <span>{{advance.modifiedBy}}</span>
                 </dd>
@@ -33,7 +37,7 @@
                 <dd>
                     <span>{{advance.modifiedOn}}</span>
                 </dd>
-               <!-- <dt><span>Employee</span></dt>
+                <dt><span>Employee</span></dt>
                 <dd>
                     <div *ngIf="advance.employeeId">
                         <a [routerLink]="['/employee', advance.employeeId, 'view']">{{advance.employeeFullName}}</a>

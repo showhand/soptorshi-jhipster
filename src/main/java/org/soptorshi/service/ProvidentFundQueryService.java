@@ -108,6 +108,10 @@ public class ProvidentFundQueryService extends QueryService<ProvidentFund> {
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), ProvidentFund_.modifiedOn));
             }
+            if (criteria.getEmployeeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getEmployeeId(),
+                    root -> root.join(ProvidentFund_.employee, JoinType.LEFT).get(Employee_.id)));
+            }
         }
         return specification;
     }

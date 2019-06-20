@@ -1,13 +1,17 @@
 package org.soptorshi.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import org.soptorshi.domain.enumeration.ProvidentFundStatus;
 
 /**
  * A ProvidentFund.
@@ -23,20 +27,28 @@ public class ProvidentFund implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "start_date")
+    
+    @Column(name = "start_date", unique = true)
     private LocalDate startDate;
 
-    @Column(name = "rate")
+    
+    @Column(name = "rate", unique = true)
     private Double rate;
 
-    @Column(name = "status")
-    private Boolean status;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", unique = true)
+    private ProvidentFundStatus status;
 
     @Column(name = "modified_by")
     private String modifiedBy;
 
     @Column(name = "modified_on")
     private LocalDate modifiedOn;
+
+    @ManyToOne
+    @JsonIgnoreProperties("providentFunds")
+    private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -73,16 +85,16 @@ public class ProvidentFund implements Serializable {
         this.rate = rate;
     }
 
-    public Boolean isStatus() {
+    public ProvidentFundStatus getStatus() {
         return status;
     }
 
-    public ProvidentFund status(Boolean status) {
+    public ProvidentFund status(ProvidentFundStatus status) {
         this.status = status;
         return this;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(ProvidentFundStatus status) {
         this.status = status;
     }
 
@@ -110,6 +122,19 @@ public class ProvidentFund implements Serializable {
 
     public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public ProvidentFund employee(Employee employee) {
+        this.employee = employee;
+        return this;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -139,7 +164,7 @@ public class ProvidentFund implements Serializable {
             "id=" + getId() +
             ", startDate='" + getStartDate() + "'" +
             ", rate=" + getRate() +
-            ", status='" + isStatus() + "'" +
+            ", status='" + getStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";
