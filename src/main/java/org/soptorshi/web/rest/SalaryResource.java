@@ -1,4 +1,7 @@
 package org.soptorshi.web.rest;
+import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
+import org.soptorshi.domain.enumeration.MonthType;
+import org.soptorshi.service.PayrollService;
 import org.soptorshi.service.SalaryService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -42,9 +45,12 @@ public class SalaryResource {
 
     private final SalaryQueryService salaryQueryService;
 
-    public SalaryResource(SalaryService salaryService, SalaryQueryService salaryQueryService) {
+    private final PayrollService payrollService;
+
+    public SalaryResource(SalaryService salaryService, SalaryQueryService salaryQueryService, PayrollService payrollService) {
         this.salaryService = salaryService;
         this.salaryQueryService = salaryQueryService;
+        this.payrollService = payrollService;
     }
 
     /**
@@ -102,7 +108,11 @@ public class SalaryResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    
+    @GetMapping("/generatePayRoll")
+    public ResponseEntity<Void> generatePayroll(Long officeId, Long designationId, Integer year, MonthType monthType){
+        payrollService.generatePayroll(officeId, designationId, year, monthType);
+        return ResponseEntity.ok().build();
+    }
 
     /**
     * GET  /salaries/count : count all the salaries.
