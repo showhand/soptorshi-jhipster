@@ -135,7 +135,7 @@ public class PayrollService {
 
     private BigDecimal calculateAdvance(Employee employee, Integer year, MonthType monthType){
         BigDecimal totalAdvance = new BigDecimal(0);
-        
+
         return totalAdvance;
     }
 

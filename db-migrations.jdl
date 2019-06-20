@@ -129,6 +129,7 @@ entity Advance {
   amount BigDecimal,
   reason TextBlob,
   providedOn LocalDate,
+  monthlyPayable Double,
   paymentStatus PaymentStatus,
   left BigDecimal,
   modifiedBy String,
