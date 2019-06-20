@@ -63,6 +63,10 @@ public class FineService {
         return result;
     }
 
+    public void saveAll(List<Fine> fines){
+        fineRepository.saveAll(fines);
+    }
+
     /**
      * Get all the fines.
      *

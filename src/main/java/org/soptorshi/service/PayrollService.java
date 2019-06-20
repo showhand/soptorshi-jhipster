@@ -50,6 +50,7 @@ public class PayrollService {
         this.providentFundService = providentFundService;
     }
 
+    @Transactional
     public void generatePayroll(Long officeId, Long designationId, Integer year, MonthType monthType){
         monthlySalaryService.delete(year, monthType, officeId, designationId);
         updatableFines = new ArrayList<>();
@@ -70,7 +71,30 @@ public class PayrollService {
             monthlySalary.setBasic(calculateSalary(employee, year, monthType));
             monthlySalary = calculateProvidentFund(monthlySalary);
             monthlySalary = assignAllowances(monthlySalary);
+
+            BigDecimal totalPayable = new BigDecimal(0);
+            totalPayable = totalPayable
+                .add(monthlySalary.getBasic())
+                .add(monthlySalary.getHouseRent())
+                .add(monthlySalary.getMedicalAllowance())
+                .add(monthlySalary.getOtherAllowance());
+            BigDecimal totalDeduction = new BigDecimal(0);
+            totalDeduction = totalDeduction
+                .add(monthlySalary.getAdvanceFactory())
+                .add(monthlySalary.getFine())
+                .add(monthlySalary.getProvidentFund())
+                .add(monthlySalary.getLoanAmount());
+
+            monthlySalary.setPayable(totalPayable.subtract(totalDeduction));
+
+            monthlySalaries.add(monthlySalary);
         }
+
+        fineService.saveAll(updatableFines);
+        loanService.saveAll(updatableLoans);
+        advanceService.saveAll(updatableAdvances);
+
+        monthlySalaryService.saveAll(monthlySalaries);
     }
 
     private MonthlySalary assignAllowances(MonthlySalary monthlySalary){
@@ -123,8 +147,9 @@ public class PayrollService {
         List<Fine> fines = fineService.get(employee.getId(), PaymentStatus.NOT_PAID);
         for(Fine fine: fines){
             BigDecimal fineAmount = fine.getAmount().multiply(BigDecimal.valueOf(fine.getMonthlyPayable()/100));
-            fine.setLeft(totalFine.subtract(fineAmount));
-            if(fine.getLeft().equals(new BigDecimal(0)))
+            BigDecimal totalLeft = fine.getLeft().add(fineAmount);
+            fine.setLeft(fine.getAmount().subtract(totalLeft));
+            if(fine.getLeft().equals(new BigDecimal(0)) || fine.getLeft().compareTo(BigDecimal.ZERO)==-1)
                 fine.setPaymentStatus(PaymentStatus.PAID);
             totalFine = totalFine.add(fineAmount);
         }
@@ -135,19 +160,38 @@ public class PayrollService {
 
     private BigDecimal calculateAdvance(Employee employee, Integer year, MonthType monthType){
         BigDecimal totalAdvance = new BigDecimal(0);
-
+        List<Advance> advances = advanceService.get(employee, PaymentStatus.NOT_PAID);
+        for(Advance advance: advances){
+            BigDecimal advanceAmount = advance.getAmount().multiply(BigDecimal.valueOf(advance.getMonthlyPayable()/100));
+            BigDecimal totalLeft = advance.getLeft().add(advanceAmount);
+            advance.setLeft(advance.getAmount().subtract(totalLeft));
+            if(advance.getLeft().equals(new BigDecimal(0)) || advance.getLeft().compareTo(BigDecimal.ZERO)==-1)
+                advance.setPaymentStatus(PaymentStatus.PAID);
+            totalAdvance = totalAdvance.add(advanceAmount);
+        }
+        updatableAdvances.addAll(advances);
         return totalAdvance;
     }
 
     private BigDecimal calculateLoan(Employee employee, Integer year, MonthType monthType){
         BigDecimal totalLoan = new BigDecimal(0);
-
+        List<Loan> loans = loanService.get(employee, PaymentStatus.NOT_PAID);
+        for(Loan loan: loans){
+            BigDecimal loanAmount = loan.getAmount().multiply(BigDecimal.valueOf(loan.getMonthlyPayable()/100));
+            BigDecimal totalLeft = loan.getLeft().add(loanAmount);
+            loan.setLeft(loan.getAmount().subtract(totalLeft));
+            if(loan.getLeft().equals(new BigDecimal(0)) || loan.getLeft().compareTo(BigDecimal.ZERO)==-1){
+                loan.setPaymentStatus(PaymentStatus.PAID);
+            }
+            totalLoan = totalLoan.add(totalLeft);
+        }
         return totalLoan;
     }
 
     private BigDecimal calculateSalary(Employee employee, Integer year, MonthType monthType){
         BigDecimal totalSalary = new BigDecimal(0);
-
+        Salary activeSalary = salaryService.get(employee, SalaryStatus.ACTIVE);
+        totalSalary = totalSalary.add(activeSalary.getBasic());
         return totalSalary;
     }
 }

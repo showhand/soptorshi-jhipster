@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.ws.Response;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -100,6 +101,8 @@ public class SalaryResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/salaries");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
+    
 
     /**
     * GET  /salaries/count : count all the salaries.

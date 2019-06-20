@@ -63,6 +63,10 @@ public class AdvanceService {
         return result;
     }
 
+    public void saveAll(List<Advance> advances){
+        advanceRepository.saveAll(advances);
+    }
+
     /**
      * Get all the advances.
      *

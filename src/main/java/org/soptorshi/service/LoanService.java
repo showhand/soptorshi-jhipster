@@ -63,6 +63,10 @@ public class LoanService {
         return result;
     }
 
+    public void saveAll(List<Loan> loans){
+        loanRepository.saveAll(loans);
+    }
+
     /**
      * Get all the loans.
      *

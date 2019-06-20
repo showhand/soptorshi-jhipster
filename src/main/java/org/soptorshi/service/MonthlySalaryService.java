@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -52,6 +53,10 @@ public class MonthlySalaryService {
         MonthlySalaryDTO result = monthlySalaryMapper.toDto(monthlySalary);
         monthlySalarySearchRepository.save(monthlySalary);
         return result;
+    }
+
+    public void saveAll(List<MonthlySalary> monthlySalaryList){
+        monthlySalaryRepository.saveAll(monthlySalaryList);
     }
 
     /**
