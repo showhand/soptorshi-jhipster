@@ -18,7 +18,7 @@ export class ManagerResolve implements Resolve<IManager> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IManager> {
         const id = route.params['id'] ? route.params['id'] : null;
-        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
+        const employeeId = route.params['employeeLongId'] ? route.params['employeeLongId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<Manager>) => response.ok),
@@ -56,7 +56,7 @@ export const managerRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':employeeId/new',
+        path: ':employeeLongId/new',
         component: ManagerUpdateComponent,
         resolve: {
             manager: ManagerResolve
