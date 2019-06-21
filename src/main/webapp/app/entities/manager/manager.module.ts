@@ -11,11 +11,12 @@ import {
     managerRoute,
     managerPopupRoute
 } from './';
+import { AutoCompleteModule } from 'primeng/primeng';
 
 const ENTITY_STATES = [...managerRoute, ...managerPopupRoute];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES), AutoCompleteModule],
     declarations: [
         ManagerComponent,
         ManagerDetailComponent,

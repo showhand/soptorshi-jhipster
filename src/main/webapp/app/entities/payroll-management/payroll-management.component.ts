@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService, JhiParseLinks } from 'ng-jhipster';
@@ -33,13 +33,14 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     predicate: any;
     reverse: any;
     page: number;
-    itemPerPage: number;
+    itemsPerPage: number;
     employees: Employee[];
     monthlySalaries: MonthlySalary[];
     monthlySalaryMapWithEmployeeId: any;
     links: any;
     totalItems: any;
     payrollGenerated: boolean;
+    previousPage: any;
 
     constructor(
         protected payrollManagementService: PayrollManagementService,
@@ -52,13 +53,14 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         protected employeeService: EmployeeService,
         protected parseLinks: JhiParseLinks,
         protected monthlySalaryService: MonthlySalaryService,
-        protected salaryService: SalaryService
+        protected salaryService: SalaryService,
+        protected router: Router
     ) {
         this.predicate = 'id';
         this.reverse = false;
         this.payrollManagement = new PayrollManagement();
         this.page = 1;
-        this.itemPerPage = 15;
+        this.itemsPerPage = 15;
     }
 
     fetch() {
@@ -66,7 +68,7 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         this.employeeService
             .query({
                 page: this.page - 1,
-                size: this.itemPerPage,
+                size: this.itemsPerPage,
                 'designationId.equals': this.payrollManagement.designationId,
                 'officeId.equals': this.payrollManagement.officeId,
                 'employeeStatus.equals': 'ACTIVE'
@@ -126,6 +128,25 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.employees = data;
+    }
+
+    loadPage(page: number) {
+        if (page !== this.previousPage) {
+            this.previousPage = page;
+            this.transition();
+        }
+    }
+
+    transition() {
+        this.router.navigate(['/payroll-managements'], {
+            queryParams: {
+                page: this.page,
+                size: this.itemsPerPage,
+                search: this.currentSearch,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        });
+        this.loadAll();
     }
 
     loadAll() {

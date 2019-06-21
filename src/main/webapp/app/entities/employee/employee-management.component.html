@@ -164,8 +164,7 @@
                                                 <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
-                                                    [routerLink]="['/', 'family-information', { outlets: { popup: familyInformation.id + '/'} }]"
-                                                    replaceUrl="true"
+                                                    (click)="deleteFamilyInformation(familyInformation.id)"
                                                     queryParamsHandling="merge"
                                                     class="btn btn-danger btn-sm">
                                                 <fa-icon [icon]="'times'"></fa-icon>
@@ -227,7 +226,7 @@
                                                 <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
-                                                    [routerLink]="['/', 'reference-information', { outlets: { popup: referenceInformation.id + '/'} }]"
+                                                    (click)="deleteReferenceInformation(referenceInformation.id)"
                                                     replaceUrl="true"
                                                     queryParamsHandling="merge"
                                                     class="btn btn-danger btn-sm">
@@ -294,7 +293,7 @@
                                                 <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
-                                                    [routerLink]="['/', 'academic-information', { outlets: { popup: academicInformation.id + '/'} }]"
+                                                    (click)="deleteAcademicInformation(academicInformation.id)"
                                                     replaceUrl="true"
                                                     queryParamsHandling="merge"
                                                     class="btn btn-danger btn-sm">
@@ -354,7 +353,7 @@
                                             <span class="d-none d-md-inline"></span>
                                         </button>
                                         <button type="submit"
-                                                [routerLink]="['/academic-information-attachment',academicInformationAttachment.id,'']"
+                                                (click)="deleteAcademicInformationAttachment(academicInformationAttachment.id)"
                                                 replaceUrl="true"
                                                 queryParamsHandling="merge"
                                                 class="btn btn-danger btn-sm">
@@ -422,7 +421,7 @@
                                             <span class="d-none d-md-inline"></span>
                                         </button>
                                         <button type="submit"
-                                                [routerLink]="['/', 'experience-information', { outlets: { popup: experienceInformation.id + '/'} }]"
+                                                (click)="deleteExperienceInformation(experienceInformation.id)"
                                                 replaceUrl="true"
                                                 queryParamsHandling="merge"
                                                 class="btn btn-danger btn-sm">
@@ -478,7 +477,7 @@
                                             <span class="d-none d-md-inline"></span>
                                         </button>
                                         <button type="submit"
-                                                [routerLink]="['/', 'experience-information-attachment', { outlets: { popup: experienceInformationAttachment.id + '/'} }]"
+                                                (click)="deleteAcademicInformationAttachment(experienceInformationAttachment.id)"
                                                 replaceUrl="true"
                                                 queryParamsHandling="merge"
                                                 class="btn btn-danger btn-sm">
@@ -542,7 +541,7 @@
                                                 <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
-                                                    [routerLink]="['/', 'training-information', { outlets: { popup: trainingInformation.id + '/'} }]"
+                                                    (click)="deleteTrainingInformation(trainingInformation.id)"
                                                     replaceUrl="true"
                                                     queryParamsHandling="merge"
                                                     class="btn btn-danger btn-sm">
@@ -601,7 +600,7 @@
                                                 <span class="d-none d-md-inline"></span>
                                             </button>
                                             <button type="submit"
-                                                    [routerLink]="['/', 'training-information-attachment', { outlets: { popup: trainingInformationAttachment.id + '/'} }]"
+                                                    (click)="deleteTrainingInformationAttachment(trainingInformationAttachment.id)"
                                                     replaceUrl="true"
                                                     queryParamsHandling="merge"
                                                     class="btn btn-danger btn-sm">

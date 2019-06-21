@@ -182,6 +182,78 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
             .subscribe((res: HttpResponse<any>) => this.loadAll(), (res: HttpErrorResponse) => this.jhiAlertService.error(res.message));
     }
 
+    deleteFamilyInformation(id: number) {
+        this.familyInformationService
+            .delete(id)
+            .subscribe(
+                (response: HttpResponse<any>) => this.loadAll(),
+                (response: HttpErrorResponse) => this.jhiAlertService.error(response.message)
+            );
+    }
+
+    deleteReferenceInformation(id: number) {
+        this.referenceInformationService
+            .delete(id)
+            .subscribe(
+                (response: HttpResponse<any>) => this.loadAll(),
+                (response: HttpErrorResponse) => this.jhiAlertService.error(response.message)
+            );
+    }
+
+    deleteAcademicInformation(id: number) {
+        this.academicInformationService
+            .delete(id)
+            .subscribe(
+                (response: HttpResponse<any>) => this.loadAll(),
+                (response: HttpErrorResponse) => this.jhiAlertService.error(response.message)
+            );
+    }
+
+    deleteAcademicInformationAttachment(id: number) {
+        this.academicInformationAttachmentService
+            .delete(id)
+            .subscribe(
+                (response: HttpResponse<any>) => this.loadAll(),
+                (response: HttpErrorResponse) => this.jhiAlertService.error(response.message)
+            );
+    }
+
+    deleteExperienceInformation(id: number) {
+        this.experienceInformationService
+            .delete(id)
+            .subscribe(
+                (response: HttpResponse<any>) => this.loadAll(),
+                (response: HttpErrorResponse) => this.jhiAlertService.error(response.message)
+            );
+    }
+
+    deleteExperienceInformationAttachment(id: number) {
+        this.experienceInformationAttachmentService
+            .delete(id)
+            .subscribe(
+                (response: HttpResponse<any>) => this.loadAll(),
+                (response: HttpErrorResponse) => this.jhiAlertService.error(response.message)
+            );
+    }
+
+    deleteTrainingInformation(id: number) {
+        this.trainingInformationService
+            .delete(id)
+            .subscribe(
+                (response: HttpResponse<any>) => this.loadAll(),
+                (response: HttpErrorResponse) => this.jhiAlertService.error(response.message)
+            );
+    }
+
+    deleteTrainingInformationAttachment(id: number) {
+        this.trainingInformationAttachmentService
+            .delete(id)
+            .subscribe(
+                (response: HttpResponse<any>) => this.loadAll(),
+                (response: HttpErrorResponse) => this.jhiAlertService.error(response.message)
+            );
+    }
+
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ employee }) => {
             this.employee = employee;
