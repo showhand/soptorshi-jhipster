@@ -227,37 +227,7 @@
                             <span style="font-size: smaller">Fine, Advance, Loan & Provident</span>
                         </a>
                     </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="fine" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                            <fa-icon icon="money-bill-wave" fixedWidth="true"></fa-icon>
-                            <span>Fine Management</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="advance-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                            <fa-icon icon="money-bill-alt" fixedWidth="true"></fa-icon>
-                            <span>Advance Management</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="loan-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                            <fa-icon icon="credit-card" fixedWidth="true"></fa-icon>
-                            <span>Loan Management</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="provident-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                            <fa-icon icon="piggy-bank" fixedWidth="true"></fa-icon>
-                            <span>Provident Management</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="monthly-salary" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>Monthly Salary</span>
-                        </a>
-                    </li>
-
+                    
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
                         <a  routerLink="payroll-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
