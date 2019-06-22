@@ -8,9 +8,22 @@
         {
             "fieldName": "shortName",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "code",
+            "fieldType": "String"
         }
     ],
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "department",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName",
+            "ownerSide": true
+        }
+    ],
     "changelogDate": "20190405124352",
     "entityTableName": "department",
     "dto": "mapstruct",

@@ -99,6 +99,13 @@ public class DepartmentQueryService extends QueryService<Department> {
             if (criteria.getShortName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getShortName(), Department_.shortName));
             }
+            if (criteria.getCode() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCode(), Department_.code));
+            }
+            if (criteria.getEmployeeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getEmployeeId(),
+                    root -> root.join(Department_.employee, JoinType.LEFT).get(Employee_.id)));
+            }
         }
         return specification;
     }

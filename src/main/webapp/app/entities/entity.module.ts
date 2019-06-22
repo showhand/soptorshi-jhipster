@@ -282,6 +282,22 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'advance',
                 loadChildren: './advance/advance.module#SoptorshiAdvanceModule'
+            },
+            {
+                path: 'department',
+                loadChildren: './department/department.module#SoptorshiDepartmentModule'
+            },
+            {
+                path: 'purchase-committee',
+                loadChildren: './purchase-committee/purchase-committee.module#SoptorshiPurchaseCommitteeModule'
+            },
+            {
+                path: 'vendor',
+                loadChildren: './vendor/vendor.module#SoptorshiVendorModule'
+            },
+            {
+                path: 'vendor-contact-person',
+                loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

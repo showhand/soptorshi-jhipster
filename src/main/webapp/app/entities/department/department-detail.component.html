@@ -13,6 +13,16 @@
                 <dd>
                     <span>{{department.shortName}}</span>
                 </dd>
+                <dt><span>Code</span></dt>
+                <dd>
+                    <span>{{department.code}}</span>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="department.employeeId">
+                        <a [routerLink]="['/employee', department.employeeId, 'view']">{{department.employeeFullName}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

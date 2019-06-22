@@ -3,6 +3,7 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.Department;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.DepartmentRepository;
 import org.soptorshi.repository.search.DepartmentSearchRepository;
 import org.soptorshi.service.DepartmentService;
@@ -56,6 +57,9 @@ public class DepartmentResourceIntTest {
 
     private static final String DEFAULT_SHORT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_SHORT_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
 
     @Autowired
     private DepartmentRepository departmentRepository;
@@ -117,7 +121,8 @@ public class DepartmentResourceIntTest {
     public static Department createEntity(EntityManager em) {
         Department department = new Department()
             .name(DEFAULT_NAME)
-            .shortName(DEFAULT_SHORT_NAME);
+            .shortName(DEFAULT_SHORT_NAME)
+            .code(DEFAULT_CODE);
         return department;
     }
 
@@ -144,6 +149,7 @@ public class DepartmentResourceIntTest {
         Department testDepartment = departmentList.get(departmentList.size() - 1);
         assertThat(testDepartment.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testDepartment.getShortName()).isEqualTo(DEFAULT_SHORT_NAME);
+        assertThat(testDepartment.getCode()).isEqualTo(DEFAULT_CODE);
 
         // Validate the Department in Elasticsearch
         verify(mockDepartmentSearchRepository, times(1)).save(testDepartment);
@@ -184,7 +190,8 @@ public class DepartmentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(department.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME.toString())));
+            .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())));
     }
     
     @Test
@@ -199,7 +206,8 @@ public class DepartmentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(department.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.shortName").value(DEFAULT_SHORT_NAME.toString()));
+            .andExpect(jsonPath("$.shortName").value(DEFAULT_SHORT_NAME.toString()))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE.toString()));
     }
 
     @Test
@@ -279,6 +287,64 @@ public class DepartmentResourceIntTest {
         // Get all the departmentList where shortName is null
         defaultDepartmentShouldNotBeFound("shortName.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllDepartmentsByCodeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        departmentRepository.saveAndFlush(department);
+
+        // Get all the departmentList where code equals to DEFAULT_CODE
+        defaultDepartmentShouldBeFound("code.equals=" + DEFAULT_CODE);
+
+        // Get all the departmentList where code equals to UPDATED_CODE
+        defaultDepartmentShouldNotBeFound("code.equals=" + UPDATED_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDepartmentsByCodeIsInShouldWork() throws Exception {
+        // Initialize the database
+        departmentRepository.saveAndFlush(department);
+
+        // Get all the departmentList where code in DEFAULT_CODE or UPDATED_CODE
+        defaultDepartmentShouldBeFound("code.in=" + DEFAULT_CODE + "," + UPDATED_CODE);
+
+        // Get all the departmentList where code equals to UPDATED_CODE
+        defaultDepartmentShouldNotBeFound("code.in=" + UPDATED_CODE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDepartmentsByCodeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        departmentRepository.saveAndFlush(department);
+
+        // Get all the departmentList where code is not null
+        defaultDepartmentShouldBeFound("code.specified=true");
+
+        // Get all the departmentList where code is null
+        defaultDepartmentShouldNotBeFound("code.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDepartmentsByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        department.setEmployee(employee);
+        departmentRepository.saveAndFlush(department);
+        Long employeeId = employee.getId();
+
+        // Get all the departmentList where employee equals to employeeId
+        defaultDepartmentShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the departmentList where employee equals to employeeId + 1
+        defaultDepartmentShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -288,7 +354,8 @@ public class DepartmentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(department.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)));
+            .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)));
 
         // Check, that the count call also returns 1
         restDepartmentMockMvc.perform(get("/api/departments/count?sort=id,desc&" + filter))
@@ -337,7 +404,8 @@ public class DepartmentResourceIntTest {
         em.detach(updatedDepartment);
         updatedDepartment
             .name(UPDATED_NAME)
-            .shortName(UPDATED_SHORT_NAME);
+            .shortName(UPDATED_SHORT_NAME)
+            .code(UPDATED_CODE);
         DepartmentDTO departmentDTO = departmentMapper.toDto(updatedDepartment);
 
         restDepartmentMockMvc.perform(put("/api/departments")
@@ -351,6 +419,7 @@ public class DepartmentResourceIntTest {
         Department testDepartment = departmentList.get(departmentList.size() - 1);
         assertThat(testDepartment.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testDepartment.getShortName()).isEqualTo(UPDATED_SHORT_NAME);
+        assertThat(testDepartment.getCode()).isEqualTo(UPDATED_CODE);
 
         // Validate the Department in Elasticsearch
         verify(mockDepartmentSearchRepository, times(1)).save(testDepartment);
@@ -412,7 +481,8 @@ public class DepartmentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(department.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)));
+            .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)));
     }
 
     @Test

@@ -13,6 +13,12 @@ public class DepartmentDTO implements Serializable {
 
     private String shortName;
 
+    private String code;
+
+
+    private Long employeeId;
+
+    private String employeeFullName;
 
     public Long getId() {
         return id;
@@ -36,6 +42,30 @@ public class DepartmentDTO implements Serializable {
 
     public void setShortName(String shortName) {
         this.shortName = shortName;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
     }
 
     @Override
@@ -65,6 +95,9 @@ public class DepartmentDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", shortName='" + getShortName() + "'" +
+            ", code='" + getCode() + "'" +
+            ", employee=" + getEmployeeId() +
+            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

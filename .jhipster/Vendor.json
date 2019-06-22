@@ -1,0 +1,37 @@
+{
+    "name": "Vendor",
+    "fields": [
+        {
+            "fieldName": "companyName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "remarks",
+            "fieldType": "VendorRemarks",
+            "fieldValues": "VERY_GOOD,GOOD,MODERATE,AVERAGE,BELOW_AVERAGE,BAD"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "vendorContactPerson",
+            "otherEntityRelationshipName": "vendor",
+            "relationshipName": "vendorContactPerson"
+        }
+    ],
+    "changelogDate": "20190622174345",
+    "entityTableName": "vendor",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}
