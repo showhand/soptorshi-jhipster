@@ -56,7 +56,8 @@ import {
     faMoneyBillWave,
     faMoneyBillAlt,
     faCreditCard,
-    faPiggyBank
+    faPiggyBank,
+    faTools
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -111,6 +112,7 @@ library.add(faMoneyBillWave);
 library.add(faMoneyBillAlt);
 library.add(faCreditCard);
 library.add(faPiggyBank);
+library.add(faTools);
 
 import 'quill/dist/quill.js';
 import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';

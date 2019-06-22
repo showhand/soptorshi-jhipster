@@ -227,11 +227,48 @@
                             <span style="font-size: smaller">Fine, Advance, Loan & Provident</span>
                         </a>
                     </li>
-
+                    <li  *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+                        <a class="dropdown-item" routerLink="special-allowance-time-line" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Special Allowance Time Line</span>
+                        </a>
+                    </li>
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
                         <a  routerLink="payroll-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
                             <span>Payroll Management</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                <a (click)="procurementManagement=!procurementManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
+                     <span>
+                        <fa-icon icon="tools"></fa-icon>
+                        <span>
+                            Procurement
+                        </span>
+                    </span>
+                </a>
+                <ul [ngbCollapse]="!procurementManagement" class="list-unstyled" id="procurementManagement">
+
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+                        <a class="dropdown-item" routerLink="purchase-committee" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Purchase Committee</span>
+                        </a>
+                    </li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+                        <a class="dropdown-item" routerLink="vendor" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Vendor</span>
+                        </a>
+                    </li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+                        <a class="dropdown-item" routerLink="vendor-contact-person" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Vendor Contact Person</span>
                         </a>
                     </li>
                 </ul>

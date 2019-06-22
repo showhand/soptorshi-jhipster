@@ -15,6 +15,7 @@ export class JhiMainComponent implements OnInit {
     employeeManagement: any;
     holidayManagement: any;
     payrollManagement: any;
+    procurementManagement: any;
     isDesktop: boolean;
 
     constructor(
