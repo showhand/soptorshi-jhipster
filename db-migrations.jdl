@@ -206,7 +206,9 @@ enum Religion {
 }
 
 enum EmployeeStatus {
+  IN_PROBATION,
   ACTIVE,
+  RESIGNED,
   TERMINATED
 }
 

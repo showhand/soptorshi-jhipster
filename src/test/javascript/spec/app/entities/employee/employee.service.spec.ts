@@ -45,7 +45,7 @@ describe('Service Tests', () => {
                 'AAAAAAA',
                 currentDate,
                 0,
-                EmployeeStatus.ACTIVE,
+                EmployeeStatus.IN_PROBATION,
                 EmploymentType.PERMANENT,
                 currentDate,
                 'AAAAAAA',
