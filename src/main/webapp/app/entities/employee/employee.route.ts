@@ -12,6 +12,7 @@ import { EmployeeDetailComponent } from './employee-detail.component';
 import { EmployeeUpdateComponent } from './employee-update.component';
 import { EmployeeDeletePopupComponent } from './employee-delete-dialog.component';
 import { IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeManagementComponent } from 'app/entities/employee/employee-management.component';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeResolve implements Resolve<IEmployee> {
@@ -37,9 +38,33 @@ export const employeeRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
-            defaultSort: 'id,asc',
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
+            defaultSort: 'id,desc',
             pageTitle: 'Employees'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'new-employee-management',
+        component: EmployeeManagementComponent,
+        resolve: {
+            employee: EmployeeResolve
+        },
+        data: {
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
+            pageTitle: 'Employee Management'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':id/employee-management',
+        component: EmployeeManagementComponent,
+        resolve: {
+            employee: EmployeeResolve
+        },
+        data: {
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
+            pageTitle: 'Employee Management'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -50,7 +75,7 @@ export const employeeRoute: Routes = [
             employee: EmployeeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employees'
         },
         canActivate: [UserRouteAccessService]
@@ -62,7 +87,7 @@ export const employeeRoute: Routes = [
             employee: EmployeeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employees'
         },
         canActivate: [UserRouteAccessService]
@@ -74,7 +99,7 @@ export const employeeRoute: Routes = [
             employee: EmployeeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employees'
         },
         canActivate: [UserRouteAccessService]
@@ -89,7 +114,7 @@ export const employeePopupRoute: Routes = [
             employee: EmployeeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employees'
         },
         canActivate: [UserRouteAccessService],

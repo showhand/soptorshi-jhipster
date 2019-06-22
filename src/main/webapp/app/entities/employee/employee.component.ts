@@ -6,10 +6,16 @@ import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { IEmployee } from 'app/shared/model/employee.model';
-import { AccountService } from 'app/core';
+import { AccountService, UserService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { EmployeeService } from './employee.service';
+import { DepartmentService } from 'app/entities/department';
+import { Designation, IDesignation } from 'app/shared/model/designation.model';
+import { DesignationService } from 'app/entities/designation';
+import { IDepartment } from 'app/shared/model/department.model';
+import { ManagerService } from 'app/entities/manager';
+import { IManager } from 'app/shared/model/manager.model';
 
 @Component({
     selector: 'jhi-employee',
@@ -30,6 +36,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    authenticatedEmployee: IEmployee;
 
     constructor(
         protected employeeService: EmployeeService,
@@ -39,7 +46,11 @@ export class EmployeeComponent implements OnInit, OnDestroy {
         protected activatedRoute: ActivatedRoute,
         protected dataUtils: JhiDataUtils,
         protected router: Router,
-        protected eventManager: JhiEventManager
+        protected eventManager: JhiEventManager,
+        protected departmentService: DepartmentService,
+        protected designationService: DesignationService,
+        protected userService: UserService,
+        protected managerService: ManagerService
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -55,11 +66,24 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        if (this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE'])) {
+            if (this.currentSearch) {
+                this.employeeService
+                    .query({
+                        page: this.page - 1,
+                        'fullName.contains': this.currentSearch,
+                        size: this.itemsPerPage,
+                        sort: this.sort()
+                    })
+                    .subscribe(
+                        (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+                return;
+            }
             this.employeeService
-                .search({
+                .query({
                     page: this.page - 1,
-                    query: this.currentSearch,
                     size: this.itemsPerPage,
                     sort: this.sort()
                 })
@@ -67,18 +91,50 @@ export class EmployeeComponent implements OnInit, OnDestroy {
                     (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
-            return;
+        } else if (this.accountService.hasAnyAuthority(['ROLE_EMPLOYEE_MANAGEMENT'])) {
+            this.managerService
+                .query({
+                    'employeeId.equals': this.authenticatedEmployee.id
+                })
+                .subscribe(
+                    (res: HttpResponse<IManager[]>) => {
+                        const managerId: number[] = [];
+                        res.body.forEach(m => {
+                            managerId.push(m.parentEmployeeId);
+                        });
+                        console.log('###################################');
+                        console.log('manager ids');
+                        console.log(managerId);
+                        if (this.currentSearch) {
+                            this.employeeService
+                                .query({
+                                    page: this.page - 1,
+                                    'fullName.contains': this.currentSearch,
+                                    'id.in': managerId,
+                                    size: this.itemsPerPage,
+                                    sort: this.sort()
+                                })
+                                .subscribe(
+                                    (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                                    (res: HttpErrorResponse) => this.onError(res.message)
+                                );
+                            return;
+                        }
+                        this.employeeService
+                            .query({
+                                page: this.page - 1,
+                                size: this.itemsPerPage,
+                                'id.in': managerId,
+                                sort: this.sort()
+                            })
+                            .subscribe(
+                                (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                                (res: HttpErrorResponse) => this.onError(res.message)
+                            );
+                    },
+                    (error: HttpErrorResponse) => this.onError(error.message)
+                );
         }
-        this.employeeService
-            .query({
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     loadPage(page: number) {
@@ -131,9 +187,18 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
+            console.log('current account');
+            console.log(account);
+            this.employeeService
+                .query({
+                    'employeeId.equals': account.login
+                })
+                .subscribe((res: HttpResponse<IEmployee[]>) => {
+                    this.authenticatedEmployee = res.body[0];
+                    this.loadAll();
+                });
         });
         this.registerChangeInEmployees();
     }
