@@ -21,7 +21,9 @@ export const enum Religion {
 }
 
 export const enum EmployeeStatus {
+    IN_PROBATION = 'IN_PROBATION',
     ACTIVE = 'ACTIVE',
+    RESIGNED = 'RESIGNED',
     TERMINATED = 'TERMINATED'
 }
 
@@ -34,7 +36,6 @@ export const enum EmploymentType {
 
 export interface IEmployee {
     id?: number;
-    employeeLongId?: number;
     employeeId?: string;
     fullName?: string;
     fathersName?: string;
