@@ -1,4 +1,6 @@
 package org.soptorshi.web.rest;
+import org.soptorshi.domain.enumeration.MonthType;
+import org.soptorshi.service.PayrollService;
 import org.soptorshi.service.SalaryService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -14,9 +16,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
+import javax.xml.ws.Response;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -41,9 +46,12 @@ public class SalaryResource {
 
     private final SalaryQueryService salaryQueryService;
 
-    public SalaryResource(SalaryService salaryService, SalaryQueryService salaryQueryService) {
+    private final PayrollService payrollService;
+
+    public SalaryResource(SalaryService salaryService, SalaryQueryService salaryQueryService, PayrollService payrollService) {
         this.salaryService = salaryService;
         this.salaryQueryService = salaryQueryService;
+        this.payrollService = payrollService;
     }
 
     /**
@@ -99,6 +107,12 @@ public class SalaryResource {
         Page<SalaryDTO> page = salaryQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/salaries");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/salaries/generatePayRoll/{officeId}/{designationId}/{year}/{monthType}")
+    public ResponseEntity<Void> generatePayroll(@PathVariable("officeId") Long officeId,@PathVariable("designationId") Long designationId,@PathVariable("year") Integer year,@PathVariable("monthType") MonthType monthType){
+        payrollService.generatePayroll(officeId, designationId, year, monthType);
+        return ResponseEntity.ok().build();
     }
 
     /**

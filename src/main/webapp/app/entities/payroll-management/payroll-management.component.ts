@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService, JhiParseLinks } from 'ng-jhipster';
@@ -14,12 +14,16 @@ import { OfficeService } from 'app/entities/office';
 import { DesignationService } from 'app/entities/designation';
 import { EmployeeService } from 'app/entities/employee';
 import { Employee, IEmployee } from 'app/shared/model/employee.model';
+import { MonthlySalaryService } from 'app/entities/monthly-salary';
+import { IMonthlySalary, MonthlySalary } from 'app/shared/model/monthly-salary.model';
+import { SalaryService } from 'app/entities/salary';
 
 @Component({
     selector: 'jhi-payroll-management',
     templateUrl: './payroll-management.component.html'
 })
 export class PayrollManagementComponent implements OnInit, OnDestroy {
+    year: number;
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;
@@ -29,10 +33,14 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     predicate: any;
     reverse: any;
     page: number;
-    itemPerPage: number;
+    itemsPerPage: number;
     employees: Employee[];
+    monthlySalaries: MonthlySalary[];
+    monthlySalaryMapWithEmployeeId: any;
     links: any;
     totalItems: any;
+    payrollGenerated: boolean;
+    previousPage: any;
 
     constructor(
         protected payrollManagementService: PayrollManagementService,
@@ -43,26 +51,75 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         protected officeService: OfficeService,
         protected designationService: DesignationService,
         protected employeeService: EmployeeService,
-        protected parseLinks: JhiParseLinks
+        protected parseLinks: JhiParseLinks,
+        protected monthlySalaryService: MonthlySalaryService,
+        protected salaryService: SalaryService,
+        protected router: Router
     ) {
         this.predicate = 'id';
         this.reverse = false;
         this.payrollManagement = new PayrollManagement();
         this.page = 1;
-        this.itemPerPage = 15;
+        this.itemsPerPage = 15;
     }
 
     fetch() {
+        this.monthlySalaryMapWithEmployeeId = {};
         this.employeeService
             .query({
                 page: this.page - 1,
-                size: this.itemPerPage,
+                size: this.itemsPerPage,
                 'designationId.equals': this.payrollManagement.designationId,
                 'officeId.equals': this.payrollManagement.officeId,
                 'employeeStatus.equals': 'ACTIVE'
             })
             .subscribe(
-                (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                (res: HttpResponse<IEmployee[]>) => {
+                    this.paginateEmployees(res.body, res.headers);
+                    this.getMonthlySalaries(res.body);
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
+
+    public generatePayroll() {
+        this.salaryService
+            .generatePayroll(
+                this.payrollManagement.officeId,
+                this.payrollManagement.designationId,
+                this.year,
+                this.payrollManagement.monthType
+            )
+            .subscribe((res: any) => {
+                this.jhiAlertService.success('Payroll successfully generated');
+                this.fetch();
+            });
+    }
+
+    protected getMonthlySalaries(employees: IEmployee[]) {
+        const employeeIds: number[] = [];
+        employees.forEach(e => {
+            employeeIds.push(e.id);
+        });
+
+        this.monthlySalaryService
+            .query({
+                'year.equals': this.year,
+                'month.equals': this.payrollManagement.monthType,
+                'employeeId.in': employeeIds
+            })
+            .subscribe(
+                (res: HttpResponse<IMonthlySalary[]>) => {
+                    if (res.body.length == 0) {
+                        this.payrollGenerated = false;
+                    } else {
+                        this.payrollGenerated = true;
+                        this.monthlySalaryMapWithEmployeeId = {};
+                        res.body.forEach(m => {
+                            this.monthlySalaryMapWithEmployeeId[m.employeeId] = m;
+                        });
+                    }
+                },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -73,7 +130,27 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         this.employees = data;
     }
 
+    loadPage(page: number) {
+        if (page !== this.previousPage) {
+            this.previousPage = page;
+            this.transition();
+        }
+    }
+
+    transition() {
+        this.router.navigate(['/payroll-managements'], {
+            queryParams: {
+                page: this.page,
+                size: this.itemsPerPage,
+                search: this.currentSearch,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        });
+        this.loadAll();
+    }
+
     loadAll() {
+        this.reverse = true;
         this.officeService
             .query({
                 page: 0,
@@ -83,8 +160,6 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<Office[]>) => {
                     this.officeList = res.body;
-                    console.log('Office list');
-                    console.log(this.officeList);
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
@@ -104,6 +179,8 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        const date = new Date();
+        this.year = date.getFullYear();
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;

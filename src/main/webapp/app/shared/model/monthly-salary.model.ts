@@ -17,6 +17,7 @@ export const enum MonthType {
 
 export interface IMonthlySalary {
     id?: number;
+    year?: number;
     month?: MonthType;
     basic?: number;
     houseRent?: number;
@@ -26,7 +27,7 @@ export interface IMonthlySalary {
     fine?: number;
     advanceHO?: number;
     advanceFactory?: number;
-    providendFund?: number;
+    providentFund?: number;
     tax?: number;
     loanAmount?: number;
     payable?: number;
@@ -38,6 +39,7 @@ export interface IMonthlySalary {
 export class MonthlySalary implements IMonthlySalary {
     constructor(
         public id?: number,
+        public year?: number,
         public month?: MonthType,
         public basic?: number,
         public houseRent?: number,
@@ -47,7 +49,7 @@ export class MonthlySalary implements IMonthlySalary {
         public fine?: number,
         public advanceHO?: number,
         public advanceFactory?: number,
-        public providendFund?: number,
+        public providentFund?: number,
         public tax?: number,
         public loanAmount?: number,
         public payable?: number,

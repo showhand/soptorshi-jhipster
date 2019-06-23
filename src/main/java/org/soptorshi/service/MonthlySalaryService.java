@@ -1,6 +1,7 @@
 package org.soptorshi.service;
 
 import org.soptorshi.domain.MonthlySalary;
+import org.soptorshi.domain.enumeration.MonthType;
 import org.soptorshi.repository.MonthlySalaryRepository;
 import org.soptorshi.repository.search.MonthlySalarySearchRepository;
 import org.soptorshi.service.dto.MonthlySalaryDTO;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -53,6 +55,10 @@ public class MonthlySalaryService {
         return result;
     }
 
+    public void saveAll(List<MonthlySalary> monthlySalaryList){
+        monthlySalaryRepository.saveAll(monthlySalaryList);
+    }
+
     /**
      * Get all the monthlySalaries.
      *
@@ -89,6 +95,10 @@ public class MonthlySalaryService {
         log.debug("Request to delete MonthlySalary : {}", id);
         monthlySalaryRepository.deleteById(id);
         monthlySalarySearchRepository.deleteById(id);
+    }
+
+    public void delete(Integer year, MonthType monthType, Long officeId, Long designationId){
+        monthlySalaryRepository.deleteAllByYearAndMonthAndEmployee_Office_IdAndEmployee_Designation_Id(year, monthType, officeId, designationId);
     }
 
     /**

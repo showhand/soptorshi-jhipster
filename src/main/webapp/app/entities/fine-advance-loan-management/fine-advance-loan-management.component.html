@@ -6,7 +6,7 @@
 <div class="row justify-content-center">
     <div class="col-6">
         <h2 id="page-heading">
-            <span> Employeess</span>
+            <span> Employees</span>
         </h2>
     </div>
     <div class="col-6">
@@ -55,6 +55,12 @@
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
+                                    [routerLink]="['/salary', employee.employeeLongId,'employee']"
+                                    class="btn btn-outline-danger btn-sm">
+                                <fa-icon [icon]="'money-bill-wave'"></fa-icon>
+                                <span class="d-none d-md-inline">Salary</span>
+                            </button>
+                            <button type="submit"
                                     [routerLink]="['/fine', employee.employeeLongId,'employee']"
                                     class="btn btn-info btn-sm">
                                 <fa-icon [icon]="'money-bill-wave'"></fa-icon>
@@ -73,7 +79,7 @@
                                 <span class="d-none d-md-inline">Advance</span>
                             </button>
                             <button type="submit"
-                                    [routerLink]="['/fine-advance-loan-management', employee.id, 'view' ]"
+                                    [routerLink]="['/provident-fund', employee.employeeLongId, 'employee' ]"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'piggy-bank'"></fa-icon>
                                 <span class="d-none d-md-inline">Provident</span>

@@ -1,0 +1,38 @@
+{
+    "name": "SpecialAllowanceTimeLine",
+    "fields": [
+        {
+            "fieldName": "allowanceType",
+            "fieldType": "AllowanceType",
+            "fieldValues": "HOUSE_RENT,MEDICAL_ALLOWANCE,FESTIVAL_BONUS,OVERTIME_ALLOWANCE,OTHER_ALLOWANCE"
+        },
+        {
+            "fieldName": "year",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "month",
+            "fieldType": "MonthType",
+            "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190619170717",
+    "entityTableName": "special_allowance_time_line",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

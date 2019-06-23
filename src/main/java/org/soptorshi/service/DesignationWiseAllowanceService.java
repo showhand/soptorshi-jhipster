@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -80,6 +81,10 @@ public class DesignationWiseAllowanceService {
         log.debug("Request to get DesignationWiseAllowance : {}", id);
         return designationWiseAllowanceRepository.findById(id)
             .map(designationWiseAllowanceMapper::toDto);
+    }
+
+    public List<DesignationWiseAllowance> get(Long designationId){
+        return designationWiseAllowanceRepository.getByDesignation_Id(designationId);
     }
 
     /**

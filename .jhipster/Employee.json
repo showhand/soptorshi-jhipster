@@ -118,7 +118,7 @@
         {
             "fieldName": "employeeStatus",
             "fieldType": "EmployeeStatus",
-            "fieldValues": "ACTIVE,TERMINATED"
+            "fieldValues": "IN_PROBATION,ACTIVE,RESIGNED,TERMINATED"
         },
         {
             "fieldName": "employmentType",

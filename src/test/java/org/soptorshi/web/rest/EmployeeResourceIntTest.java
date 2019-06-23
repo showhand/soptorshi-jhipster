@@ -116,8 +116,8 @@ public class EmployeeResourceIntTest {
     private static final Long DEFAULT_MANAGER = 1L;
     private static final Long UPDATED_MANAGER = 2L;
 
-    private static final EmployeeStatus DEFAULT_EMPLOYEE_STATUS = EmployeeStatus.ACTIVE;
-    private static final EmployeeStatus UPDATED_EMPLOYEE_STATUS = EmployeeStatus.TERMINATED;
+    private static final EmployeeStatus DEFAULT_EMPLOYEE_STATUS = EmployeeStatus.IN_PROBATION;
+    private static final EmployeeStatus UPDATED_EMPLOYEE_STATUS = EmployeeStatus.ACTIVE;
 
     private static final EmploymentType DEFAULT_EMPLOYMENT_TYPE = EmploymentType.PERMANENT;
     private static final EmploymentType UPDATED_EMPLOYMENT_TYPE = EmploymentType.TEMPORARY;

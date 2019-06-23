@@ -18,20 +18,21 @@
         Added the entity ProvidentFund.
     -->
     <changeSet id="20190514160138-1" author="jhipster">
+        <validCheckSum>7:ed67b4fc4a5ef0a7ab080d7b378186a3</validCheckSum>
         <createTable tableName="provident_fund">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="start_date" type="date">
-                <constraints nullable="true" />
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_provident_fund_start_date" />
             </column>
 
             <column name="rate" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_provident_fund_rate" />
             </column>
 
-            <column name="status" type="boolean">
-                <constraints nullable="true" />
+            <column name="status" type="varchar(255)">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_provident_fund_status" />
             </column>
 
             <column name="modified_by" type="varchar(255)">
@@ -39,6 +40,10 @@
             </column>
 
             <column name="modified_on" type="date">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="employee_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

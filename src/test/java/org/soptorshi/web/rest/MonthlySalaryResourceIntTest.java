@@ -56,20 +56,23 @@ import org.soptorshi.domain.enumeration.MonthType;
 @SpringBootTest(classes = SoptorshiApp.class)
 public class MonthlySalaryResourceIntTest {
 
+    private static final Integer DEFAULT_YEAR = 1;
+    private static final Integer UPDATED_YEAR = 2;
+
     private static final MonthType DEFAULT_MONTH = MonthType.JANUARY;
     private static final MonthType UPDATED_MONTH = MonthType.FEBRUARY;
 
     private static final BigDecimal DEFAULT_BASIC = new BigDecimal(1);
     private static final BigDecimal UPDATED_BASIC = new BigDecimal(2);
 
-    private static final Double DEFAULT_HOUSE_RENT = 1D;
-    private static final Double UPDATED_HOUSE_RENT = 2D;
+    private static final BigDecimal DEFAULT_HOUSE_RENT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_HOUSE_RENT = new BigDecimal(2);
 
-    private static final Double DEFAULT_MEDICAL_ALLOWANCE = 1D;
-    private static final Double UPDATED_MEDICAL_ALLOWANCE = 2D;
+    private static final BigDecimal DEFAULT_MEDICAL_ALLOWANCE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_MEDICAL_ALLOWANCE = new BigDecimal(2);
 
-    private static final Double DEFAULT_OTHER_ALLOWANCE = 1D;
-    private static final Double UPDATED_OTHER_ALLOWANCE = 2D;
+    private static final BigDecimal DEFAULT_OTHER_ALLOWANCE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_OTHER_ALLOWANCE = new BigDecimal(2);
 
     private static final Integer DEFAULT_ABSENT = 1;
     private static final Integer UPDATED_ABSENT = 2;
@@ -83,11 +86,11 @@ public class MonthlySalaryResourceIntTest {
     private static final BigDecimal DEFAULT_ADVANCE_FACTORY = new BigDecimal(1);
     private static final BigDecimal UPDATED_ADVANCE_FACTORY = new BigDecimal(2);
 
-    private static final Double DEFAULT_PROVIDEND_FUND = 1D;
-    private static final Double UPDATED_PROVIDEND_FUND = 2D;
+    private static final BigDecimal DEFAULT_PROVIDENT_FUND = new BigDecimal(1);
+    private static final BigDecimal UPDATED_PROVIDENT_FUND = new BigDecimal(2);
 
-    private static final Double DEFAULT_TAX = 1D;
-    private static final Double UPDATED_TAX = 2D;
+    private static final BigDecimal DEFAULT_TAX = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TAX = new BigDecimal(2);
 
     private static final BigDecimal DEFAULT_LOAN_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_LOAN_AMOUNT = new BigDecimal(2);
@@ -160,6 +163,7 @@ public class MonthlySalaryResourceIntTest {
      */
     public static MonthlySalary createEntity(EntityManager em) {
         MonthlySalary monthlySalary = new MonthlySalary()
+            .year(DEFAULT_YEAR)
             .month(DEFAULT_MONTH)
             .basic(DEFAULT_BASIC)
             .houseRent(DEFAULT_HOUSE_RENT)
@@ -169,7 +173,7 @@ public class MonthlySalaryResourceIntTest {
             .fine(DEFAULT_FINE)
             .advanceHO(DEFAULT_ADVANCE_HO)
             .advanceFactory(DEFAULT_ADVANCE_FACTORY)
-            .providendFund(DEFAULT_PROVIDEND_FUND)
+            .providentFund(DEFAULT_PROVIDENT_FUND)
             .tax(DEFAULT_TAX)
             .loanAmount(DEFAULT_LOAN_AMOUNT)
             .payable(DEFAULT_PAYABLE)
@@ -199,6 +203,7 @@ public class MonthlySalaryResourceIntTest {
         List<MonthlySalary> monthlySalaryList = monthlySalaryRepository.findAll();
         assertThat(monthlySalaryList).hasSize(databaseSizeBeforeCreate + 1);
         MonthlySalary testMonthlySalary = monthlySalaryList.get(monthlySalaryList.size() - 1);
+        assertThat(testMonthlySalary.getYear()).isEqualTo(DEFAULT_YEAR);
         assertThat(testMonthlySalary.getMonth()).isEqualTo(DEFAULT_MONTH);
         assertThat(testMonthlySalary.getBasic()).isEqualTo(DEFAULT_BASIC);
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(DEFAULT_HOUSE_RENT);
@@ -208,7 +213,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getFine()).isEqualTo(DEFAULT_FINE);
         assertThat(testMonthlySalary.getAdvanceHO()).isEqualTo(DEFAULT_ADVANCE_HO);
         assertThat(testMonthlySalary.getAdvanceFactory()).isEqualTo(DEFAULT_ADVANCE_FACTORY);
-        assertThat(testMonthlySalary.getProvidendFund()).isEqualTo(DEFAULT_PROVIDEND_FUND);
+        assertThat(testMonthlySalary.getProvidentFund()).isEqualTo(DEFAULT_PROVIDENT_FUND);
         assertThat(testMonthlySalary.getTax()).isEqualTo(DEFAULT_TAX);
         assertThat(testMonthlySalary.getLoanAmount()).isEqualTo(DEFAULT_LOAN_AMOUNT);
         assertThat(testMonthlySalary.getPayable()).isEqualTo(DEFAULT_PAYABLE);
@@ -240,6 +245,25 @@ public class MonthlySalaryResourceIntTest {
 
         // Validate the MonthlySalary in Elasticsearch
         verify(mockMonthlySalarySearchRepository, times(0)).save(monthlySalary);
+    }
+
+    @Test
+    @Transactional
+    public void checkYearIsRequired() throws Exception {
+        int databaseSizeBeforeTest = monthlySalaryRepository.findAll().size();
+        // set the field null
+        monthlySalary.setYear(null);
+
+        // Create the MonthlySalary, which fails.
+        MonthlySalaryDTO monthlySalaryDTO = monthlySalaryMapper.toDto(monthlySalary);
+
+        restMonthlySalaryMockMvc.perform(post("/api/monthly-salaries")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(monthlySalaryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<MonthlySalary> monthlySalaryList = monthlySalaryRepository.findAll();
+        assertThat(monthlySalaryList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -291,17 +315,18 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(monthlySalary.getId().intValue())))
+            .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
-            .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.doubleValue())))
-            .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.doubleValue())))
-            .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.doubleValue())))
+            .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
+            .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].absent").value(hasItem(DEFAULT_ABSENT)))
             .andExpect(jsonPath("$.[*].fine").value(hasItem(DEFAULT_FINE.intValue())))
             .andExpect(jsonPath("$.[*].advanceHO").value(hasItem(DEFAULT_ADVANCE_HO.intValue())))
             .andExpect(jsonPath("$.[*].advanceFactory").value(hasItem(DEFAULT_ADVANCE_FACTORY.intValue())))
-            .andExpect(jsonPath("$.[*].providendFund").value(hasItem(DEFAULT_PROVIDEND_FUND.doubleValue())))
-            .andExpect(jsonPath("$.[*].tax").value(hasItem(DEFAULT_TAX.doubleValue())))
+            .andExpect(jsonPath("$.[*].providentFund").value(hasItem(DEFAULT_PROVIDENT_FUND.intValue())))
+            .andExpect(jsonPath("$.[*].tax").value(hasItem(DEFAULT_TAX.intValue())))
             .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
@@ -319,22 +344,89 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(monthlySalary.getId().intValue()))
+            .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
             .andExpect(jsonPath("$.month").value(DEFAULT_MONTH.toString()))
             .andExpect(jsonPath("$.basic").value(DEFAULT_BASIC.intValue()))
-            .andExpect(jsonPath("$.houseRent").value(DEFAULT_HOUSE_RENT.doubleValue()))
-            .andExpect(jsonPath("$.medicalAllowance").value(DEFAULT_MEDICAL_ALLOWANCE.doubleValue()))
-            .andExpect(jsonPath("$.otherAllowance").value(DEFAULT_OTHER_ALLOWANCE.doubleValue()))
+            .andExpect(jsonPath("$.houseRent").value(DEFAULT_HOUSE_RENT.intValue()))
+            .andExpect(jsonPath("$.medicalAllowance").value(DEFAULT_MEDICAL_ALLOWANCE.intValue()))
+            .andExpect(jsonPath("$.otherAllowance").value(DEFAULT_OTHER_ALLOWANCE.intValue()))
             .andExpect(jsonPath("$.absent").value(DEFAULT_ABSENT))
             .andExpect(jsonPath("$.fine").value(DEFAULT_FINE.intValue()))
             .andExpect(jsonPath("$.advanceHO").value(DEFAULT_ADVANCE_HO.intValue()))
             .andExpect(jsonPath("$.advanceFactory").value(DEFAULT_ADVANCE_FACTORY.intValue()))
-            .andExpect(jsonPath("$.providendFund").value(DEFAULT_PROVIDEND_FUND.doubleValue()))
-            .andExpect(jsonPath("$.tax").value(DEFAULT_TAX.doubleValue()))
+            .andExpect(jsonPath("$.providentFund").value(DEFAULT_PROVIDENT_FUND.intValue()))
+            .andExpect(jsonPath("$.tax").value(DEFAULT_TAX.intValue()))
             .andExpect(jsonPath("$.loanAmount").value(DEFAULT_LOAN_AMOUNT.intValue()))
             .andExpect(jsonPath("$.payable").value(DEFAULT_PAYABLE.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByYearIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where year equals to DEFAULT_YEAR
+        defaultMonthlySalaryShouldBeFound("year.equals=" + DEFAULT_YEAR);
+
+        // Get all the monthlySalaryList where year equals to UPDATED_YEAR
+        defaultMonthlySalaryShouldNotBeFound("year.equals=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByYearIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where year in DEFAULT_YEAR or UPDATED_YEAR
+        defaultMonthlySalaryShouldBeFound("year.in=" + DEFAULT_YEAR + "," + UPDATED_YEAR);
+
+        // Get all the monthlySalaryList where year equals to UPDATED_YEAR
+        defaultMonthlySalaryShouldNotBeFound("year.in=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByYearIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where year is not null
+        defaultMonthlySalaryShouldBeFound("year.specified=true");
+
+        // Get all the monthlySalaryList where year is null
+        defaultMonthlySalaryShouldNotBeFound("year.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByYearIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where year greater than or equals to DEFAULT_YEAR
+        defaultMonthlySalaryShouldBeFound("year.greaterOrEqualThan=" + DEFAULT_YEAR);
+
+        // Get all the monthlySalaryList where year greater than or equals to UPDATED_YEAR
+        defaultMonthlySalaryShouldNotBeFound("year.greaterOrEqualThan=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByYearIsLessThanSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where year less than or equals to DEFAULT_YEAR
+        defaultMonthlySalaryShouldNotBeFound("year.lessThan=" + DEFAULT_YEAR);
+
+        // Get all the monthlySalaryList where year less than or equals to UPDATED_YEAR
+        defaultMonthlySalaryShouldBeFound("year.lessThan=" + UPDATED_YEAR);
+    }
+
 
     @Test
     @Transactional
@@ -716,41 +808,41 @@ public class MonthlySalaryResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllMonthlySalariesByProvidendFundIsEqualToSomething() throws Exception {
+    public void getAllMonthlySalariesByProvidentFundIsEqualToSomething() throws Exception {
         // Initialize the database
         monthlySalaryRepository.saveAndFlush(monthlySalary);
 
-        // Get all the monthlySalaryList where providendFund equals to DEFAULT_PROVIDEND_FUND
-        defaultMonthlySalaryShouldBeFound("providendFund.equals=" + DEFAULT_PROVIDEND_FUND);
+        // Get all the monthlySalaryList where providentFund equals to DEFAULT_PROVIDENT_FUND
+        defaultMonthlySalaryShouldBeFound("providentFund.equals=" + DEFAULT_PROVIDENT_FUND);
 
-        // Get all the monthlySalaryList where providendFund equals to UPDATED_PROVIDEND_FUND
-        defaultMonthlySalaryShouldNotBeFound("providendFund.equals=" + UPDATED_PROVIDEND_FUND);
+        // Get all the monthlySalaryList where providentFund equals to UPDATED_PROVIDENT_FUND
+        defaultMonthlySalaryShouldNotBeFound("providentFund.equals=" + UPDATED_PROVIDENT_FUND);
     }
 
     @Test
     @Transactional
-    public void getAllMonthlySalariesByProvidendFundIsInShouldWork() throws Exception {
+    public void getAllMonthlySalariesByProvidentFundIsInShouldWork() throws Exception {
         // Initialize the database
         monthlySalaryRepository.saveAndFlush(monthlySalary);
 
-        // Get all the monthlySalaryList where providendFund in DEFAULT_PROVIDEND_FUND or UPDATED_PROVIDEND_FUND
-        defaultMonthlySalaryShouldBeFound("providendFund.in=" + DEFAULT_PROVIDEND_FUND + "," + UPDATED_PROVIDEND_FUND);
+        // Get all the monthlySalaryList where providentFund in DEFAULT_PROVIDENT_FUND or UPDATED_PROVIDENT_FUND
+        defaultMonthlySalaryShouldBeFound("providentFund.in=" + DEFAULT_PROVIDENT_FUND + "," + UPDATED_PROVIDENT_FUND);
 
-        // Get all the monthlySalaryList where providendFund equals to UPDATED_PROVIDEND_FUND
-        defaultMonthlySalaryShouldNotBeFound("providendFund.in=" + UPDATED_PROVIDEND_FUND);
+        // Get all the monthlySalaryList where providentFund equals to UPDATED_PROVIDENT_FUND
+        defaultMonthlySalaryShouldNotBeFound("providentFund.in=" + UPDATED_PROVIDENT_FUND);
     }
 
     @Test
     @Transactional
-    public void getAllMonthlySalariesByProvidendFundIsNullOrNotNull() throws Exception {
+    public void getAllMonthlySalariesByProvidentFundIsNullOrNotNull() throws Exception {
         // Initialize the database
         monthlySalaryRepository.saveAndFlush(monthlySalary);
 
-        // Get all the monthlySalaryList where providendFund is not null
-        defaultMonthlySalaryShouldBeFound("providendFund.specified=true");
+        // Get all the monthlySalaryList where providentFund is not null
+        defaultMonthlySalaryShouldBeFound("providentFund.specified=true");
 
-        // Get all the monthlySalaryList where providendFund is null
-        defaultMonthlySalaryShouldNotBeFound("providendFund.specified=false");
+        // Get all the monthlySalaryList where providentFund is null
+        defaultMonthlySalaryShouldNotBeFound("providentFund.specified=false");
     }
 
     @Test
@@ -1001,17 +1093,18 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(monthlySalary.getId().intValue())))
+            .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
-            .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.doubleValue())))
-            .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.doubleValue())))
-            .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.doubleValue())))
+            .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
+            .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].absent").value(hasItem(DEFAULT_ABSENT)))
             .andExpect(jsonPath("$.[*].fine").value(hasItem(DEFAULT_FINE.intValue())))
             .andExpect(jsonPath("$.[*].advanceHO").value(hasItem(DEFAULT_ADVANCE_HO.intValue())))
             .andExpect(jsonPath("$.[*].advanceFactory").value(hasItem(DEFAULT_ADVANCE_FACTORY.intValue())))
-            .andExpect(jsonPath("$.[*].providendFund").value(hasItem(DEFAULT_PROVIDEND_FUND.doubleValue())))
-            .andExpect(jsonPath("$.[*].tax").value(hasItem(DEFAULT_TAX.doubleValue())))
+            .andExpect(jsonPath("$.[*].providentFund").value(hasItem(DEFAULT_PROVIDENT_FUND.intValue())))
+            .andExpect(jsonPath("$.[*].tax").value(hasItem(DEFAULT_TAX.intValue())))
             .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
@@ -1063,6 +1156,7 @@ public class MonthlySalaryResourceIntTest {
         // Disconnect from session so that the updates on updatedMonthlySalary are not directly saved in db
         em.detach(updatedMonthlySalary);
         updatedMonthlySalary
+            .year(UPDATED_YEAR)
             .month(UPDATED_MONTH)
             .basic(UPDATED_BASIC)
             .houseRent(UPDATED_HOUSE_RENT)
@@ -1072,7 +1166,7 @@ public class MonthlySalaryResourceIntTest {
             .fine(UPDATED_FINE)
             .advanceHO(UPDATED_ADVANCE_HO)
             .advanceFactory(UPDATED_ADVANCE_FACTORY)
-            .providendFund(UPDATED_PROVIDEND_FUND)
+            .providentFund(UPDATED_PROVIDENT_FUND)
             .tax(UPDATED_TAX)
             .loanAmount(UPDATED_LOAN_AMOUNT)
             .payable(UPDATED_PAYABLE)
@@ -1089,6 +1183,7 @@ public class MonthlySalaryResourceIntTest {
         List<MonthlySalary> monthlySalaryList = monthlySalaryRepository.findAll();
         assertThat(monthlySalaryList).hasSize(databaseSizeBeforeUpdate);
         MonthlySalary testMonthlySalary = monthlySalaryList.get(monthlySalaryList.size() - 1);
+        assertThat(testMonthlySalary.getYear()).isEqualTo(UPDATED_YEAR);
         assertThat(testMonthlySalary.getMonth()).isEqualTo(UPDATED_MONTH);
         assertThat(testMonthlySalary.getBasic()).isEqualTo(UPDATED_BASIC);
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(UPDATED_HOUSE_RENT);
@@ -1098,7 +1193,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getFine()).isEqualTo(UPDATED_FINE);
         assertThat(testMonthlySalary.getAdvanceHO()).isEqualTo(UPDATED_ADVANCE_HO);
         assertThat(testMonthlySalary.getAdvanceFactory()).isEqualTo(UPDATED_ADVANCE_FACTORY);
-        assertThat(testMonthlySalary.getProvidendFund()).isEqualTo(UPDATED_PROVIDEND_FUND);
+        assertThat(testMonthlySalary.getProvidentFund()).isEqualTo(UPDATED_PROVIDENT_FUND);
         assertThat(testMonthlySalary.getTax()).isEqualTo(UPDATED_TAX);
         assertThat(testMonthlySalary.getLoanAmount()).isEqualTo(UPDATED_LOAN_AMOUNT);
         assertThat(testMonthlySalary.getPayable()).isEqualTo(UPDATED_PAYABLE);
@@ -1164,17 +1259,18 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(monthlySalary.getId().intValue())))
+            .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
-            .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.doubleValue())))
-            .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.doubleValue())))
-            .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.doubleValue())))
+            .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
+            .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].absent").value(hasItem(DEFAULT_ABSENT)))
             .andExpect(jsonPath("$.[*].fine").value(hasItem(DEFAULT_FINE.intValue())))
             .andExpect(jsonPath("$.[*].advanceHO").value(hasItem(DEFAULT_ADVANCE_HO.intValue())))
             .andExpect(jsonPath("$.[*].advanceFactory").value(hasItem(DEFAULT_ADVANCE_FACTORY.intValue())))
-            .andExpect(jsonPath("$.[*].providendFund").value(hasItem(DEFAULT_PROVIDEND_FUND.doubleValue())))
-            .andExpect(jsonPath("$.[*].tax").value(hasItem(DEFAULT_TAX.doubleValue())))
+            .andExpect(jsonPath("$.[*].providentFund").value(hasItem(DEFAULT_PROVIDENT_FUND.intValue())))
+            .andExpect(jsonPath("$.[*].tax").value(hasItem(DEFAULT_TAX.intValue())))
             .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))

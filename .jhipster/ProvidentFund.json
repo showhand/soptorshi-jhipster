@@ -3,15 +3,25 @@
     "fields": [
         {
             "fieldName": "startDate",
-            "fieldType": "LocalDate"
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "unique"
+            ]
         },
         {
             "fieldName": "rate",
-            "fieldType": "Double"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "unique"
+            ]
         },
         {
             "fieldName": "status",
-            "fieldType": "Boolean"
+            "fieldType": "ProvidentFundStatus",
+            "fieldValues": "ACTIVE,NOT_ACTIVE",
+            "fieldValidateRules": [
+                "unique"
+            ]
         },
         {
             "fieldName": "modifiedBy",
@@ -22,7 +32,15 @@
             "fieldType": "LocalDate"
         }
     ],
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "providentFund",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName"
+        }
+    ],
     "changelogDate": "20190514160138",
     "entityTableName": "provident_fund",
     "dto": "mapstruct",

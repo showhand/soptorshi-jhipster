@@ -10,9 +10,12 @@
         min-height: 100vh;
         position: fixed;
         z-index: 1;
+        font-size: medium;
         top: 0;
         left: 0;
         overflow-x: hidden;
+        overflow-y: scroll;
+        overflow: hidden;
         padding-top: 50px;
     }
 
@@ -222,36 +225,6 @@
                         <a class="dropdown-item" routerLink="fine-advance-loan-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="money-bill-wave" fixedWidth="true"></fa-icon>
                             <span style="font-size: smaller">Fine, Advance, Loan & Provident</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="fine" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                            <fa-icon icon="money-bill-wave" fixedWidth="true"></fa-icon>
-                            <span>Fine Management</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="advance-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                            <fa-icon icon="money-bill-alt" fixedWidth="true"></fa-icon>
-                            <span>Advance Management</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="loan-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                            <fa-icon icon="credit-card" fixedWidth="true"></fa-icon>
-                            <span>Loan Management</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="provident-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                            <fa-icon icon="piggy-bank" fixedWidth="true"></fa-icon>
-                            <span>Provident Management</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="monthly-salary" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>Monthly Salary</span>
                         </a>
                     </li>
 

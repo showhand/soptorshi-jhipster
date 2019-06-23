@@ -36,6 +36,8 @@ public class AdvanceCriteria implements Serializable {
 
     private LocalDateFilter providedOn;
 
+    private DoubleFilter monthlyPayable;
+
     private PaymentStatusFilter paymentStatus;
 
     private BigDecimalFilter left;
@@ -68,6 +70,14 @@ public class AdvanceCriteria implements Serializable {
 
     public void setProvidedOn(LocalDateFilter providedOn) {
         this.providedOn = providedOn;
+    }
+
+    public DoubleFilter getMonthlyPayable() {
+        return monthlyPayable;
+    }
+
+    public void setMonthlyPayable(DoubleFilter monthlyPayable) {
+        this.monthlyPayable = monthlyPayable;
     }
 
     public PaymentStatusFilter getPaymentStatus() {
@@ -124,6 +134,7 @@ public class AdvanceCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(providedOn, that.providedOn) &&
+            Objects.equals(monthlyPayable, that.monthlyPayable) &&
             Objects.equals(paymentStatus, that.paymentStatus) &&
             Objects.equals(left, that.left) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
@@ -137,6 +148,7 @@ public class AdvanceCriteria implements Serializable {
         id,
         amount,
         providedOn,
+        monthlyPayable,
         paymentStatus,
         left,
         modifiedBy,
@@ -151,6 +163,7 @@ public class AdvanceCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (providedOn != null ? "providedOn=" + providedOn + ", " : "") +
+                (monthlyPayable != null ? "monthlyPayable=" + monthlyPayable + ", " : "") +
                 (paymentStatus != null ? "paymentStatus=" + paymentStatus + ", " : "") +
                 (left != null ? "left=" + left + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +

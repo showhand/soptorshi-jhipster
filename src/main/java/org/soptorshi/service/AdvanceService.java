@@ -1,6 +1,11 @@
 package org.soptorshi.service;
 
 import org.soptorshi.domain.Advance;
+import org.soptorshi.domain.Designation;
+import org.soptorshi.domain.Employee;
+import org.soptorshi.domain.Office;
+import org.soptorshi.domain.enumeration.EmployeeStatus;
+import org.soptorshi.domain.enumeration.PaymentStatus;
 import org.soptorshi.repository.AdvanceRepository;
 import org.soptorshi.repository.search.AdvanceSearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -15,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -57,6 +63,10 @@ public class AdvanceService {
         return result;
     }
 
+    public void saveAll(List<Advance> advances){
+        advanceRepository.saveAll(advances);
+    }
+
     /**
      * Get all the advances.
      *
@@ -68,6 +78,16 @@ public class AdvanceService {
         log.debug("Request to get all Advances");
         return advanceRepository.findAll(pageable)
             .map(advanceMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Advance> get(PaymentStatus paymentStatus, Office office, Designation designation, EmployeeStatus employeeStatus){
+        return advanceRepository.findByPaymentStatusAndEmployee_OfficeAndEmployee_DesignationAndEmployee_EmployeeStatus(paymentStatus, office, designation, employeeStatus);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Advance> get(Employee employee, PaymentStatus paymentStatus){
+        return advanceRepository.findByEmployeeAndPaymentStatus(employee, paymentStatus);
     }
 
 

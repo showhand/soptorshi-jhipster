@@ -32,15 +32,17 @@ public class MonthlySalaryCriteria implements Serializable {
 
     private LongFilter id;
 
+    private IntegerFilter year;
+
     private MonthTypeFilter month;
 
     private BigDecimalFilter basic;
 
-    private DoubleFilter houseRent;
+    private BigDecimalFilter houseRent;
 
-    private DoubleFilter medicalAllowance;
+    private BigDecimalFilter medicalAllowance;
 
-    private DoubleFilter otherAllowance;
+    private BigDecimalFilter otherAllowance;
 
     private IntegerFilter absent;
 
@@ -50,9 +52,9 @@ public class MonthlySalaryCriteria implements Serializable {
 
     private BigDecimalFilter advanceFactory;
 
-    private DoubleFilter providendFund;
+    private BigDecimalFilter providentFund;
 
-    private DoubleFilter tax;
+    private BigDecimalFilter tax;
 
     private BigDecimalFilter loanAmount;
 
@@ -72,6 +74,14 @@ public class MonthlySalaryCriteria implements Serializable {
         this.id = id;
     }
 
+    public IntegerFilter getYear() {
+        return year;
+    }
+
+    public void setYear(IntegerFilter year) {
+        this.year = year;
+    }
+
     public MonthTypeFilter getMonth() {
         return month;
     }
@@ -88,27 +98,27 @@ public class MonthlySalaryCriteria implements Serializable {
         this.basic = basic;
     }
 
-    public DoubleFilter getHouseRent() {
+    public BigDecimalFilter getHouseRent() {
         return houseRent;
     }
 
-    public void setHouseRent(DoubleFilter houseRent) {
+    public void setHouseRent(BigDecimalFilter houseRent) {
         this.houseRent = houseRent;
     }
 
-    public DoubleFilter getMedicalAllowance() {
+    public BigDecimalFilter getMedicalAllowance() {
         return medicalAllowance;
     }
 
-    public void setMedicalAllowance(DoubleFilter medicalAllowance) {
+    public void setMedicalAllowance(BigDecimalFilter medicalAllowance) {
         this.medicalAllowance = medicalAllowance;
     }
 
-    public DoubleFilter getOtherAllowance() {
+    public BigDecimalFilter getOtherAllowance() {
         return otherAllowance;
     }
 
-    public void setOtherAllowance(DoubleFilter otherAllowance) {
+    public void setOtherAllowance(BigDecimalFilter otherAllowance) {
         this.otherAllowance = otherAllowance;
     }
 
@@ -144,19 +154,19 @@ public class MonthlySalaryCriteria implements Serializable {
         this.advanceFactory = advanceFactory;
     }
 
-    public DoubleFilter getProvidendFund() {
-        return providendFund;
+    public BigDecimalFilter getProvidentFund() {
+        return providentFund;
     }
 
-    public void setProvidendFund(DoubleFilter providendFund) {
-        this.providendFund = providendFund;
+    public void setProvidentFund(BigDecimalFilter providentFund) {
+        this.providentFund = providentFund;
     }
 
-    public DoubleFilter getTax() {
+    public BigDecimalFilter getTax() {
         return tax;
     }
 
-    public void setTax(DoubleFilter tax) {
+    public void setTax(BigDecimalFilter tax) {
         this.tax = tax;
     }
 
@@ -212,6 +222,7 @@ public class MonthlySalaryCriteria implements Serializable {
         final MonthlySalaryCriteria that = (MonthlySalaryCriteria) o;
         return
             Objects.equals(id, that.id) &&
+            Objects.equals(year, that.year) &&
             Objects.equals(month, that.month) &&
             Objects.equals(basic, that.basic) &&
             Objects.equals(houseRent, that.houseRent) &&
@@ -221,7 +232,7 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(fine, that.fine) &&
             Objects.equals(advanceHO, that.advanceHO) &&
             Objects.equals(advanceFactory, that.advanceFactory) &&
-            Objects.equals(providendFund, that.providendFund) &&
+            Objects.equals(providentFund, that.providentFund) &&
             Objects.equals(tax, that.tax) &&
             Objects.equals(loanAmount, that.loanAmount) &&
             Objects.equals(payable, that.payable) &&
@@ -234,6 +245,7 @@ public class MonthlySalaryCriteria implements Serializable {
     public int hashCode() {
         return Objects.hash(
         id,
+        year,
         month,
         basic,
         houseRent,
@@ -243,7 +255,7 @@ public class MonthlySalaryCriteria implements Serializable {
         fine,
         advanceHO,
         advanceFactory,
-        providendFund,
+        providentFund,
         tax,
         loanAmount,
         payable,
@@ -257,6 +269,7 @@ public class MonthlySalaryCriteria implements Serializable {
     public String toString() {
         return "MonthlySalaryCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (year != null ? "year=" + year + ", " : "") +
                 (month != null ? "month=" + month + ", " : "") +
                 (basic != null ? "basic=" + basic + ", " : "") +
                 (houseRent != null ? "houseRent=" + houseRent + ", " : "") +
@@ -266,7 +279,7 @@ public class MonthlySalaryCriteria implements Serializable {
                 (fine != null ? "fine=" + fine + ", " : "") +
                 (advanceHO != null ? "advanceHO=" + advanceHO + ", " : "") +
                 (advanceFactory != null ? "advanceFactory=" + advanceFactory + ", " : "") +
-                (providendFund != null ? "providendFund=" + providendFund + ", " : "") +
+                (providentFund != null ? "providentFund=" + providentFund + ", " : "") +
                 (tax != null ? "tax=" + tax + ", " : "") +
                 (loanAmount != null ? "loanAmount=" + loanAmount + ", " : "") +
                 (payable != null ? "payable=" + payable + ", " : "") +

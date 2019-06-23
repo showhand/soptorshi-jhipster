@@ -32,7 +32,7 @@ public class LeaveBalanceResource {
         return ResponseEntity.ok().body(leaveBalanceService.calculateLeaveBalance(employeeId));
     }
 
-    @GetMapping("/leave-balance/{employee-id}")
+    @GetMapping("/leave-balance/{employeeId}")
     public ResponseEntity<List<LeaveBalanceDTO>> getLeaveBalance(@PathVariable String employeeId) {
         log.debug("REST request to get LeaveBalance : {}", employeeId);
         return ResponseEntity.ok().body(leaveBalanceService.calculateLeaveBalance(employeeId));

@@ -34,7 +34,10 @@ export class ManagerUpdateComponent implements OnInit {
             this.manager = manager;
         });
         this.employeeService
-            .query()
+            .query({
+                size: 10000,
+                'employeeStatus.equals': 'ACTIVE'
+            })
             .pipe(
                 filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IEmployee[]>) => response.body)

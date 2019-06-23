@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -53,7 +54,7 @@ public class ProvidentFundResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/provident-funds")
-    public ResponseEntity<ProvidentFundDTO> createProvidentFund(@RequestBody ProvidentFundDTO providentFundDTO) throws URISyntaxException {
+    public ResponseEntity<ProvidentFundDTO> createProvidentFund(@Valid @RequestBody ProvidentFundDTO providentFundDTO) throws URISyntaxException {
         log.debug("REST request to save ProvidentFund : {}", providentFundDTO);
         if (providentFundDTO.getId() != null) {
             throw new BadRequestAlertException("A new providentFund cannot already have an ID", ENTITY_NAME, "idexists");
@@ -74,7 +75,7 @@ public class ProvidentFundResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/provident-funds")
-    public ResponseEntity<ProvidentFundDTO> updateProvidentFund(@RequestBody ProvidentFundDTO providentFundDTO) throws URISyntaxException {
+    public ResponseEntity<ProvidentFundDTO> updateProvidentFund(@Valid @RequestBody ProvidentFundDTO providentFundDTO) throws URISyntaxException {
         log.debug("REST request to update ProvidentFund : {}", providentFundDTO);
         if (providentFundDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

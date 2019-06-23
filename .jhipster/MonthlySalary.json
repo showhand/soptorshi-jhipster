@@ -2,6 +2,13 @@
     "name": "MonthlySalary",
     "fields": [
         {
+            "fieldName": "year",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
             "fieldName": "month",
             "fieldType": "MonthType",
             "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER",
@@ -18,15 +25,15 @@
         },
         {
             "fieldName": "houseRent",
-            "fieldType": "Double"
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "medicalAllowance",
-            "fieldType": "Double"
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "otherAllowance",
-            "fieldType": "Double"
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "absent",
@@ -45,12 +52,12 @@
             "fieldType": "BigDecimal"
         },
         {
-            "fieldName": "providendFund",
-            "fieldType": "Double"
+            "fieldName": "providentFund",
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "tax",
-            "fieldType": "Double"
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "loanAmount",

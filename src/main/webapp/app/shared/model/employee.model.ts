@@ -21,7 +21,9 @@ export const enum Religion {
 }
 
 export const enum EmployeeStatus {
+    IN_PROBATION = 'IN_PROBATION',
     ACTIVE = 'ACTIVE',
+    RESIGNED = 'RESIGNED',
     TERMINATED = 'TERMINATED'
 }
 
