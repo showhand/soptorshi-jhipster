@@ -31,10 +31,6 @@ public class Department implements Serializable {
     @Column(name = "code")
     private String code;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Employee employee;
-
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -81,19 +77,6 @@ public class Department implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public Department employee(Employee employee) {
-        this.employee = employee;
-        return this;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

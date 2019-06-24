@@ -30,8 +30,6 @@ public class DepartmentCriteria implements Serializable {
 
     private StringFilter code;
 
-    private LongFilter employeeId;
-
     public LongFilter getId() {
         return id;
     }
@@ -64,14 +62,6 @@ public class DepartmentCriteria implements Serializable {
         this.code = code;
     }
 
-    public LongFilter getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(LongFilter employeeId) {
-        this.employeeId = employeeId;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -86,8 +76,7 @@ public class DepartmentCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
             Objects.equals(shortName, that.shortName) &&
-            Objects.equals(code, that.code) &&
-            Objects.equals(employeeId, that.employeeId);
+            Objects.equals(code, that.code);
     }
 
     @Override
@@ -96,8 +85,7 @@ public class DepartmentCriteria implements Serializable {
         id,
         name,
         shortName,
-        code,
-        employeeId
+        code
         );
     }
 
@@ -108,7 +96,6 @@ public class DepartmentCriteria implements Serializable {
                 (name != null ? "name=" + name + ", " : "") +
                 (shortName != null ? "shortName=" + shortName + ", " : "") +
                 (code != null ? "code=" + code + ", " : "") +
-                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }
 

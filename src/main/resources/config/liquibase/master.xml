@@ -34,6 +34,8 @@
     <include file="config/liquibase/changelog/20190622174320_added_entity_PurchaseCommittee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190622174345_added_entity_Vendor.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190622174346_added_entity_VendorContactPerson.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190624190109_added_entity_DepartmentHead.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190624190130_added_entity_Bill.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
@@ -65,5 +67,7 @@
     <include file="config/liquibase/changelog/20190405124352_added_entity_constraints_Department.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190622174320_added_entity_constraints_PurchaseCommittee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190622174346_added_entity_constraints_VendorContactPerson.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190624190109_added_entity_constraints_DepartmentHead.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190624190130_added_entity_constraints_Bill.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

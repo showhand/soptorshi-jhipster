@@ -3,7 +3,6 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.Department;
-import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.DepartmentRepository;
 import org.soptorshi.repository.search.DepartmentSearchRepository;
 import org.soptorshi.service.DepartmentService;
@@ -326,25 +325,6 @@ public class DepartmentResourceIntTest {
         // Get all the departmentList where code is null
         defaultDepartmentShouldNotBeFound("code.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllDepartmentsByEmployeeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Employee employee = EmployeeResourceIntTest.createEntity(em);
-        em.persist(employee);
-        em.flush();
-        department.setEmployee(employee);
-        departmentRepository.saveAndFlush(department);
-        Long employeeId = employee.getId();
-
-        // Get all the departmentList where employee equals to employeeId
-        defaultDepartmentShouldBeFound("employeeId.equals=" + employeeId);
-
-        // Get all the departmentList where employee equals to employeeId + 1
-        defaultDepartmentShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
-    }
-
     /**
      * Executes the search, and checks that the default entity is returned
      */

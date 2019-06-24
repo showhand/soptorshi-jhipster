@@ -335,6 +335,7 @@ relationship OneToMany{
 relationship OneToOne{
   PurchaseCommittee{employee(fullName)} to Employee,
   DepartmentHead{office(name)} to Office,
+  DepartmentHead{department(name)} to Department,
   DepartmentHead{Employee(fullName)} to Employee
 }
 

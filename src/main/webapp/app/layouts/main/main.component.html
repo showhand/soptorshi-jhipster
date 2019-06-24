@@ -152,6 +152,12 @@
                             <span>Office</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="department-head" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Department Head</span>
+                        </a>
+                    </li>
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
                         <a class="dropdown-item" routerLink="financial-account-year" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="donate" fixedWidth="true"></fa-icon>

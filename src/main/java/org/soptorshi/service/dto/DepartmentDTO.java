@@ -16,10 +16,6 @@ public class DepartmentDTO implements Serializable {
     private String code;
 
 
-    private Long employeeId;
-
-    private String employeeFullName;
-
     public Long getId() {
         return id;
     }
@@ -52,22 +48,6 @@ public class DepartmentDTO implements Serializable {
         this.code = code;
     }
 
-    public Long getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public String getEmployeeFullName() {
-        return employeeFullName;
-    }
-
-    public void setEmployeeFullName(String employeeFullName) {
-        this.employeeFullName = employeeFullName;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -96,8 +76,6 @@ public class DepartmentDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", shortName='" + getShortName() + "'" +
             ", code='" + getCode() + "'" +
-            ", employee=" + getEmployeeId() +
-            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

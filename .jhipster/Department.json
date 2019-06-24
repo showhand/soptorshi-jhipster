@@ -14,16 +14,7 @@
             "fieldType": "String"
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "one-to-one",
-            "otherEntityName": "employee",
-            "otherEntityRelationshipName": "department",
-            "relationshipName": "employee",
-            "otherEntityField": "fullName",
-            "ownerSide": true
-        }
-    ],
+    "relationships": [],
     "changelogDate": "20190405124352",
     "entityTableName": "department",
     "dto": "mapstruct",
