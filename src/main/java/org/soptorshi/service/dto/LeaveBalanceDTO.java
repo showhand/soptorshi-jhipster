@@ -10,6 +10,8 @@ public class LeaveBalanceDTO implements Serializable {
 
     private String employeeId;
 
+    private int totalLeaveApplicableDays;
+
     private int remainingDays;
 
     private Long leaveTypeId;
@@ -22,6 +24,14 @@ public class LeaveBalanceDTO implements Serializable {
 
     public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public int getTotalLeaveApplicableDays() {
+        return totalLeaveApplicableDays;
+    }
+
+    public void setTotalLeaveApplicableDays(int totalLeaveApplicableDays) {
+        this.totalLeaveApplicableDays = totalLeaveApplicableDays;
     }
 
     public int getRemainingDays() {

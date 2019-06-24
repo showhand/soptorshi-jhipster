@@ -38,6 +38,8 @@
                     </th>
                     <th><span>Leave Types</span>
                     </th>
+                    <th><span>Total days</span>
+                    </th>
                     <th><span>Remaining days</span>
                     </th>
                 </tr>
@@ -46,8 +48,9 @@
                 <tr *ngFor="let leaveBalance of leaveBalances ;trackBy: trackId">
                     <td>{{leaveBalance.employeeId}}</td>
                     <td>
-                       {{leaveBalance.leaveTypeName}}
+                        {{leaveBalance.leaveTypeName}}
                     </td>
+                    <td>{{leaveBalance.totalLeaveApplicableDays}}</td>
                     <td>{{leaveBalance.remainingDays}}</td>
                 </tr>
                 </tbody>

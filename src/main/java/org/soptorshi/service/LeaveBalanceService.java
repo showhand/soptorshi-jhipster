@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface LeaveBalanceService {
 
-    List<LeaveBalanceDTO> calculateLeaveBalance(String employeeId);
+    List<LeaveBalanceDTO> calculateLeaveBalance(String employeeId, int year);
 }

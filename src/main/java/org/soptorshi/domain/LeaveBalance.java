@@ -8,6 +8,8 @@ public class LeaveBalance implements Serializable {
 
     private String employeeId;
 
+    private int totalLeaveApplicableDays;
+
     private int remainingDays;
 
     private LeaveType leaveType;
@@ -23,6 +25,19 @@ public class LeaveBalance implements Serializable {
 
     public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public int getTotalLeaveApplicableDay() {
+        return totalLeaveApplicableDays;
+    }
+
+    public LeaveBalance TotalLeaveApplicableDay(int totalLeaveApplicableDays) {
+        this.totalLeaveApplicableDays = totalLeaveApplicableDays;
+        return this;
+    }
+
+    public void setTotalLeaveApplicableDay(int totalLeaveApplicableDays) {
+        this.totalLeaveApplicableDays = totalLeaveApplicableDays;
     }
 
     public int getRemainingDays() {

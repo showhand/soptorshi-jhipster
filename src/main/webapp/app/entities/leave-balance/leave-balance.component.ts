@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LeaveBalanceService } from 'app/entities/leave-application/leave-balance.service';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
 import { Account, AccountService } from 'app/core';
@@ -7,6 +6,7 @@ import { ILeaveApplication } from 'app/shared/model/leave-application.model';
 import { Subscription } from 'rxjs';
 import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { LeaveBalanceService } from 'app/entities/leave-balance/leave-balance.service';
 
 @Component({
     selector: 'jhi-leave-balance',

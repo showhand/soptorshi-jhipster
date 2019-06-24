@@ -29,12 +29,12 @@ public class LeaveBalanceResource {
     @GetMapping("/leave-balance")
     public ResponseEntity<List<LeaveBalanceDTO>> getAllLeaveBalance(String employeeId) {
         log.debug("REST request to get LeaveBalance by employeeId: {}", employeeId);
-        return ResponseEntity.ok().body(leaveBalanceService.calculateLeaveBalance(employeeId));
+        return ResponseEntity.ok().body(leaveBalanceService.calculateLeaveBalance(employeeId, 2018));
     }
 
     @GetMapping("/leave-balance/{employeeId}")
     public ResponseEntity<List<LeaveBalanceDTO>> getLeaveBalance(@PathVariable String employeeId) {
         log.debug("REST request to get LeaveBalance : {}", employeeId);
-        return ResponseEntity.ok().body(leaveBalanceService.calculateLeaveBalance(employeeId));
+        return ResponseEntity.ok().body(leaveBalanceService.calculateLeaveBalance(employeeId, 2019));
     }
 }

@@ -6,6 +6,7 @@ import org.soptorshi.domain.enumeration.LeaveStatus;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -16,5 +17,5 @@ import java.util.List;
 @Repository
 public interface LeaveApplicationRepository extends JpaRepository<LeaveApplication, Long>, JpaSpecificationExecutor<LeaveApplication> {
 
-    List<LeaveApplication> findByEmployeeIdAndLeaveTypesAndStatus(String employeeId, LeaveType leaveTypes,LeaveStatus status);
+    List<LeaveApplication> findByEmployeeIdAndLeaveTypesAndStatusAndFromDateGreaterThanAndToDateLessThan(String employeeId, LeaveType leaveTypes, LeaveStatus status, LocalDate fromDate, LocalDate toDate);
 }

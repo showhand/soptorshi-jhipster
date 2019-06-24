@@ -13,7 +13,6 @@ import {
 } from './';
 import { OthersLeaveApplicationComponent } from './others-leave-application.component';
 import { ReviewLeaveApplicationComponent } from './review-leave-application.component';
-import { LeaveBalanceComponent } from './leave-balance.component';
 
 const ENTITY_STATES = [...leaveApplicationRoute, ...leaveApplicationPopupRoute];
 
@@ -26,8 +25,7 @@ const ENTITY_STATES = [...leaveApplicationRoute, ...leaveApplicationPopupRoute];
         LeaveApplicationDeleteDialogComponent,
         LeaveApplicationDeletePopupComponent,
         OthersLeaveApplicationComponent,
-        ReviewLeaveApplicationComponent,
-        LeaveBalanceComponent
+        ReviewLeaveApplicationComponent
     ],
     entryComponents: [
         LeaveApplicationComponent,
