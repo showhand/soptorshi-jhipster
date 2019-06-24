@@ -1,0 +1,40 @@
+{
+    "name": "DepartmentHead",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "office",
+            "otherEntityRelationshipName": "departmentHead",
+            "relationshipName": "office",
+            "otherEntityField": "name",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "department",
+            "otherEntityRelationshipName": "departmentHead",
+            "relationshipName": "department",
+            "otherEntityField": "name",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "departmentHead",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20190624190109",
+    "entityTableName": "department_head",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

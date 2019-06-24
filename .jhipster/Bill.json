@@ -1,0 +1,49 @@
+{
+    "name": "Bill",
+    "fields": [
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "billCategory",
+            "fieldType": "BillCategory",
+            "fieldValues": "PAYABLE,RECEIVABLE"
+        },
+        {
+            "fieldName": "reason",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedDate",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "bill",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName"
+        }
+    ],
+    "changelogDate": "20190624190130",
+    "entityTableName": "bill",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}
