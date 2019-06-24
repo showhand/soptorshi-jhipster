@@ -314,6 +314,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'department-head',
                 loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
+            },
+            {
+                path: 'department-head',
+                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

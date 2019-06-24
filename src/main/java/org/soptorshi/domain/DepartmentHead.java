@@ -1,6 +1,7 @@
 package org.soptorshi.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -24,15 +25,15 @@ public class DepartmentHead implements Serializable {
 
     @OneToOne
     @JoinColumn(unique = true)
-    private Office office;
-
-    @OneToOne
-    @JoinColumn(unique = true)
     private Department department;
 
     @OneToOne
     @JoinColumn(unique = true)
     private Employee employee;
+
+    @ManyToOne
+    @JsonIgnoreProperties("departmentHeads")
+    private Office office;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -41,19 +42,6 @@ public class DepartmentHead implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Office getOffice() {
-        return office;
-    }
-
-    public DepartmentHead office(Office office) {
-        this.office = office;
-        return this;
-    }
-
-    public void setOffice(Office office) {
-        this.office = office;
     }
 
     public Department getDepartment() {
@@ -80,6 +68,19 @@ public class DepartmentHead implements Serializable {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public Office getOffice() {
+        return office;
+    }
+
+    public DepartmentHead office(Office office) {
+        this.office = office;
+        return this;
+    }
+
+    public void setOffice(Office office) {
+        this.office = office;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

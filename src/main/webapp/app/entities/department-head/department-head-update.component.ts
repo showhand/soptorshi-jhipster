@@ -6,12 +6,12 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IDepartmentHead } from 'app/shared/model/department-head.model';
 import { DepartmentHeadService } from './department-head.service';
-import { IOffice } from 'app/shared/model/office.model';
-import { OfficeService } from 'app/entities/office';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
+import { IOffice } from 'app/shared/model/office.model';
+import { OfficeService } from 'app/entities/office';
 
 @Component({
     selector: 'jhi-department-head-update',
@@ -21,18 +21,18 @@ export class DepartmentHeadUpdateComponent implements OnInit {
     departmentHead: IDepartmentHead;
     isSaving: boolean;
 
-    offices: IOffice[];
-
     departments: IDepartment[];
 
     employees: IEmployee[];
 
+    offices: IOffice[];
+
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected departmentHeadService: DepartmentHeadService,
-        protected officeService: OfficeService,
         protected departmentService: DepartmentService,
         protected employeeService: EmployeeService,
+        protected officeService: OfficeService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -41,31 +41,6 @@ export class DepartmentHeadUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ departmentHead }) => {
             this.departmentHead = departmentHead;
         });
-        this.officeService
-            .query({ 'departmentHeadId.specified': 'false' })
-            .pipe(
-                filter((mayBeOk: HttpResponse<IOffice[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IOffice[]>) => response.body)
-            )
-            .subscribe(
-                (res: IOffice[]) => {
-                    if (!this.departmentHead.officeId) {
-                        this.offices = res;
-                    } else {
-                        this.officeService
-                            .find(this.departmentHead.officeId)
-                            .pipe(
-                                filter((subResMayBeOk: HttpResponse<IOffice>) => subResMayBeOk.ok),
-                                map((subResponse: HttpResponse<IOffice>) => subResponse.body)
-                            )
-                            .subscribe(
-                                (subRes: IOffice) => (this.offices = [subRes].concat(res)),
-                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-                            );
-                    }
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
         this.departmentService
             .query({ 'departmentHeadId.specified': 'false' })
             .pipe(
@@ -116,6 +91,13 @@ export class DepartmentHeadUpdateComponent implements OnInit {
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.officeService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IOffice[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IOffice[]>) => response.body)
+            )
+            .subscribe((res: IOffice[]) => (this.offices = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -148,15 +130,15 @@ export class DepartmentHeadUpdateComponent implements OnInit {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
-    trackOfficeById(index: number, item: IOffice) {
-        return item.id;
-    }
-
     trackDepartmentById(index: number, item: IDepartment) {
         return item.id;
     }
 
     trackEmployeeById(index: number, item: IEmployee) {
+        return item.id;
+    }
+
+    trackOfficeById(index: number, item: IOffice) {
         return item.id;
     }
 }

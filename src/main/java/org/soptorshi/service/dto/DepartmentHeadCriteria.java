@@ -24,11 +24,11 @@ public class DepartmentHeadCriteria implements Serializable {
 
     private LongFilter id;
 
-    private LongFilter officeId;
-
     private LongFilter departmentId;
 
     private LongFilter employeeId;
+
+    private LongFilter officeId;
 
     public LongFilter getId() {
         return id;
@@ -36,14 +36,6 @@ public class DepartmentHeadCriteria implements Serializable {
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public LongFilter getOfficeId() {
-        return officeId;
-    }
-
-    public void setOfficeId(LongFilter officeId) {
-        this.officeId = officeId;
     }
 
     public LongFilter getDepartmentId() {
@@ -62,6 +54,14 @@ public class DepartmentHeadCriteria implements Serializable {
         this.employeeId = employeeId;
     }
 
+    public LongFilter getOfficeId() {
+        return officeId;
+    }
+
+    public void setOfficeId(LongFilter officeId) {
+        this.officeId = officeId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -74,18 +74,18 @@ public class DepartmentHeadCriteria implements Serializable {
         final DepartmentHeadCriteria that = (DepartmentHeadCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(officeId, that.officeId) &&
             Objects.equals(departmentId, that.departmentId) &&
-            Objects.equals(employeeId, that.employeeId);
+            Objects.equals(employeeId, that.employeeId) &&
+            Objects.equals(officeId, that.officeId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        officeId,
         departmentId,
-        employeeId
+        employeeId,
+        officeId
         );
     }
 
@@ -93,9 +93,9 @@ public class DepartmentHeadCriteria implements Serializable {
     public String toString() {
         return "DepartmentHeadCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (officeId != null ? "officeId=" + officeId + ", " : "") +
                 (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
+                (officeId != null ? "officeId=" + officeId + ", " : "") +
             "}";
     }
 

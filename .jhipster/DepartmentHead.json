@@ -4,14 +4,6 @@
     "relationships": [
         {
             "relationshipType": "one-to-one",
-            "otherEntityName": "office",
-            "otherEntityRelationshipName": "departmentHead",
-            "relationshipName": "office",
-            "otherEntityField": "name",
-            "ownerSide": true
-        },
-        {
-            "relationshipType": "one-to-one",
             "otherEntityName": "department",
             "otherEntityRelationshipName": "departmentHead",
             "relationshipName": "department",
@@ -25,6 +17,13 @@
             "relationshipName": "employee",
             "otherEntityField": "fullName",
             "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "office",
+            "otherEntityRelationshipName": "departmentHead",
+            "relationshipName": "office",
+            "otherEntityField": "name"
         }
     ],
     "changelogDate": "20190624190109",

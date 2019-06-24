@@ -334,12 +334,12 @@ relationship OneToMany{
 
 relationship OneToOne{
   PurchaseCommittee{employee(fullName)} to Employee,
-  DepartmentHead{office(name)} to Office,
   DepartmentHead{department(name)} to Department,
   DepartmentHead{Employee(fullName)} to Employee
 }
 
 relationship ManyToOne {
+  DepartmentHead{office(name)} to Office,
   Manager{employee(fullName)} to Employee,
   Employee{department(name)} to Department,
   Employee{office(name)} to Office,

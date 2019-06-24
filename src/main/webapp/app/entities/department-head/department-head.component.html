@@ -30,20 +30,15 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="officeName"><span>Office</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="departmentName"><span>Department</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="officeName"><span>Office</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let departmentHead of departmentHeads ;trackBy: trackId">
                 <td><a [routerLink]="['/department-head', departmentHead.id, 'view' ]">{{departmentHead.id}}</a></td>
-                <td>
-                    <div *ngIf="departmentHead.officeId">
-                        <a [routerLink]="['../office', departmentHead.officeId , 'view' ]" >{{departmentHead.officeName}}</a>
-                    </div>
-                </td>
                 <td>
                     <div *ngIf="departmentHead.departmentId">
                         <a [routerLink]="['../department', departmentHead.departmentId , 'view' ]" >{{departmentHead.departmentName}}</a>
@@ -52,6 +47,11 @@
                 <td>
                     <div *ngIf="departmentHead.employeeId">
                         <a [routerLink]="['../employee', departmentHead.employeeId , 'view' ]" >{{departmentHead.employeeFullName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="departmentHead.officeId">
+                        <a [routerLink]="['../office', departmentHead.officeId , 'view' ]" >{{departmentHead.officeName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

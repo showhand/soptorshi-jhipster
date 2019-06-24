@@ -8,12 +8,6 @@
     -->
     <changeSet id="20190624190109-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="office_id"
-                                 baseTableName="department_head"
-                                 constraintName="fk_department_head_office_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="office"/>
-
         <addForeignKeyConstraint baseColumnNames="department_id"
                                  baseTableName="department_head"
                                  constraintName="fk_department_head_department_id"
@@ -25,6 +19,12 @@
                                  constraintName="fk_department_head_employee_id"
                                  referencedColumnNames="id"
                                  referencedTableName="employee"/>
+
+        <addForeignKeyConstraint baseColumnNames="office_id"
+                                 baseTableName="department_head"
+                                 constraintName="fk_department_head_office_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="office"/>
 
     </changeSet>
 </databaseChangeLog>

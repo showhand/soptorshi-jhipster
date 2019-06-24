@@ -3,9 +3,9 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.DepartmentHead;
-import org.soptorshi.domain.Office;
 import org.soptorshi.domain.Department;
 import org.soptorshi.domain.Employee;
+import org.soptorshi.domain.Office;
 import org.soptorshi.repository.DepartmentHeadRepository;
 import org.soptorshi.repository.search.DepartmentHeadSearchRepository;
 import org.soptorshi.service.DepartmentHeadService;
@@ -193,25 +193,6 @@ public class DepartmentHeadResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllDepartmentHeadsByOfficeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Office office = OfficeResourceIntTest.createEntity(em);
-        em.persist(office);
-        em.flush();
-        departmentHead.setOffice(office);
-        departmentHeadRepository.saveAndFlush(departmentHead);
-        Long officeId = office.getId();
-
-        // Get all the departmentHeadList where office equals to officeId
-        defaultDepartmentHeadShouldBeFound("officeId.equals=" + officeId);
-
-        // Get all the departmentHeadList where office equals to officeId + 1
-        defaultDepartmentHeadShouldNotBeFound("officeId.equals=" + (officeId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllDepartmentHeadsByDepartmentIsEqualToSomething() throws Exception {
         // Initialize the database
         Department department = DepartmentResourceIntTest.createEntity(em);
@@ -245,6 +226,25 @@ public class DepartmentHeadResourceIntTest {
 
         // Get all the departmentHeadList where employee equals to employeeId + 1
         defaultDepartmentHeadShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllDepartmentHeadsByOfficeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Office office = OfficeResourceIntTest.createEntity(em);
+        em.persist(office);
+        em.flush();
+        departmentHead.setOffice(office);
+        departmentHeadRepository.saveAndFlush(departmentHead);
+        Long officeId = office.getId();
+
+        // Get all the departmentHeadList where office equals to officeId
+        defaultDepartmentHeadShouldBeFound("officeId.equals=" + officeId);
+
+        // Get all the departmentHeadList where office equals to officeId + 1
+        defaultDepartmentHeadShouldNotBeFound("officeId.equals=" + (officeId + 1));
     }
 
     /**

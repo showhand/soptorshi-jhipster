@@ -10,10 +10,6 @@ public class DepartmentHeadDTO implements Serializable {
     private Long id;
 
 
-    private Long officeId;
-
-    private String officeName;
-
     private Long departmentId;
 
     private String departmentName;
@@ -22,28 +18,16 @@ public class DepartmentHeadDTO implements Serializable {
 
     private String employeeFullName;
 
+    private Long officeId;
+
+    private String officeName;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getOfficeId() {
-        return officeId;
-    }
-
-    public void setOfficeId(Long officeId) {
-        this.officeId = officeId;
-    }
-
-    public String getOfficeName() {
-        return officeName;
-    }
-
-    public void setOfficeName(String officeName) {
-        this.officeName = officeName;
     }
 
     public Long getDepartmentId() {
@@ -78,6 +62,22 @@ public class DepartmentHeadDTO implements Serializable {
         this.employeeFullName = employeeFullName;
     }
 
+    public Long getOfficeId() {
+        return officeId;
+    }
+
+    public void setOfficeId(Long officeId) {
+        this.officeId = officeId;
+    }
+
+    public String getOfficeName() {
+        return officeName;
+    }
+
+    public void setOfficeName(String officeName) {
+        this.officeName = officeName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -103,12 +103,12 @@ public class DepartmentHeadDTO implements Serializable {
     public String toString() {
         return "DepartmentHeadDTO{" +
             "id=" + getId() +
-            ", office=" + getOfficeId() +
-            ", office='" + getOfficeName() + "'" +
             ", department=" + getDepartmentId() +
             ", department='" + getDepartmentName() + "'" +
             ", employee=" + getEmployeeId() +
             ", employee='" + getEmployeeFullName() + "'" +
+            ", office=" + getOfficeId() +
+            ", office='" + getOfficeName() + "'" +
             "}";
     }
 }
