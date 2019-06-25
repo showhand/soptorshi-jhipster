@@ -362,7 +362,7 @@ relationship ManyToOne {
   Tax{financialAccountYear} to FinancialAccountYear,
   Tax{employee(fullName)} to Employee,
   Salary{employee} to Employee,
-  MonthlySalary{employee} to Employee,
+  MonthlySalary{employee(fullName)} to Employee,
   Advance{employee(fullName)} to Employee,
   ProvidentFund{employee(fullName)} to Employee,
   Fine{employee(fullName)} to Employee,

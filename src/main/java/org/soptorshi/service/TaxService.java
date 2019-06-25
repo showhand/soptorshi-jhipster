@@ -1,6 +1,7 @@
 package org.soptorshi.service;
 
 import org.soptorshi.domain.Tax;
+import org.soptorshi.domain.enumeration.TaxStatus;
 import org.soptorshi.repository.TaxRepository;
 import org.soptorshi.repository.search.TaxSearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -68,6 +69,11 @@ public class TaxService {
         log.debug("Request to get all Taxes");
         return taxRepository.findAll(pageable)
             .map(taxMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Tax find(Long employeeId, TaxStatus taxStatus){
+        return taxRepository.findByEmployee_IdAndTaxStatus(employeeId, taxStatus);
     }
 
 

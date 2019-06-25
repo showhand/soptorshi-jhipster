@@ -35,6 +35,7 @@ export interface IMonthlySalary {
     payable?: number;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    employeeFullName?: string;
     employeeId?: number;
 }
 
@@ -59,6 +60,7 @@ export class MonthlySalary implements IMonthlySalary {
         public payable?: number,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
+        public employeeFullName?: string,
         public employeeId?: number
     ) {}
 }

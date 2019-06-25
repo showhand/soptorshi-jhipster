@@ -80,7 +80,12 @@
                             <td>{{employee.fullName}}</td>
                             <td>{{monthlySalaryMapWithEmployeeId[employee.id].basic}}</td>
                             <td>{{monthlySalaryMapWithEmployeeId[employee.id].payable}}</td>
-                            <td></td>
+                            <td> <button type="submit"
+                                         [routerLink]="['/monthly-salary', monthlySalaryMapWithEmployeeId[employee.id].id, 'view' ]"
+                                         class="btn btn-info btn-sm">
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button></td>
                         </tr>
                         </tbody>
                     </table>

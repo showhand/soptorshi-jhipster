@@ -90,7 +90,7 @@
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "monthlySalary",
             "relationshipName": "employee",
-            "otherEntityField": "id"
+            "otherEntityField": "fullName"
         }
     ],
     "changelogDate": "20190514160139",

@@ -4,6 +4,8 @@ import org.soptorshi.domain.Bill;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 /**
  * Spring Data  repository for the Bill entity.
@@ -11,5 +13,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface BillRepository extends JpaRepository<Bill, Long>, JpaSpecificationExecutor<Bill> {
-
+    List<Bill> getByEmployee_Id(Long employeeId);
 }
