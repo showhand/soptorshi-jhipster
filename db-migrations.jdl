@@ -135,6 +135,8 @@ entity MonthlySalary {
   providentFund BigDecimal,
   tax BigDecimal,
   loanAmount BigDecimal,
+  billPayable BigDecimal,
+  billReceivable BigDecimal,
   payable BigDecimal,
   modifiedBy String,
   modifiedOn LocalDate
