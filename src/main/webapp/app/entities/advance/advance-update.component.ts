@@ -48,6 +48,10 @@ export class AdvanceUpdateComponent implements OnInit {
         return this.dataUtils.byteSize(field);
     }
 
+    amountChanged() {
+        this.advance.left = this.advance.amount;
+    }
+
     openFile(contentType, field) {
         return this.dataUtils.openFile(contentType, field);
     }

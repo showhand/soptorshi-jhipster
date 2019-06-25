@@ -4,6 +4,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
+import * as moment from 'moment';
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { TaxService } from 'app/entities/tax/tax.service';
 import { ITax, Tax, TaxStatus } from 'app/shared/model/tax.model';
 
@@ -13,6 +15,7 @@ describe('Service Tests', () => {
         let service: TaxService;
         let httpMock: HttpTestingController;
         let elemDefault: ITax;
+        let currentDate: moment.Moment;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
@@ -20,13 +23,19 @@ describe('Service Tests', () => {
             injector = getTestBed();
             service = injector.get(TaxService);
             httpMock = injector.get(HttpTestingController);
+            currentDate = moment();
 
-            elemDefault = new Tax(0, 0, 0, TaxStatus.ACTIVE);
+            elemDefault = new Tax(0, 0, TaxStatus.ACTIVE, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
-                const returnedFromService = Object.assign({}, elemDefault);
+                const returnedFromService = Object.assign(
+                    {
+                        modifiedOn: currentDate.format(DATE_FORMAT)
+                    },
+                    elemDefault
+                );
                 service
                     .find(123)
                     .pipe(take(1))
@@ -39,11 +48,17 @@ describe('Service Tests', () => {
             it('should create a Tax', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        id: 0
+                        id: 0,
+                        modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
-                const expected = Object.assign({}, returnedFromService);
+                const expected = Object.assign(
+                    {
+                        modifiedOn: currentDate
+                    },
+                    returnedFromService
+                );
                 service
                     .create(new Tax(null))
                     .pipe(take(1))
@@ -55,14 +70,20 @@ describe('Service Tests', () => {
             it('should update a Tax', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        minimumSalary: 1,
-                        rate: 1,
-                        taxStatus: 'BBBBBB'
+                        amount: 1,
+                        taxStatus: 'BBBBBB',
+                        modifiedBy: 'BBBBBB',
+                        modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
 
-                const expected = Object.assign({}, returnedFromService);
+                const expected = Object.assign(
+                    {
+                        modifiedOn: currentDate
+                    },
+                    returnedFromService
+                );
                 service
                     .update(expected)
                     .pipe(take(1))
@@ -74,13 +95,19 @@ describe('Service Tests', () => {
             it('should return a list of Tax', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        minimumSalary: 1,
-                        rate: 1,
-                        taxStatus: 'BBBBBB'
+                        amount: 1,
+                        taxStatus: 'BBBBBB',
+                        modifiedBy: 'BBBBBB',
+                        modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
-                const expected = Object.assign({}, returnedFromService);
+                const expected = Object.assign(
+                    {
+                        modifiedOn: currentDate
+                    },
+                    returnedFromService
+                );
                 service
                     .query(expected)
                     .pipe(

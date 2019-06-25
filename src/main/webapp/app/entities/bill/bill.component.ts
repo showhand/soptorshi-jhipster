@@ -16,6 +16,7 @@ import { BillService } from './bill.service';
     templateUrl: './bill.component.html'
 })
 export class BillComponent implements OnInit, OnDestroy {
+    bill: IBill;
     currentAccount: any;
     bills: IBill[];
     error: any;
@@ -42,6 +43,9 @@ export class BillComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
+        this.activatedRoute.data.subscribe(({ bill }) => {
+            this.bill = bill;
+        });
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
             this.previousPage = data.pagingParams.page;
@@ -52,6 +56,10 @@ export class BillComponent implements OnInit, OnDestroy {
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
                 : '';
+    }
+
+    back() {
+        window.history.back();
     }
 
     loadAll() {

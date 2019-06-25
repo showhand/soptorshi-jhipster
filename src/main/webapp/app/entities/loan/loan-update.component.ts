@@ -47,6 +47,10 @@ export class LoanUpdateComponent implements OnInit {
         window.history.back();
     }
 
+    amountChanged() {
+        this.loan.left = this.loan.amount;
+    }
+
     save() {
         this.isSaving = true;
         if (this.loan.id !== undefined) {

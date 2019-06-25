@@ -17,7 +17,7 @@
                 <dd>
                     <span>{{bill.reason}}</span>
                 </dd>
-                <dt><span>Modified By</span></dt>
+               <!-- <dt><span>Modified By</span></dt>
                 <dd>
                     <span>{{bill.modifiedBy}}</span>
                 </dd>
@@ -30,7 +30,7 @@
                     <div *ngIf="bill.employeeId">
                         <a [routerLink]="['/employee', bill.employeeId, 'view']">{{bill.employeeFullName}}</a>
                     </div>
-                </dd>
+                </dd>-->
             </dl>
 
             <button type="submit"

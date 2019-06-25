@@ -3,6 +3,7 @@ package org.soptorshi.service;
 import org.soptorshi.domain.Bill;
 import org.soptorshi.repository.BillRepository;
 import org.soptorshi.repository.search.BillSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.BillDTO;
 import org.soptorshi.service.mapper.BillMapper;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -47,6 +49,8 @@ public class BillService {
     public BillDTO save(BillDTO billDTO) {
         log.debug("Request to save Bill : {}", billDTO);
         Bill bill = billMapper.toEntity(billDTO);
+        bill.setModifiedBy(SecurityUtils.getCurrentUserLogin().toString());
+        bill.setModifiedDate(LocalDate.now());
         bill = billRepository.save(bill);
         BillDTO result = billMapper.toDto(bill);
         billSearchRepository.save(bill);

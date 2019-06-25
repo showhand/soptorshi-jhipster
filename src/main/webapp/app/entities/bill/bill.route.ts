@@ -12,6 +12,7 @@ import { BillDetailComponent } from './bill-detail.component';
 import { BillUpdateComponent } from './bill-update.component';
 import { BillDeletePopupComponent } from './bill-delete-dialog.component';
 import { IBill } from 'app/shared/model/bill.model';
+import { Fine } from 'app/shared/model/fine.model';
 
 @Injectable({ providedIn: 'root' })
 export class BillResolve implements Resolve<IBill> {
@@ -19,11 +20,22 @@ export class BillResolve implements Resolve<IBill> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IBill> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeLongId = route.params['employeeLongId'] ? route.params['employeeLongId'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
+
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<Bill>) => response.ok),
                 map((bill: HttpResponse<Bill>) => bill.body)
             );
+        } else if (employeeLongId) {
+            const bill = new Bill();
+            bill.employeeId = employeeLongId;
+            return of(bill);
+        } else if (employeeId) {
+            const bill = new Bill();
+            bill.employeeId = employeeId;
+            return of(bill);
         }
         return of(new Bill());
     }
@@ -37,7 +49,21 @@ export const billRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
+            defaultSort: 'id,asc',
+            pageTitle: 'Bills'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeLongId/employee',
+        component: BillComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams,
+            bill: BillResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Bills'
         },
@@ -50,7 +76,19 @@ export const billRoute: Routes = [
             bill: BillResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'Bills'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
+        component: BillUpdateComponent,
+        resolve: {
+            bill: BillResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Bills'
         },
         canActivate: [UserRouteAccessService]
@@ -62,7 +100,7 @@ export const billRoute: Routes = [
             bill: BillResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Bills'
         },
         canActivate: [UserRouteAccessService]
@@ -74,7 +112,7 @@ export const billRoute: Routes = [
             bill: BillResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Bills'
         },
         canActivate: [UserRouteAccessService]
@@ -89,7 +127,7 @@ export const billPopupRoute: Routes = [
             bill: BillResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Bills'
         },
         canActivate: [UserRouteAccessService],

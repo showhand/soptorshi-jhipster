@@ -93,18 +93,25 @@ public class TaxQueryService extends QueryService<Tax> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), Tax_.id));
             }
-            if (criteria.getMinimumSalary() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMinimumSalary(), Tax_.minimumSalary));
-            }
-            if (criteria.getRate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getRate(), Tax_.rate));
+            if (criteria.getAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getAmount(), Tax_.amount));
             }
             if (criteria.getTaxStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getTaxStatus(), Tax_.taxStatus));
             }
+            if (criteria.getModifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), Tax_.modifiedBy));
+            }
+            if (criteria.getModifiedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), Tax_.modifiedOn));
+            }
             if (criteria.getFinancialAccountYearId() != null) {
                 specification = specification.and(buildSpecification(criteria.getFinancialAccountYearId(),
                     root -> root.join(Tax_.financialAccountYear, JoinType.LEFT).get(FinancialAccountYear_.id)));
+            }
+            if (criteria.getEmployeeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getEmployeeId(),
+                    root -> root.join(Tax_.employee, JoinType.LEFT).get(Employee_.id)));
             }
         }
         return specification;

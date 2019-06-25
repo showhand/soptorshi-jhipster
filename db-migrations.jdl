@@ -101,9 +101,10 @@ entity FinancialAccountYear {
   status Boolean
 }
 entity Tax {
-  minimumSalary BigDecimal,
-  rate Double,
-  taxStatus TaxStatus
+  amount BigDecimal,
+  taxStatus TaxStatus,
+  modifiedBy String,
+  modifiedOn LocalDate
 }
 entity Salary {
   basic BigDecimal required,
@@ -272,6 +273,7 @@ enum TaxStatus {
   INACTIVE
 }
 
+
 enum SalaryStatus {
   ACTIVE,
   NOT_ACTIVE
@@ -356,6 +358,7 @@ relationship ManyToOne {
   ExperienceInformationAttachment{employee(employeeId) required} to Employee,
   TrainingInformationAttachment{employee(employeeId) required} to Employee,
   Tax{financialAccountYear} to FinancialAccountYear,
+  Tax{employee(fullName)} to Employee,
   Salary{employee} to Employee,
   MonthlySalary{employee} to Employee,
   Advance{employee(fullName)} to Employee,

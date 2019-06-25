@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Bills</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-bill" [routerLink]="['/bill/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-bill" [routerLink]="['/bill',bill.employeeId,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Bill
@@ -33,9 +33,7 @@
             <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="billCategory"><span>Bill Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="reason"><span>Reason</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedDate"><span>Modified Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -45,13 +43,8 @@
                 <td>{{bill.amount}}</td>
                 <td>{{bill.billCategory}}</td>
                 <td>{{bill.reason}}</td>
-                <td>{{bill.modifiedBy}}</td>
                 <td>{{bill.modifiedDate | date:'mediumDate'}}</td>
-                <td>
-                    <div *ngIf="bill.employeeId">
-                        <a [routerLink]="['../employee', bill.employeeId , 'view' ]" >{{bill.employeeFullName}}</a>
-                    </div>
-                </td>
+
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
@@ -87,6 +80,11 @@
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+    <div class="row" *ngIf="bill.employeeId" align="right">
+        <div class="col-12">
+            <button class="btn btn-danger" (click)="back()">Back</button>
         </div>
     </div>
 </div>

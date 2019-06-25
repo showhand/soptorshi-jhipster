@@ -11,6 +11,7 @@ import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.service.filter.BigDecimalFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the Tax entity. This class is used in TaxResource to
@@ -31,13 +32,17 @@ public class TaxCriteria implements Serializable {
 
     private LongFilter id;
 
-    private BigDecimalFilter minimumSalary;
-
-    private DoubleFilter rate;
+    private BigDecimalFilter amount;
 
     private TaxStatusFilter taxStatus;
 
+    private StringFilter modifiedBy;
+
+    private LocalDateFilter modifiedOn;
+
     private LongFilter financialAccountYearId;
+
+    private LongFilter employeeId;
 
     public LongFilter getId() {
         return id;
@@ -47,20 +52,12 @@ public class TaxCriteria implements Serializable {
         this.id = id;
     }
 
-    public BigDecimalFilter getMinimumSalary() {
-        return minimumSalary;
+    public BigDecimalFilter getAmount() {
+        return amount;
     }
 
-    public void setMinimumSalary(BigDecimalFilter minimumSalary) {
-        this.minimumSalary = minimumSalary;
-    }
-
-    public DoubleFilter getRate() {
-        return rate;
-    }
-
-    public void setRate(DoubleFilter rate) {
-        this.rate = rate;
+    public void setAmount(BigDecimalFilter amount) {
+        this.amount = amount;
     }
 
     public TaxStatusFilter getTaxStatus() {
@@ -71,12 +68,36 @@ public class TaxCriteria implements Serializable {
         this.taxStatus = taxStatus;
     }
 
+    public StringFilter getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(StringFilter modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public LocalDateFilter getModifiedOn() {
+        return modifiedOn;
+    }
+
+    public void setModifiedOn(LocalDateFilter modifiedOn) {
+        this.modifiedOn = modifiedOn;
+    }
+
     public LongFilter getFinancialAccountYearId() {
         return financialAccountYearId;
     }
 
     public void setFinancialAccountYearId(LongFilter financialAccountYearId) {
         this.financialAccountYearId = financialAccountYearId;
+    }
+
+    public LongFilter getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(LongFilter employeeId) {
+        this.employeeId = employeeId;
     }
 
 
@@ -91,20 +112,24 @@ public class TaxCriteria implements Serializable {
         final TaxCriteria that = (TaxCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(minimumSalary, that.minimumSalary) &&
-            Objects.equals(rate, that.rate) &&
+            Objects.equals(amount, that.amount) &&
             Objects.equals(taxStatus, that.taxStatus) &&
-            Objects.equals(financialAccountYearId, that.financialAccountYearId);
+            Objects.equals(modifiedBy, that.modifiedBy) &&
+            Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(financialAccountYearId, that.financialAccountYearId) &&
+            Objects.equals(employeeId, that.employeeId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        minimumSalary,
-        rate,
+        amount,
         taxStatus,
-        financialAccountYearId
+        modifiedBy,
+        modifiedOn,
+        financialAccountYearId,
+        employeeId
         );
     }
 
@@ -112,10 +137,12 @@ public class TaxCriteria implements Serializable {
     public String toString() {
         return "TaxCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (minimumSalary != null ? "minimumSalary=" + minimumSalary + ", " : "") +
-                (rate != null ? "rate=" + rate + ", " : "") +
+                (amount != null ? "amount=" + amount + ", " : "") +
                 (taxStatus != null ? "taxStatus=" + taxStatus + ", " : "") +
+                (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
+                (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (financialAccountYearId != null ? "financialAccountYearId=" + financialAccountYearId + ", " : "") +
+                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }
 
