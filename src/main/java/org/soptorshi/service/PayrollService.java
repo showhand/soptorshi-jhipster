@@ -114,6 +114,8 @@ public class PayrollService {
                 monthlySalary.setHouseRent(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
             else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.MEDICAL_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
                 monthlySalary.setHouseRent(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.FESTIVAL_BONUS) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.SPECIFIC))
+                monthlySalary.setFestivalAllowance(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
             else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.OTHER_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
                 monthlySalary.setOtherAllowance(monthlySalary.getOtherAllowance().add(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100)))));
         }
