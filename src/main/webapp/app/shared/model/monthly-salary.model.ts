@@ -30,6 +30,8 @@ export interface IMonthlySalary {
     providentFund?: number;
     tax?: number;
     loanAmount?: number;
+    billPayable?: number;
+    billReceivable?: number;
     payable?: number;
     modifiedBy?: string;
     modifiedOn?: Moment;
@@ -52,6 +54,8 @@ export class MonthlySalary implements IMonthlySalary {
         public providentFund?: number,
         public tax?: number,
         public loanAmount?: number,
+        public billPayable?: number,
+        public billReceivable?: number,
         public payable?: number,
         public modifiedBy?: string,
         public modifiedOn?: Moment,

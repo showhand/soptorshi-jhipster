@@ -42,6 +42,10 @@ public class MonthlySalaryDTO implements Serializable {
 
     private BigDecimal loanAmount;
 
+    private BigDecimal billPayable;
+
+    private BigDecimal billReceivable;
+
     private BigDecimal payable;
 
     private String modifiedBy;
@@ -163,6 +167,22 @@ public class MonthlySalaryDTO implements Serializable {
         this.loanAmount = loanAmount;
     }
 
+    public BigDecimal getBillPayable() {
+        return billPayable;
+    }
+
+    public void setBillPayable(BigDecimal billPayable) {
+        this.billPayable = billPayable;
+    }
+
+    public BigDecimal getBillReceivable() {
+        return billReceivable;
+    }
+
+    public void setBillReceivable(BigDecimal billReceivable) {
+        this.billReceivable = billReceivable;
+    }
+
     public BigDecimal getPayable() {
         return payable;
     }
@@ -233,6 +253,8 @@ public class MonthlySalaryDTO implements Serializable {
             ", providentFund=" + getProvidentFund() +
             ", tax=" + getTax() +
             ", loanAmount=" + getLoanAmount() +
+            ", billPayable=" + getBillPayable() +
+            ", billReceivable=" + getBillReceivable() +
             ", payable=" + getPayable() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +

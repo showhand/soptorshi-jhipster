@@ -64,6 +64,14 @@
             "fieldType": "BigDecimal"
         },
         {
+            "fieldName": "billPayable",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "billReceivable",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "payable",
             "fieldType": "BigDecimal"
         },

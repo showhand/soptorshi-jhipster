@@ -58,6 +58,10 @@ public class MonthlySalaryCriteria implements Serializable {
 
     private BigDecimalFilter loanAmount;
 
+    private BigDecimalFilter billPayable;
+
+    private BigDecimalFilter billReceivable;
+
     private BigDecimalFilter payable;
 
     private StringFilter modifiedBy;
@@ -178,6 +182,22 @@ public class MonthlySalaryCriteria implements Serializable {
         this.loanAmount = loanAmount;
     }
 
+    public BigDecimalFilter getBillPayable() {
+        return billPayable;
+    }
+
+    public void setBillPayable(BigDecimalFilter billPayable) {
+        this.billPayable = billPayable;
+    }
+
+    public BigDecimalFilter getBillReceivable() {
+        return billReceivable;
+    }
+
+    public void setBillReceivable(BigDecimalFilter billReceivable) {
+        this.billReceivable = billReceivable;
+    }
+
     public BigDecimalFilter getPayable() {
         return payable;
     }
@@ -235,6 +255,8 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(providentFund, that.providentFund) &&
             Objects.equals(tax, that.tax) &&
             Objects.equals(loanAmount, that.loanAmount) &&
+            Objects.equals(billPayable, that.billPayable) &&
+            Objects.equals(billReceivable, that.billReceivable) &&
             Objects.equals(payable, that.payable) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
@@ -258,6 +280,8 @@ public class MonthlySalaryCriteria implements Serializable {
         providentFund,
         tax,
         loanAmount,
+        billPayable,
+        billReceivable,
         payable,
         modifiedBy,
         modifiedOn,
@@ -282,6 +306,8 @@ public class MonthlySalaryCriteria implements Serializable {
                 (providentFund != null ? "providentFund=" + providentFund + ", " : "") +
                 (tax != null ? "tax=" + tax + ", " : "") +
                 (loanAmount != null ? "loanAmount=" + loanAmount + ", " : "") +
+                (billPayable != null ? "billPayable=" + billPayable + ", " : "") +
+                (billReceivable != null ? "billReceivable=" + billReceivable + ", " : "") +
                 (payable != null ? "payable=" + payable + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +

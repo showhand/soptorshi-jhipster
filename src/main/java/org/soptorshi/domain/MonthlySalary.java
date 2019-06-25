@@ -71,6 +71,12 @@ public class MonthlySalary implements Serializable {
     @Column(name = "loan_amount", precision = 10, scale = 2)
     private BigDecimal loanAmount;
 
+    @Column(name = "bill_payable", precision = 10, scale = 2)
+    private BigDecimal billPayable;
+
+    @Column(name = "bill_receivable", precision = 10, scale = 2)
+    private BigDecimal billReceivable;
+
     @Column(name = "payable", precision = 10, scale = 2)
     private BigDecimal payable;
 
@@ -262,6 +268,32 @@ public class MonthlySalary implements Serializable {
         this.loanAmount = loanAmount;
     }
 
+    public BigDecimal getBillPayable() {
+        return billPayable;
+    }
+
+    public MonthlySalary billPayable(BigDecimal billPayable) {
+        this.billPayable = billPayable;
+        return this;
+    }
+
+    public void setBillPayable(BigDecimal billPayable) {
+        this.billPayable = billPayable;
+    }
+
+    public BigDecimal getBillReceivable() {
+        return billReceivable;
+    }
+
+    public MonthlySalary billReceivable(BigDecimal billReceivable) {
+        this.billReceivable = billReceivable;
+        return this;
+    }
+
+    public void setBillReceivable(BigDecimal billReceivable) {
+        this.billReceivable = billReceivable;
+    }
+
     public BigDecimal getPayable() {
         return payable;
     }
@@ -352,6 +384,8 @@ public class MonthlySalary implements Serializable {
             ", providentFund=" + getProvidentFund() +
             ", tax=" + getTax() +
             ", loanAmount=" + getLoanAmount() +
+            ", billPayable=" + getBillPayable() +
+            ", billReceivable=" + getBillReceivable() +
             ", payable=" + getPayable() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +

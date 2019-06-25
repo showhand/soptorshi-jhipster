@@ -113,6 +113,16 @@
                         [(ngModel)]="monthlySalary.loanAmount" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_billPayable">Bill Payable</label>
+                    <input type="number" class="form-control" name="billPayable" id="field_billPayable"
+                        [(ngModel)]="monthlySalary.billPayable" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_billReceivable">Bill Receivable</label>
+                    <input type="number" class="form-control" name="billReceivable" id="field_billReceivable"
+                        [(ngModel)]="monthlySalary.billReceivable" />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_payable">Payable</label>
                     <input type="number" class="form-control" name="payable" id="field_payable"
                         [(ngModel)]="monthlySalary.payable" />

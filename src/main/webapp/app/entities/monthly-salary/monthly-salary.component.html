@@ -43,6 +43,8 @@
             <th jhiSortBy="providentFund"><span>Provident Fund</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="tax"><span>Tax</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="loanAmount"><span>Loan Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="billPayable"><span>Bill Payable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="billReceivable"><span>Bill Receivable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="payable"><span>Payable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -66,6 +68,8 @@
                 <td>{{monthlySalary.providentFund}}</td>
                 <td>{{monthlySalary.tax}}</td>
                 <td>{{monthlySalary.loanAmount}}</td>
+                <td>{{monthlySalary.billPayable}}</td>
+                <td>{{monthlySalary.billReceivable}}</td>
                 <td>{{monthlySalary.payable}}</td>
                 <td>{{monthlySalary.modifiedBy}}</td>
                 <td>{{monthlySalary.modifiedOn | date:'mediumDate'}}</td>
