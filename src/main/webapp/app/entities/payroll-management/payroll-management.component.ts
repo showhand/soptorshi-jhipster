@@ -27,7 +27,6 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     currentAccount: any;
     eventSubscriber: Subscription;
     currentSearch: string;
-    payrollManagement: PayrollManagement;
     officeList: Office[];
     designationList: Designation[];
     predicate: any;
@@ -43,7 +42,6 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     previousPage: any;
 
     constructor(
-        protected payrollManagementService: PayrollManagementService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected activatedRoute: ActivatedRoute,
@@ -54,11 +52,19 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         protected parseLinks: JhiParseLinks,
         protected monthlySalaryService: MonthlySalaryService,
         protected salaryService: SalaryService,
-        protected router: Router
+        protected router: Router,
+        public payrollManagementService: PayrollManagementService
     ) {
         this.predicate = 'id';
         this.reverse = false;
-        this.payrollManagement = new PayrollManagement();
+        /*this.activatedRoute.data.subscribe(({ payrollManagement }) => {
+            this.payrollManagementService.payrollManagement = payrollManagement;
+        });*/
+        if (this.payrollManagementService.payrollManagement == null) {
+            this.payrollManagementService.payrollManagement = new PayrollManagement();
+        } else {
+            this.fetch();
+        }
         this.page = 1;
         this.itemsPerPage = 15;
     }
@@ -69,8 +75,8 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             .query({
                 page: this.page - 1,
                 size: this.itemsPerPage,
-                'designationId.equals': this.payrollManagement.designationId,
-                'officeId.equals': this.payrollManagement.officeId,
+                'designationId.equals': this.payrollManagementService.payrollManagement.designationId,
+                'officeId.equals': this.payrollManagementService.payrollManagement.officeId,
                 'employeeStatus.equals': 'ACTIVE'
             })
             .subscribe(
@@ -85,10 +91,10 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     public generatePayroll() {
         this.salaryService
             .generatePayroll(
-                this.payrollManagement.officeId,
-                this.payrollManagement.designationId,
+                this.payrollManagementService.payrollManagement.officeId,
+                this.payrollManagementService.payrollManagement.designationId,
                 this.year,
-                this.payrollManagement.monthType
+                this.payrollManagementService.payrollManagement.monthType
             )
             .subscribe((res: any) => {
                 this.jhiAlertService.success('Payroll successfully generated');
@@ -105,7 +111,7 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         this.monthlySalaryService
             .query({
                 'year.equals': this.year,
-                'month.equals': this.payrollManagement.monthType,
+                'month.equals': this.payrollManagementService.payrollManagement.monthType,
                 'employeeId.in': employeeIds
             })
             .subscribe(

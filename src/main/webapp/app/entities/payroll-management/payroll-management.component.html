@@ -6,14 +6,14 @@
                 <form name="selectForm" role="form" novalidate>
                     <div class="form-group form-inline">
                         <label  for="office" class="col-4 form-control-label" align="left">Office</label>
-                        <select class="col-8 form-control" name="office" id="office" [(ngModel)]="payrollManagement.officeId" required>
+                        <select class="col-8 form-control" name="office" id="office" [(ngModel)]="payrollManagementService.payrollManagement.officeId" required>
                             <option [ngValue]="officeOption.id" *ngFor="let officeOption of officeList">{{officeOption.name}}</option>
                         </select>
 
                     </div>
                     <div class="form-group form-inline">
                         <label for="designation" class="col-4 form-control-label" align="left">Designation</label>
-                        <select class="col-8 form-control" name="designation" id="designation" [(ngModel)]="payrollManagement.designationId" required>
+                        <select class="col-8 form-control" name="designation" id="designation" [(ngModel)]="payrollManagementService.payrollManagement.designationId" required>
                             <option [ngValue]="designationOption.id" *ngFor="let designationOption of designationList">{{designationOption.name}}</option>
                         </select>
                     </div>
@@ -23,7 +23,7 @@
                     </div>
                     <div class="form-group form-inline">
                         <label class="form-control-label" class="col-4" for="monthType">Month</label>
-                        <select  class="col-8 form-control" name="month" [(ngModel)]="payrollManagement.monthType" id="monthType"  required>
+                        <select  class="col-8 form-control" name="month" [(ngModel)]="payrollManagementService.payrollManagement.monthType" id="monthType"  required>
                             <option value="JANUARY">JANUARY</option>
                             <option value="FEBRUARY">FEBRUARY</option>
                             <option value="MARCH">MARCH</option>
