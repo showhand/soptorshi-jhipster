@@ -28,6 +28,8 @@ public class MonthlySalaryDTO implements Serializable {
 
     private BigDecimal otherAllowance;
 
+    private BigDecimal festivalAllowance;
+
     private Integer absent;
 
     private BigDecimal fine;
@@ -111,6 +113,14 @@ public class MonthlySalaryDTO implements Serializable {
 
     public void setOtherAllowance(BigDecimal otherAllowance) {
         this.otherAllowance = otherAllowance;
+    }
+
+    public BigDecimal getFestivalAllowance() {
+        return festivalAllowance;
+    }
+
+    public void setFestivalAllowance(BigDecimal festivalAllowance) {
+        this.festivalAllowance = festivalAllowance;
     }
 
     public Integer getAbsent() {
@@ -256,6 +266,7 @@ public class MonthlySalaryDTO implements Serializable {
             ", houseRent=" + getHouseRent() +
             ", medicalAllowance=" + getMedicalAllowance() +
             ", otherAllowance=" + getOtherAllowance() +
+            ", festivalAllowance=" + getFestivalAllowance() +
             ", absent=" + getAbsent() +
             ", fine=" + getFine() +
             ", advanceHO=" + getAdvanceHO() +

@@ -74,6 +74,9 @@ public class MonthlySalaryResourceIntTest {
     private static final BigDecimal DEFAULT_OTHER_ALLOWANCE = new BigDecimal(1);
     private static final BigDecimal UPDATED_OTHER_ALLOWANCE = new BigDecimal(2);
 
+    private static final BigDecimal DEFAULT_FESTIVAL_ALLOWANCE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_FESTIVAL_ALLOWANCE = new BigDecimal(2);
+
     private static final Integer DEFAULT_ABSENT = 1;
     private static final Integer UPDATED_ABSENT = 2;
 
@@ -175,6 +178,7 @@ public class MonthlySalaryResourceIntTest {
             .houseRent(DEFAULT_HOUSE_RENT)
             .medicalAllowance(DEFAULT_MEDICAL_ALLOWANCE)
             .otherAllowance(DEFAULT_OTHER_ALLOWANCE)
+            .festivalAllowance(DEFAULT_FESTIVAL_ALLOWANCE)
             .absent(DEFAULT_ABSENT)
             .fine(DEFAULT_FINE)
             .advanceHO(DEFAULT_ADVANCE_HO)
@@ -217,6 +221,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(DEFAULT_HOUSE_RENT);
         assertThat(testMonthlySalary.getMedicalAllowance()).isEqualTo(DEFAULT_MEDICAL_ALLOWANCE);
         assertThat(testMonthlySalary.getOtherAllowance()).isEqualTo(DEFAULT_OTHER_ALLOWANCE);
+        assertThat(testMonthlySalary.getFestivalAllowance()).isEqualTo(DEFAULT_FESTIVAL_ALLOWANCE);
         assertThat(testMonthlySalary.getAbsent()).isEqualTo(DEFAULT_ABSENT);
         assertThat(testMonthlySalary.getFine()).isEqualTo(DEFAULT_FINE);
         assertThat(testMonthlySalary.getAdvanceHO()).isEqualTo(DEFAULT_ADVANCE_HO);
@@ -331,6 +336,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].festivalAllowance").value(hasItem(DEFAULT_FESTIVAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].absent").value(hasItem(DEFAULT_ABSENT)))
             .andExpect(jsonPath("$.[*].fine").value(hasItem(DEFAULT_FINE.intValue())))
             .andExpect(jsonPath("$.[*].advanceHO").value(hasItem(DEFAULT_ADVANCE_HO.intValue())))
@@ -362,6 +368,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.houseRent").value(DEFAULT_HOUSE_RENT.intValue()))
             .andExpect(jsonPath("$.medicalAllowance").value(DEFAULT_MEDICAL_ALLOWANCE.intValue()))
             .andExpect(jsonPath("$.otherAllowance").value(DEFAULT_OTHER_ALLOWANCE.intValue()))
+            .andExpect(jsonPath("$.festivalAllowance").value(DEFAULT_FESTIVAL_ALLOWANCE.intValue()))
             .andExpect(jsonPath("$.absent").value(DEFAULT_ABSENT))
             .andExpect(jsonPath("$.fine").value(DEFAULT_FINE.intValue()))
             .andExpect(jsonPath("$.advanceHO").value(DEFAULT_ADVANCE_HO.intValue()))
@@ -635,6 +642,45 @@ public class MonthlySalaryResourceIntTest {
 
         // Get all the monthlySalaryList where otherAllowance is null
         defaultMonthlySalaryShouldNotBeFound("otherAllowance.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByFestivalAllowanceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where festivalAllowance equals to DEFAULT_FESTIVAL_ALLOWANCE
+        defaultMonthlySalaryShouldBeFound("festivalAllowance.equals=" + DEFAULT_FESTIVAL_ALLOWANCE);
+
+        // Get all the monthlySalaryList where festivalAllowance equals to UPDATED_FESTIVAL_ALLOWANCE
+        defaultMonthlySalaryShouldNotBeFound("festivalAllowance.equals=" + UPDATED_FESTIVAL_ALLOWANCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByFestivalAllowanceIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where festivalAllowance in DEFAULT_FESTIVAL_ALLOWANCE or UPDATED_FESTIVAL_ALLOWANCE
+        defaultMonthlySalaryShouldBeFound("festivalAllowance.in=" + DEFAULT_FESTIVAL_ALLOWANCE + "," + UPDATED_FESTIVAL_ALLOWANCE);
+
+        // Get all the monthlySalaryList where festivalAllowance equals to UPDATED_FESTIVAL_ALLOWANCE
+        defaultMonthlySalaryShouldNotBeFound("festivalAllowance.in=" + UPDATED_FESTIVAL_ALLOWANCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByFestivalAllowanceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where festivalAllowance is not null
+        defaultMonthlySalaryShouldBeFound("festivalAllowance.specified=true");
+
+        // Get all the monthlySalaryList where festivalAllowance is null
+        defaultMonthlySalaryShouldNotBeFound("festivalAllowance.specified=false");
     }
 
     @Test
@@ -1191,6 +1237,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].festivalAllowance").value(hasItem(DEFAULT_FESTIVAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].absent").value(hasItem(DEFAULT_ABSENT)))
             .andExpect(jsonPath("$.[*].fine").value(hasItem(DEFAULT_FINE.intValue())))
             .andExpect(jsonPath("$.[*].advanceHO").value(hasItem(DEFAULT_ADVANCE_HO.intValue())))
@@ -1256,6 +1303,7 @@ public class MonthlySalaryResourceIntTest {
             .houseRent(UPDATED_HOUSE_RENT)
             .medicalAllowance(UPDATED_MEDICAL_ALLOWANCE)
             .otherAllowance(UPDATED_OTHER_ALLOWANCE)
+            .festivalAllowance(UPDATED_FESTIVAL_ALLOWANCE)
             .absent(UPDATED_ABSENT)
             .fine(UPDATED_FINE)
             .advanceHO(UPDATED_ADVANCE_HO)
@@ -1285,6 +1333,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(UPDATED_HOUSE_RENT);
         assertThat(testMonthlySalary.getMedicalAllowance()).isEqualTo(UPDATED_MEDICAL_ALLOWANCE);
         assertThat(testMonthlySalary.getOtherAllowance()).isEqualTo(UPDATED_OTHER_ALLOWANCE);
+        assertThat(testMonthlySalary.getFestivalAllowance()).isEqualTo(UPDATED_FESTIVAL_ALLOWANCE);
         assertThat(testMonthlySalary.getAbsent()).isEqualTo(UPDATED_ABSENT);
         assertThat(testMonthlySalary.getFine()).isEqualTo(UPDATED_FINE);
         assertThat(testMonthlySalary.getAdvanceHO()).isEqualTo(UPDATED_ADVANCE_HO);
@@ -1363,6 +1412,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].festivalAllowance").value(hasItem(DEFAULT_FESTIVAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].absent").value(hasItem(DEFAULT_ABSENT)))
             .andExpect(jsonPath("$.[*].fine").value(hasItem(DEFAULT_FINE.intValue())))
             .andExpect(jsonPath("$.[*].advanceHO").value(hasItem(DEFAULT_ADVANCE_HO.intValue())))

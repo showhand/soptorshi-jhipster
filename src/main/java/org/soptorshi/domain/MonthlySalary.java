@@ -50,6 +50,9 @@ public class MonthlySalary implements Serializable {
     @Column(name = "other_allowance", precision = 10, scale = 2)
     private BigDecimal otherAllowance;
 
+    @Column(name = "festival_allowance", precision = 10, scale = 2)
+    private BigDecimal festivalAllowance;
+
     @Column(name = "absent")
     private Integer absent;
 
@@ -175,6 +178,19 @@ public class MonthlySalary implements Serializable {
 
     public void setOtherAllowance(BigDecimal otherAllowance) {
         this.otherAllowance = otherAllowance;
+    }
+
+    public BigDecimal getFestivalAllowance() {
+        return festivalAllowance;
+    }
+
+    public MonthlySalary festivalAllowance(BigDecimal festivalAllowance) {
+        this.festivalAllowance = festivalAllowance;
+        return this;
+    }
+
+    public void setFestivalAllowance(BigDecimal festivalAllowance) {
+        this.festivalAllowance = festivalAllowance;
     }
 
     public Integer getAbsent() {
@@ -377,6 +393,7 @@ public class MonthlySalary implements Serializable {
             ", houseRent=" + getHouseRent() +
             ", medicalAllowance=" + getMedicalAllowance() +
             ", otherAllowance=" + getOtherAllowance() +
+            ", festivalAllowance=" + getFestivalAllowance() +
             ", absent=" + getAbsent() +
             ", fine=" + getFine() +
             ", advanceHO=" + getAdvanceHO() +

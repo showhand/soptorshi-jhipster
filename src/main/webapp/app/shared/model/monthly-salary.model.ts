@@ -23,6 +23,7 @@ export interface IMonthlySalary {
     houseRent?: number;
     medicalAllowance?: number;
     otherAllowance?: number;
+    festivalAllowance?: number;
     absent?: number;
     fine?: number;
     advanceHO?: number;
@@ -48,6 +49,7 @@ export class MonthlySalary implements IMonthlySalary {
         public houseRent?: number,
         public medicalAllowance?: number,
         public otherAllowance?: number,
+        public festivalAllowance?: number,
         public absent?: number,
         public fine?: number,
         public advanceHO?: number,

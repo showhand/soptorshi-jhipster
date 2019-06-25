@@ -36,6 +36,10 @@
             "fieldType": "BigDecimal"
         },
         {
+            "fieldName": "festivalAllowance",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "absent",
             "fieldType": "Integer"
         },
