@@ -5,6 +5,12 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
+                <dt><span>Office</span></dt>
+                <dd>
+                    <div *ngIf="departmentHead.officeId">
+                        <a [routerLink]="['/office', departmentHead.officeId, 'view']">{{departmentHead.officeName}}</a>
+                    </div>
+                </dd>
                 <dt><span>Department</span></dt>
                 <dd>
                     <div *ngIf="departmentHead.departmentId">
@@ -15,12 +21,6 @@
                 <dd>
                     <div *ngIf="departmentHead.employeeId">
                         <a [routerLink]="['/employee', departmentHead.employeeId, 'view']">{{departmentHead.employeeFullName}}</a>
-                    </div>
-                </dd>
-                <dt><span>Office</span></dt>
-                <dd>
-                    <div *ngIf="departmentHead.officeId">
-                        <a [routerLink]="['/office', departmentHead.officeId, 'view']">{{departmentHead.officeName}}</a>
                     </div>
                 </dd>
             </dl>

@@ -93,6 +93,10 @@ public class DepartmentHeadQueryService extends QueryService<DepartmentHead> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), DepartmentHead_.id));
             }
+            if (criteria.getOfficeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getOfficeId(),
+                    root -> root.join(DepartmentHead_.office, JoinType.LEFT).get(Office_.id)));
+            }
             if (criteria.getDepartmentId() != null) {
                 specification = specification.and(buildSpecification(criteria.getDepartmentId(),
                     root -> root.join(DepartmentHead_.department, JoinType.LEFT).get(Department_.id)));
@@ -100,10 +104,6 @@ public class DepartmentHeadQueryService extends QueryService<DepartmentHead> {
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),
                     root -> root.join(DepartmentHead_.employee, JoinType.LEFT).get(Employee_.id)));
-            }
-            if (criteria.getOfficeId() != null) {
-                specification = specification.and(buildSpecification(criteria.getOfficeId(),
-                    root -> root.join(DepartmentHead_.office, JoinType.LEFT).get(Office_.id)));
             }
         }
         return specification;

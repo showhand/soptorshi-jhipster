@@ -9,6 +9,8 @@ entity Department {
 entity DepartmentHead{
 
 }
+
+
 entity Designation {
   name String,
   shortName String,
@@ -223,6 +225,10 @@ entity VendorContactPerson{
     contactNumber String
 }
 
+entity BudgetAllocation{
+    amount BigDecimal
+}
+
 enum MaritalStatus {
   MARRIED,
   UNMARRIED,
@@ -339,12 +345,15 @@ relationship OneToMany{
 
 relationship OneToOne{
   PurchaseCommittee{employee(fullName)} to Employee,
-  DepartmentHead{department(name)} to Department,
-  DepartmentHead{Employee(fullName)} to Employee
 }
 
 relationship ManyToOne {
   DepartmentHead{office(name)} to Office,
+  DepartmentHead{department(name)} to Department,
+  DepartmentHead{Employee(fullName)} to Employee
+  BudgetAllocation{office(name)} to Office,
+  BudgetAllocation{department(name)} to Department,
+  BudgetAllocation{financialAccountYear} to FinancialAccountYear
   Manager{employee(fullName)} to Employee,
   Employee{department(name)} to Department,
   Employee{office(name)} to Office,
@@ -373,10 +382,10 @@ relationship ManyToOne {
   DesignationWiseAllowance{designation} to Designation
 }
 
-dto Department, Bill, DepartmentHead , Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with mapstruct
+dto Department,BudgetAllocation, Bill, DepartmentHead , Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with mapstruct
 paginate Department, Bill, DepartmentHead,  Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, SpecialAllowanceTimeLine with pager
-paginate HolidayType, Holiday, DesignationWiseAllowance, Manager with infinite-scroll
-service Department, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with serviceClass
+paginate HolidayType, BudgetAllocation, Holiday, DesignationWiseAllowance, Manager with infinite-scroll
+service Department, BudgetAllocation, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with serviceClass
 service HolidayType, Holiday with serviceImpl
 search Department, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, Manager, SpecialAllowanceTimeLine with elasticsearch
-filter Department, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine
+filter Department, BudgetAllocation, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine

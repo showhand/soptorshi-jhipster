@@ -36,6 +36,7 @@
     <include file="config/liquibase/changelog/20190622174346_added_entity_VendorContactPerson.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190624190109_added_entity_DepartmentHead.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190624190130_added_entity_Bill.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190626184915_added_entity_BudgetAllocation.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
@@ -72,5 +73,6 @@
     <include file="config/liquibase/changelog/20190624190130_added_entity_constraints_Bill.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190625152943_bill_added_in_monthly_salary.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190625170941_festival_bonus_added_monthly_salary.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190626184915_added_entity_constraints_BudgetAllocation.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

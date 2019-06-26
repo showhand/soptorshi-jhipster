@@ -1,21 +1,21 @@
-export interface IDepartmentHead {
+export interface IBudgetAllocation {
     id?: number;
+    amount?: number;
     officeName?: string;
     officeId?: number;
     departmentName?: string;
     departmentId?: number;
-    employeeFullName?: string;
-    employeeId?: number;
+    financialAccountYearId?: number;
 }
 
-export class DepartmentHead implements IDepartmentHead {
+export class BudgetAllocation implements IBudgetAllocation {
     constructor(
         public id?: number,
+        public amount?: number,
         public officeName?: string,
         public officeId?: number,
         public departmentName?: string,
         public departmentId?: number,
-        public employeeFullName?: string,
-        public employeeId?: number
+        public financialAccountYearId?: number
     ) {}
 }

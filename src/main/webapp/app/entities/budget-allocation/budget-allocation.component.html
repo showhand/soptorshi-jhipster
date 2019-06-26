@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span>Department Heads</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-department-head" [routerLink]="['/department-head/new']">
+        <span>Budget Allocations</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-budget-allocation" [routerLink]="['/budget-allocation/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
-            Create new Department Head
+            Create new Budget Allocation
             </span>
         </button>
     </h2>
@@ -25,51 +25,53 @@
         </div>
     </div>
     <br/>
-    <div class="table-responsive" *ngIf="departmentHeads">
+    <div class="table-responsive" *ngIf="budgetAllocations">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="officeName"><span>Office</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="departmentName"><span>Department</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="financialAccountYearId"><span>Financial Account Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
-            <tbody>
-            <tr *ngFor="let departmentHead of departmentHeads ;trackBy: trackId">
-                <td><a [routerLink]="['/department-head', departmentHead.id, 'view' ]">{{departmentHead.id}}</a></td>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let budgetAllocation of budgetAllocations ;trackBy: trackId">
+                <td><a [routerLink]="['/budget-allocation', budgetAllocation.id, 'view' ]">{{budgetAllocation.id}}</a></td>
+                <td>{{budgetAllocation.amount}}</td>
                 <td>
-                    <div *ngIf="departmentHead.officeId">
-                        <a [routerLink]="['../office', departmentHead.officeId , 'view' ]" >{{departmentHead.officeName}}</a>
+                    <div *ngIf="budgetAllocation.officeId">
+                        <a [routerLink]="['../office', budgetAllocation.officeId , 'view' ]" >{{budgetAllocation.officeName}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="departmentHead.departmentId">
-                        <a [routerLink]="['../department', departmentHead.departmentId , 'view' ]" >{{departmentHead.departmentName}}</a>
+                    <div *ngIf="budgetAllocation.departmentId">
+                        <a [routerLink]="['../department', budgetAllocation.departmentId , 'view' ]" >{{budgetAllocation.departmentName}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="departmentHead.employeeId">
-                        <a [routerLink]="['../employee', departmentHead.employeeId , 'view' ]" >{{departmentHead.employeeFullName}}</a>
+                    <div *ngIf="budgetAllocation.financialAccountYearId">
+                        <a [routerLink]="['../financial-account-year', budgetAllocation.financialAccountYearId , 'view' ]" >{{budgetAllocation.financialAccountYearId}}</a>
                     </div>
                 </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/department-head', departmentHead.id, 'view' ]"
+                                [routerLink]="['/budget-allocation', budgetAllocation.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/department-head', departmentHead.id, 'edit']"
+                                [routerLink]="['/budget-allocation', budgetAllocation.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'department-head', { outlets: { popup: departmentHead.id + '/delete'} }]"
+                                [routerLink]="['/', 'budget-allocation', { outlets: { popup: budgetAllocation.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
@@ -81,14 +83,5 @@
             </tr>
             </tbody>
         </table>
-    </div>
-    <!-- Pager is not implemented yet, so this is normal pagination instead -->
-    <div *ngIf="departmentHeads && departmentHeads.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
     </div>
 </div>

@@ -1,13 +1,16 @@
 package org.soptorshi.service.dto;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * A DTO for the DepartmentHead entity.
+ * A DTO for the BudgetAllocation entity.
  */
-public class DepartmentHeadDTO implements Serializable {
+public class BudgetAllocationDTO implements Serializable {
 
     private Long id;
+
+    private BigDecimal amount;
 
 
     private Long officeId;
@@ -18,9 +21,7 @@ public class DepartmentHeadDTO implements Serializable {
 
     private String departmentName;
 
-    private Long employeeId;
-
-    private String employeeFullName;
+    private Long financialAccountYearId;
 
     public Long getId() {
         return id;
@@ -28,6 +29,14 @@ public class DepartmentHeadDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public Long getOfficeId() {
@@ -62,20 +71,12 @@ public class DepartmentHeadDTO implements Serializable {
         this.departmentName = departmentName;
     }
 
-    public Long getEmployeeId() {
-        return employeeId;
+    public Long getFinancialAccountYearId() {
+        return financialAccountYearId;
     }
 
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public String getEmployeeFullName() {
-        return employeeFullName;
-    }
-
-    public void setEmployeeFullName(String employeeFullName) {
-        this.employeeFullName = employeeFullName;
+    public void setFinancialAccountYearId(Long financialAccountYearId) {
+        this.financialAccountYearId = financialAccountYearId;
     }
 
     @Override
@@ -87,11 +88,11 @@ public class DepartmentHeadDTO implements Serializable {
             return false;
         }
 
-        DepartmentHeadDTO departmentHeadDTO = (DepartmentHeadDTO) o;
-        if (departmentHeadDTO.getId() == null || getId() == null) {
+        BudgetAllocationDTO budgetAllocationDTO = (BudgetAllocationDTO) o;
+        if (budgetAllocationDTO.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), departmentHeadDTO.getId());
+        return Objects.equals(getId(), budgetAllocationDTO.getId());
     }
 
     @Override
@@ -101,14 +102,14 @@ public class DepartmentHeadDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "DepartmentHeadDTO{" +
+        return "BudgetAllocationDTO{" +
             "id=" + getId() +
+            ", amount=" + getAmount() +
             ", office=" + getOfficeId() +
             ", office='" + getOfficeName() + "'" +
             ", department=" + getDepartmentId() +
             ", department='" + getDepartmentName() + "'" +
-            ", employee=" + getEmployeeId() +
-            ", employee='" + getEmployeeFullName() + "'" +
+            ", financialAccountYear=" + getFinancialAccountYearId() +
             "}";
     }
 }

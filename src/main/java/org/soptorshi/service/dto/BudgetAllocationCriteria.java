@@ -9,26 +9,29 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 
 /**
- * Criteria class for the DepartmentHead entity. This class is used in DepartmentHeadResource to
+ * Criteria class for the BudgetAllocation entity. This class is used in BudgetAllocationResource to
  * receive all the possible filtering options from the Http GET request parameters.
  * For example the following could be a valid requests:
- * <code> /department-heads?id.greaterThan=5&amp;attr1.contains=something&amp;attr2.specified=false</code>
+ * <code> /budget-allocations?id.greaterThan=5&amp;attr1.contains=something&amp;attr2.specified=false</code>
  * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
  * fix type specific filters.
  */
-public class DepartmentHeadCriteria implements Serializable {
+public class BudgetAllocationCriteria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
+    private BigDecimalFilter amount;
+
     private LongFilter officeId;
 
     private LongFilter departmentId;
 
-    private LongFilter employeeId;
+    private LongFilter financialAccountYearId;
 
     public LongFilter getId() {
         return id;
@@ -36,6 +39,14 @@ public class DepartmentHeadCriteria implements Serializable {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public BigDecimalFilter getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimalFilter amount) {
+        this.amount = amount;
     }
 
     public LongFilter getOfficeId() {
@@ -54,12 +65,12 @@ public class DepartmentHeadCriteria implements Serializable {
         this.departmentId = departmentId;
     }
 
-    public LongFilter getEmployeeId() {
-        return employeeId;
+    public LongFilter getFinancialAccountYearId() {
+        return financialAccountYearId;
     }
 
-    public void setEmployeeId(LongFilter employeeId) {
-        this.employeeId = employeeId;
+    public void setFinancialAccountYearId(LongFilter financialAccountYearId) {
+        this.financialAccountYearId = financialAccountYearId;
     }
 
 
@@ -71,31 +82,34 @@ public class DepartmentHeadCriteria implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final DepartmentHeadCriteria that = (DepartmentHeadCriteria) o;
+        final BudgetAllocationCriteria that = (BudgetAllocationCriteria) o;
         return
             Objects.equals(id, that.id) &&
+            Objects.equals(amount, that.amount) &&
             Objects.equals(officeId, that.officeId) &&
             Objects.equals(departmentId, that.departmentId) &&
-            Objects.equals(employeeId, that.employeeId);
+            Objects.equals(financialAccountYearId, that.financialAccountYearId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
+        amount,
         officeId,
         departmentId,
-        employeeId
+        financialAccountYearId
         );
     }
 
     @Override
     public String toString() {
-        return "DepartmentHeadCriteria{" +
+        return "BudgetAllocationCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (amount != null ? "amount=" + amount + ", " : "") +
                 (officeId != null ? "officeId=" + officeId + ", " : "") +
                 (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
-                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
+                (financialAccountYearId != null ? "financialAccountYearId=" + financialAccountYearId + ", " : "") +
             "}";
     }
 

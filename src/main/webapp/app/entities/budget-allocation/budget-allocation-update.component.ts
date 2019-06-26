@@ -4,42 +4,42 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
-import { IDepartmentHead } from 'app/shared/model/department-head.model';
-import { DepartmentHeadService } from './department-head.service';
+import { IBudgetAllocation } from 'app/shared/model/budget-allocation.model';
+import { BudgetAllocationService } from './budget-allocation.service';
 import { IOffice } from 'app/shared/model/office.model';
 import { OfficeService } from 'app/entities/office';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department';
-import { IEmployee } from 'app/shared/model/employee.model';
-import { EmployeeService } from 'app/entities/employee';
+import { IFinancialAccountYear } from 'app/shared/model/financial-account-year.model';
+import { FinancialAccountYearService } from 'app/entities/financial-account-year';
 
 @Component({
-    selector: 'jhi-department-head-update',
-    templateUrl: './department-head-update.component.html'
+    selector: 'jhi-budget-allocation-update',
+    templateUrl: './budget-allocation-update.component.html'
 })
-export class DepartmentHeadUpdateComponent implements OnInit {
-    departmentHead: IDepartmentHead;
+export class BudgetAllocationUpdateComponent implements OnInit {
+    budgetAllocation: IBudgetAllocation;
     isSaving: boolean;
 
     offices: IOffice[];
 
     departments: IDepartment[];
 
-    employees: IEmployee[];
+    financialaccountyears: IFinancialAccountYear[];
 
     constructor(
         protected jhiAlertService: JhiAlertService,
-        protected departmentHeadService: DepartmentHeadService,
+        protected budgetAllocationService: BudgetAllocationService,
         protected officeService: OfficeService,
         protected departmentService: DepartmentService,
-        protected employeeService: EmployeeService,
+        protected financialAccountYearService: FinancialAccountYearService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ departmentHead }) => {
-            this.departmentHead = departmentHead;
+        this.activatedRoute.data.subscribe(({ budgetAllocation }) => {
+            this.budgetAllocation = budgetAllocation;
         });
         this.officeService
             .query()
@@ -55,13 +55,16 @@ export class DepartmentHeadUpdateComponent implements OnInit {
                 map((response: HttpResponse<IDepartment[]>) => response.body)
             )
             .subscribe((res: IDepartment[]) => (this.departments = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.employeeService
+        this.financialAccountYearService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IEmployee[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IFinancialAccountYear[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IFinancialAccountYear[]>) => response.body)
             )
-            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe(
+                (res: IFinancialAccountYear[]) => (this.financialaccountyears = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     previousState() {
@@ -70,15 +73,15 @@ export class DepartmentHeadUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.departmentHead.id !== undefined) {
-            this.subscribeToSaveResponse(this.departmentHeadService.update(this.departmentHead));
+        if (this.budgetAllocation.id !== undefined) {
+            this.subscribeToSaveResponse(this.budgetAllocationService.update(this.budgetAllocation));
         } else {
-            this.subscribeToSaveResponse(this.departmentHeadService.create(this.departmentHead));
+            this.subscribeToSaveResponse(this.budgetAllocationService.create(this.budgetAllocation));
         }
     }
 
-    protected subscribeToSaveResponse(result: Observable<HttpResponse<IDepartmentHead>>) {
-        result.subscribe((res: HttpResponse<IDepartmentHead>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IBudgetAllocation>>) {
+        result.subscribe((res: HttpResponse<IBudgetAllocation>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     protected onSaveSuccess() {
@@ -102,7 +105,7 @@ export class DepartmentHeadUpdateComponent implements OnInit {
         return item.id;
     }
 
-    trackEmployeeById(index: number, item: IEmployee) {
+    trackFinancialAccountYearById(index: number, item: IFinancialAccountYear) {
         return item.id;
     }
 }
