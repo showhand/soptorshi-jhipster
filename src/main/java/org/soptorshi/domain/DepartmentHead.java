@@ -13,7 +13,10 @@ import java.util.Objects;
  * A DepartmentHead.
  */
 @Entity
-@Table(name = "department_head")
+@Table(name = "department_head",
+uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"office_id","department_id","employee_id"})
+})
 @Document(indexName = "departmenthead")
 public class DepartmentHead implements Serializable {
 
