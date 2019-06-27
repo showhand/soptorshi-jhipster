@@ -15,7 +15,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "department_head",
 uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"office_id","department_id","employee_id"})
+    @UniqueConstraint(columnNames = {"office_id","department_id","employee_id"}),
+    @UniqueConstraint(columnNames = {"department_id","employee_id"})
 })
 @Document(indexName = "departmenthead")
 public class DepartmentHead implements Serializable {

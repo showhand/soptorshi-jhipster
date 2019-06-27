@@ -75,5 +75,6 @@
     <include file="config/liquibase/changelog/20190625170941_festival_bonus_added_monthly_salary.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190626184915_added_entity_constraints_BudgetAllocation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190626191053_department_head_unique_constraints.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190626193020_department_head_constraint_employee_department.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
