@@ -74,6 +74,18 @@ public class RequisitionResourceIntTest {
     private static final RequisitionStatus DEFAULT_STATUS = RequisitionStatus.REJECTED_BY_HEAD;
     private static final RequisitionStatus UPDATED_STATUS = RequisitionStatus.FORWARDED_BY_HEAD;
 
+    private static final String DEFAULT_PURCHASE_COMMITTEE_REMARKS = "AAAAAAAAAA";
+    private static final String UPDATED_PURCHASE_COMMITTEE_REMARKS = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_REF_TO_PURCHASE_COMMITTEE = 1L;
+    private static final Long UPDATED_REF_TO_PURCHASE_COMMITTEE = 2L;
+
+    private static final String DEFAULT_CFO_REMARKS = "AAAAAAAAAA";
+    private static final String UPDATED_CFO_REMARKS = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_REF_TO_CFO = 1L;
+    private static final Long UPDATED_REF_TO_CFO = 2L;
+
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
@@ -144,6 +156,10 @@ public class RequisitionResourceIntTest {
             .requisitionDate(DEFAULT_REQUISITION_DATE)
             .amount(DEFAULT_AMOUNT)
             .status(DEFAULT_STATUS)
+            .purchaseCommitteeRemarks(DEFAULT_PURCHASE_COMMITTEE_REMARKS)
+            .refToPurchaseCommittee(DEFAULT_REF_TO_PURCHASE_COMMITTEE)
+            .cfoRemarks(DEFAULT_CFO_REMARKS)
+            .refToCfo(DEFAULT_REF_TO_CFO)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
         return requisition;
@@ -175,6 +191,10 @@ public class RequisitionResourceIntTest {
         assertThat(testRequisition.getRequisitionDate()).isEqualTo(DEFAULT_REQUISITION_DATE);
         assertThat(testRequisition.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testRequisition.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testRequisition.getPurchaseCommitteeRemarks()).isEqualTo(DEFAULT_PURCHASE_COMMITTEE_REMARKS);
+        assertThat(testRequisition.getRefToPurchaseCommittee()).isEqualTo(DEFAULT_REF_TO_PURCHASE_COMMITTEE);
+        assertThat(testRequisition.getCfoRemarks()).isEqualTo(DEFAULT_CFO_REMARKS);
+        assertThat(testRequisition.getRefToCfo()).isEqualTo(DEFAULT_REF_TO_CFO);
         assertThat(testRequisition.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testRequisition.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
@@ -221,6 +241,10 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.[*].requisitionDate").value(hasItem(DEFAULT_REQUISITION_DATE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].purchaseCommitteeRemarks").value(hasItem(DEFAULT_PURCHASE_COMMITTEE_REMARKS.toString())))
+            .andExpect(jsonPath("$.[*].refToPurchaseCommittee").value(hasItem(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue())))
+            .andExpect(jsonPath("$.[*].cfoRemarks").value(hasItem(DEFAULT_CFO_REMARKS.toString())))
+            .andExpect(jsonPath("$.[*].refToCfo").value(hasItem(DEFAULT_REF_TO_CFO.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
@@ -241,6 +265,10 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.requisitionDate").value(DEFAULT_REQUISITION_DATE.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.purchaseCommitteeRemarks").value(DEFAULT_PURCHASE_COMMITTEE_REMARKS.toString()))
+            .andExpect(jsonPath("$.refToPurchaseCommittee").value(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue()))
+            .andExpect(jsonPath("$.cfoRemarks").value(DEFAULT_CFO_REMARKS.toString()))
+            .andExpect(jsonPath("$.refToCfo").value(DEFAULT_REF_TO_CFO.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
@@ -430,6 +458,138 @@ public class RequisitionResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllRequisitionsByRefToPurchaseCommitteeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToPurchaseCommittee equals to DEFAULT_REF_TO_PURCHASE_COMMITTEE
+        defaultRequisitionShouldBeFound("refToPurchaseCommittee.equals=" + DEFAULT_REF_TO_PURCHASE_COMMITTEE);
+
+        // Get all the requisitionList where refToPurchaseCommittee equals to UPDATED_REF_TO_PURCHASE_COMMITTEE
+        defaultRequisitionShouldNotBeFound("refToPurchaseCommittee.equals=" + UPDATED_REF_TO_PURCHASE_COMMITTEE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToPurchaseCommitteeIsInShouldWork() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToPurchaseCommittee in DEFAULT_REF_TO_PURCHASE_COMMITTEE or UPDATED_REF_TO_PURCHASE_COMMITTEE
+        defaultRequisitionShouldBeFound("refToPurchaseCommittee.in=" + DEFAULT_REF_TO_PURCHASE_COMMITTEE + "," + UPDATED_REF_TO_PURCHASE_COMMITTEE);
+
+        // Get all the requisitionList where refToPurchaseCommittee equals to UPDATED_REF_TO_PURCHASE_COMMITTEE
+        defaultRequisitionShouldNotBeFound("refToPurchaseCommittee.in=" + UPDATED_REF_TO_PURCHASE_COMMITTEE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToPurchaseCommitteeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToPurchaseCommittee is not null
+        defaultRequisitionShouldBeFound("refToPurchaseCommittee.specified=true");
+
+        // Get all the requisitionList where refToPurchaseCommittee is null
+        defaultRequisitionShouldNotBeFound("refToPurchaseCommittee.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToPurchaseCommitteeIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToPurchaseCommittee greater than or equals to DEFAULT_REF_TO_PURCHASE_COMMITTEE
+        defaultRequisitionShouldBeFound("refToPurchaseCommittee.greaterOrEqualThan=" + DEFAULT_REF_TO_PURCHASE_COMMITTEE);
+
+        // Get all the requisitionList where refToPurchaseCommittee greater than or equals to UPDATED_REF_TO_PURCHASE_COMMITTEE
+        defaultRequisitionShouldNotBeFound("refToPurchaseCommittee.greaterOrEqualThan=" + UPDATED_REF_TO_PURCHASE_COMMITTEE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToPurchaseCommitteeIsLessThanSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToPurchaseCommittee less than or equals to DEFAULT_REF_TO_PURCHASE_COMMITTEE
+        defaultRequisitionShouldNotBeFound("refToPurchaseCommittee.lessThan=" + DEFAULT_REF_TO_PURCHASE_COMMITTEE);
+
+        // Get all the requisitionList where refToPurchaseCommittee less than or equals to UPDATED_REF_TO_PURCHASE_COMMITTEE
+        defaultRequisitionShouldBeFound("refToPurchaseCommittee.lessThan=" + UPDATED_REF_TO_PURCHASE_COMMITTEE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToCfoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToCfo equals to DEFAULT_REF_TO_CFO
+        defaultRequisitionShouldBeFound("refToCfo.equals=" + DEFAULT_REF_TO_CFO);
+
+        // Get all the requisitionList where refToCfo equals to UPDATED_REF_TO_CFO
+        defaultRequisitionShouldNotBeFound("refToCfo.equals=" + UPDATED_REF_TO_CFO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToCfoIsInShouldWork() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToCfo in DEFAULT_REF_TO_CFO or UPDATED_REF_TO_CFO
+        defaultRequisitionShouldBeFound("refToCfo.in=" + DEFAULT_REF_TO_CFO + "," + UPDATED_REF_TO_CFO);
+
+        // Get all the requisitionList where refToCfo equals to UPDATED_REF_TO_CFO
+        defaultRequisitionShouldNotBeFound("refToCfo.in=" + UPDATED_REF_TO_CFO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToCfoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToCfo is not null
+        defaultRequisitionShouldBeFound("refToCfo.specified=true");
+
+        // Get all the requisitionList where refToCfo is null
+        defaultRequisitionShouldNotBeFound("refToCfo.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToCfoIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToCfo greater than or equals to DEFAULT_REF_TO_CFO
+        defaultRequisitionShouldBeFound("refToCfo.greaterOrEqualThan=" + DEFAULT_REF_TO_CFO);
+
+        // Get all the requisitionList where refToCfo greater than or equals to UPDATED_REF_TO_CFO
+        defaultRequisitionShouldNotBeFound("refToCfo.greaterOrEqualThan=" + UPDATED_REF_TO_CFO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToCfoIsLessThanSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToCfo less than or equals to DEFAULT_REF_TO_CFO
+        defaultRequisitionShouldNotBeFound("refToCfo.lessThan=" + DEFAULT_REF_TO_CFO);
+
+        // Get all the requisitionList where refToCfo less than or equals to UPDATED_REF_TO_CFO
+        defaultRequisitionShouldBeFound("refToCfo.lessThan=" + UPDATED_REF_TO_CFO);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllRequisitionsByModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         requisitionRepository.saveAndFlush(requisition);
@@ -602,6 +762,10 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.[*].requisitionDate").value(hasItem(DEFAULT_REQUISITION_DATE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].purchaseCommitteeRemarks").value(hasItem(DEFAULT_PURCHASE_COMMITTEE_REMARKS.toString())))
+            .andExpect(jsonPath("$.[*].refToPurchaseCommittee").value(hasItem(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue())))
+            .andExpect(jsonPath("$.[*].cfoRemarks").value(hasItem(DEFAULT_CFO_REMARKS.toString())))
+            .andExpect(jsonPath("$.[*].refToCfo").value(hasItem(DEFAULT_REF_TO_CFO.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
@@ -656,6 +820,10 @@ public class RequisitionResourceIntTest {
             .requisitionDate(UPDATED_REQUISITION_DATE)
             .amount(UPDATED_AMOUNT)
             .status(UPDATED_STATUS)
+            .purchaseCommitteeRemarks(UPDATED_PURCHASE_COMMITTEE_REMARKS)
+            .refToPurchaseCommittee(UPDATED_REF_TO_PURCHASE_COMMITTEE)
+            .cfoRemarks(UPDATED_CFO_REMARKS)
+            .refToCfo(UPDATED_REF_TO_CFO)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
         RequisitionDTO requisitionDTO = requisitionMapper.toDto(updatedRequisition);
@@ -674,6 +842,10 @@ public class RequisitionResourceIntTest {
         assertThat(testRequisition.getRequisitionDate()).isEqualTo(UPDATED_REQUISITION_DATE);
         assertThat(testRequisition.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testRequisition.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testRequisition.getPurchaseCommitteeRemarks()).isEqualTo(UPDATED_PURCHASE_COMMITTEE_REMARKS);
+        assertThat(testRequisition.getRefToPurchaseCommittee()).isEqualTo(UPDATED_REF_TO_PURCHASE_COMMITTEE);
+        assertThat(testRequisition.getCfoRemarks()).isEqualTo(UPDATED_CFO_REMARKS);
+        assertThat(testRequisition.getRefToCfo()).isEqualTo(UPDATED_REF_TO_CFO);
         assertThat(testRequisition.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testRequisition.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
@@ -741,6 +913,10 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.[*].requisitionDate").value(hasItem(DEFAULT_REQUISITION_DATE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].purchaseCommitteeRemarks").value(hasItem(DEFAULT_PURCHASE_COMMITTEE_REMARKS.toString())))
+            .andExpect(jsonPath("$.[*].refToPurchaseCommittee").value(hasItem(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue())))
+            .andExpect(jsonPath("$.[*].cfoRemarks").value(hasItem(DEFAULT_CFO_REMARKS.toString())))
+            .andExpect(jsonPath("$.[*].refToCfo").value(hasItem(DEFAULT_REF_TO_CFO.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }

@@ -382,6 +382,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'terms-and-conditions',
                 loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
+            },
+            {
+                path: 'requisition',
+                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

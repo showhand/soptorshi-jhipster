@@ -44,6 +44,20 @@ public class Requisition implements Serializable {
     @Column(name = "status")
     private RequisitionStatus status;
 
+    @Lob
+    @Column(name = "purchase_committee_remarks")
+    private String purchaseCommitteeRemarks;
+
+    @Column(name = "ref_to_purchase_committee")
+    private Long refToPurchaseCommittee;
+
+    @Lob
+    @Column(name = "cfo_remarks")
+    private String cfoRemarks;
+
+    @Column(name = "ref_to_cfo")
+    private Long refToCfo;
+
     @Column(name = "modified_by")
     private String modifiedBy;
 
@@ -134,6 +148,58 @@ public class Requisition implements Serializable {
 
     public void setStatus(RequisitionStatus status) {
         this.status = status;
+    }
+
+    public String getPurchaseCommitteeRemarks() {
+        return purchaseCommitteeRemarks;
+    }
+
+    public Requisition purchaseCommitteeRemarks(String purchaseCommitteeRemarks) {
+        this.purchaseCommitteeRemarks = purchaseCommitteeRemarks;
+        return this;
+    }
+
+    public void setPurchaseCommitteeRemarks(String purchaseCommitteeRemarks) {
+        this.purchaseCommitteeRemarks = purchaseCommitteeRemarks;
+    }
+
+    public Long getRefToPurchaseCommittee() {
+        return refToPurchaseCommittee;
+    }
+
+    public Requisition refToPurchaseCommittee(Long refToPurchaseCommittee) {
+        this.refToPurchaseCommittee = refToPurchaseCommittee;
+        return this;
+    }
+
+    public void setRefToPurchaseCommittee(Long refToPurchaseCommittee) {
+        this.refToPurchaseCommittee = refToPurchaseCommittee;
+    }
+
+    public String getCfoRemarks() {
+        return cfoRemarks;
+    }
+
+    public Requisition cfoRemarks(String cfoRemarks) {
+        this.cfoRemarks = cfoRemarks;
+        return this;
+    }
+
+    public void setCfoRemarks(String cfoRemarks) {
+        this.cfoRemarks = cfoRemarks;
+    }
+
+    public Long getRefToCfo() {
+        return refToCfo;
+    }
+
+    public Requisition refToCfo(Long refToCfo) {
+        this.refToCfo = refToCfo;
+        return this;
+    }
+
+    public void setRefToCfo(Long refToCfo) {
+        this.refToCfo = refToCfo;
     }
 
     public String getModifiedBy() {
@@ -231,6 +297,10 @@ public class Requisition implements Serializable {
             ", requisitionDate='" + getRequisitionDate() + "'" +
             ", amount=" + getAmount() +
             ", status='" + getStatus() + "'" +
+            ", purchaseCommitteeRemarks='" + getPurchaseCommitteeRemarks() + "'" +
+            ", refToPurchaseCommittee=" + getRefToPurchaseCommittee() +
+            ", cfoRemarks='" + getCfoRemarks() + "'" +
+            ", refToCfo=" + getRefToCfo() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";

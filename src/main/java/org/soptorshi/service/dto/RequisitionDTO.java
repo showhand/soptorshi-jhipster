@@ -24,6 +24,16 @@ public class RequisitionDTO implements Serializable {
 
     private RequisitionStatus status;
 
+    @Lob
+    private String purchaseCommitteeRemarks;
+
+    private Long refToPurchaseCommittee;
+
+    @Lob
+    private String cfoRemarks;
+
+    private Long refToCfo;
+
     private String modifiedBy;
 
     private LocalDate modifiedOn;
@@ -87,6 +97,38 @@ public class RequisitionDTO implements Serializable {
 
     public void setStatus(RequisitionStatus status) {
         this.status = status;
+    }
+
+    public String getPurchaseCommitteeRemarks() {
+        return purchaseCommitteeRemarks;
+    }
+
+    public void setPurchaseCommitteeRemarks(String purchaseCommitteeRemarks) {
+        this.purchaseCommitteeRemarks = purchaseCommitteeRemarks;
+    }
+
+    public Long getRefToPurchaseCommittee() {
+        return refToPurchaseCommittee;
+    }
+
+    public void setRefToPurchaseCommittee(Long refToPurchaseCommittee) {
+        this.refToPurchaseCommittee = refToPurchaseCommittee;
+    }
+
+    public String getCfoRemarks() {
+        return cfoRemarks;
+    }
+
+    public void setCfoRemarks(String cfoRemarks) {
+        this.cfoRemarks = cfoRemarks;
+    }
+
+    public Long getRefToCfo() {
+        return refToCfo;
+    }
+
+    public void setRefToCfo(Long refToCfo) {
+        this.refToCfo = refToCfo;
     }
 
     public String getModifiedBy() {
@@ -183,6 +225,10 @@ public class RequisitionDTO implements Serializable {
             ", requisitionDate='" + getRequisitionDate() + "'" +
             ", amount=" + getAmount() +
             ", status='" + getStatus() + "'" +
+            ", purchaseCommitteeRemarks='" + getPurchaseCommitteeRemarks() + "'" +
+            ", refToPurchaseCommittee=" + getRefToPurchaseCommittee() +
+            ", cfoRemarks='" + getCfoRemarks() + "'" +
+            ", refToCfo=" + getRefToCfo() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +

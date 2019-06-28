@@ -24,6 +24,24 @@
             "fieldValues": "REJECTED_BY_HEAD,FORWARDED_BY_HEAD,FORWARDED_BY_PURCHASE_COMMITTEE,REJECTED_BY_PURCHASE_COMMITTEE,CORRECTION_REQUEST_BY_PURCHASE_COMMITTEE,APPROVED_BY_CFO,REJECTED_BY_CFO,CORRECTION_REQUEST_BY_CFO,CLOSED_BY_CFO"
         },
         {
+            "fieldName": "purchaseCommitteeRemarks",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "refToPurchaseCommittee",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "cfoRemarks",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "refToCfo",
+            "fieldType": "Long"
+        },
+        {
             "fieldName": "modifiedBy",
             "fieldType": "String"
         },

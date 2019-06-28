@@ -35,6 +35,10 @@
             <th jhiSortBy="requisitionDate"><span>Requisition Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="purchaseCommitteeRemarks"><span>Purchase Committee Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="refToPurchaseCommittee"><span>Ref To Purchase Committee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="cfoRemarks"><span>Cfo Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="refToCfo"><span>Ref To Cfo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -51,6 +55,10 @@
                 <td>{{requisition.requisitionDate | date:'mediumDate'}}</td>
                 <td>{{requisition.amount}}</td>
                 <td>{{requisition.status}}</td>
+                <td>{{requisition.purchaseCommitteeRemarks}}</td>
+                <td>{{requisition.refToPurchaseCommittee}}</td>
+                <td>{{requisition.cfoRemarks}}</td>
+                <td>{{requisition.refToCfo}}</td>
                 <td>{{requisition.modifiedBy}}</td>
                 <td>{{requisition.modifiedOn | date:'mediumDate'}}</td>
                 <td>

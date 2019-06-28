@@ -42,6 +42,22 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="purchase_committee_remarks" type="clob">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="ref_to_purchase_committee" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="cfo_remarks" type="clob">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="ref_to_cfo" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
             <column name="modified_by" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

@@ -33,6 +33,10 @@ describe('Service Tests', () => {
                 0,
                 RequisitionStatus.REJECTED_BY_HEAD,
                 'AAAAAAA',
+                0,
+                'AAAAAAA',
+                0,
+                'AAAAAAA',
                 currentDate
             );
         });
@@ -87,6 +91,10 @@ describe('Service Tests', () => {
                         requisitionDate: currentDate.format(DATE_FORMAT),
                         amount: 1,
                         status: 'BBBBBB',
+                        purchaseCommitteeRemarks: 'BBBBBB',
+                        refToPurchaseCommittee: 1,
+                        cfoRemarks: 'BBBBBB',
+                        refToCfo: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -116,6 +124,10 @@ describe('Service Tests', () => {
                         requisitionDate: currentDate.format(DATE_FORMAT),
                         amount: 1,
                         status: 'BBBBBB',
+                        purchaseCommitteeRemarks: 'BBBBBB',
+                        refToPurchaseCommittee: 1,
+                        cfoRemarks: 'BBBBBB',
+                        refToCfo: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },

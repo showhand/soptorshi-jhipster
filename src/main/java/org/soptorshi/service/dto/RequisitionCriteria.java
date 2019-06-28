@@ -40,6 +40,10 @@ public class RequisitionCriteria implements Serializable {
 
     private RequisitionStatusFilter status;
 
+    private LongFilter refToPurchaseCommittee;
+
+    private LongFilter refToCfo;
+
     private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedOn;
@@ -88,6 +92,22 @@ public class RequisitionCriteria implements Serializable {
 
     public void setStatus(RequisitionStatusFilter status) {
         this.status = status;
+    }
+
+    public LongFilter getRefToPurchaseCommittee() {
+        return refToPurchaseCommittee;
+    }
+
+    public void setRefToPurchaseCommittee(LongFilter refToPurchaseCommittee) {
+        this.refToPurchaseCommittee = refToPurchaseCommittee;
+    }
+
+    public LongFilter getRefToCfo() {
+        return refToCfo;
+    }
+
+    public void setRefToCfo(LongFilter refToCfo) {
+        this.refToCfo = refToCfo;
     }
 
     public StringFilter getModifiedBy() {
@@ -146,6 +166,8 @@ public class RequisitionCriteria implements Serializable {
             Objects.equals(requisitionDate, that.requisitionDate) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(status, that.status) &&
+            Objects.equals(refToPurchaseCommittee, that.refToPurchaseCommittee) &&
+            Objects.equals(refToCfo, that.refToCfo) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(employeeId, that.employeeId) &&
@@ -161,6 +183,8 @@ public class RequisitionCriteria implements Serializable {
         requisitionDate,
         amount,
         status,
+        refToPurchaseCommittee,
+        refToCfo,
         modifiedBy,
         modifiedOn,
         employeeId,
@@ -177,6 +201,8 @@ public class RequisitionCriteria implements Serializable {
                 (requisitionDate != null ? "requisitionDate=" + requisitionDate + ", " : "") +
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
+                (refToPurchaseCommittee != null ? "refToPurchaseCommittee=" + refToPurchaseCommittee + ", " : "") +
+                (refToCfo != null ? "refToCfo=" + refToCfo + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
