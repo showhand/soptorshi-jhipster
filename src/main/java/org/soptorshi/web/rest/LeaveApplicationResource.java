@@ -20,6 +20,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -59,9 +62,10 @@ public class LeaveApplicationResource {
         if (leaveApplicationDTO.getId() != null) {
             throw new BadRequestAlertException("A new leaveApplication cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        leaveApplicationDTO.setAppliedOn(Instant.now());
         LeaveApplicationDTO result = leaveApplicationService.save(leaveApplicationDTO);
         if(result == null) {
-           return  ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+            return  ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
         return ResponseEntity.created(new URI("/api/leave-applications/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -83,7 +87,11 @@ public class LeaveApplicationResource {
         if (leaveApplicationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        leaveApplicationDTO.setActionTakenOn(Instant.now());
         LeaveApplicationDTO result = leaveApplicationService.save(leaveApplicationDTO);
+        if(result == null) {
+            return  ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        }
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, leaveApplicationDTO.getId().toString()))
             .body(result);

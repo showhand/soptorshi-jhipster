@@ -94,13 +94,13 @@
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     class="btn btn-danger btn-sm"
-                             (click)="setLeaveApplicationStatus(false, trackId)" >
+                             (click)="save(false, leaveApplication)" >
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Reject</span>
                             </button>
                             <button type="submit"
                                     class="btn btn-success btn-sm"
-                                    (click)="setLeaveApplicationStatus(true, trackId)">
+                                    (click)="save(true, leaveApplication)">
                                 <fa-icon [icon]="'check'"></fa-icon>
                                 <span class="d-none d-md-inline">Accept</span>
                             </button>

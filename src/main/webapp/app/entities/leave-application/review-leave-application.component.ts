@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ILeaveApplication, LeaveStatus } from 'app/shared/model/leave-application.model';
 import { Account, AccountService } from 'app/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { LeaveApplicationService } from 'app/entities/leave-application/leave-application.service';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
 import { DATE_TIME_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import * as moment from 'app/entities/leave-application/leave-application-update.component';
-import { Employee, IEmployee } from 'app/shared/model/employee.model';
+import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
 import { ManagerService } from 'app/entities/manager';
 import { IManager } from 'app/shared/model/manager.model';
@@ -65,7 +65,8 @@ export class ReviewLeaveApplicationComponent implements OnInit {
                     page: this.page,
                     size: this.itemsPerPage,
                     sort: this.sort(),
-                    'employeeId.equals': this.child.map(val => val.employeeId).join(',')
+                    'employeeId.equals': this.child.map(val => val.employeeId).join(','),
+                    'status.equals': LeaveStatus.WAITING
                 })
                 .subscribe(
                     (res: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(res.body, res.headers),
@@ -78,7 +79,8 @@ export class ReviewLeaveApplicationComponent implements OnInit {
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort(),
-                'employeeId.in': this.child.map(val => val.employeeId).join(',')
+                'employeeId.in': this.child.map(val => val.employeeId).join(','),
+                'status.equals': LeaveStatus.WAITING
             })
             .subscribe(
                 (res: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(res.body, res.headers),
@@ -184,6 +186,7 @@ export class ReviewLeaveApplicationComponent implements OnInit {
     }
 
     protected paginateLeaveApplications(data: ILeaveApplication[], headers: HttpHeaders) {
+        this.leaveApplications = [];
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
@@ -195,21 +198,21 @@ export class ReviewLeaveApplicationComponent implements OnInit {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
-    setLeaveApplicationStatus(val: boolean, trackId: number) {
-        this.leaveApplications[trackId].status = val ? LeaveStatus.ACCEPTED : LeaveStatus.REJECTED;
+    save(val: boolean, leaveApplication: ILeaveApplication) {
+        leaveApplication.status = val ? LeaveStatus.ACCEPTED : LeaveStatus.REJECTED;
+        leaveApplication.actionTakenBy = this.currentAccount.login;
+        this.subscribeToSaveResponse(this.leaveApplicationService.update(leaveApplication));
     }
 
-    /*save() {
-        this.leaveApplication.employeeId = this.account.login;
-        this.leaveApplication.appliedBy = this.account.login;
-        this.leaveApplication.actionTakenBy = this.account.login;
-        this.leaveApplication.status = LeaveStatus.WAITING;
-        this.leaveApplication.appliedOn = this.appliedOn != null ? moment(this.appliedOn, DATE_TIME_FORMAT) : null;
-        this.leaveApplication.actionTakenOn = this.actionTakenOn != null ? moment(this.actionTakenOn, DATE_TIME_FORMAT) : null;
-        if (this.leaveApplication.id !== undefined) {
-            this.subscribeToSaveResponse(this.leaveApplicationService.update(this.leaveApplication));
-        } else {
-            this.subscribeToSaveResponse(this.leaveApplicationService.create(this.leaveApplication));
-        }
-    }*/
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<ILeaveApplication>>) {
+        result.subscribe((res: HttpResponse<ILeaveApplication>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    }
+
+    protected onSaveSuccess() {
+        this.loadAll();
+    }
+
+    protected onSaveError() {
+        this.jhiAlertService.error('Error while saving!! Leave out of balance.');
+    }
 }

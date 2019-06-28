@@ -1,6 +1,7 @@
 package org.soptorshi.service.impl;
 
 import org.soptorshi.domain.LeaveBalance;
+import org.soptorshi.domain.enumeration.LeaveStatus;
 import org.soptorshi.service.LeaveApplicationService;
 import org.soptorshi.domain.LeaveApplication;
 import org.soptorshi.repository.LeaveApplicationRepository;
@@ -54,19 +55,24 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
      */
     @Override
     public LeaveApplicationDTO save(LeaveApplicationDTO leaveApplicationDTO) {
+        if (validate(leaveApplicationDTO)) return null;
+        else {
+            log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
+            LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
+            leaveApplication = leaveApplicationRepository.save(leaveApplication);
+            LeaveApplicationDTO result = leaveApplicationMapper.toDto(leaveApplication);
+            leaveApplicationSearchRepository.save(leaveApplication);
+            return result;
+        }
+    }
+
+    private boolean validate(LeaveApplicationDTO leaveApplicationDTO) {
         log.debug("Validating LeaveApplication : {}", leaveApplicationDTO);
+        if(leaveApplicationDTO.getStatus().equals(LeaveStatus.REJECTED)) return false;
         LeaveBalanceDTO leaveBalance = leaveBalanceService
             .calculateLeaveBalance(leaveApplicationDTO.getEmployeeId(), leaveApplicationDTO.getFromDate().getYear(),
                 leaveApplicationDTO.getLeaveTypesId());
-        if(leaveApplicationDTO.getNumberOfDays() > leaveBalance.getRemainingDays()){
-            return null;
-        }
-        log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
-        LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
-        leaveApplication = leaveApplicationRepository.save(leaveApplication);
-        LeaveApplicationDTO result = leaveApplicationMapper.toDto(leaveApplication);
-        leaveApplicationSearchRepository.save(leaveApplication);
-        return result;
+        return leaveApplicationDTO.getNumberOfDays() <= leaveBalance.getRemainingDays();
     }
 
     /**
@@ -113,7 +119,7 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
     /**
      * Search for the leaveApplication corresponding to the query.
      *
-     * @param query the query of the search
+     * @param query    the query of the search
      * @param pageable the pagination information
      * @return the list of entities
      */
