@@ -61,7 +61,7 @@
             "otherEntityName": "vendor",
             "otherEntityRelationshipName": "quotationDetails",
             "relationshipName": "vendor",
-            "otherEntityField": "name"
+            "otherEntityField": "companyName"
         },
         {
             "relationshipType": "many-to-one",

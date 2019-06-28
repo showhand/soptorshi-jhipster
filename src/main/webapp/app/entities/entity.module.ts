@@ -386,6 +386,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'requisition',
                 loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
+            },
+            {
+                path: 'quotation-details',
+                loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

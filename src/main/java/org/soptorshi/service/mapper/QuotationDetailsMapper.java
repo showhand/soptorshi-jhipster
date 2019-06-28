@@ -14,7 +14,7 @@ public interface QuotationDetailsMapper extends EntityMapper<QuotationDetailsDTO
     @Mapping(source = "quotation.id", target = "quotationId")
     @Mapping(source = "quotation.quotationNo", target = "quotationQuotationNo")
     @Mapping(source = "vendor.id", target = "vendorId")
-    @Mapping(source = "vendor.name", target = "vendorName")
+    @Mapping(source = "vendor.companyName", target = "vendorCompanyName")
     @Mapping(source = "requisitionDetails.id", target = "requisitionDetailsId")
     QuotationDetailsDTO toDto(QuotationDetails quotationDetails);
 
