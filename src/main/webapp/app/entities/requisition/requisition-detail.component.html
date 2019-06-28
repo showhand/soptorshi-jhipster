@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="requisition">
+            <h2><span>Requisition</span> {{requisition.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Requisition No</span></dt>
+                <dd>
+                    <span>{{requisition.requisitionNo}}</span>
+                </dd>
+                <dt><span>Reason</span></dt>
+                <dd>
+                    <span>{{requisition.reason}}</span>
+                </dd>
+                <dt><span>Requisition Date</span></dt>
+                <dd>
+                    <span>{{requisition.requisitionDate}}</span>
+                </dd>
+                <dt><span>Amount</span></dt>
+                <dd>
+                    <span>{{requisition.amount}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{requisition.status}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{requisition.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{requisition.modifiedOn}}</span>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="requisition.employeeId">
+                        <a [routerLink]="['/employee', requisition.employeeId, 'view']">{{requisition.employeeFullName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Office</span></dt>
+                <dd>
+                    <div *ngIf="requisition.officeId">
+                        <a [routerLink]="['/office', requisition.officeId, 'view']">{{requisition.officeName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Department</span></dt>
+                <dd>
+                    <div *ngIf="requisition.departmentId">
+                        <a [routerLink]="['/department', requisition.departmentId, 'view']">{{requisition.departmentName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/requisition', requisition.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

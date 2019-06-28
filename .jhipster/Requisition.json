@@ -1,0 +1,68 @@
+{
+    "name": "Requisition",
+    "fields": [
+        {
+            "fieldName": "requisitionNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "reason",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "requisitionDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "RequisitionStatus",
+            "fieldValues": "REJECTED_BY_HEAD,FORWARDED_BY_HEAD,FORWARDED_BY_PURCHASE_COMMITTEE,REJECTED_BY_PURCHASE_COMMITTEE,CORRECTION_REQUEST_BY_PURCHASE_COMMITTEE,APPROVED_BY_CFO,REJECTED_BY_CFO,CORRECTION_REQUEST_BY_CFO,CLOSED_BY_CFO"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "requisition",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "office",
+            "otherEntityRelationshipName": "requisition",
+            "relationshipName": "office",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "department",
+            "otherEntityRelationshipName": "requisition",
+            "relationshipName": "department",
+            "otherEntityField": "name"
+        }
+    ],
+    "changelogDate": "20190628152323",
+    "entityTableName": "requisition",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

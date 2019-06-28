@@ -1,0 +1,99 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-requisition-heading">Create or edit a Requisition</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!requisition.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="requisition.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_requisitionNo">Requisition No</label>
+                    <input type="text" class="form-control" name="requisitionNo" id="field_requisitionNo"
+                        [(ngModel)]="requisition.requisitionNo" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reason">Reason</label>
+                    <textarea class="form-control" name="reason" id="field_reason"
+                        [(ngModel)]="requisition.reason" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_requisitionDate">Requisition Date</label>
+                    <div class="input-group">
+                        <input id="field_requisitionDate" type="text" class="form-control" name="requisitionDate" ngbDatepicker  #requisitionDateDp="ngbDatepicker" [(ngModel)]="requisition.requisitionDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="requisitionDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amount">Amount</label>
+                    <input type="number" class="form-control" name="amount" id="field_amount"
+                        [(ngModel)]="requisition.amount" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" [(ngModel)]="requisition.status" id="field_status" >
+                        <option value="REJECTED_BY_HEAD">REJECTED_BY_HEAD</option>
+                        <option value="FORWARDED_BY_HEAD">FORWARDED_BY_HEAD</option>
+                        <option value="FORWARDED_BY_PURCHASE_COMMITTEE">FORWARDED_BY_PURCHASE_COMMITTEE</option>
+                        <option value="REJECTED_BY_PURCHASE_COMMITTEE">REJECTED_BY_PURCHASE_COMMITTEE</option>
+                        <option value="CORRECTION_REQUEST_BY_PURCHASE_COMMITTEE">CORRECTION_REQUEST_BY_PURCHASE_COMMITTEE</option>
+                        <option value="APPROVED_BY_CFO">APPROVED_BY_CFO</option>
+                        <option value="REJECTED_BY_CFO">REJECTED_BY_CFO</option>
+                        <option value="CORRECTION_REQUEST_BY_CFO">CORRECTION_REQUEST_BY_CFO</option>
+                        <option value="CLOSED_BY_CFO">CLOSED_BY_CFO</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                        [(ngModel)]="requisition.modifiedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="requisition.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" [(ngModel)]="requisition.employeeId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_office">Office</label>
+                    <select class="form-control" id="field_office" name="office" [(ngModel)]="requisition.officeId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="officeOption.id" *ngFor="let officeOption of offices; trackBy: trackOfficeById">{{officeOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_department">Department</label>
+                    <select class="form-control" id="field_department" name="department" [(ngModel)]="requisition.departmentId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

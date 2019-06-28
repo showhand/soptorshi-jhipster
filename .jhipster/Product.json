@@ -1,0 +1,50 @@
+{
+    "name": "Product",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "countryOrOrigin",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "ProductStatus",
+            "fieldValues": "GOOD,NOT_GOOD,NOT_JUSTIFIED"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "productCategory",
+            "otherEntityRelationshipName": "product",
+            "relationshipName": "productCategory",
+            "otherEntityField": "name"
+        }
+    ],
+    "changelogDate": "20190628152321",
+    "entityTableName": "product",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

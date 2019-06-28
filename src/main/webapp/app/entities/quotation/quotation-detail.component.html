@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="quotation">
+            <h2><span>Quotation</span> {{quotation.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Quotation No</span></dt>
+                <dd>
+                    <span>{{quotation.quotationNo}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{quotation.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{quotation.modifiedOn}}</span>
+                </dd>
+                <dt><span>Requisition</span></dt>
+                <dd>
+                    <div *ngIf="quotation.requisitionId">
+                        <a [routerLink]="['/requisition', quotation.requisitionId, 'view']">{{quotation.requisitionRequisitionNo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/quotation', quotation.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

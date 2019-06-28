@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="workOrder">
+            <h2><span>Work Order</span> {{workOrder.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Reference No</span></dt>
+                <dd>
+                    <span>{{workOrder.referenceNo}}</span>
+                </dd>
+                <dt><span>Issue Date</span></dt>
+                <dd>
+                    <span>{{workOrder.issueDate}}</span>
+                </dd>
+                <dt><span>Referred To</span></dt>
+                <dd>
+                    <span>{{workOrder.referredTo}}</span>
+                </dd>
+                <dt><span>Subject</span></dt>
+                <dd>
+                    <span>{{workOrder.subject}}</span>
+                </dd>
+                <dt><span>Note</span></dt>
+                <dd>
+                    <span>{{workOrder.note}}</span>
+                </dd>
+                <dt><span>Labor Or Other Amount</span></dt>
+                <dd>
+                    <span>{{workOrder.laborOrOtherAmount}}</span>
+                </dd>
+                <dt><span>Discount</span></dt>
+                <dd>
+                    <span>{{workOrder.discount}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{workOrder.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{workOrder.modifiedOn}}</span>
+                </dd>
+                <dt><span>Requisition</span></dt>
+                <dd>
+                    <div *ngIf="workOrder.requisitionId">
+                        <a [routerLink]="['/requisition', workOrder.requisitionId, 'view']">{{workOrder.requisitionRequisitionNo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/work-order', workOrder.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

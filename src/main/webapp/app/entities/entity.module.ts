@@ -346,6 +346,42 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'financial-account-year',
                 loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
+            },
+            {
+                path: 'product-category',
+                loadChildren: './product-category/product-category.module#SoptorshiProductCategoryModule'
+            },
+            {
+                path: 'product',
+                loadChildren: './product/product.module#SoptorshiProductModule'
+            },
+            {
+                path: 'product-price',
+                loadChildren: './product-price/product-price.module#SoptorshiProductPriceModule'
+            },
+            {
+                path: 'requisition',
+                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
+            },
+            {
+                path: 'requisition-details',
+                loadChildren: './requisition-details/requisition-details.module#SoptorshiRequisitionDetailsModule'
+            },
+            {
+                path: 'quotation',
+                loadChildren: './quotation/quotation.module#SoptorshiQuotationModule'
+            },
+            {
+                path: 'quotation-details',
+                loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
+            },
+            {
+                path: 'work-order',
+                loadChildren: './work-order/work-order.module#SoptorshiWorkOrderModule'
+            },
+            {
+                path: 'terms-and-conditions',
+                loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

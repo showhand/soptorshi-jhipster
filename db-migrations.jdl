@@ -491,7 +491,7 @@ relationship ManyToOne {
   Quotation{requisition(requisitionNo)} to Requisition,
   QuotationDetails{quotation(quotationNo)} to Quotation,
   QuotationDetails{vendor(name)} to Vendor,
-  QuotationDetails{requisitionDetails} to RequisitionDetails,,
+  QuotationDetails{requisitionDetails} to RequisitionDetails,
   WorkOrder{requisition(requisitionNo)} to Requisition,
   TermsAndConditions{workOrder} to WorkOrder,
   DepartmentHead{office(name)} to Office,
