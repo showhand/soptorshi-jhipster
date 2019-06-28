@@ -5,7 +5,7 @@ import { Account, AccountService } from 'app/core';
 import { JhiAlertService } from 'ng-jhipster';
 import { LeaveApplicationService } from 'app/entities/leave-application/leave-application.service';
 import { LeaveTypeService } from 'app/entities/leave-type';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DATE_TIME_FORMAT } from 'app/shared';
 import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
@@ -41,7 +41,8 @@ export class OthersLeaveApplicationComponent implements OnInit {
         protected leaveTypeService: LeaveTypeService,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService,
-        protected leaveBalanceService: LeaveBalanceService
+        protected leaveBalanceService: LeaveBalanceService,
+        protected router: Router
     ) {}
 
     ngOnInit() {
@@ -68,8 +69,12 @@ export class OthersLeaveApplicationComponent implements OnInit {
         window.history.back();
     }
 
-    clear() {
-        this.leaveApplication = <ILeaveApplication>{};
+    attachmentState() {
+        this.router.navigate(['/leave-attachment/new']);
+    }
+
+    editState(res: HttpResponse<ILeaveApplication>) {
+        this.router.navigate(['/leave-application/' + res.body.id + '/edit']);
     }
 
     save() {
@@ -87,12 +92,12 @@ export class OthersLeaveApplicationComponent implements OnInit {
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<ILeaveApplication>>) {
-        result.subscribe((res: HttpResponse<ILeaveApplication>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe((res: HttpResponse<ILeaveApplication>) => this.onSaveSuccess(res), (res: HttpErrorResponse) => this.onSaveError());
     }
 
-    protected onSaveSuccess() {
+    protected onSaveSuccess(res: HttpResponse<ILeaveApplication>) {
         this.isSaving = false;
-        this.clear();
+        this.editState(res);
         // this.previousState();
     }
 

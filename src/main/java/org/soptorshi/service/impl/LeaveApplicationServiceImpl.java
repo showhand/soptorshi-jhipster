@@ -55,7 +55,7 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
      */
     @Override
     public LeaveApplicationDTO save(LeaveApplicationDTO leaveApplicationDTO) {
-        if (validate(leaveApplicationDTO)) return null;
+        if (!isValid(leaveApplicationDTO)) return null;
         else {
             log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
             LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
@@ -66,9 +66,9 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
         }
     }
 
-    private boolean validate(LeaveApplicationDTO leaveApplicationDTO) {
+    private boolean isValid(LeaveApplicationDTO leaveApplicationDTO) {
         log.debug("Validating LeaveApplication : {}", leaveApplicationDTO);
-        if(leaveApplicationDTO.getStatus().equals(LeaveStatus.REJECTED)) return false;
+        if(leaveApplicationDTO.getStatus().equals(LeaveStatus.REJECTED)) return true;
         LeaveBalanceDTO leaveBalance = leaveBalanceService
             .calculateLeaveBalance(leaveApplicationDTO.getEmployeeId(), leaveApplicationDTO.getFromDate().getYear(),
                 leaveApplicationDTO.getLeaveTypesId());

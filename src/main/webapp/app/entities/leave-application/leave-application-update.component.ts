@@ -69,6 +69,14 @@ export class LeaveApplicationUpdateComponent implements OnInit {
         this.router.navigate(['/leave-application']);
     }
 
+    editState(res: HttpResponse<ILeaveApplication>) {
+        this.router.navigate(['/leave-application/' + res.body.id + '/edit']);
+    }
+
+    attachmentState() {
+        this.router.navigate(['/leave-attachment/new']);
+    }
+
     save() {
         this.isSaving = true;
         this.leaveApplication.employeeId = '701001';
@@ -85,12 +93,12 @@ export class LeaveApplicationUpdateComponent implements OnInit {
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<ILeaveApplication>>) {
-        result.subscribe((res: HttpResponse<ILeaveApplication>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe((res: HttpResponse<ILeaveApplication>) => this.onSaveSuccess(res), (res: HttpErrorResponse) => this.onSaveError());
     }
 
-    protected onSaveSuccess() {
+    protected onSaveSuccess(res: HttpResponse<ILeaveApplication>) {
         this.isSaving = false;
-        this.previousState();
+        this.editState(res);
     }
 
     protected onSaveError() {
