@@ -23,7 +23,8 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_leaveTypes">Leave Types</label>
                     <select class="form-control" id="field_leaveTypes" name="leaveTypes"
-                            [(ngModel)]="leaveApplication.leaveTypesId" required>
+                            [(ngModel)]="leaveApplication.leaveTypesId"
+                            (ngModelChange)="fetchLeaveBalance()" required>
                         <option [ngValue]="null"></option>
                         <option [ngValue]="leaveTypeOption.id"
                                 *ngFor="let leaveTypeOption of leavetypes; trackBy: trackLeaveTypeById">{{leaveTypeOption.name}}</option>
@@ -34,7 +35,7 @@
                     <div class="input-group">
                         <input id="field_fromDate" type="text" class="form-control" name="fromDate" ngbDatepicker
                                #fromDateDp="ngbDatepicker" [(ngModel)]="leaveApplication.fromDate"
-                               (ngModelChange)="calculateDifference()"
+                               (ngModelChange)="calculateDifference();fetchLeaveBalance()"
                                required/>
                         <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="fromDateDp.toggle()"><fa-icon
@@ -53,7 +54,7 @@
                     <div class="input-group">
                         <input id="field_toDate" type="text" class="form-control" name="toDate" ngbDatepicker
                                #toDateDp="ngbDatepicker" [(ngModel)]="leaveApplication.toDate"
-                               (ngModelChange)="calculateDifference()"
+                               (ngModelChange)="calculateDifference();fetchLeaveBalance()"
                                required/>
                         <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="toDateDp.toggle()"><fa-icon
@@ -70,7 +71,7 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_numberOfDays">Number Of Days</label>
                     <input type="number" class="form-control" name="numberOfDays" id="field_numberOfDays"
-                           [(ngModel)]="leaveApplication.numberOfDays" required/>
+                           [(ngModel)]="leaveApplication.numberOfDays" required readonly/>
                     <div [hidden]="!(editForm.controls.numberOfDays?.dirty && editForm.controls.numberOfDays?.invalid)">
                         <small class="form-text text-danger"
                                [hidden]="!editForm.controls.numberOfDays?.errors?.required">
@@ -153,6 +154,8 @@
                 </div>-->
 
             </div>
+            <h4>{{message}}</h4>
+            <h4>{{warning}}</h4>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>

@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
+import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
+import { IEmployee } from 'app/shared/model/employee.model';
+import { Account, AccountService } from 'app/core';
+import { Subscription } from 'rxjs';
+import { LeaveBalanceService } from 'app/entities/leave-balance/leave-balance.service';
+import { EmployeeService } from 'app/entities/employee';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
-import { Account, AccountService } from 'app/core';
-import { ILeaveApplication } from 'app/shared/model/leave-application.model';
-import { Subscription } from 'rxjs';
-import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { LeaveBalanceService } from 'app/entities/leave-balance/leave-balance.service';
-import { Employee, IEmployee } from 'app/shared/model/employee.model';
-import { EmployeeService } from 'app/entities/employee';
-import { IHoliday } from 'app/shared/model/holiday.model';
+import { ILeaveApplication } from 'app/shared/model/leave-application.model';
 
 @Component({
-    selector: 'jhi-leave-balance',
-    templateUrl: './leave-balance.component.html',
+    selector: 'jhi-others-leave-balance',
+    templateUrl: './others-leave-balance.component.html',
     styles: []
 })
-export class LeaveBalanceComponent implements OnInit {
+export class OthersLeaveBalanceComponent implements OnInit {
     leaveBalances: ILeaveBalance[];
-    employee: IEmployee;
+    employees: IEmployee[];
     currentAccount: Account;
     eventSubscriber: Subscription;
+    currentSearch: string;
 
     constructor(
         protected leaveBalanceService: LeaveBalanceService,
@@ -35,16 +35,25 @@ export class LeaveBalanceComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
-            /*     this.employeeService.query({
-                'employeeId.equals': this.currentAccount.login
-            }).subscribe(
-                    (res: HttpResponse<IEmployee[]>) => this.paginateHolidays(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );*/
-            this.getLeaveBalance(this.currentAccount.login);
-        });
+        this.leaveBalances = [];
+    }
+
+    search() {
+        this.employeeService
+            .query({
+                'employeeId.equals': this.currentSearch
+            })
+            .subscribe(
+                (res: HttpResponse<IEmployee[]>) => {
+                    this.employees = res.body;
+                    this.getLeaveBalance(this.employees[0].employeeId);
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
+
+    clear() {
+        this.currentSearch = '';
     }
 
     getLeaveBalance(employeeId: string) {
@@ -57,6 +66,7 @@ export class LeaveBalanceComponent implements OnInit {
     }
 
     protected constructLeaveBalance(data: ILeaveBalance[], headers: HttpHeaders) {
+        this.leaveBalances = [];
         for (let i = 0; i < data.length; i++) {
             this.leaveBalances.push(data[i]);
         }

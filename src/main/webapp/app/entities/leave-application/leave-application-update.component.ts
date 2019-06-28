@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { from, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
@@ -11,6 +11,9 @@ import { LeaveApplicationService } from './leave-application.service';
 import { ILeaveType } from 'app/shared/model/leave-type.model';
 import { LeaveTypeService } from 'app/entities/leave-type';
 import { Account, AccountService } from 'app/core';
+import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
+import { LeaveBalanceService } from 'app/entities/leave-balance';
+import { Moment } from 'moment';
 
 @Component({
     selector: 'jhi-leave-application-update',
@@ -18,7 +21,10 @@ import { Account, AccountService } from 'app/core';
 })
 export class LeaveApplicationUpdateComponent implements OnInit {
     leaveApplication: ILeaveApplication;
+    leaveBalance: ILeaveBalance;
     isSaving: boolean;
+    message: string;
+    warning: string;
 
     leavetypes: ILeaveType[];
     fromDateDp: any;
@@ -31,6 +37,7 @@ export class LeaveApplicationUpdateComponent implements OnInit {
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected leaveApplicationService: LeaveApplicationService,
+        protected leaveBalanceService: LeaveBalanceService,
         protected leaveTypeService: LeaveTypeService,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService,
@@ -64,9 +71,9 @@ export class LeaveApplicationUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.leaveApplication.employeeId = this.account.login;
+        this.leaveApplication.employeeId = '701001';
         this.leaveApplication.appliedBy = this.account.login;
-        this.leaveApplication.actionTakenBy = this.account.login;
+        this.leaveApplication.actionTakenBy = '';
         this.leaveApplication.status = LeaveStatus.WAITING;
         this.leaveApplication.appliedOn = this.appliedOn != null ? moment(this.appliedOn, DATE_TIME_FORMAT) : null;
         this.leaveApplication.actionTakenOn = this.actionTakenOn != null ? moment(this.actionTakenOn, DATE_TIME_FORMAT) : null;
@@ -96,6 +103,39 @@ export class LeaveApplicationUpdateComponent implements OnInit {
 
     trackLeaveTypeById(index: number, item: ILeaveType) {
         return item.id;
+    }
+
+    fetchLeaveBalance() {
+        if (this.leaveApplication.leaveTypesId && this.leaveApplication.fromDate && this.leaveApplication.toDate) {
+            this.message = '';
+            this.warning = '';
+
+            let fromYear: number = this.leaveApplication.fromDate.year();
+            let toYear: number = this.leaveApplication.toDate.year();
+
+            if (fromYear === toYear) {
+                this.leaveBalanceService.getOne(this.account.login, fromYear, this.leaveApplication.leaveTypesId).subscribe(
+                    (res: HttpResponse<ILeaveBalance>) => {
+                        this.leaveBalance = res.body;
+                        this.message =
+                            this.leaveBalance.leaveTypeName +
+                            ': Remaining leave ' +
+                            this.leaveBalance.remainingDays +
+                            ' out of ' +
+                            this.leaveBalance.totalLeaveApplicableDays +
+                            ' day(s)';
+
+                        if (this.leaveApplication.numberOfDays > this.leaveBalance.remainingDays) {
+                            this.warning =
+                                this.leaveBalance.leaveTypeName + ': Out of balance!! ' + 'Sorry, you can not apply for this leave.';
+                        }
+                    },
+                    (res: HttpErrorResponse) => (this.message = 'Error!! while fetching leave history.')
+                );
+            } else {
+                this.message = 'Dates should have the same year.';
+            }
+        }
     }
 
     calculateDifference() {

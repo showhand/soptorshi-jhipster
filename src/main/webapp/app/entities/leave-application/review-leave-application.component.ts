@@ -8,6 +8,10 @@ import { ActivatedRoute } from '@angular/router';
 import { DATE_TIME_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import * as moment from 'app/entities/leave-application/leave-application-update.component';
+import { Employee, IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeService } from 'app/entities/employee';
+import { ManagerService } from 'app/entities/manager';
+import { IManager } from 'app/shared/model/manager.model';
 
 @Component({
     selector: 'jhi-review-leave-application',
@@ -25,6 +29,9 @@ export class ReviewLeaveApplicationComponent implements OnInit {
     reverse: any;
     totalItems: number;
     currentSearch: string;
+    currentEmployee: IEmployee[];
+    manager: IManager[];
+    child: IEmployee[];
 
     constructor(
         protected leaveApplicationService: LeaveApplicationService,
@@ -32,7 +39,9 @@ export class ReviewLeaveApplicationComponent implements OnInit {
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected employeeService: EmployeeService,
+        protected managerService: ManagerService
     ) {
         this.leaveApplications = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -56,7 +65,7 @@ export class ReviewLeaveApplicationComponent implements OnInit {
                     page: this.page,
                     size: this.itemsPerPage,
                     sort: this.sort(),
-                    'employeeId.equals': this.currentAccount.login
+                    'employeeId.equals': this.child.map(val => val.employeeId).join(',')
                 })
                 .subscribe(
                     (res: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(res.body, res.headers),
@@ -69,7 +78,7 @@ export class ReviewLeaveApplicationComponent implements OnInit {
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort(),
-                'employeeId.equals': this.currentAccount.login
+                'employeeId.in': this.child.map(val => val.employeeId).join(',')
             })
             .subscribe(
                 (res: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(res.body, res.headers),
@@ -118,7 +127,38 @@ export class ReviewLeaveApplicationComponent implements OnInit {
     ngOnInit() {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
-            this.loadAll();
+            this.employeeService
+                .query({
+                    'employeeId.equals': this.currentAccount.login
+                })
+                .subscribe(
+                    (res: HttpResponse<IEmployee[]>) => {
+                        this.currentEmployee = res.body;
+                        this.managerService
+                            .query({
+                                'employeeId.equals': '1' //this.currentEmployee[0].id
+                            })
+                            .subscribe(
+                                (res: HttpResponse<IManager[]>) => {
+                                    this.manager = res.body;
+                                    let map: string = this.manager.map(val => val.parentEmployeeId).join(',');
+                                    this.employeeService
+                                        .query({
+                                            'id.in': map
+                                        })
+                                        .subscribe(
+                                            (res: HttpResponse<IEmployee[]>) => {
+                                                this.child = res.body;
+                                                this.loadAll();
+                                            },
+                                            (res: HttpErrorResponse) => this.onError(res.message)
+                                        );
+                                },
+                                (res: HttpErrorResponse) => this.onError(res.message)
+                            );
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         });
         this.registerChangeInLeaveApplications();
     }

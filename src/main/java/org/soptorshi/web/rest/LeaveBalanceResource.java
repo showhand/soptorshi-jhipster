@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -26,15 +27,21 @@ public class LeaveBalanceResource {
         this.leaveBalanceService = leaveBalanceService;
     }
 
-    @GetMapping("/leave-balance")
-    public ResponseEntity<List<LeaveBalanceDTO>> getAllLeaveBalance(String employeeId) {
-        log.debug("REST request to get LeaveBalance by employeeId: {}", employeeId);
-        return ResponseEntity.ok().body(leaveBalanceService.calculateLeaveBalance(employeeId, 2018));
+    @GetMapping("/leave-balance/year/{queryYear}")
+    public ResponseEntity<Map<String, List<LeaveBalanceDTO>>> getAllLeaveBalance(@PathVariable  int queryYear) {
+        log.debug("REST request to get all LeaveBalance by query year : {}", queryYear);
+        return ResponseEntity.ok().body(leaveBalanceService.calculateLeaveBalance(queryYear));
     }
 
-    @GetMapping("/leave-balance/{employeeId}")
-    public ResponseEntity<List<LeaveBalanceDTO>> getLeaveBalance(@PathVariable String employeeId) {
-        log.debug("REST request to get LeaveBalance : {}", employeeId);
-        return ResponseEntity.ok().body(leaveBalanceService.calculateLeaveBalance(employeeId, 2019));
+    @GetMapping("/leave-balance/employee/{employeeId}/year/{queryYear}")
+    public ResponseEntity<List<LeaveBalanceDTO>> getLeaveBalance(@PathVariable String employeeId, @PathVariable int queryYear) {
+        log.debug("REST request to get LeaveBalance : {} and query year: {}", employeeId, queryYear);
+        return ResponseEntity.ok().body(leaveBalanceService.calculateLeaveBalance(employeeId, queryYear));
+    }
+
+    @GetMapping("/leave-balance/employee/{employeeId}/year/{queryYear}/leave-type/{leaveType}")
+    public ResponseEntity<LeaveBalanceDTO> getLeaveBalance(@PathVariable String employeeId, @PathVariable int queryYear, @PathVariable Long leaveType) {
+        log.debug("REST request to get LeaveBalance: {} and query year: {} and leave type: {}", employeeId, queryYear, leaveType);
+        return ResponseEntity.ok().body(leaveBalanceService.calculateLeaveBalance(employeeId, queryYear, leaveType));
     }
 }

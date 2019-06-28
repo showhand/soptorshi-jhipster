@@ -11,6 +11,8 @@ import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
+import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
+import { LeaveBalanceService } from 'app/entities/leave-balance';
 
 @Component({
     selector: 'jhi-others-leave-application',
@@ -20,6 +22,10 @@ import * as moment from 'moment';
 export class OthersLeaveApplicationComponent implements OnInit {
     leaveApplication: ILeaveApplication;
     isSaving: boolean;
+    leaveBalance: ILeaveBalance;
+
+    message: string;
+    warning: string;
 
     leavetypes: ILeaveType[];
     fromDateDp: any;
@@ -34,7 +40,8 @@ export class OthersLeaveApplicationComponent implements OnInit {
         protected leaveApplicationService: LeaveApplicationService,
         protected leaveTypeService: LeaveTypeService,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected leaveBalanceService: LeaveBalanceService
     ) {}
 
     ngOnInit() {
@@ -99,6 +106,43 @@ export class OthersLeaveApplicationComponent implements OnInit {
 
     trackLeaveTypeById(index: number, item: ILeaveType) {
         return item.id;
+    }
+
+    fetchLeaveBalance() {
+        if (
+            this.leaveApplication.employeeId &&
+            this.leaveApplication.leaveTypesId &&
+            this.leaveApplication.fromDate &&
+            this.leaveApplication.toDate
+        ) {
+            this.message = '';
+            this.warning = '';
+
+            let fromYear: number = this.leaveApplication.fromDate.year();
+            let toYear: number = this.leaveApplication.toDate.year();
+
+            if (fromYear === toYear) {
+                this.leaveBalanceService.getOne(this.leaveApplication.employeeId, fromYear, this.leaveApplication.leaveTypesId).subscribe(
+                    (res: HttpResponse<ILeaveBalance>) => {
+                        this.leaveBalance = res.body;
+                        this.message =
+                            this.leaveBalance.leaveTypeName +
+                            ': Remaining leave ' +
+                            this.leaveBalance.remainingDays +
+                            ' out of ' +
+                            this.leaveBalance.totalLeaveApplicableDays +
+                            ' day(s)';
+
+                        if (this.leaveApplication.numberOfDays > this.leaveBalance.remainingDays) {
+                            this.warning = this.leaveBalance.leaveTypeName + ': Out of balance!! ' + 'Sorry, leave can not be applied.';
+                        }
+                    },
+                    (res: HttpErrorResponse) => (this.message = 'Error!! while fetching leave history.')
+                );
+            } else {
+                this.message = 'Dates should have the same year.';
+            }
+        }
     }
 
     calculateDifference() {

@@ -9,6 +9,8 @@ import { ILeaveBalance, LeaveBalance } from 'app/shared/model/leave-balance.mode
 import { LeaveBalanceService } from 'app/entities/leave-balance/leave-balance.service';
 import { UserRouteAccessService } from 'app/core';
 import { LeaveBalanceComponent } from 'app/entities/leave-balance/leave-balance.component';
+import { OthersLeaveBalanceComponent } from 'app/entities/leave-balance/others-leave-balance.component';
+import * as moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveBalanceRoute implements Resolve<ILeaveBalance[]> {
@@ -17,7 +19,7 @@ export class LeaveBalanceRoute implements Resolve<ILeaveBalance[]> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ILeaveBalance[]> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).pipe(
+            return this.service.find(id, moment().get('year')).pipe(
                 filter((response: HttpResponse<LeaveBalance[]>) => response.ok),
                 map((LeaveBalance: HttpResponse<LeaveBalance[]>) => LeaveBalance.body)
             );
@@ -39,6 +41,15 @@ export const leaveBalanceRoute: Routes = [
     {
         path: 'balance',
         component: LeaveBalanceComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'LeaveBalance'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'balance/others',
+        component: OthersLeaveBalanceComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'LeaveBalance'

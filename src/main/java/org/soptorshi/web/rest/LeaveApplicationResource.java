@@ -60,6 +60,9 @@ public class LeaveApplicationResource {
             throw new BadRequestAlertException("A new leaveApplication cannot already have an ID", ENTITY_NAME, "idexists");
         }
         LeaveApplicationDTO result = leaveApplicationService.save(leaveApplicationDTO);
+        if(result == null) {
+           return  ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        }
         return ResponseEntity.created(new URI("/api/leave-applications/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

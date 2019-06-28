@@ -17,7 +17,13 @@ export class LeaveBalanceService {
 
     constructor(protected http: HttpClient) {}
 
-    find(id: string): Observable<EntityArrayResponseType> {
-        return this.http.get<ILeaveBalance[]>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    find(employeeId: string, queryYear: number): Observable<EntityArrayResponseType> {
+        return this.http.get<ILeaveBalance[]>(`${this.resourceUrl}/employee/${employeeId}/year/${queryYear}`, { observe: 'response' });
+    }
+
+    getOne(employeeId: string, queryYear: number, leaveType: number): Observable<EntityResponseType> {
+        return this.http.get<ILeaveBalance>(`${this.resourceUrl}/employee/${employeeId}/year/${queryYear}/leave-type/${leaveType}`, {
+            observe: 'response'
+        });
     }
 }

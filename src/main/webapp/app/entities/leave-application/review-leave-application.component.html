@@ -71,13 +71,14 @@
                 <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
                        [infiniteScrollDistance]="0">
                 <tr *ngFor="let leaveApplication of leaveApplications ;trackBy: trackId">
-                    <td><a
-                        [routerLink]="['/leave-application', leaveApplication.id, 'view' ]">{{leaveApplication.id}}</a>
+                    <td><!--<a
+                        [routerLink]="['/leave-application', leaveApplication.id, 'view' ]">{{leaveApplication.id}}</a>-->
+                        {{leaveApplication.id}}
                     </td>
                     <td>{{leaveApplication.employeeId}}</td>
                     <td>
                         <div *ngIf="leaveApplication.leaveTypesId">
-                            <a [routerLink]="['../leave-type', leaveApplication.leaveTypesId , 'view' ]">{{leaveApplication.leaveTypesName}}</a>
+                            <!--<a [routerLink]="['../leave-type', leaveApplication.leaveTypesId , 'view' ]">{{leaveApplication.leaveTypesName}}</a>--> {{leaveApplication.leaveTypesName}}
                         </div>
                     </td>
                     <td>{{leaveApplication.fromDate | date:'mediumDate'}}</td>

@@ -1,10 +1,13 @@
 package org.soptorshi.service.impl;
 
+import org.soptorshi.domain.LeaveBalance;
 import org.soptorshi.service.LeaveApplicationService;
 import org.soptorshi.domain.LeaveApplication;
 import org.soptorshi.repository.LeaveApplicationRepository;
 import org.soptorshi.repository.search.LeaveApplicationSearchRepository;
+import org.soptorshi.service.LeaveBalanceService;
 import org.soptorshi.service.dto.LeaveApplicationDTO;
+import org.soptorshi.service.dto.LeaveBalanceDTO;
 import org.soptorshi.service.mapper.LeaveApplicationMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +36,14 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
 
     private final LeaveApplicationSearchRepository leaveApplicationSearchRepository;
 
-    public LeaveApplicationServiceImpl(LeaveApplicationRepository leaveApplicationRepository, LeaveApplicationMapper leaveApplicationMapper, LeaveApplicationSearchRepository leaveApplicationSearchRepository) {
+    private final LeaveBalanceService leaveBalanceService;
+
+    public LeaveApplicationServiceImpl(LeaveApplicationRepository leaveApplicationRepository, LeaveApplicationMapper leaveApplicationMapper, LeaveApplicationSearchRepository leaveApplicationSearchRepository,
+                                       LeaveBalanceService leaveBalanceService) {
         this.leaveApplicationRepository = leaveApplicationRepository;
         this.leaveApplicationMapper = leaveApplicationMapper;
         this.leaveApplicationSearchRepository = leaveApplicationSearchRepository;
+        this.leaveBalanceService = leaveBalanceService;
     }
 
     /**
@@ -47,6 +54,13 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
      */
     @Override
     public LeaveApplicationDTO save(LeaveApplicationDTO leaveApplicationDTO) {
+        log.debug("Validating LeaveApplication : {}", leaveApplicationDTO);
+        LeaveBalanceDTO leaveBalance = leaveBalanceService
+            .calculateLeaveBalance(leaveApplicationDTO.getEmployeeId(), leaveApplicationDTO.getFromDate().getYear(),
+                leaveApplicationDTO.getLeaveTypesId());
+        if(leaveApplicationDTO.getNumberOfDays() > leaveBalance.getRemainingDays()){
+            return null;
+        }
         log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
         LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
         leaveApplication = leaveApplicationRepository.save(leaveApplication);
