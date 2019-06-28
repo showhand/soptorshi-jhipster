@@ -33,7 +33,7 @@ export const leaveTypeRoute: Routes = [
         path: '',
         component: LeaveTypeComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveTypes'
         },
         canActivate: [UserRouteAccessService]
@@ -45,7 +45,7 @@ export const leaveTypeRoute: Routes = [
             leaveType: LeaveTypeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveTypes'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +57,7 @@ export const leaveTypeRoute: Routes = [
             leaveType: LeaveTypeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveTypes'
         },
         canActivate: [UserRouteAccessService]
@@ -69,7 +69,7 @@ export const leaveTypeRoute: Routes = [
             leaveType: LeaveTypeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveTypes'
         },
         canActivate: [UserRouteAccessService]
@@ -84,7 +84,7 @@ export const leaveTypePopupRoute: Routes = [
             leaveType: LeaveTypeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveTypes'
         },
         canActivate: [UserRouteAccessService],
