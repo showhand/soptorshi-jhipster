@@ -479,7 +479,6 @@ enum AllowanceCategory {
 
 
 
-
 relationship OneToMany{
     Vendor{vendorContactPerson(name)} to VendorContactPerson
 }

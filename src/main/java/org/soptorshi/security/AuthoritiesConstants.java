@@ -49,6 +49,12 @@ public final class AuthoritiesConstants {
 
     public static final String EMPLOYEE_MANAGEMENT = "ROLE_EMPLOYEE_MANAGEMENT";
 
+    public static final String REQUISITION = "ROLE_REQUISITION";
+
+    public static final String PURCHASE_COMMITTEE = "ROLE_PURCHASE_COMMITTEE";
+
+    public static final String CFO = "ROLE_CFO";
+
 
     private AuthoritiesConstants() {
     }
