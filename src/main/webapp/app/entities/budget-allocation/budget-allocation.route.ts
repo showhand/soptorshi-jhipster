@@ -65,7 +65,7 @@ export const budgetAllocationRoute: Routes = [
         },
         canActivate: [UserRouteAccessService]
     },
-    /* {
+    {
         path: ':financialAccountYearId/new',
         component: BudgetAllocationUpdateComponent,
         resolve: {
@@ -76,7 +76,7 @@ export const budgetAllocationRoute: Routes = [
             pageTitle: 'BudgetAllocations'
         },
         canActivate: [UserRouteAccessService]
-    },*/
+    },
     {
         path: 'new',
         component: BudgetAllocationUpdateComponent,

@@ -166,6 +166,7 @@ export class BudgetAllocationComponent implements OnInit, OnDestroy {
     }
 
     fetch() {
+        this.budgetAllocations = [];
         this.budgetAllocationService.showSelect = false;
         this.loadAll();
     }

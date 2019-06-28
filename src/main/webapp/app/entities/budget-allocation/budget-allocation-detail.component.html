@@ -21,12 +21,6 @@
                         <a [routerLink]="['/department', budgetAllocation.departmentId, 'view']">{{budgetAllocation.departmentName}}</a>
                     </div>
                 </dd>
-                <dt><span>Financial Account Year</span></dt>
-                <dd>
-                    <div *ngIf="budgetAllocation.financialAccountYearId">
-                        <a [routerLink]="['/financial-account-year', budgetAllocation.financialAccountYearId, 'view']">{{budgetAllocation.financialAccountYearId}}</a>
-                    </div>
-                </dd>
             </dl>
 
             <button type="submit"
