@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.*;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -25,16 +26,17 @@ import static java.time.temporal.TemporalAdjusters.lastDayOfYear;
 @Transactional
 public class LeaveBalanceServiceImpl implements LeaveBalanceService {
 
-    @Autowired
-    protected LeaveApplicationRepository leaveApplicationRepository;
+    private final LeaveApplicationRepository leaveApplicationRepository;
 
-    @Autowired
-    protected LeaveTypeRepository leaveTypeRepository;
+    private final LeaveTypeRepository leaveTypeRepository;
 
-    @Autowired
-    protected EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public static int averageLengthOfAYear = 365;
+    public LeaveBalanceServiceImpl(LeaveApplicationRepository leaveApplicationRepository, LeaveTypeRepository leaveTypeRepository, EmployeeRepository employeeRepository) {
+        this.leaveApplicationRepository = leaveApplicationRepository;
+        this.leaveTypeRepository = leaveTypeRepository;
+        this.employeeRepository = employeeRepository;
+    }
 
     @Override
     public Map<String, List<LeaveBalanceDTO>> calculateLeaveBalance(int year) {
@@ -74,15 +76,15 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
 
         if (employee.isPresent()) {
 
-            LocalDate localDate = LocalDate.now();
+            LocalDate currentDate = LocalDate.now();
+            LocalDate queryDateFromQueryYear = LocalDate.of(queryYear, Month.JANUARY, 1); // 2015-01-01
             LocalDate joiningDate = employee.get().getJoiningDate();
 
-            long diffBetweenLocalDateAndJoiningDate = DAYS.between(joiningDate, localDate);
+            long diffBetweenLocalDateAndJoiningDate = DAYS.between(joiningDate, currentDate);
 
-            LocalDate firstDayOfTheJoiningYearYear = joiningDate.with(firstDayOfYear()); // 2015-01-01
-            LocalDate lastDayOfTheJoiningYearYear = joiningDate.with(lastDayOfYear()); // 2015-12-31
+            LocalDate lastDayOfQueryDateFromQueryYear = queryDateFromQueryYear.with(lastDayOfYear()); // 2015-12-31
             int joiningYear = joiningDate.getYear(); // 2017
-            int lengthOfTheJoiningYear = localDate.lengthOfYear(); // 365 or 366
+            int lengthOfTheJoiningYear = currentDate.lengthOfYear(); // 365 or 366
             int joiningDayOfYear = joiningDate.getDayOfYear(); // 155
             int remainingDaysOfTheJoiningYear = lengthOfTheJoiningYear - joiningDayOfYear;
 
@@ -91,7 +93,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
             } else {
                 LeaveBalanceDTO leaveBalanceDto = new LeaveBalanceDTO();
                 leaveBalanceDto.setEmployeeId(employeeId);
-                List<LeaveApplication> leaveApplications = getAppliedLeave(employeeId, leaveType, firstDayOfTheJoiningYearYear, lastDayOfTheJoiningYearYear);
+                List<LeaveApplication> leaveApplications = getAppliedLeave(employeeId, leaveType, queryDateFromQueryYear, lastDayOfQueryDateFromQueryYear);
 
                 if (leaveType.getMaximumNumberOfDays() == null) { // Considering Special Leave
                     leaveBalanceDto.setTotalLeaveApplicableDays(0);
@@ -103,6 +105,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
                             ((remainingDaysOfTheJoiningYear * leaveType.getMaximumNumberOfDays()) / lengthOfTheJoiningYear) - leaveApplications.size());
                     } else {
                         if (leaveType.getName().toLowerCase().contains("earned")) {
+                            int averageLengthOfAYear = 365;
                             if (diffBetweenLocalDateAndJoiningDate > averageLengthOfAYear) {
                                 leaveBalanceDto.setTotalLeaveApplicableDays(leaveType.getMaximumNumberOfDays());
                                 leaveBalanceDto.setRemainingDays(
