@@ -282,6 +282,22 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'advance',
                 loadChildren: './advance/advance.module#SoptorshiAdvanceModule'
+            },
+            {
+                path: 'leave-type',
+                loadChildren: './leave-type/leave-type.module#SoptorshiLeaveTypeModule'
+            },
+            {
+                path: 'leave-application',
+                loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModule'
+            },
+            {
+                path: 'leave-attachment',
+                loadChildren: './leave-attachment/leave-attachment.module#SoptorshiLeaveAttachmentModule'
+            },
+            {
+                path: 'leave-balance',
+                loadChildren: './leave-balance/leave-balance.module#SoptorshiLeaveBalanceModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

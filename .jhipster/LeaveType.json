@@ -1,0 +1,41 @@
+{
+    "name": "LeaveType",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength",
+                "required"
+            ],
+            "fieldValidateRulesMaxlength": 50
+        },
+        {
+            "fieldName": "paidLeave",
+            "fieldType": "PaidOrUnPaid",
+            "fieldValues": "PAID,UNPAID,UNDECLARED"
+        },
+        {
+            "fieldName": "maximumNumberOfDays",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 250
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190603104539",
+    "entityTableName": "leave_type",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

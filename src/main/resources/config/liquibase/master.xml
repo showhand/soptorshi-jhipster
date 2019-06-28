@@ -31,6 +31,9 @@
     <include file="config/liquibase/changelog/20190603165435_added_entity_DesignationWiseAllowance.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190613164116_added_entity_Manager.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190619170717_added_entity_SpecialAllowanceTimeLine.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190603104539_added_entity_LeaveType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190603104540_added_entity_LeaveApplication.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190603104541_added_entity_LeaveAttachment.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
@@ -58,5 +61,7 @@
     <include file="config/liquibase/changelog/20190619212221_provident_fund_refactored.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190514160138_added_entity_constraints_ProvidentFund.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190620053556_monthly_payable_advance_added.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190603104540_added_entity_constraints_LeaveApplication.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190603104541_added_entity_constraints_LeaveAttachment.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
