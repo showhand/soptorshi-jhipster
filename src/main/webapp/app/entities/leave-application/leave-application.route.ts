@@ -14,6 +14,7 @@ import { ILeaveApplication } from 'app/shared/model/leave-application.model';
 import { OthersLeaveApplicationComponent } from 'app/entities/leave-application/others-leave-application.component';
 import { ReviewLeaveApplicationComponent } from 'app/entities/leave-application/review-leave-application.component';
 import { LeaveBalanceComponent } from 'app/entities/leave-balance/leave-balance.component';
+import { OthersLeaveApplicationHistoryComponent } from 'app/entities/leave-application/others-leave-application-history.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveApplicationResolve implements Resolve<ILeaveApplication> {
@@ -98,6 +99,18 @@ export const leaveApplicationRoute: Routes = [
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_APPROVAL'],
             pageTitle: 'ReviewLeaveApplication'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'history/others',
+        component: OthersLeaveApplicationHistoryComponent,
+        resolve: {
+            leaveApplication: LeaveApplicationResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN', 'ROLE_OTHERS_LEAVE_APPLICATION'],
+            pageTitle: 'LeaveHistory'
         },
         canActivate: [UserRouteAccessService]
     }

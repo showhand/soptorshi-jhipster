@@ -79,7 +79,7 @@ export class LeaveApplicationUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.leaveApplication.employeeId = '701001';
+        this.leaveApplication.employeeId = this.account.login;
         this.leaveApplication.appliedBy = this.account.login;
         this.leaveApplication.actionTakenBy = '';
         this.leaveApplication.status = LeaveStatus.WAITING;

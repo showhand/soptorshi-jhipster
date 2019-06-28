@@ -9,6 +9,9 @@ import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ILeaveApplication } from 'app/shared/model/leave-application.model';
+import * as moment from 'moment';
+import { ManagerService } from 'app/entities/manager';
+import { IManager } from 'app/shared/model/manager.model';
 
 @Component({
     selector: 'jhi-others-leave-balance',
@@ -21,6 +24,8 @@ export class OthersLeaveBalanceComponent implements OnInit {
     currentAccount: Account;
     eventSubscriber: Subscription;
     currentSearch: string;
+    account: Account;
+    currentEmployee: IEmployee[];
 
     constructor(
         protected leaveBalanceService: LeaveBalanceService,
@@ -29,13 +34,27 @@ export class OthersLeaveBalanceComponent implements OnInit {
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected managerService: ManagerService
     ) {
         this.leaveBalances = [];
     }
 
     ngOnInit() {
         this.leaveBalances = [];
+        this.accountService.identity().then(account => {
+            this.account = account;
+            this.employeeService
+                .query({
+                    'employeeId.equals': this.account.login
+                })
+                .subscribe(
+                    (res: HttpResponse<IEmployee[]>) => {
+                        this.currentEmployee = res.body;
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        });
     }
 
     search() {
@@ -45,8 +64,20 @@ export class OthersLeaveBalanceComponent implements OnInit {
             })
             .subscribe(
                 (res: HttpResponse<IEmployee[]>) => {
+                    this.employees = [];
                     this.employees = res.body;
-                    this.getLeaveBalance(this.employees[0].employeeId);
+                    this.managerService
+                        .query({
+                            'parentEmployeeId.equals': this.employees[0].id
+                        })
+                        .subscribe(
+                            (res: HttpResponse<IManager[]>) => {
+                                if (res.body[0].employeeId == this.currentEmployee[0].id) {
+                                    this.getLeaveBalance(this.employees[0].employeeId);
+                                }
+                            },
+                            (res: HttpErrorResponse) => this.onError(res.message)
+                        );
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
@@ -58,7 +89,7 @@ export class OthersLeaveBalanceComponent implements OnInit {
 
     getLeaveBalance(employeeId: string) {
         this.leaveBalanceService
-            .find(employeeId, 2019)
+            .find(employeeId, moment().year())
             .subscribe(
                 (res: HttpResponse<ILeaveBalance[]>) => this.constructLeaveBalance(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)

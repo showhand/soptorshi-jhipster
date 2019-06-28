@@ -101,7 +101,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
                         leaveBalanceDto.setTotalLeaveApplicableDays((remainingDaysOfTheJoiningYear * leaveType.getMaximumNumberOfDays()) / lengthOfTheJoiningYear);
                         leaveBalanceDto.setRemainingDays(
                             ((remainingDaysOfTheJoiningYear * leaveType.getMaximumNumberOfDays()) / lengthOfTheJoiningYear) - leaveApplications.size());
-                    } else if (queryYear > joiningYear) {
+                    } else {
                         if (leaveType.getName().toLowerCase().contains("earned")) {
                             if (diffBetweenLocalDateAndJoiningDate > averageLengthOfAYear) {
                                 leaveBalanceDto.setTotalLeaveApplicableDays(leaveType.getMaximumNumberOfDays());
@@ -116,9 +116,6 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
                             leaveBalanceDto.setRemainingDays(
                                 leaveType.getMaximumNumberOfDays() - leaveApplications.size());
                         }
-                    } else {
-                        leaveBalanceDto.setTotalLeaveApplicableDays(0);
-                        leaveBalanceDto.setRemainingDays(0);
                     }
                 }
                 leaveBalanceDto.setLeaveTypeId(leaveType.getId());
