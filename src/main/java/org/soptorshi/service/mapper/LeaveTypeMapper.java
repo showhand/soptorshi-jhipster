@@ -8,7 +8,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity LeaveType and its DTO LeaveTypeDTO.
  */
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring", uses = {}) 
 public interface LeaveTypeMapper extends EntityMapper<LeaveTypeDTO, LeaveType> {
 
 
