@@ -232,20 +232,133 @@ entity BudgetAllocation{
 
 entity ProductCategory{
     name String,
-    description TextBlob
+    description TextBlob,
+    modifiedBy String,
+    modifiedOn LocalDate
 }
 
 entity Product{
     name String,
     description TextBlob,
-    price BigDecimal,
-    status ProductStatus
+    countryOrOrigin String,
+    status ProductStatus,
+    modifiedBy String,
+    modifiedOn LocalDate
 }
 
+entity ProductPrice{
+    price BigDecimal,
+    priceDate LocalDate,
+    modifiedBy String,
+    modifiedOn LocalDate
+}
+
+entity Requisition{
+   requisitionNo String,
+   reason TextBlob,
+   requisitionDate LocalDate,
+   amount BigDecimal,
+   status RequisitionStatus,
+   modifiedBy String,
+   modifiedOn LocalDate
+}
+
+entity RequisitionDetails{
+    requiredOn LocalDate,
+    estimatedDate LocalDate,
+    uom UnitOfMeasurements,
+    unit Integer,
+    quantity BigDecimal,
+    modifiedBy String,
+    modifiedOn LocalDate
+}
+
+entity Quotation{
+    quotationNo String,
+    modifiedBy String,
+    modifiedOn LocalDate
+}
+
+entity QuotationDetails{
+    currency Currency,
+    payType PayType,
+    creditLimit BigDecimal,
+    vatStatus VatStatus,
+    aitStatus AITStatus,
+    warrantyStatus WarrantyStatus,
+    loadingPort String,
+    remarks TextBlob,
+    modifiedBy String,
+    modifiedOn LocalDate
+}
+
+entity WorkOrder{
+    referenceNo String,
+    issueDate LocalDate,
+    referredTo String,
+    subject String,
+    note TextBlob,
+    laborOrOtherAmount BigDecimal,
+    discount Double,
+    modifiedBy String,
+    modifiedOn LocalDate
+}
+
+entity TermsAndConditions{
+    description TextBlob,
+    modifiedBy String,
+    modifiedOn LocalDate
+}
+
+enum WarrantyStatus{
+    WARRANTY,
+    NO_WARRANTY
+}
+
+enum PayType{
+    CASH,
+    PAY_ORDER,
+    CHEQUE
+}
+
+enum Currency{
+    TAKA,
+    DOLLAR,
+    EURO
+}
+
+enum UnitOfMeasurements{
+    PCS,
+    KG,
+    TON,
+    GRAM
+}
+
+enum AITStatus{
+    EXCLUDED,
+    INCLUDED
+}
+
+enum VatStatus{
+    EXCLUDED,
+    INCLUDED
+}
+
+enum RequisitionStatus{
+    REJECTED_BY_HEAD,
+    FORWARDED_BY_HEAD,
+    FORWARDED_BY_PURCHASE_COMMITTEE,
+    REJECTED_BY_PURCHASE_COMMITTEE,
+    CORRECTION_REQUEST_BY_PURCHASE_COMMITTEE,
+    APPROVED_BY_CFO,
+    REJECTED_BY_CFO,
+    CORRECTION_REQUEST_BY_CFO,
+    CLOSED_BY_CFO
+}
 enum ProductStatus{
     GOOD,
     NOT_GOOD,
-    NOT_KNOWN
+    NOT_JUSTIFIED
 }
 
 enum MaritalStatus {
@@ -372,8 +485,20 @@ relationship OneToOne{
 }
 
 relationship ManyToOne {
+  Requisition{employee(fullName)} to Employee,
+  Requisition{office(name)} to Office,
+  Requisition{department(name)} to Department,
+  Quotation{requisition(requisitionNo)} to Requisition,
+  QuotationDetails{quotation(quotationNo)} to Quotation,
+  QuotationDetails{vendor(name)} to Vendor,
+  QuotationDetails{requisitionDetails} to RequisitionDetails,,
+  WorkOrder{requisition(requisitionNo)} to Requisition,
+  TermsAndConditions{workOrder} to WorkOrder,
   DepartmentHead{office(name)} to Office,
   Product{productCategory(name)} to ProductCategory,
+  RequisitionDetails{requisition(requisitionNo)} to Requisition,
+  RequisitionDetails{product(name)} to Product,
+  ProductPrice{product(name)} to Product,
   DepartmentHead{department(name)} to Department,
   DepartmentHead{Employee(fullName)} to Employee
   BudgetAllocation{office(name)} to Office,
@@ -407,10 +532,10 @@ relationship ManyToOne {
   DesignationWiseAllowance{designation} to Designation
 }
 
-dto Department, ProductCategory, Product,BudgetAllocation, Bill, DepartmentHead , Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with mapstruct
-paginate Department, ProductCategory, Product, Bill, DepartmentHead,  Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, SpecialAllowanceTimeLine with pager
+dto Department,Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, WorkOrder, TermsAndConditions ,BudgetAllocation, Bill, DepartmentHead , Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with mapstruct
+paginate Department, Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, WorkOrder, TermsAndConditions, Bill, DepartmentHead,  Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, SpecialAllowanceTimeLine with pager
 paginate HolidayType, BudgetAllocation, Holiday, DesignationWiseAllowance, Manager with infinite-scroll
-service Department, ProductCategory, Product, BudgetAllocation, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with serviceClass
+service Department, Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, WorkOrder, TermsAndConditions, BudgetAllocation, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with serviceClass
 service HolidayType, Holiday with serviceImpl
-search Department, ProductCategory, Product, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, Manager, SpecialAllowanceTimeLine with elasticsearch
-filter Department, ProductCategory, Product, BudgetAllocation, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine
+search Department, Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, WorkOrder, TermsAndConditions, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, Manager, SpecialAllowanceTimeLine with elasticsearch
+filter Department, Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, WorkOrder, TermsAndConditions, BudgetAllocation, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine
