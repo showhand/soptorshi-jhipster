@@ -24,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AutoCompleteModule } from 'primeng/primeng';
+import { Select2Module } from 'ng2-select2';
 // import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
@@ -47,7 +48,8 @@ import { AutoCompleteModule } from 'primeng/primeng';
         MatTabsModule,
         DeviceDetectorModule.forRoot(),
         NgxPageScrollCoreModule,
-        AutoCompleteModule
+        AutoCompleteModule,
+        Select2Module
         // Ng2SmartTableModule
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],

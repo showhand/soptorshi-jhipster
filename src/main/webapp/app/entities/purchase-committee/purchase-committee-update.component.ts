@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IPurchaseCommittee } from 'app/shared/model/purchase-committee.model';
 import { PurchaseCommitteeService } from './purchase-committee.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
+import { Select2OptionData } from 'ng2-select2';
 
 @Component({
     selector: 'jhi-purchase-committee-update',
@@ -16,7 +17,7 @@ import { EmployeeService } from 'app/entities/employee';
 export class PurchaseCommitteeUpdateComponent implements OnInit {
     purchaseCommittee: IPurchaseCommittee;
     isSaving: boolean;
-
+    selectedEmployee: IEmployee;
     employees: IEmployee[];
 
     constructor(
@@ -32,7 +33,7 @@ export class PurchaseCommitteeUpdateComponent implements OnInit {
             this.purchaseCommittee = purchaseCommittee;
         });
         this.employeeService
-            .query({ 'purchaseCommitteeId.specified': 'false' })
+            .query({ 'purchaseCommitteeId.specified': 'false', size: 100000 })
             .pipe(
                 filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IEmployee[]>) => response.body)
@@ -49,7 +50,10 @@ export class PurchaseCommitteeUpdateComponent implements OnInit {
                                 map((subResponse: HttpResponse<IEmployee>) => subResponse.body)
                             )
                             .subscribe(
-                                (subRes: IEmployee) => (this.employees = [subRes].concat(res)),
+                                (subRes: IEmployee) => {
+                                    this.employees = res;
+                                    this.selectedEmployee = this.employees[0];
+                                },
                                 (subRes: HttpErrorResponse) => this.onError(subRes.message)
                             );
                     }
@@ -61,6 +65,8 @@ export class PurchaseCommitteeUpdateComponent implements OnInit {
     previousState() {
         window.history.back();
     }
+
+    formatter = (x: { fullName: string }) => x.fullName;
 
     save() {
         this.isSaving = true;
@@ -91,4 +97,18 @@ export class PurchaseCommitteeUpdateComponent implements OnInit {
     trackEmployeeById(index: number, item: IEmployee) {
         return item.id;
     }
+
+    focus$ = new Subject<IEmployee>();
+
+    employeeSelected(event) {
+        this.purchaseCommittee.employeeId = event.item.id;
+    }
+
+    search = (text$: Observable<string>) =>
+        text$.pipe(
+            debounceTime(200),
+            map(term =>
+                term === '' ? [] : this.employees.filter(v => v.fullName.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+            )
+        );
 }

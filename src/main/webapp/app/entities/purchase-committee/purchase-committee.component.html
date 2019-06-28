@@ -4,7 +4,7 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-purchase-committee" [routerLink]="['/purchase-committee/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
-            Create new Purchase Committee
+            Add new member
             </span>
         </button>
     </h2>
@@ -39,17 +39,11 @@
                 <td><a [routerLink]="['/purchase-committee', purchaseCommittee.id, 'view' ]">{{purchaseCommittee.id}}</a></td>
                 <td>
                     <div *ngIf="purchaseCommittee.employeeId">
-                        <a [routerLink]="['../employee', purchaseCommittee.employeeId , 'view' ]" >{{purchaseCommittee.employeeFullName}}</a>
+                       {{purchaseCommittee.employeeFullName}}
                     </div>
                 </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/purchase-committee', purchaseCommittee.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
                         <button type="submit"
                                 [routerLink]="['/purchase-committee', purchaseCommittee.id, 'edit']"
                                 class="btn btn-primary btn-sm">

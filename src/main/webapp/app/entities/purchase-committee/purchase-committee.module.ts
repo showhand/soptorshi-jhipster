@@ -11,11 +11,12 @@ import {
     purchaseCommitteeRoute,
     purchaseCommitteePopupRoute
 } from './';
+import { Select2Module } from 'ng2-select2';
 
 const ENTITY_STATES = [...purchaseCommitteeRoute, ...purchaseCommitteePopupRoute];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES), Select2Module],
     declarations: [
         PurchaseCommitteeComponent,
         PurchaseCommitteeDetailComponent,
