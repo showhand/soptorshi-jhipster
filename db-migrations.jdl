@@ -97,10 +97,11 @@ entity Office {
   location String
 }
 entity FinancialAccountYear {
-  startDate LocalDate,
-  endDate LocalDate,
-  previousYear Long,
-  status Boolean
+  startDate LocalDate unique,
+  endDate LocalDate unique,
+  previousStartDate LocalDate,
+  previousEndDate LocalDate,
+  status FinancialYearStatus unique
 }
 entity Tax {
   amount BigDecimal,
@@ -286,6 +287,11 @@ enum TaxStatus {
 enum SalaryStatus {
   ACTIVE,
   NOT_ACTIVE
+}
+
+enum FinancialYearStatus{
+   ACTIVE,
+   NOT_ACTIVE
 }
 
 enum MonthType {

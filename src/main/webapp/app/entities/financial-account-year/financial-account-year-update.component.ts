@@ -16,6 +16,8 @@ export class FinancialAccountYearUpdateComponent implements OnInit {
     isSaving: boolean;
     startDateDp: any;
     endDateDp: any;
+    previousStartDateDp: any;
+    previousEndDateDp: any;
 
     constructor(protected financialAccountYearService: FinancialAccountYearService, protected activatedRoute: ActivatedRoute) {}
 

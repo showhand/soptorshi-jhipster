@@ -342,6 +342,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'budget-allocation',
                 loadChildren: './budget-allocation/budget-allocation.module#SoptorshiBudgetAllocationModule'
+            },
+            {
+                path: 'financial-account-year',
+                loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

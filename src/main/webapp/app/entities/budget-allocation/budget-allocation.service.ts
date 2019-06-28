@@ -14,6 +14,11 @@ export class BudgetAllocationService {
     public resourceUrl = SERVER_API_URL + 'api/budget-allocations';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/budget-allocations';
 
+    public financialAccountYearId: number;
+    public showSelect: boolean;
+    public selectColumn: string;
+    public detailsColumn: string;
+
     constructor(protected http: HttpClient) {}
 
     create(budgetAllocation: IBudgetAllocation): Observable<EntityResponseType> {
