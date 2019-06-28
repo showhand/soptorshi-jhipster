@@ -11,6 +11,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {LeaveApplicationMapper.class})
 public interface LeaveAttachmentMapper extends EntityMapper<LeaveAttachmentDTO, LeaveAttachment> {
 
+
     @Mapping(source = "leaveApplication.id", target = "leaveApplicationId")
     LeaveAttachmentDTO toDto(LeaveAttachment leaveAttachment);
 
