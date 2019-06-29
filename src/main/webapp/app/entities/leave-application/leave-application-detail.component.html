@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="leaveApplication">
+            <h2><span>Leave Application</span> {{leaveApplication.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Employee Id</span></dt>
+                <dd>
+                    <span>{{leaveApplication.employeeId}}</span>
+                </dd>
+                <dt><span>From Date</span></dt>
+                <dd>
+                    <span>{{leaveApplication.fromDate}}</span>
+                </dd>
+                <dt><span>To Date</span></dt>
+                <dd>
+                    <span>{{leaveApplication.toDate}}</span>
+                </dd>
+                <dt><span>Number Of Days</span></dt>
+                <dd>
+                    <span>{{leaveApplication.numberOfDays}}</span>
+                </dd>
+                <dt><span>Reason</span></dt>
+                <dd>
+                    <span>{{leaveApplication.reason}}</span>
+                </dd>
+                <dt><span>Applied By</span></dt>
+                <dd>
+                    <span>{{leaveApplication.appliedBy}}</span>
+                </dd>
+                <dt><span>Applied On</span></dt>
+                <dd>
+                    <span>{{leaveApplication.appliedOn}}</span>
+                </dd>
+                <dt><span>Action Taken By</span></dt>
+                <dd>
+                    <span>{{leaveApplication.actionTakenBy}}</span>
+                </dd>
+                <dt><span>Action Taken On</span></dt>
+                <dd>
+                    <span>{{leaveApplication.actionTakenOn}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{leaveApplication.status}}</span>
+                </dd>
+                <dt><span>Leave Types</span></dt>
+                <dd>
+                    <div *ngIf="leaveApplication.leaveTypesId">
+                        <a [routerLink]="['/leave-type', leaveApplication.leaveTypesId, 'view']">{{leaveApplication.leaveTypesName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/leave-application', leaveApplication.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

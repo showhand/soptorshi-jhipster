@@ -60,7 +60,13 @@ import {
     faTools,
     faAngleDown,
     faAngleLeft,
-    faAlignJustify
+    faAlignJustify,
+    faStar,
+    faCar,
+    faCheck,
+    faHistory,
+    faSuperscript,
+    faCalculator
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -119,6 +125,12 @@ library.add(faTools);
 library.add(faAngleDown);
 library.add(faAngleLeft);
 library.add(faAlignJustify);
+library.add(faStar);
+library.add(faCar);
+library.add(faCheck);
+library.add(faHistory);
+library.add(faSuperscript);
+library.add(faCalculator);
 
 import 'quill/dist/quill.js';
 import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';

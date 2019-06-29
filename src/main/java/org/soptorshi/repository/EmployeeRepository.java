@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -19,4 +20,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
 
     List<Employee> getByOffice_IdAndDesignation_IdAndEmployeeStatus(Long officeId, Long designationId, EmployeeStatus employeeStatus);
 
+    Optional<Employee> findByEmployeeId(String employeeId);
 }
