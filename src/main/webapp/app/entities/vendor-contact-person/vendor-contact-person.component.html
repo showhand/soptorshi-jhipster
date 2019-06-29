@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Vendor Contact People</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-vendor-contact-person" [routerLink]="['/vendor-contact-person/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-vendor-contact-person" [routerLink]="['/vendor-contact-person', vendorContactPerson.vendorId,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Vendor Contact Person
@@ -33,7 +33,7 @@
             <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="designation"><span>Designation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="contactNumber"><span>Contact Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="vendorId"><span>Vendor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="vendorCompanyName"><span>Vendor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -45,7 +45,7 @@
                 <td>{{vendorContactPerson.contactNumber}}</td>
                 <td>
                     <div *ngIf="vendorContactPerson.vendorId">
-                        <a [routerLink]="['../vendor', vendorContactPerson.vendorId , 'view' ]" >{{vendorContactPerson.vendorId}}</a>
+                        <a [routerLink]="['../vendor', vendorContactPerson.vendorId , 'view' ]" >{{vendorContactPerson.vendorCompanyName}}</a>
                     </div>
                 </td>
                 <td class="text-right">
@@ -83,6 +83,11 @@
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+    <div class="row" *ngIf="vendorContactPerson.vendorId" align="right">
+        <div class="col-12">
+            <button class="btn btn-danger" (click)="back()">Back</button>
         </div>
     </div>
 </div>

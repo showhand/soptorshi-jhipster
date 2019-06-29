@@ -406,6 +406,18 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'quotation-details',
                 loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
+            },
+            {
+                path: 'vendor',
+                loadChildren: './vendor/vendor.module#SoptorshiVendorModule'
+            },
+            {
+                path: 'vendor-contact-person',
+                loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
+            },
+            {
+                path: 'vendor-contact-person',
+                loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

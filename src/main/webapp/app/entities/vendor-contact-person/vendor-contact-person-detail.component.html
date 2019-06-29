@@ -20,7 +20,7 @@
                 <dt><span>Vendor</span></dt>
                 <dd>
                     <div *ngIf="vendorContactPerson.vendorId">
-                        <a [routerLink]="['/vendor', vendorContactPerson.vendorId, 'view']">{{vendorContactPerson.vendorId}}</a>
+                        <a [routerLink]="['/vendor', vendorContactPerson.vendorId, 'view']">{{vendorContactPerson.vendorCompanyName}}</a>
                     </div>
                 </dd>
             </dl>

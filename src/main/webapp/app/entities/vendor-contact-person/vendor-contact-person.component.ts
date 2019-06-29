@@ -10,12 +10,14 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { VendorContactPersonService } from './vendor-contact-person.service';
+import { IVendor } from 'app/shared/model/vendor.model';
 
 @Component({
     selector: 'jhi-vendor-contact-person',
     templateUrl: './vendor-contact-person.component.html'
 })
 export class VendorContactPersonComponent implements OnInit, OnDestroy {
+    vendorContactPerson: IVendorContactPerson;
     currentAccount: any;
     vendorContactPeople: IVendorContactPerson[];
     error: any;
@@ -56,9 +58,10 @@ export class VendorContactPersonComponent implements OnInit, OnDestroy {
     loadAll() {
         if (this.currentSearch) {
             this.vendorContactPersonService
-                .search({
+                .query({
+                    'vendorId.equals': this.vendorContactPerson.vendorId,
                     page: this.page - 1,
-                    query: this.currentSearch,
+                    'name.includes': this.currentSearch,
                     size: this.itemsPerPage,
                     sort: this.sort()
                 })
@@ -70,6 +73,7 @@ export class VendorContactPersonComponent implements OnInit, OnDestroy {
         }
         this.vendorContactPersonService
             .query({
+                'vendorId.equals': this.vendorContactPerson.vendorId,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -112,6 +116,10 @@ export class VendorContactPersonComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
+    back() {
+        window.history.back();
+    }
+
     search(query) {
         if (!query) {
             return this.clear();
@@ -130,7 +138,10 @@ export class VendorContactPersonComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ vendorContactPerson }) => {
+            this.vendorContactPerson = vendorContactPerson;
+            this.loadAll();
+        });
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });

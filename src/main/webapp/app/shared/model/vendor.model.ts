@@ -1,5 +1,3 @@
-import { IVendorContactPerson } from 'app/shared/model/vendor-contact-person.model';
-
 export const enum VendorRemarks {
     VERY_GOOD = 'VERY_GOOD',
     GOOD = 'GOOD',
@@ -11,18 +9,20 @@ export const enum VendorRemarks {
 
 export interface IVendor {
     id?: number;
+    vendorId?: number;
     companyName?: string;
     description?: any;
     remarks?: VendorRemarks;
-    vendorContactPeople?: IVendorContactPerson[];
 }
 
 export class Vendor implements IVendor {
     constructor(
         public id?: number,
+        public vendorId?: number,
         public companyName?: string,
         public description?: any,
-        public remarks?: VendorRemarks,
-        public vendorContactPeople?: IVendorContactPerson[]
-    ) {}
+        public remarks?: VendorRemarks
+    ) {
+        this.vendorId = id;
+    }
 }

@@ -18,6 +18,8 @@ public class VendorContactPersonDTO implements Serializable {
 
     private Long vendorId;
 
+    private String vendorCompanyName;
+
     public Long getId() {
         return id;
     }
@@ -58,6 +60,14 @@ public class VendorContactPersonDTO implements Serializable {
         this.vendorId = vendorId;
     }
 
+    public String getVendorCompanyName() {
+        return vendorCompanyName;
+    }
+
+    public void setVendorCompanyName(String vendorCompanyName) {
+        this.vendorCompanyName = vendorCompanyName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -87,6 +97,7 @@ public class VendorContactPersonDTO implements Serializable {
             ", designation='" + getDesignation() + "'" +
             ", contactNumber='" + getContactNumber() + "'" +
             ", vendor=" + getVendorId() +
+            ", vendor='" + getVendorCompanyName() + "'" +
             "}";
     }
 }

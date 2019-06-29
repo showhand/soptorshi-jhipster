@@ -3,6 +3,7 @@ export interface IVendorContactPerson {
     name?: string;
     designation?: string;
     contactNumber?: string;
+    vendorCompanyName?: string;
     vendorId?: number;
 }
 
@@ -12,6 +13,7 @@ export class VendorContactPerson implements IVendorContactPerson {
         public name?: string,
         public designation?: string,
         public contactNumber?: string,
+        public vendorCompanyName?: string,
         public vendorId?: number
     ) {}
 }

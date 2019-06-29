@@ -19,11 +19,16 @@ export class VendorContactPersonResolve implements Resolve<IVendorContactPerson>
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IVendorContactPerson> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const vendorId = route.params['vendorId'] ? route.params['vendorId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<VendorContactPerson>) => response.ok),
                 map((vendorContactPerson: HttpResponse<VendorContactPerson>) => vendorContactPerson.body)
             );
+        } else if (vendorId) {
+            const vendorContactPerson = new VendorContactPerson();
+            vendorContactPerson.vendorId = vendorId;
+            return of(vendorContactPerson);
         }
         return of(new VendorContactPerson());
     }
@@ -37,7 +42,21 @@ export const vendorContactPersonRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
+            defaultSort: 'id,asc',
+            pageTitle: 'VendorContactPeople'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':vendorId/vendor',
+        component: VendorContactPersonComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams,
+            vendorContactPerson: VendorContactPersonResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'VendorContactPeople'
         },
@@ -50,7 +69,19 @@ export const vendorContactPersonRoute: Routes = [
             vendorContactPerson: VendorContactPersonResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'VendorContactPeople'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':vendorId/new',
+        component: VendorContactPersonUpdateComponent,
+        resolve: {
+            vendorContactPerson: VendorContactPersonResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'VendorContactPeople'
         },
         canActivate: [UserRouteAccessService]
@@ -62,7 +93,7 @@ export const vendorContactPersonRoute: Routes = [
             vendorContactPerson: VendorContactPersonResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'VendorContactPeople'
         },
         canActivate: [UserRouteAccessService]
@@ -74,7 +105,7 @@ export const vendorContactPersonRoute: Routes = [
             vendorContactPerson: VendorContactPersonResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'VendorContactPeople'
         },
         canActivate: [UserRouteAccessService]
@@ -89,7 +120,7 @@ export const vendorContactPersonPopupRoute: Routes = [
             vendorContactPerson: VendorContactPersonResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'VendorContactPeople'
         },
         canActivate: [UserRouteAccessService],

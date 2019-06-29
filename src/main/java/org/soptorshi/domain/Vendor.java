@@ -1,14 +1,11 @@
 package org.soptorshi.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.VendorRemarks;
@@ -38,8 +35,6 @@ public class Vendor implements Serializable {
     @Column(name = "remarks")
     private VendorRemarks remarks;
 
-    @OneToMany(mappedBy = "vendor")
-    private Set<VendorContactPerson> vendorContactPeople = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -86,31 +81,6 @@ public class Vendor implements Serializable {
 
     public void setRemarks(VendorRemarks remarks) {
         this.remarks = remarks;
-    }
-
-    public Set<VendorContactPerson> getVendorContactPeople() {
-        return vendorContactPeople;
-    }
-
-    public Vendor vendorContactPeople(Set<VendorContactPerson> vendorContactPeople) {
-        this.vendorContactPeople = vendorContactPeople;
-        return this;
-    }
-
-    public Vendor addVendorContactPerson(VendorContactPerson vendorContactPerson) {
-        this.vendorContactPeople.add(vendorContactPerson);
-        vendorContactPerson.setVendor(this);
-        return this;
-    }
-
-    public Vendor removeVendorContactPerson(VendorContactPerson vendorContactPerson) {
-        this.vendorContactPeople.remove(vendorContactPerson);
-        vendorContactPerson.setVendor(null);
-        return this;
-    }
-
-    public void setVendorContactPeople(Set<VendorContactPerson> vendorContactPeople) {
-        this.vendorContactPeople = vendorContactPeople;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

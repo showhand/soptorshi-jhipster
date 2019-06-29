@@ -12,6 +12,7 @@ import org.mapstruct.*;
 public interface VendorContactPersonMapper extends EntityMapper<VendorContactPersonDTO, VendorContactPerson> {
 
     @Mapping(source = "vendor.id", target = "vendorId")
+    @Mapping(source = "vendor.companyName", target = "vendorCompanyName")
     VendorContactPersonDTO toDto(VendorContactPerson vendorContactPerson);
 
     @Mapping(source = "vendorId", target = "vendor")

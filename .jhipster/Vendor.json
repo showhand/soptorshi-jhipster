@@ -16,14 +16,7 @@
             "fieldValues": "VERY_GOOD,GOOD,MODERATE,AVERAGE,BELOW_AVERAGE,BAD"
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "vendorContactPerson",
-            "otherEntityRelationshipName": "vendor",
-            "relationshipName": "vendorContactPerson"
-        }
-    ],
+    "relationships": [],
     "changelogDate": "20190622174345",
     "entityTableName": "vendor",
     "dto": "mapstruct",

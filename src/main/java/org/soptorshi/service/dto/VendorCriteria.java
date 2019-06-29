@@ -34,8 +34,6 @@ public class VendorCriteria implements Serializable {
 
     private VendorRemarksFilter remarks;
 
-    private LongFilter vendorContactPersonId;
-
     public LongFilter getId() {
         return id;
     }
@@ -60,14 +58,6 @@ public class VendorCriteria implements Serializable {
         this.remarks = remarks;
     }
 
-    public LongFilter getVendorContactPersonId() {
-        return vendorContactPersonId;
-    }
-
-    public void setVendorContactPersonId(LongFilter vendorContactPersonId) {
-        this.vendorContactPersonId = vendorContactPersonId;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -81,8 +71,7 @@ public class VendorCriteria implements Serializable {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(companyName, that.companyName) &&
-            Objects.equals(remarks, that.remarks) &&
-            Objects.equals(vendorContactPersonId, that.vendorContactPersonId);
+            Objects.equals(remarks, that.remarks);
     }
 
     @Override
@@ -90,8 +79,7 @@ public class VendorCriteria implements Serializable {
         return Objects.hash(
         id,
         companyName,
-        remarks,
-        vendorContactPersonId
+        remarks
         );
     }
 
@@ -101,7 +89,6 @@ public class VendorCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (companyName != null ? "companyName=" + companyName + ", " : "") +
                 (remarks != null ? "remarks=" + remarks + ", " : "") +
-                (vendorContactPersonId != null ? "vendorContactPersonId=" + vendorContactPersonId + ", " : "") +
             "}";
     }
 

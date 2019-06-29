@@ -478,11 +478,6 @@ enum AllowanceCategory {
 }
 
 
-
-relationship OneToMany{
-    Vendor{vendorContactPerson(name)} to VendorContactPerson
-}
-
 relationship OneToOne{
   PurchaseCommittee{employee(fullName)} to Employee,
 }
@@ -494,6 +489,7 @@ relationship ManyToOne {
   Quotation{requisition(requisitionNo)} to Requisition,
   QuotationDetails{quotation(quotationNo)} to Quotation,
   QuotationDetails{vendor(companyName)} to Vendor,
+  VendorContactPerson{vendor(companyName)} to Vendor,
   QuotationDetails{requisitionDetails} to RequisitionDetails,
   WorkOrder{requisition(requisitionNo)} to Requisition,
   TermsAndConditions{workOrder} to WorkOrder,

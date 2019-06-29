@@ -3,7 +3,6 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.Vendor;
-import org.soptorshi.domain.VendorContactPerson;
 import org.soptorshi.repository.VendorRepository;
 import org.soptorshi.repository.search.VendorSearchRepository;
 import org.soptorshi.service.VendorService;
@@ -289,25 +288,6 @@ public class VendorResourceIntTest {
         // Get all the vendorList where remarks is null
         defaultVendorShouldNotBeFound("remarks.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllVendorsByVendorContactPersonIsEqualToSomething() throws Exception {
-        // Initialize the database
-        VendorContactPerson vendorContactPerson = VendorContactPersonResourceIntTest.createEntity(em);
-        em.persist(vendorContactPerson);
-        em.flush();
-        vendor.addVendorContactPerson(vendorContactPerson);
-        vendorRepository.saveAndFlush(vendor);
-        Long vendorContactPersonId = vendorContactPerson.getId();
-
-        // Get all the vendorList where vendorContactPerson equals to vendorContactPersonId
-        defaultVendorShouldBeFound("vendorContactPersonId.equals=" + vendorContactPersonId);
-
-        // Get all the vendorList where vendorContactPerson equals to vendorContactPersonId + 1
-        defaultVendorShouldNotBeFound("vendorContactPersonId.equals=" + (vendorContactPersonId + 1));
-    }
-
     /**
      * Executes the search, and checks that the default entity is returned
      */

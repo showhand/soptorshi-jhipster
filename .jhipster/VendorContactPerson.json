@@ -16,10 +16,11 @@
     ],
     "relationships": [
         {
-            "relationshipName": "vendor",
-            "otherEntityName": "vendor",
             "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "otherEntityName": "vendor",
+            "otherEntityRelationshipName": "vendorContactPerson",
+            "relationshipName": "vendor",
+            "otherEntityField": "companyName"
         }
     ],
     "changelogDate": "20190622174346",

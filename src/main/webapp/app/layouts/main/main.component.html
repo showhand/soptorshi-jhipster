@@ -320,7 +320,7 @@
             </li>
 
             </li>
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_REQUISITION_COMMITTEE','ROLE_CFO']">
                 <a (click)="procurementManagement=!procurementManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="tools"></fa-icon>
@@ -353,6 +353,12 @@
                         <a class="dropdown-item" routerLink="vendor-contact-person" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Vendor Contact Person</span>
+                        </a>
+                    </li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_REQUISITION_COMMITTEE','ROLE_CFO']">
+                        <a class="dropdown-item" routerLink="requisition" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Requisition</span>
                         </a>
                     </li>
                 </ul>

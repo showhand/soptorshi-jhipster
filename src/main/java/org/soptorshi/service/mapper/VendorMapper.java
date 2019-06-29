@@ -12,8 +12,6 @@ import org.mapstruct.*;
 public interface VendorMapper extends EntityMapper<VendorDTO, Vendor> {
 
 
-    @Mapping(target = "vendorContactPeople", ignore = true)
-    Vendor toEntity(VendorDTO vendorDTO);
 
     default Vendor fromId(Long id) {
         if (id == null) {

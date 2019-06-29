@@ -16,6 +16,7 @@ export class VendorDetailComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ vendor }) => {
             this.vendor = vendor;
+            this.vendor.vendorId = this.vendor.id;
         });
     }
 
