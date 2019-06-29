@@ -4,11 +4,6 @@
             <h2 id="jhi-requisition-heading">Create or edit a Requisition</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!requisition.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="requisition.id" readonly />
-                </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_requisitionNo">Requisition No</label>
                     <input type="text" class="form-control" name="requisitionNo" id="field_requisitionNo"

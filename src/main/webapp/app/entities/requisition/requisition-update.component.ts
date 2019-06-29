@@ -13,12 +13,16 @@ import { IOffice } from 'app/shared/model/office.model';
 import { OfficeService } from 'app/entities/office';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department';
+import { AccountService } from 'app/core';
 
 @Component({
     selector: 'jhi-requisition-update',
     templateUrl: './requisition-update.component.html'
 })
 export class RequisitionUpdateComponent implements OnInit {
+    currentAccount: any;
+    currentEmployee: any;
+
     requisition: IRequisition;
     isSaving: boolean;
 
@@ -37,13 +41,29 @@ export class RequisitionUpdateComponent implements OnInit {
         protected employeeService: EmployeeService,
         protected officeService: OfficeService,
         protected departmentService: DepartmentService,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        public accountService: AccountService
     ) {}
 
     ngOnInit() {
+        this.accountService.identity().then(account => {
+            this.currentAccount = account;
+            this.employeeService
+                .query({
+                    'employeeId.equals': this.currentAccount.login
+                })
+                .subscribe(
+                    (res: HttpResponse<IEmployee[]>) => {
+                        this.currentEmployee = res.body[0];
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        });
+
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ requisition }) => {
             this.requisition = requisition;
+            this.generateRequisitionNo();
         });
         this.employeeService
             .query()
@@ -68,6 +88,20 @@ export class RequisitionUpdateComponent implements OnInit {
             .subscribe((res: IDepartment[]) => (this.departments = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
+    generateRequisitionNo() {
+        if (!this.requisition.requisitionNo) {
+            this.requisitionService
+                .query({
+                    'requisitionDate.greaterOrEqualThan': moment(new Date().getFullYear() + '-01-01', 'DD-MM-YYYY').toDate(),
+                    'requisitionDate.lessOrEqualThan': moment(new Date().getFullYear() + '-12-31', 'DD-MM-YYYY').toDate()
+                })
+                .subscribe((res: HttpResponse<IRequisition[]>) => {
+                    const dateStr = moment(new Date()).format('DD-MM-YYYY');
+                    this.requisition.requisitionNo = 'SOFPL-PR-' + dateStr + (res.body.length + 1);
+                });
+        }
+    }
+
     byteSize(field) {
         return this.dataUtils.byteSize(field);
     }
@@ -82,6 +116,11 @@ export class RequisitionUpdateComponent implements OnInit {
 
     previousState() {
         window.history.back();
+    }
+
+    zeroPad(num, places): string {
+        var zero = places - num.toString().length + 1;
+        return Array(+(zero > 0 && zero)).join('0') + num;
     }
 
     save() {
