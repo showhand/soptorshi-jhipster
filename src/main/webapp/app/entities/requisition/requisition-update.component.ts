@@ -90,18 +90,18 @@ export class RequisitionUpdateComponent implements OnInit {
 
     generateRequisitionNo() {
         if (!this.requisition.requisitionNo) {
+            const dateStrFrom = new Date().getFullYear() + '-01-01';
+            const dateFrom: Date = moment(dateStrFrom, 'DD-MM-YYYY').toDate();
+            const dateStrTo = new Date().getFullYear() + '-12-31';
+            const dateTo: Date = moment(dateStrTo, 'DD-MM-YYYY').toDate();
             this.requisitionService
                 .query({
-                    'requisitionDate.greaterOrEqualThan': moment(new Date().getFullYear() + '-01-01', 'DD-MM-YYYY')
-                        .toDate()
-                        .toISOString(),
-                    'requisitionDate.lessOrEqualThan': moment(new Date().getFullYear() + '-12-31', 'DD-MM-YYYY')
-                        .toDate()
-                        .toISOString()
+                    'requisitionDate.greaterOrEqualThan': dateStrFrom,
+                    'requisitionDate.lessOrEqualThan': dateStrTo
                 })
                 .subscribe((res: HttpResponse<IRequisition[]>) => {
                     const dateStr = moment(new Date()).format('DD-MM-YYYY');
-                    this.requisition.requisitionNo = 'SOFPL-PR-' + dateStr + (res.body.length + 1);
+                    this.requisition.requisitionNo = 'SOFPL-PR-' + dateStr + '-' + this.zeroPad(res.body.length + 1, 5);
                 });
         }
     }
