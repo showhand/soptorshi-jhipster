@@ -92,8 +92,12 @@ export class RequisitionUpdateComponent implements OnInit {
         if (!this.requisition.requisitionNo) {
             this.requisitionService
                 .query({
-                    'requisitionDate.greaterOrEqualThan': moment(new Date().getFullYear() + '-01-01', 'DD-MM-YYYY').toDate(),
-                    'requisitionDate.lessOrEqualThan': moment(new Date().getFullYear() + '-12-31', 'DD-MM-YYYY').toDate()
+                    'requisitionDate.greaterOrEqualThan': moment(new Date().getFullYear() + '-01-01', 'DD-MM-YYYY')
+                        .toDate()
+                        .toISOString(),
+                    'requisitionDate.lessOrEqualThan': moment(new Date().getFullYear() + '-12-31', 'DD-MM-YYYY')
+                        .toDate()
+                        .toISOString()
                 })
                 .subscribe((res: HttpResponse<IRequisition[]>) => {
                     const dateStr = moment(new Date()).format('DD-MM-YYYY');
