@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Product Prices</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-product-price" [routerLink]="['/product-price/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-product-price" [routerLink]="['/product-price',productPrice.productId,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Product Price
@@ -9,31 +9,17 @@
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+
     <br/>
-    <div class="table-responsive" *ngIf="productPrices">
+    <div class="table-responsive" >
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="price"><span>Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="priceDate"><span>Price Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!--<th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th jhiSortBy="productName"><span>Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -43,8 +29,8 @@
                 <td><a [routerLink]="['/product-price', productPrice.id, 'view' ]">{{productPrice.id}}</a></td>
                 <td>{{productPrice.price}}</td>
                 <td>{{productPrice.priceDate | date:'mediumDate'}}</td>
-                <td>{{productPrice.modifiedBy}}</td>
-                <td>{{productPrice.modifiedOn | date:'mediumDate'}}</td>
+               <!-- <td>{{productPrice.modifiedBy}}</td>
+                <td>{{productPrice.modifiedOn | date:'mediumDate'}}</td>-->
                 <td>
                     <div *ngIf="productPrice.productId">
                         <a [routerLink]="['../product', productPrice.productId , 'view' ]" >{{productPrice.productName}}</a>
@@ -85,6 +71,11 @@
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+    <div class="row" *ngIf="productPrice.productId" align="right">
+        <div class="col-12">
+            <button class="btn btn-danger" (click)="back()">Back</button>
         </div>
     </div>
 </div>

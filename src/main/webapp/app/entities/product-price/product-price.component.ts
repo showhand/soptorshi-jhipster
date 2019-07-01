@@ -16,6 +16,7 @@ import { ProductPriceService } from './product-price.service';
     templateUrl: './product-price.component.html'
 })
 export class ProductPriceComponent implements OnInit, OnDestroy {
+    productPrice: IProductPrice;
     currentAccount: any;
     productPrices: IProductPrice[];
     error: any;
@@ -54,7 +55,7 @@ export class ProductPriceComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.productPriceService
                 .search({
                     page: this.page - 1,
@@ -67,9 +68,10 @@ export class ProductPriceComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
-        }
+        }*/
         this.productPriceService
             .query({
+                'productId.equals': this.productPrice.productId,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -130,7 +132,10 @@ export class ProductPriceComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ productPrice }) => {
+            this.productPrice = productPrice;
+            this.loadAll();
+        });
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
@@ -155,6 +160,10 @@ export class ProductPriceComponent implements OnInit, OnDestroy {
             result.push('id');
         }
         return result;
+    }
+
+    back() {
+        window.history.back();
     }
 
     protected paginateProductPrices(data: IProductPrice[], headers: HttpHeaders) {

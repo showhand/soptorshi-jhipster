@@ -24,7 +24,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_modifiedBy">Modified By</label>
                     <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
                         [(ngModel)]="productPrice.modifiedBy" />
@@ -38,15 +38,15 @@
                             <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
-                </div>
+                </div>-->
 
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_product">Product</label>
                     <select class="form-control" id="field_product" name="product" [(ngModel)]="productPrice.productId" >
                         <option [ngValue]="null"></option>
                         <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
                     </select>
-                </div>
+                </div>-->
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

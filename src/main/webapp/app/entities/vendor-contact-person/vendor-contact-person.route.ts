@@ -42,7 +42,7 @@ export const vendorContactPersonRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             defaultSort: 'id,asc',
             pageTitle: 'VendorContactPeople'
         },
@@ -56,7 +56,7 @@ export const vendorContactPersonRoute: Routes = [
             vendorContactPerson: VendorContactPersonResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             defaultSort: 'id,asc',
             pageTitle: 'VendorContactPeople'
         },
@@ -69,7 +69,7 @@ export const vendorContactPersonRoute: Routes = [
             vendorContactPerson: VendorContactPersonResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             pageTitle: 'VendorContactPeople'
         },
         canActivate: [UserRouteAccessService]
@@ -81,7 +81,7 @@ export const vendorContactPersonRoute: Routes = [
             vendorContactPerson: VendorContactPersonResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             pageTitle: 'VendorContactPeople'
         },
         canActivate: [UserRouteAccessService]
@@ -93,7 +93,7 @@ export const vendorContactPersonRoute: Routes = [
             vendorContactPerson: VendorContactPersonResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             pageTitle: 'VendorContactPeople'
         },
         canActivate: [UserRouteAccessService]
@@ -105,7 +105,7 @@ export const vendorContactPersonRoute: Routes = [
             vendorContactPerson: VendorContactPersonResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             pageTitle: 'VendorContactPeople'
         },
         canActivate: [UserRouteAccessService]
@@ -120,7 +120,7 @@ export const vendorContactPersonPopupRoute: Routes = [
             vendorContactPerson: VendorContactPersonResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             pageTitle: 'VendorContactPeople'
         },
         canActivate: [UserRouteAccessService],

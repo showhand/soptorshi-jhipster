@@ -37,7 +37,7 @@ export const vendorRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             defaultSort: 'id,asc',
             pageTitle: 'Vendors'
         },
@@ -50,7 +50,7 @@ export const vendorRoute: Routes = [
             vendor: VendorResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             pageTitle: 'Vendors'
         },
         canActivate: [UserRouteAccessService]
@@ -62,7 +62,7 @@ export const vendorRoute: Routes = [
             vendor: VendorResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             pageTitle: 'Vendors'
         },
         canActivate: [UserRouteAccessService]
@@ -74,7 +74,7 @@ export const vendorRoute: Routes = [
             vendor: VendorResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             pageTitle: 'Vendors'
         },
         canActivate: [UserRouteAccessService]
@@ -89,7 +89,7 @@ export const vendorPopupRoute: Routes = [
             vendor: VendorResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             pageTitle: 'Vendors'
         },
         canActivate: [UserRouteAccessService],
