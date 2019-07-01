@@ -10,12 +10,15 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { RequisitionService } from './requisition.service';
+import { IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeService } from 'app/entities/employee';
 
 @Component({
     selector: 'jhi-requisition',
     templateUrl: './requisition.component.html'
 })
 export class RequisitionComponent implements OnInit, OnDestroy {
+    currentEmployee: IEmployee;
     currentAccount: any;
     requisitions: IRequisition[];
     error: any;
@@ -35,11 +38,12 @@ export class RequisitionComponent implements OnInit, OnDestroy {
         protected requisitionService: RequisitionService,
         protected parseLinks: JhiParseLinks,
         protected jhiAlertService: JhiAlertService,
-        protected accountService: AccountService,
+        public accountService: AccountService,
         protected activatedRoute: ActivatedRoute,
         protected dataUtils: JhiDataUtils,
         protected router: Router,
-        protected eventManager: JhiEventManager
+        protected eventManager: JhiEventManager,
+        protected employeeService: EmployeeService
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -69,16 +73,30 @@ export class RequisitionComponent implements OnInit, OnDestroy {
                 );
             return;
         }
-        this.requisitionService
-            .query({
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<IRequisition[]>) => this.paginateRequisitions(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        if (this.accountService.hasAnyAuthority(['ROLE_CFO', 'ROLE_REQUISITION_COMMITTEE'])) {
+            this.requisitionService
+                .query({
+                    page: this.page - 1,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<IRequisition[]>) => this.paginateRequisitions(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else if (this.accountService.hasAnyAuthority(['ROLE_REQUISITION'])) {
+            this.requisitionService
+                .query({
+                    'employeeId.equals': this.currentEmployee.id,
+                    page: this.page - 1,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<IRequisition[]>) => this.paginateRequisitions(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
     }
 
     loadPage(page: number) {
@@ -131,9 +149,19 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
+            this.employeeService
+                .query({
+                    'employeeId.equals': this.currentAccount.login
+                })
+                .subscribe(
+                    (res: HttpResponse<IEmployee[]>) => {
+                        this.currentEmployee = res.body[0];
+                        this.loadAll();
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         });
         this.registerChangeInRequisitions();
     }
