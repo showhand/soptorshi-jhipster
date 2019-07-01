@@ -55,6 +55,8 @@ public final class AuthoritiesConstants {
 
     public static final String CFO = "ROLE_CFO";
 
+    public static final String DEPARTMENT_HEAD = "ROLE_DEPARTMENT_HEAD";
+
 
     private AuthoritiesConstants() {
     }

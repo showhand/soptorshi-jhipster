@@ -1,9 +1,15 @@
 package org.soptorshi.service;
 
+import org.soptorshi.domain.Authority;
 import org.soptorshi.domain.DepartmentHead;
+import org.soptorshi.domain.User;
+import org.soptorshi.repository.AuthorityRepository;
 import org.soptorshi.repository.DepartmentHeadRepository;
+import org.soptorshi.repository.UserRepository;
 import org.soptorshi.repository.search.DepartmentHeadSearchRepository;
+import org.soptorshi.security.AuthoritiesConstants;
 import org.soptorshi.service.dto.DepartmentHeadDTO;
+import org.soptorshi.service.dto.EmployeeDTO;
 import org.soptorshi.service.mapper.DepartmentHeadMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -32,10 +41,19 @@ public class DepartmentHeadService {
 
     private final DepartmentHeadSearchRepository departmentHeadSearchRepository;
 
-    public DepartmentHeadService(DepartmentHeadRepository departmentHeadRepository, DepartmentHeadMapper departmentHeadMapper, DepartmentHeadSearchRepository departmentHeadSearchRepository) {
+    private final AuthorityRepository authorityRepository;
+
+    private final UserRepository userRepository;
+
+    private final EmployeeService employeeService;
+
+    public DepartmentHeadService(DepartmentHeadRepository departmentHeadRepository, DepartmentHeadMapper departmentHeadMapper, DepartmentHeadSearchRepository departmentHeadSearchRepository, AuthorityRepository authorityRepository, UserRepository userRepository, EmployeeService employeeService) {
         this.departmentHeadRepository = departmentHeadRepository;
         this.departmentHeadMapper = departmentHeadMapper;
         this.departmentHeadSearchRepository = departmentHeadSearchRepository;
+        this.authorityRepository = authorityRepository;
+        this.userRepository = userRepository;
+        this.employeeService = employeeService;
     }
 
     /**
@@ -48,8 +66,14 @@ public class DepartmentHeadService {
         log.debug("Request to save DepartmentHead : {}", departmentHeadDTO);
         DepartmentHead departmentHead = departmentHeadMapper.toEntity(departmentHeadDTO);
         departmentHead = departmentHeadRepository.save(departmentHead);
-        DepartmentHeadDTO result = departmentHeadMapper.toDto(departmentHead);
+        EmployeeDTO employeeDTO = employeeService.findOne(departmentHead.getEmployee().getId()).get();
+        User user = userRepository.findOneByLogin(employeeDTO.getEmployeeId()).get();
+        Set<Authority> authorities = user.getAuthorities();
+        authorityRepository.findById(AuthoritiesConstants.DEPARTMENT_HEAD).ifPresent(authorities::add);
+        user.setAuthorities(authorities);
+        userRepository.save(user);
         departmentHeadSearchRepository.save(departmentHead);
+        DepartmentHeadDTO result = departmentHeadMapper.toDto(departmentHead);
         return result;
     }
 
@@ -87,6 +111,14 @@ public class DepartmentHeadService {
      */
     public void delete(Long id) {
         log.debug("Request to delete DepartmentHead : {}", id);
+        DepartmentHead head = departmentHeadRepository.getOne(id);
+        EmployeeDTO employeeDTO = employeeService.findOne(head.getEmployee().getId()).get();
+        User user = userRepository.findOneByLogin(employeeDTO.getEmployeeId()).get();
+        Set<Authority> authorities = user.getAuthorities();
+        authorityRepository.findById(AuthoritiesConstants.DEPARTMENT_HEAD).ifPresent(authorities::remove);
+        user.setAuthorities(authorities);
+        userRepository.save(user);
+
         departmentHeadRepository.deleteById(id);
         departmentHeadSearchRepository.deleteById(id);
     }
