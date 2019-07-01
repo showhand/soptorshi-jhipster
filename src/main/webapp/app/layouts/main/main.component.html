@@ -320,7 +320,7 @@
             </li>
 
             </li>
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_REQUISITION_COMMITTEE','ROLE_CFO']">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD','ROLE_PURCHASE_COMMITTEE', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
                 <a (click)="procurementManagement=!procurementManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="tools"></fa-icon>
@@ -343,25 +343,25 @@
                             <span>Budget Allocation</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_REQUISITION_COMMITTEE','ROLE_CFO']">
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
                         <a class="dropdown-item" routerLink="vendor" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Vendor</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_REQUISITION_COMMITTEE','ROLE_CFO']">
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
                         <a class="dropdown-item" routerLink="product-category" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Product Category</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_REQUISITION_COMMITTEE','ROLE_CFO']">
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
                         <a class="dropdown-item" routerLink="product" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Product</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_REQUISITION_COMMITTEE','ROLE_CFO']">
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
                         <a class="dropdown-item" routerLink="requisition" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Requisition</span>

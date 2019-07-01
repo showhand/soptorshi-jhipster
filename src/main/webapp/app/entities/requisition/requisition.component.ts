@@ -73,7 +73,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
                 );
             return;
         }
-        if (this.accountService.hasAnyAuthority(['ROLE_CFO', 'ROLE_REQUISITION_COMMITTEE'])) {
+        if (this.accountService.hasAnyAuthority(['ROLE_CFO', 'ROLE_PURCHASE_COMMITTEE'])) {
             this.requisitionService
                 .query({
                     page: this.page - 1,
@@ -88,6 +88,19 @@ export class RequisitionComponent implements OnInit, OnDestroy {
             this.requisitionService
                 .query({
                     'employeeId.equals': this.currentEmployee.id,
+                    page: this.page - 1,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<IRequisition[]>) => this.paginateRequisitions(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else if (this.accountService.hasAnyAuthority(['ROLE_DEPARTMENT_HEAD'])) {
+            this.requisitionService
+                .query({
+                    'departmentId.equals': this.currentEmployee.departmentId,
+                    'officeId.equals': this.currentEmployee.officeId,
                     page: this.page - 1,
                     size: this.itemsPerPage,
                     sort: this.sort()

@@ -21,7 +21,7 @@ import { AccountService } from 'app/core';
 })
 export class RequisitionUpdateComponent implements OnInit {
     currentAccount: any;
-    currentEmployee: any;
+    currentEmployee: IEmployee;
 
     requisition: IRequisition;
     isSaving: boolean;
@@ -53,9 +53,9 @@ export class RequisitionUpdateComponent implements OnInit {
                 .subscribe(
                     (res: HttpResponse<IEmployee[]>) => {
                         this.currentEmployee = res.body[0];
-                        this.requisition.employeeId = res.body[0].id;
-                        this.requisition.departmentId = res.body[0].departmentId;
-                        this.requisition.officeId = res.body[0].officeId;
+                        if (!this.requisition.employeeId) this.requisition.employeeId = res.body[0].id;
+                        if (!this.requisition.departmentId) this.requisition.departmentId = res.body[0].departmentId;
+                        if (!this.requisition.officeId) this.requisition.officeId = res.body[0].officeId;
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
@@ -143,6 +143,36 @@ export class RequisitionUpdateComponent implements OnInit {
 
     protected onSaveError() {
         this.isSaving = false;
+    }
+
+    protected approveByHead() {
+        this.requisition.status = RequisitionStatus.FORWARDED_BY_HEAD;
+        this.save();
+    }
+    protected rejectByHead() {
+        this.requisition.status = RequisitionStatus.REJECTED_BY_HEAD;
+        this.save();
+    }
+    protected approveByPurchaseCommittee() {
+        this.requisition.status = RequisitionStatus.FORWARDED_BY_PURCHASE_COMMITTEE;
+        this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
+        this.save();
+    }
+    protected rejectByPurchaseCommittee() {
+        this.requisition.status = RequisitionStatus.REJECTED_BY_PURCHASE_COMMITTEE;
+        this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
+        this.save();
+    }
+
+    protected approveByCFO() {
+        this.requisition.status = RequisitionStatus.APPROVED_BY_CFO;
+        this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
+        this.save();
+    }
+    protected rejectByCFO() {
+        this.requisition.status = RequisitionStatus.REJECTED_BY_CFO;
+        this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
+        this.save();
     }
 
     protected onError(errorMessage: string) {

@@ -31,21 +31,11 @@
                 </div>
                 <div class="form-group" >
                     <label class="form-control-label" for="field_status">Status</label>
-                    <select class="form-control" name="status" [(ngModel)]="requisition.status" id="field_status" disabled="true">
-                        <option value="REJECTED_BY_HEAD">REJECTED_BY_HEAD</option>
-                        <option value="FORWARDED_BY_HEAD">FORWARDED_BY_HEAD</option>
-                        <option value="FORWARDED_BY_PURCHASE_COMMITTEE">FORWARDED_BY_PURCHASE_COMMITTEE</option>
-                        <option value="REJECTED_BY_PURCHASE_COMMITTEE">REJECTED_BY_PURCHASE_COMMITTEE</option>
-                        <option value="CORRECTION_REQUEST_BY_PURCHASE_COMMITTEE">CORRECTION_REQUEST_BY_PURCHASE_COMMITTEE</option>
-                        <option value="APPROVED_BY_CFO">APPROVED_BY_CFO</option>
-                        <option value="REJECTED_BY_CFO">REJECTED_BY_CFO</option>
-                        <option value="CORRECTION_REQUEST_BY_CFO">CORRECTION_REQUEST_BY_CFO</option>
-                        <option value="CLOSED_BY_CFO">CLOSED_BY_CFO</option>
-                    </select>
+                    <label class="form-control-label" id="field_status"><b>{{requisition.status}}</b></label>
                 </div>
                 <div class="form-group" >
                     <label class="form-control-label" for="field_purchaseCommitteeRemarks">Purchase Committee Remarks</label>
-                    <textarea class="form-control" name="purchaseCommitteeRemarks" id="field_purchaseCommitteeRemarks"  disabled="!accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE'])"
+                    <textarea class="form-control" name="purchaseCommitteeRemarks" id="field_purchaseCommitteeRemarks" disabled="{{!this.accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE'])}} && requisition.status=== 'FORWARDED_BY_HEAD'""
                         [(ngModel)]="requisition.purchaseCommitteeRemarks" ></textarea>
                 </div>
               <!--  <div class="form-group">
@@ -55,7 +45,7 @@
                 </div>-->
                 <div class="form-group" >
                     <label class="form-control-label" for="field_cfoRemarks">Cfo Remarks</label>
-                    <textarea class="form-control" name="cfoRemarks" id="field_cfoRemarks"  disabled="!accountService.hasAnyAuthority(['ROLE_CFO'])"
+                    <textarea class="form-control" name="cfoRemarks" id="field_cfoRemarks"  disabled="{{!accountService.hasAnyAuthority(['ROLE_CFO'])}}"
                         [(ngModel)]="requisition.cfoRemarks" ></textarea>
                 </div>
                <!-- <div class="form-group">
@@ -107,6 +97,24 @@
                 </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+                <button type="button" id="approve_head"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_DEPARTMENT_HEAD']) && requisition.status=== 'WAITING_FOR_HEADS_APPROVAL'" (click)="approveByHead()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Forward</span>
+                </button>
+                <button type="button" id="reject_head"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_DEPARTMENT_HEAD']) && requisition.status=== 'WAITING_FOR_HEADS_APPROVAL'" (click)="rejectByHead()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Reject</span>
+                </button>
+                <button type="button" id="approve_purchase_committee"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE']) && requisition.status=== 'FORWARDED_BY_HEAD'" (click)="approveByPurchaseCommittee()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Forward</span>
+                </button>
+                <button type="button" id="reject_purchase_committee"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE']) && requisition.status=== 'FORWARDED_BY_HEAD'" (click)="rejectByPurchaseCommittee()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Reject</span>
+                </button>
+                <button type="button" id="approve_cfo"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO']) && requisition.status=== 'FORWARDED_BY_PURCHASE_COMMITTEE'" (click)="approveByCFO()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Approve</span>
+                </button>
+                <button type="button" id="reject_cfo"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO']) && requisition.status=== 'FORWARDED_BY_PURCHASE_COMMITTEE'" (click)="rejectByCFO()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Reject</span>
                 </button>
             </div>
         </form>

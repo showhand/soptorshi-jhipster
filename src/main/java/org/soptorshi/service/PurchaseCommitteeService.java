@@ -1,8 +1,14 @@
 package org.soptorshi.service;
 
+import org.soptorshi.domain.Authority;
 import org.soptorshi.domain.PurchaseCommittee;
+import org.soptorshi.domain.User;
+import org.soptorshi.repository.AuthorityRepository;
 import org.soptorshi.repository.PurchaseCommitteeRepository;
+import org.soptorshi.repository.UserRepository;
 import org.soptorshi.repository.search.PurchaseCommitteeSearchRepository;
+import org.soptorshi.security.AuthoritiesConstants;
+import org.soptorshi.service.dto.EmployeeDTO;
 import org.soptorshi.service.dto.PurchaseCommitteeDTO;
 import org.soptorshi.service.mapper.PurchaseCommitteeMapper;
 import org.slf4j.Logger;
@@ -14,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -32,10 +39,19 @@ public class PurchaseCommitteeService {
 
     private final PurchaseCommitteeSearchRepository purchaseCommitteeSearchRepository;
 
-    public PurchaseCommitteeService(PurchaseCommitteeRepository purchaseCommitteeRepository, PurchaseCommitteeMapper purchaseCommitteeMapper, PurchaseCommitteeSearchRepository purchaseCommitteeSearchRepository) {
+    private final AuthorityRepository authorityRepository;
+
+    private final UserRepository userRepository;
+
+    private final EmployeeService employeeService;
+
+    public PurchaseCommitteeService(PurchaseCommitteeRepository purchaseCommitteeRepository, PurchaseCommitteeMapper purchaseCommitteeMapper, PurchaseCommitteeSearchRepository purchaseCommitteeSearchRepository, AuthorityRepository authorityRepository, UserRepository userRepository, EmployeeService employeeService) {
         this.purchaseCommitteeRepository = purchaseCommitteeRepository;
         this.purchaseCommitteeMapper = purchaseCommitteeMapper;
         this.purchaseCommitteeSearchRepository = purchaseCommitteeSearchRepository;
+        this.authorityRepository = authorityRepository;
+        this.userRepository = userRepository;
+        this.employeeService = employeeService;
     }
 
     /**
@@ -48,6 +64,12 @@ public class PurchaseCommitteeService {
         log.debug("Request to save PurchaseCommittee : {}", purchaseCommitteeDTO);
         PurchaseCommittee purchaseCommittee = purchaseCommitteeMapper.toEntity(purchaseCommitteeDTO);
         purchaseCommittee = purchaseCommitteeRepository.save(purchaseCommittee);
+        EmployeeDTO employeeDTO = employeeService.findOne(purchaseCommittee.getEmployee().getId()).get();
+        User user = userRepository.findOneByLogin(employeeDTO.getEmployeeId()).get();
+        Set<Authority> authorities = user.getAuthorities();
+        authorityRepository.findById(AuthoritiesConstants.PURCHASE_COMMITTEE).ifPresent(authorities::add);
+        user.setAuthorities(authorities);
+        userRepository.save(user);
         PurchaseCommitteeDTO result = purchaseCommitteeMapper.toDto(purchaseCommittee);
         purchaseCommitteeSearchRepository.save(purchaseCommittee);
         return result;
