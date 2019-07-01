@@ -349,6 +349,7 @@ enum VatStatus{
 }
 
 enum RequisitionStatus{
+    WAITING_FOR_HEADS_APPROVAL,
     REJECTED_BY_HEAD,
     FORWARDED_BY_HEAD,
     FORWARDED_BY_PURCHASE_COMMITTEE,

@@ -31,7 +31,7 @@ describe('Service Tests', () => {
                 'AAAAAAA',
                 currentDate,
                 0,
-                RequisitionStatus.REJECTED_BY_HEAD,
+                RequisitionStatus.WAITING_FOR_HEADS_APPROVAL,
                 'AAAAAAA',
                 0,
                 'AAAAAAA',

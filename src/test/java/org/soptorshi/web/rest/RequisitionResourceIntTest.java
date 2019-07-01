@@ -71,8 +71,8 @@ public class RequisitionResourceIntTest {
     private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
 
-    private static final RequisitionStatus DEFAULT_STATUS = RequisitionStatus.REJECTED_BY_HEAD;
-    private static final RequisitionStatus UPDATED_STATUS = RequisitionStatus.FORWARDED_BY_HEAD;
+    private static final RequisitionStatus DEFAULT_STATUS = RequisitionStatus.WAITING_FOR_HEADS_APPROVAL;
+    private static final RequisitionStatus UPDATED_STATUS = RequisitionStatus.REJECTED_BY_HEAD;
 
     private static final String DEFAULT_PURCHASE_COMMITTEE_REMARKS = "AAAAAAAAAA";
     private static final String UPDATED_PURCHASE_COMMITTEE_REMARKS = "BBBBBBBBBB";
