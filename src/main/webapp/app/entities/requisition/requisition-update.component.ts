@@ -26,8 +26,6 @@ export class RequisitionUpdateComponent implements OnInit {
     requisition: IRequisition;
     isSaving: boolean;
 
-    employees: IEmployee[];
-
     offices: IOffice[];
 
     departments: IDepartment[];
@@ -65,13 +63,17 @@ export class RequisitionUpdateComponent implements OnInit {
             this.requisition = requisition;
             this.generateRequisitionNo();
         });
-        this.employeeService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IEmployee[]>) => response.body)
-            )
-            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
+        if (!this.requisition.employeeId) {
+            this.employeeService
+                .query({
+                    'employeeId.equals': this.currentAccount.login.toString()
+                })
+                .subscribe((res: HttpResponse<IEmployee[]>) => {
+                    this.requisition.employeeId = res.body[0].id;
+                    this.requisition.departmentId = res.body[0].departmentId;
+                    this.requisition.officeId = res.body[0].officeId;
+                });
+        }
         this.officeService
             .query()
             .pipe(
@@ -132,6 +134,7 @@ export class RequisitionUpdateComponent implements OnInit {
         if (this.requisition.id !== undefined) {
             this.subscribeToSaveResponse(this.requisitionService.update(this.requisition));
         } else {
+            // this.requisition.status = RE;
             this.subscribeToSaveResponse(this.requisitionService.create(this.requisition));
         }
     }
