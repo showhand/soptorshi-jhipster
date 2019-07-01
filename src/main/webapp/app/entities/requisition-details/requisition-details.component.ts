@@ -16,6 +16,7 @@ import { RequisitionDetailsService } from './requisition-details.service';
     templateUrl: './requisition-details.component.html'
 })
 export class RequisitionDetailsComponent implements OnInit, OnDestroy {
+    requisitionDetail: IRequisitionDetails;
     currentAccount: any;
     requisitionDetails: IRequisitionDetails[];
     error: any;
@@ -54,7 +55,7 @@ export class RequisitionDetailsComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.requisitionDetailsService
                 .search({
                     page: this.page - 1,
@@ -67,9 +68,10 @@ export class RequisitionDetailsComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
-        }
+        }*/
         this.requisitionDetailsService
             .query({
+                'requisitionId.equals': this.requisitionDetail.requisitionId,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -97,6 +99,10 @@ export class RequisitionDetailsComponent implements OnInit, OnDestroy {
             }
         });
         this.loadAll();
+    }
+
+    back() {
+        window.history.back();
     }
 
     clear() {
@@ -130,7 +136,10 @@ export class RequisitionDetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ requisitionDetails }) => {
+            this.requisitionDetail = requisitionDetails;
+            this.loadAll();
+        });
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });

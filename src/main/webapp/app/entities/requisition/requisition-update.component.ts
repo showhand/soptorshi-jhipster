@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-import { IRequisition } from 'app/shared/model/requisition.model';
+import { IRequisition, RequisitionStatus } from 'app/shared/model/requisition.model';
 import { RequisitionService } from './requisition.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
@@ -53,6 +53,9 @@ export class RequisitionUpdateComponent implements OnInit {
                 .subscribe(
                     (res: HttpResponse<IEmployee[]>) => {
                         this.currentEmployee = res.body[0];
+                        this.requisition.employeeId = res.body[0].id;
+                        this.requisition.departmentId = res.body[0].departmentId;
+                        this.requisition.officeId = res.body[0].officeId;
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
@@ -63,17 +66,7 @@ export class RequisitionUpdateComponent implements OnInit {
             this.requisition = requisition;
             this.generateRequisitionNo();
         });
-        if (!this.requisition.employeeId) {
-            this.employeeService
-                .query({
-                    'employeeId.equals': this.currentAccount.login.toString()
-                })
-                .subscribe((res: HttpResponse<IEmployee[]>) => {
-                    this.requisition.employeeId = res.body[0].id;
-                    this.requisition.departmentId = res.body[0].departmentId;
-                    this.requisition.officeId = res.body[0].officeId;
-                });
-        }
+
         this.officeService
             .query()
             .pipe(
@@ -134,7 +127,7 @@ export class RequisitionUpdateComponent implements OnInit {
         if (this.requisition.id !== undefined) {
             this.subscribeToSaveResponse(this.requisitionService.update(this.requisition));
         } else {
-            // this.requisition.status = RE;
+            this.requisition.status = RequisitionStatus.WAITING_FOR_HEADS_APPROVAL;
             this.subscribeToSaveResponse(this.requisitionService.create(this.requisition));
         }
     }

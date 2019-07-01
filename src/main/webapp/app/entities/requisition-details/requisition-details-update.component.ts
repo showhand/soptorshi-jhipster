@@ -11,6 +11,8 @@ import { IRequisition } from 'app/shared/model/requisition.model';
 import { RequisitionService } from 'app/entities/requisition';
 import { IProduct } from 'app/shared/model/product.model';
 import { ProductService } from 'app/entities/product';
+import { ProductPriceService } from 'app/entities/product-price';
+import { IProductPrice } from 'app/shared/model/product-price.model';
 
 @Component({
     selector: 'jhi-requisition-details-update',
@@ -20,6 +22,7 @@ export class RequisitionDetailsUpdateComponent implements OnInit {
     requisitionDetails: IRequisitionDetails;
     isSaving: boolean;
 
+    productPrice: IProductPrice;
     requisitions: IRequisition[];
 
     products: IProduct[];
@@ -32,7 +35,8 @@ export class RequisitionDetailsUpdateComponent implements OnInit {
         protected requisitionDetailsService: RequisitionDetailsService,
         protected requisitionService: RequisitionService,
         protected productService: ProductService,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        protected productPriceService: ProductPriceService
     ) {}
 
     ngOnInit() {
@@ -54,6 +58,24 @@ export class RequisitionDetailsUpdateComponent implements OnInit {
                 map((response: HttpResponse<IProduct[]>) => response.body)
             )
             .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    productSelected(productId: number) {
+        this.productPriceService
+            .query({
+                'productId.equals': productId
+            })
+            .subscribe((res: HttpResponse<IProduct[]>) => {
+                this.productPrice = res.body[res.body.length - 1];
+                let amount = this.productPrice.price;
+            });
+    }
+
+    calculateQuantity() {
+        if (this.requisitionDetails.productId && this.requisitionDetails.unit) {
+            const quantity = this.productPrice.price * this.requisitionDetails.unit;
+            this.requisitionDetails.quantity = quantity;
+        }
     }
 
     previousState() {

@@ -15,6 +15,7 @@ export const enum RequisitionStatus {
 
 export interface IRequisition {
     id?: number;
+    requisitionId?: number;
     requisitionNo?: string;
     reason?: any;
     requisitionDate?: Moment;
