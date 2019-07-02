@@ -316,6 +316,7 @@ entity PurchaseOrder{
     note TextBlob,
     laborOrOtherAmount BigDecimal,
     discount Double,
+    status PurchaseOrderStatus,
     modifiedBy String,
     modifiedOn LocalDate
 }
