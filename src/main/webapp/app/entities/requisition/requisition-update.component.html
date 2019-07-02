@@ -10,6 +10,13 @@
                         [(ngModel)]="requisition.requisitionNo" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_productCategory">Product Category</label>
+                    <select class="form-control" id="field_productCategory" name="productCategory" [(ngModel)]="requisition.productCategoryId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_reason">Reason</label>
                     <textarea class="form-control" name="reason" id="field_reason"
                         [(ngModel)]="requisition.reason" ></textarea>
@@ -83,13 +90,7 @@
                         <option [ngValue]="officeOption.id" *ngFor="let officeOption of offices; trackBy: trackOfficeById">{{officeOption.name}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_productCategory">Product Category</label>
-                    <select class="form-control" id="field_productCategory" name="productCategory" [(ngModel)]="requisition.productCategoryId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
-                    </select>
-                </div>
+
                 <div class="form-group" *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO', 'ROLE_REQUISITION_COMMITTEE'])">
                     <label class="form-control-label" for="field_department">Department</label>
                     <select class="form-control" id="field_department" name="department" [(ngModel)]="requisition.departmentId" >

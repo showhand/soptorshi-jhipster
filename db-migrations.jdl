@@ -272,6 +272,7 @@ entity RequisitionDetails{
     estimatedDate LocalDate,
     uom UnitOfMeasurements,
     unit Integer,
+    unitPrice BigDecimal,
     quantity BigDecimal,
     modifiedBy String,
     modifiedOn LocalDate
