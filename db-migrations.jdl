@@ -257,6 +257,9 @@ entity Requisition{
    requisitionNo String,
    reason TextBlob,
    requisitionDate LocalDate,
+   //product category
+   //payment type
+   //payment stage
    amount BigDecimal,
    status RequisitionStatus,
    purchaseCommitteeRemarks TextBlob,
@@ -279,6 +282,15 @@ entity RequisitionDetails{
 
 entity Quotation{
     quotationNo String,
+    currency Currency,
+    payType PayType,
+    creditLimit BigDecimal,
+    vatStatus VatStatus,
+    aitStatus AITStatus,
+    warrantyStatus WarrantyStatus,
+    loadingPort String,
+    remarks TextBlob,
+    attachment file AnyBlob required,
     modifiedBy String,
     modifiedOn LocalDate
 }
