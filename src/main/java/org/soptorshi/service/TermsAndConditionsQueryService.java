@@ -99,9 +99,9 @@ public class TermsAndConditionsQueryService extends QueryService<TermsAndConditi
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), TermsAndConditions_.modifiedOn));
             }
-            if (criteria.getWorkOrderId() != null) {
-                specification = specification.and(buildSpecification(criteria.getWorkOrderId(),
-                    root -> root.join(TermsAndConditions_.workOrder, JoinType.LEFT).get(WorkOrder_.id)));
+            if (criteria.getPurchaseOrderId() != null) {
+                specification = specification.and(buildSpecification(criteria.getPurchaseOrderId(),
+                    root -> root.join(TermsAndConditions_.purchaseOrder, JoinType.LEFT).get(PurchaseOrder_.id)));
             }
         }
         return specification;

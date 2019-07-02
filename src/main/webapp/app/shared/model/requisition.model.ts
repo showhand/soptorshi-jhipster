@@ -6,16 +6,17 @@ export const enum RequisitionStatus {
     FORWARDED_BY_HEAD = 'FORWARDED_BY_HEAD',
     FORWARDED_BY_PURCHASE_COMMITTEE = 'FORWARDED_BY_PURCHASE_COMMITTEE',
     REJECTED_BY_PURCHASE_COMMITTEE = 'REJECTED_BY_PURCHASE_COMMITTEE',
-    CORRECTION_REQUEST_BY_PURCHASE_COMMITTEE = 'CORRECTION_REQUEST_BY_PURCHASE_COMMITTEE',
+    MODIFICATION_REQUEST_BY_PURCHASE_COMMITTEE = 'MODIFICATION_REQUEST_BY_PURCHASE_COMMITTEE',
     APPROVED_BY_CFO = 'APPROVED_BY_CFO',
     REJECTED_BY_CFO = 'REJECTED_BY_CFO',
-    CORRECTION_REQUEST_BY_CFO = 'CORRECTION_REQUEST_BY_CFO',
+    MODIFICATION_REQUEST_BY_CFO = 'MODIFICATION_REQUEST_BY_CFO',
+    RECEIVED_BY_REQUISIONER = 'RECEIVED_BY_REQUISIONER',
+    RECEIVED_VERIFIED_BY_HEAD = 'RECEIVED_VERIFIED_BY_HEAD',
     CLOSED_BY_CFO = 'CLOSED_BY_CFO'
 }
 
 export interface IRequisition {
     id?: number;
-    requisitionId?: number;
     requisitionNo?: string;
     reason?: any;
     requisitionDate?: Moment;
@@ -31,6 +32,8 @@ export interface IRequisition {
     employeeId?: number;
     officeName?: string;
     officeId?: number;
+    productCategoryName?: string;
+    productCategoryId?: number;
     departmentName?: string;
     departmentId?: number;
 }
@@ -53,6 +56,8 @@ export class Requisition implements IRequisition {
         public employeeId?: number,
         public officeName?: string,
         public officeId?: number,
+        public productCategoryName?: string,
+        public productCategoryId?: number,
         public departmentName?: string,
         public departmentId?: number
     ) {}

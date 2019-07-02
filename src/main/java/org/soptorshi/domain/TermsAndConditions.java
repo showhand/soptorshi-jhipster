@@ -36,7 +36,7 @@ public class TermsAndConditions implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("termsAndConditions")
-    private WorkOrder workOrder;
+    private PurchaseOrder purchaseOrder;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -86,17 +86,17 @@ public class TermsAndConditions implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
-    public WorkOrder getWorkOrder() {
-        return workOrder;
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
     }
 
-    public TermsAndConditions workOrder(WorkOrder workOrder) {
-        this.workOrder = workOrder;
+    public TermsAndConditions purchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
         return this;
     }
 
-    public void setWorkOrder(WorkOrder workOrder) {
-        this.workOrder = workOrder;
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

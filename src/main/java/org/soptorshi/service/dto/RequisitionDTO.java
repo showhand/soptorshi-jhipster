@@ -47,6 +47,10 @@ public class RequisitionDTO implements Serializable {
 
     private String officeName;
 
+    private Long productCategoryId;
+
+    private String productCategoryName;
+
     private Long departmentId;
 
     private String departmentName;
@@ -179,6 +183,22 @@ public class RequisitionDTO implements Serializable {
         this.officeName = officeName;
     }
 
+    public Long getProductCategoryId() {
+        return productCategoryId;
+    }
+
+    public void setProductCategoryId(Long productCategoryId) {
+        this.productCategoryId = productCategoryId;
+    }
+
+    public String getProductCategoryName() {
+        return productCategoryName;
+    }
+
+    public void setProductCategoryName(String productCategoryName) {
+        this.productCategoryName = productCategoryName;
+    }
+
     public Long getDepartmentId() {
         return departmentId;
     }
@@ -235,6 +255,8 @@ public class RequisitionDTO implements Serializable {
             ", employee='" + getEmployeeFullName() + "'" +
             ", office=" + getOfficeId() +
             ", office='" + getOfficeName() + "'" +
+            ", productCategory=" + getProductCategoryId() +
+            ", productCategory='" + getProductCategoryName() + "'" +
             ", department=" + getDepartmentId() +
             ", department='" + getDepartmentName() + "'" +
             "}";

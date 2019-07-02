@@ -34,7 +34,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="work_order_id" type="bigint">
+            <column name="purchase_order_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

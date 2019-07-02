@@ -418,6 +418,22 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'vendor-contact-person',
                 loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
+            },
+            {
+                path: 'requisition',
+                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
+            },
+            {
+                path: 'quotation',
+                loadChildren: './quotation/quotation.module#SoptorshiQuotationModule'
+            },
+            {
+                path: 'purchase-order',
+                loadChildren: './purchase-order/purchase-order.module#SoptorshiPurchaseOrderModule'
+            },
+            {
+                path: 'terms-and-conditions',
+                loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

@@ -96,6 +96,30 @@ public class QuotationQueryService extends QueryService<Quotation> {
             if (criteria.getQuotationNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getQuotationNo(), Quotation_.quotationNo));
             }
+            if (criteria.getCurrency() != null) {
+                specification = specification.and(buildSpecification(criteria.getCurrency(), Quotation_.currency));
+            }
+            if (criteria.getPayType() != null) {
+                specification = specification.and(buildSpecification(criteria.getPayType(), Quotation_.payType));
+            }
+            if (criteria.getCreditLimit() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreditLimit(), Quotation_.creditLimit));
+            }
+            if (criteria.getVatStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getVatStatus(), Quotation_.vatStatus));
+            }
+            if (criteria.getAitStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getAitStatus(), Quotation_.aitStatus));
+            }
+            if (criteria.getWarrantyStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getWarrantyStatus(), Quotation_.warrantyStatus));
+            }
+            if (criteria.getLoadingPort() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLoadingPort(), Quotation_.loadingPort));
+            }
+            if (criteria.getSelectionStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getSelectionStatus(), Quotation_.selectionStatus));
+            }
             if (criteria.getModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), Quotation_.modifiedBy));
             }

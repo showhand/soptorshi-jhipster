@@ -7,8 +7,8 @@ import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { ITermsAndConditions } from 'app/shared/model/terms-and-conditions.model';
 import { TermsAndConditionsService } from './terms-and-conditions.service';
-import { IWorkOrder } from 'app/shared/model/work-order.model';
-import { WorkOrderService } from 'app/entities/work-order';
+import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
+import { PurchaseOrderService } from 'app/entities/purchase-order';
 
 @Component({
     selector: 'jhi-terms-and-conditions-update',
@@ -18,14 +18,14 @@ export class TermsAndConditionsUpdateComponent implements OnInit {
     termsAndConditions: ITermsAndConditions;
     isSaving: boolean;
 
-    workorders: IWorkOrder[];
+    purchaseorders: IPurchaseOrder[];
     modifiedOnDp: any;
 
     constructor(
         protected dataUtils: JhiDataUtils,
         protected jhiAlertService: JhiAlertService,
         protected termsAndConditionsService: TermsAndConditionsService,
-        protected workOrderService: WorkOrderService,
+        protected purchaseOrderService: PurchaseOrderService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -34,13 +34,13 @@ export class TermsAndConditionsUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ termsAndConditions }) => {
             this.termsAndConditions = termsAndConditions;
         });
-        this.workOrderService
+        this.purchaseOrderService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IWorkOrder[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IWorkOrder[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IPurchaseOrder[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IPurchaseOrder[]>) => response.body)
             )
-            .subscribe((res: IWorkOrder[]) => (this.workorders = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: IPurchaseOrder[]) => (this.purchaseorders = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -85,7 +85,7 @@ export class TermsAndConditionsUpdateComponent implements OnInit {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
-    trackWorkOrderById(index: number, item: IWorkOrder) {
+    trackPurchaseOrderById(index: number, item: IPurchaseOrder) {
         return item.id;
     }
 }

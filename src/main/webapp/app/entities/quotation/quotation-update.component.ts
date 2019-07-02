@@ -4,7 +4,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IQuotation } from 'app/shared/model/quotation.model';
 import { QuotationService } from './quotation.service';
 import { IRequisition } from 'app/shared/model/requisition.model';
@@ -22,6 +22,7 @@ export class QuotationUpdateComponent implements OnInit {
     modifiedOnDp: any;
 
     constructor(
+        protected dataUtils: JhiDataUtils,
         protected jhiAlertService: JhiAlertService,
         protected quotationService: QuotationService,
         protected requisitionService: RequisitionService,
@@ -40,6 +41,18 @@ export class QuotationUpdateComponent implements OnInit {
                 map((response: HttpResponse<IRequisition[]>) => response.body)
             )
             .subscribe((res: IRequisition[]) => (this.requisitions = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
+    }
+
+    setFileData(event, entity, field, isImage) {
+        this.dataUtils.setFileData(event, entity, field, isImage);
     }
 
     previousState() {

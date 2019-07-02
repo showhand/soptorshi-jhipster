@@ -287,7 +287,7 @@ entity Quotation{
     warrantyStatus WarrantyStatus,
     loadingPort String,
     remarks TextBlob,
-    attachment file AnyBlob required,
+    attachment AnyBlob required,
     selectionStatus SelectionType,
     modifiedBy String,
     modifiedOn LocalDate

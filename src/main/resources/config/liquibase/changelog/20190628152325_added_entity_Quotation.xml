@@ -26,6 +26,49 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="currency" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pay_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="credit_limit" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="vat_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="ait_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="warranty_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="loading_port" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="remarks" type="clob">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="attachment" type="longblob">
+                <constraints nullable="false" />
+            </column>
+            <column name="attachment_content_type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="selection_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="modified_by" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

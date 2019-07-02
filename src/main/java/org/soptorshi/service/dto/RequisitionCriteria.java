@@ -52,6 +52,8 @@ public class RequisitionCriteria implements Serializable {
 
     private LongFilter officeId;
 
+    private LongFilter productCategoryId;
+
     private LongFilter departmentId;
 
     public LongFilter getId() {
@@ -142,6 +144,14 @@ public class RequisitionCriteria implements Serializable {
         this.officeId = officeId;
     }
 
+    public LongFilter getProductCategoryId() {
+        return productCategoryId;
+    }
+
+    public void setProductCategoryId(LongFilter productCategoryId) {
+        this.productCategoryId = productCategoryId;
+    }
+
     public LongFilter getDepartmentId() {
         return departmentId;
     }
@@ -172,6 +182,7 @@ public class RequisitionCriteria implements Serializable {
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(employeeId, that.employeeId) &&
             Objects.equals(officeId, that.officeId) &&
+            Objects.equals(productCategoryId, that.productCategoryId) &&
             Objects.equals(departmentId, that.departmentId);
     }
 
@@ -189,6 +200,7 @@ public class RequisitionCriteria implements Serializable {
         modifiedOn,
         employeeId,
         officeId,
+        productCategoryId,
         departmentId
         );
     }
@@ -207,6 +219,7 @@ public class RequisitionCriteria implements Serializable {
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
                 (officeId != null ? "officeId=" + officeId + ", " : "") +
+                (productCategoryId != null ? "productCategoryId=" + productCategoryId + ", " : "") +
                 (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
             "}";
     }

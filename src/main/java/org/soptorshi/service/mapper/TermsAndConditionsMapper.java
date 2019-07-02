@@ -8,13 +8,14 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity TermsAndConditions and its DTO TermsAndConditionsDTO.
  */
-@Mapper(componentModel = "spring", uses = {WorkOrderMapper.class})
+@Mapper(componentModel = "spring", uses = {PurchaseOrderMapper.class})
 public interface TermsAndConditionsMapper extends EntityMapper<TermsAndConditionsDTO, TermsAndConditions> {
 
-    @Mapping(source = "workOrder.id", target = "workOrderId")
+    @Mapping(source = "purchaseOrder.id", target = "purchaseOrderId")
+    @Mapping(source = "purchaseOrder.purchaseOrderNo", target = "purchaseOrderPurchaseOrderNo")
     TermsAndConditionsDTO toDto(TermsAndConditions termsAndConditions);
 
-    @Mapping(source = "workOrderId", target = "workOrder")
+    @Mapping(source = "purchaseOrderId", target = "purchaseOrder")
     TermsAndConditions toEntity(TermsAndConditionsDTO termsAndConditionsDTO);
 
     default TermsAndConditions fromId(Long id) {

@@ -3,7 +3,7 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.TermsAndConditions;
-import org.soptorshi.domain.WorkOrder;
+import org.soptorshi.domain.PurchaseOrder;
 import org.soptorshi.repository.TermsAndConditionsRepository;
 import org.soptorshi.repository.search.TermsAndConditionsSearchRepository;
 import org.soptorshi.service.TermsAndConditionsService;
@@ -320,20 +320,20 @@ public class TermsAndConditionsResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllTermsAndConditionsByWorkOrderIsEqualToSomething() throws Exception {
+    public void getAllTermsAndConditionsByPurchaseOrderIsEqualToSomething() throws Exception {
         // Initialize the database
-        WorkOrder workOrder = WorkOrderResourceIntTest.createEntity(em);
-        em.persist(workOrder);
+        PurchaseOrder purchaseOrder = PurchaseOrderResourceIntTest.createEntity(em);
+        em.persist(purchaseOrder);
         em.flush();
-        termsAndConditions.setWorkOrder(workOrder);
+        termsAndConditions.setPurchaseOrder(purchaseOrder);
         termsAndConditionsRepository.saveAndFlush(termsAndConditions);
-        Long workOrderId = workOrder.getId();
+        Long purchaseOrderId = purchaseOrder.getId();
 
-        // Get all the termsAndConditionsList where workOrder equals to workOrderId
-        defaultTermsAndConditionsShouldBeFound("workOrderId.equals=" + workOrderId);
+        // Get all the termsAndConditionsList where purchaseOrder equals to purchaseOrderId
+        defaultTermsAndConditionsShouldBeFound("purchaseOrderId.equals=" + purchaseOrderId);
 
-        // Get all the termsAndConditionsList where workOrder equals to workOrderId + 1
-        defaultTermsAndConditionsShouldNotBeFound("workOrderId.equals=" + (workOrderId + 1));
+        // Get all the termsAndConditionsList where purchaseOrder equals to purchaseOrderId + 1
+        defaultTermsAndConditionsShouldNotBeFound("purchaseOrderId.equals=" + (purchaseOrderId + 1));
     }
 
     /**

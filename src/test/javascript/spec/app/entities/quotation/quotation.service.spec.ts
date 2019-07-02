@@ -7,7 +7,16 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { QuotationService } from 'app/entities/quotation/quotation.service';
-import { IQuotation, Quotation } from 'app/shared/model/quotation.model';
+import {
+    IQuotation,
+    Quotation,
+    Currency,
+    PayType,
+    VatStatus,
+    AITStatus,
+    WarrantyStatus,
+    SelectionType
+} from 'app/shared/model/quotation.model';
 
 describe('Service Tests', () => {
     describe('Quotation Service', () => {
@@ -25,7 +34,23 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Quotation(0, 'AAAAAAA', 'AAAAAAA', currentDate);
+            elemDefault = new Quotation(
+                0,
+                'AAAAAAA',
+                Currency.TAKA,
+                PayType.CASH,
+                0,
+                VatStatus.EXCLUDED,
+                AITStatus.EXCLUDED,
+                WarrantyStatus.WARRANTY,
+                'AAAAAAA',
+                'AAAAAAA',
+                'image/png',
+                'AAAAAAA',
+                SelectionType.SELECTED,
+                'AAAAAAA',
+                currentDate
+            );
         });
 
         describe('Service methods', async () => {
@@ -71,6 +96,16 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         quotationNo: 'BBBBBB',
+                        currency: 'BBBBBB',
+                        payType: 'BBBBBB',
+                        creditLimit: 1,
+                        vatStatus: 'BBBBBB',
+                        aitStatus: 'BBBBBB',
+                        warrantyStatus: 'BBBBBB',
+                        loadingPort: 'BBBBBB',
+                        remarks: 'BBBBBB',
+                        attachment: 'BBBBBB',
+                        selectionStatus: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -95,6 +130,16 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         quotationNo: 'BBBBBB',
+                        currency: 'BBBBBB',
+                        payType: 'BBBBBB',
+                        creditLimit: 1,
+                        vatStatus: 'BBBBBB',
+                        aitStatus: 'BBBBBB',
+                        warrantyStatus: 'BBBBBB',
+                        loadingPort: 'BBBBBB',
+                        remarks: 'BBBBBB',
+                        attachment: 'BBBBBB',
+                        selectionStatus: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },

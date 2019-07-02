@@ -17,10 +17,10 @@
                 <dd>
                     <span>{{termsAndConditions.modifiedOn}}</span>
                 </dd>
-                <dt><span>Work Order</span></dt>
+                <dt><span>Purchase Order</span></dt>
                 <dd>
-                    <div *ngIf="termsAndConditions.workOrderId">
-                        <a [routerLink]="['/work-order', termsAndConditions.workOrderId, 'view']">{{termsAndConditions.workOrderId}}</a>
+                    <div *ngIf="termsAndConditions.purchaseOrderId">
+                        <a [routerLink]="['/purchase-order', termsAndConditions.purchaseOrderId, 'view']">{{termsAndConditions.purchaseOrderPurchaseOrderNo}}</a>
                     </div>
                 </dd>
             </dl>

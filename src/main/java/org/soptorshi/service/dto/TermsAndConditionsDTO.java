@@ -19,7 +19,9 @@ public class TermsAndConditionsDTO implements Serializable {
     private LocalDate modifiedOn;
 
 
-    private Long workOrderId;
+    private Long purchaseOrderId;
+
+    private String purchaseOrderPurchaseOrderNo;
 
     public Long getId() {
         return id;
@@ -53,12 +55,20 @@ public class TermsAndConditionsDTO implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
-    public Long getWorkOrderId() {
-        return workOrderId;
+    public Long getPurchaseOrderId() {
+        return purchaseOrderId;
     }
 
-    public void setWorkOrderId(Long workOrderId) {
-        this.workOrderId = workOrderId;
+    public void setPurchaseOrderId(Long purchaseOrderId) {
+        this.purchaseOrderId = purchaseOrderId;
+    }
+
+    public String getPurchaseOrderPurchaseOrderNo() {
+        return purchaseOrderPurchaseOrderNo;
+    }
+
+    public void setPurchaseOrderPurchaseOrderNo(String purchaseOrderPurchaseOrderNo) {
+        this.purchaseOrderPurchaseOrderNo = purchaseOrderPurchaseOrderNo;
     }
 
     @Override
@@ -89,7 +99,8 @@ public class TermsAndConditionsDTO implements Serializable {
             ", description='" + getDescription() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
-            ", workOrder=" + getWorkOrderId() +
+            ", purchaseOrder=" + getPurchaseOrderId() +
+            ", purchaseOrder='" + getPurchaseOrderPurchaseOrderNo() + "'" +
             "}";
     }
 }

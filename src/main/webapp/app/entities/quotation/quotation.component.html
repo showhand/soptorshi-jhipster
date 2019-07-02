@@ -31,6 +31,16 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="quotationNo"><span>Quotation No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="currency"><span>Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="payType"><span>Pay Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="creditLimit"><span>Credit Limit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="vatStatus"><span>Vat Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="aitStatus"><span>Ait Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="warrantyStatus"><span>Warranty Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="loadingPort"><span>Loading Port</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="attachment"><span>Attachment</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="selectionStatus"><span>Selection Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="requisitionRequisitionNo"><span>Requisition</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -41,6 +51,19 @@
             <tr *ngFor="let quotation of quotations ;trackBy: trackId">
                 <td><a [routerLink]="['/quotation', quotation.id, 'view' ]">{{quotation.id}}</a></td>
                 <td>{{quotation.quotationNo}}</td>
+                <td>{{quotation.currency}}</td>
+                <td>{{quotation.payType}}</td>
+                <td>{{quotation.creditLimit}}</td>
+                <td>{{quotation.vatStatus}}</td>
+                <td>{{quotation.aitStatus}}</td>
+                <td>{{quotation.warrantyStatus}}</td>
+                <td>{{quotation.loadingPort}}</td>
+                <td>{{quotation.remarks}}</td>
+                <td>
+                    <a *ngIf="quotation.attachment" (click)="openFile(quotation.attachmentContentType, quotation.attachment)">open</a>
+                    <span *ngIf="quotation.attachment">{{quotation.attachmentContentType}}, {{byteSize(quotation.attachment)}}</span>
+                </td>
+                <td>{{quotation.selectionStatus}}</td>
                 <td>{{quotation.modifiedBy}}</td>
                 <td>{{quotation.modifiedOn | date:'mediumDate'}}</td>
                 <td>

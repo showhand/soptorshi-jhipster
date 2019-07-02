@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -53,7 +54,7 @@ public class QuotationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/quotations")
-    public ResponseEntity<QuotationDTO> createQuotation(@RequestBody QuotationDTO quotationDTO) throws URISyntaxException {
+    public ResponseEntity<QuotationDTO> createQuotation(@Valid @RequestBody QuotationDTO quotationDTO) throws URISyntaxException {
         log.debug("REST request to save Quotation : {}", quotationDTO);
         if (quotationDTO.getId() != null) {
             throw new BadRequestAlertException("A new quotation cannot already have an ID", ENTITY_NAME, "idexists");
@@ -74,7 +75,7 @@ public class QuotationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/quotations")
-    public ResponseEntity<QuotationDTO> updateQuotation(@RequestBody QuotationDTO quotationDTO) throws URISyntaxException {
+    public ResponseEntity<QuotationDTO> updateQuotation(@Valid @RequestBody QuotationDTO quotationDTO) throws URISyntaxException {
         log.debug("REST request to update Quotation : {}", quotationDTO);
         if (quotationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

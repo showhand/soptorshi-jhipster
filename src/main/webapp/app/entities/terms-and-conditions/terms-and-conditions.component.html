@@ -33,7 +33,7 @@
             <th jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="workOrderId"><span>Work Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="purchaseOrderPurchaseOrderNo"><span>Purchase Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -44,8 +44,8 @@
                 <td>{{termsAndConditions.modifiedBy}}</td>
                 <td>{{termsAndConditions.modifiedOn | date:'mediumDate'}}</td>
                 <td>
-                    <div *ngIf="termsAndConditions.workOrderId">
-                        <a [routerLink]="['../work-order', termsAndConditions.workOrderId , 'view' ]" >{{termsAndConditions.workOrderId}}</a>
+                    <div *ngIf="termsAndConditions.purchaseOrderId">
+                        <a [routerLink]="['../purchase-order', termsAndConditions.purchaseOrderId , 'view' ]" >{{termsAndConditions.purchaseOrderPurchaseOrderNo}}</a>
                     </div>
                 </td>
                 <td class="text-right">

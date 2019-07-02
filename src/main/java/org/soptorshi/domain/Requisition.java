@@ -74,6 +74,10 @@ public class Requisition implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("requisitions")
+    private ProductCategory productCategory;
+
+    @ManyToOne
+    @JsonIgnoreProperties("requisitions")
     private Department department;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -252,6 +256,19 @@ public class Requisition implements Serializable {
 
     public void setOffice(Office office) {
         this.office = office;
+    }
+
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public Requisition productCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
+        return this;
+    }
+
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
     }
 
     public Department getDepartment() {

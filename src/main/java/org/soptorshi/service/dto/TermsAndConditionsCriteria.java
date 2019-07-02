@@ -29,7 +29,7 @@ public class TermsAndConditionsCriteria implements Serializable {
 
     private LocalDateFilter modifiedOn;
 
-    private LongFilter workOrderId;
+    private LongFilter purchaseOrderId;
 
     public LongFilter getId() {
         return id;
@@ -55,12 +55,12 @@ public class TermsAndConditionsCriteria implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
-    public LongFilter getWorkOrderId() {
-        return workOrderId;
+    public LongFilter getPurchaseOrderId() {
+        return purchaseOrderId;
     }
 
-    public void setWorkOrderId(LongFilter workOrderId) {
-        this.workOrderId = workOrderId;
+    public void setPurchaseOrderId(LongFilter purchaseOrderId) {
+        this.purchaseOrderId = purchaseOrderId;
     }
 
 
@@ -77,7 +77,7 @@ public class TermsAndConditionsCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
-            Objects.equals(workOrderId, that.workOrderId);
+            Objects.equals(purchaseOrderId, that.purchaseOrderId);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class TermsAndConditionsCriteria implements Serializable {
         id,
         modifiedBy,
         modifiedOn,
-        workOrderId
+        purchaseOrderId
         );
     }
 
@@ -96,7 +96,7 @@ public class TermsAndConditionsCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
-                (workOrderId != null ? "workOrderId=" + workOrderId + ", " : "") +
+                (purchaseOrderId != null ? "purchaseOrderId=" + purchaseOrderId + ", " : "") +
             "}";
     }
 

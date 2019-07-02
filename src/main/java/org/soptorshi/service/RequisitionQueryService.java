@@ -125,6 +125,10 @@ public class RequisitionQueryService extends QueryService<Requisition> {
                 specification = specification.and(buildSpecification(criteria.getOfficeId(),
                     root -> root.join(Requisition_.office, JoinType.LEFT).get(Office_.id)));
             }
+            if (criteria.getProductCategoryId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductCategoryId(),
+                    root -> root.join(Requisition_.productCategory, JoinType.LEFT).get(ProductCategory_.id)));
+            }
             if (criteria.getDepartmentId() != null) {
                 specification = specification.and(buildSpecification(criteria.getDepartmentId(),
                     root -> root.join(Requisition_.department, JoinType.LEFT).get(Department_.id)));

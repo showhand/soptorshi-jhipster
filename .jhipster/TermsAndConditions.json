@@ -18,10 +18,10 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "workOrder",
+            "otherEntityName": "purchaseOrder",
             "otherEntityRelationshipName": "termsAndConditions",
-            "relationshipName": "workOrder",
-            "otherEntityField": "id"
+            "relationshipName": "purchaseOrder",
+            "otherEntityField": "purchaseOrderNo"
         }
     ],
     "changelogDate": "20190628152328",

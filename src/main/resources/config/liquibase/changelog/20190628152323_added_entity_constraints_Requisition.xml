@@ -20,6 +20,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="office"/>
 
+        <addForeignKeyConstraint baseColumnNames="product_category_id"
+                                 baseTableName="requisition"
+                                 constraintName="fk_requisition_product_category_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product_category"/>
+
         <addForeignKeyConstraint baseColumnNames="department_id"
                                  baseTableName="requisition"
                                  constraintName="fk_requisition_department_id"

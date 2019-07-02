@@ -5,7 +5,8 @@ export interface ITermsAndConditions {
     description?: any;
     modifiedBy?: string;
     modifiedOn?: Moment;
-    workOrderId?: number;
+    purchaseOrderPurchaseOrderNo?: string;
+    purchaseOrderId?: number;
 }
 
 export class TermsAndConditions implements ITermsAndConditions {
@@ -14,6 +15,7 @@ export class TermsAndConditions implements ITermsAndConditions {
         public description?: any,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
-        public workOrderId?: number
+        public purchaseOrderPurchaseOrderNo?: string,
+        public purchaseOrderId?: number
     ) {}
 }

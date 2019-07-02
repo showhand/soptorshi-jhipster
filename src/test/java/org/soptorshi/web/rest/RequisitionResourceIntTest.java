@@ -5,6 +5,7 @@ import org.soptorshi.SoptorshiApp;
 import org.soptorshi.domain.Requisition;
 import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.Office;
+import org.soptorshi.domain.ProductCategory;
 import org.soptorshi.domain.Department;
 import org.soptorshi.repository.RequisitionRepository;
 import org.soptorshi.repository.search.RequisitionSearchRepository;
@@ -728,6 +729,25 @@ public class RequisitionResourceIntTest {
 
         // Get all the requisitionList where office equals to officeId + 1
         defaultRequisitionShouldNotBeFound("officeId.equals=" + (officeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByProductCategoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        ProductCategory productCategory = ProductCategoryResourceIntTest.createEntity(em);
+        em.persist(productCategory);
+        em.flush();
+        requisition.setProductCategory(productCategory);
+        requisitionRepository.saveAndFlush(requisition);
+        Long productCategoryId = productCategory.getId();
+
+        // Get all the requisitionList where productCategory equals to productCategoryId
+        defaultRequisitionShouldBeFound("productCategoryId.equals=" + productCategoryId);
+
+        // Get all the requisitionList where productCategory equals to productCategoryId + 1
+        defaultRequisitionShouldNotBeFound("productCategoryId.equals=" + (productCategoryId + 1));
     }
 
 
