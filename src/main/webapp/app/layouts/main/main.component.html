@@ -367,10 +367,10 @@
                             <span>Requisition</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
-                        <a class="dropdown-item" routerLink="quotation" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                    <li>
+                        <a class="dropdown-item" routerLink="purchase-order" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span>Quotation</span>
+                            <span>Purchase Order</span>
                         </a>
                     </li>
                 </ul>
