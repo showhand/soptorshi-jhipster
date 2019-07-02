@@ -114,6 +114,9 @@ public class PurchaseOrderQueryService extends QueryService<PurchaseOrder> {
             if (criteria.getDiscount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDiscount(), PurchaseOrder_.discount));
             }
+            if (criteria.getStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getStatus(), PurchaseOrder_.status));
+            }
             if (criteria.getModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), PurchaseOrder_.modifiedBy));
             }

@@ -1,5 +1,13 @@
 import { Moment } from 'moment';
 
+export const enum PurchaseOrderStatus {
+    WAITING_FOR_CFO_APPROVAL = 'WAITING_FOR_CFO_APPROVAL',
+    APPROVED_BY_CFO = 'APPROVED_BY_CFO',
+    REJECTED_BY_CFO = 'REJECTED_BY_CFO',
+    MODIFICATION_REQUEST_BY_CFO = 'MODIFICATION_REQUEST_BY_CFO',
+    CLOSED_BY_CFO = 'CLOSED_BY_CFO'
+}
+
 export interface IPurchaseOrder {
     id?: number;
     purchaseOrderNo?: string;
@@ -10,6 +18,7 @@ export interface IPurchaseOrder {
     note?: any;
     laborOrOtherAmount?: number;
     discount?: number;
+    status?: PurchaseOrderStatus;
     modifiedBy?: string;
     modifiedOn?: Moment;
     requisitionRequisitionNo?: string;
@@ -29,6 +38,7 @@ export class PurchaseOrder implements IPurchaseOrder {
         public note?: any,
         public laborOrOtherAmount?: number,
         public discount?: number,
+        public status?: PurchaseOrderStatus,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
         public requisitionRequisitionNo?: string,

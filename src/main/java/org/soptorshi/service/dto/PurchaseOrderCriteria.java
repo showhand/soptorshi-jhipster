@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.PurchaseOrderStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -21,6 +22,11 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class PurchaseOrderCriteria implements Serializable {
+    /**
+     * Class for filtering PurchaseOrderStatus
+     */
+    public static class PurchaseOrderStatusFilter extends Filter<PurchaseOrderStatus> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -39,6 +45,8 @@ public class PurchaseOrderCriteria implements Serializable {
     private BigDecimalFilter laborOrOtherAmount;
 
     private DoubleFilter discount;
+
+    private PurchaseOrderStatusFilter status;
 
     private StringFilter modifiedBy;
 
@@ -112,6 +120,14 @@ public class PurchaseOrderCriteria implements Serializable {
         this.discount = discount;
     }
 
+    public PurchaseOrderStatusFilter getStatus() {
+        return status;
+    }
+
+    public void setStatus(PurchaseOrderStatusFilter status) {
+        this.status = status;
+    }
+
     public StringFilter getModifiedBy() {
         return modifiedBy;
     }
@@ -163,6 +179,7 @@ public class PurchaseOrderCriteria implements Serializable {
             Objects.equals(subject, that.subject) &&
             Objects.equals(laborOrOtherAmount, that.laborOrOtherAmount) &&
             Objects.equals(discount, that.discount) &&
+            Objects.equals(status, that.status) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(requisitionId, that.requisitionId) &&
@@ -180,6 +197,7 @@ public class PurchaseOrderCriteria implements Serializable {
         subject,
         laborOrOtherAmount,
         discount,
+        status,
         modifiedBy,
         modifiedOn,
         requisitionId,
@@ -198,6 +216,7 @@ public class PurchaseOrderCriteria implements Serializable {
                 (subject != null ? "subject=" + subject + ", " : "") +
                 (laborOrOtherAmount != null ? "laborOrOtherAmount=" + laborOrOtherAmount + ", " : "") +
                 (discount != null ? "discount=" + discount + ", " : "") +
+                (status != null ? "status=" + status + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (requisitionId != null ? "requisitionId=" + requisitionId + ", " : "") +

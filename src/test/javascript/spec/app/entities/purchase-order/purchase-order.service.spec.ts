@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { PurchaseOrderService } from 'app/entities/purchase-order/purchase-order.service';
-import { IPurchaseOrder, PurchaseOrder } from 'app/shared/model/purchase-order.model';
+import { IPurchaseOrder, PurchaseOrder, PurchaseOrderStatus } from 'app/shared/model/purchase-order.model';
 
 describe('Service Tests', () => {
     describe('PurchaseOrder Service', () => {
@@ -35,6 +35,7 @@ describe('Service Tests', () => {
                 'AAAAAAA',
                 0,
                 0,
+                PurchaseOrderStatus.WAITING_FOR_CFO_APPROVAL,
                 'AAAAAAA',
                 currentDate
             );
@@ -93,6 +94,7 @@ describe('Service Tests', () => {
                         note: 'BBBBBB',
                         laborOrOtherAmount: 1,
                         discount: 1,
+                        status: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -125,6 +127,7 @@ describe('Service Tests', () => {
                         note: 'BBBBBB',
                         laborOrOtherAmount: 1,
                         discount: 1,
+                        status: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },

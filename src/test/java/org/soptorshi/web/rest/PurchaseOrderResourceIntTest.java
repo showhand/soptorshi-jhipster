@@ -48,6 +48,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.soptorshi.domain.enumeration.PurchaseOrderStatus;
 /**
  * Test class for the PurchaseOrderResource REST controller.
  *
@@ -80,6 +81,9 @@ public class PurchaseOrderResourceIntTest {
 
     private static final Double DEFAULT_DISCOUNT = 1D;
     private static final Double UPDATED_DISCOUNT = 2D;
+
+    private static final PurchaseOrderStatus DEFAULT_STATUS = PurchaseOrderStatus.WAITING_FOR_CFO_APPROVAL;
+    private static final PurchaseOrderStatus UPDATED_STATUS = PurchaseOrderStatus.APPROVED_BY_CFO;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
@@ -154,6 +158,7 @@ public class PurchaseOrderResourceIntTest {
             .note(DEFAULT_NOTE)
             .laborOrOtherAmount(DEFAULT_LABOR_OR_OTHER_AMOUNT)
             .discount(DEFAULT_DISCOUNT)
+            .status(DEFAULT_STATUS)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
         return purchaseOrder;
@@ -188,6 +193,7 @@ public class PurchaseOrderResourceIntTest {
         assertThat(testPurchaseOrder.getNote()).isEqualTo(DEFAULT_NOTE);
         assertThat(testPurchaseOrder.getLaborOrOtherAmount()).isEqualTo(DEFAULT_LABOR_OR_OTHER_AMOUNT);
         assertThat(testPurchaseOrder.getDiscount()).isEqualTo(DEFAULT_DISCOUNT);
+        assertThat(testPurchaseOrder.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testPurchaseOrder.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testPurchaseOrder.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
@@ -237,6 +243,7 @@ public class PurchaseOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE.toString())))
             .andExpect(jsonPath("$.[*].laborOrOtherAmount").value(hasItem(DEFAULT_LABOR_OR_OTHER_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].discount").value(hasItem(DEFAULT_DISCOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
@@ -260,6 +267,7 @@ public class PurchaseOrderResourceIntTest {
             .andExpect(jsonPath("$.note").value(DEFAULT_NOTE.toString()))
             .andExpect(jsonPath("$.laborOrOtherAmount").value(DEFAULT_LABOR_OR_OTHER_AMOUNT.intValue()))
             .andExpect(jsonPath("$.discount").value(DEFAULT_DISCOUNT.doubleValue()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
@@ -566,6 +574,45 @@ public class PurchaseOrderResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllPurchaseOrdersByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        purchaseOrderRepository.saveAndFlush(purchaseOrder);
+
+        // Get all the purchaseOrderList where status equals to DEFAULT_STATUS
+        defaultPurchaseOrderShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the purchaseOrderList where status equals to UPDATED_STATUS
+        defaultPurchaseOrderShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPurchaseOrdersByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        purchaseOrderRepository.saveAndFlush(purchaseOrder);
+
+        // Get all the purchaseOrderList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultPurchaseOrderShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the purchaseOrderList where status equals to UPDATED_STATUS
+        defaultPurchaseOrderShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPurchaseOrdersByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        purchaseOrderRepository.saveAndFlush(purchaseOrder);
+
+        // Get all the purchaseOrderList where status is not null
+        defaultPurchaseOrderShouldBeFound("status.specified=true");
+
+        // Get all the purchaseOrderList where status is null
+        defaultPurchaseOrderShouldNotBeFound("status.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllPurchaseOrdersByModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         purchaseOrderRepository.saveAndFlush(purchaseOrder);
@@ -722,6 +769,7 @@ public class PurchaseOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE.toString())))
             .andExpect(jsonPath("$.[*].laborOrOtherAmount").value(hasItem(DEFAULT_LABOR_OR_OTHER_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].discount").value(hasItem(DEFAULT_DISCOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
@@ -779,6 +827,7 @@ public class PurchaseOrderResourceIntTest {
             .note(UPDATED_NOTE)
             .laborOrOtherAmount(UPDATED_LABOR_OR_OTHER_AMOUNT)
             .discount(UPDATED_DISCOUNT)
+            .status(UPDATED_STATUS)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
         PurchaseOrderDTO purchaseOrderDTO = purchaseOrderMapper.toDto(updatedPurchaseOrder);
@@ -800,6 +849,7 @@ public class PurchaseOrderResourceIntTest {
         assertThat(testPurchaseOrder.getNote()).isEqualTo(UPDATED_NOTE);
         assertThat(testPurchaseOrder.getLaborOrOtherAmount()).isEqualTo(UPDATED_LABOR_OR_OTHER_AMOUNT);
         assertThat(testPurchaseOrder.getDiscount()).isEqualTo(UPDATED_DISCOUNT);
+        assertThat(testPurchaseOrder.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testPurchaseOrder.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testPurchaseOrder.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
@@ -870,6 +920,7 @@ public class PurchaseOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE.toString())))
             .andExpect(jsonPath("$.[*].laborOrOtherAmount").value(hasItem(DEFAULT_LABOR_OR_OTHER_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].discount").value(hasItem(DEFAULT_DISCOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }

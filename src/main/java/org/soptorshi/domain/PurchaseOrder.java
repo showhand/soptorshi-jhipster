@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.soptorshi.domain.enumeration.PurchaseOrderStatus;
+
 /**
  * A PurchaseOrder.
  */
@@ -49,6 +51,10 @@ public class PurchaseOrder implements Serializable {
 
     @Column(name = "discount")
     private Double discount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private PurchaseOrderStatus status;
 
     @Column(name = "modified_by")
     private String modifiedBy;
@@ -177,6 +183,19 @@ public class PurchaseOrder implements Serializable {
         this.discount = discount;
     }
 
+    public PurchaseOrderStatus getStatus() {
+        return status;
+    }
+
+    public PurchaseOrder status(PurchaseOrderStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(PurchaseOrderStatus status) {
+        this.status = status;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -262,6 +281,7 @@ public class PurchaseOrder implements Serializable {
             ", note='" + getNote() + "'" +
             ", laborOrOtherAmount=" + getLaborOrOtherAmount() +
             ", discount=" + getDiscount() +
+            ", status='" + getStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";

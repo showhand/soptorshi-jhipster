@@ -55,6 +55,16 @@
                         [(ngModel)]="purchaseOrder.discount" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" [(ngModel)]="purchaseOrder.status" id="field_status" >
+                        <option value="WAITING_FOR_CFO_APPROVAL">WAITING_FOR_CFO_APPROVAL</option>
+                        <option value="APPROVED_BY_CFO">APPROVED_BY_CFO</option>
+                        <option value="REJECTED_BY_CFO">REJECTED_BY_CFO</option>
+                        <option value="MODIFICATION_REQUEST_BY_CFO">MODIFICATION_REQUEST_BY_CFO</option>
+                        <option value="CLOSED_BY_CFO">CLOSED_BY_CFO</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_modifiedBy">Modified By</label>
                     <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
                         [(ngModel)]="purchaseOrder.modifiedBy" />

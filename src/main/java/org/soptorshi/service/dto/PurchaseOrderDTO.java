@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Lob;
+import org.soptorshi.domain.enumeration.PurchaseOrderStatus;
 
 /**
  * A DTO for the PurchaseOrder entity.
@@ -28,6 +29,8 @@ public class PurchaseOrderDTO implements Serializable {
     private BigDecimal laborOrOtherAmount;
 
     private Double discount;
+
+    private PurchaseOrderStatus status;
 
     private String modifiedBy;
 
@@ -114,6 +117,14 @@ public class PurchaseOrderDTO implements Serializable {
         this.discount = discount;
     }
 
+    public PurchaseOrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PurchaseOrderStatus status) {
+        this.status = status;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -195,6 +206,7 @@ public class PurchaseOrderDTO implements Serializable {
             ", note='" + getNote() + "'" +
             ", laborOrOtherAmount=" + getLaborOrOtherAmount() +
             ", discount=" + getDiscount() +
+            ", status='" + getStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", requisition=" + getRequisitionId() +
