@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="requisition">
-            <h2><span>Requisition</span> {{requisition.id}}</h2>
+            <h2><span>Requisition</span> {{requisition.requisitionNo}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -29,27 +29,27 @@
                 <dd>
                     <span>{{requisition.purchaseCommitteeRemarks}}</span>
                 </dd>
-                <dt><span>Ref To Purchase Committee</span></dt>
+               <!-- <dt><span>Ref To Purchase Committee</span></dt>
                 <dd>
                     <span>{{requisition.refToPurchaseCommittee}}</span>
-                </dd>
+                </dd>-->
                 <dt><span>Cfo Remarks</span></dt>
                 <dd>
                     <span>{{requisition.cfoRemarks}}</span>
                 </dd>
-                <dt><span>Ref To Cfo</span></dt>
+                <!--<dt><span>Ref To Cfo</span></dt>
                 <dd>
                     <span>{{requisition.refToCfo}}</span>
-                </dd>
-                <dt><span>Modified By</span></dt>
+                </dd>-->
+                <!--<dt><span>Modified By</span></dt>
                 <dd>
                     <span>{{requisition.modifiedBy}}</span>
                 </dd>
                 <dt><span>Modified On</span></dt>
                 <dd>
                     <span>{{requisition.modifiedOn}}</span>
-                </dd>
-                <dt><span>Employee</span></dt>
+                </dd>-->
+                <dt><span>Requester</span></dt>
                 <dd>
                     <div *ngIf="requisition.employeeId">
                         <a [routerLink]="['/employee', requisition.employeeId, 'view']">{{requisition.employeeFullName}}</a>
@@ -85,6 +85,11 @@
                     [routerLink]="['/requisition', requisition.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+            <button type="button"
+                    [routerLink]="['/requisition-details', requisition.requisitionId, 'requisition']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Requisition Details</span>
             </button>
         </div>
     </div>
