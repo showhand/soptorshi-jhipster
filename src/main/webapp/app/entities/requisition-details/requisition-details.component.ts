@@ -1,21 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
 import { IRequisitionDetails } from 'app/shared/model/requisition-details.model';
 import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { RequisitionDetailsService } from './requisition-details.service';
+import { RequisitionService } from 'app/entities/requisition';
+import { IRequisition, RequisitionStatus } from 'app/shared/model/requisition.model';
 
 @Component({
     selector: 'jhi-requisition-details',
     templateUrl: './requisition-details.component.html'
 })
 export class RequisitionDetailsComponent implements OnInit, OnDestroy {
+    requisitionDetail: IRequisitionDetails;
     currentAccount: any;
     requisitionDetails: IRequisitionDetails[];
     error: any;
@@ -38,7 +40,8 @@ export class RequisitionDetailsComponent implements OnInit, OnDestroy {
         protected accountService: AccountService,
         protected activatedRoute: ActivatedRoute,
         protected router: Router,
-        protected eventManager: JhiEventManager
+        protected eventManager: JhiEventManager,
+        protected requisitionService: RequisitionService
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -70,6 +73,7 @@ export class RequisitionDetailsComponent implements OnInit, OnDestroy {
         }
         this.requisitionDetailsService
             .query({
+                'requisitionId.equals': this.requisitionDetail.requisitionId,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -78,6 +82,8 @@ export class RequisitionDetailsComponent implements OnInit, OnDestroy {
                 (res: HttpResponse<IRequisitionDetails[]>) => this.paginateRequisitionDetails(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+
+        this.loadAndUpdateRequisition();
     }
 
     loadPage(page: number) {
@@ -85,6 +91,36 @@ export class RequisitionDetailsComponent implements OnInit, OnDestroy {
             this.previousPage = page;
             this.transition();
         }
+    }
+
+    loadAndUpdateRequisition() {
+        this.requisitionDetailsService
+            .query({
+                'requisitionId.equals': this.requisitionDetail.requisitionId,
+                size: 10000
+            })
+            .subscribe(
+                (res: HttpResponse<IRequisitionDetails[]>) => {
+                    const requisitionDetails = res.body;
+                    let totalAmount: number = 0;
+                    requisitionDetails.forEach((r: IRequisitionDetails) => (totalAmount = totalAmount + r.quantity));
+                    this.updateRequisition(totalAmount);
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
+
+    updateRequisition(totalAmount: number) {
+        this.requisitionService.find(this.requisitionDetail.requisitionId).subscribe((res: HttpResponse<IRequisition>) => {
+            let requisition = res.body;
+            if (requisition.amount != totalAmount) {
+                requisition.amount = totalAmount;
+                if (requisition.status !== RequisitionStatus.APPROVED_BY_CFO)
+                    this.requisitionService
+                        .update(requisition)
+                        .subscribe((res: HttpResponse<any>) => {}, (res: HttpErrorResponse) => this.jhiAlertService.error(res.error));
+            }
+        });
     }
 
     transition() {
@@ -97,6 +133,10 @@ export class RequisitionDetailsComponent implements OnInit, OnDestroy {
             }
         });
         this.loadAll();
+    }
+
+    back() {
+        window.history.back();
     }
 
     clear() {
@@ -130,7 +170,10 @@ export class RequisitionDetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ requisitionDetails }) => {
+            this.requisitionDetail = requisitionDetails;
+            this.loadAll();
+        });
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
