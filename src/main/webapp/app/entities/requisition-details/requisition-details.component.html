@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Requisition Details</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-requisition-details" [routerLink]="['/requisition-details', requisitionDetail.requisitionId,'new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-requisition-details" [routerLink]="['/requisition-details/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Requisition Details
@@ -9,7 +9,7 @@
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    <!--<div class="row">
+    <div class="row">
         <div class="col-sm-12">
             <form name="searchForm" class="form-inline">
                 <div class="input-group w-100 mt-3">
@@ -23,7 +23,7 @@
                 </div>
             </form>
         </div>
-    </div>-->
+    </div>
     <br/>
     <div class="table-responsive" *ngIf="requisitionDetails">
         <table class="table table-striped">
@@ -34,9 +34,10 @@
             <th jhiSortBy="estimatedDate"><span>Estimated Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="uom"><span>Uom</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="unit"><span>Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="unitPrice"><span>Unit Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!--<th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="requisitionRequisitionNo"><span>Requisition</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productName"><span>Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
@@ -49,9 +50,10 @@
                 <td>{{requisitionDetails.estimatedDate | date:'mediumDate'}}</td>
                 <td>{{requisitionDetails.uom}}</td>
                 <td>{{requisitionDetails.unit}}</td>
+                <td>{{requisitionDetails.unitPrice}}</td>
                 <td>{{requisitionDetails.quantity}}</td>
-                <!--<td>{{requisitionDetails.modifiedBy}}</td>
-                <td>{{requisitionDetails.modifiedOn | date:'mediumDate'}}</td>-->
+                <td>{{requisitionDetails.modifiedBy}}</td>
+                <td>{{requisitionDetails.modifiedOn | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="requisitionDetails.requisitionId">
                         <a [routerLink]="['../requisition', requisitionDetails.requisitionId , 'view' ]" >{{requisitionDetails.requisitionRequisitionNo}}</a>
@@ -97,11 +99,6 @@
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
-    </div>
-    <div class="row" *ngIf="requisitionDetail.requisitionId" align="right">
-        <div class="col-12">
-            <button class="btn btn-danger" (click)="back()">Back</button>
         </div>
     </div>
 </div>

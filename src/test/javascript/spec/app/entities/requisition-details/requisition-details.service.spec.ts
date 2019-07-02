@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new RequisitionDetails(0, currentDate, currentDate, UnitOfMeasurements.PCS, 0, 0, 'AAAAAAA', currentDate);
+            elemDefault = new RequisitionDetails(0, currentDate, currentDate, UnitOfMeasurements.PCS, 0, 0, 0, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
@@ -80,6 +80,7 @@ describe('Service Tests', () => {
                         estimatedDate: currentDate.format(DATE_FORMAT),
                         uom: 'BBBBBB',
                         unit: 1,
+                        unitPrice: 1,
                         quantity: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
@@ -110,6 +111,7 @@ describe('Service Tests', () => {
                         estimatedDate: currentDate.format(DATE_FORMAT),
                         uom: 'BBBBBB',
                         unit: 1,
+                        unitPrice: 1,
                         quantity: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)

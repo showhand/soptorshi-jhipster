@@ -69,6 +69,9 @@ public class RequisitionDetailsResourceIntTest {
     private static final Integer DEFAULT_UNIT = 1;
     private static final Integer UPDATED_UNIT = 2;
 
+    private static final BigDecimal DEFAULT_UNIT_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_UNIT_PRICE = new BigDecimal(2);
+
     private static final BigDecimal DEFAULT_QUANTITY = new BigDecimal(1);
     private static final BigDecimal UPDATED_QUANTITY = new BigDecimal(2);
 
@@ -141,6 +144,7 @@ public class RequisitionDetailsResourceIntTest {
             .estimatedDate(DEFAULT_ESTIMATED_DATE)
             .uom(DEFAULT_UOM)
             .unit(DEFAULT_UNIT)
+            .unitPrice(DEFAULT_UNIT_PRICE)
             .quantity(DEFAULT_QUANTITY)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
@@ -172,6 +176,7 @@ public class RequisitionDetailsResourceIntTest {
         assertThat(testRequisitionDetails.getEstimatedDate()).isEqualTo(DEFAULT_ESTIMATED_DATE);
         assertThat(testRequisitionDetails.getUom()).isEqualTo(DEFAULT_UOM);
         assertThat(testRequisitionDetails.getUnit()).isEqualTo(DEFAULT_UNIT);
+        assertThat(testRequisitionDetails.getUnitPrice()).isEqualTo(DEFAULT_UNIT_PRICE);
         assertThat(testRequisitionDetails.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
         assertThat(testRequisitionDetails.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testRequisitionDetails.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
@@ -218,6 +223,7 @@ public class RequisitionDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].estimatedDate").value(hasItem(DEFAULT_ESTIMATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].uom").value(hasItem(DEFAULT_UOM.toString())))
             .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT)))
+            .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
@@ -238,6 +244,7 @@ public class RequisitionDetailsResourceIntTest {
             .andExpect(jsonPath("$.estimatedDate").value(DEFAULT_ESTIMATED_DATE.toString()))
             .andExpect(jsonPath("$.uom").value(DEFAULT_UOM.toString()))
             .andExpect(jsonPath("$.unit").value(DEFAULT_UNIT))
+            .andExpect(jsonPath("$.unitPrice").value(DEFAULT_UNIT_PRICE.intValue()))
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
@@ -482,6 +489,45 @@ public class RequisitionDetailsResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllRequisitionDetailsByUnitPriceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        requisitionDetailsRepository.saveAndFlush(requisitionDetails);
+
+        // Get all the requisitionDetailsList where unitPrice equals to DEFAULT_UNIT_PRICE
+        defaultRequisitionDetailsShouldBeFound("unitPrice.equals=" + DEFAULT_UNIT_PRICE);
+
+        // Get all the requisitionDetailsList where unitPrice equals to UPDATED_UNIT_PRICE
+        defaultRequisitionDetailsShouldNotBeFound("unitPrice.equals=" + UPDATED_UNIT_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionDetailsByUnitPriceIsInShouldWork() throws Exception {
+        // Initialize the database
+        requisitionDetailsRepository.saveAndFlush(requisitionDetails);
+
+        // Get all the requisitionDetailsList where unitPrice in DEFAULT_UNIT_PRICE or UPDATED_UNIT_PRICE
+        defaultRequisitionDetailsShouldBeFound("unitPrice.in=" + DEFAULT_UNIT_PRICE + "," + UPDATED_UNIT_PRICE);
+
+        // Get all the requisitionDetailsList where unitPrice equals to UPDATED_UNIT_PRICE
+        defaultRequisitionDetailsShouldNotBeFound("unitPrice.in=" + UPDATED_UNIT_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionDetailsByUnitPriceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        requisitionDetailsRepository.saveAndFlush(requisitionDetails);
+
+        // Get all the requisitionDetailsList where unitPrice is not null
+        defaultRequisitionDetailsShouldBeFound("unitPrice.specified=true");
+
+        // Get all the requisitionDetailsList where unitPrice is null
+        defaultRequisitionDetailsShouldNotBeFound("unitPrice.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllRequisitionDetailsByQuantityIsEqualToSomething() throws Exception {
         // Initialize the database
         requisitionDetailsRepository.saveAndFlush(requisitionDetails);
@@ -673,6 +719,7 @@ public class RequisitionDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].estimatedDate").value(hasItem(DEFAULT_ESTIMATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].uom").value(hasItem(DEFAULT_UOM.toString())))
             .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT)))
+            .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
@@ -727,6 +774,7 @@ public class RequisitionDetailsResourceIntTest {
             .estimatedDate(UPDATED_ESTIMATED_DATE)
             .uom(UPDATED_UOM)
             .unit(UPDATED_UNIT)
+            .unitPrice(UPDATED_UNIT_PRICE)
             .quantity(UPDATED_QUANTITY)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
@@ -745,6 +793,7 @@ public class RequisitionDetailsResourceIntTest {
         assertThat(testRequisitionDetails.getEstimatedDate()).isEqualTo(UPDATED_ESTIMATED_DATE);
         assertThat(testRequisitionDetails.getUom()).isEqualTo(UPDATED_UOM);
         assertThat(testRequisitionDetails.getUnit()).isEqualTo(UPDATED_UNIT);
+        assertThat(testRequisitionDetails.getUnitPrice()).isEqualTo(UPDATED_UNIT_PRICE);
         assertThat(testRequisitionDetails.getQuantity()).isEqualTo(UPDATED_QUANTITY);
         assertThat(testRequisitionDetails.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testRequisitionDetails.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
@@ -812,6 +861,7 @@ public class RequisitionDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].estimatedDate").value(hasItem(DEFAULT_ESTIMATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].uom").value(hasItem(DEFAULT_UOM.toString())))
             .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT)))
+            .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));

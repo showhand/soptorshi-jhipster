@@ -40,6 +40,9 @@ public class RequisitionDetails implements Serializable {
     @Column(name = "unit")
     private Integer unit;
 
+    @Column(name = "unit_price", precision = 10, scale = 2)
+    private BigDecimal unitPrice;
+
     @Column(name = "quantity", precision = 10, scale = 2)
     private BigDecimal quantity;
 
@@ -116,6 +119,19 @@ public class RequisitionDetails implements Serializable {
 
     public void setUnit(Integer unit) {
         this.unit = unit;
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public RequisitionDetails unitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
+        return this;
+    }
+
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     public BigDecimal getQuantity() {
@@ -212,6 +228,7 @@ public class RequisitionDetails implements Serializable {
             ", estimatedDate='" + getEstimatedDate() + "'" +
             ", uom='" + getUom() + "'" +
             ", unit=" + getUnit() +
+            ", unitPrice=" + getUnitPrice() +
             ", quantity=" + getQuantity() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +

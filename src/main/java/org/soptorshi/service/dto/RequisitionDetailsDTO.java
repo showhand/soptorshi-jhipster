@@ -20,6 +20,8 @@ public class RequisitionDetailsDTO implements Serializable {
 
     private Integer unit;
 
+    private BigDecimal unitPrice;
+
     private BigDecimal quantity;
 
     private String modifiedBy;
@@ -73,6 +75,14 @@ public class RequisitionDetailsDTO implements Serializable {
 
     public void setUnit(Integer unit) {
         this.unit = unit;
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     public BigDecimal getQuantity() {
@@ -160,6 +170,7 @@ public class RequisitionDetailsDTO implements Serializable {
             ", estimatedDate='" + getEstimatedDate() + "'" +
             ", uom='" + getUom() + "'" +
             ", unit=" + getUnit() +
+            ", unitPrice=" + getUnitPrice() +
             ", quantity=" + getQuantity() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +

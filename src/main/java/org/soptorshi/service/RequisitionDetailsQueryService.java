@@ -105,6 +105,9 @@ public class RequisitionDetailsQueryService extends QueryService<RequisitionDeta
             if (criteria.getUnit() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUnit(), RequisitionDetails_.unit));
             }
+            if (criteria.getUnitPrice() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getUnitPrice(), RequisitionDetails_.unitPrice));
+            }
             if (criteria.getQuantity() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getQuantity(), RequisitionDetails_.quantity));
             }

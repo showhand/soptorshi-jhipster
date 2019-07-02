@@ -40,6 +40,8 @@ public class RequisitionDetailsCriteria implements Serializable {
 
     private IntegerFilter unit;
 
+    private BigDecimalFilter unitPrice;
+
     private BigDecimalFilter quantity;
 
     private StringFilter modifiedBy;
@@ -88,6 +90,14 @@ public class RequisitionDetailsCriteria implements Serializable {
 
     public void setUnit(IntegerFilter unit) {
         this.unit = unit;
+    }
+
+    public BigDecimalFilter getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(BigDecimalFilter unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     public BigDecimalFilter getQuantity() {
@@ -146,6 +156,7 @@ public class RequisitionDetailsCriteria implements Serializable {
             Objects.equals(estimatedDate, that.estimatedDate) &&
             Objects.equals(uom, that.uom) &&
             Objects.equals(unit, that.unit) &&
+            Objects.equals(unitPrice, that.unitPrice) &&
             Objects.equals(quantity, that.quantity) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
@@ -161,6 +172,7 @@ public class RequisitionDetailsCriteria implements Serializable {
         estimatedDate,
         uom,
         unit,
+        unitPrice,
         quantity,
         modifiedBy,
         modifiedOn,
@@ -177,6 +189,7 @@ public class RequisitionDetailsCriteria implements Serializable {
                 (estimatedDate != null ? "estimatedDate=" + estimatedDate + ", " : "") +
                 (uom != null ? "uom=" + uom + ", " : "") +
                 (unit != null ? "unit=" + unit + ", " : "") +
+                (unitPrice != null ? "unitPrice=" + unitPrice + ", " : "") +
                 (quantity != null ? "quantity=" + quantity + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +

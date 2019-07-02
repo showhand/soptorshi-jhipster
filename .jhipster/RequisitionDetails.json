@@ -19,6 +19,10 @@
             "fieldType": "Integer"
         },
         {
+            "fieldName": "unitPrice",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "quantity",
             "fieldType": "BigDecimal"
         },

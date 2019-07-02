@@ -13,6 +13,7 @@ export interface IRequisitionDetails {
     estimatedDate?: Moment;
     uom?: UnitOfMeasurements;
     unit?: number;
+    unitPrice?: number;
     quantity?: number;
     modifiedBy?: string;
     modifiedOn?: Moment;
@@ -29,6 +30,7 @@ export class RequisitionDetails implements IRequisitionDetails {
         public estimatedDate?: Moment,
         public uom?: UnitOfMeasurements,
         public unit?: number,
+        public unitPrice?: number,
         public quantity?: number,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
