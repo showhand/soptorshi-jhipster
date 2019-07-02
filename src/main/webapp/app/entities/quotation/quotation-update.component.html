@@ -97,12 +97,34 @@
                         <option value="NOT_SELECTED">NOT_SELECTED</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                        [(ngModel)]="quotation.modifiedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="quotation.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_requisition">Requisition</label>
                     <select class="form-control" id="field_requisition" name="requisition" [(ngModel)]="quotation.requisitionId" >
                         <option [ngValue]="null"></option>
                         <option [ngValue]="requisitionOption.id" *ngFor="let requisitionOption of requisitions; trackBy: trackRequisitionById">{{requisitionOption.requisitionNo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_vendor">Vendor</label>
+                    <select class="form-control" id="field_vendor" name="vendor" [(ngModel)]="quotation.vendorId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="vendorOption.id" *ngFor="let vendorOption of vendors; trackBy: trackVendorById">{{vendorOption.companyName}}</option>
                     </select>
                 </div>
             </div>

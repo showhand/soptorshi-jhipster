@@ -93,6 +93,10 @@ public class Quotation implements Serializable {
     @JsonIgnoreProperties("quotations")
     private Requisition requisition;
 
+    @ManyToOne
+    @JsonIgnoreProperties("quotations")
+    private Vendor vendor;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -295,6 +299,19 @@ public class Quotation implements Serializable {
 
     public void setRequisition(Requisition requisition) {
         this.requisition = requisition;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public Quotation vendor(Vendor vendor) {
+        this.vendor = vendor;
+        return this;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -54,6 +54,10 @@ public class QuotationDTO implements Serializable {
 
     private String requisitionRequisitionNo;
 
+    private Long vendorId;
+
+    private String vendorCompanyName;
+
     public Long getId() {
         return id;
     }
@@ -190,6 +194,22 @@ public class QuotationDTO implements Serializable {
         this.requisitionRequisitionNo = requisitionRequisitionNo;
     }
 
+    public Long getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(Long vendorId) {
+        this.vendorId = vendorId;
+    }
+
+    public String getVendorCompanyName() {
+        return vendorCompanyName;
+    }
+
+    public void setVendorCompanyName(String vendorCompanyName) {
+        this.vendorCompanyName = vendorCompanyName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -230,6 +250,8 @@ public class QuotationDTO implements Serializable {
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", requisition=" + getRequisitionId() +
             ", requisition='" + getRequisitionRequisitionNo() + "'" +
+            ", vendor=" + getVendorId() +
+            ", vendor='" + getVendorCompanyName() + "'" +
             "}";
     }
 }

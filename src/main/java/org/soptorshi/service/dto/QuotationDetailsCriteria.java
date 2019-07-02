@@ -76,8 +76,6 @@ public class QuotationDetailsCriteria implements Serializable {
 
     private LongFilter quotationId;
 
-    private LongFilter vendorId;
-
     private LongFilter requisitionDetailsId;
 
     public LongFilter getId() {
@@ -168,14 +166,6 @@ public class QuotationDetailsCriteria implements Serializable {
         this.quotationId = quotationId;
     }
 
-    public LongFilter getVendorId() {
-        return vendorId;
-    }
-
-    public void setVendorId(LongFilter vendorId) {
-        this.vendorId = vendorId;
-    }
-
     public LongFilter getRequisitionDetailsId() {
         return requisitionDetailsId;
     }
@@ -206,7 +196,6 @@ public class QuotationDetailsCriteria implements Serializable {
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(quotationId, that.quotationId) &&
-            Objects.equals(vendorId, that.vendorId) &&
             Objects.equals(requisitionDetailsId, that.requisitionDetailsId);
     }
 
@@ -224,7 +213,6 @@ public class QuotationDetailsCriteria implements Serializable {
         modifiedBy,
         modifiedOn,
         quotationId,
-        vendorId,
         requisitionDetailsId
         );
     }
@@ -243,7 +231,6 @@ public class QuotationDetailsCriteria implements Serializable {
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (quotationId != null ? "quotationId=" + quotationId + ", " : "") +
-                (vendorId != null ? "vendorId=" + vendorId + ", " : "") +
                 (requisitionDetailsId != null ? "requisitionDetailsId=" + requisitionDetailsId + ", " : "") +
             "}";
     }

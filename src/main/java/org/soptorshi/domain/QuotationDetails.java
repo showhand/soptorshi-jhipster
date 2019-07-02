@@ -77,10 +77,6 @@ public class QuotationDetails implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("quotationDetails")
-    private Vendor vendor;
-
-    @ManyToOne
-    @JsonIgnoreProperties("quotationDetails")
     private RequisitionDetails requisitionDetails;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -233,19 +229,6 @@ public class QuotationDetails implements Serializable {
 
     public void setQuotation(Quotation quotation) {
         this.quotation = quotation;
-    }
-
-    public Vendor getVendor() {
-        return vendor;
-    }
-
-    public QuotationDetails vendor(Vendor vendor) {
-        this.vendor = vendor;
-        return this;
-    }
-
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
     }
 
     public RequisitionDetails getRequisitionDetails() {

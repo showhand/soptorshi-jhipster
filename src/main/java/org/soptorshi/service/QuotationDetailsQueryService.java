@@ -124,10 +124,6 @@ public class QuotationDetailsQueryService extends QueryService<QuotationDetails>
                 specification = specification.and(buildSpecification(criteria.getQuotationId(),
                     root -> root.join(QuotationDetails_.quotation, JoinType.LEFT).get(Quotation_.id)));
             }
-            if (criteria.getVendorId() != null) {
-                specification = specification.and(buildSpecification(criteria.getVendorId(),
-                    root -> root.join(QuotationDetails_.vendor, JoinType.LEFT).get(Vendor_.id)));
-            }
             if (criteria.getRequisitionDetailsId() != null) {
                 specification = specification.and(buildSpecification(criteria.getRequisitionDetailsId(),
                     root -> root.join(QuotationDetails_.requisitionDetails, JoinType.LEFT).get(RequisitionDetails_.id)));

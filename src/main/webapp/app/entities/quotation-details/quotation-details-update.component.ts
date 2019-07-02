@@ -9,8 +9,6 @@ import { IQuotationDetails } from 'app/shared/model/quotation-details.model';
 import { QuotationDetailsService } from './quotation-details.service';
 import { IQuotation } from 'app/shared/model/quotation.model';
 import { QuotationService } from 'app/entities/quotation';
-import { IVendor } from 'app/shared/model/vendor.model';
-import { VendorService } from 'app/entities/vendor';
 import { IRequisitionDetails } from 'app/shared/model/requisition-details.model';
 import { RequisitionDetailsService } from 'app/entities/requisition-details';
 
@@ -24,8 +22,6 @@ export class QuotationDetailsUpdateComponent implements OnInit {
 
     quotations: IQuotation[];
 
-    vendors: IVendor[];
-
     requisitiondetails: IRequisitionDetails[];
     modifiedOnDp: any;
 
@@ -34,7 +30,6 @@ export class QuotationDetailsUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected quotationDetailsService: QuotationDetailsService,
         protected quotationService: QuotationService,
-        protected vendorService: VendorService,
         protected requisitionDetailsService: RequisitionDetailsService,
         protected activatedRoute: ActivatedRoute
     ) {}
@@ -51,13 +46,6 @@ export class QuotationDetailsUpdateComponent implements OnInit {
                 map((response: HttpResponse<IQuotation[]>) => response.body)
             )
             .subscribe((res: IQuotation[]) => (this.quotations = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.vendorService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IVendor[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IVendor[]>) => response.body)
-            )
-            .subscribe((res: IVendor[]) => (this.vendors = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.requisitionDetailsService
             .query()
             .pipe(
@@ -113,10 +101,6 @@ export class QuotationDetailsUpdateComponent implements OnInit {
     }
 
     trackQuotationById(index: number, item: IQuotation) {
-        return item.id;
-    }
-
-    trackVendorById(index: number, item: IVendor) {
         return item.id;
     }
 

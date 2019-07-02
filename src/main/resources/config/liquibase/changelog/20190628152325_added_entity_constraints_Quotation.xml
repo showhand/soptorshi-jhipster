@@ -14,5 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="requisition"/>
 
+        <addForeignKeyConstraint baseColumnNames="vendor_id"
+                                 baseTableName="quotation"
+                                 constraintName="fk_quotation_vendor_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="vendor"/>
+
     </changeSet>
 </databaseChangeLog>

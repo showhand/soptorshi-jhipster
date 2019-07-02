@@ -66,6 +66,12 @@
                         <a [routerLink]="['/requisition', quotation.requisitionId, 'view']">{{quotation.requisitionRequisitionNo}}</a>
                     </div>
                 </dd>
+                <dt><span>Vendor</span></dt>
+                <dd>
+                    <div *ngIf="quotation.vendorId">
+                        <a [routerLink]="['/vendor', quotation.vendorId, 'view']">{{quotation.vendorCompanyName}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

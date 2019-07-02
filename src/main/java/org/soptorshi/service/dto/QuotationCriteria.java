@@ -86,6 +86,8 @@ public class QuotationCriteria implements Serializable {
 
     private LongFilter requisitionId;
 
+    private LongFilter vendorId;
+
     public LongFilter getId() {
         return id;
     }
@@ -190,6 +192,14 @@ public class QuotationCriteria implements Serializable {
         this.requisitionId = requisitionId;
     }
 
+    public LongFilter getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(LongFilter vendorId) {
+        this.vendorId = vendorId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -213,7 +223,8 @@ public class QuotationCriteria implements Serializable {
             Objects.equals(selectionStatus, that.selectionStatus) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
-            Objects.equals(requisitionId, that.requisitionId);
+            Objects.equals(requisitionId, that.requisitionId) &&
+            Objects.equals(vendorId, that.vendorId);
     }
 
     @Override
@@ -231,7 +242,8 @@ public class QuotationCriteria implements Serializable {
         selectionStatus,
         modifiedBy,
         modifiedOn,
-        requisitionId
+        requisitionId,
+        vendorId
         );
     }
 
@@ -251,6 +263,7 @@ public class QuotationCriteria implements Serializable {
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (requisitionId != null ? "requisitionId=" + requisitionId + ", " : "") +
+                (vendorId != null ? "vendorId=" + vendorId + ", " : "") +
             "}";
     }
 

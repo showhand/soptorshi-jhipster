@@ -43,10 +43,6 @@ public class QuotationDetailsDTO implements Serializable {
 
     private String quotationQuotationNo;
 
-    private Long vendorId;
-
-    private String vendorCompanyName;
-
     private Long requisitionDetailsId;
 
     public Long getId() {
@@ -153,22 +149,6 @@ public class QuotationDetailsDTO implements Serializable {
         this.quotationQuotationNo = quotationQuotationNo;
     }
 
-    public Long getVendorId() {
-        return vendorId;
-    }
-
-    public void setVendorId(Long vendorId) {
-        this.vendorId = vendorId;
-    }
-
-    public String getVendorCompanyName() {
-        return vendorCompanyName;
-    }
-
-    public void setVendorCompanyName(String vendorCompanyName) {
-        this.vendorCompanyName = vendorCompanyName;
-    }
-
     public Long getRequisitionDetailsId() {
         return requisitionDetailsId;
     }
@@ -214,8 +194,6 @@ public class QuotationDetailsDTO implements Serializable {
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", quotation=" + getQuotationId() +
             ", quotation='" + getQuotationQuotationNo() + "'" +
-            ", vendor=" + getVendorId() +
-            ", vendor='" + getVendorCompanyName() + "'" +
             ", requisitionDetails=" + getRequisitionDetailsId() +
             "}";
     }

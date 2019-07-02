@@ -4,6 +4,7 @@ import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.Quotation;
 import org.soptorshi.domain.Requisition;
+import org.soptorshi.domain.Vendor;
 import org.soptorshi.repository.QuotationRepository;
 import org.soptorshi.repository.search.QuotationSearchRepository;
 import org.soptorshi.service.QuotationService;
@@ -768,6 +769,25 @@ public class QuotationResourceIntTest {
 
         // Get all the quotationList where requisition equals to requisitionId + 1
         defaultQuotationShouldNotBeFound("requisitionId.equals=" + (requisitionId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllQuotationsByVendorIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Vendor vendor = VendorResourceIntTest.createEntity(em);
+        em.persist(vendor);
+        em.flush();
+        quotation.setVendor(vendor);
+        quotationRepository.saveAndFlush(quotation);
+        Long vendorId = vendor.getId();
+
+        // Get all the quotationList where vendor equals to vendorId
+        defaultQuotationShouldBeFound("vendorId.equals=" + vendorId);
+
+        // Get all the quotationList where vendor equals to vendorId + 1
+        defaultQuotationShouldNotBeFound("vendorId.equals=" + (vendorId + 1));
     }
 
     /**

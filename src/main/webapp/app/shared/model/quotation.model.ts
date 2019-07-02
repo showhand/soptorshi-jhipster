@@ -50,6 +50,8 @@ export interface IQuotation {
     modifiedOn?: Moment;
     requisitionRequisitionNo?: string;
     requisitionId?: number;
+    vendorCompanyName?: string;
+    vendorId?: number;
 }
 
 export class Quotation implements IQuotation {
@@ -70,6 +72,8 @@ export class Quotation implements IQuotation {
         public modifiedBy?: string,
         public modifiedOn?: Moment,
         public requisitionRequisitionNo?: string,
-        public requisitionId?: number
+        public requisitionId?: number,
+        public vendorCompanyName?: string,
+        public vendorId?: number
     ) {}
 }

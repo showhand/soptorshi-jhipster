@@ -41,7 +41,6 @@
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="quotationQuotationNo"><span>Quotation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="vendorCompanyName"><span>Vendor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="requisitionDetailsId"><span>Requisition Details</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -62,11 +61,6 @@
                 <td>
                     <div *ngIf="quotationDetails.quotationId">
                         <a [routerLink]="['../quotation', quotationDetails.quotationId , 'view' ]" >{{quotationDetails.quotationQuotationNo}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="quotationDetails.vendorId">
-                        <a [routerLink]="['../vendor', quotationDetails.vendorId , 'view' ]" >{{quotationDetails.vendorCompanyName}}</a>
                     </div>
                 </td>
                 <td>

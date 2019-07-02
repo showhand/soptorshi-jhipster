@@ -130,6 +130,10 @@ public class QuotationQueryService extends QueryService<Quotation> {
                 specification = specification.and(buildSpecification(criteria.getRequisitionId(),
                     root -> root.join(Quotation_.requisition, JoinType.LEFT).get(Requisition_.id)));
             }
+            if (criteria.getVendorId() != null) {
+                specification = specification.and(buildSpecification(criteria.getVendorId(),
+                    root -> root.join(Quotation_.vendor, JoinType.LEFT).get(Vendor_.id)));
+            }
         }
         return specification;
     }

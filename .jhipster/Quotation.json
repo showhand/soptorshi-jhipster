@@ -72,6 +72,13 @@
             "otherEntityRelationshipName": "quotation",
             "relationshipName": "requisition",
             "otherEntityField": "requisitionNo"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "vendor",
+            "otherEntityRelationshipName": "quotation",
+            "relationshipName": "vendor",
+            "otherEntityField": "companyName"
         }
     ],
     "changelogDate": "20190628152325",

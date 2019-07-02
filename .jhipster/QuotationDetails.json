@@ -58,13 +58,6 @@
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "vendor",
-            "otherEntityRelationshipName": "quotationDetails",
-            "relationshipName": "vendor",
-            "otherEntityField": "companyName"
-        },
-        {
-            "relationshipType": "many-to-one",
             "otherEntityName": "requisitionDetails",
             "otherEntityRelationshipName": "quotationDetails",
             "relationshipName": "requisitionDetails",

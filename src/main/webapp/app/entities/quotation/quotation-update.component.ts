@@ -9,6 +9,8 @@ import { IQuotation } from 'app/shared/model/quotation.model';
 import { QuotationService } from './quotation.service';
 import { IRequisition } from 'app/shared/model/requisition.model';
 import { RequisitionService } from 'app/entities/requisition';
+import { IVendor } from 'app/shared/model/vendor.model';
+import { VendorService } from 'app/entities/vendor';
 
 @Component({
     selector: 'jhi-quotation-update',
@@ -19,6 +21,8 @@ export class QuotationUpdateComponent implements OnInit {
     isSaving: boolean;
 
     requisitions: IRequisition[];
+
+    vendors: IVendor[];
     modifiedOnDp: any;
 
     constructor(
@@ -26,6 +30,7 @@ export class QuotationUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected quotationService: QuotationService,
         protected requisitionService: RequisitionService,
+        protected vendorService: VendorService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -41,6 +46,13 @@ export class QuotationUpdateComponent implements OnInit {
                 map((response: HttpResponse<IRequisition[]>) => response.body)
             )
             .subscribe((res: IRequisition[]) => (this.requisitions = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.vendorService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IVendor[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IVendor[]>) => response.body)
+            )
+            .subscribe((res: IVendor[]) => (this.vendors = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -86,6 +98,10 @@ export class QuotationUpdateComponent implements OnInit {
     }
 
     trackRequisitionById(index: number, item: IRequisition) {
+        return item.id;
+    }
+
+    trackVendorById(index: number, item: IVendor) {
         return item.id;
     }
 }
