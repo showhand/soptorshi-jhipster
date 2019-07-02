@@ -6,8 +6,8 @@ entity AttendanceExcelUpload {
 entity Attendance {
 	employeeId String required,
     attendanceDate LocalDate required,
-    in Instant,
-    out Instant
+    inTime Instant,
+    outTime Instant
 }
 
 enum AttendanceType {

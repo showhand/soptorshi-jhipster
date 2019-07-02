@@ -34,6 +34,8 @@
     <include file="config/liquibase/changelog/20190603104539_added_entity_LeaveType.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190603104540_added_entity_LeaveApplication.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190603104541_added_entity_LeaveAttachment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190702135348_added_entity_AttendanceExcelUpload.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190702135954_added_entity_Attendance.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
@@ -63,5 +65,6 @@
     <include file="config/liquibase/changelog/20190620053556_monthly_payable_advance_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190603104540_added_entity_constraints_LeaveApplication.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190603104541_added_entity_constraints_LeaveAttachment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190702135954_added_entity_constraints_Attendance.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

@@ -298,6 +298,14 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'leave-balance',
                 loadChildren: './leave-balance/leave-balance.module#SoptorshiLeaveBalanceModule'
+            },
+            {
+                path: 'attendance-excel-upload',
+                loadChildren: './attendance-excel-upload/attendance-excel-upload.module#SoptorshiAttendanceExcelUploadModule'
+            },
+            {
+                path: 'attendance',
+                loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
