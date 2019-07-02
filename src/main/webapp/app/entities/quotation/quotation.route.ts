@@ -19,11 +19,16 @@ export class QuotationResolve implements Resolve<IQuotation> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IQuotation> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const requisitionId = route.params['requisitionId'] ? route.params['requisitionId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<Quotation>) => response.ok),
                 map((quotation: HttpResponse<Quotation>) => quotation.body)
             );
+        } else if (requisitionId) {
+            const quotation = new Quotation();
+            quotation.requisitionId = requisitionId;
+            return of(quotation);
         }
         return of(new Quotation());
     }
@@ -44,8 +49,32 @@ export const quotationRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: ':requisitionId/requisition',
+        component: QuotationComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams,
+            quotation: QuotationResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            defaultSort: 'id,asc',
+            pageTitle: 'Quotations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/view',
         component: QuotationDetailComponent,
+        resolve: {},
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Quotations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':requisitionId/new',
+        component: QuotationUpdateComponent,
         resolve: {
             quotation: QuotationResolve
         },

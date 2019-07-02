@@ -48,11 +48,11 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_unit">Unit</label>
                     <input type="number" class="form-control" name="unit" id="field_unit"
-                        [(ngModel)]="requisitionDetails.unit" />
+                        [(ngModel)]="requisitionDetails.unit" (input)="calculateQuantity()"/>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_unitPrice">Unit Price</label>
-                    <input type="number" class="form-control" name="unitPrice" id="field_unitPrice"
+                    <input type="number" class="form-control" name="unitPrice" id="field_unitPrice" (input)="calculateQuantity()"
                         [(ngModel)]="requisitionDetails.unitPrice" />
                 </div>
                 <div class="form-group">
@@ -76,20 +76,14 @@
                     </div>
                 </div>-->
 
-                <div class="form-group">
+               <!-- <div class="form-group">
                     <label class="form-control-label" for="field_requisition">Requisition</label>
                     <select class="form-control" id="field_requisition" name="requisition" [(ngModel)]="requisitionDetails.requisitionId" >
                         <option [ngValue]="null"></option>
                         <option [ngValue]="requisitionOption.id" *ngFor="let requisitionOption of requisitions; trackBy: trackRequisitionById">{{requisitionOption.requisitionNo}}</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_product">Product</label>
-                    <select class="form-control" id="field_product" name="product" [(ngModel)]="requisitionDetails.productId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
-                    </select>
-                </div>
+                </div>-->
+
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

@@ -27,6 +27,7 @@ describe('Service Tests', () => {
 
             elemDefault = new Requisition(
                 0,
+                0,
                 'AAAAAAA',
                 'AAAAAAA',
                 currentDate,

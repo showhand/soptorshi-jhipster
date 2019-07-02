@@ -16,6 +16,7 @@ import { QuotationService } from './quotation.service';
     templateUrl: './quotation.component.html'
 })
 export class QuotationComponent implements OnInit, OnDestroy {
+    quotation: IQuotation;
     currentAccount: any;
     quotations: IQuotation[];
     error: any;
@@ -71,6 +72,7 @@ export class QuotationComponent implements OnInit, OnDestroy {
         }
         this.quotationService
             .query({
+                'requisitionId.equals': this.quotation.requisitionId,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -86,6 +88,10 @@ export class QuotationComponent implements OnInit, OnDestroy {
             this.previousPage = page;
             this.transition();
         }
+    }
+
+    back() {
+        window.history.back();
     }
 
     transition() {
@@ -131,7 +137,10 @@ export class QuotationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ quotation }) => {
+            this.quotation = quotation;
+            this.loadAll();
+        });
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });

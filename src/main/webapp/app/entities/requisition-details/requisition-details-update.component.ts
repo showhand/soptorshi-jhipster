@@ -72,8 +72,8 @@ export class RequisitionDetailsUpdateComponent implements OnInit {
     }
 
     calculateQuantity() {
-        if (this.requisitionDetails.productId && this.requisitionDetails.unit) {
-            const quantity = this.productPrice.price * this.requisitionDetails.unit;
+        if (this.requisitionDetails.unitPrice && this.requisitionDetails.unit) {
+            const quantity = this.requisitionDetails.unitPrice * this.requisitionDetails.unit;
             this.requisitionDetails.quantity = quantity;
         }
     }
