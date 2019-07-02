@@ -259,7 +259,7 @@ entity Requisition{
    requisitionDate LocalDate,
    //product category
    //payment type
-   //payment stage
+   //payment stage<--- purchase order
    amount BigDecimal,
    status RequisitionStatus,
    purchaseCommitteeRemarks TextBlob,
