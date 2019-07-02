@@ -7,7 +7,7 @@
         Added the constraints for entity Quotation.
     -->
     <changeSet id="20190628152325-2" author="jhipster">
-        
+        <validCheckSum> 7:d3a12a9a7fdf64d7e8f73c403cfbf903</validCheckSum>
         <addForeignKeyConstraint baseColumnNames="requisition_id"
                                  baseTableName="quotation"
                                  constraintName="fk_quotation_requisition_id"
