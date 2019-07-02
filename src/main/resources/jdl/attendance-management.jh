@@ -1,0 +1,25 @@
+entity AttendanceExcelUpload {
+	file AnyBlob required,
+	type AttendanceType required
+}
+
+entity Attendance {
+	employeeId String required,
+    attendanceDate LocalDate required,
+    in Instant,
+    out Instant
+}
+
+enum AttendanceType {
+	FINGER, FACE
+}
+
+relationship ManyToOne {
+	Attendance{attendanceExcelUploads} to AttendanceExcelUpload
+}
+
+paginate * with infinite-scroll
+paginate * with pagination
+dto * with mapstruct
+filter all
+service all with serviceImpl
