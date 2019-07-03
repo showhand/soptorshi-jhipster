@@ -19,11 +19,16 @@ export class TermsAndConditionsResolve implements Resolve<ITermsAndConditions> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ITermsAndConditions> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const purchaseOrderId = route.params['purchaseOrderId'] ? route.params['purchaseOrderId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<TermsAndConditions>) => response.ok),
                 map((termsAndConditions: HttpResponse<TermsAndConditions>) => termsAndConditions.body)
             );
+        } else if (purchaseOrderId) {
+            const termsAndConditions = new TermsAndConditions();
+            termsAndConditions.purchaseOrderId = purchaseOrderId;
+            return of(termsAndConditions);
         }
         return of(new TermsAndConditions());
     }
@@ -44,8 +49,34 @@ export const termsAndConditionsRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: ':purchaseOrderId/purchaseOrder',
+        component: TermsAndConditionsComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams,
+            termsAndConditions: TermsAndConditionsResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            defaultSort: 'id,asc',
+            pageTitle: 'TermsAndConditions'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/view',
         component: TermsAndConditionsDetailComponent,
+        resolve: {
+            termsAndConditions: TermsAndConditionsResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'TermsAndConditions'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':purchaseOrderId/new',
+        component: TermsAndConditionsUpdateComponent,
         resolve: {
             termsAndConditions: TermsAndConditionsResolve
         },

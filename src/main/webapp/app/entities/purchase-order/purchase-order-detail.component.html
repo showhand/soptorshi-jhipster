@@ -41,14 +41,6 @@
                 <dd>
                     <span>{{purchaseOrder.status}}</span>
                 </dd>
-                <dt><span>Modified By</span></dt>
-                <dd>
-                    <span>{{purchaseOrder.modifiedBy}}</span>
-                </dd>
-                <dt><span>Modified On</span></dt>
-                <dd>
-                    <span>{{purchaseOrder.modifiedOn}}</span>
-                </dd>
                 <dt><span>Requisition</span></dt>
                 <dd>
                     <div *ngIf="purchaseOrder.requisitionId">
@@ -73,6 +65,12 @@
                     [routerLink]="['/purchase-order', purchaseOrder.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/terms-and-conditions', purchaseOrder.purchaseOrderId, 'purchaseOrder']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Terms & Conditions</span>
             </button>
         </div>
     </div>

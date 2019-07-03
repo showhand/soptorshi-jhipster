@@ -10,6 +10,7 @@ export const enum PurchaseOrderStatus {
 
 export interface IPurchaseOrder {
     id?: number;
+    purchaseOrderId?: number;
     purchaseOrderNo?: string;
     workOrderNo?: string;
     issueDate?: Moment;
@@ -30,6 +31,7 @@ export interface IPurchaseOrder {
 export class PurchaseOrder implements IPurchaseOrder {
     constructor(
         public id?: number,
+        public purchaseOrderId?: number,
         public purchaseOrderNo?: string,
         public workOrderNo?: string,
         public issueDate?: Moment,

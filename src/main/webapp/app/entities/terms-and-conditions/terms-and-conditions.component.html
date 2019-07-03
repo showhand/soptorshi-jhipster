@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Terms And Conditions</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-terms-and-conditions" [routerLink]="['/terms-and-conditions/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-terms-and-conditions" [routerLink]="['/terms-and-conditions', termsAndCondition.purchaseOrderId,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Terms And Conditions
@@ -31,8 +31,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="purchaseOrderPurchaseOrderNo"><span>Purchase Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -41,8 +39,6 @@
             <tr *ngFor="let termsAndConditions of termsAndConditions ;trackBy: trackId">
                 <td><a [routerLink]="['/terms-and-conditions', termsAndConditions.id, 'view' ]">{{termsAndConditions.id}}</a></td>
                 <td>{{termsAndConditions.description}}</td>
-                <td>{{termsAndConditions.modifiedBy}}</td>
-                <td>{{termsAndConditions.modifiedOn | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="termsAndConditions.purchaseOrderId">
                         <a [routerLink]="['../purchase-order', termsAndConditions.purchaseOrderId , 'view' ]" >{{termsAndConditions.purchaseOrderPurchaseOrderNo}}</a>
@@ -83,6 +79,11 @@
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+    <div class="row" *ngIf="termsAndCondition.purchaseOrderId" align="right">
+        <div class="col-12">
+            <button class="btn btn-danger" (click)="back()">Back</button>
         </div>
     </div>
 </div>

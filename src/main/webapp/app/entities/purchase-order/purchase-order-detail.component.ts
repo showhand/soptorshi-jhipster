@@ -16,6 +16,7 @@ export class PurchaseOrderDetailComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ purchaseOrder }) => {
             this.purchaseOrder = purchaseOrder;
+            this.purchaseOrder.purchaseOrderId = this.purchaseOrder.id;
         });
     }
 

@@ -16,6 +16,7 @@ import { TermsAndConditionsService } from './terms-and-conditions.service';
     templateUrl: './terms-and-conditions.component.html'
 })
 export class TermsAndConditionsComponent implements OnInit, OnDestroy {
+    termsAndCondition: ITermsAndConditions;
     currentAccount: any;
     termsAndConditions: ITermsAndConditions[];
     error: any;
@@ -71,6 +72,7 @@ export class TermsAndConditionsComponent implements OnInit, OnDestroy {
         }
         this.termsAndConditionsService
             .query({
+                'purchaseOrderId.equals': this.termsAndCondition.purchaseOrderId,
                 page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
@@ -130,8 +132,15 @@ export class TermsAndConditionsComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
+    back() {
+        window.history.back();
+    }
+
     ngOnInit() {
-        this.loadAll();
+        this.activatedRoute.data.subscribe(({ termsAndConditions }) => {
+            this.termsAndCondition = termsAndConditions;
+            this.loadAll();
+        });
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });

@@ -9,20 +9,7 @@
                 <dd>
                     <span>{{termsAndConditions.description}}</span>
                 </dd>
-                <dt><span>Modified By</span></dt>
-                <dd>
-                    <span>{{termsAndConditions.modifiedBy}}</span>
-                </dd>
-                <dt><span>Modified On</span></dt>
-                <dd>
-                    <span>{{termsAndConditions.modifiedOn}}</span>
-                </dd>
-                <dt><span>Purchase Order</span></dt>
-                <dd>
-                    <div *ngIf="termsAndConditions.purchaseOrderId">
-                        <a [routerLink]="['/purchase-order', termsAndConditions.purchaseOrderId, 'view']">{{termsAndConditions.purchaseOrderPurchaseOrderNo}}</a>
-                    </div>
-                </dd>
+
             </dl>
 
             <button type="submit"
