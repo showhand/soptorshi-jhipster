@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -16,6 +16,8 @@ import { ProductCategoryService } from 'app/entities/product-category';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department';
 import { AccountService } from 'app/core';
+import { PurchaseOrderService } from 'app/entities/purchase-order';
+import { IPurchaseOrder, PurchaseOrderStatus } from 'app/shared/model/purchase-order.model';
 
 @Component({
     selector: 'jhi-requisition-update',
@@ -47,7 +49,8 @@ export class RequisitionUpdateComponent implements OnInit {
         protected productCategoryService: ProductCategoryService,
         protected departmentService: DepartmentService,
         protected activatedRoute: ActivatedRoute,
-        public accountService: AccountService
+        public accountService: AccountService,
+        protected purchaseOrderService: PurchaseOrderService
     ) {}
 
     ngOnInit() {
@@ -187,6 +190,31 @@ export class RequisitionUpdateComponent implements OnInit {
         this.requisition.status = RequisitionStatus.REJECTED_BY_CFO;
         this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
         this.save();
+    }
+
+    protected receivedByRequester() {
+        this.requisition.status = RequisitionStatus.RECEIVED_BY_REQUISIONER;
+        this.save();
+    }
+
+    protected receivedAndVerifiedByHead() {
+        this.requisition.status = RequisitionStatus.RECEIVED_VERIFIED_BY_HEAD;
+        this.save();
+    }
+
+    protected closedByCFO() {
+        this.purchaseOrderService
+            .query({
+                'requisitionId.equals': this.requisition.id
+            })
+            .subscribe((res: HttpResponse<IPurchaseOrder[]>) => {
+                let purchaseOrder = res.body[0];
+                purchaseOrder.status = PurchaseOrderStatus.CLOSED_BY_CFO;
+                this.purchaseOrderService.update(purchaseOrder);
+
+                this.requisition.status = RequisitionStatus.CLOSED_BY_CFO;
+                this.save();
+            });
     }
 
     protected onError(errorMessage: string) {

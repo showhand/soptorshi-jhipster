@@ -103,7 +103,7 @@
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button type="submit" id="save-entity" *ngIf="requisition.status==null || requisition.status=='WAITING_FOR_HEADS_APPROVAL'" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                 </button>
                 <button type="button" id="approve_head"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_DEPARTMENT_HEAD']) && requisition.status=== 'WAITING_FOR_HEADS_APPROVAL'" (click)="approveByHead()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
@@ -123,6 +123,15 @@
                 </button>
                 <button type="button" id="reject_cfo"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO']) && requisition.status=== 'FORWARDED_BY_PURCHASE_COMMITTEE'" (click)="rejectByCFO()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Reject</span>
+                </button>
+                <button type="button" id="receive_requester"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_REQUISITION']) && requisition.status=== 'APPROVED_BY_CFO'" (click)="receivedByRequester()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Receive</span>
+                </button>
+                <button type="button" id="receive_head"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_DEPARTMENT_HEAD']) && requisition.status=== 'RECEIVED_BY_REQUISIONER'" (click)="receivedAndVerifiedByHead()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Receive</span>
+                </button>
+                <button type="button" id="receive_head"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO']) && requisition.status=== 'RECEIVED_VERIFIED_BY_HEAD'" (click)="closedByCFO()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Receive</span>
                 </button>
             </div>
         </form>
