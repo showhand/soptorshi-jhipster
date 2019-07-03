@@ -8,8 +8,10 @@ import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 import { IAttendance } from 'app/shared/model/attendance.model';
 import { AccountService } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { DATE_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
 import { AttendanceService } from './attendance.service';
+import * as moment from 'moment';
+import { Moment } from 'moment';
 
 @Component({
     selector: 'jhi-attendance',
@@ -53,10 +55,11 @@ export class AttendanceComponent implements OnInit, OnDestroy {
         if (this.currentSearch) {
             this.attendanceService
                 .search({
-                    query: this.currentSearch,
+                    query: moment(this.currentSearch).format(DATE_FORMAT),
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort()
+                    sort: this.sort(),
+                    'attendanceDate.equals': moment(this.currentSearch).format(DATE_FORMAT)
                 })
                 .subscribe(
                     (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
@@ -68,7 +71,10 @@ export class AttendanceComponent implements OnInit, OnDestroy {
             .query({
                 page: this.page,
                 size: this.itemsPerPage,
-                sort: this.sort()
+                sort: this.sort(),
+                'attendanceDate.equals': moment(new Date())
+                    .add(-1, 'days')
+                    .format(DATE_FORMAT)
             })
             .subscribe(
                 (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
@@ -95,7 +101,9 @@ export class AttendanceComponent implements OnInit, OnDestroy {
         this.page = 0;
         this.predicate = 'id';
         this.reverse = true;
-        this.currentSearch = '';
+        this.currentSearch = moment(new Date())
+            .add(-1, 'days')
+            .toString();
         this.loadAll();
     }
 
@@ -143,6 +151,7 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     }
 
     protected paginateAttendances(data: IAttendance[], headers: HttpHeaders) {
+        this.attendances = [];
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {

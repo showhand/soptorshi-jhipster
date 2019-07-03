@@ -9,23 +9,25 @@
         <h2 id="page-heading">Excel Uploads</h2>
     </div>
     <div class="col-6">
-        <form name="searchForm" class="form-inline">
-            <div class="input-group w-100 mt-3">
-                <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
-                       name="currentSearch" placeholder="Query">
-                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                    <fa-icon [icon]="'search'"></fa-icon>
-                </button>
-                <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                    <fa-icon [icon]="'trash-alt'"></fa-icon>
-                </button>
-                <button id="jh-create-entity"
-                        class="btn btn-primary float-right jh-create-entity create-attendance-excel-upload"
-                        [routerLink]="['/attendance-excel-upload/new']">
-                    <fa-icon [icon]="'plus'"></fa-icon>
-                </button>
-            </div>
-        </form>
+        <div *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN']">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                           name="currentSearch" placeholder="Query">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                    <button id="jh-create-entity"
+                            class="btn btn-primary float-right jh-create-entity create-attendance-excel-upload"
+                            [routerLink]="['/attendance-excel-upload/new']">
+                        <fa-icon [icon]="'plus'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -62,7 +64,7 @@
                     </td>
                     <td>{{attendanceExcelUpload.type}}</td>
                     <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
+                        <div class="btn-group flex-btn-group-container" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN']">
                             <button type="submit"
                                     [routerLink]="['/attendance-excel-upload', attendanceExcelUpload.id, 'view' ]"
                                     class="btn btn-info btn-sm">

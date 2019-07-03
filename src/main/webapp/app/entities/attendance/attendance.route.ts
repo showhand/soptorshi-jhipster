@@ -33,7 +33,7 @@ export const attendanceRoute: Routes = [
         path: '',
         component: AttendanceComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -45,7 +45,7 @@ export const attendanceRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +57,7 @@ export const attendanceRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -69,7 +69,7 @@ export const attendanceRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -84,7 +84,7 @@ export const attendancePopupRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService],

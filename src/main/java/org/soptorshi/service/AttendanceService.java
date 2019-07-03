@@ -1,5 +1,6 @@
 package org.soptorshi.service;
 
+import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.service.dto.AttendanceDTO;
 
 import org.springframework.data.domain.Page;
@@ -43,6 +44,8 @@ public interface AttendanceService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    void deleteByAttendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload);
 
     /**
      * Search for the attendance corresponding to the query.

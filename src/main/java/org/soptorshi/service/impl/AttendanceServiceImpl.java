@@ -1,5 +1,6 @@
 package org.soptorshi.service.impl;
 
+import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.service.AttendanceService;
 import org.soptorshi.domain.Attendance;
 import org.soptorshi.repository.AttendanceRepository;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -94,6 +96,16 @@ public class AttendanceServiceImpl implements AttendanceService {
         log.debug("Request to delete Attendance : {}", id);
         attendanceRepository.deleteById(id);
         attendanceSearchRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteByAttendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload) {
+        log.debug("Request to delete Attendance : {}", attendanceExcelUpload);
+        List<Attendance> attendances = attendanceRepository.getByAttendanceExcelUpload(attendanceExcelUpload);
+        for(Attendance attendance: attendances) {
+            attendanceRepository.deleteById(attendance.getId());
+            attendanceSearchRepository.deleteById(attendance.getId());
+        }
     }
 
     /**
