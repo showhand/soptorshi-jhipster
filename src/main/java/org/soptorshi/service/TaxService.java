@@ -1,8 +1,10 @@
 package org.soptorshi.service;
 
 import org.soptorshi.domain.Tax;
+import org.soptorshi.domain.enumeration.TaxStatus;
 import org.soptorshi.repository.TaxRepository;
 import org.soptorshi.repository.search.TaxSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.TaxDTO;
 import org.soptorshi.service.mapper.TaxMapper;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -47,6 +50,8 @@ public class TaxService {
     public TaxDTO save(TaxDTO taxDTO) {
         log.debug("Request to save Tax : {}", taxDTO);
         Tax tax = taxMapper.toEntity(taxDTO);
+        tax.setModifiedBy(SecurityUtils.getCurrentUserLogin().toString());
+        tax.setModifiedOn(LocalDate.now());
         tax = taxRepository.save(tax);
         TaxDTO result = taxMapper.toDto(tax);
         taxSearchRepository.save(tax);
@@ -64,6 +69,11 @@ public class TaxService {
         log.debug("Request to get all Taxes");
         return taxRepository.findAll(pageable)
             .map(taxMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Tax find(Long employeeId, TaxStatus taxStatus){
+        return taxRepository.findByEmployee_IdAndTaxStatus(employeeId, taxStatus);
     }
 
 

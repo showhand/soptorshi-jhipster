@@ -19,11 +19,21 @@ export class TaxResolve implements Resolve<ITax> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ITax> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const employeeLongId = route.params['employeeLongId'] ? route.params['employeeLongId'] : null;
+        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<Tax>) => response.ok),
                 map((tax: HttpResponse<Tax>) => tax.body)
             );
+        } else if (employeeLongId) {
+            const tax = new Tax();
+            tax.employeeId = employeeLongId;
+            return of(tax);
+        } else if (employeeId) {
+            const tax = new Tax();
+            tax.employeeId = employeeId;
+            return of(tax);
         }
         return of(new Tax());
     }
@@ -37,7 +47,21 @@ export const taxRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
+            defaultSort: 'id,asc',
+            pageTitle: 'Taxes'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeLongId/employee',
+        component: TaxComponent,
+        resolve: {
+            pagingParams: JhiResolvePagingParams,
+            tax: TaxResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Taxes'
         },
@@ -50,7 +74,19 @@ export const taxRoute: Routes = [
             tax: TaxResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
+            pageTitle: 'Taxes'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':employeeId/new',
+        component: TaxUpdateComponent,
+        resolve: {
+            tax: TaxResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Taxes'
         },
         canActivate: [UserRouteAccessService]
@@ -62,7 +98,7 @@ export const taxRoute: Routes = [
             tax: TaxResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Taxes'
         },
         canActivate: [UserRouteAccessService]
@@ -74,7 +110,7 @@ export const taxRoute: Routes = [
             tax: TaxResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Taxes'
         },
         canActivate: [UserRouteAccessService]
@@ -89,7 +125,7 @@ export const taxPopupRoute: Routes = [
             tax: TaxResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Taxes'
         },
         canActivate: [UserRouteAccessService],

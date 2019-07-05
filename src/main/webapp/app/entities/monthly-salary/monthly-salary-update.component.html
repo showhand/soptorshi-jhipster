@@ -78,6 +78,11 @@
                         [(ngModel)]="monthlySalary.otherAllowance" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_festivalAllowance">Festival Allowance</label>
+                    <input type="number" class="form-control" name="festivalAllowance" id="field_festivalAllowance"
+                        [(ngModel)]="monthlySalary.festivalAllowance" />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_absent">Absent</label>
                     <input type="number" class="form-control" name="absent" id="field_absent"
                         [(ngModel)]="monthlySalary.absent" />
@@ -113,6 +118,16 @@
                         [(ngModel)]="monthlySalary.loanAmount" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_billPayable">Bill Payable</label>
+                    <input type="number" class="form-control" name="billPayable" id="field_billPayable"
+                        [(ngModel)]="monthlySalary.billPayable" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_billReceivable">Bill Receivable</label>
+                    <input type="number" class="form-control" name="billReceivable" id="field_billReceivable"
+                        [(ngModel)]="monthlySalary.billReceivable" />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_payable">Payable</label>
                     <input type="number" class="form-control" name="payable" id="field_payable"
                         [(ngModel)]="monthlySalary.payable" />
@@ -137,7 +152,7 @@
                     <label class="form-control-label" for="field_employee">Employee</label>
                     <select class="form-control" id="field_employee" name="employee" [(ngModel)]="monthlySalary.employeeId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.id}}</option>
+                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
                     </select>
                 </div>
             </div>

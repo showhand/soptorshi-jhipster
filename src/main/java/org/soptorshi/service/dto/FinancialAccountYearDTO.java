@@ -1,7 +1,9 @@
 package org.soptorshi.service.dto;
 import java.time.LocalDate;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.FinancialYearStatus;
 
 /**
  * A DTO for the FinancialAccountYear entity.
@@ -10,13 +12,18 @@ public class FinancialAccountYearDTO implements Serializable {
 
     private Long id;
 
+    
     private LocalDate startDate;
 
+    
     private LocalDate endDate;
 
-    private Long previousYear;
+    private LocalDate previousStartDate;
 
-    private Boolean status;
+    private LocalDate previousEndDate;
+
+    
+    private FinancialYearStatus status;
 
 
     public Long getId() {
@@ -43,19 +50,27 @@ public class FinancialAccountYearDTO implements Serializable {
         this.endDate = endDate;
     }
 
-    public Long getPreviousYear() {
-        return previousYear;
+    public LocalDate getPreviousStartDate() {
+        return previousStartDate;
     }
 
-    public void setPreviousYear(Long previousYear) {
-        this.previousYear = previousYear;
+    public void setPreviousStartDate(LocalDate previousStartDate) {
+        this.previousStartDate = previousStartDate;
     }
 
-    public Boolean isStatus() {
+    public LocalDate getPreviousEndDate() {
+        return previousEndDate;
+    }
+
+    public void setPreviousEndDate(LocalDate previousEndDate) {
+        this.previousEndDate = previousEndDate;
+    }
+
+    public FinancialYearStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(FinancialYearStatus status) {
         this.status = status;
     }
 
@@ -86,8 +101,9 @@ public class FinancialAccountYearDTO implements Serializable {
             "id=" + getId() +
             ", startDate='" + getStartDate() + "'" +
             ", endDate='" + getEndDate() + "'" +
-            ", previousYear=" + getPreviousYear() +
-            ", status='" + isStatus() + "'" +
+            ", previousStartDate='" + getPreviousStartDate() + "'" +
+            ", previousEndDate='" + getPreviousEndDate() + "'" +
+            ", status='" + getStatus() + "'" +
             "}";
     }
 }

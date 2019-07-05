@@ -11,6 +11,7 @@ type EntityArrayResponseType = HttpResponse<IPayrollManagement[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PayrollManagementService {
+    public payrollManagement: IPayrollManagement;
     public resourceUrl = SERVER_API_URL + 'api/payroll-managements';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/payroll-managements';
 

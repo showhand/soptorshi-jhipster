@@ -1,0 +1,105 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-quotation-details-heading">Create or edit a Quotation Details</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!quotationDetails.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="quotationDetails.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_currency">Currency</label>
+                    <select class="form-control" name="currency" [(ngModel)]="quotationDetails.currency" id="field_currency" >
+                        <option value="TAKA">TAKA</option>
+                        <option value="DOLLAR">DOLLAR</option>
+                        <option value="EURO">EURO</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_payType">Pay Type</label>
+                    <select class="form-control" name="payType" [(ngModel)]="quotationDetails.payType" id="field_payType" >
+                        <option value="CASH">CASH</option>
+                        <option value="PAY_ORDER">PAY_ORDER</option>
+                        <option value="CHEQUE">CHEQUE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_creditLimit">Credit Limit</label>
+                    <input type="number" class="form-control" name="creditLimit" id="field_creditLimit"
+                        [(ngModel)]="quotationDetails.creditLimit" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_vatStatus">Vat Status</label>
+                    <select class="form-control" name="vatStatus" [(ngModel)]="quotationDetails.vatStatus" id="field_vatStatus" >
+                        <option value="EXCLUDED">EXCLUDED</option>
+                        <option value="INCLUDED">INCLUDED</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_aitStatus">Ait Status</label>
+                    <select class="form-control" name="aitStatus" [(ngModel)]="quotationDetails.aitStatus" id="field_aitStatus" >
+                        <option value="EXCLUDED">EXCLUDED</option>
+                        <option value="INCLUDED">INCLUDED</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_warrantyStatus">Warranty Status</label>
+                    <select class="form-control" name="warrantyStatus" [(ngModel)]="quotationDetails.warrantyStatus" id="field_warrantyStatus" >
+                        <option value="WARRANTY">WARRANTY</option>
+                        <option value="NO_WARRANTY">NO_WARRANTY</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_loadingPort">Loading Port</label>
+                    <input type="text" class="form-control" name="loadingPort" id="field_loadingPort"
+                        [(ngModel)]="quotationDetails.loadingPort" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_remarks">Remarks</label>
+                    <textarea class="form-control" name="remarks" id="field_remarks"
+                        [(ngModel)]="quotationDetails.remarks" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                        [(ngModel)]="quotationDetails.modifiedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="quotationDetails.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_quotation">Quotation</label>
+                    <select class="form-control" id="field_quotation" name="quotation" [(ngModel)]="quotationDetails.quotationId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="quotationOption.id" *ngFor="let quotationOption of quotations; trackBy: trackQuotationById">{{quotationOption.quotationNo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_requisitionDetails">Requisition Details</label>
+                    <select class="form-control" id="field_requisitionDetails" name="requisitionDetails" [(ngModel)]="quotationDetails.requisitionDetailsId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="requisitionDetailsOption.id" *ngFor="let requisitionDetailsOption of requisitiondetails; trackBy: trackRequisitionDetailsById">{{requisitionDetailsOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

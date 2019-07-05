@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { FinancialAccountYearService } from 'app/entities/financial-account-year/financial-account-year.service';
-import { IFinancialAccountYear, FinancialAccountYear } from 'app/shared/model/financial-account-year.model';
+import { IFinancialAccountYear, FinancialAccountYear, FinancialYearStatus } from 'app/shared/model/financial-account-year.model';
 
 describe('Service Tests', () => {
     describe('FinancialAccountYear Service', () => {
@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new FinancialAccountYear(0, currentDate, currentDate, 0, false);
+            elemDefault = new FinancialAccountYear(0, currentDate, currentDate, currentDate, currentDate, FinancialYearStatus.ACTIVE);
         });
 
         describe('Service methods', async () => {
@@ -33,7 +33,9 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         startDate: currentDate.format(DATE_FORMAT),
-                        endDate: currentDate.format(DATE_FORMAT)
+                        endDate: currentDate.format(DATE_FORMAT),
+                        previousStartDate: currentDate.format(DATE_FORMAT),
+                        previousEndDate: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -51,14 +53,18 @@ describe('Service Tests', () => {
                     {
                         id: 0,
                         startDate: currentDate.format(DATE_FORMAT),
-                        endDate: currentDate.format(DATE_FORMAT)
+                        endDate: currentDate.format(DATE_FORMAT),
+                        previousStartDate: currentDate.format(DATE_FORMAT),
+                        previousEndDate: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
                         startDate: currentDate,
-                        endDate: currentDate
+                        endDate: currentDate,
+                        previousStartDate: currentDate,
+                        previousEndDate: currentDate
                     },
                     returnedFromService
                 );
@@ -75,8 +81,9 @@ describe('Service Tests', () => {
                     {
                         startDate: currentDate.format(DATE_FORMAT),
                         endDate: currentDate.format(DATE_FORMAT),
-                        previousYear: 1,
-                        status: true
+                        previousStartDate: currentDate.format(DATE_FORMAT),
+                        previousEndDate: currentDate.format(DATE_FORMAT),
+                        status: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -84,7 +91,9 @@ describe('Service Tests', () => {
                 const expected = Object.assign(
                     {
                         startDate: currentDate,
-                        endDate: currentDate
+                        endDate: currentDate,
+                        previousStartDate: currentDate,
+                        previousEndDate: currentDate
                     },
                     returnedFromService
                 );
@@ -101,15 +110,18 @@ describe('Service Tests', () => {
                     {
                         startDate: currentDate.format(DATE_FORMAT),
                         endDate: currentDate.format(DATE_FORMAT),
-                        previousYear: 1,
-                        status: true
+                        previousStartDate: currentDate.format(DATE_FORMAT),
+                        previousEndDate: currentDate.format(DATE_FORMAT),
+                        status: 'BBBBBB'
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
                         startDate: currentDate,
-                        endDate: currentDate
+                        endDate: currentDate,
+                        previousStartDate: currentDate,
+                        previousEndDate: currentDate
                     },
                     returnedFromService
                 );

@@ -44,6 +44,8 @@ public class MonthlySalaryCriteria implements Serializable {
 
     private BigDecimalFilter otherAllowance;
 
+    private BigDecimalFilter festivalAllowance;
+
     private IntegerFilter absent;
 
     private BigDecimalFilter fine;
@@ -57,6 +59,10 @@ public class MonthlySalaryCriteria implements Serializable {
     private BigDecimalFilter tax;
 
     private BigDecimalFilter loanAmount;
+
+    private BigDecimalFilter billPayable;
+
+    private BigDecimalFilter billReceivable;
 
     private BigDecimalFilter payable;
 
@@ -122,6 +128,14 @@ public class MonthlySalaryCriteria implements Serializable {
         this.otherAllowance = otherAllowance;
     }
 
+    public BigDecimalFilter getFestivalAllowance() {
+        return festivalAllowance;
+    }
+
+    public void setFestivalAllowance(BigDecimalFilter festivalAllowance) {
+        this.festivalAllowance = festivalAllowance;
+    }
+
     public IntegerFilter getAbsent() {
         return absent;
     }
@@ -178,6 +192,22 @@ public class MonthlySalaryCriteria implements Serializable {
         this.loanAmount = loanAmount;
     }
 
+    public BigDecimalFilter getBillPayable() {
+        return billPayable;
+    }
+
+    public void setBillPayable(BigDecimalFilter billPayable) {
+        this.billPayable = billPayable;
+    }
+
+    public BigDecimalFilter getBillReceivable() {
+        return billReceivable;
+    }
+
+    public void setBillReceivable(BigDecimalFilter billReceivable) {
+        this.billReceivable = billReceivable;
+    }
+
     public BigDecimalFilter getPayable() {
         return payable;
     }
@@ -228,6 +258,7 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(houseRent, that.houseRent) &&
             Objects.equals(medicalAllowance, that.medicalAllowance) &&
             Objects.equals(otherAllowance, that.otherAllowance) &&
+            Objects.equals(festivalAllowance, that.festivalAllowance) &&
             Objects.equals(absent, that.absent) &&
             Objects.equals(fine, that.fine) &&
             Objects.equals(advanceHO, that.advanceHO) &&
@@ -235,6 +266,8 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(providentFund, that.providentFund) &&
             Objects.equals(tax, that.tax) &&
             Objects.equals(loanAmount, that.loanAmount) &&
+            Objects.equals(billPayable, that.billPayable) &&
+            Objects.equals(billReceivable, that.billReceivable) &&
             Objects.equals(payable, that.payable) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
@@ -251,6 +284,7 @@ public class MonthlySalaryCriteria implements Serializable {
         houseRent,
         medicalAllowance,
         otherAllowance,
+        festivalAllowance,
         absent,
         fine,
         advanceHO,
@@ -258,6 +292,8 @@ public class MonthlySalaryCriteria implements Serializable {
         providentFund,
         tax,
         loanAmount,
+        billPayable,
+        billReceivable,
         payable,
         modifiedBy,
         modifiedOn,
@@ -275,6 +311,7 @@ public class MonthlySalaryCriteria implements Serializable {
                 (houseRent != null ? "houseRent=" + houseRent + ", " : "") +
                 (medicalAllowance != null ? "medicalAllowance=" + medicalAllowance + ", " : "") +
                 (otherAllowance != null ? "otherAllowance=" + otherAllowance + ", " : "") +
+                (festivalAllowance != null ? "festivalAllowance=" + festivalAllowance + ", " : "") +
                 (absent != null ? "absent=" + absent + ", " : "") +
                 (fine != null ? "fine=" + fine + ", " : "") +
                 (advanceHO != null ? "advanceHO=" + advanceHO + ", " : "") +
@@ -282,6 +319,8 @@ public class MonthlySalaryCriteria implements Serializable {
                 (providentFund != null ? "providentFund=" + providentFund + ", " : "") +
                 (tax != null ? "tax=" + tax + ", " : "") +
                 (loanAmount != null ? "loanAmount=" + loanAmount + ", " : "") +
+                (billPayable != null ? "billPayable=" + billPayable + ", " : "") +
+                (billReceivable != null ? "billReceivable=" + billReceivable + ", " : "") +
                 (payable != null ? "payable=" + payable + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +

@@ -1,11 +1,17 @@
 import { Moment } from 'moment';
 
+export const enum FinancialYearStatus {
+    ACTIVE = 'ACTIVE',
+    NOT_ACTIVE = 'NOT_ACTIVE'
+}
+
 export interface IFinancialAccountYear {
     id?: number;
     startDate?: Moment;
     endDate?: Moment;
-    previousYear?: number;
-    status?: boolean;
+    previousStartDate?: Moment;
+    previousEndDate?: Moment;
+    status?: FinancialYearStatus;
 }
 
 export class FinancialAccountYear implements IFinancialAccountYear {
@@ -13,9 +19,8 @@ export class FinancialAccountYear implements IFinancialAccountYear {
         public id?: number,
         public startDate?: Moment,
         public endDate?: Moment,
-        public previousYear?: number,
-        public status?: boolean
-    ) {
-        this.status = this.status || false;
-    }
+        public previousStartDate?: Moment,
+        public previousEndDate?: Moment,
+        public status?: FinancialYearStatus
+    ) {}
 }

@@ -16,6 +16,7 @@ import { TaxService } from './tax.service';
     templateUrl: './tax.component.html'
 })
 export class TaxComponent implements OnInit, OnDestroy {
+    tax: ITax;
     currentAccount: any;
     taxes: ITax[];
     error: any;
@@ -41,6 +42,9 @@ export class TaxComponent implements OnInit, OnDestroy {
         protected eventManager: JhiEventManager
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
+        this.activatedRoute.data.subscribe(({ tax }) => {
+            this.tax = tax;
+        });
         this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
             this.previousPage = data.pagingParams.page;
@@ -51,6 +55,10 @@ export class TaxComponent implements OnInit, OnDestroy {
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
                 : '';
+    }
+
+    back() {
+        window.history.back();
     }
 
     loadAll() {

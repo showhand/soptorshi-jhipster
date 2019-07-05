@@ -1,0 +1,37 @@
+{
+    "name": "TermsAndConditions",
+    "fields": [
+        {
+            "fieldName": "description",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "purchaseOrder",
+            "otherEntityRelationshipName": "termsAndConditions",
+            "relationshipName": "purchaseOrder",
+            "otherEntityField": "purchaseOrderNo"
+        }
+    ],
+    "changelogDate": "20190628152328",
+    "entityTableName": "terms_and_conditions",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

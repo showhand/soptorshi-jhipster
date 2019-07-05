@@ -28,6 +28,8 @@ public class MonthlySalaryDTO implements Serializable {
 
     private BigDecimal otherAllowance;
 
+    private BigDecimal festivalAllowance;
+
     private Integer absent;
 
     private BigDecimal fine;
@@ -42,6 +44,10 @@ public class MonthlySalaryDTO implements Serializable {
 
     private BigDecimal loanAmount;
 
+    private BigDecimal billPayable;
+
+    private BigDecimal billReceivable;
+
     private BigDecimal payable;
 
     private String modifiedBy;
@@ -50,6 +56,8 @@ public class MonthlySalaryDTO implements Serializable {
 
 
     private Long employeeId;
+
+    private String employeeFullName;
 
     public Long getId() {
         return id;
@@ -105,6 +113,14 @@ public class MonthlySalaryDTO implements Serializable {
 
     public void setOtherAllowance(BigDecimal otherAllowance) {
         this.otherAllowance = otherAllowance;
+    }
+
+    public BigDecimal getFestivalAllowance() {
+        return festivalAllowance;
+    }
+
+    public void setFestivalAllowance(BigDecimal festivalAllowance) {
+        this.festivalAllowance = festivalAllowance;
     }
 
     public Integer getAbsent() {
@@ -163,6 +179,22 @@ public class MonthlySalaryDTO implements Serializable {
         this.loanAmount = loanAmount;
     }
 
+    public BigDecimal getBillPayable() {
+        return billPayable;
+    }
+
+    public void setBillPayable(BigDecimal billPayable) {
+        this.billPayable = billPayable;
+    }
+
+    public BigDecimal getBillReceivable() {
+        return billReceivable;
+    }
+
+    public void setBillReceivable(BigDecimal billReceivable) {
+        this.billReceivable = billReceivable;
+    }
+
     public BigDecimal getPayable() {
         return payable;
     }
@@ -193,6 +225,14 @@ public class MonthlySalaryDTO implements Serializable {
 
     public void setEmployeeId(Long employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
     }
 
     @Override
@@ -226,6 +266,7 @@ public class MonthlySalaryDTO implements Serializable {
             ", houseRent=" + getHouseRent() +
             ", medicalAllowance=" + getMedicalAllowance() +
             ", otherAllowance=" + getOtherAllowance() +
+            ", festivalAllowance=" + getFestivalAllowance() +
             ", absent=" + getAbsent() +
             ", fine=" + getFine() +
             ", advanceHO=" + getAdvanceHO() +
@@ -233,10 +274,13 @@ public class MonthlySalaryDTO implements Serializable {
             ", providentFund=" + getProvidentFund() +
             ", tax=" + getTax() +
             ", loanAmount=" + getLoanAmount() +
+            ", billPayable=" + getBillPayable() +
+            ", billReceivable=" + getBillReceivable() +
             ", payable=" + getPayable() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +
+            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

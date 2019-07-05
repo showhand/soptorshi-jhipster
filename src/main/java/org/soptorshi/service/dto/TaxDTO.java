@@ -1,4 +1,5 @@
 package org.soptorshi.service.dto;
+import java.time.LocalDate;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -11,14 +12,20 @@ public class TaxDTO implements Serializable {
 
     private Long id;
 
-    private BigDecimal minimumSalary;
-
-    private Double rate;
+    private BigDecimal amount;
 
     private TaxStatus taxStatus;
 
+    private String modifiedBy;
+
+    private LocalDate modifiedOn;
+
 
     private Long financialAccountYearId;
+
+    private Long employeeId;
+
+    private String employeeFullName;
 
     public Long getId() {
         return id;
@@ -28,20 +35,12 @@ public class TaxDTO implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getMinimumSalary() {
-        return minimumSalary;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setMinimumSalary(BigDecimal minimumSalary) {
-        this.minimumSalary = minimumSalary;
-    }
-
-    public Double getRate() {
-        return rate;
-    }
-
-    public void setRate(Double rate) {
-        this.rate = rate;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public TaxStatus getTaxStatus() {
@@ -52,12 +51,44 @@ public class TaxDTO implements Serializable {
         this.taxStatus = taxStatus;
     }
 
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public LocalDate getModifiedOn() {
+        return modifiedOn;
+    }
+
+    public void setModifiedOn(LocalDate modifiedOn) {
+        this.modifiedOn = modifiedOn;
+    }
+
     public Long getFinancialAccountYearId() {
         return financialAccountYearId;
     }
 
     public void setFinancialAccountYearId(Long financialAccountYearId) {
         this.financialAccountYearId = financialAccountYearId;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
     }
 
     @Override
@@ -85,10 +116,13 @@ public class TaxDTO implements Serializable {
     public String toString() {
         return "TaxDTO{" +
             "id=" + getId() +
-            ", minimumSalary=" + getMinimumSalary() +
-            ", rate=" + getRate() +
+            ", amount=" + getAmount() +
             ", taxStatus='" + getTaxStatus() + "'" +
+            ", modifiedBy='" + getModifiedBy() + "'" +
+            ", modifiedOn='" + getModifiedOn() + "'" +
             ", financialAccountYear=" + getFinancialAccountYearId() +
+            ", employee=" + getEmployeeId() +
+            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

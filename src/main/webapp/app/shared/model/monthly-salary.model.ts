@@ -23,6 +23,7 @@ export interface IMonthlySalary {
     houseRent?: number;
     medicalAllowance?: number;
     otherAllowance?: number;
+    festivalAllowance?: number;
     absent?: number;
     fine?: number;
     advanceHO?: number;
@@ -30,9 +31,12 @@ export interface IMonthlySalary {
     providentFund?: number;
     tax?: number;
     loanAmount?: number;
+    billPayable?: number;
+    billReceivable?: number;
     payable?: number;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    employeeFullName?: string;
     employeeId?: number;
 }
 
@@ -45,6 +49,7 @@ export class MonthlySalary implements IMonthlySalary {
         public houseRent?: number,
         public medicalAllowance?: number,
         public otherAllowance?: number,
+        public festivalAllowance?: number,
         public absent?: number,
         public fine?: number,
         public advanceHO?: number,
@@ -52,9 +57,12 @@ export class MonthlySalary implements IMonthlySalary {
         public providentFund?: number,
         public tax?: number,
         public loanAmount?: number,
+        public billPayable?: number,
+        public billReceivable?: number,
         public payable?: number,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
+        public employeeFullName?: string,
         public employeeId?: number
     ) {}
 }

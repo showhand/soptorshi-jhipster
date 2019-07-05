@@ -102,9 +102,6 @@ export class EmployeeComponent implements OnInit, OnDestroy {
                         res.body.forEach(m => {
                             managerId.push(m.parentEmployeeId);
                         });
-                        console.log('###################################');
-                        console.log('manager ids');
-                        console.log(managerId);
                         if (this.currentSearch) {
                             this.employeeService
                                 .query({

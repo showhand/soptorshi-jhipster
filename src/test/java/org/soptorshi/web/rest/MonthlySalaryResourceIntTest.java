@@ -74,6 +74,9 @@ public class MonthlySalaryResourceIntTest {
     private static final BigDecimal DEFAULT_OTHER_ALLOWANCE = new BigDecimal(1);
     private static final BigDecimal UPDATED_OTHER_ALLOWANCE = new BigDecimal(2);
 
+    private static final BigDecimal DEFAULT_FESTIVAL_ALLOWANCE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_FESTIVAL_ALLOWANCE = new BigDecimal(2);
+
     private static final Integer DEFAULT_ABSENT = 1;
     private static final Integer UPDATED_ABSENT = 2;
 
@@ -94,6 +97,12 @@ public class MonthlySalaryResourceIntTest {
 
     private static final BigDecimal DEFAULT_LOAN_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_LOAN_AMOUNT = new BigDecimal(2);
+
+    private static final BigDecimal DEFAULT_BILL_PAYABLE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_BILL_PAYABLE = new BigDecimal(2);
+
+    private static final BigDecimal DEFAULT_BILL_RECEIVABLE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_BILL_RECEIVABLE = new BigDecimal(2);
 
     private static final BigDecimal DEFAULT_PAYABLE = new BigDecimal(1);
     private static final BigDecimal UPDATED_PAYABLE = new BigDecimal(2);
@@ -169,6 +178,7 @@ public class MonthlySalaryResourceIntTest {
             .houseRent(DEFAULT_HOUSE_RENT)
             .medicalAllowance(DEFAULT_MEDICAL_ALLOWANCE)
             .otherAllowance(DEFAULT_OTHER_ALLOWANCE)
+            .festivalAllowance(DEFAULT_FESTIVAL_ALLOWANCE)
             .absent(DEFAULT_ABSENT)
             .fine(DEFAULT_FINE)
             .advanceHO(DEFAULT_ADVANCE_HO)
@@ -176,6 +186,8 @@ public class MonthlySalaryResourceIntTest {
             .providentFund(DEFAULT_PROVIDENT_FUND)
             .tax(DEFAULT_TAX)
             .loanAmount(DEFAULT_LOAN_AMOUNT)
+            .billPayable(DEFAULT_BILL_PAYABLE)
+            .billReceivable(DEFAULT_BILL_RECEIVABLE)
             .payable(DEFAULT_PAYABLE)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
@@ -209,6 +221,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(DEFAULT_HOUSE_RENT);
         assertThat(testMonthlySalary.getMedicalAllowance()).isEqualTo(DEFAULT_MEDICAL_ALLOWANCE);
         assertThat(testMonthlySalary.getOtherAllowance()).isEqualTo(DEFAULT_OTHER_ALLOWANCE);
+        assertThat(testMonthlySalary.getFestivalAllowance()).isEqualTo(DEFAULT_FESTIVAL_ALLOWANCE);
         assertThat(testMonthlySalary.getAbsent()).isEqualTo(DEFAULT_ABSENT);
         assertThat(testMonthlySalary.getFine()).isEqualTo(DEFAULT_FINE);
         assertThat(testMonthlySalary.getAdvanceHO()).isEqualTo(DEFAULT_ADVANCE_HO);
@@ -216,6 +229,8 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getProvidentFund()).isEqualTo(DEFAULT_PROVIDENT_FUND);
         assertThat(testMonthlySalary.getTax()).isEqualTo(DEFAULT_TAX);
         assertThat(testMonthlySalary.getLoanAmount()).isEqualTo(DEFAULT_LOAN_AMOUNT);
+        assertThat(testMonthlySalary.getBillPayable()).isEqualTo(DEFAULT_BILL_PAYABLE);
+        assertThat(testMonthlySalary.getBillReceivable()).isEqualTo(DEFAULT_BILL_RECEIVABLE);
         assertThat(testMonthlySalary.getPayable()).isEqualTo(DEFAULT_PAYABLE);
         assertThat(testMonthlySalary.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testMonthlySalary.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
@@ -321,6 +336,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].festivalAllowance").value(hasItem(DEFAULT_FESTIVAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].absent").value(hasItem(DEFAULT_ABSENT)))
             .andExpect(jsonPath("$.[*].fine").value(hasItem(DEFAULT_FINE.intValue())))
             .andExpect(jsonPath("$.[*].advanceHO").value(hasItem(DEFAULT_ADVANCE_HO.intValue())))
@@ -328,6 +344,8 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].providentFund").value(hasItem(DEFAULT_PROVIDENT_FUND.intValue())))
             .andExpect(jsonPath("$.[*].tax").value(hasItem(DEFAULT_TAX.intValue())))
             .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].billPayable").value(hasItem(DEFAULT_BILL_PAYABLE.intValue())))
+            .andExpect(jsonPath("$.[*].billReceivable").value(hasItem(DEFAULT_BILL_RECEIVABLE.intValue())))
             .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
@@ -350,6 +368,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.houseRent").value(DEFAULT_HOUSE_RENT.intValue()))
             .andExpect(jsonPath("$.medicalAllowance").value(DEFAULT_MEDICAL_ALLOWANCE.intValue()))
             .andExpect(jsonPath("$.otherAllowance").value(DEFAULT_OTHER_ALLOWANCE.intValue()))
+            .andExpect(jsonPath("$.festivalAllowance").value(DEFAULT_FESTIVAL_ALLOWANCE.intValue()))
             .andExpect(jsonPath("$.absent").value(DEFAULT_ABSENT))
             .andExpect(jsonPath("$.fine").value(DEFAULT_FINE.intValue()))
             .andExpect(jsonPath("$.advanceHO").value(DEFAULT_ADVANCE_HO.intValue()))
@@ -357,6 +376,8 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.providentFund").value(DEFAULT_PROVIDENT_FUND.intValue()))
             .andExpect(jsonPath("$.tax").value(DEFAULT_TAX.intValue()))
             .andExpect(jsonPath("$.loanAmount").value(DEFAULT_LOAN_AMOUNT.intValue()))
+            .andExpect(jsonPath("$.billPayable").value(DEFAULT_BILL_PAYABLE.intValue()))
+            .andExpect(jsonPath("$.billReceivable").value(DEFAULT_BILL_RECEIVABLE.intValue()))
             .andExpect(jsonPath("$.payable").value(DEFAULT_PAYABLE.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
@@ -621,6 +642,45 @@ public class MonthlySalaryResourceIntTest {
 
         // Get all the monthlySalaryList where otherAllowance is null
         defaultMonthlySalaryShouldNotBeFound("otherAllowance.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByFestivalAllowanceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where festivalAllowance equals to DEFAULT_FESTIVAL_ALLOWANCE
+        defaultMonthlySalaryShouldBeFound("festivalAllowance.equals=" + DEFAULT_FESTIVAL_ALLOWANCE);
+
+        // Get all the monthlySalaryList where festivalAllowance equals to UPDATED_FESTIVAL_ALLOWANCE
+        defaultMonthlySalaryShouldNotBeFound("festivalAllowance.equals=" + UPDATED_FESTIVAL_ALLOWANCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByFestivalAllowanceIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where festivalAllowance in DEFAULT_FESTIVAL_ALLOWANCE or UPDATED_FESTIVAL_ALLOWANCE
+        defaultMonthlySalaryShouldBeFound("festivalAllowance.in=" + DEFAULT_FESTIVAL_ALLOWANCE + "," + UPDATED_FESTIVAL_ALLOWANCE);
+
+        // Get all the monthlySalaryList where festivalAllowance equals to UPDATED_FESTIVAL_ALLOWANCE
+        defaultMonthlySalaryShouldNotBeFound("festivalAllowance.in=" + UPDATED_FESTIVAL_ALLOWANCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByFestivalAllowanceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where festivalAllowance is not null
+        defaultMonthlySalaryShouldBeFound("festivalAllowance.specified=true");
+
+        // Get all the monthlySalaryList where festivalAllowance is null
+        defaultMonthlySalaryShouldNotBeFound("festivalAllowance.specified=false");
     }
 
     @Test
@@ -925,6 +985,84 @@ public class MonthlySalaryResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllMonthlySalariesByBillPayableIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where billPayable equals to DEFAULT_BILL_PAYABLE
+        defaultMonthlySalaryShouldBeFound("billPayable.equals=" + DEFAULT_BILL_PAYABLE);
+
+        // Get all the monthlySalaryList where billPayable equals to UPDATED_BILL_PAYABLE
+        defaultMonthlySalaryShouldNotBeFound("billPayable.equals=" + UPDATED_BILL_PAYABLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByBillPayableIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where billPayable in DEFAULT_BILL_PAYABLE or UPDATED_BILL_PAYABLE
+        defaultMonthlySalaryShouldBeFound("billPayable.in=" + DEFAULT_BILL_PAYABLE + "," + UPDATED_BILL_PAYABLE);
+
+        // Get all the monthlySalaryList where billPayable equals to UPDATED_BILL_PAYABLE
+        defaultMonthlySalaryShouldNotBeFound("billPayable.in=" + UPDATED_BILL_PAYABLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByBillPayableIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where billPayable is not null
+        defaultMonthlySalaryShouldBeFound("billPayable.specified=true");
+
+        // Get all the monthlySalaryList where billPayable is null
+        defaultMonthlySalaryShouldNotBeFound("billPayable.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByBillReceivableIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where billReceivable equals to DEFAULT_BILL_RECEIVABLE
+        defaultMonthlySalaryShouldBeFound("billReceivable.equals=" + DEFAULT_BILL_RECEIVABLE);
+
+        // Get all the monthlySalaryList where billReceivable equals to UPDATED_BILL_RECEIVABLE
+        defaultMonthlySalaryShouldNotBeFound("billReceivable.equals=" + UPDATED_BILL_RECEIVABLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByBillReceivableIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where billReceivable in DEFAULT_BILL_RECEIVABLE or UPDATED_BILL_RECEIVABLE
+        defaultMonthlySalaryShouldBeFound("billReceivable.in=" + DEFAULT_BILL_RECEIVABLE + "," + UPDATED_BILL_RECEIVABLE);
+
+        // Get all the monthlySalaryList where billReceivable equals to UPDATED_BILL_RECEIVABLE
+        defaultMonthlySalaryShouldNotBeFound("billReceivable.in=" + UPDATED_BILL_RECEIVABLE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByBillReceivableIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where billReceivable is not null
+        defaultMonthlySalaryShouldBeFound("billReceivable.specified=true");
+
+        // Get all the monthlySalaryList where billReceivable is null
+        defaultMonthlySalaryShouldNotBeFound("billReceivable.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllMonthlySalariesByPayableIsEqualToSomething() throws Exception {
         // Initialize the database
         monthlySalaryRepository.saveAndFlush(monthlySalary);
@@ -1099,6 +1237,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].festivalAllowance").value(hasItem(DEFAULT_FESTIVAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].absent").value(hasItem(DEFAULT_ABSENT)))
             .andExpect(jsonPath("$.[*].fine").value(hasItem(DEFAULT_FINE.intValue())))
             .andExpect(jsonPath("$.[*].advanceHO").value(hasItem(DEFAULT_ADVANCE_HO.intValue())))
@@ -1106,6 +1245,8 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].providentFund").value(hasItem(DEFAULT_PROVIDENT_FUND.intValue())))
             .andExpect(jsonPath("$.[*].tax").value(hasItem(DEFAULT_TAX.intValue())))
             .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].billPayable").value(hasItem(DEFAULT_BILL_PAYABLE.intValue())))
+            .andExpect(jsonPath("$.[*].billReceivable").value(hasItem(DEFAULT_BILL_RECEIVABLE.intValue())))
             .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
@@ -1162,6 +1303,7 @@ public class MonthlySalaryResourceIntTest {
             .houseRent(UPDATED_HOUSE_RENT)
             .medicalAllowance(UPDATED_MEDICAL_ALLOWANCE)
             .otherAllowance(UPDATED_OTHER_ALLOWANCE)
+            .festivalAllowance(UPDATED_FESTIVAL_ALLOWANCE)
             .absent(UPDATED_ABSENT)
             .fine(UPDATED_FINE)
             .advanceHO(UPDATED_ADVANCE_HO)
@@ -1169,6 +1311,8 @@ public class MonthlySalaryResourceIntTest {
             .providentFund(UPDATED_PROVIDENT_FUND)
             .tax(UPDATED_TAX)
             .loanAmount(UPDATED_LOAN_AMOUNT)
+            .billPayable(UPDATED_BILL_PAYABLE)
+            .billReceivable(UPDATED_BILL_RECEIVABLE)
             .payable(UPDATED_PAYABLE)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
@@ -1189,6 +1333,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(UPDATED_HOUSE_RENT);
         assertThat(testMonthlySalary.getMedicalAllowance()).isEqualTo(UPDATED_MEDICAL_ALLOWANCE);
         assertThat(testMonthlySalary.getOtherAllowance()).isEqualTo(UPDATED_OTHER_ALLOWANCE);
+        assertThat(testMonthlySalary.getFestivalAllowance()).isEqualTo(UPDATED_FESTIVAL_ALLOWANCE);
         assertThat(testMonthlySalary.getAbsent()).isEqualTo(UPDATED_ABSENT);
         assertThat(testMonthlySalary.getFine()).isEqualTo(UPDATED_FINE);
         assertThat(testMonthlySalary.getAdvanceHO()).isEqualTo(UPDATED_ADVANCE_HO);
@@ -1196,6 +1341,8 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getProvidentFund()).isEqualTo(UPDATED_PROVIDENT_FUND);
         assertThat(testMonthlySalary.getTax()).isEqualTo(UPDATED_TAX);
         assertThat(testMonthlySalary.getLoanAmount()).isEqualTo(UPDATED_LOAN_AMOUNT);
+        assertThat(testMonthlySalary.getBillPayable()).isEqualTo(UPDATED_BILL_PAYABLE);
+        assertThat(testMonthlySalary.getBillReceivable()).isEqualTo(UPDATED_BILL_RECEIVABLE);
         assertThat(testMonthlySalary.getPayable()).isEqualTo(UPDATED_PAYABLE);
         assertThat(testMonthlySalary.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testMonthlySalary.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
@@ -1265,6 +1412,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].festivalAllowance").value(hasItem(DEFAULT_FESTIVAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].absent").value(hasItem(DEFAULT_ABSENT)))
             .andExpect(jsonPath("$.[*].fine").value(hasItem(DEFAULT_FINE.intValue())))
             .andExpect(jsonPath("$.[*].advanceHO").value(hasItem(DEFAULT_ADVANCE_HO.intValue())))
@@ -1272,6 +1420,8 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].providentFund").value(hasItem(DEFAULT_PROVIDENT_FUND.intValue())))
             .andExpect(jsonPath("$.[*].tax").value(hasItem(DEFAULT_TAX.intValue())))
             .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].billPayable").value(hasItem(DEFAULT_BILL_PAYABLE.intValue())))
+            .andExpect(jsonPath("$.[*].billReceivable").value(hasItem(DEFAULT_BILL_RECEIVABLE.intValue())))
             .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));

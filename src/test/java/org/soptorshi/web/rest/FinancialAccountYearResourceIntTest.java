@@ -44,6 +44,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.soptorshi.domain.enumeration.FinancialYearStatus;
 /**
  * Test class for the FinancialAccountYearResource REST controller.
  *
@@ -59,11 +60,14 @@ public class FinancialAccountYearResourceIntTest {
     private static final LocalDate DEFAULT_END_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_END_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Long DEFAULT_PREVIOUS_YEAR = 1L;
-    private static final Long UPDATED_PREVIOUS_YEAR = 2L;
+    private static final LocalDate DEFAULT_PREVIOUS_START_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_PREVIOUS_START_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Boolean DEFAULT_STATUS = false;
-    private static final Boolean UPDATED_STATUS = true;
+    private static final LocalDate DEFAULT_PREVIOUS_END_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_PREVIOUS_END_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final FinancialYearStatus DEFAULT_STATUS = FinancialYearStatus.ACTIVE;
+    private static final FinancialYearStatus UPDATED_STATUS = FinancialYearStatus.NOT_ACTIVE;
 
     @Autowired
     private FinancialAccountYearRepository financialAccountYearRepository;
@@ -126,7 +130,8 @@ public class FinancialAccountYearResourceIntTest {
         FinancialAccountYear financialAccountYear = new FinancialAccountYear()
             .startDate(DEFAULT_START_DATE)
             .endDate(DEFAULT_END_DATE)
-            .previousYear(DEFAULT_PREVIOUS_YEAR)
+            .previousStartDate(DEFAULT_PREVIOUS_START_DATE)
+            .previousEndDate(DEFAULT_PREVIOUS_END_DATE)
             .status(DEFAULT_STATUS);
         return financialAccountYear;
     }
@@ -154,8 +159,9 @@ public class FinancialAccountYearResourceIntTest {
         FinancialAccountYear testFinancialAccountYear = financialAccountYearList.get(financialAccountYearList.size() - 1);
         assertThat(testFinancialAccountYear.getStartDate()).isEqualTo(DEFAULT_START_DATE);
         assertThat(testFinancialAccountYear.getEndDate()).isEqualTo(DEFAULT_END_DATE);
-        assertThat(testFinancialAccountYear.getPreviousYear()).isEqualTo(DEFAULT_PREVIOUS_YEAR);
-        assertThat(testFinancialAccountYear.isStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testFinancialAccountYear.getPreviousStartDate()).isEqualTo(DEFAULT_PREVIOUS_START_DATE);
+        assertThat(testFinancialAccountYear.getPreviousEndDate()).isEqualTo(DEFAULT_PREVIOUS_END_DATE);
+        assertThat(testFinancialAccountYear.getStatus()).isEqualTo(DEFAULT_STATUS);
 
         // Validate the FinancialAccountYear in Elasticsearch
         verify(mockFinancialAccountYearSearchRepository, times(1)).save(testFinancialAccountYear);
@@ -197,8 +203,9 @@ public class FinancialAccountYearResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(financialAccountYear.getId().intValue())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
-            .andExpect(jsonPath("$.[*].previousYear").value(hasItem(DEFAULT_PREVIOUS_YEAR.intValue())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())));
+            .andExpect(jsonPath("$.[*].previousStartDate").value(hasItem(DEFAULT_PREVIOUS_START_DATE.toString())))
+            .andExpect(jsonPath("$.[*].previousEndDate").value(hasItem(DEFAULT_PREVIOUS_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
     
     @Test
@@ -214,8 +221,9 @@ public class FinancialAccountYearResourceIntTest {
             .andExpect(jsonPath("$.id").value(financialAccountYear.getId().intValue()))
             .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
             .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()))
-            .andExpect(jsonPath("$.previousYear").value(DEFAULT_PREVIOUS_YEAR.intValue()))
-            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.booleanValue()));
+            .andExpect(jsonPath("$.previousStartDate").value(DEFAULT_PREVIOUS_START_DATE.toString()))
+            .andExpect(jsonPath("$.previousEndDate").value(DEFAULT_PREVIOUS_END_DATE.toString()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
     @Test
@@ -352,67 +360,133 @@ public class FinancialAccountYearResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllFinancialAccountYearsByPreviousYearIsEqualToSomething() throws Exception {
+    public void getAllFinancialAccountYearsByPreviousStartDateIsEqualToSomething() throws Exception {
         // Initialize the database
         financialAccountYearRepository.saveAndFlush(financialAccountYear);
 
-        // Get all the financialAccountYearList where previousYear equals to DEFAULT_PREVIOUS_YEAR
-        defaultFinancialAccountYearShouldBeFound("previousYear.equals=" + DEFAULT_PREVIOUS_YEAR);
+        // Get all the financialAccountYearList where previousStartDate equals to DEFAULT_PREVIOUS_START_DATE
+        defaultFinancialAccountYearShouldBeFound("previousStartDate.equals=" + DEFAULT_PREVIOUS_START_DATE);
 
-        // Get all the financialAccountYearList where previousYear equals to UPDATED_PREVIOUS_YEAR
-        defaultFinancialAccountYearShouldNotBeFound("previousYear.equals=" + UPDATED_PREVIOUS_YEAR);
+        // Get all the financialAccountYearList where previousStartDate equals to UPDATED_PREVIOUS_START_DATE
+        defaultFinancialAccountYearShouldNotBeFound("previousStartDate.equals=" + UPDATED_PREVIOUS_START_DATE);
     }
 
     @Test
     @Transactional
-    public void getAllFinancialAccountYearsByPreviousYearIsInShouldWork() throws Exception {
+    public void getAllFinancialAccountYearsByPreviousStartDateIsInShouldWork() throws Exception {
         // Initialize the database
         financialAccountYearRepository.saveAndFlush(financialAccountYear);
 
-        // Get all the financialAccountYearList where previousYear in DEFAULT_PREVIOUS_YEAR or UPDATED_PREVIOUS_YEAR
-        defaultFinancialAccountYearShouldBeFound("previousYear.in=" + DEFAULT_PREVIOUS_YEAR + "," + UPDATED_PREVIOUS_YEAR);
+        // Get all the financialAccountYearList where previousStartDate in DEFAULT_PREVIOUS_START_DATE or UPDATED_PREVIOUS_START_DATE
+        defaultFinancialAccountYearShouldBeFound("previousStartDate.in=" + DEFAULT_PREVIOUS_START_DATE + "," + UPDATED_PREVIOUS_START_DATE);
 
-        // Get all the financialAccountYearList where previousYear equals to UPDATED_PREVIOUS_YEAR
-        defaultFinancialAccountYearShouldNotBeFound("previousYear.in=" + UPDATED_PREVIOUS_YEAR);
+        // Get all the financialAccountYearList where previousStartDate equals to UPDATED_PREVIOUS_START_DATE
+        defaultFinancialAccountYearShouldNotBeFound("previousStartDate.in=" + UPDATED_PREVIOUS_START_DATE);
     }
 
     @Test
     @Transactional
-    public void getAllFinancialAccountYearsByPreviousYearIsNullOrNotNull() throws Exception {
+    public void getAllFinancialAccountYearsByPreviousStartDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         financialAccountYearRepository.saveAndFlush(financialAccountYear);
 
-        // Get all the financialAccountYearList where previousYear is not null
-        defaultFinancialAccountYearShouldBeFound("previousYear.specified=true");
+        // Get all the financialAccountYearList where previousStartDate is not null
+        defaultFinancialAccountYearShouldBeFound("previousStartDate.specified=true");
 
-        // Get all the financialAccountYearList where previousYear is null
-        defaultFinancialAccountYearShouldNotBeFound("previousYear.specified=false");
+        // Get all the financialAccountYearList where previousStartDate is null
+        defaultFinancialAccountYearShouldNotBeFound("previousStartDate.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllFinancialAccountYearsByPreviousYearIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllFinancialAccountYearsByPreviousStartDateIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         financialAccountYearRepository.saveAndFlush(financialAccountYear);
 
-        // Get all the financialAccountYearList where previousYear greater than or equals to DEFAULT_PREVIOUS_YEAR
-        defaultFinancialAccountYearShouldBeFound("previousYear.greaterOrEqualThan=" + DEFAULT_PREVIOUS_YEAR);
+        // Get all the financialAccountYearList where previousStartDate greater than or equals to DEFAULT_PREVIOUS_START_DATE
+        defaultFinancialAccountYearShouldBeFound("previousStartDate.greaterOrEqualThan=" + DEFAULT_PREVIOUS_START_DATE);
 
-        // Get all the financialAccountYearList where previousYear greater than or equals to UPDATED_PREVIOUS_YEAR
-        defaultFinancialAccountYearShouldNotBeFound("previousYear.greaterOrEqualThan=" + UPDATED_PREVIOUS_YEAR);
+        // Get all the financialAccountYearList where previousStartDate greater than or equals to UPDATED_PREVIOUS_START_DATE
+        defaultFinancialAccountYearShouldNotBeFound("previousStartDate.greaterOrEqualThan=" + UPDATED_PREVIOUS_START_DATE);
     }
 
     @Test
     @Transactional
-    public void getAllFinancialAccountYearsByPreviousYearIsLessThanSomething() throws Exception {
+    public void getAllFinancialAccountYearsByPreviousStartDateIsLessThanSomething() throws Exception {
         // Initialize the database
         financialAccountYearRepository.saveAndFlush(financialAccountYear);
 
-        // Get all the financialAccountYearList where previousYear less than or equals to DEFAULT_PREVIOUS_YEAR
-        defaultFinancialAccountYearShouldNotBeFound("previousYear.lessThan=" + DEFAULT_PREVIOUS_YEAR);
+        // Get all the financialAccountYearList where previousStartDate less than or equals to DEFAULT_PREVIOUS_START_DATE
+        defaultFinancialAccountYearShouldNotBeFound("previousStartDate.lessThan=" + DEFAULT_PREVIOUS_START_DATE);
 
-        // Get all the financialAccountYearList where previousYear less than or equals to UPDATED_PREVIOUS_YEAR
-        defaultFinancialAccountYearShouldBeFound("previousYear.lessThan=" + UPDATED_PREVIOUS_YEAR);
+        // Get all the financialAccountYearList where previousStartDate less than or equals to UPDATED_PREVIOUS_START_DATE
+        defaultFinancialAccountYearShouldBeFound("previousStartDate.lessThan=" + UPDATED_PREVIOUS_START_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllFinancialAccountYearsByPreviousEndDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        financialAccountYearRepository.saveAndFlush(financialAccountYear);
+
+        // Get all the financialAccountYearList where previousEndDate equals to DEFAULT_PREVIOUS_END_DATE
+        defaultFinancialAccountYearShouldBeFound("previousEndDate.equals=" + DEFAULT_PREVIOUS_END_DATE);
+
+        // Get all the financialAccountYearList where previousEndDate equals to UPDATED_PREVIOUS_END_DATE
+        defaultFinancialAccountYearShouldNotBeFound("previousEndDate.equals=" + UPDATED_PREVIOUS_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinancialAccountYearsByPreviousEndDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        financialAccountYearRepository.saveAndFlush(financialAccountYear);
+
+        // Get all the financialAccountYearList where previousEndDate in DEFAULT_PREVIOUS_END_DATE or UPDATED_PREVIOUS_END_DATE
+        defaultFinancialAccountYearShouldBeFound("previousEndDate.in=" + DEFAULT_PREVIOUS_END_DATE + "," + UPDATED_PREVIOUS_END_DATE);
+
+        // Get all the financialAccountYearList where previousEndDate equals to UPDATED_PREVIOUS_END_DATE
+        defaultFinancialAccountYearShouldNotBeFound("previousEndDate.in=" + UPDATED_PREVIOUS_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinancialAccountYearsByPreviousEndDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        financialAccountYearRepository.saveAndFlush(financialAccountYear);
+
+        // Get all the financialAccountYearList where previousEndDate is not null
+        defaultFinancialAccountYearShouldBeFound("previousEndDate.specified=true");
+
+        // Get all the financialAccountYearList where previousEndDate is null
+        defaultFinancialAccountYearShouldNotBeFound("previousEndDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinancialAccountYearsByPreviousEndDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        financialAccountYearRepository.saveAndFlush(financialAccountYear);
+
+        // Get all the financialAccountYearList where previousEndDate greater than or equals to DEFAULT_PREVIOUS_END_DATE
+        defaultFinancialAccountYearShouldBeFound("previousEndDate.greaterOrEqualThan=" + DEFAULT_PREVIOUS_END_DATE);
+
+        // Get all the financialAccountYearList where previousEndDate greater than or equals to UPDATED_PREVIOUS_END_DATE
+        defaultFinancialAccountYearShouldNotBeFound("previousEndDate.greaterOrEqualThan=" + UPDATED_PREVIOUS_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinancialAccountYearsByPreviousEndDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        financialAccountYearRepository.saveAndFlush(financialAccountYear);
+
+        // Get all the financialAccountYearList where previousEndDate less than or equals to DEFAULT_PREVIOUS_END_DATE
+        defaultFinancialAccountYearShouldNotBeFound("previousEndDate.lessThan=" + DEFAULT_PREVIOUS_END_DATE);
+
+        // Get all the financialAccountYearList where previousEndDate less than or equals to UPDATED_PREVIOUS_END_DATE
+        defaultFinancialAccountYearShouldBeFound("previousEndDate.lessThan=" + UPDATED_PREVIOUS_END_DATE);
     }
 
 
@@ -464,8 +538,9 @@ public class FinancialAccountYearResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(financialAccountYear.getId().intValue())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
-            .andExpect(jsonPath("$.[*].previousYear").value(hasItem(DEFAULT_PREVIOUS_YEAR.intValue())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())));
+            .andExpect(jsonPath("$.[*].previousStartDate").value(hasItem(DEFAULT_PREVIOUS_START_DATE.toString())))
+            .andExpect(jsonPath("$.[*].previousEndDate").value(hasItem(DEFAULT_PREVIOUS_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
         // Check, that the count call also returns 1
         restFinancialAccountYearMockMvc.perform(get("/api/financial-account-years/count?sort=id,desc&" + filter))
@@ -515,7 +590,8 @@ public class FinancialAccountYearResourceIntTest {
         updatedFinancialAccountYear
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
-            .previousYear(UPDATED_PREVIOUS_YEAR)
+            .previousStartDate(UPDATED_PREVIOUS_START_DATE)
+            .previousEndDate(UPDATED_PREVIOUS_END_DATE)
             .status(UPDATED_STATUS);
         FinancialAccountYearDTO financialAccountYearDTO = financialAccountYearMapper.toDto(updatedFinancialAccountYear);
 
@@ -530,8 +606,9 @@ public class FinancialAccountYearResourceIntTest {
         FinancialAccountYear testFinancialAccountYear = financialAccountYearList.get(financialAccountYearList.size() - 1);
         assertThat(testFinancialAccountYear.getStartDate()).isEqualTo(UPDATED_START_DATE);
         assertThat(testFinancialAccountYear.getEndDate()).isEqualTo(UPDATED_END_DATE);
-        assertThat(testFinancialAccountYear.getPreviousYear()).isEqualTo(UPDATED_PREVIOUS_YEAR);
-        assertThat(testFinancialAccountYear.isStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testFinancialAccountYear.getPreviousStartDate()).isEqualTo(UPDATED_PREVIOUS_START_DATE);
+        assertThat(testFinancialAccountYear.getPreviousEndDate()).isEqualTo(UPDATED_PREVIOUS_END_DATE);
+        assertThat(testFinancialAccountYear.getStatus()).isEqualTo(UPDATED_STATUS);
 
         // Validate the FinancialAccountYear in Elasticsearch
         verify(mockFinancialAccountYearSearchRepository, times(1)).save(testFinancialAccountYear);
@@ -594,8 +671,9 @@ public class FinancialAccountYearResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(financialAccountYear.getId().intValue())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
-            .andExpect(jsonPath("$.[*].previousYear").value(hasItem(DEFAULT_PREVIOUS_YEAR.intValue())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())));
+            .andExpect(jsonPath("$.[*].previousStartDate").value(hasItem(DEFAULT_PREVIOUS_START_DATE.toString())))
+            .andExpect(jsonPath("$.[*].previousEndDate").value(hasItem(DEFAULT_PREVIOUS_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
 
     @Test

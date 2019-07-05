@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Quotation.
+    -->
+    <changeSet id="20190628152325-2" author="jhipster">
+        <validCheckSum> 7:d3a12a9a7fdf64d7e8f73c403cfbf903</validCheckSum>
+        <addForeignKeyConstraint baseColumnNames="requisition_id"
+                                 baseTableName="quotation"
+                                 constraintName="fk_quotation_requisition_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="requisition"/>
+
+        <addForeignKeyConstraint baseColumnNames="vendor_id"
+                                 baseTableName="quotation"
+                                 constraintName="fk_quotation_vendor_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="vendor"/>
+
+    </changeSet>
+</databaseChangeLog>

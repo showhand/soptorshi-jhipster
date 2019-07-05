@@ -111,6 +111,9 @@ public class MonthlySalaryQueryService extends QueryService<MonthlySalary> {
             if (criteria.getOtherAllowance() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getOtherAllowance(), MonthlySalary_.otherAllowance));
             }
+            if (criteria.getFestivalAllowance() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getFestivalAllowance(), MonthlySalary_.festivalAllowance));
+            }
             if (criteria.getAbsent() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAbsent(), MonthlySalary_.absent));
             }
@@ -131,6 +134,12 @@ public class MonthlySalaryQueryService extends QueryService<MonthlySalary> {
             }
             if (criteria.getLoanAmount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getLoanAmount(), MonthlySalary_.loanAmount));
+            }
+            if (criteria.getBillPayable() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBillPayable(), MonthlySalary_.billPayable));
+            }
+            if (criteria.getBillReceivable() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBillReceivable(), MonthlySalary_.billReceivable));
             }
             if (criteria.getPayable() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPayable(), MonthlySalary_.payable));

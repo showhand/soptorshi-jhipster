@@ -1,0 +1,25 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="monju (generated)" id="1561615667075-1">
+        <addColumn tableName="financial_account_year">
+            <column name="previous_end_date" type="date"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1561615667075-2">
+        <addColumn tableName="financial_account_year">
+            <column name="previous_start_date" type="date"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1561615667075-3">
+        <addUniqueConstraint columnNames="end_date" constraintName="UC_FINANCIAL_ACCOUNT_YEAREND_DATE_COL" tableName="financial_account_year"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1561615667075-4">
+        <addUniqueConstraint columnNames="start_date" constraintName="UC_FINANCIAL_ACCOUNT_YEARSTART_DATE_COL" tableName="financial_account_year"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1561615667075-5">
+        <addUniqueConstraint columnNames="status" constraintName="UC_FINANCIAL_ACCOUNT_YEARSTATUS_COL" tableName="financial_account_year"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1561615667075-9">
+        <dropColumn columnName="previous_year" tableName="financial_account_year"/>
+    </changeSet>
+</databaseChangeLog>

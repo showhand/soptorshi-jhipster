@@ -3,11 +3,14 @@ package org.soptorshi.domain;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import org.soptorshi.domain.enumeration.FinancialYearStatus;
 
 /**
  * A FinancialAccountYear.
@@ -23,17 +26,24 @@ public class FinancialAccountYear implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "start_date")
+    
+    @Column(name = "start_date", unique = true)
     private LocalDate startDate;
 
-    @Column(name = "end_date")
+    
+    @Column(name = "end_date", unique = true)
     private LocalDate endDate;
 
-    @Column(name = "previous_year")
-    private Long previousYear;
+    @Column(name = "previous_start_date")
+    private LocalDate previousStartDate;
 
-    @Column(name = "status")
-    private Boolean status;
+    @Column(name = "previous_end_date")
+    private LocalDate previousEndDate;
+
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", unique = true)
+    private FinancialYearStatus status;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -70,29 +80,42 @@ public class FinancialAccountYear implements Serializable {
         this.endDate = endDate;
     }
 
-    public Long getPreviousYear() {
-        return previousYear;
+    public LocalDate getPreviousStartDate() {
+        return previousStartDate;
     }
 
-    public FinancialAccountYear previousYear(Long previousYear) {
-        this.previousYear = previousYear;
+    public FinancialAccountYear previousStartDate(LocalDate previousStartDate) {
+        this.previousStartDate = previousStartDate;
         return this;
     }
 
-    public void setPreviousYear(Long previousYear) {
-        this.previousYear = previousYear;
+    public void setPreviousStartDate(LocalDate previousStartDate) {
+        this.previousStartDate = previousStartDate;
     }
 
-    public Boolean isStatus() {
+    public LocalDate getPreviousEndDate() {
+        return previousEndDate;
+    }
+
+    public FinancialAccountYear previousEndDate(LocalDate previousEndDate) {
+        this.previousEndDate = previousEndDate;
+        return this;
+    }
+
+    public void setPreviousEndDate(LocalDate previousEndDate) {
+        this.previousEndDate = previousEndDate;
+    }
+
+    public FinancialYearStatus getStatus() {
         return status;
     }
 
-    public FinancialAccountYear status(Boolean status) {
+    public FinancialAccountYear status(FinancialYearStatus status) {
         this.status = status;
         return this;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(FinancialYearStatus status) {
         this.status = status;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
@@ -123,8 +146,9 @@ public class FinancialAccountYear implements Serializable {
             "id=" + getId() +
             ", startDate='" + getStartDate() + "'" +
             ", endDate='" + getEndDate() + "'" +
-            ", previousYear=" + getPreviousYear() +
-            ", status='" + isStatus() + "'" +
+            ", previousStartDate='" + getPreviousStartDate() + "'" +
+            ", previousEndDate='" + getPreviousEndDate() + "'" +
+            ", status='" + getStatus() + "'" +
             "}";
     }
 }
