@@ -39,7 +39,8 @@ export const requisitionRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Requisitions'
+            pageTitle: 'Requisitions',
+            breadcrumb: 'Requisition'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -51,7 +52,8 @@ export const requisitionRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Requisitions'
+            pageTitle: 'Requisitions',
+            breadcrumb: 'View Requisition'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -63,7 +65,8 @@ export const requisitionRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Requisitions'
+            pageTitle: 'Requisitions',
+            breadcrumb: 'New Requisition'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -75,7 +78,8 @@ export const requisitionRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Requisitions'
+            pageTitle: 'Requisitions',
+            breadcrumb: 'Edit Requisition'
         },
         canActivate: [UserRouteAccessService]
     }

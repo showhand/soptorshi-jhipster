@@ -39,7 +39,8 @@ export const managerRoute: Routes = [
         component: ManagerComponent,
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'Managers'
+            pageTitle: 'Managers',
+            breadcrumb: 'Managers'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -51,7 +52,8 @@ export const managerRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'Managers'
+            pageTitle: 'Managers',
+            breadcrumb: 'View Manager'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -63,7 +65,8 @@ export const managerRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'Managers'
+            pageTitle: 'Managers',
+            breadcrumb: 'New Manager For Employee'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -75,7 +78,8 @@ export const managerRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'Managers'
+            pageTitle: 'Managers',
+            breadcrumb: 'New Manager'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -87,7 +91,8 @@ export const managerRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'Managers'
+            pageTitle: 'Managers',
+            breadcrumb: 'Edit Manager'
         },
         canActivate: [UserRouteAccessService]
     }

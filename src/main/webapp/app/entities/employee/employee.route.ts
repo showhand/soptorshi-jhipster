@@ -40,7 +40,8 @@ export const employeeRoute: Routes = [
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             defaultSort: 'id,desc',
-            pageTitle: 'Employees'
+            pageTitle: 'Employees',
+            breadcrumb: 'Employees'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -52,7 +53,8 @@ export const employeeRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'Employee Management'
+            pageTitle: 'Employee Management',
+            breadcrumb: 'Employee Management'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -64,7 +66,8 @@ export const employeeRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'Employee Management'
+            pageTitle: 'Employee Management',
+            breadcrumb: 'Employee Management'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -76,7 +79,8 @@ export const employeeRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'Employees'
+            pageTitle: 'Employees',
+            breadcrumb: 'View Employee'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -88,7 +92,8 @@ export const employeeRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'Employees'
+            pageTitle: 'Employees',
+            breadcrumb: 'New Employee'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -100,7 +105,8 @@ export const employeeRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'Employees'
+            pageTitle: 'Employees',
+            breadcrumb: 'Edit Employee'
         },
         canActivate: [UserRouteAccessService]
     }
