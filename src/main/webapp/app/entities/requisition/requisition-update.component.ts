@@ -162,47 +162,47 @@ export class RequisitionUpdateComponent implements OnInit {
         this.isSaving = false;
     }
 
-    protected approveByHead() {
+    approveByHead() {
         this.requisition.status = RequisitionStatus.FORWARDED_BY_HEAD;
         this.save();
     }
-    protected rejectByHead() {
+    rejectByHead() {
         this.requisition.status = RequisitionStatus.REJECTED_BY_HEAD;
         this.save();
     }
-    protected approveByPurchaseCommittee() {
+    approveByPurchaseCommittee() {
         this.requisition.status = RequisitionStatus.FORWARDED_BY_PURCHASE_COMMITTEE;
         this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
         this.save();
     }
-    protected rejectByPurchaseCommittee() {
+    rejectByPurchaseCommittee() {
         this.requisition.status = RequisitionStatus.REJECTED_BY_PURCHASE_COMMITTEE;
         this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
         this.save();
     }
 
-    protected approveByCFO() {
+    approveByCFO() {
         this.requisition.status = RequisitionStatus.APPROVED_BY_CFO;
         this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
         this.save();
     }
-    protected rejectByCFO() {
+    rejectByCFO() {
         this.requisition.status = RequisitionStatus.REJECTED_BY_CFO;
         this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
         this.save();
     }
 
-    protected receivedByRequester() {
+    receivedByRequester() {
         this.requisition.status = RequisitionStatus.RECEIVED_BY_REQUISIONER;
         this.save();
     }
 
-    protected receivedAndVerifiedByHead() {
+    receivedAndVerifiedByHead() {
         this.requisition.status = RequisitionStatus.RECEIVED_VERIFIED_BY_HEAD;
         this.save();
     }
 
-    protected closedByCFO() {
+    closedByCFO() {
         this.purchaseOrderService
             .query({
                 'requisitionId.equals': this.requisition.id
