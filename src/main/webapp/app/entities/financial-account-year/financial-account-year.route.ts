@@ -39,7 +39,8 @@ export const financialAccountYearRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'FinancialAccountYears'
+            pageTitle: 'FinancialAccountYears',
+            breadcrumb: 'Financial Account Years'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -51,7 +52,8 @@ export const financialAccountYearRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'FinancialAccountYears'
+            pageTitle: 'FinancialAccountYears',
+            breadcrumb: 'Financial Account Year Details'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -63,7 +65,8 @@ export const financialAccountYearRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'FinancialAccountYears'
+            pageTitle: 'FinancialAccountYears',
+            breadcrumb: 'New Financial Account Year'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -75,7 +78,8 @@ export const financialAccountYearRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'FinancialAccountYears'
+            pageTitle: 'FinancialAccountYears',
+            breadcrumb: 'Edit Financial Account Year'
         },
         canActivate: [UserRouteAccessService]
     }
