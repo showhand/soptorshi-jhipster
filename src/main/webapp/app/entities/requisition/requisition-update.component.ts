@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-import { IRequisition, RequisitionStatus } from 'app/shared/model/requisition.model';
+import { IRequisition } from 'app/shared/model/requisition.model';
 import { RequisitionService } from './requisition.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
@@ -15,18 +15,12 @@ import { IProductCategory } from 'app/shared/model/product-category.model';
 import { ProductCategoryService } from 'app/entities/product-category';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department';
-import { AccountService } from 'app/core';
-import { PurchaseOrderService } from 'app/entities/purchase-order';
-import { IPurchaseOrder, PurchaseOrderStatus } from 'app/shared/model/purchase-order.model';
 
 @Component({
     selector: 'jhi-requisition-update',
     templateUrl: './requisition-update.component.html'
 })
 export class RequisitionUpdateComponent implements OnInit {
-    currentAccount: any;
-    currentEmployee: IEmployee;
-
     requisition: IRequisition;
     isSaving: boolean;
 
@@ -48,35 +42,21 @@ export class RequisitionUpdateComponent implements OnInit {
         protected officeService: OfficeService,
         protected productCategoryService: ProductCategoryService,
         protected departmentService: DepartmentService,
-        protected activatedRoute: ActivatedRoute,
-        public accountService: AccountService,
-        protected purchaseOrderService: PurchaseOrderService
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
-            this.employeeService
-                .query({
-                    'employeeId.equals': this.currentAccount.login
-                })
-                .subscribe(
-                    (res: HttpResponse<IEmployee[]>) => {
-                        this.currentEmployee = res.body[0];
-                        if (!this.requisition.employeeId) this.requisition.employeeId = res.body[0].id;
-                        if (!this.requisition.departmentId) this.requisition.departmentId = res.body[0].departmentId;
-                        if (!this.requisition.officeId) this.requisition.officeId = res.body[0].officeId;
-                    },
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        });
-
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ requisition }) => {
             this.requisition = requisition;
-            this.generateRequisitionNo();
         });
-
+        this.employeeService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IEmployee[]>) => response.body)
+            )
+            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.officeService
             .query()
             .pipe(
@@ -100,24 +80,6 @@ export class RequisitionUpdateComponent implements OnInit {
             .subscribe((res: IDepartment[]) => (this.departments = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
-    generateRequisitionNo() {
-        if (!this.requisition.requisitionNo) {
-            const dateStrFrom = new Date().getFullYear() + '-01-01';
-            const dateFrom: Date = moment(dateStrFrom, 'DD-MM-YYYY').toDate();
-            const dateStrTo = new Date().getFullYear() + '-12-31';
-            const dateTo: Date = moment(dateStrTo, 'DD-MM-YYYY').toDate();
-            this.requisitionService
-                .query({
-                    'requisitionDate.greaterOrEqualThan': dateStrFrom,
-                    'requisitionDate.lessOrEqualThan': dateStrTo
-                })
-                .subscribe((res: HttpResponse<IRequisition[]>) => {
-                    const dateStr = moment(new Date()).format('DD-MM-YYYY');
-                    this.requisition.requisitionNo = 'SOFPL-PR-' + dateStr + '-' + this.zeroPad(res.body.length + 1, 5);
-                });
-        }
-    }
-
     byteSize(field) {
         return this.dataUtils.byteSize(field);
     }
@@ -134,17 +96,11 @@ export class RequisitionUpdateComponent implements OnInit {
         window.history.back();
     }
 
-    zeroPad(num, places): string {
-        var zero = places - num.toString().length + 1;
-        return Array(+(zero > 0 && zero)).join('0') + num;
-    }
-
     save() {
         this.isSaving = true;
         if (this.requisition.id !== undefined) {
             this.subscribeToSaveResponse(this.requisitionService.update(this.requisition));
         } else {
-            this.requisition.status = RequisitionStatus.WAITING_FOR_HEADS_APPROVAL;
             this.subscribeToSaveResponse(this.requisitionService.create(this.requisition));
         }
     }
@@ -160,61 +116,6 @@ export class RequisitionUpdateComponent implements OnInit {
 
     protected onSaveError() {
         this.isSaving = false;
-    }
-
-    protected approveByHead() {
-        this.requisition.status = RequisitionStatus.FORWARDED_BY_HEAD;
-        this.save();
-    }
-    protected rejectByHead() {
-        this.requisition.status = RequisitionStatus.REJECTED_BY_HEAD;
-        this.save();
-    }
-    protected approveByPurchaseCommittee() {
-        this.requisition.status = RequisitionStatus.FORWARDED_BY_PURCHASE_COMMITTEE;
-        this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
-        this.save();
-    }
-    protected rejectByPurchaseCommittee() {
-        this.requisition.status = RequisitionStatus.REJECTED_BY_PURCHASE_COMMITTEE;
-        this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
-        this.save();
-    }
-
-    protected approveByCFO() {
-        this.requisition.status = RequisitionStatus.APPROVED_BY_CFO;
-        this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
-        this.save();
-    }
-    protected rejectByCFO() {
-        this.requisition.status = RequisitionStatus.REJECTED_BY_CFO;
-        this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
-        this.save();
-    }
-
-    protected receivedByRequester() {
-        this.requisition.status = RequisitionStatus.RECEIVED_BY_REQUISIONER;
-        this.save();
-    }
-
-    protected receivedAndVerifiedByHead() {
-        this.requisition.status = RequisitionStatus.RECEIVED_VERIFIED_BY_HEAD;
-        this.save();
-    }
-
-    protected closedByCFO() {
-        this.purchaseOrderService
-            .query({
-                'requisitionId.equals': this.requisition.id
-            })
-            .subscribe((res: HttpResponse<IPurchaseOrder[]>) => {
-                let purchaseOrder = res.body[0];
-                purchaseOrder.status = PurchaseOrderStatus.CLOSED_BY_CFO;
-                this.purchaseOrderService.update(purchaseOrder);
-
-                this.requisition.status = RequisitionStatus.CLOSED_BY_CFO;
-                this.save();
-            });
     }
 
     protected onError(errorMessage: string) {

@@ -42,6 +42,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="selected" type="boolean">
+                <constraints nullable="true" />
+            </column>
+
             <column name="purchase_committee_remarks" type="clob">
                 <constraints nullable="true" />
             </column>

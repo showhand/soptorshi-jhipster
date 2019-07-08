@@ -40,6 +40,8 @@ public class RequisitionCriteria implements Serializable {
 
     private RequisitionStatusFilter status;
 
+    private BooleanFilter selected;
+
     private LongFilter refToPurchaseCommittee;
 
     private LongFilter refToCfo;
@@ -94,6 +96,14 @@ public class RequisitionCriteria implements Serializable {
 
     public void setStatus(RequisitionStatusFilter status) {
         this.status = status;
+    }
+
+    public BooleanFilter getSelected() {
+        return selected;
+    }
+
+    public void setSelected(BooleanFilter selected) {
+        this.selected = selected;
     }
 
     public LongFilter getRefToPurchaseCommittee() {
@@ -176,6 +186,7 @@ public class RequisitionCriteria implements Serializable {
             Objects.equals(requisitionDate, that.requisitionDate) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(status, that.status) &&
+            Objects.equals(selected, that.selected) &&
             Objects.equals(refToPurchaseCommittee, that.refToPurchaseCommittee) &&
             Objects.equals(refToCfo, that.refToCfo) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
@@ -194,6 +205,7 @@ public class RequisitionCriteria implements Serializable {
         requisitionDate,
         amount,
         status,
+        selected,
         refToPurchaseCommittee,
         refToCfo,
         modifiedBy,
@@ -213,6 +225,7 @@ public class RequisitionCriteria implements Serializable {
                 (requisitionDate != null ? "requisitionDate=" + requisitionDate + ", " : "") +
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
+                (selected != null ? "selected=" + selected + ", " : "") +
                 (refToPurchaseCommittee != null ? "refToPurchaseCommittee=" + refToPurchaseCommittee + ", " : "") +
                 (refToCfo != null ? "refToCfo=" + refToCfo + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +

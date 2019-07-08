@@ -16,7 +16,6 @@ export class RequisitionDetailComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ requisition }) => {
             this.requisition = requisition;
-            this.requisition.requisitionId = this.requisition.id;
         });
     }
 

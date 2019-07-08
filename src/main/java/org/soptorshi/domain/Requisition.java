@@ -44,6 +44,9 @@ public class Requisition implements Serializable {
     @Column(name = "status")
     private RequisitionStatus status;
 
+    @Column(name = "selected")
+    private Boolean selected;
+
     @Lob
     @Column(name = "purchase_committee_remarks")
     private String purchaseCommitteeRemarks;
@@ -152,6 +155,19 @@ public class Requisition implements Serializable {
 
     public void setStatus(RequisitionStatus status) {
         this.status = status;
+    }
+
+    public Boolean isSelected() {
+        return selected;
+    }
+
+    public Requisition selected(Boolean selected) {
+        this.selected = selected;
+        return this;
+    }
+
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
     }
 
     public String getPurchaseCommitteeRemarks() {
@@ -314,6 +330,7 @@ public class Requisition implements Serializable {
             ", requisitionDate='" + getRequisitionDate() + "'" +
             ", amount=" + getAmount() +
             ", status='" + getStatus() + "'" +
+            ", selected='" + isSelected() + "'" +
             ", purchaseCommitteeRemarks='" + getPurchaseCommitteeRemarks() + "'" +
             ", refToPurchaseCommittee=" + getRefToPurchaseCommittee() +
             ", cfoRemarks='" + getCfoRemarks() + "'" +
