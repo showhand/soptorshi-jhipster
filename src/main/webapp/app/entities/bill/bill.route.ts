@@ -51,7 +51,8 @@ export const billRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Bills'
+            pageTitle: 'Bills',
+            breadcrumb: 'Employee Bill Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -65,7 +66,8 @@ export const billRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Bills'
+            pageTitle: 'Bills',
+            breadcrumb: 'Employee Bill Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -77,7 +79,8 @@ export const billRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Bills'
+            pageTitle: 'Bills',
+            breadcrumb: 'Employee Bill Details'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -89,7 +92,8 @@ export const billRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Bills'
+            pageTitle: 'Bills',
+            breadcrumb: 'New Employee Bill'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -101,7 +105,8 @@ export const billRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Bills'
+            pageTitle: 'Bills',
+            breadcrumb: 'New Employee Bill'
         },
         canActivate: [UserRouteAccessService]
     },

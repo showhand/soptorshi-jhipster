@@ -46,7 +46,8 @@ export const userMgmtRoute: Routes = [
         },
         data: {
             pageTitle: 'Users',
-            defaultSort: 'id,asc'
+            defaultSort: 'id,asc',
+            breadcrumb: 'User Management'
         }
     },
     {
@@ -56,12 +57,16 @@ export const userMgmtRoute: Routes = [
             user: UserMgmtResolve
         },
         data: {
-            pageTitle: 'Users'
+            pageTitle: 'Users',
+            breadcrumb: 'User Details'
         }
     },
     {
         path: 'user-management/new',
         component: UserMgmtUpdateComponent,
+        data: {
+            breadcrumb: 'New User'
+        },
         resolve: {
             user: UserMgmtResolve
         }
@@ -69,6 +74,9 @@ export const userMgmtRoute: Routes = [
     {
         path: ':employeeId/user-management/new',
         component: UserMgmtUpdateComponent,
+        data: {
+            breadcrumb: 'New User'
+        },
         resolve: {
             user: UserMgmtResolve
         }
@@ -78,6 +86,9 @@ export const userMgmtRoute: Routes = [
         component: UserMgmtUpdateComponent,
         resolve: {
             user: UserMgmtResolve
+        },
+        data: {
+            breadcrumb: 'Edit User'
         }
     }
 ];
