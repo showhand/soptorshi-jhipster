@@ -17,6 +17,7 @@ export const enum RequisitionStatus {
 
 export interface IRequisition {
     id?: number;
+    requisitionId?: number;
     requisitionNo?: string;
     reason?: any;
     requisitionDate?: Moment;
@@ -42,6 +43,7 @@ export interface IRequisition {
 export class Requisition implements IRequisition {
     constructor(
         public id?: number,
+        public requisitionId?: number,
         public requisitionNo?: string,
         public reason?: any,
         public requisitionDate?: Moment,
@@ -62,7 +64,5 @@ export class Requisition implements IRequisition {
         public productCategoryId?: number,
         public departmentName?: string,
         public departmentId?: number
-    ) {
-        this.selected = this.selected || false;
-    }
+    ) {}
 }

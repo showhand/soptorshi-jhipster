@@ -15,9 +15,7 @@ export class UserResolve implements CanActivate {
     constructor(private accountService: AccountService) {}
 
     canActivate() {
-        return this.accountService
-            .identity()
-            .then(account => this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_EMPLOYEE_MANAGEMENT']));
+        return this.accountService.identity().then(account => this.accountService.hasAnyAuthority(['ROLE_EMPLOYEE_MANAGEMENT']));
     }
 }
 

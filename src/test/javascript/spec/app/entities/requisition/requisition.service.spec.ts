@@ -25,21 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Requisition(
-                0,
-                'AAAAAAA',
-                'AAAAAAA',
-                currentDate,
-                0,
-                RequisitionStatus.WAITING_FOR_HEADS_APPROVAL,
-                false,
-                'AAAAAAA',
-                0,
-                'AAAAAAA',
-                0,
-                'AAAAAAA',
-                currentDate
-            );
+            elemDefault = new Requisition();
         });
 
         describe('Service methods', async () => {

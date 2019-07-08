@@ -41,7 +41,9 @@ export class UserMgmtUpdateComponent implements OnInit {
         });
         this.authorities = [];
         this.userService.authorities().subscribe(authorities => {
-            this.authorities = authorities;
+            authorities.forEach((a: any) => {
+                if (a !== 'ROLE_ADMIN') this.authorities.push(a);
+            });
         });
     }
 
