@@ -185,7 +185,7 @@
 
                 </ul>
             </li>
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_IT_ERP']">
                 <a (click)="holidayManagement=!holidayManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="calendar-alt" fixedWidth="true"></fa-icon>
@@ -210,7 +210,7 @@
                 </ul>
             </li>
 
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_CFO']">
                 <a (click)="payrollManagement=!payrollManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="money-check"></fa-icon>
@@ -233,13 +233,13 @@
                             <span style="font-size: smaller">Fine, Advance, Loan & Provident</span>
                         </a>
                     </li>
-                    <li  *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+                    <li  *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_CFO']">
                         <a class="dropdown-item" routerLink="special-allowance-time-line" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Special Allowance Time Line</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_CFO']">
                         <a  routerLink="payroll-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
                             <span>Payroll Management</span>
@@ -401,6 +401,7 @@
             </li>-->
         </ul>
     </nav>
+    
     <!--[ngStyle]="{'mergin-left': isAuthenticated()?'250px':'0px'}"-->
     <div class="container-fluid" [ngClass]="isAuthenticated() && isDesktop && sidebarService.toggleSidenav?'main':''"  [ngStyle]="{'mergin-left': isAuthenticated() && sidebarService.toggleSidenav==true?'250px':'0px'}" style="padding-top:70px;padding-bottom:30px;">
         <div class="card jh-card" >

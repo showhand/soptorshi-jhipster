@@ -25,21 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Requisition(
-                0,
-                0,
-                'AAAAAAA',
-                'AAAAAAA',
-                currentDate,
-                0,
-                RequisitionStatus.WAITING_FOR_HEADS_APPROVAL,
-                'AAAAAAA',
-                0,
-                'AAAAAAA',
-                0,
-                'AAAAAAA',
-                currentDate
-            );
+            elemDefault = new Requisition();
         });
 
         describe('Service methods', async () => {
@@ -92,6 +78,7 @@ describe('Service Tests', () => {
                         requisitionDate: currentDate.format(DATE_FORMAT),
                         amount: 1,
                         status: 'BBBBBB',
+                        selected: true,
                         purchaseCommitteeRemarks: 'BBBBBB',
                         refToPurchaseCommittee: 1,
                         cfoRemarks: 'BBBBBB',
@@ -125,6 +112,7 @@ describe('Service Tests', () => {
                         requisitionDate: currentDate.format(DATE_FORMAT),
                         amount: 1,
                         status: 'BBBBBB',
+                        selected: true,
                         purchaseCommitteeRemarks: 'BBBBBB',
                         refToPurchaseCommittee: 1,
                         cfoRemarks: 'BBBBBB',

@@ -24,6 +24,8 @@ public class RequisitionDTO implements Serializable {
 
     private RequisitionStatus status;
 
+    private Boolean selected;
+
     @Lob
     private String purchaseCommitteeRemarks;
 
@@ -101,6 +103,14 @@ public class RequisitionDTO implements Serializable {
 
     public void setStatus(RequisitionStatus status) {
         this.status = status;
+    }
+
+    public Boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
     }
 
     public String getPurchaseCommitteeRemarks() {
@@ -245,6 +255,7 @@ public class RequisitionDTO implements Serializable {
             ", requisitionDate='" + getRequisitionDate() + "'" +
             ", amount=" + getAmount() +
             ", status='" + getStatus() + "'" +
+            ", selected='" + isSelected() + "'" +
             ", purchaseCommitteeRemarks='" + getPurchaseCommitteeRemarks() + "'" +
             ", refToPurchaseCommittee=" + getRefToPurchaseCommittee() +
             ", cfoRemarks='" + getCfoRemarks() + "'" +

@@ -41,7 +41,7 @@ export const employeeRoute: Routes = [
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             defaultSort: 'id,desc',
             pageTitle: 'Employees',
-            breadcrumb: 'Employees'
+            breadcrumb: 'Employee'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -54,7 +54,7 @@ export const employeeRoute: Routes = [
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employee Management',
-            breadcrumb: 'Employee Management'
+            breadcrumb: 'New Employee'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -67,7 +67,7 @@ export const employeeRoute: Routes = [
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employee Management',
-            breadcrumb: 'Employee Management'
+            breadcrumb: 'Employee Information Management'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -80,7 +80,7 @@ export const employeeRoute: Routes = [
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             pageTitle: 'Employees',
-            breadcrumb: 'View Employee'
+            breadcrumb: 'View Employee Information'
         },
         canActivate: [UserRouteAccessService]
     },

@@ -49,9 +49,10 @@ export const billRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Bills'
+            pageTitle: 'Bills',
+            breadcrumb: 'Employee Bill Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -63,9 +64,10 @@ export const billRoute: Routes = [
             bill: BillResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Bills'
+            pageTitle: 'Bills',
+            breadcrumb: 'Employee Bill Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -76,8 +78,9 @@ export const billRoute: Routes = [
             bill: BillResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Bills'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Bills',
+            breadcrumb: 'Employee Bill Details'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -88,8 +91,9 @@ export const billRoute: Routes = [
             bill: BillResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Bills'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Bills',
+            breadcrumb: 'New Employee Bill'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -100,8 +104,9 @@ export const billRoute: Routes = [
             bill: BillResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Bills'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Bills',
+            breadcrumb: 'New Employee Bill'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -112,7 +117,7 @@ export const billRoute: Routes = [
             bill: BillResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Bills'
         },
         canActivate: [UserRouteAccessService]
@@ -127,7 +132,7 @@ export const billPopupRoute: Routes = [
             bill: BillResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Bills'
         },
         canActivate: [UserRouteAccessService],

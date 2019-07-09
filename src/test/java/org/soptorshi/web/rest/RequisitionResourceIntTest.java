@@ -75,6 +75,9 @@ public class RequisitionResourceIntTest {
     private static final RequisitionStatus DEFAULT_STATUS = RequisitionStatus.WAITING_FOR_HEADS_APPROVAL;
     private static final RequisitionStatus UPDATED_STATUS = RequisitionStatus.REJECTED_BY_HEAD;
 
+    private static final Boolean DEFAULT_SELECTED = false;
+    private static final Boolean UPDATED_SELECTED = true;
+
     private static final String DEFAULT_PURCHASE_COMMITTEE_REMARKS = "AAAAAAAAAA";
     private static final String UPDATED_PURCHASE_COMMITTEE_REMARKS = "BBBBBBBBBB";
 
@@ -157,6 +160,7 @@ public class RequisitionResourceIntTest {
             .requisitionDate(DEFAULT_REQUISITION_DATE)
             .amount(DEFAULT_AMOUNT)
             .status(DEFAULT_STATUS)
+            .selected(DEFAULT_SELECTED)
             .purchaseCommitteeRemarks(DEFAULT_PURCHASE_COMMITTEE_REMARKS)
             .refToPurchaseCommittee(DEFAULT_REF_TO_PURCHASE_COMMITTEE)
             .cfoRemarks(DEFAULT_CFO_REMARKS)
@@ -192,6 +196,7 @@ public class RequisitionResourceIntTest {
         assertThat(testRequisition.getRequisitionDate()).isEqualTo(DEFAULT_REQUISITION_DATE);
         assertThat(testRequisition.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testRequisition.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testRequisition.isSelected()).isEqualTo(DEFAULT_SELECTED);
         assertThat(testRequisition.getPurchaseCommitteeRemarks()).isEqualTo(DEFAULT_PURCHASE_COMMITTEE_REMARKS);
         assertThat(testRequisition.getRefToPurchaseCommittee()).isEqualTo(DEFAULT_REF_TO_PURCHASE_COMMITTEE);
         assertThat(testRequisition.getCfoRemarks()).isEqualTo(DEFAULT_CFO_REMARKS);
@@ -242,6 +247,7 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.[*].requisitionDate").value(hasItem(DEFAULT_REQUISITION_DATE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].selected").value(hasItem(DEFAULT_SELECTED.booleanValue())))
             .andExpect(jsonPath("$.[*].purchaseCommitteeRemarks").value(hasItem(DEFAULT_PURCHASE_COMMITTEE_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].refToPurchaseCommittee").value(hasItem(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue())))
             .andExpect(jsonPath("$.[*].cfoRemarks").value(hasItem(DEFAULT_CFO_REMARKS.toString())))
@@ -266,6 +272,7 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.requisitionDate").value(DEFAULT_REQUISITION_DATE.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.selected").value(DEFAULT_SELECTED.booleanValue()))
             .andExpect(jsonPath("$.purchaseCommitteeRemarks").value(DEFAULT_PURCHASE_COMMITTEE_REMARKS.toString()))
             .andExpect(jsonPath("$.refToPurchaseCommittee").value(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue()))
             .andExpect(jsonPath("$.cfoRemarks").value(DEFAULT_CFO_REMARKS.toString()))
@@ -455,6 +462,45 @@ public class RequisitionResourceIntTest {
 
         // Get all the requisitionList where status is null
         defaultRequisitionShouldNotBeFound("status.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsBySelectedIsEqualToSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where selected equals to DEFAULT_SELECTED
+        defaultRequisitionShouldBeFound("selected.equals=" + DEFAULT_SELECTED);
+
+        // Get all the requisitionList where selected equals to UPDATED_SELECTED
+        defaultRequisitionShouldNotBeFound("selected.equals=" + UPDATED_SELECTED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsBySelectedIsInShouldWork() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where selected in DEFAULT_SELECTED or UPDATED_SELECTED
+        defaultRequisitionShouldBeFound("selected.in=" + DEFAULT_SELECTED + "," + UPDATED_SELECTED);
+
+        // Get all the requisitionList where selected equals to UPDATED_SELECTED
+        defaultRequisitionShouldNotBeFound("selected.in=" + UPDATED_SELECTED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsBySelectedIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where selected is not null
+        defaultRequisitionShouldBeFound("selected.specified=true");
+
+        // Get all the requisitionList where selected is null
+        defaultRequisitionShouldNotBeFound("selected.specified=false");
     }
 
     @Test
@@ -782,6 +828,7 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.[*].requisitionDate").value(hasItem(DEFAULT_REQUISITION_DATE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].selected").value(hasItem(DEFAULT_SELECTED.booleanValue())))
             .andExpect(jsonPath("$.[*].purchaseCommitteeRemarks").value(hasItem(DEFAULT_PURCHASE_COMMITTEE_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].refToPurchaseCommittee").value(hasItem(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue())))
             .andExpect(jsonPath("$.[*].cfoRemarks").value(hasItem(DEFAULT_CFO_REMARKS.toString())))
@@ -840,6 +887,7 @@ public class RequisitionResourceIntTest {
             .requisitionDate(UPDATED_REQUISITION_DATE)
             .amount(UPDATED_AMOUNT)
             .status(UPDATED_STATUS)
+            .selected(UPDATED_SELECTED)
             .purchaseCommitteeRemarks(UPDATED_PURCHASE_COMMITTEE_REMARKS)
             .refToPurchaseCommittee(UPDATED_REF_TO_PURCHASE_COMMITTEE)
             .cfoRemarks(UPDATED_CFO_REMARKS)
@@ -862,6 +910,7 @@ public class RequisitionResourceIntTest {
         assertThat(testRequisition.getRequisitionDate()).isEqualTo(UPDATED_REQUISITION_DATE);
         assertThat(testRequisition.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testRequisition.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testRequisition.isSelected()).isEqualTo(UPDATED_SELECTED);
         assertThat(testRequisition.getPurchaseCommitteeRemarks()).isEqualTo(UPDATED_PURCHASE_COMMITTEE_REMARKS);
         assertThat(testRequisition.getRefToPurchaseCommittee()).isEqualTo(UPDATED_REF_TO_PURCHASE_COMMITTEE);
         assertThat(testRequisition.getCfoRemarks()).isEqualTo(UPDATED_CFO_REMARKS);
@@ -933,6 +982,7 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.[*].requisitionDate").value(hasItem(DEFAULT_REQUISITION_DATE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].selected").value(hasItem(DEFAULT_SELECTED.booleanValue())))
             .andExpect(jsonPath("$.[*].purchaseCommitteeRemarks").value(hasItem(DEFAULT_PURCHASE_COMMITTEE_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].refToPurchaseCommittee").value(hasItem(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue())))
             .andExpect(jsonPath("$.[*].cfoRemarks").value(hasItem(DEFAULT_CFO_REMARKS.toString())))

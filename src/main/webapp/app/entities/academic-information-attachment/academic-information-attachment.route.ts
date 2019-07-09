@@ -40,7 +40,8 @@ export const academicInformationAttachmentRoute: Routes = [
         component: AcademicInformationAttachmentComponent,
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformationAttachments'
+            pageTitle: 'AcademicInformationAttachments',
+            breadcrumb: 'Academic Information Attachment'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -52,7 +53,8 @@ export const academicInformationAttachmentRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformationAttachments'
+            pageTitle: 'AcademicInformationAttachments',
+            breadcrumb: 'Academic Information Attachment View'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -64,7 +66,8 @@ export const academicInformationAttachmentRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformationAttachments'
+            pageTitle: 'AcademicInformationAttachments',
+            breadcrumb: 'New Academic Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -76,7 +79,8 @@ export const academicInformationAttachmentRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformationAttachments'
+            pageTitle: 'AcademicInformationAttachments',
+            breadcrumb: 'New Academic Information Attachment for Employee'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -88,7 +92,8 @@ export const academicInformationAttachmentRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformationAttachments'
+            pageTitle: 'AcademicInformationAttachments',
+            breadcrumb: 'Edit employee academic information'
         },
         canActivate: [UserRouteAccessService]
     }

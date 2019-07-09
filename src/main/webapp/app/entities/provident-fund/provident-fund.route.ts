@@ -47,7 +47,7 @@ export const providentFundRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
             pageTitle: 'ProvidentFunds'
         },
@@ -61,7 +61,7 @@ export const providentFundRoute: Routes = [
             providentFund: ProvidentFundResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
             pageTitle: 'ProvidentFunds'
         },
@@ -74,7 +74,7 @@ export const providentFundRoute: Routes = [
             providentFund: ProvidentFundResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'ProvidentFunds'
         },
         canActivate: [UserRouteAccessService]
@@ -86,7 +86,7 @@ export const providentFundRoute: Routes = [
             providentFund: ProvidentFundResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'ProvidentFunds'
         },
         canActivate: [UserRouteAccessService]
@@ -98,7 +98,7 @@ export const providentFundRoute: Routes = [
             providentFund: ProvidentFundResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'ProvidentFunds'
         },
         canActivate: [UserRouteAccessService]
@@ -110,7 +110,7 @@ export const providentFundRoute: Routes = [
             providentFund: ProvidentFundResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'ProvidentFunds'
         },
         canActivate: [UserRouteAccessService]
@@ -125,7 +125,7 @@ export const providentFundPopupRoute: Routes = [
             providentFund: ProvidentFundResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'ProvidentFunds'
         },
         canActivate: [UserRouteAccessService],

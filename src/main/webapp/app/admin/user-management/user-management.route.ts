@@ -15,9 +15,7 @@ export class UserResolve implements CanActivate {
     constructor(private accountService: AccountService) {}
 
     canActivate() {
-        return this.accountService
-            .identity()
-            .then(account => this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_EMPLOYEE_MANAGEMENT']));
+        return this.accountService.identity().then(account => this.accountService.hasAnyAuthority(['ROLE_EMPLOYEE_MANAGEMENT']));
     }
 }
 
@@ -48,7 +46,8 @@ export const userMgmtRoute: Routes = [
         },
         data: {
             pageTitle: 'Users',
-            defaultSort: 'id,asc'
+            defaultSort: 'id,asc',
+            breadcrumb: 'User Management'
         }
     },
     {
@@ -58,12 +57,16 @@ export const userMgmtRoute: Routes = [
             user: UserMgmtResolve
         },
         data: {
-            pageTitle: 'Users'
+            pageTitle: 'Users',
+            breadcrumb: 'User Details'
         }
     },
     {
         path: 'user-management/new',
         component: UserMgmtUpdateComponent,
+        data: {
+            breadcrumb: 'New User'
+        },
         resolve: {
             user: UserMgmtResolve
         }
@@ -71,6 +74,9 @@ export const userMgmtRoute: Routes = [
     {
         path: ':employeeId/user-management/new',
         component: UserMgmtUpdateComponent,
+        data: {
+            breadcrumb: 'New User'
+        },
         resolve: {
             user: UserMgmtResolve
         }
@@ -80,6 +86,9 @@ export const userMgmtRoute: Routes = [
         component: UserMgmtUpdateComponent,
         resolve: {
             user: UserMgmtResolve
+        },
+        data: {
+            breadcrumb: 'Edit User'
         }
     }
 ];
