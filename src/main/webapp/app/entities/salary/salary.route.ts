@@ -64,7 +64,8 @@ export const salaryRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Salaries'
+            pageTitle: 'Salaries',
+            breadcrumb: 'Employee Salary Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -76,7 +77,8 @@ export const salaryRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Salaries'
+            pageTitle: 'Salaries',
+            breadcrumb: 'Salary Details'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -88,7 +90,8 @@ export const salaryRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Salaries'
+            pageTitle: 'Salaries',
+            breadcrumb: 'New Salary'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -100,7 +103,8 @@ export const salaryRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Salaries'
+            pageTitle: 'Salaries',
+            breadcrumb: 'New Salary'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -112,7 +116,8 @@ export const salaryRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Salaries'
+            pageTitle: 'Salaries',
+            breadcrumb: 'Edit Salary'
         },
         canActivate: [UserRouteAccessService]
     }

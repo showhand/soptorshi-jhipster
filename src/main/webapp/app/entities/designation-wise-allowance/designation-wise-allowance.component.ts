@@ -137,6 +137,7 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<Designation[]>) => {
                     this.designations = res.body;
+                    this.designationWiseAllowanceService.designationId = this.designations[0].id;
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );

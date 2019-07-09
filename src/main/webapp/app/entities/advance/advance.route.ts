@@ -67,7 +67,7 @@ export const advanceRoute: Routes = [
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
             pageTitle: 'Advances',
-            breadcrumb: 'Employee Advances'
+            breadcrumb: 'Employee Advance Information'
         },
         canActivate: [UserRouteAccessService]
     },

@@ -63,7 +63,8 @@ export const taxRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Taxes'
+            pageTitle: 'Taxes',
+            breadcrumb: 'Employee Tax Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -75,7 +76,8 @@ export const taxRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Taxes'
+            pageTitle: 'Taxes',
+            breadcrumb: 'Tax Details'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -87,7 +89,8 @@ export const taxRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Taxes'
+            pageTitle: 'Taxes',
+            breadcrumb: 'Employee New Tax Entry'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -99,7 +102,8 @@ export const taxRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Taxes'
+            pageTitle: 'Taxes',
+            breadcrumb: 'New Tax Entry'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -111,7 +115,8 @@ export const taxRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Taxes'
+            pageTitle: 'Taxes',
+            breadcrumb: 'Edit Tax Information'
         },
         canActivate: [UserRouteAccessService]
     }

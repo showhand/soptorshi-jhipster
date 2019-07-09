@@ -9,22 +9,22 @@
                     <input type="text" class="form-control" id="id" name="id"
                         [(ngModel)]="purchaseCommittee.id" readonly />
                 </div>
-                <!--<div class="form-group">
+                <div class="form-group">
                     <ng-template #rt let-r="result" let-t="term">
                         <ngb-highlight [result]="r.fullName" [term]="t"></ngb-highlight>
                     </ng-template>
 
-                    <label class="form-control-label" for="typeahead-template">Employee: {{selectedEmployee}}</label>
-                    <input  id="typeahead-template" type="text" class="form-control" [(ngModel)]="selectedEmployee"  [ngbTypeahead]="search" [resultTemplate]="rt"
+                    <label class="form-control-label" for="typeahead-template">Employee: {{selectedEmployee.fullName}}</label>
+                    <input  id="typeahead-template" id="employeeSearch" type="text" class="form-control" ngModel="selectedEmployee"  [ngbTypeahead]="search" [resultTemplate]="rt"
                             [inputFormatter]="formatter"  (selectItem)="employeeSelected($event)"/>
-                </div>-->
-                <div class="form-group">
+                </div>
+               <!-- <div class="form-group">
                     <label class="form-control-label" for="field_employee">Employee</label>
                     <select class="form-control" id="field_employee" name="employee" [(ngModel)]="purchaseCommittee.employeeId">
                         <option [ngValue]="null"></option>
                         <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
                     </select>
-                </div>
+                </div>-->
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

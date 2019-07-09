@@ -64,7 +64,8 @@ export const fineRoute: Routes = [
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'Fines'
+            pageTitle: 'Fines',
+            breadcrumb: 'Employee Fine Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -76,7 +77,8 @@ export const fineRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
-            pageTitle: 'Fines'
+            pageTitle: 'Fines',
+            breadcrumb: 'Fine Details'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -88,7 +90,8 @@ export const fineRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
-            pageTitle: 'Fines'
+            pageTitle: 'Fines',
+            breadcrumb: 'New Fine for Employee'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -100,7 +103,8 @@ export const fineRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
-            pageTitle: 'Fines'
+            pageTitle: 'Fines',
+            breadcrumb: 'New Fine'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -112,7 +116,8 @@ export const fineRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
-            pageTitle: 'Fines'
+            pageTitle: 'Fines',
+            breadcrumb: 'Edit Fine'
         },
         canActivate: [UserRouteAccessService]
     }

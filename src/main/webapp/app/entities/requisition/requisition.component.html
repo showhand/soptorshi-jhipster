@@ -33,7 +33,6 @@
             <th jhiSortBy="requisitionDate"><span>Requisition Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="selected"><span>Selected</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="officeName"><span>Office</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productCategoryName"><span>Product Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -47,7 +46,6 @@
                 <td>{{requisition.requisitionDate | date:'mediumDate'}}</td>
                 <td>{{requisition.amount}}</td>
                 <td>{{requisition.status}}</td>
-                <td>{{requisition.selected}}</td>
                 <td>
                     <div *ngIf="requisition.employeeId">
                         <a [routerLink]="['../employee', requisition.employeeId , 'view' ]" >{{requisition.employeeFullName}}</a>
