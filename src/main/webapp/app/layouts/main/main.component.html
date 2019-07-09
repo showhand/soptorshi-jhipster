@@ -401,6 +401,7 @@
             </li>-->
         </ul>
     </nav>
+    
     <!--[ngStyle]="{'mergin-left': isAuthenticated()?'250px':'0px'}"-->
     <div class="container-fluid" [ngClass]="isAuthenticated() && isDesktop && sidebarService.toggleSidenav?'main':''"  [ngStyle]="{'mergin-left': isAuthenticated() && sidebarService.toggleSidenav==true?'250px':'0px'}" style="padding-top:70px;padding-bottom:30px;">
         <div class="card jh-card" >
