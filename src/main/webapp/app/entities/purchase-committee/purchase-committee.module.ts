@@ -12,11 +12,12 @@ import {
     purchaseCommitteePopupRoute
 } from './';
 import { Select2Module } from 'ng2-select2';
+import { AutoCompleteModule } from 'primeng/primeng';
 
 const ENTITY_STATES = [...purchaseCommitteeRoute, ...purchaseCommitteePopupRoute];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES), Select2Module],
+    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES), Select2Module, AutoCompleteModule],
     declarations: [
         PurchaseCommitteeComponent,
         PurchaseCommitteeDetailComponent,

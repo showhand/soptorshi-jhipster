@@ -7,10 +7,20 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatButtonModule } from '@angular/material';
+import { AutoCompleteModule } from 'primeng/primeng';
 
 @NgModule({
-    imports: [NgbModule.forRoot(), InfiniteScrollModule, CookieModule.forRoot(), FontAwesomeModule, MatButtonModule],
-    exports: [FormsModule, CommonModule, NgbModule, NgJhipsterModule, InfiniteScrollModule, FontAwesomeModule, MatButtonModule]
+    imports: [NgbModule.forRoot(), InfiniteScrollModule, CookieModule.forRoot(), FontAwesomeModule, MatButtonModule, AutoCompleteModule],
+    exports: [
+        FormsModule,
+        CommonModule,
+        NgbModule,
+        NgJhipsterModule,
+        InfiniteScrollModule,
+        FontAwesomeModule,
+        MatButtonModule,
+        AutoCompleteModule
+    ]
 })
 export class SoptorshiSharedLibsModule {
     static forRoot() {
