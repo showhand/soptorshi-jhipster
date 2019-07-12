@@ -18,7 +18,7 @@ const ENTITY_STATES = [...purchaseCommitteeRoute, ...purchaseCommitteePopupRoute
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES), Select2Module, AutoCompleteModule],
-    declarations: [
+    /* declarations: [
         PurchaseCommitteeComponent,
         PurchaseCommitteeDetailComponent,
         PurchaseCommitteeUpdateComponent,
@@ -30,7 +30,7 @@ const ENTITY_STATES = [...purchaseCommitteeRoute, ...purchaseCommitteePopupRoute
         PurchaseCommitteeUpdateComponent,
         PurchaseCommitteeDeleteDialogComponent,
         PurchaseCommitteeDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiPurchaseCommitteeModule {}

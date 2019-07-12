@@ -14,31 +14,14 @@
                     <input type="text" class="form-control" id="id" name="id"
                         [(ngModel)]="purchaseCommittee.id" readonly />
                 </div>
+
                 <div class="form-group">
-                    <label class="form-control-label">Employee: {{selectedEmployee.fullName}}</label>
-                    <p-autoComplete [(ngModel)]="selectedEmployee" [suggestions]="employees" field="fullName"></p-autoComplete>
-                    <!--<input list="employees" class="form-control" [(ngModel)]="selectedEmployee"/>
-                    <datalist id="employees">
-                        <option [ngValue]="employeeOption" *ngFor="let employeeOption of employees">{{employeeOption.fullName}}</option>
-                    </datalist>-->
-
-                </div>
-               <!-- <div class="form-group">
-                    <ng-template #rt let-r="result" let-t="term">
-                        <ngb-highlight [result]="r.fullName" [term]="t"></ngb-highlight>
-                    </ng-template>
-
-                    <label class="form-control-label" for="typeahead-template">Employee: {{selectedEmployee.fullName}}</label>
-                    <input (focus)="onFocus($event)"   id="typeahead-template" id="employeeSearch" type="text" class="form-control" ngModel="selectedEmployee"  [ngbTypeahead]="search" [resultTemplate]="rt"
-                            [inputFormatter]="formatter"  (selectItem)="employeeSelected($event)"  #elem  #instance="ngbTypeahead" />
-                </div>-->
-               <!-- <div class="form-group">
                     <label class="form-control-label" for="field_employee">Employee</label>
                     <select class="form-control" id="field_employee" name="employee" [(ngModel)]="purchaseCommittee.employeeId">
                         <option [ngValue]="null"></option>
                         <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
                     </select>
-                </div>-->
+                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

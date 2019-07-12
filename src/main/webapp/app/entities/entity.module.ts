@@ -305,7 +305,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'purchase-committee',
-                loadChildren: './purchase-committee/purchase-committee.module#SoptorshiPurchaseCommitteeModule'
+                loadChildren: './purchase-committee-extended/purchase-committee-extended.module#SoptorshiPurchaseCommitteeExtendedModule'
             },
             {
                 path: 'vendor',
