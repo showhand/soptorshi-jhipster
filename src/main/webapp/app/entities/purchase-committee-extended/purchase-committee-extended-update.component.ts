@@ -58,6 +58,16 @@ export class PurchaseCommitteeExtendedUpdateComponent extends PurchaseCommitteeU
             );
     }
 
+    save() {
+        this.isSaving = true;
+        this.purchaseCommittee.employeeId = this.selectedEmployee.id;
+        if (this.purchaseCommittee.id !== undefined) {
+            this.subscribeToSaveResponse(this.purchaseCommitteeService.update(this.purchaseCommittee));
+        } else {
+            this.subscribeToSaveResponse(this.purchaseCommitteeService.create(this.purchaseCommittee));
+        }
+    }
+
     filterEmployees(event) {
         this.employeeService
             .query({
