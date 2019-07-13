@@ -24,6 +24,10 @@
             "fieldValues": "WAITING_FOR_HEADS_APPROVAL,REJECTED_BY_HEAD,FORWARDED_BY_HEAD,FORWARDED_BY_PURCHASE_COMMITTEE,REJECTED_BY_PURCHASE_COMMITTEE,MODIFICATION_REQUEST_BY_PURCHASE_COMMITTEE,APPROVED_BY_CFO,REJECTED_BY_CFO,MODIFICATION_REQUEST_BY_CFO,RECEIVED_BY_REQUISIONER,RECEIVED_VERIFIED_BY_HEAD,CLOSED_BY_CFO"
         },
         {
+            "fieldName": "selected",
+            "fieldType": "Boolean"
+        },
+        {
             "fieldName": "purchaseCommitteeRemarks",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text"

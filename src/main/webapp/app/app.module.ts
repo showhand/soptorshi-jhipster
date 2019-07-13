@@ -26,7 +26,6 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AutoCompleteModule } from 'primeng/primeng';
 import { Select2Module } from 'ng2-select2';
 import { BreadcrumbModule } from 'angular-crumbs';
-import { NgDynamicBreadcrumbModule } from 'ng-dynamic-breadcrumb';
 // import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({

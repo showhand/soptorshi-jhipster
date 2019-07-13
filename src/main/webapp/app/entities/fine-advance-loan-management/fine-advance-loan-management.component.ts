@@ -58,14 +58,16 @@ export class FineAdvanceLoanManagementComponent implements OnInit, OnDestroy {
     loadAll() {
         if (this.currentSearch) {
             this.employeeService
-                .search({
+                .query({
+                    'fullName.contains': this.currentSearch,
                     page: this.page - 1,
-                    query: this.currentSearch,
                     size: this.itemsPerPage,
                     sort: this.sort()
                 })
                 .subscribe(
-                    (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
+                    (res: HttpResponse<IEmployee[]>) => {
+                        this.paginateEmployees(res.body, res.headers);
+                    },
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;

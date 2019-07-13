@@ -63,7 +63,8 @@ export const loanRoute: Routes = [
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'Loans'
+            pageTitle: 'Loans',
+            breadcrumb: 'Employee Loan Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -75,7 +76,8 @@ export const loanRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
-            pageTitle: 'Loans'
+            pageTitle: 'Loans',
+            breadcrumb: 'Loan Details'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -87,7 +89,8 @@ export const loanRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
-            pageTitle: 'Loans'
+            pageTitle: 'Loans',
+            breadcrumb: 'New Loan for Employee'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -99,7 +102,8 @@ export const loanRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
-            pageTitle: 'Loans'
+            pageTitle: 'Loans',
+            breadcrumb: 'New Loan'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -111,7 +115,8 @@ export const loanRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
-            pageTitle: 'Loans'
+            pageTitle: 'Loans',
+            breadcrumb: 'Edit Loan'
         },
         canActivate: [UserRouteAccessService]
     }

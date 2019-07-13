@@ -47,7 +47,8 @@ export const academicInformationRoute: Routes = [
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'AcademicInformations'
+            pageTitle: 'AcademicInformations',
+            breadcrumb: 'Academic Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -59,7 +60,8 @@ export const academicInformationRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformations'
+            pageTitle: 'AcademicInformations',
+            breadcrumb: 'Academic Information Details'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -71,7 +73,8 @@ export const academicInformationRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformations'
+            pageTitle: 'AcademicInformations',
+            breadcrumb: 'Academic Information of Employee'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -83,7 +86,8 @@ export const academicInformationRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformations'
+            pageTitle: 'AcademicInformations',
+            breadcrumb: 'New Academic Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -95,7 +99,8 @@ export const academicInformationRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformations'
+            pageTitle: 'AcademicInformations',
+            breadcrumb: 'New Employee Academic Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -107,7 +112,8 @@ export const academicInformationRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformations'
+            pageTitle: 'AcademicInformations',
+            breadcrumb: 'Edit Academic Information'
         },
         canActivate: [UserRouteAccessService]
     }

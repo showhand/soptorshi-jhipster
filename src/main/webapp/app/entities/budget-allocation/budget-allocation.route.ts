@@ -47,7 +47,7 @@ export const budgetAllocationRoute: Routes = [
         path: '',
         component: BudgetAllocationComponent,
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'BudgetAllocations'
         },
         canActivate: [UserRouteAccessService]
@@ -60,7 +60,7 @@ export const budgetAllocationRoute: Routes = [
             budgetAllocation: BudgetAllocationResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'BudgetAllocations'
         },
         canActivate: [UserRouteAccessService]
@@ -72,7 +72,7 @@ export const budgetAllocationRoute: Routes = [
             budgetAllocation: BudgetAllocationResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'BudgetAllocations'
         },
         canActivate: [UserRouteAccessService]
@@ -84,7 +84,7 @@ export const budgetAllocationRoute: Routes = [
             budgetAllocation: BudgetAllocationResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'BudgetAllocations'
         },
         canActivate: [UserRouteAccessService]
@@ -96,7 +96,7 @@ export const budgetAllocationRoute: Routes = [
             budgetAllocation: BudgetAllocationResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'BudgetAllocations'
         },
         canActivate: [UserRouteAccessService]
@@ -111,7 +111,7 @@ export const budgetAllocationPopupRoute: Routes = [
             budgetAllocation: BudgetAllocationResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'BudgetAllocations'
         },
         canActivate: [UserRouteAccessService],

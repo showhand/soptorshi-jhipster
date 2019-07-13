@@ -51,7 +51,8 @@ export const advanceRoute: Routes = [
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'Advances'
+            pageTitle: 'Advances',
+            breadcrumb: 'Employee Advance'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -65,7 +66,8 @@ export const advanceRoute: Routes = [
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             defaultSort: 'id,asc',
-            pageTitle: 'Advances'
+            pageTitle: 'Advances',
+            breadcrumb: 'Employee Advance Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -77,7 +79,8 @@ export const advanceRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
-            pageTitle: 'Advances'
+            pageTitle: 'Advances',
+            breadcrumb: 'Employee Advance Details'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -89,7 +92,8 @@ export const advanceRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
-            pageTitle: 'Advances'
+            pageTitle: 'Advances',
+            breadcrumb: 'Employee New Advance'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -101,7 +105,8 @@ export const advanceRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
-            pageTitle: 'Advances'
+            pageTitle: 'Advances',
+            breadcrumb: 'Employee New Advance'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -113,7 +118,8 @@ export const advanceRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER', 'ROLE_ADMIN'],
-            pageTitle: 'Advances'
+            pageTitle: 'Advances',
+            breadcrumb: 'Edit Employee Advance'
         },
         canActivate: [UserRouteAccessService]
     }

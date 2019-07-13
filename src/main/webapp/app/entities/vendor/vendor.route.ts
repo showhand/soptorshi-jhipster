@@ -51,7 +51,8 @@ export const vendorRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
-            pageTitle: 'Vendors'
+            pageTitle: 'Vendors',
+            breadcrumb: 'Vendor Details'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -63,7 +64,8 @@ export const vendorRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
-            pageTitle: 'Vendors'
+            pageTitle: 'Vendors',
+            breadcrumb: 'New Vendor'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -75,7 +77,8 @@ export const vendorRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
-            pageTitle: 'Vendors'
+            pageTitle: 'Vendors',
+            breadcrumb: 'Edit Vendor'
         },
         canActivate: [UserRouteAccessService]
     }

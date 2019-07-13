@@ -259,6 +259,7 @@ entity Requisition{
    requisitionDate LocalDate,
    amount BigDecimal,
    status RequisitionStatus,
+   selected Boolean,
    purchaseCommitteeRemarks TextBlob,
    refToPurchaseCommittee Long,
    cfoRemarks TextBlob,

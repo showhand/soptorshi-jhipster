@@ -47,7 +47,7 @@ export const taxRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
             pageTitle: 'Taxes'
         },
@@ -61,9 +61,10 @@ export const taxRoute: Routes = [
             tax: TaxResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Taxes'
+            pageTitle: 'Taxes',
+            breadcrumb: 'Employee Tax Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -74,8 +75,9 @@ export const taxRoute: Routes = [
             tax: TaxResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Taxes'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Taxes',
+            breadcrumb: 'Tax Details'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -86,8 +88,9 @@ export const taxRoute: Routes = [
             tax: TaxResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Taxes'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Taxes',
+            breadcrumb: 'Employee New Tax Entry'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -98,8 +101,9 @@ export const taxRoute: Routes = [
             tax: TaxResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Taxes'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Taxes',
+            breadcrumb: 'New Tax Entry'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -110,8 +114,9 @@ export const taxRoute: Routes = [
             tax: TaxResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Taxes'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Taxes',
+            breadcrumb: 'Edit Tax Information'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -125,7 +130,7 @@ export const taxPopupRoute: Routes = [
             tax: TaxResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Taxes'
         },
         canActivate: [UserRouteAccessService],

@@ -48,7 +48,7 @@ export const salaryRoute: Routes = [
             pagingParams: JhiResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
             pageTitle: 'Salaries'
         },
@@ -62,9 +62,10 @@ export const salaryRoute: Routes = [
             salary: SalaryResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Salaries'
+            pageTitle: 'Salaries',
+            breadcrumb: 'Employee Salary Information'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -75,8 +76,9 @@ export const salaryRoute: Routes = [
             salary: SalaryResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Salaries'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Salaries',
+            breadcrumb: 'Salary Details'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -87,8 +89,9 @@ export const salaryRoute: Routes = [
             salary: SalaryResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Salaries'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Salaries',
+            breadcrumb: 'New Salary'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -99,8 +102,9 @@ export const salaryRoute: Routes = [
             salary: SalaryResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Salaries'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Salaries',
+            breadcrumb: 'New Salary'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -111,8 +115,9 @@ export const salaryRoute: Routes = [
             salary: SalaryResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
-            pageTitle: 'Salaries'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Salaries',
+            breadcrumb: 'Edit Salary'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -126,7 +131,7 @@ export const salaryPopupRoute: Routes = [
             salary: SalaryResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Salaries'
         },
         canActivate: [UserRouteAccessService],

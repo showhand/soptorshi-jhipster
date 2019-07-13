@@ -23,6 +23,7 @@ export interface IRequisition {
     requisitionDate?: Moment;
     amount?: number;
     status?: RequisitionStatus;
+    selected?: boolean;
     purchaseCommitteeRemarks?: any;
     refToPurchaseCommittee?: number;
     cfoRemarks?: any;
@@ -48,6 +49,7 @@ export class Requisition implements IRequisition {
         public requisitionDate?: Moment,
         public amount?: number,
         public status?: RequisitionStatus,
+        public selected?: boolean,
         public purchaseCommitteeRemarks?: any,
         public refToPurchaseCommittee?: number,
         public cfoRemarks?: any,
