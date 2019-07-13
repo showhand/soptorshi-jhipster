@@ -320,20 +320,8 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './department/department.module#SoptorshiDepartmentModule'
             },
             {
-                path: 'department-head',
-                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
-            },
-            {
                 path: 'bill',
                 loadChildren: './bill/bill.module#SoptorshiBillModule'
-            },
-            {
-                path: 'department-head',
-                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
-            },
-            {
-                path: 'department-head',
-                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
             },
             {
                 path: 'tax',
@@ -353,7 +341,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'department-head',
-                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
+                loadChildren: './department-head-extended/department-head-extended.module#SoptorshiDepartmentHeadExtendedModule'
             },
             {
                 path: 'budget-allocation',

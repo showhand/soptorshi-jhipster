@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span>Departments</span>
-        <button id="jh-create-entity" mat-raised-button color="primary" class=" float-right jh-create-entity create-department" [routerLink]="['/department/new']">
+        <span>Department Heads Extended</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-department-head" [routerLink]="['/department-head/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
-            Create new Department
+            Create new Department Head
             </span>
         </button>
     </h2>
@@ -25,53 +25,61 @@
         </div>
     </div>
     <br/>
-    <div class="table-responsive" *ngIf="departments">
+    <div class="table-responsive" *ngIf="departmentHeads">
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="shortName"><span>Short Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="code"><span>Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
+                <th jhiSortBy="officeName"><span>Office</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="departmentName"><span>Department</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let department of departments ;trackBy: trackId">
-                <td><a [routerLink]="['/department', department.id, 'view' ]">{{department.id}}</a></td>
-                <td>{{department.name}}</td>
-                <td>{{department.shortName}}</td>
-                <td>{{department.code}}</td>
+            <tr *ngFor="let departmentHead of departmentHeads ;trackBy: trackId;">
+                <td>
+                    <div *ngIf="departmentHead.officeId">
+                        <a [routerLink]="['../office', departmentHead.officeId , 'view' ]" >{{departmentHead.officeName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="departmentHead.departmentId">
+                        <a [routerLink]="['../department', departmentHead.departmentId , 'view' ]" >{{departmentHead.departmentName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="departmentHead.employeeId">
+                        <a [routerLink]="['../employee', departmentHead.employeeId , 'view' ]" >{{departmentHead.employeeFullName}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/department', department.id, 'view' ]"
-                                mat-raised-button color="accent">
+                                [routerLink]="['/department-head', departmentHead.id, 'view' ]"
+                                class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/department', department.id, 'edit']"
-                                mat-raised-button color="primary">
+                                [routerLink]="['/department-head', departmentHead.id, 'edit']"
+                                class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'department', { outlets: { popup: department.id + '/delete'} }]"
+                                [routerLink]="['/', 'department-head', { outlets: { popup: departmentHead.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
-                                mat-raised-button color="warn">
+                                class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline">Delete</span>
                         </button>
-                    </div>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
     <!-- Pager is not implemented yet, so this is normal pagination instead -->
-    <div *ngIf="departments && departments.length">
+    <div *ngIf="departmentHeads && departmentHeads.length">
         <div class="row justify-content-center">
             <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
         </div>

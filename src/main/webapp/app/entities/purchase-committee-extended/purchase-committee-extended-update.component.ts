@@ -68,11 +68,4 @@ export class PurchaseCommitteeExtendedUpdateComponent extends PurchaseCommitteeU
                 this.employees = res.body;
             });
     }
-
-    onFocus() {
-        this.employeeService.query({ 'purchaseCommitteeId.specified': 'false' }).subscribe((res: HttpResponse<IEmployee[]>) => {
-            this.employees = [];
-            this.employees = res.body;
-        });
-    }
 }
