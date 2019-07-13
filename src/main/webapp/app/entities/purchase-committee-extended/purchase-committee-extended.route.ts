@@ -8,6 +8,7 @@ import {
 import { JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { PurchaseCommitteeExtendedComponent } from 'app/entities/purchase-committee-extended/purchase-committee-extended.component';
+import { PurchaseCommitteeExtendedUpdateComponent } from 'app/entities/purchase-committee-extended/purchase-committee-extended-update.component';
 
 export const purchaseCommitteeExtendedRoute: Routes = [
     {
@@ -37,7 +38,7 @@ export const purchaseCommitteeExtendedRoute: Routes = [
     },
     {
         path: 'new',
-        component: PurchaseCommitteeUpdateComponent,
+        component: PurchaseCommitteeExtendedUpdateComponent,
         resolve: {
             purchaseCommittee: PurchaseCommitteeResolve
         },
@@ -49,7 +50,7 @@ export const purchaseCommitteeExtendedRoute: Routes = [
     },
     {
         path: ':id/edit',
-        component: PurchaseCommitteeUpdateComponent,
+        component: PurchaseCommitteeExtendedUpdateComponent,
         resolve: {
             purchaseCommittee: PurchaseCommitteeResolve
         },

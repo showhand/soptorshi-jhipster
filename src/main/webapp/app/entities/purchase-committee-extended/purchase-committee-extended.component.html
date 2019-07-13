@@ -47,14 +47,12 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let purchaseCommittee of purchaseCommittees ;trackBy: trackId">
-                <td><a [routerLink]="['/purchase-committee', purchaseCommittee.id, 'view' ]">{{purchaseCommittee.id}}</a></td>
                 <td>
                     <div *ngIf="purchaseCommittee.employeeId">
                         {{purchaseCommittee.employeeFullName}}

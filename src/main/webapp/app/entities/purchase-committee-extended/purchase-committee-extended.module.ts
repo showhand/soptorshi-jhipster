@@ -17,6 +17,7 @@ import {
     purchaseCommitteeExtendedRoute
 } from 'app/entities/purchase-committee-extended/purchase-committee-extended.route';
 import { PurchaseCommitteeExtendedComponent } from 'app/entities/purchase-committee-extended/purchase-committee-extended.component';
+import { PurchaseCommitteeExtendedUpdateComponent } from 'app/entities/purchase-committee-extended/purchase-committee-extended-update.component';
 
 const ENTITY_STATES = [...purchaseCommitteeExtendedRoute, ...purchaseCommitteeExtendedPopupRoute];
 
@@ -25,13 +26,13 @@ const ENTITY_STATES = [...purchaseCommitteeExtendedRoute, ...purchaseCommitteeEx
     declarations: [
         PurchaseCommitteeExtendedComponent,
         PurchaseCommitteeDetailComponent,
-        PurchaseCommitteeUpdateComponent,
+        PurchaseCommitteeExtendedUpdateComponent,
         PurchaseCommitteeDeleteDialogComponent,
         PurchaseCommitteeDeletePopupComponent
     ],
     entryComponents: [
         PurchaseCommitteeExtendedComponent,
-        PurchaseCommitteeUpdateComponent,
+        PurchaseCommitteeExtendedUpdateComponent,
         PurchaseCommitteeDeleteDialogComponent,
         PurchaseCommitteeDeletePopupComponent
     ],
