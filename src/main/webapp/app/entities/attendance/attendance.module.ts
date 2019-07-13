@@ -11,6 +11,7 @@ import {
     attendanceRoute,
     attendancePopupRoute
 } from './';
+import { MyAttendanceComponent } from './my-attendance.component';
 
 const ENTITY_STATES = [...attendanceRoute, ...attendancePopupRoute];
 
@@ -21,7 +22,8 @@ const ENTITY_STATES = [...attendanceRoute, ...attendancePopupRoute];
         AttendanceDetailComponent,
         AttendanceUpdateComponent,
         AttendanceDeleteDialogComponent,
-        AttendanceDeletePopupComponent
+        AttendanceDeletePopupComponent,
+        MyAttendanceComponent
     ],
     entryComponents: [AttendanceComponent, AttendanceUpdateComponent, AttendanceDeleteDialogComponent, AttendanceDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

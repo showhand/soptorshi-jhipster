@@ -390,7 +390,7 @@
                 <ul [ngbCollapse]="!attendanceManagement" class="list-unstyled" id="attendance-management">
                     <li>
                         <a class="dropdown-item" routerLink="attendance-excel-upload" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN']">
                             <fa-icon icon="file-excel" fixedWidth="true"></fa-icon>
                             <span>Excel Upload</span>
                         </a>
@@ -398,9 +398,17 @@
                     <li>
                         <a class="dropdown-item" routerLink="attendance" routerLinkActive="active"
                            [routerLinkActiveOptions]="{ exact: true }"
-                           *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_LEAVE_APPLICATION']">
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
                             <fa-icon icon="clock" fixedWidth="true"></fa-icon>
                             <span>Attendance</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="attendance/my-attendance" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER', 'ROLE_USER']">
+                            <fa-icon icon="clock" fixedWidth="true"></fa-icon>
+                            <span>My Attendance</span>
                         </a>
                     </li>
                 </ul>
