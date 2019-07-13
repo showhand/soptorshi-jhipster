@@ -100,6 +100,13 @@ public class AttendanceResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/attendances/distinct")
+    public ResponseEntity<List<AttendanceDTO>> getAllAttendances() {
+        log.debug("REST request to get distinct Attendances:");
+        List<AttendanceDTO> attendanceDTOS = attendanceService.getAllByDistinctAttendanceDate();
+        return ResponseEntity.ok().headers(HttpHeaders.EMPTY).body(attendanceDTOS);
+    }
+
     /**
     * GET  /attendances/count : count all the attendances.
     *

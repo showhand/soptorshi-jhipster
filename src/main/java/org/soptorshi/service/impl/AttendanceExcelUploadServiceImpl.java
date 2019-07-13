@@ -176,14 +176,12 @@ public class AttendanceExcelUploadServiceImpl implements AttendanceExcelUploadSe
                 }
                 if (inOut.length > 1) {
                     attendance.setOutTime(Instant.from(formatter.parse(attendanceExcelParser.getAttendanceDate() + " " + inOut[inOut.length - 1])));
-                } else {
-                    attendance.setInTime(null);
-                    attendance.setOutTime(null);
                 }
                 attendance.setAttendanceExcelUpload(attendanceExcelUpload);
                 attendances.add(attendance);
             }
         }
+
         for(Attendance attendance: attendances){
             AttendanceDTO attendanceDTO = attendanceMapper.toDto(attendance);
             attendanceService.save(attendanceDTO);

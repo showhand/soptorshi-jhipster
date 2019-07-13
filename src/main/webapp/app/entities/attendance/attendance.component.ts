@@ -28,6 +28,7 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     reverse: any;
     totalItems: number;
     currentSearch: string;
+    distinctAttendanceDate: IAttendance[];
 
     constructor(
         protected attendanceService: AttendanceService,
@@ -49,32 +50,26 @@ export class AttendanceComponent implements OnInit, OnDestroy {
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
                 : '';
+
+        this.attendanceService
+            .getDistinctAttendanceDate()
+            .subscribe(
+                (res: HttpResponse<IAttendance[]>) => this.addDistinctAttendances(res.body),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     loadAll() {
-        if (this.currentSearch) {
-            this.attendanceService
-                .search({
-                    query: moment(this.currentSearch).format(DATE_FORMAT),
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'attendanceDate.equals': moment(this.currentSearch).format(DATE_FORMAT)
-                })
-                .subscribe(
-                    (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            return;
-        }
         this.attendanceService
             .query({
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort(),
-                'attendanceDate.equals': moment(new Date())
-                    .add(-1, 'days')
-                    .format(DATE_FORMAT)
+                'attendanceDate.equals': this.currentSearch
+                    ? moment(this.currentSearch).format(DATE_FORMAT)
+                    : moment(new Date())
+                          .add(0, 'days')
+                          .format(DATE_FORMAT)
             })
             .subscribe(
                 (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
@@ -156,6 +151,13 @@ export class AttendanceComponent implements OnInit, OnDestroy {
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
             this.attendances.push(data[i]);
+        }
+    }
+
+    protected addDistinctAttendances(data: IAttendance[]) {
+        this.distinctAttendanceDate = [];
+        for (let i = 0; i < data.length; i++) {
+            this.distinctAttendanceDate.push(data[i]);
         }
     }
 
