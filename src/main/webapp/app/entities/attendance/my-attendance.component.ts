@@ -123,10 +123,6 @@ export class MyAttendanceComponent implements OnInit {
         this.registerChangeInAttendances();
     }
 
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
-    }
-
     trackId(index: number, item: IAttendance) {
         return item.id;
     }

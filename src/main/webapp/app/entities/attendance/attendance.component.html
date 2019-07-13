@@ -33,15 +33,24 @@
 
 <br/>
 <div class="row">
-    <div class="col-4">
+    <div class="col-3">
         <select class="form-control" id="field_DistinctAttendanceDate" name="distinctAttendanceDate"
-                [(ngModel)]="currentSearch" (ngModelChange)="loadAll()">
+                [(ngModel)]="currentSearch">
             <option [ngValue]="null">Select a date</option>
             <option [ngValue]="attendanceDistinctDate.attendanceDate"
                     *ngFor="let attendanceDistinctDate of distinctAttendanceDate">{{attendanceDistinctDate.attendanceDate | date:'mediumDate'}}</option>
         </select>
     </div>
-    <div class="col-8">
+    <div class="col-3">
+        <input type="text" class="form-control" [(ngModel)]="employeeId" id="employeeId"
+               name="employeeId" placeholder="Enter employee id ...">
+    </div>
+    <div class="col-2">
+        <button class="input-group-append btn btn-info" (click)="loadAll()">
+            <fa-icon [icon]="'search'"></fa-icon>
+        </button>
+    </div>
+    <div class="col-4">
         <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN']" id="jh-create-entity"
                 class="btn btn-primary float-right jh-create-entity create-attendance"
                 [routerLink]="['/attendance/new']">

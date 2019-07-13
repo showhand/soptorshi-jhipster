@@ -29,6 +29,7 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     totalItems: number;
     currentSearch: string;
     distinctAttendanceDate: IAttendance[];
+    employeeId: string;
 
     constructor(
         protected attendanceService: AttendanceService,
@@ -60,21 +61,58 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.attendanceService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort(),
-                'attendanceDate.equals': this.currentSearch
-                    ? moment(this.currentSearch).format(DATE_FORMAT)
-                    : moment(new Date())
-                          .add(0, 'days')
-                          .format(DATE_FORMAT)
-            })
-            .subscribe(
-                (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        if (this.currentSearch && this.employeeId) {
+            this.attendanceService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'attendanceDate.equals': moment(this.currentSearch).format(DATE_FORMAT),
+                    'employeeId.equals': this.employeeId
+                })
+                .subscribe(
+                    (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else if (this.currentSearch) {
+            this.attendanceService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'attendanceDate.equals': moment(this.currentSearch).format(DATE_FORMAT)
+                })
+                .subscribe(
+                    (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else if (this.employeeId) {
+            this.attendanceService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'employeeId.equals': this.employeeId
+                })
+                .subscribe(
+                    (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.attendanceService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'attendanceDate.equals': moment(new Date())
+                        .add(0, 'days')
+                        .format(DATE_FORMAT)
+                })
+                .subscribe(
+                    (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
     }
 
     reset() {
