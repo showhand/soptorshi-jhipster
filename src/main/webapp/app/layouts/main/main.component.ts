@@ -5,6 +5,8 @@ import { Title } from '@angular/platform-browser';
 import { AccountService } from 'app/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { SidebarService } from 'app/layouts/sidebar/sidebar.service';
+import { Breadcrumb, BreadcrumbService } from 'angular-crumbs';
+import { MenuItem } from 'primeng/api';
 
 @Component({
     selector: 'jhi-main',
@@ -15,16 +17,19 @@ export class JhiMainComponent implements OnInit {
     employeeManagement: any;
     holidayManagement: any;
     payrollManagement: any;
+    procurementManagement: any;
     leaveManagement: any;
     attendanceManagement: any;
     isDesktop: boolean;
+    breadcrumbs: MenuItem[];
 
     constructor(
         private titleService: Title,
         private router: Router,
         private accountService: AccountService,
         private deviceDetectorService: DeviceDetectorService,
-        public sidebarService: SidebarService
+        public sidebarService: SidebarService,
+        public breadCrumService: BreadcrumbService
     ) {}
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
@@ -46,6 +51,14 @@ export class JhiMainComponent implements OnInit {
                 this.router.navigate(['/404']);
             }
         });
+
+        this.breadCrumService.breadcrumbChanged.subscribe(crumbs => {
+            this.breadcrumbs = crumbs.map(c => this.toPrimeNgMenuItem(c));
+        });
+    }
+
+    private toPrimeNgMenuItem(crumb: Breadcrumb) {
+        return <MenuItem>{ label: crumb.displayName, url: `#${crumb.url}` };
     }
 
     isAuthenticated() {

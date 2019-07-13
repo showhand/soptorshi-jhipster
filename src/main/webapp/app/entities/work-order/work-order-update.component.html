@@ -1,0 +1,86 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-work-order-heading">Create or edit a Work Order</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!workOrder.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="workOrder.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_referenceNo">Reference No</label>
+                    <input type="text" class="form-control" name="referenceNo" id="field_referenceNo"
+                        [(ngModel)]="workOrder.referenceNo" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_issueDate">Issue Date</label>
+                    <div class="input-group">
+                        <input id="field_issueDate" type="text" class="form-control" name="issueDate" ngbDatepicker  #issueDateDp="ngbDatepicker" [(ngModel)]="workOrder.issueDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="issueDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_referredTo">Referred To</label>
+                    <input type="text" class="form-control" name="referredTo" id="field_referredTo"
+                        [(ngModel)]="workOrder.referredTo" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_subject">Subject</label>
+                    <input type="text" class="form-control" name="subject" id="field_subject"
+                        [(ngModel)]="workOrder.subject" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_note">Note</label>
+                    <textarea class="form-control" name="note" id="field_note"
+                        [(ngModel)]="workOrder.note" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_laborOrOtherAmount">Labor Or Other Amount</label>
+                    <input type="number" class="form-control" name="laborOrOtherAmount" id="field_laborOrOtherAmount"
+                        [(ngModel)]="workOrder.laborOrOtherAmount" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_discount">Discount</label>
+                    <input type="number" class="form-control" name="discount" id="field_discount"
+                        [(ngModel)]="workOrder.discount" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                        [(ngModel)]="workOrder.modifiedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="workOrder.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_requisition">Requisition</label>
+                    <select class="form-control" id="field_requisition" name="requisition" [(ngModel)]="workOrder.requisitionId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="requisitionOption.id" *ngFor="let requisitionOption of requisitions; trackBy: trackRequisitionById">{{requisitionOption.requisitionNo}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

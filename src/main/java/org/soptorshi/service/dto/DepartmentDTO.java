@@ -13,6 +13,8 @@ public class DepartmentDTO implements Serializable {
 
     private String shortName;
 
+    private String code;
+
 
     public Long getId() {
         return id;
@@ -36,6 +38,14 @@ public class DepartmentDTO implements Serializable {
 
     public void setShortName(String shortName) {
         this.shortName = shortName;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Override
@@ -65,6 +75,7 @@ public class DepartmentDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", shortName='" + getShortName() + "'" +
+            ", code='" + getCode() + "'" +
             "}";
     }
 }

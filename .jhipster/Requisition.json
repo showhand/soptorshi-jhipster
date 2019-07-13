@@ -1,0 +1,93 @@
+{
+    "name": "Requisition",
+    "fields": [
+        {
+            "fieldName": "requisitionNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "reason",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "requisitionDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "RequisitionStatus",
+            "fieldValues": "WAITING_FOR_HEADS_APPROVAL,REJECTED_BY_HEAD,FORWARDED_BY_HEAD,FORWARDED_BY_PURCHASE_COMMITTEE,REJECTED_BY_PURCHASE_COMMITTEE,MODIFICATION_REQUEST_BY_PURCHASE_COMMITTEE,APPROVED_BY_CFO,REJECTED_BY_CFO,MODIFICATION_REQUEST_BY_CFO,RECEIVED_BY_REQUISIONER,RECEIVED_VERIFIED_BY_HEAD,CLOSED_BY_CFO"
+        },
+        {
+            "fieldName": "purchaseCommitteeRemarks",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "refToPurchaseCommittee",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "cfoRemarks",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "refToCfo",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "requisition",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "office",
+            "otherEntityRelationshipName": "requisition",
+            "relationshipName": "office",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "productCategory",
+            "otherEntityRelationshipName": "requisition",
+            "relationshipName": "productCategory",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "department",
+            "otherEntityRelationshipName": "requisition",
+            "relationshipName": "department",
+            "otherEntityField": "name"
+        }
+    ],
+    "changelogDate": "20190628152323",
+    "entityTableName": "requisition",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

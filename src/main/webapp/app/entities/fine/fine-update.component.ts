@@ -44,6 +44,10 @@ export class FineUpdateComponent implements OnInit {
             .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
+    amountChanged(event: Event) {
+        this.fine.left = this.fine.amount;
+    }
+
     byteSize(field) {
         return this.dataUtils.byteSize(field);
     }

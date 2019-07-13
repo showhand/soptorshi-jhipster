@@ -300,6 +300,158 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './leave-balance/leave-balance.module#SoptorshiLeaveBalanceModule'
             },
             {
+                path: 'department',
+                loadChildren: './department/department.module#SoptorshiDepartmentModule'
+            },
+            {
+                path: 'purchase-committee',
+                loadChildren: './purchase-committee/purchase-committee.module#SoptorshiPurchaseCommitteeModule'
+            },
+            {
+                path: 'vendor',
+                loadChildren: './vendor/vendor.module#SoptorshiVendorModule'
+            },
+            {
+                path: 'vendor-contact-person',
+                loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
+            },
+            {
+                path: 'department',
+                loadChildren: './department/department.module#SoptorshiDepartmentModule'
+            },
+            {
+                path: 'department-head',
+                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
+            },
+            {
+                path: 'bill',
+                loadChildren: './bill/bill.module#SoptorshiBillModule'
+            },
+            {
+                path: 'department-head',
+                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
+            },
+            {
+                path: 'department-head',
+                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
+            },
+            {
+                path: 'tax',
+                loadChildren: './tax/tax.module#SoptorshiTaxModule'
+            },
+            {
+                path: 'monthly-salary',
+                loadChildren: './monthly-salary/monthly-salary.module#SoptorshiMonthlySalaryModule'
+            },
+            {
+                path: 'monthly-salary',
+                loadChildren: './monthly-salary/monthly-salary.module#SoptorshiMonthlySalaryModule'
+            },
+            {
+                path: 'monthly-salary',
+                loadChildren: './monthly-salary/monthly-salary.module#SoptorshiMonthlySalaryModule'
+            },
+            {
+                path: 'department-head',
+                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
+            },
+            {
+                path: 'budget-allocation',
+                loadChildren: './budget-allocation/budget-allocation.module#SoptorshiBudgetAllocationModule'
+            },
+            {
+                path: 'financial-account-year',
+                loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
+            },
+            {
+                path: 'product-category',
+                loadChildren: './product-category/product-category.module#SoptorshiProductCategoryModule'
+            },
+            {
+                path: 'product',
+                loadChildren: './product/product.module#SoptorshiProductModule'
+            },
+            {
+                path: 'product-price',
+                loadChildren: './product-price/product-price.module#SoptorshiProductPriceModule'
+            },
+            {
+                path: 'requisition',
+                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
+            },
+            {
+                path: 'requisition-details',
+                loadChildren: './requisition-details/requisition-details.module#SoptorshiRequisitionDetailsModule'
+            },
+            {
+                path: 'quotation',
+                loadChildren: './quotation/quotation.module#SoptorshiQuotationModule'
+            },
+            {
+                path: 'quotation-details',
+                loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
+            },
+            {
+                path: 'work-order',
+                loadChildren: './work-order/work-order.module#SoptorshiWorkOrderModule'
+            },
+            {
+                path: 'terms-and-conditions',
+                loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
+            },
+            {
+                path: 'requisition',
+                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
+            },
+            {
+                path: 'quotation-details',
+                loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
+            },
+            {
+                path: 'vendor',
+                loadChildren: './vendor/vendor.module#SoptorshiVendorModule'
+            },
+            {
+                path: 'vendor-contact-person',
+                loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
+            },
+            {
+                path: 'vendor-contact-person',
+                loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
+            },
+            {
+                path: 'requisition',
+                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
+            },
+            {
+                path: 'quotation',
+                loadChildren: './quotation/quotation.module#SoptorshiQuotationModule'
+            },
+            {
+                path: 'purchase-order',
+                loadChildren: './purchase-order/purchase-order.module#SoptorshiPurchaseOrderModule'
+            },
+            {
+                path: 'terms-and-conditions',
+                loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
+            },
+            {
+                path: 'requisition-details',
+                loadChildren: './requisition-details/requisition-details.module#SoptorshiRequisitionDetailsModule'
+            },
+            {
+                path: 'quotation',
+                loadChildren: './quotation/quotation.module#SoptorshiQuotationModule'
+            },
+            {
+                path: 'quotation-details',
+                loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
+            },
+            {
+                path: 'purchase-order',
+                loadChildren: './purchase-order/purchase-order.module#SoptorshiPurchaseOrderModule'
+            },
+            {
                 path: 'attendance-excel-upload',
                 loadChildren: './attendance-excel-upload/attendance-excel-upload.module#SoptorshiAttendanceExcelUploadModule'
             },

@@ -27,7 +27,8 @@ export const payrollManagementRoute: Routes = [
         path: '',
         component: PayrollManagementComponent,
         resolve: {
-            pagingParams: JhiResolvePagingParams
+            pagingParams: JhiResolvePagingParams,
+            payrollManagement: PayrollManagementResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE'],

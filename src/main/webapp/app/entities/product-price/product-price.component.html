@@ -1,0 +1,81 @@
+<div>
+    <h2 id="page-heading">
+        <span>Product Prices</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-product-price" [routerLink]="['/product-price',productPrice.productId,'new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Create new Product Price
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+
+    <br/>
+    <div class="table-responsive" >
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="price"><span>Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="priceDate"><span>Price Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!--<th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <th jhiSortBy="productName"><span>Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let productPrice of productPrices ;trackBy: trackId">
+                <td><a [routerLink]="['/product-price', productPrice.id, 'view' ]">{{productPrice.id}}</a></td>
+                <td>{{productPrice.price}}</td>
+                <td>{{productPrice.priceDate | date:'mediumDate'}}</td>
+               <!-- <td>{{productPrice.modifiedBy}}</td>
+                <td>{{productPrice.modifiedOn | date:'mediumDate'}}</td>-->
+                <td>
+                    <div *ngIf="productPrice.productId">
+                        <a [routerLink]="['../product', productPrice.productId , 'view' ]" >{{productPrice.productName}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/product-price', productPrice.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/product-price', productPrice.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'product-price', { outlets: { popup: productPrice.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Pager is not implemented yet, so this is normal pagination instead -->
+    <div *ngIf="productPrices && productPrices.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+    <div class="row" *ngIf="productPrice.productId" align="right">
+        <div class="col-12">
+            <button class="btn btn-danger" (click)="back()">Back</button>
+        </div>
+    </div>
+</div>

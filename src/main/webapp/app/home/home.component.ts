@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
         private departmentService: DepartmentService,
         private designationService: DesignationService
     ) {
-        if (this.isAuthenticated()) {
+        if (this.isAuthenticated() && this.employee == null) {
             setInterval(() => {
                 this.fetchLoggedEmployeeInformation();
             }, 5000);

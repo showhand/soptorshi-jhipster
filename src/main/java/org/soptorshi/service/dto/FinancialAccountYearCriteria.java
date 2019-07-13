@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.FinancialYearStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -20,6 +21,11 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class FinancialAccountYearCriteria implements Serializable {
+    /**
+     * Class for filtering FinancialYearStatus
+     */
+    public static class FinancialYearStatusFilter extends Filter<FinancialYearStatus> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -29,9 +35,11 @@ public class FinancialAccountYearCriteria implements Serializable {
 
     private LocalDateFilter endDate;
 
-    private LongFilter previousYear;
+    private LocalDateFilter previousStartDate;
 
-    private BooleanFilter status;
+    private LocalDateFilter previousEndDate;
+
+    private FinancialYearStatusFilter status;
 
     public LongFilter getId() {
         return id;
@@ -57,19 +65,27 @@ public class FinancialAccountYearCriteria implements Serializable {
         this.endDate = endDate;
     }
 
-    public LongFilter getPreviousYear() {
-        return previousYear;
+    public LocalDateFilter getPreviousStartDate() {
+        return previousStartDate;
     }
 
-    public void setPreviousYear(LongFilter previousYear) {
-        this.previousYear = previousYear;
+    public void setPreviousStartDate(LocalDateFilter previousStartDate) {
+        this.previousStartDate = previousStartDate;
     }
 
-    public BooleanFilter getStatus() {
+    public LocalDateFilter getPreviousEndDate() {
+        return previousEndDate;
+    }
+
+    public void setPreviousEndDate(LocalDateFilter previousEndDate) {
+        this.previousEndDate = previousEndDate;
+    }
+
+    public FinancialYearStatusFilter getStatus() {
         return status;
     }
 
-    public void setStatus(BooleanFilter status) {
+    public void setStatus(FinancialYearStatusFilter status) {
         this.status = status;
     }
 
@@ -87,7 +103,8 @@ public class FinancialAccountYearCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(startDate, that.startDate) &&
             Objects.equals(endDate, that.endDate) &&
-            Objects.equals(previousYear, that.previousYear) &&
+            Objects.equals(previousStartDate, that.previousStartDate) &&
+            Objects.equals(previousEndDate, that.previousEndDate) &&
             Objects.equals(status, that.status);
     }
 
@@ -97,7 +114,8 @@ public class FinancialAccountYearCriteria implements Serializable {
         id,
         startDate,
         endDate,
-        previousYear,
+        previousStartDate,
+        previousEndDate,
         status
         );
     }
@@ -108,7 +126,8 @@ public class FinancialAccountYearCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (startDate != null ? "startDate=" + startDate + ", " : "") +
                 (endDate != null ? "endDate=" + endDate + ", " : "") +
-                (previousYear != null ? "previousYear=" + previousYear + ", " : "") +
+                (previousStartDate != null ? "previousStartDate=" + previousStartDate + ", " : "") +
+                (previousEndDate != null ? "previousEndDate=" + previousEndDate + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
             "}";
     }

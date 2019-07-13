@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -53,7 +54,7 @@ public class FinancialAccountYearResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/financial-account-years")
-    public ResponseEntity<FinancialAccountYearDTO> createFinancialAccountYear(@RequestBody FinancialAccountYearDTO financialAccountYearDTO) throws URISyntaxException {
+    public ResponseEntity<FinancialAccountYearDTO> createFinancialAccountYear(@Valid @RequestBody FinancialAccountYearDTO financialAccountYearDTO) throws URISyntaxException {
         log.debug("REST request to save FinancialAccountYear : {}", financialAccountYearDTO);
         if (financialAccountYearDTO.getId() != null) {
             throw new BadRequestAlertException("A new financialAccountYear cannot already have an ID", ENTITY_NAME, "idexists");
@@ -74,7 +75,7 @@ public class FinancialAccountYearResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/financial-account-years")
-    public ResponseEntity<FinancialAccountYearDTO> updateFinancialAccountYear(@RequestBody FinancialAccountYearDTO financialAccountYearDTO) throws URISyntaxException {
+    public ResponseEntity<FinancialAccountYearDTO> updateFinancialAccountYear(@Valid @RequestBody FinancialAccountYearDTO financialAccountYearDTO) throws URISyntaxException {
         log.debug("REST request to update FinancialAccountYear : {}", financialAccountYearDTO);
         if (financialAccountYearDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

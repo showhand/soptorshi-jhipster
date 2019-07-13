@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Taxes</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-tax" [routerLink]="['/tax/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-tax" [routerLink]="['/tax', tax.employeeId,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Tax
@@ -30,24 +30,32 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="minimumSalary"><span>Minimum Salary</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="rate"><span>Rate</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="taxStatus"><span>Tax Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="financialAccountYearId"><span>Financial Account Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!--<th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!--<th jhiSortBy="financialAccountYearId"><span>Financial Account Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let tax of taxes ;trackBy: trackId">
                 <td><a [routerLink]="['/tax', tax.id, 'view' ]">{{tax.id}}</a></td>
-                <td>{{tax.minimumSalary}}</td>
-                <td>{{tax.rate}}</td>
+                <td>{{tax.amount}}</td>
                 <td>{{tax.taxStatus}}</td>
-                <td>
+                <!--<td>{{tax.modifiedBy}}</td>-->
+                <td>{{tax.modifiedOn | date:'mediumDate'}}</td>
+               <!-- <td>
                     <div *ngIf="tax.financialAccountYearId">
                         <a [routerLink]="['../financial-account-year', tax.financialAccountYearId , 'view' ]" >{{tax.financialAccountYearId}}</a>
                     </div>
                 </td>
+                <td>
+                    <div *ngIf="tax.employeeId">
+                        <a [routerLink]="['../employee', tax.employeeId , 'view' ]" >{{tax.employeeFullName}}</a>
+                    </div>
+                </td>-->
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
@@ -83,6 +91,11 @@
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+    <div class="row" *ngIf="tax.employeeId" align="right">
+        <div class="col-12">
+            <button class="btn btn-danger" (click)="back()">Back</button>
         </div>
     </div>
 </div>

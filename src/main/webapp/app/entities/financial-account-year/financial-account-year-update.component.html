@@ -18,6 +18,8 @@
                             <button type="button" class="btn btn-secondary" (click)="startDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
+                    <div [hidden]="!(editForm.controls.startDate?.dirty && editForm.controls.startDate?.invalid)">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_endDate">End Date</label>
@@ -28,16 +30,37 @@
                             <button type="button" class="btn btn-secondary" (click)="endDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
+                    <div [hidden]="!(editForm.controls.endDate?.dirty && editForm.controls.endDate?.invalid)">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_previousYear">Previous Year</label>
-                    <input type="number" class="form-control" name="previousYear" id="field_previousYear"
-                        [(ngModel)]="financialAccountYear.previousYear" />
+                    <label class="form-control-label" for="field_previousStartDate">Previous Start Date</label>
+                    <div class="input-group">
+                        <input id="field_previousStartDate" type="text" class="form-control" name="previousStartDate" ngbDatepicker  #previousStartDateDp="ngbDatepicker" [(ngModel)]="financialAccountYear.previousStartDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="previousStartDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_previousEndDate">Previous End Date</label>
+                    <div class="input-group">
+                        <input id="field_previousEndDate" type="text" class="form-control" name="previousEndDate" ngbDatepicker  #previousEndDateDp="ngbDatepicker" [(ngModel)]="financialAccountYear.previousEndDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="previousEndDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_status">Status</label>
-                    <input type="checkbox" class="form-control" name="status" id="field_status"
-                        [(ngModel)]="financialAccountYear.status" />
+                    <select class="form-control" name="status" [(ngModel)]="financialAccountYear.status" id="field_status" >
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="NOT_ACTIVE">NOT_ACTIVE</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
+                    </div>
                 </div>
 
             </div>

@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="bill">
+            <h2><span>Bill</span> {{bill.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Amount</span></dt>
+                <dd>
+                    <span>{{bill.amount}}</span>
+                </dd>
+                <dt><span>Bill Category</span></dt>
+                <dd>
+                    <span>{{bill.billCategory}}</span>
+                </dd>
+                <dt><span>Reason</span></dt>
+                <dd>
+                    <span>{{bill.reason}}</span>
+                </dd>
+               <!-- <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{bill.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified Date</span></dt>
+                <dd>
+                    <span>{{bill.modifiedDate}}</span>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="bill.employeeId">
+                        <a [routerLink]="['/employee', bill.employeeId, 'view']">{{bill.employeeFullName}}</a>
+                    </div>
+                </dd>-->
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/bill', bill.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

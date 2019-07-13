@@ -1,0 +1,64 @@
+{
+    "name": "RequisitionDetails",
+    "fields": [
+        {
+            "fieldName": "requiredOn",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "estimatedDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "uom",
+            "fieldType": "UnitOfMeasurements",
+            "fieldValues": "PCS,KG,TON,GRAM"
+        },
+        {
+            "fieldName": "unit",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "unitPrice",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "quantity",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "requisition",
+            "otherEntityRelationshipName": "requisitionDetails",
+            "relationshipName": "requisition",
+            "otherEntityField": "requisitionNo"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "product",
+            "otherEntityRelationshipName": "requisitionDetails",
+            "relationshipName": "product",
+            "otherEntityField": "name"
+        }
+    ],
+    "changelogDate": "20190628152324",
+    "entityTableName": "requisition_details",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

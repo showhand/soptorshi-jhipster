@@ -12,6 +12,7 @@ import org.mapstruct.*;
 public interface MonthlySalaryMapper extends EntityMapper<MonthlySalaryDTO, MonthlySalary> {
 
     @Mapping(source = "employee.id", target = "employeeId")
+    @Mapping(source = "employee.fullName", target = "employeeFullName")
     MonthlySalaryDTO toDto(MonthlySalary monthlySalary);
 
     @Mapping(source = "employeeId", target = "employee")

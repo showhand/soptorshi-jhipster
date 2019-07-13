@@ -8,6 +8,7 @@ import javax.persistence.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.TaxStatus;
@@ -26,19 +27,26 @@ public class Tax implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "minimum_salary", precision = 10, scale = 2)
-    private BigDecimal minimumSalary;
-
-    @Column(name = "rate")
-    private Double rate;
+    @Column(name = "amount", precision = 10, scale = 2)
+    private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tax_status")
     private TaxStatus taxStatus;
 
+    @Column(name = "modified_by")
+    private String modifiedBy;
+
+    @Column(name = "modified_on")
+    private LocalDate modifiedOn;
+
     @ManyToOne
     @JsonIgnoreProperties("taxes")
     private FinancialAccountYear financialAccountYear;
+
+    @ManyToOne
+    @JsonIgnoreProperties("taxes")
+    private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -49,30 +57,17 @@ public class Tax implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getMinimumSalary() {
-        return minimumSalary;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public Tax minimumSalary(BigDecimal minimumSalary) {
-        this.minimumSalary = minimumSalary;
+    public Tax amount(BigDecimal amount) {
+        this.amount = amount;
         return this;
     }
 
-    public void setMinimumSalary(BigDecimal minimumSalary) {
-        this.minimumSalary = minimumSalary;
-    }
-
-    public Double getRate() {
-        return rate;
-    }
-
-    public Tax rate(Double rate) {
-        this.rate = rate;
-        return this;
-    }
-
-    public void setRate(Double rate) {
-        this.rate = rate;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public TaxStatus getTaxStatus() {
@@ -88,6 +83,32 @@ public class Tax implements Serializable {
         this.taxStatus = taxStatus;
     }
 
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public Tax modifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+        return this;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public LocalDate getModifiedOn() {
+        return modifiedOn;
+    }
+
+    public Tax modifiedOn(LocalDate modifiedOn) {
+        this.modifiedOn = modifiedOn;
+        return this;
+    }
+
+    public void setModifiedOn(LocalDate modifiedOn) {
+        this.modifiedOn = modifiedOn;
+    }
+
     public FinancialAccountYear getFinancialAccountYear() {
         return financialAccountYear;
     }
@@ -99,6 +120,19 @@ public class Tax implements Serializable {
 
     public void setFinancialAccountYear(FinancialAccountYear financialAccountYear) {
         this.financialAccountYear = financialAccountYear;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public Tax employee(Employee employee) {
+        this.employee = employee;
+        return this;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -126,9 +160,10 @@ public class Tax implements Serializable {
     public String toString() {
         return "Tax{" +
             "id=" + getId() +
-            ", minimumSalary=" + getMinimumSalary() +
-            ", rate=" + getRate() +
+            ", amount=" + getAmount() +
             ", taxStatus='" + getTaxStatus() + "'" +
+            ", modifiedBy='" + getModifiedBy() + "'" +
+            ", modifiedOn='" + getModifiedOn() + "'" +
             "}";
     }
 }

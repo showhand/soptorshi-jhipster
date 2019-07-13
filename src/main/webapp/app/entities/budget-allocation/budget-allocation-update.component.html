@@ -1,0 +1,50 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-budget-allocation-heading">Create or edit a Budget Allocation</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!budgetAllocation.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="budgetAllocation.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amount">Amount</label>
+                    <input type="number" class="form-control" name="amount" id="field_amount"
+                        [(ngModel)]="budgetAllocation.amount" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_office">Office</label>
+                    <select class="form-control" id="field_office" name="office" [(ngModel)]="budgetAllocation.officeId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="officeOption.id" *ngFor="let officeOption of offices; trackBy: trackOfficeById">{{officeOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_department">Department</label>
+                    <select class="form-control" id="field_department" name="department" [(ngModel)]="budgetAllocation.departmentId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.name}}</option>
+                    </select>
+                </div>
+                <!--<div class="form-group">
+                    <label class="form-control-label" for="field_financialAccountYear">Financial Account Year</label>
+                    <select class="form-control" id="field_financialAccountYear" name="financialAccountYear" [(ngModel)]="budgetAllocation.financialAccountYearId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="financialAccountYearOption.id" *ngFor="let financialAccountYearOption of financialaccountyears; trackBy: trackFinancialAccountYearById">{{financialAccountYearOption.id}}</option>
+                    </select>
+                </div>-->
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

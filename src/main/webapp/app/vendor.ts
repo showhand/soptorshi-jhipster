@@ -57,6 +57,10 @@ import {
     faMoneyBillAlt,
     faCreditCard,
     faPiggyBank,
+    faTools,
+    faAngleDown,
+    faAngleLeft,
+    faAlignJustify,
     faStar,
     faCar,
     faCheck,
@@ -119,6 +123,10 @@ library.add(faMoneyBillWave);
 library.add(faMoneyBillAlt);
 library.add(faCreditCard);
 library.add(faPiggyBank);
+library.add(faTools);
+library.add(faAngleDown);
+library.add(faAngleLeft);
+library.add(faAlignJustify);
 library.add(faStar);
 library.add(faCar);
 library.add(faCheck);

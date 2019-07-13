@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Requisition.
+    -->
+    <changeSet id="20190628152323-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="employee_id"
+                                 baseTableName="requisition"
+                                 constraintName="fk_requisition_employee_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee"/>
+
+        <addForeignKeyConstraint baseColumnNames="office_id"
+                                 baseTableName="requisition"
+                                 constraintName="fk_requisition_office_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="office"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_category_id"
+                                 baseTableName="requisition"
+                                 constraintName="fk_requisition_product_category_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product_category"/>
+
+        <addForeignKeyConstraint baseColumnNames="department_id"
+                                 baseTableName="requisition"
+                                 constraintName="fk_requisition_department_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="department"/>
+
+    </changeSet>
+</databaseChangeLog>

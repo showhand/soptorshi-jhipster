@@ -1,0 +1,139 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-requisition-heading">Create or edit a Requisition</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_requisitionNo">Requisition No</label>
+                    <input type="text" class="form-control" name="requisitionNo" id="field_requisitionNo"
+                        [(ngModel)]="requisition.requisitionNo" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_productCategory">Product Category</label>
+                    <select class="form-control" id="field_productCategory" name="productCategory" [(ngModel)]="requisition.productCategoryId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reason">Reason</label>
+                    <textarea class="form-control" name="reason" id="field_reason"
+                        [(ngModel)]="requisition.reason" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_requisitionDate">Requisition Date</label>
+                    <div class="input-group">
+                        <input id="field_requisitionDate" type="text" class="form-control" name="requisitionDate" ngbDatepicker  #requisitionDateDp="ngbDatepicker" [(ngModel)]="requisition.requisitionDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="requisitionDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amount">Amount</label>
+                    <input type="number" class="form-control" name="amount" id="field_amount"
+                        [(ngModel)]="requisition.amount" />
+                </div>
+                <div class="form-group" >
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <label class="form-control-label" id="field_status"><b>{{requisition.status}}</b></label>
+                </div>
+                <div class="form-group" >
+                    <label class="form-control-label" for="field_purchaseCommitteeRemarks">Purchase Committee Remarks</label>
+                    <textarea class="form-control" name="purchaseCommitteeRemarks" id="field_purchaseCommitteeRemarks" disabled="{{!this.accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE'])}} && requisition.status=== 'FORWARDED_BY_HEAD'""
+                        [(ngModel)]="requisition.purchaseCommitteeRemarks" ></textarea>
+                </div>
+              <!--  <div class="form-group">
+                    <label class="form-control-label" for="field_refToPurchaseCommittee">Ref To Purchase Committee</label>
+                    <input type="number" class="form-control" name="refToPurchaseCommittee" id="field_refToPurchaseCommittee"
+                        [(ngModel)]="requisition.refToPurchaseCommittee" />
+                </div>-->
+                <div class="form-group" >
+                    <label class="form-control-label" for="field_cfoRemarks">Cfo Remarks</label>
+                    <textarea class="form-control" name="cfoRemarks" id="field_cfoRemarks"  disabled="{{!accountService.hasAnyAuthority(['ROLE_CFO'])}}"
+                        [(ngModel)]="requisition.cfoRemarks" ></textarea>
+                </div>
+               <!-- <div class="form-group">
+                    <label class="form-control-label" for="field_refToCfo">Ref To Cfo</label>
+                    <input type="number" class="form-control" name="refToCfo" id="field_refToCfo"
+                        [(ngModel)]="requisition.refToCfo" />
+                </div>-->
+               <!-- <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                        [(ngModel)]="requisition.modifiedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="requisition.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" [(ngModel)]="requisition.employeeId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
+                    </select>
+                </div>-->
+                <div class="form-group" *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO', 'ROLE_REQUISITION_COMMITTEE'])">
+                    <label class="form-control-label" for="field_office">Office</label>
+                    <select class="form-control" id="field_office" name="office" [(ngModel)]="requisition.officeId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="officeOption.id" *ngFor="let officeOption of offices; trackBy: trackOfficeById">{{officeOption.name}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group" *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO', 'ROLE_REQUISITION_COMMITTEE'])">
+                    <label class="form-control-label" for="field_department">Department</label>
+                    <select class="form-control" id="field_department" name="department" [(ngModel)]="requisition.departmentId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" *ngIf="requisition.status==null || requisition.status=='WAITING_FOR_HEADS_APPROVAL'" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+                <button type="button" id="approve_head"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_DEPARTMENT_HEAD']) && requisition.status=== 'WAITING_FOR_HEADS_APPROVAL'" (click)="approveByHead()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Forward</span>
+                </button>
+                <button type="button" id="reject_head"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_DEPARTMENT_HEAD']) && requisition.status=== 'WAITING_FOR_HEADS_APPROVAL'" (click)="rejectByHead()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Reject</span>
+                </button>
+                <button type="button" id="approve_purchase_committee"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE']) && requisition.status=== 'FORWARDED_BY_HEAD'" (click)="approveByPurchaseCommittee()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Forward</span>
+                </button>
+                <button type="button" id="reject_purchase_committee"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE']) && requisition.status=== 'FORWARDED_BY_HEAD'" (click)="rejectByPurchaseCommittee()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Reject</span>
+                </button>
+                <button type="button" id="approve_cfo"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO']) && requisition.status=== 'FORWARDED_BY_PURCHASE_COMMITTEE'" (click)="approveByCFO()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Approve</span>
+                </button>
+                <button type="button" id="reject_cfo"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO']) && requisition.status=== 'FORWARDED_BY_PURCHASE_COMMITTEE'" (click)="rejectByCFO()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Reject</span>
+                </button>
+                <button type="button" id="receive_requester"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_REQUISITION']) && requisition.status=== 'APPROVED_BY_CFO'" (click)="receivedByRequester()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Receive</span>
+                </button>
+                <button type="button" id="receive_head"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_DEPARTMENT_HEAD']) && requisition.status=== 'RECEIVED_BY_REQUISIONER'" (click)="receivedAndVerifiedByHead()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Receive</span>
+                </button>
+                <button type="button" id="receive_head"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO']) && requisition.status=== 'RECEIVED_VERIFIED_BY_HEAD'" (click)="closedByCFO()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Receive</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

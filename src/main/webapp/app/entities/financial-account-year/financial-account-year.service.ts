@@ -66,6 +66,14 @@ export class FinancialAccountYearService {
             endDate:
                 financialAccountYear.endDate != null && financialAccountYear.endDate.isValid()
                     ? financialAccountYear.endDate.format(DATE_FORMAT)
+                    : null,
+            previousStartDate:
+                financialAccountYear.previousStartDate != null && financialAccountYear.previousStartDate.isValid()
+                    ? financialAccountYear.previousStartDate.format(DATE_FORMAT)
+                    : null,
+            previousEndDate:
+                financialAccountYear.previousEndDate != null && financialAccountYear.previousEndDate.isValid()
+                    ? financialAccountYear.previousEndDate.format(DATE_FORMAT)
                     : null
         });
         return copy;
@@ -75,6 +83,8 @@ export class FinancialAccountYearService {
         if (res.body) {
             res.body.startDate = res.body.startDate != null ? moment(res.body.startDate) : null;
             res.body.endDate = res.body.endDate != null ? moment(res.body.endDate) : null;
+            res.body.previousStartDate = res.body.previousStartDate != null ? moment(res.body.previousStartDate) : null;
+            res.body.previousEndDate = res.body.previousEndDate != null ? moment(res.body.previousEndDate) : null;
         }
         return res;
     }
@@ -84,6 +94,10 @@ export class FinancialAccountYearService {
             res.body.forEach((financialAccountYear: IFinancialAccountYear) => {
                 financialAccountYear.startDate = financialAccountYear.startDate != null ? moment(financialAccountYear.startDate) : null;
                 financialAccountYear.endDate = financialAccountYear.endDate != null ? moment(financialAccountYear.endDate) : null;
+                financialAccountYear.previousStartDate =
+                    financialAccountYear.previousStartDate != null ? moment(financialAccountYear.previousStartDate) : null;
+                financialAccountYear.previousEndDate =
+                    financialAccountYear.previousEndDate != null ? moment(financialAccountYear.previousEndDate) : null;
             });
         }
         return res;

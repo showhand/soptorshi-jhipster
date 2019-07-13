@@ -4,6 +4,7 @@ import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.Tax;
 import org.soptorshi.domain.FinancialAccountYear;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.TaxRepository;
 import org.soptorshi.repository.search.TaxSearchRepository;
 import org.soptorshi.service.TaxService;
@@ -32,6 +33,8 @@ import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,14 +57,17 @@ import org.soptorshi.domain.enumeration.TaxStatus;
 @SpringBootTest(classes = SoptorshiApp.class)
 public class TaxResourceIntTest {
 
-    private static final BigDecimal DEFAULT_MINIMUM_SALARY = new BigDecimal(1);
-    private static final BigDecimal UPDATED_MINIMUM_SALARY = new BigDecimal(2);
-
-    private static final Double DEFAULT_RATE = 1D;
-    private static final Double UPDATED_RATE = 2D;
+    private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
 
     private static final TaxStatus DEFAULT_TAX_STATUS = TaxStatus.ACTIVE;
     private static final TaxStatus UPDATED_TAX_STATUS = TaxStatus.INACTIVE;
+
+    private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_MODIFIED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_MODIFIED_ON = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private TaxRepository taxRepository;
@@ -122,9 +128,10 @@ public class TaxResourceIntTest {
      */
     public static Tax createEntity(EntityManager em) {
         Tax tax = new Tax()
-            .minimumSalary(DEFAULT_MINIMUM_SALARY)
-            .rate(DEFAULT_RATE)
-            .taxStatus(DEFAULT_TAX_STATUS);
+            .amount(DEFAULT_AMOUNT)
+            .taxStatus(DEFAULT_TAX_STATUS)
+            .modifiedBy(DEFAULT_MODIFIED_BY)
+            .modifiedOn(DEFAULT_MODIFIED_ON);
         return tax;
     }
 
@@ -149,9 +156,10 @@ public class TaxResourceIntTest {
         List<Tax> taxList = taxRepository.findAll();
         assertThat(taxList).hasSize(databaseSizeBeforeCreate + 1);
         Tax testTax = taxList.get(taxList.size() - 1);
-        assertThat(testTax.getMinimumSalary()).isEqualTo(DEFAULT_MINIMUM_SALARY);
-        assertThat(testTax.getRate()).isEqualTo(DEFAULT_RATE);
+        assertThat(testTax.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testTax.getTaxStatus()).isEqualTo(DEFAULT_TAX_STATUS);
+        assertThat(testTax.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
+        assertThat(testTax.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
         // Validate the Tax in Elasticsearch
         verify(mockTaxSearchRepository, times(1)).save(testTax);
@@ -191,9 +199,10 @@ public class TaxResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tax.getId().intValue())))
-            .andExpect(jsonPath("$.[*].minimumSalary").value(hasItem(DEFAULT_MINIMUM_SALARY.intValue())))
-            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())))
-            .andExpect(jsonPath("$.[*].taxStatus").value(hasItem(DEFAULT_TAX_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].taxStatus").value(hasItem(DEFAULT_TAX_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
     
     @Test
@@ -207,87 +216,49 @@ public class TaxResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(tax.getId().intValue()))
-            .andExpect(jsonPath("$.minimumSalary").value(DEFAULT_MINIMUM_SALARY.intValue()))
-            .andExpect(jsonPath("$.rate").value(DEFAULT_RATE.doubleValue()))
-            .andExpect(jsonPath("$.taxStatus").value(DEFAULT_TAX_STATUS.toString()));
+            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
+            .andExpect(jsonPath("$.taxStatus").value(DEFAULT_TAX_STATUS.toString()))
+            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
+            .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
 
     @Test
     @Transactional
-    public void getAllTaxesByMinimumSalaryIsEqualToSomething() throws Exception {
+    public void getAllTaxesByAmountIsEqualToSomething() throws Exception {
         // Initialize the database
         taxRepository.saveAndFlush(tax);
 
-        // Get all the taxList where minimumSalary equals to DEFAULT_MINIMUM_SALARY
-        defaultTaxShouldBeFound("minimumSalary.equals=" + DEFAULT_MINIMUM_SALARY);
+        // Get all the taxList where amount equals to DEFAULT_AMOUNT
+        defaultTaxShouldBeFound("amount.equals=" + DEFAULT_AMOUNT);
 
-        // Get all the taxList where minimumSalary equals to UPDATED_MINIMUM_SALARY
-        defaultTaxShouldNotBeFound("minimumSalary.equals=" + UPDATED_MINIMUM_SALARY);
+        // Get all the taxList where amount equals to UPDATED_AMOUNT
+        defaultTaxShouldNotBeFound("amount.equals=" + UPDATED_AMOUNT);
     }
 
     @Test
     @Transactional
-    public void getAllTaxesByMinimumSalaryIsInShouldWork() throws Exception {
+    public void getAllTaxesByAmountIsInShouldWork() throws Exception {
         // Initialize the database
         taxRepository.saveAndFlush(tax);
 
-        // Get all the taxList where minimumSalary in DEFAULT_MINIMUM_SALARY or UPDATED_MINIMUM_SALARY
-        defaultTaxShouldBeFound("minimumSalary.in=" + DEFAULT_MINIMUM_SALARY + "," + UPDATED_MINIMUM_SALARY);
+        // Get all the taxList where amount in DEFAULT_AMOUNT or UPDATED_AMOUNT
+        defaultTaxShouldBeFound("amount.in=" + DEFAULT_AMOUNT + "," + UPDATED_AMOUNT);
 
-        // Get all the taxList where minimumSalary equals to UPDATED_MINIMUM_SALARY
-        defaultTaxShouldNotBeFound("minimumSalary.in=" + UPDATED_MINIMUM_SALARY);
+        // Get all the taxList where amount equals to UPDATED_AMOUNT
+        defaultTaxShouldNotBeFound("amount.in=" + UPDATED_AMOUNT);
     }
 
     @Test
     @Transactional
-    public void getAllTaxesByMinimumSalaryIsNullOrNotNull() throws Exception {
+    public void getAllTaxesByAmountIsNullOrNotNull() throws Exception {
         // Initialize the database
         taxRepository.saveAndFlush(tax);
 
-        // Get all the taxList where minimumSalary is not null
-        defaultTaxShouldBeFound("minimumSalary.specified=true");
+        // Get all the taxList where amount is not null
+        defaultTaxShouldBeFound("amount.specified=true");
 
-        // Get all the taxList where minimumSalary is null
-        defaultTaxShouldNotBeFound("minimumSalary.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllTaxesByRateIsEqualToSomething() throws Exception {
-        // Initialize the database
-        taxRepository.saveAndFlush(tax);
-
-        // Get all the taxList where rate equals to DEFAULT_RATE
-        defaultTaxShouldBeFound("rate.equals=" + DEFAULT_RATE);
-
-        // Get all the taxList where rate equals to UPDATED_RATE
-        defaultTaxShouldNotBeFound("rate.equals=" + UPDATED_RATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllTaxesByRateIsInShouldWork() throws Exception {
-        // Initialize the database
-        taxRepository.saveAndFlush(tax);
-
-        // Get all the taxList where rate in DEFAULT_RATE or UPDATED_RATE
-        defaultTaxShouldBeFound("rate.in=" + DEFAULT_RATE + "," + UPDATED_RATE);
-
-        // Get all the taxList where rate equals to UPDATED_RATE
-        defaultTaxShouldNotBeFound("rate.in=" + UPDATED_RATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllTaxesByRateIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        taxRepository.saveAndFlush(tax);
-
-        // Get all the taxList where rate is not null
-        defaultTaxShouldBeFound("rate.specified=true");
-
-        // Get all the taxList where rate is null
-        defaultTaxShouldNotBeFound("rate.specified=false");
+        // Get all the taxList where amount is null
+        defaultTaxShouldNotBeFound("amount.specified=false");
     }
 
     @Test
@@ -331,6 +302,111 @@ public class TaxResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllTaxesByModifiedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where modifiedBy equals to DEFAULT_MODIFIED_BY
+        defaultTaxShouldBeFound("modifiedBy.equals=" + DEFAULT_MODIFIED_BY);
+
+        // Get all the taxList where modifiedBy equals to UPDATED_MODIFIED_BY
+        defaultTaxShouldNotBeFound("modifiedBy.equals=" + UPDATED_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTaxesByModifiedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where modifiedBy in DEFAULT_MODIFIED_BY or UPDATED_MODIFIED_BY
+        defaultTaxShouldBeFound("modifiedBy.in=" + DEFAULT_MODIFIED_BY + "," + UPDATED_MODIFIED_BY);
+
+        // Get all the taxList where modifiedBy equals to UPDATED_MODIFIED_BY
+        defaultTaxShouldNotBeFound("modifiedBy.in=" + UPDATED_MODIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTaxesByModifiedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where modifiedBy is not null
+        defaultTaxShouldBeFound("modifiedBy.specified=true");
+
+        // Get all the taxList where modifiedBy is null
+        defaultTaxShouldNotBeFound("modifiedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTaxesByModifiedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where modifiedOn equals to DEFAULT_MODIFIED_ON
+        defaultTaxShouldBeFound("modifiedOn.equals=" + DEFAULT_MODIFIED_ON);
+
+        // Get all the taxList where modifiedOn equals to UPDATED_MODIFIED_ON
+        defaultTaxShouldNotBeFound("modifiedOn.equals=" + UPDATED_MODIFIED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTaxesByModifiedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where modifiedOn in DEFAULT_MODIFIED_ON or UPDATED_MODIFIED_ON
+        defaultTaxShouldBeFound("modifiedOn.in=" + DEFAULT_MODIFIED_ON + "," + UPDATED_MODIFIED_ON);
+
+        // Get all the taxList where modifiedOn equals to UPDATED_MODIFIED_ON
+        defaultTaxShouldNotBeFound("modifiedOn.in=" + UPDATED_MODIFIED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTaxesByModifiedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where modifiedOn is not null
+        defaultTaxShouldBeFound("modifiedOn.specified=true");
+
+        // Get all the taxList where modifiedOn is null
+        defaultTaxShouldNotBeFound("modifiedOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTaxesByModifiedOnIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where modifiedOn greater than or equals to DEFAULT_MODIFIED_ON
+        defaultTaxShouldBeFound("modifiedOn.greaterOrEqualThan=" + DEFAULT_MODIFIED_ON);
+
+        // Get all the taxList where modifiedOn greater than or equals to UPDATED_MODIFIED_ON
+        defaultTaxShouldNotBeFound("modifiedOn.greaterOrEqualThan=" + UPDATED_MODIFIED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTaxesByModifiedOnIsLessThanSomething() throws Exception {
+        // Initialize the database
+        taxRepository.saveAndFlush(tax);
+
+        // Get all the taxList where modifiedOn less than or equals to DEFAULT_MODIFIED_ON
+        defaultTaxShouldNotBeFound("modifiedOn.lessThan=" + DEFAULT_MODIFIED_ON);
+
+        // Get all the taxList where modifiedOn less than or equals to UPDATED_MODIFIED_ON
+        defaultTaxShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllTaxesByFinancialAccountYearIsEqualToSomething() throws Exception {
         // Initialize the database
         FinancialAccountYear financialAccountYear = FinancialAccountYearResourceIntTest.createEntity(em);
@@ -347,6 +423,25 @@ public class TaxResourceIntTest {
         defaultTaxShouldNotBeFound("financialAccountYearId.equals=" + (financialAccountYearId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllTaxesByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        tax.setEmployee(employee);
+        taxRepository.saveAndFlush(tax);
+        Long employeeId = employee.getId();
+
+        // Get all the taxList where employee equals to employeeId
+        defaultTaxShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the taxList where employee equals to employeeId + 1
+        defaultTaxShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -355,9 +450,10 @@ public class TaxResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tax.getId().intValue())))
-            .andExpect(jsonPath("$.[*].minimumSalary").value(hasItem(DEFAULT_MINIMUM_SALARY.intValue())))
-            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())))
-            .andExpect(jsonPath("$.[*].taxStatus").value(hasItem(DEFAULT_TAX_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].taxStatus").value(hasItem(DEFAULT_TAX_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
         // Check, that the count call also returns 1
         restTaxMockMvc.perform(get("/api/taxes/count?sort=id,desc&" + filter))
@@ -405,9 +501,10 @@ public class TaxResourceIntTest {
         // Disconnect from session so that the updates on updatedTax are not directly saved in db
         em.detach(updatedTax);
         updatedTax
-            .minimumSalary(UPDATED_MINIMUM_SALARY)
-            .rate(UPDATED_RATE)
-            .taxStatus(UPDATED_TAX_STATUS);
+            .amount(UPDATED_AMOUNT)
+            .taxStatus(UPDATED_TAX_STATUS)
+            .modifiedBy(UPDATED_MODIFIED_BY)
+            .modifiedOn(UPDATED_MODIFIED_ON);
         TaxDTO taxDTO = taxMapper.toDto(updatedTax);
 
         restTaxMockMvc.perform(put("/api/taxes")
@@ -419,9 +516,10 @@ public class TaxResourceIntTest {
         List<Tax> taxList = taxRepository.findAll();
         assertThat(taxList).hasSize(databaseSizeBeforeUpdate);
         Tax testTax = taxList.get(taxList.size() - 1);
-        assertThat(testTax.getMinimumSalary()).isEqualTo(UPDATED_MINIMUM_SALARY);
-        assertThat(testTax.getRate()).isEqualTo(UPDATED_RATE);
+        assertThat(testTax.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testTax.getTaxStatus()).isEqualTo(UPDATED_TAX_STATUS);
+        assertThat(testTax.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
+        assertThat(testTax.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
         // Validate the Tax in Elasticsearch
         verify(mockTaxSearchRepository, times(1)).save(testTax);
@@ -482,9 +580,10 @@ public class TaxResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tax.getId().intValue())))
-            .andExpect(jsonPath("$.[*].minimumSalary").value(hasItem(DEFAULT_MINIMUM_SALARY.intValue())))
-            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())))
-            .andExpect(jsonPath("$.[*].taxStatus").value(hasItem(DEFAULT_TAX_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].taxStatus").value(hasItem(DEFAULT_TAX_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
 
     @Test

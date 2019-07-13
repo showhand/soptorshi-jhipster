@@ -2,17 +2,21 @@
     "name": "Tax",
     "fields": [
         {
-            "fieldName": "minimumSalary",
+            "fieldName": "amount",
             "fieldType": "BigDecimal"
-        },
-        {
-            "fieldName": "rate",
-            "fieldType": "Double"
         },
         {
             "fieldName": "taxStatus",
             "fieldType": "TaxStatus",
             "fieldValues": "ACTIVE,INACTIVE"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
         }
     ],
     "relationships": [
@@ -22,6 +26,13 @@
             "otherEntityRelationshipName": "tax",
             "relationshipName": "financialAccountYear",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "tax",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName"
         }
     ],
     "changelogDate": "20190514160136",

@@ -1,0 +1,77 @@
+{
+    "name": "QuotationDetails",
+    "fields": [
+        {
+            "fieldName": "currency",
+            "fieldType": "Currency",
+            "fieldValues": "TAKA,DOLLAR,EURO"
+        },
+        {
+            "fieldName": "payType",
+            "fieldType": "PayType",
+            "fieldValues": "CASH,PAY_ORDER,CHEQUE"
+        },
+        {
+            "fieldName": "creditLimit",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "vatStatus",
+            "fieldType": "VatStatus",
+            "fieldValues": "EXCLUDED,INCLUDED"
+        },
+        {
+            "fieldName": "aitStatus",
+            "fieldType": "AITStatus",
+            "fieldValues": "EXCLUDED,INCLUDED"
+        },
+        {
+            "fieldName": "warrantyStatus",
+            "fieldType": "WarrantyStatus",
+            "fieldValues": "WARRANTY,NO_WARRANTY"
+        },
+        {
+            "fieldName": "loadingPort",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "remarks",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "quotation",
+            "otherEntityRelationshipName": "quotationDetails",
+            "relationshipName": "quotation",
+            "otherEntityField": "quotationNo"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "requisitionDetails",
+            "otherEntityRelationshipName": "quotationDetails",
+            "relationshipName": "requisitionDetails",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190628152326",
+    "entityTableName": "quotation_details",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

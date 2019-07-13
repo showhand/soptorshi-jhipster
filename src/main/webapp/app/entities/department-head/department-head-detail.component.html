@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="departmentHead">
+            <h2><span>Department Head</span> {{departmentHead.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Office</span></dt>
+                <dd>
+                    <div *ngIf="departmentHead.officeId">
+                        <a [routerLink]="['/office', departmentHead.officeId, 'view']">{{departmentHead.officeName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Department</span></dt>
+                <dd>
+                    <div *ngIf="departmentHead.departmentId">
+                        <a [routerLink]="['/department', departmentHead.departmentId, 'view']">{{departmentHead.departmentName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="departmentHead.employeeId">
+                        <a [routerLink]="['/employee', departmentHead.employeeId, 'view']">{{departmentHead.employeeFullName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/department-head', departmentHead.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

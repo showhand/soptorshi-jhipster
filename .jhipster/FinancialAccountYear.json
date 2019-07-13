@@ -3,19 +3,33 @@
     "fields": [
         {
             "fieldName": "startDate",
-            "fieldType": "LocalDate"
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "unique"
+            ]
         },
         {
             "fieldName": "endDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "unique"
+            ]
+        },
+        {
+            "fieldName": "previousStartDate",
             "fieldType": "LocalDate"
         },
         {
-            "fieldName": "previousYear",
-            "fieldType": "Long"
+            "fieldName": "previousEndDate",
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "status",
-            "fieldType": "Boolean"
+            "fieldType": "FinancialYearStatus",
+            "fieldValues": "ACTIVE,NOT_ACTIVE",
+            "fieldValidateRules": [
+                "unique"
+            ]
         }
     ],
     "relationships": [],

@@ -8,13 +8,16 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Tax and its DTO TaxDTO.
  */
-@Mapper(componentModel = "spring", uses = {FinancialAccountYearMapper.class})
+@Mapper(componentModel = "spring", uses = {FinancialAccountYearMapper.class, EmployeeMapper.class})
 public interface TaxMapper extends EntityMapper<TaxDTO, Tax> {
 
     @Mapping(source = "financialAccountYear.id", target = "financialAccountYearId")
+    @Mapping(source = "employee.id", target = "employeeId")
+    @Mapping(source = "employee.fullName", target = "employeeFullName")
     TaxDTO toDto(Tax tax);
 
     @Mapping(source = "financialAccountYearId", target = "financialAccountYear")
+    @Mapping(source = "employeeId", target = "employee")
     Tax toEntity(TaxDTO taxDTO);
 
     default Tax fromId(Long id) {

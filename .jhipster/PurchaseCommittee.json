@@ -1,0 +1,24 @@
+{
+    "name": "PurchaseCommittee",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "purchaseCommittee",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20190622174320",
+    "entityTableName": "purchase_committee",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}
