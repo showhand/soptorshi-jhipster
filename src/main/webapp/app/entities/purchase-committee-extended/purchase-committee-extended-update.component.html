@@ -1,0 +1,41 @@
+<!--<div class="ui-g">
+    <div class="ui-g-12">
+        <p-autoComplete [(ngModel)]="selectedEmployee" [suggestions]="employees" field="fullName"></p-autoComplete>
+    </div>
+</div>-->
+<style>
+    .ui-select-choices {
+        position: fixed;
+        top: auto;
+        left: auto;
+        width: inherit;
+    }
+</style>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-purchase-committee-heading">Create or edit a Purchase Committee Member Extended</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!purchaseCommittee.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                           [(ngModel)]="purchaseCommittee.id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label  for="field_employee">Employee</label><br/>
+                    <p-autoComplete id="field_employee" inputStyleClass="form-control"  [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"  [(ngModel)]="selectedEmployee" [immutable]="false"  name="employee Name" [suggestions]="employees" field="fullName" (completeMethod)="filterEmployees($event)"  [minLength]="1" ></p-autoComplete>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" mat-raised-button color="warn"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" mat-raised-button color="primary" id="save-entity" [disabled]="editForm.form.invalid || isSaving" >
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

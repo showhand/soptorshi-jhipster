@@ -19,7 +19,7 @@ import { SoptorshiEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
-import { MatButton, MatButtonModule, MatCheckbox, MatTab, MatTabsModule } from '@angular/material';
+import { MatButton, MatButtonModule, MatCheckbox, MatTab, MatTableModule, MatTabsModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { DeviceDetectorModule } from 'ngx-device-detector';
@@ -47,6 +47,7 @@ import { BreadcrumbModule } from 'angular-crumbs';
         BrowserAnimationsModule,
         MatButtonModule,
         MatTabsModule,
+        MatTableModule,
         DeviceDetectorModule.forRoot(),
         NgxPageScrollCoreModule,
         AutoCompleteModule,
