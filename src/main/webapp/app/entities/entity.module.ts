@@ -177,7 +177,8 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'designation-wise-allowance',
-                loadChildren: './designation-wise-allowance/designation-wise-allowance.module#SoptorshiDesignationWiseAllowanceModule'
+                loadChildren:
+                    './designation-wise-allowance/designation-wise-allowance-extended.module#SoptorshiDesignationWiseAllowanceExtendedModule'
             },
             {
                 path: 'provident-fund',

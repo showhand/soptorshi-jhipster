@@ -14,7 +14,7 @@ import { IDesignationWiseAllowance } from 'app/shared/model/designation-wise-all
 
 @Injectable({ providedIn: 'root' })
 export class DesignationWiseAllowanceResolve implements Resolve<IDesignationWiseAllowance> {
-    constructor(private service: DesignationWiseAllowanceService) {}
+    constructor(public service: DesignationWiseAllowanceService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IDesignationWiseAllowance> {
         const id = route.params['id'] ? route.params['id'] : null;
