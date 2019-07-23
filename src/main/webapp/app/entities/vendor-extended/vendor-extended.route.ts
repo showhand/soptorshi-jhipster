@@ -5,17 +5,17 @@ import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Vendor } from 'app/shared/model/vendor.model';
-import { VendorService } from './vendor.service';
-import { VendorComponent } from './vendor.component';
-import { VendorDetailComponent } from './vendor-detail.component';
-import { VendorUpdateComponent } from './vendor-update.component';
-import { VendorDeletePopupComponent } from './vendor-delete-dialog.component';
-import { IVendor } from 'app/shared/model/vendor.model';
+import { IVendor, Vendor } from 'app/shared/model/vendor.model';
+import { VendorDeletePopupComponent, VendorDetailComponent, VendorResolve, VendorService } from 'app/entities/vendor';
+import { VendorExtendedComponent } from 'app/entities/vendor-extended/vendor-extended.component';
+import { VendorExtendedDetailComponent } from 'app/entities/vendor-extended/vendor-extended-detail.component';
+import { VendorExtendedUpdateComponent } from 'app/entities/vendor-extended/vendor-extended-update.component';
 
 @Injectable({ providedIn: 'root' })
-export class VendorResolve implements Resolve<IVendor> {
-    constructor(public service: VendorService) {}
+export class VendorExtendedResolve extends VendorResolve {
+    constructor(public service: VendorService) {
+        super(service);
+    }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IVendor> {
         const id = route.params['id'] ? route.params['id'] : null;
@@ -29,10 +29,10 @@ export class VendorResolve implements Resolve<IVendor> {
     }
 }
 
-export const vendorRoute: Routes = [
+export const vendorExtendedRoute: Routes = [
     {
         path: '',
-        component: VendorComponent,
+        component: VendorExtendedComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
@@ -45,9 +45,9 @@ export const vendorRoute: Routes = [
     },
     {
         path: ':id/view',
-        component: VendorDetailComponent,
+        component: VendorExtendedDetailComponent,
         resolve: {
-            vendor: VendorResolve
+            vendor: VendorExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
@@ -58,9 +58,9 @@ export const vendorRoute: Routes = [
     },
     {
         path: 'new',
-        component: VendorUpdateComponent,
+        component: VendorExtendedUpdateComponent,
         resolve: {
-            vendor: VendorResolve
+            vendor: VendorExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
@@ -71,9 +71,9 @@ export const vendorRoute: Routes = [
     },
     {
         path: ':id/edit',
-        component: VendorUpdateComponent,
+        component: VendorExtendedUpdateComponent,
         resolve: {
-            vendor: VendorResolve
+            vendor: VendorExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
@@ -84,12 +84,12 @@ export const vendorRoute: Routes = [
     }
 ];
 
-export const vendorPopupRoute: Routes = [
+export const vendorExtendedPopupRoute: Routes = [
     {
         path: ':id/delete',
         component: VendorDeletePopupComponent,
         resolve: {
-            vendor: VendorResolve
+            vendor: VendorExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],

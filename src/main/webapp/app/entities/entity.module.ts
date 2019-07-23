@@ -310,7 +310,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'vendor',
-                loadChildren: './vendor/vendor.module#SoptorshiVendorModule'
+                loadChildren: './vendor-extended/vendor-extended.module#SoptorshiVendorExtendedModule'
             },
             {
                 path: 'vendor-contact-person',
