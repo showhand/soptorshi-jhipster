@@ -7,6 +7,10 @@ import { VendorExtendedUpdateComponent } from 'app/entities/vendor-extended/vend
 import { VendorExtendedDetailComponent } from 'app/entities/vendor-extended/vendor-extended-detail.component';
 import { VendorExtendedComponent } from 'app/entities/vendor-extended/vendor-extended.component';
 import { vendorExtendedPopupRoute, vendorExtendedRoute } from 'app/entities/vendor-extended/vendor-extended.route';
+import {
+    VendorExtendedUpdateDialogComponent,
+    VendorExtendedUpdatedPopupComponent
+} from 'app/entities/vendor-extended/vendor-extended-update-dialog.component';
 
 const ENTITY_STATES = [...vendorExtendedRoute, ...vendorExtendedPopupRoute];
 
@@ -17,14 +21,18 @@ const ENTITY_STATES = [...vendorExtendedRoute, ...vendorExtendedPopupRoute];
         VendorExtendedDetailComponent,
         VendorExtendedUpdateComponent,
         VendorDeleteDialogComponent,
-        VendorDeletePopupComponent
+        VendorDeletePopupComponent,
+        VendorExtendedUpdateDialogComponent,
+        VendorExtendedUpdatedPopupComponent
     ],
     entryComponents: [
         VendorExtendedComponent,
         VendorExtendedDetailComponent,
         VendorExtendedUpdateComponent,
         VendorDeleteDialogComponent,
-        VendorDeletePopupComponent
+        VendorDeletePopupComponent,
+        VendorExtendedUpdateDialogComponent,
+        VendorExtendedUpdatedPopupComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

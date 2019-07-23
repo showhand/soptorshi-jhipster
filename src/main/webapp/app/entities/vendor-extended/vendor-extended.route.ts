@@ -10,6 +10,7 @@ import { VendorDeletePopupComponent, VendorDetailComponent, VendorResolve, Vendo
 import { VendorExtendedComponent } from 'app/entities/vendor-extended/vendor-extended.component';
 import { VendorExtendedDetailComponent } from 'app/entities/vendor-extended/vendor-extended-detail.component';
 import { VendorExtendedUpdateComponent } from 'app/entities/vendor-extended/vendor-extended-update.component';
+import { VendorExtendedUpdatedPopupComponent } from 'app/entities/vendor-extended/vendor-extended-update-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class VendorExtendedResolve extends VendorResolve {
@@ -38,7 +39,7 @@ export const vendorExtendedRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
-            defaultSort: 'id,asc',
+            defaultSort: 'id,desc',
             pageTitle: 'Vendors'
         },
         canActivate: [UserRouteAccessService]
@@ -94,6 +95,16 @@ export const vendorExtendedPopupRoute: Routes = [
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
             pageTitle: 'Vendors'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: 'add-new-popup',
+        component: VendorExtendedUpdatedPopupComponent,
+        data: {
+            authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
+            pageTitle: 'Create Vendor'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

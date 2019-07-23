@@ -15,4 +15,17 @@ import { VendorComponent, VendorService } from 'app/entities/vendor';
     selector: 'jhi-vendor-extended',
     templateUrl: './vendor-extended.component.html'
 })
-export class VendorExtendedComponent extends VendorComponent {}
+export class VendorExtendedComponent extends VendorComponent {
+    constructor(
+        protected vendorService: VendorService,
+        protected parseLinks: JhiParseLinks,
+        protected jhiAlertService: JhiAlertService,
+        protected accountService: AccountService,
+        protected activatedRoute: ActivatedRoute,
+        protected dataUtils: JhiDataUtils,
+        protected router: Router,
+        protected eventManager: JhiEventManager
+    ) {
+        super(vendorService, parseLinks, jhiAlertService, accountService, activatedRoute, dataUtils, router, eventManager);
+    }
+}

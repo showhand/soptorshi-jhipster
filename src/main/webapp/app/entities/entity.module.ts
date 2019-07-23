@@ -313,10 +313,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './vendor-extended/vendor-extended.module#SoptorshiVendorExtendedModule'
             },
             {
-                path: 'vendor-contact-person',
-                loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
-            },
-            {
                 path: 'department',
                 loadChildren: './department/department.module#SoptorshiDepartmentModule'
             },
@@ -397,16 +393,9 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
             },
             {
-                path: 'vendor',
-                loadChildren: './vendor/vendor.module#SoptorshiVendorModule'
-            },
-            {
                 path: 'vendor-contact-person',
-                loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
-            },
-            {
-                path: 'vendor-contact-person',
-                loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
+                loadChildren:
+                    './vendor-contact-person-extended/vendor-contact-person-extended.module#SoptorshiVendorContactPersonExtendedModule'
             },
             {
                 path: 'requisition',

@@ -6,16 +6,21 @@ import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { VendorContactPerson } from 'app/shared/model/vendor-contact-person.model';
-import { VendorContactPersonService } from './vendor-contact-person.service';
-import { VendorContactPersonComponent } from './vendor-contact-person.component';
-import { VendorContactPersonDetailComponent } from './vendor-contact-person-detail.component';
-import { VendorContactPersonUpdateComponent } from './vendor-contact-person-update.component';
-import { VendorContactPersonDeletePopupComponent } from './vendor-contact-person-delete-dialog.component';
 import { IVendorContactPerson } from 'app/shared/model/vendor-contact-person.model';
+import {
+    VendorContactPersonDeletePopupComponent,
+    VendorContactPersonResolve,
+    VendorContactPersonService
+} from 'app/entities/vendor-contact-person';
+import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-contact-person-extended/vendor-contact-person-extended-update.component';
+import { VendorContactPersonExtendedDetailComponent } from 'app/entities/vendor-contact-person-extended/vendor-contact-person-extended-detail.component';
+import { VendorContactPersonExtendedComponent } from 'app/entities/vendor-contact-person-extended/vendor-contact-person-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class VendorContactPersonResolve implements Resolve<IVendorContactPerson> {
-    constructor(public service: VendorContactPersonService) {}
+export class VendorContactPersonExtendedResolve extends VendorContactPersonResolve {
+    constructor(public service: VendorContactPersonService) {
+        super(service);
+    }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IVendorContactPerson> {
         const id = route.params['id'] ? route.params['id'] : null;
@@ -34,10 +39,10 @@ export class VendorContactPersonResolve implements Resolve<IVendorContactPerson>
     }
 }
 
-export const vendorContactPersonRoute: Routes = [
+export const vendorContactPersonExtendedRoute: Routes = [
     {
         path: '',
-        component: VendorContactPersonComponent,
+        component: VendorContactPersonExtendedComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
@@ -50,10 +55,10 @@ export const vendorContactPersonRoute: Routes = [
     },
     {
         path: ':vendorId/vendor',
-        component: VendorContactPersonComponent,
+        component: VendorContactPersonExtendedComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams,
-            vendorContactPerson: VendorContactPersonResolve
+            vendorContactPerson: VendorContactPersonExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
@@ -64,9 +69,9 @@ export const vendorContactPersonRoute: Routes = [
     },
     {
         path: ':id/view',
-        component: VendorContactPersonDetailComponent,
+        component: VendorContactPersonExtendedDetailComponent,
         resolve: {
-            vendorContactPerson: VendorContactPersonResolve
+            vendorContactPerson: VendorContactPersonExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
@@ -76,9 +81,9 @@ export const vendorContactPersonRoute: Routes = [
     },
     {
         path: ':vendorId/new',
-        component: VendorContactPersonUpdateComponent,
+        component: VendorContactPersonExtendedUpdateComponent,
         resolve: {
-            vendorContactPerson: VendorContactPersonResolve
+            vendorContactPerson: VendorContactPersonExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
@@ -88,9 +93,9 @@ export const vendorContactPersonRoute: Routes = [
     },
     {
         path: 'new',
-        component: VendorContactPersonUpdateComponent,
+        component: VendorContactPersonExtendedUpdateComponent,
         resolve: {
-            vendorContactPerson: VendorContactPersonResolve
+            vendorContactPerson: VendorContactPersonExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
@@ -100,9 +105,9 @@ export const vendorContactPersonRoute: Routes = [
     },
     {
         path: ':id/edit',
-        component: VendorContactPersonUpdateComponent,
+        component: VendorContactPersonExtendedUpdateComponent,
         resolve: {
-            vendorContactPerson: VendorContactPersonResolve
+            vendorContactPerson: VendorContactPersonExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
@@ -112,12 +117,12 @@ export const vendorContactPersonRoute: Routes = [
     }
 ];
 
-export const vendorContactPersonPopupRoute: Routes = [
+export const vendorContactPersonExtendedPopupRoute: Routes = [
     {
         path: ':id/delete',
         component: VendorContactPersonDeletePopupComponent,
         resolve: {
-            vendorContactPerson: VendorContactPersonResolve
+            vendorContactPerson: VendorContactPersonExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_REQUISITION', 'ROLE_PURCHASE_COMMITTEE', 'ROLE_CFO'],
