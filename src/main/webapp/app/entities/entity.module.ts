@@ -178,7 +178,7 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'designation-wise-allowance',
                 loadChildren:
-                    './designation-wise-allowance/designation-wise-allowance-extended.module#SoptorshiDesignationWiseAllowanceExtendedModule'
+                    './designation-wise-allowance-extended/designation-wise-allowance-extended.module#SoptorshiDesignationWiseAllowanceExtendedModule'
             },
             {
                 path: 'provident-fund',
@@ -346,7 +346,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'budget-allocation',
-                loadChildren: './budget-allocation/budget-allocation.module#SoptorshiBudgetAllocationModule'
+                loadChildren: './budget-allocation-extended/budget-allocation-extended.module#SoptorshiBudgetAllocationExtendedModule'
             },
             {
                 path: 'financial-account-year',

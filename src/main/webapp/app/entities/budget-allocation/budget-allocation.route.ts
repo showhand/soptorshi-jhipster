@@ -14,7 +14,7 @@ import { IBudgetAllocation } from 'app/shared/model/budget-allocation.model';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetAllocationResolve implements Resolve<IBudgetAllocation> {
-    constructor(private service: BudgetAllocationService) {}
+    constructor(public service: BudgetAllocationService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IBudgetAllocation> {
         const id = route.params['id'] ? route.params['id'] : null;
