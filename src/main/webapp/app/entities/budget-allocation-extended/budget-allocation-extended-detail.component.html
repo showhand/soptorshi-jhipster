@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="budgetAllocation">
+            <h2><span>Budget Allocation</span> {{budgetAllocation.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Amount</span></dt>
+                <dd>
+                    <span>{{budgetAllocation.amount}}</span>
+                </dd>
+                <dt><span>Office</span></dt>
+                <dd>
+                    <div *ngIf="budgetAllocation.officeId">
+                        <a [routerLink]="['/office', budgetAllocation.officeId, 'view']">{{budgetAllocation.officeName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Department</span></dt>
+                <dd>
+                    <div *ngIf="budgetAllocation.departmentId">
+                        <a [routerLink]="['/department', budgetAllocation.departmentId, 'view']">{{budgetAllocation.departmentName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/budget-allocation', budgetAllocation.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

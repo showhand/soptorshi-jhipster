@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Departments</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-department" [routerLink]="['/department/new']">
+        <button id="jh-create-entity" mat-raised-button color="primary" class=" float-right jh-create-entity create-department" [routerLink]="['/department/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Department
@@ -46,13 +46,13 @@
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/department', department.id, 'view' ]"
-                                class="btn btn-info btn-sm">
+                                mat-raised-button color="accent">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/department', department.id, 'edit']"
-                                class="btn btn-primary btn-sm">
+                                mat-raised-button color="primary">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
@@ -60,7 +60,7 @@
                                 [routerLink]="['/', 'department', { outlets: { popup: department.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
+                                mat-raised-button color="warn">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline">Delete</span>
                         </button>

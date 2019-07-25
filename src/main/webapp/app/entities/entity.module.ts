@@ -177,7 +177,8 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'designation-wise-allowance',
-                loadChildren: './designation-wise-allowance/designation-wise-allowance.module#SoptorshiDesignationWiseAllowanceModule'
+                loadChildren:
+                    './designation-wise-allowance-extended/designation-wise-allowance-extended.module#SoptorshiDesignationWiseAllowanceExtendedModule'
             },
             {
                 path: 'provident-fund',
@@ -305,35 +306,19 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'purchase-committee',
-                loadChildren: './purchase-committee/purchase-committee.module#SoptorshiPurchaseCommitteeModule'
+                loadChildren: './purchase-committee-extended/purchase-committee-extended.module#SoptorshiPurchaseCommitteeExtendedModule'
             },
             {
                 path: 'vendor',
-                loadChildren: './vendor/vendor.module#SoptorshiVendorModule'
-            },
-            {
-                path: 'vendor-contact-person',
-                loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
+                loadChildren: './vendor-extended/vendor-extended.module#SoptorshiVendorExtendedModule'
             },
             {
                 path: 'department',
                 loadChildren: './department/department.module#SoptorshiDepartmentModule'
             },
             {
-                path: 'department-head',
-                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
-            },
-            {
                 path: 'bill',
                 loadChildren: './bill/bill.module#SoptorshiBillModule'
-            },
-            {
-                path: 'department-head',
-                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
-            },
-            {
-                path: 'department-head',
-                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
             },
             {
                 path: 'tax',
@@ -353,11 +338,11 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'department-head',
-                loadChildren: './department-head/department-head.module#SoptorshiDepartmentHeadModule'
+                loadChildren: './department-head-extended/department-head-extended.module#SoptorshiDepartmentHeadExtendedModule'
             },
             {
                 path: 'budget-allocation',
-                loadChildren: './budget-allocation/budget-allocation.module#SoptorshiBudgetAllocationModule'
+                loadChildren: './budget-allocation-extended/budget-allocation-extended.module#SoptorshiBudgetAllocationExtendedModule'
             },
             {
                 path: 'financial-account-year',
@@ -408,16 +393,9 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
             },
             {
-                path: 'vendor',
-                loadChildren: './vendor/vendor.module#SoptorshiVendorModule'
-            },
-            {
                 path: 'vendor-contact-person',
-                loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
-            },
-            {
-                path: 'vendor-contact-person',
-                loadChildren: './vendor-contact-person/vendor-contact-person.module#SoptorshiVendorContactPersonModule'
+                loadChildren:
+                    './vendor-contact-person-extended/vendor-contact-person-extended.module#SoptorshiVendorContactPersonExtendedModule'
             },
             {
                 path: 'requisition',

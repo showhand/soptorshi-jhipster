@@ -15,7 +15,7 @@ import { IVendor } from 'app/shared/model/vendor.model';
 
 @Injectable({ providedIn: 'root' })
 export class VendorResolve implements Resolve<IVendor> {
-    constructor(private service: VendorService) {}
+    constructor(public service: VendorService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IVendor> {
         const id = route.params['id'] ? route.params['id'] : null;

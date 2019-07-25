@@ -16,7 +16,7 @@ const ENTITY_STATES = [...budgetAllocationRoute, ...budgetAllocationPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /*declarations: [
         BudgetAllocationComponent,
         BudgetAllocationDetailComponent,
         BudgetAllocationUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...budgetAllocationRoute, ...budgetAllocationPopupRoute];
         BudgetAllocationUpdateComponent,
         BudgetAllocationDeleteDialogComponent,
         BudgetAllocationDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiBudgetAllocationModule {}

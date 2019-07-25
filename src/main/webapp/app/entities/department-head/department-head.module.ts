@@ -16,7 +16,7 @@ const ENTITY_STATES = [...departmentHeadRoute, ...departmentHeadPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /*declarations: [
         DepartmentHeadComponent,
         DepartmentHeadDetailComponent,
         DepartmentHeadUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...departmentHeadRoute, ...departmentHeadPopupRoute];
         DepartmentHeadUpdateComponent,
         DepartmentHeadDeleteDialogComponent,
         DepartmentHeadDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiDepartmentHeadModule {}

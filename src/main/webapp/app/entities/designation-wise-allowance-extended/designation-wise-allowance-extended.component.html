@@ -1,0 +1,102 @@
+<div class="row">
+    <div class="col-md-3">
+        <div class="card ">
+            <div class="card-header text-white bg-secondary">Select</div>
+            <div class="card-body">
+                <form >
+                    <div class="form-group form-inline">
+                        <label for="designation" class="col-4 form-control-label" align="left">Designation</label>
+                        <select class="col-8 form-control" name="designation" id="designation" [(ngModel)]="designationWiseAllowanceService.designationId">
+                            <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
+                        </select>
+                    </div>
+                </form>
+
+            </div>
+            <div class="card-footer" align="right">
+                <button class="btn btn
+            -secondary" (click)="fetch()">Fetch</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card" style="min-height: 350px;">
+            <div class="card-header text-white bg-secondary">Designation Wise Allowance</div>
+            <div class="card-body">
+                <div>
+                    <h2 id="page-heading">
+                        <span>Designation Wise Allowances</span>
+                        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-designation-wise-allowance" [routerLink]="['/designation-wise-allowance', designationWiseAllowanceService.designationId,'new']">
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                            <span class="hidden-sm-down" >
+            Create new Designation Wise Allowance
+            </span>
+                        </button>
+                    </h2>
+                    <jhi-alert></jhi-alert>
+
+                    <br/>
+                    <div class="table-responsive" *ngIf="designationWiseAllowances">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                                <th ><span></span> <fa-icon ></fa-icon></th>
+                                <th jhiSortBy="allowanceType"><span>Allowance Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                                <th jhiSortBy="allowanceCategory"><span>Allowance Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                                <th jhiSortBy="amount"><span>Amount(% of basic)</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                                <!--<th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                                <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+                                <!--                                <th jhiSortBy="designationId" *ngIf="showDesignationColumn!==false"><span>Designation</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+                            <tr *ngFor="let designationWiseAllowance of designationWiseAllowances ; let i=index;trackBy: trackId">
+                                <td>{{i+1}}</td>
+                                <!--<td><a [routerLink]="['/designation-wise-allowance', designationWiseAllowance.id, 'view' ]">{{designationWiseAllowance.id}}</a></td>-->
+                                <td>{{designationWiseAllowance.allowanceType}}</td>
+                                <td>{{designationWiseAllowance.allowanceCategory}}</td>
+                                <td *ngIf="designationWiseAllowance.allowanceType=='OVERTIME_ALLOWANCE'">{{designationWiseAllowance.amount}}(hourly)</td>
+                                <td *ngIf="designationWiseAllowance.allowanceType!='OVERTIME_ALLOWANCE'">{{designationWiseAllowance.amount}}</td>
+                                <!--<td>{{designationWiseAllowance.modifiedBy}}</td>
+                                <td>{{designationWiseAllowance.modifiedOn | date:'mediumDate'}}</td>-->
+                                <!--  <td *ngIf="showDesignationColumn!==false">
+                                      <div *ngIf="designationWiseAllowance.designationId">
+                                          <a [routerLink]="['../designation', designationWiseAllowance.designationId , 'view' ]" >{{designationWiseAllowance.designationId}}</a>
+                                      </div>
+                                  </td>-->
+                                <td class="text-right">
+                                    <div class="btn-group flex-btn-group-container">
+                                        <button type="submit"
+                                                [routerLink]="['/designation-wise-allowance', designationWiseAllowance.id, 'view' ]"
+                                                class="btn btn-info btn-sm">
+                                            <fa-icon [icon]="'eye'"></fa-icon>
+                                            <span class="d-none d-md-inline">View</span>
+                                        </button>
+                                        <button type="submit"
+                                                [routerLink]="['/designation-wise-allowance', designationWiseAllowance.id, 'edit']"
+                                                class="btn btn-primary btn-sm">
+                                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                            <span class="d-none d-md-inline">Edit</span>
+                                        </button>
+                                        <button type="submit"
+                                                [routerLink]="['/', 'designation-wise-allowance', { outlets: { popup: designationWiseAllowance.id + '/delete'} }]"
+                                                replaceUrl="true"
+                                                queryParamsHandling="merge"
+                                                class="btn btn-danger btn-sm">
+                                            <fa-icon [icon]="'times'"></fa-icon>
+                                            <span class="d-none d-md-inline">Delete</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

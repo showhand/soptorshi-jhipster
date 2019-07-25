@@ -16,7 +16,7 @@ const ENTITY_STATES = [...vendorContactPersonRoute, ...vendorContactPersonPopupR
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /* declarations: [
         VendorContactPersonComponent,
         VendorContactPersonDetailComponent,
         VendorContactPersonUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...vendorContactPersonRoute, ...vendorContactPersonPopupR
         VendorContactPersonUpdateComponent,
         VendorContactPersonDeleteDialogComponent,
         VendorContactPersonDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiVendorContactPersonModule {}

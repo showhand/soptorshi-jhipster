@@ -15,7 +15,7 @@ import { IVendorContactPerson } from 'app/shared/model/vendor-contact-person.mod
 
 @Injectable({ providedIn: 'root' })
 export class VendorContactPersonResolve implements Resolve<IVendorContactPerson> {
-    constructor(private service: VendorContactPersonService) {}
+    constructor(public service: VendorContactPersonService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IVendorContactPerson> {
         const id = route.params['id'] ? route.params['id'] : null;
