@@ -16,7 +16,7 @@ const ENTITY_STATES = [...productCategoryRoute, ...productCategoryPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /*declarations: [
         ProductCategoryComponent,
         ProductCategoryDetailComponent,
         ProductCategoryUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...productCategoryRoute, ...productCategoryPopupRoute];
         ProductCategoryUpdateComponent,
         ProductCategoryDeleteDialogComponent,
         ProductCategoryDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiProductCategoryModule {}

@@ -11,6 +11,8 @@ import {
     VendorExtendedUpdateDialogComponent,
     VendorExtendedUpdatedPopupComponent
 } from 'app/entities/vendor-extended/vendor-extended-update-dialog.component';
+import { SoptorshiVendorContactPersonExtendedModule } from 'app/entities/vendor-contact-person-extended/vendor-contact-person-extended.module';
+import { VendorContactPersonExtendedDirectiveComponent } from 'app/entities/vendor-contact-person-extended/vendor-contact-person-extended-directive.component';
 
 const ENTITY_STATES = [...vendorExtendedRoute, ...vendorExtendedPopupRoute];
 
@@ -23,7 +25,8 @@ const ENTITY_STATES = [...vendorExtendedRoute, ...vendorExtendedPopupRoute];
         VendorDeleteDialogComponent,
         VendorDeletePopupComponent,
         VendorExtendedUpdateDialogComponent,
-        VendorExtendedUpdatedPopupComponent
+        VendorExtendedUpdatedPopupComponent,
+        VendorContactPersonExtendedDirectiveComponent
     ],
     entryComponents: [
         VendorExtendedComponent,

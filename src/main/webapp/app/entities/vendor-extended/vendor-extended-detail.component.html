@@ -1,8 +1,7 @@
+
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="vendor">
-            <h2><span>Vendor</span> <b>{{vendor.companyName}}</b></h2>
-            <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
                 <dt><span>Company Name</span></dt>
@@ -22,7 +21,7 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                &nbsp;<span> Close</span>
             </button>
 
             <button type="button"
@@ -30,11 +29,15 @@
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
-            <button type="button"
-                    [routerLink]="['/vendor-contact-person', vendor.vendorId, 'vendor']"
-                    class="btn btn-secondary">
-                <fa-icon [icon]="'user'"></fa-icon>&nbsp;<span> Contact Persons</span>
-            </button>
         </div>
+    </div>
+</div>
+
+<br/>
+<hr/>
+<br/>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <jhi-vendor-contact-person-extended-directive *ngIf="vendor.id" [vendorId]="vendor.id" ></jhi-vendor-contact-person-extended-directive>
     </div>
 </div>

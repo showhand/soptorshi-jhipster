@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatTabsModule } from '@angular/material';
+import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-contact-person-extended';
 
 @NgModule({
     imports: [
@@ -350,11 +351,11 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'product-category',
-                loadChildren: './product-category/product-category.module#SoptorshiProductCategoryModule'
+                loadChildren: './product-category-extended/product-category-extended.module#SoptorshiProductCategoryExtendedModule'
             },
             {
                 path: 'product',
-                loadChildren: './product/product.module#SoptorshiProductModule'
+                loadChildren: './product-extended/product-extended.module#SoptorshiProductExtendedModule'
             },
             {
                 path: 'product-price',
