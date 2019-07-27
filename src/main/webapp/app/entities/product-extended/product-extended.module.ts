@@ -8,6 +8,7 @@ import { ProductExtendedUpdateComponent } from 'app/entities/product-extended/pr
 import { ProductExtendedComponent } from 'app/entities/product-extended/product-extended.component';
 import { ProductExtendedDetailComponent } from 'app/entities/product-extended/product-extended-detail.component';
 import { productExtendedPopupRoute, productExtendedRoute } from 'app/entities/product-extended/product-extended.route';
+import { ProductExtendedDirectiveComponent } from 'app/entities/product-extended/product-extended-directive.component';
 
 const ENTITY_STATES = [...productExtendedRoute, ...productExtendedPopupRoute];
 
@@ -18,9 +19,18 @@ const ENTITY_STATES = [...productExtendedRoute, ...productExtendedPopupRoute];
         ProductExtendedDetailComponent,
         ProductExtendedUpdateComponent,
         ProductDeleteDialogComponent,
-        ProductDeletePopupComponent
+        ProductDeletePopupComponent,
+        ProductExtendedDirectiveComponent
     ],
     entryComponents: [ProductExtendedComponent, ProductExtendedUpdateComponent, ProductDeleteDialogComponent, ProductDeletePopupComponent],
+    exports: [
+        ProductExtendedComponent,
+        ProductExtendedDetailComponent,
+        ProductExtendedUpdateComponent,
+        ProductDeleteDialogComponent,
+        ProductDeletePopupComponent,
+        ProductExtendedDirectiveComponent
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiProductExtendedModule {}

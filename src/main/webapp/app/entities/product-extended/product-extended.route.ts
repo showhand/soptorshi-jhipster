@@ -32,7 +32,7 @@ export class ProductExtendedResolve extends ProductResolve {
 
 export const productExtendedRoute: Routes = [
     {
-        path: '',
+        path: 'home',
         component: ProductExtendedComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
@@ -48,7 +48,7 @@ export const productExtendedRoute: Routes = [
         path: ':id/view',
         component: ProductExtendedDetailComponent,
         resolve: {
-            product: ProductResolve
+            product: ProductExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -60,7 +60,7 @@ export const productExtendedRoute: Routes = [
         path: 'new',
         component: ProductExtendedUpdateComponent,
         resolve: {
-            product: ProductResolve
+            product: ProductExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -72,7 +72,7 @@ export const productExtendedRoute: Routes = [
         path: ':id/edit',
         component: ProductExtendedUpdateComponent,
         resolve: {
-            product: ProductResolve
+            product: ProductExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -87,7 +87,7 @@ export const productExtendedPopupRoute: Routes = [
         path: ':id/delete',
         component: ProductDeletePopupComponent,
         resolve: {
-            product: ProductResolve
+            product: ProductExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

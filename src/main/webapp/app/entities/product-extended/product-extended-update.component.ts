@@ -3,6 +3,6 @@ import { ProductUpdateComponent } from 'app/entities/product';
 
 @Component({
     selector: 'jhi-product-update',
-    templateUrl: './product-update.component.html'
+    templateUrl: './product-extended-update.component.html'
 })
 export class ProductExtendedUpdateComponent extends ProductUpdateComponent {}

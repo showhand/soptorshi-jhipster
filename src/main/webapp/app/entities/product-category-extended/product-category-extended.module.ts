@@ -11,6 +11,8 @@ import {
 import { ProductCategoryExtendedUpdateComponent } from 'app/entities/product-category-extended/product-category-extended-update.component';
 import { ProductCategoryDeleteDialogComponent, ProductCategoryDeletePopupComponent } from 'app/entities/product-category';
 import { ProductCategoryExtendedCreateComponent } from 'app/entities/product-category-extended/product-category-extended-create.component';
+import { ProductExtendedDirectiveComponent } from 'app/entities/product-extended/product-extended-directive.component';
+import { SoptorshiProductExtendedModule } from 'app/entities/product-extended/product-extended.module';
 
 const ENTITY_STATES = [...productCategoryExtendedRoute, ...productCategoryExtendedPopupRoute];
 
