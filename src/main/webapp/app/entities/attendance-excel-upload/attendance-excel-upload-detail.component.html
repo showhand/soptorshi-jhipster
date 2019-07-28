@@ -1,0 +1,34 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="attendanceExcelUpload">
+            <h2><span>Attendance Excel Upload</span> {{attendanceExcelUpload.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>File</span></dt>
+                <dd>
+                    <div *ngIf="attendanceExcelUpload.file">
+                        <a (click)="openFile(attendanceExcelUpload.fileContentType, attendanceExcelUpload.file)">open</a>
+                        {{attendanceExcelUpload.fileContentType}}, {{byteSize(attendanceExcelUpload.file)}}
+                    </div>
+                </dd>
+                <dt><span>Type</span></dt>
+                <dd>
+                    <span>{{attendanceExcelUpload.type}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/attendance-excel-upload', attendanceExcelUpload.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

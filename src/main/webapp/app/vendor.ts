@@ -66,7 +66,9 @@ import {
     faCheck,
     faHistory,
     faSuperscript,
-    faCalculator
+    faCalculator,
+    faUserClock,
+    faFileExcel
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -131,6 +133,8 @@ library.add(faCheck);
 library.add(faHistory);
 library.add(faSuperscript);
 library.add(faCalculator);
+library.add(faUserClock);
+library.add(faFileExcel);
 
 import 'quill/dist/quill.js';
 import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';

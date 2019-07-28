@@ -319,7 +319,6 @@
                 </ul>
             </li>
 
-            </li>
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD','ROLE_PURCHASE_COMMITTEE', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
                 <a (click)="procurementManagement=!procurementManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
                      <span>
@@ -375,6 +374,44 @@
                     </li>
                 </ul>
 
+            </li>
+
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
+                <a (click)="attendanceManagement=!attendanceManagement" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
+                     <span>
+                        <fa-icon icon="user-clock" fixedWidth="true"></fa-icon>
+                        <span>
+                            Attendance Manag.
+                        </span>
+                    </span>
+                </a>
+                <ul [ngbCollapse]="!attendanceManagement" class="list-unstyled" id="attendance-management">
+                    <li>
+                        <a class="dropdown-item" routerLink="attendance-excel-upload" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN']">
+                            <fa-icon icon="file-excel" fixedWidth="true"></fa-icon>
+                            <span>Excel Upload</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="attendance" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
+                            <fa-icon icon="clock" fixedWidth="true"></fa-icon>
+                            <span>Attendance</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="attendance/my-attendance" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER', 'ROLE_USER']">
+                            <fa-icon icon="clock" fixedWidth="true"></fa-icon>
+                            <span>My Attendance</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
            <!-- <li>
                 <a href="#">About</a>
