@@ -1,43 +1,39 @@
-
 <div class="row justify-content-center">
     <div class="col-8">
-        <div *ngIf="vendor">
+        <div *ngIf="productCategory">
+            <h2><span>Product Category</span> <b>{{productCategory.name}}</b></h2>
+            <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Company Name</span></dt>
+                <dt><span>Name</span></dt>
                 <dd>
-                    <span>{{vendor.companyName}}</span>
+                    <span>{{productCategory.name}}</span>
                 </dd>
                 <dt><span>Description</span></dt>
                 <dd>
-                    <span>{{vendor.description}}</span>
-                </dd>
-                <dt><span>Remarks</span></dt>
-                <dd>
-                    <span>{{vendor.remarks}}</span>
+                    <span>{{productCategory.description}}</span>
                 </dd>
             </dl>
 
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                &nbsp;<span> Close</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
 
             <button type="button"
-                    [routerLink]="['/vendor', vendor.id, 'edit']"
+                    [routerLink]="['/product-category', productCategory.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
         </div>
     </div>
 </div>
-
-<br/>
-<hr/>
-<br/>
+<br>
+<br>
+<hr>
 <div class="row justify-content-center">
     <div class="col-8">
-        <jhi-vendor-contact-person-extended-directive *ngIf="vendor.id" [vendorId]="vendor.id" ></jhi-vendor-contact-person-extended-directive>
+        <jhi-product-extended-directive [productCategoryId]="productCategory.id"></jhi-product-extended-directive>
     </div>
 </div>

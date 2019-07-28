@@ -28,6 +28,7 @@ const ENTITY_STATES = [...vendorContactPersonExtendedRoute, ...vendorContactPers
         VendorContactPersonDeleteDialogComponent,
         VendorContactPersonDeletePopupComponent
     ],
+    exports: [VendorContactPersonExtendedComponent, VendorContactPersonExtendedUpdateComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiVendorContactPersonExtendedModule {}

@@ -6,16 +6,17 @@ import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Product } from 'app/shared/model/product.model';
-import { ProductService } from './product.service';
-import { ProductComponent } from './product.component';
-import { ProductDetailComponent } from './product-detail.component';
-import { ProductUpdateComponent } from './product-update.component';
-import { ProductDeletePopupComponent } from './product-delete-dialog.component';
 import { IProduct } from 'app/shared/model/product.model';
+import { ProductDeletePopupComponent, ProductResolve, ProductService } from 'app/entities/product';
+import { ProductExtendedComponent } from 'app/entities/product-extended/product-extended.component';
+import { ProductExtendedDetailComponent } from 'app/entities/product-extended/product-extended-detail.component';
+import { ProductExtendedUpdateComponent } from 'app/entities/product-extended/product-extended-update.component';
 
 @Injectable({ providedIn: 'root' })
-export class ProductResolve implements Resolve<IProduct> {
-    constructor(public service: ProductService) {}
+export class ProductExtendedResolve extends ProductResolve {
+    constructor(public service: ProductService) {
+        super(service);
+    }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IProduct> {
         const id = route.params['id'] ? route.params['id'] : null;
@@ -29,10 +30,10 @@ export class ProductResolve implements Resolve<IProduct> {
     }
 }
 
-export const productRoute: Routes = [
+export const productExtendedRoute: Routes = [
     {
-        path: '',
-        component: ProductComponent,
+        path: 'home',
+        component: ProductExtendedComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
@@ -45,9 +46,9 @@ export const productRoute: Routes = [
     },
     {
         path: ':id/view',
-        component: ProductDetailComponent,
+        component: ProductExtendedDetailComponent,
         resolve: {
-            product: ProductResolve
+            product: ProductExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -57,9 +58,9 @@ export const productRoute: Routes = [
     },
     {
         path: 'new',
-        component: ProductUpdateComponent,
+        component: ProductExtendedUpdateComponent,
         resolve: {
-            product: ProductResolve
+            product: ProductExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -69,9 +70,9 @@ export const productRoute: Routes = [
     },
     {
         path: ':id/edit',
-        component: ProductUpdateComponent,
+        component: ProductExtendedUpdateComponent,
         resolve: {
-            product: ProductResolve
+            product: ProductExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -81,12 +82,12 @@ export const productRoute: Routes = [
     }
 ];
 
-export const productPopupRoute: Routes = [
+export const productExtendedPopupRoute: Routes = [
     {
         path: ':id/delete',
         component: ProductDeletePopupComponent,
         resolve: {
-            product: ProductResolve
+            product: ProductExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

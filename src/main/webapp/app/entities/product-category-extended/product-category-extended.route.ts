@@ -6,16 +6,18 @@ import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ProductCategory } from 'app/shared/model/product-category.model';
-import { ProductCategoryService } from './product-category.service';
-import { ProductCategoryComponent } from './product-category.component';
-import { ProductCategoryDetailComponent } from './product-category-detail.component';
-import { ProductCategoryUpdateComponent } from './product-category-update.component';
-import { ProductCategoryDeletePopupComponent } from './product-category-delete-dialog.component';
 import { IProductCategory } from 'app/shared/model/product-category.model';
+import { ProductCategoryDeletePopupComponent, ProductCategoryResolve, ProductCategoryService } from 'app/entities/product-category';
+import { ProductCategoryExtendedComponent } from 'app/entities/product-category-extended/product-category-extended.component';
+import { ProductCategoryExtendedDetailComponent } from 'app/entities/product-category-extended/product-category-extended-detail.component';
+import { ProductCategoryExtendedUpdateComponent } from 'app/entities/product-category-extended/product-category-extended-update.component';
+import { ProductCategoryExtendedCreateComponent } from 'app/entities/product-category-extended/product-category-extended-create.component';
 
 @Injectable({ providedIn: 'root' })
-export class ProductCategoryResolve implements Resolve<IProductCategory> {
-    constructor(public service: ProductCategoryService) {}
+export class ProductCategoryExtendedResolve extends ProductCategoryResolve {
+    constructor(public service: ProductCategoryService) {
+        super(service);
+    }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IProductCategory> {
         const id = route.params['id'] ? route.params['id'] : null;
@@ -29,10 +31,10 @@ export class ProductCategoryResolve implements Resolve<IProductCategory> {
     }
 }
 
-export const productCategoryRoute: Routes = [
+export const productCategoryExtendedRoute: Routes = [
     {
         path: '',
-        component: ProductCategoryComponent,
+        component: ProductCategoryExtendedComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
@@ -45,9 +47,9 @@ export const productCategoryRoute: Routes = [
     },
     {
         path: ':id/view',
-        component: ProductCategoryDetailComponent,
+        component: ProductCategoryExtendedDetailComponent,
         resolve: {
-            productCategory: ProductCategoryResolve
+            productCategory: ProductCategoryExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -57,9 +59,9 @@ export const productCategoryRoute: Routes = [
     },
     {
         path: 'new',
-        component: ProductCategoryUpdateComponent,
+        component: ProductCategoryExtendedCreateComponent,
         resolve: {
-            productCategory: ProductCategoryResolve
+            productCategory: ProductCategoryExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -69,9 +71,9 @@ export const productCategoryRoute: Routes = [
     },
     {
         path: ':id/edit',
-        component: ProductCategoryUpdateComponent,
+        component: ProductCategoryExtendedUpdateComponent,
         resolve: {
-            productCategory: ProductCategoryResolve
+            productCategory: ProductCategoryExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -81,12 +83,12 @@ export const productCategoryRoute: Routes = [
     }
 ];
 
-export const productCategoryPopupRoute: Routes = [
+export const productCategoryExtendedPopupRoute: Routes = [
     {
         path: ':id/delete',
         component: ProductCategoryDeletePopupComponent,
         resolve: {
-            productCategory: ProductCategoryResolve
+            productCategory: ProductCategoryExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

@@ -6,6 +6,7 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { IVendorContactPerson } from 'app/shared/model/vendor-contact-person.model';
 import { VendorContactPersonService } from './vendor-contact-person.service';
+import { StateStorageService } from 'app/core';
 
 @Component({
     selector: 'jhi-vendor-contact-person-delete-dialog',
@@ -42,7 +43,12 @@ export class VendorContactPersonDeleteDialogComponent {
 export class VendorContactPersonDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
-    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
+    constructor(
+        protected activatedRoute: ActivatedRoute,
+        protected router: Router,
+        protected modalService: NgbModal,
+        protected stateStorageService: StateStorageService
+    ) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ vendorContactPerson }) => {
@@ -52,6 +58,7 @@ export class VendorContactPersonDeletePopupComponent implements OnInit, OnDestro
                     backdrop: 'static'
                 });
                 this.ngbModalRef.componentInstance.vendorContactPerson = vendorContactPerson;
+                const redirect = this.stateStorageService.getUrl();
                 this.ngbModalRef.result.then(
                     result => {
                         this.router.navigate(['/vendor-contact-person', { outlets: { popup: null } }]);
