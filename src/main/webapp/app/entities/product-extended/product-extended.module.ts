@@ -9,6 +9,7 @@ import { ProductExtendedComponent } from 'app/entities/product-extended/product-
 import { ProductExtendedDetailComponent } from 'app/entities/product-extended/product-extended-detail.component';
 import { productExtendedPopupRoute, productExtendedRoute } from 'app/entities/product-extended/product-extended.route';
 import { ProductExtendedDirectiveComponent } from 'app/entities/product-extended/product-extended-directive.component';
+import { ProductExtendedCategoryWiseComponent } from 'app/entities/product-extended/product-extended-category-wise.component';
 
 const ENTITY_STATES = [...productExtendedRoute, ...productExtendedPopupRoute];
 
@@ -20,7 +21,8 @@ const ENTITY_STATES = [...productExtendedRoute, ...productExtendedPopupRoute];
         ProductExtendedUpdateComponent,
         ProductDeleteDialogComponent,
         ProductDeletePopupComponent,
-        ProductExtendedDirectiveComponent
+        ProductExtendedDirectiveComponent,
+        ProductExtendedCategoryWiseComponent
     ],
     entryComponents: [ProductExtendedComponent, ProductExtendedUpdateComponent, ProductDeleteDialogComponent, ProductDeletePopupComponent],
     exports: [
@@ -29,7 +31,8 @@ const ENTITY_STATES = [...productExtendedRoute, ...productExtendedPopupRoute];
         ProductExtendedUpdateComponent,
         ProductDeleteDialogComponent,
         ProductDeletePopupComponent,
-        ProductExtendedDirectiveComponent
+        ProductExtendedDirectiveComponent,
+        ProductExtendedCategoryWiseComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
