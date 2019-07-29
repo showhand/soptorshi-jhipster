@@ -429,6 +429,14 @@ import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-
             {
                 path: 'purchase-order',
                 loadChildren: './purchase-order/purchase-order.module#SoptorshiPurchaseOrderModule'
+            },
+            {
+                path: 'attendance-excel-upload',
+                loadChildren: './attendance-excel-upload/attendance-excel-upload.module#SoptorshiAttendanceExcelUploadModule'
+            },
+            {
+                path: 'attendance',
+                loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

@@ -19,6 +19,7 @@ export class JhiMainComponent implements OnInit {
     payrollManagement: any;
     procurementManagement: any;
     leaveManagement: any;
+    attendanceManagement: any;
     isDesktop: boolean;
     breadcrumbs: MenuItem[];
 
