@@ -89,6 +89,18 @@ export const productExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: ':productCategoryId/new',
+        component: ProductExtendedUpdateComponent,
+        resolve: {
+            product: ProductExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Products'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/edit',
         component: ProductExtendedUpdateComponent,
         resolve: {

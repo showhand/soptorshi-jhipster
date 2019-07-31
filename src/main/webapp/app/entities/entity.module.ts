@@ -363,7 +363,7 @@ import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-
             },
             {
                 path: 'requisition',
-                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
+                loadChildren: './requisition-extended/requisition-extended.module#SoptorshiRequisitionExtendedModule'
             },
             {
                 path: 'requisition-details',
@@ -386,10 +386,6 @@ import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-
                 loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
             },
             {
-                path: 'requisition',
-                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
-            },
-            {
                 path: 'quotation-details',
                 loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
             },
@@ -397,10 +393,6 @@ import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-
                 path: 'vendor-contact-person',
                 loadChildren:
                     './vendor-contact-person-extended/vendor-contact-person-extended.module#SoptorshiVendorContactPersonExtendedModule'
-            },
-            {
-                path: 'requisition',
-                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
             },
             {
                 path: 'quotation',

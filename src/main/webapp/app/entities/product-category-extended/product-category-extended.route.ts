@@ -40,7 +40,7 @@ export const productCategoryExtendedRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            defaultSort: 'id,asc',
+            defaultSort: 'id,desc',
             pageTitle: 'ProductCategories'
         },
         canActivate: [UserRouteAccessService]
