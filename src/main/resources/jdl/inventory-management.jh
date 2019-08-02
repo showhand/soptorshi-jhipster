@@ -1,0 +1,108 @@
+entity Manufacturer {
+	Name String required,
+    Contact String,
+    Email String,
+    Address String,
+    Description String,
+    Remarks String
+}
+
+entity ItemCategory {
+	Name String required,
+    ShortName String,
+    Description String
+}
+
+entity ItemSubCategory {
+	Name String required,
+    ShortName String,
+    Description String
+}
+
+entity InventoryLocation {
+	Name String required,
+    ShortName String,
+    description String
+}
+
+entity InventorySubLocation {
+    Category InventorySubLocationCategory required,
+    Name String required,
+    ShortName String,
+    description String
+}
+
+entity StockInProcess {
+	TotalQuantity Double required,
+    Unit ItemUnit required,
+    UnitPrice Double required,
+    TotalContainer Integer required,
+    ContainerCategory ContainerCategory required,
+    ContainerTrackingId String required,
+    ItemPerContainer String required,
+    ExpiryDate LocalDate,
+    StockInBy String,
+    StockInDate Instant,
+    PurchaseOrderId String,
+    Remarks String
+}
+
+entity StockInItem {
+	Quantity Double required,
+	Unit ItemUnit required,
+    Price Double required,
+    ContainerCategory ContainerCategory required,
+    ContainerTrackingId String required,
+    ExpiryDate LocalDate,
+    StockInBy String,
+    StockInDate Instant,
+    PurchaseOrderId String,
+    Remarks String
+}
+
+entity StockOutItem {
+    ContainerTrackingId String required,
+    Quantity Double required,
+    StockOutBy String,
+    StockOutDate Instant,
+    ReceiverId String,
+    Remarks String
+}
+
+enum InventorySubLocationCategory{
+    SHELF, FREEZER, OTHERS
+}
+
+enum ContainerCategory {
+	BOTTLE, DRUM, PACKET, SACK
+}
+
+enum ItemUnit {
+	KG, PCS, LITER, DOZEN
+}
+
+relationship ManyToOne {
+	ItemSubCategory{itemCategories(name)} to ItemCategory
+    InventorySubLocation{inventoryLocation(name)} to InventoryLocation
+    StockInProcess{itemCategories(name)} to ItemCategory
+    StockInProcess{itemSubCategories(name)} to ItemSubCategory
+    StockInProcess{inventoryLocations(Name)} to InventoryLocation
+    StockInProcess{inventorySubLocations(Name)} to InventorySubLocation
+	StockInProcess{manufacturers(name)} to Manufacturer
+    StockInItem{itemCategories(name)} to ItemCategory
+    StockInItem{itemSubCategories(name)} to ItemSubCategory
+    StockInItem{inventoryLocations(Name)} to InventoryLocation
+    StockInItem{inventorySubLocations(Name)} to InventorySubLocation
+    StockInItem{manufacturers(name)} to Manufacturer
+    StockInItem{stockInProcesses(id)} to StockInProcess
+    StockOutItem{itemCategories(name)} to ItemCategory
+    StockOutItem{itemSubCategories(name)} to ItemSubCategory
+    StockOutItem{inventoryLocations(Name)} to InventoryLocation
+    StockOutItem{inventorySubLocations(Name)} to InventorySubLocation
+    StockOutItem{stockInItems(id)} to StockInItem
+}
+
+paginate * with infinite-scroll
+dto * with mapstruct
+filter all
+service all with serviceImpl
