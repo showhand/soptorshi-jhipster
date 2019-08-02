@@ -32,6 +32,7 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
     offices: IOffice[];
 
     productcategories: IProductCategory[];
+    productCategory: IProductCategory;
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -97,6 +98,12 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
                 map((response: HttpResponse<IProductCategory[]>) => response.body)
             )
             .subscribe((res: IProductCategory[]) => (this.productcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+
+        if (this.requisition.productCategoryId) {
+            this.productCategoryService.find(this.requisition.productCategoryId).subscribe((res: HttpResponse<IProductCategory>) => {
+                this.productCategory = res.body;
+            });
+        }
         this.departmentService
             .query()
             .pipe(
@@ -104,6 +111,17 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
                 map((response: HttpResponse<IDepartment[]>) => response.body)
             )
             .subscribe((res: IDepartment[]) => (this.departments = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    filterProductCategories(event) {
+        this.productCategoryService
+            .query({
+                'name.contains': event.query.toString()
+            })
+            .subscribe((res: HttpResponse<IProductCategory[]>) => {
+                this.productcategories = [];
+                this.productcategories = res.body;
+            });
     }
 
     generateRequisitionNo() {
@@ -131,6 +149,7 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
 
     save() {
         this.isSaving = true;
+        if (this.productCategory) this.requisition.productCategoryId = this.productCategory.id;
         if (this.requisition.id !== undefined) {
             this.subscribeToSaveResponse(this.requisitionService.update(this.requisition));
         } else {
