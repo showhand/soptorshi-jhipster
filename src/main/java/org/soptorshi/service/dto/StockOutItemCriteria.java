@@ -1,0 +1,207 @@
+package org.soptorshi.service.dto;
+
+import java.io.Serializable;
+import java.util.Objects;
+import io.github.jhipster.service.filter.BooleanFilter;
+import io.github.jhipster.service.filter.DoubleFilter;
+import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.FloatFilter;
+import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.LongFilter;
+import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.InstantFilter;
+
+/**
+ * Criteria class for the StockOutItem entity. This class is used in StockOutItemResource to
+ * receive all the possible filtering options from the Http GET request parameters.
+ * For example the following could be a valid requests:
+ * <code> /stock-out-items?id.greaterThan=5&amp;attr1.contains=something&amp;attr2.specified=false</code>
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
+ * fix type specific filters.
+ */
+public class StockOutItemCriteria implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private LongFilter id;
+
+    private StringFilter containerTrackingId;
+
+    private DoubleFilter quantity;
+
+    private StringFilter stockOutBy;
+
+    private InstantFilter stockOutDate;
+
+    private StringFilter receiverId;
+
+    private StringFilter remarks;
+
+    private LongFilter itemCategoriesId;
+
+    private LongFilter itemSubCategoriesId;
+
+    private LongFilter inventoryLocationsId;
+
+    private LongFilter inventorySubLocationsId;
+
+    private LongFilter stockInItemsId;
+
+    public LongFilter getId() {
+        return id;
+    }
+
+    public void setId(LongFilter id) {
+        this.id = id;
+    }
+
+    public StringFilter getContainerTrackingId() {
+        return containerTrackingId;
+    }
+
+    public void setContainerTrackingId(StringFilter containerTrackingId) {
+        this.containerTrackingId = containerTrackingId;
+    }
+
+    public DoubleFilter getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(DoubleFilter quantity) {
+        this.quantity = quantity;
+    }
+
+    public StringFilter getStockOutBy() {
+        return stockOutBy;
+    }
+
+    public void setStockOutBy(StringFilter stockOutBy) {
+        this.stockOutBy = stockOutBy;
+    }
+
+    public InstantFilter getStockOutDate() {
+        return stockOutDate;
+    }
+
+    public void setStockOutDate(InstantFilter stockOutDate) {
+        this.stockOutDate = stockOutDate;
+    }
+
+    public StringFilter getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(StringFilter receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    public StringFilter getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(StringFilter remarks) {
+        this.remarks = remarks;
+    }
+
+    public LongFilter getItemCategoriesId() {
+        return itemCategoriesId;
+    }
+
+    public void setItemCategoriesId(LongFilter itemCategoriesId) {
+        this.itemCategoriesId = itemCategoriesId;
+    }
+
+    public LongFilter getItemSubCategoriesId() {
+        return itemSubCategoriesId;
+    }
+
+    public void setItemSubCategoriesId(LongFilter itemSubCategoriesId) {
+        this.itemSubCategoriesId = itemSubCategoriesId;
+    }
+
+    public LongFilter getInventoryLocationsId() {
+        return inventoryLocationsId;
+    }
+
+    public void setInventoryLocationsId(LongFilter inventoryLocationsId) {
+        this.inventoryLocationsId = inventoryLocationsId;
+    }
+
+    public LongFilter getInventorySubLocationsId() {
+        return inventorySubLocationsId;
+    }
+
+    public void setInventorySubLocationsId(LongFilter inventorySubLocationsId) {
+        this.inventorySubLocationsId = inventorySubLocationsId;
+    }
+
+    public LongFilter getStockInItemsId() {
+        return stockInItemsId;
+    }
+
+    public void setStockInItemsId(LongFilter stockInItemsId) {
+        this.stockInItemsId = stockInItemsId;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final StockOutItemCriteria that = (StockOutItemCriteria) o;
+        return
+            Objects.equals(id, that.id) &&
+            Objects.equals(containerTrackingId, that.containerTrackingId) &&
+            Objects.equals(quantity, that.quantity) &&
+            Objects.equals(stockOutBy, that.stockOutBy) &&
+            Objects.equals(stockOutDate, that.stockOutDate) &&
+            Objects.equals(receiverId, that.receiverId) &&
+            Objects.equals(remarks, that.remarks) &&
+            Objects.equals(itemCategoriesId, that.itemCategoriesId) &&
+            Objects.equals(itemSubCategoriesId, that.itemSubCategoriesId) &&
+            Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
+            Objects.equals(inventorySubLocationsId, that.inventorySubLocationsId) &&
+            Objects.equals(stockInItemsId, that.stockInItemsId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+        id,
+        containerTrackingId,
+        quantity,
+        stockOutBy,
+        stockOutDate,
+        receiverId,
+        remarks,
+        itemCategoriesId,
+        itemSubCategoriesId,
+        inventoryLocationsId,
+        inventorySubLocationsId,
+        stockInItemsId
+        );
+    }
+
+    @Override
+    public String toString() {
+        return "StockOutItemCriteria{" +
+                (id != null ? "id=" + id + ", " : "") +
+                (containerTrackingId != null ? "containerTrackingId=" + containerTrackingId + ", " : "") +
+                (quantity != null ? "quantity=" + quantity + ", " : "") +
+                (stockOutBy != null ? "stockOutBy=" + stockOutBy + ", " : "") +
+                (stockOutDate != null ? "stockOutDate=" + stockOutDate + ", " : "") +
+                (receiverId != null ? "receiverId=" + receiverId + ", " : "") +
+                (remarks != null ? "remarks=" + remarks + ", " : "") +
+                (itemCategoriesId != null ? "itemCategoriesId=" + itemCategoriesId + ", " : "") +
+                (itemSubCategoriesId != null ? "itemSubCategoriesId=" + itemSubCategoriesId + ", " : "") +
+                (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +
+                (inventorySubLocationsId != null ? "inventorySubLocationsId=" + inventorySubLocationsId + ", " : "") +
+                (stockInItemsId != null ? "stockInItemsId=" + stockInItemsId + ", " : "") +
+            "}";
+    }
+
+}

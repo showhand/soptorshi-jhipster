@@ -1,0 +1,109 @@
+<div>
+    <h2 id="page-heading">
+        <span>Stock Out Items</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-stock-out-item" [routerLink]="['/stock-out-item/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Create new Stock Out Item
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="stockOutItems">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="containerTrackingId"><span>Container Tracking Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="stockOutBy"><span>Stock Out By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="stockOutDate"><span>Stock Out Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="receiverId"><span>Receiver Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="itemCategoriesName"><span>Item Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="itemSubCategoriesName"><span>Item Sub Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="stockInItemsId"><span>Stock In Items</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let stockOutItem of stockOutItems ;trackBy: trackId">
+                <td><a [routerLink]="['/stock-out-item', stockOutItem.id, 'view' ]">{{stockOutItem.id}}</a></td>
+                <td>{{stockOutItem.containerTrackingId}}</td>
+                <td>{{stockOutItem.quantity}}</td>
+                <td>{{stockOutItem.stockOutBy}}</td>
+                <td>{{stockOutItem.stockOutDate | date:'medium'}}</td>
+                <td>{{stockOutItem.receiverId}}</td>
+                <td>{{stockOutItem.remarks}}</td>
+                <td>
+                    <div *ngIf="stockOutItem.itemCategoriesId">
+                        <a [routerLink]="['../item-category', stockOutItem.itemCategoriesId , 'view' ]" >{{stockOutItem.itemCategoriesName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="stockOutItem.itemSubCategoriesId">
+                        <a [routerLink]="['../item-sub-category', stockOutItem.itemSubCategoriesId , 'view' ]" >{{stockOutItem.itemSubCategoriesName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="stockOutItem.inventoryLocationsId">
+                        <a [routerLink]="['../inventory-location', stockOutItem.inventoryLocationsId , 'view' ]" >{{stockOutItem.inventoryLocationsName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="stockOutItem.inventorySubLocationsId">
+                        <a [routerLink]="['../inventory-sub-location', stockOutItem.inventorySubLocationsId , 'view' ]" >{{stockOutItem.inventorySubLocationsName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="stockOutItem.stockInItemsId">
+                        <a [routerLink]="['../stock-in-item', stockOutItem.stockInItemsId , 'view' ]" >{{stockOutItem.stockInItemsId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/stock-out-item', stockOutItem.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/stock-out-item', stockOutItem.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'stock-out-item', { outlets: { popup: stockOutItem.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

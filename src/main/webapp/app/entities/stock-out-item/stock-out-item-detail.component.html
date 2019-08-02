@@ -1,0 +1,77 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="stockOutItem">
+            <h2><span>Stock Out Item</span> {{stockOutItem.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Container Tracking Id</span></dt>
+                <dd>
+                    <span>{{stockOutItem.containerTrackingId}}</span>
+                </dd>
+                <dt><span>Quantity</span></dt>
+                <dd>
+                    <span>{{stockOutItem.quantity}}</span>
+                </dd>
+                <dt><span>Stock Out By</span></dt>
+                <dd>
+                    <span>{{stockOutItem.stockOutBy}}</span>
+                </dd>
+                <dt><span>Stock Out Date</span></dt>
+                <dd>
+                    <span>{{stockOutItem.stockOutDate}}</span>
+                </dd>
+                <dt><span>Receiver Id</span></dt>
+                <dd>
+                    <span>{{stockOutItem.receiverId}}</span>
+                </dd>
+                <dt><span>Remarks</span></dt>
+                <dd>
+                    <span>{{stockOutItem.remarks}}</span>
+                </dd>
+                <dt><span>Item Categories</span></dt>
+                <dd>
+                    <div *ngIf="stockOutItem.itemCategoriesId">
+                        <a [routerLink]="['/item-category', stockOutItem.itemCategoriesId, 'view']">{{stockOutItem.itemCategoriesName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Item Sub Categories</span></dt>
+                <dd>
+                    <div *ngIf="stockOutItem.itemSubCategoriesId">
+                        <a [routerLink]="['/item-sub-category', stockOutItem.itemSubCategoriesId, 'view']">{{stockOutItem.itemSubCategoriesName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Inventory Locations</span></dt>
+                <dd>
+                    <div *ngIf="stockOutItem.inventoryLocationsId">
+                        <a [routerLink]="['/inventory-location', stockOutItem.inventoryLocationsId, 'view']">{{stockOutItem.inventoryLocationsName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Inventory Sub Locations</span></dt>
+                <dd>
+                    <div *ngIf="stockOutItem.inventorySubLocationsId">
+                        <a [routerLink]="['/inventory-sub-location', stockOutItem.inventorySubLocationsId, 'view']">{{stockOutItem.inventorySubLocationsName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Stock In Items</span></dt>
+                <dd>
+                    <div *ngIf="stockOutItem.stockInItemsId">
+                        <a [routerLink]="['/stock-in-item', stockOutItem.stockInItemsId, 'view']">{{stockOutItem.stockInItemsId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/stock-out-item', stockOutItem.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

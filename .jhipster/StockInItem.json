@@ -1,0 +1,115 @@
+{
+    "name": "StockInItem",
+    "fields": [
+        {
+            "fieldName": "quantity",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "unit",
+            "fieldType": "ItemUnit",
+            "fieldValues": "KG,PCS,LITER,DOZEN",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "price",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "containerCategory",
+            "fieldType": "ContainerCategory",
+            "fieldValues": "BOTTLE,DRUM,PACKET,SACK",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "containerTrackingId",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "expiryDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "stockInBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "stockInDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "purchaseOrderId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "remarks",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "itemCategory",
+            "otherEntityRelationshipName": "stockInItem",
+            "relationshipName": "itemCategories",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "itemSubCategory",
+            "otherEntityRelationshipName": "stockInItem",
+            "relationshipName": "itemSubCategories",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "inventoryLocation",
+            "otherEntityRelationshipName": "stockInItem",
+            "relationshipName": "inventoryLocations",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "inventorySubLocation",
+            "otherEntityRelationshipName": "stockInItem",
+            "relationshipName": "inventorySubLocations",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "manufacturer",
+            "otherEntityRelationshipName": "stockInItem",
+            "relationshipName": "manufacturers",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "stockInProcess",
+            "otherEntityRelationshipName": "stockInItem",
+            "relationshipName": "stockInProcesses",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190802061702",
+    "entityTableName": "stock_in_item",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -429,6 +429,38 @@ import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-
             {
                 path: 'attendance',
                 loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
+            },
+            {
+                path: 'manufacturer',
+                loadChildren: './manufacturer/manufacturer.module#SoptorshiManufacturerModule'
+            },
+            {
+                path: 'item-category',
+                loadChildren: './item-category/item-category.module#SoptorshiItemCategoryModule'
+            },
+            {
+                path: 'item-sub-category',
+                loadChildren: './item-sub-category/item-sub-category.module#SoptorshiItemSubCategoryModule'
+            },
+            {
+                path: 'inventory-location',
+                loadChildren: './inventory-location/inventory-location.module#SoptorshiInventoryLocationModule'
+            },
+            {
+                path: 'inventory-sub-location',
+                loadChildren: './inventory-sub-location/inventory-sub-location.module#SoptorshiInventorySubLocationModule'
+            },
+            {
+                path: 'stock-in-process',
+                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
+            },
+            {
+                path: 'stock-in-item',
+                loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
+            },
+            {
+                path: 'stock-out-item',
+                loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
