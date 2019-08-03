@@ -367,7 +367,7 @@ import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-
             },
             {
                 path: 'requisition-details',
-                loadChildren: './requisition-details/requisition-details.module#SoptorshiRequisitionDetailsModule'
+                loadChildren: './requisition-details-extended/requisition-details-extended.module#SoptorshiRequisitionDetailsExtendedModule'
             },
             {
                 path: 'quotation',
@@ -405,10 +405,6 @@ import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-
             {
                 path: 'terms-and-conditions',
                 loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
-            },
-            {
-                path: 'requisition-details',
-                loadChildren: './requisition-details/requisition-details.module#SoptorshiRequisitionDetailsModule'
             },
             {
                 path: 'quotation',

@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="requisition">
-            <h2><span>Requisition</span> {{requisition.id}}</h2>
+            <h2><span>Requisition</span> <b>{{requisition.requisitionNo}}</b></h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -82,7 +82,7 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back to Requisitions</span>
             </button>
 
             <button type="button"
@@ -93,7 +93,7 @@
             <button type="button"
                     [routerLink]="['/requisition-details', requisition.requisitionId, 'requisition']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Requisition Details</span>
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Requisition Products</span>
             </button>
             <button type="button"
                     [routerLink]="['/quotation', requisition.requisitionId, 'requisition']"

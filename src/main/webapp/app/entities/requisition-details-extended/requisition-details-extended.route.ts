@@ -6,17 +6,23 @@ import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { RequisitionDetails } from 'app/shared/model/requisition-details.model';
-import { RequisitionDetailsService } from './requisition-details.service';
-import { RequisitionDetailsComponent } from './requisition-details.component';
-import { RequisitionDetailsDetailComponent } from './requisition-details-detail.component';
-import { RequisitionDetailsUpdateComponent } from './requisition-details-update.component';
-import { RequisitionDetailsDeletePopupComponent } from './requisition-details-delete-dialog.component';
+
 import { IRequisitionDetails } from 'app/shared/model/requisition-details.model';
 import { Requisition } from 'app/shared/model/requisition.model';
+import {
+    RequisitionDetailsDeletePopupComponent,
+    RequisitionDetailsResolve,
+    RequisitionDetailsService
+} from 'app/entities/requisition-details';
+import { RequisitionDetailsExtendedComponent } from 'app/entities/requisition-details-extended/requisition-details-extended.component';
+import { RequisitionDetailsExtendedDetailComponent } from 'app/entities/requisition-details-extended/requisition-details-extended-detail.component';
+import { RequisitionDetailsExtendedUpdateComponent } from 'app/entities/requisition-details-extended/requisition-details-extended-update.component';
 
 @Injectable({ providedIn: 'root' })
-export class RequisitionDetailsResolve implements Resolve<IRequisitionDetails> {
-    constructor(public service: RequisitionDetailsService) {}
+export class RequisitionDetailsExtendedResolve extends RequisitionDetailsResolve {
+    constructor(public service: RequisitionDetailsService) {
+        super(service);
+    }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IRequisitionDetails> {
         const id = route.params['id'] ? route.params['id'] : null;
@@ -35,10 +41,10 @@ export class RequisitionDetailsResolve implements Resolve<IRequisitionDetails> {
     }
 }
 
-export const requisitionDetailsRoute: Routes = [
+export const requisitionDetailsExtendedRoute: Routes = [
     {
         path: '',
-        component: RequisitionDetailsComponent,
+        component: RequisitionDetailsExtendedComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
@@ -51,10 +57,10 @@ export const requisitionDetailsRoute: Routes = [
     },
     {
         path: ':requisitionId/requisition',
-        component: RequisitionDetailsComponent,
+        component: RequisitionDetailsExtendedComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams,
-            requisitionDetails: RequisitionDetailsResolve
+            requisitionDetails: RequisitionDetailsExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -65,9 +71,9 @@ export const requisitionDetailsRoute: Routes = [
     },
     {
         path: ':id/view',
-        component: RequisitionDetailsDetailComponent,
+        component: RequisitionDetailsExtendedDetailComponent,
         resolve: {
-            requisitionDetails: RequisitionDetailsResolve
+            requisitionDetails: RequisitionDetailsExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -77,9 +83,9 @@ export const requisitionDetailsRoute: Routes = [
     },
     {
         path: ':requisitionId/new',
-        component: RequisitionDetailsUpdateComponent,
+        component: RequisitionDetailsExtendedUpdateComponent,
         resolve: {
-            requisitionDetails: RequisitionDetailsResolve
+            requisitionDetails: RequisitionDetailsExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -89,9 +95,9 @@ export const requisitionDetailsRoute: Routes = [
     },
     {
         path: 'new',
-        component: RequisitionDetailsUpdateComponent,
+        component: RequisitionDetailsExtendedUpdateComponent,
         resolve: {
-            requisitionDetails: RequisitionDetailsResolve
+            requisitionDetails: RequisitionDetailsExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -101,9 +107,9 @@ export const requisitionDetailsRoute: Routes = [
     },
     {
         path: ':id/edit',
-        component: RequisitionDetailsUpdateComponent,
+        component: RequisitionDetailsExtendedUpdateComponent,
         resolve: {
-            requisitionDetails: RequisitionDetailsResolve
+            requisitionDetails: RequisitionDetailsExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -113,12 +119,12 @@ export const requisitionDetailsRoute: Routes = [
     }
 ];
 
-export const requisitionDetailsPopupRoute: Routes = [
+export const requisitionDetailsExtendedPopupRoute: Routes = [
     {
         path: ':id/delete',
         component: RequisitionDetailsDeletePopupComponent,
         resolve: {
-            requisitionDetails: RequisitionDetailsResolve
+            requisitionDetails: RequisitionDetailsExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

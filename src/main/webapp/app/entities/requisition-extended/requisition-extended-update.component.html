@@ -1,7 +1,16 @@
+<style>
+    span.ui-autocomplete {
+        display: block;
+        white-space: nowrap;
+    }
+</style>
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-requisition-heading">Create or edit a Requisition</h2>
+            <h2 id="jhi-requisition-heading" >
+                <p *ngIf="requisition.id">Update  Requisition <b>{{requisition.requisitionNo}}</b></p>
+                <p *ngIf="!requisition.id">Create a Requisition</p>
+            </h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group">
@@ -11,10 +20,8 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_productCategory">Product Category</label>
-                    <select class="form-control" id="field_productCategory" name="productCategory" [(ngModel)]="requisition.productCategoryId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
-                    </select>
+                    <!--[style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"-->
+                    <p-autoComplete id="field_productCategory" inputStyleClass="form-control" appendTo="body"   [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"  [(ngModel)]="productCategory" [immutable]="false"  name="product cagetory" [suggestions]="productcategories" field="name" (completeMethod)="filterProductCategories($event)"  [minLength]="1" #autoComplete (onFocus)="  autoComplete.handleDropdownClick()" ></p-autoComplete>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_reason">Reason</label>
