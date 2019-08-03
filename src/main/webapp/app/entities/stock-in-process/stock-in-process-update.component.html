@@ -117,7 +117,9 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_containerTrackingId">Container Tracking Id (Comma Separated)</label>
                     <input type="text" class="form-control" name="containerTrackingId" id="field_containerTrackingId"
-                        [(ngModel)]="stockInProcess.containerTrackingId" placeholder="1,2,3,4..." required/>
+                        [(ngModel)]="stockInProcess.containerTrackingId"
+                           placeholder="1,2,3,4..."
+                            required/>
                     <div [hidden]="!(editForm.controls.containerTrackingId?.dirty && editForm.controls.containerTrackingId?.invalid)">
                         <small class="form-text text-danger"
                         [hidden]="!editForm.controls.containerTrackingId?.errors?.required">
@@ -146,7 +148,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_stockInBy">Stock In By</label>
                     <input type="text" class="form-control" name="stockInBy" id="field_stockInBy"
                         [(ngModel)]="stockInProcess.stockInBy" />
@@ -157,6 +159,13 @@
                         <input id="field_stockInDate" type="datetime-local" class="form-control" name="stockInDate" [(ngModel)]="stockInDate" placeholder="YYYY-MM-DD HH:mm"
                         />
                     </div>
+                </div>-->
+                <div class="form-group">
+                    <label class="form-control-label" for="field_manufacturers">Manufacturers</label>
+                    <select class="form-control" id="field_manufacturers" name="manufacturers" [(ngModel)]="stockInProcess.manufacturersId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="manufacturerOption.id" *ngFor="let manufacturerOption of manufacturers; trackBy: trackManufacturerById">{{manufacturerOption.name}}</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_purchaseOrderId">Purchase Order Id</label>
@@ -167,13 +176,6 @@
                     <label class="form-control-label" for="field_remarks">Remarks</label>
                     <input type="text" class="form-control" name="remarks" id="field_remarks"
                         [(ngModel)]="stockInProcess.remarks" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_manufacturers">Manufacturers</label>
-                    <select class="form-control" id="field_manufacturers" name="manufacturers" [(ngModel)]="stockInProcess.manufacturersId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="manufacturerOption.id" *ngFor="let manufacturerOption of manufacturers; trackBy: trackManufacturerById">{{manufacturerOption.name}}</option>
-                    </select>
                 </div>
             </div>
             <div>

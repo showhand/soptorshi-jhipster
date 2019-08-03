@@ -89,13 +89,6 @@ export class StockOutItemUpdateComponent implements OnInit {
                 (res: IInventorySubLocation[]) => (this.inventorysublocations = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
-        this.stockInItemService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IStockInItem[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IStockInItem[]>) => response.body)
-            )
-            .subscribe((res: IStockInItem[]) => (this.stockinitems = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {

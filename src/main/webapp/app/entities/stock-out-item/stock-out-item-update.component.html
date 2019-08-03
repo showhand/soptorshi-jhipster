@@ -10,6 +10,35 @@
                         [(ngModel)]="stockOutItem.id" readonly />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_itemCategories">Item Categories</label>
+                    <select class="form-control" id="field_itemCategories" name="itemCategories" [(ngModel)]="stockOutItem.itemCategoriesId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="itemCategoryOption.id" *ngFor="let itemCategoryOption of itemcategories; trackBy: trackItemCategoryById">{{itemCategoryOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_itemSubCategories">Item Sub Categories</label>
+                    <select class="form-control" id="field_itemSubCategories" name="itemSubCategories" [(ngModel)]="stockOutItem.itemSubCategoriesId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="itemSubCategoryOption.id" *ngFor="let itemSubCategoryOption of itemsubcategories |
+                        genericFilter: 'itemCategoriesId' : stockOutItem.itemCategoriesId; trackBy: trackItemSubCategoryById">{{itemSubCategoryOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_inventoryLocations">Inventory Locations</label>
+                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="stockOutItem.inventoryLocationsId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="inventoryLocationOption.id" *ngFor="let inventoryLocationOption of inventorylocations; trackBy: trackInventoryLocationById">{{inventoryLocationOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_inventorySubLocations">Inventory Sub Locations</label>
+                    <select class="form-control" id="field_inventorySubLocations" name="inventorySubLocations" [(ngModel)]="stockOutItem.inventorySubLocationsId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="inventorySubLocationOption.id" *ngFor="let inventorySubLocationOption of inventorysublocations | genericFilter: 'inventoryLocationId' : stockOutItem.inventoryLocationsId; trackBy: trackInventorySubLocationById">{{inventorySubLocationOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_containerTrackingId">Container Tracking Id</label>
                     <input type="text" class="form-control" name="containerTrackingId" id="field_containerTrackingId"
                         [(ngModel)]="stockOutItem.containerTrackingId" required/>
@@ -58,34 +87,6 @@
                         [(ngModel)]="stockOutItem.remarks" />
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_itemCategories">Item Categories</label>
-                    <select class="form-control" id="field_itemCategories" name="itemCategories" [(ngModel)]="stockOutItem.itemCategoriesId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="itemCategoryOption.id" *ngFor="let itemCategoryOption of itemcategories; trackBy: trackItemCategoryById">{{itemCategoryOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_itemSubCategories">Item Sub Categories</label>
-                    <select class="form-control" id="field_itemSubCategories" name="itemSubCategories" [(ngModel)]="stockOutItem.itemSubCategoriesId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="itemSubCategoryOption.id" *ngFor="let itemSubCategoryOption of itemsubcategories; trackBy: trackItemSubCategoryById">{{itemSubCategoryOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_inventoryLocations">Inventory Locations</label>
-                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="stockOutItem.inventoryLocationsId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="inventoryLocationOption.id" *ngFor="let inventoryLocationOption of inventorylocations; trackBy: trackInventoryLocationById">{{inventoryLocationOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_inventorySubLocations">Inventory Sub Locations</label>
-                    <select class="form-control" id="field_inventorySubLocations" name="inventorySubLocations" [(ngModel)]="stockOutItem.inventorySubLocationsId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="inventorySubLocationOption.id" *ngFor="let inventorySubLocationOption of inventorysublocations; trackBy: trackInventorySubLocationById">{{inventorySubLocationOption.name}}</option>
-                    </select>
-                </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_stockInItems">Stock In Items</label>
                     <select class="form-control" id="field_stockInItems" name="stockInItems" [(ngModel)]="stockOutItem.stockInItemsId" >
