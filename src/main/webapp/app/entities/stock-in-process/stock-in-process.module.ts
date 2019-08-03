@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { SoptorshiSharedModule } from 'app/shared';
+import { GenericFilter, SoptorshiSharedModule } from 'app/shared';
 import {
     StockInProcessComponent,
     StockInProcessDetailComponent,
@@ -21,7 +21,8 @@ const ENTITY_STATES = [...stockInProcessRoute, ...stockInProcessPopupRoute];
         StockInProcessDetailComponent,
         StockInProcessUpdateComponent,
         StockInProcessDeleteDialogComponent,
-        StockInProcessDeletePopupComponent
+        StockInProcessDeletePopupComponent,
+        GenericFilter
     ],
     entryComponents: [
         StockInProcessComponent,
