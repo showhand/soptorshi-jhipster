@@ -6,8 +6,8 @@ import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
-import { IStockInProcess } from 'app/shared/model/stock-in-process.model';
-import { StockInProcessService } from './stock-in-process.service';
+import { IStockStatus } from 'app/shared/model/stock-status.model';
+import { StockStatusService } from './stock-status.service';
 import { IItemCategory } from 'app/shared/model/item-category.model';
 import { ItemCategoryService } from 'app/entities/item-category';
 import { IItemSubCategory } from 'app/shared/model/item-sub-category.model';
@@ -16,17 +16,13 @@ import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
 import { InventoryLocationService } from 'app/entities/inventory-location';
 import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
 import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
-import { IManufacturer } from 'app/shared/model/manufacturer.model';
-import { ManufacturerService } from 'app/entities/manufacturer';
-import { GenericFilter } from 'app/shared';
 
 @Component({
-    selector: 'jhi-stock-in-process-update',
-    providers: [GenericFilter],
-    templateUrl: './stock-in-process-update.component.html'
+    selector: 'jhi-stock-status-update',
+    templateUrl: './stock-status-update.component.html'
 })
-export class StockInProcessUpdateComponent implements OnInit {
-    stockInProcess: IStockInProcess;
+export class StockStatusUpdateComponent implements OnInit {
+    stockStatus: IStockStatus;
     isSaving: boolean;
 
     itemcategories: IItemCategory[];
@@ -36,27 +32,23 @@ export class StockInProcessUpdateComponent implements OnInit {
     inventorylocations: IInventoryLocation[];
 
     inventorysublocations: IInventorySubLocation[];
-
-    manufacturers: IManufacturer[];
-    expiryDateDp: any;
     stockInDate: string;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
-        protected stockInProcessService: StockInProcessService,
+        protected stockStatusService: StockStatusService,
         protected itemCategoryService: ItemCategoryService,
         protected itemSubCategoryService: ItemSubCategoryService,
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
-        protected manufacturerService: ManufacturerService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ stockInProcess }) => {
-            this.stockInProcess = stockInProcess;
-            this.stockInDate = this.stockInProcess.stockInDate != null ? this.stockInProcess.stockInDate.format(DATE_TIME_FORMAT) : null;
+        this.activatedRoute.data.subscribe(({ stockStatus }) => {
+            this.stockStatus = stockStatus;
+            this.stockInDate = this.stockStatus.stockInDate != null ? this.stockStatus.stockInDate.format(DATE_TIME_FORMAT) : null;
         });
         this.itemCategoryService
             .query()
@@ -92,13 +84,6 @@ export class StockInProcessUpdateComponent implements OnInit {
                 (res: IInventorySubLocation[]) => (this.inventorysublocations = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
-        this.manufacturerService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IManufacturer[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IManufacturer[]>) => response.body)
-            )
-            .subscribe((res: IManufacturer[]) => (this.manufacturers = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -107,16 +92,16 @@ export class StockInProcessUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.stockInProcess.stockInDate = this.stockInDate != null ? moment(this.stockInDate, DATE_TIME_FORMAT) : null;
-        if (this.stockInProcess.id !== undefined) {
-            this.subscribeToSaveResponse(this.stockInProcessService.update(this.stockInProcess));
+        this.stockStatus.stockInDate = this.stockInDate != null ? moment(this.stockInDate, DATE_TIME_FORMAT) : null;
+        if (this.stockStatus.id !== undefined) {
+            this.subscribeToSaveResponse(this.stockStatusService.update(this.stockStatus));
         } else {
-            this.subscribeToSaveResponse(this.stockInProcessService.create(this.stockInProcess));
+            this.subscribeToSaveResponse(this.stockStatusService.create(this.stockStatus));
         }
     }
 
-    protected subscribeToSaveResponse(result: Observable<HttpResponse<IStockInProcess>>) {
-        result.subscribe((res: HttpResponse<IStockInProcess>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IStockStatus>>) {
+        result.subscribe((res: HttpResponse<IStockStatus>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     protected onSaveSuccess() {
@@ -145,10 +130,6 @@ export class StockInProcessUpdateComponent implements OnInit {
     }
 
     trackInventorySubLocationById(index: number, item: IInventorySubLocation) {
-        return item.id;
-    }
-
-    trackManufacturerById(index: number, item: IManufacturer) {
         return item.id;
     }
 }

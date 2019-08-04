@@ -60,6 +60,7 @@
     <include file="config/liquibase/changelog/20190802061701_added_entity_StockInProcess.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190802061702_added_entity_StockInItem.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190802061703_added_entity_StockOutItem.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190803152917_added_entity_StockStatus.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
@@ -117,5 +118,6 @@
     <include file="config/liquibase/changelog/20190802061701_added_entity_constraints_StockInProcess.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190802061702_added_entity_constraints_StockInItem.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190802061703_added_entity_constraints_StockOutItem.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190803152917_added_entity_constraints_StockStatus.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

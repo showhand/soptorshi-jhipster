@@ -21,8 +21,7 @@ const ENTITY_STATES = [...stockInProcessRoute, ...stockInProcessPopupRoute];
         StockInProcessDetailComponent,
         StockInProcessUpdateComponent,
         StockInProcessDeleteDialogComponent,
-        StockInProcessDeletePopupComponent,
-        GenericFilter
+        StockInProcessDeletePopupComponent
     ],
     entryComponents: [
         StockInProcessComponent,

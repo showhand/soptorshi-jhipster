@@ -457,6 +457,14 @@ import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-
             {
                 path: 'stock-out-item',
                 loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
+            },
+            {
+                path: 'stock-status',
+                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModule'
+            },
+            {
+                path: 'stock-status',
+                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

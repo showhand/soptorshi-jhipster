@@ -60,6 +60,16 @@ entity StockInItem {
     Remarks String
 }
 
+entity StockStatus {
+	ContainerTrackingId String required,
+	TotalQuantity Double required,
+    AvailableQuantity Double required,
+    TotalPrice Double required,
+    AvailablePrice Double required,
+    StockInBy String,
+    StockInDate Instant
+}
+
 entity StockOutItem {
     ContainerTrackingId String required,
     Quantity Double required,
@@ -83,7 +93,7 @@ enum ItemUnit {
 
 relationship ManyToOne {
 	ItemSubCategory{itemCategories(name)} to ItemCategory
-    InventorySubLocation{inventoryLocation(name)} to InventoryLocation
+    InventorySubLocation{inventoryLocations(name)} to InventoryLocation
     StockInProcess{itemCategories(name)} to ItemCategory
     StockInProcess{itemSubCategories(name)} to ItemSubCategory
     StockInProcess{inventoryLocations(Name)} to InventoryLocation
@@ -100,6 +110,10 @@ relationship ManyToOne {
     StockOutItem{inventoryLocations(Name)} to InventoryLocation
     StockOutItem{inventorySubLocations(Name)} to InventorySubLocation
     StockOutItem{stockInItems(id)} to StockInItem
+    StockStatus{itemCategories(name)} to ItemCategory
+    StockStatus{itemSubCategories(name)} to ItemSubCategory
+    StockStatus{inventoryLocations(Name)} to InventoryLocation
+    StockStatus{inventorySubLocations(Name)} to InventorySubLocation
 }
 
 paginate * with infinite-scroll
