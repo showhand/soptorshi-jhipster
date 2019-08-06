@@ -20,6 +20,7 @@ import { RequisitionDetailsService, RequisitionDetailsUpdateComponent } from 'ap
 })
 export class RequisitionDetailsExtendedUpdateComponent extends RequisitionDetailsUpdateComponent {
     productPrice: IProductPrice;
+    requisition: IRequisition;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -30,6 +31,42 @@ export class RequisitionDetailsExtendedUpdateComponent extends RequisitionDetail
         protected productPriceService: ProductPriceService
     ) {
         super(jhiAlertService, requisitionDetailsService, requisitionService, productService, activatedRoute, productPriceService);
+    }
+
+    ngOnInit() {
+        this.isSaving = false;
+        this.activatedRoute.data.subscribe(({ requisitionDetails }) => {
+            this.requisitionDetails = requisitionDetails;
+        });
+        if (this.requisitionDetails.requisitionId) {
+            this.requisitionService.find(this.requisitionDetails.requisitionId).subscribe((res: HttpResponse<IRequisition>) => {
+                this.requisition = res.body;
+                this.productService
+                    .query({
+                        'productCategoryId.equals': this.requisition.productCategoryId,
+                        size: 2000
+                    })
+                    .subscribe((res: HttpResponse<IProduct[]>) => {
+                        this.products = [];
+                        this.products = res.body;
+                    });
+            });
+        } else {
+            this.requisitionService
+                .query()
+                .pipe(
+                    filter((mayBeOk: HttpResponse<IRequisition[]>) => mayBeOk.ok),
+                    map((response: HttpResponse<IRequisition[]>) => response.body)
+                )
+                .subscribe((res: IRequisition[]) => (this.requisitions = res), (res: HttpErrorResponse) => this.onError(res.message));
+            this.productService
+                .query()
+                .pipe(
+                    filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
+                    map((response: HttpResponse<IProduct[]>) => response.body)
+                )
+                .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
+        }
     }
 
     productSelected(productId: number) {
