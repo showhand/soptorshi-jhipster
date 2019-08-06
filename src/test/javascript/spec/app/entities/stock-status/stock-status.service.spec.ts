@@ -5,9 +5,9 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { StockStatusService } from 'app/entities/stock-status/stock-status.service';
-import { IStockStatus, StockStatus } from 'app/shared/model/stock-status.model';
+import { IStockStatus, StockStatus, ItemUnit, ContainerCategory } from 'app/shared/model/stock-status.model';
 
 describe('Service Tests', () => {
     describe('StockStatus Service', () => {
@@ -25,14 +25,28 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new StockStatus(0, 'AAAAAAA', 0, 0, 0, 0, 'AAAAAAA', currentDate);
+            elemDefault = new StockStatus(
+                0,
+                'AAAAAAA',
+                0,
+                0,
+                0,
+                0,
+                'AAAAAAA',
+                currentDate,
+                ItemUnit.KG,
+                ContainerCategory.BOTTLE,
+                currentDate,
+                0
+            );
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        stockInDate: currentDate.format(DATE_TIME_FORMAT)
+                        stockInDate: currentDate.format(DATE_TIME_FORMAT),
+                        expiryDate: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -49,13 +63,15 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
-                        stockInDate: currentDate.format(DATE_TIME_FORMAT)
+                        stockInDate: currentDate.format(DATE_TIME_FORMAT),
+                        expiryDate: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
-                        stockInDate: currentDate
+                        stockInDate: currentDate,
+                        expiryDate: currentDate
                     },
                     returnedFromService
                 );
@@ -76,14 +92,19 @@ describe('Service Tests', () => {
                         totalPrice: 1,
                         availablePrice: 1,
                         stockInBy: 'BBBBBB',
-                        stockInDate: currentDate.format(DATE_TIME_FORMAT)
+                        stockInDate: currentDate.format(DATE_TIME_FORMAT),
+                        unit: 'BBBBBB',
+                        containerCategory: 'BBBBBB',
+                        expiryDate: currentDate.format(DATE_FORMAT),
+                        stockInItemId: 1
                     },
                     elemDefault
                 );
 
                 const expected = Object.assign(
                     {
-                        stockInDate: currentDate
+                        stockInDate: currentDate,
+                        expiryDate: currentDate
                     },
                     returnedFromService
                 );
@@ -104,13 +125,18 @@ describe('Service Tests', () => {
                         totalPrice: 1,
                         availablePrice: 1,
                         stockInBy: 'BBBBBB',
-                        stockInDate: currentDate.format(DATE_TIME_FORMAT)
+                        stockInDate: currentDate.format(DATE_TIME_FORMAT),
+                        unit: 'BBBBBB',
+                        containerCategory: 'BBBBBB',
+                        expiryDate: currentDate.format(DATE_FORMAT),
+                        stockInItemId: 1
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
-                        stockInDate: currentDate
+                        stockInDate: currentDate,
+                        expiryDate: currentDate
                     },
                     returnedFromService
                 );

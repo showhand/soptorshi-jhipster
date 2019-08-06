@@ -50,6 +50,22 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="unit" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="container_category" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="expiry_date" type="date">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="stock_in_item_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
             <column name="item_categories_id" type="bigint">
                 <constraints nullable="false" />
             </column>

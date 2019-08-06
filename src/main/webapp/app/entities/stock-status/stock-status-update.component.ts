@@ -33,6 +33,7 @@ export class StockStatusUpdateComponent implements OnInit {
 
     inventorysublocations: IInventorySubLocation[];
     stockInDate: string;
+    expiryDateDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,

@@ -1,6 +1,6 @@
 package org.soptorshi.repository;
 
-import org.soptorshi.domain.StockStatus;
+import org.soptorshi.domain.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StockStatusRepository extends JpaRepository<StockStatus, Long>, JpaSpecificationExecutor<StockStatus> {
 
+    StockStatus getByItemCategoriesAndItemSubCategoriesAndInventoryLocationsAndInventorySubLocationsAndContainerTrackingId(
+        ItemCategory itemCategory, ItemSubCategory itemSubCategory, InventoryLocation inventoryLocation, InventorySubLocation
+        inventorySubLocation, String containerTrackingId);
 }

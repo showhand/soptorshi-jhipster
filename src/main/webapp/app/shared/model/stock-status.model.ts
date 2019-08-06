@@ -1,5 +1,19 @@
 import { Moment } from 'moment';
 
+export const enum ItemUnit {
+    KG = 'KG',
+    PCS = 'PCS',
+    LITER = 'LITER',
+    DOZEN = 'DOZEN'
+}
+
+export const enum ContainerCategory {
+    BOTTLE = 'BOTTLE',
+    DRUM = 'DRUM',
+    PACKET = 'PACKET',
+    SACK = 'SACK'
+}
+
 export interface IStockStatus {
     id?: number;
     containerTrackingId?: string;
@@ -9,6 +23,10 @@ export interface IStockStatus {
     availablePrice?: number;
     stockInBy?: string;
     stockInDate?: Moment;
+    unit?: ItemUnit;
+    containerCategory?: ContainerCategory;
+    expiryDate?: Moment;
+    stockInItemId?: number;
     itemCategoriesName?: string;
     itemCategoriesId?: number;
     itemSubCategoriesName?: string;
@@ -29,6 +47,10 @@ export class StockStatus implements IStockStatus {
         public availablePrice?: number,
         public stockInBy?: string,
         public stockInDate?: Moment,
+        public unit?: ItemUnit,
+        public containerCategory?: ContainerCategory,
+        public expiryDate?: Moment,
+        public stockInItemId?: number,
         public itemCategoriesName?: string,
         public itemCategoriesId?: number,
         public itemSubCategoriesName?: string,

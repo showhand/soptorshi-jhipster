@@ -37,6 +37,10 @@
             <th jhiSortBy="availablePrice"><span>Available Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInBy"><span>Stock In By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInDate"><span>Stock In Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="unit"><span>Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="containerCategory"><span>Container Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="expiryDate"><span>Expiry Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="stockInItemId"><span>Stock In Item Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="itemCategoriesName"><span>Item Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="itemSubCategoriesName"><span>Item Sub Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -54,6 +58,10 @@
                 <td>{{stockStatus.availablePrice}}</td>
                 <td>{{stockStatus.stockInBy}}</td>
                 <td>{{stockStatus.stockInDate | date:'medium'}}</td>
+                <td>{{stockStatus.unit}}</td>
+                <td>{{stockStatus.containerCategory}}</td>
+                <td>{{stockStatus.expiryDate | date:'mediumDate'}}</td>
+                <td>{{stockStatus.stockInItemId}}</td>
                 <td>
                     <div *ngIf="stockStatus.itemCategoriesId">
                         <a [routerLink]="['../item-category', stockStatus.itemCategoriesId , 'view' ]" >{{stockStatus.itemCategoriesName}}</a>

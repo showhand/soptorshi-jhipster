@@ -9,7 +9,12 @@ import javax.validation.constraints.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
+
+import org.soptorshi.domain.enumeration.ItemUnit;
+
+import org.soptorshi.domain.enumeration.ContainerCategory;
 
 /**
  * A StockStatus.
@@ -50,6 +55,22 @@ public class StockStatus implements Serializable {
 
     @Column(name = "stock_in_date")
     private Instant stockInDate;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "unit", nullable = false)
+    private ItemUnit unit;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "container_category", nullable = false)
+    private ContainerCategory containerCategory;
+
+    @Column(name = "expiry_date")
+    private LocalDate expiryDate;
+
+    @Column(name = "stock_in_item_id")
+    private Long stockInItemId;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -171,6 +192,58 @@ public class StockStatus implements Serializable {
         this.stockInDate = stockInDate;
     }
 
+    public ItemUnit getUnit() {
+        return unit;
+    }
+
+    public StockStatus unit(ItemUnit unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    public void setUnit(ItemUnit unit) {
+        this.unit = unit;
+    }
+
+    public ContainerCategory getContainerCategory() {
+        return containerCategory;
+    }
+
+    public StockStatus containerCategory(ContainerCategory containerCategory) {
+        this.containerCategory = containerCategory;
+        return this;
+    }
+
+    public void setContainerCategory(ContainerCategory containerCategory) {
+        this.containerCategory = containerCategory;
+    }
+
+    public LocalDate getExpiryDate() {
+        return expiryDate;
+    }
+
+    public StockStatus expiryDate(LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
+        return this;
+    }
+
+    public void setExpiryDate(LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public Long getStockInItemId() {
+        return stockInItemId;
+    }
+
+    public StockStatus stockInItemId(Long stockInItemId) {
+        this.stockInItemId = stockInItemId;
+        return this;
+    }
+
+    public void setStockInItemId(Long stockInItemId) {
+        this.stockInItemId = stockInItemId;
+    }
+
     public ItemCategory getItemCategories() {
         return itemCategories;
     }
@@ -255,6 +328,10 @@ public class StockStatus implements Serializable {
             ", availablePrice=" + getAvailablePrice() +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
+            ", unit='" + getUnit() + "'" +
+            ", containerCategory='" + getContainerCategory() + "'" +
+            ", expiryDate='" + getExpiryDate() + "'" +
+            ", stockInItemId=" + getStockInItemId() +
             "}";
     }
 }
