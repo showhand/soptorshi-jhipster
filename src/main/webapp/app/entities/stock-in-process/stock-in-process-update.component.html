@@ -20,8 +20,7 @@
                     <label class="form-control-label" for="field_itemSubCategories">Item Sub Categories</label>
                     <select class="form-control" id="field_itemSubCategories" name="itemSubCategories" [(ngModel)]="stockInProcess.itemSubCategoriesId" required>
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="itemSubCategoryOption.id" *ngFor="let itemSubCategoryOption of itemsubcategories |
-                        genericFilter: 'itemCategoriesId' : stockInProcess.itemCategoriesId; trackBy: trackItemSubCategoryById">{{itemSubCategoryOption.name}}</option>
+                        <option [ngValue]="itemSubCategoryOption.id" *ngFor="let itemSubCategoryOption of itemsubcategories; trackBy: trackItemSubCategoryById">{{itemSubCategoryOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -35,8 +34,7 @@
                     <label class="form-control-label" for="field_inventorySubLocations">Inventory Sub Locations</label>
                     <select class="form-control" id="field_inventorySubLocations" name="inventorySubLocations" [(ngModel)]="stockInProcess.inventorySubLocationsId" required>
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="inventorySubLocationOption.id" *ngFor="let inventorySubLocationOption of inventorysublocations |
-                        genericFilter: 'inventoryLocationId' : stockInProcess.inventoryLocationsId; trackBy: trackInventorySubLocationById">{{inventorySubLocationOption.name}}</option>
+                        <option [ngValue]="inventorySubLocationOption.id" *ngFor="let inventorySubLocationOption of inventorysublocations; trackBy: trackInventorySubLocationById">{{inventorySubLocationOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">

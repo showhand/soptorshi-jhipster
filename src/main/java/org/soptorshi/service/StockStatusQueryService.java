@@ -114,6 +114,18 @@ public class StockStatusQueryService extends QueryService<StockStatus> {
             if (criteria.getStockInDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getStockInDate(), StockStatus_.stockInDate));
             }
+            if (criteria.getUnit() != null) {
+                specification = specification.and(buildSpecification(criteria.getUnit(), StockStatus_.unit));
+            }
+            if (criteria.getContainerCategory() != null) {
+                specification = specification.and(buildSpecification(criteria.getContainerCategory(), StockStatus_.containerCategory));
+            }
+            if (criteria.getExpiryDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getExpiryDate(), StockStatus_.expiryDate));
+            }
+            if (criteria.getStockInItemId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getStockInItemId(), StockStatus_.stockInItemId));
+            }
             if (criteria.getItemCategoriesId() != null) {
                 specification = specification.and(buildSpecification(criteria.getItemCategoriesId(),
                     root -> root.join(StockStatus_.itemCategories, JoinType.LEFT).get(ItemCategory_.id)));

@@ -1,8 +1,11 @@
 package org.soptorshi.service.dto;
 import java.time.Instant;
+import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.domain.enumeration.ContainerCategory;
 
 /**
  * A DTO for the StockStatus entity.
@@ -29,6 +32,16 @@ public class StockStatusDTO implements Serializable {
     private String stockInBy;
 
     private Instant stockInDate;
+
+    @NotNull
+    private ItemUnit unit;
+
+    @NotNull
+    private ContainerCategory containerCategory;
+
+    private LocalDate expiryDate;
+
+    private Long stockInItemId;
 
 
     private Long itemCategoriesId;
@@ -109,6 +122,38 @@ public class StockStatusDTO implements Serializable {
 
     public void setStockInDate(Instant stockInDate) {
         this.stockInDate = stockInDate;
+    }
+
+    public ItemUnit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(ItemUnit unit) {
+        this.unit = unit;
+    }
+
+    public ContainerCategory getContainerCategory() {
+        return containerCategory;
+    }
+
+    public void setContainerCategory(ContainerCategory containerCategory) {
+        this.containerCategory = containerCategory;
+    }
+
+    public LocalDate getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public Long getStockInItemId() {
+        return stockInItemId;
+    }
+
+    public void setStockInItemId(Long stockInItemId) {
+        this.stockInItemId = stockInItemId;
     }
 
     public Long getItemCategoriesId() {
@@ -207,6 +252,10 @@ public class StockStatusDTO implements Serializable {
             ", availablePrice=" + getAvailablePrice() +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
+            ", unit='" + getUnit() + "'" +
+            ", containerCategory='" + getContainerCategory() + "'" +
+            ", expiryDate='" + getExpiryDate() + "'" +
+            ", stockInItemId=" + getStockInItemId() +
             ", itemCategories=" + getItemCategoriesId() +
             ", itemCategories='" + getItemCategoriesName() + "'" +
             ", itemSubCategories=" + getItemSubCategoriesId() +

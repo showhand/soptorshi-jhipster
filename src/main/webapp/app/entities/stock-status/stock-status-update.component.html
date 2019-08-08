@@ -92,6 +92,51 @@
                         />
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_unit">Unit</label>
+                    <select class="form-control" name="unit" [(ngModel)]="stockStatus.unit" id="field_unit"  required>
+                        <option value="KG">KG</option>
+                        <option value="PCS">PCS</option>
+                        <option value="LITER">LITER</option>
+                        <option value="DOZEN">DOZEN</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.unit?.dirty && editForm.controls.unit?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.unit?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_containerCategory">Container Category</label>
+                    <select class="form-control" name="containerCategory" [(ngModel)]="stockStatus.containerCategory" id="field_containerCategory"  required>
+                        <option value="BOTTLE">BOTTLE</option>
+                        <option value="DRUM">DRUM</option>
+                        <option value="PACKET">PACKET</option>
+                        <option value="SACK">SACK</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.containerCategory?.dirty && editForm.controls.containerCategory?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.containerCategory?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_expiryDate">Expiry Date</label>
+                    <div class="input-group">
+                        <input id="field_expiryDate" type="text" class="form-control" name="expiryDate" ngbDatepicker  #expiryDateDp="ngbDatepicker" [(ngModel)]="stockStatus.expiryDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="expiryDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_stockInItemId">Stock In Item Id</label>
+                    <input type="number" class="form-control" name="stockInItemId" id="field_stockInItemId"
+                        [(ngModel)]="stockStatus.stockInItemId" />
+                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_itemCategories">Item Categories</label>

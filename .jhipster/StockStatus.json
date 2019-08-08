@@ -9,7 +9,9 @@
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "name"
+            "otherEntityField": "name",
+            "otherEntityRelationshipNameUndefined": true,
+            "otherEntityRelationshipName": "stockStatus"
         },
         {
             "relationshipName": "itemSubCategories",
@@ -18,7 +20,9 @@
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "name"
+            "otherEntityField": "name",
+            "otherEntityRelationshipNameUndefined": true,
+            "otherEntityRelationshipName": "stockStatus"
         },
         {
             "relationshipName": "inventoryLocations",
@@ -27,7 +31,9 @@
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "name"
+            "otherEntityField": "name",
+            "otherEntityRelationshipNameUndefined": true,
+            "otherEntityRelationshipName": "stockStatus"
         },
         {
             "relationshipName": "inventorySubLocations",
@@ -36,7 +42,9 @@
             "relationshipValidateRules": [
                 "required"
             ],
-            "otherEntityField": "name"
+            "otherEntityField": "name",
+            "otherEntityRelationshipNameUndefined": true,
+            "otherEntityRelationshipName": "stockStatus"
         }
     ],
     "fields": [
@@ -82,6 +90,32 @@
         {
             "fieldName": "stockInDate",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "unit",
+            "fieldType": "ItemUnit",
+            "fieldValues": "KG,PCS,LITER,DOZEN",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "containerCategory",
+            "fieldType": "ContainerCategory",
+            "fieldValues": "BOTTLE,DRUM,PACKET,SACK",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "expiryDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldName": "stockInItemId",
+            "fieldType": "Long",
+            "fieldValidateRules": []
         }
     ],
     "changelogDate": "20190803152917",

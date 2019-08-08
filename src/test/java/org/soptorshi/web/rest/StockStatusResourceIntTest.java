@@ -34,7 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
@@ -48,6 +50,8 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.domain.enumeration.ContainerCategory;
 /**
  * Test class for the StockStatusResource REST controller.
  *
@@ -77,6 +81,18 @@ public class StockStatusResourceIntTest {
 
     private static final Instant DEFAULT_STOCK_IN_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_STOCK_IN_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final ItemUnit DEFAULT_UNIT = ItemUnit.KG;
+    private static final ItemUnit UPDATED_UNIT = ItemUnit.PCS;
+
+    private static final ContainerCategory DEFAULT_CONTAINER_CATEGORY = ContainerCategory.BOTTLE;
+    private static final ContainerCategory UPDATED_CONTAINER_CATEGORY = ContainerCategory.DRUM;
+
+    private static final LocalDate DEFAULT_EXPIRY_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_EXPIRY_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final Long DEFAULT_STOCK_IN_ITEM_ID = 1L;
+    private static final Long UPDATED_STOCK_IN_ITEM_ID = 2L;
 
     @Autowired
     private StockStatusRepository stockStatusRepository;
@@ -143,7 +159,11 @@ public class StockStatusResourceIntTest {
             .totalPrice(DEFAULT_TOTAL_PRICE)
             .availablePrice(DEFAULT_AVAILABLE_PRICE)
             .stockInBy(DEFAULT_STOCK_IN_BY)
-            .stockInDate(DEFAULT_STOCK_IN_DATE);
+            .stockInDate(DEFAULT_STOCK_IN_DATE)
+            .unit(DEFAULT_UNIT)
+            .containerCategory(DEFAULT_CONTAINER_CATEGORY)
+            .expiryDate(DEFAULT_EXPIRY_DATE)
+            .stockInItemId(DEFAULT_STOCK_IN_ITEM_ID);
         // Add required entity
         ItemCategory itemCategory = ItemCategoryResourceIntTest.createEntity(em);
         em.persist(itemCategory);
@@ -195,6 +215,10 @@ public class StockStatusResourceIntTest {
         assertThat(testStockStatus.getAvailablePrice()).isEqualTo(DEFAULT_AVAILABLE_PRICE);
         assertThat(testStockStatus.getStockInBy()).isEqualTo(DEFAULT_STOCK_IN_BY);
         assertThat(testStockStatus.getStockInDate()).isEqualTo(DEFAULT_STOCK_IN_DATE);
+        assertThat(testStockStatus.getUnit()).isEqualTo(DEFAULT_UNIT);
+        assertThat(testStockStatus.getContainerCategory()).isEqualTo(DEFAULT_CONTAINER_CATEGORY);
+        assertThat(testStockStatus.getExpiryDate()).isEqualTo(DEFAULT_EXPIRY_DATE);
+        assertThat(testStockStatus.getStockInItemId()).isEqualTo(DEFAULT_STOCK_IN_ITEM_ID);
 
         // Validate the StockStatus in Elasticsearch
         verify(mockStockStatusSearchRepository, times(1)).save(testStockStatus);
@@ -320,6 +344,44 @@ public class StockStatusResourceIntTest {
 
     @Test
     @Transactional
+    public void checkUnitIsRequired() throws Exception {
+        int databaseSizeBeforeTest = stockStatusRepository.findAll().size();
+        // set the field null
+        stockStatus.setUnit(null);
+
+        // Create the StockStatus, which fails.
+        StockStatusDTO stockStatusDTO = stockStatusMapper.toDto(stockStatus);
+
+        restStockStatusMockMvc.perform(post("/api/stock-statuses")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(stockStatusDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<StockStatus> stockStatusList = stockStatusRepository.findAll();
+        assertThat(stockStatusList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkContainerCategoryIsRequired() throws Exception {
+        int databaseSizeBeforeTest = stockStatusRepository.findAll().size();
+        // set the field null
+        stockStatus.setContainerCategory(null);
+
+        // Create the StockStatus, which fails.
+        StockStatusDTO stockStatusDTO = stockStatusMapper.toDto(stockStatus);
+
+        restStockStatusMockMvc.perform(post("/api/stock-statuses")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(stockStatusDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<StockStatus> stockStatusList = stockStatusRepository.findAll();
+        assertThat(stockStatusList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllStockStatuses() throws Exception {
         // Initialize the database
         stockStatusRepository.saveAndFlush(stockStatus);
@@ -335,7 +397,11 @@ public class StockStatusResourceIntTest {
             .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY.toString())))
-            .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())));
+            .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
+            .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
+            .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
+            .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].stockInItemId").value(hasItem(DEFAULT_STOCK_IN_ITEM_ID.intValue())));
     }
     
     @Test
@@ -355,7 +421,11 @@ public class StockStatusResourceIntTest {
             .andExpect(jsonPath("$.totalPrice").value(DEFAULT_TOTAL_PRICE.doubleValue()))
             .andExpect(jsonPath("$.availablePrice").value(DEFAULT_AVAILABLE_PRICE.doubleValue()))
             .andExpect(jsonPath("$.stockInBy").value(DEFAULT_STOCK_IN_BY.toString()))
-            .andExpect(jsonPath("$.stockInDate").value(DEFAULT_STOCK_IN_DATE.toString()));
+            .andExpect(jsonPath("$.stockInDate").value(DEFAULT_STOCK_IN_DATE.toString()))
+            .andExpect(jsonPath("$.unit").value(DEFAULT_UNIT.toString()))
+            .andExpect(jsonPath("$.containerCategory").value(DEFAULT_CONTAINER_CATEGORY.toString()))
+            .andExpect(jsonPath("$.expiryDate").value(DEFAULT_EXPIRY_DATE.toString()))
+            .andExpect(jsonPath("$.stockInItemId").value(DEFAULT_STOCK_IN_ITEM_ID.intValue()));
     }
 
     @Test
@@ -633,6 +703,216 @@ public class StockStatusResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllStockStatusesByUnitIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where unit equals to DEFAULT_UNIT
+        defaultStockStatusShouldBeFound("unit.equals=" + DEFAULT_UNIT);
+
+        // Get all the stockStatusList where unit equals to UPDATED_UNIT
+        defaultStockStatusShouldNotBeFound("unit.equals=" + UPDATED_UNIT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByUnitIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where unit in DEFAULT_UNIT or UPDATED_UNIT
+        defaultStockStatusShouldBeFound("unit.in=" + DEFAULT_UNIT + "," + UPDATED_UNIT);
+
+        // Get all the stockStatusList where unit equals to UPDATED_UNIT
+        defaultStockStatusShouldNotBeFound("unit.in=" + UPDATED_UNIT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByUnitIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where unit is not null
+        defaultStockStatusShouldBeFound("unit.specified=true");
+
+        // Get all the stockStatusList where unit is null
+        defaultStockStatusShouldNotBeFound("unit.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByContainerCategoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where containerCategory equals to DEFAULT_CONTAINER_CATEGORY
+        defaultStockStatusShouldBeFound("containerCategory.equals=" + DEFAULT_CONTAINER_CATEGORY);
+
+        // Get all the stockStatusList where containerCategory equals to UPDATED_CONTAINER_CATEGORY
+        defaultStockStatusShouldNotBeFound("containerCategory.equals=" + UPDATED_CONTAINER_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByContainerCategoryIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where containerCategory in DEFAULT_CONTAINER_CATEGORY or UPDATED_CONTAINER_CATEGORY
+        defaultStockStatusShouldBeFound("containerCategory.in=" + DEFAULT_CONTAINER_CATEGORY + "," + UPDATED_CONTAINER_CATEGORY);
+
+        // Get all the stockStatusList where containerCategory equals to UPDATED_CONTAINER_CATEGORY
+        defaultStockStatusShouldNotBeFound("containerCategory.in=" + UPDATED_CONTAINER_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByContainerCategoryIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where containerCategory is not null
+        defaultStockStatusShouldBeFound("containerCategory.specified=true");
+
+        // Get all the stockStatusList where containerCategory is null
+        defaultStockStatusShouldNotBeFound("containerCategory.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByExpiryDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where expiryDate equals to DEFAULT_EXPIRY_DATE
+        defaultStockStatusShouldBeFound("expiryDate.equals=" + DEFAULT_EXPIRY_DATE);
+
+        // Get all the stockStatusList where expiryDate equals to UPDATED_EXPIRY_DATE
+        defaultStockStatusShouldNotBeFound("expiryDate.equals=" + UPDATED_EXPIRY_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByExpiryDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where expiryDate in DEFAULT_EXPIRY_DATE or UPDATED_EXPIRY_DATE
+        defaultStockStatusShouldBeFound("expiryDate.in=" + DEFAULT_EXPIRY_DATE + "," + UPDATED_EXPIRY_DATE);
+
+        // Get all the stockStatusList where expiryDate equals to UPDATED_EXPIRY_DATE
+        defaultStockStatusShouldNotBeFound("expiryDate.in=" + UPDATED_EXPIRY_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByExpiryDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where expiryDate is not null
+        defaultStockStatusShouldBeFound("expiryDate.specified=true");
+
+        // Get all the stockStatusList where expiryDate is null
+        defaultStockStatusShouldNotBeFound("expiryDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByExpiryDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where expiryDate greater than or equals to DEFAULT_EXPIRY_DATE
+        defaultStockStatusShouldBeFound("expiryDate.greaterOrEqualThan=" + DEFAULT_EXPIRY_DATE);
+
+        // Get all the stockStatusList where expiryDate greater than or equals to UPDATED_EXPIRY_DATE
+        defaultStockStatusShouldNotBeFound("expiryDate.greaterOrEqualThan=" + UPDATED_EXPIRY_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByExpiryDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where expiryDate less than or equals to DEFAULT_EXPIRY_DATE
+        defaultStockStatusShouldNotBeFound("expiryDate.lessThan=" + DEFAULT_EXPIRY_DATE);
+
+        // Get all the stockStatusList where expiryDate less than or equals to UPDATED_EXPIRY_DATE
+        defaultStockStatusShouldBeFound("expiryDate.lessThan=" + UPDATED_EXPIRY_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByStockInItemIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where stockInItemId equals to DEFAULT_STOCK_IN_ITEM_ID
+        defaultStockStatusShouldBeFound("stockInItemId.equals=" + DEFAULT_STOCK_IN_ITEM_ID);
+
+        // Get all the stockStatusList where stockInItemId equals to UPDATED_STOCK_IN_ITEM_ID
+        defaultStockStatusShouldNotBeFound("stockInItemId.equals=" + UPDATED_STOCK_IN_ITEM_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByStockInItemIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where stockInItemId in DEFAULT_STOCK_IN_ITEM_ID or UPDATED_STOCK_IN_ITEM_ID
+        defaultStockStatusShouldBeFound("stockInItemId.in=" + DEFAULT_STOCK_IN_ITEM_ID + "," + UPDATED_STOCK_IN_ITEM_ID);
+
+        // Get all the stockStatusList where stockInItemId equals to UPDATED_STOCK_IN_ITEM_ID
+        defaultStockStatusShouldNotBeFound("stockInItemId.in=" + UPDATED_STOCK_IN_ITEM_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByStockInItemIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where stockInItemId is not null
+        defaultStockStatusShouldBeFound("stockInItemId.specified=true");
+
+        // Get all the stockStatusList where stockInItemId is null
+        defaultStockStatusShouldNotBeFound("stockInItemId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByStockInItemIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where stockInItemId greater than or equals to DEFAULT_STOCK_IN_ITEM_ID
+        defaultStockStatusShouldBeFound("stockInItemId.greaterOrEqualThan=" + DEFAULT_STOCK_IN_ITEM_ID);
+
+        // Get all the stockStatusList where stockInItemId greater than or equals to UPDATED_STOCK_IN_ITEM_ID
+        defaultStockStatusShouldNotBeFound("stockInItemId.greaterOrEqualThan=" + UPDATED_STOCK_IN_ITEM_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockStatusesByStockInItemIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        stockStatusRepository.saveAndFlush(stockStatus);
+
+        // Get all the stockStatusList where stockInItemId less than or equals to DEFAULT_STOCK_IN_ITEM_ID
+        defaultStockStatusShouldNotBeFound("stockInItemId.lessThan=" + DEFAULT_STOCK_IN_ITEM_ID);
+
+        // Get all the stockStatusList where stockInItemId less than or equals to UPDATED_STOCK_IN_ITEM_ID
+        defaultStockStatusShouldBeFound("stockInItemId.lessThan=" + UPDATED_STOCK_IN_ITEM_ID);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllStockStatusesByItemCategoriesIsEqualToSomething() throws Exception {
         // Initialize the database
         ItemCategory itemCategories = ItemCategoryResourceIntTest.createEntity(em);
@@ -720,7 +1000,11 @@ public class StockStatusResourceIntTest {
             .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
-            .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())));
+            .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
+            .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
+            .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
+            .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].stockInItemId").value(hasItem(DEFAULT_STOCK_IN_ITEM_ID.intValue())));
 
         // Check, that the count call also returns 1
         restStockStatusMockMvc.perform(get("/api/stock-statuses/count?sort=id,desc&" + filter))
@@ -774,7 +1058,11 @@ public class StockStatusResourceIntTest {
             .totalPrice(UPDATED_TOTAL_PRICE)
             .availablePrice(UPDATED_AVAILABLE_PRICE)
             .stockInBy(UPDATED_STOCK_IN_BY)
-            .stockInDate(UPDATED_STOCK_IN_DATE);
+            .stockInDate(UPDATED_STOCK_IN_DATE)
+            .unit(UPDATED_UNIT)
+            .containerCategory(UPDATED_CONTAINER_CATEGORY)
+            .expiryDate(UPDATED_EXPIRY_DATE)
+            .stockInItemId(UPDATED_STOCK_IN_ITEM_ID);
         StockStatusDTO stockStatusDTO = stockStatusMapper.toDto(updatedStockStatus);
 
         restStockStatusMockMvc.perform(put("/api/stock-statuses")
@@ -793,6 +1081,10 @@ public class StockStatusResourceIntTest {
         assertThat(testStockStatus.getAvailablePrice()).isEqualTo(UPDATED_AVAILABLE_PRICE);
         assertThat(testStockStatus.getStockInBy()).isEqualTo(UPDATED_STOCK_IN_BY);
         assertThat(testStockStatus.getStockInDate()).isEqualTo(UPDATED_STOCK_IN_DATE);
+        assertThat(testStockStatus.getUnit()).isEqualTo(UPDATED_UNIT);
+        assertThat(testStockStatus.getContainerCategory()).isEqualTo(UPDATED_CONTAINER_CATEGORY);
+        assertThat(testStockStatus.getExpiryDate()).isEqualTo(UPDATED_EXPIRY_DATE);
+        assertThat(testStockStatus.getStockInItemId()).isEqualTo(UPDATED_STOCK_IN_ITEM_ID);
 
         // Validate the StockStatus in Elasticsearch
         verify(mockStockStatusSearchRepository, times(1)).save(testStockStatus);
@@ -859,7 +1151,11 @@ public class StockStatusResourceIntTest {
             .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
-            .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())));
+            .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
+            .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
+            .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
+            .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].stockInItemId").value(hasItem(DEFAULT_STOCK_IN_ITEM_ID.intValue())));
     }
 
     @Test
