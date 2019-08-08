@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -56,13 +57,15 @@ public class StockStatusResource {
     @PostMapping("/stock-statuses")
     public ResponseEntity<StockStatusDTO> createStockStatus(@Valid @RequestBody StockStatusDTO stockStatusDTO) throws URISyntaxException {
         log.debug("REST request to save StockStatus : {}", stockStatusDTO);
-        if (stockStatusDTO.getId() != null) {
+        throw new NotImplementedException();
+
+        /* if (stockStatusDTO.getId() != null) {
             throw new BadRequestAlertException("A new stockStatus cannot already have an ID", ENTITY_NAME, "idexists");
         }
         StockStatusDTO result = stockStatusService.save(stockStatusDTO);
         return ResponseEntity.created(new URI("/api/stock-statuses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+            .body(result);*/
     }
 
     /**
@@ -77,13 +80,15 @@ public class StockStatusResource {
     @PutMapping("/stock-statuses")
     public ResponseEntity<StockStatusDTO> updateStockStatus(@Valid @RequestBody StockStatusDTO stockStatusDTO) throws URISyntaxException {
         log.debug("REST request to update StockStatus : {}", stockStatusDTO);
-        if (stockStatusDTO.getId() == null) {
+        throw new NotImplementedException();
+
+        /*if (stockStatusDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         StockStatusDTO result = stockStatusService.save(stockStatusDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, stockStatusDTO.getId().toString()))
-            .body(result);
+            .body(result);*/
     }
 
     /**
@@ -135,8 +140,9 @@ public class StockStatusResource {
     @DeleteMapping("/stock-statuses/{id}")
     public ResponseEntity<Void> deleteStockStatus(@PathVariable Long id) {
         log.debug("REST request to delete StockStatus : {}", id);
-        stockStatusService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        throw new NotImplementedException();
+        /*stockStatusService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();*/
     }
 
     /**

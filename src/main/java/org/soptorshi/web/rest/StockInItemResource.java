@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -77,13 +78,15 @@ public class StockInItemResource {
     @PutMapping("/stock-in-items")
     public ResponseEntity<StockInItemDTO> updateStockInItem(@Valid @RequestBody StockInItemDTO stockInItemDTO) throws URISyntaxException {
         log.debug("REST request to update StockInItem : {}", stockInItemDTO);
-        if (stockInItemDTO.getId() == null) {
+        throw new NotImplementedException();
+
+        /*if (stockInItemDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         StockInItemDTO result = stockInItemService.save(stockInItemDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, stockInItemDTO.getId().toString()))
-            .body(result);
+            .body(result);*/
     }
 
     /**
@@ -135,8 +138,9 @@ public class StockInItemResource {
     @DeleteMapping("/stock-in-items/{id}")
     public ResponseEntity<Void> deleteStockInItem(@PathVariable Long id) {
         log.debug("REST request to delete StockInItem : {}", id);
-        stockInItemService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        throw new NotImplementedException();
+/*        stockInItemService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();*/
     }
 
     /**
