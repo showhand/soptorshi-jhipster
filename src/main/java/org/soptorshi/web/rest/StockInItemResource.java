@@ -57,13 +57,14 @@ public class StockInItemResource {
     @PostMapping("/stock-in-items")
     public ResponseEntity<StockInItemDTO> createStockInItem(@Valid @RequestBody StockInItemDTO stockInItemDTO) throws URISyntaxException {
         log.debug("REST request to save StockInItem : {}", stockInItemDTO);
-        if (stockInItemDTO.getId() != null) {
+        /*if (stockInItemDTO.getId() != null) {
             throw new BadRequestAlertException("A new stockInItem cannot already have an ID", ENTITY_NAME, "idexists");
         }
         StockInItemDTO result = stockInItemService.save(stockInItemDTO);
         return ResponseEntity.created(new URI("/api/stock-in-items/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+            .body(result);*/
+        throw new NotImplementedException();
     }
 
     /**
