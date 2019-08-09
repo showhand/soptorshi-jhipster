@@ -8,6 +8,8 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IStockStatus } from 'app/shared/model/stock-status.model';
 import { StockStatusService } from './stock-status.service';
+import { IStockInItem } from 'app/shared/model/stock-in-item.model';
+import { StockInItemService } from 'app/entities/stock-in-item';
 import { IItemCategory } from 'app/shared/model/item-category.model';
 import { ItemCategoryService } from 'app/entities/item-category';
 import { IItemSubCategory } from 'app/shared/model/item-sub-category.model';
@@ -25,6 +27,8 @@ export class StockStatusUpdateComponent implements OnInit {
     stockStatus: IStockStatus;
     isSaving: boolean;
 
+    stockinitems: IStockInItem[];
+
     itemcategories: IItemCategory[];
 
     itemsubcategories: IItemSubCategory[];
@@ -33,11 +37,11 @@ export class StockStatusUpdateComponent implements OnInit {
 
     inventorysublocations: IInventorySubLocation[];
     stockInDate: string;
-    expiryDateDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockStatusService: StockStatusService,
+        protected stockInItemService: StockInItemService,
         protected itemCategoryService: ItemCategoryService,
         protected itemSubCategoryService: ItemSubCategoryService,
         protected inventoryLocationService: InventoryLocationService,
@@ -51,6 +55,31 @@ export class StockStatusUpdateComponent implements OnInit {
             this.stockStatus = stockStatus;
             this.stockInDate = this.stockStatus.stockInDate != null ? this.stockStatus.stockInDate.format(DATE_TIME_FORMAT) : null;
         });
+        this.stockInItemService
+            .query({ 'stockStatusId.specified': 'false' })
+            .pipe(
+                filter((mayBeOk: HttpResponse<IStockInItem[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IStockInItem[]>) => response.body)
+            )
+            .subscribe(
+                (res: IStockInItem[]) => {
+                    if (!this.stockStatus.stockInItemsId) {
+                        this.stockinitems = res;
+                    } else {
+                        this.stockInItemService
+                            .find(this.stockStatus.stockInItemsId)
+                            .pipe(
+                                filter((subResMayBeOk: HttpResponse<IStockInItem>) => subResMayBeOk.ok),
+                                map((subResponse: HttpResponse<IStockInItem>) => subResponse.body)
+                            )
+                            .subscribe(
+                                (subRes: IStockInItem) => (this.stockinitems = [subRes].concat(res)),
+                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+                            );
+                    }
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
         this.itemCategoryService
             .query()
             .pipe(
@@ -116,6 +145,10 @@ export class StockStatusUpdateComponent implements OnInit {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackStockInItemById(index: number, item: IStockInItem) {
+        return item.id;
     }
 
     trackItemCategoryById(index: number, item: IItemCategory) {

@@ -44,6 +44,8 @@ public class StockOutItemDTO implements Serializable {
 
     private Long stockInItemsId;
 
+    private Long stockStatusesId;
+
     public Long getId() {
         return id;
     }
@@ -172,6 +174,14 @@ public class StockOutItemDTO implements Serializable {
         this.stockInItemsId = stockInItemId;
     }
 
+    public Long getStockStatusesId() {
+        return stockStatusesId;
+    }
+
+    public void setStockStatusesId(Long stockStatusId) {
+        this.stockStatusesId = stockStatusId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -212,6 +222,7 @@ public class StockOutItemDTO implements Serializable {
             ", inventorySubLocations=" + getInventorySubLocationsId() +
             ", inventorySubLocations='" + getInventorySubLocationsName() + "'" +
             ", stockInItems=" + getStockInItemsId() +
+            ", stockStatuses=" + getStockStatusesId() +
             "}";
     }
 }

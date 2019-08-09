@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { GenericFilter, SoptorshiSharedModule } from 'app/shared';
+import { SoptorshiSharedModule } from 'app/shared';
 import {
     StockInProcessComponent,
     StockInProcessDetailComponent,

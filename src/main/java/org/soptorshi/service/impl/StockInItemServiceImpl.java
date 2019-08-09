@@ -50,9 +50,8 @@ public class StockInItemServiceImpl implements StockInItemService {
         log.debug("Request to save StockInItem : {}", stockInItemDTO);
         StockInItem stockInItem = stockInItemMapper.toEntity(stockInItemDTO);
         stockInItem = stockInItemRepository.save(stockInItem);
-        StockInItemDTO result = stockInItemMapper.toDto(stockInItem);
-        stockInItemSearchRepository.save(stockInItem);
-        return result;
+        /*stockInItemSearchRepository.save(stockInItem);*/
+        return stockInItemMapper.toDto(stockInItem);
     }
 
     /**

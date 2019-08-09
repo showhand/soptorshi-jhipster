@@ -111,8 +111,8 @@ public class StockInProcessQueryService extends QueryService<StockInProcess> {
             if (criteria.getContainerTrackingId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getContainerTrackingId(), StockInProcess_.containerTrackingId));
             }
-            if (criteria.getItemPerContainer() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getItemPerContainer(), StockInProcess_.itemPerContainer));
+            if (criteria.getQuantityPerContainer() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getQuantityPerContainer(), StockInProcess_.quantityPerContainer));
             }
             if (criteria.getExpiryDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getExpiryDate(), StockInProcess_.expiryDate));

@@ -33,7 +33,7 @@ public class StockInProcessDTO implements Serializable {
     private String containerTrackingId;
 
     @NotNull
-    private String itemPerContainer;
+    private String quantityPerContainer;
 
     private LocalDate expiryDate;
 
@@ -122,12 +122,12 @@ public class StockInProcessDTO implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public String getItemPerContainer() {
-        return itemPerContainer;
+    public String getQuantityPerContainer() {
+        return quantityPerContainer;
     }
 
-    public void setItemPerContainer(String itemPerContainer) {
-        this.itemPerContainer = itemPerContainer;
+    public void setQuantityPerContainer(String quantityPerContainer) {
+        this.quantityPerContainer = quantityPerContainer;
     }
 
     public LocalDate getExpiryDate() {
@@ -281,7 +281,7 @@ public class StockInProcessDTO implements Serializable {
             ", totalContainer=" + getTotalContainer() +
             ", containerCategory='" + getContainerCategory() + "'" +
             ", containerTrackingId='" + getContainerTrackingId() + "'" +
-            ", itemPerContainer='" + getItemPerContainer() + "'" +
+            ", quantityPerContainer='" + getQuantityPerContainer() + "'" +
             ", expiryDate='" + getExpiryDate() + "'" +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +

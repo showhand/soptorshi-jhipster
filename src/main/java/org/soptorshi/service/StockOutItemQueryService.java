@@ -131,6 +131,10 @@ public class StockOutItemQueryService extends QueryService<StockOutItem> {
                 specification = specification.and(buildSpecification(criteria.getStockInItemsId(),
                     root -> root.join(StockOutItem_.stockInItems, JoinType.LEFT).get(StockInItem_.id)));
             }
+            if (criteria.getStockStatusesId() != null) {
+                specification = specification.and(buildSpecification(criteria.getStockStatusesId(),
+                    root -> root.join(StockOutItem_.stockStatuses, JoinType.LEFT).get(StockStatus_.id)));
+            }
         }
         return specification;
     }

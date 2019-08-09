@@ -8,7 +8,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity StockOutItem and its DTO StockOutItemDTO.
  */
-@Mapper(componentModel = "spring", uses = {ItemCategoryMapper.class, ItemSubCategoryMapper.class, InventoryLocationMapper.class, InventorySubLocationMapper.class, StockInItemMapper.class})
+@Mapper(componentModel = "spring", uses = {ItemCategoryMapper.class, ItemSubCategoryMapper.class, InventoryLocationMapper.class, InventorySubLocationMapper.class, StockInItemMapper.class, StockStatusMapper.class})
 public interface StockOutItemMapper extends EntityMapper<StockOutItemDTO, StockOutItem> {
 
     @Mapping(source = "itemCategories.id", target = "itemCategoriesId")
@@ -20,6 +20,7 @@ public interface StockOutItemMapper extends EntityMapper<StockOutItemDTO, StockO
     @Mapping(source = "inventorySubLocations.id", target = "inventorySubLocationsId")
     @Mapping(source = "inventorySubLocations.name", target = "inventorySubLocationsName")
     @Mapping(source = "stockInItems.id", target = "stockInItemsId")
+    @Mapping(source = "stockStatuses.id", target = "stockStatusesId")
     StockOutItemDTO toDto(StockOutItem stockOutItem);
 
     @Mapping(source = "itemCategoriesId", target = "itemCategories")
@@ -27,6 +28,7 @@ public interface StockOutItemMapper extends EntityMapper<StockOutItemDTO, StockO
     @Mapping(source = "inventoryLocationsId", target = "inventoryLocations")
     @Mapping(source = "inventorySubLocationsId", target = "inventorySubLocations")
     @Mapping(source = "stockInItemsId", target = "stockInItems")
+    @Mapping(source = "stockStatusesId", target = "stockStatuses")
     StockOutItem toEntity(StockOutItemDTO stockOutItemDTO);
 
     default StockOutItem fromId(Long id) {

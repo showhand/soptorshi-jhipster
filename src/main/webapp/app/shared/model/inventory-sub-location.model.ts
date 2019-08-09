@@ -10,8 +10,8 @@ export interface IInventorySubLocation {
     name?: string;
     shortName?: string;
     description?: string;
-    inventoryLocationName?: string;
-    inventoryLocationId?: number;
+    inventoryLocationsName?: string;
+    inventoryLocationsId?: number;
 }
 
 export class InventorySubLocation implements IInventorySubLocation {
@@ -21,7 +21,7 @@ export class InventorySubLocation implements IInventorySubLocation {
         public name?: string,
         public shortName?: string,
         public description?: string,
-        public inventoryLocationName?: string,
-        public inventoryLocationId?: number
+        public inventoryLocationsName?: string,
+        public inventoryLocationsId?: number
     ) {}
 }

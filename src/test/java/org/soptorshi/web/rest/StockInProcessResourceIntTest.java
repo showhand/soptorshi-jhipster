@@ -80,8 +80,8 @@ public class StockInProcessResourceIntTest {
     private static final String DEFAULT_CONTAINER_TRACKING_ID = "AAAAAAAAAA";
     private static final String UPDATED_CONTAINER_TRACKING_ID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ITEM_PER_CONTAINER = "AAAAAAAAAA";
-    private static final String UPDATED_ITEM_PER_CONTAINER = "BBBBBBBBBB";
+    private static final String DEFAULT_QUANTITY_PER_CONTAINER = "AAAAAAAAAA";
+    private static final String UPDATED_QUANTITY_PER_CONTAINER = "BBBBBBBBBB";
 
     private static final LocalDate DEFAULT_EXPIRY_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_EXPIRY_DATE = LocalDate.now(ZoneId.systemDefault());
@@ -163,7 +163,7 @@ public class StockInProcessResourceIntTest {
             .totalContainer(DEFAULT_TOTAL_CONTAINER)
             .containerCategory(DEFAULT_CONTAINER_CATEGORY)
             .containerTrackingId(DEFAULT_CONTAINER_TRACKING_ID)
-            .itemPerContainer(DEFAULT_ITEM_PER_CONTAINER)
+            .quantityPerContainer(DEFAULT_QUANTITY_PER_CONTAINER)
             .expiryDate(DEFAULT_EXPIRY_DATE)
             .stockInBy(DEFAULT_STOCK_IN_BY)
             .stockInDate(DEFAULT_STOCK_IN_DATE)
@@ -199,7 +199,7 @@ public class StockInProcessResourceIntTest {
         assertThat(testStockInProcess.getTotalContainer()).isEqualTo(DEFAULT_TOTAL_CONTAINER);
         assertThat(testStockInProcess.getContainerCategory()).isEqualTo(DEFAULT_CONTAINER_CATEGORY);
         assertThat(testStockInProcess.getContainerTrackingId()).isEqualTo(DEFAULT_CONTAINER_TRACKING_ID);
-        assertThat(testStockInProcess.getItemPerContainer()).isEqualTo(DEFAULT_ITEM_PER_CONTAINER);
+        assertThat(testStockInProcess.getQuantityPerContainer()).isEqualTo(DEFAULT_QUANTITY_PER_CONTAINER);
         assertThat(testStockInProcess.getExpiryDate()).isEqualTo(DEFAULT_EXPIRY_DATE);
         assertThat(testStockInProcess.getStockInBy()).isEqualTo(DEFAULT_STOCK_IN_BY);
         assertThat(testStockInProcess.getStockInDate()).isEqualTo(DEFAULT_STOCK_IN_DATE);
@@ -349,10 +349,10 @@ public class StockInProcessResourceIntTest {
 
     @Test
     @Transactional
-    public void checkItemPerContainerIsRequired() throws Exception {
+    public void checkQuantityPerContainerIsRequired() throws Exception {
         int databaseSizeBeforeTest = stockInProcessRepository.findAll().size();
         // set the field null
-        stockInProcess.setItemPerContainer(null);
+        stockInProcess.setQuantityPerContainer(null);
 
         // Create the StockInProcess, which fails.
         StockInProcessDTO stockInProcessDTO = stockInProcessMapper.toDto(stockInProcess);
@@ -383,7 +383,7 @@ public class StockInProcessResourceIntTest {
             .andExpect(jsonPath("$.[*].totalContainer").value(hasItem(DEFAULT_TOTAL_CONTAINER)))
             .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID.toString())))
-            .andExpect(jsonPath("$.[*].itemPerContainer").value(hasItem(DEFAULT_ITEM_PER_CONTAINER.toString())))
+            .andExpect(jsonPath("$.[*].quantityPerContainer").value(hasItem(DEFAULT_QUANTITY_PER_CONTAINER.toString())))
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY.toString())))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
@@ -408,7 +408,7 @@ public class StockInProcessResourceIntTest {
             .andExpect(jsonPath("$.totalContainer").value(DEFAULT_TOTAL_CONTAINER))
             .andExpect(jsonPath("$.containerCategory").value(DEFAULT_CONTAINER_CATEGORY.toString()))
             .andExpect(jsonPath("$.containerTrackingId").value(DEFAULT_CONTAINER_TRACKING_ID.toString()))
-            .andExpect(jsonPath("$.itemPerContainer").value(DEFAULT_ITEM_PER_CONTAINER.toString()))
+            .andExpect(jsonPath("$.quantityPerContainer").value(DEFAULT_QUANTITY_PER_CONTAINER.toString()))
             .andExpect(jsonPath("$.expiryDate").value(DEFAULT_EXPIRY_DATE.toString()))
             .andExpect(jsonPath("$.stockInBy").value(DEFAULT_STOCK_IN_BY.toString()))
             .andExpect(jsonPath("$.stockInDate").value(DEFAULT_STOCK_IN_DATE.toString()))
@@ -679,41 +679,41 @@ public class StockInProcessResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllStockInProcessesByItemPerContainerIsEqualToSomething() throws Exception {
+    public void getAllStockInProcessesByQuantityPerContainerIsEqualToSomething() throws Exception {
         // Initialize the database
         stockInProcessRepository.saveAndFlush(stockInProcess);
 
-        // Get all the stockInProcessList where itemPerContainer equals to DEFAULT_ITEM_PER_CONTAINER
-        defaultStockInProcessShouldBeFound("itemPerContainer.equals=" + DEFAULT_ITEM_PER_CONTAINER);
+        // Get all the stockInProcessList where quantityPerContainer equals to DEFAULT_QUANTITY_PER_CONTAINER
+        defaultStockInProcessShouldBeFound("quantityPerContainer.equals=" + DEFAULT_QUANTITY_PER_CONTAINER);
 
-        // Get all the stockInProcessList where itemPerContainer equals to UPDATED_ITEM_PER_CONTAINER
-        defaultStockInProcessShouldNotBeFound("itemPerContainer.equals=" + UPDATED_ITEM_PER_CONTAINER);
+        // Get all the stockInProcessList where quantityPerContainer equals to UPDATED_QUANTITY_PER_CONTAINER
+        defaultStockInProcessShouldNotBeFound("quantityPerContainer.equals=" + UPDATED_QUANTITY_PER_CONTAINER);
     }
 
     @Test
     @Transactional
-    public void getAllStockInProcessesByItemPerContainerIsInShouldWork() throws Exception {
+    public void getAllStockInProcessesByQuantityPerContainerIsInShouldWork() throws Exception {
         // Initialize the database
         stockInProcessRepository.saveAndFlush(stockInProcess);
 
-        // Get all the stockInProcessList where itemPerContainer in DEFAULT_ITEM_PER_CONTAINER or UPDATED_ITEM_PER_CONTAINER
-        defaultStockInProcessShouldBeFound("itemPerContainer.in=" + DEFAULT_ITEM_PER_CONTAINER + "," + UPDATED_ITEM_PER_CONTAINER);
+        // Get all the stockInProcessList where quantityPerContainer in DEFAULT_QUANTITY_PER_CONTAINER or UPDATED_QUANTITY_PER_CONTAINER
+        defaultStockInProcessShouldBeFound("quantityPerContainer.in=" + DEFAULT_QUANTITY_PER_CONTAINER + "," + UPDATED_QUANTITY_PER_CONTAINER);
 
-        // Get all the stockInProcessList where itemPerContainer equals to UPDATED_ITEM_PER_CONTAINER
-        defaultStockInProcessShouldNotBeFound("itemPerContainer.in=" + UPDATED_ITEM_PER_CONTAINER);
+        // Get all the stockInProcessList where quantityPerContainer equals to UPDATED_QUANTITY_PER_CONTAINER
+        defaultStockInProcessShouldNotBeFound("quantityPerContainer.in=" + UPDATED_QUANTITY_PER_CONTAINER);
     }
 
     @Test
     @Transactional
-    public void getAllStockInProcessesByItemPerContainerIsNullOrNotNull() throws Exception {
+    public void getAllStockInProcessesByQuantityPerContainerIsNullOrNotNull() throws Exception {
         // Initialize the database
         stockInProcessRepository.saveAndFlush(stockInProcess);
 
-        // Get all the stockInProcessList where itemPerContainer is not null
-        defaultStockInProcessShouldBeFound("itemPerContainer.specified=true");
+        // Get all the stockInProcessList where quantityPerContainer is not null
+        defaultStockInProcessShouldBeFound("quantityPerContainer.specified=true");
 
-        // Get all the stockInProcessList where itemPerContainer is null
-        defaultStockInProcessShouldNotBeFound("itemPerContainer.specified=false");
+        // Get all the stockInProcessList where quantityPerContainer is null
+        defaultStockInProcessShouldNotBeFound("quantityPerContainer.specified=false");
     }
 
     @Test
@@ -1046,7 +1046,7 @@ public class StockInProcessResourceIntTest {
             .andExpect(jsonPath("$.[*].totalContainer").value(hasItem(DEFAULT_TOTAL_CONTAINER)))
             .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
-            .andExpect(jsonPath("$.[*].itemPerContainer").value(hasItem(DEFAULT_ITEM_PER_CONTAINER)))
+            .andExpect(jsonPath("$.[*].quantityPerContainer").value(hasItem(DEFAULT_QUANTITY_PER_CONTAINER)))
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
@@ -1105,7 +1105,7 @@ public class StockInProcessResourceIntTest {
             .totalContainer(UPDATED_TOTAL_CONTAINER)
             .containerCategory(UPDATED_CONTAINER_CATEGORY)
             .containerTrackingId(UPDATED_CONTAINER_TRACKING_ID)
-            .itemPerContainer(UPDATED_ITEM_PER_CONTAINER)
+            .quantityPerContainer(UPDATED_QUANTITY_PER_CONTAINER)
             .expiryDate(UPDATED_EXPIRY_DATE)
             .stockInBy(UPDATED_STOCK_IN_BY)
             .stockInDate(UPDATED_STOCK_IN_DATE)
@@ -1128,7 +1128,7 @@ public class StockInProcessResourceIntTest {
         assertThat(testStockInProcess.getTotalContainer()).isEqualTo(UPDATED_TOTAL_CONTAINER);
         assertThat(testStockInProcess.getContainerCategory()).isEqualTo(UPDATED_CONTAINER_CATEGORY);
         assertThat(testStockInProcess.getContainerTrackingId()).isEqualTo(UPDATED_CONTAINER_TRACKING_ID);
-        assertThat(testStockInProcess.getItemPerContainer()).isEqualTo(UPDATED_ITEM_PER_CONTAINER);
+        assertThat(testStockInProcess.getQuantityPerContainer()).isEqualTo(UPDATED_QUANTITY_PER_CONTAINER);
         assertThat(testStockInProcess.getExpiryDate()).isEqualTo(UPDATED_EXPIRY_DATE);
         assertThat(testStockInProcess.getStockInBy()).isEqualTo(UPDATED_STOCK_IN_BY);
         assertThat(testStockInProcess.getStockInDate()).isEqualTo(UPDATED_STOCK_IN_DATE);
@@ -1200,7 +1200,7 @@ public class StockInProcessResourceIntTest {
             .andExpect(jsonPath("$.[*].totalContainer").value(hasItem(DEFAULT_TOTAL_CONTAINER)))
             .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
-            .andExpect(jsonPath("$.[*].itemPerContainer").value(hasItem(DEFAULT_ITEM_PER_CONTAINER)))
+            .andExpect(jsonPath("$.[*].quantityPerContainer").value(hasItem(DEFAULT_QUANTITY_PER_CONTAINER)))
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))

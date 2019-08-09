@@ -22,9 +22,9 @@ public class InventorySubLocationDTO implements Serializable {
     private String description;
 
 
-    private Long inventoryLocationId;
+    private Long inventoryLocationsId;
 
-    private String inventoryLocationName;
+    private String inventoryLocationsName;
 
     public Long getId() {
         return id;
@@ -66,20 +66,20 @@ public class InventorySubLocationDTO implements Serializable {
         this.description = description;
     }
 
-    public Long getInventoryLocationId() {
-        return inventoryLocationId;
+    public Long getInventoryLocationsId() {
+        return inventoryLocationsId;
     }
 
-    public void setInventoryLocationId(Long inventoryLocationId) {
-        this.inventoryLocationId = inventoryLocationId;
+    public void setInventoryLocationsId(Long inventoryLocationId) {
+        this.inventoryLocationsId = inventoryLocationId;
     }
 
-    public String getInventoryLocationName() {
-        return inventoryLocationName;
+    public String getInventoryLocationsName() {
+        return inventoryLocationsName;
     }
 
-    public void setInventoryLocationName(String inventoryLocationName) {
-        this.inventoryLocationName = inventoryLocationName;
+    public void setInventoryLocationsName(String inventoryLocationName) {
+        this.inventoryLocationsName = inventoryLocationName;
     }
 
     @Override
@@ -111,8 +111,8 @@ public class InventorySubLocationDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", shortName='" + getShortName() + "'" +
             ", description='" + getDescription() + "'" +
-            ", inventoryLocation=" + getInventoryLocationId() +
-            ", inventoryLocation='" + getInventoryLocationName() + "'" +
+            ", inventoryLocations=" + getInventoryLocationsId() +
+            ", inventoryLocations='" + getInventoryLocationsName() + "'" +
             "}";
     }
 }

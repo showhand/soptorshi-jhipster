@@ -38,7 +38,7 @@ public class InventorySubLocationCriteria implements Serializable {
 
     private StringFilter description;
 
-    private LongFilter inventoryLocationId;
+    private LongFilter inventoryLocationsId;
 
     public LongFilter getId() {
         return id;
@@ -80,12 +80,12 @@ public class InventorySubLocationCriteria implements Serializable {
         this.description = description;
     }
 
-    public LongFilter getInventoryLocationId() {
-        return inventoryLocationId;
+    public LongFilter getInventoryLocationsId() {
+        return inventoryLocationsId;
     }
 
-    public void setInventoryLocationId(LongFilter inventoryLocationId) {
-        this.inventoryLocationId = inventoryLocationId;
+    public void setInventoryLocationsId(LongFilter inventoryLocationsId) {
+        this.inventoryLocationsId = inventoryLocationsId;
     }
 
 
@@ -104,7 +104,7 @@ public class InventorySubLocationCriteria implements Serializable {
             Objects.equals(name, that.name) &&
             Objects.equals(shortName, that.shortName) &&
             Objects.equals(description, that.description) &&
-            Objects.equals(inventoryLocationId, that.inventoryLocationId);
+            Objects.equals(inventoryLocationsId, that.inventoryLocationsId);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class InventorySubLocationCriteria implements Serializable {
         name,
         shortName,
         description,
-        inventoryLocationId
+        inventoryLocationsId
         );
     }
 
@@ -127,7 +127,7 @@ public class InventorySubLocationCriteria implements Serializable {
                 (name != null ? "name=" + name + ", " : "") +
                 (shortName != null ? "shortName=" + shortName + ", " : "") +
                 (description != null ? "description=" + description + ", " : "") +
-                (inventoryLocationId != null ? "inventoryLocationId=" + inventoryLocationId + ", " : "") +
+                (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +
             "}";
     }
 

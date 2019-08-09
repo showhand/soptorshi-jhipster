@@ -9,12 +9,9 @@ import javax.validation.constraints.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.ItemUnit;
-
-import org.soptorshi.domain.enumeration.ContainerCategory;
 
 /**
  * A StockStatus.
@@ -39,6 +36,11 @@ public class StockStatus implements Serializable {
     private Double totalQuantity;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "unit", nullable = false)
+    private ItemUnit unit;
+
+    @NotNull
     @Column(name = "available_quantity", nullable = false)
     private Double availableQuantity;
 
@@ -56,39 +58,23 @@ public class StockStatus implements Serializable {
     @Column(name = "stock_in_date")
     private Instant stockInDate;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "unit", nullable = false)
-    private ItemUnit unit;
+    @OneToOne
+    @JoinColumn(unique = true)
+    private StockInItem stockInItems;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "container_category", nullable = false)
-    private ContainerCategory containerCategory;
-
-    @Column(name = "expiry_date")
-    private LocalDate expiryDate;
-
-    @Column(name = "stock_in_item_id")
-    private Long stockInItemId;
-
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne
     @JsonIgnoreProperties("stockStatuses")
     private ItemCategory itemCategories;
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne
     @JsonIgnoreProperties("stockStatuses")
     private ItemSubCategory itemSubCategories;
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne
     @JsonIgnoreProperties("stockStatuses")
     private InventoryLocation inventoryLocations;
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne
     @JsonIgnoreProperties("stockStatuses")
     private InventorySubLocation inventorySubLocations;
 
@@ -125,6 +111,19 @@ public class StockStatus implements Serializable {
 
     public void setTotalQuantity(Double totalQuantity) {
         this.totalQuantity = totalQuantity;
+    }
+
+    public ItemUnit getUnit() {
+        return unit;
+    }
+
+    public StockStatus unit(ItemUnit unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    public void setUnit(ItemUnit unit) {
+        this.unit = unit;
     }
 
     public Double getAvailableQuantity() {
@@ -192,56 +191,17 @@ public class StockStatus implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public ItemUnit getUnit() {
-        return unit;
+    public StockInItem getStockInItems() {
+        return stockInItems;
     }
 
-    public StockStatus unit(ItemUnit unit) {
-        this.unit = unit;
+    public StockStatus stockInItems(StockInItem stockInItem) {
+        this.stockInItems = stockInItem;
         return this;
     }
 
-    public void setUnit(ItemUnit unit) {
-        this.unit = unit;
-    }
-
-    public ContainerCategory getContainerCategory() {
-        return containerCategory;
-    }
-
-    public StockStatus containerCategory(ContainerCategory containerCategory) {
-        this.containerCategory = containerCategory;
-        return this;
-    }
-
-    public void setContainerCategory(ContainerCategory containerCategory) {
-        this.containerCategory = containerCategory;
-    }
-
-    public LocalDate getExpiryDate() {
-        return expiryDate;
-    }
-
-    public StockStatus expiryDate(LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
-        return this;
-    }
-
-    public void setExpiryDate(LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public Long getStockInItemId() {
-        return stockInItemId;
-    }
-
-    public StockStatus stockInItemId(Long stockInItemId) {
-        this.stockInItemId = stockInItemId;
-        return this;
-    }
-
-    public void setStockInItemId(Long stockInItemId) {
-        this.stockInItemId = stockInItemId;
+    public void setStockInItems(StockInItem stockInItem) {
+        this.stockInItems = stockInItem;
     }
 
     public ItemCategory getItemCategories() {
@@ -323,15 +283,12 @@ public class StockStatus implements Serializable {
             "id=" + getId() +
             ", containerTrackingId='" + getContainerTrackingId() + "'" +
             ", totalQuantity=" + getTotalQuantity() +
+            ", unit='" + getUnit() + "'" +
             ", availableQuantity=" + getAvailableQuantity() +
             ", totalPrice=" + getTotalPrice() +
             ", availablePrice=" + getAvailablePrice() +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
-            ", unit='" + getUnit() + "'" +
-            ", containerCategory='" + getContainerCategory() + "'" +
-            ", expiryDate='" + getExpiryDate() + "'" +
-            ", stockInItemId=" + getStockInItemId() +
             "}";
     }
 }

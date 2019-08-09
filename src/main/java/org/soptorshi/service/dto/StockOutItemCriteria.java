@@ -47,6 +47,8 @@ public class StockOutItemCriteria implements Serializable {
 
     private LongFilter stockInItemsId;
 
+    private LongFilter stockStatusesId;
+
     public LongFilter getId() {
         return id;
     }
@@ -143,6 +145,14 @@ public class StockOutItemCriteria implements Serializable {
         this.stockInItemsId = stockInItemsId;
     }
 
+    public LongFilter getStockStatusesId() {
+        return stockStatusesId;
+    }
+
+    public void setStockStatusesId(LongFilter stockStatusesId) {
+        this.stockStatusesId = stockStatusesId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -165,7 +175,8 @@ public class StockOutItemCriteria implements Serializable {
             Objects.equals(itemSubCategoriesId, that.itemSubCategoriesId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
             Objects.equals(inventorySubLocationsId, that.inventorySubLocationsId) &&
-            Objects.equals(stockInItemsId, that.stockInItemsId);
+            Objects.equals(stockInItemsId, that.stockInItemsId) &&
+            Objects.equals(stockStatusesId, that.stockStatusesId);
     }
 
     @Override
@@ -182,7 +193,8 @@ public class StockOutItemCriteria implements Serializable {
         itemSubCategoriesId,
         inventoryLocationsId,
         inventorySubLocationsId,
-        stockInItemsId
+        stockInItemsId,
+        stockStatusesId
         );
     }
 
@@ -201,6 +213,7 @@ public class StockOutItemCriteria implements Serializable {
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +
                 (inventorySubLocationsId != null ? "inventorySubLocationsId=" + inventorySubLocationsId + ", " : "") +
                 (stockInItemsId != null ? "stockInItemsId=" + stockInItemsId + ", " : "") +
+                (stockStatusesId != null ? "stockStatusesId=" + stockStatusesId + ", " : "") +
             "}";
     }
 

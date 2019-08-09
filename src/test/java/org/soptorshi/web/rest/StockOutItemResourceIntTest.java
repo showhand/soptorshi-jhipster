@@ -8,6 +8,7 @@ import org.soptorshi.domain.ItemSubCategory;
 import org.soptorshi.domain.InventoryLocation;
 import org.soptorshi.domain.InventorySubLocation;
 import org.soptorshi.domain.StockInItem;
+import org.soptorshi.domain.StockStatus;
 import org.soptorshi.repository.StockOutItemRepository;
 import org.soptorshi.repository.search.StockOutItemSearchRepository;
 import org.soptorshi.service.StockOutItemService;
@@ -601,6 +602,25 @@ public class StockOutItemResourceIntTest {
 
         // Get all the stockOutItemList where stockInItems equals to stockInItemsId + 1
         defaultStockOutItemShouldNotBeFound("stockInItemsId.equals=" + (stockInItemsId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllStockOutItemsByStockStatusesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        StockStatus stockStatuses = StockStatusResourceIntTest.createEntity(em);
+        em.persist(stockStatuses);
+        em.flush();
+        stockOutItem.setStockStatuses(stockStatuses);
+        stockOutItemRepository.saveAndFlush(stockOutItem);
+        Long stockStatusesId = stockStatuses.getId();
+
+        // Get all the stockOutItemList where stockStatuses equals to stockStatusesId
+        defaultStockOutItemShouldBeFound("stockStatusesId.equals=" + stockStatusesId);
+
+        // Get all the stockOutItemList where stockStatuses equals to stockStatusesId + 1
+        defaultStockOutItemShouldNotBeFound("stockStatusesId.equals=" + (stockStatusesId + 1));
     }
 
     /**

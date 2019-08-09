@@ -38,7 +38,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="inventory_location_id" type="bigint">
+            <column name="inventory_locations_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

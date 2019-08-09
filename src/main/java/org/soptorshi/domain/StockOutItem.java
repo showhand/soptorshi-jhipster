@@ -65,6 +65,10 @@ public class StockOutItem implements Serializable {
     @JsonIgnoreProperties("stockOutItems")
     private StockInItem stockInItems;
 
+    @ManyToOne
+    @JsonIgnoreProperties("stockOutItems")
+    private StockStatus stockStatuses;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -215,6 +219,19 @@ public class StockOutItem implements Serializable {
 
     public void setStockInItems(StockInItem stockInItem) {
         this.stockInItems = stockInItem;
+    }
+
+    public StockStatus getStockStatuses() {
+        return stockStatuses;
+    }
+
+    public StockOutItem stockStatuses(StockStatus stockStatus) {
+        this.stockStatuses = stockStatus;
+        return this;
+    }
+
+    public void setStockStatuses(StockStatus stockStatus) {
+        this.stockStatuses = stockStatus;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

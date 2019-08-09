@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -18,11 +18,9 @@ import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.m
 import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
 import { IManufacturer } from 'app/shared/model/manufacturer.model';
 import { ManufacturerService } from 'app/entities/manufacturer';
-import { GenericFilter } from 'app/shared';
 
 @Component({
     selector: 'jhi-stock-in-process-update',
-    providers: [GenericFilter],
     templateUrl: './stock-in-process-update.component.html'
 })
 export class StockInProcessUpdateComponent implements OnInit {
@@ -49,8 +47,7 @@ export class StockInProcessUpdateComponent implements OnInit {
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
         protected manufacturerService: ManufacturerService,
-        protected activatedRoute: ActivatedRoute,
-        protected router: Router
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -103,8 +100,7 @@ export class StockInProcessUpdateComponent implements OnInit {
     }
 
     previousState() {
-        /*window.history.back();*/
-        this.router.navigate(['/stock-in-item']);
+        window.history.back();
     }
 
     save() {

@@ -45,7 +45,8 @@ public class StockInProcessServiceImpl implements StockInProcessService {
 
     private final StockStatusService stockStatusService;
 
-    public StockInProcessServiceImpl(StockInProcessRepository stockInProcessRepository, StockInProcessMapper stockInProcessMapper, StockInProcessSearchRepository stockInProcessSearchRepository, StockInItemService stockInItemService, StockStatusService stockStatusService) {
+    public StockInProcessServiceImpl(StockInProcessRepository stockInProcessRepository, StockInProcessMapper stockInProcessMapper, StockInProcessSearchRepository stockInProcessSearchRepository,
+                                     StockInItemService stockInItemService, StockStatusService stockStatusService) {
         this.stockInProcessRepository = stockInProcessRepository;
         this.stockInProcessMapper = stockInProcessMapper;
         this.stockInProcessSearchRepository = stockInProcessSearchRepository;
@@ -60,7 +61,6 @@ public class StockInProcessServiceImpl implements StockInProcessService {
      * @return the persisted entity
      */
     @Override
-    @Transactional
     public StockInProcessDTO save(StockInProcessDTO stockInProcessDTO) {
         log.debug("Request to save StockInProcess : {}", stockInProcessDTO);
         if(stockInProcessDTO.getId() == null) {
@@ -71,8 +71,8 @@ public class StockInProcessServiceImpl implements StockInProcessService {
             StockInProcess stockInProcess = stockInProcessMapper.toEntity(stockInProcessDTO);
             stockInProcess = stockInProcessRepository.save(stockInProcess);
             StockInProcessDTO result = stockInProcessMapper.toDto(stockInProcess);
-            stockInProcessSearchRepository.save(stockInProcess);
-            int response = insertInStock(stockInProcessMapper.toDto(stockInProcess), currentUser, currentDateTime);
+            /*stockInProcessSearchRepository.save(stockInProcess);*/
+            int response = insertInStock(result, currentUser, currentDateTime);
             if (response == 0)
                 throw new InternalServerErrorException("Mismatch in item container or item per container.");
             return result;
@@ -124,7 +124,7 @@ public class StockInProcessServiceImpl implements StockInProcessService {
     /**
      * Search for the stockInProcess corresponding to the query.
      *
-     * @param query    the query of the search
+     * @param query the query of the search
      * @param pageable the pagination information
      * @return the list of entities
      */
@@ -138,7 +138,7 @@ public class StockInProcessServiceImpl implements StockInProcessService {
 
     private int insertInStock(StockInProcessDTO stockInProcessDTO, String currentUser, Instant currentDateTime) {
         String[] containerIds = getContainerIds(stockInProcessDTO);
-        String[] itemsPerContainer = stockInProcessDTO.getItemPerContainer().split(",");
+        String[] itemsPerContainer = stockInProcessDTO.getQuantityPerContainer().split(",");
         if (validateRecord(stockInProcessDTO, containerIds, itemsPerContainer)) return 0;
 
         for (int i = 0; i < stockInProcessDTO.getTotalContainer(); i++) {
@@ -228,17 +228,15 @@ public class StockInProcessServiceImpl implements StockInProcessService {
         stockStatusDTO.setItemSubCategoriesId(stockInProcessDTO.getItemSubCategoriesId());
         stockStatusDTO.setInventoryLocationsId(stockInProcessDTO.getInventoryLocationsId());
         stockStatusDTO.setInventorySubLocationsId(stockInProcessDTO.getInventorySubLocationsId());
+        stockStatusDTO.setContainerTrackingId(containerId);
         stockStatusDTO.setTotalQuantity(quantity);
         stockStatusDTO.setAvailableQuantity(quantity);
         stockStatusDTO.setUnit(stockInProcessDTO.getUnit());
         stockStatusDTO.setTotalPrice(stockInProcessDTO.getUnitPrice() * quantity);
         stockStatusDTO.setAvailablePrice(stockInProcessDTO.getUnitPrice() * quantity);
-        stockStatusDTO.setContainerCategory(stockInProcessDTO.getContainerCategory());
-        stockStatusDTO.setContainerTrackingId(containerId);
-        stockStatusDTO.setExpiryDate(stockInProcessDTO.getExpiryDate());
         stockStatusDTO.setStockInBy(currentUserId);
         stockStatusDTO.setStockInDate(currentDateTime);
-        stockStatusDTO.setStockInItemId(stockInItemId);
+        stockStatusDTO.setStockInItemsId(stockInItemId);
         return stockStatusDTO;
     }
 }

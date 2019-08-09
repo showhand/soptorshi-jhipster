@@ -43,7 +43,7 @@ public class InventorySubLocation implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("inventorySubLocations")
-    private InventoryLocation inventoryLocation;
+    private InventoryLocation inventoryLocations;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -106,17 +106,17 @@ public class InventorySubLocation implements Serializable {
         this.description = description;
     }
 
-    public InventoryLocation getInventoryLocation() {
-        return inventoryLocation;
+    public InventoryLocation getInventoryLocations() {
+        return inventoryLocations;
     }
 
-    public InventorySubLocation inventoryLocation(InventoryLocation inventoryLocation) {
-        this.inventoryLocation = inventoryLocation;
+    public InventorySubLocation inventoryLocations(InventoryLocation inventoryLocation) {
+        this.inventoryLocations = inventoryLocation;
         return this;
     }
 
-    public void setInventoryLocation(InventoryLocation inventoryLocation) {
-        this.inventoryLocation = inventoryLocation;
+    public void setInventoryLocations(InventoryLocation inventoryLocation) {
+        this.inventoryLocations = inventoryLocation;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -1,6 +1,5 @@
 package org.soptorshi.service.impl;
 
-import org.soptorshi.domain.ItemSubCategory;
 import org.soptorshi.domain.StockInItem;
 import org.soptorshi.domain.StockStatus;
 import org.soptorshi.repository.*;
@@ -54,7 +53,8 @@ public class StockOutItemServiceImpl implements StockOutItemService {
 
     private final StockInItemRepository stockInItemRepository;
 
-    public StockOutItemServiceImpl(StockOutItemRepository stockOutItemRepository, StockOutItemMapper stockOutItemMapper, StockOutItemSearchRepository stockOutItemSearchRepository, StockStatusService stockStatusService,
+    public StockOutItemServiceImpl(StockOutItemRepository stockOutItemRepository, StockOutItemMapper stockOutItemMapper, StockOutItemSearchRepository stockOutItemSearchRepository,
+                                   StockStatusService stockStatusService,
                                    StockStatusRepository stockStatusRepository,
                                    ItemCategoryRepository itemCategoryRepository, ItemSubCategoryRepository itemSubCategoryRepository,
                                    InventoryLocationRepository inventoryLocationRepository, InventorySubLocationRepository inventorySubLocationRepository, StockInItemRepository stockInItemRepository) {
@@ -77,7 +77,6 @@ public class StockOutItemServiceImpl implements StockOutItemService {
      * @return the persisted entity
      */
     @Override
-    @Transactional
     public StockOutItemDTO save(StockOutItemDTO stockOutItemDTO) {
         log.debug("Request to save StockOutItem : {}", stockOutItemDTO);
         if (stockOutItemDTO.getId() == null) {
@@ -91,17 +90,24 @@ public class StockOutItemServiceImpl implements StockOutItemService {
                 inventorySubLocationRepository.getOne(stockOutItemDTO.getInventorySubLocationsId()),
                 stockOutItemDTO.getContainerTrackingId());
 
-            if (stockInItem != null) {
+            StockStatus stockStatus = stockStatusRepository.getByItemCategoriesAndItemSubCategoriesAndInventoryLocationsAndInventorySubLocationsAndContainerTrackingId(
+                itemCategoryRepository.getOne(stockOutItemDTO.getItemCategoriesId()),
+                itemSubCategoryRepository.getOne(stockOutItemDTO.getItemSubCategoriesId()),
+                inventoryLocationRepository.getOne(stockOutItemDTO.getInventoryLocationsId()),
+                inventorySubLocationRepository.getOne(stockOutItemDTO.getInventorySubLocationsId()),
+                stockOutItemDTO.getContainerTrackingId());
+
+            if (stockInItem != null && stockStatus != null) {
                 stockOutItemDTO.setStockOutBy(currentUser);
                 stockOutItemDTO.setStockOutDate(currentDateTime);
                 stockOutItemDTO.setStockInItemsId(stockInItem.getId());
-                int response = updateStockStatus(stockOutItemDTO, currentUser, currentDateTime);
+                stockOutItemDTO.setStockStatusesId(stockStatus.getId());
+                int response = updateStockStatus(stockOutItemDTO, stockStatus, currentUser, currentDateTime);
                 if (response == 1) {
                     StockOutItem stockOutItem = stockOutItemMapper.toEntity(stockOutItemDTO);
                     stockOutItem = stockOutItemRepository.save(stockOutItem);
-                    StockOutItemDTO result = stockOutItemMapper.toDto(stockOutItem);
-                    stockOutItemSearchRepository.save(stockOutItem);
-                    return result;
+                    /*stockOutItemSearchRepository.save(stockOutItem);*/
+                    return stockOutItemMapper.toDto(stockOutItem);
                 }
                 throw new InternalServerErrorException("Item can not be stock out.");
             }
@@ -166,21 +172,14 @@ public class StockOutItemServiceImpl implements StockOutItemService {
             .map(stockOutItemMapper::toDto);
     }
 
-    private int updateStockStatus(StockOutItemDTO stockOutItemDTO, String currentUser, Instant currentDateTime) {
-        StockStatus stockStatus = stockStatusRepository.getByItemCategoriesAndItemSubCategoriesAndInventoryLocationsAndInventorySubLocationsAndContainerTrackingId(
-            itemCategoryRepository.getOne(stockOutItemDTO.getItemCategoriesId()),
-            itemSubCategoryRepository.getOne(stockOutItemDTO.getItemSubCategoriesId()),
-            inventoryLocationRepository.getOne(stockOutItemDTO.getInventoryLocationsId()),
-            inventorySubLocationRepository.getOne(stockOutItemDTO.getInventorySubLocationsId()),
-            stockOutItemDTO.getContainerTrackingId());
+    private int updateStockStatus(StockOutItemDTO stockOutItemDTO,
+                                  StockStatus stockStatus, String currentUser, Instant currentDateTime) {
         if (stockStatus != null) {
             if (stockOutItemDTO.getQuantity().compareTo(stockStatus.getAvailableQuantity()) > 0) {
                 throw new InternalServerErrorException("Required quantity is greater than available quantity");
             } else {
-                StockInItem stockInItem = stockInItemRepository.getOne(stockOutItemDTO.getStockInItemsId());
                 stockStatus.setAvailableQuantity(stockStatus.getAvailableQuantity() - stockOutItemDTO.getQuantity());
-                stockStatus.setAvailablePrice(stockStatus.getAvailablePrice() - (stockOutItemDTO.getQuantity() * stockInItem.getStockInProcesses().getUnitPrice()));
-
+                stockStatus.setAvailablePrice(stockStatus.getAvailablePrice() - (stockOutItemDTO.getQuantity() * stockStatus.getStockInItems().getStockInProcesses().getUnitPrice()));
                 stockStatusRepository.save(stockStatus);
             }
             return 1;

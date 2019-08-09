@@ -50,9 +50,8 @@ public class StockStatusServiceImpl implements StockStatusService {
         log.debug("Request to save StockStatus : {}", stockStatusDTO);
         StockStatus stockStatus = stockStatusMapper.toEntity(stockStatusDTO);
         stockStatus = stockStatusRepository.save(stockStatus);
-        StockStatusDTO result = stockStatusMapper.toDto(stockStatus);
-        stockStatusSearchRepository.save(stockStatus);
-        return result;
+        /*stockStatusSearchRepository.save(stockStatus);*/
+        return stockStatusMapper.toDto(stockStatus);
     }
 
     /**

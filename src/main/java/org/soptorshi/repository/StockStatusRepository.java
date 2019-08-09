@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface StockStatusRepository extends JpaRepository<StockStatus, Long>, JpaSpecificationExecutor<StockStatus> {
-
     StockStatus getByItemCategoriesAndItemSubCategoriesAndInventoryLocationsAndInventorySubLocationsAndContainerTrackingId(
         ItemCategory itemCategory, ItemSubCategory itemSubCategory, InventoryLocation inventoryLocation, InventorySubLocation
         inventorySubLocation, String containerTrackingId);

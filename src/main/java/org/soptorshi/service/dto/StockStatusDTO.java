@@ -1,11 +1,9 @@
 package org.soptorshi.service.dto;
 import java.time.Instant;
-import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.ItemUnit;
-import org.soptorshi.domain.enumeration.ContainerCategory;
 
 /**
  * A DTO for the StockStatus entity.
@@ -21,6 +19,9 @@ public class StockStatusDTO implements Serializable {
     private Double totalQuantity;
 
     @NotNull
+    private ItemUnit unit;
+
+    @NotNull
     private Double availableQuantity;
 
     @NotNull
@@ -33,16 +34,8 @@ public class StockStatusDTO implements Serializable {
 
     private Instant stockInDate;
 
-    @NotNull
-    private ItemUnit unit;
 
-    @NotNull
-    private ContainerCategory containerCategory;
-
-    private LocalDate expiryDate;
-
-    private Long stockInItemId;
-
+    private Long stockInItemsId;
 
     private Long itemCategoriesId;
 
@@ -82,6 +75,14 @@ public class StockStatusDTO implements Serializable {
 
     public void setTotalQuantity(Double totalQuantity) {
         this.totalQuantity = totalQuantity;
+    }
+
+    public ItemUnit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(ItemUnit unit) {
+        this.unit = unit;
     }
 
     public Double getAvailableQuantity() {
@@ -124,36 +125,12 @@ public class StockStatusDTO implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public ItemUnit getUnit() {
-        return unit;
+    public Long getStockInItemsId() {
+        return stockInItemsId;
     }
 
-    public void setUnit(ItemUnit unit) {
-        this.unit = unit;
-    }
-
-    public ContainerCategory getContainerCategory() {
-        return containerCategory;
-    }
-
-    public void setContainerCategory(ContainerCategory containerCategory) {
-        this.containerCategory = containerCategory;
-    }
-
-    public LocalDate getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public Long getStockInItemId() {
-        return stockInItemId;
-    }
-
-    public void setStockInItemId(Long stockInItemId) {
-        this.stockInItemId = stockInItemId;
+    public void setStockInItemsId(Long stockInItemId) {
+        this.stockInItemsId = stockInItemId;
     }
 
     public Long getItemCategoriesId() {
@@ -247,15 +224,13 @@ public class StockStatusDTO implements Serializable {
             "id=" + getId() +
             ", containerTrackingId='" + getContainerTrackingId() + "'" +
             ", totalQuantity=" + getTotalQuantity() +
+            ", unit='" + getUnit() + "'" +
             ", availableQuantity=" + getAvailableQuantity() +
             ", totalPrice=" + getTotalPrice() +
             ", availablePrice=" + getAvailablePrice() +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
-            ", unit='" + getUnit() + "'" +
-            ", containerCategory='" + getContainerCategory() + "'" +
-            ", expiryDate='" + getExpiryDate() + "'" +
-            ", stockInItemId=" + getStockInItemId() +
+            ", stockInItems=" + getStockInItemsId() +
             ", itemCategories=" + getItemCategoriesId() +
             ", itemCategories='" + getItemCategoriesName() + "'" +
             ", itemSubCategories=" + getItemSubCategoriesId() +

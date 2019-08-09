@@ -1,52 +1,5 @@
 {
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "relationships": [
-        {
-            "relationshipName": "itemCategories",
-            "otherEntityName": "itemCategory",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "name",
-            "otherEntityRelationshipNameUndefined": true,
-            "otherEntityRelationshipName": "stockStatus"
-        },
-        {
-            "relationshipName": "itemSubCategories",
-            "otherEntityName": "itemSubCategory",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "name",
-            "otherEntityRelationshipNameUndefined": true,
-            "otherEntityRelationshipName": "stockStatus"
-        },
-        {
-            "relationshipName": "inventoryLocations",
-            "otherEntityName": "inventoryLocation",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "name",
-            "otherEntityRelationshipNameUndefined": true,
-            "otherEntityRelationshipName": "stockStatus"
-        },
-        {
-            "relationshipName": "inventorySubLocations",
-            "otherEntityName": "inventorySubLocation",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "name",
-            "otherEntityRelationshipNameUndefined": true,
-            "otherEntityRelationshipName": "stockStatus"
-        }
-    ],
+    "name": "StockStatus",
     "fields": [
         {
             "fieldName": "containerTrackingId",
@@ -58,6 +11,14 @@
         {
             "fieldName": "totalQuantity",
             "fieldType": "Double",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "unit",
+            "fieldType": "ItemUnit",
+            "fieldValues": "KG,PCS,LITER,DOZEN,OTHERS",
             "fieldValidateRules": [
                 "required"
             ]
@@ -90,40 +51,53 @@
         {
             "fieldName": "stockInDate",
             "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "stockInItem",
+            "otherEntityRelationshipName": "stockStatus",
+            "relationshipName": "stockInItems",
+            "otherEntityField": "id",
+            "ownerSide": true
         },
         {
-            "fieldName": "unit",
-            "fieldType": "ItemUnit",
-            "fieldValues": "KG,PCS,LITER,DOZEN",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "relationshipType": "many-to-one",
+            "otherEntityName": "itemCategory",
+            "otherEntityRelationshipName": "stockStatus",
+            "relationshipName": "itemCategories",
+            "otherEntityField": "name"
         },
         {
-            "fieldName": "containerCategory",
-            "fieldType": "ContainerCategory",
-            "fieldValues": "BOTTLE,DRUM,PACKET,SACK",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "relationshipType": "many-to-one",
+            "otherEntityName": "itemSubCategory",
+            "otherEntityRelationshipName": "stockStatus",
+            "relationshipName": "itemSubCategories",
+            "otherEntityField": "name"
         },
         {
-            "fieldName": "expiryDate",
-            "fieldType": "LocalDate",
-            "fieldValidateRules": []
+            "relationshipType": "many-to-one",
+            "otherEntityName": "inventoryLocation",
+            "otherEntityRelationshipName": "stockStatus",
+            "relationshipName": "inventoryLocations",
+            "otherEntityField": "name"
         },
         {
-            "fieldName": "stockInItemId",
-            "fieldType": "Long",
-            "fieldValidateRules": []
+            "relationshipType": "many-to-one",
+            "otherEntityName": "inventorySubLocation",
+            "otherEntityRelationshipName": "stockStatus",
+            "relationshipName": "inventorySubLocations",
+            "otherEntityField": "name"
         }
     ],
     "changelogDate": "20190803152917",
-    "dto": "mapstruct",
-    "searchEngine": "elasticsearch",
-    "service": "serviceImpl",
     "entityTableName": "stock_status",
-    "databaseType": "sql",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
     "jpaMetamodelFiltering": true,
-    "pagination": "infinite-scroll"
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
 }

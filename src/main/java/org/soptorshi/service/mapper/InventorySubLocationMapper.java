@@ -11,11 +11,11 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {InventoryLocationMapper.class})
 public interface InventorySubLocationMapper extends EntityMapper<InventorySubLocationDTO, InventorySubLocation> {
 
-    @Mapping(source = "inventoryLocation.id", target = "inventoryLocationId")
-    @Mapping(source = "inventoryLocation.name", target = "inventoryLocationName")
+    @Mapping(source = "inventoryLocations.id", target = "inventoryLocationsId")
+    @Mapping(source = "inventoryLocations.name", target = "inventoryLocationsName")
     InventorySubLocationDTO toDto(InventorySubLocation inventorySubLocation);
 
-    @Mapping(source = "inventoryLocationId", target = "inventoryLocation")
+    @Mapping(source = "inventoryLocationsId", target = "inventoryLocations")
     InventorySubLocation toEntity(InventorySubLocationDTO inventorySubLocationDTO);
 
     default InventorySubLocation fromId(Long id) {

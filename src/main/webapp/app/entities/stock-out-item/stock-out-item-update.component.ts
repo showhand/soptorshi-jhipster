@@ -18,6 +18,8 @@ import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.m
 import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
 import { IStockInItem } from 'app/shared/model/stock-in-item.model';
 import { StockInItemService } from 'app/entities/stock-in-item';
+import { IStockStatus } from 'app/shared/model/stock-status.model';
+import { StockStatusService } from 'app/entities/stock-status';
 
 @Component({
     selector: 'jhi-stock-out-item-update',
@@ -36,6 +38,8 @@ export class StockOutItemUpdateComponent implements OnInit {
     inventorysublocations: IInventorySubLocation[];
 
     stockinitems: IStockInItem[];
+
+    stockstatuses: IStockStatus[];
     stockOutDate: string;
 
     constructor(
@@ -46,6 +50,7 @@ export class StockOutItemUpdateComponent implements OnInit {
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
         protected stockInItemService: StockInItemService,
+        protected stockStatusService: StockStatusService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -89,6 +94,20 @@ export class StockOutItemUpdateComponent implements OnInit {
                 (res: IInventorySubLocation[]) => (this.inventorysublocations = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.stockInItemService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IStockInItem[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IStockInItem[]>) => response.body)
+            )
+            .subscribe((res: IStockInItem[]) => (this.stockinitems = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.stockStatusService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IStockStatus[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IStockStatus[]>) => response.body)
+            )
+            .subscribe((res: IStockStatus[]) => (this.stockstatuses = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -139,6 +158,10 @@ export class StockOutItemUpdateComponent implements OnInit {
     }
 
     trackStockInItemById(index: number, item: IStockInItem) {
+        return item.id;
+    }
+
+    trackStockStatusById(index: number, item: IStockStatus) {
         return item.id;
     }
 }

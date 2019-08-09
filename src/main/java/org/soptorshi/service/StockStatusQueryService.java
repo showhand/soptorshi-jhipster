@@ -99,6 +99,9 @@ public class StockStatusQueryService extends QueryService<StockStatus> {
             if (criteria.getTotalQuantity() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTotalQuantity(), StockStatus_.totalQuantity));
             }
+            if (criteria.getUnit() != null) {
+                specification = specification.and(buildSpecification(criteria.getUnit(), StockStatus_.unit));
+            }
             if (criteria.getAvailableQuantity() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAvailableQuantity(), StockStatus_.availableQuantity));
             }
@@ -114,17 +117,9 @@ public class StockStatusQueryService extends QueryService<StockStatus> {
             if (criteria.getStockInDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getStockInDate(), StockStatus_.stockInDate));
             }
-            if (criteria.getUnit() != null) {
-                specification = specification.and(buildSpecification(criteria.getUnit(), StockStatus_.unit));
-            }
-            if (criteria.getContainerCategory() != null) {
-                specification = specification.and(buildSpecification(criteria.getContainerCategory(), StockStatus_.containerCategory));
-            }
-            if (criteria.getExpiryDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getExpiryDate(), StockStatus_.expiryDate));
-            }
-            if (criteria.getStockInItemId() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getStockInItemId(), StockStatus_.stockInItemId));
+            if (criteria.getStockInItemsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getStockInItemsId(),
+                    root -> root.join(StockStatus_.stockInItems, JoinType.LEFT).get(StockInItem_.id)));
             }
             if (criteria.getItemCategoriesId() != null) {
                 specification = specification.and(buildSpecification(criteria.getItemCategoriesId(),

@@ -29,9 +29,9 @@
                 <dd>
                     <span>{{stockInProcess.containerTrackingId}}</span>
                 </dd>
-                <dt><span>Item Per Container</span></dt>
+                <dt><span>Quantity Per Container</span></dt>
                 <dd>
-                    <span>{{stockInProcess.itemPerContainer}}</span>
+                    <span>{{stockInProcess.quantityPerContainer}}</span>
                 </dd>
                 <dt><span>Expiry Date</span></dt>
                 <dd>
@@ -91,11 +91,11 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
 
-            <!--<button type="button"
+            <button type="button"
                     [routerLink]="['/stock-in-process', stockInProcess.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>-->
+            </button>
         </div>
     </div>
 </div>

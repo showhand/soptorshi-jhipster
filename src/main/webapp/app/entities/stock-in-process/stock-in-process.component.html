@@ -57,7 +57,7 @@
                     <th jhiSortBy="containerTrackingId"><span>Container Tracking Id</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="itemPerContainer"><span>Item Per Container</span>
+                    <th jhiSortBy="quantityPerContainer"><span>Quantity Per Container</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="expiryDate"><span>Expiry Date</span>
@@ -104,7 +104,7 @@
                     <td>{{stockInProcess.totalContainer}}</td>
                     <td>{{stockInProcess.containerCategory}}</td>
                     <td>{{stockInProcess.containerTrackingId}}</td>
-                    <td>{{stockInProcess.itemPerContainer}}</td>
+                    <td>{{stockInProcess.quantityPerContainer}}</td>
                     <td>{{stockInProcess.expiryDate | date:'mediumDate'}}</td>
                     <td>{{stockInProcess.stockInBy}}</td>
                     <td>{{stockInProcess.stockInDate | date:'medium'}}</td>
@@ -135,7 +135,7 @@
                             <a [routerLink]="['../manufacturer', stockInProcess.manufacturersId , 'view' ]">{{stockInProcess.manufacturersName}}</a>
                         </div>
                     </td>
-                    <td class="text-right" width="20%">
+                    <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     [routerLink]="['/stock-in-process', stockInProcess.id, 'view' ]"

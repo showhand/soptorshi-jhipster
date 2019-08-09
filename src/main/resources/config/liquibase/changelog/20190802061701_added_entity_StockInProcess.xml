@@ -46,7 +46,7 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="item_per_container" type="varchar(255)">
+            <column name="quantity_per_container" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
 

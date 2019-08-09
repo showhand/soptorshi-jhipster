@@ -11,7 +11,8 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_itemCategories">Item Categories</label>
-                    <select class="form-control" id="field_itemCategories" name="itemCategories" [(ngModel)]="stockOutItem.itemCategoriesId" required>
+                    <select class="form-control" id="field_itemCategories" name="itemCategories" [(ngModel)]="stockOutItem.itemCategoriesId"
+                    required>
                         <option [ngValue]="null"></option>
                         <option [ngValue]="itemCategoryOption.id" *ngFor="let itemCategoryOption of itemcategories; trackBy: trackItemCategoryById">{{itemCategoryOption.name}}</option>
                     </select>
@@ -64,18 +65,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_stockOutBy">Stock Out By</label>
-                    <input type="text" class="form-control" name="stockOutBy" id="field_stockOutBy"
-                        [(ngModel)]="stockOutItem.stockOutBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_stockOutDate">Stock Out Date</label>
-                    <div class="d-flex">
-                        <input id="field_stockOutDate" type="datetime-local" class="form-control" name="stockOutDate" [(ngModel)]="stockOutDate" placeholder="YYYY-MM-DD HH:mm"
-                        />
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_receiverId">Receiver Id</label>
                     <input type="text" class="form-control" name="receiverId" id="field_receiverId"
                         [(ngModel)]="stockOutItem.receiverId" />
@@ -84,14 +73,6 @@
                     <label class="form-control-label" for="field_remarks">Remarks</label>
                     <input type="text" class="form-control" name="remarks" id="field_remarks"
                         [(ngModel)]="stockOutItem.remarks" />
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_stockInItems">Stock In Items</label>
-                    <select class="form-control" id="field_stockInItems" name="stockInItems" [(ngModel)]="stockOutItem.stockInItemsId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="stockInItemOption.id" *ngFor="let stockInItemOption of stockinitems; trackBy: trackStockInItemById">{{stockInItemOption.id}}</option>
-                    </select>
                 </div>
             </div>
             <div>

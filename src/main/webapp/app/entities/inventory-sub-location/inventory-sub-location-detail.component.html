@@ -21,10 +21,10 @@
                 <dd>
                     <span>{{inventorySubLocation.description}}</span>
                 </dd>
-                <dt><span>Inventory Location</span></dt>
+                <dt><span>Inventory Locations</span></dt>
                 <dd>
-                    <div *ngIf="inventorySubLocation.inventoryLocationId">
-                        <a [routerLink]="['/inventory-location', inventorySubLocation.inventoryLocationId, 'view']">{{inventorySubLocation.inventoryLocationName}}</a>
+                    <div *ngIf="inventorySubLocation.inventoryLocationsId">
+                        <a [routerLink]="['/inventory-location', inventorySubLocation.inventoryLocationsId, 'view']">{{inventorySubLocation.inventoryLocationsName}}</a>
                     </div>
                 </dd>
             </dl>

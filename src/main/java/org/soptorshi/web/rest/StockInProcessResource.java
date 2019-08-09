@@ -78,8 +78,6 @@ public class StockInProcessResource {
     @PutMapping("/stock-in-processes")
     public ResponseEntity<StockInProcessDTO> updateStockInProcess(@Valid @RequestBody StockInProcessDTO stockInProcessDTO) throws URISyntaxException {
         log.debug("REST request to update StockInProcess : {}", stockInProcessDTO);
-        throw new NotImplementedException();
-
         /*if (stockInProcessDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -87,6 +85,8 @@ public class StockInProcessResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, stockInProcessDTO.getId().toString()))
             .body(result);*/
+
+        throw new NotImplementedException();
     }
 
     /**
@@ -138,9 +138,9 @@ public class StockInProcessResource {
     @DeleteMapping("/stock-in-processes/{id}")
     public ResponseEntity<Void> deleteStockInProcess(@PathVariable Long id) {
         log.debug("REST request to delete StockInProcess : {}", id);
-        throw new NotImplementedException();
         /*stockInProcessService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();*/
+        throw new NotImplementedException();
     }
 
     /**

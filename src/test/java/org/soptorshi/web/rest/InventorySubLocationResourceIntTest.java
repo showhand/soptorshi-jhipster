@@ -414,20 +414,20 @@ public class InventorySubLocationResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllInventorySubLocationsByInventoryLocationIsEqualToSomething() throws Exception {
+    public void getAllInventorySubLocationsByInventoryLocationsIsEqualToSomething() throws Exception {
         // Initialize the database
-        InventoryLocation inventoryLocation = InventoryLocationResourceIntTest.createEntity(em);
-        em.persist(inventoryLocation);
+        InventoryLocation inventoryLocations = InventoryLocationResourceIntTest.createEntity(em);
+        em.persist(inventoryLocations);
         em.flush();
-        inventorySubLocation.setInventoryLocation(inventoryLocation);
+        inventorySubLocation.setInventoryLocations(inventoryLocations);
         inventorySubLocationRepository.saveAndFlush(inventorySubLocation);
-        Long inventoryLocationId = inventoryLocation.getId();
+        Long inventoryLocationsId = inventoryLocations.getId();
 
-        // Get all the inventorySubLocationList where inventoryLocation equals to inventoryLocationId
-        defaultInventorySubLocationShouldBeFound("inventoryLocationId.equals=" + inventoryLocationId);
+        // Get all the inventorySubLocationList where inventoryLocations equals to inventoryLocationsId
+        defaultInventorySubLocationShouldBeFound("inventoryLocationsId.equals=" + inventoryLocationsId);
 
-        // Get all the inventorySubLocationList where inventoryLocation equals to inventoryLocationId + 1
-        defaultInventorySubLocationShouldNotBeFound("inventoryLocationId.equals=" + (inventoryLocationId + 1));
+        // Get all the inventorySubLocationList where inventoryLocations equals to inventoryLocationsId + 1
+        defaultInventorySubLocationShouldNotBeFound("inventoryLocationsId.equals=" + (inventoryLocationsId + 1));
     }
 
     /**

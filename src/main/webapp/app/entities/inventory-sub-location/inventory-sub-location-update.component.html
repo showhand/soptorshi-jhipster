@@ -10,8 +10,8 @@
                         [(ngModel)]="inventorySubLocation.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_inventoryLocation">Inventory Location</label>
-                    <select class="form-control" id="field_inventoryLocation" name="inventoryLocation" [(ngModel)]="inventorySubLocation.inventoryLocationId" required>
+                    <label class="form-control-label" for="field_inventoryLocations">Inventory Locations</label>
+                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="inventorySubLocation.inventoryLocationsId" required>
                         <option [ngValue]="null"></option>
                         <option [ngValue]="inventoryLocationOption.id" *ngFor="let inventoryLocationOption of inventorylocations; trackBy: trackInventoryLocationById">{{inventoryLocationOption.name}}</option>
                     </select>

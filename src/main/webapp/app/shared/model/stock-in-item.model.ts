@@ -4,14 +4,16 @@ export const enum ItemUnit {
     KG = 'KG',
     PCS = 'PCS',
     LITER = 'LITER',
-    DOZEN = 'DOZEN'
+    DOZEN = 'DOZEN',
+    OTHERS = 'OTHERS'
 }
 
 export const enum ContainerCategory {
     BOTTLE = 'BOTTLE',
     DRUM = 'DRUM',
     PACKET = 'PACKET',
-    SACK = 'SACK'
+    SACK = 'SACK',
+    OTHERS = 'OTHERS'
 }
 
 export interface IStockInItem {

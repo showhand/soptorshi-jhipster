@@ -11,7 +11,7 @@
         {
             "fieldName": "unit",
             "fieldType": "ItemUnit",
-            "fieldValues": "KG,PCS,LITER,DOZEN",
+            "fieldValues": "KG,PCS,LITER,DOZEN,OTHERS",
             "fieldValidateRules": [
                 "required"
             ]
@@ -26,7 +26,7 @@
         {
             "fieldName": "containerCategory",
             "fieldType": "ContainerCategory",
-            "fieldValues": "BOTTLE,DRUM,PACKET,SACK",
+            "fieldValues": "BOTTLE,DRUM,PACKET,SACK,OTHERS",
             "fieldValidateRules": [
                 "required"
             ]

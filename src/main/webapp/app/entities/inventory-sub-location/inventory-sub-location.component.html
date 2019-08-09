@@ -39,9 +39,6 @@
                     <th jhiSortBy="id"><span>ID</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="inventoryLocationName"><span>Inventory Location</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
                     <th jhiSortBy="category"><span>Category</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -54,6 +51,9 @@
                     <th jhiSortBy="description"><span>Description</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
+                    <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
                     <th></th>
                 </tr>
                 </thead>
@@ -63,16 +63,16 @@
                     <td><a
                         [routerLink]="['/inventory-sub-location', inventorySubLocation.id, 'view' ]">{{inventorySubLocation.id}}</a>
                     </td>
-                    <td>
-                        <div *ngIf="inventorySubLocation.inventoryLocationId">
-                            <a [routerLink]="['../inventory-location', inventorySubLocation.inventoryLocationId , 'view' ]">{{inventorySubLocation.inventoryLocationName}}</a>
-                        </div>
-                    </td>
                     <td>{{inventorySubLocation.category}}</td>
                     <td>{{inventorySubLocation.name}}</td>
                     <td>{{inventorySubLocation.shortName}}</td>
                     <td>{{inventorySubLocation.description}}</td>
-                    <td class="text-right" width="20%">
+                    <td>
+                        <div *ngIf="inventorySubLocation.inventoryLocationsId">
+                            <a [routerLink]="['../inventory-location', inventorySubLocation.inventoryLocationsId , 'view' ]">{{inventorySubLocation.inventoryLocationsName}}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     [routerLink]="['/inventory-sub-location', inventorySubLocation.id, 'view' ]"

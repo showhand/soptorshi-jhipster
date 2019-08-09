@@ -30,7 +30,7 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "inventoryLocation",
             "otherEntityRelationshipName": "inventorySubLocation",
-            "relationshipName": "inventoryLocation",
+            "relationshipName": "inventoryLocations",
             "otherEntityField": "name"
         }
     ],

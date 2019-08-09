@@ -32,7 +32,6 @@
 <div class="row justify-content-center">
     <div class="col-12 ">
         <br/>
-
         <div class="table-responsive" *ngIf="stockOutItems">
             <table class="table table-striped">
                 <thead>
@@ -73,6 +72,9 @@
                     <th jhiSortBy="stockInItemsId"><span>Stock In Items</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
+                    <th jhiSortBy="stockStatusesId"><span>Stock Statuses</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
                     <th></th>
                 </tr>
                 </thead>
@@ -111,7 +113,12 @@
                             <a [routerLink]="['../stock-in-item', stockOutItem.stockInItemsId , 'view' ]">{{stockOutItem.stockInItemsId}}</a>
                         </div>
                     </td>
-                    <td class="text-right" width="20%">
+                    <td>
+                        <div *ngIf="stockOutItem.stockStatusesId">
+                            <a [routerLink]="['../stock-status', stockOutItem.stockStatusesId , 'view' ]">{{stockOutItem.stockStatusesId}}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     [routerLink]="['/stock-out-item', stockOutItem.id, 'view' ]"

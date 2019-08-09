@@ -4,14 +4,16 @@ export const enum ItemUnit {
     KG = 'KG',
     PCS = 'PCS',
     LITER = 'LITER',
-    DOZEN = 'DOZEN'
+    DOZEN = 'DOZEN',
+    OTHERS = 'OTHERS'
 }
 
 export const enum ContainerCategory {
     BOTTLE = 'BOTTLE',
     DRUM = 'DRUM',
     PACKET = 'PACKET',
-    SACK = 'SACK'
+    SACK = 'SACK',
+    OTHERS = 'OTHERS'
 }
 
 export interface IStockInProcess {
@@ -22,7 +24,7 @@ export interface IStockInProcess {
     totalContainer?: number;
     containerCategory?: ContainerCategory;
     containerTrackingId?: string;
-    itemPerContainer?: string;
+    quantityPerContainer?: string;
     expiryDate?: Moment;
     stockInBy?: string;
     stockInDate?: Moment;
@@ -49,7 +51,7 @@ export class StockInProcess implements IStockInProcess {
         public totalContainer?: number,
         public containerCategory?: ContainerCategory,
         public containerTrackingId?: string,
-        public itemPerContainer?: string,
+        public quantityPerContainer?: string,
         public expiryDate?: Moment,
         public stockInBy?: string,
         public stockInDate?: Moment,

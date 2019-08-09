@@ -105,9 +105,9 @@ public class InventorySubLocationQueryService extends QueryService<InventorySubL
             if (criteria.getDescription() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescription(), InventorySubLocation_.description));
             }
-            if (criteria.getInventoryLocationId() != null) {
-                specification = specification.and(buildSpecification(criteria.getInventoryLocationId(),
-                    root -> root.join(InventorySubLocation_.inventoryLocation, JoinType.LEFT).get(InventoryLocation_.id)));
+            if (criteria.getInventoryLocationsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getInventoryLocationsId(),
+                    root -> root.join(InventorySubLocation_.inventoryLocations, JoinType.LEFT).get(InventoryLocation_.id)));
             }
         }
         return specification;

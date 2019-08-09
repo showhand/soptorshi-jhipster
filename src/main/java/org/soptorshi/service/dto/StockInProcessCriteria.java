@@ -50,7 +50,7 @@ public class StockInProcessCriteria implements Serializable {
 
     private StringFilter containerTrackingId;
 
-    private StringFilter itemPerContainer;
+    private StringFilter quantityPerContainer;
 
     private LocalDateFilter expiryDate;
 
@@ -128,12 +128,12 @@ public class StockInProcessCriteria implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public StringFilter getItemPerContainer() {
-        return itemPerContainer;
+    public StringFilter getQuantityPerContainer() {
+        return quantityPerContainer;
     }
 
-    public void setItemPerContainer(StringFilter itemPerContainer) {
-        this.itemPerContainer = itemPerContainer;
+    public void setQuantityPerContainer(StringFilter quantityPerContainer) {
+        this.quantityPerContainer = quantityPerContainer;
     }
 
     public LocalDateFilter getExpiryDate() {
@@ -234,7 +234,7 @@ public class StockInProcessCriteria implements Serializable {
             Objects.equals(totalContainer, that.totalContainer) &&
             Objects.equals(containerCategory, that.containerCategory) &&
             Objects.equals(containerTrackingId, that.containerTrackingId) &&
-            Objects.equals(itemPerContainer, that.itemPerContainer) &&
+            Objects.equals(quantityPerContainer, that.quantityPerContainer) &&
             Objects.equals(expiryDate, that.expiryDate) &&
             Objects.equals(stockInBy, that.stockInBy) &&
             Objects.equals(stockInDate, that.stockInDate) &&
@@ -257,7 +257,7 @@ public class StockInProcessCriteria implements Serializable {
         totalContainer,
         containerCategory,
         containerTrackingId,
-        itemPerContainer,
+        quantityPerContainer,
         expiryDate,
         stockInBy,
         stockInDate,
@@ -281,7 +281,7 @@ public class StockInProcessCriteria implements Serializable {
                 (totalContainer != null ? "totalContainer=" + totalContainer + ", " : "") +
                 (containerCategory != null ? "containerCategory=" + containerCategory + ", " : "") +
                 (containerTrackingId != null ? "containerTrackingId=" + containerTrackingId + ", " : "") +
-                (itemPerContainer != null ? "itemPerContainer=" + itemPerContainer + ", " : "") +
+                (quantityPerContainer != null ? "quantityPerContainer=" + quantityPerContainer + ", " : "") +
                 (expiryDate != null ? "expiryDate=" + expiryDate + ", " : "") +
                 (stockInBy != null ? "stockInBy=" + stockInBy + ", " : "") +
                 (stockInDate != null ? "stockInDate=" + stockInDate + ", " : "") +

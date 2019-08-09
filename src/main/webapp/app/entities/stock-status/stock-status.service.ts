@@ -59,9 +59,7 @@ export class StockStatusService {
 
     protected convertDateFromClient(stockStatus: IStockStatus): IStockStatus {
         const copy: IStockStatus = Object.assign({}, stockStatus, {
-            stockInDate: stockStatus.stockInDate != null && stockStatus.stockInDate.isValid() ? stockStatus.stockInDate.toJSON() : null,
-            expiryDate:
-                stockStatus.expiryDate != null && stockStatus.expiryDate.isValid() ? stockStatus.expiryDate.format(DATE_FORMAT) : null
+            stockInDate: stockStatus.stockInDate != null && stockStatus.stockInDate.isValid() ? stockStatus.stockInDate.toJSON() : null
         });
         return copy;
     }
@@ -69,7 +67,6 @@ export class StockStatusService {
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
             res.body.stockInDate = res.body.stockInDate != null ? moment(res.body.stockInDate) : null;
-            res.body.expiryDate = res.body.expiryDate != null ? moment(res.body.expiryDate) : null;
         }
         return res;
     }
@@ -78,7 +75,6 @@ export class StockStatusService {
         if (res.body) {
             res.body.forEach((stockStatus: IStockStatus) => {
                 stockStatus.stockInDate = stockStatus.stockInDate != null ? moment(stockStatus.stockInDate) : null;
-                stockStatus.expiryDate = stockStatus.expiryDate != null ? moment(stockStatus.expiryDate) : null;
             });
         }
         return res;

@@ -31,6 +31,7 @@
                         <option value="PCS">PCS</option>
                         <option value="LITER">LITER</option>
                         <option value="DOZEN">DOZEN</option>
+                        <option value="OTHERS">OTHERS</option>
                     </select>
                     <div [hidden]="!(editForm.controls.unit?.dirty && editForm.controls.unit?.invalid)">
                         <small class="form-text text-danger"
@@ -61,6 +62,7 @@
                         <option value="DRUM">DRUM</option>
                         <option value="PACKET">PACKET</option>
                         <option value="SACK">SACK</option>
+                        <option value="OTHERS">OTHERS</option>
                     </select>
                     <div [hidden]="!(editForm.controls.containerCategory?.dirty && editForm.controls.containerCategory?.invalid)">
                         <small class="form-text text-danger"

@@ -78,7 +78,6 @@ public class StockOutItemResource {
     @PutMapping("/stock-out-items")
     public ResponseEntity<StockOutItemDTO> updateStockOutItem(@Valid @RequestBody StockOutItemDTO stockOutItemDTO) throws URISyntaxException {
         log.debug("REST request to update StockOutItem : {}", stockOutItemDTO);
-        throw new NotImplementedException();
         /*if (stockOutItemDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -86,6 +85,7 @@ public class StockOutItemResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, stockOutItemDTO.getId().toString()))
             .body(result);*/
+        throw new NotImplementedException();
     }
 
     /**
@@ -137,9 +137,9 @@ public class StockOutItemResource {
     @DeleteMapping("/stock-out-items/{id}")
     public ResponseEntity<Void> deleteStockOutItem(@PathVariable Long id) {
         log.debug("REST request to delete StockOutItem : {}", id);
-        throw new NotImplementedException();
         /*stockOutItemService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();*/
+        throw new NotImplementedException();
     }
 
     /**

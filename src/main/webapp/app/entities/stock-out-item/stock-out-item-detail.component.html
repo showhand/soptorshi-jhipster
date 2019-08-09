@@ -59,6 +59,12 @@
                         <a [routerLink]="['/stock-in-item', stockOutItem.stockInItemsId, 'view']">{{stockOutItem.stockInItemsId}}</a>
                     </div>
                 </dd>
+                <dt><span>Stock Statuses</span></dt>
+                <dd>
+                    <div *ngIf="stockOutItem.stockStatusesId">
+                        <a [routerLink]="['/stock-status', stockOutItem.stockStatusesId, 'view']">{{stockOutItem.stockStatusesId}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

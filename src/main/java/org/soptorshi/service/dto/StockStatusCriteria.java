@@ -3,7 +3,6 @@ package org.soptorshi.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.ItemUnit;
-import org.soptorshi.domain.enumeration.ContainerCategory;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -12,7 +11,6 @@ import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.service.filter.InstantFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the StockStatus entity. This class is used in StockStatusResource to
@@ -28,11 +26,6 @@ public class StockStatusCriteria implements Serializable {
      */
     public static class ItemUnitFilter extends Filter<ItemUnit> {
     }
-    /**
-     * Class for filtering ContainerCategory
-     */
-    public static class ContainerCategoryFilter extends Filter<ContainerCategory> {
-    }
 
     private static final long serialVersionUID = 1L;
 
@@ -41,6 +34,8 @@ public class StockStatusCriteria implements Serializable {
     private StringFilter containerTrackingId;
 
     private DoubleFilter totalQuantity;
+
+    private ItemUnitFilter unit;
 
     private DoubleFilter availableQuantity;
 
@@ -52,13 +47,7 @@ public class StockStatusCriteria implements Serializable {
 
     private InstantFilter stockInDate;
 
-    private ItemUnitFilter unit;
-
-    private ContainerCategoryFilter containerCategory;
-
-    private LocalDateFilter expiryDate;
-
-    private LongFilter stockInItemId;
+    private LongFilter stockInItemsId;
 
     private LongFilter itemCategoriesId;
 
@@ -90,6 +79,14 @@ public class StockStatusCriteria implements Serializable {
 
     public void setTotalQuantity(DoubleFilter totalQuantity) {
         this.totalQuantity = totalQuantity;
+    }
+
+    public ItemUnitFilter getUnit() {
+        return unit;
+    }
+
+    public void setUnit(ItemUnitFilter unit) {
+        this.unit = unit;
     }
 
     public DoubleFilter getAvailableQuantity() {
@@ -132,36 +129,12 @@ public class StockStatusCriteria implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public ItemUnitFilter getUnit() {
-        return unit;
+    public LongFilter getStockInItemsId() {
+        return stockInItemsId;
     }
 
-    public void setUnit(ItemUnitFilter unit) {
-        this.unit = unit;
-    }
-
-    public ContainerCategoryFilter getContainerCategory() {
-        return containerCategory;
-    }
-
-    public void setContainerCategory(ContainerCategoryFilter containerCategory) {
-        this.containerCategory = containerCategory;
-    }
-
-    public LocalDateFilter getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(LocalDateFilter expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public LongFilter getStockInItemId() {
-        return stockInItemId;
-    }
-
-    public void setStockInItemId(LongFilter stockInItemId) {
-        this.stockInItemId = stockInItemId;
+    public void setStockInItemsId(LongFilter stockInItemsId) {
+        this.stockInItemsId = stockInItemsId;
     }
 
     public LongFilter getItemCategoriesId() {
@@ -210,15 +183,13 @@ public class StockStatusCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(containerTrackingId, that.containerTrackingId) &&
             Objects.equals(totalQuantity, that.totalQuantity) &&
+            Objects.equals(unit, that.unit) &&
             Objects.equals(availableQuantity, that.availableQuantity) &&
             Objects.equals(totalPrice, that.totalPrice) &&
             Objects.equals(availablePrice, that.availablePrice) &&
             Objects.equals(stockInBy, that.stockInBy) &&
             Objects.equals(stockInDate, that.stockInDate) &&
-            Objects.equals(unit, that.unit) &&
-            Objects.equals(containerCategory, that.containerCategory) &&
-            Objects.equals(expiryDate, that.expiryDate) &&
-            Objects.equals(stockInItemId, that.stockInItemId) &&
+            Objects.equals(stockInItemsId, that.stockInItemsId) &&
             Objects.equals(itemCategoriesId, that.itemCategoriesId) &&
             Objects.equals(itemSubCategoriesId, that.itemSubCategoriesId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
@@ -231,15 +202,13 @@ public class StockStatusCriteria implements Serializable {
         id,
         containerTrackingId,
         totalQuantity,
+        unit,
         availableQuantity,
         totalPrice,
         availablePrice,
         stockInBy,
         stockInDate,
-        unit,
-        containerCategory,
-        expiryDate,
-        stockInItemId,
+        stockInItemsId,
         itemCategoriesId,
         itemSubCategoriesId,
         inventoryLocationsId,
@@ -253,15 +222,13 @@ public class StockStatusCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (containerTrackingId != null ? "containerTrackingId=" + containerTrackingId + ", " : "") +
                 (totalQuantity != null ? "totalQuantity=" + totalQuantity + ", " : "") +
+                (unit != null ? "unit=" + unit + ", " : "") +
                 (availableQuantity != null ? "availableQuantity=" + availableQuantity + ", " : "") +
                 (totalPrice != null ? "totalPrice=" + totalPrice + ", " : "") +
                 (availablePrice != null ? "availablePrice=" + availablePrice + ", " : "") +
                 (stockInBy != null ? "stockInBy=" + stockInBy + ", " : "") +
                 (stockInDate != null ? "stockInDate=" + stockInDate + ", " : "") +
-                (unit != null ? "unit=" + unit + ", " : "") +
-                (containerCategory != null ? "containerCategory=" + containerCategory + ", " : "") +
-                (expiryDate != null ? "expiryDate=" + expiryDate + ", " : "") +
-                (stockInItemId != null ? "stockInItemId=" + stockInItemId + ", " : "") +
+                (stockInItemsId != null ? "stockInItemsId=" + stockInItemsId + ", " : "") +
                 (itemCategoriesId != null ? "itemCategoriesId=" + itemCategoriesId + ", " : "") +
                 (itemSubCategoriesId != null ? "itemSubCategoriesId=" + itemSubCategoriesId + ", " : "") +
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +

@@ -67,6 +67,13 @@
             "otherEntityRelationshipName": "stockOutItem",
             "relationshipName": "stockInItems",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "stockStatus",
+            "otherEntityRelationshipName": "stockOutItem",
+            "relationshipName": "stockStatuses",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20190802061703",

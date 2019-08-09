@@ -57,8 +57,8 @@ public class StockInProcess implements Serializable {
     private String containerTrackingId;
 
     @NotNull
-    @Column(name = "item_per_container", nullable = false)
-    private String itemPerContainer;
+    @Column(name = "quantity_per_container", nullable = false)
+    private String quantityPerContainer;
 
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
@@ -182,17 +182,17 @@ public class StockInProcess implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public String getItemPerContainer() {
-        return itemPerContainer;
+    public String getQuantityPerContainer() {
+        return quantityPerContainer;
     }
 
-    public StockInProcess itemPerContainer(String itemPerContainer) {
-        this.itemPerContainer = itemPerContainer;
+    public StockInProcess quantityPerContainer(String quantityPerContainer) {
+        this.quantityPerContainer = quantityPerContainer;
         return this;
     }
 
-    public void setItemPerContainer(String itemPerContainer) {
-        this.itemPerContainer = itemPerContainer;
+    public void setQuantityPerContainer(String quantityPerContainer) {
+        this.quantityPerContainer = quantityPerContainer;
     }
 
     public LocalDate getExpiryDate() {
@@ -356,7 +356,7 @@ public class StockInProcess implements Serializable {
             ", totalContainer=" + getTotalContainer() +
             ", containerCategory='" + getContainerCategory() + "'" +
             ", containerTrackingId='" + getContainerTrackingId() + "'" +
-            ", itemPerContainer='" + getItemPerContainer() + "'" +
+            ", quantityPerContainer='" + getQuantityPerContainer() + "'" +
             ", expiryDate='" + getExpiryDate() + "'" +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
