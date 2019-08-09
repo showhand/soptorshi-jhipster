@@ -22,14 +22,14 @@ entity ItemSubCategory {
 entity InventoryLocation {
 	Name String required,
     ShortName String,
-    description String
+    Description String
 }
 
 entity InventorySubLocation {
     Category InventorySubLocationCategory required,
     Name String required,
     ShortName String,
-    description String
+    Description String
 }
 
 entity StockInProcess {
@@ -39,7 +39,7 @@ entity StockInProcess {
     TotalContainer Integer required,
     ContainerCategory ContainerCategory required,
     ContainerTrackingId String required,
-    ItemPerContainer String required,
+    QuantityPerContainer String required,
     ExpiryDate LocalDate,
     StockInBy String,
     StockInDate Instant,
@@ -63,6 +63,7 @@ entity StockInItem {
 entity StockStatus {
 	ContainerTrackingId String required,
 	TotalQuantity Double required,
+    Unit ItemUnit required,
     AvailableQuantity Double required,
     TotalPrice Double required,
     AvailablePrice Double required,
@@ -84,11 +85,11 @@ enum InventorySubLocationCategory{
 }
 
 enum ContainerCategory {
-	BOTTLE, DRUM, PACKET, SACK
+	BOTTLE, DRUM, PACKET, SACK, OTHERS
 }
 
 enum ItemUnit {
-	KG, PCS, LITER, DOZEN
+	KG, PCS, LITER, DOZEN, OTHERS
 }
 
 relationship ManyToOne {
@@ -110,10 +111,15 @@ relationship ManyToOne {
     StockOutItem{inventoryLocations(Name)} to InventoryLocation
     StockOutItem{inventorySubLocations(Name)} to InventorySubLocation
     StockOutItem{stockInItems(id)} to StockInItem
+    StockOutItem{stockStatuses(id)} to StockStatus
     StockStatus{itemCategories(name)} to ItemCategory
     StockStatus{itemSubCategories(name)} to ItemSubCategory
     StockStatus{inventoryLocations(Name)} to InventoryLocation
     StockStatus{inventorySubLocations(Name)} to InventorySubLocation
+}
+
+relationship OneToOne {
+	StockStatus{stockInItems(id)} to StockInItem
 }
 
 paginate * with infinite-scroll
