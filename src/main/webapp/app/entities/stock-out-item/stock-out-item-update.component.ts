@@ -114,6 +114,33 @@ export class StockOutItemUpdateComponent implements OnInit {
         window.history.back();
     }
 
+    getItemSubCategories() {
+        this.itemSubCategoryService
+            .query({
+                'itemCategoriesId.equals': this.stockOutItem.itemCategoriesId
+            })
+            .pipe(
+                filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IItemSubCategory[]>) => response.body)
+            )
+            .subscribe((res: IItemSubCategory[]) => (this.itemsubcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    getInventorySubLocation() {
+        this.inventorySubLocationService
+            .query({
+                'inventoryLocationsId.equals': this.stockOutItem.inventoryLocationsId
+            })
+            .pipe(
+                filter((mayBeOk: HttpResponse<IInventorySubLocation[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IInventorySubLocation[]>) => response.body)
+            )
+            .subscribe(
+                (res: IInventorySubLocation[]) => (this.inventorysublocations = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
+
     save() {
         this.isSaving = true;
         this.stockOutItem.stockOutDate = this.stockOutDate != null ? moment(this.stockOutDate, DATE_TIME_FORMAT) : null;

@@ -51,8 +51,7 @@ export class StockOutItemComponent implements OnInit, OnDestroy {
         protected itemCategoryService: ItemCategoryService,
         protected itemSubCategoryService: ItemSubCategoryService,
         protected inventoryLocationService: InventoryLocationService,
-        protected inventorySubLocationService: InventorySubLocationService,
-        protected manufacturerService: ManufacturerService
+        protected inventorySubLocationService: InventorySubLocationService
     ) {
         this.stockOutItems = [];
     }

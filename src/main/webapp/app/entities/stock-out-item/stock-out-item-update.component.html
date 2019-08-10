@@ -11,7 +11,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_itemCategories">Item Categories</label>
-                    <select class="form-control" id="field_itemCategories" name="itemCategories" [(ngModel)]="stockOutItem.itemCategoriesId"
+                    <select class="form-control" id="field_itemCategories" name="itemCategories" [(ngModel)]="stockOutItem.itemCategoriesId" (ngModelChange)="getItemSubCategories()"
                     required>
                         <option [ngValue]="null"></option>
                         <option [ngValue]="itemCategoryOption.id" *ngFor="let itemCategoryOption of itemcategories; trackBy: trackItemCategoryById">{{itemCategoryOption.name}}</option>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_inventoryLocations">Inventory Locations</label>
-                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="stockOutItem.inventoryLocationsId" required>
+                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="stockOutItem.inventoryLocationsId" (ngModelChange)="getInventorySubLocation()" required>
                         <option [ngValue]="null"></option>
                         <option [ngValue]="inventoryLocationOption.id" *ngFor="let inventoryLocationOption of inventorylocations; trackBy: trackInventoryLocationById">{{inventoryLocationOption.name}}</option>
                     </select>
