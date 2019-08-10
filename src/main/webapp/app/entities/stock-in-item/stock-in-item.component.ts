@@ -133,7 +133,20 @@ export class StockInItemComponent implements OnInit, OnDestroy {
             );
     }
 
-    search() {}
+    search() {
+        this.stockInItemService
+            .query({
+                'itemCategoriesId.equals': this.s_ItemCategoriesId ? this.s_ItemCategoriesId : '',
+                'itemSubCategoriesId.equals': this.s_ItemSubCategoriesId ? this.s_ItemSubCategoriesId : '',
+                'inventoryLocationsId.equals': this.s_InventoryLocationsId ? this.s_InventoryLocationsId : '',
+                'inventorySubLocationsId.equals': this.s_InventorySubLocationsId ? this.s_InventorySubLocationsId : '',
+                'manufacturersId.equals': this.s_ManufacturersId ? this.s_ManufacturersId : ''
+            })
+            .subscribe(
+                (res: HttpResponse<IStockInItem[]>) => this.paginateStockInItems(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
 
     ngOnInit() {
         this.accountService.identity().then(account => {
@@ -156,6 +169,7 @@ export class StockInItemComponent implements OnInit, OnDestroy {
     }
 
     protected paginateStockInItems(data: IStockInItem[], headers: HttpHeaders) {
+        this.stockInItems = [];
         for (let i = 0; i < data.length; i++) {
             this.stockInItems.push(data[i]);
         }

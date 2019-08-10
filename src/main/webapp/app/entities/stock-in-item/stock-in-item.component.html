@@ -31,7 +31,30 @@
 
 <div class="row">
     <div class="col-12">
-        <br />
+        <br/>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-2">
+        <label class="form-control-label" for="field_itemCategories">Item Categories</label>
+    </div>
+
+    <div class="col-2">
+        <label class="form-control-label" for="field_itemSubCategories">Item Sub Categories</label>
+    </div>
+
+    <div class="col-2">
+        <label class="form-control-label" for="field_inventoryLocations">Inventory Locations</label>
+    </div>
+
+    <div class="col-2">
+        <label class="form-control-label" for="field_inventorySubLocations">Inventory Sub Locations</label>
+    </div>
+
+    <div class="col-2">
+        <label class="form-control-label" for="field_manufacturers">Manufacturers</label>
     </div>
 </div>
 
@@ -40,7 +63,7 @@
     <div class="col-2">
         <select class="form-control" id="field_itemCategories" name="itemCategories"
                 [(ngModel)]="s_ItemCategoriesId"
-                (ngModelChange)="getItemSubCategories()" [value]='null'>
+                (ngModelChange)="getItemSubCategories()">
             <option [ngValue]="null">Select Item Category</option>
             <option [ngValue]="itemCategoryOption.id"
                     *ngFor="let itemCategoryOption of itemcategories; trackBy: trackItemCategoryById">{{itemCategoryOption.name}}</option>
@@ -58,7 +81,7 @@
 
     <div class="col-2">
         <select class="form-control" id="field_inventoryLocations" name="inventoryLocations"
-                [(ngModel)]="s_InventoryLocationsId">
+                [(ngModel)]="s_InventoryLocationsId" (ngModelChange)="getInventorySubLocation()">
             <option [ngValue]="null">Select Inventory Location</option>
             <option [ngValue]="inventoryLocationOption.id"
                     *ngFor="let inventoryLocationOption of inventorylocations; trackBy: trackInventoryLocationById">{{inventoryLocationOption.name}}</option>
@@ -67,7 +90,7 @@
 
     <div class="col-2">
         <select class="form-control" id="field_inventorySubLocations" name="inventorySubLocations"
-                [(ngModel)]="s_InventorySubLocationsId" (ngModelChange)="getInventorySubLocation()">
+                [(ngModel)]="s_InventorySubLocationsId">
             <option [ngValue]="null">Select Inventory Sub Location</option>
             <option [ngValue]="inventorySubLocationOption.id"
                     *ngFor="let inventorySubLocationOption of inventorysublocations; trackBy: trackInventorySubLocationById">{{inventorySubLocationOption.name}}</option>
@@ -83,9 +106,11 @@
         </select>
     </div>
 
-    <button class="btn btn-info" (click)="search()">
-        <fa-icon [icon]="'search'"></fa-icon>
-    </button>
+    <div class="col-2">
+        <button class="btn btn-info" (click)="search()">
+            <fa-icon [icon]="'search'"></fa-icon>
+        </button>
+    </div>
 </div>
 
 <div class="row justify-content-center">
