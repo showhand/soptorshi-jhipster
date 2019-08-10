@@ -79,7 +79,7 @@ public class StockOutItemServiceImpl implements StockOutItemService {
     @Override
     public StockOutItemDTO save(StockOutItemDTO stockOutItemDTO) {
         log.debug("Request to save StockOutItem : {}", stockOutItemDTO);
-        if (stockOutItemDTO.getId() == null) {
+        if (stockOutItemDTO.getId() == null && stockOutItemDTO.getQuantity() > 0) {
             String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
             Instant currentDateTime = Instant.now();
 

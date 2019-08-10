@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -47,7 +47,8 @@ export class StockInProcessUpdateComponent implements OnInit {
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
         protected manufacturerService: ManufacturerService,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        protected router: Router
     ) {}
 
     ngOnInit() {
@@ -139,6 +140,8 @@ export class StockInProcessUpdateComponent implements OnInit {
             } else {
                 this.subscribeToSaveResponse(this.stockInProcessService.create(this.stockInProcess));
             }
+        } else {
+            this.isSaving = false;
         }
     }
 
@@ -165,7 +168,8 @@ export class StockInProcessUpdateComponent implements OnInit {
 
     protected onSaveSuccess() {
         this.isSaving = false;
-        this.previousState();
+        /*this.previousState();*/
+        this.router.navigate(['/stock-in-item']);
     }
 
     protected onSaveError() {

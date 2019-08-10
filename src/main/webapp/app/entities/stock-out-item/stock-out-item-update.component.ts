@@ -42,6 +42,8 @@ export class StockOutItemUpdateComponent implements OnInit {
     stockstatuses: IStockStatus[];
     stockOutDate: string;
 
+    stockStatusesForContainers: IStockStatus[];
+
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockOutItemService: StockOutItemService,
@@ -141,6 +143,57 @@ export class StockOutItemUpdateComponent implements OnInit {
             );
     }
 
+    getContainerTrackingId() {
+        if (
+            this.stockOutItem.itemCategoriesId &&
+            this.stockOutItem.itemSubCategoriesId &&
+            this.stockOutItem.inventoryLocationsId &&
+            this.stockOutItem.inventorySubLocationsId
+        ) {
+            this.stockStatusService
+                .query({
+                    'itemCategoriesId.equals': this.stockOutItem.itemCategoriesId,
+                    'itemSubCategoriesId.equals': this.stockOutItem.itemSubCategoriesId,
+                    'inventoryLocationsId.equals': this.stockOutItem.inventoryLocationsId,
+                    'inventorySubLocationsId.equals': this.stockOutItem.inventorySubLocationsId
+                })
+                .subscribe(
+                    (res: HttpResponse<IStockStatus[]>) => this.extractStockStatusForContainers(res.body),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
+    }
+
+    getRemainingQuantity() {
+        if (
+            this.stockOutItem.itemCategoriesId &&
+            this.stockOutItem.itemSubCategoriesId &&
+            this.stockOutItem.inventoryLocationsId &&
+            this.stockOutItem.inventorySubLocationsId &&
+            this.stockOutItem.containerTrackingId
+        ) {
+            this.stockStatusService
+                .query({
+                    'itemCategoriesId.equals': this.stockOutItem.itemCategoriesId,
+                    'itemSubCategoriesId.equals': this.stockOutItem.itemSubCategoriesId,
+                    'inventoryLocationsId.equals': this.stockOutItem.inventoryLocationsId,
+                    'inventorySubLocationsId.equals': this.stockOutItem.inventorySubLocationsId,
+                    'containerTrackingId.equals': this.stockOutItem.containerTrackingId
+                })
+                .subscribe(
+                    (res: HttpResponse<IStockStatus[]>) => (this.stockOutItem.quantity = res.body[0].availableQuantity),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
+    }
+
+    extractStockStatusForContainers(data: IStockStatus[]) {
+        this.stockStatusesForContainers = [];
+        for (let i = 0; i < data.length; i++) {
+            this.stockStatusesForContainers.push(data[i]);
+        }
+    }
+
     save() {
         this.isSaving = true;
         this.stockOutItem.stockOutDate = this.stockOutDate != null ? moment(this.stockOutDate, DATE_TIME_FORMAT) : null;
@@ -189,6 +242,10 @@ export class StockOutItemUpdateComponent implements OnInit {
     }
 
     trackStockStatusById(index: number, item: IStockStatus) {
+        return item.id;
+    }
+
+    trackStockStatusForContainersById(index: number, item: IStockStatus) {
         return item.id;
     }
 }
