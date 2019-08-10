@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity StockStatus.
+    -->
+    <changeSet id="20190803152917-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="stock_in_items_id"
+                                 baseTableName="stock_status"
+                                 constraintName="fk_stock_status_stock_in_items_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="stock_in_item"/>
+
+        <addForeignKeyConstraint baseColumnNames="item_categories_id"
+                                 baseTableName="stock_status"
+                                 constraintName="fk_stock_status_item_categories_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item_category"/>
+
+        <addForeignKeyConstraint baseColumnNames="item_sub_categories_id"
+                                 baseTableName="stock_status"
+                                 constraintName="fk_stock_status_item_sub_categories_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item_sub_category"/>
+
+        <addForeignKeyConstraint baseColumnNames="inventory_locations_id"
+                                 baseTableName="stock_status"
+                                 constraintName="fk_stock_status_inventory_locations_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="inventory_location"/>
+
+        <addForeignKeyConstraint baseColumnNames="inventory_sub_locations_id"
+                                 baseTableName="stock_status"
+                                 constraintName="fk_stock_status_inventory_sub_locations_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="inventory_sub_location"/>
+
+    </changeSet>
+</databaseChangeLog>

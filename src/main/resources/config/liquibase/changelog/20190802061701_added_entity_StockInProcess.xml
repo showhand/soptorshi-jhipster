@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+    
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="autoIncrement" value="true"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity StockInProcess.
+    -->
+    <changeSet id="20190802061701-1" author="jhipster">
+        <createTable tableName="stock_in_process">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="total_quantity" type="double">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="unit" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="unit_price" type="double">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="total_container" type="integer">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="container_category" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="container_tracking_id" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="quantity_per_container" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="expiry_date" type="date">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="stock_in_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="stock_in_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="purchase_order_id" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="remarks" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="item_categories_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="item_sub_categories_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="inventory_locations_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="inventory_sub_locations_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="manufacturers_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+        <dropDefaultValue tableName="stock_in_process" columnName="stock_in_date" columnDataType="datetime"/>
+        
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+</databaseChangeLog>

@@ -1,0 +1,99 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="stockInItem">
+            <h2><span>Stock In Item</span> {{stockInItem.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Quantity</span></dt>
+                <dd>
+                    <span>{{stockInItem.quantity}}</span>
+                </dd>
+                <dt><span>Unit</span></dt>
+                <dd>
+                    <span>{{stockInItem.unit}}</span>
+                </dd>
+                <dt><span>Price</span></dt>
+                <dd>
+                    <span>{{stockInItem.price}}</span>
+                </dd>
+                <dt><span>Container Category</span></dt>
+                <dd>
+                    <span>{{stockInItem.containerCategory}}</span>
+                </dd>
+                <dt><span>Container Tracking Id</span></dt>
+                <dd>
+                    <span>{{stockInItem.containerTrackingId}}</span>
+                </dd>
+                <dt><span>Expiry Date</span></dt>
+                <dd>
+                    <span>{{stockInItem.expiryDate}}</span>
+                </dd>
+                <dt><span>Stock In By</span></dt>
+                <dd>
+                    <span>{{stockInItem.stockInBy}}</span>
+                </dd>
+                <dt><span>Stock In Date</span></dt>
+                <dd>
+                    <span>{{stockInItem.stockInDate}}</span>
+                </dd>
+                <dt><span>Purchase Order Id</span></dt>
+                <dd>
+                    <span>{{stockInItem.purchaseOrderId}}</span>
+                </dd>
+                <dt><span>Remarks</span></dt>
+                <dd>
+                    <span>{{stockInItem.remarks}}</span>
+                </dd>
+                <dt><span>Item Categories</span></dt>
+                <dd>
+                    <div *ngIf="stockInItem.itemCategoriesId">
+                        <a [routerLink]="['/item-category', stockInItem.itemCategoriesId, 'view']">{{stockInItem.itemCategoriesName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Item Sub Categories</span></dt>
+                <dd>
+                    <div *ngIf="stockInItem.itemSubCategoriesId">
+                        <a [routerLink]="['/item-sub-category', stockInItem.itemSubCategoriesId, 'view']">{{stockInItem.itemSubCategoriesName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Inventory Locations</span></dt>
+                <dd>
+                    <div *ngIf="stockInItem.inventoryLocationsId">
+                        <a [routerLink]="['/inventory-location', stockInItem.inventoryLocationsId, 'view']">{{stockInItem.inventoryLocationsName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Inventory Sub Locations</span></dt>
+                <dd>
+                    <div *ngIf="stockInItem.inventorySubLocationsId">
+                        <a [routerLink]="['/inventory-sub-location', stockInItem.inventorySubLocationsId, 'view']">{{stockInItem.inventorySubLocationsName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Manufacturers</span></dt>
+                <dd>
+                    <div *ngIf="stockInItem.manufacturersId">
+                        <a [routerLink]="['/manufacturer', stockInItem.manufacturersId, 'view']">{{stockInItem.manufacturersName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Stock In Processes</span></dt>
+                <dd>
+                    <div *ngIf="stockInItem.stockInProcessesId">
+                        <a [routerLink]="['/stock-in-process', stockInItem.stockInProcessesId, 'view']">{{stockInItem.stockInProcessesId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <!--<button type="button"
+                    [routerLink]="['/stock-in-item', stockInItem.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>-->
+        </div>
+    </div>
+</div>

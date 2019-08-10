@@ -413,6 +413,90 @@
                     </li>
                 </ul>
             </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
+                <a (click)="inventoryManagement=!inventoryManagement" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
+                     <span>
+                        <fa-icon icon="truck" fixedWidth="true"></fa-icon>
+                        <span>
+                            Inventory Manag.
+                        </span>
+                    </span>
+                </a>
+                <ul [ngbCollapse]="!inventoryManagement" class="list-unstyled" id="inventory-management">
+                    <li>
+                        <a class="dropdown-item" routerLink="manufacturer" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                            <span>Manufacture</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="item-category" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="cube" fixedWidth="true"></fa-icon>
+                            <span>Item Category</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" routerLink="item-sub-category" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="cubes" fixedWidth="true"></fa-icon>
+                            <span>Item Sub Category</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="inventory-location" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="building" fixedWidth="true"></fa-icon>
+                            <span>Inventory Location</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="inventory-sub-location" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="sitemap" fixedWidth="true"></fa-icon>
+                            <span>Inventory Sub Location</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="stock-in-process/new" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="tasks" fixedWidth="true"></fa-icon>
+                            <span>Stock in Process</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="stock-in-item" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="database" fixedWidth="true"></fa-icon>
+                            <span>Stock Item</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="stock-status" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="bars" fixedWidth="true"></fa-icon>
+                            <span>Stock Status</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="stock-out-item" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="superscript" fixedWidth="true"></fa-icon>
+                            <span>Stock Out Item</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
            <!-- <li>
                 <a href="#">About</a>
             </li>
@@ -438,7 +522,7 @@
             </li>-->
         </ul>
     </nav>
-    
+
     <!--[ngStyle]="{'mergin-left': isAuthenticated()?'250px':'0px'}"-->
     <div class="container-fluid" [ngClass]="isAuthenticated() && isDesktop && sidebarService.toggleSidenav?'main':''"  [ngStyle]="{'mergin-left': isAuthenticated() && sidebarService.toggleSidenav==true?'250px':'0px'}" style="padding-top:70px;padding-bottom:30px;">
         <div class="card jh-card" >
