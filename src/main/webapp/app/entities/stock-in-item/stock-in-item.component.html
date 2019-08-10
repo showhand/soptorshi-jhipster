@@ -145,10 +145,9 @@
                     </th>
                     <!--<th jhiSortBy="stockInBy"><span>Stock In By</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th jhiSortBy="stockInDate"><span>Stock In Date</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
                     </th>-->
+                    <th><span>Stock In Date</span>
+                    </th>
                     <th><span>Purchase Order Id</span>
                     </th>
                     <!--<th jhiSortBy="remarks"><span>Remarks</span>
@@ -192,8 +191,8 @@
                     <td>{{stockInItem.containerCategory}}</td>
                     <td>{{stockInItem.containerTrackingId}}</td>
                     <td>{{stockInItem.expiryDate | date:'mediumDate'}}</td>
-                    <!--<td>{{stockInItem.stockInBy}}</td>
-                    <td>{{stockInItem.stockInDate | date:'medium'}}</td>-->
+                    <!--<td>{{stockInItem.stockInBy}}</td>-->
+                    <td>{{stockInItem.stockInDate | date:'medium'}}</td>
                     <td>{{stockInItem.purchaseOrderId}}</td>
                     <!--<td>{{stockInItem.remarks}}</td>-->
                     <!--<td>

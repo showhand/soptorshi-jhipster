@@ -109,7 +109,7 @@ export class StockInItemComponent implements OnInit, OnDestroy {
     getItemSubCategories() {
         this.itemSubCategoryService
             .query({
-                'itemCategoriesId.equals': this.s_ItemCategoriesId
+                'itemCategoriesId.equals': this.s_ItemCategoriesId ? this.s_ItemCategoriesId : ''
             })
             .pipe(
                 filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
@@ -121,7 +121,7 @@ export class StockInItemComponent implements OnInit, OnDestroy {
     getInventorySubLocation() {
         this.inventorySubLocationService
             .query({
-                'inventoryLocationsId.equals': this.s_InventoryLocationsId
+                'inventoryLocationsId.equals': this.s_InventoryLocationsId ? this.s_InventoryLocationsId : ''
             })
             .pipe(
                 filter((mayBeOk: HttpResponse<IInventorySubLocation[]>) => mayBeOk.ok),
