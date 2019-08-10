@@ -200,8 +200,4 @@ export class StockStatusComponent implements OnInit, OnDestroy {
     trackInventorySubLocationById(index: number, item: IInventorySubLocation) {
         return item.id;
     }
-
-    trackManufacturerById(index: number, item: IManufacturer) {
-        return item.id;
-    }
 }
