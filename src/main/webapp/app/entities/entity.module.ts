@@ -2,6 +2,8 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatTabsModule } from '@angular/material';
 import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-contact-person-extended';
+import { requisitionExtendedPopupRoute, requisitionExtendedRoute } from 'app/entities/requisition-extended';
+import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute } from 'app/entities/requisition-details-extended';
 
 @NgModule({
     imports: [
@@ -371,7 +373,7 @@ import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-
             },
             {
                 path: 'quotation',
-                loadChildren: './quotation/quotation.module#SoptorshiQuotationModule'
+                loadChildren: './quotation-extended/quotation-extended.module#SoptorshiQuotationExtendedModule'
             },
             {
                 path: 'quotation-details',
@@ -405,10 +407,6 @@ import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-
             {
                 path: 'terms-and-conditions',
                 loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
-            },
-            {
-                path: 'quotation',
-                loadChildren: './quotation/quotation.module#SoptorshiQuotationModule'
             },
             {
                 path: 'quotation-details',

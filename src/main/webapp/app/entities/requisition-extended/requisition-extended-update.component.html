@@ -5,7 +5,7 @@
     }
 </style>
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-requisition-heading" >
                 <p *ngIf="requisition.id">Update  Requisition <b>{{requisition.requisitionNo}}</b></p>
@@ -13,45 +13,57 @@
             </h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_requisitionNo">Requisition No</label>
-                    <input type="text" class="form-control" name="requisitionNo" id="field_requisitionNo"
-                        [(ngModel)]="requisition.requisitionNo" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_productCategory">Product Category</label>
-                    <!--[style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"-->
-                    <p-autoComplete id="field_productCategory" inputStyleClass="form-control" appendTo="body"   [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"  [(ngModel)]="productCategory" [immutable]="false"  name="product cagetory" [suggestions]="productcategories" field="name" (completeMethod)="filterProductCategories($event)"  [minLength]="1" #autoComplete (onFocus)="  autoComplete.handleDropdownClick()" ></p-autoComplete>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_reason">Reason</label>
-                    <textarea class="form-control" name="reason" id="field_reason"
-                        [(ngModel)]="requisition.reason" ></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_requisitionDate">Requisition Date</label>
-                    <div class="input-group">
-                        <input id="field_requisitionDate" type="text" class="form-control" name="requisitionDate" ngbDatepicker  #requisitionDateDp="ngbDatepicker" [(ngModel)]="requisition.requisitionDate"
-                        />
-                        <span class="input-group-append">
+                <div class="row ">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_requisitionNo">Requisition No</label>
+                            <input type="text" class="form-control" name="requisitionNo" id="field_requisitionNo"
+                                   [(ngModel)]="requisition.requisitionNo" />
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_productCategory">Product Category</label>
+                            <!--[style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"-->
+                            <p-autoComplete id="field_productCategory" inputStyleClass="form-control" appendTo="body"   [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"  [(ngModel)]="productCategory" [immutable]="false"  name="product cagetory" [suggestions]="productcategories" field="name" (completeMethod)="filterProductCategories($event)"  [minLength]="1" #autoComplete (onFocus)="  autoComplete.handleDropdownClick()" ></p-autoComplete>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_requisitionDate">Requisition Date</label>
+                            <div class="input-group">
+                                <input id="field_requisitionDate" type="text" class="form-control" name="requisitionDate" ngbDatepicker  #requisitionDateDp="ngbDatepicker" [(ngModel)]="requisition.requisitionDate"
+                                />
+                                <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="requisitionDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_amount">Amount</label>
+                            <input type="number" class="form-control" name="amount" id="field_amount"
+                                   [(ngModel)]="requisition.amount" />
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group" >
+                            <label class="form-control-label" for="field_status">Status</label>
+                            <label class="form-control" id="field_status"><b>{{requisition.status}}</b></label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_reason">Reason</label>
+                            <textarea class="form-control" name="reason" id="field_reason"
+                                      [(ngModel)]="requisition.reason" ></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_amount">Amount</label>
-                    <input type="number" class="form-control" name="amount" id="field_amount"
-                        [(ngModel)]="requisition.amount" />
-                </div>
-                <div class="form-group" >
-                    <label class="form-control-label" for="field_status">Status</label>
-                    <label class="form-control-label" id="field_status"><b>{{requisition.status}}</b></label>
-                </div>
-               <!-- <div class="form-group form-inline">
-                    <input type="checkbox" class="form-control" name="selected" id="field_selected"  disabled="{{!accountService.hasAnyAuthority(['ROLE_CFO','ROLE_PURCHASE_COMMITTEE'])}}"
-                           [(ngModel)]="requisition.selected" />
-                    <label class="form-control-label" for="field_selected">Selected</label>
-                </div>-->
+
+
+
                 <div class="form-group" >
                     <label class="form-control-label" for="field_purchaseCommitteeRemarks">Purchase Committee Remarks</label>
                     <textarea class="form-control" name="purchaseCommitteeRemarks" id="field_purchaseCommitteeRemarks" disabled="{{!this.accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE'])}} && requisition.status=== 'FORWARDED_BY_HEAD'""

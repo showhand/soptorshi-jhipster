@@ -43,7 +43,7 @@ export class RequisitionDetailsExtendedResolve extends RequisitionDetailsResolve
 
 export const requisitionDetailsExtendedRoute: Routes = [
     {
-        path: '',
+        path: 'home',
         component: RequisitionDetailsExtendedComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams

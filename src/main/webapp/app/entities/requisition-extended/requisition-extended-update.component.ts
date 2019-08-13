@@ -4,7 +4,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { JhiAlertService, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
 import { IRequisition, RequisitionStatus } from 'app/shared/model/requisition.model';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
@@ -18,6 +18,12 @@ import { AccountService } from 'app/core';
 import { PurchaseOrderService } from 'app/entities/purchase-order';
 import { IPurchaseOrder, PurchaseOrderStatus } from 'app/shared/model/purchase-order.model';
 import { RequisitionService, RequisitionUpdateComponent } from 'app/entities/requisition';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RequisitionDetailsService } from 'app/entities/requisition-details';
+import { QuotationDetailsService } from 'app/entities/quotation-details';
+import { QuotationService } from 'app/entities/quotation';
+import { IRequisitionDetails } from 'app/shared/model/requisition-details.model';
+import { IQuotation } from 'app/shared/model/quotation.model';
 
 @Component({
     selector: 'jhi-requisition-extended-update',
@@ -44,7 +50,11 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
         protected departmentService: DepartmentService,
         protected activatedRoute: ActivatedRoute,
         public accountService: AccountService,
-        protected purchaseOrderService: PurchaseOrderService
+        protected purchaseOrderService: PurchaseOrderService,
+        public modalService: NgbModal,
+        protected requisitionDetailsService: RequisitionDetailsService,
+        protected quotationService: QuotationService,
+        protected eventManager: JhiEventManager
     ) {
         super(
             dataUtils,
@@ -149,7 +159,6 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
 
     save() {
         this.isSaving = true;
-        if (this.productCategory) this.requisition.productCategoryId = this.productCategory.id;
         if (this.requisition.id !== undefined) {
             this.subscribeToSaveResponse(this.requisitionService.update(this.requisition));
         } else {

@@ -53,8 +53,7 @@ export const requisitionExtendedRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Requisitions',
-            breadcrumb: 'View Requisition'
+            pageTitle: 'Requisitions'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -66,8 +65,7 @@ export const requisitionExtendedRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Requisitions',
-            breadcrumb: 'New Requisition'
+            pageTitle: 'Requisitions'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -79,8 +77,7 @@ export const requisitionExtendedRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Requisitions',
-            breadcrumb: 'Edit Requisition'
+            pageTitle: 'Requisitions'
         },
         canActivate: [UserRouteAccessService]
     }

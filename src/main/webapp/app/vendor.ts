@@ -74,8 +74,9 @@ import {
     faCube,
     faCubes,
     faSitemap,
-    faDatabase
-    
+    faDatabase,
+    faBoxes,
+    faFileMedicalAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -148,6 +149,8 @@ library.add(faCubes);
 library.add(faBriefcase);
 library.add(faSitemap);
 library.add(faDatabase);
+library.add(faBoxes);
+library.add(faFileMedicalAlt);
 
 import 'quill/dist/quill.js';
 import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';

@@ -6,16 +6,17 @@ import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Quotation } from 'app/shared/model/quotation.model';
-import { QuotationService } from './quotation.service';
-import { QuotationComponent } from './quotation.component';
-import { QuotationDetailComponent } from './quotation-detail.component';
-import { QuotationUpdateComponent } from './quotation-update.component';
-import { QuotationDeletePopupComponent } from './quotation-delete-dialog.component';
 import { IQuotation } from 'app/shared/model/quotation.model';
+import { QuotationDeletePopupComponent, QuotationResolve, QuotationService } from 'app/entities/quotation';
+import { QuotationExtendedComponent } from 'app/entities/quotation-extended/quotation-extended.component';
+import { QuotationExtendedDetailComponent } from 'app/entities/quotation-extended/quotation-extended-detail.component';
+import { QuotationExtendedUpdateComponent } from 'app/entities/quotation-extended/quotation-extended-update.component';
 
 @Injectable({ providedIn: 'root' })
-export class QuotationResolve implements Resolve<IQuotation> {
-    constructor(protected service: QuotationService) {}
+export class QuotationExtendedResolve extends QuotationResolve {
+    constructor(protected service: QuotationService) {
+        super(service);
+    }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IQuotation> {
         const id = route.params['id'] ? route.params['id'] : null;
@@ -34,10 +35,10 @@ export class QuotationResolve implements Resolve<IQuotation> {
     }
 }
 
-export const quotationRoute: Routes = [
+export const quotationExtendedRoute: Routes = [
     {
         path: '',
-        component: QuotationComponent,
+        component: QuotationExtendedComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
@@ -50,10 +51,10 @@ export const quotationRoute: Routes = [
     },
     {
         path: ':requisitionId/requisition',
-        component: QuotationComponent,
+        component: QuotationExtendedComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams,
-            quotation: QuotationResolve
+            quotation: QuotationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -64,7 +65,7 @@ export const quotationRoute: Routes = [
     },
     {
         path: ':id/view',
-        component: QuotationDetailComponent,
+        component: QuotationExtendedDetailComponent,
         resolve: {},
         data: {
             authorities: ['ROLE_USER'],
@@ -74,9 +75,9 @@ export const quotationRoute: Routes = [
     },
     {
         path: ':requisitionId/new',
-        component: QuotationUpdateComponent,
+        component: QuotationExtendedUpdateComponent,
         resolve: {
-            quotation: QuotationResolve
+            quotation: QuotationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -86,9 +87,9 @@ export const quotationRoute: Routes = [
     },
     {
         path: 'new',
-        component: QuotationUpdateComponent,
+        component: QuotationExtendedUpdateComponent,
         resolve: {
-            quotation: QuotationResolve
+            quotation: QuotationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -98,9 +99,9 @@ export const quotationRoute: Routes = [
     },
     {
         path: ':id/edit',
-        component: QuotationUpdateComponent,
+        component: QuotationExtendedUpdateComponent,
         resolve: {
-            quotation: QuotationResolve
+            quotation: QuotationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -110,12 +111,12 @@ export const quotationRoute: Routes = [
     }
 ];
 
-export const quotationPopupRoute: Routes = [
+export const quotationExtendedPopupRoute: Routes = [
     {
         path: ':id/delete',
         component: QuotationDeletePopupComponent,
         resolve: {
-            quotation: QuotationResolve
+            quotation: QuotationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

@@ -7,6 +7,8 @@ import { RequisitionExtendedComponent } from 'app/entities/requisition-extended/
 import { RequisitionExtendedDetailComponent } from 'app/entities/requisition-extended/requisition-extended-detail.component';
 import { RequisitionExtendedUpdateComponent } from 'app/entities/requisition-extended/requisition-extended-update.component';
 import { RequisitionDeleteDialogComponent, RequisitionDeletePopupComponent } from 'app/entities/requisition';
+import { RequisitionDetailsExtendedDirectiveComponent } from 'app/entities/requisition-extended/requisition-details-extended-directive.component';
+import { QuotationForRequisitionComponent } from 'app/entities/requisition-extended/quotation-for-requisition.component';
 
 const ENTITY_STATES = [...requisitionExtendedRoute, ...requisitionExtendedPopupRoute];
 
@@ -14,16 +16,21 @@ const ENTITY_STATES = [...requisitionExtendedRoute, ...requisitionExtendedPopupR
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         RequisitionExtendedComponent,
-        RequisitionExtendedDetailComponent,
         RequisitionExtendedUpdateComponent,
+        RequisitionExtendedDetailComponent,
         RequisitionDeleteDialogComponent,
-        RequisitionDeletePopupComponent
+        RequisitionDeletePopupComponent,
+        RequisitionDetailsExtendedDirectiveComponent,
+        QuotationForRequisitionComponent
     ],
     entryComponents: [
         RequisitionExtendedComponent,
         RequisitionExtendedUpdateComponent,
         RequisitionDeleteDialogComponent,
-        RequisitionDeletePopupComponent
+        RequisitionExtendedDetailComponent,
+        RequisitionDeletePopupComponent,
+        RequisitionDetailsExtendedDirectiveComponent,
+        QuotationForRequisitionComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

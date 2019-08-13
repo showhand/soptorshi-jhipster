@@ -79,7 +79,7 @@ export class RequisitionDetailsExtendedComponent extends RequisitionDetailsCompo
     loadPage(page: number) {
         if (page !== this.previousPage) {
             this.previousPage = page;
-            this.transition();
+            // this.transition();
         }
     }
 
