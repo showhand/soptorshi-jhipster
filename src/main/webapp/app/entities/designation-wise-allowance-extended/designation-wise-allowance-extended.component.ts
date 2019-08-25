@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AccountService } from 'app/core';
 import { DesignationService } from 'app/entities/designation';
 import { Designation } from 'app/shared/model/designation.model';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { IDesignationWiseAllowance } from 'app/shared/model/designation-wise-allowance.model';
 
@@ -12,7 +12,7 @@ import { IDesignationWiseAllowance } from 'app/shared/model/designation-wise-all
     selector: 'jhi-designation-wise-allowance-extended',
     templateUrl: './designation-wise-allowance-extended.component.html'
 })
-export class DesignationWiseAllowanceExtendedComponent extends DesignationWiseAllowanceComponent {
+export class DesignationWiseAllowanceExtendedComponent extends DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
     designations: Designation[];
     constructor(
         public designationWiseAllowanceService: DesignationWiseAllowanceService,

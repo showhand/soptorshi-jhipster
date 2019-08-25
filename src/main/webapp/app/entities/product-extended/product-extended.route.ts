@@ -28,7 +28,7 @@ export class ProductExtendedResolve extends ProductResolve {
                 map((product: HttpResponse<Product>) => product.body)
             );
         } else if (productCategoryId) {
-            let product: IProduct = new Product();
+            const product: IProduct = new Product();
             product.productCategoryId = productCategoryId;
             return of(product);
         }

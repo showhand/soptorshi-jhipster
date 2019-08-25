@@ -16,7 +16,7 @@ import { VendorContactPersonComponent, VendorContactPersonService } from 'app/en
     selector: 'jhi-vendor-contact-person-extended',
     templateUrl: './vendor-contact-person-extended.component.html'
 })
-export class VendorContactPersonExtendedComponent extends VendorContactPersonComponent {
+export class VendorContactPersonExtendedComponent extends VendorContactPersonComponent implements OnInit, OnDestroy {
     vendorContactPerson: IVendorContactPerson;
 
     constructor(

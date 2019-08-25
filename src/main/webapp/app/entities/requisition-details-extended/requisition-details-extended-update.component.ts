@@ -18,7 +18,7 @@ import { RequisitionDetailsService, RequisitionDetailsUpdateComponent } from 'ap
     selector: 'jhi-requisition-details-extended-update',
     templateUrl: './requisition-details-extended-update.component.html'
 })
-export class RequisitionDetailsExtendedUpdateComponent extends RequisitionDetailsUpdateComponent {
+export class RequisitionDetailsExtendedUpdateComponent extends RequisitionDetailsUpdateComponent implements OnInit {
     productPrice: IProductPrice;
     requisition: IRequisition;
 
@@ -46,9 +46,9 @@ export class RequisitionDetailsExtendedUpdateComponent extends RequisitionDetail
                         'productCategoryId.equals': this.requisition.productCategoryId,
                         size: 2000
                     })
-                    .subscribe((res: HttpResponse<IProduct[]>) => {
+                    .subscribe((response: HttpResponse<IProduct[]>) => {
                         this.products = [];
-                        this.products = res.body;
+                        this.products = response.body;
                     });
             });
         } else {
@@ -76,7 +76,7 @@ export class RequisitionDetailsExtendedUpdateComponent extends RequisitionDetail
             })
             .subscribe((res: HttpResponse<IProduct[]>) => {
                 this.productPrice = res.body[res.body.length - 1];
-                let amount = this.productPrice.price;
+                const amount = this.productPrice.price;
             });
     }
 

@@ -102,7 +102,7 @@ export class RequisitionDetailsComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<IRequisitionDetails[]>) => {
                     const requisitionDetails = res.body;
-                    let totalAmount: number = 0;
+                    let totalAmount = 0;
                     requisitionDetails.forEach((r: IRequisitionDetails) => (totalAmount = totalAmount + r.quantity));
                     this.updateRequisition(totalAmount);
                 },
@@ -112,13 +112,17 @@ export class RequisitionDetailsComponent implements OnInit, OnDestroy {
 
     updateRequisition(totalAmount: number) {
         this.requisitionService.find(this.requisitionDetail.requisitionId).subscribe((res: HttpResponse<IRequisition>) => {
-            let requisition = res.body;
-            if (requisition.amount != totalAmount) {
+            const requisition = res.body;
+            if (requisition.amount !== totalAmount) {
                 requisition.amount = totalAmount;
-                if (requisition.status !== RequisitionStatus.APPROVED_BY_CFO)
+                if (requisition.status !== RequisitionStatus.APPROVED_BY_CFO) {
                     this.requisitionService
                         .update(requisition)
-                        .subscribe((res: HttpResponse<any>) => {}, (res: HttpErrorResponse) => this.jhiAlertService.error(res.error));
+                        .subscribe(
+                            (response: HttpResponse<any>) => {},
+                            (response: HttpErrorResponse) => this.jhiAlertService.error(response.error)
+                        );
+                }
             }
         });
     }

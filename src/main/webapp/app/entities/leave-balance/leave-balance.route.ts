@@ -21,7 +21,7 @@ export class LeaveBalanceRoute implements Resolve<ILeaveBalance[]> {
         if (id) {
             return this.service.find(id, moment().get('year')).pipe(
                 filter((response: HttpResponse<LeaveBalance[]>) => response.ok),
-                map((LeaveBalance: HttpResponse<LeaveBalance[]>) => LeaveBalance.body)
+                map((leaveBalance: HttpResponse<LeaveBalance[]>) => leaveBalance.body)
             );
         }
         return of(Array<LeaveBalance>());

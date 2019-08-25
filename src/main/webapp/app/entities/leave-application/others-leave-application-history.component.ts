@@ -66,8 +66,8 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
                             'parentEmployeeId.equals': res.body[0].id
                         })
                         .subscribe(
-                            (res: HttpResponse<IManager[]>) => {
-                                if (res.body[0].employeeId == this.currentEmployee[0].id) {
+                            (response: HttpResponse<IManager[]>) => {
+                                if (response.body[0].employeeId === this.currentEmployee[0].id) {
                                     if (this.currentSearch) {
                                         this.leaveApplicationService
                                             .search({
@@ -78,9 +78,9 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
                                                 'employeeId.equals': this.currentAccount.login
                                             })
                                             .subscribe(
-                                                (res: HttpResponse<ILeaveApplication[]>) =>
-                                                    this.paginateLeaveApplications(res.body, res.headers),
-                                                (res: HttpErrorResponse) => this.onError(res.message)
+                                                (ress: HttpResponse<ILeaveApplication[]>) =>
+                                                    this.paginateLeaveApplications(ress.body, ress.headers),
+                                                (ress: HttpErrorResponse) => this.onError(ress.message)
                                             );
                                         return;
                                     }
@@ -92,13 +92,13 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
                                             'employeeId.equals': this.currentAccount.login
                                         })
                                         .subscribe(
-                                            (res: HttpResponse<ILeaveApplication[]>) =>
-                                                this.paginateLeaveApplications(res.body, res.headers),
-                                            (res: HttpErrorResponse) => this.onError(res.message)
+                                            (ress: HttpResponse<ILeaveApplication[]>) =>
+                                                this.paginateLeaveApplications(ress.body, ress.headers),
+                                            (ress: HttpErrorResponse) => this.onError(ress.message)
                                         );
                                 }
                             },
-                            (res: HttpErrorResponse) => this.onError(res.message)
+                            (response: HttpErrorResponse) => this.onError(response.message)
                         );
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)

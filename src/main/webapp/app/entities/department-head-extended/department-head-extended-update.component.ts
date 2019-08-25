@@ -4,7 +4,7 @@ import { OfficeService } from 'app/entities/office';
 import { DepartmentService } from 'app/entities/department';
 import { EmployeeService } from 'app/entities/employee';
 import { ActivatedRoute } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { IOffice } from 'app/shared/model/office.model';
@@ -15,7 +15,7 @@ import { IEmployee } from 'app/shared/model/employee.model';
     selector: 'jhi-department-head-extended-update',
     templateUrl: './department-head-extended-update.component.html'
 })
-export class DepartmentHeadExtendedUpdateComponent extends DepartmentHeadUpdateComponent {
+export class DepartmentHeadExtendedUpdateComponent extends DepartmentHeadUpdateComponent implements OnInit {
     selectedEmployee: IEmployee;
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -58,7 +58,9 @@ export class DepartmentHeadExtendedUpdateComponent extends DepartmentHeadUpdateC
                     this.employees = res;
                     if (!this.departmentHead.employeeId) {
                         this.employees.forEach((e: IEmployee) => {
-                            if (e.id == this.departmentHead.employeeId) this.selectedEmployee = e;
+                            if (e.id === this.departmentHead.employeeId) {
+                                this.selectedEmployee = e;
+                            }
                         });
                     }
                 },

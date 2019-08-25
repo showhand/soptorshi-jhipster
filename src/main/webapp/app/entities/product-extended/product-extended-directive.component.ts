@@ -1,5 +1,5 @@
 import { ProductExtendedComponent } from 'app/entities/product-extended/product-extended.component';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { IProduct, Product } from 'app/shared/model/product.model';
 import { ProductComponent, ProductService } from 'app/entities/product';
@@ -15,7 +15,7 @@ import { ProductExtendedUpdateComponent } from 'app/entities/product-extended/pr
     selector: 'jhi-product-extended-directive',
     templateUrl: './product-extended-directive.component.html'
 })
-export class ProductExtendedDirectiveComponent extends ProductComponent {
+export class ProductExtendedDirectiveComponent extends ProductComponent implements OnInit, OnDestroy {
     @Input()
     productCategoryId: number;
 

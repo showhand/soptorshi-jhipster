@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { RequisitionDetailsExtendedComponent, RequisitionDetailsExtendedUpdateComponent } from 'app/entities/requisition-details-extended';
 import { IRequisition } from 'app/shared/model/requisition.model';
 import { RequisitionDetailsService } from 'app/entities/requisition-details';
@@ -13,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     selector: 'jhi-requisition-details-extended-directive',
     templateUrl: './requisition-details-extended-directive.component.html'
 })
-export class RequisitionDetailsExtendedDirectiveComponent extends RequisitionDetailsExtendedComponent {
+export class RequisitionDetailsExtendedDirectiveComponent extends RequisitionDetailsExtendedComponent implements OnInit, OnDestroy {
     @Input()
     requisition: IRequisition;
 

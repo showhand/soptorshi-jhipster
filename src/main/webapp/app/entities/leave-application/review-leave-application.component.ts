@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ILeaveApplication, LeaveStatus } from 'app/shared/model/leave-application.model';
 import { Account, AccountService } from 'app/core';
 import { Observable, Subscription } from 'rxjs';
@@ -18,7 +18,7 @@ import { IManager } from 'app/shared/model/manager.model';
     templateUrl: './review-leave-application.component.html',
     styles: []
 })
-export class ReviewLeaveApplicationComponent implements OnInit {
+export class ReviewLeaveApplicationComponent implements OnInit, OnDestroy {
     leaveApplications: ILeaveApplication[];
     currentAccount: Account;
     eventSubscriber: Subscription;
@@ -138,25 +138,25 @@ export class ReviewLeaveApplicationComponent implements OnInit {
                         this.currentEmployee = res.body;
                         this.managerService
                             .query({
-                                'employeeId.equals': '1' //this.currentEmployee[0].id
+                                'employeeId.equals': '1' // this.currentEmployee[0].id
                             })
                             .subscribe(
-                                (res: HttpResponse<IManager[]>) => {
-                                    this.manager = res.body;
-                                    let map: string = this.manager.map(val => val.parentEmployeeId).join(',');
+                                (response: HttpResponse<IManager[]>) => {
+                                    this.manager = response.body;
+                                    const map: string = this.manager.map(val => val.parentEmployeeId).join(',');
                                     this.employeeService
                                         .query({
                                             'id.in': map
                                         })
                                         .subscribe(
-                                            (res: HttpResponse<IEmployee[]>) => {
-                                                this.child = res.body;
+                                            (ress: HttpResponse<IEmployee[]>) => {
+                                                this.child = ress.body;
                                                 this.loadAll();
                                             },
-                                            (res: HttpErrorResponse) => this.onError(res.message)
+                                            (ress: HttpErrorResponse) => this.onError(ress.message)
                                         );
                                 },
-                                (res: HttpErrorResponse) => this.onError(res.message)
+                                (response: HttpErrorResponse) => this.onError(response.message)
                             );
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)

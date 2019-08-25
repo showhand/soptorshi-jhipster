@@ -67,7 +67,7 @@ export class RequisitionDetailsUpdateComponent implements OnInit {
             })
             .subscribe((res: HttpResponse<IProduct[]>) => {
                 this.productPrice = res.body[res.body.length - 1];
-                let amount = this.productPrice.price;
+                const amount = this.productPrice.price;
             });
     }
 

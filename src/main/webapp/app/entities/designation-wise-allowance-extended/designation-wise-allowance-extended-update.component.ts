@@ -1,5 +1,5 @@
 import { DesignationWiseAllowanceService, DesignationWiseAllowanceUpdateComponent } from 'app/entities/designation-wise-allowance';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { JhiAlertService } from 'ng-jhipster';
 import { DesignationService } from 'app/entities/designation';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { IDesignation } from 'app/shared/model/designation.model';
     selector: 'jhi-designation-wise-allowance-extended-update',
     templateUrl: './designation-wise-allowance-extended-update.component.html'
 })
-export class DesignationWiseAllowanceExtendedUpdateComponent extends DesignationWiseAllowanceUpdateComponent {
+export class DesignationWiseAllowanceExtendedUpdateComponent extends DesignationWiseAllowanceUpdateComponent implements OnInit {
     currentAccount: Account;
 
     constructor(

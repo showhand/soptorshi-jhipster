@@ -2,7 +2,7 @@ import { PurchaseCommitteeService, PurchaseCommitteeUpdateComponent } from 'app/
 import { JhiAlertService } from 'ng-jhipster';
 import { EmployeeService } from 'app/entities/employee';
 import { ActivatedRoute } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
@@ -11,7 +11,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
     selector: 'jhi-purchase-committee-extended-update',
     templateUrl: './purchase-committee-extended-update.component.html'
 })
-export class PurchaseCommitteeExtendedUpdateComponent extends PurchaseCommitteeUpdateComponent {
+export class PurchaseCommitteeExtendedUpdateComponent extends PurchaseCommitteeUpdateComponent implements OnInit {
     selectedEmployee: IEmployee;
 
     constructor(

@@ -116,7 +116,7 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             })
             .subscribe(
                 (res: HttpResponse<IMonthlySalary[]>) => {
-                    if (res.body.length == 0) {
+                    if (res.body.length === 0) {
                         this.payrollGenerated = false;
                     } else {
                         this.payrollGenerated = true;

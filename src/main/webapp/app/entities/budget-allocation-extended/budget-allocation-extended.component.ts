@@ -1,5 +1,5 @@
 import { BudgetAllocationComponent, BudgetAllocationService } from 'app/entities/budget-allocation';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core';
@@ -12,7 +12,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
     selector: 'jhi-budget-allocation-extended',
     templateUrl: './budget-allocation-extended.component.html'
 })
-export class BudgetAllocationExtendedComponent extends BudgetAllocationComponent {
+export class BudgetAllocationExtendedComponent extends BudgetAllocationComponent implements OnInit, OnDestroy {
     budgetAllocation: IBudgetAllocation;
     financialAccountYears: IFinancialAccountYear[];
     routeData: any;
@@ -64,8 +64,9 @@ export class BudgetAllocationExtendedComponent extends BudgetAllocationComponent
             .subscribe(
                 (res: HttpResponse<IFinancialAccountYear[]>) => {
                     this.financialAccountYears = res.body;
-                    if (!this.budgetAllocationService.financialAccountYearId)
+                    if (!this.budgetAllocationService.financialAccountYearId) {
                         this.budgetAllocationService.financialAccountYearId = this.financialAccountYears[0].id;
+                    }
                     this.fetchBudgetAllocationInformation();
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
@@ -77,7 +78,7 @@ export class BudgetAllocationExtendedComponent extends BudgetAllocationComponent
     }
 
     fetchBudgetAllocationInformation() {
-        if (this.budgetAllocationService.financialAccountYearId)
+        if (this.budgetAllocationService.financialAccountYearId) {
             this.budgetAllocationService
                 .query({
                     'financialAccountYearId.equals': this.budgetAllocationService.financialAccountYearId,
@@ -89,6 +90,7 @@ export class BudgetAllocationExtendedComponent extends BudgetAllocationComponent
                     (res: HttpResponse<IBudgetAllocation[]>) => this.paginateBudgetAllocations(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
+        }
     }
 
     reset() {
@@ -122,8 +124,8 @@ export class BudgetAllocationExtendedComponent extends BudgetAllocationComponent
     }
 
     registerChangeInBudgetAllocations() {
-        let eventS = this.eventManager;
-        let eventSS = this.eventSubscriber;
+        const eventS = this.eventManager;
+        const eventSS = this.eventSubscriber;
         this.eventSubscriber = this.eventManager.subscribe('budgetAllocationListModification', response => {
             console.log('event scriber response');
             console.log(response);

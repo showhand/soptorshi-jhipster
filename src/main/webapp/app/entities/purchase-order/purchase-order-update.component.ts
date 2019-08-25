@@ -98,7 +98,7 @@ export class PurchaseOrderUpdateComponent implements OnInit {
     }
 
     zeroPad(num, places): string {
-        var zero = places - num.toString().length + 1;
+        const zero = places - num.toString().length + 1;
         return Array(+(zero > 0 && zero)).join('0') + num;
     }
 

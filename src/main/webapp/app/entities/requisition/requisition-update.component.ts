@@ -63,9 +63,15 @@ export class RequisitionUpdateComponent implements OnInit {
                 .subscribe(
                     (res: HttpResponse<IEmployee[]>) => {
                         this.currentEmployee = res.body[0];
-                        if (!this.requisition.employeeId) this.requisition.employeeId = res.body[0].id;
-                        if (!this.requisition.departmentId) this.requisition.departmentId = res.body[0].departmentId;
-                        if (!this.requisition.officeId) this.requisition.officeId = res.body[0].officeId;
+                        if (!this.requisition.employeeId) {
+                            this.requisition.employeeId = res.body[0].id;
+                        }
+                        if (!this.requisition.departmentId) {
+                            this.requisition.departmentId = res.body[0].departmentId;
+                        }
+                        if (!this.requisition.officeId) {
+                            this.requisition.officeId = res.body[0].officeId;
+                        }
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
@@ -135,7 +141,7 @@ export class RequisitionUpdateComponent implements OnInit {
     }
 
     zeroPad(num, places): string {
-        var zero = places - num.toString().length + 1;
+        const zero = places - num.toString().length + 1;
         return Array(+(zero > 0 && zero)).join('0') + num;
     }
 
@@ -208,7 +214,7 @@ export class RequisitionUpdateComponent implements OnInit {
                 'requisitionId.equals': this.requisition.id
             })
             .subscribe((res: HttpResponse<IPurchaseOrder[]>) => {
-                let purchaseOrder = res.body[0];
+                const purchaseOrder = res.body[0];
                 purchaseOrder.status = PurchaseOrderStatus.CLOSED_BY_CFO;
                 this.purchaseOrderService.update(purchaseOrder);
 

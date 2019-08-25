@@ -1,5 +1,5 @@
 import { VendorContactPersonExtendedComponent } from 'app/entities/vendor-contact-person-extended/vendor-contact-person-extended.component';
-import { AfterViewChecked, Component, Inject, Input } from '@angular/core';
+import { AfterViewChecked, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { VendorContactPersonService } from 'app/entities/vendor-contact-person';
 import { JhiAlertService, JhiEventManager, JhiParseLinks, JhiResolvePagingParams } from 'ng-jhipster';
 import { AccountService } from 'app/core';
@@ -14,7 +14,7 @@ import { HttpResponse } from '@angular/common/http';
     selector: 'jhi-vendor-contact-person-extended-directive',
     templateUrl: './vendor-contact-person-extended-directive.component.html'
 })
-export class VendorContactPersonExtendedDirectiveComponent extends VendorContactPersonExtendedComponent {
+export class VendorContactPersonExtendedDirectiveComponent extends VendorContactPersonExtendedComponent implements OnInit, OnDestroy {
     vendorContactPerson: IVendorContactPerson;
     @Input()
     vendorId: number;

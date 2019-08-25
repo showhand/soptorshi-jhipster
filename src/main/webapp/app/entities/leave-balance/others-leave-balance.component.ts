@@ -71,12 +71,12 @@ export class OthersLeaveBalanceComponent implements OnInit {
                             'parentEmployeeId.equals': this.employees[0].id
                         })
                         .subscribe(
-                            (res: HttpResponse<IManager[]>) => {
-                                if (res.body[0].employeeId == this.currentEmployee[0].id) {
+                            (response: HttpResponse<IManager[]>) => {
+                                if (response.body[0].employeeId === this.currentEmployee[0].id) {
                                     this.getLeaveBalance(this.employees[0].employeeId);
                                 }
                             },
-                            (res: HttpErrorResponse) => this.onError(res.message)
+                            (response: HttpErrorResponse) => this.onError(response.message)
                         );
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)

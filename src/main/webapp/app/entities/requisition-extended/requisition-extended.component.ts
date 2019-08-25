@@ -17,7 +17,7 @@ import { RequisitionComponent, RequisitionService } from 'app/entities/requisiti
     selector: 'jhi-requisition-extended',
     templateUrl: './requisition-extended.component.html'
 })
-export class RequisitionExtendedComponent extends RequisitionComponent {
+export class RequisitionExtendedComponent extends RequisitionComponent implements OnInit, OnDestroy {
     currentEmployee: IEmployee;
 
     constructor(

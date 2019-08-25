@@ -123,8 +123,8 @@ export class OthersLeaveApplicationComponent implements OnInit {
             this.message = '';
             this.warning = '';
 
-            let fromYear: number = this.leaveApplication.fromDate.year();
-            let toYear: number = this.leaveApplication.toDate.year();
+            const fromYear: number = this.leaveApplication.fromDate.year();
+            const toYear: number = this.leaveApplication.toDate.year();
 
             if (fromYear === toYear) {
                 this.leaveBalanceService.getOne(this.leaveApplication.employeeId, fromYear, this.leaveApplication.leaveTypesId).subscribe(

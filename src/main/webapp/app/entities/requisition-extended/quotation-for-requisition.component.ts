@@ -1,5 +1,5 @@
 import { QuotationExtendedComponent } from 'app/entities/quotation-extended';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IQuotation, Quotation } from 'app/shared/model/quotation.model';
 import { IRequisition } from 'app/shared/model/requisition.model';
 import { QuotationService } from 'app/entities/quotation';
@@ -12,7 +12,7 @@ import { RequisitionService } from 'app/entities/requisition';
     selector: 'jhi-quotation-for-requisition',
     templateUrl: './quotation-for-requisition.component.html'
 })
-export class QuotationForRequisitionComponent extends QuotationExtendedComponent {
+export class QuotationForRequisitionComponent extends QuotationExtendedComponent implements OnInit, OnDestroy {
     @Input()
     requisition: IRequisition;
 

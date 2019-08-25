@@ -112,8 +112,8 @@ export class EmployeeComponent implements OnInit, OnDestroy {
                                     sort: this.sort()
                                 })
                                 .subscribe(
-                                    (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
-                                    (res: HttpErrorResponse) => this.onError(res.message)
+                                    (response: HttpResponse<IEmployee[]>) => this.paginateEmployees(response.body, response.headers),
+                                    (response: HttpErrorResponse) => this.onError(response.message)
                                 );
                             return;
                         }
@@ -125,8 +125,8 @@ export class EmployeeComponent implements OnInit, OnDestroy {
                                 sort: this.sort()
                             })
                             .subscribe(
-                                (res: HttpResponse<IEmployee[]>) => this.paginateEmployees(res.body, res.headers),
-                                (res: HttpErrorResponse) => this.onError(res.message)
+                                (response: HttpResponse<IEmployee[]>) => this.paginateEmployees(response.body, response.headers),
+                                (response: HttpErrorResponse) => this.onError(response.message)
                             );
                     },
                     (error: HttpErrorResponse) => this.onError(error.message)

@@ -15,7 +15,7 @@ import { QuotationComponent, QuotationService } from 'app/entities/quotation';
     selector: 'jhi-quotation-extended',
     templateUrl: './quotation-extended.component.html'
 })
-export class QuotationExtendedComponent extends QuotationComponent {
+export class QuotationExtendedComponent extends QuotationComponent implements OnInit, OnDestroy {
     quotation: IQuotation;
 
     constructor(

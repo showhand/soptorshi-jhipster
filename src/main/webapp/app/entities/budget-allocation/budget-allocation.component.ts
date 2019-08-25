@@ -82,8 +82,9 @@ export class BudgetAllocationComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<IFinancialAccountYear[]>) => {
                     this.financialAccountYears = res.body;
-                    if (!this.budgetAllocationService.financialAccountYearId)
+                    if (!this.budgetAllocationService.financialAccountYearId) {
                         this.budgetAllocationService.financialAccountYearId = this.financialAccountYears[0].id;
+                    }
                     this.fetchBudgetAllocationInformation();
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
@@ -95,7 +96,7 @@ export class BudgetAllocationComponent implements OnInit, OnDestroy {
     }
 
     fetchBudgetAllocationInformation() {
-        if (this.budgetAllocationService.financialAccountYearId)
+        if (this.budgetAllocationService.financialAccountYearId) {
             this.budgetAllocationService
                 .query({
                     'financialAccountYearId.equals': this.budgetAllocationService.financialAccountYearId,
@@ -107,6 +108,7 @@ export class BudgetAllocationComponent implements OnInit, OnDestroy {
                     (res: HttpResponse<IBudgetAllocation[]>) => this.paginateBudgetAllocations(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
+        }
     }
 
     reset() {
@@ -180,8 +182,8 @@ export class BudgetAllocationComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInBudgetAllocations() {
-        let eventS = this.eventManager;
-        let eventSS = this.eventSubscriber;
+        const eventS = this.eventManager;
+        const eventSS = this.eventSubscriber;
         this.eventSubscriber = this.eventManager.subscribe('budgetAllocationListModification', response => {
             console.log('event scriber response');
             console.log(response);

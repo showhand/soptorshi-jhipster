@@ -16,7 +16,7 @@ import { QuotationService, QuotationUpdateComponent } from 'app/entities/quotati
     selector: 'jhi-quotation-extended-update',
     templateUrl: './quotation-extended-update.component.html'
 })
-export class QuotationExtendedUpdateComponent extends QuotationUpdateComponent {
+export class QuotationExtendedUpdateComponent extends QuotationUpdateComponent implements OnInit {
     quotation: IQuotation;
     isSaving: boolean;
 

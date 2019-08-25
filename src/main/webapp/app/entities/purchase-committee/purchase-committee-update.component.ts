@@ -20,6 +20,8 @@ export class PurchaseCommitteeUpdateComponent implements OnInit {
     selectedEmployee: IEmployee;
     employees: IEmployee[];
 
+    focus$ = new Subject<IEmployee>();
+
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected purchaseCommitteeService: PurchaseCommitteeService,
@@ -97,8 +99,6 @@ export class PurchaseCommitteeUpdateComponent implements OnInit {
     trackEmployeeById(index: number, item: IEmployee) {
         return item.id;
     }
-
-    focus$ = new Subject<IEmployee>();
 
     employeeSelected(event) {
         this.purchaseCommittee.employeeId = event.item.id;
