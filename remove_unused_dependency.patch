@@ -1,0 +1,21 @@
+Index: src/main/java/org/soptorshi/service/AcademicInformationAttachmentQueryService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/org/soptorshi/service/AcademicInformationAttachmentQueryService.java	(revision 55f05355e067221ac710e519875fc5a094de38fd)
++++ src/main/java/org/soptorshi/service/AcademicInformationAttachmentQueryService.java	(revision 08c27526ddd791f917de77f6452ea97466673b45)
+@@ -38,12 +38,9 @@
+ 
+     private final AcademicInformationAttachmentMapper academicInformationAttachmentMapper;
+ 
+-    private final AcademicInformationAttachmentSearchRepository academicInformationAttachmentSearchRepository;
+-
+-    public AcademicInformationAttachmentQueryService(AcademicInformationAttachmentRepository academicInformationAttachmentRepository, AcademicInformationAttachmentMapper academicInformationAttachmentMapper, AcademicInformationAttachmentSearchRepository academicInformationAttachmentSearchRepository) {
++    public AcademicInformationAttachmentQueryService(AcademicInformationAttachmentRepository academicInformationAttachmentRepository, AcademicInformationAttachmentMapper academicInformationAttachmentMapper) {
+         this.academicInformationAttachmentRepository = academicInformationAttachmentRepository;
+         this.academicInformationAttachmentMapper = academicInformationAttachmentMapper;
+-        this.academicInformationAttachmentSearchRepository = academicInformationAttachmentSearchRepository;
+     }
+ 
+     /**
