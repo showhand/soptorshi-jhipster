@@ -8,7 +8,6 @@ import { CookieModule } from 'ngx-cookie';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatButtonModule, MatTableModule } from '@angular/material';
 import { AutoCompleteModule } from 'primeng/primeng';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
     imports: [NgbModule.forRoot(), InfiniteScrollModule, CookieModule.forRoot(), FontAwesomeModule, MatButtonModule, AutoCompleteModule],
@@ -21,8 +20,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
         FontAwesomeModule,
         MatButtonModule,
         AutoCompleteModule,
-        MatTableModule,
-        Ng2SmartTableModule
+        MatTableModule
     ]
 })
 export class SoptorshiSharedLibsModule {
