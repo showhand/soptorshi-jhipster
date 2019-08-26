@@ -24,6 +24,9 @@ const ENTITY_STATES = [...purchaseCommitteeExtendedRoute, ...purchaseCommitteeEx
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES), Select2Module, AutoCompleteModule],
     declarations: [
+        PurchaseCommitteeComponent,
+        PurchaseCommitteeDetailComponent,
+        PurchaseCommitteeUpdateComponent,
         PurchaseCommitteeExtendedComponent,
         PurchaseCommitteeDetailComponent,
         PurchaseCommitteeExtendedUpdateComponent,

@@ -2,7 +2,13 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
-import { VendorContactPersonDeleteDialogComponent, VendorContactPersonDeletePopupComponent } from 'app/entities/vendor-contact-person';
+import {
+    VendorContactPersonComponent,
+    VendorContactPersonDeleteDialogComponent,
+    VendorContactPersonDeletePopupComponent,
+    VendorContactPersonDetailComponent,
+    VendorContactPersonUpdateComponent
+} from 'app/entities/vendor-contact-person';
 import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-contact-person-extended/vendor-contact-person-extended-update.component';
 import { VendorContactPersonExtendedDetailComponent } from 'app/entities/vendor-contact-person-extended/vendor-contact-person-extended-detail.component';
 import { VendorContactPersonExtendedComponent } from 'app/entities/vendor-contact-person-extended/vendor-contact-person-extended.component';
@@ -16,6 +22,9 @@ const ENTITY_STATES = [...vendorContactPersonExtendedRoute, ...vendorContactPers
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
+        VendorContactPersonComponent,
+        VendorContactPersonDetailComponent,
+        VendorContactPersonUpdateComponent,
         VendorContactPersonExtendedComponent,
         VendorContactPersonExtendedDetailComponent,
         VendorContactPersonExtendedUpdateComponent,

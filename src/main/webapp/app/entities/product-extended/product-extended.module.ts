@@ -3,7 +3,13 @@ import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 
-import { ProductDeleteDialogComponent, ProductDeletePopupComponent } from 'app/entities/product';
+import {
+    ProductComponent,
+    ProductDeleteDialogComponent,
+    ProductDeletePopupComponent,
+    ProductDetailComponent,
+    ProductUpdateComponent
+} from 'app/entities/product';
 import { ProductExtendedUpdateComponent } from 'app/entities/product-extended/product-extended-update.component';
 import { ProductExtendedComponent } from 'app/entities/product-extended/product-extended.component';
 import { ProductExtendedDetailComponent } from 'app/entities/product-extended/product-extended-detail.component';
@@ -16,6 +22,9 @@ const ENTITY_STATES = [...productExtendedRoute, ...productExtendedPopupRoute];
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
+        ProductComponent,
+        ProductDetailComponent,
+        ProductUpdateComponent,
         ProductExtendedComponent,
         ProductExtendedDetailComponent,
         ProductExtendedUpdateComponent,

@@ -2,7 +2,13 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
-import { VendorDeleteDialogComponent, VendorDeletePopupComponent } from 'app/entities/vendor';
+import {
+    VendorComponent,
+    VendorDeleteDialogComponent,
+    VendorDeletePopupComponent,
+    VendorDetailComponent,
+    VendorUpdateComponent
+} from 'app/entities/vendor';
 import { VendorExtendedUpdateComponent } from 'app/entities/vendor-extended/vendor-extended-update.component';
 import { VendorExtendedDetailComponent } from 'app/entities/vendor-extended/vendor-extended-detail.component';
 import { VendorExtendedComponent } from 'app/entities/vendor-extended/vendor-extended.component';
@@ -19,6 +25,9 @@ const ENTITY_STATES = [...vendorExtendedRoute, ...vendorExtendedPopupRoute];
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
+        VendorComponent,
+        VendorDetailComponent,
+        VendorUpdateComponent,
         VendorExtendedComponent,
         VendorExtendedDetailComponent,
         VendorExtendedUpdateComponent,

@@ -4,7 +4,15 @@ import { SoptorshiSharedModule } from 'app/shared';
 import { BudgetAllocationExtendedComponent } from 'app/entities/budget-allocation-extended/budget-allocation-extended.component';
 import { BudgetAllocationExtendedDetailComponent } from 'app/entities/budget-allocation-extended/budget-allocation-extended-detail.component';
 import { BudgetAllocationExtendedUpdateExtendedComponent } from 'app/entities/budget-allocation-extended/budget-allocation-extended-update-extended.component';
-import { BudgetAllocationDeletePopupComponent, budgetAllocationPopupRoute, budgetAllocationRoute } from 'app/entities/budget-allocation';
+import {
+    BudgetAllocationComponent,
+    BudgetAllocationDeleteDialogComponent,
+    BudgetAllocationDeletePopupComponent,
+    BudgetAllocationDetailComponent,
+    budgetAllocationPopupRoute,
+    budgetAllocationRoute,
+    BudgetAllocationUpdateComponent
+} from 'app/entities/budget-allocation';
 import {
     budgetAllocationExtendedPopupRoute,
     budgetAllocationExtendedRoute
@@ -15,10 +23,14 @@ const ENTITY_STATES = [...budgetAllocationExtendedRoute, ...budgetAllocationExte
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
+        BudgetAllocationComponent,
+        BudgetAllocationDetailComponent,
+        BudgetAllocationUpdateComponent,
         BudgetAllocationExtendedComponent,
         BudgetAllocationExtendedDetailComponent,
         BudgetAllocationExtendedUpdateExtendedComponent,
-        BudgetAllocationDeletePopupComponent
+        BudgetAllocationDeletePopupComponent,
+        BudgetAllocationDeleteDialogComponent
     ],
     entryComponents: [
         BudgetAllocationExtendedComponent,

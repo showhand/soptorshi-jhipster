@@ -1,9 +1,3 @@
-<style>
-    span.ui-autocomplete {
-        display: block;
-        white-space: nowrap;
-    }
-</style>
 <div class="row justify-content-center">
     <div class="col-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
@@ -25,7 +19,7 @@
                         <div class="form-group">
                             <label class="form-control-label" for="field_productCategory">Product Category</label>
                             <!--[style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"-->
-                            <p-autoComplete id="field_productCategory" inputStyleClass="form-control" appendTo="body"   [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"  [(ngModel)]="productCategory" [immutable]="false"  name="product cagetory" [suggestions]="productcategories" field="name" (completeMethod)="filterProductCategories($event)"  [minLength]="1" #autoComplete (onFocus)="  autoComplete.handleDropdownClick()" ></p-autoComplete>
+                            <p-autoComplete id="field_productCategory" inputStyleClass="form-control" appendTo="body"   [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"  [(ngModel)]="productCategory" [immutable]="false"  name="product cagetory" [suggestions]="productcategories" field="name" (completeMethod)="filterProductCategories($event)"  [minLength]="1" #autoComplete ></p-autoComplete> <!-- (onFocus)=" autoComplete.handleDropdownClick()"-->
                         </div>
                     </div>
                     <div class="col-3">
@@ -66,7 +60,7 @@
 
                 <div class="form-group" >
                     <label class="form-control-label" for="field_purchaseCommitteeRemarks">Purchase Committee Remarks</label>
-                    <textarea class="form-control" name="purchaseCommitteeRemarks" id="field_purchaseCommitteeRemarks" disabled="{{!this.accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE'])}} && requisition.status=== 'FORWARDED_BY_HEAD'""
+                    <textarea class="form-control" name="purchaseCommitteeRemarks" id="field_purchaseCommitteeRemarks" disabled="{{!this.accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE'])}} && requisition.status=== 'FORWARDED_BY_HEAD'"
                         [(ngModel)]="requisition.purchaseCommitteeRemarks" ></textarea>
                 </div>
               <!--  <div class="form-group">
@@ -154,7 +148,7 @@
                 <button type="button" id="receive_head"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_DEPARTMENT_HEAD']) && requisition.status=== 'RECEIVED_BY_REQUISIONER'" (click)="receivedAndVerifiedByHead()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Receive</span>
                 </button>
-                <button type="button" id="receive_head"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO']) && requisition.status=== 'RECEIVED_VERIFIED_BY_HEAD'" (click)="closedByCFO()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
+                <button type="button" id="receive_heads"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO']) && requisition.status=== 'RECEIVED_VERIFIED_BY_HEAD'" (click)="closedByCFO()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Receive</span>
                 </button>
             </div>

@@ -9,13 +9,22 @@ import {
     quotationExtendedRoute,
     quotationExtendedPopupRoute
 } from './';
-import { QuotationDeleteDialogComponent, QuotationDeletePopupComponent } from 'app/entities/quotation';
+import {
+    QuotationComponent,
+    QuotationDeleteDialogComponent,
+    QuotationDeletePopupComponent,
+    QuotationDetailComponent,
+    QuotationUpdateComponent
+} from 'app/entities/quotation';
 
 const ENTITY_STATES = [...quotationExtendedRoute, ...quotationExtendedPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
+        QuotationComponent,
+        QuotationDetailComponent,
+        QuotationUpdateComponent,
         QuotationExtendedComponent,
         QuotationExtendedDetailComponent,
         QuotationExtendedUpdateComponent,
