@@ -499,10 +499,6 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             {
                 path: 'stock-out-item',
                 loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
-            },
-            {
-                path: 'requisition',
-                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

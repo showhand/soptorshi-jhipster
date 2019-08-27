@@ -17,6 +17,16 @@ export class RequisitionService {
     public resourceUrl = SERVER_API_URL + 'api/requisitions';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/requisitions';
 
+    public requisitionDetailsPage = 1;
+    public requisitionDetailsPreviousPage = 0;
+    public requisitionDetailsReverse = 'asc';
+    public requisitionDetailsPredicate = 'id';
+
+    public quotationPage = 1;
+    public quotationPreviousPage = 0;
+    public quotationReverse = 'asc';
+    public quotationPredicate = 'id';
+
     constructor(protected http: HttpClient) {}
 
     create(requisition: IRequisition): Observable<EntityResponseType> {

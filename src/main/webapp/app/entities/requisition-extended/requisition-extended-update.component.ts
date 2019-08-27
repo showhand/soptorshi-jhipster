@@ -63,9 +63,7 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
             officeService,
             productCategoryService,
             departmentService,
-            activatedRoute,
-            accountService,
-            purchaseOrderService
+            activatedRoute
         );
     }
 
