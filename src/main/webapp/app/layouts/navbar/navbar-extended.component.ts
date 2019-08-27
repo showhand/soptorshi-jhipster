@@ -6,13 +6,14 @@ import { VERSION } from 'app/app.constants';
 import { AccountService, LoginModalService, LoginService } from 'app/core';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { SidebarService } from 'app/layouts/sidebar/sidebar.service';
+import { NavbarComponent } from 'app/layouts';
 
 @Component({
-    selector: 'jhi-navbar',
-    templateUrl: './navbar.component.html',
+    selector: 'jhi-navbar-extended',
+    templateUrl: './navbar-extended.component.html',
     styleUrls: ['navbar.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarExtendedComponent extends NavbarComponent implements OnInit {
     inProduction: boolean;
     isNavbarCollapsed: boolean;
     languages: any[];
@@ -24,41 +25,29 @@ export class NavbarComponent implements OnInit {
         public loginService: LoginService,
         public accountService: AccountService,
         public loginModalService: LoginModalService,
-        public profileService: ProfileService
+        public profileService: ProfileService,
+        public router: Router,
+        public sidebarService: SidebarService
     ) {
-        this.version = VERSION ? 'v' + VERSION : '';
-        this.isNavbarCollapsed = true;
+        super(loginService, accountService, loginModalService, profileService);
     }
 
     ngOnInit() {
+        this.sidebarService.toggleSidenav = true;
         this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });
     }
 
-    collapseNavbar() {
-        this.isNavbarCollapsed = true;
-    }
-
-    isAuthenticated() {
-        return this.accountService.isAuthenticated();
-    }
-
-    login() {
-        this.modalRef = this.loginModalService.open();
+    toggleNavbar() {
+        this.sidebarService.toggleSidenav = !this.sidebarService.toggleSidenav;
+        this.isNavbarCollapsed = !this.isNavbarCollapsed;
     }
 
     logout() {
         this.collapseNavbar();
         this.loginService.logout();
-    }
-
-    toggleNavbar() {
-        this.isNavbarCollapsed = !this.isNavbarCollapsed;
-    }
-
-    getImageUrl() {
-        return this.isAuthenticated() ? this.accountService.getImageUrl() : null;
+        this.router.navigate(['']);
     }
 }
