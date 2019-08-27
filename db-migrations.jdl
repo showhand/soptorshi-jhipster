@@ -265,6 +265,8 @@ entity Requisition {
   amount BigDecimal,
   status RequisitionStatus,
   selected Boolean,
+  headRemarks TextBlob,
+  refToHead Long,
   purchaseCommitteeRemarks TextBlob,
   refToPurchaseCommittee Long,
   cfoRemarks TextBlob,
