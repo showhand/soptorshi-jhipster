@@ -5,11 +5,25 @@ entity Department {
   shortName String,
   code String
 }
+
+entity DepartmentHead{
+
+}
+
+
 entity Designation {
   name String,
   shortName String,
   description String
 }
+
+
+entity PurchaseCommittee{
+
+}
+
+
+
 entity Employee {
   employeeId String required,
   fullName String required,
@@ -151,6 +165,14 @@ entity Fine {
   modifiedDate LocalDate,
   reason TextBlob
 }
+
+entity Bill{
+  amount BigDecimal required,
+  billCategory BillCategory,
+  reason TextBlob,
+  modifiedBy String,
+  modifiedDate LocalDate
+}
 entity Loan {
   amount BigDecimal required,
   takenOn LocalDate,
@@ -169,28 +191,6 @@ entity Holiday {
   toDate LocalDate required,
   numberOfDays Integer required
 }
-entity PayrollManagement
-entity LeaveType {
-  name String maxlength(50) required,
-  paidLeave PaidOrUnPaid,
-  maximumNumberOfDays Integer,
-  description String maxlength(250)
-}
-entity LeaveApplication {
-  employeeId String required,
-  fromDate LocalDate required,
-  toDate LocalDate required,
-  numberOfDays Integer required,
-  reason String maxlength(250) required,
-  appliedBy String required,
-  appliedOn Instant,
-  actionTakenBy String required,
-  actionTakenOn Instant,
-  status LeaveStatus required
-}
-entity LeaveAttachment {
-  file AnyBlob required
-}
 entity DesignationWiseAllowance {
   allowanceType AllowanceType,
   allowanceCategory AllowanceCategory,
@@ -198,230 +198,203 @@ entity DesignationWiseAllowance {
   modifiedBy String,
   modifiedOn LocalDate
 }
-entity FineManagement
-entity AdvanceManagement
-entity LoanManagement
-entity ProvidentManagement
-entity AllowanceManagement
-entity FineAdvanceLoanManagement
-entity Manager {
-  parentEmployeeId Long,
-  modifiedBy String,
-  modifiedOn LocalDate
-}
-entity SpecialAllowanceTimeLine {
+
+entity SpecialAllowanceTimeLine{
   allowanceType AllowanceType,
   year Integer,
   month MonthType,
   modifiedBy String,
   modifiedOn LocalDate
 }
-entity PurchaseCommittee
-entity Vendor {
-  companyName String,
-  description TextBlob,
-  remarks VendorRemarks
+
+entity Manager{
+    parentEmployeeId Long,
+    modifiedBy String,
+    modifiedOn LocalDate
 }
-entity VendorContactPerson {
-  name String,
-  designation String,
-  contactNumber String
+
+
+entity Vendor{
+    companyName String,
+    description TextBlob,
+    remarks VendorRemarks,
 }
-entity DepartmentHead
-entity Bill {
-  amount BigDecimal required,
-  billCategory BillCategory,
-  reason TextBlob,
-  modifiedBy String,
-  modifiedDate LocalDate
+
+entity VendorContactPerson{
+    name String,
+    designation String,
+    contactNumber String
 }
-entity BudgetAllocation {
-  amount BigDecimal
+
+entity BudgetAllocation{
+    amount BigDecimal
 }
-entity ProductCategory {
-  name String,
-  description TextBlob,
-  modifiedBy String,
-  modifiedOn LocalDate
+
+entity ProductCategory{
+    name String,
+    description TextBlob,
+    modifiedBy String,
+    modifiedOn LocalDate
 }
-entity Product {
-  name String,
-  description TextBlob,
-  countryOrOrigin String,
-  status ProductStatus,
-  modifiedBy String,
-  modifiedOn LocalDate
+
+entity Product{
+    name String,
+    description TextBlob,
+    countryOrOrigin String,
+    status ProductStatus,
+    modifiedBy String,
+    modifiedOn LocalDate
 }
-entity ProductPrice {
-  price BigDecimal,
-  priceDate LocalDate,
-  modifiedBy String,
-  modifiedOn LocalDate
+
+entity ProductPrice{
+    price BigDecimal,
+    priceDate LocalDate,
+    modifiedBy String,
+    modifiedOn LocalDate
 }
-entity Requisition {
-  requisitionNo String,
-  reason TextBlob,
-  requisitionDate LocalDate,
-  amount BigDecimal,
-  status RequisitionStatus,
-  selected Boolean,
-  headRemarks TextBlob,
-  refToHead Long,
-  purchaseCommitteeRemarks TextBlob,
-  refToPurchaseCommittee Long,
-  cfoRemarks TextBlob,
-  refToCfo Long,
-  modifiedBy String,
-  modifiedOn LocalDate
+
+entity Requisition{
+   requisitionNo String,
+   reason TextBlob,
+   requisitionDate LocalDate,
+   amount BigDecimal,
+   status RequisitionStatus,
+   selected Boolean,
+   headRemarks TextBlob,
+   refToHead Long,
+   purchaseCommitteeRemarks TextBlob,
+   refToPurchaseCommittee Long,
+   cfoRemarks TextBlob,
+   refToCfo Long,
+   modifiedBy String,
+   modifiedOn LocalDate
 }
-entity RequisitionDetails {
-  requiredOn LocalDate,
-  estimatedDate LocalDate,
-  uom UnitOfMeasurements,
-  unit Integer,
-  unitPrice BigDecimal,
-  quantity BigDecimal,
-  modifiedBy String,
-  modifiedOn LocalDate
+
+entity RequisitionDetails{
+    requiredOn LocalDate,
+    estimatedDate LocalDate,
+    uom UnitOfMeasurements,
+    unit Integer,
+    unitPrice BigDecimal,
+    quantity BigDecimal,
+    modifiedBy String,
+    modifiedOn LocalDate
 }
-entity Quotation {
-  quotationNo String,
-  currency Currency,
-  payType PayType,
-  creditLimit BigDecimal,
-  vatStatus VatStatus,
-  aitStatus AITStatus,
-  warrantyStatus WarrantyStatus,
-  loadingPort String,
-  remarks TextBlob,
-  attachment AnyBlob required,
-  selectionStatus SelectionType,
-  modifiedBy String,
-  modifiedOn LocalDate
+
+entity Quotation{
+    quotationNo String,
+    currency Currency,
+    payType PayType,
+    creditLimit BigDecimal,
+    vatStatus VatStatus,
+    aitStatus AITStatus,
+    warrantyStatus WarrantyStatus,
+    loadingPort String,
+    remarks TextBlob,
+    attachment AnyBlob required,
+    selectionStatus SelectionType,
+    modifiedBy String,
+    modifiedOn LocalDate
 }
-entity QuotationDetails {
-  currency Currency,
-  payType PayType,
-  creditLimit BigDecimal,
-  vatStatus VatStatus,
-  aitStatus AITStatus,
-  warrantyStatus WarrantyStatus,
-  loadingPort String,
-  remarks TextBlob,
-  modifiedBy String,
-  modifiedOn LocalDate
+
+entity QuotationDetails{
+    currency Currency,
+    payType PayType,
+    creditLimit BigDecimal,
+    vatStatus VatStatus,
+    aitStatus AITStatus,
+    warrantyStatus WarrantyStatus,
+    loadingPort String,
+    remarks TextBlob,
+    modifiedBy String,
+    modifiedOn LocalDate
 }
-entity WorkOrder {
-  referenceNo String,
-  issueDate LocalDate,
-  referredTo String,
-  subject String,
-  note TextBlob,
-  laborOrOtherAmount BigDecimal,
-  discount Double,
-  modifiedBy String,
-  modifiedOn LocalDate
+
+entity PurchaseOrder{
+    purchaseOrderNo String,
+    workOrderNo String,
+    issueDate LocalDate,
+    referredTo String,
+    subject String,
+    note TextBlob,
+    laborOrOtherAmount BigDecimal,
+    discount Double,
+    status PurchaseOrderStatus,
+    modifiedBy String,
+    modifiedOn LocalDate
 }
-entity TermsAndConditions {
-  description TextBlob,
-  modifiedBy String,
-  modifiedOn LocalDate
+
+entity TermsAndConditions{
+    description TextBlob,
+    modifiedBy String,
+    modifiedOn LocalDate
 }
-entity PurchaseOrder {
-  purchaseOrderNo String,
-  workOrderNo String,
-  issueDate LocalDate,
-  referredTo String,
-  subject String,
-  note TextBlob,
-  laborOrOtherAmount BigDecimal,
-  discount Double,
-  status PurchaseOrderStatus,
-  modifiedBy String,
-  modifiedOn LocalDate
+
+enum WarrantyStatus{
+    WARRANTY,
+    NO_WARRANTY
 }
-entity AttendanceExcelUpload {
-  file AnyBlob,
-  type AttendanceType
+
+enum PayType{
+    CASH,
+    PAY_ORDER,
+    CHEQUE
 }
-entity Attendance {
-  employeeId String,
-  attendanceDate LocalDate,
-  inTime Instant,
-  outTime Instant
+
+enum Currency{
+    TAKA,
+    DOLLAR,
+    EURO
 }
-entity Manufacturer {
-  name String required,
-  contact String,
-  email String,
-  address String,
-  description String,
-  remarks String
+
+enum UnitOfMeasurements{
+    PCS,
+    KG,
+    TON,
+    GRAM
 }
-entity ItemCategory {
-  name String required,
-  shortName String,
-  description String
+
+enum AITStatus{
+    EXCLUDED,
+    INCLUDED
 }
-entity ItemSubCategory {
-  name String required,
-  shortName String,
-  description String
+
+enum SelectionType{
+    SELECTED,
+    NOT_SELECTED
 }
-entity InventoryLocation {
-  name String required,
-  shortName String,
-  description String
+
+enum VatStatus{
+    EXCLUDED,
+    INCLUDED
 }
-entity InventorySubLocation {
-  category InventorySubLocationCategory required,
-  name String required,
-  shortName String,
-  description String
+
+enum RequisitionStatus{
+    WAITING_FOR_HEADS_APPROVAL,
+    REJECTED_BY_HEAD,
+    FORWARDED_BY_HEAD,
+    FORWARDED_BY_PURCHASE_COMMITTEE,
+    REJECTED_BY_PURCHASE_COMMITTEE,
+    MODIFICATION_REQUEST_BY_PURCHASE_COMMITTEE,
+    APPROVED_BY_CFO,
+    REJECTED_BY_CFO,
+    MODIFICATION_REQUEST_BY_CFO,
+    RECEIVED_BY_REQUISIONER,
+    RECEIVED_VERIFIED_BY_HEAD,
+    CLOSED_BY_CFO
 }
-entity StockInProcess {
-  totalQuantity Double required,
-  unit ItemUnit required,
-  unitPrice Double required,
-  totalContainer Integer required,
-  containerCategory ContainerCategory required,
-  containerTrackingId String required,
-  quantityPerContainer String required,
-  expiryDate LocalDate,
-  stockInBy String,
-  stockInDate Instant,
-  purchaseOrderId String,
-  remarks String
+
+enum PurchaseOrderStatus{
+    WAITING_FOR_CFO_APPROVAL,
+    APPROVED_BY_CFO,
+    REJECTED_BY_CFO,
+    MODIFICATION_REQUEST_BY_CFO,
+    CLOSED_BY_CFO
 }
-entity StockInItem {
-  quantity Double required,
-  unit ItemUnit required,
-  price Double required,
-  containerCategory ContainerCategory required,
-  containerTrackingId String required,
-  expiryDate LocalDate,
-  stockInBy String,
-  stockInDate Instant,
-  purchaseOrderId String,
-  remarks String
-}
-entity StockOutItem {
-  containerTrackingId String required,
-  quantity Double required,
-  stockOutBy String,
-  stockOutDate Instant,
-  receiverId String,
-  remarks String
-}
-entity StockStatus {
-  containerTrackingId String required,
-  totalQuantity Double required,
-  unit ItemUnit required,
-  availableQuantity Double required,
-  totalPrice Double required,
-  availablePrice Double required,
-  stockInBy String,
-  stockInDate Instant
+enum ProductStatus{
+    GOOD,
+    NOT_GOOD,
+    NOT_JUSTIFIED
 }
 
 enum MaritalStatus {
@@ -434,6 +407,15 @@ enum Gender {
   MALE,
   FEMALE,
   OTHERS
+}
+
+enum VendorRemarks{
+  VERY_GOOD,
+  GOOD,
+  MODERATE,
+  AVERAGE,
+  BELOW_AVERAGE,
+  BAD
 }
 
 enum Religion {
@@ -451,6 +433,11 @@ enum EmployeeStatus {
   TERMINATED
 }
 
+enum ProvidentFundStatus{
+    ACTIVE,
+    NOT_ACTIVE
+}
+
 enum EmploymentType {
   PERMANENT,
   TEMPORARY,
@@ -458,24 +445,20 @@ enum EmploymentType {
   PART_TIME
 }
 
-enum FinancialYearStatus {
-  ACTIVE,
-  NOT_ACTIVE
-}
-
 enum TaxStatus {
   ACTIVE,
   INACTIVE
 }
+
 
 enum SalaryStatus {
   ACTIVE,
   NOT_ACTIVE
 }
 
-enum ProvidentFundStatus {
-  ACTIVE,
-  NOT_ACTIVE
+enum FinancialYearStatus{
+   ACTIVE,
+   NOT_ACTIVE
 }
 
 enum MonthType {
@@ -498,21 +481,14 @@ enum PaymentStatus {
   NOT_PAID
 }
 
+enum BillCategory{
+  PAYABLE,
+  RECEIVABLE
+}
+
 enum YesOrNo {
   YES,
   NO
-}
-
-enum PaidOrUnPaid {
-  PAID,
-  UNPAID,
-  UNDECLARED
-}
-
-enum LeaveStatus {
-  WAITING,
-  ACCEPTED,
-  REJECTED
 }
 
 enum AllowanceType {
@@ -523,125 +499,45 @@ enum AllowanceType {
   OTHER_ALLOWANCE
 }
 
+enum AllowanceProvideType{
+    NORMAL_ALLOWANCE,
+    FESTIVAL_ALLOWANCE
+}
+
 enum AllowanceCategory {
   MONTHLY,
   SPECIFIC
 }
 
-enum VendorRemarks {
-  VERY_GOOD,
-  GOOD,
-  MODERATE,
-  AVERAGE,
-  BELOW_AVERAGE,
-  BAD
-}
 
-enum BillCategory {
-  PAYABLE,
-  RECEIVABLE
-}
-
-enum ProductStatus {
-  GOOD,
-  NOT_GOOD,
-  NOT_JUSTIFIED
-}
-
-enum RequisitionStatus {
-  WAITING_FOR_HEADS_APPROVAL,
-  REJECTED_BY_HEAD,
-  FORWARDED_BY_HEAD,
-  FORWARDED_BY_PURCHASE_COMMITTEE,
-  REJECTED_BY_PURCHASE_COMMITTEE,
-  MODIFICATION_REQUEST_BY_PURCHASE_COMMITTEE,
-  APPROVED_BY_CFO,
-  REJECTED_BY_CFO,
-  MODIFICATION_REQUEST_BY_CFO,
-  RECEIVED_BY_REQUISIONER,
-  RECEIVED_VERIFIED_BY_HEAD,
-  CLOSED_BY_CFO
-}
-
-enum UnitOfMeasurements {
-  PCS,
-  KG,
-  TON,
-  GRAM
-}
-
-enum Currency {
-  TAKA,
-  DOLLAR,
-  EURO
-}
-
-enum PayType {
-  CASH,
-  PAY_ORDER,
-  CHEQUE
-}
-
-enum VatStatus {
-  EXCLUDED,
-  INCLUDED
-}
-
-enum AITStatus {
-  EXCLUDED,
-  INCLUDED
-}
-
-enum WarrantyStatus {
-  WARRANTY,
-  NO_WARRANTY
-}
-
-enum SelectionType {
-  SELECTED,
-  NOT_SELECTED
-}
-
-enum PurchaseOrderStatus {
-  WAITING_FOR_CFO_APPROVAL,
-  APPROVED_BY_CFO,
-  REJECTED_BY_CFO,
-  MODIFICATION_REQUEST_BY_CFO,
-  CLOSED_BY_CFO
-}
-
-enum AttendanceType {
-  FINGER,
-  FACE
-}
-
-enum InventorySubLocationCategory {
-  SHELF,
-  FREEZER,
-  OTHERS
-}
-
-enum ItemUnit {
-  KG,
-  PCS,
-  LITER,
-  DOZEN,
-  OTHERS
-}
-
-enum ContainerCategory {
-  BOTTLE,
-  DRUM,
-  PACKET,
-  SACK,
-  OTHERS
-}
-
-relationship OneToOne {
+relationship OneToOne{
   PurchaseCommittee{employee(fullName)} to Employee,
-  StockStatus{stockInItems} to StockInItem
 }
+
 relationship ManyToOne {
+  Requisition{employee(fullName)} to Employee,
+  Requisition{office(name)} to Office,
+  Requisition{productCategory(name)} to ProductCategory,
+  Requisition{department(name)} to Department,
+  Quotation{requisition(requisitionNo)} to Requisition,
+  QuotationDetails{quotation(quotationNo)} to Quotation,
+  Quotation{vendor(companyName)} to Vendor,
+  VendorContactPerson{vendor(companyName)} to Vendor,
+  QuotationDetails{requisitionDetails} to RequisitionDetails,
+  PurchaseOrder{requisition(requisitionNo)} to Requisition,
+  PurchaseOrder{quotation(quotationNo)} to Quotation,
+  TermsAndConditions{purchaseOrder(purchaseOrderNo)} to PurchaseOrder,
+  DepartmentHead{office(name)} to Office,
+  Product{productCategory(name)} to ProductCategory,
+  RequisitionDetails{requisition(requisitionNo)} to Requisition,
+  RequisitionDetails{product(name)} to Product,
+  ProductPrice{product(name)} to Product,
+  DepartmentHead{department(name)} to Department,
+  DepartmentHead{Employee(fullName)} to Employee
+  BudgetAllocation{office(name)} to Office,
+  BudgetAllocation{department(name)} to Department,
+  BudgetAllocation{financialAccountYear} to FinancialAccountYear
+  Manager{employee(fullName)} to Employee,
   Employee{department(name)} to Department,
   Employee{office(name)} to Office,
   Employee{designation(name)} to Designation,
@@ -659,70 +555,20 @@ relationship ManyToOne {
   Tax{financialAccountYear} to FinancialAccountYear,
   Tax{employee(fullName)} to Employee,
   Salary{employee} to Employee,
-  ProvidentFund{employee(fullName)} to Employee,
   MonthlySalary{employee(fullName)} to Employee,
   Advance{employee(fullName)} to Employee,
+  ProvidentFund{employee(fullName)} to Employee,
   Fine{employee(fullName)} to Employee,
   Loan{employee(fullName)} to Employee,
-  Holiday{holidayType(name)} to HolidayType,
-  LeaveApplication{leaveTypes(name)} to LeaveType,
-  LeaveAttachment{leaveApplication} to LeaveApplication,
-  DesignationWiseAllowance{designation} to Designation,
-  Manager{employee(fullName)} to Employee,
-  VendorContactPerson{vendor(companyName)} to Vendor,
-  DepartmentHead{office(name)} to Office,
-  DepartmentHead{department(name)} to Department,
-  DepartmentHead{employee(fullName)} to Employee,
   Bill{employee(fullName)} to Employee,
-  BudgetAllocation{office(name)} to Office,
-  BudgetAllocation{department(name)} to Department,
-  BudgetAllocation{financialAccountYear} to FinancialAccountYear,
-  Product{productCategory(name)} to ProductCategory,
-  ProductPrice{product(name)} to Product,
-  Requisition{employee(fullName)} to Employee,
-  Requisition{office(name)} to Office,
-  Requisition{productCategory(name)} to ProductCategory,
-  Requisition{department(name)} to Department,
-  RequisitionDetails{requisition(requisitionNo)} to Requisition,
-  RequisitionDetails{product(name)} to Product,
-  Quotation{requisition(requisitionNo)} to Requisition,
-  Quotation{vendor(companyName)} to Vendor,
-  QuotationDetails{quotation(quotationNo)} to Quotation,
-  QuotationDetails{requisitionDetails} to RequisitionDetails,
-  WorkOrder{requisition(requisitionNo)} to Requisition,
-  TermsAndConditions{purchaseOrder(purchaseOrderNo)} to PurchaseOrder,
-  PurchaseOrder{requisition(requisitionNo)} to Requisition,
-  PurchaseOrder{quotation(quotationNo)} to Quotation,
-  Attendance{attendanceExcelUpload required} to AttendanceExcelUpload,
-  ItemSubCategory{itemCategories(name)} to ItemCategory,
-  InventorySubLocation{inventoryLocations(name)} to InventoryLocation,
-  StockInProcess{itemCategories(name)} to ItemCategory,
-  StockInProcess{itemSubCategories(name)} to ItemSubCategory,
-  StockInProcess{inventoryLocations(name)} to InventoryLocation,
-  StockInProcess{inventorySubLocations(name)} to InventorySubLocation,
-  StockInProcess{manufacturers(name)} to Manufacturer,
-  StockInItem{itemCategories(name)} to ItemCategory,
-  StockInItem{itemSubCategories(name)} to ItemSubCategory,
-  StockInItem{inventoryLocations(name)} to InventoryLocation,
-  StockInItem{inventorySubLocations(name)} to InventorySubLocation,
-  StockInItem{manufacturers(name)} to Manufacturer,
-  StockInItem{stockInProcesses} to StockInProcess,
-  StockOutItem{itemCategories(name)} to ItemCategory,
-  StockOutItem{itemSubCategories(name)} to ItemSubCategory,
-  StockOutItem{inventoryLocations(name)} to InventoryLocation,
-  StockOutItem{inventorySubLocations(name)} to InventorySubLocation,
-  StockOutItem{stockInItems} to StockInItem,
-  StockOutItem{stockStatuses} to StockStatus,
-  StockStatus{itemCategories(name)} to ItemCategory,
-  StockStatus{itemSubCategories(name)} to ItemSubCategory,
-  StockStatus{inventoryLocations(name)} to InventoryLocation,
-  StockStatus{inventorySubLocations(name)} to InventorySubLocation
+  Holiday{holidayType(name)} to HolidayType,
+  DesignationWiseAllowance{designation} to Designation
 }
 
-dto Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, BudgetAllocation, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, AttendanceExcelUpload, Attendance, Manufacturer, ItemCategory, ItemSubCategory, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus with mapstruct
-paginate Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder with pager
-paginate HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, DesignationWiseAllowance, Manager, BudgetAllocation, AttendanceExcelUpload, Attendance, Manufacturer, ItemCategory, ItemSubCategory, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus with infinite-scroll
-service Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, BudgetAllocation, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder with serviceClass
-service HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, AttendanceExcelUpload, Attendance, Manufacturer, ItemCategory, ItemSubCategory, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus with serviceImpl
-search Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, PayrollManagement, FineManagement, AdvanceManagement, LoanManagement, ProvidentManagement, AllowanceManagement, FineAdvanceLoanManagement, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, AttendanceExcelUpload, Attendance with elasticsearch
-filter Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, BudgetAllocation, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, AttendanceExcelUpload, Attendance, Manufacturer, ItemCategory, ItemSubCategory, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus
+dto Department,Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions ,BudgetAllocation, Bill, DepartmentHead , Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with mapstruct
+paginate Department, Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions, Bill, DepartmentHead,  Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, SpecialAllowanceTimeLine with pager
+paginate HolidayType, BudgetAllocation, Holiday, DesignationWiseAllowance, Manager with infinite-scroll
+service Department, Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions, BudgetAllocation, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with serviceClass
+service HolidayType, Holiday with serviceImpl
+search Department, Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, Manager, SpecialAllowanceTimeLine with elasticsearch
+filter Department, Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions, BudgetAllocation, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine

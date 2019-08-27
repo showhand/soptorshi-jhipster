@@ -48,6 +48,13 @@ public class Requisition implements Serializable {
     private Boolean selected;
 
     @Lob
+    @Column(name = "head_remarks")
+    private String headRemarks;
+
+    @Column(name = "ref_to_head")
+    private Long refToHead;
+
+    @Lob
     @Column(name = "purchase_committee_remarks")
     private String purchaseCommitteeRemarks;
 
@@ -168,6 +175,32 @@ public class Requisition implements Serializable {
 
     public void setSelected(Boolean selected) {
         this.selected = selected;
+    }
+
+    public String getHeadRemarks() {
+        return headRemarks;
+    }
+
+    public Requisition headRemarks(String headRemarks) {
+        this.headRemarks = headRemarks;
+        return this;
+    }
+
+    public void setHeadRemarks(String headRemarks) {
+        this.headRemarks = headRemarks;
+    }
+
+    public Long getRefToHead() {
+        return refToHead;
+    }
+
+    public Requisition refToHead(Long refToHead) {
+        this.refToHead = refToHead;
+        return this;
+    }
+
+    public void setRefToHead(Long refToHead) {
+        this.refToHead = refToHead;
     }
 
     public String getPurchaseCommitteeRemarks() {
@@ -331,6 +364,8 @@ public class Requisition implements Serializable {
             ", amount=" + getAmount() +
             ", status='" + getStatus() + "'" +
             ", selected='" + isSelected() + "'" +
+            ", headRemarks='" + getHeadRemarks() + "'" +
+            ", refToHead=" + getRefToHead() +
             ", purchaseCommitteeRemarks='" + getPurchaseCommitteeRemarks() + "'" +
             ", refToPurchaseCommittee=" + getRefToPurchaseCommittee() +
             ", cfoRemarks='" + getCfoRemarks() + "'" +

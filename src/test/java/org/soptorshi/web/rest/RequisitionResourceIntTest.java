@@ -78,6 +78,12 @@ public class RequisitionResourceIntTest {
     private static final Boolean DEFAULT_SELECTED = false;
     private static final Boolean UPDATED_SELECTED = true;
 
+    private static final String DEFAULT_HEAD_REMARKS = "AAAAAAAAAA";
+    private static final String UPDATED_HEAD_REMARKS = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_REF_TO_HEAD = 1L;
+    private static final Long UPDATED_REF_TO_HEAD = 2L;
+
     private static final String DEFAULT_PURCHASE_COMMITTEE_REMARKS = "AAAAAAAAAA";
     private static final String UPDATED_PURCHASE_COMMITTEE_REMARKS = "BBBBBBBBBB";
 
@@ -161,6 +167,8 @@ public class RequisitionResourceIntTest {
             .amount(DEFAULT_AMOUNT)
             .status(DEFAULT_STATUS)
             .selected(DEFAULT_SELECTED)
+            .headRemarks(DEFAULT_HEAD_REMARKS)
+            .refToHead(DEFAULT_REF_TO_HEAD)
             .purchaseCommitteeRemarks(DEFAULT_PURCHASE_COMMITTEE_REMARKS)
             .refToPurchaseCommittee(DEFAULT_REF_TO_PURCHASE_COMMITTEE)
             .cfoRemarks(DEFAULT_CFO_REMARKS)
@@ -197,6 +205,8 @@ public class RequisitionResourceIntTest {
         assertThat(testRequisition.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testRequisition.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testRequisition.isSelected()).isEqualTo(DEFAULT_SELECTED);
+        assertThat(testRequisition.getHeadRemarks()).isEqualTo(DEFAULT_HEAD_REMARKS);
+        assertThat(testRequisition.getRefToHead()).isEqualTo(DEFAULT_REF_TO_HEAD);
         assertThat(testRequisition.getPurchaseCommitteeRemarks()).isEqualTo(DEFAULT_PURCHASE_COMMITTEE_REMARKS);
         assertThat(testRequisition.getRefToPurchaseCommittee()).isEqualTo(DEFAULT_REF_TO_PURCHASE_COMMITTEE);
         assertThat(testRequisition.getCfoRemarks()).isEqualTo(DEFAULT_CFO_REMARKS);
@@ -248,6 +258,8 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].selected").value(hasItem(DEFAULT_SELECTED.booleanValue())))
+            .andExpect(jsonPath("$.[*].headRemarks").value(hasItem(DEFAULT_HEAD_REMARKS.toString())))
+            .andExpect(jsonPath("$.[*].refToHead").value(hasItem(DEFAULT_REF_TO_HEAD.intValue())))
             .andExpect(jsonPath("$.[*].purchaseCommitteeRemarks").value(hasItem(DEFAULT_PURCHASE_COMMITTEE_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].refToPurchaseCommittee").value(hasItem(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue())))
             .andExpect(jsonPath("$.[*].cfoRemarks").value(hasItem(DEFAULT_CFO_REMARKS.toString())))
@@ -273,6 +285,8 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.selected").value(DEFAULT_SELECTED.booleanValue()))
+            .andExpect(jsonPath("$.headRemarks").value(DEFAULT_HEAD_REMARKS.toString()))
+            .andExpect(jsonPath("$.refToHead").value(DEFAULT_REF_TO_HEAD.intValue()))
             .andExpect(jsonPath("$.purchaseCommitteeRemarks").value(DEFAULT_PURCHASE_COMMITTEE_REMARKS.toString()))
             .andExpect(jsonPath("$.refToPurchaseCommittee").value(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue()))
             .andExpect(jsonPath("$.cfoRemarks").value(DEFAULT_CFO_REMARKS.toString()))
@@ -502,6 +516,72 @@ public class RequisitionResourceIntTest {
         // Get all the requisitionList where selected is null
         defaultRequisitionShouldNotBeFound("selected.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToHeadIsEqualToSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToHead equals to DEFAULT_REF_TO_HEAD
+        defaultRequisitionShouldBeFound("refToHead.equals=" + DEFAULT_REF_TO_HEAD);
+
+        // Get all the requisitionList where refToHead equals to UPDATED_REF_TO_HEAD
+        defaultRequisitionShouldNotBeFound("refToHead.equals=" + UPDATED_REF_TO_HEAD);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToHeadIsInShouldWork() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToHead in DEFAULT_REF_TO_HEAD or UPDATED_REF_TO_HEAD
+        defaultRequisitionShouldBeFound("refToHead.in=" + DEFAULT_REF_TO_HEAD + "," + UPDATED_REF_TO_HEAD);
+
+        // Get all the requisitionList where refToHead equals to UPDATED_REF_TO_HEAD
+        defaultRequisitionShouldNotBeFound("refToHead.in=" + UPDATED_REF_TO_HEAD);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToHeadIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToHead is not null
+        defaultRequisitionShouldBeFound("refToHead.specified=true");
+
+        // Get all the requisitionList where refToHead is null
+        defaultRequisitionShouldNotBeFound("refToHead.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToHeadIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToHead greater than or equals to DEFAULT_REF_TO_HEAD
+        defaultRequisitionShouldBeFound("refToHead.greaterOrEqualThan=" + DEFAULT_REF_TO_HEAD);
+
+        // Get all the requisitionList where refToHead greater than or equals to UPDATED_REF_TO_HEAD
+        defaultRequisitionShouldNotBeFound("refToHead.greaterOrEqualThan=" + UPDATED_REF_TO_HEAD);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRefToHeadIsLessThanSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where refToHead less than or equals to DEFAULT_REF_TO_HEAD
+        defaultRequisitionShouldNotBeFound("refToHead.lessThan=" + DEFAULT_REF_TO_HEAD);
+
+        // Get all the requisitionList where refToHead less than or equals to UPDATED_REF_TO_HEAD
+        defaultRequisitionShouldBeFound("refToHead.lessThan=" + UPDATED_REF_TO_HEAD);
+    }
+
 
     @Test
     @Transactional
@@ -829,6 +909,8 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].selected").value(hasItem(DEFAULT_SELECTED.booleanValue())))
+            .andExpect(jsonPath("$.[*].headRemarks").value(hasItem(DEFAULT_HEAD_REMARKS.toString())))
+            .andExpect(jsonPath("$.[*].refToHead").value(hasItem(DEFAULT_REF_TO_HEAD.intValue())))
             .andExpect(jsonPath("$.[*].purchaseCommitteeRemarks").value(hasItem(DEFAULT_PURCHASE_COMMITTEE_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].refToPurchaseCommittee").value(hasItem(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue())))
             .andExpect(jsonPath("$.[*].cfoRemarks").value(hasItem(DEFAULT_CFO_REMARKS.toString())))
@@ -888,6 +970,8 @@ public class RequisitionResourceIntTest {
             .amount(UPDATED_AMOUNT)
             .status(UPDATED_STATUS)
             .selected(UPDATED_SELECTED)
+            .headRemarks(UPDATED_HEAD_REMARKS)
+            .refToHead(UPDATED_REF_TO_HEAD)
             .purchaseCommitteeRemarks(UPDATED_PURCHASE_COMMITTEE_REMARKS)
             .refToPurchaseCommittee(UPDATED_REF_TO_PURCHASE_COMMITTEE)
             .cfoRemarks(UPDATED_CFO_REMARKS)
@@ -911,6 +995,8 @@ public class RequisitionResourceIntTest {
         assertThat(testRequisition.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testRequisition.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testRequisition.isSelected()).isEqualTo(UPDATED_SELECTED);
+        assertThat(testRequisition.getHeadRemarks()).isEqualTo(UPDATED_HEAD_REMARKS);
+        assertThat(testRequisition.getRefToHead()).isEqualTo(UPDATED_REF_TO_HEAD);
         assertThat(testRequisition.getPurchaseCommitteeRemarks()).isEqualTo(UPDATED_PURCHASE_COMMITTEE_REMARKS);
         assertThat(testRequisition.getRefToPurchaseCommittee()).isEqualTo(UPDATED_REF_TO_PURCHASE_COMMITTEE);
         assertThat(testRequisition.getCfoRemarks()).isEqualTo(UPDATED_CFO_REMARKS);
@@ -983,6 +1069,8 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].selected").value(hasItem(DEFAULT_SELECTED.booleanValue())))
+            .andExpect(jsonPath("$.[*].headRemarks").value(hasItem(DEFAULT_HEAD_REMARKS.toString())))
+            .andExpect(jsonPath("$.[*].refToHead").value(hasItem(DEFAULT_REF_TO_HEAD.intValue())))
             .andExpect(jsonPath("$.[*].purchaseCommitteeRemarks").value(hasItem(DEFAULT_PURCHASE_COMMITTEE_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].refToPurchaseCommittee").value(hasItem(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue())))
             .andExpect(jsonPath("$.[*].cfoRemarks").value(hasItem(DEFAULT_CFO_REMARKS.toString())))

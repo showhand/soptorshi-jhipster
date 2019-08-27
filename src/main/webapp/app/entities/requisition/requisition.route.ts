@@ -15,7 +15,7 @@ import { IRequisition } from 'app/shared/model/requisition.model';
 
 @Injectable({ providedIn: 'root' })
 export class RequisitionResolve implements Resolve<IRequisition> {
-    constructor(public service: RequisitionService) {}
+    constructor(private service: RequisitionService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IRequisition> {
         const id = route.params['id'] ? route.params['id'] : null;
@@ -39,8 +39,7 @@ export const requisitionRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             defaultSort: 'id,asc',
-            pageTitle: 'Requisitions',
-            breadcrumb: 'Requisition'
+            pageTitle: 'Requisitions'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -52,8 +51,7 @@ export const requisitionRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Requisitions',
-            breadcrumb: 'View Requisition'
+            pageTitle: 'Requisitions'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -65,8 +63,7 @@ export const requisitionRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Requisitions',
-            breadcrumb: 'New Requisition'
+            pageTitle: 'Requisitions'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -78,8 +75,7 @@ export const requisitionRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Requisitions',
-            breadcrumb: 'Edit Requisition'
+            pageTitle: 'Requisitions'
         },
         canActivate: [UserRouteAccessService]
     }
