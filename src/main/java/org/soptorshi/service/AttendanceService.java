@@ -1,12 +1,10 @@
 package org.soptorshi.service;
 
-import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.service.dto.AttendanceDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -30,8 +28,6 @@ public interface AttendanceService {
      */
     Page<AttendanceDTO> findAll(Pageable pageable);
 
-    List<AttendanceDTO> getAllByDistinctAttendanceDate();
-
 
     /**
      * Get the "id" attendance.
@@ -47,8 +43,6 @@ public interface AttendanceService {
      * @param id the id of the entity
      */
     void delete(Long id);
-
-    void deleteByAttendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload);
 
     /**
      * Search for the attendance corresponding to the query.

@@ -1,13 +1,10 @@
 package org.soptorshi.service;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.xml.sax.SAXException;
 
-import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -21,7 +18,7 @@ public interface AttendanceExcelUploadService {
      * @param attendanceExcelUploadDTO the entity to save
      * @return the persisted entity
      */
-    AttendanceExcelUploadDTO save(AttendanceExcelUploadDTO attendanceExcelUploadDTO) throws IOException, SAXException, InvalidFormatException;
+    AttendanceExcelUploadDTO save(AttendanceExcelUploadDTO attendanceExcelUploadDTO);
 
     /**
      * Get all the attendanceExcelUploads.

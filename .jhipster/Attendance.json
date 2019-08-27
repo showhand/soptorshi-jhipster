@@ -1,25 +1,13 @@
 {
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "relationships": [
-        {
-            "relationshipName": "attendanceExcelUpload",
-            "otherEntityName": "attendanceExcelUpload",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [],
-            "otherEntityField": "id"
-        }
-    ],
+    "name": "Attendance",
     "fields": [
         {
             "fieldName": "employeeId",
-            "fieldType": "String",
-            "fieldValidateRules": []
+            "fieldType": "String"
         },
         {
             "fieldName": "attendanceDate",
-            "fieldType": "LocalDate",
-            "fieldValidateRules": []
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "inTime",
@@ -30,12 +18,24 @@
             "fieldType": "Instant"
         }
     ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "attendanceExcelUpload",
+            "otherEntityRelationshipName": "attendance",
+            "relationshipValidateRules": "required",
+            "relationshipName": "attendanceExcelUpload",
+            "otherEntityField": "id"
+        }
+    ],
     "changelogDate": "20190702135954",
-    "dto": "mapstruct",
-    "searchEngine": "elasticsearch",
-    "service": "serviceImpl",
     "entityTableName": "attendance",
-    "databaseType": "sql",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
     "jpaMetamodelFiltering": true,
-    "pagination": "infinite-scroll"
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
 }

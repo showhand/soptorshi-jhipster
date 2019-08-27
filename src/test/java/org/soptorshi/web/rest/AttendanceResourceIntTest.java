@@ -131,6 +131,11 @@ public class AttendanceResourceIntTest {
             .attendanceDate(DEFAULT_ATTENDANCE_DATE)
             .inTime(DEFAULT_IN_TIME)
             .outTime(DEFAULT_OUT_TIME);
+        // Add required entity
+        AttendanceExcelUpload attendanceExcelUpload = AttendanceExcelUploadResourceIntTest.createEntity(em);
+        em.persist(attendanceExcelUpload);
+        em.flush();
+        attendance.setAttendanceExcelUpload(attendanceExcelUpload);
         return attendance;
     }
 

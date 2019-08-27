@@ -11,7 +11,6 @@ import { AttendanceDetailComponent } from './attendance-detail.component';
 import { AttendanceUpdateComponent } from './attendance-update.component';
 import { AttendanceDeletePopupComponent } from './attendance-delete-dialog.component';
 import { IAttendance } from 'app/shared/model/attendance.model';
-import { MyAttendanceComponent } from 'app/entities/attendance/my-attendance.component';
 
 @Injectable({ providedIn: 'root' })
 export class AttendanceResolve implements Resolve<IAttendance> {
@@ -34,7 +33,7 @@ export const attendanceRoute: Routes = [
         path: '',
         component: AttendanceComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -46,7 +45,7 @@ export const attendanceRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -58,20 +57,8 @@ export const attendanceRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Attendances'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'my-attendance',
-        component: MyAttendanceComponent,
-        resolve: {
-            attendance: AttendanceResolve
-        },
-        data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_USER'],
-            pageTitle: 'My Attendance'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -82,7 +69,7 @@ export const attendanceRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -97,7 +84,7 @@ export const attendancePopupRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService],

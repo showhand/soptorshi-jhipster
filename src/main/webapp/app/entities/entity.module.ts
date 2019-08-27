@@ -499,6 +499,18 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             {
                 path: 'stock-out-item',
                 loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
+            },
+            {
+                path: 'requisition',
+                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
+            },
+            {
+                path: 'attendance-excel-upload',
+                loadChildren: './attendance-excel-upload/attendance-excel-upload.module#SoptorshiAttendanceExcelUploadModule'
+            },
+            {
+                path: 'attendance',
+                loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

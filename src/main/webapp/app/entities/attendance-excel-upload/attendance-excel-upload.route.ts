@@ -33,7 +33,7 @@ export const attendanceExcelUploadRoute: Routes = [
         path: '',
         component: AttendanceExcelUploadComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'AttendanceExcelUploads'
         },
         canActivate: [UserRouteAccessService]
@@ -45,7 +45,7 @@ export const attendanceExcelUploadRoute: Routes = [
             attendanceExcelUpload: AttendanceExcelUploadResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'AttendanceExcelUploads'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +57,7 @@ export const attendanceExcelUploadRoute: Routes = [
             attendanceExcelUpload: AttendanceExcelUploadResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'AttendanceExcelUploads'
         },
         canActivate: [UserRouteAccessService]
@@ -69,7 +69,7 @@ export const attendanceExcelUploadRoute: Routes = [
             attendanceExcelUpload: AttendanceExcelUploadResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'AttendanceExcelUploads'
         },
         canActivate: [UserRouteAccessService]
@@ -84,7 +84,7 @@ export const attendanceExcelUploadPopupRoute: Routes = [
             attendanceExcelUpload: AttendanceExcelUploadResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'AttendanceExcelUploads'
         },
         canActivate: [UserRouteAccessService],

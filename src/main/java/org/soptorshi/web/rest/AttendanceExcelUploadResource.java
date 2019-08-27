@@ -1,5 +1,4 @@
 package org.soptorshi.web.rest;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.soptorshi.service.AttendanceExcelUploadService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -15,11 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.xml.sax.SAXException;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -57,8 +53,7 @@ public class AttendanceExcelUploadResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/attendance-excel-uploads")
-    @Transactional
-    public ResponseEntity<AttendanceExcelUploadDTO> createAttendanceExcelUpload(@RequestBody AttendanceExcelUploadDTO attendanceExcelUploadDTO) throws InvalidFormatException, SAXException, IOException, URISyntaxException {
+    public ResponseEntity<AttendanceExcelUploadDTO> createAttendanceExcelUpload(@RequestBody AttendanceExcelUploadDTO attendanceExcelUploadDTO) throws URISyntaxException {
         log.debug("REST request to save AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
         if (attendanceExcelUploadDTO.getId() != null) {
             throw new BadRequestAlertException("A new attendanceExcelUpload cannot already have an ID", ENTITY_NAME, "idexists");
@@ -79,8 +74,7 @@ public class AttendanceExcelUploadResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/attendance-excel-uploads")
-    @Transactional
-    public ResponseEntity<AttendanceExcelUploadDTO> updateAttendanceExcelUpload(@RequestBody AttendanceExcelUploadDTO attendanceExcelUploadDTO) throws InvalidFormatException, SAXException, IOException {
+    public ResponseEntity<AttendanceExcelUploadDTO> updateAttendanceExcelUpload(@RequestBody AttendanceExcelUploadDTO attendanceExcelUploadDTO) throws URISyntaxException {
         log.debug("REST request to update AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
         if (attendanceExcelUploadDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

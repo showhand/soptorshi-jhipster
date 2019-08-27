@@ -4,6 +4,7 @@ package org.soptorshi.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
@@ -37,7 +38,9 @@ public class Attendance implements Serializable {
     @Column(name = "out_time")
     private Instant outTime;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("attendances")
     private AttendanceExcelUpload attendanceExcelUpload;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

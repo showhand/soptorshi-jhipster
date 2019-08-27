@@ -25,7 +25,23 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Requisition();
+            elemDefault = new Requisition(
+                0,
+                'AAAAAAA',
+                'AAAAAAA',
+                currentDate,
+                0,
+                RequisitionStatus.WAITING_FOR_HEADS_APPROVAL,
+                false,
+                'AAAAAAA',
+                0,
+                'AAAAAAA',
+                0,
+                'AAAAAAA',
+                0,
+                'AAAAAAA',
+                currentDate
+            );
         });
 
         describe('Service methods', async () => {
@@ -79,6 +95,8 @@ describe('Service Tests', () => {
                         amount: 1,
                         status: 'BBBBBB',
                         selected: true,
+                        headRemarks: 'BBBBBB',
+                        refToHead: 1,
                         purchaseCommitteeRemarks: 'BBBBBB',
                         refToPurchaseCommittee: 1,
                         cfoRemarks: 'BBBBBB',
@@ -113,6 +131,8 @@ describe('Service Tests', () => {
                         amount: 1,
                         status: 'BBBBBB',
                         selected: true,
+                        headRemarks: 'BBBBBB',
+                        refToHead: 1,
                         purchaseCommitteeRemarks: 'BBBBBB',
                         refToPurchaseCommittee: 1,
                         cfoRemarks: 'BBBBBB',
