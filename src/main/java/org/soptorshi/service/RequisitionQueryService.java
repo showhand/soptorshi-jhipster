@@ -108,9 +108,6 @@ public class RequisitionQueryService extends QueryService<Requisition> {
             if (criteria.getSelected() != null) {
                 specification = specification.and(buildSpecification(criteria.getSelected(), Requisition_.selected));
             }
-            if (criteria.getRefToHead() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getRefToHead(), Requisition_.refToHead));
-            }
             if (criteria.getRefToPurchaseCommittee() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRefToPurchaseCommittee(), Requisition_.refToPurchaseCommittee));
             }

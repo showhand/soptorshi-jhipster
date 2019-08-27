@@ -27,11 +27,6 @@ public class RequisitionDTO implements Serializable {
     private Boolean selected;
 
     @Lob
-    private String headRemarks;
-
-    private Long refToHead;
-
-    @Lob
     private String purchaseCommitteeRemarks;
 
     private Long refToPurchaseCommittee;
@@ -116,22 +111,6 @@ public class RequisitionDTO implements Serializable {
 
     public void setSelected(Boolean selected) {
         this.selected = selected;
-    }
-
-    public String getHeadRemarks() {
-        return headRemarks;
-    }
-
-    public void setHeadRemarks(String headRemarks) {
-        this.headRemarks = headRemarks;
-    }
-
-    public Long getRefToHead() {
-        return refToHead;
-    }
-
-    public void setRefToHead(Long refToHead) {
-        this.refToHead = refToHead;
     }
 
     public String getPurchaseCommitteeRemarks() {
@@ -277,8 +256,6 @@ public class RequisitionDTO implements Serializable {
             ", amount=" + getAmount() +
             ", status='" + getStatus() + "'" +
             ", selected='" + isSelected() + "'" +
-            ", headRemarks='" + getHeadRemarks() + "'" +
-            ", refToHead=" + getRefToHead() +
             ", purchaseCommitteeRemarks='" + getPurchaseCommitteeRemarks() + "'" +
             ", refToPurchaseCommittee=" + getRefToPurchaseCommittee() +
             ", cfoRemarks='" + getCfoRemarks() + "'" +

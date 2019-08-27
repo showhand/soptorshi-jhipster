@@ -8,3 +8,5 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 public interface AttendanceSearchRepository extends ElasticsearchRepository<Attendance, Long> {
 }
+
+

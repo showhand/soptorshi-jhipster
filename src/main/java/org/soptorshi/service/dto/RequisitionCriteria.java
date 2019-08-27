@@ -42,8 +42,6 @@ public class RequisitionCriteria implements Serializable {
 
     private BooleanFilter selected;
 
-    private LongFilter refToHead;
-
     private LongFilter refToPurchaseCommittee;
 
     private LongFilter refToCfo;
@@ -106,14 +104,6 @@ public class RequisitionCriteria implements Serializable {
 
     public void setSelected(BooleanFilter selected) {
         this.selected = selected;
-    }
-
-    public LongFilter getRefToHead() {
-        return refToHead;
-    }
-
-    public void setRefToHead(LongFilter refToHead) {
-        this.refToHead = refToHead;
     }
 
     public LongFilter getRefToPurchaseCommittee() {
@@ -197,7 +187,6 @@ public class RequisitionCriteria implements Serializable {
             Objects.equals(amount, that.amount) &&
             Objects.equals(status, that.status) &&
             Objects.equals(selected, that.selected) &&
-            Objects.equals(refToHead, that.refToHead) &&
             Objects.equals(refToPurchaseCommittee, that.refToPurchaseCommittee) &&
             Objects.equals(refToCfo, that.refToCfo) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
@@ -217,7 +206,6 @@ public class RequisitionCriteria implements Serializable {
         amount,
         status,
         selected,
-        refToHead,
         refToPurchaseCommittee,
         refToCfo,
         modifiedBy,
@@ -238,7 +226,6 @@ public class RequisitionCriteria implements Serializable {
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (selected != null ? "selected=" + selected + ", " : "") +
-                (refToHead != null ? "refToHead=" + refToHead + ", " : "") +
                 (refToPurchaseCommittee != null ? "refToPurchaseCommittee=" + refToPurchaseCommittee + ", " : "") +
                 (refToCfo != null ? "refToCfo=" + refToCfo + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +

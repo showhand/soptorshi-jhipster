@@ -28,15 +28,6 @@
             "fieldType": "Boolean"
         },
         {
-            "fieldName": "headRemarks",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "text"
-        },
-        {
-            "fieldName": "refToHead",
-            "fieldType": "Long"
-        },
-        {
             "fieldName": "purchaseCommitteeRemarks",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text"

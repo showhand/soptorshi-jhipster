@@ -1,10 +1,13 @@
 {
-    "name": "AttendanceExcelUpload",
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [],
     "fields": [
         {
             "fieldName": "file",
             "fieldType": "byte[]",
-            "fieldTypeBlobContent": "any"
+            "fieldTypeBlobContent": "any",
+            "fieldValidateRules": []
         },
         {
             "fieldName": "type",
@@ -12,15 +15,12 @@
             "fieldValues": "FINGER,FACE"
         }
     ],
-    "relationships": [],
     "changelogDate": "20190702135348",
-    "entityTableName": "attendance_excel_upload",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "searchEngine": "elasticsearch",
     "service": "serviceImpl",
+    "entityTableName": "attendance_excel_upload",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*",
-    "searchEngine": "elasticsearch"
+    "pagination": "infinite-scroll"
 }

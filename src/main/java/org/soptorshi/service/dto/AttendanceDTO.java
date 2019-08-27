@@ -1,7 +1,6 @@
 package org.soptorshi.service.dto;
 import java.time.Instant;
 import java.time.LocalDate;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 

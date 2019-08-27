@@ -1,5 +1,7 @@
 package org.soptorshi.service.impl;
 
+import net.sf.cglib.core.Local;
+import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.service.AttendanceService;
 import org.soptorshi.domain.Attendance;
 import org.soptorshi.repository.AttendanceRepository;
@@ -14,6 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -69,6 +74,19 @@ public class AttendanceServiceImpl implements AttendanceService {
             .map(attendanceMapper::toDto);
     }
 
+    @Override
+    public List<AttendanceDTO> getAllByDistinctAttendanceDate() {
+        log.debug("Request to get all Distinct Attendances Date");
+        LocalDate localDate = LocalDate.now();
+        List<Attendance> attendances = attendanceRepository.getDistinctFirstByAttendanceDateLessThan(localDate);
+        List<AttendanceDTO> attendanceDTOS = new ArrayList<>();
+        for(Attendance attendance: attendances) {
+            AttendanceDTO attendanceDTO = attendanceMapper.toDto(attendance);
+            attendanceDTOS.add(attendanceDTO);
+        }
+        return attendanceDTOS;
+    }
+
 
     /**
      * Get one attendance by id.
@@ -94,6 +112,16 @@ public class AttendanceServiceImpl implements AttendanceService {
         log.debug("Request to delete Attendance : {}", id);
         attendanceRepository.deleteById(id);
         attendanceSearchRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteByAttendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload) {
+        log.debug("Request to delete Attendance : {}", attendanceExcelUpload);
+        List<Attendance> attendances = attendanceRepository.getByAttendanceExcelUpload(attendanceExcelUpload);
+        for(Attendance attendance: attendances) {
+            attendanceRepository.deleteById(attendance.getId());
+            attendanceSearchRepository.deleteById(attendance.getId());
+        }
     }
 
     /**

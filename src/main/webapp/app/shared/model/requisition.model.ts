@@ -17,14 +17,13 @@ export const enum RequisitionStatus {
 
 export interface IRequisition {
     id?: number;
+    requisitionId?: number;
     requisitionNo?: string;
     reason?: any;
     requisitionDate?: Moment;
     amount?: number;
     status?: RequisitionStatus;
     selected?: boolean;
-    headRemarks?: any;
-    refToHead?: number;
     purchaseCommitteeRemarks?: any;
     refToPurchaseCommittee?: number;
     cfoRemarks?: any;
@@ -44,14 +43,13 @@ export interface IRequisition {
 export class Requisition implements IRequisition {
     constructor(
         public id?: number,
+        public requisitionId?: number,
         public requisitionNo?: string,
         public reason?: any,
         public requisitionDate?: Moment,
         public amount?: number,
         public status?: RequisitionStatus,
         public selected?: boolean,
-        public headRemarks?: any,
-        public refToHead?: number,
         public purchaseCommitteeRemarks?: any,
         public refToPurchaseCommittee?: number,
         public cfoRemarks?: any,
@@ -66,7 +64,5 @@ export class Requisition implements IRequisition {
         public productCategoryId?: number,
         public departmentName?: string,
         public departmentId?: number
-    ) {
-        this.selected = this.selected || false;
-    }
+    ) {}
 }
