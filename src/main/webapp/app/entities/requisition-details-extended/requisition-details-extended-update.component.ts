@@ -6,7 +6,7 @@ import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { IRequisitionDetails } from 'app/shared/model/requisition-details.model';
-import { IRequisition } from 'app/shared/model/requisition.model';
+import { IRequisition, Requisition } from 'app/shared/model/requisition.model';
 import { RequisitionService } from 'app/entities/requisition';
 import { IProduct } from 'app/shared/model/product.model';
 import { ProductService } from 'app/entities/product';
@@ -37,13 +37,17 @@ export class RequisitionDetailsExtendedUpdateComponent extends RequisitionDetail
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ requisitionDetails }) => {
             this.requisitionDetails = requisitionDetails;
+            this.fetchProducts();
         });
+    }
+
+    private fetchProducts() {
         if (this.requisitionDetails.requisitionId) {
             this.requisitionService.find(this.requisitionDetails.requisitionId).subscribe((res: HttpResponse<IRequisition>) => {
                 this.requisition = res.body;
                 this.productService
                     .query({
-                        'productCategoryId.equals': this.requisition.productCategoryId,
+                        'productCategoryId.equals': res.body.productCategoryId,
                         size: 2000
                     })
                     .subscribe((response: HttpResponse<IProduct[]>) => {

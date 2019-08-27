@@ -12,7 +12,7 @@ import {
 
 @NgModule({
     imports: [SoptorshiSharedLibsModule, SoptorshiSharedCommonModule],
-    declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective, GenericFilter],
+    declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
     exports: [SoptorshiSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],

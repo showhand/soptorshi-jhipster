@@ -164,6 +164,7 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
 
     save() {
         this.isSaving = true;
+        this.requisition.productCategoryId = this.productCategory.id;
         if (this.requisition.id !== undefined) {
             this.subscribeToSaveResponse(this.requisitionService.update(this.requisition));
         } else {
