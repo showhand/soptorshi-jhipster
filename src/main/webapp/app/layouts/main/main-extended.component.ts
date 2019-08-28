@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, NavigationEnd, NavigationError } from '@angular/router';
-
+import { JhiMainComponent } from 'app/layouts';
+import { MenuItem } from 'primeng/api';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRouteSnapshot, NavigationEnd, NavigationError, Router } from '@angular/router';
 import { AccountService } from 'app/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { SidebarService } from 'app/layouts/sidebar/sidebar.service';
 import { Breadcrumb, BreadcrumbService } from 'angular-crumbs';
-import { MenuItem } from 'primeng/api';
 
 @Component({
-    selector: 'jhi-main',
-    templateUrl: './main.component.html'
+    selector: 'jhi-main-extended',
+    templateUrl: './main-extended.component.html'
 })
-export class JhiMainComponent implements OnInit {
+export class JhiMainExtendedComponent extends JhiMainComponent implements OnInit {
     configuration: any;
     employeeManagement: any;
     holidayManagement: any;
@@ -31,7 +31,9 @@ export class JhiMainComponent implements OnInit {
         public deviceDetectorService: DeviceDetectorService,
         public sidebarService: SidebarService,
         public breadCrumService: BreadcrumbService
-    ) {}
+    ) {
+        super(titleService, router, accountService, deviceDetectorService, sidebarService, breadCrumService);
+    }
 
     public getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
         let title: string = routeSnapshot.data && routeSnapshot.data['pageTitle'] ? routeSnapshot.data['pageTitle'] : 'soptorshiApp';

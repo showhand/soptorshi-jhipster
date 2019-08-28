@@ -16,7 +16,7 @@ const ENTITY_STATES = [...requisitionRoute, ...requisitionPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /* declarations: [
+    /*    declarations: [
         RequisitionComponent,
         RequisitionDetailComponent,
         RequisitionUpdateComponent,

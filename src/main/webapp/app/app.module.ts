@@ -18,7 +18,14 @@ import { SoptorshiAccountModule } from './account/account.module';
 import { SoptorshiEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
-import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
+import {
+    JhiMainComponent,
+    NavbarComponent,
+    NavbarExtendedComponent,
+    FooterComponent,
+    PageRibbonComponent,
+    ErrorComponent
+} from './layouts';
 import { MatButton, MatButtonModule, MatCheckbox, MatTab, MatTableModule, MatTabsModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
@@ -26,6 +33,7 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AutoCompleteModule } from 'primeng/primeng';
 import { Select2Module } from 'ng2-select2';
 import { BreadcrumbModule } from 'angular-crumbs';
+import { JhiMainExtendedComponent } from 'app/layouts/main/main-extended.component';
 // import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
@@ -54,7 +62,15 @@ import { BreadcrumbModule } from 'angular-crumbs';
         Select2Module,
         BreadcrumbModule
     ],
-    declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
+    declarations: [
+        JhiMainComponent,
+        JhiMainExtendedComponent,
+        NavbarExtendedComponent,
+        NavbarComponent,
+        ErrorComponent,
+        PageRibbonComponent,
+        FooterComponent
+    ],
     providers: [
         {
             provide: HTTP_INTERCEPTORS,
@@ -72,7 +88,7 @@ import { BreadcrumbModule } from 'angular-crumbs';
             multi: true
         }
     ],
-    bootstrap: [JhiMainComponent]
+    bootstrap: [JhiMainExtendedComponent]
 })
 export class SoptorshiAppModule {
     constructor(private dpConfig: NgbDatepickerConfig) {

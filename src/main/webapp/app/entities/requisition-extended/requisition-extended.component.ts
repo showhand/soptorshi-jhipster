@@ -31,17 +31,7 @@ export class RequisitionExtendedComponent extends RequisitionComponent implement
         protected eventManager: JhiEventManager,
         protected employeeService: EmployeeService
     ) {
-        super(
-            requisitionService,
-            parseLinks,
-            jhiAlertService,
-            accountService,
-            activatedRoute,
-            dataUtils,
-            router,
-            eventManager,
-            employeeService
-        );
+        super(requisitionService, parseLinks, jhiAlertService, accountService, activatedRoute, dataUtils, router, eventManager);
     }
 
     loadAll() {
