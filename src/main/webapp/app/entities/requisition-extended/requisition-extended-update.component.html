@@ -56,11 +56,15 @@
                     </div>
                 </div>
 
-
+                <div class="form-group">
+                    <label class="form-control-label" for="field_headRemarks">Head Remarks {{requisition.status}}</label>
+                    <textarea class="form-control" name="headRemarks" id="field_headRemarks"  [disabled]="!this.accountService.hasAnyAuthority(['ROLE_DEPARTMENT_HEAD']) && requisition.status!=='WAITING_FOR_HEADS_APPROVAL'"
+                              [(ngModel)]="requisition.headRemarks" ></textarea>
+                </div>
 
                 <div class="form-group" >
                     <label class="form-control-label" for="field_purchaseCommitteeRemarks">Purchase Committee Remarks</label>
-                    <textarea class="form-control" name="purchaseCommitteeRemarks" id="field_purchaseCommitteeRemarks" disabled="{{!this.accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE'])}} && requisition.status=== 'FORWARDED_BY_HEAD'"
+                    <textarea class="form-control" name="purchaseCommitteeRemarks" id="field_purchaseCommitteeRemarks" [disabled]="!this.accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE']) || requisition.status!== 'FORWARDED_BY_HEAD'"
                         [(ngModel)]="requisition.purchaseCommitteeRemarks" ></textarea>
                 </div>
               <!--  <div class="form-group">
@@ -70,7 +74,7 @@
                 </div>-->
                 <div class="form-group" >
                     <label class="form-control-label" for="field_cfoRemarks">Cfo Remarks</label>
-                    <textarea class="form-control" name="cfoRemarks" id="field_cfoRemarks"  disabled="{{!accountService.hasAnyAuthority(['ROLE_CFO'])}} && requisition.status=== 'FORWARDED_BY_PURCHASE_COMMITTEE'"
+                    <textarea class="form-control" name="cfoRemarks" id="field_cfoRemarks"  [disabled]="!accountService.hasAnyAuthority(['ROLE_CFO']) || requisition.status!== 'FORWARDED_BY_PURCHASE_COMMITTEE'"
                         [(ngModel)]="requisition.cfoRemarks" ></textarea>
                 </div>
                <!-- <div class="form-group">
