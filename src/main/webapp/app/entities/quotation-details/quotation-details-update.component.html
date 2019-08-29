@@ -18,6 +18,16 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_rate">Rate</label>
+                    <input type="number" class="form-control" name="rate" id="field_rate"
+                        [(ngModel)]="quotationDetails.rate" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_quantity">Quantity</label>
+                    <input type="number" class="form-control" name="quantity" id="field_quantity"
+                        [(ngModel)]="quotationDetails.quantity" />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_payType">Pay Type</label>
                     <select class="form-control" name="payType" [(ngModel)]="quotationDetails.payType" id="field_payType" >
                         <option value="CASH">CASH</option>

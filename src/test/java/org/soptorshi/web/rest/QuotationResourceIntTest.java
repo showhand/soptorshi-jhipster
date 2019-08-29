@@ -33,7 +33,6 @@ import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collections;
@@ -48,11 +47,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.soptorshi.domain.enumeration.Currency;
-import org.soptorshi.domain.enumeration.PayType;
-import org.soptorshi.domain.enumeration.VatStatus;
-import org.soptorshi.domain.enumeration.AITStatus;
-import org.soptorshi.domain.enumeration.WarrantyStatus;
 import org.soptorshi.domain.enumeration.SelectionType;
 /**
  * Test class for the QuotationResource REST controller.
@@ -65,30 +59,6 @@ public class QuotationResourceIntTest {
 
     private static final String DEFAULT_QUOTATION_NO = "AAAAAAAAAA";
     private static final String UPDATED_QUOTATION_NO = "BBBBBBBBBB";
-
-    private static final Currency DEFAULT_CURRENCY = Currency.TAKA;
-    private static final Currency UPDATED_CURRENCY = Currency.DOLLAR;
-
-    private static final PayType DEFAULT_PAY_TYPE = PayType.CASH;
-    private static final PayType UPDATED_PAY_TYPE = PayType.PAY_ORDER;
-
-    private static final BigDecimal DEFAULT_CREDIT_LIMIT = new BigDecimal(1);
-    private static final BigDecimal UPDATED_CREDIT_LIMIT = new BigDecimal(2);
-
-    private static final VatStatus DEFAULT_VAT_STATUS = VatStatus.EXCLUDED;
-    private static final VatStatus UPDATED_VAT_STATUS = VatStatus.INCLUDED;
-
-    private static final AITStatus DEFAULT_AIT_STATUS = AITStatus.EXCLUDED;
-    private static final AITStatus UPDATED_AIT_STATUS = AITStatus.INCLUDED;
-
-    private static final WarrantyStatus DEFAULT_WARRANTY_STATUS = WarrantyStatus.WARRANTY;
-    private static final WarrantyStatus UPDATED_WARRANTY_STATUS = WarrantyStatus.NO_WARRANTY;
-
-    private static final String DEFAULT_LOADING_PORT = "AAAAAAAAAA";
-    private static final String UPDATED_LOADING_PORT = "BBBBBBBBBB";
-
-    private static final String DEFAULT_REMARKS = "AAAAAAAAAA";
-    private static final String UPDATED_REMARKS = "BBBBBBBBBB";
 
     private static final byte[] DEFAULT_ATTACHMENT = TestUtil.createByteArray(1, "0");
     private static final byte[] UPDATED_ATTACHMENT = TestUtil.createByteArray(1, "1");
@@ -164,14 +134,6 @@ public class QuotationResourceIntTest {
     public static Quotation createEntity(EntityManager em) {
         Quotation quotation = new Quotation()
             .quotationNo(DEFAULT_QUOTATION_NO)
-            .currency(DEFAULT_CURRENCY)
-            .payType(DEFAULT_PAY_TYPE)
-            .creditLimit(DEFAULT_CREDIT_LIMIT)
-            .vatStatus(DEFAULT_VAT_STATUS)
-            .aitStatus(DEFAULT_AIT_STATUS)
-            .warrantyStatus(DEFAULT_WARRANTY_STATUS)
-            .loadingPort(DEFAULT_LOADING_PORT)
-            .remarks(DEFAULT_REMARKS)
             .attachment(DEFAULT_ATTACHMENT)
             .attachmentContentType(DEFAULT_ATTACHMENT_CONTENT_TYPE)
             .selectionStatus(DEFAULT_SELECTION_STATUS)
@@ -202,14 +164,6 @@ public class QuotationResourceIntTest {
         assertThat(quotationList).hasSize(databaseSizeBeforeCreate + 1);
         Quotation testQuotation = quotationList.get(quotationList.size() - 1);
         assertThat(testQuotation.getQuotationNo()).isEqualTo(DEFAULT_QUOTATION_NO);
-        assertThat(testQuotation.getCurrency()).isEqualTo(DEFAULT_CURRENCY);
-        assertThat(testQuotation.getPayType()).isEqualTo(DEFAULT_PAY_TYPE);
-        assertThat(testQuotation.getCreditLimit()).isEqualTo(DEFAULT_CREDIT_LIMIT);
-        assertThat(testQuotation.getVatStatus()).isEqualTo(DEFAULT_VAT_STATUS);
-        assertThat(testQuotation.getAitStatus()).isEqualTo(DEFAULT_AIT_STATUS);
-        assertThat(testQuotation.getWarrantyStatus()).isEqualTo(DEFAULT_WARRANTY_STATUS);
-        assertThat(testQuotation.getLoadingPort()).isEqualTo(DEFAULT_LOADING_PORT);
-        assertThat(testQuotation.getRemarks()).isEqualTo(DEFAULT_REMARKS);
         assertThat(testQuotation.getAttachment()).isEqualTo(DEFAULT_ATTACHMENT);
         assertThat(testQuotation.getAttachmentContentType()).isEqualTo(DEFAULT_ATTACHMENT_CONTENT_TYPE);
         assertThat(testQuotation.getSelectionStatus()).isEqualTo(DEFAULT_SELECTION_STATUS);
@@ -255,14 +209,6 @@ public class QuotationResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(quotation.getId().intValue())))
             .andExpect(jsonPath("$.[*].quotationNo").value(hasItem(DEFAULT_QUOTATION_NO.toString())))
-            .andExpect(jsonPath("$.[*].currency").value(hasItem(DEFAULT_CURRENCY.toString())))
-            .andExpect(jsonPath("$.[*].payType").value(hasItem(DEFAULT_PAY_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
-            .andExpect(jsonPath("$.[*].vatStatus").value(hasItem(DEFAULT_VAT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].aitStatus").value(hasItem(DEFAULT_AIT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].warrantyStatus").value(hasItem(DEFAULT_WARRANTY_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].loadingPort").value(hasItem(DEFAULT_LOADING_PORT.toString())))
-            .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))))
             .andExpect(jsonPath("$.[*].selectionStatus").value(hasItem(DEFAULT_SELECTION_STATUS.toString())))
@@ -282,14 +228,6 @@ public class QuotationResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(quotation.getId().intValue()))
             .andExpect(jsonPath("$.quotationNo").value(DEFAULT_QUOTATION_NO.toString()))
-            .andExpect(jsonPath("$.currency").value(DEFAULT_CURRENCY.toString()))
-            .andExpect(jsonPath("$.payType").value(DEFAULT_PAY_TYPE.toString()))
-            .andExpect(jsonPath("$.creditLimit").value(DEFAULT_CREDIT_LIMIT.intValue()))
-            .andExpect(jsonPath("$.vatStatus").value(DEFAULT_VAT_STATUS.toString()))
-            .andExpect(jsonPath("$.aitStatus").value(DEFAULT_AIT_STATUS.toString()))
-            .andExpect(jsonPath("$.warrantyStatus").value(DEFAULT_WARRANTY_STATUS.toString()))
-            .andExpect(jsonPath("$.loadingPort").value(DEFAULT_LOADING_PORT.toString()))
-            .andExpect(jsonPath("$.remarks").value(DEFAULT_REMARKS.toString()))
             .andExpect(jsonPath("$.attachmentContentType").value(DEFAULT_ATTACHMENT_CONTENT_TYPE))
             .andExpect(jsonPath("$.attachment").value(Base64Utils.encodeToString(DEFAULT_ATTACHMENT)))
             .andExpect(jsonPath("$.selectionStatus").value(DEFAULT_SELECTION_STATUS.toString()))
@@ -334,279 +272,6 @@ public class QuotationResourceIntTest {
 
         // Get all the quotationList where quotationNo is null
         defaultQuotationShouldNotBeFound("quotationNo.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByCurrencyIsEqualToSomething() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where currency equals to DEFAULT_CURRENCY
-        defaultQuotationShouldBeFound("currency.equals=" + DEFAULT_CURRENCY);
-
-        // Get all the quotationList where currency equals to UPDATED_CURRENCY
-        defaultQuotationShouldNotBeFound("currency.equals=" + UPDATED_CURRENCY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByCurrencyIsInShouldWork() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where currency in DEFAULT_CURRENCY or UPDATED_CURRENCY
-        defaultQuotationShouldBeFound("currency.in=" + DEFAULT_CURRENCY + "," + UPDATED_CURRENCY);
-
-        // Get all the quotationList where currency equals to UPDATED_CURRENCY
-        defaultQuotationShouldNotBeFound("currency.in=" + UPDATED_CURRENCY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByCurrencyIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where currency is not null
-        defaultQuotationShouldBeFound("currency.specified=true");
-
-        // Get all the quotationList where currency is null
-        defaultQuotationShouldNotBeFound("currency.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByPayTypeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where payType equals to DEFAULT_PAY_TYPE
-        defaultQuotationShouldBeFound("payType.equals=" + DEFAULT_PAY_TYPE);
-
-        // Get all the quotationList where payType equals to UPDATED_PAY_TYPE
-        defaultQuotationShouldNotBeFound("payType.equals=" + UPDATED_PAY_TYPE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByPayTypeIsInShouldWork() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where payType in DEFAULT_PAY_TYPE or UPDATED_PAY_TYPE
-        defaultQuotationShouldBeFound("payType.in=" + DEFAULT_PAY_TYPE + "," + UPDATED_PAY_TYPE);
-
-        // Get all the quotationList where payType equals to UPDATED_PAY_TYPE
-        defaultQuotationShouldNotBeFound("payType.in=" + UPDATED_PAY_TYPE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByPayTypeIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where payType is not null
-        defaultQuotationShouldBeFound("payType.specified=true");
-
-        // Get all the quotationList where payType is null
-        defaultQuotationShouldNotBeFound("payType.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByCreditLimitIsEqualToSomething() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where creditLimit equals to DEFAULT_CREDIT_LIMIT
-        defaultQuotationShouldBeFound("creditLimit.equals=" + DEFAULT_CREDIT_LIMIT);
-
-        // Get all the quotationList where creditLimit equals to UPDATED_CREDIT_LIMIT
-        defaultQuotationShouldNotBeFound("creditLimit.equals=" + UPDATED_CREDIT_LIMIT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByCreditLimitIsInShouldWork() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where creditLimit in DEFAULT_CREDIT_LIMIT or UPDATED_CREDIT_LIMIT
-        defaultQuotationShouldBeFound("creditLimit.in=" + DEFAULT_CREDIT_LIMIT + "," + UPDATED_CREDIT_LIMIT);
-
-        // Get all the quotationList where creditLimit equals to UPDATED_CREDIT_LIMIT
-        defaultQuotationShouldNotBeFound("creditLimit.in=" + UPDATED_CREDIT_LIMIT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByCreditLimitIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where creditLimit is not null
-        defaultQuotationShouldBeFound("creditLimit.specified=true");
-
-        // Get all the quotationList where creditLimit is null
-        defaultQuotationShouldNotBeFound("creditLimit.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByVatStatusIsEqualToSomething() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where vatStatus equals to DEFAULT_VAT_STATUS
-        defaultQuotationShouldBeFound("vatStatus.equals=" + DEFAULT_VAT_STATUS);
-
-        // Get all the quotationList where vatStatus equals to UPDATED_VAT_STATUS
-        defaultQuotationShouldNotBeFound("vatStatus.equals=" + UPDATED_VAT_STATUS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByVatStatusIsInShouldWork() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where vatStatus in DEFAULT_VAT_STATUS or UPDATED_VAT_STATUS
-        defaultQuotationShouldBeFound("vatStatus.in=" + DEFAULT_VAT_STATUS + "," + UPDATED_VAT_STATUS);
-
-        // Get all the quotationList where vatStatus equals to UPDATED_VAT_STATUS
-        defaultQuotationShouldNotBeFound("vatStatus.in=" + UPDATED_VAT_STATUS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByVatStatusIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where vatStatus is not null
-        defaultQuotationShouldBeFound("vatStatus.specified=true");
-
-        // Get all the quotationList where vatStatus is null
-        defaultQuotationShouldNotBeFound("vatStatus.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByAitStatusIsEqualToSomething() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where aitStatus equals to DEFAULT_AIT_STATUS
-        defaultQuotationShouldBeFound("aitStatus.equals=" + DEFAULT_AIT_STATUS);
-
-        // Get all the quotationList where aitStatus equals to UPDATED_AIT_STATUS
-        defaultQuotationShouldNotBeFound("aitStatus.equals=" + UPDATED_AIT_STATUS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByAitStatusIsInShouldWork() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where aitStatus in DEFAULT_AIT_STATUS or UPDATED_AIT_STATUS
-        defaultQuotationShouldBeFound("aitStatus.in=" + DEFAULT_AIT_STATUS + "," + UPDATED_AIT_STATUS);
-
-        // Get all the quotationList where aitStatus equals to UPDATED_AIT_STATUS
-        defaultQuotationShouldNotBeFound("aitStatus.in=" + UPDATED_AIT_STATUS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByAitStatusIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where aitStatus is not null
-        defaultQuotationShouldBeFound("aitStatus.specified=true");
-
-        // Get all the quotationList where aitStatus is null
-        defaultQuotationShouldNotBeFound("aitStatus.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByWarrantyStatusIsEqualToSomething() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where warrantyStatus equals to DEFAULT_WARRANTY_STATUS
-        defaultQuotationShouldBeFound("warrantyStatus.equals=" + DEFAULT_WARRANTY_STATUS);
-
-        // Get all the quotationList where warrantyStatus equals to UPDATED_WARRANTY_STATUS
-        defaultQuotationShouldNotBeFound("warrantyStatus.equals=" + UPDATED_WARRANTY_STATUS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByWarrantyStatusIsInShouldWork() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where warrantyStatus in DEFAULT_WARRANTY_STATUS or UPDATED_WARRANTY_STATUS
-        defaultQuotationShouldBeFound("warrantyStatus.in=" + DEFAULT_WARRANTY_STATUS + "," + UPDATED_WARRANTY_STATUS);
-
-        // Get all the quotationList where warrantyStatus equals to UPDATED_WARRANTY_STATUS
-        defaultQuotationShouldNotBeFound("warrantyStatus.in=" + UPDATED_WARRANTY_STATUS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByWarrantyStatusIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where warrantyStatus is not null
-        defaultQuotationShouldBeFound("warrantyStatus.specified=true");
-
-        // Get all the quotationList where warrantyStatus is null
-        defaultQuotationShouldNotBeFound("warrantyStatus.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByLoadingPortIsEqualToSomething() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where loadingPort equals to DEFAULT_LOADING_PORT
-        defaultQuotationShouldBeFound("loadingPort.equals=" + DEFAULT_LOADING_PORT);
-
-        // Get all the quotationList where loadingPort equals to UPDATED_LOADING_PORT
-        defaultQuotationShouldNotBeFound("loadingPort.equals=" + UPDATED_LOADING_PORT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByLoadingPortIsInShouldWork() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where loadingPort in DEFAULT_LOADING_PORT or UPDATED_LOADING_PORT
-        defaultQuotationShouldBeFound("loadingPort.in=" + DEFAULT_LOADING_PORT + "," + UPDATED_LOADING_PORT);
-
-        // Get all the quotationList where loadingPort equals to UPDATED_LOADING_PORT
-        defaultQuotationShouldNotBeFound("loadingPort.in=" + UPDATED_LOADING_PORT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllQuotationsByLoadingPortIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        quotationRepository.saveAndFlush(quotation);
-
-        // Get all the quotationList where loadingPort is not null
-        defaultQuotationShouldBeFound("loadingPort.specified=true");
-
-        // Get all the quotationList where loadingPort is null
-        defaultQuotationShouldNotBeFound("loadingPort.specified=false");
     }
 
     @Test
@@ -799,14 +464,6 @@ public class QuotationResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(quotation.getId().intValue())))
             .andExpect(jsonPath("$.[*].quotationNo").value(hasItem(DEFAULT_QUOTATION_NO)))
-            .andExpect(jsonPath("$.[*].currency").value(hasItem(DEFAULT_CURRENCY.toString())))
-            .andExpect(jsonPath("$.[*].payType").value(hasItem(DEFAULT_PAY_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
-            .andExpect(jsonPath("$.[*].vatStatus").value(hasItem(DEFAULT_VAT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].aitStatus").value(hasItem(DEFAULT_AIT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].warrantyStatus").value(hasItem(DEFAULT_WARRANTY_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].loadingPort").value(hasItem(DEFAULT_LOADING_PORT)))
-            .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))))
             .andExpect(jsonPath("$.[*].selectionStatus").value(hasItem(DEFAULT_SELECTION_STATUS.toString())))
@@ -860,14 +517,6 @@ public class QuotationResourceIntTest {
         em.detach(updatedQuotation);
         updatedQuotation
             .quotationNo(UPDATED_QUOTATION_NO)
-            .currency(UPDATED_CURRENCY)
-            .payType(UPDATED_PAY_TYPE)
-            .creditLimit(UPDATED_CREDIT_LIMIT)
-            .vatStatus(UPDATED_VAT_STATUS)
-            .aitStatus(UPDATED_AIT_STATUS)
-            .warrantyStatus(UPDATED_WARRANTY_STATUS)
-            .loadingPort(UPDATED_LOADING_PORT)
-            .remarks(UPDATED_REMARKS)
             .attachment(UPDATED_ATTACHMENT)
             .attachmentContentType(UPDATED_ATTACHMENT_CONTENT_TYPE)
             .selectionStatus(UPDATED_SELECTION_STATUS)
@@ -885,14 +534,6 @@ public class QuotationResourceIntTest {
         assertThat(quotationList).hasSize(databaseSizeBeforeUpdate);
         Quotation testQuotation = quotationList.get(quotationList.size() - 1);
         assertThat(testQuotation.getQuotationNo()).isEqualTo(UPDATED_QUOTATION_NO);
-        assertThat(testQuotation.getCurrency()).isEqualTo(UPDATED_CURRENCY);
-        assertThat(testQuotation.getPayType()).isEqualTo(UPDATED_PAY_TYPE);
-        assertThat(testQuotation.getCreditLimit()).isEqualTo(UPDATED_CREDIT_LIMIT);
-        assertThat(testQuotation.getVatStatus()).isEqualTo(UPDATED_VAT_STATUS);
-        assertThat(testQuotation.getAitStatus()).isEqualTo(UPDATED_AIT_STATUS);
-        assertThat(testQuotation.getWarrantyStatus()).isEqualTo(UPDATED_WARRANTY_STATUS);
-        assertThat(testQuotation.getLoadingPort()).isEqualTo(UPDATED_LOADING_PORT);
-        assertThat(testQuotation.getRemarks()).isEqualTo(UPDATED_REMARKS);
         assertThat(testQuotation.getAttachment()).isEqualTo(UPDATED_ATTACHMENT);
         assertThat(testQuotation.getAttachmentContentType()).isEqualTo(UPDATED_ATTACHMENT_CONTENT_TYPE);
         assertThat(testQuotation.getSelectionStatus()).isEqualTo(UPDATED_SELECTION_STATUS);
@@ -959,14 +600,6 @@ public class QuotationResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(quotation.getId().intValue())))
             .andExpect(jsonPath("$.[*].quotationNo").value(hasItem(DEFAULT_QUOTATION_NO)))
-            .andExpect(jsonPath("$.[*].currency").value(hasItem(DEFAULT_CURRENCY.toString())))
-            .andExpect(jsonPath("$.[*].payType").value(hasItem(DEFAULT_PAY_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
-            .andExpect(jsonPath("$.[*].vatStatus").value(hasItem(DEFAULT_VAT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].aitStatus").value(hasItem(DEFAULT_AIT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].warrantyStatus").value(hasItem(DEFAULT_WARRANTY_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].loadingPort").value(hasItem(DEFAULT_LOADING_PORT)))
-            .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))))
             .andExpect(jsonPath("$.[*].selectionStatus").value(hasItem(DEFAULT_SELECTION_STATUS.toString())))

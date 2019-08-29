@@ -7,6 +7,14 @@
             "fieldValues": "TAKA,DOLLAR,EURO"
         },
         {
+            "fieldName": "rate",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "quantity",
+            "fieldType": "Integer"
+        },
+        {
             "fieldName": "payType",
             "fieldType": "PayType",
             "fieldValues": "CASH,PAY_ORDER,CHEQUE"

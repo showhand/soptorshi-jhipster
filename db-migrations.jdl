@@ -283,14 +283,6 @@ entity RequisitionDetails{
 
 entity Quotation{
     quotationNo String,
-    currency Currency,
-    payType PayType,
-    creditLimit BigDecimal,
-    vatStatus VatStatus,
-    aitStatus AITStatus,
-    warrantyStatus WarrantyStatus,
-    loadingPort String,
-    remarks TextBlob,
     attachment AnyBlob required,
     selectionStatus SelectionType,
     modifiedBy String,
@@ -299,6 +291,8 @@ entity Quotation{
 
 entity QuotationDetails{
     currency Currency,
+    rate BigDecimal,
+    quantity Integer,
     payType PayType,
     creditLimit BigDecimal,
     vatStatus VatStatus,

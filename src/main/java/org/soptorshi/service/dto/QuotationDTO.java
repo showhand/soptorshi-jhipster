@@ -2,14 +2,8 @@ package org.soptorshi.service.dto;
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Lob;
-import org.soptorshi.domain.enumeration.Currency;
-import org.soptorshi.domain.enumeration.PayType;
-import org.soptorshi.domain.enumeration.VatStatus;
-import org.soptorshi.domain.enumeration.AITStatus;
-import org.soptorshi.domain.enumeration.WarrantyStatus;
 import org.soptorshi.domain.enumeration.SelectionType;
 
 /**
@@ -20,23 +14,6 @@ public class QuotationDTO implements Serializable {
     private Long id;
 
     private String quotationNo;
-
-    private Currency currency;
-
-    private PayType payType;
-
-    private BigDecimal creditLimit;
-
-    private VatStatus vatStatus;
-
-    private AITStatus aitStatus;
-
-    private WarrantyStatus warrantyStatus;
-
-    private String loadingPort;
-
-    @Lob
-    private String remarks;
 
     
     @Lob
@@ -72,70 +49,6 @@ public class QuotationDTO implements Serializable {
 
     public void setQuotationNo(String quotationNo) {
         this.quotationNo = quotationNo;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    public PayType getPayType() {
-        return payType;
-    }
-
-    public void setPayType(PayType payType) {
-        this.payType = payType;
-    }
-
-    public BigDecimal getCreditLimit() {
-        return creditLimit;
-    }
-
-    public void setCreditLimit(BigDecimal creditLimit) {
-        this.creditLimit = creditLimit;
-    }
-
-    public VatStatus getVatStatus() {
-        return vatStatus;
-    }
-
-    public void setVatStatus(VatStatus vatStatus) {
-        this.vatStatus = vatStatus;
-    }
-
-    public AITStatus getAitStatus() {
-        return aitStatus;
-    }
-
-    public void setAitStatus(AITStatus aitStatus) {
-        this.aitStatus = aitStatus;
-    }
-
-    public WarrantyStatus getWarrantyStatus() {
-        return warrantyStatus;
-    }
-
-    public void setWarrantyStatus(WarrantyStatus warrantyStatus) {
-        this.warrantyStatus = warrantyStatus;
-    }
-
-    public String getLoadingPort() {
-        return loadingPort;
-    }
-
-    public void setLoadingPort(String loadingPort) {
-        this.loadingPort = loadingPort;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
     }
 
     public byte[] getAttachment() {
@@ -236,14 +149,6 @@ public class QuotationDTO implements Serializable {
         return "QuotationDTO{" +
             "id=" + getId() +
             ", quotationNo='" + getQuotationNo() + "'" +
-            ", currency='" + getCurrency() + "'" +
-            ", payType='" + getPayType() + "'" +
-            ", creditLimit=" + getCreditLimit() +
-            ", vatStatus='" + getVatStatus() + "'" +
-            ", aitStatus='" + getAitStatus() + "'" +
-            ", warrantyStatus='" + getWarrantyStatus() + "'" +
-            ", loadingPort='" + getLoadingPort() + "'" +
-            ", remarks='" + getRemarks() + "'" +
             ", attachment='" + getAttachment() + "'" +
             ", selectionStatus='" + getSelectionStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +

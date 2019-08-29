@@ -96,6 +96,12 @@ public class QuotationDetailsQueryService extends QueryService<QuotationDetails>
             if (criteria.getCurrency() != null) {
                 specification = specification.and(buildSpecification(criteria.getCurrency(), QuotationDetails_.currency));
             }
+            if (criteria.getRate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getRate(), QuotationDetails_.rate));
+            }
+            if (criteria.getQuantity() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getQuantity(), QuotationDetails_.quantity));
+            }
             if (criteria.getPayType() != null) {
                 specification = specification.and(buildSpecification(criteria.getPayType(), QuotationDetails_.payType));
             }

@@ -18,12 +18,19 @@
         Added the entity QuotationDetails.
     -->
     <changeSet id="20190628152326-1" author="jhipster">
-        <validCheckSum>7:50c19905c1d180e5c91d5f1b2bfc6ee1</validCheckSum>
         <createTable tableName="quotation_details">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="currency" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="rate" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="quantity" type="integer">
                 <constraints nullable="true" />
             </column>
 

@@ -19,6 +19,10 @@ public class QuotationDetailsDTO implements Serializable {
 
     private Currency currency;
 
+    private BigDecimal rate;
+
+    private Integer quantity;
+
     private PayType payType;
 
     private BigDecimal creditLimit;
@@ -59,6 +63,22 @@ public class QuotationDetailsDTO implements Serializable {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public PayType getPayType() {
@@ -183,6 +203,8 @@ public class QuotationDetailsDTO implements Serializable {
         return "QuotationDetailsDTO{" +
             "id=" + getId() +
             ", currency='" + getCurrency() + "'" +
+            ", rate=" + getRate() +
+            ", quantity=" + getQuantity() +
             ", payType='" + getPayType() + "'" +
             ", creditLimit=" + getCreditLimit() +
             ", vatStatus='" + getVatStatus() + "'" +

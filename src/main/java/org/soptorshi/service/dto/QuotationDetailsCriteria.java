@@ -58,6 +58,10 @@ public class QuotationDetailsCriteria implements Serializable {
 
     private CurrencyFilter currency;
 
+    private BigDecimalFilter rate;
+
+    private IntegerFilter quantity;
+
     private PayTypeFilter payType;
 
     private BigDecimalFilter creditLimit;
@@ -92,6 +96,22 @@ public class QuotationDetailsCriteria implements Serializable {
 
     public void setCurrency(CurrencyFilter currency) {
         this.currency = currency;
+    }
+
+    public BigDecimalFilter getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimalFilter rate) {
+        this.rate = rate;
+    }
+
+    public IntegerFilter getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(IntegerFilter quantity) {
+        this.quantity = quantity;
     }
 
     public PayTypeFilter getPayType() {
@@ -187,6 +207,8 @@ public class QuotationDetailsCriteria implements Serializable {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(currency, that.currency) &&
+            Objects.equals(rate, that.rate) &&
+            Objects.equals(quantity, that.quantity) &&
             Objects.equals(payType, that.payType) &&
             Objects.equals(creditLimit, that.creditLimit) &&
             Objects.equals(vatStatus, that.vatStatus) &&
@@ -204,6 +226,8 @@ public class QuotationDetailsCriteria implements Serializable {
         return Objects.hash(
         id,
         currency,
+        rate,
+        quantity,
         payType,
         creditLimit,
         vatStatus,
@@ -222,6 +246,8 @@ public class QuotationDetailsCriteria implements Serializable {
         return "QuotationDetailsCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (currency != null ? "currency=" + currency + ", " : "") +
+                (rate != null ? "rate=" + rate + ", " : "") +
+                (quantity != null ? "quantity=" + quantity + ", " : "") +
                 (payType != null ? "payType=" + payType + ", " : "") +
                 (creditLimit != null ? "creditLimit=" + creditLimit + ", " : "") +
                 (vatStatus != null ? "vatStatus=" + vatStatus + ", " : "") +

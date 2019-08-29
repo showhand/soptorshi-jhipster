@@ -36,6 +36,8 @@ describe('Service Tests', () => {
             elemDefault = new QuotationDetails(
                 0,
                 Currency.TAKA,
+                0,
+                0,
                 PayType.CASH,
                 0,
                 VatStatus.EXCLUDED,
@@ -91,6 +93,8 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         currency: 'BBBBBB',
+                        rate: 1,
+                        quantity: 1,
                         payType: 'BBBBBB',
                         creditLimit: 1,
                         vatStatus: 'BBBBBB',
@@ -122,6 +126,8 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         currency: 'BBBBBB',
+                        rate: 1,
+                        quantity: 1,
                         payType: 'BBBBBB',
                         creditLimit: 1,
                         vatStatus: 'BBBBBB',

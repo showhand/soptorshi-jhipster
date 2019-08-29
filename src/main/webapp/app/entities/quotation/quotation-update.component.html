@@ -15,58 +15,6 @@
                         [(ngModel)]="quotation.quotationNo" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_currency">Currency</label>
-                    <select class="form-control" name="currency" [(ngModel)]="quotation.currency" id="field_currency" >
-                        <option value="TAKA">TAKA</option>
-                        <option value="DOLLAR">DOLLAR</option>
-                        <option value="EURO">EURO</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_payType">Pay Type</label>
-                    <select class="form-control" name="payType" [(ngModel)]="quotation.payType" id="field_payType" >
-                        <option value="CASH">CASH</option>
-                        <option value="PAY_ORDER">PAY_ORDER</option>
-                        <option value="CHEQUE">CHEQUE</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_creditLimit">Credit Limit</label>
-                    <input type="number" class="form-control" name="creditLimit" id="field_creditLimit"
-                        [(ngModel)]="quotation.creditLimit" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_vatStatus">Vat Status</label>
-                    <select class="form-control" name="vatStatus" [(ngModel)]="quotation.vatStatus" id="field_vatStatus" >
-                        <option value="EXCLUDED">EXCLUDED</option>
-                        <option value="INCLUDED">INCLUDED</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_aitStatus">Ait Status</label>
-                    <select class="form-control" name="aitStatus" [(ngModel)]="quotation.aitStatus" id="field_aitStatus" >
-                        <option value="EXCLUDED">EXCLUDED</option>
-                        <option value="INCLUDED">INCLUDED</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_warrantyStatus">Warranty Status</label>
-                    <select class="form-control" name="warrantyStatus" [(ngModel)]="quotation.warrantyStatus" id="field_warrantyStatus" >
-                        <option value="WARRANTY">WARRANTY</option>
-                        <option value="NO_WARRANTY">NO_WARRANTY</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_loadingPort">Loading Port</label>
-                    <input type="text" class="form-control" name="loadingPort" id="field_loadingPort"
-                        [(ngModel)]="quotation.loadingPort" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_remarks">Remarks</label>
-                    <textarea class="form-control" name="remarks" id="field_remarks"
-                        [(ngModel)]="quotation.remarks" ></textarea>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_attachment">Attachment</label>
                     <div>
                         <div *ngIf="quotation.attachment" class="form-text text-danger clearfix">
@@ -96,6 +44,21 @@
                         <option value="SELECTED">SELECTED</option>
                         <option value="NOT_SELECTED">NOT_SELECTED</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                        [(ngModel)]="quotation.modifiedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="quotation.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
                 </div>
 
                 <div class="form-group">
