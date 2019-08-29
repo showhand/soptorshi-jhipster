@@ -48,6 +48,10 @@ export class NavbarExtendedComponent extends NavbarComponent implements OnInit {
     logout() {
         this.collapseNavbar();
         this.loginService.logout();
-        this.router.navigate(['']);
+        this.router.navigate(['/login']);
+    }
+
+    login() {
+        this.router.navigate(['/login']);
     }
 }
