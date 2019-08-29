@@ -1,0 +1,121 @@
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div *ngIf="monthlySalary">
+            <h2><span>Pay roll</span> of <b>{{monthlySalary.employeeFullName}}</b>, of year {{monthlySalary.year}}-{{monthlySalary.month}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+
+
+
+        </div>
+    </div>
+    <div class="col-6 justify-content-center">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">Earnings</div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <td>Particulars</td>
+                        <td>Taka</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Basic Salary</td>
+                        <td>{{monthlySalary.basic}}</td>
+                    </tr>
+                    <tr>
+                        <td>House Rent</td>
+                        <td>{{monthlySalary.houseRent}}</td>
+                    </tr>
+                    <tr>
+                        <td>Medical Allowances</td>
+                        <td>{{monthlySalary.medicalAllowance}}</td>
+                    </tr>
+                    <tr>
+                        <td>Other Allowances</td>
+                        <td>{{monthlySalary.otherAllowance}}</td>
+                    </tr>
+                    <tr>
+                        <td>Bill Payable</td>
+                        <td>{{monthlySalary.billPayable}}</td>
+                    </tr>
+
+                    <tr>
+                        <td><br/></td>
+                        <td><br/></td>
+                    </tr>
+                    <tr>
+                        <td><br/></td>
+                        <td><br/></td>
+                    </tr>
+                    <tr>
+                        <td>Festival bonus</td>
+                        <td>{{monthlySalary.festivalAllowance}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 justify-content-center">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">Deductions</div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <td>Particulars</td>
+                        <td>Taka</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Absent</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Lop/Fine</td>
+                        <td>{{monthlySalary.fine}}</td>
+                    </tr>
+                    <tr>
+                        <td>Advance (H/O)</td>
+                        <td>{{monthlySalary.advanceHO}}</td>
+                    </tr>
+                    <tr>
+                        <td>Advance (Factory)</td>
+                        <td>{{monthlySalary.advanceFactory}}</td>
+                    </tr>
+                    <tr>
+                        <td>Provident Fund</td>
+                        <td>{{monthlySalary.providentFund}}</td>
+                    </tr>
+                    <tr>
+                        <td>Tax (ALT)</td>
+                        <td>{{monthlySalary.tax}}</td>
+                    </tr>
+                    <tr>
+                        <td>Loan Amount</td>
+                        <td>{{monthlySalary.loanAmount}}</td>
+                    </tr>
+                    <tr>
+                        <td>Bill Receivable</td>
+                        <td>{{monthlySalary.billReceivable}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+<br/>
+
+    <div class="col-12 " align="right">
+        <button type="submit"
+                (click)="previousState()"
+                class="btn btn-info">
+            <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+        </button>
+    </div>
+</div>

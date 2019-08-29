@@ -6,16 +6,18 @@ import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { MonthlySalary } from 'app/shared/model/monthly-salary.model';
-import { MonthlySalaryService } from './monthly-salary.service';
-import { MonthlySalaryComponent } from './monthly-salary.component';
-import { MonthlySalaryDetailComponent } from './monthly-salary-detail.component';
-import { MonthlySalaryUpdateComponent } from './monthly-salary-update.component';
-import { MonthlySalaryDeletePopupComponent } from './monthly-salary-delete-dialog.component';
+
 import { IMonthlySalary } from 'app/shared/model/monthly-salary.model';
+import { MonthlySalaryDeletePopupComponent, MonthlySalaryResolve, MonthlySalaryService } from 'app/entities/monthly-salary';
+import { MonthlySalaryExtendedComponent } from 'app/entities/monthly-salary-extended/monthly-salary-extended.component';
+import { MonthlySalaryExtendedDetailComponent } from 'app/entities/monthly-salary-extended/monthly-salary-extended-detail.component';
+import { MonthlySalaryExtendedUpdateComponent } from 'app/entities/monthly-salary-extended/monthly-salary-extended-update.component';
 
 @Injectable({ providedIn: 'root' })
-export class MonthlySalaryResolve implements Resolve<IMonthlySalary> {
-    constructor(public service: MonthlySalaryService) {}
+export class MonthlySalaryExtendedResolve extends MonthlySalaryResolve implements Resolve<IMonthlySalary> {
+    constructor(public service: MonthlySalaryService) {
+        super(service);
+    }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IMonthlySalary> {
         const id = route.params['id'] ? route.params['id'] : null;
@@ -29,10 +31,10 @@ export class MonthlySalaryResolve implements Resolve<IMonthlySalary> {
     }
 }
 
-export const monthlySalaryRoute: Routes = [
+export const monthlySalaryExtendedRoute: Routes = [
     {
         path: '',
-        component: MonthlySalaryComponent,
+        component: MonthlySalaryExtendedComponent,
         resolve: {
             pagingParams: JhiResolvePagingParams
         },
@@ -45,7 +47,7 @@ export const monthlySalaryRoute: Routes = [
     },
     {
         path: ':id/view',
-        component: MonthlySalaryDetailComponent,
+        component: MonthlySalaryExtendedDetailComponent,
         resolve: {
             monthlySalary: MonthlySalaryResolve
         },
@@ -57,7 +59,7 @@ export const monthlySalaryRoute: Routes = [
     },
     {
         path: 'new',
-        component: MonthlySalaryUpdateComponent,
+        component: MonthlySalaryExtendedUpdateComponent,
         resolve: {
             monthlySalary: MonthlySalaryResolve
         },
@@ -69,7 +71,7 @@ export const monthlySalaryRoute: Routes = [
     },
     {
         path: ':id/edit',
-        component: MonthlySalaryUpdateComponent,
+        component: MonthlySalaryExtendedUpdateComponent,
         resolve: {
             monthlySalary: MonthlySalaryResolve
         },
@@ -81,7 +83,7 @@ export const monthlySalaryRoute: Routes = [
     }
 ];
 
-export const monthlySalaryPopupRoute: Routes = [
+export const monthlySalaryExtendedPopupRoute: Routes = [
     {
         path: ':id/delete',
         component: MonthlySalaryDeletePopupComponent,
