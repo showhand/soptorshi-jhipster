@@ -37,9 +37,9 @@ export class HomeExtendedComponent extends HomeComponent implements OnInit {
         public router: Router
     ) {
         super(accountService, loginModalService, eventManager, employeeService, jhiAlertService, departmentService, designationService);
-        if (!this.isAuthenticated()) {
+        /*if (!this.isAuthenticated()) {
             this.router.navigate(['/login']);
-        }
+        }*/
     }
 
     fetchLoggedEmployeeInformation() {
