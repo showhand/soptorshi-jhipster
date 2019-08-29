@@ -132,7 +132,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'monthly-salary',
-                loadChildren: './monthly-salary/monthly-salary.module#SoptorshiMonthlySalaryModule'
+                loadChildren: './monthly-salary-extended/monthly-salary-extended.module#SoptorshiMonthlySalaryExtendedModule'
             },
             {
                 path: 'advance',
