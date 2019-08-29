@@ -1,16 +1,15 @@
-import { Component, AfterViewInit, Renderer, ElementRef } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, Renderer } from '@angular/core';
 import { JhiEventManager } from 'ng-jhipster';
-
-import { LoginService } from 'app/core/login/login.service';
-import { StateStorageService } from 'app/core/auth/state-storage.service';
+import { LoginService, StateStorageService } from 'app/core';
+import { Router } from '@angular/router';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { JhiLoginModalComponent } from 'app/shared';
 
 @Component({
-    selector: 'jhi-login-modal',
-    templateUrl: './login.component.html'
+    selector: 'jhi-login',
+    templateUrl: './login-extended.component.html'
 })
-export class JhiLoginModalComponent implements AfterViewInit {
+export class JhiLoginExtendedComponent implements AfterViewInit {
     authenticationError: boolean;
     password: string;
     rememberMe: boolean;
@@ -23,8 +22,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
         public stateStorageService: StateStorageService,
         public elementRef: ElementRef,
         public renderer: Renderer,
-        public router: Router,
-        public activeModal: NgbActiveModal
+        public router: Router
     ) {
         this.credentials = {};
     }
@@ -40,7 +38,6 @@ export class JhiLoginModalComponent implements AfterViewInit {
             rememberMe: true
         };
         this.authenticationError = false;
-        this.activeModal.dismiss('cancel');
     }
 
     login() {
@@ -52,10 +49,14 @@ export class JhiLoginModalComponent implements AfterViewInit {
             })
             .then(() => {
                 this.authenticationError = false;
+                this.router.navigate(['']);
+
+                /*
                 this.activeModal.dismiss('login success');
                 if (this.router.url === '/register' || /^\/activate\//.test(this.router.url) || /^\/reset\//.test(this.router.url)) {
                     this.router.navigate(['']);
                 }
+*/
 
                 this.eventManager.broadcast({
                     name: 'authenticationSuccess',
@@ -77,7 +78,7 @@ export class JhiLoginModalComponent implements AfterViewInit {
     }
 
     requestResetPassword() {
-        this.activeModal.dismiss('to state requestReset');
+        // this.activeModal.dismiss('to state requestReset');
         this.router.navigate(['/reset', 'request']);
     }
 

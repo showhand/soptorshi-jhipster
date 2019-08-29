@@ -11,13 +11,15 @@ import { Designation, IDesignation } from 'app/shared/model/designation.model';
 import { DepartmentService } from 'app/entities/department';
 import { DesignationService } from 'app/entities/designation';
 import { filter, map } from 'rxjs/operators';
+import { HomeComponent } from 'app/home';
+import { Router } from '@angular/router';
 
 @Component({
-    selector: 'jhi-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['home.css']
+    selector: 'jhi-home-extended',
+    templateUrl: './home-extended.component.html',
+    styleUrls: ['home-extended.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeExtendedComponent extends HomeComponent implements OnInit {
     account: Account;
     modalRef: NgbModalRef;
     employee: Employee;
@@ -31,8 +33,14 @@ export class HomeComponent implements OnInit {
         public employeeService: EmployeeService,
         public jhiAlertService: JhiAlertService,
         public departmentService: DepartmentService,
-        public designationService: DesignationService
-    ) {}
+        public designationService: DesignationService,
+        public router: Router
+    ) {
+        super(accountService, loginModalService, eventManager, employeeService, jhiAlertService, departmentService, designationService);
+        if (!this.isAuthenticated()) {
+            this.router.navigate(['/login']);
+        }
+    }
 
     fetchLoggedEmployeeInformation() {
         this.employeeService
