@@ -15,7 +15,7 @@ import { IQuotation } from 'app/shared/model/quotation.model';
 
 @Injectable({ providedIn: 'root' })
 export class QuotationResolve implements Resolve<IQuotation> {
-    constructor(private service: QuotationService) {}
+    constructor(public service: QuotationService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IQuotation> {
         const id = route.params['id'] ? route.params['id'] : null;

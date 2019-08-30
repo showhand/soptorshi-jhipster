@@ -19,11 +19,9 @@ import { QuotationService, QuotationUpdateComponent } from 'app/entities/quotati
 export class QuotationExtendedUpdateComponent extends QuotationUpdateComponent implements OnInit {
     quotation: IQuotation;
     isSaving: boolean;
-
-    requisitions: IRequisition[];
-
     vendors: IVendor[];
     modifiedOnDp: any;
+    requisition: IRequisition;
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -42,12 +40,8 @@ export class QuotationExtendedUpdateComponent extends QuotationUpdateComponent i
             this.quotation = quotation;
         });
         this.requisitionService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IRequisition[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IRequisition[]>) => response.body)
-            )
-            .subscribe((res: IRequisition[]) => (this.requisitions = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .find(this.quotation.requisitionId)
+            .subscribe((res: HttpResponse<IRequisition>) => (this.requisition = res.body));
         this.vendorService
             .query()
             .pipe(

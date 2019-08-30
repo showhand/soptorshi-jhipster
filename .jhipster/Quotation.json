@@ -19,6 +19,10 @@
             "fieldValues": "SELECTED,NOT_SELECTED"
         },
         {
+            "fieldName": "totalAmount",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "modifiedBy",
             "fieldType": "String"
         },

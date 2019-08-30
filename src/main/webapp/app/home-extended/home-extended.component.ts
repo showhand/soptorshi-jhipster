@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 
@@ -37,9 +37,6 @@ export class HomeExtendedComponent extends HomeComponent implements OnInit {
         public router: Router
     ) {
         super(accountService, loginModalService, eventManager, employeeService, jhiAlertService, departmentService, designationService);
-        /*if (!this.isAuthenticated()) {
-            this.router.navigate(['/login']);
-        }*/
     }
 
     fetchLoggedEmployeeInformation() {
@@ -69,6 +66,7 @@ export class HomeExtendedComponent extends HomeComponent implements OnInit {
         this.accountService.identity().then((account: Account) => {
             this.account = account;
             this.fetchLoggedEmployeeInformation();
+            if (!this.isAuthenticated()) this.router.navigate(['/login']);
         });
         this.registerAuthenticationSuccess();
     }
@@ -86,6 +84,6 @@ export class HomeExtendedComponent extends HomeComponent implements OnInit {
     }
 
     login() {
-        this.modalRef = this.loginModalService.open();
+        this.router.navigate(['/login']);
     }
 }

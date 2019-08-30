@@ -285,6 +285,7 @@ entity Quotation{
     quotationNo String,
     attachment AnyBlob required,
     selectionStatus SelectionType,
+    totalAmount BigDecimal,
     modifiedBy String,
     modifiedOn LocalDate
 }

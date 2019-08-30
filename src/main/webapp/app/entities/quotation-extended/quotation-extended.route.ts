@@ -7,14 +7,14 @@ import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Quotation } from 'app/shared/model/quotation.model';
 import { IQuotation } from 'app/shared/model/quotation.model';
-import { QuotationDeletePopupComponent, QuotationResolve, QuotationService } from 'app/entities/quotation';
+import { QuotationDeletePopupComponent, QuotationDetailComponent, QuotationResolve, QuotationService } from 'app/entities/quotation';
 import { QuotationExtendedComponent } from 'app/entities/quotation-extended/quotation-extended.component';
 import { QuotationExtendedDetailComponent } from 'app/entities/quotation-extended/quotation-extended-detail.component';
 import { QuotationExtendedUpdateComponent } from 'app/entities/quotation-extended/quotation-extended-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class QuotationExtendedResolve extends QuotationResolve {
-    constructor(protected service: QuotationService) {
+    constructor(public service: QuotationService) {
         super(service);
     }
 
@@ -66,7 +66,9 @@ export const quotationExtendedRoute: Routes = [
     {
         path: ':id/view',
         component: QuotationExtendedDetailComponent,
-        resolve: {},
+        resolve: {
+            quotation: QuotationExtendedResolve
+        },
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Quotations'

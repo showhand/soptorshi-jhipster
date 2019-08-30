@@ -19,9 +19,6 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                 <th jhiSortBy="quotationNo"><span>Quotation No</span> </th>
-                <th jhiSortBy="currency"><span>Currency</span> </th>
-                <th jhiSortBy="payType"><span>Pay Type</span> </th>
-                <th jhiSortBy="remarks"><span>Remarks</span> </th>
                 <th jhiSortBy="selectionStatus"><span>Selection Status</span> </th>
                 <th jhiSortBy="vendorCompanyName"><span>Vendor</span> </th>
                 <th></th>
@@ -31,9 +28,6 @@
             <tbody>
             <tr *ngFor="let quotation of quotations ;trackBy: trackId">
                 <td>{{quotation.quotationNo}}</td>
-                <td>{{quotation.currency}}</td>
-                <td>{{quotation.payType}}</td>
-                <td>{{quotation.remarks}}</td>
                 <td>{{quotation.selectionStatus}}</td>
                 <td>
                     <div *ngIf="quotation.vendorId">

@@ -1,0 +1,112 @@
+<div>
+    <h2 id="page-heading">
+        <span>Quotation Details</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-quotation-details" [routerLink]="['/quotation-details/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Create new Quotation Details
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="quotationDetails">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="currency"><span>Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="rate"><span>Rate</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="payType"><span>Pay Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="creditLimit"><span>Credit Limit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="vatStatus"><span>Vat Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="aitStatus"><span>Ait Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="warrantyStatus"><span>Warranty Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="loadingPort"><span>Loading Port</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="quotationQuotationNo"><span>Quotation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="requisitionDetailsId"><span>Requisition Details</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let quotationDetails of quotationDetails ;trackBy: trackId">
+                <td><a [routerLink]="['/quotation-details', quotationDetails.id, 'view' ]">{{quotationDetails.id}}</a></td>
+                <td>{{quotationDetails.currency}}</td>
+                <td>{{quotationDetails.rate}}</td>
+                <td>{{quotationDetails.quantity}}</td>
+                <td>{{quotationDetails.payType}}</td>
+                <td>{{quotationDetails.creditLimit}}</td>
+                <td>{{quotationDetails.vatStatus}}</td>
+                <td>{{quotationDetails.aitStatus}}</td>
+                <td>{{quotationDetails.warrantyStatus}}</td>
+                <td>{{quotationDetails.loadingPort}}</td>
+                <td>{{quotationDetails.remarks}}</td>
+                <td>{{quotationDetails.modifiedBy}}</td>
+                <td>{{quotationDetails.modifiedOn | date:'mediumDate'}}</td>
+                <td>
+                    <div *ngIf="quotationDetails.quotationId">
+                        <a [routerLink]="['../quotation', quotationDetails.quotationId , 'view' ]" >{{quotationDetails.quotationQuotationNo}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="quotationDetails.requisitionDetailsId">
+                        <a [routerLink]="['../requisition-details', quotationDetails.requisitionDetailsId , 'view' ]" >{{quotationDetails.requisitionDetailsId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/quotation-details', quotationDetails.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/quotation-details', quotationDetails.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'quotation-details', { outlets: { popup: quotationDetails.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Pager is not implemented yet, so this is normal pagination instead -->
+    <div *ngIf="quotationDetails && quotationDetails.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

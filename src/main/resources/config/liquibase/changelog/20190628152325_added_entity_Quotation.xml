@@ -18,6 +18,7 @@
         Added the entity Quotation.
     -->
     <changeSet id="20190628152325-1" author="jhipster">
+        <validCheckSum>7:9019339283c08e0159f649f9e753424e</validCheckSum>
         <createTable tableName="quotation">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
