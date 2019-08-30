@@ -67,10 +67,7 @@
 
                         <div class="form-group">
                             <label class="form-control-label" for="field_quotation">Quotation</label>
-                            <select class="form-control" id="field_quotation" name="quotation" [(ngModel)]="quotationDetails.quotationId" >
-                                <option [ngValue]="null"></option>
-                                <option [ngValue]="quotationOption.id" *ngFor="let quotationOption of quotations; trackBy: trackQuotationById">{{quotationOption.quotationNo}}</option>
-                            </select>
+                            <input type="text" class="form-control" name="rate" id="field_quotation" [disabled]="true" value="{{quotation.quotationNo}}" />
                         </div>
                     </div>
                     <div class="col-4">
