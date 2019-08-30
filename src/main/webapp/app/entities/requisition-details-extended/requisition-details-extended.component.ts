@@ -94,7 +94,6 @@ export class RequisitionDetailsExtendedComponent extends RequisitionDetailsCompo
                     const requisitionDetails = res.body;
                     let totalAmount = 0;
                     requisitionDetails.forEach((r: IRequisitionDetails) => (totalAmount = totalAmount + r.quantity));
-                    this.updateRequisition(totalAmount);
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );

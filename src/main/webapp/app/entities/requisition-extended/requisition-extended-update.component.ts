@@ -19,10 +19,7 @@ import { IPurchaseOrder, PurchaseOrderStatus } from 'app/shared/model/purchase-o
 import { RequisitionService, RequisitionUpdateComponent } from 'app/entities/requisition';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RequisitionDetailsService } from 'app/entities/requisition-details';
-import { QuotationDetailsService } from 'app/entities/quotation-details';
 import { QuotationService } from 'app/entities/quotation';
-import { IRequisitionDetails } from 'app/shared/model/requisition-details.model';
-import { IQuotation } from 'app/shared/model/quotation.model';
 
 @Component({
     selector: 'jhi-requisition-extended-update',
@@ -166,9 +163,12 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
         if (this.requisition.id !== undefined) {
             this.subscribeToSaveResponse(this.requisitionService.update(this.requisition));
         } else {
-            this.requisition.status = RequisitionStatus.WAITING_FOR_HEADS_APPROVAL;
             this.subscribeToSaveResponse(this.requisitionService.create(this.requisition));
         }
+    }
+
+    forwardToHead() {
+        this.requisition.status = RequisitionStatus.WAITING_FOR_HEADS_APPROVAL;
     }
 
     approveByHead() {
