@@ -7,6 +7,14 @@
             "fieldValues": "TAKA,DOLLAR,EURO"
         },
         {
+            "fieldName": "rate",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "quantity",
+            "fieldType": "Integer"
+        },
+        {
             "fieldName": "payType",
             "fieldType": "PayType",
             "fieldValues": "CASH,PAY_ORDER,CHEQUE"
@@ -62,6 +70,13 @@
             "otherEntityRelationshipName": "quotationDetails",
             "relationshipName": "requisitionDetails",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "product",
+            "otherEntityRelationshipName": "quotationDetails",
+            "relationshipName": "product",
+            "otherEntityField": "name"
         }
     ],
     "changelogDate": "20190628152326",

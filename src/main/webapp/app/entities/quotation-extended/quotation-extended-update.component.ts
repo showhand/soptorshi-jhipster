@@ -11,6 +11,7 @@ import { RequisitionService } from 'app/entities/requisition';
 import { IVendor } from 'app/shared/model/vendor.model';
 import { VendorService } from 'app/entities/vendor';
 import { QuotationService, QuotationUpdateComponent } from 'app/entities/quotation';
+import { QuotationExtendedService } from 'app/entities/quotation-extended/quotation.service';
 
 @Component({
     selector: 'jhi-quotation-extended-update',
@@ -19,11 +20,9 @@ import { QuotationService, QuotationUpdateComponent } from 'app/entities/quotati
 export class QuotationExtendedUpdateComponent extends QuotationUpdateComponent implements OnInit {
     quotation: IQuotation;
     isSaving: boolean;
-
-    requisitions: IRequisition[];
-
     vendors: IVendor[];
     modifiedOnDp: any;
+    requisition: IRequisition;
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -31,7 +30,8 @@ export class QuotationExtendedUpdateComponent extends QuotationUpdateComponent i
         protected quotationService: QuotationService,
         protected requisitionService: RequisitionService,
         protected vendorService: VendorService,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        protected quotatinExtendedService: QuotationExtendedService
     ) {
         super(dataUtils, jhiAlertService, quotationService, requisitionService, vendorService, activatedRoute);
     }
@@ -42,12 +42,8 @@ export class QuotationExtendedUpdateComponent extends QuotationUpdateComponent i
             this.quotation = quotation;
         });
         this.requisitionService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IRequisition[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IRequisition[]>) => response.body)
-            )
-            .subscribe((res: IRequisition[]) => (this.requisitions = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .find(this.quotation.requisitionId)
+            .subscribe((res: HttpResponse<IRequisition>) => (this.requisition = res.body));
         this.vendorService
             .query()
             .pipe(
@@ -55,5 +51,14 @@ export class QuotationExtendedUpdateComponent extends QuotationUpdateComponent i
                 map((response: HttpResponse<IVendor[]>) => response.body)
             )
             .subscribe((res: IVendor[]) => (this.vendors = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    save() {
+        this.isSaving = true;
+        if (this.quotation.id !== undefined) {
+            this.subscribeToSaveResponse(this.quotatinExtendedService.update(this.quotation));
+        } else {
+            this.subscribeToSaveResponse(this.quotationService.create(this.quotation));
+        }
     }
 }

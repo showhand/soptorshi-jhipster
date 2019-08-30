@@ -25,13 +25,13 @@ export class HomeComponent implements OnInit {
     designation: Designation;
 
     constructor(
-        private accountService: AccountService,
-        private loginModalService: LoginModalService,
-        private eventManager: JhiEventManager,
-        private employeeService: EmployeeService,
-        private jhiAlertService: JhiAlertService,
-        private departmentService: DepartmentService,
-        private designationService: DesignationService
+        public accountService: AccountService,
+        public loginModalService: LoginModalService,
+        public eventManager: JhiEventManager,
+        public employeeService: EmployeeService,
+        public jhiAlertService: JhiAlertService,
+        public departmentService: DepartmentService,
+        public designationService: DesignationService
     ) {}
 
     fetchLoggedEmployeeInformation() {

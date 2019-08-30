@@ -6,44 +6,6 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "currency",
-            "fieldType": "Currency",
-            "fieldValues": "TAKA,DOLLAR,EURO"
-        },
-        {
-            "fieldName": "payType",
-            "fieldType": "PayType",
-            "fieldValues": "CASH,PAY_ORDER,CHEQUE"
-        },
-        {
-            "fieldName": "creditLimit",
-            "fieldType": "BigDecimal"
-        },
-        {
-            "fieldName": "vatStatus",
-            "fieldType": "VatStatus",
-            "fieldValues": "EXCLUDED,INCLUDED"
-        },
-        {
-            "fieldName": "aitStatus",
-            "fieldType": "AITStatus",
-            "fieldValues": "EXCLUDED,INCLUDED"
-        },
-        {
-            "fieldName": "warrantyStatus",
-            "fieldType": "WarrantyStatus",
-            "fieldValues": "WARRANTY,NO_WARRANTY"
-        },
-        {
-            "fieldName": "loadingPort",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "remarks",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "text"
-        },
-        {
             "fieldName": "attachment",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "any",
@@ -55,6 +17,10 @@
             "fieldName": "selectionStatus",
             "fieldType": "SelectionType",
             "fieldValues": "SELECTED,NOT_SELECTED"
+        },
+        {
+            "fieldName": "totalAmount",
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "modifiedBy",

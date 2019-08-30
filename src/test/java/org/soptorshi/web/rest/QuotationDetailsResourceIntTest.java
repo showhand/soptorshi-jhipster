@@ -5,6 +5,7 @@ import org.soptorshi.SoptorshiApp;
 import org.soptorshi.domain.QuotationDetails;
 import org.soptorshi.domain.Quotation;
 import org.soptorshi.domain.RequisitionDetails;
+import org.soptorshi.domain.Product;
 import org.soptorshi.repository.QuotationDetailsRepository;
 import org.soptorshi.repository.search.QuotationDetailsSearchRepository;
 import org.soptorshi.service.QuotationDetailsService;
@@ -64,6 +65,12 @@ public class QuotationDetailsResourceIntTest {
 
     private static final Currency DEFAULT_CURRENCY = Currency.TAKA;
     private static final Currency UPDATED_CURRENCY = Currency.DOLLAR;
+
+    private static final BigDecimal DEFAULT_RATE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_RATE = new BigDecimal(2);
+
+    private static final Integer DEFAULT_QUANTITY = 1;
+    private static final Integer UPDATED_QUANTITY = 2;
 
     private static final PayType DEFAULT_PAY_TYPE = PayType.CASH;
     private static final PayType UPDATED_PAY_TYPE = PayType.PAY_ORDER;
@@ -152,6 +159,8 @@ public class QuotationDetailsResourceIntTest {
     public static QuotationDetails createEntity(EntityManager em) {
         QuotationDetails quotationDetails = new QuotationDetails()
             .currency(DEFAULT_CURRENCY)
+            .rate(DEFAULT_RATE)
+            .quantity(DEFAULT_QUANTITY)
             .payType(DEFAULT_PAY_TYPE)
             .creditLimit(DEFAULT_CREDIT_LIMIT)
             .vatStatus(DEFAULT_VAT_STATUS)
@@ -186,6 +195,8 @@ public class QuotationDetailsResourceIntTest {
         assertThat(quotationDetailsList).hasSize(databaseSizeBeforeCreate + 1);
         QuotationDetails testQuotationDetails = quotationDetailsList.get(quotationDetailsList.size() - 1);
         assertThat(testQuotationDetails.getCurrency()).isEqualTo(DEFAULT_CURRENCY);
+        assertThat(testQuotationDetails.getRate()).isEqualTo(DEFAULT_RATE);
+        assertThat(testQuotationDetails.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
         assertThat(testQuotationDetails.getPayType()).isEqualTo(DEFAULT_PAY_TYPE);
         assertThat(testQuotationDetails.getCreditLimit()).isEqualTo(DEFAULT_CREDIT_LIMIT);
         assertThat(testQuotationDetails.getVatStatus()).isEqualTo(DEFAULT_VAT_STATUS);
@@ -235,6 +246,8 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(quotationDetails.getId().intValue())))
             .andExpect(jsonPath("$.[*].currency").value(hasItem(DEFAULT_CURRENCY.toString())))
+            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.intValue())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].payType").value(hasItem(DEFAULT_PAY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
             .andExpect(jsonPath("$.[*].vatStatus").value(hasItem(DEFAULT_VAT_STATUS.toString())))
@@ -258,6 +271,8 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(quotationDetails.getId().intValue()))
             .andExpect(jsonPath("$.currency").value(DEFAULT_CURRENCY.toString()))
+            .andExpect(jsonPath("$.rate").value(DEFAULT_RATE.intValue()))
+            .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))
             .andExpect(jsonPath("$.payType").value(DEFAULT_PAY_TYPE.toString()))
             .andExpect(jsonPath("$.creditLimit").value(DEFAULT_CREDIT_LIMIT.intValue()))
             .andExpect(jsonPath("$.vatStatus").value(DEFAULT_VAT_STATUS.toString()))
@@ -307,6 +322,111 @@ public class QuotationDetailsResourceIntTest {
         // Get all the quotationDetailsList where currency is null
         defaultQuotationDetailsShouldNotBeFound("currency.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByRateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where rate equals to DEFAULT_RATE
+        defaultQuotationDetailsShouldBeFound("rate.equals=" + DEFAULT_RATE);
+
+        // Get all the quotationDetailsList where rate equals to UPDATED_RATE
+        defaultQuotationDetailsShouldNotBeFound("rate.equals=" + UPDATED_RATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByRateIsInShouldWork() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where rate in DEFAULT_RATE or UPDATED_RATE
+        defaultQuotationDetailsShouldBeFound("rate.in=" + DEFAULT_RATE + "," + UPDATED_RATE);
+
+        // Get all the quotationDetailsList where rate equals to UPDATED_RATE
+        defaultQuotationDetailsShouldNotBeFound("rate.in=" + UPDATED_RATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByRateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where rate is not null
+        defaultQuotationDetailsShouldBeFound("rate.specified=true");
+
+        // Get all the quotationDetailsList where rate is null
+        defaultQuotationDetailsShouldNotBeFound("rate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByQuantityIsEqualToSomething() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where quantity equals to DEFAULT_QUANTITY
+        defaultQuotationDetailsShouldBeFound("quantity.equals=" + DEFAULT_QUANTITY);
+
+        // Get all the quotationDetailsList where quantity equals to UPDATED_QUANTITY
+        defaultQuotationDetailsShouldNotBeFound("quantity.equals=" + UPDATED_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByQuantityIsInShouldWork() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where quantity in DEFAULT_QUANTITY or UPDATED_QUANTITY
+        defaultQuotationDetailsShouldBeFound("quantity.in=" + DEFAULT_QUANTITY + "," + UPDATED_QUANTITY);
+
+        // Get all the quotationDetailsList where quantity equals to UPDATED_QUANTITY
+        defaultQuotationDetailsShouldNotBeFound("quantity.in=" + UPDATED_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByQuantityIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where quantity is not null
+        defaultQuotationDetailsShouldBeFound("quantity.specified=true");
+
+        // Get all the quotationDetailsList where quantity is null
+        defaultQuotationDetailsShouldNotBeFound("quantity.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByQuantityIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where quantity greater than or equals to DEFAULT_QUANTITY
+        defaultQuotationDetailsShouldBeFound("quantity.greaterOrEqualThan=" + DEFAULT_QUANTITY);
+
+        // Get all the quotationDetailsList where quantity greater than or equals to UPDATED_QUANTITY
+        defaultQuotationDetailsShouldNotBeFound("quantity.greaterOrEqualThan=" + UPDATED_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByQuantityIsLessThanSomething() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where quantity less than or equals to DEFAULT_QUANTITY
+        defaultQuotationDetailsShouldNotBeFound("quantity.lessThan=" + DEFAULT_QUANTITY);
+
+        // Get all the quotationDetailsList where quantity less than or equals to UPDATED_QUANTITY
+        defaultQuotationDetailsShouldBeFound("quantity.lessThan=" + UPDATED_QUANTITY);
+    }
+
 
     @Test
     @Transactional
@@ -684,6 +804,25 @@ public class QuotationDetailsResourceIntTest {
         defaultQuotationDetailsShouldNotBeFound("requisitionDetailsId.equals=" + (requisitionDetailsId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Product product = ProductResourceIntTest.createEntity(em);
+        em.persist(product);
+        em.flush();
+        quotationDetails.setProduct(product);
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+        Long productId = product.getId();
+
+        // Get all the quotationDetailsList where product equals to productId
+        defaultQuotationDetailsShouldBeFound("productId.equals=" + productId);
+
+        // Get all the quotationDetailsList where product equals to productId + 1
+        defaultQuotationDetailsShouldNotBeFound("productId.equals=" + (productId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -693,6 +832,8 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(quotationDetails.getId().intValue())))
             .andExpect(jsonPath("$.[*].currency").value(hasItem(DEFAULT_CURRENCY.toString())))
+            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.intValue())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].payType").value(hasItem(DEFAULT_PAY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
             .andExpect(jsonPath("$.[*].vatStatus").value(hasItem(DEFAULT_VAT_STATUS.toString())))
@@ -750,6 +891,8 @@ public class QuotationDetailsResourceIntTest {
         em.detach(updatedQuotationDetails);
         updatedQuotationDetails
             .currency(UPDATED_CURRENCY)
+            .rate(UPDATED_RATE)
+            .quantity(UPDATED_QUANTITY)
             .payType(UPDATED_PAY_TYPE)
             .creditLimit(UPDATED_CREDIT_LIMIT)
             .vatStatus(UPDATED_VAT_STATUS)
@@ -771,6 +914,8 @@ public class QuotationDetailsResourceIntTest {
         assertThat(quotationDetailsList).hasSize(databaseSizeBeforeUpdate);
         QuotationDetails testQuotationDetails = quotationDetailsList.get(quotationDetailsList.size() - 1);
         assertThat(testQuotationDetails.getCurrency()).isEqualTo(UPDATED_CURRENCY);
+        assertThat(testQuotationDetails.getRate()).isEqualTo(UPDATED_RATE);
+        assertThat(testQuotationDetails.getQuantity()).isEqualTo(UPDATED_QUANTITY);
         assertThat(testQuotationDetails.getPayType()).isEqualTo(UPDATED_PAY_TYPE);
         assertThat(testQuotationDetails.getCreditLimit()).isEqualTo(UPDATED_CREDIT_LIMIT);
         assertThat(testQuotationDetails.getVatStatus()).isEqualTo(UPDATED_VAT_STATUS);
@@ -841,6 +986,8 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(quotationDetails.getId().intValue())))
             .andExpect(jsonPath("$.[*].currency").value(hasItem(DEFAULT_CURRENCY.toString())))
+            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.intValue())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].payType").value(hasItem(DEFAULT_PAY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
             .andExpect(jsonPath("$.[*].vatStatus").value(hasItem(DEFAULT_VAT_STATUS.toString())))

@@ -1,78 +1,53 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12">
         <div *ngIf="quotation">
-            <h2><span>Quotation</span> {{quotation.id}}</h2>
+            <h2><span>Quotation</span> <b>{{quotation.quotationNo}}</b></h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
-            <dl class="row-md jh-entity-details">
-                <dt><span>Quotation No</span></dt>
-                <dd>
-                    <span>{{quotation.quotationNo}}</span>
-                </dd>
-                <dt><span>Currency</span></dt>
-                <dd>
-                    <span>{{quotation.currency}}</span>
-                </dd>
-                <dt><span>Pay Type</span></dt>
-                <dd>
-                    <span>{{quotation.payType}}</span>
-                </dd>
-                <dt><span>Credit Limit</span></dt>
-                <dd>
-                    <span>{{quotation.creditLimit}}</span>
-                </dd>
-                <dt><span>Vat Status</span></dt>
-                <dd>
-                    <span>{{quotation.vatStatus}}</span>
-                </dd>
-                <dt><span>Ait Status</span></dt>
-                <dd>
-                    <span>{{quotation.aitStatus}}</span>
-                </dd>
-                <dt><span>Warranty Status</span></dt>
-                <dd>
-                    <span>{{quotation.warrantyStatus}}</span>
-                </dd>
-                <dt><span>Loading Port</span></dt>
-                <dd>
-                    <span>{{quotation.loadingPort}}</span>
-                </dd>
-                <dt><span>Remarks</span></dt>
-                <dd>
-                    <span>{{quotation.remarks}}</span>
-                </dd>
-                <dt><span>Attachment</span></dt>
-                <dd>
-                    <div *ngIf="quotation.attachment">
-                        <a (click)="openFile(quotation.attachmentContentType, quotation.attachment)">open</a>
-                        {{quotation.attachmentContentType}}, {{byteSize(quotation.attachment)}}
-                    </div>
-                </dd>
-                <dt><span>Selection Status</span></dt>
-                <dd>
-                    <span>{{quotation.selectionStatus}}</span>
-                </dd>
-                <dt><span>Modified By</span></dt>
-                <dd>
-                    <span>{{quotation.modifiedBy}}</span>
-                </dd>
-                <dt><span>Modified On</span></dt>
-                <dd>
-                    <span>{{quotation.modifiedOn}}</span>
-                </dd>
-                <dt><span>Requisition</span></dt>
-                <dd>
-                    <div *ngIf="quotation.requisitionId">
-                        <a [routerLink]="['/requisition', quotation.requisitionId, 'view']">{{quotation.requisitionRequisitionNo}}</a>
-                    </div>
-                </dd>
-                <dt><span>Vendor</span></dt>
-                <dd>
-                    <div *ngIf="quotation.vendorId">
-                        <a [routerLink]="['/vendor', quotation.vendorId, 'view']">{{quotation.vendorCompanyName}}</a>
-                    </div>
-                </dd>
-            </dl>
+            <div class="row">
+                <div class="col-4">
+                    <dl class="row-md jh-entity-details">
+                        <dt><span>Quotation No</span></dt>
+                        <dd>
+                            <span>{{quotation.quotationNo}}</span>
+                        </dd>
+
+                        <dt><span>Selection Status</span></dt>
+                        <dd><span>{{quotation.selectionStatus}}</span></dd>
+                    </dl>
+                </div>
+                <div class="col-4">
+                    <dl class="row-md jh-entity-details">
+                        <dt><span>Requisition No</span></dt>
+                        <dd><span>{{quotation.requisitionRequisitionNo}}</span></dd>
+
+                        <dt><span>Attachment</span></dt>
+                        <dd>
+                            <div *ngIf="quotation.attachment">
+                                <a (click)="openFile(quotation.attachmentContentType, quotation.attachment)">open</a>
+                                {{quotation.attachmentContentType}}, {{byteSize(quotation.attachment)}}
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-4">
+                    <dl class="row-md jh-entity-details">
+                        <dt><span>Vendor</span></dt>
+                        <dd><span>{{quotation.vendorCompanyName}}</span></dd>
+
+                        <dt><span>Total Amount</span></dt>
+                        <dd>
+                            <span>{{quotation.totalAmount}}</span>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <br/>
+                <jhi-quotation-details-extended-directive-for-quotation [quotation]="quotation"></jhi-quotation-details-extended-directive-for-quotation>
+            </div>
+
 
             <button type="submit"
                     (click)="previousState()"

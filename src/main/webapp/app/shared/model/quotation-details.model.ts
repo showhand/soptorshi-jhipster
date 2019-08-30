@@ -30,6 +30,8 @@ export const enum WarrantyStatus {
 export interface IQuotationDetails {
     id?: number;
     currency?: Currency;
+    rate?: number;
+    quantity?: number;
     payType?: PayType;
     creditLimit?: number;
     vatStatus?: VatStatus;
@@ -42,12 +44,16 @@ export interface IQuotationDetails {
     quotationQuotationNo?: string;
     quotationId?: number;
     requisitionDetailsId?: number;
+    productName?: string;
+    productId?: number;
 }
 
 export class QuotationDetails implements IQuotationDetails {
     constructor(
         public id?: number,
         public currency?: Currency,
+        public rate?: number,
+        public quantity?: number,
         public payType?: PayType,
         public creditLimit?: number,
         public vatStatus?: VatStatus,
@@ -59,6 +65,8 @@ export class QuotationDetails implements IQuotationDetails {
         public modifiedOn?: Moment,
         public quotationQuotationNo?: string,
         public quotationId?: number,
-        public requisitionDetailsId?: number
+        public requisitionDetailsId?: number,
+        public productName?: string,
+        public productId?: number
     ) {}
 }

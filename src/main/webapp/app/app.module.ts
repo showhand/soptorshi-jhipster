@@ -34,6 +34,8 @@ import { AutoCompleteModule } from 'primeng/primeng';
 import { Select2Module } from 'ng2-select2';
 import { BreadcrumbModule } from 'angular-crumbs';
 import { JhiMainExtendedComponent } from 'app/layouts/main/main-extended.component';
+import { SoptorshiLoginModule } from 'app/shared/login/login.module';
+import { SoptorshiExtendedHomeModule } from 'app/home-extended';
 // import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
@@ -48,6 +50,8 @@ import { JhiMainExtendedComponent } from 'app/layouts/main/main-extended.compone
         SoptorshiSharedModule.forRoot(),
         SoptorshiCoreModule,
         SoptorshiHomeModule,
+        SoptorshiExtendedHomeModule,
+        SoptorshiLoginModule,
         SoptorshiAccountModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         SoptorshiEntityModule,

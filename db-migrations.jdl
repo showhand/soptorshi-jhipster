@@ -283,22 +283,17 @@ entity RequisitionDetails{
 
 entity Quotation{
     quotationNo String,
-    currency Currency,
-    payType PayType,
-    creditLimit BigDecimal,
-    vatStatus VatStatus,
-    aitStatus AITStatus,
-    warrantyStatus WarrantyStatus,
-    loadingPort String,
-    remarks TextBlob,
     attachment AnyBlob required,
     selectionStatus SelectionType,
+    totalAmount BigDecimal,
     modifiedBy String,
     modifiedOn LocalDate
 }
 
 entity QuotationDetails{
     currency Currency,
+    rate BigDecimal,
+    quantity Integer,
     payType PayType,
     creditLimit BigDecimal,
     vatStatus VatStatus,
@@ -511,7 +506,7 @@ enum AllowanceCategory {
 
 
 relationship OneToOne{
-  PurchaseCommittee{employee(fullName)} to Employee,
+  PurchaseCommittee{employee(fullName)} to Employee
 }
 
 relationship ManyToOne {
@@ -540,6 +535,7 @@ relationship ManyToOne {
   Manager{employee(fullName)} to Employee,
   Employee{department(name)} to Department,
   Employee{office(name)} to Office,
+  QuotationDetails{product(name)} to Product,
   Employee{designation(name)} to Designation,
   Attachment{academicInformation} to AcademicInformation,
   Attachment{trainingInformation} to TrainingInformation,

@@ -31,6 +31,8 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="currency"><span>Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="rate"><span>Rate</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="payType"><span>Pay Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="creditLimit"><span>Credit Limit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="vatStatus"><span>Vat Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -42,6 +44,7 @@
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="quotationQuotationNo"><span>Quotation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="requisitionDetailsId"><span>Requisition Details</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productName"><span>Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -49,6 +52,8 @@
             <tr *ngFor="let quotationDetails of quotationDetails ;trackBy: trackId">
                 <td><a [routerLink]="['/quotation-details', quotationDetails.id, 'view' ]">{{quotationDetails.id}}</a></td>
                 <td>{{quotationDetails.currency}}</td>
+                <td>{{quotationDetails.rate}}</td>
+                <td>{{quotationDetails.quantity}}</td>
                 <td>{{quotationDetails.payType}}</td>
                 <td>{{quotationDetails.creditLimit}}</td>
                 <td>{{quotationDetails.vatStatus}}</td>
@@ -66,6 +71,11 @@
                 <td>
                     <div *ngIf="quotationDetails.requisitionDetailsId">
                         <a [routerLink]="['../requisition-details', quotationDetails.requisitionDetailsId , 'view' ]" >{{quotationDetails.requisitionDetailsId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="quotationDetails.productId">
+                        <a [routerLink]="['../product', quotationDetails.productId , 'view' ]" >{{quotationDetails.productName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

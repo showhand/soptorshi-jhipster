@@ -377,7 +377,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'quotation-details',
-                loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
+                loadChildren: './quotation-details-extended/quotation-details-extended.module#SoptorshiQuotationDetailsExtendedModule'
             },
             {
                 path: 'work-order',
@@ -387,18 +387,11 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
                 path: 'terms-and-conditions',
                 loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
             },
-            {
-                path: 'quotation-details',
-                loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
-            },
+
             {
                 path: 'vendor-contact-person',
                 loadChildren:
                     './vendor-contact-person-extended/vendor-contact-person-extended.module#SoptorshiVendorContactPersonExtendedModule'
-            },
-            {
-                path: 'quotation',
-                loadChildren: './quotation/quotation.module#SoptorshiQuotationModule'
             },
             {
                 path: 'purchase-order',
@@ -407,10 +400,6 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             {
                 path: 'terms-and-conditions',
                 loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
-            },
-            {
-                path: 'quotation-details',
-                loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
             },
             {
                 path: 'purchase-order',

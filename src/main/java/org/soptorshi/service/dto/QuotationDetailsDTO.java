@@ -19,6 +19,10 @@ public class QuotationDetailsDTO implements Serializable {
 
     private Currency currency;
 
+    private BigDecimal rate;
+
+    private Integer quantity;
+
     private PayType payType;
 
     private BigDecimal creditLimit;
@@ -45,6 +49,10 @@ public class QuotationDetailsDTO implements Serializable {
 
     private Long requisitionDetailsId;
 
+    private Long productId;
+
+    private String productName;
+
     public Long getId() {
         return id;
     }
@@ -59,6 +67,22 @@ public class QuotationDetailsDTO implements Serializable {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public PayType getPayType() {
@@ -157,6 +181,22 @@ public class QuotationDetailsDTO implements Serializable {
         this.requisitionDetailsId = requisitionDetailsId;
     }
 
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -183,6 +223,8 @@ public class QuotationDetailsDTO implements Serializable {
         return "QuotationDetailsDTO{" +
             "id=" + getId() +
             ", currency='" + getCurrency() + "'" +
+            ", rate=" + getRate() +
+            ", quantity=" + getQuantity() +
             ", payType='" + getPayType() + "'" +
             ", creditLimit=" + getCreditLimit() +
             ", vatStatus='" + getVatStatus() + "'" +
@@ -195,6 +237,8 @@ public class QuotationDetailsDTO implements Serializable {
             ", quotation=" + getQuotationId() +
             ", quotation='" + getQuotationQuotationNo() + "'" +
             ", requisitionDetails=" + getRequisitionDetailsId() +
+            ", product=" + getProductId() +
+            ", product='" + getProductName() + "'" +
             "}";
     }
 }

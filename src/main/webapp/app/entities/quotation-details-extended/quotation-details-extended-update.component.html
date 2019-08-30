@@ -1,0 +1,117 @@
+<div class="row justify-content-center">
+    <div class="col-12">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-update-quotation-details-heading" *ngIf="quotationDetails.id">Edit Quotation Details for Quotation <b>{{quotationDetails.quotationQuotationNo}}</b></h2>
+            <h2 id="jhi-new-quotation-details-heading" *ngIf="!quotationDetails.id">Create New Quotation Details</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_product">Product</label>
+                            <select class="form-control" id="field_product" name="product" [(ngModel)]="quotationDetails.productId" >
+                                <option [ngValue]="null"></option>
+                                <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_quantity">Quantity</label>
+                            <input type="number" class="form-control" name="quantity" id="field_quantity"
+                                   [(ngModel)]="quotationDetails.quantity" />
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_vatStatus">Vat Status</label>
+                            <select class="form-control" name="vatStatus" [(ngModel)]="quotationDetails.vatStatus" id="field_vatStatus" >
+                                <option value="EXCLUDED">EXCLUDED</option>
+                                <option value="INCLUDED">INCLUDED</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_loadingPort">Loading Port</label>
+                            <input type="text" class="form-control" name="loadingPort" id="field_loadingPort"
+                                   [(ngModel)]="quotationDetails.loadingPort" />
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_currency">Currency</label>
+                            <select class="form-control" name="currency" [(ngModel)]="quotationDetails.currency" id="field_currency" >
+                                <option value="TAKA">TAKA</option>
+                                <option value="DOLLAR">DOLLAR</option>
+                                <option value="EURO">EURO</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_payType">Pay Type</label>
+                            <select class="form-control" name="payType" [(ngModel)]="quotationDetails.payType" id="field_payType" >
+                                <option value="CASH">CASH</option>
+                                <option value="PAY_ORDER">PAY_ORDER</option>
+                                <option value="CHEQUE">CHEQUE</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_aitStatus">Ait Status</label>
+                            <select class="form-control" name="aitStatus" [(ngModel)]="quotationDetails.aitStatus" id="field_aitStatus" >
+                                <option value="EXCLUDED">EXCLUDED</option>
+                                <option value="INCLUDED">INCLUDED</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_quotation">Quotation</label>
+                            <input type="text" class="form-control" name="rate" id="field_quotation" [disabled]="true" value="{{quotation.quotationNo}}" />
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_rate">Rate</label>
+                            <input type="number" class="form-control" name="rate" id="field_rate"
+                                   [(ngModel)]="quotationDetails.rate" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_creditLimit">Credit Limit</label>
+                            <input type="number" class="form-control" name="creditLimit" id="field_creditLimit"
+                                   [(ngModel)]="quotationDetails.creditLimit" />
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_warrantyStatus">Warranty Status</label>
+                            <select class="form-control" name="warrantyStatus" [(ngModel)]="quotationDetails.warrantyStatus" id="field_warrantyStatus" >
+                                <option value="WARRANTY">WARRANTY</option>
+                                <option value="NO_WARRANTY">NO_WARRANTY</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_remarks">Remarks</label>
+                        <textarea class="form-control" name="remarks" id="field_remarks"
+                                  [(ngModel)]="quotationDetails.remarks" ></textarea>
+                    </div>
+                </div>
+
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

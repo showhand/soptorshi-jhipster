@@ -26,11 +26,11 @@ public class QuotationDetailsService {
 
     private final Logger log = LoggerFactory.getLogger(QuotationDetailsService.class);
 
-    private final QuotationDetailsRepository quotationDetailsRepository;
+    protected final QuotationDetailsRepository quotationDetailsRepository;
 
-    private final QuotationDetailsMapper quotationDetailsMapper;
+    protected final QuotationDetailsMapper quotationDetailsMapper;
 
-    private final QuotationDetailsSearchRepository quotationDetailsSearchRepository;
+    protected final QuotationDetailsSearchRepository quotationDetailsSearchRepository;
 
     public QuotationDetailsService(QuotationDetailsRepository quotationDetailsRepository, QuotationDetailsMapper quotationDetailsMapper, QuotationDetailsSearchRepository quotationDetailsSearchRepository) {
         this.quotationDetailsRepository = quotationDetailsRepository;

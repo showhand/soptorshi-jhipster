@@ -96,6 +96,12 @@ public class QuotationDetailsQueryService extends QueryService<QuotationDetails>
             if (criteria.getCurrency() != null) {
                 specification = specification.and(buildSpecification(criteria.getCurrency(), QuotationDetails_.currency));
             }
+            if (criteria.getRate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getRate(), QuotationDetails_.rate));
+            }
+            if (criteria.getQuantity() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getQuantity(), QuotationDetails_.quantity));
+            }
             if (criteria.getPayType() != null) {
                 specification = specification.and(buildSpecification(criteria.getPayType(), QuotationDetails_.payType));
             }
@@ -127,6 +133,10 @@ public class QuotationDetailsQueryService extends QueryService<QuotationDetails>
             if (criteria.getRequisitionDetailsId() != null) {
                 specification = specification.and(buildSpecification(criteria.getRequisitionDetailsId(),
                     root -> root.join(QuotationDetails_.requisitionDetails, JoinType.LEFT).get(RequisitionDetails_.id)));
+            }
+            if (criteria.getProductId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductId(),
+                    root -> root.join(QuotationDetails_.product, JoinType.LEFT).get(Product_.id)));
             }
         }
         return specification;

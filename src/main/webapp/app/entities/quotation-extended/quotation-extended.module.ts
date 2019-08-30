@@ -16,6 +16,7 @@ import {
     QuotationDetailComponent,
     QuotationUpdateComponent
 } from 'app/entities/quotation';
+import { QuotationDetailsExtendedDirectiveForQuotation } from 'app/entities/quotation-extended/quotation-details-directive-for-quotation.component';
 
 const ENTITY_STATES = [...quotationExtendedRoute, ...quotationExtendedPopupRoute];
 
@@ -29,7 +30,8 @@ const ENTITY_STATES = [...quotationExtendedRoute, ...quotationExtendedPopupRoute
         QuotationExtendedDetailComponent,
         QuotationExtendedUpdateComponent,
         QuotationDeleteDialogComponent,
-        QuotationDeletePopupComponent
+        QuotationDeletePopupComponent,
+        QuotationDetailsExtendedDirectiveForQuotation
     ],
     entryComponents: [
         QuotationExtendedComponent,

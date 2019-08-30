@@ -39,6 +39,12 @@ public class QuotationDetails implements Serializable {
     @Column(name = "currency")
     private Currency currency;
 
+    @Column(name = "rate", precision = 10, scale = 2)
+    private BigDecimal rate;
+
+    @Column(name = "quantity")
+    private Integer quantity;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "pay_type")
     private PayType payType;
@@ -79,6 +85,10 @@ public class QuotationDetails implements Serializable {
     @JsonIgnoreProperties("quotationDetails")
     private RequisitionDetails requisitionDetails;
 
+    @ManyToOne
+    @JsonIgnoreProperties("quotationDetails")
+    private Product product;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -99,6 +109,32 @@ public class QuotationDetails implements Serializable {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public QuotationDetails rate(BigDecimal rate) {
+        this.rate = rate;
+        return this;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public QuotationDetails quantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public PayType getPayType() {
@@ -243,6 +279,19 @@ public class QuotationDetails implements Serializable {
     public void setRequisitionDetails(RequisitionDetails requisitionDetails) {
         this.requisitionDetails = requisitionDetails;
     }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public QuotationDetails product(Product product) {
+        this.product = product;
+        return this;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -270,6 +319,8 @@ public class QuotationDetails implements Serializable {
         return "QuotationDetails{" +
             "id=" + getId() +
             ", currency='" + getCurrency() + "'" +
+            ", rate=" + getRate() +
+            ", quantity=" + getQuantity() +
             ", payType='" + getPayType() + "'" +
             ", creditLimit=" + getCreditLimit() +
             ", vatStatus='" + getVatStatus() + "'" +
