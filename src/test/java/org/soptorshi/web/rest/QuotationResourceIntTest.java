@@ -33,6 +33,7 @@ import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collections;
@@ -67,6 +68,9 @@ public class QuotationResourceIntTest {
 
     private static final SelectionType DEFAULT_SELECTION_STATUS = SelectionType.SELECTED;
     private static final SelectionType UPDATED_SELECTION_STATUS = SelectionType.NOT_SELECTED;
+
+    private static final BigDecimal DEFAULT_TOTAL_AMOUNT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_AMOUNT = new BigDecimal(2);
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
@@ -137,6 +141,7 @@ public class QuotationResourceIntTest {
             .attachment(DEFAULT_ATTACHMENT)
             .attachmentContentType(DEFAULT_ATTACHMENT_CONTENT_TYPE)
             .selectionStatus(DEFAULT_SELECTION_STATUS)
+            .totalAmount(DEFAULT_TOTAL_AMOUNT)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
         return quotation;
@@ -167,6 +172,7 @@ public class QuotationResourceIntTest {
         assertThat(testQuotation.getAttachment()).isEqualTo(DEFAULT_ATTACHMENT);
         assertThat(testQuotation.getAttachmentContentType()).isEqualTo(DEFAULT_ATTACHMENT_CONTENT_TYPE);
         assertThat(testQuotation.getSelectionStatus()).isEqualTo(DEFAULT_SELECTION_STATUS);
+        assertThat(testQuotation.getTotalAmount()).isEqualTo(DEFAULT_TOTAL_AMOUNT);
         assertThat(testQuotation.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testQuotation.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
@@ -212,6 +218,7 @@ public class QuotationResourceIntTest {
             .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))))
             .andExpect(jsonPath("$.[*].selectionStatus").value(hasItem(DEFAULT_SELECTION_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
@@ -231,6 +238,7 @@ public class QuotationResourceIntTest {
             .andExpect(jsonPath("$.attachmentContentType").value(DEFAULT_ATTACHMENT_CONTENT_TYPE))
             .andExpect(jsonPath("$.attachment").value(Base64Utils.encodeToString(DEFAULT_ATTACHMENT)))
             .andExpect(jsonPath("$.selectionStatus").value(DEFAULT_SELECTION_STATUS.toString()))
+            .andExpect(jsonPath("$.totalAmount").value(DEFAULT_TOTAL_AMOUNT.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
@@ -311,6 +319,45 @@ public class QuotationResourceIntTest {
 
         // Get all the quotationList where selectionStatus is null
         defaultQuotationShouldNotBeFound("selectionStatus.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationsByTotalAmountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        quotationRepository.saveAndFlush(quotation);
+
+        // Get all the quotationList where totalAmount equals to DEFAULT_TOTAL_AMOUNT
+        defaultQuotationShouldBeFound("totalAmount.equals=" + DEFAULT_TOTAL_AMOUNT);
+
+        // Get all the quotationList where totalAmount equals to UPDATED_TOTAL_AMOUNT
+        defaultQuotationShouldNotBeFound("totalAmount.equals=" + UPDATED_TOTAL_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationsByTotalAmountIsInShouldWork() throws Exception {
+        // Initialize the database
+        quotationRepository.saveAndFlush(quotation);
+
+        // Get all the quotationList where totalAmount in DEFAULT_TOTAL_AMOUNT or UPDATED_TOTAL_AMOUNT
+        defaultQuotationShouldBeFound("totalAmount.in=" + DEFAULT_TOTAL_AMOUNT + "," + UPDATED_TOTAL_AMOUNT);
+
+        // Get all the quotationList where totalAmount equals to UPDATED_TOTAL_AMOUNT
+        defaultQuotationShouldNotBeFound("totalAmount.in=" + UPDATED_TOTAL_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationsByTotalAmountIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        quotationRepository.saveAndFlush(quotation);
+
+        // Get all the quotationList where totalAmount is not null
+        defaultQuotationShouldBeFound("totalAmount.specified=true");
+
+        // Get all the quotationList where totalAmount is null
+        defaultQuotationShouldNotBeFound("totalAmount.specified=false");
     }
 
     @Test
@@ -467,6 +514,7 @@ public class QuotationResourceIntTest {
             .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))))
             .andExpect(jsonPath("$.[*].selectionStatus").value(hasItem(DEFAULT_SELECTION_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
@@ -520,6 +568,7 @@ public class QuotationResourceIntTest {
             .attachment(UPDATED_ATTACHMENT)
             .attachmentContentType(UPDATED_ATTACHMENT_CONTENT_TYPE)
             .selectionStatus(UPDATED_SELECTION_STATUS)
+            .totalAmount(UPDATED_TOTAL_AMOUNT)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
         QuotationDTO quotationDTO = quotationMapper.toDto(updatedQuotation);
@@ -537,6 +586,7 @@ public class QuotationResourceIntTest {
         assertThat(testQuotation.getAttachment()).isEqualTo(UPDATED_ATTACHMENT);
         assertThat(testQuotation.getAttachmentContentType()).isEqualTo(UPDATED_ATTACHMENT_CONTENT_TYPE);
         assertThat(testQuotation.getSelectionStatus()).isEqualTo(UPDATED_SELECTION_STATUS);
+        assertThat(testQuotation.getTotalAmount()).isEqualTo(UPDATED_TOTAL_AMOUNT);
         assertThat(testQuotation.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testQuotation.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
@@ -603,6 +653,7 @@ public class QuotationResourceIntTest {
             .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))))
             .andExpect(jsonPath("$.[*].selectionStatus").value(hasItem(DEFAULT_SELECTION_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }

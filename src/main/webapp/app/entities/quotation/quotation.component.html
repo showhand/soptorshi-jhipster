@@ -33,6 +33,7 @@
             <th jhiSortBy="quotationNo"><span>Quotation No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="attachment"><span>Attachment</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="selectionStatus"><span>Selection Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="totalAmount"><span>Total Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="requisitionRequisitionNo"><span>Requisition</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -49,6 +50,7 @@
                     <span *ngIf="quotation.attachment">{{quotation.attachmentContentType}}, {{byteSize(quotation.attachment)}}</span>
                 </td>
                 <td>{{quotation.selectionStatus}}</td>
+                <td>{{quotation.totalAmount}}</td>
                 <td>{{quotation.modifiedBy}}</td>
                 <td>{{quotation.modifiedOn | date:'mediumDate'}}</td>
                 <td>

@@ -10,6 +10,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
@@ -34,6 +35,8 @@ public class QuotationCriteria implements Serializable {
     private StringFilter quotationNo;
 
     private SelectionTypeFilter selectionStatus;
+
+    private BigDecimalFilter totalAmount;
 
     private StringFilter modifiedBy;
 
@@ -65,6 +68,14 @@ public class QuotationCriteria implements Serializable {
 
     public void setSelectionStatus(SelectionTypeFilter selectionStatus) {
         this.selectionStatus = selectionStatus;
+    }
+
+    public BigDecimalFilter getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimalFilter totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public StringFilter getModifiedBy() {
@@ -113,6 +124,7 @@ public class QuotationCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(quotationNo, that.quotationNo) &&
             Objects.equals(selectionStatus, that.selectionStatus) &&
+            Objects.equals(totalAmount, that.totalAmount) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(requisitionId, that.requisitionId) &&
@@ -125,6 +137,7 @@ public class QuotationCriteria implements Serializable {
         id,
         quotationNo,
         selectionStatus,
+        totalAmount,
         modifiedBy,
         modifiedOn,
         requisitionId,
@@ -138,6 +151,7 @@ public class QuotationCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (quotationNo != null ? "quotationNo=" + quotationNo + ", " : "") +
                 (selectionStatus != null ? "selectionStatus=" + selectionStatus + ", " : "") +
+                (totalAmount != null ? "totalAmount=" + totalAmount + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (requisitionId != null ? "requisitionId=" + requisitionId + ", " : "") +

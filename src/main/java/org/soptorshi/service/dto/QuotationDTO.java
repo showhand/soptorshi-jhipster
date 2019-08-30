@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Lob;
 import org.soptorshi.domain.enumeration.SelectionType;
@@ -21,6 +22,8 @@ public class QuotationDTO implements Serializable {
 
     private String attachmentContentType;
     private SelectionType selectionStatus;
+
+    private BigDecimal totalAmount;
 
     private String modifiedBy;
 
@@ -73,6 +76,14 @@ public class QuotationDTO implements Serializable {
 
     public void setSelectionStatus(SelectionType selectionStatus) {
         this.selectionStatus = selectionStatus;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public String getModifiedBy() {
@@ -151,6 +162,7 @@ public class QuotationDTO implements Serializable {
             ", quotationNo='" + getQuotationNo() + "'" +
             ", attachment='" + getAttachment() + "'" +
             ", selectionStatus='" + getSelectionStatus() + "'" +
+            ", totalAmount=" + getTotalAmount() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", requisition=" + getRequisitionId() +

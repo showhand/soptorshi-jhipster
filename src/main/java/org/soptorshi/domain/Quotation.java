@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -41,6 +42,9 @@ public class Quotation implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "selection_status")
     private SelectionType selectionStatus;
+
+    @Column(name = "total_amount", precision = 10, scale = 2)
+    private BigDecimal totalAmount;
 
     @Column(name = "modified_by")
     private String modifiedBy;
@@ -115,6 +119,19 @@ public class Quotation implements Serializable {
 
     public void setSelectionStatus(SelectionType selectionStatus) {
         this.selectionStatus = selectionStatus;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public Quotation totalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+        return this;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public String getModifiedBy() {
@@ -198,6 +215,7 @@ public class Quotation implements Serializable {
             ", attachment='" + getAttachment() + "'" +
             ", attachmentContentType='" + getAttachmentContentType() + "'" +
             ", selectionStatus='" + getSelectionStatus() + "'" +
+            ", totalAmount=" + getTotalAmount() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";

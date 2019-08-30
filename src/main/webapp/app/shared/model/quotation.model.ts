@@ -11,6 +11,7 @@ export interface IQuotation {
     attachmentContentType?: string;
     attachment?: any;
     selectionStatus?: SelectionType;
+    totalAmount?: number;
     modifiedBy?: string;
     modifiedOn?: Moment;
     requisitionRequisitionNo?: string;
@@ -26,6 +27,7 @@ export class Quotation implements IQuotation {
         public attachmentContentType?: string,
         public attachment?: any,
         public selectionStatus?: SelectionType,
+        public totalAmount?: number,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
         public requisitionRequisitionNo?: string,

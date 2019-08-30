@@ -1,0 +1,40 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="monju (generated)" id="1567102948085-1">
+        <addColumn tableName="quotation_details">
+            <column name="quantity" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1567102948085-2">
+        <addColumn tableName="quotation_details">
+            <column name="rate" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1567102948085-5">
+        <dropColumn columnName="ait_status" tableName="quotation"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1567102948085-6">
+        <dropColumn columnName="credit_limit" tableName="quotation"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1567102948085-7">
+        <dropColumn columnName="currency" tableName="quotation"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1567102948085-8">
+        <dropColumn columnName="employee_id" tableName="department"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1567102948085-9">
+        <dropColumn columnName="loading_port" tableName="quotation"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1567102948085-10">
+        <dropColumn columnName="pay_type" tableName="quotation"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1567102948085-11">
+        <dropColumn columnName="remarks" tableName="quotation"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1567102948085-12">
+        <dropColumn columnName="vat_status" tableName="quotation"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1567102948085-13">
+        <dropColumn columnName="warranty_status" tableName="quotation"/>
+    </changeSet>
+</databaseChangeLog>

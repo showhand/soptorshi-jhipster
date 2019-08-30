@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Quotation(0, 'AAAAAAA', 'image/png', 'AAAAAAA', SelectionType.SELECTED, 'AAAAAAA', currentDate);
+            elemDefault = new Quotation(0, 'AAAAAAA', 'image/png', 'AAAAAAA', SelectionType.SELECTED, 0, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
@@ -73,6 +73,7 @@ describe('Service Tests', () => {
                         quotationNo: 'BBBBBB',
                         attachment: 'BBBBBB',
                         selectionStatus: 'BBBBBB',
+                        totalAmount: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -99,6 +100,7 @@ describe('Service Tests', () => {
                         quotationNo: 'BBBBBB',
                         attachment: 'BBBBBB',
                         selectionStatus: 'BBBBBB',
+                        totalAmount: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },

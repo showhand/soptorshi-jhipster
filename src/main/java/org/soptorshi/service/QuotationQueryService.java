@@ -99,6 +99,9 @@ public class QuotationQueryService extends QueryService<Quotation> {
             if (criteria.getSelectionStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getSelectionStatus(), Quotation_.selectionStatus));
             }
+            if (criteria.getTotalAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalAmount(), Quotation_.totalAmount));
+            }
             if (criteria.getModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), Quotation_.modifiedBy));
             }

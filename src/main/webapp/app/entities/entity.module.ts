@@ -504,6 +504,10 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             {
                 path: 'quotation-details',
                 loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
+            },
+            {
+                path: 'quotation',
+                loadChildren: './quotation/quotation.module#SoptorshiQuotationModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
