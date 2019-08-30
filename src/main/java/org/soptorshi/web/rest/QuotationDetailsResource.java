@@ -57,12 +57,12 @@ public class QuotationDetailsResource {
         log.debug("REST request to save QuotationDetails : {}", quotationDetailsDTO);
         if (quotationDetailsDTO.getId() != null) {
             throw new BadRequestAlertException("A new quotationDetails cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        QuotationDetailsDTO result = quotationDetailsService.save(quotationDetailsDTO);
+}
+    QuotationDetailsDTO result = quotationDetailsService.save(quotationDetailsDTO);
         return ResponseEntity.created(new URI("/api/quotation-details/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
-    }
+            }
 
     /**
      * PUT  /quotation-details : Updates an existing quotationDetails.

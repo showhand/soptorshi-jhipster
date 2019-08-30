@@ -2,7 +2,7 @@
 <div>
     <h2 id="page-heading">
         <span>Quotation Details</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-quotation-details" [routerLink]="['/quotation-details/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-quotation-details" [routerLink]="['/quotation-details', quotationDetailsTmp.quotationId,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Quotation Details
@@ -15,6 +15,7 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                <th jhiSortBy="productName"><span>Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="currency"><span>Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="rate"><span>Rate</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -30,6 +31,11 @@
             </thead>
             <tbody>
             <tr *ngFor="let quotationDetails of quotationDetails ;trackBy: trackId">
+                <td>
+                    <div *ngIf="quotationDetails.productId">
+                        <a [routerLink]="['../product', quotationDetails.productId , 'view' ]" >{{quotationDetails.productName}}</a>
+                    </div>
+                </td>
                 <td>{{quotationDetails.currency}}</td>
                 <td>{{quotationDetails.rate}}</td>
                 <td>{{quotationDetails.quantity}}</td>

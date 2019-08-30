@@ -11,6 +11,8 @@ import { IQuotation } from 'app/shared/model/quotation.model';
 import { QuotationService } from 'app/entities/quotation';
 import { IRequisitionDetails } from 'app/shared/model/requisition-details.model';
 import { RequisitionDetailsService } from 'app/entities/requisition-details';
+import { IProduct } from 'app/shared/model/product.model';
+import { ProductService } from 'app/entities/product';
 
 @Component({
     selector: 'jhi-quotation-details-update',
@@ -23,6 +25,8 @@ export class QuotationDetailsUpdateComponent implements OnInit {
     quotations: IQuotation[];
 
     requisitiondetails: IRequisitionDetails[];
+
+    products: IProduct[];
     modifiedOnDp: any;
 
     constructor(
@@ -31,6 +35,7 @@ export class QuotationDetailsUpdateComponent implements OnInit {
         protected quotationDetailsService: QuotationDetailsService,
         protected quotationService: QuotationService,
         protected requisitionDetailsService: RequisitionDetailsService,
+        protected productService: ProductService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -56,6 +61,13 @@ export class QuotationDetailsUpdateComponent implements OnInit {
                 (res: IRequisitionDetails[]) => (this.requisitiondetails = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.productService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProduct[]>) => response.body)
+            )
+            .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -105,6 +117,10 @@ export class QuotationDetailsUpdateComponent implements OnInit {
     }
 
     trackRequisitionDetailsById(index: number, item: IRequisitionDetails) {
+        return item.id;
+    }
+
+    trackProductById(index: number, item: IProduct) {
         return item.id;
     }
 }

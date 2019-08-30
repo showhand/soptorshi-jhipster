@@ -19,9 +19,6 @@
     <changeSet author="monju (generated)" id="1567102948085-7">
         <dropColumn columnName="currency" tableName="quotation"/>
     </changeSet>
-    <changeSet author="monju (generated)" id="1567102948085-8">
-        <dropColumn columnName="employee_id" tableName="department"/>
-    </changeSet>
     <changeSet author="monju (generated)" id="1567102948085-9">
         <dropColumn columnName="loading_port" tableName="quotation"/>
     </changeSet>

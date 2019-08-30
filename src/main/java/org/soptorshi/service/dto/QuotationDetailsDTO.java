@@ -49,6 +49,10 @@ public class QuotationDetailsDTO implements Serializable {
 
     private Long requisitionDetailsId;
 
+    private Long productId;
+
+    private String productName;
+
     public Long getId() {
         return id;
     }
@@ -177,6 +181,22 @@ public class QuotationDetailsDTO implements Serializable {
         this.requisitionDetailsId = requisitionDetailsId;
     }
 
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -217,6 +237,8 @@ public class QuotationDetailsDTO implements Serializable {
             ", quotation=" + getQuotationId() +
             ", quotation='" + getQuotationQuotationNo() + "'" +
             ", requisitionDetails=" + getRequisitionDetailsId() +
+            ", product=" + getProductId() +
+            ", product='" + getProductName() + "'" +
             "}";
     }
 }

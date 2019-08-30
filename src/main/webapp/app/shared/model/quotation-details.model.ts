@@ -44,6 +44,8 @@ export interface IQuotationDetails {
     quotationQuotationNo?: string;
     quotationId?: number;
     requisitionDetailsId?: number;
+    productName?: string;
+    productId?: number;
 }
 
 export class QuotationDetails implements IQuotationDetails {
@@ -63,6 +65,8 @@ export class QuotationDetails implements IQuotationDetails {
         public modifiedOn?: Moment,
         public quotationQuotationNo?: string,
         public quotationId?: number,
-        public requisitionDetailsId?: number
+        public requisitionDetailsId?: number,
+        public productName?: string,
+        public productId?: number
     ) {}
 }

@@ -7,7 +7,7 @@
         Added the constraints for entity QuotationDetails.
     -->
     <changeSet id="20190628152326-2" author="jhipster">
-        
+        <validCheckSum>7:8795a906201f1cd79db5459a3941badf</validCheckSum>
         <addForeignKeyConstraint baseColumnNames="quotation_id"
                                  baseTableName="quotation_details"
                                  constraintName="fk_quotation_details_quotation_id"
@@ -19,6 +19,12 @@
                                  constraintName="fk_quotation_details_requisition_details_id"
                                  referencedColumnNames="id"
                                  referencedTableName="requisition_details"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="quotation_details"
+                                 constraintName="fk_quotation_details_product_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
 
     </changeSet>
 </databaseChangeLog>

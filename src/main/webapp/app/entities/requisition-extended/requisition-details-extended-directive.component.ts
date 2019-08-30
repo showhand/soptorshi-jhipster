@@ -40,10 +40,10 @@ export class RequisitionDetailsExtendedDirectiveComponent extends RequisitionDet
         );
 
         this.itemsPerPage = 100;
-        this.page = this.requisitionService.requisitionDetailsPage;
-        this.previousPage = this.requisitionService.requisitionDetailsPreviousPage;
-        this.reverse = this.requisitionService.requisitionDetailsReverse;
-        this.predicate = this.requisitionService.requisitionDetailsPredicate;
+        this.page = 1;
+        this.previousPage = 0;
+        this.reverse = 'asc';
+        this.predicate = 'id';
     }
 
     ngOnInit() {

@@ -11,18 +11,24 @@ import { QuotationDetailsDeletePopupComponent, QuotationDetailsService } from 'a
 import { QuotationDetailsExtendedComponent } from 'app/entities/quotation-details-extended/quotation-details-extended.component';
 import { QuotationDetailsExtendedUpdateComponent } from 'app/entities/quotation-details-extended/quotation-details-extended-update.component';
 import { QuotationDetailsExtendedDetailComponent } from 'app/entities/quotation-details-extended/quotation-details-extended-detail.component';
+import { IQuotation, Quotation } from 'app/shared/model/quotation.model';
 
 @Injectable({ providedIn: 'root' })
-export class QuotationDetailsExtendedResolve implements Resolve<IQuotationDetails> {
+export class QuotationDetailsExtendedResolve {
     constructor(private service: QuotationDetailsService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IQuotationDetails> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const quotationId = route.params['quotationId'] ? route.params['quotationId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<QuotationDetails>) => response.ok),
                 map((quotationDetails: HttpResponse<QuotationDetails>) => quotationDetails.body)
             );
+        } else if (quotationId) {
+            const quotationDetails = new QuotationDetails();
+            quotationDetails.quotationId = quotationId;
+            return of(quotationDetails);
         }
         return of(new QuotationDetails());
     }
@@ -56,6 +62,18 @@ export const quotationDetailsExtendedRoute: Routes = [
     },
     {
         path: 'new',
+        component: QuotationDetailsExtendedUpdateComponent,
+        resolve: {
+            quotationDetails: QuotationDetailsExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'QuotationDetails'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':quotationId/new',
         component: QuotationDetailsExtendedUpdateComponent,
         resolve: {
             quotationDetails: QuotationDetailsExtendedResolve

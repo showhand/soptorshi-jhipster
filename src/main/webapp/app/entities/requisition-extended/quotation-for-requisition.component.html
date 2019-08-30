@@ -21,6 +21,7 @@
                 <th jhiSortBy="quotationNo"><span>Quotation No</span> </th>
                 <th jhiSortBy="selectionStatus"><span>Selection Status</span> </th>
                 <th jhiSortBy="vendorCompanyName"><span>Vendor</span> </th>
+                <th jhiSortBy="totalAmount"><span>Total Amount</span></th>
                 <th></th>
             </tr>
 
@@ -34,6 +35,7 @@
                         <a [routerLink]="['../vendor', quotation.vendorId , 'view' ]" >{{quotation.vendorCompanyName}}</a>
                     </div>
                 </td>
+                <td>{{quotation.totalAmount}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

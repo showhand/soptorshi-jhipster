@@ -70,6 +70,13 @@
             "otherEntityRelationshipName": "quotationDetails",
             "relationshipName": "requisitionDetails",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "product",
+            "otherEntityRelationshipName": "quotationDetails",
+            "relationshipName": "product",
+            "otherEntityField": "name"
         }
     ],
     "changelogDate": "20190628152326",

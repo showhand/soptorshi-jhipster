@@ -122,6 +122,8 @@
     <include file="config/liquibase/changelog/20190828065923_requisition_head_approval_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190829182215_quotation_and_quotation_details_refactored.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190830124623_total_amount_added_quotation_and_columns_dropped_in_quotation.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190830141257_product_integrated_with_quotation_details.xml" relativeToChangelogFile="false"/>
+
 
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

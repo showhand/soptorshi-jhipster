@@ -18,7 +18,7 @@
         Added the entity QuotationDetails.
     -->
     <changeSet id="20190628152326-1" author="jhipster">
-        <validCheckSum>7:ba3b0ceb76b63f3aa2fc97806eb44fff</validCheckSum>
+        <validCheckSum>7:0a725b14a65353b7577d3a8c41e33ffd</validCheckSum>
         <createTable tableName="quotation_details">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
@@ -76,6 +76,10 @@
             </column>
 
             <column name="requisition_details_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="product_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

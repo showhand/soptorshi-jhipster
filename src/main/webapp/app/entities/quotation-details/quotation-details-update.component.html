@@ -101,6 +101,13 @@
                         <option [ngValue]="requisitionDetailsOption.id" *ngFor="let requisitionDetailsOption of requisitiondetails; trackBy: trackRequisitionDetailsById">{{requisitionDetailsOption.id}}</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_product">Product</label>
+                    <select class="form-control" id="field_product" name="product" [(ngModel)]="quotationDetails.productId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+                    </select>
+                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

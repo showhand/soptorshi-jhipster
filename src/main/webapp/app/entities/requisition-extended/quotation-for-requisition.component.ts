@@ -30,10 +30,10 @@ export class QuotationForRequisitionComponent extends QuotationExtendedComponent
         super(quotationService, parseLinks, jhiAlertService, accountService, activatedRoute, dataUtils, router, eventManager);
 
         this.itemsPerPage = 100;
-        this.page = this.requisitionService.quotationPage;
-        this.previousPage = this.requisitionService.quotationPreviousPage;
-        this.reverse = this.requisitionService.quotationReverse;
-        this.predicate = this.requisitionService.quotationPredicate;
+        this.page = 1;
+        this.previousPage = 0;
+        this.reverse = 'asc';
+        this.predicate = 'id';
     }
 
     ngOnInit() {
