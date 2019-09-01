@@ -395,16 +395,13 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'purchase-order',
-                loadChildren: './purchase-order/purchase-order.module#SoptorshiPurchaseOrderModule'
+                loadChildren: './purchase-order-extended/purchase-order-extended.module#SoptorshiPurchaseOrderExtendedModule'
             },
             {
                 path: 'terms-and-conditions',
                 loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
             },
-            {
-                path: 'purchase-order',
-                loadChildren: './purchase-order/purchase-order.module#SoptorshiPurchaseOrderModule'
-            },
+
             {
                 path: 'attendance-excel-upload',
                 loadChildren: './attendance-excel-upload/attendance-excel-upload.module#SoptorshiAttendanceExcelUploadModule'
