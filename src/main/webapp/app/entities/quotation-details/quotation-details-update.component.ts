@@ -27,6 +27,7 @@ export class QuotationDetailsUpdateComponent implements OnInit {
     requisitiondetails: IRequisitionDetails[];
 
     products: IProduct[];
+    estimatedDateDp: any;
     modifiedOnDp: any;
 
     constructor(

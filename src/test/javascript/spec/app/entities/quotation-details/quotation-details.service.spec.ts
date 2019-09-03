@@ -42,6 +42,7 @@ describe('Service Tests', () => {
                 0,
                 VatStatus.EXCLUDED,
                 AITStatus.EXCLUDED,
+                currentDate,
                 WarrantyStatus.WARRANTY,
                 'AAAAAAA',
                 'AAAAAAA',
@@ -54,6 +55,7 @@ describe('Service Tests', () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
+                        estimatedDate: currentDate.format(DATE_FORMAT),
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
@@ -71,12 +73,14 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
+                        estimatedDate: currentDate.format(DATE_FORMAT),
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
+                        estimatedDate: currentDate,
                         modifiedOn: currentDate
                     },
                     returnedFromService
@@ -99,6 +103,7 @@ describe('Service Tests', () => {
                         creditLimit: 1,
                         vatStatus: 'BBBBBB',
                         aitStatus: 'BBBBBB',
+                        estimatedDate: currentDate.format(DATE_FORMAT),
                         warrantyStatus: 'BBBBBB',
                         loadingPort: 'BBBBBB',
                         remarks: 'BBBBBB',
@@ -110,6 +115,7 @@ describe('Service Tests', () => {
 
                 const expected = Object.assign(
                     {
+                        estimatedDate: currentDate,
                         modifiedOn: currentDate
                     },
                     returnedFromService
@@ -132,6 +138,7 @@ describe('Service Tests', () => {
                         creditLimit: 1,
                         vatStatus: 'BBBBBB',
                         aitStatus: 'BBBBBB',
+                        estimatedDate: currentDate.format(DATE_FORMAT),
                         warrantyStatus: 'BBBBBB',
                         loadingPort: 'BBBBBB',
                         remarks: 'BBBBBB',
@@ -142,6 +149,7 @@ describe('Service Tests', () => {
                 );
                 const expected = Object.assign(
                     {
+                        estimatedDate: currentDate,
                         modifiedOn: currentDate
                     },
                     returnedFromService

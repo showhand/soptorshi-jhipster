@@ -70,6 +70,8 @@ public class QuotationDetailsCriteria implements Serializable {
 
     private AITStatusFilter aitStatus;
 
+    private LocalDateFilter estimatedDate;
+
     private WarrantyStatusFilter warrantyStatus;
 
     private StringFilter loadingPort;
@@ -148,6 +150,14 @@ public class QuotationDetailsCriteria implements Serializable {
         this.aitStatus = aitStatus;
     }
 
+    public LocalDateFilter getEstimatedDate() {
+        return estimatedDate;
+    }
+
+    public void setEstimatedDate(LocalDateFilter estimatedDate) {
+        this.estimatedDate = estimatedDate;
+    }
+
     public WarrantyStatusFilter getWarrantyStatus() {
         return warrantyStatus;
     }
@@ -223,6 +233,7 @@ public class QuotationDetailsCriteria implements Serializable {
             Objects.equals(creditLimit, that.creditLimit) &&
             Objects.equals(vatStatus, that.vatStatus) &&
             Objects.equals(aitStatus, that.aitStatus) &&
+            Objects.equals(estimatedDate, that.estimatedDate) &&
             Objects.equals(warrantyStatus, that.warrantyStatus) &&
             Objects.equals(loadingPort, that.loadingPort) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
@@ -243,6 +254,7 @@ public class QuotationDetailsCriteria implements Serializable {
         creditLimit,
         vatStatus,
         aitStatus,
+        estimatedDate,
         warrantyStatus,
         loadingPort,
         modifiedBy,
@@ -264,6 +276,7 @@ public class QuotationDetailsCriteria implements Serializable {
                 (creditLimit != null ? "creditLimit=" + creditLimit + ", " : "") +
                 (vatStatus != null ? "vatStatus=" + vatStatus + ", " : "") +
                 (aitStatus != null ? "aitStatus=" + aitStatus + ", " : "") +
+                (estimatedDate != null ? "estimatedDate=" + estimatedDate + ", " : "") +
                 (warrantyStatus != null ? "warrantyStatus=" + warrantyStatus + ", " : "") +
                 (loadingPort != null ? "loadingPort=" + loadingPort + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +

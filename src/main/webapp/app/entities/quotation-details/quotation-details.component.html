@@ -37,6 +37,7 @@
             <th jhiSortBy="creditLimit"><span>Credit Limit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="vatStatus"><span>Vat Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="aitStatus"><span>Ait Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="estimatedDate"><span>Estimated Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="warrantyStatus"><span>Warranty Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="loadingPort"><span>Loading Port</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -58,6 +59,7 @@
                 <td>{{quotationDetails.creditLimit}}</td>
                 <td>{{quotationDetails.vatStatus}}</td>
                 <td>{{quotationDetails.aitStatus}}</td>
+                <td>{{quotationDetails.estimatedDate | date:'mediumDate'}}</td>
                 <td>{{quotationDetails.warrantyStatus}}</td>
                 <td>{{quotationDetails.loadingPort}}</td>
                 <td>{{quotationDetails.remarks}}</td>

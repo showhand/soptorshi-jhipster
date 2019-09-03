@@ -36,6 +36,7 @@ export interface IQuotationDetails {
     creditLimit?: number;
     vatStatus?: VatStatus;
     aitStatus?: AITStatus;
+    estimatedDate?: Moment;
     warrantyStatus?: WarrantyStatus;
     loadingPort?: string;
     remarks?: any;
@@ -58,6 +59,7 @@ export class QuotationDetails implements IQuotationDetails {
         public creditLimit?: number,
         public vatStatus?: VatStatus,
         public aitStatus?: AITStatus,
+        public estimatedDate?: Moment,
         public warrantyStatus?: WarrantyStatus,
         public loadingPort?: string,
         public remarks?: any,

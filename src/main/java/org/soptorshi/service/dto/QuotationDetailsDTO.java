@@ -31,6 +31,8 @@ public class QuotationDetailsDTO implements Serializable {
 
     private AITStatus aitStatus;
 
+    private LocalDate estimatedDate;
+
     private WarrantyStatus warrantyStatus;
 
     private String loadingPort;
@@ -115,6 +117,14 @@ public class QuotationDetailsDTO implements Serializable {
 
     public void setAitStatus(AITStatus aitStatus) {
         this.aitStatus = aitStatus;
+    }
+
+    public LocalDate getEstimatedDate() {
+        return estimatedDate;
+    }
+
+    public void setEstimatedDate(LocalDate estimatedDate) {
+        this.estimatedDate = estimatedDate;
     }
 
     public WarrantyStatus getWarrantyStatus() {
@@ -229,6 +239,7 @@ public class QuotationDetailsDTO implements Serializable {
             ", creditLimit=" + getCreditLimit() +
             ", vatStatus='" + getVatStatus() + "'" +
             ", aitStatus='" + getAitStatus() + "'" +
+            ", estimatedDate='" + getEstimatedDate() + "'" +
             ", warrantyStatus='" + getWarrantyStatus() + "'" +
             ", loadingPort='" + getLoadingPort() + "'" +
             ", remarks='" + getRemarks() + "'" +

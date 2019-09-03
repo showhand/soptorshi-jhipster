@@ -114,6 +114,9 @@ public class QuotationDetailsQueryService extends QueryService<QuotationDetails>
             if (criteria.getAitStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getAitStatus(), QuotationDetails_.aitStatus));
             }
+            if (criteria.getEstimatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getEstimatedDate(), QuotationDetails_.estimatedDate));
+            }
             if (criteria.getWarrantyStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getWarrantyStatus(), QuotationDetails_.warrantyStatus));
             }
