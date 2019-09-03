@@ -55,6 +55,16 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_estimatedDate">Estimated Date</label>
+                    <div class="input-group">
+                        <input id="field_estimatedDate" type="text" class="form-control" name="estimatedDate" ngbDatepicker  #estimatedDateDp="ngbDatepicker" [(ngModel)]="quotationDetails.estimatedDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="estimatedDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_warrantyStatus">Warranty Status</label>
                     <select class="form-control" name="warrantyStatus" [(ngModel)]="quotationDetails.warrantyStatus" id="field_warrantyStatus" >
                         <option value="WARRANTY">WARRANTY</option>

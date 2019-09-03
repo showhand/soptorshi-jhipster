@@ -59,6 +59,10 @@ export class QuotationDetailsService {
 
     protected convertDateFromClient(quotationDetails: IQuotationDetails): IQuotationDetails {
         const copy: IQuotationDetails = Object.assign({}, quotationDetails, {
+            estimatedDate:
+                quotationDetails.estimatedDate != null && quotationDetails.estimatedDate.isValid()
+                    ? quotationDetails.estimatedDate.format(DATE_FORMAT)
+                    : null,
             modifiedOn:
                 quotationDetails.modifiedOn != null && quotationDetails.modifiedOn.isValid()
                     ? quotationDetails.modifiedOn.format(DATE_FORMAT)
@@ -69,6 +73,7 @@ export class QuotationDetailsService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
+            res.body.estimatedDate = res.body.estimatedDate != null ? moment(res.body.estimatedDate) : null;
             res.body.modifiedOn = res.body.modifiedOn != null ? moment(res.body.modifiedOn) : null;
         }
         return res;
@@ -77,6 +82,7 @@ export class QuotationDetailsService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((quotationDetails: IQuotationDetails) => {
+                quotationDetails.estimatedDate = quotationDetails.estimatedDate != null ? moment(quotationDetails.estimatedDate) : null;
                 quotationDetails.modifiedOn = quotationDetails.modifiedOn != null ? moment(quotationDetails.modifiedOn) : null;
             });
         }

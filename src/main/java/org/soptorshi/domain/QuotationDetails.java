@@ -60,6 +60,9 @@ public class QuotationDetails implements Serializable {
     @Column(name = "ait_status")
     private AITStatus aitStatus;
 
+    @Column(name = "estimated_date")
+    private LocalDate estimatedDate;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "warranty_status")
     private WarrantyStatus warrantyStatus;
@@ -187,6 +190,19 @@ public class QuotationDetails implements Serializable {
 
     public void setAitStatus(AITStatus aitStatus) {
         this.aitStatus = aitStatus;
+    }
+
+    public LocalDate getEstimatedDate() {
+        return estimatedDate;
+    }
+
+    public QuotationDetails estimatedDate(LocalDate estimatedDate) {
+        this.estimatedDate = estimatedDate;
+        return this;
+    }
+
+    public void setEstimatedDate(LocalDate estimatedDate) {
+        this.estimatedDate = estimatedDate;
     }
 
     public WarrantyStatus getWarrantyStatus() {
@@ -325,6 +341,7 @@ public class QuotationDetails implements Serializable {
             ", creditLimit=" + getCreditLimit() +
             ", vatStatus='" + getVatStatus() + "'" +
             ", aitStatus='" + getAitStatus() + "'" +
+            ", estimatedDate='" + getEstimatedDate() + "'" +
             ", warrantyStatus='" + getWarrantyStatus() + "'" +
             ", loadingPort='" + getLoadingPort() + "'" +
             ", remarks='" + getRemarks() + "'" +
