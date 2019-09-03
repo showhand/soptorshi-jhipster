@@ -7,10 +7,12 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.soptorshi.domain.PurchaseOrder;
 import org.soptorshi.domain.Quotation;
 import org.soptorshi.domain.QuotationDetails;
+import org.soptorshi.domain.RequisitionDetails;
 import org.soptorshi.domain.enumeration.SelectionType;
 import org.soptorshi.repository.PurchaseOrderRepository;
 import org.soptorshi.repository.extended.QuotationDetailsExtendedRepository;
 import org.soptorshi.repository.extended.QuotationExtendedRepository;
+import org.soptorshi.repository.extended.RequisitionDetailsExtendedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +21,11 @@ import javax.swing.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class PurchaseOrderReportService {
@@ -30,12 +36,19 @@ public class PurchaseOrderReportService {
     QuotationExtendedRepository quotationExtendedRepository;
     @Autowired
     QuotationDetailsExtendedRepository quotationDetailsExtendedRepository;
+    @Autowired
+    RequisitionDetailsExtendedRepository requisitionDetailsExtendedRepository;
 
 
     @Transactional(readOnly = true)
     public ByteArrayInputStream createPurchaseOrderReport(Long purchaseOrderId) throws Exception, DocumentException {
 
         PurchaseOrder purchaseOrder = purchaseOrderRepository.getOne(purchaseOrderId);
+        List<RequisitionDetails> requisitionDetails = requisitionDetailsExtendedRepository.getByRequisition(purchaseOrder.getRequisition());
+        Map<Long, RequisitionDetails> productMapWithRequisitionDetails = new HashMap<>();
+        for(RequisitionDetails r: requisitionDetails){
+            productMapWithRequisitionDetails.put(r.getProduct().getId(), r);
+        }
         Document document = new Document();
         document.addTitle("Purchase Order");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -129,11 +142,37 @@ public class PurchaseOrderReportService {
             paragraph.setAlignment(Element.ALIGN_LEFT);
             table.addCell(new PdfPCell(paragraph));
 
-            //paragraph = new Paragraph(quotationDetailsList.get(i)., FontFactory.getFont(FontFactory.TIMES));
+            paragraph = new Paragraph(quotationDetailsList.get(i).getEstimatedDate().toString(), FontFactory.getFont(FontFactory.TIMES));
+            paragraph.setAlignment(Element.ALIGN_LEFT);
+            table.addCell(new PdfPCell(paragraph));
+
+            paragraph = new Paragraph(quotationDetailsList.get(i).getVatStatus().toString(), FontFactory.getFont(FontFactory.TIMES));
+            paragraph.setAlignment(Element.ALIGN_LEFT);
+            table.addCell(new PdfPCell(paragraph));
+
+            paragraph = new Paragraph(quotationDetailsList.get(i).getAitStatus().toString(), FontFactory.getFont(FontFactory.TIMES));
+            paragraph.setAlignment(Element.ALIGN_LEFT);
+            table.addCell(new PdfPCell(paragraph));
+
+            paragraph = new Paragraph(productMapWithRequisitionDetails.get(quotationDetailsList.get(i).getProduct().getId()).getUom().toString(), FontFactory.getFont(FontFactory.TIMES));
+            paragraph.setAlignment(Element.ALIGN_LEFT);
+            table.addCell(new PdfPCell(paragraph));
+
+            paragraph = new Paragraph(quotationDetailsList.get(i).getQuantity().toString(), FontFactory.getFont(FontFactory.TIMES));
+            paragraph.setAlignment(Element.ALIGN_LEFT);
+            table.addCell(new PdfPCell(paragraph));
+
+            paragraph = new Paragraph(quotationDetailsList.get(i).getRate().toString(), FontFactory.getFont(FontFactory.TIMES));
+            paragraph.setAlignment(Element.ALIGN_LEFT);
+            table.addCell(new PdfPCell(paragraph));
+
+            paragraph = new Paragraph(quotationDetailsList.get(i).getRate().multiply( new BigDecimal( quotationDetailsList.get(i).getQuantity())).toString(), FontFactory.getFont(FontFactory.TIMES));
             paragraph.setAlignment(Element.ALIGN_LEFT);
             table.addCell(new PdfPCell(paragraph));
 
         }
+
+        document.add(table);
 
         document.close();
         return new ByteArrayInputStream(baos.toByteArray());
