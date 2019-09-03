@@ -8,6 +8,7 @@
     -->
     <changeSet id="20190628152326-2" author="jhipster">
         <validCheckSum>7:8795a906201f1cd79db5459a3941badf</validCheckSum>
+        
         <addForeignKeyConstraint baseColumnNames="quotation_id"
                                  baseTableName="quotation_details"
                                  constraintName="fk_quotation_details_quotation_id"

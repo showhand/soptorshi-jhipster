@@ -84,6 +84,9 @@ public class QuotationDetailsResourceIntTest {
     private static final AITStatus DEFAULT_AIT_STATUS = AITStatus.EXCLUDED;
     private static final AITStatus UPDATED_AIT_STATUS = AITStatus.INCLUDED;
 
+    private static final LocalDate DEFAULT_ESTIMATED_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_ESTIMATED_DATE = LocalDate.now(ZoneId.systemDefault());
+
     private static final WarrantyStatus DEFAULT_WARRANTY_STATUS = WarrantyStatus.WARRANTY;
     private static final WarrantyStatus UPDATED_WARRANTY_STATUS = WarrantyStatus.NO_WARRANTY;
 
@@ -165,6 +168,7 @@ public class QuotationDetailsResourceIntTest {
             .creditLimit(DEFAULT_CREDIT_LIMIT)
             .vatStatus(DEFAULT_VAT_STATUS)
             .aitStatus(DEFAULT_AIT_STATUS)
+            .estimatedDate(DEFAULT_ESTIMATED_DATE)
             .warrantyStatus(DEFAULT_WARRANTY_STATUS)
             .loadingPort(DEFAULT_LOADING_PORT)
             .remarks(DEFAULT_REMARKS)
@@ -201,6 +205,7 @@ public class QuotationDetailsResourceIntTest {
         assertThat(testQuotationDetails.getCreditLimit()).isEqualTo(DEFAULT_CREDIT_LIMIT);
         assertThat(testQuotationDetails.getVatStatus()).isEqualTo(DEFAULT_VAT_STATUS);
         assertThat(testQuotationDetails.getAitStatus()).isEqualTo(DEFAULT_AIT_STATUS);
+        assertThat(testQuotationDetails.getEstimatedDate()).isEqualTo(DEFAULT_ESTIMATED_DATE);
         assertThat(testQuotationDetails.getWarrantyStatus()).isEqualTo(DEFAULT_WARRANTY_STATUS);
         assertThat(testQuotationDetails.getLoadingPort()).isEqualTo(DEFAULT_LOADING_PORT);
         assertThat(testQuotationDetails.getRemarks()).isEqualTo(DEFAULT_REMARKS);
@@ -252,6 +257,7 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
             .andExpect(jsonPath("$.[*].vatStatus").value(hasItem(DEFAULT_VAT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].aitStatus").value(hasItem(DEFAULT_AIT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].estimatedDate").value(hasItem(DEFAULT_ESTIMATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].warrantyStatus").value(hasItem(DEFAULT_WARRANTY_STATUS.toString())))
             .andExpect(jsonPath("$.[*].loadingPort").value(hasItem(DEFAULT_LOADING_PORT.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())))
@@ -277,6 +283,7 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(jsonPath("$.creditLimit").value(DEFAULT_CREDIT_LIMIT.intValue()))
             .andExpect(jsonPath("$.vatStatus").value(DEFAULT_VAT_STATUS.toString()))
             .andExpect(jsonPath("$.aitStatus").value(DEFAULT_AIT_STATUS.toString()))
+            .andExpect(jsonPath("$.estimatedDate").value(DEFAULT_ESTIMATED_DATE.toString()))
             .andExpect(jsonPath("$.warrantyStatus").value(DEFAULT_WARRANTY_STATUS.toString()))
             .andExpect(jsonPath("$.loadingPort").value(DEFAULT_LOADING_PORT.toString()))
             .andExpect(jsonPath("$.remarks").value(DEFAULT_REMARKS.toString()))
@@ -586,6 +593,72 @@ public class QuotationDetailsResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllQuotationDetailsByEstimatedDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where estimatedDate equals to DEFAULT_ESTIMATED_DATE
+        defaultQuotationDetailsShouldBeFound("estimatedDate.equals=" + DEFAULT_ESTIMATED_DATE);
+
+        // Get all the quotationDetailsList where estimatedDate equals to UPDATED_ESTIMATED_DATE
+        defaultQuotationDetailsShouldNotBeFound("estimatedDate.equals=" + UPDATED_ESTIMATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByEstimatedDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where estimatedDate in DEFAULT_ESTIMATED_DATE or UPDATED_ESTIMATED_DATE
+        defaultQuotationDetailsShouldBeFound("estimatedDate.in=" + DEFAULT_ESTIMATED_DATE + "," + UPDATED_ESTIMATED_DATE);
+
+        // Get all the quotationDetailsList where estimatedDate equals to UPDATED_ESTIMATED_DATE
+        defaultQuotationDetailsShouldNotBeFound("estimatedDate.in=" + UPDATED_ESTIMATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByEstimatedDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where estimatedDate is not null
+        defaultQuotationDetailsShouldBeFound("estimatedDate.specified=true");
+
+        // Get all the quotationDetailsList where estimatedDate is null
+        defaultQuotationDetailsShouldNotBeFound("estimatedDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByEstimatedDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where estimatedDate greater than or equals to DEFAULT_ESTIMATED_DATE
+        defaultQuotationDetailsShouldBeFound("estimatedDate.greaterOrEqualThan=" + DEFAULT_ESTIMATED_DATE);
+
+        // Get all the quotationDetailsList where estimatedDate greater than or equals to UPDATED_ESTIMATED_DATE
+        defaultQuotationDetailsShouldNotBeFound("estimatedDate.greaterOrEqualThan=" + UPDATED_ESTIMATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByEstimatedDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where estimatedDate less than or equals to DEFAULT_ESTIMATED_DATE
+        defaultQuotationDetailsShouldNotBeFound("estimatedDate.lessThan=" + DEFAULT_ESTIMATED_DATE);
+
+        // Get all the quotationDetailsList where estimatedDate less than or equals to UPDATED_ESTIMATED_DATE
+        defaultQuotationDetailsShouldBeFound("estimatedDate.lessThan=" + UPDATED_ESTIMATED_DATE);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllQuotationDetailsByWarrantyStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         quotationDetailsRepository.saveAndFlush(quotationDetails);
@@ -838,6 +911,7 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
             .andExpect(jsonPath("$.[*].vatStatus").value(hasItem(DEFAULT_VAT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].aitStatus").value(hasItem(DEFAULT_AIT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].estimatedDate").value(hasItem(DEFAULT_ESTIMATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].warrantyStatus").value(hasItem(DEFAULT_WARRANTY_STATUS.toString())))
             .andExpect(jsonPath("$.[*].loadingPort").value(hasItem(DEFAULT_LOADING_PORT)))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())))
@@ -897,6 +971,7 @@ public class QuotationDetailsResourceIntTest {
             .creditLimit(UPDATED_CREDIT_LIMIT)
             .vatStatus(UPDATED_VAT_STATUS)
             .aitStatus(UPDATED_AIT_STATUS)
+            .estimatedDate(UPDATED_ESTIMATED_DATE)
             .warrantyStatus(UPDATED_WARRANTY_STATUS)
             .loadingPort(UPDATED_LOADING_PORT)
             .remarks(UPDATED_REMARKS)
@@ -920,6 +995,7 @@ public class QuotationDetailsResourceIntTest {
         assertThat(testQuotationDetails.getCreditLimit()).isEqualTo(UPDATED_CREDIT_LIMIT);
         assertThat(testQuotationDetails.getVatStatus()).isEqualTo(UPDATED_VAT_STATUS);
         assertThat(testQuotationDetails.getAitStatus()).isEqualTo(UPDATED_AIT_STATUS);
+        assertThat(testQuotationDetails.getEstimatedDate()).isEqualTo(UPDATED_ESTIMATED_DATE);
         assertThat(testQuotationDetails.getWarrantyStatus()).isEqualTo(UPDATED_WARRANTY_STATUS);
         assertThat(testQuotationDetails.getLoadingPort()).isEqualTo(UPDATED_LOADING_PORT);
         assertThat(testQuotationDetails.getRemarks()).isEqualTo(UPDATED_REMARKS);
@@ -992,6 +1068,7 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
             .andExpect(jsonPath("$.[*].vatStatus").value(hasItem(DEFAULT_VAT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].aitStatus").value(hasItem(DEFAULT_AIT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].estimatedDate").value(hasItem(DEFAULT_ESTIMATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].warrantyStatus").value(hasItem(DEFAULT_WARRANTY_STATUS.toString())))
             .andExpect(jsonPath("$.[*].loadingPort").value(hasItem(DEFAULT_LOADING_PORT)))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())))

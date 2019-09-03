@@ -34,6 +34,10 @@
             "fieldValues": "EXCLUDED,INCLUDED"
         },
         {
+            "fieldName": "estimatedDate",
+            "fieldType": "LocalDate"
+        },
+        {
             "fieldName": "warrantyStatus",
             "fieldType": "WarrantyStatus",
             "fieldValues": "WARRANTY,NO_WARRANTY"
