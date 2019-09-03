@@ -16,7 +16,7 @@ const ENTITY_STATES = [...termsAndConditionsRoute, ...termsAndConditionsPopupRou
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /*    declarations: [
         TermsAndConditionsComponent,
         TermsAndConditionsDetailComponent,
         TermsAndConditionsUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...termsAndConditionsRoute, ...termsAndConditionsPopupRou
         TermsAndConditionsUpdateComponent,
         TermsAndConditionsDeleteDialogComponent,
         TermsAndConditionsDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiTermsAndConditionsModule {}

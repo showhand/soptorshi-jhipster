@@ -9,4 +9,8 @@ import { RequisitionDetailComponent } from 'app/entities/requisition';
     selector: 'jhi-requisition-extended-detail',
     templateUrl: './requisition-extended-detail.component.html'
 })
-export class RequisitionExtendedDetailComponent extends RequisitionDetailComponent {}
+export class RequisitionExtendedDetailComponent extends RequisitionDetailComponent implements OnInit {
+    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {
+        super(dataUtils, activatedRoute);
+    }
+}

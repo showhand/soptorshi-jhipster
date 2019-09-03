@@ -169,6 +169,7 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
 
     forwardToHead() {
         this.requisition.status = RequisitionStatus.WAITING_FOR_HEADS_APPROVAL;
+        this.save();
     }
 
     approveByHead() {
@@ -181,23 +182,23 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
     }
     approveByPurchaseCommittee() {
         this.requisition.status = RequisitionStatus.FORWARDED_BY_PURCHASE_COMMITTEE;
-        this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
+        //this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
         this.save();
     }
     rejectByPurchaseCommittee() {
         this.requisition.status = RequisitionStatus.REJECTED_BY_PURCHASE_COMMITTEE;
-        this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
+        //this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
         this.save();
     }
 
     approveByCFO() {
         this.requisition.status = RequisitionStatus.APPROVED_BY_CFO;
-        this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
+        //this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
         this.save();
     }
     rejectByCFO() {
         this.requisition.status = RequisitionStatus.REJECTED_BY_CFO;
-        this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
+        //this.requisition.refToPurchaseCommittee = this.currentEmployee.id;
         this.save();
     }
 

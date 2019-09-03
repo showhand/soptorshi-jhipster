@@ -385,7 +385,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'terms-and-conditions',
-                loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
+                loadChildren: './terms-and-conditions-extended/terms-and-conditions-extended.module#SoptorshiTermsAndConditionsModule'
             },
 
             {
@@ -396,10 +396,6 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             {
                 path: 'purchase-order',
                 loadChildren: './purchase-order/purchase-order.module#SoptorshiPurchaseOrderModule'
-            },
-            {
-                path: 'terms-and-conditions',
-                loadChildren: './terms-and-conditions/terms-and-conditions.module#SoptorshiTermsAndConditionsModule'
             },
             {
                 path: 'purchase-order',
