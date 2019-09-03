@@ -129,9 +129,9 @@ public class PurchaseOrderReportService {
             paragraph.setAlignment(Element.ALIGN_LEFT);
             table.addCell(new PdfPCell(paragraph));
 
-            /*paragraph = new Paragraph(quotationDetailsList.get(i)., FontFactory.getFont(FontFactory.TIMES));
+            //paragraph = new Paragraph(quotationDetailsList.get(i)., FontFactory.getFont(FontFactory.TIMES));
             paragraph.setAlignment(Element.ALIGN_LEFT);
-            table.addCell(new PdfPCell(paragraph));*/
+            table.addCell(new PdfPCell(paragraph));
 
         }
 
