@@ -298,6 +298,7 @@ entity QuotationDetails{
     creditLimit BigDecimal,
     vatStatus VatStatus,
     aitStatus AITStatus,
+    estimatedDate LocalDate,
     warrantyStatus WarrantyStatus,
     loadingPort String,
     remarks TextBlob,
