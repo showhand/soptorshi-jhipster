@@ -40,6 +40,10 @@ export class StockStatusComponent implements OnInit, OnDestroy {
     s_InventoryLocationsId: number;
     s_InventorySubLocationsId: number;
     s_ContainerTrackingId: string;
+    totalQuantity: number;
+    totalAvailableQuantity: number;
+    totalPrice: number;
+    totalAvailablePrice: number;
 
     constructor(
         protected stockStatusService: StockStatusService,
@@ -175,9 +179,17 @@ export class StockStatusComponent implements OnInit, OnDestroy {
     }
 
     protected paginateStockStatuses(data: IStockStatus[], headers: HttpHeaders) {
+        this.totalQuantity = 0;
+        this.totalAvailableQuantity = 0;
+        this.totalPrice = 0;
+        this.totalAvailablePrice = 0;
         this.stockStatuses = [];
         for (let i = 0; i < data.length; i++) {
             this.stockStatuses.push(data[i]);
+            this.totalQuantity += data[i].totalQuantity;
+            this.totalAvailableQuantity += data[i].availableQuantity;
+            this.totalPrice += data[i].totalPrice;
+            this.totalAvailablePrice += data[i].availablePrice;
         }
     }
 
