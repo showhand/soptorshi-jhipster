@@ -1,59 +1,85 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12">
         <div *ngIf="purchaseOrder">
-            <h2><span>Purchase Order</span> {{purchaseOrder.id}}</h2>
+            <h2><span>Purchase Order</span> <b>{{purchaseOrder.purchaseOrderNo}}</b></h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
-            <dl class="row-md jh-entity-details">
-                <dt><span>Purchase Order No</span></dt>
-                <dd>
-                    <span>{{purchaseOrder.purchaseOrderNo}}</span>
-                </dd>
-                <dt><span>Work Order No</span></dt>
-                <dd>
-                    <span>{{purchaseOrder.workOrderNo}}</span>
-                </dd>
-                <dt><span>Issue Date</span></dt>
-                <dd>
-                    <span>{{purchaseOrder.issueDate}}</span>
-                </dd>
-                <dt><span>Referred To</span></dt>
-                <dd>
-                    <span>{{purchaseOrder.referredTo}}</span>
-                </dd>
-                <dt><span>Subject</span></dt>
-                <dd>
-                    <span>{{purchaseOrder.subject}}</span>
-                </dd>
-                <dt><span>Note</span></dt>
-                <dd>
-                    <span>{{purchaseOrder.note}}</span>
-                </dd>
-                <dt><span>Labor Or Other Amount</span></dt>
-                <dd>
-                    <span>{{purchaseOrder.laborOrOtherAmount}}</span>
-                </dd>
-                <dt><span>Discount</span></dt>
-                <dd>
-                    <span>{{purchaseOrder.discount}}</span>
-                </dd>
-                <dt><span>Status</span></dt>
-                <dd>
-                    <span>{{purchaseOrder.status}}</span>
-                </dd>
-                <dt><span>Requisition</span></dt>
-                <dd>
-                    <div *ngIf="purchaseOrder.requisitionId">
-                        <a [routerLink]="['/requisition', purchaseOrder.requisitionId, 'view']">{{purchaseOrder.requisitionRequisitionNo}}</a>
-                    </div>
-                </dd>
-                <dt><span>Quotation</span></dt>
-                <dd>
-                    <div *ngIf="purchaseOrder.quotationId">
-                        <a [routerLink]="['/quotation', purchaseOrder.quotationId, 'view']">{{purchaseOrder.quotationQuotationNo}}</a>
-                    </div>
-                </dd>
-            </dl>
+            <div class="row">
+                <div class="col-4">
+                    <dl class="row-md jh-entity-details">
+
+                    <dt><span>Purchase Order No</span></dt>
+                    <dd>
+                        <span>{{purchaseOrder.purchaseOrderNo}}</span>
+                    </dd>
+                    <dt><span>Referred To</span></dt>
+                    <dd>
+                        <span>{{purchaseOrder.referredTo}}</span>
+                    </dd>
+                    <dt><span>Labor Or Other Amount</span></dt>
+                    <dd>
+                        <span>{{purchaseOrder.laborOrOtherAmount}}</span>
+                    </dd>
+
+                    <dt><span>Requisition</span></dt>
+                    <dd>
+                        <div *ngIf="purchaseOrder.requisitionId">
+                            <a [routerLink]="['/requisition', purchaseOrder.requisitionId, 'view']">{{purchaseOrder.requisitionRequisitionNo}}</a>
+                        </div>
+                    </dd>
+                    </dl>
+
+                </div>
+
+
+                <div class="col-4">
+                    <dl class="row-md jh-entity-details">
+
+                    <dt><span>Work Order No</span></dt>
+                    <dd>
+                        <span>{{purchaseOrder.workOrderNo}}</span>
+                    </dd>
+                    <dt><span>Subject</span></dt>
+                    <dd>
+                        <span>{{purchaseOrder.subject}}</span>
+                    </dd>
+                    <dt><span>Discount</span></dt>
+                    <dd>
+                        <span>{{purchaseOrder.discount}}</span>
+                    </dd>
+
+                    <dt><span>Quotation</span></dt>
+                    <dd>
+                        <div *ngIf="purchaseOrder.quotationId">
+                            <a [routerLink]="['/quotation', purchaseOrder.quotationId, 'view']">{{purchaseOrder.quotationQuotationNo}}</a>
+                        </div>
+                    </dd>
+                    </dl>
+
+                </div>
+                <div class="col-4">
+                    <dl class="row-md jh-entity-details">
+
+                    <dt><span>Issue Date</span></dt>
+                    <dd>
+                        <span>{{purchaseOrder.issueDate}}</span>
+                    </dd>
+
+                    <dt><span>Note</span></dt>
+                    <dd>
+                        <span>{{purchaseOrder.note}}</span>
+                    </dd>
+                    <dt><span>Status</span></dt>
+                    <dd>
+                        <span>{{purchaseOrder.status}}</span>
+                    </dd>
+                    </dl>
+                </div>
+                <div class="col-12">
+                    <jhi-terms-and-conditions-for-purchase-order [purchaseOrder]="purchaseOrder"></jhi-terms-and-conditions-for-purchase-order>
+                </div>
+            </div>
+
 
             <button type="submit"
                     (click)="previousState()"
@@ -67,15 +93,10 @@
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
 
-            <button type="button"
-                    [routerLink]="['/terms-and-conditions', purchaseOrder.purchaseOrderId, 'purchaseOrder']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Terms & Conditions</span>
-            </button>
 
             <button type="button" (click)="downloadReport()"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Download Report</span>
+                &nbsp;<span> Download Report</span>
             </button>
         </div>
     </div>

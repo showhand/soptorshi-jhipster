@@ -16,6 +16,7 @@ import {
     purchaseOrderExtendedPopupRoute,
     purchaseOrderExtendedRoute
 } from 'app/entities/purchase-order-extended/purchase-order-extended.route';
+import { TermsAndConditionsForPurchaseOrder } from 'app/entities/purchase-order-extended/terms-and-conditions-for-purchase-order';
 
 const ENTITY_STATES = [...purchaseOrderExtendedRoute, ...purchaseOrderExtendedPopupRoute];
 
@@ -29,7 +30,8 @@ const ENTITY_STATES = [...purchaseOrderExtendedRoute, ...purchaseOrderExtendedPo
         PurchaseOrderExtendedDetailComponent,
         PurchaseOrderExtendedUpdateComponent,
         PurchaseOrderDeleteDialogComponent,
-        PurchaseOrderDeletePopupComponent
+        PurchaseOrderDeletePopupComponent,
+        TermsAndConditionsForPurchaseOrder
     ],
     entryComponents: [
         PurchaseOrderExtendedComponent,
