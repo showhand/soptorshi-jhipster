@@ -103,10 +103,10 @@ public class PurchaseOrderReportService {
 
         paragraph = new Paragraph(purchaseOrder.getReferredTo()+",", FontFactory.getFont(FontFactory.TIMES_BOLD));
         document.add(paragraph);
-        document.add(Chunk.NEWLINE);
 
-        paragraph = new Paragraph(purchaseOrder.getNote(), FontFactory.getFont(FontFactory.TIMES_BOLD));
+        paragraph = new Paragraph(purchaseOrder.getNote(), FontFactory.getFont(FontFactory.TIMES));
         document.add(paragraph);
+        document.add(Chunk.NEWLINE);
 
         float[] tableColumnWidth = new float[]{0.5f, 5f, 1.7f, 1.8f, 1.8f, 1f, 2f, 2f, 3F};
         table = new PdfPTable(tableColumnWidth);
