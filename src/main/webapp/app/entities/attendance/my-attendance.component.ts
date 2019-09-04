@@ -144,6 +144,9 @@ export class MyAttendanceComponent implements OnInit {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
+            data[i].diff = moment
+                .utc(moment(data[i].outTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(data[i].inTime, 'DD/MM/YYYY HH:mm:ss')))
+                .format('HH:mm:ss');
             this.attendances.push(data[i]);
         }
     }

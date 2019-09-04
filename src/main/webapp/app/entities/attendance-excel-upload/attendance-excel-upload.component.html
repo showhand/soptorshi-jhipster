@@ -22,7 +22,7 @@
                     </button>
                     <button id="jh-create-entity"
                             class="btn btn-primary float-right jh-create-entity create-attendance-excel-upload"
-                            [routerLink]="['/attendance-excel-upload/new']">
+                            [routerLink]="['/attendance-excel-upload/new']" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
                         <fa-icon [icon]="'plus'"></fa-icon>
                     </button>
                 </div>
@@ -63,7 +63,7 @@
                             , {{byteSize(attendanceExcelUpload.file)}}</span>
                     </td>
                     <td>{{attendanceExcelUpload.type}}</td>
-                    <td class="text-right">
+                    <td class="text-right" width="20%" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
                         <div class="btn-group flex-btn-group-container" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN']">
                             <button type="submit"
                                     [routerLink]="['/attendance-excel-upload', attendanceExcelUpload.id, 'view' ]"

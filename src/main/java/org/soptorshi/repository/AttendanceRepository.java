@@ -1,5 +1,6 @@
 package org.soptorshi.repository;
 
+import net.sf.cglib.core.Local;
 import org.soptorshi.domain.Attendance;
 import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.service.dto.AttendanceDTO;
@@ -21,5 +22,5 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long>, J
 
     void deleteByAttendanceExcelUpload(final AttendanceExcelUpload attendanceExcelUpload);
 
-    List<Attendance> getDistinctFirstByAttendanceDateLessThan(LocalDate localDate);
+    List<Attendance> getDistinctByAttendanceDateLessThanEqual(LocalDate localDate);
 }

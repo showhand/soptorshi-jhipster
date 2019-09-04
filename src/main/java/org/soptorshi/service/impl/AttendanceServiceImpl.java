@@ -2,6 +2,8 @@ package org.soptorshi.service.impl;
 
 import net.sf.cglib.core.Local;
 import org.soptorshi.domain.AttendanceExcelUpload;
+import org.soptorshi.domain.Employee;
+import org.soptorshi.repository.EmployeeRepository;
 import org.soptorshi.service.AttendanceService;
 import org.soptorshi.domain.Attendance;
 import org.soptorshi.repository.AttendanceRepository;
@@ -38,10 +40,14 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     private final AttendanceSearchRepository attendanceSearchRepository;
 
-    public AttendanceServiceImpl(AttendanceRepository attendanceRepository, AttendanceMapper attendanceMapper, AttendanceSearchRepository attendanceSearchRepository) {
+    private final EmployeeRepository employeeRepository;
+
+    public AttendanceServiceImpl(AttendanceRepository attendanceRepository, AttendanceMapper attendanceMapper, AttendanceSearchRepository attendanceSearchRepository,
+                                 EmployeeRepository employeeRepository) {
         this.attendanceRepository = attendanceRepository;
         this.attendanceMapper = attendanceMapper;
         this.attendanceSearchRepository = attendanceSearchRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     /**
@@ -53,11 +59,15 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public AttendanceDTO save(AttendanceDTO attendanceDTO) {
         log.debug("Request to save Attendance : {}", attendanceDTO);
-        Attendance attendance = attendanceMapper.toEntity(attendanceDTO);
-        attendance = attendanceRepository.save(attendance);
-        AttendanceDTO result = attendanceMapper.toDto(attendance);
-        attendanceSearchRepository.save(attendance);
-        return result;
+        Optional<Employee> employee = employeeRepository.findByEmployeeId(attendanceDTO.getEmployeeId());
+        if(employee.isPresent()) {
+            Attendance attendance = attendanceMapper.toEntity(attendanceDTO);
+            attendance = attendanceRepository.save(attendance);
+            AttendanceDTO result = attendanceMapper.toDto(attendance);
+            attendanceSearchRepository.save(attendance);
+            return result;
+        }
+        return null;
     }
 
     /**
@@ -78,7 +88,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     public List<AttendanceDTO> getAllByDistinctAttendanceDate() {
         log.debug("Request to get all Distinct Attendances Date");
         LocalDate localDate = LocalDate.now();
-        List<Attendance> attendances = attendanceRepository.getDistinctFirstByAttendanceDateLessThan(localDate);
+        List<Attendance> attendances = attendanceRepository.getDistinctByAttendanceDateLessThanEqual(localDate);
         List<AttendanceDTO> attendanceDTOS = new ArrayList<>();
         for(Attendance attendance: attendances) {
             AttendanceDTO attendanceDTO = attendanceMapper.toDto(attendance);

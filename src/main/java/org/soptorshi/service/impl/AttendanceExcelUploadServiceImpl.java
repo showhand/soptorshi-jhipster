@@ -4,13 +4,16 @@ import org.jxls.reader.ReaderBuilder;
 import org.jxls.reader.XLSReader;
 import org.soptorshi.domain.Attendance;
 import org.soptorshi.domain.AttendanceExcelParser;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.AttendanceRepository;
+import org.soptorshi.repository.EmployeeRepository;
 import org.soptorshi.repository.search.AttendanceSearchRepository;
 import org.soptorshi.service.AttendanceExcelUploadService;
 import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.repository.AttendanceExcelUploadRepository;
 import org.soptorshi.repository.search.AttendanceExcelUploadSearchRepository;
 import org.soptorshi.service.AttendanceService;
+import org.soptorshi.service.EmployeeService;
 import org.soptorshi.service.dto.AttendanceDTO;
 import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
 import org.soptorshi.service.mapper.AttendanceExcelUploadMapper;
@@ -53,12 +56,16 @@ public class AttendanceExcelUploadServiceImpl implements AttendanceExcelUploadSe
 
     private final AttendanceService attendanceService;
 
-    public AttendanceExcelUploadServiceImpl(AttendanceExcelUploadRepository attendanceExcelUploadRepository, AttendanceExcelUploadMapper attendanceExcelUploadMapper, AttendanceExcelUploadSearchRepository attendanceExcelUploadSearchRepository, AttendanceMapper attendanceMapper, AttendanceService attendanceService) {
+    private final EmployeeRepository employeeRepository;
+
+    public AttendanceExcelUploadServiceImpl(AttendanceExcelUploadRepository attendanceExcelUploadRepository, AttendanceExcelUploadMapper attendanceExcelUploadMapper, AttendanceExcelUploadSearchRepository attendanceExcelUploadSearchRepository, AttendanceMapper attendanceMapper, AttendanceService attendanceService,
+                                            EmployeeRepository employeeRepository) {
         this.attendanceExcelUploadRepository = attendanceExcelUploadRepository;
         this.attendanceExcelUploadMapper = attendanceExcelUploadMapper;
         this.attendanceExcelUploadSearchRepository = attendanceExcelUploadSearchRepository;
         this.attendanceMapper = attendanceMapper;
         this.attendanceService = attendanceService;
+        this.employeeRepository = employeeRepository;
     }
 
     /**
@@ -146,7 +153,7 @@ public class AttendanceExcelUploadServiceImpl implements AttendanceExcelUploadSe
     private List<AttendanceExcelParser> parseExcel(byte[] bytes) {
         try {
             XLSReader xlsReader = null;
-            xlsReader = ReaderBuilder.buildFromXML(new File("/home/soptorshi/Documents/attendance-reader.xls"));
+            xlsReader = ReaderBuilder.buildFromXML(new File("D:/Projects/soptorshi-jhipster/src/main/resources/templates/jxls/attendance-reader.xml"));
             List<AttendanceExcelParser> result = new ArrayList<>();
             Map<String, Object> beans = new HashMap<>();
             beans.put("attendances", result);
@@ -165,20 +172,23 @@ public class AttendanceExcelUploadServiceImpl implements AttendanceExcelUploadSe
             .withZone(ZoneId.systemDefault());
         List<Attendance> attendances = new ArrayList<>();
         for (AttendanceExcelParser attendanceExcelParser : attendanceExcelParsers) {
-            if (!attendanceExcelParser.getAttendanceDate().isEmpty()) {
-                Attendance attendance = new Attendance();
-                attendance.setEmployeeId(attendanceExcelParser.getEmployeeId());
-                attendance.setAttendanceDate(LocalDate.parse(attendanceExcelParser.getAttendanceDate()));
+            Optional<Employee> employee = employeeRepository.findByEmployeeId(attendanceExcelParser.getEmployeeId());
+            if(employee.isPresent()) {
+                if (!attendanceExcelParser.getAttendanceDate().isEmpty()) {
+                    Attendance attendance = new Attendance();
+                    attendance.setEmployeeId(attendanceExcelParser.getEmployeeId());
+                    attendance.setAttendanceDate(LocalDate.parse(attendanceExcelParser.getAttendanceDate()));
 
-                String[] inOut = attendanceExcelParser.getInOutTime().split(" ");
-                if (inOut.length > 0) {
-                    attendance.setInTime(Instant.from(formatter.parse(attendanceExcelParser.getAttendanceDate() + " " + inOut[0])));
+                    String[] inOut = attendanceExcelParser.getInOutTime().split(" ");
+                    if (inOut.length > 0) {
+                        attendance.setInTime(Instant.from(formatter.parse(attendanceExcelParser.getAttendanceDate() + " " + inOut[0])));
+                    }
+                    if (inOut.length > 1) {
+                        attendance.setOutTime(Instant.from(formatter.parse(attendanceExcelParser.getAttendanceDate() + " " + inOut[inOut.length - 1])));
+                    }
+                    attendance.setAttendanceExcelUpload(attendanceExcelUpload);
+                    attendances.add(attendance);
                 }
-                if (inOut.length > 1) {
-                    attendance.setOutTime(Instant.from(formatter.parse(attendanceExcelParser.getAttendanceDate() + " " + inOut[inOut.length - 1])));
-                }
-                attendance.setAttendanceExcelUpload(attendanceExcelUpload);
-                attendances.add(attendance);
             }
         }
 

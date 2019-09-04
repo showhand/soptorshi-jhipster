@@ -51,7 +51,7 @@
         </button>
     </div>
     <div class="col-4">
-        <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN']" id="jh-create-entity"
+        <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']" id="jh-create-entity"
                 class="btn btn-primary float-right jh-create-entity create-attendance"
                 [routerLink]="['/attendance/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
@@ -82,6 +82,8 @@
                     <th jhiSortBy="outTime"><span>Out Time</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
+                    <th><span>Duration</span>
+                    </th>
                     <th jhiSortBy="attendanceExcelUploadId"><span>Attendance Excel Upload</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -96,12 +98,13 @@
                     <td>{{attendance.attendanceDate | date:'mediumDate'}}</td>
                     <td>{{attendance.inTime | date:'medium'}}</td>
                     <td>{{attendance.outTime | date:'medium'}}</td>
+                    <td>{{attendance.diff}}</td>
                     <td>
                         <div *ngIf="attendance.attendanceExcelUploadId">
                             <a [routerLink]="['../attendance-excel-upload', attendance.attendanceExcelUploadId , 'view' ]">{{attendance.attendanceExcelUploadId}}</a>
                         </div>
                     </td>
-                    <td class="text-right">
+                    <td class="text-right" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     [routerLink]="['/attendance', attendance.id, 'view' ]"

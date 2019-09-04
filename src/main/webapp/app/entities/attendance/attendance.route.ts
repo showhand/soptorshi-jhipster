@@ -34,7 +34,7 @@ export const attendanceRoute: Routes = [
         path: '',
         component: AttendanceComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -46,7 +46,7 @@ export const attendanceRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -58,8 +58,8 @@ export const attendanceRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
-            pageTitle: 'Attendances'
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
+            pageTitle: 'Employee Attendance'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -70,8 +70,8 @@ export const attendanceRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN', 'ROLE_USER'],
-            pageTitle: 'My Attendance'
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER', 'ROLE_USER'],
+            pageTitle: 'Attendance'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -82,7 +82,7 @@ export const attendanceRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService]
@@ -97,7 +97,7 @@ export const attendancePopupRoute: Routes = [
             attendance: AttendanceResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'Attendances'
         },
         canActivate: [UserRouteAccessService],
