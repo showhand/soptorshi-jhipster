@@ -1,7 +1,13 @@
 package org.soptorshi.service.impl;
 
+import org.hibernate.Criteria;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.LeaveBalance;
+import org.soptorshi.domain.Manager;
 import org.soptorshi.domain.enumeration.LeaveStatus;
+import org.soptorshi.repository.EmployeeRepository;
+import org.soptorshi.repository.ManagerRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.LeaveApplicationService;
 import org.soptorshi.domain.LeaveApplication;
 import org.soptorshi.repository.LeaveApplicationRepository;
@@ -9,15 +15,18 @@ import org.soptorshi.repository.search.LeaveApplicationSearchRepository;
 import org.soptorshi.service.LeaveBalanceService;
 import org.soptorshi.service.dto.LeaveApplicationDTO;
 import org.soptorshi.service.dto.LeaveBalanceDTO;
+import org.soptorshi.service.dto.ManagerCriteria;
 import org.soptorshi.service.mapper.LeaveApplicationMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -39,12 +48,19 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
 
     private final LeaveBalanceService leaveBalanceService;
 
+    private final EmployeeRepository employeeRepository;
+
+    private final ManagerRepository managerRepository;
+
     public LeaveApplicationServiceImpl(LeaveApplicationRepository leaveApplicationRepository, LeaveApplicationMapper leaveApplicationMapper, LeaveApplicationSearchRepository leaveApplicationSearchRepository,
-                                       LeaveBalanceService leaveBalanceService) {
+                                       LeaveBalanceService leaveBalanceService, EmployeeRepository employeeRepository,
+                                       ManagerRepository managerRepository) {
         this.leaveApplicationRepository = leaveApplicationRepository;
         this.leaveApplicationMapper = leaveApplicationMapper;
         this.leaveApplicationSearchRepository = leaveApplicationSearchRepository;
         this.leaveBalanceService = leaveBalanceService;
+        this.employeeRepository = employeeRepository;
+        this.managerRepository = managerRepository;
     }
 
     /**
@@ -55,20 +71,25 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
      */
     @Override
     public LeaveApplicationDTO save(LeaveApplicationDTO leaveApplicationDTO) {
-        if (!isValid(leaveApplicationDTO)) return null;
-        else {
-            log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
-            LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
-            leaveApplication = leaveApplicationRepository.save(leaveApplication);
-            LeaveApplicationDTO result = leaveApplicationMapper.toDto(leaveApplication);
-            leaveApplicationSearchRepository.save(leaveApplication);
-            return result;
+        // need to check whether employee is the manager of the applicant
+        Optional<Employee> employee = employeeRepository.findByEmployeeId(leaveApplicationDTO.getEmployeeId());
+        if (employee.isPresent()) {
+            if (!isValid(leaveApplicationDTO)) return null;
+            else {
+                log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
+                LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
+                leaveApplication = leaveApplicationRepository.save(leaveApplication);
+                LeaveApplicationDTO result = leaveApplicationMapper.toDto(leaveApplication);
+                leaveApplicationSearchRepository.save(leaveApplication);
+                return result;
+            }
         }
+        return null;
     }
 
     private boolean isValid(LeaveApplicationDTO leaveApplicationDTO) {
         log.debug("Validating LeaveApplication : {}", leaveApplicationDTO);
-        if(leaveApplicationDTO.getStatus().equals(LeaveStatus.REJECTED)) return true;
+        if (leaveApplicationDTO.getStatus().equals(LeaveStatus.REJECTED)) return true;
         LeaveBalanceDTO leaveBalance = leaveBalanceService
             .calculateLeaveBalance(leaveApplicationDTO.getEmployeeId(), leaveApplicationDTO.getFromDate().getYear(),
                 leaveApplicationDTO.getLeaveTypesId());

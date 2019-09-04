@@ -33,7 +33,7 @@ export const leaveBalanceRoute: Routes = [
         path: '',
         component: LeaveBalanceComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_APPLICATION'],
+            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveBalance'
         },
         canActivate: [UserRouteAccessService]
@@ -42,7 +42,7 @@ export const leaveBalanceRoute: Routes = [
         path: 'balance',
         component: LeaveBalanceComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_APPLICATION'],
+            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveBalance'
         },
         canActivate: [UserRouteAccessService]
@@ -51,7 +51,7 @@ export const leaveBalanceRoute: Routes = [
         path: 'balance/others',
         component: OthersLeaveBalanceComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_OTHERS_LEAVE_APPLICATION'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_MANAGER'],
             pageTitle: 'LeaveBalance'
         },
         canActivate: [UserRouteAccessService]

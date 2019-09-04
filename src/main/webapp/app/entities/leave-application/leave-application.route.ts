@@ -37,7 +37,7 @@ export const leaveApplicationRoute: Routes = [
         path: '',
         component: LeaveApplicationComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_APPLICATION'],
+            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveApplications'
         },
         canActivate: [UserRouteAccessService]
@@ -49,7 +49,7 @@ export const leaveApplicationRoute: Routes = [
             leaveApplication: LeaveApplicationResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_APPLICATION'],
+            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveApplications'
         },
         canActivate: [UserRouteAccessService]
@@ -61,7 +61,7 @@ export const leaveApplicationRoute: Routes = [
             leaveApplication: LeaveApplicationResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_APPLICATION'],
+            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveApplications'
         },
         canActivate: [UserRouteAccessService]
@@ -73,7 +73,7 @@ export const leaveApplicationRoute: Routes = [
             leaveApplication: LeaveApplicationResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_OTHERS_LEAVE_APPLICATION'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_MANAGER'],
             pageTitle: 'LeaveApplications'
         },
         canActivate: [UserRouteAccessService]
@@ -85,7 +85,7 @@ export const leaveApplicationRoute: Routes = [
             leaveApplication: LeaveApplicationResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_APPLICATION'],
+            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveApplications'
         },
         canActivate: [UserRouteAccessService]
@@ -97,7 +97,7 @@ export const leaveApplicationRoute: Routes = [
             leaveApplication: LeaveApplicationResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_APPROVAL'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_MANAGER'],
             pageTitle: 'ReviewLeaveApplication'
         },
         canActivate: [UserRouteAccessService]
@@ -109,7 +109,7 @@ export const leaveApplicationRoute: Routes = [
             leaveApplication: LeaveApplicationResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_OTHERS_LEAVE_APPLICATION'],
+            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_MANAGER'],
             pageTitle: 'LeaveHistory'
         },
         canActivate: [UserRouteAccessService]
@@ -124,7 +124,7 @@ export const leaveApplicationPopupRoute: Routes = [
             leaveApplication: LeaveApplicationResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_APPLICATION'],
+            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
             pageTitle: 'LeaveApplications'
         },
         canActivate: [UserRouteAccessService],

@@ -138,7 +138,7 @@ export class ReviewLeaveApplicationComponent implements OnInit, OnDestroy {
                         this.currentEmployee = res.body;
                         this.managerService
                             .query({
-                                'employeeId.equals': '1' // this.currentEmployee[0].id
+                                'employeeId.equals': this.currentEmployee[0].id
                             })
                             .subscribe(
                                 (response: HttpResponse<IManager[]>) => {

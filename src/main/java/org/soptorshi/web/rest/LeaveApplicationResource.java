@@ -1,4 +1,5 @@
 package org.soptorshi.web.rest;
+import org.soptorshi.domain.LeaveApplication;
 import org.soptorshi.service.LeaveApplicationService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
