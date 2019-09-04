@@ -153,7 +153,7 @@ public class AttendanceExcelUploadServiceImpl implements AttendanceExcelUploadSe
     private List<AttendanceExcelParser> parseExcel(byte[] bytes) {
         try {
             XLSReader xlsReader = null;
-            xlsReader = ReaderBuilder.buildFromXML(new File("D:/Projects/soptorshi-jhipster/src/main/resources/templates/jxls/attendance-reader.xml"));
+            xlsReader = ReaderBuilder.buildFromXML(new File("/home/soptorshi/Documents/attendance-reader.xml"));
             List<AttendanceExcelParser> result = new ArrayList<>();
             Map<String, Object> beans = new HashMap<>();
             beans.put("attendances", result);
