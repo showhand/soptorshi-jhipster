@@ -1,3 +1,5 @@
+import NumberFormat = Intl.NumberFormat;
+
 export class SoptorshiUtil {
     public static writeFileContent(data: any, contentType: string, fileName: string) {
         var file = new Blob([data], { type: contentType });

@@ -31,7 +31,8 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="companyName"><span>Company Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="contactNumber"><span>Contact Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -39,6 +40,7 @@
             <tr *ngFor="let vendor of vendors ;trackBy: trackId">
                 <td>{{vendor.companyName}}</td>
                 <td>{{vendor.description}}</td>
+                <td>{{vendor.contactNumber}}</td>
                 <td>{{vendor.remarks}}</td>
                 <td class="text-right">
                         <button type="submit"
