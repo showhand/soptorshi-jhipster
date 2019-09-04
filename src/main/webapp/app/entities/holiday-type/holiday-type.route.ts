@@ -33,7 +33,7 @@ export const holidayTypeRoute: Routes = [
         path: '',
         component: HolidayTypeComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
             pageTitle: 'HolidayTypes'
         },
         canActivate: [UserRouteAccessService]
@@ -45,7 +45,7 @@ export const holidayTypeRoute: Routes = [
             holidayType: HolidayTypeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
             pageTitle: 'HolidayTypes'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +57,7 @@ export const holidayTypeRoute: Routes = [
             holidayType: HolidayTypeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
             pageTitle: 'HolidayTypes'
         },
         canActivate: [UserRouteAccessService]
@@ -69,7 +69,7 @@ export const holidayTypeRoute: Routes = [
             holidayType: HolidayTypeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
             pageTitle: 'HolidayTypes'
         },
         canActivate: [UserRouteAccessService]
@@ -84,7 +84,7 @@ export const holidayTypePopupRoute: Routes = [
             holidayType: HolidayTypeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
             pageTitle: 'HolidayTypes'
         },
         canActivate: [UserRouteAccessService],
