@@ -31,6 +31,13 @@ public class Vendor implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Lob
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "contact_number")
+    private String contactNumber;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "remarks")
     private VendorRemarks remarks;
@@ -68,6 +75,32 @@ public class Vendor implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Vendor address(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public Vendor contactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+        return this;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public VendorRemarks getRemarks() {
@@ -110,6 +143,8 @@ public class Vendor implements Serializable {
             "id=" + getId() +
             ", companyName='" + getCompanyName() + "'" +
             ", description='" + getDescription() + "'" +
+            ", address='" + getAddress() + "'" +
+            ", contactNumber='" + getContactNumber() + "'" +
             ", remarks='" + getRemarks() + "'" +
             "}";
     }

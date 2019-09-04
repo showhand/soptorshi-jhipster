@@ -9,20 +9,20 @@ export const enum VendorRemarks {
 
 export interface IVendor {
     id?: number;
-    vendorId?: number;
     companyName?: string;
     description?: any;
+    address?: any;
+    contactNumber?: string;
     remarks?: VendorRemarks;
 }
 
 export class Vendor implements IVendor {
     constructor(
         public id?: number,
-        public vendorId?: number,
         public companyName?: string,
         public description?: any,
+        public address?: any,
+        public contactNumber?: string,
         public remarks?: VendorRemarks
-    ) {
-        this.vendorId = id;
-    }
+    ) {}
 }

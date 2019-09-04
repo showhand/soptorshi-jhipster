@@ -217,7 +217,9 @@ entity Manager{
 entity Vendor{
     companyName String,
     description TextBlob,
-    remarks VendorRemarks,
+    address TextBlob,
+    contactNumber String,
+    remarks VendorRemarks
 }
 
 entity VendorContactPerson{

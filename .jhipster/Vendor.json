@@ -11,6 +11,15 @@
             "fieldTypeBlobContent": "text"
         },
         {
+            "fieldName": "address",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "contactNumber",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "remarks",
             "fieldType": "VendorRemarks",
             "fieldValues": "VERY_GOOD,GOOD,MODERATE,AVERAGE,BELOW_AVERAGE,BAD"

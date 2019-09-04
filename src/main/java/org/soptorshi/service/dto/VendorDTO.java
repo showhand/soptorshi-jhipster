@@ -16,6 +16,11 @@ public class VendorDTO implements Serializable {
     @Lob
     private String description;
 
+    @Lob
+    private String address;
+
+    private String contactNumber;
+
     private VendorRemarks remarks;
 
 
@@ -41,6 +46,22 @@ public class VendorDTO implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public VendorRemarks getRemarks() {
@@ -78,6 +99,8 @@ public class VendorDTO implements Serializable {
             "id=" + getId() +
             ", companyName='" + getCompanyName() + "'" +
             ", description='" + getDescription() + "'" +
+            ", address='" + getAddress() + "'" +
+            ", contactNumber='" + getContactNumber() + "'" +
             ", remarks='" + getRemarks() + "'" +
             "}";
     }

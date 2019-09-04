@@ -96,6 +96,9 @@ public class VendorQueryService extends QueryService<Vendor> {
             if (criteria.getCompanyName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCompanyName(), Vendor_.companyName));
             }
+            if (criteria.getContactNumber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getContactNumber(), Vendor_.contactNumber));
+            }
             if (criteria.getRemarks() != null) {
                 specification = specification.and(buildSpecification(criteria.getRemarks(), Vendor_.remarks));
             }
