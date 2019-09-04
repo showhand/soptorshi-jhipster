@@ -59,6 +59,12 @@ public class VendorResourceIntTest {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
+    private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
+    private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CONTACT_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_CONTACT_NUMBER = "BBBBBBBBBB";
+
     private static final VendorRemarks DEFAULT_REMARKS = VendorRemarks.VERY_GOOD;
     private static final VendorRemarks UPDATED_REMARKS = VendorRemarks.GOOD;
 
@@ -123,6 +129,8 @@ public class VendorResourceIntTest {
         Vendor vendor = new Vendor()
             .companyName(DEFAULT_COMPANY_NAME)
             .description(DEFAULT_DESCRIPTION)
+            .address(DEFAULT_ADDRESS)
+            .contactNumber(DEFAULT_CONTACT_NUMBER)
             .remarks(DEFAULT_REMARKS);
         return vendor;
     }
@@ -150,6 +158,8 @@ public class VendorResourceIntTest {
         Vendor testVendor = vendorList.get(vendorList.size() - 1);
         assertThat(testVendor.getCompanyName()).isEqualTo(DEFAULT_COMPANY_NAME);
         assertThat(testVendor.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testVendor.getAddress()).isEqualTo(DEFAULT_ADDRESS);
+        assertThat(testVendor.getContactNumber()).isEqualTo(DEFAULT_CONTACT_NUMBER);
         assertThat(testVendor.getRemarks()).isEqualTo(DEFAULT_REMARKS);
 
         // Validate the Vendor in Elasticsearch
@@ -192,6 +202,8 @@ public class VendorResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(vendor.getId().intValue())))
             .andExpect(jsonPath("$.[*].companyName").value(hasItem(DEFAULT_COMPANY_NAME.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
+            .andExpect(jsonPath("$.[*].contactNumber").value(hasItem(DEFAULT_CONTACT_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
     
@@ -208,6 +220,8 @@ public class VendorResourceIntTest {
             .andExpect(jsonPath("$.id").value(vendor.getId().intValue()))
             .andExpect(jsonPath("$.companyName").value(DEFAULT_COMPANY_NAME.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()))
+            .andExpect(jsonPath("$.contactNumber").value(DEFAULT_CONTACT_NUMBER.toString()))
             .andExpect(jsonPath("$.remarks").value(DEFAULT_REMARKS.toString()));
     }
 
@@ -248,6 +262,45 @@ public class VendorResourceIntTest {
 
         // Get all the vendorList where companyName is null
         defaultVendorShouldNotBeFound("companyName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllVendorsByContactNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        vendorRepository.saveAndFlush(vendor);
+
+        // Get all the vendorList where contactNumber equals to DEFAULT_CONTACT_NUMBER
+        defaultVendorShouldBeFound("contactNumber.equals=" + DEFAULT_CONTACT_NUMBER);
+
+        // Get all the vendorList where contactNumber equals to UPDATED_CONTACT_NUMBER
+        defaultVendorShouldNotBeFound("contactNumber.equals=" + UPDATED_CONTACT_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVendorsByContactNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        vendorRepository.saveAndFlush(vendor);
+
+        // Get all the vendorList where contactNumber in DEFAULT_CONTACT_NUMBER or UPDATED_CONTACT_NUMBER
+        defaultVendorShouldBeFound("contactNumber.in=" + DEFAULT_CONTACT_NUMBER + "," + UPDATED_CONTACT_NUMBER);
+
+        // Get all the vendorList where contactNumber equals to UPDATED_CONTACT_NUMBER
+        defaultVendorShouldNotBeFound("contactNumber.in=" + UPDATED_CONTACT_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVendorsByContactNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        vendorRepository.saveAndFlush(vendor);
+
+        // Get all the vendorList where contactNumber is not null
+        defaultVendorShouldBeFound("contactNumber.specified=true");
+
+        // Get all the vendorList where contactNumber is null
+        defaultVendorShouldNotBeFound("contactNumber.specified=false");
     }
 
     @Test
@@ -298,6 +351,8 @@ public class VendorResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(vendor.getId().intValue())))
             .andExpect(jsonPath("$.[*].companyName").value(hasItem(DEFAULT_COMPANY_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
+            .andExpect(jsonPath("$.[*].contactNumber").value(hasItem(DEFAULT_CONTACT_NUMBER)))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
 
         // Check, that the count call also returns 1
@@ -348,6 +403,8 @@ public class VendorResourceIntTest {
         updatedVendor
             .companyName(UPDATED_COMPANY_NAME)
             .description(UPDATED_DESCRIPTION)
+            .address(UPDATED_ADDRESS)
+            .contactNumber(UPDATED_CONTACT_NUMBER)
             .remarks(UPDATED_REMARKS);
         VendorDTO vendorDTO = vendorMapper.toDto(updatedVendor);
 
@@ -362,6 +419,8 @@ public class VendorResourceIntTest {
         Vendor testVendor = vendorList.get(vendorList.size() - 1);
         assertThat(testVendor.getCompanyName()).isEqualTo(UPDATED_COMPANY_NAME);
         assertThat(testVendor.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testVendor.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testVendor.getContactNumber()).isEqualTo(UPDATED_CONTACT_NUMBER);
         assertThat(testVendor.getRemarks()).isEqualTo(UPDATED_REMARKS);
 
         // Validate the Vendor in Elasticsearch
@@ -425,6 +484,8 @@ public class VendorResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(vendor.getId().intValue())))
             .andExpect(jsonPath("$.[*].companyName").value(hasItem(DEFAULT_COMPANY_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
+            .andExpect(jsonPath("$.[*].contactNumber").value(hasItem(DEFAULT_CONTACT_NUMBER)))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
 

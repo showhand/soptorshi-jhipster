@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="vendor">
-            <h2><span>Vendor</span> <b>{{vendor.companyName}}</b></h2>
+            <h2><span>Vendor</span> {{vendor.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -12,6 +12,14 @@
                 <dt><span>Description</span></dt>
                 <dd>
                     <span>{{vendor.description}}</span>
+                </dd>
+                <dt><span>Address</span></dt>
+                <dd>
+                    <span>{{vendor.address}}</span>
+                </dd>
+                <dt><span>Contact Number</span></dt>
+                <dd>
+                    <span>{{vendor.contactNumber}}</span>
                 </dd>
                 <dt><span>Remarks</span></dt>
                 <dd>
@@ -29,11 +37,6 @@
                     [routerLink]="['/vendor', vendor.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>
-            <button type="button"
-                    [routerLink]="['/vendor-contact-person', vendor.vendorId, 'vendor']"
-                    class="btn btn-secondary">
-                <fa-icon [icon]="'user'"></fa-icon>&nbsp;<span> Contact Persons</span>
             </button>
         </div>
     </div>

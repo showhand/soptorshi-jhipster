@@ -7,7 +7,7 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <property name="now" value="now()" dbms="h2"/>
-    
+
     <property name="now" value="now()" dbms="mysql"/>
     <property name="autoIncrement" value="true"/>
 
@@ -18,6 +18,7 @@
         Added the entity Vendor.
     -->
     <changeSet id="20190622174345-1" author="jhipster">
+        <validCheckSum>7:b15054bdb1a7789e8f6f7ba7c40a697e</validCheckSum>
         <createTable tableName="vendor">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
@@ -30,13 +31,21 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="address" type="clob">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="contact_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="remarks" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
+
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

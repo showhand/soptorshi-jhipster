@@ -124,6 +124,7 @@
     <include file="config/liquibase/changelog/20190830124623_total_amount_added_quotation_and_columns_dropped_in_quotation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190830141257_product_integrated_with_quotation_details.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190903153526_estimated_date_added_in_quotation_details.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190904033248_address_contact_number_added_in_vendor.xml" relativeToChangelogFile="false"/>
 
 
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->

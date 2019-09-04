@@ -13,10 +13,8 @@ import { VendorExtendedUpdateComponent } from 'app/entities/vendor-extended/vend
 import { VendorExtendedUpdatedPopupComponent } from 'app/entities/vendor-extended/vendor-extended-update-dialog.component';
 
 @Injectable({ providedIn: 'root' })
-export class VendorExtendedResolve extends VendorResolve {
-    constructor(public service: VendorService) {
-        super(service);
-    }
+export class VendorExtendedResolve {
+    constructor(public service: VendorService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IVendor> {
         const id = route.params['id'] ? route.params['id'] : null;
