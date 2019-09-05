@@ -196,9 +196,21 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     }
 
     protected addDistinctAttendances(data: IAttendance[]) {
+        let flag = 0;
         this.distinctAttendanceDate = [];
         for (let i = 0; i < data.length; i++) {
-            this.distinctAttendanceDate.push(data[i]);
+            for (let j = 0; j < this.distinctAttendanceDate.length; j++) {
+                console.log(this.distinctAttendanceDate[j].attendanceDate);
+                if (this.distinctAttendanceDate[j].attendanceDate.diff(data[i].attendanceDate) === 0) {
+                    flag = 1;
+                    break;
+                } else {
+                    flag = 0;
+                }
+            }
+            if (flag === 0) {
+                this.distinctAttendanceDate.push(data[i]);
+            }
         }
     }
 
