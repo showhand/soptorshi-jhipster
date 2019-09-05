@@ -66,7 +66,7 @@ public class LeaveApplicationResource {
         leaveApplicationDTO.setAppliedOn(Instant.now());
         LeaveApplicationDTO result = leaveApplicationService.save(leaveApplicationDTO);
         if(result == null) {
-            return  ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+            return  ResponseEntity.badRequest().build();
         }
         return ResponseEntity.created(new URI("/api/leave-applications/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))

@@ -103,6 +103,7 @@ export class OthersLeaveApplicationComponent implements OnInit {
 
     protected onSaveError() {
         this.isSaving = false;
+        this.onError('Error while saving!');
     }
 
     protected onError(errorMessage: string) {

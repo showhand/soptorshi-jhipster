@@ -26,6 +26,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,14 +75,36 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
         // need to check whether employee is the manager of the applicant
         Optional<Employee> employee = employeeRepository.findByEmployeeId(leaveApplicationDTO.getEmployeeId());
         if (employee.isPresent()) {
-            if (!isValid(leaveApplicationDTO)) return null;
-            else {
-                log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
-                LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
-                leaveApplication = leaveApplicationRepository.save(leaveApplication);
-                LeaveApplicationDTO result = leaveApplicationMapper.toDto(leaveApplication);
-                leaveApplicationSearchRepository.save(leaveApplication);
-                return result;
+            Optional<String> loggedInUserId = SecurityUtils.getCurrentUserLogin();
+            if(loggedInUserId.isPresent()) {
+                Optional<Employee> loggedInEmployee = employeeRepository.findByEmployeeId(loggedInUserId.get());
+                if (loggedInEmployee.isPresent()) {
+                    Optional<Manager> manager = managerRepository.getByParentEmployeeIdAndEmployee(employee.get().getId(), loggedInEmployee.get());
+                    if(manager.isPresent()) {
+                        if (!isValid(leaveApplicationDTO)) return null;
+                        else {
+                            log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
+                            LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
+                            leaveApplication = leaveApplicationRepository.save(leaveApplication);
+                            LeaveApplicationDTO result = leaveApplicationMapper.toDto(leaveApplication);
+                            leaveApplicationSearchRepository.save(leaveApplication);
+                            return result;
+                        }
+                    }
+                    else{
+                        if(loggedInEmployee.get().equals(employee.get())){
+                            if (!isValid(leaveApplicationDTO)) return null;
+                            else {
+                                log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
+                                LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
+                                leaveApplication = leaveApplicationRepository.save(leaveApplication);
+                                LeaveApplicationDTO result = leaveApplicationMapper.toDto(leaveApplication);
+                                leaveApplicationSearchRepository.save(leaveApplication);
+                                return result;
+                            }
+                        }
+                    }
+                }
             }
         }
         return null;
