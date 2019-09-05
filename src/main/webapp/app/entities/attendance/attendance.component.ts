@@ -200,7 +200,6 @@ export class AttendanceComponent implements OnInit, OnDestroy {
         this.distinctAttendanceDate = [];
         for (let i = 0; i < data.length; i++) {
             for (let j = 0; j < this.distinctAttendanceDate.length; j++) {
-                console.log(this.distinctAttendanceDate[j].attendanceDate);
                 if (this.distinctAttendanceDate[j].attendanceDate.diff(data[i].attendanceDate) === 0) {
                     flag = 1;
                     break;
