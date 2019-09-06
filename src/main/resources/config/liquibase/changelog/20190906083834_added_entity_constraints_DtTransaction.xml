@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity DtTransaction.
+    -->
+    <changeSet id="20190906083834-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="creditor_ledger_id"
+                                 baseTableName="dt_transaction"
+                                 constraintName="fk_dt_transaction_creditor_ledger_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="creditor_ledger"/>
+
+        <addForeignKeyConstraint baseColumnNames="debtor_ledger_id"
+                                 baseTableName="dt_transaction"
+                                 constraintName="fk_dt_transaction_debtor_ledger_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="debtor_ledger"/>
+
+        <addForeignKeyConstraint baseColumnNames="cheque_register_id"
+                                 baseTableName="dt_transaction"
+                                 constraintName="fk_dt_transaction_cheque_register_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cheque_register"/>
+
+        <addForeignKeyConstraint baseColumnNames="account_id"
+                                 baseTableName="dt_transaction"
+                                 constraintName="fk_dt_transaction_account_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_account"/>
+
+        <addForeignKeyConstraint baseColumnNames="voucher_id"
+                                 baseTableName="dt_transaction"
+                                 constraintName="fk_dt_transaction_voucher_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="voucher"/>
+
+        <addForeignKeyConstraint baseColumnNames="currency_id"
+                                 baseTableName="dt_transaction"
+                                 constraintName="fk_dt_transaction_currency_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="currency"/>
+
+    </changeSet>
+</databaseChangeLog>

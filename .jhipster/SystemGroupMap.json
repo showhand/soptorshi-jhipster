@@ -1,0 +1,37 @@
+{
+    "name": "SystemGroupMap",
+    "fields": [
+        {
+            "fieldName": "groupType",
+            "fieldType": "GroupType",
+            "fieldValues": "ASSETS,LIABILITIES,INCOME,EXPENSES,BANK_ACCOUNTS,CASH_IN_hAND,SUNDRY_DEBTOR,SUNDRY_CREDITOR,CURRENT_LIABILITIES"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "mstGroup",
+            "otherEntityRelationshipName": "systemGroupMap",
+            "relationshipName": "group",
+            "otherEntityField": "name"
+        }
+    ],
+    "changelogDate": "20190906083839",
+    "entityTableName": "system_group_map",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

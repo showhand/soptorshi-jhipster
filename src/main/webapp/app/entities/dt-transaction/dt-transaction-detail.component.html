@@ -1,0 +1,119 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="dtTransaction">
+            <h2><span>Dt Transaction</span> {{dtTransaction.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Voucher No</span></dt>
+                <dd>
+                    <span>{{dtTransaction.voucherNo}}</span>
+                </dd>
+                <dt><span>Voucher Date</span></dt>
+                <dd>
+                    <span>{{dtTransaction.voucherDate}}</span>
+                </dd>
+                <dt><span>Serial No</span></dt>
+                <dd>
+                    <span>{{dtTransaction.serialNo}}</span>
+                </dd>
+                <dt><span>Amount</span></dt>
+                <dd>
+                    <span>{{dtTransaction.amount}}</span>
+                </dd>
+                <dt><span>Balance Type</span></dt>
+                <dd>
+                    <span>{{dtTransaction.balanceType}}</span>
+                </dd>
+                <dt><span>Type</span></dt>
+                <dd>
+                    <span>{{dtTransaction.type}}</span>
+                </dd>
+                <dt><span>Invoice No</span></dt>
+                <dd>
+                    <span>{{dtTransaction.invoiceNo}}</span>
+                </dd>
+                <dt><span>Invoice Date</span></dt>
+                <dd>
+                    <span>{{dtTransaction.invoiceDate}}</span>
+                </dd>
+                <dt><span>F Currency</span></dt>
+                <dd>
+                    <span>{{dtTransaction.fCurrency}}</span>
+                </dd>
+                <dt><span>Conv Factor</span></dt>
+                <dd>
+                    <span>{{dtTransaction.convFactor}}</span>
+                </dd>
+                <dt><span>Post Date</span></dt>
+                <dd>
+                    <span>{{dtTransaction.postDate}}</span>
+                </dd>
+                <dt><span>Narration</span></dt>
+                <dd>
+                    <span>{{dtTransaction.narration}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{dtTransaction.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{dtTransaction.modifiedOn}}</span>
+                </dd>
+                <dt><span>Reference</span></dt>
+                <dd>
+                    <span>{{dtTransaction.reference}}</span>
+                </dd>
+                <dt><span>Creditor Ledger</span></dt>
+                <dd>
+                    <div *ngIf="dtTransaction.creditorLedgerId">
+                        <a [routerLink]="['/creditor-ledger', dtTransaction.creditorLedgerId, 'view']">{{dtTransaction.creditorLedgerId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Debtor Ledger</span></dt>
+                <dd>
+                    <div *ngIf="dtTransaction.debtorLedgerId">
+                        <a [routerLink]="['/debtor-ledger', dtTransaction.debtorLedgerId, 'view']">{{dtTransaction.debtorLedgerId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Cheque Register</span></dt>
+                <dd>
+                    <div *ngIf="dtTransaction.chequeRegisterId">
+                        <a [routerLink]="['/cheque-register', dtTransaction.chequeRegisterId, 'view']">{{dtTransaction.chequeRegisterChequeNo}}</a>
+                    </div>
+                </dd>
+                <dt><span>Account</span></dt>
+                <dd>
+                    <div *ngIf="dtTransaction.accountId">
+                        <a [routerLink]="['/mst-account', dtTransaction.accountId, 'view']">{{dtTransaction.accountName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Voucher</span></dt>
+                <dd>
+                    <div *ngIf="dtTransaction.voucherId">
+                        <a [routerLink]="['/voucher', dtTransaction.voucherId, 'view']">{{dtTransaction.voucherName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Currency</span></dt>
+                <dd>
+                    <div *ngIf="dtTransaction.currencyId">
+                        <a [routerLink]="['/currency', dtTransaction.currencyId, 'view']">{{dtTransaction.currencyNotation}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/dt-transaction', dtTransaction.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

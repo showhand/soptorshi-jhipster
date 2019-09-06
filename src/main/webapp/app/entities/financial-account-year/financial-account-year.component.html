@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Financial Account Years</span>
-        <button id="jh-create-entity" mat-raised-button color="primary" class=" float-right jh-create-entity create-financial-account-year" [routerLink]="['/financial-account-year/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-financial-account-year" [routerLink]="['/financial-account-year/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Financial Account Year
@@ -34,6 +34,7 @@
             <th jhiSortBy="endDate"><span>End Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="previousStartDate"><span>Previous Start Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="previousEndDate"><span>Previous End Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="durationStr"><span>Duration Str</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -45,6 +46,7 @@
                 <td>{{financialAccountYear.endDate | date:'mediumDate'}}</td>
                 <td>{{financialAccountYear.previousStartDate | date:'mediumDate'}}</td>
                 <td>{{financialAccountYear.previousEndDate | date:'mediumDate'}}</td>
+                <td>{{financialAccountYear.durationStr}}</td>
                 <td>{{financialAccountYear.status}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">

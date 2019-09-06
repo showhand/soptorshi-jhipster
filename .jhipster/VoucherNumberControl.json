@@ -1,0 +1,51 @@
+{
+    "name": "VoucherNumberControl",
+    "fields": [
+        {
+            "fieldName": "resetBasis",
+            "fieldType": "VoucherResetBasis",
+            "fieldValues": "YEARLY,MONTHLY,WEEKLY,DAILY,CARRY_FORWARD"
+        },
+        {
+            "fieldName": "startVoucherNo",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "voucherLimit",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "Long"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "financialAccountYear",
+            "otherEntityRelationshipName": "voucherNumberControl",
+            "relationshipName": "financialAccountYear",
+            "otherEntityField": "durationStr"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "voucher",
+            "otherEntityRelationshipName": "voucherNumberControl",
+            "relationshipName": "voucher",
+            "otherEntityField": "name"
+        }
+    ],
+    "changelogDate": "20190906083824",
+    "entityTableName": "voucher_number_control",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

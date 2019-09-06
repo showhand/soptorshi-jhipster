@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity VoucherNumberControl.
+    -->
+    <changeSet id="20190906083824-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="financial_account_year_id"
+                                 baseTableName="voucher_number_control"
+                                 constraintName="fk_voucher_number_control_financial_account_year_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="financial_account_year"/>
+
+        <addForeignKeyConstraint baseColumnNames="voucher_id"
+                                 baseTableName="voucher_number_control"
+                                 constraintName="fk_voucher_number_control_voucher_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="voucher"/>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,35 @@
+{
+    "name": "PredefinedNarration",
+    "fields": [
+        {
+            "fieldName": "narration",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "voucher",
+            "otherEntityRelationshipName": "predefinedNarration",
+            "relationshipName": "voucher",
+            "otherEntityField": "name"
+        }
+    ],
+    "changelogDate": "20190906083831",
+    "entityTableName": "predefined_narration",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

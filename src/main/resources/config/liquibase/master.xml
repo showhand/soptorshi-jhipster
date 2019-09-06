@@ -61,6 +61,23 @@
     <include file="config/liquibase/changelog/20190802061702_added_entity_StockInItem.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190802061703_added_entity_StockOutItem.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190803152917_added_entity_StockStatus.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083823_added_entity_Voucher.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083824_added_entity_VoucherNumberControl.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083825_added_entity_PeriodClose.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083826_added_entity_Currency.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083827_added_entity_MstGroup.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083828_added_entity_MstAccount.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083829_added_entity_AccountBalance.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083830_added_entity_MonthlyBalance.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083831_added_entity_PredefinedNarration.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083832_added_entity_ConversionFactor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083833_added_entity_ChequeRegister.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083834_added_entity_DtTransaction.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083835_added_entity_Customer.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083836_added_entity_CreditorLedger.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083837_added_entity_DebtorLedger.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083838_added_entity_SystemAccountMap.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083839_added_entity_SystemGroupMap.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
@@ -127,5 +144,17 @@
     <include file="config/liquibase/changelog/20190904033248_address_contact_number_added_in_vendor.xml" relativeToChangelogFile="false"/>
 
 
+    <include file="config/liquibase/changelog/20190906083824_added_entity_constraints_VoucherNumberControl.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083825_added_entity_constraints_PeriodClose.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083828_added_entity_constraints_MstAccount.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083829_added_entity_constraints_AccountBalance.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083830_added_entity_constraints_MonthlyBalance.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083831_added_entity_constraints_PredefinedNarration.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083832_added_entity_constraints_ConversionFactor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083834_added_entity_constraints_DtTransaction.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083836_added_entity_constraints_CreditorLedger.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083837_added_entity_constraints_DebtorLedger.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083838_added_entity_constraints_SystemAccountMap.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190906083839_added_entity_constraints_SystemGroupMap.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
