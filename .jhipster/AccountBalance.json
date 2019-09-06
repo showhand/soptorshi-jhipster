@@ -1,0 +1,56 @@
+{
+    "name": "AccountBalance",
+    "fields": [
+        {
+            "fieldName": "yearOpenBalance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "yearOpenBalanceType",
+            "fieldType": "BalanceType",
+            "fieldValues": "DEBIT,CREDIT"
+        },
+        {
+            "fieldName": "totDebitTrans",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "totCreditTrans",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "financialAccountYear",
+            "otherEntityRelationshipName": "accountBalance",
+            "relationshipName": "financialAccountYear",
+            "otherEntityField": "durationStr"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "mstAccount",
+            "otherEntityRelationshipName": "accountBalance",
+            "relationshipName": "account",
+            "otherEntityField": "name"
+        }
+    ],
+    "changelogDate": "20190906083829",
+    "entityTableName": "account_balance",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

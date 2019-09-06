@@ -1,0 +1,78 @@
+{
+    "name": "CreditorLedger",
+    "fields": [
+        {
+            "fieldName": "serialNo",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "billNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "billDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "paidAmount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "balanceType",
+            "fieldType": "BalanceType",
+            "fieldValues": "DEBIT,CREDIT"
+        },
+        {
+            "fieldName": "billClosingFlag",
+            "fieldType": "BillClosingFlag",
+            "fieldValues": "OPEN,CLOSED,WITHHELD"
+        },
+        {
+            "fieldName": "dueDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "vatNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contCode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "orderNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "vendor",
+            "otherEntityRelationshipName": "creditorLedger",
+            "relationshipName": "vendor",
+            "otherEntityField": "companyName"
+        }
+    ],
+    "changelogDate": "20190906083836",
+    "entityTableName": "creditor_ledger",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

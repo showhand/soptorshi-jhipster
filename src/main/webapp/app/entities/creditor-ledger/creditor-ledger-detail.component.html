@@ -1,0 +1,81 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="creditorLedger">
+            <h2><span>Creditor Ledger</span> {{creditorLedger.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Serial No</span></dt>
+                <dd>
+                    <span>{{creditorLedger.serialNo}}</span>
+                </dd>
+                <dt><span>Bill No</span></dt>
+                <dd>
+                    <span>{{creditorLedger.billNo}}</span>
+                </dd>
+                <dt><span>Bill Date</span></dt>
+                <dd>
+                    <span>{{creditorLedger.billDate}}</span>
+                </dd>
+                <dt><span>Amount</span></dt>
+                <dd>
+                    <span>{{creditorLedger.amount}}</span>
+                </dd>
+                <dt><span>Paid Amount</span></dt>
+                <dd>
+                    <span>{{creditorLedger.paidAmount}}</span>
+                </dd>
+                <dt><span>Balance Type</span></dt>
+                <dd>
+                    <span>{{creditorLedger.balanceType}}</span>
+                </dd>
+                <dt><span>Bill Closing Flag</span></dt>
+                <dd>
+                    <span>{{creditorLedger.billClosingFlag}}</span>
+                </dd>
+                <dt><span>Due Date</span></dt>
+                <dd>
+                    <span>{{creditorLedger.dueDate}}</span>
+                </dd>
+                <dt><span>Vat No</span></dt>
+                <dd>
+                    <span>{{creditorLedger.vatNo}}</span>
+                </dd>
+                <dt><span>Cont Code</span></dt>
+                <dd>
+                    <span>{{creditorLedger.contCode}}</span>
+                </dd>
+                <dt><span>Order No</span></dt>
+                <dd>
+                    <span>{{creditorLedger.orderNo}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{creditorLedger.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{creditorLedger.modifiedOn}}</span>
+                </dd>
+                <dt><span>Vendor</span></dt>
+                <dd>
+                    <div *ngIf="creditorLedger.vendorId">
+                        <a [routerLink]="['/vendor', creditorLedger.vendorId, 'view']">{{creditorLedger.vendorCompanyName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/creditor-ledger', creditorLedger.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

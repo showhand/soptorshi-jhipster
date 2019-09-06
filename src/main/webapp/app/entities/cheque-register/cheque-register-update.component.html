@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-cheque-register-heading">Create or edit a Cheque Register</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!chequeRegister.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="chequeRegister.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_chequeNo">Cheque No</label>
+                    <input type="text" class="form-control" name="chequeNo" id="field_chequeNo"
+                        [(ngModel)]="chequeRegister.chequeNo" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_chequeDate">Cheque Date</label>
+                    <div class="input-group">
+                        <input id="field_chequeDate" type="text" class="form-control" name="chequeDate" ngbDatepicker  #chequeDateDp="ngbDatepicker" [(ngModel)]="chequeRegister.chequeDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="chequeDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <input type="text" class="form-control" name="status" id="field_status"
+                        [(ngModel)]="chequeRegister.status" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_realizationDate">Realization Date</label>
+                    <div class="input-group">
+                        <input id="field_realizationDate" type="text" class="form-control" name="realizationDate" ngbDatepicker  #realizationDateDp="ngbDatepicker" [(ngModel)]="chequeRegister.realizationDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="realizationDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                        [(ngModel)]="chequeRegister.modifiedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="chequeRegister.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

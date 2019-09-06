@@ -1,0 +1,77 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="debtorLedger">
+            <h2><span>Debtor Ledger</span> {{debtorLedger.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Serial No</span></dt>
+                <dd>
+                    <span>{{debtorLedger.serialNo}}</span>
+                </dd>
+                <dt><span>Bill No</span></dt>
+                <dd>
+                    <span>{{debtorLedger.billNo}}</span>
+                </dd>
+                <dt><span>Bill Date</span></dt>
+                <dd>
+                    <span>{{debtorLedger.billDate}}</span>
+                </dd>
+                <dt><span>Amount</span></dt>
+                <dd>
+                    <span>{{debtorLedger.amount}}</span>
+                </dd>
+                <dt><span>Paid Amount</span></dt>
+                <dd>
+                    <span>{{debtorLedger.paidAmount}}</span>
+                </dd>
+                <dt><span>Bill Closing Flag</span></dt>
+                <dd>
+                    <span>{{debtorLedger.billClosingFlag}}</span>
+                </dd>
+                <dt><span>Due Date</span></dt>
+                <dd>
+                    <span>{{debtorLedger.dueDate}}</span>
+                </dd>
+                <dt><span>Vat No</span></dt>
+                <dd>
+                    <span>{{debtorLedger.vatNo}}</span>
+                </dd>
+                <dt><span>Cont Code</span></dt>
+                <dd>
+                    <span>{{debtorLedger.contCode}}</span>
+                </dd>
+                <dt><span>Order No</span></dt>
+                <dd>
+                    <span>{{debtorLedger.orderNo}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{debtorLedger.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{debtorLedger.modifiedOn}}</span>
+                </dd>
+                <dt><span>Customer</span></dt>
+                <dd>
+                    <div *ngIf="debtorLedger.customerId">
+                        <a [routerLink]="['/customer', debtorLedger.customerId, 'view']">{{debtorLedger.customerName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/debtor-ledger', debtorLedger.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

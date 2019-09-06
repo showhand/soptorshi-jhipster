@@ -1,0 +1,123 @@
+{
+    "name": "DtTransaction",
+    "fields": [
+        {
+            "fieldName": "voucherNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "voucherDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "serialNo",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "balanceType",
+            "fieldType": "BalanceType",
+            "fieldValues": "DEBIT,CREDIT"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "VoucherType",
+            "fieldValues": "SELLING,BUYING"
+        },
+        {
+            "fieldName": "invoiceNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "invoiceDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "fCurrency",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "convFactor",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "postDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "narration",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "reference",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "creditorLedger",
+            "otherEntityRelationshipName": "dtTransaction",
+            "relationshipName": "creditorLedger",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "debtorLedger",
+            "otherEntityRelationshipName": "dtTransaction",
+            "relationshipName": "debtorLedger",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "chequeRegister",
+            "otherEntityRelationshipName": "dtTransaction",
+            "relationshipName": "chequeRegister",
+            "otherEntityField": "chequeNo"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "mstAccount",
+            "otherEntityRelationshipName": "dtTransaction",
+            "relationshipName": "account",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "voucher",
+            "otherEntityRelationshipName": "dtTransaction",
+            "relationshipName": "voucher",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "currency",
+            "otherEntityRelationshipName": "dtTransaction",
+            "relationshipName": "currency",
+            "otherEntityField": "notation"
+        }
+    ],
+    "changelogDate": "20190906083834",
+    "entityTableName": "dt_transaction",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

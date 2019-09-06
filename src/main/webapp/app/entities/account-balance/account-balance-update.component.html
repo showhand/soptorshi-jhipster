@@ -1,0 +1,75 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-account-balance-heading">Create or edit a Account Balance</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!accountBalance.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="accountBalance.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_yearOpenBalance">Year Open Balance</label>
+                    <input type="number" class="form-control" name="yearOpenBalance" id="field_yearOpenBalance"
+                        [(ngModel)]="accountBalance.yearOpenBalance" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_yearOpenBalanceType">Year Open Balance Type</label>
+                    <select class="form-control" name="yearOpenBalanceType" [(ngModel)]="accountBalance.yearOpenBalanceType" id="field_yearOpenBalanceType" >
+                        <option value="DEBIT">DEBIT</option>
+                        <option value="CREDIT">CREDIT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totDebitTrans">Tot Debit Trans</label>
+                    <input type="number" class="form-control" name="totDebitTrans" id="field_totDebitTrans"
+                        [(ngModel)]="accountBalance.totDebitTrans" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totCreditTrans">Tot Credit Trans</label>
+                    <input type="number" class="form-control" name="totCreditTrans" id="field_totCreditTrans"
+                        [(ngModel)]="accountBalance.totCreditTrans" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="accountBalance.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                        [(ngModel)]="accountBalance.modifiedBy" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_financialAccountYear">Financial Account Year</label>
+                    <select class="form-control" id="field_financialAccountYear" name="financialAccountYear" [(ngModel)]="accountBalance.financialAccountYearId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="financialAccountYearOption.id" *ngFor="let financialAccountYearOption of financialaccountyears; trackBy: trackFinancialAccountYearById">{{financialAccountYearOption.durationStr}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_account">Account</label>
+                    <select class="form-control" id="field_account" name="account" [(ngModel)]="accountBalance.accountId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="mstAccountOption.id" *ngFor="let mstAccountOption of mstaccounts; trackBy: trackMstAccountById">{{mstAccountOption.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+{
+    "name": "Currency",
+    "fields": [
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "notation",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "flag",
+            "fieldType": "CurrencyFlag",
+            "fieldValues": "BASE,OPTIONAL"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190906083826",
+    "entityTableName": "currency",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -485,6 +485,78 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             {
                 path: 'vendor',
                 loadChildren: './vendor/vendor.module#SoptorshiVendorModule'
+            },
+            {
+                path: 'financial-account-year',
+                loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
+            },
+            {
+                path: 'voucher',
+                loadChildren: './voucher/voucher.module#SoptorshiVoucherModule'
+            },
+            {
+                path: 'voucher-number-control',
+                loadChildren: './voucher-number-control/voucher-number-control.module#SoptorshiVoucherNumberControlModule'
+            },
+            {
+                path: 'period-close',
+                loadChildren: './period-close/period-close.module#SoptorshiPeriodCloseModule'
+            },
+            {
+                path: 'currency',
+                loadChildren: './currency/currency.module#SoptorshiCurrencyModule'
+            },
+            {
+                path: 'mst-group',
+                loadChildren: './mst-group/mst-group.module#SoptorshiMstGroupModule'
+            },
+            {
+                path: 'mst-account',
+                loadChildren: './mst-account/mst-account.module#SoptorshiMstAccountModule'
+            },
+            {
+                path: 'account-balance',
+                loadChildren: './account-balance/account-balance.module#SoptorshiAccountBalanceModule'
+            },
+            {
+                path: 'monthly-balance',
+                loadChildren: './monthly-balance/monthly-balance.module#SoptorshiMonthlyBalanceModule'
+            },
+            {
+                path: 'predefined-narration',
+                loadChildren: './predefined-narration/predefined-narration.module#SoptorshiPredefinedNarrationModule'
+            },
+            {
+                path: 'conversion-factor',
+                loadChildren: './conversion-factor/conversion-factor.module#SoptorshiConversionFactorModule'
+            },
+            {
+                path: 'cheque-register',
+                loadChildren: './cheque-register/cheque-register.module#SoptorshiChequeRegisterModule'
+            },
+            {
+                path: 'dt-transaction',
+                loadChildren: './dt-transaction/dt-transaction.module#SoptorshiDtTransactionModule'
+            },
+            {
+                path: 'customer',
+                loadChildren: './customer/customer.module#SoptorshiCustomerModule'
+            },
+            {
+                path: 'creditor-ledger',
+                loadChildren: './creditor-ledger/creditor-ledger.module#SoptorshiCreditorLedgerModule'
+            },
+            {
+                path: 'debtor-ledger',
+                loadChildren: './debtor-ledger/debtor-ledger.module#SoptorshiDebtorLedgerModule'
+            },
+            {
+                path: 'system-account-map',
+                loadChildren: './system-account-map/system-account-map.module#SoptorshiSystemAccountMapModule'
+            },
+            {
+                path: 'system-group-map',
+                loadChildren: './system-group-map/system-group-map.module#SoptorshiSystemGroupMapModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

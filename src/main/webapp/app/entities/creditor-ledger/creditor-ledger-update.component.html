@@ -1,0 +1,116 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-creditor-ledger-heading">Create or edit a Creditor Ledger</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!creditorLedger.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="creditorLedger.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_serialNo">Serial No</label>
+                    <input type="number" class="form-control" name="serialNo" id="field_serialNo"
+                        [(ngModel)]="creditorLedger.serialNo" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_billNo">Bill No</label>
+                    <input type="text" class="form-control" name="billNo" id="field_billNo"
+                        [(ngModel)]="creditorLedger.billNo" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_billDate">Bill Date</label>
+                    <div class="input-group">
+                        <input id="field_billDate" type="text" class="form-control" name="billDate" ngbDatepicker  #billDateDp="ngbDatepicker" [(ngModel)]="creditorLedger.billDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="billDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amount">Amount</label>
+                    <input type="number" class="form-control" name="amount" id="field_amount"
+                        [(ngModel)]="creditorLedger.amount" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_paidAmount">Paid Amount</label>
+                    <input type="number" class="form-control" name="paidAmount" id="field_paidAmount"
+                        [(ngModel)]="creditorLedger.paidAmount" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_balanceType">Balance Type</label>
+                    <select class="form-control" name="balanceType" [(ngModel)]="creditorLedger.balanceType" id="field_balanceType" >
+                        <option value="DEBIT">DEBIT</option>
+                        <option value="CREDIT">CREDIT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_billClosingFlag">Bill Closing Flag</label>
+                    <select class="form-control" name="billClosingFlag" [(ngModel)]="creditorLedger.billClosingFlag" id="field_billClosingFlag" >
+                        <option value="OPEN">OPEN</option>
+                        <option value="CLOSED">CLOSED</option>
+                        <option value="WITHHELD">WITHHELD</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dueDate">Due Date</label>
+                    <div class="input-group">
+                        <input id="field_dueDate" type="text" class="form-control" name="dueDate" ngbDatepicker  #dueDateDp="ngbDatepicker" [(ngModel)]="creditorLedger.dueDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dueDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_vatNo">Vat No</label>
+                    <input type="text" class="form-control" name="vatNo" id="field_vatNo"
+                        [(ngModel)]="creditorLedger.vatNo" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_contCode">Cont Code</label>
+                    <input type="text" class="form-control" name="contCode" id="field_contCode"
+                        [(ngModel)]="creditorLedger.contCode" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_orderNo">Order No</label>
+                    <input type="text" class="form-control" name="orderNo" id="field_orderNo"
+                        [(ngModel)]="creditorLedger.orderNo" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                        [(ngModel)]="creditorLedger.modifiedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="creditorLedger.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_vendor">Vendor</label>
+                    <select class="form-control" id="field_vendor" name="vendor" [(ngModel)]="creditorLedger.vendorId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="vendorOption.id" *ngFor="let vendorOption of vendors; trackBy: trackVendorById">{{vendorOption.companyName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

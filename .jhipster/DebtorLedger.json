@@ -1,0 +1,73 @@
+{
+    "name": "DebtorLedger",
+    "fields": [
+        {
+            "fieldName": "serialNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "billNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "billDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "paidAmount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "billClosingFlag",
+            "fieldType": "BillClosingFlag",
+            "fieldValues": "OPEN,CLOSED,WITHHELD"
+        },
+        {
+            "fieldName": "dueDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "vatNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contCode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "orderNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "customer",
+            "otherEntityRelationshipName": "debtorLedger",
+            "relationshipName": "customer",
+            "otherEntityField": "name"
+        }
+    ],
+    "changelogDate": "20190906083837",
+    "entityTableName": "debtor_ledger",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

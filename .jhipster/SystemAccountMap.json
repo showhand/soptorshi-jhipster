@@ -1,0 +1,37 @@
+{
+    "name": "SystemAccountMap",
+    "fields": [
+        {
+            "fieldName": "accountType",
+            "fieldType": "AccountType",
+            "fieldValues": "OPENING_BALANCE_ADJUSTMENT_ACCOUNT,PROVIDENT_FUND_ACCOUNT"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "mstAccount",
+            "otherEntityRelationshipName": "systemAccountMap",
+            "relationshipName": "account",
+            "otherEntityField": "name"
+        }
+    ],
+    "changelogDate": "20190906083838",
+    "entityTableName": "system_account_map",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

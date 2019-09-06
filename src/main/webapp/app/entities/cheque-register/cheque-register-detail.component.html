@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="chequeRegister">
+            <h2><span>Cheque Register</span> {{chequeRegister.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Cheque No</span></dt>
+                <dd>
+                    <span>{{chequeRegister.chequeNo}}</span>
+                </dd>
+                <dt><span>Cheque Date</span></dt>
+                <dd>
+                    <span>{{chequeRegister.chequeDate}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{chequeRegister.status}}</span>
+                </dd>
+                <dt><span>Realization Date</span></dt>
+                <dd>
+                    <span>{{chequeRegister.realizationDate}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{chequeRegister.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{chequeRegister.modifiedOn}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/cheque-register', chequeRegister.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

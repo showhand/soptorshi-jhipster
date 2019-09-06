@@ -1,0 +1,45 @@
+{
+    "name": "PeriodClose",
+    "fields": [
+        {
+            "fieldName": "monthType",
+            "fieldType": "MonthType",
+            "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER"
+        },
+        {
+            "fieldName": "closeYear",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "flag",
+            "fieldType": "PeriodCloseFlag",
+            "fieldValues": "OPEN,CLOSE"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "financialAccountYear",
+            "otherEntityRelationshipName": "periodClose",
+            "relationshipName": "financialAccountYear",
+            "otherEntityField": "durationStr"
+        }
+    ],
+    "changelogDate": "20190906083825",
+    "entityTableName": "period_close",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
