@@ -18,7 +18,6 @@ export class ExperienceInformationAttachmentResolve implements Resolve<IExperien
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IExperienceInformationAttachment> {
         const id = route.params['id'] ? route.params['id'] : null;
-        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<ExperienceInformationAttachment>) => response.ok),
@@ -26,10 +25,6 @@ export class ExperienceInformationAttachmentResolve implements Resolve<IExperien
                     (experienceInformationAttachment: HttpResponse<ExperienceInformationAttachment>) => experienceInformationAttachment.body
                 )
             );
-        } else if (employeeId) {
-            const experienceInformationAttachment: IExperienceInformationAttachment = new ExperienceInformationAttachment();
-            experienceInformationAttachment.employeeId = employeeId;
-            return of(experienceInformationAttachment);
         }
         return of(new ExperienceInformationAttachment());
     }
@@ -40,7 +35,7 @@ export const experienceInformationAttachmentRoute: Routes = [
         path: '',
         component: ExperienceInformationAttachmentComponent,
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'ExperienceInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -52,7 +47,7 @@ export const experienceInformationAttachmentRoute: Routes = [
             experienceInformationAttachment: ExperienceInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'ExperienceInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -64,19 +59,7 @@ export const experienceInformationAttachmentRoute: Routes = [
             experienceInformationAttachment: ExperienceInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'ExperienceInformationAttachments'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':employeeId/new',
-        component: ExperienceInformationAttachmentUpdateComponent,
-        resolve: {
-            experienceInformationAttachment: ExperienceInformationAttachmentResolve
-        },
-        data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'ExperienceInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -88,7 +71,7 @@ export const experienceInformationAttachmentRoute: Routes = [
             experienceInformationAttachment: ExperienceInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'ExperienceInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
@@ -103,7 +86,7 @@ export const experienceInformationAttachmentPopupRoute: Routes = [
             experienceInformationAttachment: ExperienceInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'ExperienceInformationAttachments'
         },
         canActivate: [UserRouteAccessService],
