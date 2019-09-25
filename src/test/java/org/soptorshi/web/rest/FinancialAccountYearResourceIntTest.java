@@ -66,9 +66,6 @@ public class FinancialAccountYearResourceIntTest {
     private static final LocalDate DEFAULT_PREVIOUS_END_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_PREVIOUS_END_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final String DEFAULT_DURATION_STR = "AAAAAAAAAA";
-    private static final String UPDATED_DURATION_STR = "BBBBBBBBBB";
-
     private static final FinancialYearStatus DEFAULT_STATUS = FinancialYearStatus.ACTIVE;
     private static final FinancialYearStatus UPDATED_STATUS = FinancialYearStatus.NOT_ACTIVE;
 
@@ -135,7 +132,6 @@ public class FinancialAccountYearResourceIntTest {
             .endDate(DEFAULT_END_DATE)
             .previousStartDate(DEFAULT_PREVIOUS_START_DATE)
             .previousEndDate(DEFAULT_PREVIOUS_END_DATE)
-            .durationStr(DEFAULT_DURATION_STR)
             .status(DEFAULT_STATUS);
         return financialAccountYear;
     }
@@ -165,7 +161,6 @@ public class FinancialAccountYearResourceIntTest {
         assertThat(testFinancialAccountYear.getEndDate()).isEqualTo(DEFAULT_END_DATE);
         assertThat(testFinancialAccountYear.getPreviousStartDate()).isEqualTo(DEFAULT_PREVIOUS_START_DATE);
         assertThat(testFinancialAccountYear.getPreviousEndDate()).isEqualTo(DEFAULT_PREVIOUS_END_DATE);
-        assertThat(testFinancialAccountYear.getDurationStr()).isEqualTo(DEFAULT_DURATION_STR);
         assertThat(testFinancialAccountYear.getStatus()).isEqualTo(DEFAULT_STATUS);
 
         // Validate the FinancialAccountYear in Elasticsearch
@@ -210,7 +205,6 @@ public class FinancialAccountYearResourceIntTest {
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
             .andExpect(jsonPath("$.[*].previousStartDate").value(hasItem(DEFAULT_PREVIOUS_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].previousEndDate").value(hasItem(DEFAULT_PREVIOUS_END_DATE.toString())))
-            .andExpect(jsonPath("$.[*].durationStr").value(hasItem(DEFAULT_DURATION_STR.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
     
@@ -229,7 +223,6 @@ public class FinancialAccountYearResourceIntTest {
             .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()))
             .andExpect(jsonPath("$.previousStartDate").value(DEFAULT_PREVIOUS_START_DATE.toString()))
             .andExpect(jsonPath("$.previousEndDate").value(DEFAULT_PREVIOUS_END_DATE.toString()))
-            .andExpect(jsonPath("$.durationStr").value(DEFAULT_DURATION_STR.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
@@ -499,45 +492,6 @@ public class FinancialAccountYearResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllFinancialAccountYearsByDurationStrIsEqualToSomething() throws Exception {
-        // Initialize the database
-        financialAccountYearRepository.saveAndFlush(financialAccountYear);
-
-        // Get all the financialAccountYearList where durationStr equals to DEFAULT_DURATION_STR
-        defaultFinancialAccountYearShouldBeFound("durationStr.equals=" + DEFAULT_DURATION_STR);
-
-        // Get all the financialAccountYearList where durationStr equals to UPDATED_DURATION_STR
-        defaultFinancialAccountYearShouldNotBeFound("durationStr.equals=" + UPDATED_DURATION_STR);
-    }
-
-    @Test
-    @Transactional
-    public void getAllFinancialAccountYearsByDurationStrIsInShouldWork() throws Exception {
-        // Initialize the database
-        financialAccountYearRepository.saveAndFlush(financialAccountYear);
-
-        // Get all the financialAccountYearList where durationStr in DEFAULT_DURATION_STR or UPDATED_DURATION_STR
-        defaultFinancialAccountYearShouldBeFound("durationStr.in=" + DEFAULT_DURATION_STR + "," + UPDATED_DURATION_STR);
-
-        // Get all the financialAccountYearList where durationStr equals to UPDATED_DURATION_STR
-        defaultFinancialAccountYearShouldNotBeFound("durationStr.in=" + UPDATED_DURATION_STR);
-    }
-
-    @Test
-    @Transactional
-    public void getAllFinancialAccountYearsByDurationStrIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        financialAccountYearRepository.saveAndFlush(financialAccountYear);
-
-        // Get all the financialAccountYearList where durationStr is not null
-        defaultFinancialAccountYearShouldBeFound("durationStr.specified=true");
-
-        // Get all the financialAccountYearList where durationStr is null
-        defaultFinancialAccountYearShouldNotBeFound("durationStr.specified=false");
-    }
-
-    @Test
-    @Transactional
     public void getAllFinancialAccountYearsByStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         financialAccountYearRepository.saveAndFlush(financialAccountYear);
@@ -586,7 +540,6 @@ public class FinancialAccountYearResourceIntTest {
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
             .andExpect(jsonPath("$.[*].previousStartDate").value(hasItem(DEFAULT_PREVIOUS_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].previousEndDate").value(hasItem(DEFAULT_PREVIOUS_END_DATE.toString())))
-            .andExpect(jsonPath("$.[*].durationStr").value(hasItem(DEFAULT_DURATION_STR)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
         // Check, that the count call also returns 1
@@ -639,7 +592,6 @@ public class FinancialAccountYearResourceIntTest {
             .endDate(UPDATED_END_DATE)
             .previousStartDate(UPDATED_PREVIOUS_START_DATE)
             .previousEndDate(UPDATED_PREVIOUS_END_DATE)
-            .durationStr(UPDATED_DURATION_STR)
             .status(UPDATED_STATUS);
         FinancialAccountYearDTO financialAccountYearDTO = financialAccountYearMapper.toDto(updatedFinancialAccountYear);
 
@@ -656,7 +608,6 @@ public class FinancialAccountYearResourceIntTest {
         assertThat(testFinancialAccountYear.getEndDate()).isEqualTo(UPDATED_END_DATE);
         assertThat(testFinancialAccountYear.getPreviousStartDate()).isEqualTo(UPDATED_PREVIOUS_START_DATE);
         assertThat(testFinancialAccountYear.getPreviousEndDate()).isEqualTo(UPDATED_PREVIOUS_END_DATE);
-        assertThat(testFinancialAccountYear.getDurationStr()).isEqualTo(UPDATED_DURATION_STR);
         assertThat(testFinancialAccountYear.getStatus()).isEqualTo(UPDATED_STATUS);
 
         // Validate the FinancialAccountYear in Elasticsearch
@@ -722,7 +673,6 @@ public class FinancialAccountYearResourceIntTest {
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
             .andExpect(jsonPath("$.[*].previousStartDate").value(hasItem(DEFAULT_PREVIOUS_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].previousEndDate").value(hasItem(DEFAULT_PREVIOUS_END_DATE.toString())))
-            .andExpect(jsonPath("$.[*].durationStr").value(hasItem(DEFAULT_DURATION_STR)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
 

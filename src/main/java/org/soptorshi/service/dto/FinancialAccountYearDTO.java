@@ -22,8 +22,6 @@ public class FinancialAccountYearDTO implements Serializable {
 
     private LocalDate previousEndDate;
 
-    private String durationStr;
-
     
     private FinancialYearStatus status;
 
@@ -68,14 +66,6 @@ public class FinancialAccountYearDTO implements Serializable {
         this.previousEndDate = previousEndDate;
     }
 
-    public String getDurationStr() {
-        return durationStr;
-    }
-
-    public void setDurationStr(String durationStr) {
-        this.durationStr = durationStr;
-    }
-
     public FinancialYearStatus getStatus() {
         return status;
     }
@@ -113,7 +103,6 @@ public class FinancialAccountYearDTO implements Serializable {
             ", endDate='" + getEndDate() + "'" +
             ", previousStartDate='" + getPreviousStartDate() + "'" +
             ", previousEndDate='" + getPreviousEndDate() + "'" +
-            ", durationStr='" + getDurationStr() + "'" +
             ", status='" + getStatus() + "'" +
             "}";
     }

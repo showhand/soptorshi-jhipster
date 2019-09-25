@@ -11,7 +11,6 @@ export interface IFinancialAccountYear {
     endDate?: Moment;
     previousStartDate?: Moment;
     previousEndDate?: Moment;
-    durationStr?: string;
     status?: FinancialYearStatus;
 }
 
@@ -22,7 +21,6 @@ export class FinancialAccountYear implements IFinancialAccountYear {
         public endDate?: Moment,
         public previousStartDate?: Moment,
         public previousEndDate?: Moment,
-        public durationStr?: string,
         public status?: FinancialYearStatus
     ) {}
 }

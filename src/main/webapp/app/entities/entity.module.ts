@@ -557,6 +557,10 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             {
                 path: 'system-group-map',
                 loadChildren: './system-group-map/system-group-map.module#SoptorshiSystemGroupMapModule'
+            },
+            {
+                path: 'financial-account-year',
+                loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

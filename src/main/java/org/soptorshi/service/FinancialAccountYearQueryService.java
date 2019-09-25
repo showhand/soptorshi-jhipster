@@ -105,9 +105,6 @@ public class FinancialAccountYearQueryService extends QueryService<FinancialAcco
             if (criteria.getPreviousEndDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPreviousEndDate(), FinancialAccountYear_.previousEndDate));
             }
-            if (criteria.getDurationStr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDurationStr(), FinancialAccountYear_.durationStr));
-            }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), FinancialAccountYear_.status));
             }

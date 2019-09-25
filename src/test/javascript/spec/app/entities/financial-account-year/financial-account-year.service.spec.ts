@@ -25,15 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new FinancialAccountYear(
-                0,
-                currentDate,
-                currentDate,
-                currentDate,
-                currentDate,
-                'AAAAAAA',
-                FinancialYearStatus.ACTIVE
-            );
+            elemDefault = new FinancialAccountYear(0, currentDate, currentDate, currentDate, currentDate, FinancialYearStatus.ACTIVE);
         });
 
         describe('Service methods', async () => {
@@ -91,7 +83,6 @@ describe('Service Tests', () => {
                         endDate: currentDate.format(DATE_FORMAT),
                         previousStartDate: currentDate.format(DATE_FORMAT),
                         previousEndDate: currentDate.format(DATE_FORMAT),
-                        durationStr: 'BBBBBB',
                         status: 'BBBBBB'
                     },
                     elemDefault
@@ -121,7 +112,6 @@ describe('Service Tests', () => {
                         endDate: currentDate.format(DATE_FORMAT),
                         previousStartDate: currentDate.format(DATE_FORMAT),
                         previousEndDate: currentDate.format(DATE_FORMAT),
-                        durationStr: 'BBBBBB',
                         status: 'BBBBBB'
                     },
                     elemDefault
