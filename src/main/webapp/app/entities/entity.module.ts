@@ -116,7 +116,8 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'financial-account-year',
-                loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
+                loadChildren:
+                    './financial-account-year-extended/financial-account-year-extended.module#SoptorshiFinancialAccountYearExtendedModule'
             },
             {
                 path: 'tax',
@@ -487,10 +488,6 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
                 loadChildren: './vendor/vendor.module#SoptorshiVendorModule'
             },
             {
-                path: 'financial-account-year',
-                loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
-            },
-            {
                 path: 'voucher',
                 loadChildren: './voucher/voucher.module#SoptorshiVoucherModule'
             },
@@ -557,14 +554,6 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             {
                 path: 'system-group-map',
                 loadChildren: './system-group-map/system-group-map.module#SoptorshiSystemGroupMapModule'
-            },
-            {
-                path: 'financial-account-year',
-                loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
-            },
-            {
-                path: 'financial-account-year',
-                loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

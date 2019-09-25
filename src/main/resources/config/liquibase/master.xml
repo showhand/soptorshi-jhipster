@@ -156,5 +156,6 @@
     <include file="config/liquibase/changelog/20190906083837_added_entity_constraints_DebtorLedger.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190906083838_added_entity_constraints_SystemAccountMap.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190906083839_added_entity_constraints_SystemGroupMap.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190925154039_finalcial_account_year_duration_added.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

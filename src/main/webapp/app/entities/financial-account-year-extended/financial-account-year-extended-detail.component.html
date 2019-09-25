@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="financialAccountYear">
+            <h2><span>Financial Account Year</span> {{financialAccountYear.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Start Date</span></dt>
+                <dd>
+                    <span>{{financialAccountYear.startDate}}</span>
+                </dd>
+                <dt><span>End Date</span></dt>
+                <dd>
+                    <span>{{financialAccountYear.endDate}}</span>
+                </dd>
+                <dt><span>Previous Start Date</span></dt>
+                <dd>
+                    <span>{{financialAccountYear.previousStartDate}}</span>
+                </dd>
+                <dt><span>Previous End Date</span></dt>
+                <dd>
+                    <span>{{financialAccountYear.previousEndDate}}</span>
+                </dd>
+                <dt><span>Duration Str</span></dt>
+                <dd>
+                    <span>{{financialAccountYear.durationStr}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{financialAccountYear.status}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/financial-account-year', financialAccountYear.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
