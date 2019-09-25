@@ -39,6 +39,8 @@ public class FinancialAccountYearCriteria implements Serializable {
 
     private LocalDateFilter previousEndDate;
 
+    private StringFilter durationStr;
+
     private FinancialYearStatusFilter status;
 
     public LongFilter getId() {
@@ -81,6 +83,14 @@ public class FinancialAccountYearCriteria implements Serializable {
         this.previousEndDate = previousEndDate;
     }
 
+    public StringFilter getDurationStr() {
+        return durationStr;
+    }
+
+    public void setDurationStr(StringFilter durationStr) {
+        this.durationStr = durationStr;
+    }
+
     public FinancialYearStatusFilter getStatus() {
         return status;
     }
@@ -105,6 +115,7 @@ public class FinancialAccountYearCriteria implements Serializable {
             Objects.equals(endDate, that.endDate) &&
             Objects.equals(previousStartDate, that.previousStartDate) &&
             Objects.equals(previousEndDate, that.previousEndDate) &&
+            Objects.equals(durationStr, that.durationStr) &&
             Objects.equals(status, that.status);
     }
 
@@ -116,6 +127,7 @@ public class FinancialAccountYearCriteria implements Serializable {
         endDate,
         previousStartDate,
         previousEndDate,
+        durationStr,
         status
         );
     }
@@ -128,6 +140,7 @@ public class FinancialAccountYearCriteria implements Serializable {
                 (endDate != null ? "endDate=" + endDate + ", " : "") +
                 (previousStartDate != null ? "previousStartDate=" + previousStartDate + ", " : "") +
                 (previousEndDate != null ? "previousEndDate=" + previousEndDate + ", " : "") +
+                (durationStr != null ? "durationStr=" + durationStr + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
             "}";
     }

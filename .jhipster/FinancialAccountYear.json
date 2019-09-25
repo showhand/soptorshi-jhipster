@@ -24,6 +24,10 @@
             "fieldType": "LocalDate"
         },
         {
+            "fieldName": "durationStr",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "status",
             "fieldType": "FinancialYearStatus",
             "fieldValues": "ACTIVE,NOT_ACTIVE",

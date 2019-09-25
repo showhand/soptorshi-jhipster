@@ -101,6 +101,7 @@ entity FinancialAccountYear {
   endDate LocalDate unique,
   previousStartDate LocalDate,
   previousEndDate LocalDate,
+  durationStr String,
   status FinancialYearStatus unique
 }
 entity Tax {

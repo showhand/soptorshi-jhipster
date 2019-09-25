@@ -40,6 +40,9 @@ public class FinancialAccountYear implements Serializable {
     @Column(name = "previous_end_date")
     private LocalDate previousEndDate;
 
+    @Column(name = "duration_str")
+    private String durationStr;
+
     
     @Enumerated(EnumType.STRING)
     @Column(name = "status", unique = true)
@@ -106,6 +109,19 @@ public class FinancialAccountYear implements Serializable {
         this.previousEndDate = previousEndDate;
     }
 
+    public String getDurationStr() {
+        return durationStr;
+    }
+
+    public FinancialAccountYear durationStr(String durationStr) {
+        this.durationStr = durationStr;
+        return this;
+    }
+
+    public void setDurationStr(String durationStr) {
+        this.durationStr = durationStr;
+    }
+
     public FinancialYearStatus getStatus() {
         return status;
     }
@@ -148,6 +164,7 @@ public class FinancialAccountYear implements Serializable {
             ", endDate='" + getEndDate() + "'" +
             ", previousStartDate='" + getPreviousStartDate() + "'" +
             ", previousEndDate='" + getPreviousEndDate() + "'" +
+            ", durationStr='" + getDurationStr() + "'" +
             ", status='" + getStatus() + "'" +
             "}";
     }

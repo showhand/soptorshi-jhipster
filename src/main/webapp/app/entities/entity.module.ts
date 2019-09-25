@@ -561,6 +561,10 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             {
                 path: 'financial-account-year',
                 loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
+            },
+            {
+                path: 'financial-account-year',
+                loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
