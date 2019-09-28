@@ -15,10 +15,23 @@ type EntityArrayResponseType = HttpResponse<IFinancialAccountYear[]>;
 
 @Injectable({ providedIn: 'root' })
 export class FinancialAccountYearExtendedService extends FinancialAccountYearService {
-    public resourceUrl = SERVER_API_URL + 'api/financial-account-years';
-    public resourceSearchUrl = SERVER_API_URL + 'api/_search/financial-account-years';
+    public resourceExtendedUrl = SERVER_API_URL + 'api/extended/financial-account-years';
 
     constructor(protected http: HttpClient) {
         super(http);
+    }
+
+    create(financialAccountYear: IFinancialAccountYear): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(financialAccountYear);
+        return this.http
+            .post<IFinancialAccountYear>(this.resourceExtendedUrl, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    update(financialAccountYear: IFinancialAccountYear): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(financialAccountYear);
+        return this.http
+            .put<IFinancialAccountYear>(this.resourceExtendedUrl, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 }

@@ -4,11 +4,6 @@
             <h2 id="jhi-financial-account-year-heading">Create or edit a Financial Account Year</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!financialAccountYear.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="financialAccountYear.id" readonly />
-                </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_startDate">Start Date</label>
                     <div class="input-group">
@@ -52,11 +47,6 @@
                             <button type="button" class="btn btn-secondary" (click)="previousEndDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_durationStr">Duration Str</label>
-                    <input type="text" class="form-control" name="durationStr" id="field_durationStr"
-                        [(ngModel)]="financialAccountYear.durationStr" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_status">Status</label>

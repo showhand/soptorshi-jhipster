@@ -13,7 +13,20 @@ import { FinancialAccountYearUpdateComponent } from 'app/entities/financial-acco
     templateUrl: './financial-account-year-extended-update.component.html'
 })
 export class FinancialAccountYearExtendedUpdateComponent extends FinancialAccountYearUpdateComponent implements OnInit {
-    constructor(protected financialAccountYearService: FinancialAccountYearExtendedService, protected activatedRoute: ActivatedRoute) {
+    constructor(
+        protected financialAccountYearService: FinancialAccountYearExtendedService,
+        protected activatedRoute: ActivatedRoute,
+        protected financialAccountYearExtendedService: FinancialAccountYearExtendedService
+    ) {
         super(financialAccountYearService, activatedRoute);
+    }
+
+    save() {
+        this.isSaving = true;
+        if (this.financialAccountYear.id !== undefined) {
+            this.subscribeToSaveResponse(this.financialAccountYearExtendedService.update(this.financialAccountYear));
+        } else {
+            this.subscribeToSaveResponse(this.financialAccountYearExtendedService.create(this.financialAccountYear));
+        }
     }
 }
