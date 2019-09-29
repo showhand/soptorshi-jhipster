@@ -36,6 +36,9 @@ import { BreadcrumbModule } from 'angular-crumbs';
 import { JhiMainExtendedComponent } from 'app/layouts/main/main-extended.component';
 import { SoptorshiLoginModule } from 'app/shared/login/login.module';
 import { SoptorshiExtendedHomeModule } from 'app/home-extended';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 // import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
@@ -60,6 +63,9 @@ import { SoptorshiExtendedHomeModule } from 'app/home-extended';
         MatButtonModule,
         MatTabsModule,
         MatTableModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
         DeviceDetectorModule.forRoot(),
         NgxPageScrollCoreModule,
         AutoCompleteModule,

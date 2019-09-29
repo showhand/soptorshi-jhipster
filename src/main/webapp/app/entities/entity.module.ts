@@ -505,7 +505,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'mst-group',
-                loadChildren: './mst-group/mst-group.module#SoptorshiMstGroupModule'
+                loadChildren: './mst-group-extended/mst-group-extended.module#SoptorshiMstGroupModule'
             },
             {
                 path: 'mst-account',
