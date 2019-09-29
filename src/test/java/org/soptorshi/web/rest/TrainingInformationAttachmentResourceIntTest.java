@@ -10,8 +10,6 @@ import org.soptorshi.service.TrainingInformationAttachmentService;
 import org.soptorshi.service.dto.TrainingInformationAttachmentDTO;
 import org.soptorshi.service.mapper.TrainingInformationAttachmentMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.TrainingInformationAttachmentCriteria;
-import org.soptorshi.service.TrainingInformationAttachmentQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -74,9 +72,6 @@ public class TrainingInformationAttachmentResourceIntTest {
     private TrainingInformationAttachmentSearchRepository mockTrainingInformationAttachmentSearchRepository;
 
     @Autowired
-    private TrainingInformationAttachmentQueryService trainingInformationAttachmentQueryService;
-
-    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -98,7 +93,7 @@ public class TrainingInformationAttachmentResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final TrainingInformationAttachmentResource trainingInformationAttachmentResource = new TrainingInformationAttachmentResource(trainingInformationAttachmentService, trainingInformationAttachmentQueryService);
+        final TrainingInformationAttachmentResource trainingInformationAttachmentResource = new TrainingInformationAttachmentResource(trainingInformationAttachmentService);
         this.restTrainingInformationAttachmentMockMvc = MockMvcBuilders.standaloneSetup(trainingInformationAttachmentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -205,60 +200,6 @@ public class TrainingInformationAttachmentResourceIntTest {
             .andExpect(jsonPath("$.fileContentType").value(DEFAULT_FILE_CONTENT_TYPE))
             .andExpect(jsonPath("$.file").value(Base64Utils.encodeToString(DEFAULT_FILE)));
     }
-
-    @Test
-    @Transactional
-    public void getAllTrainingInformationAttachmentsByEmployeeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Employee employee = EmployeeResourceIntTest.createEntity(em);
-        em.persist(employee);
-        em.flush();
-        trainingInformationAttachment.setEmployee(employee);
-        trainingInformationAttachmentRepository.saveAndFlush(trainingInformationAttachment);
-        Long employeeId = employee.getId();
-
-        // Get all the trainingInformationAttachmentList where employee equals to employeeId
-        defaultTrainingInformationAttachmentShouldBeFound("employeeId.equals=" + employeeId);
-
-        // Get all the trainingInformationAttachmentList where employee equals to employeeId + 1
-        defaultTrainingInformationAttachmentShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
-    }
-
-    /**
-     * Executes the search, and checks that the default entity is returned
-     */
-    private void defaultTrainingInformationAttachmentShouldBeFound(String filter) throws Exception {
-        restTrainingInformationAttachmentMockMvc.perform(get("/api/training-information-attachments?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(trainingInformationAttachment.getId().intValue())))
-            .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
-
-        // Check, that the count call also returns 1
-        restTrainingInformationAttachmentMockMvc.perform(get("/api/training-information-attachments/count?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(content().string("1"));
-    }
-
-    /**
-     * Executes the search, and checks that the default entity is not returned
-     */
-    private void defaultTrainingInformationAttachmentShouldNotBeFound(String filter) throws Exception {
-        restTrainingInformationAttachmentMockMvc.perform(get("/api/training-information-attachments?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$").isArray())
-            .andExpect(jsonPath("$").isEmpty());
-
-        // Check, that the count call also returns 0
-        restTrainingInformationAttachmentMockMvc.perform(get("/api/training-information-attachments/count?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(content().string("0"));
-    }
-
 
     @Test
     @Transactional
