@@ -1,3 +1,9 @@
+<style>
+    span.ui-autocomplete {
+        display: block;
+        white-space: nowrap;
+    }
+</style>
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
@@ -27,7 +33,9 @@
                 <div class="form-group">
                     <div class="form-group">
                         <label  for="field_employee">Employee</label><br/>
-                        <p-autoComplete id="field_employee" inputStyleClass="form-control"  [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"  [(ngModel)]="selectedEmployee" [immutable]="false"  name="employee Name" [suggestions]="employees" field="fullName" (completeMethod)="filterEmployees($event)"  [minLength]="1" ></p-autoComplete>
+                        <span inputStyleClass="form-control" >
+                            <p-autoComplete id="field_employee"   [style]="{'width':'96%'}" [inputStyle]="{'width':'96%'}"  [(ngModel)]="selectedEmployee" [immutable]="false"  name="employee Name" [suggestions]="employees" field="fullName" (completeMethod)="filterEmployees($event)"  [minLength]="1"  [dropdown]="true" ></p-autoComplete>
+                        </span>
                     </div>
                 </div>
             </div>

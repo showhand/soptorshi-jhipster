@@ -39,6 +39,7 @@ import { SoptorshiExtendedHomeModule } from 'app/home-extended';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 // import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
@@ -66,6 +67,7 @@ import { MatSelectModule } from '@angular/material/select';
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
+        MatAutocompleteModule,
         DeviceDetectorModule.forRoot(),
         NgxPageScrollCoreModule,
         AutoCompleteModule,

@@ -11,6 +11,7 @@ import { AutoCompleteModule } from 'primeng/primeng';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
     imports: [NgbModule.forRoot(), InfiniteScrollModule, CookieModule.forRoot(), FontAwesomeModule, MatButtonModule, AutoCompleteModule],
@@ -25,6 +26,7 @@ import { MatSelectModule } from '@angular/material/select';
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
+        MatAutocompleteModule,
         AutoCompleteModule,
         MatTableModule
     ]
