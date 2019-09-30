@@ -17,6 +17,8 @@ import { MstGroupComponent } from 'app/entities/mst-group';
     templateUrl: './mst-group-extended.component.html'
 })
 export class MstGroupExtendedComponent extends MstGroupComponent implements OnInit, OnDestroy {
+    groupIdMapName: any;
+
     constructor(
         protected mstGroupService: MstGroupExtendedService,
         protected jhiAlertService: JhiAlertService,
@@ -26,5 +28,20 @@ export class MstGroupExtendedComponent extends MstGroupComponent implements OnIn
         protected accountService: AccountService
     ) {
         super(mstGroupService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
+    }
+
+    ngOnInit() {
+        super.ngOnInit();
+        this.mstGroupService
+            .query({
+                size: 2000
+            })
+            .subscribe((response: HttpResponse<IMstGroup[]>) => {
+                const groups = response.body;
+                this.groupIdMapName = {};
+                groups.forEach((g: IMstGroup) => {
+                    this.groupIdMapName[g.id] = g.name;
+                });
+            });
     }
 }

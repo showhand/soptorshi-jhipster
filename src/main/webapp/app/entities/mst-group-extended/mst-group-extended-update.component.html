@@ -62,8 +62,12 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_mainGroup">Main Group</label>
-                    <input type="number" class="form-control" name="mainGroup" id="field_mainGroup"
-                        [(ngModel)]="mstGroup.mainGroup" />
+                    <input type="text" class="form-control" name="mainGroup" id="field_mainGroup"
+                        [(ngModel)]="selectedGroupName" [ngbTypeahead]="search"
+                           (focus)="focus$.next($event.target.value)"
+                           (click)="click$.next($event.target.value)"
+                           #instance="ngbTypeahead"
+                    />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_reservedFlag">Reserved Flag</label>

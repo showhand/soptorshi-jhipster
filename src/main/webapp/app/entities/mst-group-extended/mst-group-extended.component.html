@@ -42,7 +42,7 @@
             <tr *ngFor="let mstGroup of mstGroups ;trackBy: trackId">
                 <td><a [routerLink]="['/mst-group', mstGroup.id, 'view' ]">{{mstGroup.id}}</a></td>
                 <td>{{mstGroup.name}}</td>
-                <td>{{mstGroup.mainGroup}}</td>
+                <td>{{groupIdMapName[mstGroup.mainGroup]}}</td>
                 <td>{{mstGroup.reservedFlag}}</td>
                 <td>{{mstGroup.modifiedBy}}</td>
                 <td>{{mstGroup.modifiedOn | date:'mediumDate'}}</td>
