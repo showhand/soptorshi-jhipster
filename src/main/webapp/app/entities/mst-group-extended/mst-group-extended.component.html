@@ -39,8 +39,8 @@
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-            <tr *ngFor="let mstGroup of mstGroups ;trackBy: trackId">
-                <td><a [routerLink]="['/mst-group', mstGroup.id, 'view' ]">{{mstGroup.id}}</a></td>
+            <tr *ngFor="let mstGroup of mstGroups ;trackBy: trackId;let i = index">
+                <td><a [routerLink]="['/mst-group', mstGroup.id, 'view' ]">{{i + 1}}</a></td>
                 <td>{{mstGroup.name}}</td>
                 <td>{{groupIdMapName[mstGroup.mainGroup]}}</td>
                 <td>{{mstGroup.reservedFlag}}</td>
