@@ -509,7 +509,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'mst-account',
-                loadChildren: './mst-account/mst-account.module#SoptorshiMstAccountModule'
+                loadChildren: './mst-account-extended/mst-account-extended.module#SoptorshiMstAccountModule'
             },
             {
                 path: 'account-balance',
@@ -569,10 +569,6 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
                 path: 'training-information-attachment',
                 loadChildren:
                     './training-information-attachment/training-information-attachment.module#SoptorshiTrainingInformationAttachmentModule'
-            },
-            {
-                path: 'mst-account',
-                loadChildren: './mst-account/mst-account.module#SoptorshiMstAccountModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

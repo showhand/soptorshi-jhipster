@@ -16,14 +16,14 @@ const ENTITY_STATES = [...mstAccountRoute, ...mstAccountPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /*    declarations: [
         MstAccountComponent,
         MstAccountDetailComponent,
         MstAccountUpdateComponent,
         MstAccountDeleteDialogComponent,
         MstAccountDeletePopupComponent
     ],
-    entryComponents: [MstAccountComponent, MstAccountUpdateComponent, MstAccountDeleteDialogComponent, MstAccountDeletePopupComponent],
+    entryComponents: [MstAccountComponent, MstAccountUpdateComponent, MstAccountDeleteDialogComponent, MstAccountDeletePopupComponent],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiMstAccountModule {}
