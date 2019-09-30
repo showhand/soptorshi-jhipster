@@ -520,7 +520,13 @@
                             <span>Account Groups</span>
                         </a>
                     </li>
-
+                    <li>
+                        <a class="dropdown-item" routerLink="mst-account" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                            <span>Account</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>
