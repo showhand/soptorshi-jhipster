@@ -20,6 +20,19 @@
                         [(ngModel)]="mstAccount.name" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_group">Group</label>
+                    <input
+                        id="field_group"
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="selectedGroupName"
+                        [ngbTypeahead]="search"
+                        (focus)="focus$.next($event.target.value)"
+                        (click)="click$.next($event.target.value)"
+                        #instance="ngbTypeahead"
+                    />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_yearOpenBalance">Year Open Balance</label>
                     <input type="number" class="form-control" name="yearOpenBalance" id="field_yearOpenBalance"
                         [(ngModel)]="mstAccount.yearOpenBalance" />
@@ -52,19 +65,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_group">Group</label>
-                    <input
-                        id="field_group"
-                        type="text"
-                        class="form-control"
-                        [(ngModel)]="selectedGroupName"
-                        [ngbTypeahead]="search"
-                        (focus)="focus$.next($event.target.value)"
-                        (click)="click$.next($event.target.value)"
-                        #instance="ngbTypeahead"
-                    />
-                </div>
+
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

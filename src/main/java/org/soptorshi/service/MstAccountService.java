@@ -44,7 +44,7 @@ public class MstAccountService {
      * @param mstAccountDTO the entity to save
      * @return the persisted entity
      */
-    public MstAccountDTO save(MstAccountDTO mstAccountDTO) {
+    public MstAccountDTO save(MstAccountDTO mstAccountDTO) throws Exception {
         log.debug("Request to save MstAccount : {}", mstAccountDTO);
         MstAccount mstAccount = mstAccountMapper.toEntity(mstAccountDTO);
         mstAccount = mstAccountRepository.save(mstAccount);
