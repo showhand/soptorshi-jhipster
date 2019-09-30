@@ -54,10 +54,16 @@
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_group">Group</label>
-                    <select class="form-control" id="field_group" name="group" [(ngModel)]="mstAccount.groupId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="mstGroupOption.id" *ngFor="let mstGroupOption of mstgroups; trackBy: trackMstGroupById">{{mstGroupOption.name}}</option>
-                    </select>
+                    <input
+                        id="field_group"
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="selectedGroupName"
+                        [ngbTypeahead]="search"
+                        (focus)="focus$.next($event.target.value)"
+                        (click)="click$.next($event.target.value)"
+                        #instance="ngbTypeahead"
+                    />
                 </div>
             </div>
             <div>

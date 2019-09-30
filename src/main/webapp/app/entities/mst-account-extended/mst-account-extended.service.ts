@@ -20,4 +20,18 @@ export class MstAccountExtendedService extends MstAccountService {
     constructor(protected http: HttpClient) {
         super(http);
     }
+
+    create(mstAccount: IMstAccount): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(mstAccount);
+        return this.http
+            .post<IMstAccount>(this.resourceExtendedUrl, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    update(mstAccount: IMstAccount): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(mstAccount);
+        return this.http
+            .put<IMstAccount>(this.resourceExtendedUrl, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
 }
