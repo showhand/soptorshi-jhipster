@@ -372,6 +372,8 @@ entity MstGroup{
 entity MstAccount{
     code String,
     name String,
+    yearOpenBalance BigDecimal,
+    yearCloseBalance BigDecimal,
     reservedFlag ReservedFlag,
     modifiedBy String,
     modifiedOn LocalDate

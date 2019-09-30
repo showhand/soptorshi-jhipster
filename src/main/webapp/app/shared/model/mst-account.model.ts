@@ -9,6 +9,8 @@ export interface IMstAccount {
     id?: number;
     code?: string;
     name?: string;
+    yearOpenBalance?: number;
+    yearCloseBalance?: number;
     reservedFlag?: ReservedFlag;
     modifiedBy?: string;
     modifiedOn?: Moment;
@@ -21,6 +23,8 @@ export class MstAccount implements IMstAccount {
         public id?: number,
         public code?: string,
         public name?: string,
+        public yearOpenBalance?: number,
+        public yearCloseBalance?: number,
         public reservedFlag?: ReservedFlag,
         public modifiedBy?: string,
         public modifiedOn?: Moment,

@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -31,6 +32,12 @@ public class MstAccount implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "year_open_balance", precision = 10, scale = 2)
+    private BigDecimal yearOpenBalance;
+
+    @Column(name = "year_close_balance", precision = 10, scale = 2)
+    private BigDecimal yearCloseBalance;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "reserved_flag")
@@ -79,6 +86,32 @@ public class MstAccount implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public BigDecimal getYearOpenBalance() {
+        return yearOpenBalance;
+    }
+
+    public MstAccount yearOpenBalance(BigDecimal yearOpenBalance) {
+        this.yearOpenBalance = yearOpenBalance;
+        return this;
+    }
+
+    public void setYearOpenBalance(BigDecimal yearOpenBalance) {
+        this.yearOpenBalance = yearOpenBalance;
+    }
+
+    public BigDecimal getYearCloseBalance() {
+        return yearCloseBalance;
+    }
+
+    public MstAccount yearCloseBalance(BigDecimal yearCloseBalance) {
+        this.yearCloseBalance = yearCloseBalance;
+        return this;
+    }
+
+    public void setYearCloseBalance(BigDecimal yearCloseBalance) {
+        this.yearCloseBalance = yearCloseBalance;
     }
 
     public ReservedFlag getReservedFlag() {
@@ -160,6 +193,8 @@ public class MstAccount implements Serializable {
             "id=" + getId() +
             ", code='" + getCode() + "'" +
             ", name='" + getName() + "'" +
+            ", yearOpenBalance=" + getYearOpenBalance() +
+            ", yearCloseBalance=" + getYearCloseBalance() +
             ", reservedFlag='" + getReservedFlag() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +

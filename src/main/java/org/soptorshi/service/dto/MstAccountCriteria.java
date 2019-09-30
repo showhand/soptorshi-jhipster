@@ -10,6 +10,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
@@ -34,6 +35,10 @@ public class MstAccountCriteria implements Serializable {
     private StringFilter code;
 
     private StringFilter name;
+
+    private BigDecimalFilter yearOpenBalance;
+
+    private BigDecimalFilter yearCloseBalance;
 
     private ReservedFlagFilter reservedFlag;
 
@@ -65,6 +70,22 @@ public class MstAccountCriteria implements Serializable {
 
     public void setName(StringFilter name) {
         this.name = name;
+    }
+
+    public BigDecimalFilter getYearOpenBalance() {
+        return yearOpenBalance;
+    }
+
+    public void setYearOpenBalance(BigDecimalFilter yearOpenBalance) {
+        this.yearOpenBalance = yearOpenBalance;
+    }
+
+    public BigDecimalFilter getYearCloseBalance() {
+        return yearCloseBalance;
+    }
+
+    public void setYearCloseBalance(BigDecimalFilter yearCloseBalance) {
+        this.yearCloseBalance = yearCloseBalance;
     }
 
     public ReservedFlagFilter getReservedFlag() {
@@ -113,6 +134,8 @@ public class MstAccountCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(code, that.code) &&
             Objects.equals(name, that.name) &&
+            Objects.equals(yearOpenBalance, that.yearOpenBalance) &&
+            Objects.equals(yearCloseBalance, that.yearCloseBalance) &&
             Objects.equals(reservedFlag, that.reservedFlag) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
@@ -125,6 +148,8 @@ public class MstAccountCriteria implements Serializable {
         id,
         code,
         name,
+        yearOpenBalance,
+        yearCloseBalance,
         reservedFlag,
         modifiedBy,
         modifiedOn,
@@ -138,6 +163,8 @@ public class MstAccountCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (code != null ? "code=" + code + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
+                (yearOpenBalance != null ? "yearOpenBalance=" + yearOpenBalance + ", " : "") +
+                (yearCloseBalance != null ? "yearCloseBalance=" + yearCloseBalance + ", " : "") +
                 (reservedFlag != null ? "reservedFlag=" + reservedFlag + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +

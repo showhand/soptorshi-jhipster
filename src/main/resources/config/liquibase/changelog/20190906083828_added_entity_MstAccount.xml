@@ -30,6 +30,14 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="year_open_balance" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="year_close_balance" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="reserved_flag" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

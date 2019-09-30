@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new MstAccount(0, 'AAAAAAA', 'AAAAAAA', ReservedFlag.RESERVED, 'AAAAAAA', currentDate);
+            elemDefault = new MstAccount(0, 'AAAAAAA', 'AAAAAAA', 0, 0, ReservedFlag.RESERVED, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
@@ -72,6 +72,8 @@ describe('Service Tests', () => {
                     {
                         code: 'BBBBBB',
                         name: 'BBBBBB',
+                        yearOpenBalance: 1,
+                        yearCloseBalance: 1,
                         reservedFlag: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
@@ -98,6 +100,8 @@ describe('Service Tests', () => {
                     {
                         code: 'BBBBBB',
                         name: 'BBBBBB',
+                        yearOpenBalance: 1,
+                        yearCloseBalance: 1,
                         reservedFlag: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
