@@ -39,12 +39,12 @@ public class MstAccountExtendedService extends MstAccountService {
     public MstAccountDTO save(MstAccountDTO mstAccountDTO) {
         mstAccountDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
         mstAccountDTO.setModifiedOn(LocalDate.now());
-        try{
-            FinancialAccountYear financialAccountYear = financialAccountYearExtendedService.getOpenedYear();
-        }catch (Exception e){
-            return null;
+
+        if(mstAccountDTO.getId()!=null){
+
+        }else{
+
         }
-//        if(accountBalanceExtendedRepository.existsAccountBalanceByAccountAndFinancialAccountYear(a))
 
         return super.save(mstAccountDTO);
     }

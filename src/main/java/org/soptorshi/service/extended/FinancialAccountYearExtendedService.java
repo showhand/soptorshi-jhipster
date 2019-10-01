@@ -34,10 +34,4 @@ public class FinancialAccountYearExtendedService extends FinancialAccountYearSer
         return super.save(financialAccountYearDTO);
     }
 
-    public FinancialAccountYear getOpenedYear()throws Exception{
-        List<FinancialAccountYear> financialAccountYears = financialAccountYearExtendedRepository.getByStatus(FinancialYearStatus.ACTIVE);
-        if(financialAccountYears.size()>1)
-            throw new CustomParameterizedException("Two opened financial account year can't operate");
-        return financialAccountYears.get(0);
-    }
 }

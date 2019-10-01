@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface FinancialAccountYearExtendedRepository extends FinancialAccountYearRepository {
-    List<FinancialAccountYear> getByStatus(FinancialYearStatus status);
+    FinancialAccountYear getByStatus(FinancialYearStatus status);
 }

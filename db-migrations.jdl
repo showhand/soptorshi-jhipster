@@ -373,6 +373,7 @@ entity MstAccount{
     code String,
     name String,
     yearOpenBalance BigDecimal,
+    yearOpenBalanceType BalanceType,
     yearCloseBalance BigDecimal,
     reservedFlag ReservedFlag,
     modifiedBy String,

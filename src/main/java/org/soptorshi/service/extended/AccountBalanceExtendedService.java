@@ -1,5 +1,6 @@
 package org.soptorshi.service.extended;
 
+import org.soptorshi.domain.MstAccount;
 import org.soptorshi.repository.AccountBalanceRepository;
 import org.soptorshi.repository.extended.AccountBalanceExtendedRepository;
 import org.soptorshi.repository.search.AccountBalanceSearchRepository;
@@ -31,6 +32,10 @@ public class AccountBalanceExtendedService extends AccountBalanceService {
         accountBalanceDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
         accountBalanceDTO.setModifiedOn(LocalDate.now());
         return super.save(accountBalanceDTO);
+    }
+
+    public void createAccountBalanceForNewAccount(MstAccount mstAccount){
+
     }
 
 
