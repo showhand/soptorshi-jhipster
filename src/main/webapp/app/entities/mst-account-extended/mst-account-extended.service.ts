@@ -15,7 +15,7 @@ type EntityArrayResponseType = HttpResponse<IMstAccount[]>;
 
 @Injectable({ providedIn: 'root' })
 export class MstAccountExtendedService extends MstAccountService {
-    public resourceExtendedUrl = SERVER_API_URL + 'api/mst-accounts';
+    public resourceExtendedUrl = SERVER_API_URL + 'api/extended/mst-accounts';
 
     constructor(protected http: HttpClient) {
         super(http);

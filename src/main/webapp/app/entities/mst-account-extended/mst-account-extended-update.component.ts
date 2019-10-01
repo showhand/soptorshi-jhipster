@@ -9,7 +9,7 @@ import { IMstAccount } from 'app/shared/model/mst-account.model';
 import { IMstGroup } from 'app/shared/model/mst-group.model';
 import { MstGroupService } from 'app/entities/mst-group';
 import { MstAccountExtendedService } from 'app/entities/mst-account-extended/mst-account-extended.service';
-import { MstAccountUpdateComponent } from 'app/entities/mst-account';
+import { MstAccountService, MstAccountUpdateComponent } from 'app/entities/mst-account';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -28,9 +28,10 @@ export class MstAccountExtendedUpdateComponent extends MstAccountUpdateComponent
 
     constructor(
         protected jhiAlertService: JhiAlertService,
-        protected mstAccountService: MstAccountExtendedService,
+        protected mstAccountService: MstAccountService,
         protected mstGroupService: MstGroupService,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        protected mstAccountExtendedService: MstAccountExtendedService
     ) {
         super(jhiAlertService, mstAccountService, mstGroupService, activatedRoute);
     }
@@ -39,7 +40,11 @@ export class MstAccountExtendedUpdateComponent extends MstAccountUpdateComponent
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ mstAccount }) => {
             this.mstAccount = mstAccount;
-            if (this.mstAccount.groupName) this.selectedGroupName = this.mstAccount.groupName;
+            if (this.mstAccount.groupName) {
+                this.selectedGroupName = this.mstAccount.groupName;
+            } else {
+                this.selectedGroupName = '';
+            }
         });
         this.mstGroupService
             .query({
@@ -84,16 +89,17 @@ export class MstAccountExtendedUpdateComponent extends MstAccountUpdateComponent
     };
 
     save() {
-        if (!this.mstAccount.groupId) {
-            this.jhiAlertService.error('Account must have a group');
+        console.log('selected group name-->' + this.selectedGroupName);
+        if (this.selectedGroupName == undefined) {
+            this.jhiAlertService.error('Error');
         } else {
             this.isSaving = true;
             this.mstAccount.groupId = this.groupNameMapId[this.selectedGroupName];
             this.mstAccount.groupName = this.selectedGroupName;
             if (this.mstAccount.id !== undefined) {
-                this.subscribeToSaveResponse(this.mstAccountService.update(this.mstAccount));
+                this.subscribeToSaveResponse(this.mstAccountExtendedService.update(this.mstAccount));
             } else {
-                this.subscribeToSaveResponse(this.mstAccountService.create(this.mstAccount));
+                this.subscribeToSaveResponse(this.mstAccountExtendedService.create(this.mstAccount));
             }
         }
     }

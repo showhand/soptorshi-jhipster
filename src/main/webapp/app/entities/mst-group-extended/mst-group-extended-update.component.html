@@ -9,42 +9,6 @@
     }
 </style>
 <div class="row justify-content-center">
- <!--   <div class="col-8">
-        <h2 id="jhi-mst-group-heading">Create or edit a Mst Group</h2>
-        <jhi-alert-error></jhi-alert-error>
-    </div>
-    <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <div class="group-container">
-                <mat-form-field>
-                    <input  matInput placeholder="Name" [(ngModel)]="mstGroup.name" name="mstGroup.name" >
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput placeholder="Main Group" [(ngModel)]="mstGroup.mainGroup" name="mstGroup.mainGroup" [matAutocomplete]="auto" value="{{}}">
-                    <mat-autocomplete #auto=matAutocomplete  >
-                        <mat-option *ngFor="let g of groups" [value]="g.id">
-                            <span>{{g.name}}</span>
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-select placeholder="Reserved Flag" [(ngModel)]="mstGroup.reservedFlag" name="mstGroup.reservedFlag">
-                        <mat-option value="RESERVED">Reserved</mat-option>
-                        <mat-option value="NOT_RESERVED">Not Reserved</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-           <div>
-               <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                   <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
-               </button>
-               <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                   <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-               </button>
-           </div>
-
-        </form>
-    </div>-->
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-mst-group-heading">Create or edit a Mst Group</h2>

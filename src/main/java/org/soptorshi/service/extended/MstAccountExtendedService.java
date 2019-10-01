@@ -40,10 +40,11 @@ public class MstAccountExtendedService extends MstAccountService {
 
     @Override
     public MstAccountDTO save(MstAccountDTO mstAccountDTO) {
+        boolean newAccount = mstAccountDTO.getId()==null?true: false;
         mstAccountDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
         mstAccountDTO.setModifiedOn(LocalDate.now());
         mstAccountDTO = super.save(mstAccountDTO);
-        if(mstAccountDTO.getId()!=null){
+        if(newAccount){
             accountBalanceExtendedService.createAccountBalanceForNewAccount(mstAccountDTO);
         }else{
 

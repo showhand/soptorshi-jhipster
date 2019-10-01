@@ -29,16 +29,17 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="code"><span>Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="groupName"><span>Group</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="yearOpenBalance"><span>Year Open Balance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="yearCloseBalance"><span>Year Close Balance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="reservedFlag"><span>Reserved Flag</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
+                <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="code"><span>Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="groupName"><span>Group</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="yearOpenBalance"><span>Year Open Balance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="yearOpenBalanceType"><span>Year Open Balance Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="yearCloseBalance"><span>Year Close Balance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="reservedFlag"><span>Reserved Flag</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -52,6 +53,7 @@
                     </div>
                 </td>
                 <td>{{mstAccount.yearOpenBalance}}</td>
+                <td>{{mstAccount.yearOpenBalanceType}}</td>
                 <td>{{mstAccount.yearCloseBalance}}</td>
                 <td>{{mstAccount.reservedFlag}}</td>
                 <td>{{mstAccount.modifiedBy}}</td>

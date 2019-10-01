@@ -2,7 +2,6 @@ package org.soptorshi.service;
 
 import org.soptorshi.domain.AcademicInformationAttachment;
 import org.soptorshi.repository.AcademicInformationAttachmentRepository;
-import org.soptorshi.repository.search.AcademicInformationAttachmentSearchRepository;
 import org.soptorshi.service.dto.AcademicInformationAttachmentDTO;
 import org.soptorshi.service.mapper.AcademicInformationAttachmentMapper;
 import org.slf4j.Logger;
@@ -32,12 +31,10 @@ public class AcademicInformationAttachmentService {
 
     private final AcademicInformationAttachmentMapper academicInformationAttachmentMapper;
 
-    private final AcademicInformationAttachmentSearchRepository academicInformationAttachmentSearchRepository;
 
-    public AcademicInformationAttachmentService(AcademicInformationAttachmentRepository academicInformationAttachmentRepository, AcademicInformationAttachmentMapper academicInformationAttachmentMapper, AcademicInformationAttachmentSearchRepository academicInformationAttachmentSearchRepository) {
+    public AcademicInformationAttachmentService(AcademicInformationAttachmentRepository academicInformationAttachmentRepository, AcademicInformationAttachmentMapper academicInformationAttachmentMapper) {
         this.academicInformationAttachmentRepository = academicInformationAttachmentRepository;
         this.academicInformationAttachmentMapper = academicInformationAttachmentMapper;
-        this.academicInformationAttachmentSearchRepository = academicInformationAttachmentSearchRepository;
     }
 
     /**
@@ -51,7 +48,6 @@ public class AcademicInformationAttachmentService {
         AcademicInformationAttachment academicInformationAttachment = academicInformationAttachmentMapper.toEntity(academicInformationAttachmentDTO);
         academicInformationAttachment = academicInformationAttachmentRepository.save(academicInformationAttachment);
         AcademicInformationAttachmentDTO result = academicInformationAttachmentMapper.toDto(academicInformationAttachment);
-        academicInformationAttachmentSearchRepository.save(academicInformationAttachment);
         return result;
     }
 
@@ -90,7 +86,6 @@ public class AcademicInformationAttachmentService {
     public void delete(Long id) {
         log.debug("Request to delete AcademicInformationAttachment : {}", id);
         academicInformationAttachmentRepository.deleteById(id);
-        academicInformationAttachmentSearchRepository.deleteById(id);
     }
 
     /**
@@ -101,10 +96,6 @@ public class AcademicInformationAttachmentService {
      */
     @Transactional(readOnly = true)
     public List<AcademicInformationAttachmentDTO> search(String query) {
-        log.debug("Request to search AcademicInformationAttachments for query {}", query);
-        return StreamSupport
-            .stream(academicInformationAttachmentSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .map(academicInformationAttachmentMapper::toDto)
-            .collect(Collectors.toList());
+        return null;
     }
 }
