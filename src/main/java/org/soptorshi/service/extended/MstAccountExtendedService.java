@@ -22,30 +22,32 @@ public class MstAccountExtendedService extends MstAccountService {
     FinancialAccountYearExtendedRepository financialAccountYearExtendedRepository;
     FinancialAccountYearExtendedService financialAccountYearExtendedService;
     AccountBalanceExtendedRepository accountBalanceExtendedRepository;
+    AccountBalanceExtendedService accountBalanceExtendedService;
 
     public MstAccountExtendedService(MstAccountRepository mstAccountRepository,
                                      MstAccountMapper mstAccountMapper,
                                      MstAccountSearchRepository mstAccountSearchRepository,
                                      FinancialAccountYearExtendedRepository financialAccountYearExtendedRepository,
                                      AccountBalanceExtendedRepository accountBalanceExtendedRepository,
-                                     FinancialAccountYearExtendedService financialAccountYearExtendedService) {
+                                     FinancialAccountYearExtendedService financialAccountYearExtendedService,
+                                     AccountBalanceExtendedService accountBalanceExtendedService) {
         super(mstAccountRepository, mstAccountMapper, mstAccountSearchRepository);
         this.financialAccountYearExtendedRepository = financialAccountYearExtendedRepository;
         this.accountBalanceExtendedRepository = accountBalanceExtendedRepository;
         this.financialAccountYearExtendedService = financialAccountYearExtendedService;
+        this.accountBalanceExtendedService = accountBalanceExtendedService;
     }
 
     @Override
     public MstAccountDTO save(MstAccountDTO mstAccountDTO) {
         mstAccountDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
         mstAccountDTO.setModifiedOn(LocalDate.now());
-
+        mstAccountDTO = super.save(mstAccountDTO);
         if(mstAccountDTO.getId()!=null){
-
+            accountBalanceExtendedService.createAccountBalanceForNewAccount(mstAccountDTO);
         }else{
 
         }
-
-        return super.save(mstAccountDTO);
+        return mstAccountDTO;
     }
 }
