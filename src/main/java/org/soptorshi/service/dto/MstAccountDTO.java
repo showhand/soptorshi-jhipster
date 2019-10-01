@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.ReservedFlag;
 
 /**
@@ -17,6 +18,8 @@ public class MstAccountDTO implements Serializable {
     private String name;
 
     private BigDecimal yearOpenBalance;
+
+    private BalanceType yearOpenBalanceType;
 
     private BigDecimal yearCloseBalance;
 
@@ -61,6 +64,14 @@ public class MstAccountDTO implements Serializable {
 
     public void setYearOpenBalance(BigDecimal yearOpenBalance) {
         this.yearOpenBalance = yearOpenBalance;
+    }
+
+    public BalanceType getYearOpenBalanceType() {
+        return yearOpenBalanceType;
+    }
+
+    public void setYearOpenBalanceType(BalanceType yearOpenBalanceType) {
+        this.yearOpenBalanceType = yearOpenBalanceType;
     }
 
     public BigDecimal getYearCloseBalance() {
@@ -139,6 +150,7 @@ public class MstAccountDTO implements Serializable {
             ", code='" + getCode() + "'" +
             ", name='" + getName() + "'" +
             ", yearOpenBalance=" + getYearOpenBalance() +
+            ", yearOpenBalanceType='" + getYearOpenBalanceType() + "'" +
             ", yearCloseBalance=" + getYearCloseBalance() +
             ", reservedFlag='" + getReservedFlag() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +

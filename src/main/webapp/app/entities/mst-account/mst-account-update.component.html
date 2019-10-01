@@ -25,6 +25,13 @@
                         [(ngModel)]="mstAccount.yearOpenBalance" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_yearOpenBalanceType">Year Open Balance Type</label>
+                    <select class="form-control" name="yearOpenBalanceType" [(ngModel)]="mstAccount.yearOpenBalanceType" id="field_yearOpenBalanceType" >
+                        <option value="DEBIT">DEBIT</option>
+                        <option value="CREDIT">CREDIT</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_yearCloseBalance">Year Close Balance</label>
                     <input type="number" class="form-control" name="yearCloseBalance" id="field_yearCloseBalance"
                         [(ngModel)]="mstAccount.yearCloseBalance" />

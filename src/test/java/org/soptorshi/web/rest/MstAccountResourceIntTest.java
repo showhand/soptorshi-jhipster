@@ -46,6 +46,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.ReservedFlag;
 /**
  * Test class for the MstAccountResource REST controller.
@@ -64,6 +65,9 @@ public class MstAccountResourceIntTest {
 
     private static final BigDecimal DEFAULT_YEAR_OPEN_BALANCE = new BigDecimal(1);
     private static final BigDecimal UPDATED_YEAR_OPEN_BALANCE = new BigDecimal(2);
+
+    private static final BalanceType DEFAULT_YEAR_OPEN_BALANCE_TYPE = BalanceType.DEBIT;
+    private static final BalanceType UPDATED_YEAR_OPEN_BALANCE_TYPE = BalanceType.CREDIT;
 
     private static final BigDecimal DEFAULT_YEAR_CLOSE_BALANCE = new BigDecimal(1);
     private static final BigDecimal UPDATED_YEAR_CLOSE_BALANCE = new BigDecimal(2);
@@ -139,6 +143,7 @@ public class MstAccountResourceIntTest {
             .code(DEFAULT_CODE)
             .name(DEFAULT_NAME)
             .yearOpenBalance(DEFAULT_YEAR_OPEN_BALANCE)
+            .yearOpenBalanceType(DEFAULT_YEAR_OPEN_BALANCE_TYPE)
             .yearCloseBalance(DEFAULT_YEAR_CLOSE_BALANCE)
             .reservedFlag(DEFAULT_RESERVED_FLAG)
             .modifiedBy(DEFAULT_MODIFIED_BY)
@@ -170,6 +175,7 @@ public class MstAccountResourceIntTest {
         assertThat(testMstAccount.getCode()).isEqualTo(DEFAULT_CODE);
         assertThat(testMstAccount.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testMstAccount.getYearOpenBalance()).isEqualTo(DEFAULT_YEAR_OPEN_BALANCE);
+        assertThat(testMstAccount.getYearOpenBalanceType()).isEqualTo(DEFAULT_YEAR_OPEN_BALANCE_TYPE);
         assertThat(testMstAccount.getYearCloseBalance()).isEqualTo(DEFAULT_YEAR_CLOSE_BALANCE);
         assertThat(testMstAccount.getReservedFlag()).isEqualTo(DEFAULT_RESERVED_FLAG);
         assertThat(testMstAccount.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
@@ -216,6 +222,7 @@ public class MstAccountResourceIntTest {
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].yearOpenBalance").value(hasItem(DEFAULT_YEAR_OPEN_BALANCE.intValue())))
+            .andExpect(jsonPath("$.[*].yearOpenBalanceType").value(hasItem(DEFAULT_YEAR_OPEN_BALANCE_TYPE.toString())))
             .andExpect(jsonPath("$.[*].yearCloseBalance").value(hasItem(DEFAULT_YEAR_CLOSE_BALANCE.intValue())))
             .andExpect(jsonPath("$.[*].reservedFlag").value(hasItem(DEFAULT_RESERVED_FLAG.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
@@ -236,6 +243,7 @@ public class MstAccountResourceIntTest {
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.yearOpenBalance").value(DEFAULT_YEAR_OPEN_BALANCE.intValue()))
+            .andExpect(jsonPath("$.yearOpenBalanceType").value(DEFAULT_YEAR_OPEN_BALANCE_TYPE.toString()))
             .andExpect(jsonPath("$.yearCloseBalance").value(DEFAULT_YEAR_CLOSE_BALANCE.intValue()))
             .andExpect(jsonPath("$.reservedFlag").value(DEFAULT_RESERVED_FLAG.toString()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
@@ -357,6 +365,45 @@ public class MstAccountResourceIntTest {
 
         // Get all the mstAccountList where yearOpenBalance is null
         defaultMstAccountShouldNotBeFound("yearOpenBalance.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMstAccountsByYearOpenBalanceTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        mstAccountRepository.saveAndFlush(mstAccount);
+
+        // Get all the mstAccountList where yearOpenBalanceType equals to DEFAULT_YEAR_OPEN_BALANCE_TYPE
+        defaultMstAccountShouldBeFound("yearOpenBalanceType.equals=" + DEFAULT_YEAR_OPEN_BALANCE_TYPE);
+
+        // Get all the mstAccountList where yearOpenBalanceType equals to UPDATED_YEAR_OPEN_BALANCE_TYPE
+        defaultMstAccountShouldNotBeFound("yearOpenBalanceType.equals=" + UPDATED_YEAR_OPEN_BALANCE_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMstAccountsByYearOpenBalanceTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        mstAccountRepository.saveAndFlush(mstAccount);
+
+        // Get all the mstAccountList where yearOpenBalanceType in DEFAULT_YEAR_OPEN_BALANCE_TYPE or UPDATED_YEAR_OPEN_BALANCE_TYPE
+        defaultMstAccountShouldBeFound("yearOpenBalanceType.in=" + DEFAULT_YEAR_OPEN_BALANCE_TYPE + "," + UPDATED_YEAR_OPEN_BALANCE_TYPE);
+
+        // Get all the mstAccountList where yearOpenBalanceType equals to UPDATED_YEAR_OPEN_BALANCE_TYPE
+        defaultMstAccountShouldNotBeFound("yearOpenBalanceType.in=" + UPDATED_YEAR_OPEN_BALANCE_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMstAccountsByYearOpenBalanceTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        mstAccountRepository.saveAndFlush(mstAccount);
+
+        // Get all the mstAccountList where yearOpenBalanceType is not null
+        defaultMstAccountShouldBeFound("yearOpenBalanceType.specified=true");
+
+        // Get all the mstAccountList where yearOpenBalanceType is null
+        defaultMstAccountShouldNotBeFound("yearOpenBalanceType.specified=false");
     }
 
     @Test
@@ -571,6 +618,7 @@ public class MstAccountResourceIntTest {
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].yearOpenBalance").value(hasItem(DEFAULT_YEAR_OPEN_BALANCE.intValue())))
+            .andExpect(jsonPath("$.[*].yearOpenBalanceType").value(hasItem(DEFAULT_YEAR_OPEN_BALANCE_TYPE.toString())))
             .andExpect(jsonPath("$.[*].yearCloseBalance").value(hasItem(DEFAULT_YEAR_CLOSE_BALANCE.intValue())))
             .andExpect(jsonPath("$.[*].reservedFlag").value(hasItem(DEFAULT_RESERVED_FLAG.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
@@ -625,6 +673,7 @@ public class MstAccountResourceIntTest {
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
             .yearOpenBalance(UPDATED_YEAR_OPEN_BALANCE)
+            .yearOpenBalanceType(UPDATED_YEAR_OPEN_BALANCE_TYPE)
             .yearCloseBalance(UPDATED_YEAR_CLOSE_BALANCE)
             .reservedFlag(UPDATED_RESERVED_FLAG)
             .modifiedBy(UPDATED_MODIFIED_BY)
@@ -643,6 +692,7 @@ public class MstAccountResourceIntTest {
         assertThat(testMstAccount.getCode()).isEqualTo(UPDATED_CODE);
         assertThat(testMstAccount.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testMstAccount.getYearOpenBalance()).isEqualTo(UPDATED_YEAR_OPEN_BALANCE);
+        assertThat(testMstAccount.getYearOpenBalanceType()).isEqualTo(UPDATED_YEAR_OPEN_BALANCE_TYPE);
         assertThat(testMstAccount.getYearCloseBalance()).isEqualTo(UPDATED_YEAR_CLOSE_BALANCE);
         assertThat(testMstAccount.getReservedFlag()).isEqualTo(UPDATED_RESERVED_FLAG);
         assertThat(testMstAccount.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
@@ -710,6 +760,7 @@ public class MstAccountResourceIntTest {
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].yearOpenBalance").value(hasItem(DEFAULT_YEAR_OPEN_BALANCE.intValue())))
+            .andExpect(jsonPath("$.[*].yearOpenBalanceType").value(hasItem(DEFAULT_YEAR_OPEN_BALANCE_TYPE.toString())))
             .andExpect(jsonPath("$.[*].yearCloseBalance").value(hasItem(DEFAULT_YEAR_CLOSE_BALANCE.intValue())))
             .andExpect(jsonPath("$.[*].reservedFlag").value(hasItem(DEFAULT_RESERVED_FLAG.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))

@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.ReservedFlag;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
@@ -23,6 +24,11 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  */
 public class MstAccountCriteria implements Serializable {
     /**
+     * Class for filtering BalanceType
+     */
+    public static class BalanceTypeFilter extends Filter<BalanceType> {
+    }
+    /**
      * Class for filtering ReservedFlag
      */
     public static class ReservedFlagFilter extends Filter<ReservedFlag> {
@@ -37,6 +43,8 @@ public class MstAccountCriteria implements Serializable {
     private StringFilter name;
 
     private BigDecimalFilter yearOpenBalance;
+
+    private BalanceTypeFilter yearOpenBalanceType;
 
     private BigDecimalFilter yearCloseBalance;
 
@@ -78,6 +86,14 @@ public class MstAccountCriteria implements Serializable {
 
     public void setYearOpenBalance(BigDecimalFilter yearOpenBalance) {
         this.yearOpenBalance = yearOpenBalance;
+    }
+
+    public BalanceTypeFilter getYearOpenBalanceType() {
+        return yearOpenBalanceType;
+    }
+
+    public void setYearOpenBalanceType(BalanceTypeFilter yearOpenBalanceType) {
+        this.yearOpenBalanceType = yearOpenBalanceType;
     }
 
     public BigDecimalFilter getYearCloseBalance() {
@@ -135,6 +151,7 @@ public class MstAccountCriteria implements Serializable {
             Objects.equals(code, that.code) &&
             Objects.equals(name, that.name) &&
             Objects.equals(yearOpenBalance, that.yearOpenBalance) &&
+            Objects.equals(yearOpenBalanceType, that.yearOpenBalanceType) &&
             Objects.equals(yearCloseBalance, that.yearCloseBalance) &&
             Objects.equals(reservedFlag, that.reservedFlag) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
@@ -149,6 +166,7 @@ public class MstAccountCriteria implements Serializable {
         code,
         name,
         yearOpenBalance,
+        yearOpenBalanceType,
         yearCloseBalance,
         reservedFlag,
         modifiedBy,
@@ -164,6 +182,7 @@ public class MstAccountCriteria implements Serializable {
                 (code != null ? "code=" + code + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
                 (yearOpenBalance != null ? "yearOpenBalance=" + yearOpenBalance + ", " : "") +
+                (yearOpenBalanceType != null ? "yearOpenBalanceType=" + yearOpenBalanceType + ", " : "") +
                 (yearCloseBalance != null ? "yearCloseBalance=" + yearCloseBalance + ", " : "") +
                 (reservedFlag != null ? "reservedFlag=" + reservedFlag + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +

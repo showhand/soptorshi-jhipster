@@ -18,7 +18,6 @@
         Added the entity MstAccount.
     -->
     <changeSet id="20190906083828-1" author="jhipster">
-        <validCheckSum>7:74c3050c0c6157e4ef57a0d3af65382f</validCheckSum>
         <createTable tableName="mst_account">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
@@ -32,6 +31,10 @@
             </column>
 
             <column name="year_open_balance" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="year_open_balance_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 

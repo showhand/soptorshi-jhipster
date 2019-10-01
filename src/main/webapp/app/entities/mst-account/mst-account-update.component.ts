@@ -20,9 +20,6 @@ export class MstAccountUpdateComponent implements OnInit {
 
     mstgroups: IMstGroup[];
     modifiedOnDp: any;
-    selectedGroupName: string;
-    groupNameMapId: any;
-    groupIdMapName: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -35,7 +32,6 @@ export class MstAccountUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ mstAccount }) => {
             this.mstAccount = mstAccount;
-            if (this.mstAccount.groupName) this.selectedGroupName = this.mstAccount.groupName;
         });
         this.mstGroupService
             .query()
@@ -43,18 +39,7 @@ export class MstAccountUpdateComponent implements OnInit {
                 filter((mayBeOk: HttpResponse<IMstGroup[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IMstGroup[]>) => response.body)
             )
-            .subscribe(
-                (res: IMstGroup[]) => {
-                    this.mstgroups = res;
-                    this.groupIdMapName = {};
-                    this.groupNameMapId = {};
-                    res.forEach((g: IMstGroup) => {
-                        this.groupNameMapId[g.name] = g.id;
-                        this.groupIdMapName[g.id] = g.name;
-                    });
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+            .subscribe((res: IMstGroup[]) => (this.mstgroups = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {

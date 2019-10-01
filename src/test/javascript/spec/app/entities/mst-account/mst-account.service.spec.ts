@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { MstAccountService } from 'app/entities/mst-account/mst-account.service';
-import { IMstAccount, MstAccount, ReservedFlag } from 'app/shared/model/mst-account.model';
+import { IMstAccount, MstAccount, BalanceType, ReservedFlag } from 'app/shared/model/mst-account.model';
 
 describe('Service Tests', () => {
     describe('MstAccount Service', () => {
@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new MstAccount(0, 'AAAAAAA', 'AAAAAAA', 0, 0, ReservedFlag.RESERVED, 'AAAAAAA', currentDate);
+            elemDefault = new MstAccount(0, 'AAAAAAA', 'AAAAAAA', 0, BalanceType.DEBIT, 0, ReservedFlag.RESERVED, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
@@ -73,6 +73,7 @@ describe('Service Tests', () => {
                         code: 'BBBBBB',
                         name: 'BBBBBB',
                         yearOpenBalance: 1,
+                        yearOpenBalanceType: 'BBBBBB',
                         yearCloseBalance: 1,
                         reservedFlag: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
@@ -101,6 +102,7 @@ describe('Service Tests', () => {
                         code: 'BBBBBB',
                         name: 'BBBBBB',
                         yearOpenBalance: 1,
+                        yearOpenBalanceType: 'BBBBBB',
                         yearCloseBalance: 1,
                         reservedFlag: 'BBBBBB',
                         modifiedBy: 'BBBBBB',

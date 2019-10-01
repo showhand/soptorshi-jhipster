@@ -102,6 +102,9 @@ public class MstAccountQueryService extends QueryService<MstAccount> {
             if (criteria.getYearOpenBalance() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getYearOpenBalance(), MstAccount_.yearOpenBalance));
             }
+            if (criteria.getYearOpenBalanceType() != null) {
+                specification = specification.and(buildSpecification(criteria.getYearOpenBalanceType(), MstAccount_.yearOpenBalanceType));
+            }
             if (criteria.getYearCloseBalance() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getYearCloseBalance(), MstAccount_.yearCloseBalance));
             }

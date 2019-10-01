@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.soptorshi.domain.enumeration.BalanceType;
+
 import org.soptorshi.domain.enumeration.ReservedFlag;
 
 /**
@@ -35,6 +37,10 @@ public class MstAccount implements Serializable {
 
     @Column(name = "year_open_balance", precision = 10, scale = 2)
     private BigDecimal yearOpenBalance;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "year_open_balance_type")
+    private BalanceType yearOpenBalanceType;
 
     @Column(name = "year_close_balance", precision = 10, scale = 2)
     private BigDecimal yearCloseBalance;
@@ -99,6 +105,19 @@ public class MstAccount implements Serializable {
 
     public void setYearOpenBalance(BigDecimal yearOpenBalance) {
         this.yearOpenBalance = yearOpenBalance;
+    }
+
+    public BalanceType getYearOpenBalanceType() {
+        return yearOpenBalanceType;
+    }
+
+    public MstAccount yearOpenBalanceType(BalanceType yearOpenBalanceType) {
+        this.yearOpenBalanceType = yearOpenBalanceType;
+        return this;
+    }
+
+    public void setYearOpenBalanceType(BalanceType yearOpenBalanceType) {
+        this.yearOpenBalanceType = yearOpenBalanceType;
     }
 
     public BigDecimal getYearCloseBalance() {
@@ -194,6 +213,7 @@ public class MstAccount implements Serializable {
             ", code='" + getCode() + "'" +
             ", name='" + getName() + "'" +
             ", yearOpenBalance=" + getYearOpenBalance() +
+            ", yearOpenBalanceType='" + getYearOpenBalanceType() + "'" +
             ", yearCloseBalance=" + getYearCloseBalance() +
             ", reservedFlag='" + getReservedFlag() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
