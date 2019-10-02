@@ -194,27 +194,27 @@ public class SoptorshiUtils {
     public static MonthType getMonthType(){
         LocalDate localDate = LocalDate.now();
         Month month = localDate.getMonth();
-        if(month.getValue()==0)
+        if(month.getValue()==1)
             return MonthType.JANUARY;
-        else if(month.getValue()==1)
-            return MonthType.FEBRUARY;
         else if(month.getValue()==2)
-            return MonthType.MARCH;
+            return MonthType.FEBRUARY;
         else if(month.getValue()==3)
-            return MonthType.APRIL;
+            return MonthType.MARCH;
         else if(month.getValue()==4)
-            return MonthType.MAY;
+            return MonthType.APRIL;
         else if(month.getValue()==5)
-            return MonthType.JUNE;
+            return MonthType.MAY;
         else if(month.getValue()==6)
-            return MonthType.JULY;
+            return MonthType.JUNE;
         else if(month.getValue()==7)
-            return MonthType.AUGUST;
+            return MonthType.JULY;
         else if(month.getValue()==8)
-            return MonthType.SEPTEMBER;
+            return MonthType.AUGUST;
         else if(month.getValue()==9)
-            return MonthType.OCTOBER;
+            return MonthType.SEPTEMBER;
         else if(month.getValue()==10)
+            return MonthType.OCTOBER;
+        else if(month.getValue()==11)
             return MonthType.NOVEMBER;
         else
             return MonthType.DECEMBER;
