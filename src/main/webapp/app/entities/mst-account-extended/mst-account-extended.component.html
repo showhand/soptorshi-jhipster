@@ -26,10 +26,9 @@
     </div>
     <br/>
     <div class="table-responsive" *ngIf="mstAccounts">
-        <table class="table table-striped">
+        <table class="table table-striped" style="font-size: small;">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="code"><span>Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="groupName"><span>Group</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -37,14 +36,11 @@
                 <th jhiSortBy="yearOpenBalanceType"><span>Year Open Balance Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="yearCloseBalance"><span>Year Close Balance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="reservedFlag"><span>Reserved Flag</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let mstAccount of mstAccounts ;trackBy: trackId">
-                <td><a [routerLink]="['/mst-account', mstAccount.id, 'view' ]">{{mstAccount.id}}</a></td>
                 <td>{{mstAccount.code}}</td>
                 <td>{{mstAccount.name}}</td>
                 <td>
@@ -56,9 +52,6 @@
                 <td>{{mstAccount.yearOpenBalanceType}}</td>
                 <td>{{mstAccount.yearCloseBalance}}</td>
                 <td>{{mstAccount.reservedFlag}}</td>
-                <td>{{mstAccount.modifiedBy}}</td>
-                <td>{{mstAccount.modifiedOn | date:'mediumDate'}}</td>
-
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
