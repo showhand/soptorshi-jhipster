@@ -497,7 +497,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'period-close',
-                loadChildren: './period-close/period-close.module#SoptorshiPeriodCloseModule'
+                loadChildren: './period-close-extended/period-close-extended.module#SoptorshiPeriodCloseModule'
             },
             {
                 path: 'currency',

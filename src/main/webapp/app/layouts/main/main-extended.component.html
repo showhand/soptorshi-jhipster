@@ -527,6 +527,13 @@
                             <span>Account</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="period-close" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                            <span>Period-Close</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>
