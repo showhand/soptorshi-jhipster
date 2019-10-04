@@ -16,14 +16,14 @@ const ENTITY_STATES = [...periodCloseRoute, ...periodClosePopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /*    declarations: [
         PeriodCloseComponent,
         PeriodCloseDetailComponent,
         PeriodCloseUpdateComponent,
         PeriodCloseDeleteDialogComponent,
         PeriodCloseDeletePopupComponent
     ],
-    entryComponents: [PeriodCloseComponent, PeriodCloseUpdateComponent, PeriodCloseDeleteDialogComponent, PeriodCloseDeletePopupComponent],
+    entryComponents: [PeriodCloseComponent, PeriodCloseUpdateComponent, PeriodCloseDeleteDialogComponent, PeriodCloseDeletePopupComponent],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiPeriodCloseModule {}
