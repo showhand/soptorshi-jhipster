@@ -30,7 +30,7 @@ public class FinancialAccountYearExtendedService extends FinancialAccountYearSer
 
     @Override
     public FinancialAccountYearDTO save(FinancialAccountYearDTO financialAccountYearDTO) {
-        financialAccountYearDTO.setDurationStr(SoptorshiUtils.formatDate(financialAccountYearDTO.getStartDate(),"dd-MM-yyyy")+"- "+ SoptorshiUtils.formatDate(financialAccountYearDTO.getEndDate(),"dd-MM-yyyy"));
+        financialAccountYearDTO.setDurationStr(SoptorshiUtils.formatDate(financialAccountYearDTO.getStartDate(),"dd-MM-yyyy")+" to "+ SoptorshiUtils.formatDate(financialAccountYearDTO.getEndDate(),"dd-MM-yyyy"));
         return super.save(financialAccountYearDTO);
     }
 
