@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Period Closes</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-period-close" [routerLink]="['/period-close/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-period-close" [routerLink]="['/period-close',selectedFinancialAccountYear.financialAccountYearId,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Period Close
@@ -11,47 +11,43 @@
     <jhi-alert></jhi-alert>
     <div class="row">
         <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
+            <form name="selectForm" class="form-inline">
                 <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
+                    <select class="form-control" id="field_financialAccountYear" name="financialAccountYearSelect" [(ngModel)]="selectedFinancialAccountYear" (ngModelChange)="financialAccountYearSelectionChanged()">
+                        <option [ngValue]="null">Select financial year</option>
+                        <option [ngValue]="financialAccountYearOption" *ngFor="let financialAccountYearOption of financialAccountYears">{{financialAccountYearOption.durationStr}}</option>
+                    </select>
+                    <button class="btn btn-primary input-group-append">Filter</button>
                 </div>
             </form>
         </div>
+
     </div>
     <br/>
     <div class="table-responsive" *ngIf="periodCloses">
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="monthType"><span>Month Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="closeYear"><span>Close Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+             <th jhiSortBy="financialAccountYearDurationStr"><span>Financial Account Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+             <th jhiSortBy="monthType"><span>Month Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="flag"><span>Flag</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="financialAccountYearDurationStr"><span>Financial Account Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let periodClose of periodCloses ;trackBy: trackId">
-                <td><a [routerLink]="['/period-close', periodClose.id, 'view' ]">{{periodClose.id}}</a></td>
-                <td>{{periodClose.monthType}}</td>
-                <td>{{periodClose.closeYear}}</td>
-                <td>{{periodClose.flag}}</td>
-                <td>{{periodClose.modifiedBy}}</td>
-                <td>{{periodClose.modifiedOn | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="periodClose.financialAccountYearId">
                         <a [routerLink]="['../financial-account-year', periodClose.financialAccountYearId , 'view' ]" >{{periodClose.financialAccountYearDurationStr}}</a>
                     </div>
                 </td>
+                <td>{{periodClose.monthType}}</td>
+                <td>{{periodClose.flag}}</td>
+                <td>{{periodClose.modifiedBy}}</td>
+                <td>{{periodClose.modifiedOn | date:'mediumDate'}}</td>
+
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

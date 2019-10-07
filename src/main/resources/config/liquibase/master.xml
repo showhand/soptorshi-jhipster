@@ -159,5 +159,6 @@
     <include file="config/liquibase/changelog/20190925154039_finalcial_account_year_duration_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190930155806_year_open_close_balance_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191001133952_accounts_year_open_balance_type_added.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191007183116_period_close_financial_month_type_constraint_added.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
