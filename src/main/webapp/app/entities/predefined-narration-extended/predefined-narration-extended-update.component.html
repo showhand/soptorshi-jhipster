@@ -10,33 +10,19 @@
                         [(ngModel)]="predefinedNarration.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_narration">Narration</label>
-                    <input type="text" class="form-control" name="narration" id="field_narration"
-                        [(ngModel)]="predefinedNarration.narration" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
-                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
-                        [(ngModel)]="predefinedNarration.modifiedBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
-                    <div class="input-group">
-                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="predefinedNarration.modifiedOn"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <label class="form-control-label" for="field_voucher">Voucher</label>
                     <select class="form-control" id="field_voucher" name="voucher" [(ngModel)]="predefinedNarration.voucherId" >
                         <option [ngValue]="null"></option>
                         <option [ngValue]="voucherOption.id" *ngFor="let voucherOption of vouchers; trackBy: trackVoucherById">{{voucherOption.name}}</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_narration">Narration</label>
+                    <input type="text" class="form-control" name="narration" id="field_narration"
+                        [(ngModel)]="predefinedNarration.narration" />
+                </div>
+
+
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

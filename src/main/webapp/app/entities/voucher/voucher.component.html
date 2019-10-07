@@ -32,8 +32,6 @@
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="shortName"><span>Short Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -42,8 +40,6 @@
                 <td><a [routerLink]="['/voucher', voucher.id, 'view' ]">{{voucher.id}}</a></td>
                 <td>{{voucher.name}}</td>
                 <td>{{voucher.shortName}}</td>
-                <td>{{voucher.modifiedOn}}</td>
-                <td>{{voucher.modifiedBy}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

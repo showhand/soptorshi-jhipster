@@ -535,6 +535,13 @@
                         </a>
                     </li>
                     <li>
+                        <a class="dropdown-item" routerLink="voucher" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                            <span>Voucher Configuration</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="dropdown-item" routerLink="predefined-narration" routerLinkActive="active"
                            [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="address-book" fixedWidth="true"></fa-icon>

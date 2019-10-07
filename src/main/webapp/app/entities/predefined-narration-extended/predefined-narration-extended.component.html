@@ -29,25 +29,24 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="narration"><span>Narration</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="voucherName"><span>Voucher</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="narration"><span>Narration</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="voucherName"><span>Voucher</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let predefinedNarration of predefinedNarrations ;trackBy: trackId">
-                <td><a [routerLink]="['/predefined-narration', predefinedNarration.id, 'view' ]">{{predefinedNarration.id}}</a></td>
-                <td>{{predefinedNarration.narration}}</td>
-                <td>{{predefinedNarration.modifiedBy}}</td>
-                <td>{{predefinedNarration.modifiedOn | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="predefinedNarration.voucherId">
                         <a [routerLink]="['../voucher', predefinedNarration.voucherId , 'view' ]" >{{predefinedNarration.voucherName}}</a>
                     </div>
                 </td>
+                <td>{{predefinedNarration.narration}}</td>
+                <td>{{predefinedNarration.modifiedBy}}</td>
+                <td>{{predefinedNarration.modifiedOn | date:'mediumDate'}}</td>
+
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
