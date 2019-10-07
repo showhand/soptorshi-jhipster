@@ -15,7 +15,7 @@ type EntityArrayResponseType = HttpResponse<IPredefinedNarration[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PredefinedNarrationExtendedService extends PredefinedNarrationService {
-    public resourceUrl = SERVER_API_URL + 'api/extended/predefined-narrations';
+    public resourceExtendedUrl = SERVER_API_URL + 'api/extended/predefined-narrations';
 
     constructor(protected http: HttpClient) {
         super(http);
@@ -24,14 +24,14 @@ export class PredefinedNarrationExtendedService extends PredefinedNarrationServi
     create(predefinedNarration: IPredefinedNarration): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(predefinedNarration);
         return this.http
-            .post<IPredefinedNarration>(this.resourceUrl, copy, { observe: 'response' })
+            .post<IPredefinedNarration>(this.resourceExtendedUrl, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
     update(predefinedNarration: IPredefinedNarration): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(predefinedNarration);
         return this.http
-            .put<IPredefinedNarration>(this.resourceUrl, copy, { observe: 'response' })
+            .put<IPredefinedNarration>(this.resourceExtendedUrl, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 }
