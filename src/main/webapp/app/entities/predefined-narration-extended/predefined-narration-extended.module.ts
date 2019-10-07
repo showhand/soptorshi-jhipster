@@ -3,32 +3,40 @@ import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
-    PredefinedNarrationComponent,
-    PredefinedNarrationDetailComponent,
-    PredefinedNarrationUpdateComponent,
-    PredefinedNarrationDeletePopupComponent,
-    PredefinedNarrationDeleteDialogComponent,
-    predefinedNarrationRoute,
-    predefinedNarrationPopupRoute
+    PredefinedNarrationExtendedComponent,
+    PredefinedNarrationExtendedDetailComponent,
+    PredefinedNarrationExtendedUpdateComponent,
+    predefinedNarrationExtendedRoute,
+    predefinedNarrationExtendedPopupRoute
 } from './';
+import {
+    PredefinedNarrationComponent,
+    PredefinedNarrationDeleteDialogComponent,
+    PredefinedNarrationDeletePopupComponent,
+    PredefinedNarrationDetailComponent,
+    PredefinedNarrationUpdateComponent
+} from 'app/entities/predefined-narration';
 
-const ENTITY_STATES = [...predefinedNarrationRoute, ...predefinedNarrationPopupRoute];
+const ENTITY_STATES = [...predefinedNarrationExtendedRoute, ...predefinedNarrationExtendedPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /* declarations: [
+    declarations: [
         PredefinedNarrationComponent,
         PredefinedNarrationDetailComponent,
         PredefinedNarrationUpdateComponent,
+        PredefinedNarrationExtendedComponent,
+        PredefinedNarrationExtendedDetailComponent,
+        PredefinedNarrationExtendedUpdateComponent,
         PredefinedNarrationDeleteDialogComponent,
         PredefinedNarrationDeletePopupComponent
     ],
     entryComponents: [
-        PredefinedNarrationComponent,
-        PredefinedNarrationUpdateComponent,
+        PredefinedNarrationExtendedComponent,
+        PredefinedNarrationExtendedUpdateComponent,
         PredefinedNarrationDeleteDialogComponent,
         PredefinedNarrationDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiPredefinedNarrationModule {}

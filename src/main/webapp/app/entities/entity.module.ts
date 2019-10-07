@@ -521,7 +521,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'predefined-narration',
-                loadChildren: './predefined-narration/predefined-narration.module#SoptorshiPredefinedNarrationModule'
+                loadChildren: './predefined-narration-extended/predefined-narration-extended.module#SoptorshiPredefinedNarrationModule'
             },
             {
                 path: 'conversion-factor',
