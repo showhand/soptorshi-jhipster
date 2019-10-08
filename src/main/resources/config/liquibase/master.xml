@@ -78,6 +78,7 @@
     <include file="config/liquibase/changelog/20190906083837_added_entity_DebtorLedger.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190906083838_added_entity_SystemAccountMap.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190906083839_added_entity_SystemGroupMap.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191008154340_added_entity_VoucherNumberGenerator.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
@@ -161,5 +162,6 @@
     <include file="config/liquibase/changelog/20191001133952_accounts_year_open_balance_type_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191007183116_period_close_financial_month_type_constraint_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191007194737_predefined_narration_voucher_unique_constraint_added.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191008154340_added_entity_constraints_VoucherNumberGenerator.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
