@@ -340,8 +340,8 @@ entity VoucherNumberControl{
     resetBasis VoucherResetBasis,
     startVoucherNo Integer,
     voucherLimit BigDecimal,
-    modifiedOn String,
-    modifiedBy Long,
+    modifiedOn LocalDate,
+    modifiedBy String,
 }
 
 entity VoucherNumberGenerator{
