@@ -19,11 +19,16 @@ export class VoucherNumberControlExtendedResolve implements Resolve<IVoucherNumb
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IVoucherNumberControl> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const financialAccountYearId = route.params['financialAccountYearId'] ? route.params['financialAccountYearId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<VoucherNumberControl>) => response.ok),
                 map((voucherNumberControl: HttpResponse<VoucherNumberControl>) => voucherNumberControl.body)
             );
+        } else if (financialAccountYearId) {
+            const voucherNumberControl = new VoucherNumberControl();
+            voucherNumberControl.financialAccountYearId = financialAccountYearId;
+            return of(voucherNumberControl);
         }
         return of(new VoucherNumberControl());
     }
@@ -57,6 +62,18 @@ export const voucherNumberControlExtendedRoute: Routes = [
     },
     {
         path: 'new',
+        component: VoucherNumberControlExtendedUpdateComponent,
+        resolve: {
+            voucherNumberControl: VoucherNumberControlExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'VoucherNumberControls'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':financialAccountYearId/new',
         component: VoucherNumberControlExtendedUpdateComponent,
         resolve: {
             voucherNumberControl: VoucherNumberControlExtendedResolve

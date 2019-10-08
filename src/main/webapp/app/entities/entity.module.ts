@@ -493,7 +493,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'voucher-number-control',
-                loadChildren: './voucher-number-control/voucher-number-control.module#SoptorshiVoucherNumberControlModule'
+                loadChildren: './voucher-number-control-extended/voucher-number-control-extended.module#SoptorshiVoucherNumberControlModule'
             },
             {
                 path: 'period-close',
