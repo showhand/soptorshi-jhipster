@@ -549,7 +549,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'system-account-map',
-                loadChildren: './system-account-map/system-account-map.module#SoptorshiSystemAccountMapModule'
+                loadChildren: './system-account-map-extended/system-account-map-extended.module#SoptorshiSystemAccountMapModule'
             },
             {
                 path: 'system-group-map',
