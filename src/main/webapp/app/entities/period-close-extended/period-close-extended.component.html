@@ -1,0 +1,79 @@
+<div>
+    <h2 id="page-heading">
+        <span>Period Closes</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-period-close" [routerLink]="['/period-close',selectedFinancialAccountYear.financialAccountYearId,'new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Create new Period Close
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="selectForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <select class="form-control" id="field_financialAccountYear" name="financialAccountYearSelect" [(ngModel)]="selectedFinancialAccountYear" (ngModelChange)="financialAccountYearSelectionChanged()">
+                        <option [ngValue]="null">Select financial year</option>
+                        <option [ngValue]="financialAccountYearOption" *ngFor="let financialAccountYearOption of financialAccountYears">{{financialAccountYearOption.durationStr}}</option>
+                    </select>
+                    <button class="btn btn-primary input-group-append">Filter</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="periodCloses">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+             <th jhiSortBy="financialAccountYearDurationStr"><span>Financial Account Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+             <th jhiSortBy="monthType"><span>Month Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="flag"><span>Flag</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let periodClose of periodCloses ;trackBy: trackId">
+                <td>
+                    <div *ngIf="periodClose.financialAccountYearId">
+                        <a [routerLink]="['../financial-account-year', periodClose.financialAccountYearId , 'view' ]" >{{periodClose.financialAccountYearDurationStr}}</a>
+                    </div>
+                </td>
+                <td>{{periodClose.monthType}}</td>
+                <td>{{periodClose.flag}}</td>
+                <td>{{periodClose.modifiedBy}}</td>
+                <td>{{periodClose.modifiedOn | date:'mediumDate'}}</td>
+
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/period-close', periodClose.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/period-close', periodClose.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'period-close', { outlets: { popup: periodClose.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

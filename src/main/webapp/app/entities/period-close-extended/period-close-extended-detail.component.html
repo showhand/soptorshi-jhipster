@@ -1,0 +1,45 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="periodClose">
+            <h2><span>Period Close</span> Details</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Month Type</span></dt>
+                <dd>
+                    <span>{{periodClose.monthType}}</span>
+                </dd>
+                <dt><span>Flag</span></dt>
+                <dd>
+                    <span>{{periodClose.flag}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{periodClose.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{periodClose.modifiedOn}}</span>
+                </dd>
+                <dt><span>Financial Account Year</span></dt>
+                <dd>
+                    <div *ngIf="periodClose.financialAccountYearId">
+                        <a [routerLink]="['/financial-account-year', periodClose.financialAccountYearId, 'view']">{{periodClose.financialAccountYearDurationStr}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/period-close', periodClose.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

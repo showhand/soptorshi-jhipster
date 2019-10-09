@@ -497,29 +497,20 @@
                     </li>
                 </ul>
             </li>
-           <!-- <li>
-                <a href="#">About</a>
+
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD','ROLE_PURCHASE_COMMITTEE', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
+                <a (click)="procurementManagement=!procurementManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
+                     <span>
+                        <fa-icon icon="tools"></fa-icon>
+                        <span>
+                            Procurement
+                        </span>
+                    </span>
+                </a>
+
+
             </li>
-            <li>
-                <a [routerLink]="['./']" fragment="pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Portfolio</a>
-            </li>
-            <li>
-                <a href="#">Contact</a>
-            </li>-->
+
         </ul>
     </nav>
 

@@ -7,8 +7,11 @@ import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import org.soptorshi.domain.enumeration.BalanceType;
 
 import org.soptorshi.domain.enumeration.ReservedFlag;
 
@@ -31,6 +34,16 @@ public class MstAccount implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "year_open_balance", precision = 10, scale = 2)
+    private BigDecimal yearOpenBalance;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "year_open_balance_type")
+    private BalanceType yearOpenBalanceType;
+
+    @Column(name = "year_close_balance", precision = 10, scale = 2)
+    private BigDecimal yearCloseBalance;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "reserved_flag")
@@ -79,6 +92,45 @@ public class MstAccount implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public BigDecimal getYearOpenBalance() {
+        return yearOpenBalance;
+    }
+
+    public MstAccount yearOpenBalance(BigDecimal yearOpenBalance) {
+        this.yearOpenBalance = yearOpenBalance;
+        return this;
+    }
+
+    public void setYearOpenBalance(BigDecimal yearOpenBalance) {
+        this.yearOpenBalance = yearOpenBalance;
+    }
+
+    public BalanceType getYearOpenBalanceType() {
+        return yearOpenBalanceType;
+    }
+
+    public MstAccount yearOpenBalanceType(BalanceType yearOpenBalanceType) {
+        this.yearOpenBalanceType = yearOpenBalanceType;
+        return this;
+    }
+
+    public void setYearOpenBalanceType(BalanceType yearOpenBalanceType) {
+        this.yearOpenBalanceType = yearOpenBalanceType;
+    }
+
+    public BigDecimal getYearCloseBalance() {
+        return yearCloseBalance;
+    }
+
+    public MstAccount yearCloseBalance(BigDecimal yearCloseBalance) {
+        this.yearCloseBalance = yearCloseBalance;
+        return this;
+    }
+
+    public void setYearCloseBalance(BigDecimal yearCloseBalance) {
+        this.yearCloseBalance = yearCloseBalance;
     }
 
     public ReservedFlag getReservedFlag() {
@@ -160,6 +212,9 @@ public class MstAccount implements Serializable {
             "id=" + getId() +
             ", code='" + getCode() + "'" +
             ", name='" + getName() + "'" +
+            ", yearOpenBalance=" + getYearOpenBalance() +
+            ", yearOpenBalanceType='" + getYearOpenBalanceType() + "'" +
+            ", yearCloseBalance=" + getYearCloseBalance() +
             ", reservedFlag='" + getReservedFlag() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +

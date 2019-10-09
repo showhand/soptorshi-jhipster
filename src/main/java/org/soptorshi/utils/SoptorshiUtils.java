@@ -2,6 +2,7 @@ package org.soptorshi.utils;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Font;
+import org.soptorshi.domain.enumeration.MonthType;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -9,6 +10,7 @@ import java.text.Format;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -186,6 +188,36 @@ public class SoptorshiUtils {
     public static String formatDate(LocalDate date, String outputFormat) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(outputFormat);
         return date.format(formatter);
+    }
+
+
+    public static MonthType getMonthType(){
+        LocalDate localDate = LocalDate.now();
+        Month month = localDate.getMonth();
+        if(month.getValue()==1)
+            return MonthType.JANUARY;
+        else if(month.getValue()==2)
+            return MonthType.FEBRUARY;
+        else if(month.getValue()==3)
+            return MonthType.MARCH;
+        else if(month.getValue()==4)
+            return MonthType.APRIL;
+        else if(month.getValue()==5)
+            return MonthType.MAY;
+        else if(month.getValue()==6)
+            return MonthType.JUNE;
+        else if(month.getValue()==7)
+            return MonthType.JULY;
+        else if(month.getValue()==8)
+            return MonthType.AUGUST;
+        else if(month.getValue()==9)
+            return MonthType.SEPTEMBER;
+        else if(month.getValue()==10)
+            return MonthType.OCTOBER;
+        else if(month.getValue()==11)
+            return MonthType.NOVEMBER;
+        else
+            return MonthType.DECEMBER;
     }
 
    /* public static Date convertToDate(String dateStr, String dateFormat) throws Exception {

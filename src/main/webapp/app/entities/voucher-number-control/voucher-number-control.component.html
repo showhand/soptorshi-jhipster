@@ -46,7 +46,7 @@
                 <td>{{voucherNumberControl.resetBasis}}</td>
                 <td>{{voucherNumberControl.startVoucherNo}}</td>
                 <td>{{voucherNumberControl.voucherLimit}}</td>
-                <td>{{voucherNumberControl.modifiedOn}}</td>
+                <td>{{voucherNumberControl.modifiedOn | date:'mediumDate'}}</td>
                 <td>{{voucherNumberControl.modifiedBy}}</td>
                 <td>
                     <div *ngIf="voucherNumberControl.financialAccountYearId">

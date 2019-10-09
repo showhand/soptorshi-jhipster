@@ -1,7 +1,9 @@
 package org.soptorshi.service.dto;
 import java.time.LocalDate;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.ReservedFlag;
 
 /**
@@ -14,6 +16,12 @@ public class MstAccountDTO implements Serializable {
     private String code;
 
     private String name;
+
+    private BigDecimal yearOpenBalance;
+
+    private BalanceType yearOpenBalanceType;
+
+    private BigDecimal yearCloseBalance;
 
     private ReservedFlag reservedFlag;
 
@@ -48,6 +56,30 @@ public class MstAccountDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public BigDecimal getYearOpenBalance() {
+        return yearOpenBalance;
+    }
+
+    public void setYearOpenBalance(BigDecimal yearOpenBalance) {
+        this.yearOpenBalance = yearOpenBalance;
+    }
+
+    public BalanceType getYearOpenBalanceType() {
+        return yearOpenBalanceType;
+    }
+
+    public void setYearOpenBalanceType(BalanceType yearOpenBalanceType) {
+        this.yearOpenBalanceType = yearOpenBalanceType;
+    }
+
+    public BigDecimal getYearCloseBalance() {
+        return yearCloseBalance;
+    }
+
+    public void setYearCloseBalance(BigDecimal yearCloseBalance) {
+        this.yearCloseBalance = yearCloseBalance;
     }
 
     public ReservedFlag getReservedFlag() {
@@ -117,6 +149,9 @@ public class MstAccountDTO implements Serializable {
             "id=" + getId() +
             ", code='" + getCode() + "'" +
             ", name='" + getName() + "'" +
+            ", yearOpenBalance=" + getYearOpenBalance() +
+            ", yearOpenBalanceType='" + getYearOpenBalanceType() + "'" +
+            ", yearCloseBalance=" + getYearCloseBalance() +
             ", reservedFlag='" + getReservedFlag() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +

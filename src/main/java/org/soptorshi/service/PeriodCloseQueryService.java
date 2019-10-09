@@ -34,11 +34,11 @@ public class PeriodCloseQueryService extends QueryService<PeriodClose> {
 
     private final Logger log = LoggerFactory.getLogger(PeriodCloseQueryService.class);
 
-    private final PeriodCloseRepository periodCloseRepository;
+    protected final PeriodCloseRepository periodCloseRepository;
 
-    private final PeriodCloseMapper periodCloseMapper;
+    protected final PeriodCloseMapper periodCloseMapper;
 
-    private final PeriodCloseSearchRepository periodCloseSearchRepository;
+    protected final PeriodCloseSearchRepository periodCloseSearchRepository;
 
     public PeriodCloseQueryService(PeriodCloseRepository periodCloseRepository, PeriodCloseMapper periodCloseMapper, PeriodCloseSearchRepository periodCloseSearchRepository) {
         this.periodCloseRepository = periodCloseRepository;
@@ -87,7 +87,7 @@ public class PeriodCloseQueryService extends QueryService<PeriodClose> {
     /**
      * Function to convert PeriodCloseCriteria to a {@link Specification}
      */
-    private Specification<PeriodClose> createSpecification(PeriodCloseCriteria criteria) {
+    protected Specification<PeriodClose> createSpecification(PeriodCloseCriteria criteria) {
         Specification<PeriodClose> specification = Specification.where(null);
         if (criteria != null) {
             if (criteria.getId() != null) {

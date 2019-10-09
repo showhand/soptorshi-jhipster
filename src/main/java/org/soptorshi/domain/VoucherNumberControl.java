@@ -8,6 +8,7 @@ import javax.persistence.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.VoucherResetBasis;
@@ -37,10 +38,10 @@ public class VoucherNumberControl implements Serializable {
     private BigDecimal voucherLimit;
 
     @Column(name = "modified_on")
-    private String modifiedOn;
+    private LocalDate modifiedOn;
 
     @Column(name = "modified_by")
-    private Long modifiedBy;
+    private String modifiedBy;
 
     @ManyToOne
     @JsonIgnoreProperties("voucherNumberControls")
@@ -98,29 +99,29 @@ public class VoucherNumberControl implements Serializable {
         this.voucherLimit = voucherLimit;
     }
 
-    public String getModifiedOn() {
+    public LocalDate getModifiedOn() {
         return modifiedOn;
     }
 
-    public VoucherNumberControl modifiedOn(String modifiedOn) {
+    public VoucherNumberControl modifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
         return this;
     }
 
-    public void setModifiedOn(String modifiedOn) {
+    public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public VoucherNumberControl modifiedBy(Long modifiedBy) {
+    public VoucherNumberControl modifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
         return this;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -179,7 +180,7 @@ public class VoucherNumberControl implements Serializable {
             ", startVoucherNo=" + getStartVoucherNo() +
             ", voucherLimit=" + getVoucherLimit() +
             ", modifiedOn='" + getModifiedOn() + "'" +
-            ", modifiedBy=" + getModifiedBy() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             "}";
     }
 }

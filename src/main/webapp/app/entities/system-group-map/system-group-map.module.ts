@@ -16,7 +16,7 @@ const ENTITY_STATES = [...systemGroupMapRoute, ...systemGroupMapPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /*    declarations: [
         SystemGroupMapComponent,
         SystemGroupMapDetailComponent,
         SystemGroupMapUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...systemGroupMapRoute, ...systemGroupMapPopupRoute];
         SystemGroupMapUpdateComponent,
         SystemGroupMapDeleteDialogComponent,
         SystemGroupMapDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiSystemGroupMapModule {}

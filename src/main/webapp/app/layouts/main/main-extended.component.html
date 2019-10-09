@@ -499,29 +499,73 @@
                     </li>
                 </ul>
             </li>
-            <!-- <li>
-                 <a href="#">About</a>
-             </li>
-             <li>
-                 <a [routerLink]="['./']" fragment="pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                 <ul class="collapse list-unstyled" id="pageSubmenu">
-                     <li>
-                         <a href="#">Page 1</a>
-                     </li>
-                     <li>
-                         <a href="#">Page 2</a>
-                     </li>
-                     <li>
-                         <a href="#">Page 3</a>
-                     </li>
-                 </ul>
-             </li>
-             <li>
-                 <a href="#">Portfolio</a>
-             </li>
-             <li>
-                 <a href="#">Contact</a>
-             </li>-->
+
+
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                >
+                <a (click)="accountsConfig=!accountsConfig" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
+                     <span>
+                        <fa-icon icon="money-check-alt" fixedWidth="true"></fa-icon>
+                        <span>
+                            Acc. Definitions
+                        </span>
+                    </span>
+                </a>
+                <ul [ngbCollapse]="!accountsConfig" class="list-unstyled" id="accountsConfig">
+                    <li>
+                        <a class="dropdown-item" routerLink="mst-group" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                            <span>Account Groups</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="mst-account" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                            <span>Account</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="period-close" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                            <span>Period-Close</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="voucher" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                            <span>Voucher Configuration</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="predefined-narration" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                            <span>Narration</span>
+                        </a>
+                    </li> <li>
+                    <a class="dropdown-item" routerLink="voucher-number-control" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span>Voucher Number Control</span>
+                    </a>
+                    <a class="dropdown-item" routerLink="system-group-map" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span>System Group map</span>
+                    </a>
+                    <a class="dropdown-item" routerLink="system-account-map" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span>System Account map</span>
+                    </a>
+                </li>
+                </ul>
+            </li>
         </ul>
     </nav>
 

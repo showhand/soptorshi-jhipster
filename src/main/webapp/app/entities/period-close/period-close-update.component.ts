@@ -32,6 +32,7 @@ export class PeriodCloseUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ periodClose }) => {
             this.periodClose = periodClose;
+            console.log(this.periodClose);
         });
         this.financialAccountYearService
             .query()

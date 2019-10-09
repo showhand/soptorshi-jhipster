@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export const enum VoucherResetBasis {
     YEARLY = 'YEARLY',
     MONTHLY = 'MONTHLY',
@@ -11,8 +13,8 @@ export interface IVoucherNumberControl {
     resetBasis?: VoucherResetBasis;
     startVoucherNo?: number;
     voucherLimit?: number;
-    modifiedOn?: string;
-    modifiedBy?: number;
+    modifiedOn?: Moment;
+    modifiedBy?: string;
     financialAccountYearDurationStr?: string;
     financialAccountYearId?: number;
     voucherName?: string;
@@ -25,8 +27,8 @@ export class VoucherNumberControl implements IVoucherNumberControl {
         public resetBasis?: VoucherResetBasis,
         public startVoucherNo?: number,
         public voucherLimit?: number,
-        public modifiedOn?: string,
-        public modifiedBy?: number,
+        public modifiedOn?: Moment,
+        public modifiedBy?: string,
         public financialAccountYearDurationStr?: string,
         public financialAccountYearId?: number,
         public voucherName?: string,

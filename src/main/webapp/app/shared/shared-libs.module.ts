@@ -8,6 +8,10 @@ import { CookieModule } from 'ngx-cookie';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatButtonModule, MatTableModule } from '@angular/material';
 import { AutoCompleteModule } from 'primeng/primeng';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
     imports: [NgbModule.forRoot(), InfiniteScrollModule, CookieModule.forRoot(), FontAwesomeModule, MatButtonModule, AutoCompleteModule],
@@ -19,6 +23,10 @@ import { AutoCompleteModule } from 'primeng/primeng';
         InfiniteScrollModule,
         FontAwesomeModule,
         MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatAutocompleteModule,
         AutoCompleteModule,
         MatTableModule
     ]

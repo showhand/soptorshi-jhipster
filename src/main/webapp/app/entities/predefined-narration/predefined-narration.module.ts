@@ -16,7 +16,7 @@ const ENTITY_STATES = [...predefinedNarrationRoute, ...predefinedNarrationPopupR
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /* declarations: [
         PredefinedNarrationComponent,
         PredefinedNarrationDetailComponent,
         PredefinedNarrationUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...predefinedNarrationRoute, ...predefinedNarrationPopupR
         PredefinedNarrationUpdateComponent,
         PredefinedNarrationDeleteDialogComponent,
         PredefinedNarrationDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiPredefinedNarrationModule {}

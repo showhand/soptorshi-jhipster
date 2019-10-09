@@ -1,0 +1,67 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-mst-account-heading">Create or edit a Mst Account</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!mstAccount.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="mstAccount.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_code">Code</label>
+                    <input type="text" class="form-control" name="code" id="field_code"
+                        [(ngModel)]="mstAccount.code" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="mstAccount.name" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_group">Group</label>
+
+                    <input type="text" class="form-control" name="mainGroup" id="field_group"
+                           [(ngModel)]="selectedGroupName" [ngbTypeahead]="search"
+                           (focus)="focus$.next($event.target.value)"
+                           (click)="click$.next($event.target.value)"
+                           #instance="ngbTypeahead"
+                    />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_yearOpenBalance">Year Open Balance</label>
+                    <input type="number" class="form-control" name="yearOpenBalance" id="field_yearOpenBalance"
+                        [(ngModel)]="mstAccount.yearOpenBalance" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_yearOpenBalanceType">Year Open Balance Type</label>
+                    <select class="form-control" name="yearOpenBalanceType" [(ngModel)]="mstAccount.yearOpenBalanceType" id="field_yearOpenBalanceType" >
+                        <option value="DEBIT">DEBIT</option>
+                        <option value="CREDIT">CREDIT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_yearCloseBalance">Year Close Balance</label>
+                    <input type="number" class="form-control" name="yearCloseBalance" id="field_yearCloseBalance"
+                        [(ngModel)]="mstAccount.yearCloseBalance" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reservedFlag">Reserved Flag</label>
+                    <select class="form-control" name="reservedFlag" [(ngModel)]="mstAccount.reservedFlag" id="field_reservedFlag" >
+                        <option value="RESERVED">RESERVED</option>
+                        <option value="NOT_RESERVED">NOT_RESERVED</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

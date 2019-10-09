@@ -16,7 +16,7 @@ const ENTITY_STATES = [...financialAccountYearRoute, ...financialAccountYearPopu
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /*    declarations: [
         FinancialAccountYearComponent,
         FinancialAccountYearDetailComponent,
         FinancialAccountYearUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...financialAccountYearRoute, ...financialAccountYearPopu
         FinancialAccountYearUpdateComponent,
         FinancialAccountYearDeleteDialogComponent,
         FinancialAccountYearDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiFinancialAccountYearModule {}

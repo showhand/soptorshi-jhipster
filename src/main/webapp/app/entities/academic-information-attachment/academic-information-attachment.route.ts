@@ -18,17 +18,11 @@ export class AcademicInformationAttachmentResolve implements Resolve<IAcademicIn
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAcademicInformationAttachment> {
         const id = route.params['id'] ? route.params['id'] : null;
-        const employeeId = route.params['employeeId'] ? route.params['employeeId'] : null;
-
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<AcademicInformationAttachment>) => response.ok),
                 map((academicInformationAttachment: HttpResponse<AcademicInformationAttachment>) => academicInformationAttachment.body)
             );
-        } else if (employeeId) {
-            const academicInformationAttachment: IAcademicInformationAttachment = new AcademicInformationAttachment();
-            academicInformationAttachment.employeeId = employeeId;
-            return of(academicInformationAttachment);
         }
         return of(new AcademicInformationAttachment());
     }
@@ -39,9 +33,8 @@ export const academicInformationAttachmentRoute: Routes = [
         path: '',
         component: AcademicInformationAttachmentComponent,
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformationAttachments',
-            breadcrumb: 'Academic Information Attachment'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -52,9 +45,8 @@ export const academicInformationAttachmentRoute: Routes = [
             academicInformationAttachment: AcademicInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformationAttachments',
-            breadcrumb: 'Academic Information Attachment View'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -65,22 +57,8 @@ export const academicInformationAttachmentRoute: Routes = [
             academicInformationAttachment: AcademicInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformationAttachments',
-            breadcrumb: 'New Academic Information'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':employeeId/new-for-employee',
-        component: AcademicInformationAttachmentUpdateComponent,
-        resolve: {
-            academicInformationAttachment: AcademicInformationAttachmentResolve
-        },
-        data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformationAttachments',
-            breadcrumb: 'New Academic Information Attachment for Employee'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -91,9 +69,8 @@ export const academicInformationAttachmentRoute: Routes = [
             academicInformationAttachment: AcademicInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
-            pageTitle: 'AcademicInformationAttachments',
-            breadcrumb: 'Edit employee academic information'
+            authorities: ['ROLE_USER'],
+            pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -107,7 +84,7 @@ export const academicInformationAttachmentPopupRoute: Routes = [
             academicInformationAttachment: AcademicInformationAttachmentResolve
         },
         data: {
-            authorities: ['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'AcademicInformationAttachments'
         },
         canActivate: [UserRouteAccessService],

@@ -31,12 +31,17 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_modifiedOn">Modified On</label>
-                    <input type="text" class="form-control" name="modifiedOn" id="field_modifiedOn"
-                        [(ngModel)]="voucherNumberControl.modifiedOn" />
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="voucherNumberControl.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_modifiedBy">Modified By</label>
-                    <input type="number" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
                         [(ngModel)]="voucherNumberControl.modifiedBy" />
                 </div>
 

@@ -12,7 +12,12 @@
                         {{experienceInformationAttachment.fileContentType}}, {{byteSize(experienceInformationAttachment.file)}}
                     </div>
                 </dd>
-
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="experienceInformationAttachment.employeeId">
+                        <a [routerLink]="['/employee', experienceInformationAttachment.employeeId, 'view']">{{experienceInformationAttachment.employeeEmployeeId}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

@@ -25,9 +25,8 @@
     "dto": "mapstruct",
     "pagination": "no",
     "service": "serviceClass",
-    "jpaMetamodelFiltering": true,
+    "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*",
-    "searchEngine": "elasticsearch"
+    "applications": "*"
 }

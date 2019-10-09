@@ -116,7 +116,8 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'financial-account-year',
-                loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
+                loadChildren:
+                    './financial-account-year-extended/financial-account-year-extended.module#SoptorshiFinancialAccountYearExtendedModule'
             },
             {
                 path: 'tax',
@@ -487,20 +488,16 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
                 loadChildren: './vendor/vendor.module#SoptorshiVendorModule'
             },
             {
-                path: 'financial-account-year',
-                loadChildren: './financial-account-year/financial-account-year.module#SoptorshiFinancialAccountYearModule'
-            },
-            {
                 path: 'voucher',
                 loadChildren: './voucher/voucher.module#SoptorshiVoucherModule'
             },
             {
                 path: 'voucher-number-control',
-                loadChildren: './voucher-number-control/voucher-number-control.module#SoptorshiVoucherNumberControlModule'
+                loadChildren: './voucher-number-control-extended/voucher-number-control-extended.module#SoptorshiVoucherNumberControlModule'
             },
             {
                 path: 'period-close',
-                loadChildren: './period-close/period-close.module#SoptorshiPeriodCloseModule'
+                loadChildren: './period-close-extended/period-close-extended.module#SoptorshiPeriodCloseModule'
             },
             {
                 path: 'currency',
@@ -508,11 +505,11 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'mst-group',
-                loadChildren: './mst-group/mst-group.module#SoptorshiMstGroupModule'
+                loadChildren: './mst-group-extended/mst-group-extended.module#SoptorshiMstGroupModule'
             },
             {
                 path: 'mst-account',
-                loadChildren: './mst-account/mst-account.module#SoptorshiMstAccountModule'
+                loadChildren: './mst-account-extended/mst-account-extended.module#SoptorshiMstAccountModule'
             },
             {
                 path: 'account-balance',
@@ -524,7 +521,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'predefined-narration',
-                loadChildren: './predefined-narration/predefined-narration.module#SoptorshiPredefinedNarrationModule'
+                loadChildren: './predefined-narration-extended/predefined-narration-extended.module#SoptorshiPredefinedNarrationModule'
             },
             {
                 path: 'conversion-factor',
@@ -556,7 +553,26 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'system-group-map',
-                loadChildren: './system-group-map/system-group-map.module#SoptorshiSystemGroupMapModule'
+                loadChildren: './system-group-map-extended/system-group-map-extended.module#SoptorshiSystemGroupMapModule'
+            },
+            {
+                path: 'academic-information-attachment',
+                loadChildren:
+                    './academic-information-attachment/academic-information-attachment.module#SoptorshiAcademicInformationAttachmentModule'
+            },
+            {
+                path: 'experience-information-attachment',
+                loadChildren:
+                    './experience-information-attachment/experience-information-attachment.module#SoptorshiExperienceInformationAttachmentModule'
+            },
+            {
+                path: 'training-information-attachment',
+                loadChildren:
+                    './training-information-attachment/training-information-attachment.module#SoptorshiTrainingInformationAttachmentModule'
+            },
+            {
+                path: 'voucher-number-control',
+                loadChildren: './voucher-number-control/voucher-number-control.module#SoptorshiVoucherNumberControlModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

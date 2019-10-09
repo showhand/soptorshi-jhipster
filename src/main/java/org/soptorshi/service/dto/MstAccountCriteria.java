@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.ReservedFlag;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
@@ -10,6 +11,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
@@ -21,6 +23,11 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class MstAccountCriteria implements Serializable {
+    /**
+     * Class for filtering BalanceType
+     */
+    public static class BalanceTypeFilter extends Filter<BalanceType> {
+    }
     /**
      * Class for filtering ReservedFlag
      */
@@ -34,6 +41,12 @@ public class MstAccountCriteria implements Serializable {
     private StringFilter code;
 
     private StringFilter name;
+
+    private BigDecimalFilter yearOpenBalance;
+
+    private BalanceTypeFilter yearOpenBalanceType;
+
+    private BigDecimalFilter yearCloseBalance;
 
     private ReservedFlagFilter reservedFlag;
 
@@ -65,6 +78,30 @@ public class MstAccountCriteria implements Serializable {
 
     public void setName(StringFilter name) {
         this.name = name;
+    }
+
+    public BigDecimalFilter getYearOpenBalance() {
+        return yearOpenBalance;
+    }
+
+    public void setYearOpenBalance(BigDecimalFilter yearOpenBalance) {
+        this.yearOpenBalance = yearOpenBalance;
+    }
+
+    public BalanceTypeFilter getYearOpenBalanceType() {
+        return yearOpenBalanceType;
+    }
+
+    public void setYearOpenBalanceType(BalanceTypeFilter yearOpenBalanceType) {
+        this.yearOpenBalanceType = yearOpenBalanceType;
+    }
+
+    public BigDecimalFilter getYearCloseBalance() {
+        return yearCloseBalance;
+    }
+
+    public void setYearCloseBalance(BigDecimalFilter yearCloseBalance) {
+        this.yearCloseBalance = yearCloseBalance;
     }
 
     public ReservedFlagFilter getReservedFlag() {
@@ -113,6 +150,9 @@ public class MstAccountCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(code, that.code) &&
             Objects.equals(name, that.name) &&
+            Objects.equals(yearOpenBalance, that.yearOpenBalance) &&
+            Objects.equals(yearOpenBalanceType, that.yearOpenBalanceType) &&
+            Objects.equals(yearCloseBalance, that.yearCloseBalance) &&
             Objects.equals(reservedFlag, that.reservedFlag) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
@@ -125,6 +165,9 @@ public class MstAccountCriteria implements Serializable {
         id,
         code,
         name,
+        yearOpenBalance,
+        yearOpenBalanceType,
+        yearCloseBalance,
         reservedFlag,
         modifiedBy,
         modifiedOn,
@@ -138,6 +181,9 @@ public class MstAccountCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (code != null ? "code=" + code + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
+                (yearOpenBalance != null ? "yearOpenBalance=" + yearOpenBalance + ", " : "") +
+                (yearOpenBalanceType != null ? "yearOpenBalanceType=" + yearOpenBalanceType + ", " : "") +
+                (yearCloseBalance != null ? "yearCloseBalance=" + yearCloseBalance + ", " : "") +
                 (reservedFlag != null ? "reservedFlag=" + reservedFlag + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +

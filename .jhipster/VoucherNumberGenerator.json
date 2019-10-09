@@ -1,0 +1,33 @@
+{
+    "name": "VoucherNumberGenerator",
+    "fields": [
+        {
+            "fieldName": "voucherType",
+            "fieldType": "VoucherType",
+            "fieldValues": "SELLING,BUYING"
+        },
+        {
+            "fieldName": "voucherNumber",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "financialAccountYear",
+            "otherEntityRelationshipName": "voucherNumberGenerator",
+            "relationshipName": "financialAccountYear",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191008154340",
+    "entityTableName": "voucher_number_generator",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "skipClient": true
+}

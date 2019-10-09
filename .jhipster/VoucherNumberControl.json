@@ -16,11 +16,11 @@
         },
         {
             "fieldName": "modifiedOn",
-            "fieldType": "String"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "modifiedBy",
-            "fieldType": "Long"
+            "fieldType": "String"
         }
     ],
     "relationships": [

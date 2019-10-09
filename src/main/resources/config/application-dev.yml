@@ -58,10 +58,8 @@ spring:
             hibernate.cache.use_query_cache: true
             hibernate.generate_statistics: true
     data:
-        elasticsearch:
-            properties:
-                path:
-                    home: target/elasticsearch
+        jest:
+            uri: http://localhost:9200
     liquibase:
         contexts: dev
     mail:

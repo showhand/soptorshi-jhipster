@@ -103,10 +103,10 @@ public class VoucherNumberControlQueryService extends QueryService<VoucherNumber
                 specification = specification.and(buildRangeSpecification(criteria.getVoucherLimit(), VoucherNumberControl_.voucherLimit));
             }
             if (criteria.getModifiedOn() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getModifiedOn(), VoucherNumberControl_.modifiedOn));
+                specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), VoucherNumberControl_.modifiedOn));
             }
             if (criteria.getModifiedBy() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getModifiedBy(), VoucherNumberControl_.modifiedBy));
+                specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), VoucherNumberControl_.modifiedBy));
             }
             if (criteria.getFinancialAccountYearId() != null) {
                 specification = specification.and(buildSpecification(criteria.getFinancialAccountYearId(),

@@ -10,6 +10,19 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "yearOpenBalance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "yearOpenBalanceType",
+            "fieldType": "BalanceType",
+            "fieldValues": "DEBIT,CREDIT"
+        },
+        {
+            "fieldName": "yearCloseBalance",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "reservedFlag",
             "fieldType": "ReservedFlag",
             "fieldValues": "RESERVED,NOT_RESERVED"

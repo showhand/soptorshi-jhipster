@@ -1,0 +1,98 @@
+<div>
+    <h2 id="page-heading">
+        <span>Voucher Number Controls</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-voucher-number-control" [routerLink]="['/voucher-number-control', selectedFinancialAccountYear.financialAccountYearId,'new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Create new Voucher Number Control
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="selectForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <select class="form-control" id="field_financialAccountYear" name="financialAccountYearSelect" [(ngModel)]="selectedFinancialAccountYear" (ngModelChange)="financialAccountYearSelectionChanged()">
+                        <option [ngValue]="null">Select financial year</option>
+                        <option [ngValue]="financialAccountYearOption" *ngFor="let financialAccountYearOption of financialAccountYears">{{financialAccountYearOption.durationStr}}</option>
+                    </select>
+                    <button class="btn btn-primary input-group-append">Filter</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="voucherNumberControls">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="voucherName"><span>Voucher</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="resetBasis"><span>Reset Basis</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="startVoucherNo"><span>Start Voucher No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="voucherLimit"><span>Voucher Limit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="financialAccountYearDurationStr"><span>Financial Account Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let voucherNumberControl of voucherNumberControls ;trackBy: trackId">
+                <td><a [routerLink]="['/voucher-number-control', voucherNumberControl.id, 'view' ]">{{voucherNumberControl.id}}</a></td>
+                <td>
+                    <div *ngIf="voucherNumberControl.voucherId">
+                        <a [routerLink]="['../voucher', voucherNumberControl.voucherId , 'view' ]" >{{voucherNumberControl.voucherName}}</a>
+                    </div>
+                </td>
+                <td>{{voucherNumberControl.resetBasis}}</td>
+                <td>{{voucherNumberControl.startVoucherNo}}</td>
+                <td>{{voucherNumberControl.voucherLimit| currency:'BDT '}}</td>
+                <td>{{voucherNumberControl.modifiedOn | date:'mediumDate'}}</td>
+                <td>{{voucherNumberControl.modifiedBy}}</td>
+                <td>
+                    <div *ngIf="voucherNumberControl.financialAccountYearId">
+                        <a [routerLink]="['../financial-account-year', voucherNumberControl.financialAccountYearId , 'view' ]" >{{voucherNumberControl.financialAccountYearDurationStr}}</a>
+                    </div>
+                </td>
+
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/voucher-number-control', voucherNumberControl.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/voucher-number-control', voucherNumberControl.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'voucher-number-control', { outlets: { popup: voucherNumberControl.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Pager is not implemented yet, so this is normal pagination instead -->
+    <div *ngIf="voucherNumberControls && voucherNumberControls.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
