@@ -20,8 +20,8 @@ public class VoucherNumberControlExtendedService extends VoucherNumberControlSer
 
     @Override
     public VoucherNumberControlDTO save(VoucherNumberControlDTO voucherNumberControlDTO) {
-        //voucherNumberControlDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
-        //voucherNumberControlDTO.setModifiedOn(LocalDate.now());
+        voucherNumberControlDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
+        voucherNumberControlDTO.setModifiedOn(LocalDate.now());
         return super.save(voucherNumberControlDTO);
     }
 }

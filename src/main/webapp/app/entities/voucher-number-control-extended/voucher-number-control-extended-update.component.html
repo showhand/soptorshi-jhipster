@@ -10,6 +10,13 @@
                            [(ngModel)]="voucherNumberControl.id" readonly />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_voucher">Voucher</label>
+                    <select class="form-control" id="field_voucher" name="voucher" [(ngModel)]="voucherNumberControl.voucherId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="voucherOption.id" *ngFor="let voucherOption of vouchers; trackBy: trackVoucherById">{{voucherOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_resetBasis">Reset Basis</label>
                     <select class="form-control" name="resetBasis" [(ngModel)]="voucherNumberControl.resetBasis" id="field_resetBasis" >
                         <option value="YEARLY">YEARLY</option>
@@ -29,36 +36,8 @@
                     <input type="number" class="form-control" name="voucherLimit" id="field_voucherLimit"
                            [(ngModel)]="voucherNumberControl.voucherLimit" />
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
-                    <div class="input-group">
-                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="voucherNumberControl.modifiedOn"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
-                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
-                           [(ngModel)]="voucherNumberControl.modifiedBy" />
-                </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_financialAccountYear">Financial Account Year</label>
-                    <select class="form-control" id="field_financialAccountYear" name="financialAccountYear" [(ngModel)]="voucherNumberControl.financialAccountYearId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="financialAccountYearOption.id" *ngFor="let financialAccountYearOption of financialaccountyears; trackBy: trackFinancialAccountYearById">{{financialAccountYearOption.durationStr}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_voucher">Voucher</label>
-                    <select class="form-control" id="field_voucher" name="voucher" [(ngModel)]="voucherNumberControl.voucherId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="voucherOption.id" *ngFor="let voucherOption of vouchers; trackBy: trackVoucherById">{{voucherOption.name}}</option>
-                    </select>
-                </div>
+
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="voucherNumberControl">
-            <h2><span>Voucher Number Control</span> {{voucherNumberControl.id}}</h2>
+            <h2><span>Voucher Number Control of </span> <b>{{voucherNumberControl.voucherName}}</b></h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -15,7 +15,7 @@
                 </dd>
                 <dt><span>Voucher Limit</span></dt>
                 <dd>
-                    <span>{{voucherNumberControl.voucherLimit}}</span>
+                    <span>{{voucherNumberControl.voucherLimit | currency:''}}</span>
                 </dd>
                 <dt><span>Modified On</span></dt>
                 <dd>
@@ -29,12 +29,6 @@
                 <dd>
                     <div *ngIf="voucherNumberControl.financialAccountYearId">
                         <a [routerLink]="['/financial-account-year', voucherNumberControl.financialAccountYearId, 'view']">{{voucherNumberControl.financialAccountYearDurationStr}}</a>
-                    </div>
-                </dd>
-                <dt><span>Voucher</span></dt>
-                <dd>
-                    <div *ngIf="voucherNumberControl.voucherId">
-                        <a [routerLink]="['/voucher', voucherNumberControl.voucherId, 'view']">{{voucherNumberControl.voucherName}}</a>
                     </div>
                 </dd>
             </dl>
