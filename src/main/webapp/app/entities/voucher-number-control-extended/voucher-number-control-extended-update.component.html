@@ -7,7 +7,7 @@
                 <div class="form-group" [hidden]="!voucherNumberControl.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="voucherNumberControl.id" readonly />
+                           [(ngModel)]="voucherNumberControl.id" readonly />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_resetBasis">Reset Basis</label>
@@ -22,22 +22,27 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_startVoucherNo">Start Voucher No</label>
                     <input type="number" class="form-control" name="startVoucherNo" id="field_startVoucherNo"
-                        [(ngModel)]="voucherNumberControl.startVoucherNo" />
+                           [(ngModel)]="voucherNumberControl.startVoucherNo" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_voucherLimit">Voucher Limit</label>
                     <input type="number" class="form-control" name="voucherLimit" id="field_voucherLimit"
-                        [(ngModel)]="voucherNumberControl.voucherLimit" />
+                           [(ngModel)]="voucherNumberControl.voucherLimit" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_modifiedOn">Modified On</label>
-                    <input type="text" class="form-control" name="modifiedOn" id="field_modifiedOn"
-                        [(ngModel)]="voucherNumberControl.modifiedOn" />
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="voucherNumberControl.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_modifiedBy">Modified By</label>
-                    <input type="number" class="form-control" name="modifiedBy" id="field_modifiedBy"
-                        [(ngModel)]="voucherNumberControl.modifiedBy" />
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                           [(ngModel)]="voucherNumberControl.modifiedBy" />
                 </div>
 
                 <div class="form-group">
