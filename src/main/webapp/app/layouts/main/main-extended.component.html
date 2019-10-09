@@ -553,6 +553,16 @@
                         <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
                         <span>Voucher Number Control</span>
                     </a>
+                    <a class="dropdown-item" routerLink="system-group-map" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span>System Group map</span>
+                    </a>
+                    <a class="dropdown-item" routerLink="system-account-map" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span>System Account map</span>
+                    </a>
                 </li>
                 </ul>
             </li>

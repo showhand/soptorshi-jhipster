@@ -553,7 +553,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'system-group-map',
-                loadChildren: './system-group-map/system-group-map.module#SoptorshiSystemGroupMapModule'
+                loadChildren: './system-group-map-extended/system-group-map-extended.module#SoptorshiSystemGroupMapModule'
             },
             {
                 path: 'academic-information-attachment',

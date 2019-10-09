@@ -3,32 +3,41 @@ import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
-    SystemGroupMapComponent,
-    SystemGroupMapDetailComponent,
-    SystemGroupMapUpdateComponent,
-    SystemGroupMapDeletePopupComponent,
-    SystemGroupMapDeleteDialogComponent,
-    systemGroupMapRoute,
-    systemGroupMapPopupRoute
+    SystemGroupMapExtendedComponent,
+    SystemGroupMapExtendedDetailComponent,
+    SystemGroupMapExtendedUpdateComponent,
+    systemGroupMapExtendedRoute,
+    systemGroupMapExtendedPopupRoute
 } from './';
+import {
+    SystemGroupMapComponent,
+    SystemGroupMapDeleteDialogComponent,
+    SystemGroupMapDeletePopupComponent,
+    SystemGroupMapDetailComponent,
+    systemGroupMapPopupRoute,
+    SystemGroupMapUpdateComponent
+} from 'app/entities/system-group-map';
 
-const ENTITY_STATES = [...systemGroupMapRoute, ...systemGroupMapPopupRoute];
+const ENTITY_STATES = [...systemGroupMapExtendedRoute, ...systemGroupMapExtendedPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /*    declarations: [
+    declarations: [
         SystemGroupMapComponent,
         SystemGroupMapDetailComponent,
         SystemGroupMapUpdateComponent,
+        SystemGroupMapExtendedComponent,
+        SystemGroupMapExtendedDetailComponent,
+        SystemGroupMapExtendedUpdateComponent,
         SystemGroupMapDeleteDialogComponent,
         SystemGroupMapDeletePopupComponent
     ],
     entryComponents: [
-        SystemGroupMapComponent,
-        SystemGroupMapUpdateComponent,
+        SystemGroupMapExtendedComponent,
+        SystemGroupMapExtendedUpdateComponent,
         SystemGroupMapDeleteDialogComponent,
         SystemGroupMapDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiSystemGroupMapModule {}
