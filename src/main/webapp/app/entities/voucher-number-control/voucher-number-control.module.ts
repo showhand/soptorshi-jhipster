@@ -16,7 +16,7 @@ const ENTITY_STATES = [...voucherNumberControlRoute, ...voucherNumberControlPopu
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /* declarations: [
+    declarations: [
         VoucherNumberControlComponent,
         VoucherNumberControlDetailComponent,
         VoucherNumberControlUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...voucherNumberControlRoute, ...voucherNumberControlPopu
         VoucherNumberControlUpdateComponent,
         VoucherNumberControlDeleteDialogComponent,
         VoucherNumberControlDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiVoucherNumberControlModule {}

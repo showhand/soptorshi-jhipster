@@ -33,6 +33,8 @@ import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
@@ -64,11 +66,11 @@ public class VoucherNumberControlResourceIntTest {
     private static final BigDecimal DEFAULT_VOUCHER_LIMIT = new BigDecimal(1);
     private static final BigDecimal UPDATED_VOUCHER_LIMIT = new BigDecimal(2);
 
-    private static final String DEFAULT_MODIFIED_ON = "AAAAAAAAAA";
-    private static final String UPDATED_MODIFIED_ON = "BBBBBBBBBB";
+    private static final LocalDate DEFAULT_MODIFIED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_MODIFIED_ON = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Long DEFAULT_MODIFIED_BY = 1L;
-    private static final Long UPDATED_MODIFIED_BY = 2L;
+    private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
     @Autowired
     private VoucherNumberControlRepository voucherNumberControlRepository;
@@ -206,7 +208,7 @@ public class VoucherNumberControlResourceIntTest {
             .andExpect(jsonPath("$.[*].startVoucherNo").value(hasItem(DEFAULT_START_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].voucherLimit").value(hasItem(DEFAULT_VOUCHER_LIMIT.intValue())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())));
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())));
     }
     
     @Test
@@ -224,7 +226,7 @@ public class VoucherNumberControlResourceIntTest {
             .andExpect(jsonPath("$.startVoucherNo").value(DEFAULT_START_VOUCHER_NO))
             .andExpect(jsonPath("$.voucherLimit").value(DEFAULT_VOUCHER_LIMIT.intValue()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()))
-            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.intValue()));
+            .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()));
     }
 
     @Test
@@ -412,6 +414,33 @@ public class VoucherNumberControlResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllVoucherNumberControlsByModifiedOnIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        voucherNumberControlRepository.saveAndFlush(voucherNumberControl);
+
+        // Get all the voucherNumberControlList where modifiedOn greater than or equals to DEFAULT_MODIFIED_ON
+        defaultVoucherNumberControlShouldBeFound("modifiedOn.greaterOrEqualThan=" + DEFAULT_MODIFIED_ON);
+
+        // Get all the voucherNumberControlList where modifiedOn greater than or equals to UPDATED_MODIFIED_ON
+        defaultVoucherNumberControlShouldNotBeFound("modifiedOn.greaterOrEqualThan=" + UPDATED_MODIFIED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllVoucherNumberControlsByModifiedOnIsLessThanSomething() throws Exception {
+        // Initialize the database
+        voucherNumberControlRepository.saveAndFlush(voucherNumberControl);
+
+        // Get all the voucherNumberControlList where modifiedOn less than or equals to DEFAULT_MODIFIED_ON
+        defaultVoucherNumberControlShouldNotBeFound("modifiedOn.lessThan=" + DEFAULT_MODIFIED_ON);
+
+        // Get all the voucherNumberControlList where modifiedOn less than or equals to UPDATED_MODIFIED_ON
+        defaultVoucherNumberControlShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllVoucherNumberControlsByModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         voucherNumberControlRepository.saveAndFlush(voucherNumberControl);
@@ -448,33 +477,6 @@ public class VoucherNumberControlResourceIntTest {
         // Get all the voucherNumberControlList where modifiedBy is null
         defaultVoucherNumberControlShouldNotBeFound("modifiedBy.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllVoucherNumberControlsByModifiedByIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        voucherNumberControlRepository.saveAndFlush(voucherNumberControl);
-
-        // Get all the voucherNumberControlList where modifiedBy greater than or equals to DEFAULT_MODIFIED_BY
-        defaultVoucherNumberControlShouldBeFound("modifiedBy.greaterOrEqualThan=" + DEFAULT_MODIFIED_BY);
-
-        // Get all the voucherNumberControlList where modifiedBy greater than or equals to UPDATED_MODIFIED_BY
-        defaultVoucherNumberControlShouldNotBeFound("modifiedBy.greaterOrEqualThan=" + UPDATED_MODIFIED_BY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllVoucherNumberControlsByModifiedByIsLessThanSomething() throws Exception {
-        // Initialize the database
-        voucherNumberControlRepository.saveAndFlush(voucherNumberControl);
-
-        // Get all the voucherNumberControlList where modifiedBy less than or equals to DEFAULT_MODIFIED_BY
-        defaultVoucherNumberControlShouldNotBeFound("modifiedBy.lessThan=" + DEFAULT_MODIFIED_BY);
-
-        // Get all the voucherNumberControlList where modifiedBy less than or equals to UPDATED_MODIFIED_BY
-        defaultVoucherNumberControlShouldBeFound("modifiedBy.lessThan=" + UPDATED_MODIFIED_BY);
-    }
-
 
     @Test
     @Transactional
@@ -524,8 +526,8 @@ public class VoucherNumberControlResourceIntTest {
             .andExpect(jsonPath("$.[*].resetBasis").value(hasItem(DEFAULT_RESET_BASIS.toString())))
             .andExpect(jsonPath("$.[*].startVoucherNo").value(hasItem(DEFAULT_START_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].voucherLimit").value(hasItem(DEFAULT_VOUCHER_LIMIT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON)))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())));
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)));
 
         // Check, that the count call also returns 1
         restVoucherNumberControlMockMvc.perform(get("/api/voucher-number-controls/count?sort=id,desc&" + filter))
@@ -657,8 +659,8 @@ public class VoucherNumberControlResourceIntTest {
             .andExpect(jsonPath("$.[*].resetBasis").value(hasItem(DEFAULT_RESET_BASIS.toString())))
             .andExpect(jsonPath("$.[*].startVoucherNo").value(hasItem(DEFAULT_START_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].voucherLimit").value(hasItem(DEFAULT_VOUCHER_LIMIT.intValue())))
-            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON)))
-            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.intValue())));
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())))
+            .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)));
     }
 
     @Test

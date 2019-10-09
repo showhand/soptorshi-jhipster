@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { IVoucherNumberControl } from 'app/shared/model/voucher-number-control.model';
 import { VoucherNumberControlService } from './voucher-number-control.service';
@@ -22,6 +23,7 @@ export class VoucherNumberControlUpdateComponent implements OnInit {
     financialaccountyears: IFinancialAccountYear[];
 
     vouchers: IVoucher[];
+    modifiedOnDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,

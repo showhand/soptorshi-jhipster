@@ -569,6 +569,10 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
                 path: 'training-information-attachment',
                 loadChildren:
                     './training-information-attachment/training-information-attachment.module#SoptorshiTrainingInformationAttachmentModule'
+            },
+            {
+                path: 'voucher-number-control',
+                loadChildren: './voucher-number-control/voucher-number-control.module#SoptorshiVoucherNumberControlModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

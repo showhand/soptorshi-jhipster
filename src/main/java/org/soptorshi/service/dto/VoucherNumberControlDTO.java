@@ -1,4 +1,5 @@
 package org.soptorshi.service.dto;
+import java.time.LocalDate;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -17,9 +18,9 @@ public class VoucherNumberControlDTO implements Serializable {
 
     private BigDecimal voucherLimit;
 
-    private String modifiedOn;
+    private LocalDate modifiedOn;
 
-    private Long modifiedBy;
+    private String modifiedBy;
 
 
     private Long financialAccountYearId;
@@ -62,19 +63,19 @@ public class VoucherNumberControlDTO implements Serializable {
         this.voucherLimit = voucherLimit;
     }
 
-    public String getModifiedOn() {
+    public LocalDate getModifiedOn() {
         return modifiedOn;
     }
 
-    public void setModifiedOn(String modifiedOn) {
+    public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -139,7 +140,7 @@ public class VoucherNumberControlDTO implements Serializable {
             ", startVoucherNo=" + getStartVoucherNo() +
             ", voucherLimit=" + getVoucherLimit() +
             ", modifiedOn='" + getModifiedOn() + "'" +
-            ", modifiedBy=" + getModifiedBy() +
+            ", modifiedBy='" + getModifiedBy() + "'" +
             ", financialAccountYear=" + getFinancialAccountYearId() +
             ", financialAccountYear='" + getFinancialAccountYearDurationStr() + "'" +
             ", voucher=" + getVoucherId() +

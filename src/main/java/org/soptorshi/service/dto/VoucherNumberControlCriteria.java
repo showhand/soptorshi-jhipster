@@ -11,6 +11,7 @@ import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.service.filter.BigDecimalFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the VoucherNumberControl entity. This class is used in VoucherNumberControlResource to
@@ -37,9 +38,9 @@ public class VoucherNumberControlCriteria implements Serializable {
 
     private BigDecimalFilter voucherLimit;
 
-    private StringFilter modifiedOn;
+    private LocalDateFilter modifiedOn;
 
-    private LongFilter modifiedBy;
+    private StringFilter modifiedBy;
 
     private LongFilter financialAccountYearId;
 
@@ -77,19 +78,19 @@ public class VoucherNumberControlCriteria implements Serializable {
         this.voucherLimit = voucherLimit;
     }
 
-    public StringFilter getModifiedOn() {
+    public LocalDateFilter getModifiedOn() {
         return modifiedOn;
     }
 
-    public void setModifiedOn(StringFilter modifiedOn) {
+    public void setModifiedOn(LocalDateFilter modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
-    public LongFilter getModifiedBy() {
+    public StringFilter getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(LongFilter modifiedBy) {
+    public void setModifiedBy(StringFilter modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
