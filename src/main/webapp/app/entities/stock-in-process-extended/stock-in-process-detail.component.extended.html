@@ -1,0 +1,101 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="stockInProcess">
+            <h2><span>Stock In Process</span> {{stockInProcess.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Total Quantity</span></dt>
+                <dd>
+                    <span>{{stockInProcess.totalQuantity}}</span>
+                </dd>
+                <dt><span>Unit</span></dt>
+                <dd>
+                    <span>{{stockInProcess.unit}}</span>
+                </dd>
+                <dt><span>Unit Price</span></dt>
+                <dd>
+                    <span>{{stockInProcess.unitPrice}}</span>
+                </dd>
+                <dt><span>Total Container</span></dt>
+                <dd>
+                    <span>{{stockInProcess.totalContainer}}</span>
+                </dd>
+                <dt><span>Container Category</span></dt>
+                <dd>
+                    <span>{{stockInProcess.containerCategory}}</span>
+                </dd>
+                <dt><span>Container Tracking Id</span></dt>
+                <dd>
+                    <span>{{stockInProcess.containerTrackingId}}</span>
+                </dd>
+                <dt><span>Quantity Per Container</span></dt>
+                <dd>
+                    <span>{{stockInProcess.quantityPerContainer}}</span>
+                </dd>
+                <dt><span>Expiry Date</span></dt>
+                <dd>
+                    <span>{{stockInProcess.expiryDate}}</span>
+                </dd>
+                <dt><span>Stock In By</span></dt>
+                <dd>
+                    <span>{{stockInProcess.stockInBy}}</span>
+                </dd>
+                <dt><span>Stock In Date</span></dt>
+                <dd>
+                    <span>{{stockInProcess.stockInDate}}</span>
+                </dd>
+                <dt><span>Purchase Order Id</span></dt>
+                <dd>
+                    <span>{{stockInProcess.purchaseOrderId}}</span>
+                </dd>
+                <dt><span>Remarks</span></dt>
+                <dd>
+                    <span>{{stockInProcess.remarks}}</span>
+                </dd>
+                <dt><span>Item Categories</span></dt>
+                <dd>
+                    <div *ngIf="stockInProcess.itemCategoriesId">
+                        <a [routerLink]="['/item-category', stockInProcess.itemCategoriesId, 'view']">{{stockInProcess.itemCategoriesName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Item Sub Categories</span></dt>
+                <dd>
+                    <div *ngIf="stockInProcess.itemSubCategoriesId">
+                        <a [routerLink]="['/item-sub-category', stockInProcess.itemSubCategoriesId, 'view']">{{stockInProcess.itemSubCategoriesName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Inventory Locations</span></dt>
+                <dd>
+                    <div *ngIf="stockInProcess.inventoryLocationsId">
+                        <a [routerLink]="['/inventory-location', stockInProcess.inventoryLocationsId, 'view']">{{stockInProcess.inventoryLocationsName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Inventory Sub Locations</span></dt>
+                <dd>
+                    <div *ngIf="stockInProcess.inventorySubLocationsId">
+                        <a [routerLink]="['/inventory-sub-location', stockInProcess.inventorySubLocationsId, 'view']">{{stockInProcess.inventorySubLocationsName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Manufacturers</span></dt>
+                <dd>
+                    <div *ngIf="stockInProcess.manufacturersId">
+                        <a [routerLink]="['/manufacturer', stockInProcess.manufacturersId, 'view']">{{stockInProcess.manufacturersName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <!--<button type="button"
+                    [routerLink]="['/stock-in-process', stockInProcess.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>-->
+        </div>
+    </div>
+</div>

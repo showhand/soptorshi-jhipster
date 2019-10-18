@@ -1,0 +1,167 @@
+<div class="row justify-content-center">
+    <div class="col-12">
+        <jhi-alert></jhi-alert>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <h2 id="page-heading">Stock In Processes</h2>
+    </div>
+    <div class="col-6">
+        <form name="searchForm" class="form-inline">
+            <div class="input-group w-100 mt-3">
+                <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                       name="currentSearch" placeholder="Query">
+                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+                <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                    <fa-icon [icon]="'trash-alt'"></fa-icon>
+                </button>
+                <button id="jh-create-entity"
+                        class="btn btn-primary float-right jh-create-entity create-stock-in-process"
+                        [routerLink]="['/stock-in-process/new']">
+                    <fa-icon [icon]="'plus'"></fa-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-12 ">
+        <br/>
+        <div class="table-responsive" *ngIf="stockInProcesses">
+            <table class="table table-striped">
+                <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                    <th jhiSortBy="id"><span>ID</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="totalQuantity"><span>Total Quantity</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="unit"><span>Unit</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="unitPrice"><span>Unit Price</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="totalContainer"><span>Total Container</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="containerCategory"><span>Container Category</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="containerTrackingId"><span>Container Tracking Id</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="quantityPerContainer"><span>Quantity Per Container</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="expiryDate"><span>Expiry Date</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="stockInBy"><span>Stock In By</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="stockInDate"><span>Stock In Date</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="purchaseOrderId"><span>Purchase Order Id</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="remarks"><span>Remarks</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="itemCategoriesName"><span>Item Categories</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="itemSubCategoriesName"><span>Item Sub Categories</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="manufacturersName"><span>Manufacturers</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                       [infiniteScrollDistance]="0">
+                <tr *ngFor="let stockInProcess of stockInProcesses ;trackBy: trackId">
+                    <td><a [routerLink]="['/stock-in-process', stockInProcess.id, 'view' ]">{{stockInProcess.id}}</a>
+                    </td>
+                    <td>{{stockInProcess.totalQuantity}}</td>
+                    <td>{{stockInProcess.unit}}</td>
+                    <td>{{stockInProcess.unitPrice}}</td>
+                    <td>{{stockInProcess.totalContainer}}</td>
+                    <td>{{stockInProcess.containerCategory}}</td>
+                    <td>{{stockInProcess.containerTrackingId}}</td>
+                    <td>{{stockInProcess.quantityPerContainer}}</td>
+                    <td>{{stockInProcess.expiryDate | date:'mediumDate'}}</td>
+                    <td>{{stockInProcess.stockInBy}}</td>
+                    <td>{{stockInProcess.stockInDate | date:'medium'}}</td>
+                    <td>{{stockInProcess.purchaseOrderId}}</td>
+                    <td>{{stockInProcess.remarks}}</td>
+                    <td>
+                        <div *ngIf="stockInProcess.itemCategoriesId">
+                            <a [routerLink]="['../item-category', stockInProcess.itemCategoriesId , 'view' ]">{{stockInProcess.itemCategoriesName}}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="stockInProcess.itemSubCategoriesId">
+                            <a [routerLink]="['../item-sub-category', stockInProcess.itemSubCategoriesId , 'view' ]">{{stockInProcess.itemSubCategoriesName}}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="stockInProcess.inventoryLocationsId">
+                            <a [routerLink]="['../inventory-location', stockInProcess.inventoryLocationsId , 'view' ]">{{stockInProcess.inventoryLocationsName}}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="stockInProcess.inventorySubLocationsId">
+                            <a [routerLink]="['../inventory-sub-location', stockInProcess.inventorySubLocationsId , 'view' ]">{{stockInProcess.inventorySubLocationsName}}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="stockInProcess.manufacturersId">
+                            <a [routerLink]="['../manufacturer', stockInProcess.manufacturersId , 'view' ]">{{stockInProcess.manufacturersName}}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    [routerLink]="['/stock-in-process', stockInProcess.id, 'view' ]"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+                            <!--<button type="submit"
+                                    [routerLink]="['/stock-in-process', stockInProcess.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/', 'stock-in-process', { outlets: { popup: stockInProcess.id + '/delete'} }]"
+                                    replaceUrl="true"
+                                    queryParamsHandling="merge"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>-->
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="stockStatus">
+            <h2><span>Stock Status</span> {{stockStatus.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Container Tracking Id</span></dt>
+                <dd>
+                    <span>{{stockStatus.containerTrackingId}}</span>
+                </dd>
+                <dt><span>Total Quantity</span></dt>
+                <dd>
+                    <span>{{stockStatus.totalQuantity}}</span>
+                </dd>
+                <dt><span>Unit</span></dt>
+                <dd>
+                    <span>{{stockStatus.unit}}</span>
+                </dd>
+                <dt><span>Available Quantity</span></dt>
+                <dd>
+                    <span>{{stockStatus.availableQuantity}}</span>
+                </dd>
+                <dt><span>Total Price</span></dt>
+                <dd>
+                    <span>{{stockStatus.totalPrice}}</span>
+                </dd>
+                <dt><span>Available Price</span></dt>
+                <dd>
+                    <span>{{stockStatus.availablePrice}}</span>
+                </dd>
+                <dt><span>Stock In By</span></dt>
+                <dd>
+                    <span>{{stockStatus.stockInBy}}</span>
+                </dd>
+                <dt><span>Stock In Date</span></dt>
+                <dd>
+                    <span>{{stockStatus.stockInDate}}</span>
+                </dd>
+                <dt><span>Stock In Items</span></dt>
+                <dd>
+                    <div *ngIf="stockStatus.stockInItemsId">
+                        <a [routerLink]="['/stock-in-item', stockStatus.stockInItemsId, 'view']">{{stockStatus.stockInItemsId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Item Categories</span></dt>
+                <dd>
+                    <div *ngIf="stockStatus.itemCategoriesId">
+                        <a [routerLink]="['/item-category', stockStatus.itemCategoriesId, 'view']">{{stockStatus.itemCategoriesName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Item Sub Categories</span></dt>
+                <dd>
+                    <div *ngIf="stockStatus.itemSubCategoriesId">
+                        <a [routerLink]="['/item-sub-category', stockStatus.itemSubCategoriesId, 'view']">{{stockStatus.itemSubCategoriesName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Inventory Locations</span></dt>
+                <dd>
+                    <div *ngIf="stockStatus.inventoryLocationsId">
+                        <a [routerLink]="['/inventory-location', stockStatus.inventoryLocationsId, 'view']">{{stockStatus.inventoryLocationsName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Inventory Sub Locations</span></dt>
+                <dd>
+                    <div *ngIf="stockStatus.inventorySubLocationsId">
+                        <a [routerLink]="['/inventory-sub-location', stockStatus.inventorySubLocationsId, 'view']">{{stockStatus.inventorySubLocationsName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <!--<button type="button"
+                    [routerLink]="['/stock-status', stockStatus.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>-->
+        </div>
+    </div>
+</div>
