@@ -1,5 +1,5 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.LeaveTypeService;
+import org.soptorshi.service.impl.LeaveTypeServiceImpl;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +21,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing LeaveType.
@@ -37,12 +33,12 @@ public class LeaveTypeResource {
 
     private static final String ENTITY_NAME = "leaveType";
 
-    private final LeaveTypeService leaveTypeService;
+    private final LeaveTypeServiceImpl leaveTypeServiceImpl;
 
     private final LeaveTypeQueryService leaveTypeQueryService;
 
-    public LeaveTypeResource(LeaveTypeService leaveTypeService, LeaveTypeQueryService leaveTypeQueryService) {
-        this.leaveTypeService = leaveTypeService;
+    public LeaveTypeResource(LeaveTypeServiceImpl leaveTypeServiceImpl, LeaveTypeQueryService leaveTypeQueryService) {
+        this.leaveTypeServiceImpl = leaveTypeServiceImpl;
         this.leaveTypeQueryService = leaveTypeQueryService;
     }
 
@@ -59,7 +55,7 @@ public class LeaveTypeResource {
         if (leaveTypeDTO.getId() != null) {
             throw new BadRequestAlertException("A new leaveType cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        LeaveTypeDTO result = leaveTypeService.save(leaveTypeDTO);
+        LeaveTypeDTO result = leaveTypeServiceImpl.save(leaveTypeDTO);
         return ResponseEntity.created(new URI("/api/leave-types/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -80,7 +76,7 @@ public class LeaveTypeResource {
         if (leaveTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        LeaveTypeDTO result = leaveTypeService.save(leaveTypeDTO);
+        LeaveTypeDTO result = leaveTypeServiceImpl.save(leaveTypeDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, leaveTypeDTO.getId().toString()))
             .body(result);
@@ -122,7 +118,7 @@ public class LeaveTypeResource {
     @GetMapping("/leave-types/{id}")
     public ResponseEntity<LeaveTypeDTO> getLeaveType(@PathVariable Long id) {
         log.debug("REST request to get LeaveType : {}", id);
-        Optional<LeaveTypeDTO> leaveTypeDTO = leaveTypeService.findOne(id);
+        Optional<LeaveTypeDTO> leaveTypeDTO = leaveTypeServiceImpl.findOne(id);
         return ResponseUtil.wrapOrNotFound(leaveTypeDTO);
     }
 
@@ -135,7 +131,7 @@ public class LeaveTypeResource {
     @DeleteMapping("/leave-types/{id}")
     public ResponseEntity<Void> deleteLeaveType(@PathVariable Long id) {
         log.debug("REST request to delete LeaveType : {}", id);
-        leaveTypeService.delete(id);
+        leaveTypeServiceImpl.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -150,7 +146,7 @@ public class LeaveTypeResource {
     @GetMapping("/_search/leave-types")
     public ResponseEntity<List<LeaveTypeDTO>> searchLeaveTypes(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of LeaveTypes for query {}", query);
-        Page<LeaveTypeDTO> page = leaveTypeService.search(query, pageable);
+        Page<LeaveTypeDTO> page = leaveTypeServiceImpl.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/leave-types");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

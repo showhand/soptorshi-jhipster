@@ -1,12 +1,14 @@
-package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.StockStatusServiceImpl;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.StockStatusDTO;
-import org.soptorshi.service.dto.StockStatusCriteria;
-import org.soptorshi.service.StockStatusQueryService;
+package org.soptorshi.web.rest.extended;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.StockStatusQueryService;
+import org.soptorshi.service.dto.StockStatusCriteria;
+import org.soptorshi.service.dto.StockStatusDTO;
+import org.soptorshi.service.extended.StockStatusServiceImplExtended;
+import org.soptorshi.service.impl.StockStatusServiceImpl;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +18,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -24,19 +25,19 @@ import java.util.Optional;
  * REST controller for managing StockStatus.
  */
 @RestController
-@RequestMapping("/api")
-public class StockStatusResource {
+@RequestMapping("/api/extended")
+public class StockStatusResourceExtended {
 
-    private final Logger log = LoggerFactory.getLogger(StockStatusResource.class);
+    private final Logger log = LoggerFactory.getLogger(StockStatusResourceExtended.class);
 
     private static final String ENTITY_NAME = "stockStatus";
 
-    private final StockStatusServiceImpl stockStatusServiceImpl;
+    private final StockStatusServiceImplExtended stockStatusServiceImplExtended;
 
     private final StockStatusQueryService stockStatusQueryService;
 
-    public StockStatusResource(StockStatusServiceImpl stockStatusServiceImpl, StockStatusQueryService stockStatusQueryService) {
-        this.stockStatusServiceImpl = stockStatusServiceImpl;
+    public StockStatusResourceExtended(StockStatusServiceImplExtended stockStatusServiceImplExtended, StockStatusQueryService stockStatusQueryService) {
+        this.stockStatusServiceImplExtended = stockStatusServiceImplExtended;
         this.stockStatusQueryService = stockStatusQueryService;
     }
 
@@ -53,7 +54,7 @@ public class StockStatusResource {
         /*if (stockStatusDTO.getId() != null) {
             throw new BadRequestAlertException("A new stockStatus cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        StockStatusDTO result = stockStatusServiceImpl.save(stockStatusDTO);
+        StockStatusDTO result = stockStatusServiceImplExtended.save(stockStatusDTO);
         return ResponseEntity.created(new URI("/api/stock-statuses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);*/
@@ -76,7 +77,7 @@ public class StockStatusResource {
         /*if (stockStatusDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        StockStatusDTO result = stockStatusServiceImpl.save(stockStatusDTO);
+        StockStatusDTO result = stockStatusServiceImplExtended.save(stockStatusDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, stockStatusDTO.getId().toString()))
             .body(result);*/
@@ -119,7 +120,7 @@ public class StockStatusResource {
     @GetMapping("/stock-statuses/{id}")
     public ResponseEntity<StockStatusDTO> getStockStatus(@PathVariable Long id) {
         log.debug("REST request to get StockStatus : {}", id);
-        Optional<StockStatusDTO> stockStatusDTO = stockStatusServiceImpl.findOne(id);
+        Optional<StockStatusDTO> stockStatusDTO = stockStatusServiceImplExtended.findOne(id);
         return ResponseUtil.wrapOrNotFound(stockStatusDTO);
     }
 
@@ -132,7 +133,7 @@ public class StockStatusResource {
     @DeleteMapping("/stock-statuses/{id}")
     public ResponseEntity<Void> deleteStockStatus(@PathVariable Long id) {
         log.debug("REST request to delete StockStatus : {}", id);
-        /*stockStatusServiceImpl.delete(id);
+        /*stockStatusServiceImplExtended.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();*/
         throw new NotImplementedException();
     }
@@ -148,7 +149,7 @@ public class StockStatusResource {
     @GetMapping("/_search/stock-statuses")
     public ResponseEntity<List<StockStatusDTO>> searchStockStatuses(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of StockStatuses for query {}", query);
-        Page<StockStatusDTO> page = stockStatusServiceImpl.search(query, pageable);
+        Page<StockStatusDTO> page = stockStatusServiceImplExtended.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/stock-statuses");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

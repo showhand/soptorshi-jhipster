@@ -5,11 +5,10 @@ import org.soptorshi.SoptorshiApp;
 import org.soptorshi.domain.Manufacturer;
 import org.soptorshi.repository.ManufacturerRepository;
 import org.soptorshi.repository.search.ManufacturerSearchRepository;
-import org.soptorshi.service.ManufacturerService;
 import org.soptorshi.service.dto.ManufacturerDTO;
+import org.soptorshi.service.impl.ManufacturerServiceImpl;
 import org.soptorshi.service.mapper.ManufacturerMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.ManufacturerCriteria;
 import org.soptorshi.service.ManufacturerQueryService;
 
 import org.junit.Before;
@@ -76,7 +75,7 @@ public class ManufacturerResourceIntTest {
     private ManufacturerMapper manufacturerMapper;
 
     @Autowired
-    private ManufacturerService manufacturerService;
+    private ManufacturerServiceImpl manufacturerServiceImpl;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -111,7 +110,7 @@ public class ManufacturerResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ManufacturerResource manufacturerResource = new ManufacturerResource(manufacturerService, manufacturerQueryService);
+        final ManufacturerResource manufacturerResource = new ManufacturerResource(manufacturerServiceImpl, manufacturerQueryService);
         this.restManufacturerMockMvc = MockMvcBuilders.standaloneSetup(manufacturerResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -229,7 +228,7 @@ public class ManufacturerResourceIntTest {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getManufacturer() throws Exception {

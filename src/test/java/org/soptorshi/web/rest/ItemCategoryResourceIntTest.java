@@ -5,11 +5,10 @@ import org.soptorshi.SoptorshiApp;
 import org.soptorshi.domain.ItemCategory;
 import org.soptorshi.repository.ItemCategoryRepository;
 import org.soptorshi.repository.search.ItemCategorySearchRepository;
-import org.soptorshi.service.ItemCategoryService;
 import org.soptorshi.service.dto.ItemCategoryDTO;
+import org.soptorshi.service.impl.ItemCategoryServiceImpl;
 import org.soptorshi.service.mapper.ItemCategoryMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.ItemCategoryCriteria;
 import org.soptorshi.service.ItemCategoryQueryService;
 
 import org.junit.Before;
@@ -67,7 +66,7 @@ public class ItemCategoryResourceIntTest {
     private ItemCategoryMapper itemCategoryMapper;
 
     @Autowired
-    private ItemCategoryService itemCategoryService;
+    private ItemCategoryServiceImpl itemCategoryService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -211,7 +210,7 @@ public class ItemCategoryResourceIntTest {
             .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getItemCategory() throws Exception {

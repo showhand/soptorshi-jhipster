@@ -11,11 +11,10 @@ import org.soptorshi.domain.Manufacturer;
 import org.soptorshi.domain.StockInProcess;
 import org.soptorshi.repository.StockInItemRepository;
 import org.soptorshi.repository.search.StockInItemSearchRepository;
-import org.soptorshi.service.StockInItemService;
 import org.soptorshi.service.dto.StockInItemDTO;
+import org.soptorshi.service.impl.StockInItemServiceImpl;
 import org.soptorshi.service.mapper.StockInItemMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.StockInItemCriteria;
 import org.soptorshi.service.StockInItemQueryService;
 
 import org.junit.Before;
@@ -100,7 +99,7 @@ public class StockInItemResourceIntTest {
     private StockInItemMapper stockInItemMapper;
 
     @Autowired
-    private StockInItemService stockInItemService;
+    private StockInItemServiceImpl stockInItemService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -341,7 +340,7 @@ public class StockInItemResourceIntTest {
             .andExpect(jsonPath("$.[*].purchaseOrderId").value(hasItem(DEFAULT_PURCHASE_ORDER_ID.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getStockInItem() throws Exception {

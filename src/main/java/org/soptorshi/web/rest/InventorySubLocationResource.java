@@ -1,5 +1,5 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.InventorySubLocationService;
+import org.soptorshi.service.impl.InventorySubLocationServiceImpl;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +21,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing InventorySubLocation.
@@ -37,12 +33,12 @@ public class InventorySubLocationResource {
 
     private static final String ENTITY_NAME = "inventorySubLocation";
 
-    private final InventorySubLocationService inventorySubLocationService;
+    private final InventorySubLocationServiceImpl inventorySubLocationServiceImpl;
 
     private final InventorySubLocationQueryService inventorySubLocationQueryService;
 
-    public InventorySubLocationResource(InventorySubLocationService inventorySubLocationService, InventorySubLocationQueryService inventorySubLocationQueryService) {
-        this.inventorySubLocationService = inventorySubLocationService;
+    public InventorySubLocationResource(InventorySubLocationServiceImpl inventorySubLocationServiceImpl, InventorySubLocationQueryService inventorySubLocationQueryService) {
+        this.inventorySubLocationServiceImpl = inventorySubLocationServiceImpl;
         this.inventorySubLocationQueryService = inventorySubLocationQueryService;
     }
 
@@ -59,7 +55,7 @@ public class InventorySubLocationResource {
         if (inventorySubLocationDTO.getId() != null) {
             throw new BadRequestAlertException("A new inventorySubLocation cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        InventorySubLocationDTO result = inventorySubLocationService.save(inventorySubLocationDTO);
+        InventorySubLocationDTO result = inventorySubLocationServiceImpl.save(inventorySubLocationDTO);
         return ResponseEntity.created(new URI("/api/inventory-sub-locations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -80,7 +76,7 @@ public class InventorySubLocationResource {
         if (inventorySubLocationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        InventorySubLocationDTO result = inventorySubLocationService.save(inventorySubLocationDTO);
+        InventorySubLocationDTO result = inventorySubLocationServiceImpl.save(inventorySubLocationDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, inventorySubLocationDTO.getId().toString()))
             .body(result);
@@ -122,7 +118,7 @@ public class InventorySubLocationResource {
     @GetMapping("/inventory-sub-locations/{id}")
     public ResponseEntity<InventorySubLocationDTO> getInventorySubLocation(@PathVariable Long id) {
         log.debug("REST request to get InventorySubLocation : {}", id);
-        Optional<InventorySubLocationDTO> inventorySubLocationDTO = inventorySubLocationService.findOne(id);
+        Optional<InventorySubLocationDTO> inventorySubLocationDTO = inventorySubLocationServiceImpl.findOne(id);
         return ResponseUtil.wrapOrNotFound(inventorySubLocationDTO);
     }
 
@@ -135,7 +131,7 @@ public class InventorySubLocationResource {
     @DeleteMapping("/inventory-sub-locations/{id}")
     public ResponseEntity<Void> deleteInventorySubLocation(@PathVariable Long id) {
         log.debug("REST request to delete InventorySubLocation : {}", id);
-        inventorySubLocationService.delete(id);
+        inventorySubLocationServiceImpl.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -150,7 +146,7 @@ public class InventorySubLocationResource {
     @GetMapping("/_search/inventory-sub-locations")
     public ResponseEntity<List<InventorySubLocationDTO>> searchInventorySubLocations(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of InventorySubLocations for query {}", query);
-        Page<InventorySubLocationDTO> page = inventorySubLocationService.search(query, pageable);
+        Page<InventorySubLocationDTO> page = inventorySubLocationServiceImpl.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/inventory-sub-locations");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

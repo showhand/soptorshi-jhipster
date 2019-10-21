@@ -1,6 +1,5 @@
 package org.soptorshi.service.impl;
 
-import org.soptorshi.service.ManufacturerService;
 import org.soptorshi.domain.Manufacturer;
 import org.soptorshi.repository.ManufacturerRepository;
 import org.soptorshi.repository.search.ManufacturerSearchRepository;
@@ -23,7 +22,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class ManufacturerServiceImpl implements ManufacturerService {
+public class ManufacturerServiceImpl {
 
     private final Logger log = LoggerFactory.getLogger(ManufacturerServiceImpl.class);
 
@@ -45,7 +44,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
      * @param manufacturerDTO the entity to save
      * @return the persisted entity
      */
-    @Override
+
     public ManufacturerDTO save(ManufacturerDTO manufacturerDTO) {
         log.debug("Request to save Manufacturer : {}", manufacturerDTO);
         Manufacturer manufacturer = manufacturerMapper.toEntity(manufacturerDTO);
@@ -61,7 +60,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<ManufacturerDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Manufacturers");
@@ -76,7 +75,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
      * @param id the id of the entity
      * @return the entity
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Optional<ManufacturerDTO> findOne(Long id) {
         log.debug("Request to get Manufacturer : {}", id);
@@ -89,7 +88,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
      *
      * @param id the id of the entity
      */
-    @Override
+
     public void delete(Long id) {
         log.debug("Request to delete Manufacturer : {}", id);
         manufacturerRepository.deleteById(id);
@@ -103,7 +102,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<ManufacturerDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Manufacturers for query {}", query);

@@ -10,11 +10,10 @@ import org.soptorshi.domain.InventoryLocation;
 import org.soptorshi.domain.InventorySubLocation;
 import org.soptorshi.repository.StockStatusRepository;
 import org.soptorshi.repository.search.StockStatusSearchRepository;
-import org.soptorshi.service.StockStatusService;
 import org.soptorshi.service.dto.StockStatusDTO;
+import org.soptorshi.service.impl.StockStatusServiceImpl;
 import org.soptorshi.service.mapper.StockStatusMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.StockStatusCriteria;
 import org.soptorshi.service.StockStatusQueryService;
 
 import org.junit.Before;
@@ -90,7 +89,7 @@ public class StockStatusResourceIntTest {
     private StockStatusMapper stockStatusMapper;
 
     @Autowired
-    private StockStatusService stockStatusService;
+    private StockStatusServiceImpl stockStatusServiceImpl;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -125,7 +124,7 @@ public class StockStatusResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final StockStatusResource stockStatusResource = new StockStatusResource(stockStatusService, stockStatusQueryService);
+        final StockStatusResource stockStatusResource = new StockStatusResource(stockStatusServiceImpl, stockStatusQueryService);
         this.restStockStatusMockMvc = MockMvcBuilders.standaloneSetup(stockStatusResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -344,7 +343,7 @@ public class StockStatusResourceIntTest {
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY.toString())))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getStockStatus() throws Exception {

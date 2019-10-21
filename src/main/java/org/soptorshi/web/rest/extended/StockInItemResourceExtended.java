@@ -1,12 +1,13 @@
-package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.StockInItemServiceImpl;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.StockInItemDTO;
-import org.soptorshi.service.dto.StockInItemCriteria;
-import org.soptorshi.service.StockInItemQueryService;
+package org.soptorshi.web.rest.extended;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.StockInItemQueryService;
+import org.soptorshi.service.dto.StockInItemCriteria;
+import org.soptorshi.service.dto.StockInItemDTO;
+import org.soptorshi.service.impl.StockInItemServiceImpl;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +17,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -24,10 +24,10 @@ import java.util.Optional;
  * REST controller for managing StockInItem.
  */
 @RestController
-@RequestMapping("/api")
-public class StockInItemResource {
+@RequestMapping("/api/extended")
+public class StockInItemResourceExtended {
 
-    private final Logger log = LoggerFactory.getLogger(StockInItemResource.class);
+    private final Logger log = LoggerFactory.getLogger(StockInItemResourceExtended.class);
 
     private static final String ENTITY_NAME = "stockInItem";
 
@@ -35,7 +35,7 @@ public class StockInItemResource {
 
     private final StockInItemQueryService stockInItemQueryService;
 
-    public StockInItemResource(StockInItemServiceImpl stockInItemServiceImpl, StockInItemQueryService stockInItemQueryService) {
+    public StockInItemResourceExtended(StockInItemServiceImpl stockInItemServiceImpl, StockInItemQueryService stockInItemQueryService) {
         this.stockInItemServiceImpl = stockInItemServiceImpl;
         this.stockInItemQueryService = stockInItemQueryService;
     }

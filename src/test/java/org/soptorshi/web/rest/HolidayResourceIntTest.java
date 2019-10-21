@@ -6,11 +6,10 @@ import org.soptorshi.domain.Holiday;
 import org.soptorshi.domain.HolidayType;
 import org.soptorshi.repository.HolidayRepository;
 import org.soptorshi.repository.search.HolidaySearchRepository;
-import org.soptorshi.service.HolidayService;
 import org.soptorshi.service.dto.HolidayDTO;
+import org.soptorshi.service.impl.HolidayServiceImpl;
 import org.soptorshi.service.mapper.HolidayMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.HolidayCriteria;
 import org.soptorshi.service.HolidayQueryService;
 
 import org.junit.Before;
@@ -70,7 +69,7 @@ public class HolidayResourceIntTest {
     private HolidayMapper holidayMapper;
 
     @Autowired
-    private HolidayService holidayService;
+    private HolidayServiceImpl holidayServiceImpl;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -105,7 +104,7 @@ public class HolidayResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final HolidayResource holidayResource = new HolidayResource(holidayService, holidayQueryService);
+        final HolidayResource holidayResource = new HolidayResource(holidayServiceImpl, holidayQueryService);
         this.restHolidayMockMvc = MockMvcBuilders.standaloneSetup(holidayResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -252,7 +251,7 @@ public class HolidayResourceIntTest {
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)));
     }
-    
+
     @Test
     @Transactional
     public void getHoliday() throws Exception {

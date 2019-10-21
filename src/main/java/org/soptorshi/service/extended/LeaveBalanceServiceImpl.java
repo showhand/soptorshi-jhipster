@@ -1,16 +1,13 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service.extended;
 
 import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.LeaveApplication;
-import org.soptorshi.domain.LeaveBalance;
 import org.soptorshi.domain.LeaveType;
 import org.soptorshi.domain.enumeration.LeaveStatus;
 import org.soptorshi.repository.EmployeeRepository;
-import org.soptorshi.repository.LeaveApplicationRepository;
 import org.soptorshi.repository.LeaveTypeRepository;
-import org.soptorshi.service.LeaveBalanceService;
+import org.soptorshi.repository.extended.LeaveApplicationRepositoryExtended;
 import org.soptorshi.service.dto.LeaveBalanceDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,26 +16,25 @@ import java.time.Month;
 import java.util.*;
 
 import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
 import static java.time.temporal.TemporalAdjusters.lastDayOfYear;
 
 @Service
 @Transactional
-public class LeaveBalanceServiceImpl implements LeaveBalanceService {
+public class LeaveBalanceServiceImpl {
 
-    private final LeaveApplicationRepository leaveApplicationRepository;
+    private final LeaveApplicationRepositoryExtended leaveApplicationRepositoryExtended;
 
     private final LeaveTypeRepository leaveTypeRepository;
 
     private final EmployeeRepository employeeRepository;
 
-    public LeaveBalanceServiceImpl(LeaveApplicationRepository leaveApplicationRepository, LeaveTypeRepository leaveTypeRepository, EmployeeRepository employeeRepository) {
-        this.leaveApplicationRepository = leaveApplicationRepository;
+    public LeaveBalanceServiceImpl(LeaveApplicationRepositoryExtended leaveApplicationRepositoryExtended, LeaveTypeRepository leaveTypeRepository, EmployeeRepository employeeRepository) {
+        this.leaveApplicationRepositoryExtended = leaveApplicationRepositoryExtended;
         this.leaveTypeRepository = leaveTypeRepository;
         this.employeeRepository = employeeRepository;
     }
 
-    @Override
+
     public Map<String, List<LeaveBalanceDTO>> calculateLeaveBalance(int year) {
         Map<String, List<LeaveBalanceDTO>> map = new HashMap<>();
         List<Employee> employees = employeeRepository.findAll();
@@ -54,7 +50,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
         return map;
     }
 
-    @Override
+
     public List<LeaveBalanceDTO> calculateLeaveBalance(String employeeId, int year) {
         List<LeaveBalanceDTO> leaveBalanceDTOS = new ArrayList<>();
         List<LeaveType> leaveTypes = getAllLeaveType();
@@ -64,7 +60,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
         return leaveBalanceDTOS;
     }
 
-    @Override
+
     public LeaveBalanceDTO calculateLeaveBalance(String employeeId, int year, Long leaveType) {
         LeaveType type = leaveTypeRepository.getOne(leaveType);
         return calculate(employeeId, year, type);
@@ -142,7 +138,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
 
     private List<LeaveApplication> getAppliedLeave(final String employeeId, final LeaveType leaveType,
                                                    final LocalDate fromDate, final LocalDate toDate) {
-        return leaveApplicationRepository.
+        return leaveApplicationRepositoryExtended.
             findByEmployeeIdAndLeaveTypesAndStatusAndFromDateGreaterThanAndToDateLessThan(employeeId, leaveType, LeaveStatus.ACCEPTED, fromDate, toDate);
     }
 }

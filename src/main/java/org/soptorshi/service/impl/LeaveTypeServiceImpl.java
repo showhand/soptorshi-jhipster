@@ -1,6 +1,5 @@
 package org.soptorshi.service.impl;
 
-import org.soptorshi.service.LeaveTypeService;
 import org.soptorshi.domain.LeaveType;
 import org.soptorshi.repository.LeaveTypeRepository;
 import org.soptorshi.repository.search.LeaveTypeSearchRepository;
@@ -23,7 +22,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class LeaveTypeServiceImpl implements LeaveTypeService {
+public class LeaveTypeServiceImpl {
 
     private final Logger log = LoggerFactory.getLogger(LeaveTypeServiceImpl.class);
 
@@ -45,7 +44,7 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
      * @param leaveTypeDTO the entity to save
      * @return the persisted entity
      */
-    @Override
+
     public LeaveTypeDTO save(LeaveTypeDTO leaveTypeDTO) {
         log.debug("Request to save LeaveType : {}", leaveTypeDTO);
         LeaveType leaveType = leaveTypeMapper.toEntity(leaveTypeDTO);
@@ -61,7 +60,7 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<LeaveTypeDTO> findAll(Pageable pageable) {
         log.debug("Request to get all LeaveTypes");
@@ -76,7 +75,7 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
      * @param id the id of the entity
      * @return the entity
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Optional<LeaveTypeDTO> findOne(Long id) {
         log.debug("Request to get LeaveType : {}", id);
@@ -89,7 +88,7 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
      *
      * @param id the id of the entity
      */
-    @Override
+
     public void delete(Long id) {
         log.debug("Request to delete LeaveType : {}", id);
         leaveTypeRepository.deleteById(id);
@@ -103,7 +102,7 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<LeaveTypeDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of LeaveTypes for query {}", query);

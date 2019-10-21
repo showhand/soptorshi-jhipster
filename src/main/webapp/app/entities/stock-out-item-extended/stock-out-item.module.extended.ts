@@ -6,13 +6,13 @@ import {
     StockOutItemComponentExtended,
     StockOutItemDetailComponentExtended,
     StockOutItemUpdateComponentExtended,
-    StockOutItemDeletePopupComponent,
+    StockOutItemDeletePopupComponentExtended,
     StockOutItemDeleteDialogComponentExtended,
     stockOutItemRouteExtended,
-    stockOutItemPopupRoute
+    stockOutItemPopupRouteExtended
 } from './';
 
-const ENTITY_STATES = [...stockOutItemRouteExtended, ...stockOutItemPopupRoute];
+const ENTITY_STATES = [...stockOutItemRouteExtended, ...stockOutItemPopupRouteExtended];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
@@ -21,13 +21,13 @@ const ENTITY_STATES = [...stockOutItemRouteExtended, ...stockOutItemPopupRoute];
         StockOutItemDetailComponentExtended,
         StockOutItemUpdateComponentExtended,
         StockOutItemDeleteDialogComponentExtended,
-        StockOutItemDeletePopupComponent
+        StockOutItemDeletePopupComponentExtended
     ],
     entryComponents: [
         StockOutItemComponentExtended,
         StockOutItemUpdateComponentExtended,
         StockOutItemDeleteDialogComponentExtended,
-        StockOutItemDeletePopupComponent
+        StockOutItemDeletePopupComponentExtended
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

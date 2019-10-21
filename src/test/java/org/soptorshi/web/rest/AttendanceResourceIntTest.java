@@ -6,11 +6,10 @@ import org.soptorshi.domain.Attendance;
 import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.repository.AttendanceRepository;
 import org.soptorshi.repository.search.AttendanceSearchRepository;
-import org.soptorshi.service.AttendanceService;
 import org.soptorshi.service.dto.AttendanceDTO;
+import org.soptorshi.service.extended.AttendanceServiceImplExtended;
 import org.soptorshi.service.mapper.AttendanceMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.AttendanceCriteria;
 import org.soptorshi.service.AttendanceQueryService;
 
 import org.junit.Before;
@@ -75,7 +74,7 @@ public class AttendanceResourceIntTest {
     private AttendanceMapper attendanceMapper;
 
     @Autowired
-    private AttendanceService attendanceService;
+    private AttendanceServiceImplExtended attendanceService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -203,7 +202,7 @@ public class AttendanceResourceIntTest {
             .andExpect(jsonPath("$.[*].inTime").value(hasItem(DEFAULT_IN_TIME.toString())))
             .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getAttendance() throws Exception {

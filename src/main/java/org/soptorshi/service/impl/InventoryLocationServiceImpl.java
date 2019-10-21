@@ -1,6 +1,5 @@
 package org.soptorshi.service.impl;
 
-import org.soptorshi.service.InventoryLocationService;
 import org.soptorshi.domain.InventoryLocation;
 import org.soptorshi.repository.InventoryLocationRepository;
 import org.soptorshi.repository.search.InventoryLocationSearchRepository;
@@ -23,7 +22,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class InventoryLocationServiceImpl implements InventoryLocationService {
+public class InventoryLocationServiceImpl {
 
     private final Logger log = LoggerFactory.getLogger(InventoryLocationServiceImpl.class);
 
@@ -45,7 +44,7 @@ public class InventoryLocationServiceImpl implements InventoryLocationService {
      * @param inventoryLocationDTO the entity to save
      * @return the persisted entity
      */
-    @Override
+
     public InventoryLocationDTO save(InventoryLocationDTO inventoryLocationDTO) {
         log.debug("Request to save InventoryLocation : {}", inventoryLocationDTO);
         InventoryLocation inventoryLocation = inventoryLocationMapper.toEntity(inventoryLocationDTO);
@@ -61,7 +60,7 @@ public class InventoryLocationServiceImpl implements InventoryLocationService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<InventoryLocationDTO> findAll(Pageable pageable) {
         log.debug("Request to get all InventoryLocations");
@@ -76,7 +75,7 @@ public class InventoryLocationServiceImpl implements InventoryLocationService {
      * @param id the id of the entity
      * @return the entity
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Optional<InventoryLocationDTO> findOne(Long id) {
         log.debug("Request to get InventoryLocation : {}", id);
@@ -89,7 +88,7 @@ public class InventoryLocationServiceImpl implements InventoryLocationService {
      *
      * @param id the id of the entity
      */
-    @Override
+
     public void delete(Long id) {
         log.debug("Request to delete InventoryLocation : {}", id);
         inventoryLocationRepository.deleteById(id);
@@ -103,7 +102,7 @@ public class InventoryLocationServiceImpl implements InventoryLocationService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<InventoryLocationDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of InventoryLocations for query {}", query);

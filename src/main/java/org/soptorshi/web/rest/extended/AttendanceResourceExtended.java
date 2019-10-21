@@ -1,14 +1,15 @@
-package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.AttendanceServiceImpl;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.soptorshi.web.rest.util.HeaderUtil;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.AttendanceDTO;
-import org.soptorshi.service.dto.AttendanceCriteria;
-import org.soptorshi.service.AttendanceQueryService;
+package org.soptorshi.web.rest.extended;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.AttendanceQueryService;
+import org.soptorshi.service.dto.AttendanceCriteria;
+import org.soptorshi.service.dto.AttendanceDTO;
+import org.soptorshi.service.extended.AttendanceServiceImplExtended;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -17,27 +18,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
-/**
- * REST controller for managing Attendance.
- */
 @RestController
-@RequestMapping("/api")
-public class AttendanceResource {
+@RequestMapping("/api/extended")
+public class AttendanceResourceExtended {
 
-    private final Logger log = LoggerFactory.getLogger(AttendanceResource.class);
+    private final Logger log = LoggerFactory.getLogger(AttendanceResourceExtended.class);
 
     private static  final String ENTITY_NAME = "attendance";
 
-    private final AttendanceServiceImpl attendanceServiceImpl;
+    private final AttendanceServiceImplExtended attendanceServiceImplExtended;
 
     private final AttendanceQueryService attendanceQueryService;
 
-    public AttendanceResource(AttendanceServiceImpl attendanceServiceImpl, AttendanceQueryService attendanceQueryService) {
-        this.attendanceServiceImpl = attendanceServiceImpl;
+    public AttendanceResourceExtended(AttendanceServiceImplExtended attendanceServiceImplExtended, AttendanceQueryService attendanceQueryService) {
+        this.attendanceServiceImplExtended = attendanceServiceImplExtended;
         this.attendanceQueryService = attendanceQueryService;
     }
 
@@ -54,7 +51,7 @@ public class AttendanceResource {
         if (attendanceDTO.getId() != null) {
             throw new BadRequestAlertException("A new attendance cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        AttendanceDTO result = attendanceServiceImpl.save(attendanceDTO);
+        AttendanceDTO result = attendanceServiceImplExtended.save(attendanceDTO);
         return ResponseEntity.created(new URI("/api/attendances/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -75,7 +72,7 @@ public class AttendanceResource {
         if (attendanceDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        AttendanceDTO result = attendanceServiceImpl.save(attendanceDTO);
+        AttendanceDTO result = attendanceServiceImplExtended.save(attendanceDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, attendanceDTO.getId().toString()))
             .body(result);
@@ -99,16 +96,16 @@ public class AttendanceResource {
     @GetMapping("/attendances/distinct")
     public ResponseEntity<List<AttendanceDTO>> getAllAttendances() {
         log.debug("REST request to get distinct Attendances:");
-        List<AttendanceDTO> attendanceDTOS = null;
+        List<AttendanceDTO> attendanceDTOS = attendanceServiceImplExtended.getAllByDistinctAttendanceDate();
         return ResponseEntity.ok().headers(HttpHeaders.EMPTY).body(attendanceDTOS);
     }
 
     /**
-    * GET  /attendances/count : count all the attendances.
-    *
-    * @param criteria the criterias which the requested entities should match
-    * @return the ResponseEntity with status 200 (OK) and the count in body
-    */
+     * GET  /attendances/count : count all the attendances.
+     *
+     * @param criteria the criterias which the requested entities should match
+     * @return the ResponseEntity with status 200 (OK) and the count in body
+     */
     @GetMapping("/attendances/count")
     public ResponseEntity<Long> countAttendances(AttendanceCriteria criteria) {
         log.debug("REST request to count Attendances by criteria: {}", criteria);
@@ -124,7 +121,7 @@ public class AttendanceResource {
     @GetMapping("/attendances/{id}")
     public ResponseEntity<AttendanceDTO> getAttendance(@PathVariable Long id) {
         log.debug("REST request to get Attendance : {}", id);
-        Optional<AttendanceDTO> attendanceDTO = attendanceServiceImpl.findOne(id);
+        Optional<AttendanceDTO> attendanceDTO = attendanceServiceImplExtended.findOne(id);
         return ResponseUtil.wrapOrNotFound(attendanceDTO);
     }
 
@@ -137,7 +134,7 @@ public class AttendanceResource {
     @DeleteMapping("/attendances/{id}")
     public ResponseEntity<Void> deleteAttendance(@PathVariable Long id) {
         log.debug("REST request to delete Attendance : {}", id);
-        attendanceServiceImpl.delete(id);
+        attendanceServiceImplExtended.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -152,9 +149,10 @@ public class AttendanceResource {
     @GetMapping("/_search/attendances")
     public ResponseEntity<List<AttendanceDTO>> searchAttendances(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Attendances for query {}", query);
-        Page<AttendanceDTO> page = attendanceServiceImpl.search(query, pageable);
+        Page<AttendanceDTO> page = attendanceServiceImplExtended.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/attendances");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
 }
+
