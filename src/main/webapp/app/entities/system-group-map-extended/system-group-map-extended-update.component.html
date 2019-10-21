@@ -24,28 +24,18 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
-                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
-                        [(ngModel)]="systemGroupMap.modifiedBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
-                    <div class="input-group">
-                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="systemGroupMap.modifiedOn"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
+                    <label class="form-control-label" for="field_group">Group</label>
+
+                    <input type="text" class="form-control" name="mainGroup" id="field_group"
+                           [(ngModel)]="selectedGroupName" [ngbTypeahead]="search"
+                           (focus)="focus$.next($event.target.value)"
+                           (click)="click$.next($event.target.value)"
+                           #instance="ngbTypeahead"
+                    />
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_group">Group</label>
-                    <select class="form-control" id="field_group" name="group" [(ngModel)]="systemGroupMap.groupId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="mstGroupOption.id" *ngFor="let mstGroupOption of mstgroups; trackBy: trackMstGroupById">{{mstGroupOption.name}}</option>
-                    </select>
-                </div>
+
+
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

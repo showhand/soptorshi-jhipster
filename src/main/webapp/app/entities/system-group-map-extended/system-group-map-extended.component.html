@@ -31,9 +31,9 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="groupType"><span>Group Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="groupName"><span>Group</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="groupName"><span>Group</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -41,13 +41,14 @@
             <tr *ngFor="let systemGroupMap of systemGroupMaps ;trackBy: trackId">
                 <td><a [routerLink]="['/system-group-map', systemGroupMap.id, 'view' ]">{{systemGroupMap.id}}</a></td>
                 <td>{{systemGroupMap.groupType}}</td>
-                <td>{{systemGroupMap.modifiedBy}}</td>
-                <td>{{systemGroupMap.modifiedOn | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="systemGroupMap.groupId">
                         <a [routerLink]="['../mst-group', systemGroupMap.groupId , 'view' ]" >{{systemGroupMap.groupName}}</a>
                     </div>
                 </td>
+                <td>{{systemGroupMap.modifiedBy}}</td>
+                <td>{{systemGroupMap.modifiedOn | date:'mediumDate'}}</td>
+
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
