@@ -1,6 +1,5 @@
 package org.soptorshi.service.impl;
 
-import org.soptorshi.service.ItemCategoryService;
 import org.soptorshi.domain.ItemCategory;
 import org.soptorshi.repository.ItemCategoryRepository;
 import org.soptorshi.repository.search.ItemCategorySearchRepository;
@@ -23,7 +22,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class ItemCategoryServiceImpl implements ItemCategoryService {
+public class ItemCategoryServiceImpl {
 
     private final Logger log = LoggerFactory.getLogger(ItemCategoryServiceImpl.class);
 
@@ -45,7 +44,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
      * @param itemCategoryDTO the entity to save
      * @return the persisted entity
      */
-    @Override
+
     public ItemCategoryDTO save(ItemCategoryDTO itemCategoryDTO) {
         log.debug("Request to save ItemCategory : {}", itemCategoryDTO);
         ItemCategory itemCategory = itemCategoryMapper.toEntity(itemCategoryDTO);
@@ -61,7 +60,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<ItemCategoryDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ItemCategories");
@@ -76,7 +75,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
      * @param id the id of the entity
      * @return the entity
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Optional<ItemCategoryDTO> findOne(Long id) {
         log.debug("Request to get ItemCategory : {}", id);
@@ -89,7 +88,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
      *
      * @param id the id of the entity
      */
-    @Override
+
     public void delete(Long id) {
         log.debug("Request to delete ItemCategory : {}", id);
         itemCategoryRepository.deleteById(id);
@@ -103,7 +102,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<ItemCategoryDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of ItemCategories for query {}", query);

@@ -1,4 +1,6 @@
-package org.soptorshi.domain;
+package org.soptorshi.domain.extended;
+
+import org.soptorshi.domain.LeaveType;
 
 import java.io.Serializable;
 

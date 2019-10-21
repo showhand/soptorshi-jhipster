@@ -1,6 +1,5 @@
 package org.soptorshi.service.impl;
 
-import org.soptorshi.service.InventorySubLocationService;
 import org.soptorshi.domain.InventorySubLocation;
 import org.soptorshi.repository.InventorySubLocationRepository;
 import org.soptorshi.repository.search.InventorySubLocationSearchRepository;
@@ -23,7 +22,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class InventorySubLocationServiceImpl implements InventorySubLocationService {
+public class InventorySubLocationServiceImpl {
 
     private final Logger log = LoggerFactory.getLogger(InventorySubLocationServiceImpl.class);
 
@@ -45,7 +44,7 @@ public class InventorySubLocationServiceImpl implements InventorySubLocationServ
      * @param inventorySubLocationDTO the entity to save
      * @return the persisted entity
      */
-    @Override
+
     public InventorySubLocationDTO save(InventorySubLocationDTO inventorySubLocationDTO) {
         log.debug("Request to save InventorySubLocation : {}", inventorySubLocationDTO);
         InventorySubLocation inventorySubLocation = inventorySubLocationMapper.toEntity(inventorySubLocationDTO);
@@ -61,7 +60,7 @@ public class InventorySubLocationServiceImpl implements InventorySubLocationServ
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<InventorySubLocationDTO> findAll(Pageable pageable) {
         log.debug("Request to get all InventorySubLocations");
@@ -76,7 +75,7 @@ public class InventorySubLocationServiceImpl implements InventorySubLocationServ
      * @param id the id of the entity
      * @return the entity
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Optional<InventorySubLocationDTO> findOne(Long id) {
         log.debug("Request to get InventorySubLocation : {}", id);
@@ -89,7 +88,7 @@ public class InventorySubLocationServiceImpl implements InventorySubLocationServ
      *
      * @param id the id of the entity
      */
-    @Override
+
     public void delete(Long id) {
         log.debug("Request to delete InventorySubLocation : {}", id);
         inventorySubLocationRepository.deleteById(id);
@@ -103,7 +102,7 @@ public class InventorySubLocationServiceImpl implements InventorySubLocationServ
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<InventorySubLocationDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of InventorySubLocations for query {}", query);

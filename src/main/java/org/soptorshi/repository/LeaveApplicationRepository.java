@@ -16,6 +16,4 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface LeaveApplicationRepository extends JpaRepository<LeaveApplication, Long>, JpaSpecificationExecutor<LeaveApplication> {
-
-    List<LeaveApplication> findByEmployeeIdAndLeaveTypesAndStatusAndFromDateGreaterThanAndToDateLessThan(String employeeId, LeaveType leaveTypes, LeaveStatus status, LocalDate fromDate, LocalDate toDate);
 }

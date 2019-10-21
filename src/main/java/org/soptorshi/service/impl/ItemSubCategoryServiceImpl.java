@@ -1,6 +1,5 @@
 package org.soptorshi.service.impl;
 
-import org.soptorshi.service.ItemSubCategoryService;
 import org.soptorshi.domain.ItemSubCategory;
 import org.soptorshi.repository.ItemSubCategoryRepository;
 import org.soptorshi.repository.search.ItemSubCategorySearchRepository;
@@ -23,7 +22,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class ItemSubCategoryServiceImpl implements ItemSubCategoryService {
+public class ItemSubCategoryServiceImpl {
 
     private final Logger log = LoggerFactory.getLogger(ItemSubCategoryServiceImpl.class);
 
@@ -45,7 +44,7 @@ public class ItemSubCategoryServiceImpl implements ItemSubCategoryService {
      * @param itemSubCategoryDTO the entity to save
      * @return the persisted entity
      */
-    @Override
+
     public ItemSubCategoryDTO save(ItemSubCategoryDTO itemSubCategoryDTO) {
         log.debug("Request to save ItemSubCategory : {}", itemSubCategoryDTO);
         ItemSubCategory itemSubCategory = itemSubCategoryMapper.toEntity(itemSubCategoryDTO);
@@ -61,7 +60,7 @@ public class ItemSubCategoryServiceImpl implements ItemSubCategoryService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<ItemSubCategoryDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ItemSubCategories");
@@ -76,7 +75,7 @@ public class ItemSubCategoryServiceImpl implements ItemSubCategoryService {
      * @param id the id of the entity
      * @return the entity
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Optional<ItemSubCategoryDTO> findOne(Long id) {
         log.debug("Request to get ItemSubCategory : {}", id);
@@ -89,7 +88,7 @@ public class ItemSubCategoryServiceImpl implements ItemSubCategoryService {
      *
      * @param id the id of the entity
      */
-    @Override
+
     public void delete(Long id) {
         log.debug("Request to delete ItemSubCategory : {}", id);
         itemSubCategoryRepository.deleteById(id);
@@ -103,7 +102,7 @@ public class ItemSubCategoryServiceImpl implements ItemSubCategoryService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<ItemSubCategoryDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of ItemSubCategories for query {}", query);

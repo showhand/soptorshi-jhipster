@@ -6,11 +6,10 @@ import org.soptorshi.domain.LeaveAttachment;
 import org.soptorshi.domain.LeaveApplication;
 import org.soptorshi.repository.LeaveAttachmentRepository;
 import org.soptorshi.repository.search.LeaveAttachmentSearchRepository;
-import org.soptorshi.service.LeaveAttachmentService;
 import org.soptorshi.service.dto.LeaveAttachmentDTO;
+import org.soptorshi.service.impl.LeaveAttachmentServiceImpl;
 import org.soptorshi.service.mapper.LeaveAttachmentMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.LeaveAttachmentCriteria;
 import org.soptorshi.service.LeaveAttachmentQueryService;
 
 import org.junit.Before;
@@ -65,7 +64,7 @@ public class LeaveAttachmentResourceIntTest {
     private LeaveAttachmentMapper leaveAttachmentMapper;
 
     @Autowired
-    private LeaveAttachmentService leaveAttachmentService;
+    private LeaveAttachmentServiceImpl leaveAttachmentService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -187,7 +186,7 @@ public class LeaveAttachmentResourceIntTest {
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
     }
-    
+
     @Test
     @Transactional
     public void getLeaveAttachment() throws Exception {

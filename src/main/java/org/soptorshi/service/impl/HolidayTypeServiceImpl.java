@@ -1,6 +1,5 @@
 package org.soptorshi.service.impl;
 
-import org.soptorshi.service.HolidayTypeService;
 import org.soptorshi.domain.HolidayType;
 import org.soptorshi.repository.HolidayTypeRepository;
 import org.soptorshi.repository.search.HolidayTypeSearchRepository;
@@ -23,7 +22,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class HolidayTypeServiceImpl implements HolidayTypeService {
+public class HolidayTypeServiceImpl {
 
     private final Logger log = LoggerFactory.getLogger(HolidayTypeServiceImpl.class);
 
@@ -45,7 +44,7 @@ public class HolidayTypeServiceImpl implements HolidayTypeService {
      * @param holidayTypeDTO the entity to save
      * @return the persisted entity
      */
-    @Override
+
     public HolidayTypeDTO save(HolidayTypeDTO holidayTypeDTO) {
         log.debug("Request to save HolidayType : {}", holidayTypeDTO);
         HolidayType holidayType = holidayTypeMapper.toEntity(holidayTypeDTO);
@@ -61,7 +60,7 @@ public class HolidayTypeServiceImpl implements HolidayTypeService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<HolidayTypeDTO> findAll(Pageable pageable) {
         log.debug("Request to get all HolidayTypes");
@@ -76,7 +75,7 @@ public class HolidayTypeServiceImpl implements HolidayTypeService {
      * @param id the id of the entity
      * @return the entity
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Optional<HolidayTypeDTO> findOne(Long id) {
         log.debug("Request to get HolidayType : {}", id);
@@ -89,7 +88,7 @@ public class HolidayTypeServiceImpl implements HolidayTypeService {
      *
      * @param id the id of the entity
      */
-    @Override
+
     public void delete(Long id) {
         log.debug("Request to delete HolidayType : {}", id);
         holidayTypeRepository.deleteById(id);
@@ -103,7 +102,7 @@ public class HolidayTypeServiceImpl implements HolidayTypeService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<HolidayTypeDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of HolidayTypes for query {}", query);

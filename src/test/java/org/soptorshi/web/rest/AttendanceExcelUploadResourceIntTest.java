@@ -5,11 +5,11 @@ import org.soptorshi.SoptorshiApp;
 import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.repository.AttendanceExcelUploadRepository;
 import org.soptorshi.repository.search.AttendanceExcelUploadSearchRepository;
-import org.soptorshi.service.AttendanceExcelUploadService;
 import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
+import org.soptorshi.service.extended.AttendanceExcelUploadServiceImplExtended;
+import org.soptorshi.service.impl.AttendanceExcelUploadServiceImpl;
 import org.soptorshi.service.mapper.AttendanceExcelUploadMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.AttendanceExcelUploadCriteria;
 import org.soptorshi.service.AttendanceExcelUploadQueryService;
 
 import org.junit.Before;
@@ -68,7 +68,7 @@ public class AttendanceExcelUploadResourceIntTest {
     private AttendanceExcelUploadMapper attendanceExcelUploadMapper;
 
     @Autowired
-    private AttendanceExcelUploadService attendanceExcelUploadService;
+    private AttendanceExcelUploadServiceImplExtended attendanceExcelUploadServiceImplExtended;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -103,7 +103,7 @@ public class AttendanceExcelUploadResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AttendanceExcelUploadResource attendanceExcelUploadResource = new AttendanceExcelUploadResource(attendanceExcelUploadService, attendanceExcelUploadQueryService);
+        final AttendanceExcelUploadResource attendanceExcelUploadResource = new AttendanceExcelUploadResource(attendanceExcelUploadServiceImplExtended, attendanceExcelUploadQueryService);
         this.restAttendanceExcelUploadMockMvc = MockMvcBuilders.standaloneSetup(attendanceExcelUploadResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -193,7 +193,7 @@ public class AttendanceExcelUploadResourceIntTest {
             .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getAttendanceExcelUpload() throws Exception {

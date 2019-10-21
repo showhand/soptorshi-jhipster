@@ -1,17 +1,18 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service.extended;
 
-import org.soptorshi.repository.extended.StockStatusRepositoryExtended;
-import org.soptorshi.security.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.StockInProcess;
 import org.soptorshi.repository.StockInProcessRepository;
+import org.soptorshi.repository.extended.StockStatusRepositoryExtended;
 import org.soptorshi.repository.search.StockInProcessSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.StockInItemDTO;
 import org.soptorshi.service.dto.StockInProcessDTO;
 import org.soptorshi.service.dto.StockStatusDTO;
+import org.soptorshi.service.impl.StockInItemServiceImpl;
+import org.soptorshi.service.impl.StockInProcessServiceImpl;
 import org.soptorshi.service.mapper.StockInProcessMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.soptorshi.service.mapper.StockStatusMapper;
 import org.soptorshi.web.rest.errors.InternalServerErrorException;
 import org.springframework.data.domain.Page;
@@ -23,16 +24,13 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
-/**
- * Service Implementation for managing StockInProcess.
- */
 @Service
 @Transactional
-public class StockInProcessServiceImpl {
+public class StockInProcessServiceImplExtended extends StockInProcessServiceImpl {
 
-    private final Logger log = LoggerFactory.getLogger(StockInProcessServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(StockInProcessServiceImplExtended.class);
 
     private final StockInProcessRepository stockInProcessRepository;
 
@@ -46,8 +44,8 @@ public class StockInProcessServiceImpl {
 
     private final StockStatusMapper stockStatusMapper;
 
-    public StockInProcessServiceImpl(StockInProcessRepository stockInProcessRepository, StockInProcessMapper stockInProcessMapper, StockInProcessSearchRepository stockInProcessSearchRepository,
-                                     StockInItemServiceImpl stockInItemServiceImpl, StockStatusRepositoryExtended  stockStatusRepositoryExtended, StockStatusMapper stockStatusMapper) {
+    public StockInProcessServiceImplExtended(StockInProcessRepository stockInProcessRepository, StockInProcessMapper stockInProcessMapper, StockInProcessSearchRepository stockInProcessSearchRepository, StockInItemServiceImpl stockInItemServiceImpl, StockStatusRepositoryExtended stockStatusRepositoryExtended, StockStatusMapper stockStatusMapper) {
+        super(stockInProcessRepository, stockInProcessMapper, stockInProcessSearchRepository, stockInItemServiceImpl, stockStatusRepositoryExtended, stockStatusMapper);
         this.stockInProcessRepository = stockInProcessRepository;
         this.stockInProcessMapper = stockInProcessMapper;
         this.stockInProcessSearchRepository = stockInProcessSearchRepository;

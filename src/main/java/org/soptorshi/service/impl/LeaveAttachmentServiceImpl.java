@@ -1,6 +1,5 @@
 package org.soptorshi.service.impl;
 
-import org.soptorshi.service.LeaveAttachmentService;
 import org.soptorshi.domain.LeaveAttachment;
 import org.soptorshi.repository.LeaveAttachmentRepository;
 import org.soptorshi.repository.search.LeaveAttachmentSearchRepository;
@@ -23,7 +22,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @Service
 @Transactional
-public class LeaveAttachmentServiceImpl implements LeaveAttachmentService {
+public class LeaveAttachmentServiceImpl {
 
     private final Logger log = LoggerFactory.getLogger(LeaveAttachmentServiceImpl.class);
 
@@ -45,7 +44,7 @@ public class LeaveAttachmentServiceImpl implements LeaveAttachmentService {
      * @param leaveAttachmentDTO the entity to save
      * @return the persisted entity
      */
-    @Override
+
     public LeaveAttachmentDTO save(LeaveAttachmentDTO leaveAttachmentDTO) {
         log.debug("Request to save LeaveAttachment : {}", leaveAttachmentDTO);
         LeaveAttachment leaveAttachment = leaveAttachmentMapper.toEntity(leaveAttachmentDTO);
@@ -61,7 +60,7 @@ public class LeaveAttachmentServiceImpl implements LeaveAttachmentService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<LeaveAttachmentDTO> findAll(Pageable pageable) {
         log.debug("Request to get all LeaveAttachments");
@@ -76,7 +75,7 @@ public class LeaveAttachmentServiceImpl implements LeaveAttachmentService {
      * @param id the id of the entity
      * @return the entity
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Optional<LeaveAttachmentDTO> findOne(Long id) {
         log.debug("Request to get LeaveAttachment : {}", id);
@@ -89,7 +88,7 @@ public class LeaveAttachmentServiceImpl implements LeaveAttachmentService {
      *
      * @param id the id of the entity
      */
-    @Override
+
     public void delete(Long id) {
         log.debug("Request to delete LeaveAttachment : {}", id);
         leaveAttachmentRepository.deleteById(id);
@@ -103,7 +102,7 @@ public class LeaveAttachmentServiceImpl implements LeaveAttachmentService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<LeaveAttachmentDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of LeaveAttachments for query {}", query);

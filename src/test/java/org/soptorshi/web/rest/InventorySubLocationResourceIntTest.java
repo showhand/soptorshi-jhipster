@@ -6,11 +6,10 @@ import org.soptorshi.domain.InventorySubLocation;
 import org.soptorshi.domain.InventoryLocation;
 import org.soptorshi.repository.InventorySubLocationRepository;
 import org.soptorshi.repository.search.InventorySubLocationSearchRepository;
-import org.soptorshi.service.InventorySubLocationService;
 import org.soptorshi.service.dto.InventorySubLocationDTO;
+import org.soptorshi.service.impl.InventorySubLocationServiceImpl;
 import org.soptorshi.service.mapper.InventorySubLocationMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.InventorySubLocationCriteria;
 import org.soptorshi.service.InventorySubLocationQueryService;
 
 import org.junit.Before;
@@ -72,7 +71,7 @@ public class InventorySubLocationResourceIntTest {
     private InventorySubLocationMapper inventorySubLocationMapper;
 
     @Autowired
-    private InventorySubLocationService inventorySubLocationService;
+    private InventorySubLocationServiceImpl inventorySubLocationService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -238,7 +237,7 @@ public class InventorySubLocationResourceIntTest {
             .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getInventorySubLocation() throws Exception {

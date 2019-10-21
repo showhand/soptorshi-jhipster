@@ -6,11 +6,10 @@ import org.soptorshi.domain.LeaveApplication;
 import org.soptorshi.domain.LeaveType;
 import org.soptorshi.repository.LeaveApplicationRepository;
 import org.soptorshi.repository.search.LeaveApplicationSearchRepository;
-import org.soptorshi.service.LeaveApplicationService;
 import org.soptorshi.service.dto.LeaveApplicationDTO;
+import org.soptorshi.service.extended.LeaveApplicationServiceImplExtended;
 import org.soptorshi.service.mapper.LeaveApplicationMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.LeaveApplicationCriteria;
 import org.soptorshi.service.LeaveApplicationQueryService;
 
 import org.junit.Before;
@@ -94,7 +93,7 @@ public class LeaveApplicationResourceIntTest {
     private LeaveApplicationMapper leaveApplicationMapper;
 
     @Autowired
-    private LeaveApplicationService leaveApplicationService;
+    private LeaveApplicationServiceImplExtended leaveApplicationService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -392,7 +391,7 @@ public class LeaveApplicationResourceIntTest {
             .andExpect(jsonPath("$.[*].actionTakenOn").value(hasItem(DEFAULT_ACTION_TAKEN_ON.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getLeaveApplication() throws Exception {

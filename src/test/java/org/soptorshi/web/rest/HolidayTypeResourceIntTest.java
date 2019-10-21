@@ -5,11 +5,10 @@ import org.soptorshi.SoptorshiApp;
 import org.soptorshi.domain.HolidayType;
 import org.soptorshi.repository.HolidayTypeRepository;
 import org.soptorshi.repository.search.HolidayTypeSearchRepository;
-import org.soptorshi.service.HolidayTypeService;
 import org.soptorshi.service.dto.HolidayTypeDTO;
+import org.soptorshi.service.impl.HolidayTypeServiceImpl;
 import org.soptorshi.service.mapper.HolidayTypeMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.HolidayTypeCriteria;
 import org.soptorshi.service.HolidayTypeQueryService;
 
 import org.junit.Before;
@@ -65,7 +64,7 @@ public class HolidayTypeResourceIntTest {
     private HolidayTypeMapper holidayTypeMapper;
 
     @Autowired
-    private HolidayTypeService holidayTypeService;
+    private HolidayTypeServiceImpl holidayTypeService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -225,7 +224,7 @@ public class HolidayTypeResourceIntTest {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].moonDependency").value(hasItem(DEFAULT_MOON_DEPENDENCY.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getHolidayType() throws Exception {

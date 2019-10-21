@@ -5,11 +5,10 @@ import org.soptorshi.SoptorshiApp;
 import org.soptorshi.domain.LeaveType;
 import org.soptorshi.repository.LeaveTypeRepository;
 import org.soptorshi.repository.search.LeaveTypeSearchRepository;
-import org.soptorshi.service.LeaveTypeService;
 import org.soptorshi.service.dto.LeaveTypeDTO;
+import org.soptorshi.service.impl.LeaveTypeServiceImpl;
 import org.soptorshi.service.mapper.LeaveTypeMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.LeaveTypeCriteria;
 import org.soptorshi.service.LeaveTypeQueryService;
 
 import org.junit.Before;
@@ -71,7 +70,7 @@ public class LeaveTypeResourceIntTest {
     private LeaveTypeMapper leaveTypeMapper;
 
     @Autowired
-    private LeaveTypeService leaveTypeService;
+    private LeaveTypeServiceImpl leaveTypeService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -218,7 +217,7 @@ public class LeaveTypeResourceIntTest {
             .andExpect(jsonPath("$.[*].maximumNumberOfDays").value(hasItem(DEFAULT_MAXIMUM_NUMBER_OF_DAYS)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getLeaveType() throws Exception {
