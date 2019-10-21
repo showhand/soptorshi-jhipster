@@ -351,6 +351,30 @@ entity VoucherNumberGenerator{
 
 skipClient VoucherNumberGenerator
 
+entity JournalVoucherGenerator{
+    lastModified LocalDate
+}
+
+skipClient JournalVoucherGenerator
+
+entity PaymentVoucherGenerator{
+    lastModified LocalDate
+}
+
+skipClient PaymentVoucherGenerator
+
+entity ReceiptVoucherGenerator{
+    lastModified LocalDate
+}
+
+skipClient ReceiptVoucherGenerator
+
+entity ContraVoucherGenerator{
+    lastModified LocalDate
+}
+
+skipClient ContraVoucherGenerator
+
 entity PeriodClose{
     monthType MonthType,
     closeYear Integer,

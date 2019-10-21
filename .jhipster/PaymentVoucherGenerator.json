@@ -1,0 +1,20 @@
+{
+    "name": "PaymentVoucherGenerator",
+    "fields": [
+        {
+            "fieldName": "lastModified",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20191021131412",
+    "entityTableName": "payment_voucher_generator",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "skipClient": true
+}
