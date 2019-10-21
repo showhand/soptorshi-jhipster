@@ -260,6 +260,11 @@
             <artifactId>itextpdf</artifactId>
             <version>5.5.13.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.codahale.metrics</groupId>
+            <artifactId>metrics-annotation</artifactId>
+            <version>3.0.2</version>
+        </dependency>
 
         <!-- Spring Data Jest dependencies for Elasticsearch -->
         <dependency>

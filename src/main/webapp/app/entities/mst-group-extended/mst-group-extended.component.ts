@@ -44,4 +44,30 @@ export class MstGroupExtendedComponent extends MstGroupComponent implements OnIn
                 });
             });
     }
+
+    loadAll() {
+        if (this.currentSearch) {
+            this.mstGroupService
+                .query({
+                    'name.contains': this.currentSearch,
+                    page: this.page,
+                    size: this.itemsPerPage
+                })
+                .subscribe(
+                    (res: HttpResponse<IMstGroup[]>) => this.paginateMstGroups(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+            return;
+        }
+        this.mstGroupService
+            .query({
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<IMstGroup[]>) => this.paginateMstGroups(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
 }
