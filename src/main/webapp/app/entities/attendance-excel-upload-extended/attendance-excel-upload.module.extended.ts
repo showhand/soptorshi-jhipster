@@ -21,7 +21,7 @@ const ENTITY_STATES = [...attendanceExcelUploadRouteExtended, ...attendanceExcel
         AttendanceExcelUploadDetailComponentExtended,
         AttendanceExcelUploadUpdateComponentExtended,
         AttendanceExcelUploadDeleteDialogComponentExtended,
-        attendanceExcelUploadPopupRouteExtended
+        AttendanceExcelUploadDeletePopupComponentExtended
     ],
     entryComponents: [
         AttendanceExcelUploadComponentExtended,
