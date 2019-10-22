@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
-import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { MstAccount } from 'app/shared/model/mst-account.model';
-import { IMstAccount } from 'app/shared/model/mst-account.model';
+import { BalanceType, IMstAccount, MstAccount, ReservedFlag } from 'app/shared/model/mst-account.model';
 import { MstAccountDeletePopupComponent, MstAccountService } from 'app/entities/mst-account';
 import { MstAccountExtendedComponent } from 'app/entities/mst-account-extended/mst-account-extended.component';
 import { MstAccountExtendedDetailComponent } from 'app/entities/mst-account-extended/mst-account-extended-detail.component';
@@ -23,6 +22,12 @@ export class MstAccountExtendedResolve implements Resolve<IMstAccount> {
                 filter((response: HttpResponse<MstAccount>) => response.ok),
                 map((mstAccount: HttpResponse<MstAccount>) => mstAccount.body)
             );
+        } else {
+            let account = new MstAccount();
+            account.yearOpenBalance = 0;
+            account.yearOpenBalanceType = BalanceType.DEBIT;
+            account.reservedFlag = ReservedFlag.NOT_RESERVED;
+            return of(account);
         }
         return of(new MstAccount());
     }
