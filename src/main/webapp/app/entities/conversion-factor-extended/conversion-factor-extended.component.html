@@ -30,30 +30,31 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="covFactor"><span>Cov Factor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="currencyNotation"><span>Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="covFactor"><span>Cov Factor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="rcovFactor"><span>Rcov Factor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="bcovFactor"><span>Bcov Factor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="rbcovFactor"><span>Rbcov Factor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="currencyNotation"><span>Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let conversionFactor of conversionFactors ;trackBy: trackId">
                 <td><a [routerLink]="['/conversion-factor', conversionFactor.id, 'view' ]">{{conversionFactor.id}}</a></td>
+                <td>
+                    <div *ngIf="conversionFactor.currencyId">
+                        <a [routerLink]="['../currency', conversionFactor.currencyId , 'view' ]" >{{conversionFactor.currencyNotation}}</a>
+                    </div>
+                </td>
                 <td>{{conversionFactor.covFactor}}</td>
                 <td>{{conversionFactor.rcovFactor}}</td>
                 <td>{{conversionFactor.bcovFactor}}</td>
                 <td>{{conversionFactor.rbcovFactor}}</td>
                 <td>{{conversionFactor.modifiedBy}}</td>
                 <td>{{conversionFactor.modifiedOn | date:'mediumDate'}}</td>
-                <td>
-                    <div *ngIf="conversionFactor.currencyId">
-                        <a [routerLink]="['../currency', conversionFactor.currencyId , 'view' ]" >{{conversionFactor.currencyNotation}}</a>
-                    </div>
-                </td>
+
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

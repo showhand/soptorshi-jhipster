@@ -5,6 +5,12 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
+                <dt><span>Currency</span></dt>
+                <dd>
+                    <div *ngIf="conversionFactor.currencyId">
+                        <a [routerLink]="['/currency', conversionFactor.currencyId, 'view']">{{conversionFactor.currencyNotation}}</a>
+                    </div>
+                </dd>
                 <dt><span>Cov Factor</span></dt>
                 <dd>
                     <span>{{conversionFactor.covFactor}}</span>
@@ -29,12 +35,7 @@
                 <dd>
                     <span>{{conversionFactor.modifiedOn}}</span>
                 </dd>
-                <dt><span>Currency</span></dt>
-                <dd>
-                    <div *ngIf="conversionFactor.currencyId">
-                        <a [routerLink]="['/currency', conversionFactor.currencyId, 'view']">{{conversionFactor.currencyNotation}}</a>
-                    </div>
-                </dd>
+
             </dl>
 
             <button type="submit"

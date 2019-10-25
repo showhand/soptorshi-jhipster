@@ -24,14 +24,14 @@ export class ConversionFactorExtendedService extends ConversionFactorService {
     create(conversionFactor: IConversionFactor): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(conversionFactor);
         return this.http
-            .post<IConversionFactor>(this.resourceUrl, copy, { observe: 'response' })
+            .post<IConversionFactor>(this.resourceExtendedUrl, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
     update(conversionFactor: IConversionFactor): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(conversionFactor);
         return this.http
-            .put<IConversionFactor>(this.resourceUrl, copy, { observe: 'response' })
+            .put<IConversionFactor>(this.resourceExtendedUrl, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 }

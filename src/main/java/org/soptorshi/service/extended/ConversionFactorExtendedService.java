@@ -20,7 +20,7 @@ public class ConversionFactorExtendedService extends ConversionFactorService {
 
     @Override
     public ConversionFactorDTO save(ConversionFactorDTO conversionFactorDTO) {
-        conversionFactorDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().toString());
+        conversionFactorDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
         conversionFactorDTO.setModifiedOn(LocalDate.now());
         return super.save(conversionFactorDTO);
     }
