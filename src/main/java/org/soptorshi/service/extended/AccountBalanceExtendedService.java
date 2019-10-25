@@ -1,10 +1,13 @@
 package org.soptorshi.service.extended;
 
 import org.soptorshi.domain.AccountBalance;
+import org.soptorshi.domain.FinancialAccountYear;
 import org.soptorshi.domain.MstAccount;
 import org.soptorshi.domain.enumeration.BalanceType;
+import org.soptorshi.domain.enumeration.FinancialYearStatus;
 import org.soptorshi.repository.AccountBalanceRepository;
 import org.soptorshi.repository.extended.AccountBalanceExtendedRepository;
+import org.soptorshi.repository.extended.FinancialAccountYearExtendedRepository;
 import org.soptorshi.repository.search.AccountBalanceSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.AccountBalanceService;
@@ -23,15 +26,21 @@ public class AccountBalanceExtendedService extends AccountBalanceService {
 
     private AccountBalanceExtendedRepository accountBalanceExtendedRepository;
     private MonthlyBalanceExtendedService monthlyBalanceExtendedService;
+    private FinancialAccountYearExtendedService financialAccountYearExtendedService;
+    private FinancialAccountYearExtendedRepository financialAccountYearExtendedRepository;
 
     public AccountBalanceExtendedService(AccountBalanceRepository accountBalanceRepository,
                                          AccountBalanceMapper accountBalanceMapper,
                                          AccountBalanceSearchRepository accountBalanceSearchRepository,
                                          AccountBalanceExtendedRepository accountBalanceExtendedRepository,
-                                         MonthlyBalanceExtendedService monthlyBalanceExtendedService) {
+                                         MonthlyBalanceExtendedService monthlyBalanceExtendedService,
+                                         FinancialAccountYearExtendedService financialAccountYearExtendedService,
+                                         FinancialAccountYearExtendedRepository financialAccountYearExtendedRepository) {
         super(accountBalanceRepository, accountBalanceMapper, accountBalanceSearchRepository);
         this.accountBalanceExtendedRepository = accountBalanceExtendedRepository;
         this.monthlyBalanceExtendedService = monthlyBalanceExtendedService;
+        this.financialAccountYearExtendedService = financialAccountYearExtendedService;
+        this.financialAccountYearExtendedRepository = financialAccountYearExtendedRepository;
     }
 
     @Override
@@ -46,6 +55,8 @@ public class AccountBalanceExtendedService extends AccountBalanceService {
         accountBalance.setAccountId(mstAccount.getId());
         accountBalance.setYearOpenBalance(mstAccount.getYearOpenBalance());
         accountBalance.setYearOpenBalanceType(mstAccount.getYearOpenBalanceType());
+        FinancialAccountYear openedFinancialAccountYear = financialAccountYearExtendedRepository.getByStatus(FinancialYearStatus.ACTIVE);
+        accountBalance.setFinancialAccountYearId(openedFinancialAccountYear.getId());
         if(mstAccount.getYearOpenBalanceType().equals(BalanceType.DEBIT)){
             accountBalance.setTotDebitTrans(mstAccount.getYearOpenBalance());
             accountBalance.setTotCreditTrans(BigDecimal.ZERO);
