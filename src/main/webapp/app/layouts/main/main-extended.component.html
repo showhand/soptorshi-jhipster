@@ -576,6 +576,13 @@
                             <span>Currency</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="conversion-factor" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                            <span>Conversion Factor</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 

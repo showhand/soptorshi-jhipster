@@ -33,8 +33,6 @@
             <th jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="notation"><span>Notation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="flag"><span>Flag</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -44,8 +42,6 @@
                 <td>{{currency.description}}</td>
                 <td>{{currency.notation}}</td>
                 <td>{{currency.flag}}</td>
-                <td>{{currency.modifiedBy}}</td>
-                <td>{{currency.modifiedOn | date:'mediumDate'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

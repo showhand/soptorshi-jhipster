@@ -525,7 +525,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'conversion-factor',
-                loadChildren: './conversion-factor/conversion-factor.module#SoptorshiConversionFactorModule'
+                loadChildren: './conversion-factor-extended/conversion-factor-extended.module#SoptorshiConversionFactorModule'
             },
             {
                 path: 'cheque-register',
