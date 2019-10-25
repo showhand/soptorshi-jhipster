@@ -3,32 +3,41 @@ import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
-    DtTransactionComponent,
-    DtTransactionDetailComponent,
-    DtTransactionUpdateComponent,
-    DtTransactionDeletePopupComponent,
-    DtTransactionDeleteDialogComponent,
-    dtTransactionRoute,
-    dtTransactionPopupRoute
+    DtTransactionExtendedComponent,
+    DtTransactionExtendedDetailComponent,
+    DtTransactionExtendedUpdateComponent,
+    dtTransactionExtendedRoute,
+    dtTransactionExtendedPopupRoute
 } from './';
+import {
+    DtTransactionComponent,
+    DtTransactionDeleteDialogComponent,
+    DtTransactionDeletePopupComponent,
+    DtTransactionDetailComponent,
+    dtTransactionPopupRoute,
+    DtTransactionUpdateComponent
+} from 'app/entities/dt-transaction';
 
-const ENTITY_STATES = [...dtTransactionRoute, ...dtTransactionPopupRoute];
+const ENTITY_STATES = [...dtTransactionExtendedRoute, ...dtTransactionExtendedPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /*  declarations: [
+    declarations: [
         DtTransactionComponent,
         DtTransactionDetailComponent,
         DtTransactionUpdateComponent,
+        DtTransactionExtendedComponent,
+        DtTransactionExtendedDetailComponent,
+        DtTransactionExtendedUpdateComponent,
         DtTransactionDeleteDialogComponent,
         DtTransactionDeletePopupComponent
     ],
     entryComponents: [
-        DtTransactionComponent,
-        DtTransactionUpdateComponent,
+        DtTransactionExtendedComponent,
+        DtTransactionExtendedUpdateComponent,
         DtTransactionDeleteDialogComponent,
         DtTransactionDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiDtTransactionModule {}
