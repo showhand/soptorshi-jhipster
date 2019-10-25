@@ -547,23 +547,60 @@
                             <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
                             <span>Narration</span>
                         </a>
-                    </li> <li>
-                    <a class="dropdown-item" routerLink="voucher-number-control" routerLinkActive="active"
-                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
-                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
-                        <span>Voucher Number Control</span>
-                    </a>
-                    <a class="dropdown-item" routerLink="system-group-map" routerLinkActive="active"
-                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
-                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
-                        <span>System Group map</span>
-                    </a>
-                    <a class="dropdown-item" routerLink="system-account-map" routerLinkActive="active"
-                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
-                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
-                        <span>System Account map</span>
-                    </a>
-                </li>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="voucher-number-control" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                            <span>Voucher Number Control</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="system-group-map" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                            <span>System Group map</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="system-account-map" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                            <span>System Account map</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="currency" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                            <span>Currency</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+
+
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            >
+                <a (click)="vouchers=!vouchers" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
+                     <span>
+                        <fa-icon icon="money-check-alt" fixedWidth="true"></fa-icon>
+                        <span>
+                            Vouchers
+                        </span>
+                    </span>
+                </a>
+                <ul [ngbCollapse]="!vouchers" class="list-unstyled" id="vouchers">
+                    <li>
+                        <a class="dropdown-item" routerLink="dt-transaction" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                            <span>DT Transaction</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>

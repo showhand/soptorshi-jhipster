@@ -16,14 +16,14 @@ const ENTITY_STATES = [...currencyRoute, ...currencyPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /*    declarations: [
         CurrencyComponent,
         CurrencyDetailComponent,
         CurrencyUpdateComponent,
         CurrencyDeleteDialogComponent,
         CurrencyDeletePopupComponent
     ],
-    entryComponents: [CurrencyComponent, CurrencyUpdateComponent, CurrencyDeleteDialogComponent, CurrencyDeletePopupComponent],
+    entryComponents: [CurrencyComponent, CurrencyUpdateComponent, CurrencyDeleteDialogComponent, CurrencyDeletePopupComponent],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiCurrencyModule {}

@@ -22,6 +22,7 @@ export class JhiMainExtendedComponent extends JhiMainComponent implements OnInit
     attendanceManagement: any;
     inventoryManagement: any;
     accountsConfig: any;
+    vouchers: any;
     isDesktop: boolean;
     breadcrumbs: MenuItem[];
 

@@ -501,7 +501,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'currency',
-                loadChildren: './currency/currency.module#SoptorshiCurrencyModule'
+                loadChildren: './currency-extended/currency-extended.module#SoptorshiCurrencyModule'
             },
             {
                 path: 'mst-group',
@@ -533,7 +533,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'dt-transaction',
-                loadChildren: './dt-transaction/dt-transaction.module#SoptorshiDtTransactionModule'
+                loadChildren: './dt-transaction-extended/dt-transaction-extended.module#SoptorshiDtTransactionModule'
             },
             {
                 path: 'customer',
