@@ -3,32 +3,40 @@ import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
-    JournalVoucherComponent,
-    JournalVoucherDetailComponent,
-    JournalVoucherUpdateComponent,
-    JournalVoucherDeletePopupComponent,
-    JournalVoucherDeleteDialogComponent,
-    journalVoucherRoute,
-    journalVoucherPopupRoute
+    JournalVoucherExtendedComponent,
+    JournalVoucherExtendedDetailComponent,
+    JournalVoucherExtendedUpdateComponent,
+    journalVoucherExtendedRoute,
+    journalVoucherExtendedPopupRoute
 } from './';
+import {
+    JournalVoucherComponent,
+    JournalVoucherDeleteDialogComponent,
+    JournalVoucherDeletePopupComponent,
+    JournalVoucherDetailComponent,
+    JournalVoucherUpdateComponent
+} from 'app/entities/journal-voucher';
 
-const ENTITY_STATES = [...journalVoucherRoute, ...journalVoucherPopupRoute];
+const ENTITY_STATES = [...journalVoucherExtendedRoute, ...journalVoucherExtendedPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /*    declarations: [
+    declarations: [
         JournalVoucherComponent,
         JournalVoucherDetailComponent,
         JournalVoucherUpdateComponent,
+        JournalVoucherExtendedComponent,
+        JournalVoucherExtendedDetailComponent,
+        JournalVoucherExtendedUpdateComponent,
         JournalVoucherDeleteDialogComponent,
         JournalVoucherDeletePopupComponent
     ],
     entryComponents: [
-        JournalVoucherComponent,
-        JournalVoucherUpdateComponent,
+        JournalVoucherExtendedComponent,
+        JournalVoucherExtendedUpdateComponent,
         JournalVoucherDeleteDialogComponent,
         JournalVoucherDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiJournalVoucherModule {}

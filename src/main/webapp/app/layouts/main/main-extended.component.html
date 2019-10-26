@@ -602,10 +602,10 @@
                 </a>
                 <ul [ngbCollapse]="!vouchers" class="list-unstyled" id="vouchers">
                     <li>
-                        <a class="dropdown-item" routerLink="dt-transaction" routerLinkActive="active"
+                        <a class="dropdown-item" routerLink="journal-voucher" routerLinkActive="active"
                            [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
-                            <span>DT Transaction</span>
+                            <span>Journal Voucher</span>
                         </a>
                     </li>
                 </ul>

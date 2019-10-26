@@ -576,7 +576,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'journal-voucher',
-                loadChildren: './journal-voucher/journal-voucher.module#SoptorshiJournalVoucherModule'
+                loadChildren: './journal-voucher-extended/journal-voucher-extended.module#SoptorshiJournalVoucherModule'
             },
             {
                 path: 'payment-voucher',
