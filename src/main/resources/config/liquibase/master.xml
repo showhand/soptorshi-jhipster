@@ -83,6 +83,10 @@
     <include file="config/liquibase/changelog/20191021131412_added_entity_PaymentVoucherGenerator.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191021131413_added_entity_ReceiptVoucherGenerator.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191021131414_added_entity_ContraVoucherGenerator.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191026143212_added_entity_JournalVoucher.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191026143213_added_entity_PaymentVoucher.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191026143214_added_entity_ReceiptVoucher.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191026143215_added_entity_ContraVoucher.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>

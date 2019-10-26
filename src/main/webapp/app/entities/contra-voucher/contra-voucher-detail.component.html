@@ -1,0 +1,43 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="contraVoucher">
+            <h2><span>Contra Voucher</span> {{contraVoucher.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Voucher No</span></dt>
+                <dd>
+                    <span>{{contraVoucher.voucherNo}}</span>
+                </dd>
+                <dt><span>Voucher Date</span></dt>
+                <dd>
+                    <span>{{contraVoucher.voucherDate}}</span>
+                </dd>
+                <dt><span>Post Date</span></dt>
+                <dd>
+                    <span>{{contraVoucher.postDate}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{contraVoucher.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{contraVoucher.modifiedOn}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/contra-voucher', contraVoucher.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
