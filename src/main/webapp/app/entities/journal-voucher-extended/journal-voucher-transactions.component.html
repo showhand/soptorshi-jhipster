@@ -1,14 +1,13 @@
 <div>
     <h2 id="page-heading">
         <span>Voucher Transactions</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-dt-transaction" [routerLink]="['/dt-transaction/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-dt-transaction" (click)="addTransaction()">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Add Transaction
             </span>
         </button>
     </h2>
-    <jhi-alert></jhi-alert>
     <div class="row">
         <div class="col-sm-12">
             <form name="searchForm" class="form-inline">

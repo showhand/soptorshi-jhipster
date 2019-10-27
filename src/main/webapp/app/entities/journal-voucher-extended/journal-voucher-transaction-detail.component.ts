@@ -6,7 +6,7 @@ import { DtTransactionDetailComponent } from 'app/entities/dt-transaction';
 
 @Component({
     selector: 'jhi-dt-transaction-detail',
-    templateUrl: './dt-transaction-extended-detail.component.html'
+    templateUrl: './journal-voucher-transaction-detail.component.html'
 })
 export class JournalVoucherTransactionDetailComponent extends DtTransactionDetailComponent implements OnInit {
     constructor(protected activatedRoute: ActivatedRoute) {

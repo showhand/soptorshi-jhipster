@@ -17,6 +17,8 @@ import {
     JournalVoucherUpdateComponent
 } from 'app/entities/journal-voucher';
 import { JournalVoucherTransactionsComponent } from 'app/entities/journal-voucher-extended/journal-voucher-transactions.component';
+import { JournalVoucherTransactionDetailComponent } from 'app/entities/journal-voucher-extended/journal-voucher-transaction-detail.component';
+import { JournalVoucherTransactionUpdateComponent } from 'app/entities/journal-voucher-extended/journal-voucher-transaction-update.component';
 
 const ENTITY_STATES = [...journalVoucherExtendedRoute, ...journalVoucherExtendedPopupRoute];
 
@@ -31,13 +33,17 @@ const ENTITY_STATES = [...journalVoucherExtendedRoute, ...journalVoucherExtended
         JournalVoucherExtendedUpdateComponent,
         JournalVoucherDeleteDialogComponent,
         JournalVoucherDeletePopupComponent,
-        JournalVoucherTransactionsComponent
+        JournalVoucherTransactionsComponent,
+        JournalVoucherTransactionDetailComponent,
+        JournalVoucherTransactionUpdateComponent
     ],
     entryComponents: [
         JournalVoucherExtendedComponent,
         JournalVoucherExtendedUpdateComponent,
         JournalVoucherDeleteDialogComponent,
-        JournalVoucherDeletePopupComponent
+        JournalVoucherDeletePopupComponent,
+        JournalVoucherTransactionDetailComponent,
+        JournalVoucherTransactionUpdateComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
