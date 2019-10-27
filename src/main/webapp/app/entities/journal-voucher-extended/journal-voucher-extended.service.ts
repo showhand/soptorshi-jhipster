@@ -16,9 +16,22 @@ type EntityArrayResponseType = HttpResponse<IJournalVoucher[]>;
 @Injectable({ providedIn: 'root' })
 export class JournalVoucherExtendedService extends JournalVoucherService {
     public resourceUrlExtended = SERVER_API_URL + 'api/extended/journal-vouchers';
-    public resourceSearchUrl = SERVER_API_URL + 'api/_search/journal-vouchers';
 
     constructor(protected http: HttpClient) {
         super(http);
+    }
+
+    create(journalVoucher: IJournalVoucher): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(journalVoucher);
+        return this.http
+            .post<IJournalVoucher>(this.resourceUrlExtended, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    update(journalVoucher: IJournalVoucher): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(journalVoucher);
+        return this.http
+            .put<IJournalVoucher>(this.resourceUrlExtended, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 }

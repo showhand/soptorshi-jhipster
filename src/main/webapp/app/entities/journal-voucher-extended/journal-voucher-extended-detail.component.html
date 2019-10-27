@@ -1,31 +1,135 @@
-<div class="row justify-content-center">
-    <div class="col-8">
+<div class="justify-content-center">
+        <div class="col-12">
+            <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+                <h2 id="jhi-journal-voucher-heading" *ngIf="!journalVoucher.id">Create a Journal Voucher</h2>
+                <h2 id="jhi-journal-voucher-heading-update" *ngIf="journalVoucher.id">Edit Voucher <b>{{journalVoucher.voucherNo}}</b></h2>
+                <div>
+                    <jhi-alert-error></jhi-alert-error>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_voucherNo">Voucher No</label>
+                                <input type="text" class="form-control" name="voucherNo" id="field_voucherNo"
+                                       [(ngModel)]="journalVoucher.voucherNo" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_voucherDate">Voucher Date</label>
+                                <div class="input-group">
+                                    <input id="field_voucherDate" type="text" class="form-control" name="voucherDate" ngbDatepicker  #voucherDateDp="ngbDatepicker" [(ngModel)]="journalVoucher.voucherDate"
+                                    />
+                                    <span class="input-group-append">
+                                        <button type="button" class="btn btn-secondary" (click)="voucherDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_postDate">Post Date</label>
+                                <div class="input-group">
+                                    <input id="field_postDate" type="text" class="form-control" name="postDate" ngbDatepicker  #postDateDp="ngbDatepicker" [(ngModel)]="journalVoucher.postDate"
+                                    />
+                                    <span class="input-group-append">
+                                        <button type="button" class="btn btn-secondary" (click)="postDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                                    </span>
+                                </div>
+                             </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_type">Type</label>
+                                <select class="form-control" name="type" [(ngModel)]="voucherType" id="field_type" >
+                                    <option value="SELLING">SELLING</option>
+                                    <option value="BUYING">BUYING</option>
+                                </select>
+                            </div>
+
+                    </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_totalDebit">Total Debit</label>
+                                <input readonly type="text" class="form-control" name="totalDebit" id="field_totalDebit"[(ngModel)]="totalDebit"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_totalCredit">Total Credit</label>
+                                <input readonly type="text" class="form-control" name="totalDebit" id="field_totalCredit" [(ngModel)]="totalCredit"/>
+                            </div>
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="field_currency">Currency</label>
+                                        <select class="form-control" id="field_currency" name="currency" [(ngModel)]="selectedCurrency" (ngModelChange)="fetchConversionFactor()">
+                                            <option [ngValue]="currency" *ngFor="let currency of currencies">{{currency.notation}}</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="field_conversion_factor">Base</label>
+                                        <label class="form-control" id="field_conversion_factor">{{conversionFactor.bcovFactor}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <jhi-journal-voucher-transactions [journalVoucher]="journalVoucher" [currency]="selectedCurrency" [conversionFactor]="conversionFactor"></jhi-journal-voucher-transactions>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                    </button>
+                    <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || !isSaving" class="btn btn-primary">
+                        <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                    </button>
+                </div>
+            </form>
+</div>
+<!--<div class="row justify-content-center">
+    <div class="col-12">
         <div *ngIf="journalVoucher">
-            <h2><span>Journal Voucher</span> {{journalVoucher.id}}</h2>
+            <h2><span>Journal Voucher</span> {{journalVoucher.voucherNo}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
-            <dl class="row-md jh-entity-details">
-                <dt><span>Voucher No</span></dt>
-                <dd>
-                    <span>{{journalVoucher.voucherNo}}</span>
-                </dd>
-                <dt><span>Voucher Date</span></dt>
-                <dd>
-                    <span>{{journalVoucher.voucherDate}}</span>
-                </dd>
-                <dt><span>Post Date</span></dt>
-                <dd>
-                    <span>{{journalVoucher.postDate}}</span>
-                </dd>
-                <dt><span>Modified By</span></dt>
-                <dd>
-                    <span>{{journalVoucher.modifiedBy}}</span>
-                </dd>
-                <dt><span>Modified On</span></dt>
-                <dd>
-                    <span>{{journalVoucher.modifiedOn}}</span>
-                </dd>
-            </dl>
+            <div class="row">
+                <div class="col-6">
+                    <dl class="row-md jh-entity-details">
+                        <dt><span>Voucher No</span></dt>
+                        <dd>
+                            <span>{{journalVoucher.voucherNo}}</span>
+                        </dd>
+                        <dt><span>Voucher Date</span></dt>
+                        <dd>
+                            <span>{{journalVoucher.voucherDate}}</span>
+                        </dd>
+                        <dt><span>Post Date</span></dt>
+                        <dd>
+                            <span>{{journalVoucher.postDate}}</span>
+                        </dd>
+
+                    </dl>
+                </div>
+                <div class="col-6">
+                    <dl class="row-md jh-entity-details">
+                        <dt><span>Total Credit</span></dt>
+                        <dd>
+                            <span>{{totalCredit | currency: ' '}}</span>
+                        </dd>
+                        <dt><span>Total Debit</span></dt>
+                        <dd>
+                            <span>{{totalDebit| currency: ' '}}</span>
+                        </dd>
+                        <dt><span>Post Status</span></dt>
+                        <dd>
+                            <span *ngIf="journalVoucher.postDate">Voucher Posted</span>
+                            <span *ngIf="!journalVoucher.postDate">Voucher Not Posted</span>
+                        </dd>
+                    </dl>
+
+                </div>
+            </div>
+
 
             <button type="submit"
                     (click)="previousState()"
@@ -40,4 +144,4 @@
             </button>
         </div>
     </div>
-</div>
+</div>-->

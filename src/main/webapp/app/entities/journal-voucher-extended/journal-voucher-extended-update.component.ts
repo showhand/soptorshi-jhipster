@@ -16,15 +16,6 @@ import { JhiAlertService } from 'ng-jhipster';
     templateUrl: './journal-voucher-extended-update.component.html'
 })
 export class JournalVoucherExtendedUpdateComponent extends JournalVoucherUpdateComponent implements OnInit {
-    voucherNo: string;
-    voucherDate: Moment;
-    selectedCurrency: ICurrency;
-    type: VoucherType;
-    currencies: ICurrency[];
-    conversionFactor: IConversionFactor;
-    totalDebit: number;
-    totalCredit: number;
-
     constructor(
         protected journalVoucherService: JournalVoucherExtendedService,
         protected activatedRoute: ActivatedRoute,
@@ -33,43 +24,5 @@ export class JournalVoucherExtendedUpdateComponent extends JournalVoucherUpdateC
         protected jhiAlertService: JhiAlertService
     ) {
         super(journalVoucherService, activatedRoute);
-    }
-
-    loadAll() {
-        this.currencyExtendedService
-            .query({
-                size: 50
-            })
-            .subscribe(
-                (response: HttpResponse<ICurrency[]>) => {
-                    this.currencies = response.body;
-                    this.currencies.forEach((c: ICurrency) => {
-                        if (c.flag === CurrencyFlag.BASE) {
-                            console.log('found base');
-                            this.selectedCurrency = c;
-                            this.fetchConversionFactorForSelectedCurrency();
-                        }
-                    });
-                },
-                (error: HttpErrorResponse) => {
-                    this.jhiAlertService.error('Error in fetching currency data');
-                }
-            );
-    }
-
-    fetchConversionFactorForSelectedCurrency() {
-        this.conversionFactorExtendedService
-            .query({
-                'currencyId.equals': this.selectedCurrency.id,
-                sort: ['modifiedOn,desc']
-            })
-            .subscribe((response: HttpResponse<IConversionFactor[]>) => {
-                this.conversionFactor = response.body[0];
-            });
-    }
-
-    ngOnInit() {
-        this.loadAll();
-        super.ngOnInit();
     }
 }
