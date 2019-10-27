@@ -38,6 +38,9 @@
             <th jhiSortBy="type"><span>Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="invoiceNo"><span>Invoice No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="invoiceDate"><span>Invoice Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="instrumentType"><span>Instrument Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="instrumentNo"><span>Instrument No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="instrumentDate"><span>Instrument Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fCurrency"><span>F Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="convFactor"><span>Conv Factor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="postDate"><span>Post Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -45,9 +48,6 @@
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="reference"><span>Reference</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="creditorLedgerId"><span>Creditor Ledger</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="debtorLedgerId"><span>Debtor Ledger</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="chequeRegisterChequeNo"><span>Cheque Register</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="accountName"><span>Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="voucherName"><span>Voucher</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="currencyNotation"><span>Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -65,6 +65,9 @@
                 <td>{{dtTransaction.type}}</td>
                 <td>{{dtTransaction.invoiceNo}}</td>
                 <td>{{dtTransaction.invoiceDate | date:'mediumDate'}}</td>
+                <td>{{dtTransaction.instrumentType}}</td>
+                <td>{{dtTransaction.instrumentNo}}</td>
+                <td>{{dtTransaction.instrumentDate | date:'mediumDate'}}</td>
                 <td>{{dtTransaction.fCurrency}}</td>
                 <td>{{dtTransaction.convFactor}}</td>
                 <td>{{dtTransaction.postDate | date:'mediumDate'}}</td>
@@ -72,21 +75,6 @@
                 <td>{{dtTransaction.modifiedBy}}</td>
                 <td>{{dtTransaction.modifiedOn | date:'mediumDate'}}</td>
                 <td>{{dtTransaction.reference}}</td>
-                <td>
-                    <div *ngIf="dtTransaction.creditorLedgerId">
-                        <a [routerLink]="['../creditor-ledger', dtTransaction.creditorLedgerId , 'view' ]" >{{dtTransaction.creditorLedgerId}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="dtTransaction.debtorLedgerId">
-                        <a [routerLink]="['../debtor-ledger', dtTransaction.debtorLedgerId , 'view' ]" >{{dtTransaction.debtorLedgerId}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="dtTransaction.chequeRegisterId">
-                        <a [routerLink]="['../cheque-register', dtTransaction.chequeRegisterId , 'view' ]" >{{dtTransaction.chequeRegisterChequeNo}}</a>
-                    </div>
-                </td>
                 <td>
                     <div *ngIf="dtTransaction.accountId">
                         <a [routerLink]="['../mst-account', dtTransaction.accountId , 'view' ]" >{{dtTransaction.accountName}}</a>

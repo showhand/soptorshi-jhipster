@@ -460,6 +460,9 @@ entity DtTransaction{
     type VoucherType,
     invoiceNo String,
     invoiceDate LocalDate,
+    instrumentType InstrumentType,
+    instrumentNo String,
+    instrumentDate LocalDate,
     fCurrency BigDecimal,
     convFactor BigDecimal,
     postDate LocalDate,
@@ -586,6 +589,12 @@ enum BillClosingFlag{
 enum BalanceType{
     DEBIT,
     CREDIT
+}
+
+enum InstrumentType{
+    CHEQUE,
+    PAY_ORDER,
+    DEMAND_DRAFT
 }
 
 enum ReservedFlag{
@@ -793,9 +802,7 @@ enum AllowanceCategory {
 
 
 relationship OneToOne{
-  PurchaseCommittee{employee(fullName)} to Employee,
-  DtTransaction{creditorLedger} to CreditorLedger,
-  DtTransaction{debtorLedger} to DebtorLedger
+  PurchaseCommittee{employee(fullName)} to Employee
 }
 
 relationship ManyToOne {
@@ -857,7 +864,6 @@ relationship ManyToOne {
   MonthlyBalance{accountBalance} to AccountBalance,
   PredefinedNarration{voucher(name)} to Voucher,
   ConversionFactor{currency(notation)} to Currency,
-  DtTransaction{chequeRegister(chequeNo)} to ChequeRegister,
   DtTransaction{account(name)} to MstAccount,
   DtTransaction{voucher(name)} to Voucher,
   DtTransaction{currency(notation)} to Currency,

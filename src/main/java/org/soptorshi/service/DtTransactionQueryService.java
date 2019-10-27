@@ -117,6 +117,15 @@ public class DtTransactionQueryService extends QueryService<DtTransaction> {
             if (criteria.getInvoiceDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getInvoiceDate(), DtTransaction_.invoiceDate));
             }
+            if (criteria.getInstrumentType() != null) {
+                specification = specification.and(buildSpecification(criteria.getInstrumentType(), DtTransaction_.instrumentType));
+            }
+            if (criteria.getInstrumentNo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getInstrumentNo(), DtTransaction_.instrumentNo));
+            }
+            if (criteria.getInstrumentDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getInstrumentDate(), DtTransaction_.instrumentDate));
+            }
             if (criteria.getfCurrency() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getfCurrency(), DtTransaction_.fCurrency));
             }
@@ -137,18 +146,6 @@ public class DtTransactionQueryService extends QueryService<DtTransaction> {
             }
             if (criteria.getReference() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getReference(), DtTransaction_.reference));
-            }
-            if (criteria.getCreditorLedgerId() != null) {
-                specification = specification.and(buildSpecification(criteria.getCreditorLedgerId(),
-                    root -> root.join(DtTransaction_.creditorLedger, JoinType.LEFT).get(CreditorLedger_.id)));
-            }
-            if (criteria.getDebtorLedgerId() != null) {
-                specification = specification.and(buildSpecification(criteria.getDebtorLedgerId(),
-                    root -> root.join(DtTransaction_.debtorLedger, JoinType.LEFT).get(DebtorLedger_.id)));
-            }
-            if (criteria.getChequeRegisterId() != null) {
-                specification = specification.and(buildSpecification(criteria.getChequeRegisterId(),
-                    root -> root.join(DtTransaction_.chequeRegister, JoinType.LEFT).get(ChequeRegister_.id)));
             }
             if (criteria.getAccountId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAccountId(),

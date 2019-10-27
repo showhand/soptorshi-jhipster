@@ -15,6 +15,8 @@ import org.soptorshi.domain.enumeration.BalanceType;
 
 import org.soptorshi.domain.enumeration.VoucherType;
 
+import org.soptorshi.domain.enumeration.InstrumentType;
+
 /**
  * A DtTransaction.
  */
@@ -55,6 +57,16 @@ public class DtTransaction implements Serializable {
     @Column(name = "invoice_date")
     private LocalDate invoiceDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "instrument_type")
+    private InstrumentType instrumentType;
+
+    @Column(name = "instrument_no")
+    private String instrumentNo;
+
+    @Column(name = "instrument_date")
+    private LocalDate instrumentDate;
+
     @Column(name = "f_currency", precision = 10, scale = 2)
     private BigDecimal fCurrency;
 
@@ -75,18 +87,6 @@ public class DtTransaction implements Serializable {
 
     @Column(name = "reference")
     private String reference;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private CreditorLedger creditorLedger;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private DebtorLedger debtorLedger;
-
-    @ManyToOne
-    @JsonIgnoreProperties("dtTransactions")
-    private ChequeRegister chequeRegister;
 
     @ManyToOne
     @JsonIgnoreProperties("dtTransactions")
@@ -213,6 +213,45 @@ public class DtTransaction implements Serializable {
         this.invoiceDate = invoiceDate;
     }
 
+    public InstrumentType getInstrumentType() {
+        return instrumentType;
+    }
+
+    public DtTransaction instrumentType(InstrumentType instrumentType) {
+        this.instrumentType = instrumentType;
+        return this;
+    }
+
+    public void setInstrumentType(InstrumentType instrumentType) {
+        this.instrumentType = instrumentType;
+    }
+
+    public String getInstrumentNo() {
+        return instrumentNo;
+    }
+
+    public DtTransaction instrumentNo(String instrumentNo) {
+        this.instrumentNo = instrumentNo;
+        return this;
+    }
+
+    public void setInstrumentNo(String instrumentNo) {
+        this.instrumentNo = instrumentNo;
+    }
+
+    public LocalDate getInstrumentDate() {
+        return instrumentDate;
+    }
+
+    public DtTransaction instrumentDate(LocalDate instrumentDate) {
+        this.instrumentDate = instrumentDate;
+        return this;
+    }
+
+    public void setInstrumentDate(LocalDate instrumentDate) {
+        this.instrumentDate = instrumentDate;
+    }
+
     public BigDecimal getfCurrency() {
         return fCurrency;
     }
@@ -304,45 +343,6 @@ public class DtTransaction implements Serializable {
         this.reference = reference;
     }
 
-    public CreditorLedger getCreditorLedger() {
-        return creditorLedger;
-    }
-
-    public DtTransaction creditorLedger(CreditorLedger creditorLedger) {
-        this.creditorLedger = creditorLedger;
-        return this;
-    }
-
-    public void setCreditorLedger(CreditorLedger creditorLedger) {
-        this.creditorLedger = creditorLedger;
-    }
-
-    public DebtorLedger getDebtorLedger() {
-        return debtorLedger;
-    }
-
-    public DtTransaction debtorLedger(DebtorLedger debtorLedger) {
-        this.debtorLedger = debtorLedger;
-        return this;
-    }
-
-    public void setDebtorLedger(DebtorLedger debtorLedger) {
-        this.debtorLedger = debtorLedger;
-    }
-
-    public ChequeRegister getChequeRegister() {
-        return chequeRegister;
-    }
-
-    public DtTransaction chequeRegister(ChequeRegister chequeRegister) {
-        this.chequeRegister = chequeRegister;
-        return this;
-    }
-
-    public void setChequeRegister(ChequeRegister chequeRegister) {
-        this.chequeRegister = chequeRegister;
-    }
-
     public MstAccount getAccount() {
         return account;
     }
@@ -415,6 +415,9 @@ public class DtTransaction implements Serializable {
             ", type='" + getType() + "'" +
             ", invoiceNo='" + getInvoiceNo() + "'" +
             ", invoiceDate='" + getInvoiceDate() + "'" +
+            ", instrumentType='" + getInstrumentType() + "'" +
+            ", instrumentNo='" + getInstrumentNo() + "'" +
+            ", instrumentDate='" + getInstrumentDate() + "'" +
             ", fCurrency=" + getfCurrency() +
             ", convFactor=" + getConvFactor() +
             ", postDate='" + getPostDate() + "'" +

@@ -7,7 +7,7 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <property name="now" value="now()" dbms="h2"/>
-    
+
     <property name="now" value="now()" dbms="mysql"/>
     <property name="autoIncrement" value="true"/>
 
@@ -18,6 +18,7 @@
         Added the entity DtTransaction.
     -->
     <changeSet id="20190906083834-1" author="jhipster">
+        <validCheckSum>7:e636a60dc4553586142693e4a249f15c</validCheckSum>
         <createTable tableName="dt_transaction">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
@@ -54,6 +55,18 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="instrument_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="instrument_no" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="instrument_date" type="date">
+                <constraints nullable="true" />
+            </column>
+
             <column name="f_currency" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
@@ -81,14 +94,6 @@
             <column name="reference" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="creditor_ledger_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_dt_transaction_creditor_ledger_id" />
-            </column>            <column name="debtor_ledger_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_dt_transaction_debtor_ledger_id" />
-            </column>
-            <column name="cheque_register_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
 
             <column name="account_id" type="bigint">
                 <constraints nullable="true" />
@@ -104,7 +109,7 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
+
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

@@ -16,7 +16,7 @@ const ENTITY_STATES = [...dtTransactionRoute, ...dtTransactionPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /*  declarations: [
+    declarations: [
         DtTransactionComponent,
         DtTransactionDetailComponent,
         DtTransactionUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...dtTransactionRoute, ...dtTransactionPopupRoute];
         DtTransactionUpdateComponent,
         DtTransactionDeleteDialogComponent,
         DtTransactionDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiDtTransactionModule {}

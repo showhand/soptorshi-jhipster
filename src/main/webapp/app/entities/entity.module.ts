@@ -589,6 +589,10 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             {
                 path: 'contra-voucher',
                 loadChildren: './contra-voucher/contra-voucher.module#SoptorshiContraVoucherModule'
+            },
+            {
+                path: 'dt-transaction',
+                loadChildren: './dt-transaction/dt-transaction.module#SoptorshiDtTransactionModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

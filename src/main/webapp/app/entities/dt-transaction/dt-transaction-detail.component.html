@@ -37,6 +37,18 @@
                 <dd>
                     <span>{{dtTransaction.invoiceDate}}</span>
                 </dd>
+                <dt><span>Instrument Type</span></dt>
+                <dd>
+                    <span>{{dtTransaction.instrumentType}}</span>
+                </dd>
+                <dt><span>Instrument No</span></dt>
+                <dd>
+                    <span>{{dtTransaction.instrumentNo}}</span>
+                </dd>
+                <dt><span>Instrument Date</span></dt>
+                <dd>
+                    <span>{{dtTransaction.instrumentDate}}</span>
+                </dd>
                 <dt><span>F Currency</span></dt>
                 <dd>
                     <span>{{dtTransaction.fCurrency}}</span>
@@ -64,24 +76,6 @@
                 <dt><span>Reference</span></dt>
                 <dd>
                     <span>{{dtTransaction.reference}}</span>
-                </dd>
-                <dt><span>Creditor Ledger</span></dt>
-                <dd>
-                    <div *ngIf="dtTransaction.creditorLedgerId">
-                        <a [routerLink]="['/creditor-ledger', dtTransaction.creditorLedgerId, 'view']">{{dtTransaction.creditorLedgerId}}</a>
-                    </div>
-                </dd>
-                <dt><span>Debtor Ledger</span></dt>
-                <dd>
-                    <div *ngIf="dtTransaction.debtorLedgerId">
-                        <a [routerLink]="['/debtor-ledger', dtTransaction.debtorLedgerId, 'view']">{{dtTransaction.debtorLedgerId}}</a>
-                    </div>
-                </dd>
-                <dt><span>Cheque Register</span></dt>
-                <dd>
-                    <div *ngIf="dtTransaction.chequeRegisterId">
-                        <a [routerLink]="['/cheque-register', dtTransaction.chequeRegisterId, 'view']">{{dtTransaction.chequeRegisterChequeNo}}</a>
-                    </div>
                 </dd>
                 <dt><span>Account</span></dt>
                 <dd>

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.VoucherType;
+import org.soptorshi.domain.enumeration.InstrumentType;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -33,6 +34,11 @@ public class DtTransactionCriteria implements Serializable {
      */
     public static class VoucherTypeFilter extends Filter<VoucherType> {
     }
+    /**
+     * Class for filtering InstrumentType
+     */
+    public static class InstrumentTypeFilter extends Filter<InstrumentType> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -54,6 +60,12 @@ public class DtTransactionCriteria implements Serializable {
 
     private LocalDateFilter invoiceDate;
 
+    private InstrumentTypeFilter instrumentType;
+
+    private StringFilter instrumentNo;
+
+    private LocalDateFilter instrumentDate;
+
     private BigDecimalFilter fCurrency;
 
     private BigDecimalFilter convFactor;
@@ -67,12 +79,6 @@ public class DtTransactionCriteria implements Serializable {
     private LocalDateFilter modifiedOn;
 
     private StringFilter reference;
-
-    private LongFilter creditorLedgerId;
-
-    private LongFilter debtorLedgerId;
-
-    private LongFilter chequeRegisterId;
 
     private LongFilter accountId;
 
@@ -152,6 +158,30 @@ public class DtTransactionCriteria implements Serializable {
         this.invoiceDate = invoiceDate;
     }
 
+    public InstrumentTypeFilter getInstrumentType() {
+        return instrumentType;
+    }
+
+    public void setInstrumentType(InstrumentTypeFilter instrumentType) {
+        this.instrumentType = instrumentType;
+    }
+
+    public StringFilter getInstrumentNo() {
+        return instrumentNo;
+    }
+
+    public void setInstrumentNo(StringFilter instrumentNo) {
+        this.instrumentNo = instrumentNo;
+    }
+
+    public LocalDateFilter getInstrumentDate() {
+        return instrumentDate;
+    }
+
+    public void setInstrumentDate(LocalDateFilter instrumentDate) {
+        this.instrumentDate = instrumentDate;
+    }
+
     public BigDecimalFilter getfCurrency() {
         return fCurrency;
     }
@@ -208,30 +238,6 @@ public class DtTransactionCriteria implements Serializable {
         this.reference = reference;
     }
 
-    public LongFilter getCreditorLedgerId() {
-        return creditorLedgerId;
-    }
-
-    public void setCreditorLedgerId(LongFilter creditorLedgerId) {
-        this.creditorLedgerId = creditorLedgerId;
-    }
-
-    public LongFilter getDebtorLedgerId() {
-        return debtorLedgerId;
-    }
-
-    public void setDebtorLedgerId(LongFilter debtorLedgerId) {
-        this.debtorLedgerId = debtorLedgerId;
-    }
-
-    public LongFilter getChequeRegisterId() {
-        return chequeRegisterId;
-    }
-
-    public void setChequeRegisterId(LongFilter chequeRegisterId) {
-        this.chequeRegisterId = chequeRegisterId;
-    }
-
     public LongFilter getAccountId() {
         return accountId;
     }
@@ -276,6 +282,9 @@ public class DtTransactionCriteria implements Serializable {
             Objects.equals(type, that.type) &&
             Objects.equals(invoiceNo, that.invoiceNo) &&
             Objects.equals(invoiceDate, that.invoiceDate) &&
+            Objects.equals(instrumentType, that.instrumentType) &&
+            Objects.equals(instrumentNo, that.instrumentNo) &&
+            Objects.equals(instrumentDate, that.instrumentDate) &&
             Objects.equals(fCurrency, that.fCurrency) &&
             Objects.equals(convFactor, that.convFactor) &&
             Objects.equals(postDate, that.postDate) &&
@@ -283,9 +292,6 @@ public class DtTransactionCriteria implements Serializable {
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(reference, that.reference) &&
-            Objects.equals(creditorLedgerId, that.creditorLedgerId) &&
-            Objects.equals(debtorLedgerId, that.debtorLedgerId) &&
-            Objects.equals(chequeRegisterId, that.chequeRegisterId) &&
             Objects.equals(accountId, that.accountId) &&
             Objects.equals(voucherId, that.voucherId) &&
             Objects.equals(currencyId, that.currencyId);
@@ -303,6 +309,9 @@ public class DtTransactionCriteria implements Serializable {
         type,
         invoiceNo,
         invoiceDate,
+        instrumentType,
+        instrumentNo,
+        instrumentDate,
         fCurrency,
         convFactor,
         postDate,
@@ -310,9 +319,6 @@ public class DtTransactionCriteria implements Serializable {
         modifiedBy,
         modifiedOn,
         reference,
-        creditorLedgerId,
-        debtorLedgerId,
-        chequeRegisterId,
         accountId,
         voucherId,
         currencyId
@@ -331,6 +337,9 @@ public class DtTransactionCriteria implements Serializable {
                 (type != null ? "type=" + type + ", " : "") +
                 (invoiceNo != null ? "invoiceNo=" + invoiceNo + ", " : "") +
                 (invoiceDate != null ? "invoiceDate=" + invoiceDate + ", " : "") +
+                (instrumentType != null ? "instrumentType=" + instrumentType + ", " : "") +
+                (instrumentNo != null ? "instrumentNo=" + instrumentNo + ", " : "") +
+                (instrumentDate != null ? "instrumentDate=" + instrumentDate + ", " : "") +
                 (fCurrency != null ? "fCurrency=" + fCurrency + ", " : "") +
                 (convFactor != null ? "convFactor=" + convFactor + ", " : "") +
                 (postDate != null ? "postDate=" + postDate + ", " : "") +
@@ -338,9 +347,6 @@ public class DtTransactionCriteria implements Serializable {
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (reference != null ? "reference=" + reference + ", " : "") +
-                (creditorLedgerId != null ? "creditorLedgerId=" + creditorLedgerId + ", " : "") +
-                (debtorLedgerId != null ? "debtorLedgerId=" + debtorLedgerId + ", " : "") +
-                (chequeRegisterId != null ? "chequeRegisterId=" + chequeRegisterId + ", " : "") +
                 (accountId != null ? "accountId=" + accountId + ", " : "") +
                 (voucherId != null ? "voucherId=" + voucherId + ", " : "") +
                 (currencyId != null ? "currencyId=" + currencyId + ", " : "") +

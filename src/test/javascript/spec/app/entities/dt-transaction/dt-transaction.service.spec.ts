@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { DtTransactionService } from 'app/entities/dt-transaction/dt-transaction.service';
-import { IDtTransaction, DtTransaction, BalanceType, VoucherType } from 'app/shared/model/dt-transaction.model';
+import { IDtTransaction, DtTransaction, BalanceType, VoucherType, InstrumentType } from 'app/shared/model/dt-transaction.model';
 
 describe('Service Tests', () => {
     describe('DtTransaction Service', () => {
@@ -35,6 +35,9 @@ describe('Service Tests', () => {
                 VoucherType.SELLING,
                 'AAAAAAA',
                 currentDate,
+                InstrumentType.CHEQUE,
+                'AAAAAAA',
+                currentDate,
                 0,
                 0,
                 currentDate,
@@ -51,6 +54,7 @@ describe('Service Tests', () => {
                     {
                         voucherDate: currentDate.format(DATE_FORMAT),
                         invoiceDate: currentDate.format(DATE_FORMAT),
+                        instrumentDate: currentDate.format(DATE_FORMAT),
                         postDate: currentDate.format(DATE_FORMAT),
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -71,6 +75,7 @@ describe('Service Tests', () => {
                         id: 0,
                         voucherDate: currentDate.format(DATE_FORMAT),
                         invoiceDate: currentDate.format(DATE_FORMAT),
+                        instrumentDate: currentDate.format(DATE_FORMAT),
                         postDate: currentDate.format(DATE_FORMAT),
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -80,6 +85,7 @@ describe('Service Tests', () => {
                     {
                         voucherDate: currentDate,
                         invoiceDate: currentDate,
+                        instrumentDate: currentDate,
                         postDate: currentDate,
                         modifiedOn: currentDate
                     },
@@ -104,6 +110,9 @@ describe('Service Tests', () => {
                         type: 'BBBBBB',
                         invoiceNo: 'BBBBBB',
                         invoiceDate: currentDate.format(DATE_FORMAT),
+                        instrumentType: 'BBBBBB',
+                        instrumentNo: 'BBBBBB',
+                        instrumentDate: currentDate.format(DATE_FORMAT),
                         fCurrency: 1,
                         convFactor: 1,
                         postDate: currentDate.format(DATE_FORMAT),
@@ -119,6 +128,7 @@ describe('Service Tests', () => {
                     {
                         voucherDate: currentDate,
                         invoiceDate: currentDate,
+                        instrumentDate: currentDate,
                         postDate: currentDate,
                         modifiedOn: currentDate
                     },
@@ -143,6 +153,9 @@ describe('Service Tests', () => {
                         type: 'BBBBBB',
                         invoiceNo: 'BBBBBB',
                         invoiceDate: currentDate.format(DATE_FORMAT),
+                        instrumentType: 'BBBBBB',
+                        instrumentNo: 'BBBBBB',
+                        instrumentDate: currentDate.format(DATE_FORMAT),
                         fCurrency: 1,
                         convFactor: 1,
                         postDate: currentDate.format(DATE_FORMAT),
@@ -157,6 +170,7 @@ describe('Service Tests', () => {
                     {
                         voucherDate: currentDate,
                         invoiceDate: currentDate,
+                        instrumentDate: currentDate,
                         postDate: currentDate,
                         modifiedOn: currentDate
                     },

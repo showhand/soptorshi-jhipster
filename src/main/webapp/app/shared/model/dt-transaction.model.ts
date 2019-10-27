@@ -10,6 +10,12 @@ export const enum VoucherType {
     BUYING = 'BUYING'
 }
 
+export const enum InstrumentType {
+    CHEQUE = 'CHEQUE',
+    PAY_ORDER = 'PAY_ORDER',
+    DEMAND_DRAFT = 'DEMAND_DRAFT'
+}
+
 export interface IDtTransaction {
     id?: number;
     voucherNo?: string;
@@ -20,6 +26,9 @@ export interface IDtTransaction {
     type?: VoucherType;
     invoiceNo?: string;
     invoiceDate?: Moment;
+    instrumentType?: InstrumentType;
+    instrumentNo?: string;
+    instrumentDate?: Moment;
     fCurrency?: number;
     convFactor?: number;
     postDate?: Moment;
@@ -27,10 +36,6 @@ export interface IDtTransaction {
     modifiedBy?: string;
     modifiedOn?: Moment;
     reference?: string;
-    creditorLedgerId?: number;
-    debtorLedgerId?: number;
-    chequeRegisterChequeNo?: string;
-    chequeRegisterId?: number;
     accountName?: string;
     accountId?: number;
     voucherName?: string;
@@ -50,6 +55,9 @@ export class DtTransaction implements IDtTransaction {
         public type?: VoucherType,
         public invoiceNo?: string,
         public invoiceDate?: Moment,
+        public instrumentType?: InstrumentType,
+        public instrumentNo?: string,
+        public instrumentDate?: Moment,
         public fCurrency?: number,
         public convFactor?: number,
         public postDate?: Moment,
@@ -57,10 +65,6 @@ export class DtTransaction implements IDtTransaction {
         public modifiedBy?: string,
         public modifiedOn?: Moment,
         public reference?: string,
-        public creditorLedgerId?: number,
-        public debtorLedgerId?: number,
-        public chequeRegisterChequeNo?: string,
-        public chequeRegisterId?: number,
         public accountName?: string,
         public accountId?: number,
         public voucherName?: string,

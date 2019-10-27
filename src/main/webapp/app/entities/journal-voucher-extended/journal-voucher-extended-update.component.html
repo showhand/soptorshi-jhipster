@@ -1,64 +1,60 @@
 <div class="row justify-content-center">
-    <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-journal-voucher-heading">Create or edit a Journal Voucher</h2>
-            <div>
-                <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!journalVoucher.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="journalVoucher.id" readonly />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_voucherNo">Voucher No</label>
-                    <input type="text" class="form-control" name="voucherNo" id="field_voucherNo"
-                        [(ngModel)]="journalVoucher.voucherNo" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_voucherDate">Voucher Date</label>
-                    <div class="input-group">
-                        <input id="field_voucherDate" type="text" class="form-control" name="voucherDate" ngbDatepicker  #voucherDateDp="ngbDatepicker" [(ngModel)]="journalVoucher.voucherDate"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="voucherDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_postDate">Post Date</label>
-                    <div class="input-group">
-                        <input id="field_postDate" type="text" class="form-control" name="postDate" ngbDatepicker  #postDateDp="ngbDatepicker" [(ngModel)]="journalVoucher.postDate"
-                        />
-                        <span class="input-group-append">
+    <div class="col-12"><jhi-alert-error></jhi-alert-error></div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-6">
+        <div class="row justify-content-center">
+            <div class="col-4">Voucher No</div>
+            <div class="col-8"><input type="text" class="form-control"
+                                      [(ngModel)]="voucherNo" readonly /></div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4">Voucher Date</div>
+            <div class="col-8">
+                <div class="input-group">
+                    <input id="field_postDate" type="text" class="form-control" name="postDate" ngbDatepicker  #postDateDp="ngbDatepicker" [(ngModel)]="voucherDate"
+                    />
+                    <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="postDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
-                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
-                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
-                        [(ngModel)]="journalVoucher.modifiedBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
-                    <div class="input-group">
-                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="journalVoucher.modifiedOn"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
-                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4">Currency</div>
+            <div class="col-4">
+                <select class="form-control" id="field-currency" name="currency" [(ngModel)]="selectedCurrency" >
+                    <option [ngValue]="null">Select Currency</option>
+                    <option [ngValue]="currency" *ngFor="let currency of currencies;">{{currency.notation}}</option>
+                </select>
+            </div>
+            <div class="col-2">Base:</div>
+            <div class="col-2">{{conversionFactor.bcovFactor}}</div>
+        </div>
 
+        <div class="row justify-content-center">
+            <div class="col-4">Type</div>
+            <div class="col-8">
+                <select class="form-control" name="type" [(ngModel)]="type" id="field_type" >
+                    <option value="SELLING">SELLING</option>
+                    <option value="BUYING">BUYING</option>
+                </select>
             </div>
-            <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
-                </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-                </button>
-            </div>
-        </form>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="col-6" align="right"><p>Total Debit</p></div>
+        <div class="col-6"><p>{{totalDebit| currency: ' '}}</p></div>
+        <div class="col-6" align="right"><p>Total Credit</p></div>
+        <div class="col-6"><p>{{totalCredit | currency: ' '}}</p></div>
+        <div class="col-12"><br/></div>
+        <div class="col-12" align="center"><p>Status</p></div>
     </div>
 </div>
+<br/>
+<div class="row">
+    <div class="col-md-12" align="center">
+        <button class="btn btn-primary">Add</button>
+    </div>
+</div>
+

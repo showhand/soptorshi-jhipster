@@ -36,6 +36,19 @@
             "fieldType": "LocalDate"
         },
         {
+            "fieldName": "instrumentType",
+            "fieldType": "InstrumentType",
+            "fieldValues": "CHEQUE,PAY_ORDER,DEMAND_DRAFT"
+        },
+        {
+            "fieldName": "instrumentNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "instrumentDate",
+            "fieldType": "LocalDate"
+        },
+        {
             "fieldName": "fCurrency",
             "fieldType": "BigDecimal"
         },
@@ -65,29 +78,6 @@
         }
     ],
     "relationships": [
-        {
-            "relationshipType": "one-to-one",
-            "otherEntityName": "creditorLedger",
-            "otherEntityRelationshipName": "dtTransaction",
-            "relationshipName": "creditorLedger",
-            "otherEntityField": "id",
-            "ownerSide": true
-        },
-        {
-            "relationshipType": "one-to-one",
-            "otherEntityName": "debtorLedger",
-            "otherEntityRelationshipName": "dtTransaction",
-            "relationshipName": "debtorLedger",
-            "otherEntityField": "id",
-            "ownerSide": true
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "chequeRegister",
-            "otherEntityRelationshipName": "dtTransaction",
-            "relationshipName": "chequeRegister",
-            "otherEntityField": "chequeNo"
-        },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "mstAccount",

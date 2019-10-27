@@ -7,12 +7,6 @@ import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { IDtTransaction } from 'app/shared/model/dt-transaction.model';
 import { DtTransactionService } from './dt-transaction.service';
-import { ICreditorLedger } from 'app/shared/model/creditor-ledger.model';
-import { CreditorLedgerService } from 'app/entities/creditor-ledger';
-import { IDebtorLedger } from 'app/shared/model/debtor-ledger.model';
-import { DebtorLedgerService } from 'app/entities/debtor-ledger';
-import { IChequeRegister } from 'app/shared/model/cheque-register.model';
-import { ChequeRegisterService } from 'app/entities/cheque-register';
 import { IMstAccount } from 'app/shared/model/mst-account.model';
 import { MstAccountService } from 'app/entities/mst-account';
 import { IVoucher } from 'app/shared/model/voucher.model';
@@ -28,12 +22,6 @@ export class DtTransactionUpdateComponent implements OnInit {
     dtTransaction: IDtTransaction;
     isSaving: boolean;
 
-    creditorledgers: ICreditorLedger[];
-
-    debtorledgers: IDebtorLedger[];
-
-    chequeregisters: IChequeRegister[];
-
     mstaccounts: IMstAccount[];
 
     vouchers: IVoucher[];
@@ -41,15 +29,13 @@ export class DtTransactionUpdateComponent implements OnInit {
     currencies: ICurrency[];
     voucherDateDp: any;
     invoiceDateDp: any;
+    instrumentDateDp: any;
     postDateDp: any;
     modifiedOnDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected dtTransactionService: DtTransactionService,
-        protected creditorLedgerService: CreditorLedgerService,
-        protected debtorLedgerService: DebtorLedgerService,
-        protected chequeRegisterService: ChequeRegisterService,
         protected mstAccountService: MstAccountService,
         protected voucherService: VoucherService,
         protected currencyService: CurrencyService,
@@ -61,63 +47,6 @@ export class DtTransactionUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ dtTransaction }) => {
             this.dtTransaction = dtTransaction;
         });
-        this.creditorLedgerService
-            .query({ 'dtTransactionId.specified': 'false' })
-            .pipe(
-                filter((mayBeOk: HttpResponse<ICreditorLedger[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ICreditorLedger[]>) => response.body)
-            )
-            .subscribe(
-                (res: ICreditorLedger[]) => {
-                    if (!this.dtTransaction.creditorLedgerId) {
-                        this.creditorledgers = res;
-                    } else {
-                        this.creditorLedgerService
-                            .find(this.dtTransaction.creditorLedgerId)
-                            .pipe(
-                                filter((subResMayBeOk: HttpResponse<ICreditorLedger>) => subResMayBeOk.ok),
-                                map((subResponse: HttpResponse<ICreditorLedger>) => subResponse.body)
-                            )
-                            .subscribe(
-                                (subRes: ICreditorLedger) => (this.creditorledgers = [subRes].concat(res)),
-                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-                            );
-                    }
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-        this.debtorLedgerService
-            .query({ 'dtTransactionId.specified': 'false' })
-            .pipe(
-                filter((mayBeOk: HttpResponse<IDebtorLedger[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IDebtorLedger[]>) => response.body)
-            )
-            .subscribe(
-                (res: IDebtorLedger[]) => {
-                    if (!this.dtTransaction.debtorLedgerId) {
-                        this.debtorledgers = res;
-                    } else {
-                        this.debtorLedgerService
-                            .find(this.dtTransaction.debtorLedgerId)
-                            .pipe(
-                                filter((subResMayBeOk: HttpResponse<IDebtorLedger>) => subResMayBeOk.ok),
-                                map((subResponse: HttpResponse<IDebtorLedger>) => subResponse.body)
-                            )
-                            .subscribe(
-                                (subRes: IDebtorLedger) => (this.debtorledgers = [subRes].concat(res)),
-                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-                            );
-                    }
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-        this.chequeRegisterService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IChequeRegister[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IChequeRegister[]>) => response.body)
-            )
-            .subscribe((res: IChequeRegister[]) => (this.chequeregisters = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.mstAccountService
             .query()
             .pipe(
@@ -169,18 +98,6 @@ export class DtTransactionUpdateComponent implements OnInit {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
-    }
-
-    trackCreditorLedgerById(index: number, item: ICreditorLedger) {
-        return item.id;
-    }
-
-    trackDebtorLedgerById(index: number, item: IDebtorLedger) {
-        return item.id;
-    }
-
-    trackChequeRegisterById(index: number, item: IChequeRegister) {
-        return item.id;
     }
 
     trackMstAccountById(index: number, item: IMstAccount) {

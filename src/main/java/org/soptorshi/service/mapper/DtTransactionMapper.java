@@ -8,13 +8,9 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity DtTransaction and its DTO DtTransactionDTO.
  */
-@Mapper(componentModel = "spring", uses = {CreditorLedgerMapper.class, DebtorLedgerMapper.class, ChequeRegisterMapper.class, MstAccountMapper.class, VoucherMapper.class, CurrencyMapper.class})
+@Mapper(componentModel = "spring", uses = {MstAccountMapper.class, VoucherMapper.class, CurrencyMapper.class})
 public interface DtTransactionMapper extends EntityMapper<DtTransactionDTO, DtTransaction> {
 
-    @Mapping(source = "creditorLedger.id", target = "creditorLedgerId")
-    @Mapping(source = "debtorLedger.id", target = "debtorLedgerId")
-    @Mapping(source = "chequeRegister.id", target = "chequeRegisterId")
-    @Mapping(source = "chequeRegister.chequeNo", target = "chequeRegisterChequeNo")
     @Mapping(source = "account.id", target = "accountId")
     @Mapping(source = "account.name", target = "accountName")
     @Mapping(source = "voucher.id", target = "voucherId")
@@ -23,9 +19,6 @@ public interface DtTransactionMapper extends EntityMapper<DtTransactionDTO, DtTr
     @Mapping(source = "currency.notation", target = "currencyNotation")
     DtTransactionDTO toDto(DtTransaction dtTransaction);
 
-    @Mapping(source = "creditorLedgerId", target = "creditorLedger")
-    @Mapping(source = "debtorLedgerId", target = "debtorLedger")
-    @Mapping(source = "chequeRegisterId", target = "chequeRegister")
     @Mapping(source = "accountId", target = "account")
     @Mapping(source = "voucherId", target = "voucher")
     @Mapping(source = "currencyId", target = "currency")

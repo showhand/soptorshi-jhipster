@@ -608,6 +608,13 @@
                             <span>Journal Voucher</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="dt-transaction" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                            <span>DT Transaction</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>

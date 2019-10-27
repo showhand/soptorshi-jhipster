@@ -7,24 +7,7 @@
         Added the constraints for entity DtTransaction.
     -->
     <changeSet id="20190906083834-2" author="jhipster">
-        
-        <addForeignKeyConstraint baseColumnNames="creditor_ledger_id"
-                                 baseTableName="dt_transaction"
-                                 constraintName="fk_dt_transaction_creditor_ledger_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="creditor_ledger"/>
-
-        <addForeignKeyConstraint baseColumnNames="debtor_ledger_id"
-                                 baseTableName="dt_transaction"
-                                 constraintName="fk_dt_transaction_debtor_ledger_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="debtor_ledger"/>
-
-        <addForeignKeyConstraint baseColumnNames="cheque_register_id"
-                                 baseTableName="dt_transaction"
-                                 constraintName="fk_dt_transaction_cheque_register_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="cheque_register"/>
+        <validCheckSum>7:7dd910340cf95153f649bcf241afe2fb</validCheckSum>
 
         <addForeignKeyConstraint baseColumnNames="account_id"
                                  baseTableName="dt_transaction"

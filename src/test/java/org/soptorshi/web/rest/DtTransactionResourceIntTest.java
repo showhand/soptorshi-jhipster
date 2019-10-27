@@ -3,9 +3,6 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.DtTransaction;
-import org.soptorshi.domain.CreditorLedger;
-import org.soptorshi.domain.DebtorLedger;
-import org.soptorshi.domain.ChequeRegister;
 import org.soptorshi.domain.MstAccount;
 import org.soptorshi.domain.Voucher;
 import org.soptorshi.domain.Currency;
@@ -53,6 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.VoucherType;
+import org.soptorshi.domain.enumeration.InstrumentType;
 /**
  * Test class for the DtTransactionResource REST controller.
  *
@@ -85,6 +83,15 @@ public class DtTransactionResourceIntTest {
 
     private static final LocalDate DEFAULT_INVOICE_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_INVOICE_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final InstrumentType DEFAULT_INSTRUMENT_TYPE = InstrumentType.CHEQUE;
+    private static final InstrumentType UPDATED_INSTRUMENT_TYPE = InstrumentType.PAY_ORDER;
+
+    private static final String DEFAULT_INSTRUMENT_NO = "AAAAAAAAAA";
+    private static final String UPDATED_INSTRUMENT_NO = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_INSTRUMENT_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_INSTRUMENT_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final BigDecimal DEFAULT_F_CURRENCY = new BigDecimal(1);
     private static final BigDecimal UPDATED_F_CURRENCY = new BigDecimal(2);
@@ -174,6 +181,9 @@ public class DtTransactionResourceIntTest {
             .type(DEFAULT_TYPE)
             .invoiceNo(DEFAULT_INVOICE_NO)
             .invoiceDate(DEFAULT_INVOICE_DATE)
+            .instrumentType(DEFAULT_INSTRUMENT_TYPE)
+            .instrumentNo(DEFAULT_INSTRUMENT_NO)
+            .instrumentDate(DEFAULT_INSTRUMENT_DATE)
             .fCurrency(DEFAULT_F_CURRENCY)
             .convFactor(DEFAULT_CONV_FACTOR)
             .postDate(DEFAULT_POST_DATE)
@@ -213,6 +223,9 @@ public class DtTransactionResourceIntTest {
         assertThat(testDtTransaction.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testDtTransaction.getInvoiceNo()).isEqualTo(DEFAULT_INVOICE_NO);
         assertThat(testDtTransaction.getInvoiceDate()).isEqualTo(DEFAULT_INVOICE_DATE);
+        assertThat(testDtTransaction.getInstrumentType()).isEqualTo(DEFAULT_INSTRUMENT_TYPE);
+        assertThat(testDtTransaction.getInstrumentNo()).isEqualTo(DEFAULT_INSTRUMENT_NO);
+        assertThat(testDtTransaction.getInstrumentDate()).isEqualTo(DEFAULT_INSTRUMENT_DATE);
         assertThat(testDtTransaction.getfCurrency()).isEqualTo(DEFAULT_F_CURRENCY);
         assertThat(testDtTransaction.getConvFactor()).isEqualTo(DEFAULT_CONV_FACTOR);
         assertThat(testDtTransaction.getPostDate()).isEqualTo(DEFAULT_POST_DATE);
@@ -267,6 +280,9 @@ public class DtTransactionResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].invoiceNo").value(hasItem(DEFAULT_INVOICE_NO.toString())))
             .andExpect(jsonPath("$.[*].invoiceDate").value(hasItem(DEFAULT_INVOICE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].instrumentType").value(hasItem(DEFAULT_INSTRUMENT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].instrumentNo").value(hasItem(DEFAULT_INSTRUMENT_NO.toString())))
+            .andExpect(jsonPath("$.[*].instrumentDate").value(hasItem(DEFAULT_INSTRUMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].fCurrency").value(hasItem(DEFAULT_F_CURRENCY.intValue())))
             .andExpect(jsonPath("$.[*].convFactor").value(hasItem(DEFAULT_CONV_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
@@ -295,6 +311,9 @@ public class DtTransactionResourceIntTest {
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.invoiceNo").value(DEFAULT_INVOICE_NO.toString()))
             .andExpect(jsonPath("$.invoiceDate").value(DEFAULT_INVOICE_DATE.toString()))
+            .andExpect(jsonPath("$.instrumentType").value(DEFAULT_INSTRUMENT_TYPE.toString()))
+            .andExpect(jsonPath("$.instrumentNo").value(DEFAULT_INSTRUMENT_NO.toString()))
+            .andExpect(jsonPath("$.instrumentDate").value(DEFAULT_INSTRUMENT_DATE.toString()))
             .andExpect(jsonPath("$.fCurrency").value(DEFAULT_F_CURRENCY.intValue()))
             .andExpect(jsonPath("$.convFactor").value(DEFAULT_CONV_FACTOR.intValue()))
             .andExpect(jsonPath("$.postDate").value(DEFAULT_POST_DATE.toString()))
@@ -699,6 +718,150 @@ public class DtTransactionResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllDtTransactionsByInstrumentTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        dtTransactionRepository.saveAndFlush(dtTransaction);
+
+        // Get all the dtTransactionList where instrumentType equals to DEFAULT_INSTRUMENT_TYPE
+        defaultDtTransactionShouldBeFound("instrumentType.equals=" + DEFAULT_INSTRUMENT_TYPE);
+
+        // Get all the dtTransactionList where instrumentType equals to UPDATED_INSTRUMENT_TYPE
+        defaultDtTransactionShouldNotBeFound("instrumentType.equals=" + UPDATED_INSTRUMENT_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDtTransactionsByInstrumentTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        dtTransactionRepository.saveAndFlush(dtTransaction);
+
+        // Get all the dtTransactionList where instrumentType in DEFAULT_INSTRUMENT_TYPE or UPDATED_INSTRUMENT_TYPE
+        defaultDtTransactionShouldBeFound("instrumentType.in=" + DEFAULT_INSTRUMENT_TYPE + "," + UPDATED_INSTRUMENT_TYPE);
+
+        // Get all the dtTransactionList where instrumentType equals to UPDATED_INSTRUMENT_TYPE
+        defaultDtTransactionShouldNotBeFound("instrumentType.in=" + UPDATED_INSTRUMENT_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDtTransactionsByInstrumentTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dtTransactionRepository.saveAndFlush(dtTransaction);
+
+        // Get all the dtTransactionList where instrumentType is not null
+        defaultDtTransactionShouldBeFound("instrumentType.specified=true");
+
+        // Get all the dtTransactionList where instrumentType is null
+        defaultDtTransactionShouldNotBeFound("instrumentType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDtTransactionsByInstrumentNoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        dtTransactionRepository.saveAndFlush(dtTransaction);
+
+        // Get all the dtTransactionList where instrumentNo equals to DEFAULT_INSTRUMENT_NO
+        defaultDtTransactionShouldBeFound("instrumentNo.equals=" + DEFAULT_INSTRUMENT_NO);
+
+        // Get all the dtTransactionList where instrumentNo equals to UPDATED_INSTRUMENT_NO
+        defaultDtTransactionShouldNotBeFound("instrumentNo.equals=" + UPDATED_INSTRUMENT_NO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDtTransactionsByInstrumentNoIsInShouldWork() throws Exception {
+        // Initialize the database
+        dtTransactionRepository.saveAndFlush(dtTransaction);
+
+        // Get all the dtTransactionList where instrumentNo in DEFAULT_INSTRUMENT_NO or UPDATED_INSTRUMENT_NO
+        defaultDtTransactionShouldBeFound("instrumentNo.in=" + DEFAULT_INSTRUMENT_NO + "," + UPDATED_INSTRUMENT_NO);
+
+        // Get all the dtTransactionList where instrumentNo equals to UPDATED_INSTRUMENT_NO
+        defaultDtTransactionShouldNotBeFound("instrumentNo.in=" + UPDATED_INSTRUMENT_NO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDtTransactionsByInstrumentNoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dtTransactionRepository.saveAndFlush(dtTransaction);
+
+        // Get all the dtTransactionList where instrumentNo is not null
+        defaultDtTransactionShouldBeFound("instrumentNo.specified=true");
+
+        // Get all the dtTransactionList where instrumentNo is null
+        defaultDtTransactionShouldNotBeFound("instrumentNo.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDtTransactionsByInstrumentDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        dtTransactionRepository.saveAndFlush(dtTransaction);
+
+        // Get all the dtTransactionList where instrumentDate equals to DEFAULT_INSTRUMENT_DATE
+        defaultDtTransactionShouldBeFound("instrumentDate.equals=" + DEFAULT_INSTRUMENT_DATE);
+
+        // Get all the dtTransactionList where instrumentDate equals to UPDATED_INSTRUMENT_DATE
+        defaultDtTransactionShouldNotBeFound("instrumentDate.equals=" + UPDATED_INSTRUMENT_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDtTransactionsByInstrumentDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        dtTransactionRepository.saveAndFlush(dtTransaction);
+
+        // Get all the dtTransactionList where instrumentDate in DEFAULT_INSTRUMENT_DATE or UPDATED_INSTRUMENT_DATE
+        defaultDtTransactionShouldBeFound("instrumentDate.in=" + DEFAULT_INSTRUMENT_DATE + "," + UPDATED_INSTRUMENT_DATE);
+
+        // Get all the dtTransactionList where instrumentDate equals to UPDATED_INSTRUMENT_DATE
+        defaultDtTransactionShouldNotBeFound("instrumentDate.in=" + UPDATED_INSTRUMENT_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDtTransactionsByInstrumentDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dtTransactionRepository.saveAndFlush(dtTransaction);
+
+        // Get all the dtTransactionList where instrumentDate is not null
+        defaultDtTransactionShouldBeFound("instrumentDate.specified=true");
+
+        // Get all the dtTransactionList where instrumentDate is null
+        defaultDtTransactionShouldNotBeFound("instrumentDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDtTransactionsByInstrumentDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        dtTransactionRepository.saveAndFlush(dtTransaction);
+
+        // Get all the dtTransactionList where instrumentDate greater than or equals to DEFAULT_INSTRUMENT_DATE
+        defaultDtTransactionShouldBeFound("instrumentDate.greaterOrEqualThan=" + DEFAULT_INSTRUMENT_DATE);
+
+        // Get all the dtTransactionList where instrumentDate greater than or equals to UPDATED_INSTRUMENT_DATE
+        defaultDtTransactionShouldNotBeFound("instrumentDate.greaterOrEqualThan=" + UPDATED_INSTRUMENT_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDtTransactionsByInstrumentDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        dtTransactionRepository.saveAndFlush(dtTransaction);
+
+        // Get all the dtTransactionList where instrumentDate less than or equals to DEFAULT_INSTRUMENT_DATE
+        defaultDtTransactionShouldNotBeFound("instrumentDate.lessThan=" + DEFAULT_INSTRUMENT_DATE);
+
+        // Get all the dtTransactionList where instrumentDate less than or equals to UPDATED_INSTRUMENT_DATE
+        defaultDtTransactionShouldBeFound("instrumentDate.lessThan=" + UPDATED_INSTRUMENT_DATE);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllDtTransactionsByfCurrencyIsEqualToSomething() throws Exception {
         // Initialize the database
         dtTransactionRepository.saveAndFlush(dtTransaction);
@@ -1026,63 +1189,6 @@ public class DtTransactionResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllDtTransactionsByCreditorLedgerIsEqualToSomething() throws Exception {
-        // Initialize the database
-        CreditorLedger creditorLedger = CreditorLedgerResourceIntTest.createEntity(em);
-        em.persist(creditorLedger);
-        em.flush();
-        dtTransaction.setCreditorLedger(creditorLedger);
-        dtTransactionRepository.saveAndFlush(dtTransaction);
-        Long creditorLedgerId = creditorLedger.getId();
-
-        // Get all the dtTransactionList where creditorLedger equals to creditorLedgerId
-        defaultDtTransactionShouldBeFound("creditorLedgerId.equals=" + creditorLedgerId);
-
-        // Get all the dtTransactionList where creditorLedger equals to creditorLedgerId + 1
-        defaultDtTransactionShouldNotBeFound("creditorLedgerId.equals=" + (creditorLedgerId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllDtTransactionsByDebtorLedgerIsEqualToSomething() throws Exception {
-        // Initialize the database
-        DebtorLedger debtorLedger = DebtorLedgerResourceIntTest.createEntity(em);
-        em.persist(debtorLedger);
-        em.flush();
-        dtTransaction.setDebtorLedger(debtorLedger);
-        dtTransactionRepository.saveAndFlush(dtTransaction);
-        Long debtorLedgerId = debtorLedger.getId();
-
-        // Get all the dtTransactionList where debtorLedger equals to debtorLedgerId
-        defaultDtTransactionShouldBeFound("debtorLedgerId.equals=" + debtorLedgerId);
-
-        // Get all the dtTransactionList where debtorLedger equals to debtorLedgerId + 1
-        defaultDtTransactionShouldNotBeFound("debtorLedgerId.equals=" + (debtorLedgerId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllDtTransactionsByChequeRegisterIsEqualToSomething() throws Exception {
-        // Initialize the database
-        ChequeRegister chequeRegister = ChequeRegisterResourceIntTest.createEntity(em);
-        em.persist(chequeRegister);
-        em.flush();
-        dtTransaction.setChequeRegister(chequeRegister);
-        dtTransactionRepository.saveAndFlush(dtTransaction);
-        Long chequeRegisterId = chequeRegister.getId();
-
-        // Get all the dtTransactionList where chequeRegister equals to chequeRegisterId
-        defaultDtTransactionShouldBeFound("chequeRegisterId.equals=" + chequeRegisterId);
-
-        // Get all the dtTransactionList where chequeRegister equals to chequeRegisterId + 1
-        defaultDtTransactionShouldNotBeFound("chequeRegisterId.equals=" + (chequeRegisterId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllDtTransactionsByAccountIsEqualToSomething() throws Exception {
         // Initialize the database
         MstAccount account = MstAccountResourceIntTest.createEntity(em);
@@ -1153,6 +1259,9 @@ public class DtTransactionResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].invoiceNo").value(hasItem(DEFAULT_INVOICE_NO)))
             .andExpect(jsonPath("$.[*].invoiceDate").value(hasItem(DEFAULT_INVOICE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].instrumentType").value(hasItem(DEFAULT_INSTRUMENT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].instrumentNo").value(hasItem(DEFAULT_INSTRUMENT_NO)))
+            .andExpect(jsonPath("$.[*].instrumentDate").value(hasItem(DEFAULT_INSTRUMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].fCurrency").value(hasItem(DEFAULT_F_CURRENCY.intValue())))
             .andExpect(jsonPath("$.[*].convFactor").value(hasItem(DEFAULT_CONV_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
@@ -1215,6 +1324,9 @@ public class DtTransactionResourceIntTest {
             .type(UPDATED_TYPE)
             .invoiceNo(UPDATED_INVOICE_NO)
             .invoiceDate(UPDATED_INVOICE_DATE)
+            .instrumentType(UPDATED_INSTRUMENT_TYPE)
+            .instrumentNo(UPDATED_INSTRUMENT_NO)
+            .instrumentDate(UPDATED_INSTRUMENT_DATE)
             .fCurrency(UPDATED_F_CURRENCY)
             .convFactor(UPDATED_CONV_FACTOR)
             .postDate(UPDATED_POST_DATE)
@@ -1241,6 +1353,9 @@ public class DtTransactionResourceIntTest {
         assertThat(testDtTransaction.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testDtTransaction.getInvoiceNo()).isEqualTo(UPDATED_INVOICE_NO);
         assertThat(testDtTransaction.getInvoiceDate()).isEqualTo(UPDATED_INVOICE_DATE);
+        assertThat(testDtTransaction.getInstrumentType()).isEqualTo(UPDATED_INSTRUMENT_TYPE);
+        assertThat(testDtTransaction.getInstrumentNo()).isEqualTo(UPDATED_INSTRUMENT_NO);
+        assertThat(testDtTransaction.getInstrumentDate()).isEqualTo(UPDATED_INSTRUMENT_DATE);
         assertThat(testDtTransaction.getfCurrency()).isEqualTo(UPDATED_F_CURRENCY);
         assertThat(testDtTransaction.getConvFactor()).isEqualTo(UPDATED_CONV_FACTOR);
         assertThat(testDtTransaction.getPostDate()).isEqualTo(UPDATED_POST_DATE);
@@ -1316,6 +1431,9 @@ public class DtTransactionResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].invoiceNo").value(hasItem(DEFAULT_INVOICE_NO)))
             .andExpect(jsonPath("$.[*].invoiceDate").value(hasItem(DEFAULT_INVOICE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].instrumentType").value(hasItem(DEFAULT_INSTRUMENT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].instrumentNo").value(hasItem(DEFAULT_INSTRUMENT_NO)))
+            .andExpect(jsonPath("$.[*].instrumentDate").value(hasItem(DEFAULT_INSTRUMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].fCurrency").value(hasItem(DEFAULT_F_CURRENCY.intValue())))
             .andExpect(jsonPath("$.[*].convFactor").value(hasItem(DEFAULT_CONV_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))

@@ -67,6 +67,10 @@ export class DtTransactionService {
                 dtTransaction.invoiceDate != null && dtTransaction.invoiceDate.isValid()
                     ? dtTransaction.invoiceDate.format(DATE_FORMAT)
                     : null,
+            instrumentDate:
+                dtTransaction.instrumentDate != null && dtTransaction.instrumentDate.isValid()
+                    ? dtTransaction.instrumentDate.format(DATE_FORMAT)
+                    : null,
             postDate:
                 dtTransaction.postDate != null && dtTransaction.postDate.isValid() ? dtTransaction.postDate.format(DATE_FORMAT) : null,
             modifiedOn:
@@ -79,6 +83,7 @@ export class DtTransactionService {
         if (res.body) {
             res.body.voucherDate = res.body.voucherDate != null ? moment(res.body.voucherDate) : null;
             res.body.invoiceDate = res.body.invoiceDate != null ? moment(res.body.invoiceDate) : null;
+            res.body.instrumentDate = res.body.instrumentDate != null ? moment(res.body.instrumentDate) : null;
             res.body.postDate = res.body.postDate != null ? moment(res.body.postDate) : null;
             res.body.modifiedOn = res.body.modifiedOn != null ? moment(res.body.modifiedOn) : null;
         }
@@ -90,6 +95,7 @@ export class DtTransactionService {
             res.body.forEach((dtTransaction: IDtTransaction) => {
                 dtTransaction.voucherDate = dtTransaction.voucherDate != null ? moment(dtTransaction.voucherDate) : null;
                 dtTransaction.invoiceDate = dtTransaction.invoiceDate != null ? moment(dtTransaction.invoiceDate) : null;
+                dtTransaction.instrumentDate = dtTransaction.instrumentDate != null ? moment(dtTransaction.instrumentDate) : null;
                 dtTransaction.postDate = dtTransaction.postDate != null ? moment(dtTransaction.postDate) : null;
                 dtTransaction.modifiedOn = dtTransaction.modifiedOn != null ? moment(dtTransaction.modifiedOn) : null;
             });

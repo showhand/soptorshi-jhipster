@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.VoucherType;
+import org.soptorshi.domain.enumeration.InstrumentType;
 
 /**
  * A DTO for the DtTransaction entity.
@@ -29,6 +30,12 @@ public class DtTransactionDTO implements Serializable {
 
     private LocalDate invoiceDate;
 
+    private InstrumentType instrumentType;
+
+    private String instrumentNo;
+
+    private LocalDate instrumentDate;
+
     private BigDecimal fCurrency;
 
     private BigDecimal convFactor;
@@ -43,14 +50,6 @@ public class DtTransactionDTO implements Serializable {
 
     private String reference;
 
-
-    private Long creditorLedgerId;
-
-    private Long debtorLedgerId;
-
-    private Long chequeRegisterId;
-
-    private String chequeRegisterChequeNo;
 
     private Long accountId;
 
@@ -136,6 +135,30 @@ public class DtTransactionDTO implements Serializable {
         this.invoiceDate = invoiceDate;
     }
 
+    public InstrumentType getInstrumentType() {
+        return instrumentType;
+    }
+
+    public void setInstrumentType(InstrumentType instrumentType) {
+        this.instrumentType = instrumentType;
+    }
+
+    public String getInstrumentNo() {
+        return instrumentNo;
+    }
+
+    public void setInstrumentNo(String instrumentNo) {
+        this.instrumentNo = instrumentNo;
+    }
+
+    public LocalDate getInstrumentDate() {
+        return instrumentDate;
+    }
+
+    public void setInstrumentDate(LocalDate instrumentDate) {
+        this.instrumentDate = instrumentDate;
+    }
+
     public BigDecimal getfCurrency() {
         return fCurrency;
     }
@@ -190,38 +213,6 @@ public class DtTransactionDTO implements Serializable {
 
     public void setReference(String reference) {
         this.reference = reference;
-    }
-
-    public Long getCreditorLedgerId() {
-        return creditorLedgerId;
-    }
-
-    public void setCreditorLedgerId(Long creditorLedgerId) {
-        this.creditorLedgerId = creditorLedgerId;
-    }
-
-    public Long getDebtorLedgerId() {
-        return debtorLedgerId;
-    }
-
-    public void setDebtorLedgerId(Long debtorLedgerId) {
-        this.debtorLedgerId = debtorLedgerId;
-    }
-
-    public Long getChequeRegisterId() {
-        return chequeRegisterId;
-    }
-
-    public void setChequeRegisterId(Long chequeRegisterId) {
-        this.chequeRegisterId = chequeRegisterId;
-    }
-
-    public String getChequeRegisterChequeNo() {
-        return chequeRegisterChequeNo;
-    }
-
-    public void setChequeRegisterChequeNo(String chequeRegisterChequeNo) {
-        this.chequeRegisterChequeNo = chequeRegisterChequeNo;
     }
 
     public Long getAccountId() {
@@ -305,6 +296,9 @@ public class DtTransactionDTO implements Serializable {
             ", type='" + getType() + "'" +
             ", invoiceNo='" + getInvoiceNo() + "'" +
             ", invoiceDate='" + getInvoiceDate() + "'" +
+            ", instrumentType='" + getInstrumentType() + "'" +
+            ", instrumentNo='" + getInstrumentNo() + "'" +
+            ", instrumentDate='" + getInstrumentDate() + "'" +
             ", fCurrency=" + getfCurrency() +
             ", convFactor=" + getConvFactor() +
             ", postDate='" + getPostDate() + "'" +
@@ -312,10 +306,6 @@ public class DtTransactionDTO implements Serializable {
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", reference='" + getReference() + "'" +
-            ", creditorLedger=" + getCreditorLedgerId() +
-            ", debtorLedger=" + getDebtorLedgerId() +
-            ", chequeRegister=" + getChequeRegisterId() +
-            ", chequeRegister='" + getChequeRegisterChequeNo() + "'" +
             ", account=" + getAccountId() +
             ", account='" + getAccountName() + "'" +
             ", voucher=" + getVoucherId() +
