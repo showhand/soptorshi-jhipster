@@ -54,25 +54,13 @@ export class JournalVoucherTransactionUpdateComponent extends DtTransactionUpdat
         this.isSaving = false;
 
         this.mstAccountService
-            .query()
+            .query({
+                size: 50000
+            })
             .pipe(
                 filter((mayBeOk: HttpResponse<IMstAccount[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IMstAccount[]>) => response.body)
             )
             .subscribe((res: IMstAccount[]) => (this.mstaccounts = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.voucherService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IVoucher[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IVoucher[]>) => response.body)
-            )
-            .subscribe((res: IVoucher[]) => (this.vouchers = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.currencyService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<ICurrency[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ICurrency[]>) => response.body)
-            )
-            .subscribe((res: ICurrency[]) => (this.currencies = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 }
