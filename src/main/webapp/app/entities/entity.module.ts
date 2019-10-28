@@ -593,10 +593,6 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             {
                 path: 'dt-transaction',
                 loadChildren: './dt-transaction/dt-transaction.module#SoptorshiDtTransactionModule'
-            },
-            {
-                path: 'journal-voucher',
-                loadChildren: './journal-voucher/journal-voucher.module#SoptorshiJournalVoucherModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

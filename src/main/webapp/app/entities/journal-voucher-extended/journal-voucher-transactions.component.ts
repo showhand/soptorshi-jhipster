@@ -57,12 +57,11 @@ export class JournalVoucherTransactionsComponent extends DtTransactionComponent 
     addTransaction() {
         let transaction = new DtTransaction();
         transaction.voucherNo = this.journalVoucher.voucherNo;
-        transaction.currencyId = this.currency.id;
-        transaction.convFactor = this.conversionFactor.bcovFactor;
+        transaction.currencyId = this.journalVoucher.currencyId;
+        transaction.convFactor = this.journalVoucher.conversionFactor;
         transaction.voucherDate = this.journalVoucher.voucherDate;
-        transaction.currencyNotation = this.currency.notation;
-        transaction.fCurrency = this.currency.id;
-        transaction.type = this.voucherType;
+        transaction.fCurrency = this.journalVoucher.currencyId;
+        transaction.type = this.journalVoucher.type;
         let modalRef = this.modalService.open(JournalVoucherTransactionUpdateComponent, { size: 'lg' });
         modalRef.componentInstance.dtTransaction = transaction;
     }

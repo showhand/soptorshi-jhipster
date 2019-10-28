@@ -13,8 +13,9 @@ import { JournalVoucherExtendedUpdateComponent } from './journal-voucher-extende
 import { IJournalVoucher } from 'app/shared/model/journal-voucher.model';
 import { JournalVoucherDeletePopupComponent } from 'app/entities/journal-voucher';
 import { DtTransaction, IDtTransaction } from 'app/shared/model/dt-transaction.model';
-import { DtTransactionExtendedService } from 'app/entities/dt-transaction-extended';
+import { DtTransactionExtendedResolve, DtTransactionExtendedService } from 'app/entities/dt-transaction-extended';
 import { JournalVoucherTransactionUpdateComponent } from 'app/entities/journal-voucher-extended/journal-voucher-transaction-update.component';
+import { DtTransactionService } from 'app/entities/dt-transaction';
 
 @Injectable({ providedIn: 'root' })
 export class JournalVoucherExtendedResolve implements Resolve<IJournalVoucher> {
@@ -33,25 +34,6 @@ export class JournalVoucherExtendedResolve implements Resolve<IJournalVoucher> {
             );
         }
         return of(new JournalVoucher());
-    }
-}
-
-@Injectable({ providedIn: 'root' })
-export class JournalVoucherTransactionResolve implements Resolve<IDtTransaction> {
-    constructor(private service: DtTransactionExtendedService) {}
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DtTransaction> {
-        const id = route.params['id'] ? route.params['id'] : null;
-        const currencyId = route.params['currencyId'] ? route.params['currencyId'] : null;
-        const balanceType = route.params['balanceType'] ? route.params['balanceType'] : null;
-        const conversionFactor = route.params['conversionFactorValue'] ? route.params['conversionFactorValue'] : null;
-
-        if (currencyId && balanceType && conversionFactor) {
-            let dtTransaction = new DtTransaction();
-
-            return of(dtTransaction);
-        }
-        return of(new DtTransaction());
     }
 }
 
@@ -106,10 +88,10 @@ export const journalVoucherExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':currencyId/:balanceType/:conversionFactorValue/new-transaction',
+        path: ':journalVoucherId/new-transaction',
         component: JournalVoucherTransactionUpdateComponent,
         resolve: {
-            dtTransaction: JournalVoucherTransactionResolve
+            dtTransaction: DtTransactionExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

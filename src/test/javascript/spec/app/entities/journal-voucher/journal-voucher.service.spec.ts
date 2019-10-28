@@ -7,7 +7,8 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { JournalVoucherService } from 'app/entities/journal-voucher/journal-voucher.service';
-import { IJournalVoucher, JournalVoucher, VoucherType } from 'app/shared/model/journal-voucher.model';
+import { IJournalVoucher, JournalVoucher } from 'app/shared/model/journal-voucher.model';
+import { VoucherType } from 'app/shared/model/dt-transaction.model';
 
 describe('Service Tests', () => {
     describe('JournalVoucher Service', () => {

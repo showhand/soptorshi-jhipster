@@ -24,6 +24,7 @@ export class JournalVoucherExtendedDetailComponent extends JournalVoucherDetailC
     conversionFactor: IConversionFactor;
     isSaving: boolean;
     voucherType: VoucherType;
+    journalVoucherId: number;
 
     constructor(
         protected activatedRoute: ActivatedRoute,
@@ -40,33 +41,36 @@ export class JournalVoucherExtendedDetailComponent extends JournalVoucherDetailC
     ngOnInit() {
         super.ngOnInit();
         this.loadAll();
-        this.voucherType = this.voucherType == null ? (this.voucherType = VoucherType.BUYING) : this.voucherType;
+        this.journalVoucher.type = this.voucherType == null ? (this.voucherType = VoucherType.BUYING) : this.voucherType;
     }
 
     loadAll() {
+        this.journalVoucherId = this.journalVoucher.id;
         this.currencyService
             .query({
                 size: 60
             })
             .subscribe((response: HttpResponse<ICurrency[]>) => {
                 this.currencies = response.body;
-                this.currencies.forEach((c: ICurrency) => {
-                    if (c.flag === CurrencyFlag.BASE) {
-                        this.selectedCurrency = c;
-                        this.fetchConversionFactor();
-                    }
-                });
+                if (!this.journalVoucher.currencyId) {
+                    this.currencies.forEach((c: ICurrency) => {
+                        if (c.flag === CurrencyFlag.BASE && !this.journalVoucher.currencyId) {
+                            this.journalVoucher.currencyId = c.id;
+                            this.fetchConversionFactor();
+                        }
+                    });
+                }
             });
     }
 
     fetchConversionFactor() {
         this.conversionFactorService
             .query({
-                'currencyId.equals': this.selectedCurrency.id,
+                'currencyId.equals': this.journalVoucher.id,
                 sort: ['modifiedOn,desc']
             })
             .subscribe((response: HttpResponse<IConversionFactor[]>) => {
-                this.conversionFactor = response.body[0];
+                this.journalVoucher.conversionFactor = response.body[0].bcovFactor;
             });
     }
 
@@ -77,14 +81,10 @@ export class JournalVoucherExtendedDetailComponent extends JournalVoucherDetailC
     save() {
         this.isSaving = true;
         if (this.journalVoucher.id !== undefined) {
-            this.subscribeToSaveResponse(this.journalVoucherService.update(this.journalVoucher));
+            this.journalVoucherService.update(this.journalVoucher);
         } else {
-            this.subscribeToSaveResponse(this.journalVoucherService.create(this.journalVoucher));
+            this.journalVoucherService.create(this.journalVoucher);
         }
-    }
-
-    protected subscribeToSaveResponse(result: Observable<HttpResponse<IJournalVoucher>>) {
-        result.subscribe((res: HttpResponse<IJournalVoucher>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     protected onSaveSuccess() {

@@ -1,9 +1,5 @@
 import { Moment } from 'moment';
-
-export const enum VoucherType {
-    SELLING = 'SELLING',
-    BUYING = 'BUYING'
-}
+import { VoucherType } from 'app/shared/model/dt-transaction.model';
 
 export interface IJournalVoucher {
     id?: number;

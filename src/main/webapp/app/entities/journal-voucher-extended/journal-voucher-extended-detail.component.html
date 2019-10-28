@@ -34,7 +34,7 @@
                              </div>
                             <div class="form-group">
                                 <label class="form-control-label" for="field_type">Type</label>
-                                <select class="form-control" name="type" [(ngModel)]="voucherType" id="field_type" >
+                                <select class="form-control" name="type" [(ngModel)]="journalVoucher.type" id="field_type" >
                                     <option value="SELLING">SELLING</option>
                                     <option value="BUYING">BUYING</option>
                                 </select>
@@ -54,8 +54,8 @@
                                 <div class="col-8">
                                     <div class="form-group">
                                         <label class="form-control-label" for="field_currency">Currency</label>
-                                        <select class="form-control" id="field_currency" name="currency" [(ngModel)]="selectedCurrency" (ngModelChange)="fetchConversionFactor()">
-                                            <option [ngValue]="currency" *ngFor="let currency of currencies">{{currency.notation}}</option>
+                                        <select class="form-control" id="field_currency" name="currency" [(ngModel)]="journalVoucher.currencyId" (ngModelChange)="fetchConversionFactor()">
+                                            <option [ngValue]="currency.id" *ngFor="let currency of currencies">{{currency.notation}}</option>
                                         </select>
                                     </div>
 
@@ -63,7 +63,7 @@
                                 <div class="col-4">
                                     <div class="form-group">
                                         <label class="form-control-label" for="field_conversion_factor">Base</label>
-                                        <label class="form-control" id="field_conversion_factor">{{conversionFactor.bcovFactor}}</label>
+                                        <label class="form-control" id="field_conversion_factor">{{journalVoucher.conversionFactor}}</label>
                                     </div>
                                 </div>
                             </div>
