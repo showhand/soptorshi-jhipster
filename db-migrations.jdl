@@ -476,6 +476,8 @@ entity JournalVoucher{
     voucherNo String,
     voucherDate LocalDate,
     postDate LocalDate,
+    type VoucherType,
+    conversionFactor BigDecimal,
     modifiedBy String,
     modifiedOn LocalDate
 }
@@ -871,7 +873,8 @@ relationship ManyToOne {
   DebtorLedger{customer(name)} to Customer,
   SystemAccountMap{account(name)} to MstAccount,
   SystemGroupMap{group(name)} to MstGroup,
-  VoucherNumberGenerator{financialAccountYear} to FinancialAccountYear
+  VoucherNumberGenerator{financialAccountYear} to FinancialAccountYear,
+  JournalVoucher{currency(notation)} to Currency
 }
 
 dto Department, Voucher, JournalVoucher, PaymentVoucher, ContraVoucher, ReceiptVoucher, VoucherNumberControl, SystemGroupMap, SystemAccountMap, DtTransaction, MstGroup, CreditorLedger, MstAccount, Customer, DebtorLedger, ChequeRegister,ConversionFactor, PredefinedNarration, MonthlyBalance, AccountBalance, Currency, PeriodClose,Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions ,BudgetAllocation, Bill, DepartmentHead , Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with mapstruct

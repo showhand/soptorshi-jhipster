@@ -3,6 +3,7 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.JournalVoucher;
+import org.soptorshi.domain.Currency;
 import org.soptorshi.repository.JournalVoucherRepository;
 import org.soptorshi.repository.search.JournalVoucherSearchRepository;
 import org.soptorshi.service.JournalVoucherService;
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collections;
@@ -44,6 +46,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.soptorshi.domain.enumeration.VoucherType;
 /**
  * Test class for the JournalVoucherResource REST controller.
  *
@@ -61,6 +64,12 @@ public class JournalVoucherResourceIntTest {
 
     private static final LocalDate DEFAULT_POST_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_POST_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final VoucherType DEFAULT_TYPE = VoucherType.SELLING;
+    private static final VoucherType UPDATED_TYPE = VoucherType.BUYING;
+
+    private static final BigDecimal DEFAULT_CONVERSION_FACTOR = new BigDecimal(1);
+    private static final BigDecimal UPDATED_CONVERSION_FACTOR = new BigDecimal(2);
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
@@ -130,6 +139,8 @@ public class JournalVoucherResourceIntTest {
             .voucherNo(DEFAULT_VOUCHER_NO)
             .voucherDate(DEFAULT_VOUCHER_DATE)
             .postDate(DEFAULT_POST_DATE)
+            .type(DEFAULT_TYPE)
+            .conversionFactor(DEFAULT_CONVERSION_FACTOR)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
         return journalVoucher;
@@ -159,6 +170,8 @@ public class JournalVoucherResourceIntTest {
         assertThat(testJournalVoucher.getVoucherNo()).isEqualTo(DEFAULT_VOUCHER_NO);
         assertThat(testJournalVoucher.getVoucherDate()).isEqualTo(DEFAULT_VOUCHER_DATE);
         assertThat(testJournalVoucher.getPostDate()).isEqualTo(DEFAULT_POST_DATE);
+        assertThat(testJournalVoucher.getType()).isEqualTo(DEFAULT_TYPE);
+        assertThat(testJournalVoucher.getConversionFactor()).isEqualTo(DEFAULT_CONVERSION_FACTOR);
         assertThat(testJournalVoucher.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testJournalVoucher.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
@@ -203,6 +216,8 @@ public class JournalVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO.toString())))
             .andExpect(jsonPath("$.[*].voucherDate").value(hasItem(DEFAULT_VOUCHER_DATE.toString())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
@@ -221,6 +236,8 @@ public class JournalVoucherResourceIntTest {
             .andExpect(jsonPath("$.voucherNo").value(DEFAULT_VOUCHER_NO.toString()))
             .andExpect(jsonPath("$.voucherDate").value(DEFAULT_VOUCHER_DATE.toString()))
             .andExpect(jsonPath("$.postDate").value(DEFAULT_POST_DATE.toString()))
+            .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
+            .andExpect(jsonPath("$.conversionFactor").value(DEFAULT_CONVERSION_FACTOR.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
@@ -398,6 +415,84 @@ public class JournalVoucherResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllJournalVouchersByTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where type equals to DEFAULT_TYPE
+        defaultJournalVoucherShouldBeFound("type.equals=" + DEFAULT_TYPE);
+
+        // Get all the journalVoucherList where type equals to UPDATED_TYPE
+        defaultJournalVoucherShouldNotBeFound("type.equals=" + UPDATED_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where type in DEFAULT_TYPE or UPDATED_TYPE
+        defaultJournalVoucherShouldBeFound("type.in=" + DEFAULT_TYPE + "," + UPDATED_TYPE);
+
+        // Get all the journalVoucherList where type equals to UPDATED_TYPE
+        defaultJournalVoucherShouldNotBeFound("type.in=" + UPDATED_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where type is not null
+        defaultJournalVoucherShouldBeFound("type.specified=true");
+
+        // Get all the journalVoucherList where type is null
+        defaultJournalVoucherShouldNotBeFound("type.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByConversionFactorIsEqualToSomething() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where conversionFactor equals to DEFAULT_CONVERSION_FACTOR
+        defaultJournalVoucherShouldBeFound("conversionFactor.equals=" + DEFAULT_CONVERSION_FACTOR);
+
+        // Get all the journalVoucherList where conversionFactor equals to UPDATED_CONVERSION_FACTOR
+        defaultJournalVoucherShouldNotBeFound("conversionFactor.equals=" + UPDATED_CONVERSION_FACTOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByConversionFactorIsInShouldWork() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where conversionFactor in DEFAULT_CONVERSION_FACTOR or UPDATED_CONVERSION_FACTOR
+        defaultJournalVoucherShouldBeFound("conversionFactor.in=" + DEFAULT_CONVERSION_FACTOR + "," + UPDATED_CONVERSION_FACTOR);
+
+        // Get all the journalVoucherList where conversionFactor equals to UPDATED_CONVERSION_FACTOR
+        defaultJournalVoucherShouldNotBeFound("conversionFactor.in=" + UPDATED_CONVERSION_FACTOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByConversionFactorIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where conversionFactor is not null
+        defaultJournalVoucherShouldBeFound("conversionFactor.specified=true");
+
+        // Get all the journalVoucherList where conversionFactor is null
+        defaultJournalVoucherShouldNotBeFound("conversionFactor.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllJournalVouchersByModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         journalVoucherRepository.saveAndFlush(journalVoucher);
@@ -500,6 +595,25 @@ public class JournalVoucherResourceIntTest {
         defaultJournalVoucherShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByCurrencyIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Currency currency = CurrencyResourceIntTest.createEntity(em);
+        em.persist(currency);
+        em.flush();
+        journalVoucher.setCurrency(currency);
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+        Long currencyId = currency.getId();
+
+        // Get all the journalVoucherList where currency equals to currencyId
+        defaultJournalVoucherShouldBeFound("currencyId.equals=" + currencyId);
+
+        // Get all the journalVoucherList where currency equals to currencyId + 1
+        defaultJournalVoucherShouldNotBeFound("currencyId.equals=" + (currencyId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -511,6 +625,8 @@ public class JournalVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].voucherDate").value(hasItem(DEFAULT_VOUCHER_DATE.toString())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
@@ -563,6 +679,8 @@ public class JournalVoucherResourceIntTest {
             .voucherNo(UPDATED_VOUCHER_NO)
             .voucherDate(UPDATED_VOUCHER_DATE)
             .postDate(UPDATED_POST_DATE)
+            .type(UPDATED_TYPE)
+            .conversionFactor(UPDATED_CONVERSION_FACTOR)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
         JournalVoucherDTO journalVoucherDTO = journalVoucherMapper.toDto(updatedJournalVoucher);
@@ -579,6 +697,8 @@ public class JournalVoucherResourceIntTest {
         assertThat(testJournalVoucher.getVoucherNo()).isEqualTo(UPDATED_VOUCHER_NO);
         assertThat(testJournalVoucher.getVoucherDate()).isEqualTo(UPDATED_VOUCHER_DATE);
         assertThat(testJournalVoucher.getPostDate()).isEqualTo(UPDATED_POST_DATE);
+        assertThat(testJournalVoucher.getType()).isEqualTo(UPDATED_TYPE);
+        assertThat(testJournalVoucher.getConversionFactor()).isEqualTo(UPDATED_CONVERSION_FACTOR);
         assertThat(testJournalVoucher.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testJournalVoucher.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
@@ -644,6 +764,8 @@ public class JournalVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].voucherDate").value(hasItem(DEFAULT_VOUCHER_DATE.toString())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }

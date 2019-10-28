@@ -14,6 +14,15 @@
             "fieldType": "LocalDate"
         },
         {
+            "fieldName": "type",
+            "fieldType": "VoucherType",
+            "fieldValues": "SELLING,BUYING"
+        },
+        {
+            "fieldName": "conversionFactor",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "modifiedBy",
             "fieldType": "String"
         },
@@ -22,7 +31,15 @@
             "fieldType": "LocalDate"
         }
     ],
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "currency",
+            "otherEntityRelationshipName": "journalVoucher",
+            "relationshipName": "currency",
+            "otherEntityField": "notation"
+        }
+    ],
     "changelogDate": "20191026143212",
     "entityTableName": "journal_voucher",
     "dto": "mapstruct",

@@ -102,11 +102,21 @@ public class JournalVoucherQueryService extends QueryService<JournalVoucher> {
             if (criteria.getPostDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPostDate(), JournalVoucher_.postDate));
             }
+            if (criteria.getType() != null) {
+                specification = specification.and(buildSpecification(criteria.getType(), JournalVoucher_.type));
+            }
+            if (criteria.getConversionFactor() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getConversionFactor(), JournalVoucher_.conversionFactor));
+            }
             if (criteria.getModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), JournalVoucher_.modifiedBy));
             }
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), JournalVoucher_.modifiedOn));
+            }
+            if (criteria.getCurrencyId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCurrencyId(),
+                    root -> root.join(JournalVoucher_.currency, JoinType.LEFT).get(Currency_.id)));
             }
         }
         return specification;

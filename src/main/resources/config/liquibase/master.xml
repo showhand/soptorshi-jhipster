@@ -173,5 +173,8 @@
     <include file="config/liquibase/changelog/20191008154340_added_entity_constraints_VoucherNumberGenerator.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191008154540_voucher_number_generator_unique_custom_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191027104252_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191026143212_added_entity_constraints_JournalVoucher.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191026143212_added_entity_constraints_JournalVoucher.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191028141524_journal_voucher_refactored.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

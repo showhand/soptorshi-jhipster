@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { JournalVoucherService } from 'app/entities/journal-voucher/journal-voucher.service';
-import { IJournalVoucher, JournalVoucher } from 'app/shared/model/journal-voucher.model';
+import { IJournalVoucher, JournalVoucher, VoucherType } from 'app/shared/model/journal-voucher.model';
 
 describe('Service Tests', () => {
     describe('JournalVoucher Service', () => {
@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new JournalVoucher(0, 'AAAAAAA', currentDate, currentDate, 'AAAAAAA', currentDate);
+            elemDefault = new JournalVoucher(0, 'AAAAAAA', currentDate, currentDate, VoucherType.SELLING, 0, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
@@ -79,6 +79,8 @@ describe('Service Tests', () => {
                         voucherNo: 'BBBBBB',
                         voucherDate: currentDate.format(DATE_FORMAT),
                         postDate: currentDate.format(DATE_FORMAT),
+                        type: 'BBBBBB',
+                        conversionFactor: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -107,6 +109,8 @@ describe('Service Tests', () => {
                         voucherNo: 'BBBBBB',
                         voucherDate: currentDate.format(DATE_FORMAT),
                         postDate: currentDate.format(DATE_FORMAT),
+                        type: 'BBBBBB',
+                        conversionFactor: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },

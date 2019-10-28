@@ -40,7 +40,7 @@ export class JournalVoucherExtendedResolve implements Resolve<IJournalVoucher> {
 export class JournalVoucherTransactionResolve implements Resolve<IDtTransaction> {
     constructor(private service: DtTransactionExtendedService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IJournalVoucher> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DtTransaction> {
         const id = route.params['id'] ? route.params['id'] : null;
         const currencyId = route.params['currencyId'] ? route.params['currencyId'] : null;
         const balanceType = route.params['balanceType'] ? route.params['balanceType'] : null;
@@ -48,9 +48,7 @@ export class JournalVoucherTransactionResolve implements Resolve<IDtTransaction>
 
         if (currencyId && balanceType && conversionFactor) {
             let dtTransaction = new DtTransaction();
-            dtTransaction.currencyId = currencyId;
-            dtTransaction.balanceType = balanceType;
-            dtTransaction.convFactor = conversionFactor;
+
             return of(dtTransaction);
         }
         return of(new DtTransaction());

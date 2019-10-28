@@ -33,8 +33,11 @@
             <th jhiSortBy="voucherNo"><span>Voucher No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="voucherDate"><span>Voucher Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="postDate"><span>Post Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="type"><span>Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="conversionFactor"><span>Conversion Factor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="currencyNotation"><span>Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -44,8 +47,15 @@
                 <td>{{journalVoucher.voucherNo}}</td>
                 <td>{{journalVoucher.voucherDate | date:'mediumDate'}}</td>
                 <td>{{journalVoucher.postDate | date:'mediumDate'}}</td>
+                <td>{{journalVoucher.type}}</td>
+                <td>{{journalVoucher.conversionFactor}}</td>
                 <td>{{journalVoucher.modifiedBy}}</td>
                 <td>{{journalVoucher.modifiedOn | date:'mediumDate'}}</td>
+                <td>
+                    <div *ngIf="journalVoucher.currencyId">
+                        <a [routerLink]="['../currency', journalVoucher.currencyId , 'view' ]" >{{journalVoucher.currencyNotation}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

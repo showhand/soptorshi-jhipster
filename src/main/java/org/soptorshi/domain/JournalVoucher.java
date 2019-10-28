@@ -1,13 +1,17 @@
 package org.soptorshi.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import org.soptorshi.domain.enumeration.VoucherType;
 
 /**
  * A JournalVoucher.
@@ -32,11 +36,22 @@ public class JournalVoucher implements Serializable {
     @Column(name = "post_date")
     private LocalDate postDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "jhi_type")
+    private VoucherType type;
+
+    @Column(name = "conversion_factor", precision = 10, scale = 2)
+    private BigDecimal conversionFactor;
+
     @Column(name = "modified_by")
     private String modifiedBy;
 
     @Column(name = "modified_on")
     private LocalDate modifiedOn;
+
+    @ManyToOne
+    @JsonIgnoreProperties("journalVouchers")
+    private Currency currency;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -86,6 +101,32 @@ public class JournalVoucher implements Serializable {
         this.postDate = postDate;
     }
 
+    public VoucherType getType() {
+        return type;
+    }
+
+    public JournalVoucher type(VoucherType type) {
+        this.type = type;
+        return this;
+    }
+
+    public void setType(VoucherType type) {
+        this.type = type;
+    }
+
+    public BigDecimal getConversionFactor() {
+        return conversionFactor;
+    }
+
+    public JournalVoucher conversionFactor(BigDecimal conversionFactor) {
+        this.conversionFactor = conversionFactor;
+        return this;
+    }
+
+    public void setConversionFactor(BigDecimal conversionFactor) {
+        this.conversionFactor = conversionFactor;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -110,6 +151,19 @@ public class JournalVoucher implements Serializable {
 
     public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public JournalVoucher currency(Currency currency) {
+        this.currency = currency;
+        return this;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -140,6 +194,8 @@ public class JournalVoucher implements Serializable {
             ", voucherNo='" + getVoucherNo() + "'" +
             ", voucherDate='" + getVoucherDate() + "'" +
             ", postDate='" + getPostDate() + "'" +
+            ", type='" + getType() + "'" +
+            ", conversionFactor=" + getConversionFactor() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";

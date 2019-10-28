@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.VoucherType;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -9,6 +10,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
@@ -20,6 +22,11 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class JournalVoucherCriteria implements Serializable {
+    /**
+     * Class for filtering VoucherType
+     */
+    public static class VoucherTypeFilter extends Filter<VoucherType> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -31,9 +38,15 @@ public class JournalVoucherCriteria implements Serializable {
 
     private LocalDateFilter postDate;
 
+    private VoucherTypeFilter type;
+
+    private BigDecimalFilter conversionFactor;
+
     private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedOn;
+
+    private LongFilter currencyId;
 
     public LongFilter getId() {
         return id;
@@ -67,6 +80,22 @@ public class JournalVoucherCriteria implements Serializable {
         this.postDate = postDate;
     }
 
+    public VoucherTypeFilter getType() {
+        return type;
+    }
+
+    public void setType(VoucherTypeFilter type) {
+        this.type = type;
+    }
+
+    public BigDecimalFilter getConversionFactor() {
+        return conversionFactor;
+    }
+
+    public void setConversionFactor(BigDecimalFilter conversionFactor) {
+        this.conversionFactor = conversionFactor;
+    }
+
     public StringFilter getModifiedBy() {
         return modifiedBy;
     }
@@ -81,6 +110,14 @@ public class JournalVoucherCriteria implements Serializable {
 
     public void setModifiedOn(LocalDateFilter modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public LongFilter getCurrencyId() {
+        return currencyId;
+    }
+
+    public void setCurrencyId(LongFilter currencyId) {
+        this.currencyId = currencyId;
     }
 
 
@@ -98,8 +135,11 @@ public class JournalVoucherCriteria implements Serializable {
             Objects.equals(voucherNo, that.voucherNo) &&
             Objects.equals(voucherDate, that.voucherDate) &&
             Objects.equals(postDate, that.postDate) &&
+            Objects.equals(type, that.type) &&
+            Objects.equals(conversionFactor, that.conversionFactor) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
-            Objects.equals(modifiedOn, that.modifiedOn);
+            Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(currencyId, that.currencyId);
     }
 
     @Override
@@ -109,8 +149,11 @@ public class JournalVoucherCriteria implements Serializable {
         voucherNo,
         voucherDate,
         postDate,
+        type,
+        conversionFactor,
         modifiedBy,
-        modifiedOn
+        modifiedOn,
+        currencyId
         );
     }
 
@@ -121,8 +164,11 @@ public class JournalVoucherCriteria implements Serializable {
                 (voucherNo != null ? "voucherNo=" + voucherNo + ", " : "") +
                 (voucherDate != null ? "voucherDate=" + voucherDate + ", " : "") +
                 (postDate != null ? "postDate=" + postDate + ", " : "") +
+                (type != null ? "type=" + type + ", " : "") +
+                (conversionFactor != null ? "conversionFactor=" + conversionFactor + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
+                (currencyId != null ? "currencyId=" + currencyId + ", " : "") +
             "}";
     }
 
