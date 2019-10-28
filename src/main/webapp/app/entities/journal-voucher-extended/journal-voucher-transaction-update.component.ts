@@ -20,6 +20,7 @@ import { ICurrency } from 'app/shared/model/currency.model';
 import { CurrencyService } from 'app/entities/currency';
 import { DtTransactionService, DtTransactionUpdateComponent } from 'app/entities/dt-transaction';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { SystemGroupMapService } from 'app/entities/system-group-map';
 
 @Component({
     selector: 'jhi-journal-voucher-transaction-update',
@@ -29,6 +30,8 @@ export class JournalVoucherTransactionUpdateComponent extends DtTransactionUpdat
     @Input()
     dtTransaction: IDtTransaction;
 
+    groupIdSystemGroupMap: any;
+
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected dtTransactionService: DtTransactionService,
@@ -37,7 +40,8 @@ export class JournalVoucherTransactionUpdateComponent extends DtTransactionUpdat
         protected currencyService: CurrencyService,
         protected activatedRoute: ActivatedRoute,
         protected activeModal: NgbActiveModal,
-        protected jhiEventManager: JhiEventManager
+        protected jhiEventManager: JhiEventManager,
+        protected systemGroupMapService: SystemGroupMapService
     ) {
         super(jhiAlertService, dtTransactionService, mstAccountService, voucherService, currencyService, activatedRoute);
     }
