@@ -26,7 +26,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     templateUrl: './journal-voucher-transaction-update.component.html'
 })
 export class JournalVoucherTransactionUpdateComponent extends DtTransactionUpdateComponent implements OnInit {
-    @Input()
     dtTransaction: IDtTransaction;
 
     constructor(
