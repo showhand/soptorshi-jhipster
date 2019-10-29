@@ -11,6 +11,7 @@ import { CurrencyExtendedService } from 'app/entities/currency-extended';
 import { ConversionFactorExtendedService } from 'app/entities/conversion-factor-extended';
 import { IConversionFactor } from 'app/shared/model/conversion-factor.model';
 import { VoucherType } from 'app/shared/model/dt-transaction.model';
+import { JhiEventManager } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-journal-voucher-detail',
@@ -30,7 +31,8 @@ export class JournalVoucherExtendedDetailComponent extends JournalVoucherDetailC
         protected activatedRoute: ActivatedRoute,
         protected journalVoucherService: JournalVoucherExtendedService,
         protected currencyService: CurrencyExtendedService,
-        protected conversionFactorService: ConversionFactorExtendedService
+        protected conversionFactorService: ConversionFactorExtendedService,
+        protected eventManager: JhiEventManager
     ) {
         super(activatedRoute);
         this.totalCredit = 0;
@@ -79,15 +81,19 @@ export class JournalVoucherExtendedDetailComponent extends JournalVoucherDetailC
     }
 
     previousState() {
+        this.eventManager.broadcast({
+            name: 'journalVoucherListModification',
+            content: 'Deleted an journalVoucher'
+        });
         window.history.back();
     }
 
     save() {
         this.isSaving = true;
         if (this.journalVoucher.id !== undefined) {
-            this.journalVoucherService.update(this.journalVoucher);
+            this.journalVoucherService.update(this.journalVoucher).subscribe((response: any) => this.previousState());
         } else {
-            this.journalVoucherService.create(this.journalVoucher);
+            this.journalVoucherService.create(this.journalVoucher).subscribe((response: any) => this.previousState());
         }
     }
 
