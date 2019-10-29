@@ -28,4 +28,12 @@ export class DtTransactionExtendedComponent extends DtTransactionComponent imple
     ) {
         super(dtTransactionService, parseLinks, jhiAlertService, accountService, activatedRoute, router, eventManager);
     }
+
+    transition() {
+        this.loadAll();
+    }
+
+    registerChangeInDtTransactions() {
+        this.eventSubscriber = this.eventManager.subscribe(null, response => this.loadAll());
+    }
 }

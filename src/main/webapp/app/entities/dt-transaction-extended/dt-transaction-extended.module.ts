@@ -21,7 +21,7 @@ import {
 const ENTITY_STATES = [...dtTransactionExtendedRoute, ...dtTransactionExtendedPopupRoute];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [SoptorshiSharedModule],
     declarations: [
         DtTransactionComponent,
         DtTransactionDetailComponent,

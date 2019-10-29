@@ -66,6 +66,25 @@ export class JournalVoucherTransactionsComponent extends DtTransactionComponent 
         modalRef.componentInstance.dtTransaction = transaction;
     }
 
+    editTransaction(transaction: DtTransaction) {
+        let modalRef = this.modalService.open(JournalVoucherTransactionUpdateComponent, { size: 'lg' });
+        modalRef.componentInstance.dtTransaction = transaction;
+    }
+
+    deleteTransaction(transaction: DtTransaction) {
+        this.dtTransactionService.delete(transaction.id).subscribe((response: any) => {
+            this.loadAll();
+        });
+    }
+
+    ngOnInit() {
+        this.loadAll();
+        this.accountService.identity().then(account => {
+            this.currentAccount = account;
+        });
+        this.registerChangeInDtTransactions();
+    }
+
     registerChangeInDtTransactions() {
         this.eventSubscriber = this.eventManager.subscribe('dtTransactionListModification', response => {
             this.loadAll();

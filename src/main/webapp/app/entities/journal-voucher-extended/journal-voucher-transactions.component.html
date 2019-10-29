@@ -36,8 +36,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let dtTransaction of dtTransactions ;trackBy: trackId">
-                <td>{{dtTransaction.serialNo}}</td>
+            <tr *ngFor="let dtTransaction of dtTransactions ;trackBy: trackId;let i = index">
+                <td>{{i+1}}</td>
                 <td>
                     <div *ngIf="dtTransaction.accountId">
                         <a [routerLink]="['../mst-account', dtTransaction.accountId , 'view' ]" >{{dtTransaction.accountName}}</a>
@@ -48,19 +48,12 @@
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/dt-transaction', dtTransaction.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/dt-transaction', dtTransaction.id, 'edit']"
-                                class="btn btn-primary btn-sm">
+                                class="btn btn-primary btn-sm" (click)="editTransaction(dtTransaction)">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'dt-transaction', { outlets: { popup: dtTransaction.id + '/delete'} }]"
+                                (click)="deleteTransaction(dtTransaction)"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">

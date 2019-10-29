@@ -39,6 +39,7 @@ const ENTITY_STATES = [...journalVoucherExtendedRoute, ...journalVoucherExtended
         JournalVoucherTransactionDetailComponent
     ],
     entryComponents: [
+        JournalVoucherTransactionsComponent,
         JournalVoucherExtendedComponent,
         JournalVoucherExtendedUpdateComponent,
         JournalVoucherDeleteDialogComponent,

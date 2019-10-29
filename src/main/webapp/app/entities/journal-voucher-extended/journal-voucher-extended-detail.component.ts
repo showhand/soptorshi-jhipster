@@ -39,9 +39,11 @@ export class JournalVoucherExtendedDetailComponent extends JournalVoucherDetailC
     }
 
     ngOnInit() {
-        super.ngOnInit();
-        this.loadAll();
-        this.journalVoucher.type = this.voucherType == null ? (this.voucherType = VoucherType.BUYING) : this.voucherType;
+        this.activatedRoute.data.subscribe(({ journalVoucher }) => {
+            this.journalVoucher = journalVoucher;
+            this.loadAll();
+            this.journalVoucher.type = this.voucherType == null ? (this.voucherType = VoucherType.BUYING) : this.voucherType;
+        });
     }
 
     loadAll() {
@@ -52,13 +54,15 @@ export class JournalVoucherExtendedDetailComponent extends JournalVoucherDetailC
             })
             .subscribe((response: HttpResponse<ICurrency[]>) => {
                 this.currencies = response.body;
-                if (!this.journalVoucher.currencyId) {
+                if (!this.journalVoucher.currencyId == undefined) {
                     this.currencies.forEach((c: ICurrency) => {
-                        if (c.flag === CurrencyFlag.BASE && !this.journalVoucher.currencyId) {
+                        if (c.flag == CurrencyFlag.BASE) {
                             this.journalVoucher.currencyId = c.id;
                             this.fetchConversionFactor();
                         }
                     });
+                } else {
+                    this.fetchConversionFactor();
                 }
             });
     }
@@ -66,7 +70,7 @@ export class JournalVoucherExtendedDetailComponent extends JournalVoucherDetailC
     fetchConversionFactor() {
         this.conversionFactorService
             .query({
-                'currencyId.equals': this.journalVoucher.id,
+                'currencyId.equals': this.journalVoucher.currencyId,
                 sort: ['modifiedOn,desc']
             })
             .subscribe((response: HttpResponse<IConversionFactor[]>) => {
