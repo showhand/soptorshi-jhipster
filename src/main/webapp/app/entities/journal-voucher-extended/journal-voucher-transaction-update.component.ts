@@ -21,6 +21,7 @@ import { CurrencyService } from 'app/entities/currency';
 import { DtTransactionService, DtTransactionUpdateComponent } from 'app/entities/dt-transaction';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SystemGroupMapService } from 'app/entities/system-group-map';
+import { GroupType } from 'app/shared/model/system-group-map.model';
 
 @Component({
     selector: 'jhi-journal-voucher-transaction-update',
@@ -30,7 +31,7 @@ export class JournalVoucherTransactionUpdateComponent extends DtTransactionUpdat
     @Input()
     dtTransaction: IDtTransaction;
 
-    groupIdSystemGroupMap: any;
+    groupTypeWithSystemGroupMap: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -56,6 +57,10 @@ export class JournalVoucherTransactionUpdateComponent extends DtTransactionUpdat
 
     ngOnInit() {
         this.isSaving = false;
+
+        this.systemGroupMapService.query({
+            'groupType.ind': [GroupType.BANK_ACCOUNTS]
+        });
 
         this.mstAccountService
             .query({
