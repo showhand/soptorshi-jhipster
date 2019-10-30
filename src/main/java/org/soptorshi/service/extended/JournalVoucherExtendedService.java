@@ -10,6 +10,7 @@ import org.soptorshi.repository.JournalVoucherRepository;
 import org.soptorshi.repository.search.JournalVoucherSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.DtTransactionQueryService;
+import org.soptorshi.service.DtTransactionService;
 import org.soptorshi.service.JournalVoucherQueryService;
 import org.soptorshi.service.JournalVoucherService;
 import org.soptorshi.service.dto.DtTransactionCriteria;
@@ -30,13 +31,15 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
     private DtTransactionQueryService dtTransactionQueryService;
     private DtTransactionMapper dtTransactionMapper;
     private DtTransactionRepository dtTransactionRepository;
+    private DtTransactionExtendedService dtTransactionService;
 
-    public JournalVoucherExtendedService(JournalVoucherRepository journalVoucherRepository, JournalVoucherMapper journalVoucherMapper, JournalVoucherSearchRepository journalVoucherSearchRepository, JournalVoucherGeneratorRepository journalVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository) {
+    public JournalVoucherExtendedService(JournalVoucherRepository journalVoucherRepository, JournalVoucherMapper journalVoucherMapper, JournalVoucherSearchRepository journalVoucherSearchRepository, JournalVoucherGeneratorRepository journalVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionService) {
         super(journalVoucherRepository, journalVoucherMapper, journalVoucherSearchRepository);
         this.journalVoucherGeneratorRepository = journalVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
         this.dtTransactionMapper = dtTransactionMapper;
         this.dtTransactionRepository = dtTransactionRepository;
+        this.dtTransactionService = dtTransactionService;
     }
 
     @Override
@@ -47,6 +50,7 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
             String voucherNo = String.format("%06d", journalVoucherGenerator.getId());
             journalVoucherDTO.setVoucherNo("JN"+voucherNo);
         }
+        journalVoucherDTO.setPostDate(journalVoucherDTO.getPostDate()!=null? LocalDate.now(): journalVoucherDTO.getPostDate());
         updateTransactions(journalVoucherDTO);
         journalVoucherDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
         journalVoucherDTO.setModifiedOn(LocalDate.now());
@@ -73,6 +77,10 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
         });
 
         List<DtTransaction> dtTransactions = dtTransactionMapper.toEntity(transactionDTOS);
-        dtTransactionRepository.saveAll(dtTransactions);
+        dtTransactions = dtTransactionRepository.saveAll(dtTransactions);
+
+        if(journalVoucherDTO.getPostDate()!=null){
+            dtTransactionService.updateAccountBalance(dtTransactionMapper.toDto(dtTransactions));
+        }
     }
 }

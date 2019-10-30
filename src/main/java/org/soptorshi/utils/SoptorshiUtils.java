@@ -220,6 +220,33 @@ public class SoptorshiUtils {
             return MonthType.DECEMBER;
     }
 
+    public static MonthType getMonthType(Month month){
+        if(month.getValue()==1)
+            return MonthType.JANUARY;
+        else if(month.getValue()==2)
+            return MonthType.FEBRUARY;
+        else if(month.getValue()==3)
+            return MonthType.MARCH;
+        else if(month.getValue()==4)
+            return MonthType.APRIL;
+        else if(month.getValue()==5)
+            return MonthType.MAY;
+        else if(month.getValue()==6)
+            return MonthType.JUNE;
+        else if(month.getValue()==7)
+            return MonthType.JULY;
+        else if(month.getValue()==8)
+            return MonthType.AUGUST;
+        else if(month.getValue()==9)
+            return MonthType.SEPTEMBER;
+        else if(month.getValue()==10)
+            return MonthType.OCTOBER;
+        else if(month.getValue()==11)
+            return MonthType.NOVEMBER;
+        else
+            return MonthType.DECEMBER;
+    }
+
    /* public static Date convertToDate(String dateStr, String dateFormat) throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat)
         Date date = formatter.parse(dateStr);
