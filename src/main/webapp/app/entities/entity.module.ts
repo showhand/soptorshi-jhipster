@@ -1,9 +1,6 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatTabsModule } from '@angular/material';
-import { VendorContactPersonExtendedUpdateComponent } from 'app/entities/vendor-contact-person-extended';
-import { requisitionExtendedPopupRoute, requisitionExtendedRoute } from 'app/entities/requisition-extended';
-import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute } from 'app/entities/requisition-details-extended';
 
 @NgModule({
     imports: [
@@ -149,7 +146,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'holiday-type',
-                loadChildren: './holiday-type/holiday-type.module#SoptorshiHolidayTypeModuleExtended'
+                loadChildren: './holiday-type-extended/holiday-type-extended.module#SoptorshiHolidayTypeModuleExtended'
             },
             {
                 path: 'holiday',
