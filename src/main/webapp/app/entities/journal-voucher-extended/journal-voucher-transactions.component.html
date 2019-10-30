@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Voucher Transactions</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-dt-transaction" (click)="addTransaction()">
+        <button [disabled]="journalVoucher.postDate" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-dt-transaction" (click)="addTransaction()">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Add Transaction
@@ -47,12 +47,12 @@
                 <td>{{dtTransaction.balanceType}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
+                        <button [disabled]="journalVoucher.postDate" type="submit"
                                 class="btn btn-primary btn-sm" (click)="editTransaction(dtTransaction)">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button [disabled]="journalVoucher.postDate" type="submit"
                                 (click)="deleteTransaction(dtTransaction)"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

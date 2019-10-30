@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { IJournalVoucher } from 'app/shared/model/journal-voucher.model';
 import { JournalVoucherDetailComponent } from 'app/entities/journal-voucher';
@@ -11,7 +11,8 @@ import { CurrencyExtendedService } from 'app/entities/currency-extended';
 import { ConversionFactorExtendedService } from 'app/entities/conversion-factor-extended';
 import { IConversionFactor } from 'app/shared/model/conversion-factor.model';
 import { VoucherType } from 'app/shared/model/dt-transaction.model';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
+import moment = require('moment');
 
 @Component({
     selector: 'jhi-journal-voucher-detail',
@@ -32,7 +33,9 @@ export class JournalVoucherExtendedDetailComponent extends JournalVoucherDetailC
         protected journalVoucherService: JournalVoucherExtendedService,
         protected currencyService: CurrencyExtendedService,
         protected conversionFactorService: ConversionFactorExtendedService,
-        protected eventManager: JhiEventManager
+        protected eventManager: JhiEventManager,
+        protected jhiAlertService: JhiAlertService,
+        protected router: Router
     ) {
         super(activatedRoute);
         this.totalCredit = 0;
@@ -88,13 +91,32 @@ export class JournalVoucherExtendedDetailComponent extends JournalVoucherDetailC
         window.history.back();
     }
 
+    post() {
+        this.journalVoucher.postDate = moment();
+        this.save();
+    }
+
     save() {
         this.isSaving = true;
-        if (this.journalVoucher.id !== undefined) {
-            this.journalVoucherService.update(this.journalVoucher).subscribe((response: any) => this.previousState());
+        if (this.totalDebit == 0 && this.totalCredit == 0) {
+            this.jhiAlertService.error('Total Debit or credit must not be Zero');
+        } else if (this.totalCredit != this.totalDebit) {
+            this.jhiAlertService.error('Total Debit and Credit must be equal in Journal Voucher', '', 'bottom');
         } else {
-            this.journalVoucherService.create(this.journalVoucher).subscribe((response: any) => this.previousState());
+            if (this.journalVoucher.id !== undefined) {
+                this.journalVoucherService.update(this.journalVoucher).subscribe((response: any) => {});
+            } else {
+                this.journalVoucherService.create(this.journalVoucher).subscribe((response: any) => {});
+            }
         }
+    }
+
+    totalDebitChanged(totalDebit: number) {
+        this.totalDebit = totalDebit;
+    }
+
+    totalCreditChanged(totalCredit: number) {
+        this.totalCredit = totalCredit;
     }
 
     protected onSaveSuccess() {

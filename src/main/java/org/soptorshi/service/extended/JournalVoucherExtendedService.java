@@ -47,6 +47,7 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
             String voucherNo = String.format("%06d", journalVoucherGenerator.getId());
             journalVoucherDTO.setVoucherNo("JN"+voucherNo);
         }
+        journalVoucherDTO.setPostDate(journalVoucherDTO.getPostDate()!=null? LocalDate.now(): journalVoucherDTO.getPostDate());
         updateTransactions(journalVoucherDTO);
         journalVoucherDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
         journalVoucherDTO.setModifiedOn(LocalDate.now());

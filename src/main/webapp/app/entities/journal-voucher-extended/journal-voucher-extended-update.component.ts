@@ -25,4 +25,13 @@ export class JournalVoucherExtendedUpdateComponent extends JournalVoucherUpdateC
     ) {
         super(jhiAlertService, journalVoucherService, currencyService, activatedRoute);
     }
+
+    save() {
+        this.isSaving = true;
+        if (this.journalVoucher.id !== undefined) {
+            this.subscribeToSaveResponse(this.journalVoucherService.update(this.journalVoucher));
+        } else {
+            this.subscribeToSaveResponse(this.journalVoucherService.create(this.journalVoucher));
+        }
+    }
 }
