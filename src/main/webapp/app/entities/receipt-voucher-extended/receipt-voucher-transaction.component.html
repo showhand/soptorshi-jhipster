@@ -1,6 +1,6 @@
 <div>
     <h2 id="page-heading">
-        <span>Dt Transactions</span>
+        <span>Transactions</span>
         <button (click)="addTransaction()" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-dt-transaction" >
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
@@ -8,21 +8,7 @@
             </span>
         </button>
     </h2>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+
     <br/>
     <div class="table-responsive" *ngIf="dtTransactions">
         <table class="table table-striped">
