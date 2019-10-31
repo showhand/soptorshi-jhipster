@@ -108,6 +108,7 @@ public class ReceiptVoucherExtendedService extends ReceiptVoucherService {
 
         combinedTransactions.forEach(t->{
             t.setCurrencyId(baseCurrency.getId());
+            t.setfCurrency(BigDecimal.ONE);
             t.setConvFactor(BigDecimal.ONE);
             t.setPostDate(receiptVoucherDTO.getPostDate());
             t.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
