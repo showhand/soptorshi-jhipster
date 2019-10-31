@@ -1,14 +1,15 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.HolidayServiceImpl;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.soptorshi.web.rest.util.HeaderUtil;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.HolidayDTO;
-import org.soptorshi.service.dto.HolidayCriteria;
-import org.soptorshi.service.HolidayQueryService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.HolidayQueryService;
+import org.soptorshi.service.HolidayService;
+import org.soptorshi.service.dto.HolidayCriteria;
+import org.soptorshi.service.dto.HolidayDTO;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -33,12 +33,12 @@ public class HolidayResource {
 
     private static final String ENTITY_NAME = "holiday";
 
-    private final HolidayServiceImpl holidayServiceImpl;
+    private final HolidayService holidayService;
 
     private final HolidayQueryService holidayQueryService;
 
-    public HolidayResource(HolidayServiceImpl holidayServiceImpl, HolidayQueryService holidayQueryService) {
-        this.holidayServiceImpl = holidayServiceImpl;
+    public HolidayResource(HolidayService holidayService, HolidayQueryService holidayQueryService) {
+        this.holidayService = holidayService;
         this.holidayQueryService = holidayQueryService;
     }
 
@@ -55,7 +55,7 @@ public class HolidayResource {
         if (holidayDTO.getId() != null) {
             throw new BadRequestAlertException("A new holiday cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        HolidayDTO result = holidayServiceImpl.save(holidayDTO);
+        HolidayDTO result = holidayService.save(holidayDTO);
         return ResponseEntity.created(new URI("/api/holidays/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -76,7 +76,7 @@ public class HolidayResource {
         if (holidayDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        HolidayDTO result = holidayServiceImpl.save(holidayDTO);
+        HolidayDTO result = holidayService.save(holidayDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, holidayDTO.getId().toString()))
             .body(result);
@@ -118,7 +118,7 @@ public class HolidayResource {
     @GetMapping("/holidays/{id}")
     public ResponseEntity<HolidayDTO> getHoliday(@PathVariable Long id) {
         log.debug("REST request to get Holiday : {}", id);
-        Optional<HolidayDTO> holidayDTO = holidayServiceImpl.findOne(id);
+        Optional<HolidayDTO> holidayDTO = holidayService.findOne(id);
         return ResponseUtil.wrapOrNotFound(holidayDTO);
     }
 
@@ -131,7 +131,7 @@ public class HolidayResource {
     @DeleteMapping("/holidays/{id}")
     public ResponseEntity<Void> deleteHoliday(@PathVariable Long id) {
         log.debug("REST request to delete Holiday : {}", id);
-        holidayServiceImpl.delete(id);
+        holidayService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -146,7 +146,7 @@ public class HolidayResource {
     @GetMapping("/_search/holidays")
     public ResponseEntity<List<HolidayDTO>> searchHolidays(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Holidays for query {}", query);
-        Page<HolidayDTO> page = holidayServiceImpl.search(query, pageable);
+        Page<HolidayDTO> page = holidayService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/holidays");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

@@ -1,25 +1,19 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.StockStatus;
-import org.soptorshi.domain.StockInItem;
-import org.soptorshi.domain.ItemCategory;
-import org.soptorshi.domain.ItemSubCategory;
-import org.soptorshi.domain.InventoryLocation;
-import org.soptorshi.domain.InventorySubLocation;
-import org.soptorshi.repository.StockStatusRepository;
-import org.soptorshi.repository.search.StockStatusSearchRepository;
-import org.soptorshi.service.dto.StockStatusDTO;
-import org.soptorshi.service.impl.StockStatusServiceImpl;
-import org.soptorshi.service.mapper.StockStatusMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.StockStatusQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.*;
+import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.repository.StockStatusRepository;
+import org.soptorshi.repository.search.StockStatusSearchRepository;
+import org.soptorshi.service.StockStatusQueryService;
+import org.soptorshi.service.StockStatusService;
+import org.soptorshi.service.dto.StockStatusDTO;
+import org.soptorshi.service.mapper.StockStatusMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -39,16 +33,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.soptorshi.domain.enumeration.ItemUnit;
 /**
  * Test class for the StockStatusResource REST controller.
  *
@@ -89,7 +80,7 @@ public class StockStatusResourceIntTest {
     private StockStatusMapper stockStatusMapper;
 
     @Autowired
-    private StockStatusServiceImpl stockStatusServiceImpl;
+    private StockStatusService stockStatusService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -124,7 +115,7 @@ public class StockStatusResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final StockStatusResource stockStatusResource = new StockStatusResource(stockStatusServiceImpl, stockStatusQueryService);
+        final StockStatusResource stockStatusResource = new StockStatusResource(stockStatusService, stockStatusQueryService);
         this.restStockStatusMockMvc = MockMvcBuilders.standaloneSetup(stockStatusResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

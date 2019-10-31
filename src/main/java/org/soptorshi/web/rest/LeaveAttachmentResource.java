@@ -1,14 +1,15 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.LeaveAttachmentServiceImpl;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.soptorshi.web.rest.util.HeaderUtil;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.LeaveAttachmentDTO;
-import org.soptorshi.service.dto.LeaveAttachmentCriteria;
-import org.soptorshi.service.LeaveAttachmentQueryService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.LeaveAttachmentQueryService;
+import org.soptorshi.service.LeaveAttachmentService;
+import org.soptorshi.service.dto.LeaveAttachmentCriteria;
+import org.soptorshi.service.dto.LeaveAttachmentDTO;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -33,12 +33,12 @@ public class LeaveAttachmentResource {
 
     private static final String ENTITY_NAME = "leaveAttachment";
 
-    private final LeaveAttachmentServiceImpl leaveAttachmentServiceImpl;
+    private final LeaveAttachmentService leaveAttachmentService;
 
     private final LeaveAttachmentQueryService leaveAttachmentQueryService;
 
-    public LeaveAttachmentResource(LeaveAttachmentServiceImpl leaveAttachmentServiceImpl, LeaveAttachmentQueryService leaveAttachmentQueryService) {
-        this.leaveAttachmentServiceImpl = leaveAttachmentServiceImpl;
+    public LeaveAttachmentResource(LeaveAttachmentService leaveAttachmentService, LeaveAttachmentQueryService leaveAttachmentQueryService) {
+        this.leaveAttachmentService = leaveAttachmentService;
         this.leaveAttachmentQueryService = leaveAttachmentQueryService;
     }
 
@@ -55,7 +55,7 @@ public class LeaveAttachmentResource {
         if (leaveAttachmentDTO.getId() != null) {
             throw new BadRequestAlertException("A new leaveAttachment cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        LeaveAttachmentDTO result = leaveAttachmentServiceImpl.save(leaveAttachmentDTO);
+        LeaveAttachmentDTO result = leaveAttachmentService.save(leaveAttachmentDTO);
         return ResponseEntity.created(new URI("/api/leave-attachments/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -76,7 +76,7 @@ public class LeaveAttachmentResource {
         if (leaveAttachmentDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        LeaveAttachmentDTO result = leaveAttachmentServiceImpl.save(leaveAttachmentDTO);
+        LeaveAttachmentDTO result = leaveAttachmentService.save(leaveAttachmentDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, leaveAttachmentDTO.getId().toString()))
             .body(result);
@@ -118,7 +118,7 @@ public class LeaveAttachmentResource {
     @GetMapping("/leave-attachments/{id}")
     public ResponseEntity<LeaveAttachmentDTO> getLeaveAttachment(@PathVariable Long id) {
         log.debug("REST request to get LeaveAttachment : {}", id);
-        Optional<LeaveAttachmentDTO> leaveAttachmentDTO = leaveAttachmentServiceImpl.findOne(id);
+        Optional<LeaveAttachmentDTO> leaveAttachmentDTO = leaveAttachmentService.findOne(id);
         return ResponseUtil.wrapOrNotFound(leaveAttachmentDTO);
     }
 
@@ -131,7 +131,7 @@ public class LeaveAttachmentResource {
     @DeleteMapping("/leave-attachments/{id}")
     public ResponseEntity<Void> deleteLeaveAttachment(@PathVariable Long id) {
         log.debug("REST request to delete LeaveAttachment : {}", id);
-        leaveAttachmentServiceImpl.delete(id);
+        leaveAttachmentService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -146,7 +146,7 @@ public class LeaveAttachmentResource {
     @GetMapping("/_search/leave-attachments")
     public ResponseEntity<List<LeaveAttachmentDTO>> searchLeaveAttachments(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of LeaveAttachments for query {}", query);
-        Page<LeaveAttachmentDTO> page = leaveAttachmentServiceImpl.search(query, pageable);
+        Page<LeaveAttachmentDTO> page = leaveAttachmentService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/leave-attachments");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

@@ -1,14 +1,15 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.StockInProcessServiceImpl;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.soptorshi.web.rest.util.HeaderUtil;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.StockInProcessDTO;
-import org.soptorshi.service.dto.StockInProcessCriteria;
-import org.soptorshi.service.StockInProcessQueryService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.StockInProcessQueryService;
+import org.soptorshi.service.StockInProcessService;
+import org.soptorshi.service.dto.StockInProcessCriteria;
+import org.soptorshi.service.dto.StockInProcessDTO;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +20,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -34,12 +34,12 @@ public class StockInProcessResource {
 
     private static final String ENTITY_NAME = "stockInProcess";
 
-    private final StockInProcessServiceImpl stockInProcessServiceImpl;
+    private final StockInProcessService stockInProcessService;
 
     private final StockInProcessQueryService stockInProcessQueryService;
 
-    public StockInProcessResource(StockInProcessServiceImpl stockInProcessServiceImpl, StockInProcessQueryService stockInProcessQueryService) {
-        this.stockInProcessServiceImpl = stockInProcessServiceImpl;
+    public StockInProcessResource(StockInProcessService stockInProcessService, StockInProcessQueryService stockInProcessQueryService) {
+        this.stockInProcessService = stockInProcessService;
         this.stockInProcessQueryService = stockInProcessQueryService;
     }
 
@@ -56,7 +56,7 @@ public class StockInProcessResource {
         if (stockInProcessDTO.getId() != null) {
             throw new BadRequestAlertException("A new stockInProcess cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        StockInProcessDTO result = stockInProcessServiceImpl.save(stockInProcessDTO);
+        StockInProcessDTO result = stockInProcessService.save(stockInProcessDTO);
         return ResponseEntity.created(new URI("/api/stock-in-processes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -121,7 +121,7 @@ public class StockInProcessResource {
     @GetMapping("/stock-in-processes/{id}")
     public ResponseEntity<StockInProcessDTO> getStockInProcess(@PathVariable Long id) {
         log.debug("REST request to get StockInProcess : {}", id);
-        Optional<StockInProcessDTO> stockInProcessDTO = stockInProcessServiceImpl.findOne(id);
+        Optional<StockInProcessDTO> stockInProcessDTO = stockInProcessService.findOne(id);
         return ResponseUtil.wrapOrNotFound(stockInProcessDTO);
     }
 
@@ -150,7 +150,7 @@ public class StockInProcessResource {
     @GetMapping("/_search/stock-in-processes")
     public ResponseEntity<List<StockInProcessDTO>> searchStockInProcesses(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of StockInProcesses for query {}", query);
-        Page<StockInProcessDTO> page = stockInProcessServiceImpl.search(query, pageable);
+        Page<StockInProcessDTO> page = stockInProcessService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/stock-in-processes");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

@@ -1,14 +1,15 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.ManufacturerServiceImpl;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.soptorshi.web.rest.util.HeaderUtil;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.ManufacturerDTO;
-import org.soptorshi.service.dto.ManufacturerCriteria;
-import org.soptorshi.service.ManufacturerQueryService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.ManufacturerQueryService;
+import org.soptorshi.service.ManufacturerService;
+import org.soptorshi.service.dto.ManufacturerCriteria;
+import org.soptorshi.service.dto.ManufacturerDTO;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -33,12 +33,12 @@ public class ManufacturerResource {
 
     private static final String ENTITY_NAME = "manufacturer";
 
-    private final ManufacturerServiceImpl manufacturerServiceImpl;
+    private final ManufacturerService manufacturerService;
 
     private final ManufacturerQueryService manufacturerQueryService;
 
-    public ManufacturerResource(ManufacturerServiceImpl manufacturerServiceImpl, ManufacturerQueryService manufacturerQueryService) {
-        this.manufacturerServiceImpl = manufacturerServiceImpl;
+    public ManufacturerResource(ManufacturerService manufacturerService, ManufacturerQueryService manufacturerQueryService) {
+        this.manufacturerService = manufacturerService;
         this.manufacturerQueryService = manufacturerQueryService;
     }
 
@@ -55,7 +55,7 @@ public class ManufacturerResource {
         if (manufacturerDTO.getId() != null) {
             throw new BadRequestAlertException("A new manufacturer cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ManufacturerDTO result = manufacturerServiceImpl.save(manufacturerDTO);
+        ManufacturerDTO result = manufacturerService.save(manufacturerDTO);
         return ResponseEntity.created(new URI("/api/manufacturers/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -76,7 +76,7 @@ public class ManufacturerResource {
         if (manufacturerDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        ManufacturerDTO result = manufacturerServiceImpl.save(manufacturerDTO);
+        ManufacturerDTO result = manufacturerService.save(manufacturerDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, manufacturerDTO.getId().toString()))
             .body(result);
@@ -118,7 +118,7 @@ public class ManufacturerResource {
     @GetMapping("/manufacturers/{id}")
     public ResponseEntity<ManufacturerDTO> getManufacturer(@PathVariable Long id) {
         log.debug("REST request to get Manufacturer : {}", id);
-        Optional<ManufacturerDTO> manufacturerDTO = manufacturerServiceImpl.findOne(id);
+        Optional<ManufacturerDTO> manufacturerDTO = manufacturerService.findOne(id);
         return ResponseUtil.wrapOrNotFound(manufacturerDTO);
     }
 
@@ -131,7 +131,7 @@ public class ManufacturerResource {
     @DeleteMapping("/manufacturers/{id}")
     public ResponseEntity<Void> deleteManufacturer(@PathVariable Long id) {
         log.debug("REST request to delete Manufacturer : {}", id);
-        manufacturerServiceImpl.delete(id);
+        manufacturerService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -146,7 +146,7 @@ public class ManufacturerResource {
     @GetMapping("/_search/manufacturers")
     public ResponseEntity<List<ManufacturerDTO>> searchManufacturers(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Manufacturers for query {}", query);
-        Page<ManufacturerDTO> page = manufacturerServiceImpl.search(query, pageable);
+        Page<ManufacturerDTO> page = manufacturerService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/manufacturers");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

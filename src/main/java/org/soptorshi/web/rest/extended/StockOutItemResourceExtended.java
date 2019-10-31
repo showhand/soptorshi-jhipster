@@ -6,8 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.service.StockOutItemQueryService;
 import org.soptorshi.service.dto.StockOutItemCriteria;
 import org.soptorshi.service.dto.StockOutItemDTO;
-import org.soptorshi.service.extended.StockOutItemServiceImplExtended;
-import org.soptorshi.service.impl.StockOutItemServiceImpl;
+import org.soptorshi.service.extended.StockOutItemExtendedService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
@@ -35,12 +34,12 @@ public class StockOutItemResourceExtended {
 
     private static final String ENTITY_NAME = "stockOutItem";
 
-    private final StockOutItemServiceImplExtended stockOutItemServiceImplExtended;
+    private final StockOutItemExtendedService stockOutItemExtendedService;
 
     private final StockOutItemQueryService stockOutItemQueryService;
 
-    public StockOutItemResourceExtended(StockOutItemServiceImplExtended stockOutItemServiceImplExtended, StockOutItemQueryService stockOutItemQueryService) {
-        this.stockOutItemServiceImplExtended = stockOutItemServiceImplExtended;
+    public StockOutItemResourceExtended(StockOutItemExtendedService stockOutItemExtendedService, StockOutItemQueryService stockOutItemQueryService) {
+        this.stockOutItemExtendedService = stockOutItemExtendedService;
         this.stockOutItemQueryService = stockOutItemQueryService;
     }
 
@@ -57,7 +56,7 @@ public class StockOutItemResourceExtended {
         if (stockOutItemDTO.getId() != null) {
             throw new BadRequestAlertException("A new stockOutItem cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        StockOutItemDTO result = stockOutItemServiceImplExtended.save(stockOutItemDTO);
+        StockOutItemDTO result = stockOutItemExtendedService.save(stockOutItemDTO);
         return ResponseEntity.created(new URI("/api/stock-out-items/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -121,7 +120,7 @@ public class StockOutItemResourceExtended {
     @GetMapping("/stock-out-items/{id}")
     public ResponseEntity<StockOutItemDTO> getStockOutItem(@PathVariable Long id) {
         log.debug("REST request to get StockOutItem : {}", id);
-        Optional<StockOutItemDTO> stockOutItemDTO = stockOutItemServiceImplExtended.findOne(id);
+        Optional<StockOutItemDTO> stockOutItemDTO = stockOutItemExtendedService.findOne(id);
         return ResponseUtil.wrapOrNotFound(stockOutItemDTO);
     }
 
@@ -150,7 +149,7 @@ public class StockOutItemResourceExtended {
     @GetMapping("/_search/stock-out-items")
     public ResponseEntity<List<StockOutItemDTO>> searchStockOutItems(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of StockOutItems for query {}", query);
-        Page<StockOutItemDTO> page = stockOutItemServiceImplExtended.search(query, pageable);
+        Page<StockOutItemDTO> page = stockOutItemExtendedService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/stock-out-items");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

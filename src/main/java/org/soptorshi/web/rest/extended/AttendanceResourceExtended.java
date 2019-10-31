@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.service.AttendanceQueryService;
 import org.soptorshi.service.dto.AttendanceCriteria;
 import org.soptorshi.service.dto.AttendanceDTO;
-import org.soptorshi.service.extended.AttendanceServiceImplExtended;
+import org.soptorshi.service.extended.AttendanceExtendedService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
@@ -29,12 +29,12 @@ public class AttendanceResourceExtended {
 
     private static  final String ENTITY_NAME = "attendance";
 
-    private final AttendanceServiceImplExtended attendanceServiceImplExtended;
+    private final AttendanceExtendedService attendanceExtendedService;
 
     private final AttendanceQueryService attendanceQueryService;
 
-    public AttendanceResourceExtended(AttendanceServiceImplExtended attendanceServiceImplExtended, AttendanceQueryService attendanceQueryService) {
-        this.attendanceServiceImplExtended = attendanceServiceImplExtended;
+    public AttendanceResourceExtended(AttendanceExtendedService attendanceExtendedService, AttendanceQueryService attendanceQueryService) {
+        this.attendanceExtendedService = attendanceExtendedService;
         this.attendanceQueryService = attendanceQueryService;
     }
 
@@ -51,7 +51,7 @@ public class AttendanceResourceExtended {
         if (attendanceDTO.getId() != null) {
             throw new BadRequestAlertException("A new attendance cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        AttendanceDTO result = attendanceServiceImplExtended.save(attendanceDTO);
+        AttendanceDTO result = attendanceExtendedService.save(attendanceDTO);
         return ResponseEntity.created(new URI("/api/attendances/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -72,7 +72,7 @@ public class AttendanceResourceExtended {
         if (attendanceDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        AttendanceDTO result = attendanceServiceImplExtended.save(attendanceDTO);
+        AttendanceDTO result = attendanceExtendedService.save(attendanceDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, attendanceDTO.getId().toString()))
             .body(result);
@@ -96,7 +96,7 @@ public class AttendanceResourceExtended {
     @GetMapping("/attendances/distinct")
     public ResponseEntity<List<AttendanceDTO>> getAllAttendances() {
         log.debug("REST request to get distinct Attendances:");
-        List<AttendanceDTO> attendanceDTOS = attendanceServiceImplExtended.getAllByDistinctAttendanceDate();
+        List<AttendanceDTO> attendanceDTOS = attendanceExtendedService.getAllByDistinctAttendanceDate();
         return ResponseEntity.ok().headers(HttpHeaders.EMPTY).body(attendanceDTOS);
     }
 
@@ -121,7 +121,7 @@ public class AttendanceResourceExtended {
     @GetMapping("/attendances/{id}")
     public ResponseEntity<AttendanceDTO> getAttendance(@PathVariable Long id) {
         log.debug("REST request to get Attendance : {}", id);
-        Optional<AttendanceDTO> attendanceDTO = attendanceServiceImplExtended.findOne(id);
+        Optional<AttendanceDTO> attendanceDTO = attendanceExtendedService.findOne(id);
         return ResponseUtil.wrapOrNotFound(attendanceDTO);
     }
 
@@ -134,7 +134,7 @@ public class AttendanceResourceExtended {
     @DeleteMapping("/attendances/{id}")
     public ResponseEntity<Void> deleteAttendance(@PathVariable Long id) {
         log.debug("REST request to delete Attendance : {}", id);
-        attendanceServiceImplExtended.delete(id);
+        attendanceExtendedService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -149,7 +149,7 @@ public class AttendanceResourceExtended {
     @GetMapping("/_search/attendances")
     public ResponseEntity<List<AttendanceDTO>> searchAttendances(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Attendances for query {}", query);
-        Page<AttendanceDTO> page = attendanceServiceImplExtended.search(query, pageable);
+        Page<AttendanceDTO> page = attendanceExtendedService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/attendances");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

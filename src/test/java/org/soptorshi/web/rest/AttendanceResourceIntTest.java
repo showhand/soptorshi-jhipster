@@ -1,21 +1,19 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.Attendance;
-import org.soptorshi.domain.AttendanceExcelUpload;
-import org.soptorshi.repository.AttendanceRepository;
-import org.soptorshi.repository.search.AttendanceSearchRepository;
-import org.soptorshi.service.dto.AttendanceDTO;
-import org.soptorshi.service.extended.AttendanceServiceImplExtended;
-import org.soptorshi.service.mapper.AttendanceMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.AttendanceQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.Attendance;
+import org.soptorshi.domain.AttendanceExcelUpload;
+import org.soptorshi.repository.AttendanceRepository;
+import org.soptorshi.repository.search.AttendanceSearchRepository;
+import org.soptorshi.service.AttendanceQueryService;
+import org.soptorshi.service.dto.AttendanceDTO;
+import org.soptorshi.service.extended.AttendanceExtendedService;
+import org.soptorshi.service.mapper.AttendanceMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -30,19 +28,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -74,7 +71,7 @@ public class AttendanceResourceIntTest {
     private AttendanceMapper attendanceMapper;
 
     @Autowired
-    private AttendanceServiceImplExtended attendanceService;
+    private AttendanceExtendedService attendanceService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.

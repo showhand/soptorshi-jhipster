@@ -1,21 +1,20 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.InventorySubLocation;
-import org.soptorshi.domain.InventoryLocation;
-import org.soptorshi.repository.InventorySubLocationRepository;
-import org.soptorshi.repository.search.InventorySubLocationSearchRepository;
-import org.soptorshi.service.dto.InventorySubLocationDTO;
-import org.soptorshi.service.impl.InventorySubLocationServiceImpl;
-import org.soptorshi.service.mapper.InventorySubLocationMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.InventorySubLocationQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.InventoryLocation;
+import org.soptorshi.domain.InventorySubLocation;
+import org.soptorshi.domain.enumeration.InventorySubLocationCategory;
+import org.soptorshi.repository.InventorySubLocationRepository;
+import org.soptorshi.repository.search.InventorySubLocationSearchRepository;
+import org.soptorshi.service.InventorySubLocationQueryService;
+import org.soptorshi.service.InventorySubLocationService;
+import org.soptorshi.service.dto.InventorySubLocationDTO;
+import org.soptorshi.service.mapper.InventorySubLocationMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -33,16 +32,13 @@ import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.soptorshi.domain.enumeration.InventorySubLocationCategory;
 /**
  * Test class for the InventorySubLocationResource REST controller.
  *
@@ -71,7 +67,7 @@ public class InventorySubLocationResourceIntTest {
     private InventorySubLocationMapper inventorySubLocationMapper;
 
     @Autowired
-    private InventorySubLocationServiceImpl inventorySubLocationService;
+    private InventorySubLocationService inventorySubLocationService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.

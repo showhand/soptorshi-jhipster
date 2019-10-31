@@ -1,12 +1,13 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.StockStatusServiceImpl;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.StockStatusDTO;
-import org.soptorshi.service.dto.StockStatusCriteria;
-import org.soptorshi.service.StockStatusQueryService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.StockStatusQueryService;
+import org.soptorshi.service.StockStatusService;
+import org.soptorshi.service.dto.StockStatusCriteria;
+import org.soptorshi.service.dto.StockStatusDTO;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +17,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -31,12 +31,12 @@ public class StockStatusResource {
 
     private static final String ENTITY_NAME = "stockStatus";
 
-    private final StockStatusServiceImpl stockStatusServiceImpl;
+    private final StockStatusService stockStatusService;
 
     private final StockStatusQueryService stockStatusQueryService;
 
-    public StockStatusResource(StockStatusServiceImpl stockStatusServiceImpl, StockStatusQueryService stockStatusQueryService) {
-        this.stockStatusServiceImpl = stockStatusServiceImpl;
+    public StockStatusResource(StockStatusService stockStatusService, StockStatusQueryService stockStatusQueryService) {
+        this.stockStatusService = stockStatusService;
         this.stockStatusQueryService = stockStatusQueryService;
     }
 
@@ -119,7 +119,7 @@ public class StockStatusResource {
     @GetMapping("/stock-statuses/{id}")
     public ResponseEntity<StockStatusDTO> getStockStatus(@PathVariable Long id) {
         log.debug("REST request to get StockStatus : {}", id);
-        Optional<StockStatusDTO> stockStatusDTO = stockStatusServiceImpl.findOne(id);
+        Optional<StockStatusDTO> stockStatusDTO = stockStatusService.findOne(id);
         return ResponseUtil.wrapOrNotFound(stockStatusDTO);
     }
 
@@ -148,7 +148,7 @@ public class StockStatusResource {
     @GetMapping("/_search/stock-statuses")
     public ResponseEntity<List<StockStatusDTO>> searchStockStatuses(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of StockStatuses for query {}", query);
-        Page<StockStatusDTO> page = stockStatusServiceImpl.search(query, pageable);
+        Page<StockStatusDTO> page = stockStatusService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/stock-statuses");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

@@ -1,20 +1,18 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.Manufacturer;
-import org.soptorshi.repository.ManufacturerRepository;
-import org.soptorshi.repository.search.ManufacturerSearchRepository;
-import org.soptorshi.service.dto.ManufacturerDTO;
-import org.soptorshi.service.impl.ManufacturerServiceImpl;
-import org.soptorshi.service.mapper.ManufacturerMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.ManufacturerQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.Manufacturer;
+import org.soptorshi.repository.ManufacturerRepository;
+import org.soptorshi.repository.search.ManufacturerSearchRepository;
+import org.soptorshi.service.ManufacturerQueryService;
+import org.soptorshi.service.ManufacturerService;
+import org.soptorshi.service.dto.ManufacturerDTO;
+import org.soptorshi.service.mapper.ManufacturerMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -32,12 +30,11 @@ import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -75,7 +72,7 @@ public class ManufacturerResourceIntTest {
     private ManufacturerMapper manufacturerMapper;
 
     @Autowired
-    private ManufacturerServiceImpl manufacturerServiceImpl;
+    private ManufacturerService manufacturerService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -110,7 +107,7 @@ public class ManufacturerResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ManufacturerResource manufacturerResource = new ManufacturerResource(manufacturerServiceImpl, manufacturerQueryService);
+        final ManufacturerResource manufacturerResource = new ManufacturerResource(manufacturerService, manufacturerQueryService);
         this.restManufacturerMockMvc = MockMvcBuilders.standaloneSetup(manufacturerResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

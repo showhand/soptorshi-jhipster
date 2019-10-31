@@ -1,14 +1,15 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.ItemCategoryServiceImpl;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.soptorshi.web.rest.util.HeaderUtil;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.ItemCategoryDTO;
-import org.soptorshi.service.dto.ItemCategoryCriteria;
-import org.soptorshi.service.ItemCategoryQueryService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.ItemCategoryQueryService;
+import org.soptorshi.service.ItemCategoryService;
+import org.soptorshi.service.dto.ItemCategoryCriteria;
+import org.soptorshi.service.dto.ItemCategoryDTO;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -33,12 +33,12 @@ public class ItemCategoryResource {
 
     private static final String ENTITY_NAME = "itemCategory";
 
-    private final ItemCategoryServiceImpl itemCategoryServiceImpl;
+    private final ItemCategoryService itemCategoryService;
 
     private final ItemCategoryQueryService itemCategoryQueryService;
 
-    public ItemCategoryResource(ItemCategoryServiceImpl itemCategoryServiceImpl, ItemCategoryQueryService itemCategoryQueryService) {
-        this.itemCategoryServiceImpl = itemCategoryServiceImpl;
+    public ItemCategoryResource(ItemCategoryService itemCategoryService, ItemCategoryQueryService itemCategoryQueryService) {
+        this.itemCategoryService = itemCategoryService;
         this.itemCategoryQueryService = itemCategoryQueryService;
     }
 
@@ -55,7 +55,7 @@ public class ItemCategoryResource {
         if (itemCategoryDTO.getId() != null) {
             throw new BadRequestAlertException("A new itemCategory cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ItemCategoryDTO result = itemCategoryServiceImpl.save(itemCategoryDTO);
+        ItemCategoryDTO result = itemCategoryService.save(itemCategoryDTO);
         return ResponseEntity.created(new URI("/api/item-categories/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -76,7 +76,7 @@ public class ItemCategoryResource {
         if (itemCategoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        ItemCategoryDTO result = itemCategoryServiceImpl.save(itemCategoryDTO);
+        ItemCategoryDTO result = itemCategoryService.save(itemCategoryDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, itemCategoryDTO.getId().toString()))
             .body(result);
@@ -118,7 +118,7 @@ public class ItemCategoryResource {
     @GetMapping("/item-categories/{id}")
     public ResponseEntity<ItemCategoryDTO> getItemCategory(@PathVariable Long id) {
         log.debug("REST request to get ItemCategory : {}", id);
-        Optional<ItemCategoryDTO> itemCategoryDTO = itemCategoryServiceImpl.findOne(id);
+        Optional<ItemCategoryDTO> itemCategoryDTO = itemCategoryService.findOne(id);
         return ResponseUtil.wrapOrNotFound(itemCategoryDTO);
     }
 
@@ -131,7 +131,7 @@ public class ItemCategoryResource {
     @DeleteMapping("/item-categories/{id}")
     public ResponseEntity<Void> deleteItemCategory(@PathVariable Long id) {
         log.debug("REST request to delete ItemCategory : {}", id);
-        itemCategoryServiceImpl.delete(id);
+        itemCategoryService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -146,7 +146,7 @@ public class ItemCategoryResource {
     @GetMapping("/_search/item-categories")
     public ResponseEntity<List<ItemCategoryDTO>> searchItemCategories(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of ItemCategories for query {}", query);
-        Page<ItemCategoryDTO> page = itemCategoryServiceImpl.search(query, pageable);
+        Page<ItemCategoryDTO> page = itemCategoryService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/item-categories");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

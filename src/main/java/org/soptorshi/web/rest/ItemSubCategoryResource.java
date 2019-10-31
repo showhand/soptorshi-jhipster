@@ -1,14 +1,15 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.ItemSubCategoryServiceImpl;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.soptorshi.web.rest.util.HeaderUtil;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.ItemSubCategoryDTO;
-import org.soptorshi.service.dto.ItemSubCategoryCriteria;
-import org.soptorshi.service.ItemSubCategoryQueryService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.ItemSubCategoryQueryService;
+import org.soptorshi.service.ItemSubCategoryService;
+import org.soptorshi.service.dto.ItemSubCategoryCriteria;
+import org.soptorshi.service.dto.ItemSubCategoryDTO;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -33,12 +33,12 @@ public class ItemSubCategoryResource {
 
     private static final String ENTITY_NAME = "itemSubCategory";
 
-    private final ItemSubCategoryServiceImpl itemSubCategoryServiceImpl;
+    private final ItemSubCategoryService itemSubCategoryService;
 
     private final ItemSubCategoryQueryService itemSubCategoryQueryService;
 
-    public ItemSubCategoryResource(ItemSubCategoryServiceImpl itemSubCategoryServiceImpl, ItemSubCategoryQueryService itemSubCategoryQueryService) {
-        this.itemSubCategoryServiceImpl = itemSubCategoryServiceImpl;
+    public ItemSubCategoryResource(ItemSubCategoryService itemSubCategoryService, ItemSubCategoryQueryService itemSubCategoryQueryService) {
+        this.itemSubCategoryService = itemSubCategoryService;
         this.itemSubCategoryQueryService = itemSubCategoryQueryService;
     }
 
@@ -55,7 +55,7 @@ public class ItemSubCategoryResource {
         if (itemSubCategoryDTO.getId() != null) {
             throw new BadRequestAlertException("A new itemSubCategory cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ItemSubCategoryDTO result = itemSubCategoryServiceImpl.save(itemSubCategoryDTO);
+        ItemSubCategoryDTO result = itemSubCategoryService.save(itemSubCategoryDTO);
         return ResponseEntity.created(new URI("/api/item-sub-categories/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -76,7 +76,7 @@ public class ItemSubCategoryResource {
         if (itemSubCategoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        ItemSubCategoryDTO result = itemSubCategoryServiceImpl.save(itemSubCategoryDTO);
+        ItemSubCategoryDTO result = itemSubCategoryService.save(itemSubCategoryDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, itemSubCategoryDTO.getId().toString()))
             .body(result);
@@ -118,7 +118,7 @@ public class ItemSubCategoryResource {
     @GetMapping("/item-sub-categories/{id}")
     public ResponseEntity<ItemSubCategoryDTO> getItemSubCategory(@PathVariable Long id) {
         log.debug("REST request to get ItemSubCategory : {}", id);
-        Optional<ItemSubCategoryDTO> itemSubCategoryDTO = itemSubCategoryServiceImpl.findOne(id);
+        Optional<ItemSubCategoryDTO> itemSubCategoryDTO = itemSubCategoryService.findOne(id);
         return ResponseUtil.wrapOrNotFound(itemSubCategoryDTO);
     }
 
@@ -131,7 +131,7 @@ public class ItemSubCategoryResource {
     @DeleteMapping("/item-sub-categories/{id}")
     public ResponseEntity<Void> deleteItemSubCategory(@PathVariable Long id) {
         log.debug("REST request to delete ItemSubCategory : {}", id);
-        itemSubCategoryServiceImpl.delete(id);
+        itemSubCategoryService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -146,7 +146,7 @@ public class ItemSubCategoryResource {
     @GetMapping("/_search/item-sub-categories")
     public ResponseEntity<List<ItemSubCategoryDTO>> searchItemSubCategories(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of ItemSubCategories for query {}", query);
-        Page<ItemSubCategoryDTO> page = itemSubCategoryServiceImpl.search(query, pageable);
+        Page<ItemSubCategoryDTO> page = itemSubCategoryService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/item-sub-categories");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

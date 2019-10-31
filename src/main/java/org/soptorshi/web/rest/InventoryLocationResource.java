@@ -1,14 +1,15 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.InventoryLocationServiceImpl;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.soptorshi.web.rest.util.HeaderUtil;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.InventoryLocationDTO;
-import org.soptorshi.service.dto.InventoryLocationCriteria;
-import org.soptorshi.service.InventoryLocationQueryService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.InventoryLocationQueryService;
+import org.soptorshi.service.InventoryLocationService;
+import org.soptorshi.service.dto.InventoryLocationCriteria;
+import org.soptorshi.service.dto.InventoryLocationDTO;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -33,12 +33,12 @@ public class InventoryLocationResource {
 
     private static final String ENTITY_NAME = "inventoryLocation";
 
-    private final InventoryLocationServiceImpl inventoryLocationServiceImpl;
+    private final InventoryLocationService inventoryLocationService;
 
     private final InventoryLocationQueryService inventoryLocationQueryService;
 
-    public InventoryLocationResource(InventoryLocationServiceImpl inventoryLocationServiceImpl, InventoryLocationQueryService inventoryLocationQueryService) {
-        this.inventoryLocationServiceImpl = inventoryLocationServiceImpl;
+    public InventoryLocationResource(InventoryLocationService inventoryLocationService, InventoryLocationQueryService inventoryLocationQueryService) {
+        this.inventoryLocationService = inventoryLocationService;
         this.inventoryLocationQueryService = inventoryLocationQueryService;
     }
 
@@ -55,7 +55,7 @@ public class InventoryLocationResource {
         if (inventoryLocationDTO.getId() != null) {
             throw new BadRequestAlertException("A new inventoryLocation cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        InventoryLocationDTO result = inventoryLocationServiceImpl.save(inventoryLocationDTO);
+        InventoryLocationDTO result = inventoryLocationService.save(inventoryLocationDTO);
         return ResponseEntity.created(new URI("/api/inventory-locations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -76,7 +76,7 @@ public class InventoryLocationResource {
         if (inventoryLocationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        InventoryLocationDTO result = inventoryLocationServiceImpl.save(inventoryLocationDTO);
+        InventoryLocationDTO result = inventoryLocationService.save(inventoryLocationDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, inventoryLocationDTO.getId().toString()))
             .body(result);
@@ -118,7 +118,7 @@ public class InventoryLocationResource {
     @GetMapping("/inventory-locations/{id}")
     public ResponseEntity<InventoryLocationDTO> getInventoryLocation(@PathVariable Long id) {
         log.debug("REST request to get InventoryLocation : {}", id);
-        Optional<InventoryLocationDTO> inventoryLocationDTO = inventoryLocationServiceImpl.findOne(id);
+        Optional<InventoryLocationDTO> inventoryLocationDTO = inventoryLocationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(inventoryLocationDTO);
     }
 
@@ -131,7 +131,7 @@ public class InventoryLocationResource {
     @DeleteMapping("/inventory-locations/{id}")
     public ResponseEntity<Void> deleteInventoryLocation(@PathVariable Long id) {
         log.debug("REST request to delete InventoryLocation : {}", id);
-        inventoryLocationServiceImpl.delete(id);
+        inventoryLocationService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -146,7 +146,7 @@ public class InventoryLocationResource {
     @GetMapping("/_search/inventory-locations")
     public ResponseEntity<List<InventoryLocationDTO>> searchInventoryLocations(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of InventoryLocations for query {}", query);
-        Page<InventoryLocationDTO> page = inventoryLocationServiceImpl.search(query, pageable);
+        Page<InventoryLocationDTO> page = inventoryLocationService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/inventory-locations");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
