@@ -9,6 +9,11 @@ import { PaymentVoucherService, PaymentVoucherUpdateComponent } from 'app/entiti
 import { PaymentVoucherExtendedService } from 'app/entities/payment-voucher-extended/payment-voucher-extended.service';
 import { JhiAlertService } from 'ng-jhipster';
 import { MstAccountService } from 'app/entities/mst-account';
+import { IAccountBalance } from 'app/shared/model/account-balance.model';
+import { AccountBalanceService } from 'app/entities/account-balance';
+import { IMstAccount } from 'app/shared/model/mst-account.model';
+import { FinancialAccountYearExtendedService } from 'app/entities/financial-account-year-extended';
+import { FinancialYearStatus, IFinancialAccountYear } from 'app/shared/model/financial-account-year.model';
 
 @Component({
     selector: 'jhi-payment-voucher-update',
@@ -20,13 +25,59 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
     voucherDateDp: any;
     postDateDp: any;
     modifiedOnDp: any;
+    totalAmount: number;
+    bankAccountBalance: IAccountBalance;
+    openedFinancialAccountYear: IFinancialAccountYear;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected paymentVoucherService: PaymentVoucherService,
         protected mstAccountService: MstAccountService,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        protected accountBalanceService: AccountBalanceService,
+        protected financialAccountYearService: FinancialAccountYearExtendedService
     ) {
         super(jhiAlertService, paymentVoucherService, mstAccountService, activatedRoute);
+    }
+
+    loadAll() {
+        this.mstAccountService
+            .query({
+                size: 200
+            })
+            .pipe(
+                filter((mayBeOk: HttpResponse<IMstAccount[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IMstAccount[]>) => response.body)
+            )
+            .subscribe((res: IMstAccount[]) => (this.mstaccounts = res), (res: HttpErrorResponse) => this.onError(res.message));
+
+        this.financialAccountYearService
+            .query({
+                'status.equals': FinancialYearStatus.ACTIVE
+            })
+            .subscribe((response: HttpResponse<IFinancialAccountYear[]>) => {
+                this.openedFinancialAccountYear = response.body[0];
+            });
+    }
+
+    ngOnInit() {
+        this.isSaving = false;
+        this.activatedRoute.data.subscribe(({ paymentVoucher }) => {
+            this.paymentVoucher = paymentVoucher;
+        });
+        this.loadAll();
+    }
+
+    accountSelected() {
+        if (this.paymentVoucher.accountId) {
+            this.accountBalanceService
+                .query({
+                    'accountId.equals': this.paymentVoucher.accountId,
+                    'financialAccountYearId.equals': this.openedFinancialAccountYear.id
+                })
+                .subscribe((response: HttpResponse<IAccountBalance[]>) => {
+                    this.bankAccountBalance = response.body[0];
+                });
+        }
     }
 }
