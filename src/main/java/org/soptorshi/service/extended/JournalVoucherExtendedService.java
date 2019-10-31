@@ -44,8 +44,8 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
 
     @Override
     public JournalVoucherDTO save(JournalVoucherDTO journalVoucherDTO) {
-        JournalVoucherGenerator journalVoucherGenerator = new JournalVoucherGenerator();
         if(journalVoucherDTO.getId()==null){
+            JournalVoucherGenerator journalVoucherGenerator = new JournalVoucherGenerator();
             journalVoucherGeneratorRepository.save(journalVoucherGenerator);
             String voucherNo = String.format("%06d", journalVoucherGenerator.getId());
             journalVoucherDTO.setVoucherNo("JN"+voucherNo);
