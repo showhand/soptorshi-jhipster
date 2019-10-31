@@ -25,6 +25,12 @@
                 <dd>
                     <span>{{paymentVoucher.modifiedOn}}</span>
                 </dd>
+                <dt><span>Account</span></dt>
+                <dd>
+                    <div *ngIf="paymentVoucher.accountId">
+                        <a [routerLink]="['/mst-account', paymentVoucher.accountId, 'view']">{{paymentVoucher.accountName}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

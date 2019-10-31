@@ -5,8 +5,10 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { IPaymentVoucher } from 'app/shared/model/payment-voucher.model';
-import { PaymentVoucherUpdateComponent } from 'app/entities/payment-voucher';
+import { PaymentVoucherService, PaymentVoucherUpdateComponent } from 'app/entities/payment-voucher';
 import { PaymentVoucherExtendedService } from 'app/entities/payment-voucher-extended/payment-voucher-extended.service';
+import { JhiAlertService } from 'ng-jhipster';
+import { MstAccountService } from 'app/entities/mst-account';
 
 @Component({
     selector: 'jhi-payment-voucher-update',
@@ -19,7 +21,12 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
     postDateDp: any;
     modifiedOnDp: any;
 
-    constructor(protected paymentVoucherService: PaymentVoucherExtendedService, protected activatedRoute: ActivatedRoute) {
-        super(paymentVoucherService, activatedRoute);
+    constructor(
+        protected jhiAlertService: JhiAlertService,
+        protected paymentVoucherService: PaymentVoucherService,
+        protected mstAccountService: MstAccountService,
+        protected activatedRoute: ActivatedRoute
+    ) {
+        super(jhiAlertService, paymentVoucherService, mstAccountService, activatedRoute);
     }
 }

@@ -22,7 +22,15 @@
             "fieldType": "LocalDate"
         }
     ],
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "mstAccount",
+            "otherEntityRelationshipName": "paymentVoucher",
+            "relationshipName": "account",
+            "otherEntityField": "name"
+        }
+    ],
     "changelogDate": "20191026143213",
     "entityTableName": "payment_voucher",
     "dto": "mapstruct",

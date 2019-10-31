@@ -21,6 +21,10 @@ public class PaymentVoucherDTO implements Serializable {
     private LocalDate modifiedOn;
 
 
+    private Long accountId;
+
+    private String accountName;
+
     public Long getId() {
         return id;
     }
@@ -69,6 +73,22 @@ public class PaymentVoucherDTO implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long mstAccountId) {
+        this.accountId = mstAccountId;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String mstAccountName) {
+        this.accountName = mstAccountName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -99,6 +119,8 @@ public class PaymentVoucherDTO implements Serializable {
             ", postDate='" + getPostDate() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
+            ", account=" + getAccountId() +
+            ", account='" + getAccountName() + "'" +
             "}";
     }
 }

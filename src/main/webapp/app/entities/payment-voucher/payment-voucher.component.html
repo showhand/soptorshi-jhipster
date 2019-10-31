@@ -35,6 +35,7 @@
             <th jhiSortBy="postDate"><span>Post Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="accountName"><span>Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -46,6 +47,11 @@
                 <td>{{paymentVoucher.postDate | date:'mediumDate'}}</td>
                 <td>{{paymentVoucher.modifiedBy}}</td>
                 <td>{{paymentVoucher.modifiedOn | date:'mediumDate'}}</td>
+                <td>
+                    <div *ngIf="paymentVoucher.accountId">
+                        <a [routerLink]="['../mst-account', paymentVoucher.accountId , 'view' ]" >{{paymentVoucher.accountName}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

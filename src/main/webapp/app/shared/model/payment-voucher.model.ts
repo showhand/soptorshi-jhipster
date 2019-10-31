@@ -7,6 +7,8 @@ export interface IPaymentVoucher {
     postDate?: Moment;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    accountName?: string;
+    accountId?: number;
 }
 
 export class PaymentVoucher implements IPaymentVoucher {
@@ -16,6 +18,8 @@ export class PaymentVoucher implements IPaymentVoucher {
         public voucherDate?: Moment,
         public postDate?: Moment,
         public modifiedBy?: string,
-        public modifiedOn?: Moment
+        public modifiedOn?: Moment,
+        public accountName?: string,
+        public accountId?: number
     ) {}
 }

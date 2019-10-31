@@ -35,6 +35,8 @@ public class PaymentVoucherCriteria implements Serializable {
 
     private LocalDateFilter modifiedOn;
 
+    private LongFilter accountId;
+
     public LongFilter getId() {
         return id;
     }
@@ -83,6 +85,14 @@ public class PaymentVoucherCriteria implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public LongFilter getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(LongFilter accountId) {
+        this.accountId = accountId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -99,7 +109,8 @@ public class PaymentVoucherCriteria implements Serializable {
             Objects.equals(voucherDate, that.voucherDate) &&
             Objects.equals(postDate, that.postDate) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
-            Objects.equals(modifiedOn, that.modifiedOn);
+            Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(accountId, that.accountId);
     }
 
     @Override
@@ -110,7 +121,8 @@ public class PaymentVoucherCriteria implements Serializable {
         voucherDate,
         postDate,
         modifiedBy,
-        modifiedOn
+        modifiedOn,
+        accountId
         );
     }
 
@@ -123,6 +135,7 @@ public class PaymentVoucherCriteria implements Serializable {
                 (postDate != null ? "postDate=" + postDate + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
+                (accountId != null ? "accountId=" + accountId + ", " : "") +
             "}";
     }
 

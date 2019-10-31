@@ -108,6 +108,10 @@ public class PaymentVoucherQueryService extends QueryService<PaymentVoucher> {
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), PaymentVoucher_.modifiedOn));
             }
+            if (criteria.getAccountId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAccountId(),
+                    root -> root.join(PaymentVoucher_.account, JoinType.LEFT).get(MstAccount_.id)));
+            }
         }
         return specification;
     }

@@ -1,6 +1,7 @@
 package org.soptorshi.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -37,6 +38,10 @@ public class PaymentVoucher implements Serializable {
 
     @Column(name = "modified_on")
     private LocalDate modifiedOn;
+
+    @ManyToOne
+    @JsonIgnoreProperties("paymentVouchers")
+    private MstAccount account;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -110,6 +115,19 @@ public class PaymentVoucher implements Serializable {
 
     public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public MstAccount getAccount() {
+        return account;
+    }
+
+    public PaymentVoucher account(MstAccount mstAccount) {
+        this.account = mstAccount;
+        return this;
+    }
+
+    public void setAccount(MstAccount mstAccount) {
+        this.account = mstAccount;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

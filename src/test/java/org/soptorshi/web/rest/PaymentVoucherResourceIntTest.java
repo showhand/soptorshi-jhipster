@@ -3,6 +3,7 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.PaymentVoucher;
+import org.soptorshi.domain.MstAccount;
 import org.soptorshi.repository.PaymentVoucherRepository;
 import org.soptorshi.repository.search.PaymentVoucherSearchRepository;
 import org.soptorshi.service.PaymentVoucherService;
@@ -498,6 +499,25 @@ public class PaymentVoucherResourceIntTest {
 
         // Get all the paymentVoucherList where modifiedOn less than or equals to UPDATED_MODIFIED_ON
         defaultPaymentVoucherShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllPaymentVouchersByAccountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        MstAccount account = MstAccountResourceIntTest.createEntity(em);
+        em.persist(account);
+        em.flush();
+        paymentVoucher.setAccount(account);
+        paymentVoucherRepository.saveAndFlush(paymentVoucher);
+        Long accountId = account.getId();
+
+        // Get all the paymentVoucherList where account equals to accountId
+        defaultPaymentVoucherShouldBeFound("accountId.equals=" + accountId);
+
+        // Get all the paymentVoucherList where account equals to accountId + 1
+        defaultPaymentVoucherShouldNotBeFound("accountId.equals=" + (accountId + 1));
     }
 
     /**
