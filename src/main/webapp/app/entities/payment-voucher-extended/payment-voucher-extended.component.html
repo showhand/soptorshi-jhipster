@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span>Journal Vouchers</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-journal-voucher" [routerLink]="['/journal-voucher/new']">
+        <span>Payment Vouchers</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-payment-voucher" [routerLink]="['/payment-voucher/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
-            Create new Journal Voucher
+            Create new Payment Voucher
             </span>
         </button>
     </h2>
@@ -25,7 +25,7 @@
         </div>
     </div>
     <br/>
-    <div class="table-responsive" *ngIf="journalVouchers">
+    <div class="table-responsive" *ngIf="paymentVouchers">
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
@@ -39,22 +39,35 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let journalVoucher of journalVouchers ;trackBy: trackId">
-                <td><a [routerLink]="['/journal-voucher', journalVoucher.id, 'view' ]">{{journalVoucher.id}}</a></td>
-                <td>{{journalVoucher.voucherNo}}</td>
-                <td>{{journalVoucher.voucherDate | date:'mediumDate'}}</td>
-                <td>{{journalVoucher.postDate | date:'mediumDate'}}</td>
-                <td>{{journalVoucher.modifiedBy}}</td>
-                <td>{{journalVoucher.modifiedOn | date:'mediumDate'}}</td>
+            <tr *ngFor="let paymentVoucher of paymentVouchers ;trackBy: trackId">
+                <td><a [routerLink]="['/payment-voucher', paymentVoucher.id, 'view' ]">{{paymentVoucher.id}}</a></td>
+                <td>{{paymentVoucher.voucherNo}}</td>
+                <td>{{paymentVoucher.voucherDate | date:'mediumDate'}}</td>
+                <td>{{paymentVoucher.postDate | date:'mediumDate'}}</td>
+                <td>{{paymentVoucher.modifiedBy}}</td>
+                <td>{{paymentVoucher.modifiedOn | date:'mediumDate'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/journal-voucher', journalVoucher.id, 'view' ]"
+                                [routerLink]="['/payment-voucher', paymentVoucher.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
-
+                        <button type="submit"
+                                [routerLink]="['/payment-voucher', paymentVoucher.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'payment-voucher', { outlets: { popup: paymentVoucher.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -62,7 +75,7 @@
         </table>
     </div>
     <!-- Pager is not implemented yet, so this is normal pagination instead -->
-    <div *ngIf="journalVouchers && journalVouchers.length">
+    <div *ngIf="paymentVouchers && paymentVouchers.length">
         <div class="row justify-content-center">
             <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
         </div>

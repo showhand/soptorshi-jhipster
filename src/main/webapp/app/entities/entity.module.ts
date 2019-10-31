@@ -580,7 +580,7 @@ import { requisitionDetailsExtendedPopupRoute, requisitionDetailsExtendedRoute }
             },
             {
                 path: 'payment-voucher',
-                loadChildren: './payment-voucher/payment-voucher.module#SoptorshiPaymentVoucherModule'
+                loadChildren: './payment-voucher-extended/payment-voucher-extended.module#SoptorshiPaymentVoucherExtendedModule'
             },
             {
                 path: 'receipt-voucher',
