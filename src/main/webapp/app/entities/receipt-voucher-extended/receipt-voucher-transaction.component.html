@@ -29,83 +29,32 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="voucherNo"><span>Voucher No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="voucherDate"><span>Voucher Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="serialNo"><span>Serial No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="balanceType"><span>Balance Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="type"><span>Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="invoiceNo"><span>Invoice No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="invoiceDate"><span>Invoice Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="instrumentType"><span>Instrument Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="instrumentNo"><span>Instrument No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="instrumentDate"><span>Instrument Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="fCurrency"><span>F Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="convFactor"><span>Conv Factor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="postDate"><span>Post Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="narration"><span>Narration</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="reference"><span>Reference</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="accountName"><span>Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="voucherName"><span>Voucher</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="currencyNotation"><span>Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
+                <th jhiSortBy="serialNo"><span>Serial No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="accountName"><span>Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="balanceType"><span>Balance Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let dtTransaction of dtTransactions ;trackBy: trackId">
-                <td><a [routerLink]="['/dt-transaction', dtTransaction.id, 'view' ]">{{dtTransaction.id}}</a></td>
-                <td>{{dtTransaction.voucherNo}}</td>
-                <td>{{dtTransaction.voucherDate | date:'mediumDate'}}</td>
-                <td>{{dtTransaction.serialNo}}</td>
-                <td>{{dtTransaction.amount}}</td>
-                <td>{{dtTransaction.balanceType}}</td>
-                <td>{{dtTransaction.type}}</td>
-                <td>{{dtTransaction.invoiceNo}}</td>
-                <td>{{dtTransaction.invoiceDate | date:'mediumDate'}}</td>
-                <td>{{dtTransaction.instrumentType}}</td>
-                <td>{{dtTransaction.instrumentNo}}</td>
-                <td>{{dtTransaction.instrumentDate | date:'mediumDate'}}</td>
-                <td>{{dtTransaction.fCurrency}}</td>
-                <td>{{dtTransaction.convFactor}}</td>
-                <td>{{dtTransaction.postDate | date:'mediumDate'}}</td>
-                <td>{{dtTransaction.narration}}</td>
-                <td>{{dtTransaction.modifiedBy}}</td>
-                <td>{{dtTransaction.modifiedOn | date:'mediumDate'}}</td>
-                <td>{{dtTransaction.reference}}</td>
+            <tr *ngFor="let dtTransaction of dtTransactions ;trackBy: trackId;let i = index">
+                <td>{{i+1}}</td>
                 <td>
                     <div *ngIf="dtTransaction.accountId">
                         <a [routerLink]="['../mst-account', dtTransaction.accountId , 'view' ]" >{{dtTransaction.accountName}}</a>
                     </div>
                 </td>
-                <td>
-                    <div *ngIf="dtTransaction.voucherId">
-                        <a [routerLink]="['../voucher', dtTransaction.voucherId , 'view' ]" >{{dtTransaction.voucherName}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="dtTransaction.currencyId">
-                        <a [routerLink]="['../currency', dtTransaction.currencyId , 'view' ]" >{{dtTransaction.currencyNotation}}</a>
-                    </div>
-                </td>
+                <td>{{dtTransaction.amount}}</td>
+                <td>{{dtTransaction.balanceType}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/dt-transaction', dtTransaction.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/dt-transaction', dtTransaction.id, 'edit']"
-                                class="btn btn-primary btn-sm">
+                        <button [disabled]="receiptVoucher.postDate" type="submit"
+                                class="btn btn-primary btn-sm" (click)="editTransaction(dtTransaction)">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/', 'dt-transaction', { outlets: { popup: dtTransaction.id + '/delete'} }]"
+                        <button [disabled]="receiptVoucher.postDate" type="submit"
+                                (click)="deleteTransaction(dtTransaction)"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">

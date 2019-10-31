@@ -76,11 +76,16 @@ export class ReceiptVoucherExtendedUpdateComponent extends ReceiptVoucherUpdateC
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IReceiptVoucher>>) {
-        result.subscribe((res: HttpResponse<IReceiptVoucher>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe(
+            (res: HttpResponse<IReceiptVoucher>) => {
+                this.receiptVoucher = res.body;
+                this.onSaveSuccess();
+            },
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
     }
 
     protected onSaveSuccess() {
         this.isSaving = false;
-        this.previousState();
     }
 }

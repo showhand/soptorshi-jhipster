@@ -1,6 +1,6 @@
 <div class="row justify-content-center">
     <div class="col-12">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+        <form name="editForm" role="form" novalidate  #editForm="ngForm">
             <h2 *ngIf="!receiptVoucher.id" id="jhi-receipt-voucher-heading">Create a Receipt Voucher</h2>
             <h2 *ngIf="receiptVoucher.id" id="jhi-receipt-voucher-update-heading">Receipt Voucher <b>{{receiptVoucher.voucherNo}}</b></h2>
 
@@ -48,13 +48,19 @@
                         </div>
                     </div>
                 </div>
+                <div *ngIf="receiptVoucher.id" class="row">
+                    <div class="col-12">
+                        <jhi-receipt-voucher-transaction [receiptVoucher]="receiptVoucher" ></jhi-receipt-voucher-transaction>
+                    </div>
+                </div>
 
             </div>
+            <jhi-alert></jhi-alert>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Back</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button (click)="save()" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                 </button>
             </div>
