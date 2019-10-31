@@ -875,7 +875,8 @@ relationship ManyToOne {
   SystemGroupMap{group(name)} to MstGroup,
   VoucherNumberGenerator{financialAccountYear} to FinancialAccountYear,
   JournalVoucher{currency(notation)} to Currency,
-  PaymentVoucher{account(name)} to MstAccount
+  PaymentVoucher{account(name)} to MstAccount,
+  ReceiptVoucher{account(name)} to MstAccount
 }
 
 dto Department, Voucher, JournalVoucher, PaymentVoucher, ContraVoucher, ReceiptVoucher, VoucherNumberControl, SystemGroupMap, SystemAccountMap, DtTransaction, MstGroup, CreditorLedger, MstAccount, Customer, DebtorLedger, ChequeRegister,ConversionFactor, PredefinedNarration, MonthlyBalance, AccountBalance, Currency, PeriodClose,Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions ,BudgetAllocation, Bill, DepartmentHead , Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with mapstruct
