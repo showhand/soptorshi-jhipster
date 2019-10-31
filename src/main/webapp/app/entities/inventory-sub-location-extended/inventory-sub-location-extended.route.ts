@@ -12,7 +12,7 @@ import { InventorySubLocationUpdateExtendedComponent } from 'app/entities/invent
 import { InventorySubLocationDeletePopupExtendedComponent } from 'app/entities/inventory-sub-location-extended/inventory-sub-location-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class InventorySubLocationResolveExtended implements Resolve<IInventorySubLocation> {
+export class InventorySubLocationExtendedResolve implements Resolve<IInventorySubLocation> {
     constructor(private service: InventorySubLocationExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IInventorySubLocation> {
@@ -41,7 +41,7 @@ export const inventorySubLocationExtendedRoute: Routes = [
         path: ':id/view',
         component: InventorySubLocationDetailExtendedComponent,
         resolve: {
-            inventorySubLocation: InventorySubLocationResolveExtended
+            inventorySubLocation: InventorySubLocationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -53,7 +53,7 @@ export const inventorySubLocationExtendedRoute: Routes = [
         path: 'new',
         component: InventorySubLocationUpdateExtendedComponent,
         resolve: {
-            inventorySubLocation: InventorySubLocationResolveExtended
+            inventorySubLocation: InventorySubLocationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -65,7 +65,7 @@ export const inventorySubLocationExtendedRoute: Routes = [
         path: ':id/edit',
         component: InventorySubLocationUpdateExtendedComponent,
         resolve: {
-            inventorySubLocation: InventorySubLocationResolveExtended
+            inventorySubLocation: InventorySubLocationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -80,7 +80,7 @@ export const inventorySubLocationPopupRouteExtended: Routes = [
         path: ':id/delete',
         component: InventorySubLocationDeletePopupExtendedComponent,
         resolve: {
-            inventorySubLocation: InventorySubLocationResolveExtended
+            inventorySubLocation: InventorySubLocationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

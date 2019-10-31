@@ -6,8 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.service.StockStatusQueryService;
 import org.soptorshi.service.dto.StockStatusCriteria;
 import org.soptorshi.service.dto.StockStatusDTO;
-import org.soptorshi.service.extended.StockStatusServiceImplExtended;
-import org.soptorshi.service.impl.StockStatusServiceImpl;
+import org.soptorshi.service.extended.StockStatusExtendedService;
 import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,12 +31,12 @@ public class StockStatusResourceExtended {
 
     private static final String ENTITY_NAME = "stockStatus";
 
-    private final StockStatusServiceImplExtended stockStatusServiceImplExtended;
+    private final StockStatusExtendedService stockStatusExtendedService;
 
     private final StockStatusQueryService stockStatusQueryService;
 
-    public StockStatusResourceExtended(StockStatusServiceImplExtended stockStatusServiceImplExtended, StockStatusQueryService stockStatusQueryService) {
-        this.stockStatusServiceImplExtended = stockStatusServiceImplExtended;
+    public StockStatusResourceExtended(StockStatusExtendedService stockStatusExtendedService, StockStatusQueryService stockStatusQueryService) {
+        this.stockStatusExtendedService = stockStatusExtendedService;
         this.stockStatusQueryService = stockStatusQueryService;
     }
 
@@ -120,7 +119,7 @@ public class StockStatusResourceExtended {
     @GetMapping("/stock-statuses/{id}")
     public ResponseEntity<StockStatusDTO> getStockStatus(@PathVariable Long id) {
         log.debug("REST request to get StockStatus : {}", id);
-        Optional<StockStatusDTO> stockStatusDTO = stockStatusServiceImplExtended.findOne(id);
+        Optional<StockStatusDTO> stockStatusDTO = stockStatusExtendedService.findOne(id);
         return ResponseUtil.wrapOrNotFound(stockStatusDTO);
     }
 
@@ -149,7 +148,7 @@ public class StockStatusResourceExtended {
     @GetMapping("/_search/stock-statuses")
     public ResponseEntity<List<StockStatusDTO>> searchStockStatuses(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of StockStatuses for query {}", query);
-        Page<StockStatusDTO> page = stockStatusServiceImplExtended.search(query, pageable);
+        Page<StockStatusDTO> page = stockStatusExtendedService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/stock-statuses");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

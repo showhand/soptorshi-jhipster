@@ -6,16 +6,14 @@ import org.soptorshi.domain.StockInItem;
 import org.soptorshi.domain.StockOutItem;
 import org.soptorshi.domain.StockStatus;
 import org.soptorshi.repository.*;
-import org.soptorshi.repository.extended.StockInItemRepositoryExtended;
-import org.soptorshi.repository.extended.StockStatusRepositoryExtended;
+import org.soptorshi.repository.extended.StockInItemExtendedRepository;
+import org.soptorshi.repository.extended.StockStatusExtendedRepository;
 import org.soptorshi.repository.search.StockOutItemSearchRepository;
 import org.soptorshi.security.SecurityUtils;
+import org.soptorshi.service.StockOutItemService;
 import org.soptorshi.service.dto.StockOutItemDTO;
-import org.soptorshi.service.impl.StockOutItemServiceImpl;
-import org.soptorshi.service.impl.StockStatusServiceImpl;
 import org.soptorshi.service.mapper.StockOutItemMapper;
 import org.soptorshi.web.rest.errors.InternalServerErrorException;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,9 +26,9 @@ import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 @Service
 @Transactional
-public class StockOutItemServiceImplExtended extends StockOutItemServiceImpl {
+public class StockOutItemExtendedService extends StockOutItemService {
 
-    private final Logger log = LoggerFactory.getLogger(StockOutItemServiceImplExtended.class);
+    private final Logger log = LoggerFactory.getLogger(StockOutItemExtendedService.class);
 
     private final StockOutItemRepository stockOutItemRepository;
 
@@ -38,9 +36,9 @@ public class StockOutItemServiceImplExtended extends StockOutItemServiceImpl {
 
     private final StockOutItemSearchRepository stockOutItemSearchRepository;
 
-    private final StockStatusServiceImplExtended stockStatusServiceImplExtended;
+    private final StockStatusExtendedService stockStatusExtendedService;
 
-    private final StockStatusRepositoryExtended stockStatusRepositoryExtended;
+    private final StockStatusExtendedRepository stockStatusExtendedRepository;
 
     private final ItemCategoryRepository itemCategoryRepository;
 
@@ -50,22 +48,22 @@ public class StockOutItemServiceImplExtended extends StockOutItemServiceImpl {
 
     private final InventorySubLocationRepository inventorySubLocationRepository;
 
-    private final StockInItemRepositoryExtended stockInItemRepositoryExtended;
+    private final StockInItemExtendedRepository stockInItemExtendedRepository;
 
-    public StockOutItemServiceImplExtended(StockOutItemRepository stockOutItemRepository, StockOutItemMapper stockOutItemMapper, StockOutItemSearchRepository stockOutItemSearchRepository,
-                                           StockStatusServiceImplExtended stockStatusServiceImplExtended, StockStatusRepositoryExtended stockStatusRepositoryExtended, ItemCategoryRepository itemCategoryRepository, ItemSubCategoryRepository itemSubCategoryRepository, InventoryLocationRepository inventoryLocationRepository, InventorySubLocationRepository inventorySubLocationRepository, StockInItemRepositoryExtended stockInItemRepositoryExtended) {
+    public StockOutItemExtendedService(StockOutItemRepository stockOutItemRepository, StockOutItemMapper stockOutItemMapper, StockOutItemSearchRepository stockOutItemSearchRepository,
+                                       StockStatusExtendedService stockStatusExtendedService, StockStatusExtendedRepository stockStatusExtendedRepository, ItemCategoryRepository itemCategoryRepository, ItemSubCategoryRepository itemSubCategoryRepository, InventoryLocationRepository inventoryLocationRepository, InventorySubLocationRepository inventorySubLocationRepository, StockInItemExtendedRepository stockInItemExtendedRepository) {
         super(stockOutItemRepository, stockOutItemMapper, stockOutItemSearchRepository);
 
         this.stockOutItemRepository = stockOutItemRepository;
         this.stockOutItemMapper = stockOutItemMapper;
         this.stockOutItemSearchRepository = stockOutItemSearchRepository;
-        this.stockStatusServiceImplExtended = stockStatusServiceImplExtended;
-        this.stockStatusRepositoryExtended = stockStatusRepositoryExtended;
+        this.stockStatusExtendedService = stockStatusExtendedService;
+        this.stockStatusExtendedRepository = stockStatusExtendedRepository;
         this.itemCategoryRepository = itemCategoryRepository;
         this.itemSubCategoryRepository = itemSubCategoryRepository;
         this.inventoryLocationRepository = inventoryLocationRepository;
         this.inventorySubLocationRepository = inventorySubLocationRepository;
-        this.stockInItemRepositoryExtended = stockInItemRepositoryExtended;
+        this.stockInItemExtendedRepository = stockInItemExtendedRepository;
     }
 
     /**
@@ -81,14 +79,14 @@ public class StockOutItemServiceImplExtended extends StockOutItemServiceImpl {
             String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
             Instant currentDateTime = Instant.now();
 
-            StockInItem stockInItem = stockInItemRepositoryExtended.getByItemCategoriesAndItemSubCategoriesAndInventoryLocationsAndInventorySubLocationsAndContainerTrackingId(
+            StockInItem stockInItem = stockInItemExtendedRepository.getByItemCategoriesAndItemSubCategoriesAndInventoryLocationsAndInventorySubLocationsAndContainerTrackingId(
                 itemCategoryRepository.getOne(stockOutItemDTO.getItemCategoriesId()),
                 itemSubCategoryRepository.getOne(stockOutItemDTO.getItemSubCategoriesId()),
                 inventoryLocationRepository.getOne(stockOutItemDTO.getInventoryLocationsId()),
                 inventorySubLocationRepository.getOne(stockOutItemDTO.getInventorySubLocationsId()),
                 stockOutItemDTO.getContainerTrackingId());
 
-            StockStatus stockStatus = stockStatusRepositoryExtended.getByItemCategoriesAndItemSubCategoriesAndInventoryLocationsAndInventorySubLocationsAndContainerTrackingId(
+            StockStatus stockStatus = stockStatusExtendedRepository.getByItemCategoriesAndItemSubCategoriesAndInventoryLocationsAndInventorySubLocationsAndContainerTrackingId(
                 itemCategoryRepository.getOne(stockOutItemDTO.getItemCategoriesId()),
                 itemSubCategoryRepository.getOne(stockOutItemDTO.getItemSubCategoriesId()),
                 inventoryLocationRepository.getOne(stockOutItemDTO.getInventoryLocationsId()),
@@ -178,7 +176,7 @@ public class StockOutItemServiceImplExtended extends StockOutItemServiceImpl {
             } else {
                 stockStatus.setAvailableQuantity(stockStatus.getAvailableQuantity() - stockOutItemDTO.getQuantity());
                 stockStatus.setAvailablePrice(stockStatus.getAvailablePrice() - (stockOutItemDTO.getQuantity() * stockStatus.getStockInItems().getStockInProcesses().getUnitPrice()));
-                stockStatusRepositoryExtended.save(stockStatus);
+                stockStatusExtendedRepository.save(stockStatus);
             }
             return 1;
         }

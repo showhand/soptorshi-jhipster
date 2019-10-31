@@ -1,17 +1,16 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service;
 
-import org.soptorshi.repository.extended.StockStatusRepositoryExtended;
-import org.soptorshi.security.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.StockInProcess;
 import org.soptorshi.repository.StockInProcessRepository;
+import org.soptorshi.repository.extended.StockStatusExtendedRepository;
 import org.soptorshi.repository.search.StockInProcessSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.StockInItemDTO;
 import org.soptorshi.service.dto.StockInProcessDTO;
 import org.soptorshi.service.dto.StockStatusDTO;
 import org.soptorshi.service.mapper.StockInProcessMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.soptorshi.service.mapper.StockStatusMapper;
 import org.soptorshi.web.rest.errors.InternalServerErrorException;
 import org.springframework.data.domain.Page;
@@ -23,16 +22,16 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing StockInProcess.
  */
 @Service
 @Transactional
-public class StockInProcessServiceImpl {
+public class StockInProcessService {
 
-    private final Logger log = LoggerFactory.getLogger(StockInProcessServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(StockInProcessService.class);
 
     private final StockInProcessRepository stockInProcessRepository;
 
@@ -40,19 +39,19 @@ public class StockInProcessServiceImpl {
 
     private final StockInProcessSearchRepository stockInProcessSearchRepository;
 
-    private final StockInItemServiceImpl stockInItemServiceImpl;
+    private final StockInItemService stockInItemService;
 
-    private final StockStatusRepositoryExtended stockStatusRepositoryExtended;
+    private final StockStatusExtendedRepository stockStatusExtendedRepository;
 
     private final StockStatusMapper stockStatusMapper;
 
-    public StockInProcessServiceImpl(StockInProcessRepository stockInProcessRepository, StockInProcessMapper stockInProcessMapper, StockInProcessSearchRepository stockInProcessSearchRepository,
-                                     StockInItemServiceImpl stockInItemServiceImpl, StockStatusRepositoryExtended  stockStatusRepositoryExtended, StockStatusMapper stockStatusMapper) {
+    public StockInProcessService(StockInProcessRepository stockInProcessRepository, StockInProcessMapper stockInProcessMapper, StockInProcessSearchRepository stockInProcessSearchRepository,
+                                 StockInItemService stockInItemService, StockStatusExtendedRepository stockStatusExtendedRepository, StockStatusMapper stockStatusMapper) {
         this.stockInProcessRepository = stockInProcessRepository;
         this.stockInProcessMapper = stockInProcessMapper;
         this.stockInProcessSearchRepository = stockInProcessSearchRepository;
-        this.stockInItemServiceImpl = stockInItemServiceImpl;
-        this.stockStatusRepositoryExtended = stockStatusRepositoryExtended;
+        this.stockInItemService = stockInItemService;
+        this.stockStatusExtendedRepository = stockStatusExtendedRepository;
         this.stockStatusMapper = stockStatusMapper;
     }
 
@@ -145,10 +144,10 @@ public class StockInProcessServiceImpl {
 
         for (int i = 0; i < stockInProcessDTO.getTotalContainer(); i++) {
             StockInItemDTO stockInItemDTO = getStockInItemDTO(stockInProcessDTO, Double.parseDouble(itemsPerContainer[i].trim()), containerIds[i].trim(), currentUser, currentDateTime);
-            StockInItemDTO result = stockInItemServiceImpl.save(stockInItemDTO);
+            StockInItemDTO result = stockInItemService.save(stockInItemDTO);
 
             StockStatusDTO stockStatusDTO = getStockStatus(stockInProcessDTO, Double.parseDouble(itemsPerContainer[i].trim()), containerIds[i].trim(), currentUser, currentDateTime, result.getId());
-            stockStatusRepositoryExtended.save(stockStatusMapper.toEntity(stockStatusDTO));
+            stockStatusExtendedRepository.save(stockStatusMapper.toEntity(stockStatusDTO));
         }
         return 1;
     }

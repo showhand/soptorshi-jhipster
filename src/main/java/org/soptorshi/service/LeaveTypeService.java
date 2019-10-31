@@ -1,13 +1,12 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.LeaveType;
 import org.soptorshi.repository.LeaveTypeRepository;
 import org.soptorshi.repository.search.LeaveTypeSearchRepository;
 import org.soptorshi.service.dto.LeaveTypeDTO;
 import org.soptorshi.service.mapper.LeaveTypeMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing LeaveType.
  */
 @Service
 @Transactional
-public class LeaveTypeServiceImpl {
+public class LeaveTypeService {
 
-    private final Logger log = LoggerFactory.getLogger(LeaveTypeServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(LeaveTypeService.class);
 
     private final LeaveTypeRepository leaveTypeRepository;
 
@@ -32,7 +31,7 @@ public class LeaveTypeServiceImpl {
 
     private final LeaveTypeSearchRepository leaveTypeSearchRepository;
 
-    public LeaveTypeServiceImpl(LeaveTypeRepository leaveTypeRepository, LeaveTypeMapper leaveTypeMapper, LeaveTypeSearchRepository leaveTypeSearchRepository) {
+    public LeaveTypeService(LeaveTypeRepository leaveTypeRepository, LeaveTypeMapper leaveTypeMapper, LeaveTypeSearchRepository leaveTypeSearchRepository) {
         this.leaveTypeRepository = leaveTypeRepository;
         this.leaveTypeMapper = leaveTypeMapper;
         this.leaveTypeSearchRepository = leaveTypeSearchRepository;

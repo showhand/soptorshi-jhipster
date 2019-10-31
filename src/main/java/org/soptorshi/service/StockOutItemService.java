@@ -1,13 +1,12 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.StockOutItem;
 import org.soptorshi.repository.StockOutItemRepository;
 import org.soptorshi.repository.search.StockOutItemSearchRepository;
 import org.soptorshi.service.dto.StockOutItemDTO;
 import org.soptorshi.service.mapper.StockOutItemMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing StockOutItem.
  */
 @Service
 @Transactional
-public class StockOutItemServiceImpl {
+public class StockOutItemService {
 
-    private final Logger log = LoggerFactory.getLogger(StockOutItemServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(StockOutItemService.class);
 
     private final StockOutItemRepository stockOutItemRepository;
 
@@ -32,7 +31,7 @@ public class StockOutItemServiceImpl {
 
     private final StockOutItemSearchRepository stockOutItemSearchRepository;
 
-    public StockOutItemServiceImpl(StockOutItemRepository stockOutItemRepository, StockOutItemMapper stockOutItemMapper, StockOutItemSearchRepository stockOutItemSearchRepository) {
+    public StockOutItemService(StockOutItemRepository stockOutItemRepository, StockOutItemMapper stockOutItemMapper, StockOutItemSearchRepository stockOutItemSearchRepository) {
         this.stockOutItemRepository = stockOutItemRepository;
         this.stockOutItemMapper = stockOutItemMapper;
         this.stockOutItemSearchRepository = stockOutItemSearchRepository;

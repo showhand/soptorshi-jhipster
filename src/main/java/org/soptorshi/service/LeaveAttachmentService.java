@@ -1,13 +1,12 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.LeaveAttachment;
 import org.soptorshi.repository.LeaveAttachmentRepository;
 import org.soptorshi.repository.search.LeaveAttachmentSearchRepository;
 import org.soptorshi.service.dto.LeaveAttachmentDTO;
 import org.soptorshi.service.mapper.LeaveAttachmentMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing LeaveAttachment.
  */
 @Service
 @Transactional
-public class LeaveAttachmentServiceImpl {
+public class LeaveAttachmentService {
 
-    private final Logger log = LoggerFactory.getLogger(LeaveAttachmentServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(LeaveAttachmentService.class);
 
     private final LeaveAttachmentRepository leaveAttachmentRepository;
 
@@ -32,7 +31,7 @@ public class LeaveAttachmentServiceImpl {
 
     private final LeaveAttachmentSearchRepository leaveAttachmentSearchRepository;
 
-    public LeaveAttachmentServiceImpl(LeaveAttachmentRepository leaveAttachmentRepository, LeaveAttachmentMapper leaveAttachmentMapper, LeaveAttachmentSearchRepository leaveAttachmentSearchRepository) {
+    public LeaveAttachmentService(LeaveAttachmentRepository leaveAttachmentRepository, LeaveAttachmentMapper leaveAttachmentMapper, LeaveAttachmentSearchRepository leaveAttachmentSearchRepository) {
         this.leaveAttachmentRepository = leaveAttachmentRepository;
         this.leaveAttachmentMapper = leaveAttachmentMapper;
         this.leaveAttachmentSearchRepository = leaveAttachmentSearchRepository;

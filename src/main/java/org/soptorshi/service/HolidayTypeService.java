@@ -1,13 +1,12 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.HolidayType;
 import org.soptorshi.repository.HolidayTypeRepository;
 import org.soptorshi.repository.search.HolidayTypeSearchRepository;
 import org.soptorshi.service.dto.HolidayTypeDTO;
 import org.soptorshi.service.mapper.HolidayTypeMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing HolidayType.
  */
 @Service
 @Transactional
-public class HolidayTypeServiceImpl {
+public class HolidayTypeService {
 
-    private final Logger log = LoggerFactory.getLogger(HolidayTypeServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(HolidayTypeService.class);
 
     private final HolidayTypeRepository holidayTypeRepository;
 
@@ -32,7 +31,7 @@ public class HolidayTypeServiceImpl {
 
     private final HolidayTypeSearchRepository holidayTypeSearchRepository;
 
-    public HolidayTypeServiceImpl(HolidayTypeRepository holidayTypeRepository, HolidayTypeMapper holidayTypeMapper, HolidayTypeSearchRepository holidayTypeSearchRepository) {
+    public HolidayTypeService(HolidayTypeRepository holidayTypeRepository, HolidayTypeMapper holidayTypeMapper, HolidayTypeSearchRepository holidayTypeSearchRepository) {
         this.holidayTypeRepository = holidayTypeRepository;
         this.holidayTypeMapper = holidayTypeMapper;
         this.holidayTypeSearchRepository = holidayTypeSearchRepository;

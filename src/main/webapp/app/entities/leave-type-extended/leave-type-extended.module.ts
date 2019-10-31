@@ -31,4 +31,4 @@ const ENTITY_STATES = [...leaveTypeExtendedRoute, ...leaveTypePopupRouteExtended
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SoptorshiLeaveTypeModuleExtended {}
+export class SoptorshiLeaveTypeExtendedModule {}

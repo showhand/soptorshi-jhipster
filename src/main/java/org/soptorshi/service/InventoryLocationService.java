@@ -1,13 +1,12 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.InventoryLocation;
 import org.soptorshi.repository.InventoryLocationRepository;
 import org.soptorshi.repository.search.InventoryLocationSearchRepository;
 import org.soptorshi.service.dto.InventoryLocationDTO;
 import org.soptorshi.service.mapper.InventoryLocationMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing InventoryLocation.
  */
 @Service
 @Transactional
-public class InventoryLocationServiceImpl {
+public class InventoryLocationService {
 
-    private final Logger log = LoggerFactory.getLogger(InventoryLocationServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(InventoryLocationService.class);
 
     private final InventoryLocationRepository inventoryLocationRepository;
 
@@ -32,7 +31,7 @@ public class InventoryLocationServiceImpl {
 
     private final InventoryLocationSearchRepository inventoryLocationSearchRepository;
 
-    public InventoryLocationServiceImpl(InventoryLocationRepository inventoryLocationRepository, InventoryLocationMapper inventoryLocationMapper, InventoryLocationSearchRepository inventoryLocationSearchRepository) {
+    public InventoryLocationService(InventoryLocationRepository inventoryLocationRepository, InventoryLocationMapper inventoryLocationMapper, InventoryLocationSearchRepository inventoryLocationSearchRepository) {
         this.inventoryLocationRepository = inventoryLocationRepository;
         this.inventoryLocationMapper = inventoryLocationMapper;
         this.inventoryLocationSearchRepository = inventoryLocationSearchRepository;

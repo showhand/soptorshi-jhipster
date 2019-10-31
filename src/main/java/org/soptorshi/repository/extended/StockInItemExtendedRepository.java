@@ -5,7 +5,7 @@ import org.soptorshi.repository.StockInItemRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StockInItemRepositoryExtended  extends StockInItemRepository {
+public interface StockInItemExtendedRepository extends StockInItemRepository {
 
     StockInItem getByItemCategoriesAndItemSubCategoriesAndInventoryLocationsAndInventorySubLocationsAndContainerTrackingId(
         ItemCategory itemCategory, ItemSubCategory itemSubCategory, InventoryLocation inventoryLocation, InventorySubLocation

@@ -12,7 +12,7 @@ import { ManufacturerUpdateExtendedComponent } from 'app/entities/manufacturer-e
 import { ManufacturerDeletePopupExtendedComponent } from 'app/entities/manufacturer-extended/manufacturer-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class ManufacturerResolveExtended implements Resolve<IManufacturer> {
+export class ManufacturerExtendedResolve implements Resolve<IManufacturer> {
     constructor(private service: ManufacturerExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IManufacturer> {
@@ -41,7 +41,7 @@ export const manufacturerExtendedRoute: Routes = [
         path: ':id/view',
         component: ManufacturerDetailExtendedComponent,
         resolve: {
-            manufacturer: ManufacturerResolveExtended
+            manufacturer: ManufacturerExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -53,7 +53,7 @@ export const manufacturerExtendedRoute: Routes = [
         path: 'new',
         component: ManufacturerUpdateExtendedComponent,
         resolve: {
-            manufacturer: ManufacturerResolveExtended
+            manufacturer: ManufacturerExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -65,7 +65,7 @@ export const manufacturerExtendedRoute: Routes = [
         path: ':id/edit',
         component: ManufacturerUpdateExtendedComponent,
         resolve: {
-            manufacturer: ManufacturerResolveExtended
+            manufacturer: ManufacturerExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -80,7 +80,7 @@ export const manufacturerPopupRouteExtended: Routes = [
         path: ':id/delete',
         component: ManufacturerDeletePopupExtendedComponent,
         resolve: {
-            manufacturer: ManufacturerResolveExtended
+            manufacturer: ManufacturerExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

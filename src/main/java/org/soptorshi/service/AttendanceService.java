@@ -1,13 +1,12 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.Attendance;
 import org.soptorshi.repository.AttendanceRepository;
 import org.soptorshi.repository.search.AttendanceSearchRepository;
 import org.soptorshi.service.dto.AttendanceDTO;
 import org.soptorshi.service.mapper.AttendanceMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing Attendance.
  */
 @Service
 @Transactional
-public class AttendanceServiceImpl {
+public class AttendanceService {
 
-    private final Logger log = LoggerFactory.getLogger(AttendanceServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(AttendanceService.class);
 
     private final AttendanceRepository attendanceRepository;
 
@@ -32,7 +31,7 @@ public class AttendanceServiceImpl {
 
     private final AttendanceSearchRepository attendanceSearchRepository;
 
-    public AttendanceServiceImpl(AttendanceRepository attendanceRepository, AttendanceMapper attendanceMapper, AttendanceSearchRepository attendanceSearchRepository) {
+    public AttendanceService(AttendanceRepository attendanceRepository, AttendanceMapper attendanceMapper, AttendanceSearchRepository attendanceSearchRepository) {
         this.attendanceRepository = attendanceRepository;
         this.attendanceMapper = attendanceMapper;
         this.attendanceSearchRepository = attendanceSearchRepository;

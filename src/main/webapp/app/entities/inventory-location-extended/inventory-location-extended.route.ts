@@ -12,7 +12,7 @@ import { InventoryLocationUpdateExtendedComponent } from 'app/entities/inventory
 import { InventoryLocationDeletePopupExtendedComponent } from 'app/entities/inventory-location-extended/inventory-location-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class InventoryLocationResolveExtended implements Resolve<IInventoryLocation> {
+export class InventoryLocationExtendedResolve implements Resolve<IInventoryLocation> {
     constructor(private service: InventoryLocationExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IInventoryLocation> {
@@ -41,7 +41,7 @@ export const inventoryLocationExtendedRoute: Routes = [
         path: ':id/view',
         component: InventoryLocationDetailExtendedComponent,
         resolve: {
-            inventoryLocation: InventoryLocationResolveExtended
+            inventoryLocation: InventoryLocationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -53,7 +53,7 @@ export const inventoryLocationExtendedRoute: Routes = [
         path: 'new',
         component: InventoryLocationUpdateExtendedComponent,
         resolve: {
-            inventoryLocation: InventoryLocationResolveExtended
+            inventoryLocation: InventoryLocationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -65,7 +65,7 @@ export const inventoryLocationExtendedRoute: Routes = [
         path: ':id/edit',
         component: InventoryLocationUpdateExtendedComponent,
         resolve: {
-            inventoryLocation: InventoryLocationResolveExtended
+            inventoryLocation: InventoryLocationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -80,7 +80,7 @@ export const inventoryLocationPopupRouteExtended: Routes = [
         path: ':id/delete',
         component: InventoryLocationDeletePopupExtendedComponent,
         resolve: {
-            inventoryLocation: InventoryLocationResolveExtended
+            inventoryLocation: InventoryLocationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

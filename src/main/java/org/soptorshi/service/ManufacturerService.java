@@ -1,13 +1,12 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.Manufacturer;
 import org.soptorshi.repository.ManufacturerRepository;
 import org.soptorshi.repository.search.ManufacturerSearchRepository;
 import org.soptorshi.service.dto.ManufacturerDTO;
 import org.soptorshi.service.mapper.ManufacturerMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing Manufacturer.
  */
 @Service
 @Transactional
-public class ManufacturerServiceImpl {
+public class ManufacturerService {
 
-    private final Logger log = LoggerFactory.getLogger(ManufacturerServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(ManufacturerService.class);
 
     private final ManufacturerRepository manufacturerRepository;
 
@@ -32,7 +31,7 @@ public class ManufacturerServiceImpl {
 
     private final ManufacturerSearchRepository manufacturerSearchRepository;
 
-    public ManufacturerServiceImpl(ManufacturerRepository manufacturerRepository, ManufacturerMapper manufacturerMapper, ManufacturerSearchRepository manufacturerSearchRepository) {
+    public ManufacturerService(ManufacturerRepository manufacturerRepository, ManufacturerMapper manufacturerMapper, ManufacturerSearchRepository manufacturerSearchRepository) {
         this.manufacturerRepository = manufacturerRepository;
         this.manufacturerMapper = manufacturerMapper;
         this.manufacturerSearchRepository = manufacturerSearchRepository;

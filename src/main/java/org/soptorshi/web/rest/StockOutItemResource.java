@@ -1,14 +1,15 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.StockOutItemServiceImpl;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.soptorshi.web.rest.util.HeaderUtil;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.StockOutItemDTO;
-import org.soptorshi.service.dto.StockOutItemCriteria;
-import org.soptorshi.service.StockOutItemQueryService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.StockOutItemQueryService;
+import org.soptorshi.service.StockOutItemService;
+import org.soptorshi.service.dto.StockOutItemCriteria;
+import org.soptorshi.service.dto.StockOutItemDTO;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +20,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -34,12 +34,12 @@ public class StockOutItemResource {
 
     private static final String ENTITY_NAME = "stockOutItem";
 
-    private final StockOutItemServiceImpl stockOutItemServiceImpl;
+    private final StockOutItemService stockOutItemService;
 
     private final StockOutItemQueryService stockOutItemQueryService;
 
-    public StockOutItemResource(StockOutItemServiceImpl stockOutItemServiceImpl, StockOutItemQueryService stockOutItemQueryService) {
-        this.stockOutItemServiceImpl = stockOutItemServiceImpl;
+    public StockOutItemResource(StockOutItemService stockOutItemService, StockOutItemQueryService stockOutItemQueryService) {
+        this.stockOutItemService = stockOutItemService;
         this.stockOutItemQueryService = stockOutItemQueryService;
     }
 
@@ -56,7 +56,7 @@ public class StockOutItemResource {
         if (stockOutItemDTO.getId() != null) {
             throw new BadRequestAlertException("A new stockOutItem cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        StockOutItemDTO result = stockOutItemServiceImpl.save(stockOutItemDTO);
+        StockOutItemDTO result = stockOutItemService.save(stockOutItemDTO);
         return ResponseEntity.created(new URI("/api/stock-out-items/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -120,7 +120,7 @@ public class StockOutItemResource {
     @GetMapping("/stock-out-items/{id}")
     public ResponseEntity<StockOutItemDTO> getStockOutItem(@PathVariable Long id) {
         log.debug("REST request to get StockOutItem : {}", id);
-        Optional<StockOutItemDTO> stockOutItemDTO = stockOutItemServiceImpl.findOne(id);
+        Optional<StockOutItemDTO> stockOutItemDTO = stockOutItemService.findOne(id);
         return ResponseUtil.wrapOrNotFound(stockOutItemDTO);
     }
 
@@ -149,7 +149,7 @@ public class StockOutItemResource {
     @GetMapping("/_search/stock-out-items")
     public ResponseEntity<List<StockOutItemDTO>> searchStockOutItems(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of StockOutItems for query {}", query);
-        Page<StockOutItemDTO> page = stockOutItemServiceImpl.search(query, pageable);
+        Page<StockOutItemDTO> page = stockOutItemService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/stock-out-items");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

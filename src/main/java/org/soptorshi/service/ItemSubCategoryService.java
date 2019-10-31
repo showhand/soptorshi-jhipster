@@ -1,13 +1,12 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.ItemSubCategory;
 import org.soptorshi.repository.ItemSubCategoryRepository;
 import org.soptorshi.repository.search.ItemSubCategorySearchRepository;
 import org.soptorshi.service.dto.ItemSubCategoryDTO;
 import org.soptorshi.service.mapper.ItemSubCategoryMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing ItemSubCategory.
  */
 @Service
 @Transactional
-public class ItemSubCategoryServiceImpl {
+public class ItemSubCategoryService {
 
-    private final Logger log = LoggerFactory.getLogger(ItemSubCategoryServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(ItemSubCategoryService.class);
 
     private final ItemSubCategoryRepository itemSubCategoryRepository;
 
@@ -32,7 +31,7 @@ public class ItemSubCategoryServiceImpl {
 
     private final ItemSubCategorySearchRepository itemSubCategorySearchRepository;
 
-    public ItemSubCategoryServiceImpl(ItemSubCategoryRepository itemSubCategoryRepository, ItemSubCategoryMapper itemSubCategoryMapper, ItemSubCategorySearchRepository itemSubCategorySearchRepository) {
+    public ItemSubCategoryService(ItemSubCategoryRepository itemSubCategoryRepository, ItemSubCategoryMapper itemSubCategoryMapper, ItemSubCategorySearchRepository itemSubCategorySearchRepository) {
         this.itemSubCategoryRepository = itemSubCategoryRepository;
         this.itemSubCategoryMapper = itemSubCategoryMapper;
         this.itemSubCategorySearchRepository = itemSubCategorySearchRepository;

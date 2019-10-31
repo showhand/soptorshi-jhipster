@@ -31,4 +31,4 @@ const ENTITY_STATES = [...inventoryLocationExtendedRoute, ...inventoryLocationPo
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SoptorshiInventoryLocationModuleExtended {}
+export class SoptorshiInventoryLocationExtendedModule {}

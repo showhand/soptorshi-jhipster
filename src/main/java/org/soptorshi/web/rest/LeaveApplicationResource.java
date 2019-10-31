@@ -1,14 +1,15 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.impl.LeaveApplicationServiceImpl;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.soptorshi.web.rest.util.HeaderUtil;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.LeaveApplicationDTO;
-import org.soptorshi.service.dto.LeaveApplicationCriteria;
-import org.soptorshi.service.LeaveApplicationQueryService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.LeaveApplicationQueryService;
+import org.soptorshi.service.LeaveApplicationService;
+import org.soptorshi.service.dto.LeaveApplicationCriteria;
+import org.soptorshi.service.dto.LeaveApplicationDTO;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -35,12 +35,12 @@ public class LeaveApplicationResource {
 
     private static final String ENTITY_NAME = "leaveApplication";
 
-    private final LeaveApplicationServiceImpl leaveApplicationServiceImpl;
+    private final LeaveApplicationService leaveApplicationService;
 
     private final LeaveApplicationQueryService leaveApplicationQueryService;
 
-    public LeaveApplicationResource(LeaveApplicationServiceImpl leaveApplicationServiceImpl, LeaveApplicationQueryService leaveApplicationQueryService) {
-        this.leaveApplicationServiceImpl = leaveApplicationServiceImpl;
+    public LeaveApplicationResource(LeaveApplicationService leaveApplicationService, LeaveApplicationQueryService leaveApplicationQueryService) {
+        this.leaveApplicationService = leaveApplicationService;
         this.leaveApplicationQueryService = leaveApplicationQueryService;
     }
 
@@ -58,7 +58,7 @@ public class LeaveApplicationResource {
             throw new BadRequestAlertException("A new leaveApplication cannot already have an ID", ENTITY_NAME, "idexists");
         }
         leaveApplicationDTO.setAppliedOn(Instant.now());
-        LeaveApplicationDTO result = leaveApplicationServiceImpl.save(leaveApplicationDTO);
+        LeaveApplicationDTO result = leaveApplicationService.save(leaveApplicationDTO);
         if(result == null) {
             return  ResponseEntity.badRequest().build();
         }
@@ -83,7 +83,7 @@ public class LeaveApplicationResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         leaveApplicationDTO.setActionTakenOn(Instant.now());
-        LeaveApplicationDTO result = leaveApplicationServiceImpl.save(leaveApplicationDTO);
+        LeaveApplicationDTO result = leaveApplicationService.save(leaveApplicationDTO);
         if(result == null) {
             return  ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
@@ -128,7 +128,7 @@ public class LeaveApplicationResource {
     @GetMapping("/leave-applications/{id}")
     public ResponseEntity<LeaveApplicationDTO> getLeaveApplication(@PathVariable Long id) {
         log.debug("REST request to get LeaveApplication : {}", id);
-        Optional<LeaveApplicationDTO> leaveApplicationDTO = leaveApplicationServiceImpl.findOne(id);
+        Optional<LeaveApplicationDTO> leaveApplicationDTO = leaveApplicationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(leaveApplicationDTO);
     }
 
@@ -141,7 +141,7 @@ public class LeaveApplicationResource {
     @DeleteMapping("/leave-applications/{id}")
     public ResponseEntity<Void> deleteLeaveApplication(@PathVariable Long id) {
         log.debug("REST request to delete LeaveApplication : {}", id);
-        leaveApplicationServiceImpl.delete(id);
+        leaveApplicationService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -156,7 +156,7 @@ public class LeaveApplicationResource {
     @GetMapping("/_search/leave-applications")
     public ResponseEntity<List<LeaveApplicationDTO>> searchLeaveApplications(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of LeaveApplications for query {}", query);
-        Page<LeaveApplicationDTO> page = leaveApplicationServiceImpl.search(query, pageable);
+        Page<LeaveApplicationDTO> page = leaveApplicationService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/leave-applications");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

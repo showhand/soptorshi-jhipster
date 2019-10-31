@@ -12,7 +12,7 @@ import { ItemSubCategoryUpdateExtendedComponent } from 'app/entities/item-sub-ca
 import { ItemSubCategoryDeletePopupExtendedComponent } from 'app/entities/item-sub-category-extended/item-sub-category-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class ItemSubCategoryResolveExtended implements Resolve<IItemSubCategory> {
+export class ItemSubCategoryExtendedResolve implements Resolve<IItemSubCategory> {
     constructor(private service: ItemSubCategoryExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IItemSubCategory> {
@@ -41,7 +41,7 @@ export const itemSubCategoryExtendedRoute: Routes = [
         path: ':id/view',
         component: ItemSubCategoryDetailExtendedComponent,
         resolve: {
-            itemSubCategory: ItemSubCategoryResolveExtended
+            itemSubCategory: ItemSubCategoryExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -53,7 +53,7 @@ export const itemSubCategoryExtendedRoute: Routes = [
         path: 'new',
         component: ItemSubCategoryUpdateExtendedComponent,
         resolve: {
-            itemSubCategory: ItemSubCategoryResolveExtended
+            itemSubCategory: ItemSubCategoryExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -65,7 +65,7 @@ export const itemSubCategoryExtendedRoute: Routes = [
         path: ':id/edit',
         component: ItemSubCategoryUpdateExtendedComponent,
         resolve: {
-            itemSubCategory: ItemSubCategoryResolveExtended
+            itemSubCategory: ItemSubCategoryExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -80,7 +80,7 @@ export const itemSubCategoryPopupRouteExtended: Routes = [
         path: ':id/delete',
         component: ItemSubCategoryDeletePopupExtendedComponent,
         resolve: {
-            itemSubCategory: ItemSubCategoryResolveExtended
+            itemSubCategory: ItemSubCategoryExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

@@ -31,4 +31,4 @@ const ENTITY_STATES = [...holidayExtendedRoute, ...holidayPopupRouteExtended];
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SoptorshiHolidayModuleExtended {}
+export class SoptorshiHolidayExtendedModule {}

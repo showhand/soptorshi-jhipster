@@ -1,26 +1,20 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.StockInItem;
-import org.soptorshi.domain.ItemCategory;
-import org.soptorshi.domain.ItemSubCategory;
-import org.soptorshi.domain.InventoryLocation;
-import org.soptorshi.domain.InventorySubLocation;
-import org.soptorshi.domain.Manufacturer;
-import org.soptorshi.domain.StockInProcess;
-import org.soptorshi.repository.StockInItemRepository;
-import org.soptorshi.repository.search.StockInItemSearchRepository;
-import org.soptorshi.service.dto.StockInItemDTO;
-import org.soptorshi.service.impl.StockInItemServiceImpl;
-import org.soptorshi.service.mapper.StockInItemMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.StockInItemQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.*;
+import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.repository.StockInItemRepository;
+import org.soptorshi.repository.search.StockInItemSearchRepository;
+import org.soptorshi.service.StockInItemQueryService;
+import org.soptorshi.service.StockInItemService;
+import org.soptorshi.service.dto.StockInItemDTO;
+import org.soptorshi.service.mapper.StockInItemMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -35,24 +29,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.soptorshi.domain.enumeration.ItemUnit;
-import org.soptorshi.domain.enumeration.ContainerCategory;
 /**
  * Test class for the StockInItemResource REST controller.
  *
@@ -99,7 +89,7 @@ public class StockInItemResourceIntTest {
     private StockInItemMapper stockInItemMapper;
 
     @Autowired
-    private StockInItemServiceImpl stockInItemService;
+    private StockInItemService stockInItemService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.

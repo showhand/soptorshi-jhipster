@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.StockInItemQueryService;
+import org.soptorshi.service.StockInItemService;
 import org.soptorshi.service.dto.StockInItemCriteria;
 import org.soptorshi.service.dto.StockInItemDTO;
-import org.soptorshi.service.impl.StockInItemServiceImpl;
 import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,12 +31,12 @@ public class StockInItemResourceExtended {
 
     private static final String ENTITY_NAME = "stockInItem";
 
-    private final StockInItemServiceImpl stockInItemServiceImpl;
+    private final StockInItemService stockInItemService;
 
     private final StockInItemQueryService stockInItemQueryService;
 
-    public StockInItemResourceExtended(StockInItemServiceImpl stockInItemServiceImpl, StockInItemQueryService stockInItemQueryService) {
-        this.stockInItemServiceImpl = stockInItemServiceImpl;
+    public StockInItemResourceExtended(StockInItemService stockInItemService, StockInItemQueryService stockInItemQueryService) {
+        this.stockInItemService = stockInItemService;
         this.stockInItemQueryService = stockInItemQueryService;
     }
 
@@ -118,7 +118,7 @@ public class StockInItemResourceExtended {
     @GetMapping("/stock-in-items/{id}")
     public ResponseEntity<StockInItemDTO> getStockInItem(@PathVariable Long id) {
         log.debug("REST request to get StockInItem : {}", id);
-        Optional<StockInItemDTO> stockInItemDTO = stockInItemServiceImpl.findOne(id);
+        Optional<StockInItemDTO> stockInItemDTO = stockInItemService.findOne(id);
         return ResponseUtil.wrapOrNotFound(stockInItemDTO);
     }
 
@@ -147,7 +147,7 @@ public class StockInItemResourceExtended {
     @GetMapping("/_search/stock-in-items")
     public ResponseEntity<List<StockInItemDTO>> searchStockInItems(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of StockInItems for query {}", query);
-        Page<StockInItemDTO> page = stockInItemServiceImpl.search(query, pageable);
+        Page<StockInItemDTO> page = stockInItemService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/stock-in-items");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface LeaveApplicationRepositoryExtended  extends LeaveApplicationRepository {
+public interface LeaveApplicationExtendedRepository extends LeaveApplicationRepository {
 
     List<LeaveApplication> findByEmployeeIdAndLeaveTypesAndStatusAndFromDateGreaterThanAndToDateLessThan(String employeeId, LeaveType leaveTypes, LeaveStatus status, LocalDate fromDate, LocalDate toDate);
 }

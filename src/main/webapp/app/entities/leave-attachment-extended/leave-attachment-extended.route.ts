@@ -12,7 +12,7 @@ import { LeaveAttachmentDetailExtendedComponent } from 'app/entities/leave-attac
 import { LeaveAttachmentUpdateExtendedComponent } from 'app/entities/leave-attachment-extended/leave-attachment-update-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class LeaveAttachmentResolveExtended implements Resolve<ILeaveAttachment> {
+export class LeaveAttachmentExtendedResolve implements Resolve<ILeaveAttachment> {
     constructor(private service: LeaveAttachmentExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ILeaveAttachment> {
@@ -41,7 +41,7 @@ export const leaveAttachmentExtendedRoute: Routes = [
         path: ':id/view',
         component: LeaveAttachmentDetailExtendedComponent,
         resolve: {
-            leaveAttachment: LeaveAttachmentResolveExtended
+            leaveAttachment: LeaveAttachmentExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_USER'],
@@ -53,7 +53,7 @@ export const leaveAttachmentExtendedRoute: Routes = [
         path: 'new',
         component: LeaveAttachmentUpdateExtendedComponent,
         resolve: {
-            leaveAttachment: LeaveAttachmentResolveExtended
+            leaveAttachment: LeaveAttachmentExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_USER'],
@@ -65,7 +65,7 @@ export const leaveAttachmentExtendedRoute: Routes = [
         path: ':id/edit',
         component: LeaveAttachmentUpdateExtendedComponent,
         resolve: {
-            leaveAttachment: LeaveAttachmentResolveExtended
+            leaveAttachment: LeaveAttachmentExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_USER'],
@@ -80,7 +80,7 @@ export const leaveAttachmentPopupRouteExtended: Routes = [
         path: ':id/delete',
         component: LeaveAttachmentDeletePopupComponent,
         resolve: {
-            leaveAttachment: LeaveAttachmentResolveExtended
+            leaveAttachment: LeaveAttachmentExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_USER'],

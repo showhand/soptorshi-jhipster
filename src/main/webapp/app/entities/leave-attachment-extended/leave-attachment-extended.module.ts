@@ -31,4 +31,4 @@ const ENTITY_STATES = [...leaveAttachmentExtendedRoute, ...leaveAttachmentPopupR
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SoptorshiLeaveAttachmentModuleExtended {}
+export class SoptorshiLeaveAttachmentExtendedModule {}

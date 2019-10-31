@@ -13,7 +13,7 @@ import { AttendanceUpdateExtendedComponent } from 'app/entities/attendance-exten
 import { AttendanceDeletePopupExtendedComponent } from 'app/entities/attendance-extended/attendance-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class AttendanceResolveExtended implements Resolve<IAttendance> {
+export class AttendanceExtendedResolve implements Resolve<IAttendance> {
     constructor(private service: AttendanceExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAttendance> {
@@ -42,7 +42,7 @@ export const attendanceExtendedRoute: Routes = [
         path: ':id/view',
         component: AttendanceDetailExtendedComponent,
         resolve: {
-            attendance: AttendanceResolveExtended
+            attendance: AttendanceExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
@@ -54,7 +54,7 @@ export const attendanceExtendedRoute: Routes = [
         path: 'new',
         component: AttendanceUpdateExtendedComponent,
         resolve: {
-            attendance: AttendanceResolveExtended
+            attendance: AttendanceExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
@@ -66,7 +66,7 @@ export const attendanceExtendedRoute: Routes = [
         path: 'my-attendance',
         component: MyAttendanceComponent,
         resolve: {
-            attendance: AttendanceResolveExtended
+            attendance: AttendanceExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER', 'ROLE_USER'],
@@ -78,7 +78,7 @@ export const attendanceExtendedRoute: Routes = [
         path: ':id/edit',
         component: AttendanceUpdateExtendedComponent,
         resolve: {
-            attendance: AttendanceResolveExtended
+            attendance: AttendanceExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
@@ -93,7 +93,7 @@ export const attendancePopupRouteExtended: Routes = [
         path: ':id/delete',
         component: AttendanceDeletePopupExtendedComponent,
         resolve: {
-            attendance: AttendanceResolveExtended
+            attendance: AttendanceExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],

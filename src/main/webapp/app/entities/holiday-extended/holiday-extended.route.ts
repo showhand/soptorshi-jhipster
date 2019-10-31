@@ -12,7 +12,7 @@ import { HolidayUpdateExtendedComponent } from 'app/entities/holiday-extended/ho
 import { HolidayDeletePopupExtendedComponent } from 'app/entities/holiday-extended/holiday-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class HolidayResolveExtended implements Resolve<IHoliday> {
+export class HolidayExtendedResolve implements Resolve<IHoliday> {
     constructor(private service: HolidayExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IHoliday> {
@@ -41,7 +41,7 @@ export const holidayExtendedRoute: Routes = [
         path: ':id/view',
         component: HolidayDetailExtendedComponent,
         resolve: {
-            holiday: HolidayResolveExtended
+            holiday: HolidayExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
@@ -53,7 +53,7 @@ export const holidayExtendedRoute: Routes = [
         path: 'new',
         component: HolidayUpdateExtendedComponent,
         resolve: {
-            holiday: HolidayResolveExtended
+            holiday: HolidayExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
@@ -65,7 +65,7 @@ export const holidayExtendedRoute: Routes = [
         path: ':id/edit',
         component: HolidayUpdateExtendedComponent,
         resolve: {
-            holiday: HolidayResolveExtended
+            holiday: HolidayExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
@@ -80,7 +80,7 @@ export const holidayPopupRouteExtended: Routes = [
         path: ':id/delete',
         component: HolidayDeletePopupExtendedComponent,
         resolve: {
-            holiday: HolidayResolveExtended
+            holiday: HolidayExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],

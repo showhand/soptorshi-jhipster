@@ -12,7 +12,7 @@ import { StockStatusUpdateExtendedComponent } from 'app/entities/stock-status-ex
 import { StockStatusDeletePopupExtendedComponent } from 'app/entities/stock-status-extended/stock-status-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class StockStatusResolveExtended implements Resolve<IStockStatus> {
+export class StockStatusExtendedResolve implements Resolve<IStockStatus> {
     constructor(private service: StockStatusExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IStockStatus> {
@@ -41,7 +41,7 @@ export const stockStatusExtendedRoute: Routes = [
         path: ':id/view',
         component: StockStatusDetailExtendedComponent,
         resolve: {
-            stockStatus: StockStatusResolveExtended
+            stockStatus: StockStatusExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -53,7 +53,7 @@ export const stockStatusExtendedRoute: Routes = [
         path: 'new',
         component: StockStatusUpdateExtendedComponent,
         resolve: {
-            stockStatus: StockStatusResolveExtended
+            stockStatus: StockStatusExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -65,7 +65,7 @@ export const stockStatusExtendedRoute: Routes = [
         path: ':id/edit',
         component: StockStatusUpdateExtendedComponent,
         resolve: {
-            stockStatus: StockStatusResolveExtended
+            stockStatus: StockStatusExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -80,7 +80,7 @@ export const stockStatusPopupRouteExtended: Routes = [
         path: ':id/delete',
         component: StockStatusDeletePopupExtendedComponent,
         resolve: {
-            stockStatus: StockStatusResolveExtended
+            stockStatus: StockStatusExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

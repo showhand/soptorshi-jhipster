@@ -11,9 +11,9 @@ import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.AttendanceExcelUploadRepository;
 import org.soptorshi.repository.EmployeeRepository;
 import org.soptorshi.repository.search.AttendanceExcelUploadSearchRepository;
+import org.soptorshi.service.AttendanceExcelUploadService;
 import org.soptorshi.service.dto.AttendanceDTO;
 import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
-import org.soptorshi.service.impl.AttendanceExcelUploadServiceImpl;
 import org.soptorshi.service.mapper.AttendanceExcelUploadMapper;
 import org.soptorshi.service.mapper.AttendanceMapper;
 import org.springframework.data.domain.Page;
@@ -35,9 +35,9 @@ import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 @Service
 @Transactional
-public class AttendanceExcelUploadServiceImplExtended extends AttendanceExcelUploadServiceImpl {
+public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadService {
 
-    private final Logger log = LoggerFactory.getLogger(AttendanceExcelUploadServiceImplExtended.class);
+    private final Logger log = LoggerFactory.getLogger(AttendanceExcelUploadExtendedService.class);
 
     private final AttendanceExcelUploadRepository attendanceExcelUploadRepository;
 
@@ -49,17 +49,17 @@ public class AttendanceExcelUploadServiceImplExtended extends AttendanceExcelUpl
 
     private final EmployeeRepository employeeRepository;
 
-    private final AttendanceServiceImplExtended attendanceServiceImplExtended;
+    private final AttendanceExtendedService attendanceExtendedService;
 
-    public AttendanceExcelUploadServiceImplExtended(AttendanceExcelUploadRepository attendanceExcelUploadRepository, AttendanceExcelUploadMapper attendanceExcelUploadMapper, AttendanceExcelUploadSearchRepository attendanceExcelUploadSearchRepository, AttendanceMapper attendanceMapper,
-                                            EmployeeRepository employeeRepository, AttendanceServiceImplExtended attendanceServiceImplExtended) {
+    public AttendanceExcelUploadExtendedService(AttendanceExcelUploadRepository attendanceExcelUploadRepository, AttendanceExcelUploadMapper attendanceExcelUploadMapper, AttendanceExcelUploadSearchRepository attendanceExcelUploadSearchRepository, AttendanceMapper attendanceMapper,
+                                                EmployeeRepository employeeRepository, AttendanceExtendedService attendanceExtendedService) {
         super(attendanceExcelUploadRepository, attendanceExcelUploadMapper, attendanceExcelUploadSearchRepository);
         this.attendanceExcelUploadRepository = attendanceExcelUploadRepository;
         this.attendanceExcelUploadMapper = attendanceExcelUploadMapper;
         this.attendanceExcelUploadSearchRepository = attendanceExcelUploadSearchRepository;
         this.attendanceMapper = attendanceMapper;
         this.employeeRepository = employeeRepository;
-        this.attendanceServiceImplExtended = attendanceServiceImplExtended;
+        this.attendanceExtendedService = attendanceExtendedService;
     }
 
     /**
@@ -81,7 +81,7 @@ public class AttendanceExcelUploadServiceImplExtended extends AttendanceExcelUpl
         if (attendanceExcelParsers == null) return null;
         else {
             log.debug("Deleting previous data AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
-            attendanceServiceImplExtended.deleteByAttendanceExcelUpload(attendanceExcelUpload);
+            attendanceExtendedService.deleteByAttendanceExcelUpload(attendanceExcelUpload);
             log.debug("Saving new data AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
             parseExcelValueToAttendanceObjectAndSave(attendanceExcelParsers, attendanceExcelUpload);
         }
@@ -188,7 +188,7 @@ public class AttendanceExcelUploadServiceImplExtended extends AttendanceExcelUpl
 
         for(Attendance attendance: attendances){
             AttendanceDTO attendanceDTO = attendanceMapper.toDto(attendance);
-            attendanceServiceImplExtended.save(attendanceDTO);
+            attendanceExtendedService.save(attendanceDTO);
         }
     }
 }

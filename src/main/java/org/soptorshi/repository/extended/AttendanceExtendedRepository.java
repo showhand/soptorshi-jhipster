@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface AttendanceRepositoryExtended extends AttendanceRepository {
+public interface AttendanceExtendedRepository extends AttendanceRepository {
 
     List<Attendance> getByAttendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload);
 

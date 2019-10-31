@@ -12,7 +12,7 @@ import { StockInProcessUpdateExtendedComponent } from 'app/entities/stock-in-pro
 import { StockInProcessDeletePopupExtendedComponent } from 'app/entities/stock-in-process-extended/stock-in-process-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class StockInProcessResolveExtended implements Resolve<IStockInProcess> {
+export class StockInProcessExtendedResolve implements Resolve<IStockInProcess> {
     constructor(private service: StockInProcessExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IStockInProcess> {
@@ -41,7 +41,7 @@ export const stockInProcessExtendedRoute: Routes = [
         path: ':id/view',
         component: StockInProcessDetailExtendedComponent,
         resolve: {
-            stockInProcess: StockInProcessResolveExtended
+            stockInProcess: StockInProcessExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -53,7 +53,7 @@ export const stockInProcessExtendedRoute: Routes = [
         path: 'new',
         component: StockInProcessUpdateExtendedComponent,
         resolve: {
-            stockInProcess: StockInProcessResolveExtended
+            stockInProcess: StockInProcessExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -65,7 +65,7 @@ export const stockInProcessExtendedRoute: Routes = [
         path: ':id/edit',
         component: StockInProcessUpdateExtendedComponent,
         resolve: {
-            stockInProcess: StockInProcessResolveExtended
+            stockInProcess: StockInProcessExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -80,7 +80,7 @@ export const stockInProcessPopupRouteExtended: Routes = [
         path: ':id/delete',
         component: StockInProcessDeletePopupExtendedComponent,
         resolve: {
-            stockInProcess: StockInProcessResolveExtended
+            stockInProcess: StockInProcessExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

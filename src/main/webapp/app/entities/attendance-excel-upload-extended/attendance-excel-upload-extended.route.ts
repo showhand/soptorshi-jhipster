@@ -12,7 +12,7 @@ import { AttendanceExcelUploadDeletePopupExtendedComponent } from 'app/entities/
 import { AttendanceExcelUploadExtendedService } from 'app/entities/attendance-excel-upload-extended/attendance-excel-upload-extended.service';
 
 @Injectable({ providedIn: 'root' })
-export class AttendanceExcelUploadResolveExtended implements Resolve<IAttendanceExcelUpload> {
+export class AttendanceExcelUploadExtendedResolve implements Resolve<IAttendanceExcelUpload> {
     constructor(private service: AttendanceExcelUploadExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAttendanceExcelUpload> {
@@ -41,7 +41,7 @@ export const attendanceExcelUploadExtendedRoute: Routes = [
         path: ':id/view',
         component: AttendanceExcelUploadDetailExtendedComponent,
         resolve: {
-            attendanceExcelUpload: AttendanceExcelUploadResolveExtended
+            attendanceExcelUpload: AttendanceExcelUploadExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
@@ -53,7 +53,7 @@ export const attendanceExcelUploadExtendedRoute: Routes = [
         path: 'new',
         component: AttendanceExcelUploadUpdateExtendedComponent,
         resolve: {
-            attendanceExcelUpload: AttendanceExcelUploadResolveExtended
+            attendanceExcelUpload: AttendanceExcelUploadExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
@@ -65,7 +65,7 @@ export const attendanceExcelUploadExtendedRoute: Routes = [
         path: ':id/edit',
         component: AttendanceExcelUploadUpdateExtendedComponent,
         resolve: {
-            attendanceExcelUpload: AttendanceExcelUploadResolveExtended
+            attendanceExcelUpload: AttendanceExcelUploadExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
@@ -80,7 +80,7 @@ export const attendanceExcelUploadPopupRouteExtended: Routes = [
         path: ':id/delete',
         component: AttendanceExcelUploadDeletePopupExtendedComponent,
         resolve: {
-            attendanceExcelUpload: AttendanceExcelUploadResolveExtended
+            attendanceExcelUpload: AttendanceExcelUploadExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],

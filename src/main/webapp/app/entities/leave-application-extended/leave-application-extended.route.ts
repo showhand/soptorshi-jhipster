@@ -15,7 +15,7 @@ import { LeaveApplicationUpdateExtendedComponent } from 'app/entities/leave-appl
 import { LeaveApplicationDeletePopupExtendedComponent } from 'app/entities/leave-application-extended/leave-application-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class LeaveApplicationResolveExtended implements Resolve<ILeaveApplication> {
+export class LeaveApplicationExtendedResolve implements Resolve<ILeaveApplication> {
     constructor(private service: LeaveApplicationExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ILeaveApplication> {
@@ -44,7 +44,7 @@ export const leaveApplicationExtendedRoute: Routes = [
         path: ':id/view',
         component: LeaveApplicationDetailExtendedComponent,
         resolve: {
-            leaveApplication: LeaveApplicationResolveExtended
+            leaveApplication: LeaveApplicationExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_USER'],
@@ -56,7 +56,7 @@ export const leaveApplicationExtendedRoute: Routes = [
         path: 'new',
         component: LeaveApplicationUpdateExtendedComponent,
         resolve: {
-            leaveApplication: LeaveApplicationResolveExtended
+            leaveApplication: LeaveApplicationExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_USER'],
@@ -68,7 +68,7 @@ export const leaveApplicationExtendedRoute: Routes = [
         path: 'new/others',
         component: OthersLeaveApplicationComponent,
         resolve: {
-            leaveApplication: LeaveApplicationResolveExtended
+            leaveApplication: LeaveApplicationExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_MANAGER'],
@@ -80,7 +80,7 @@ export const leaveApplicationExtendedRoute: Routes = [
         path: ':id/edit',
         component: LeaveApplicationUpdateExtendedComponent,
         resolve: {
-            leaveApplication: LeaveApplicationResolveExtended
+            leaveApplication: LeaveApplicationExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_USER'],
@@ -92,7 +92,7 @@ export const leaveApplicationExtendedRoute: Routes = [
         path: 'review',
         component: ReviewLeaveApplicationComponent,
         resolve: {
-            leaveApplication: LeaveApplicationResolveExtended
+            leaveApplication: LeaveApplicationExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_MANAGER'],
@@ -104,7 +104,7 @@ export const leaveApplicationExtendedRoute: Routes = [
         path: 'history/others',
         component: OthersLeaveApplicationHistoryComponent,
         resolve: {
-            leaveApplication: LeaveApplicationResolveExtended
+            leaveApplication: LeaveApplicationExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_MANAGER'],
@@ -119,7 +119,7 @@ export const leaveApplicationPopupRouteExtended: Routes = [
         path: ':id/delete',
         component: LeaveApplicationDeletePopupExtendedComponent,
         resolve: {
-            leaveApplication: LeaveApplicationResolveExtended
+            leaveApplication: LeaveApplicationExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_USER'],

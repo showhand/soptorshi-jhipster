@@ -1,15 +1,12 @@
-package org.soptorshi.service.extended;
+package org.soptorshi.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.StockStatus;
 import org.soptorshi.repository.StockStatusRepository;
-import org.soptorshi.repository.extended.StockStatusRepositoryExtended;
 import org.soptorshi.repository.search.StockStatusSearchRepository;
 import org.soptorshi.service.dto.StockStatusDTO;
-import org.soptorshi.service.impl.StockStatusServiceImpl;
 import org.soptorshi.service.mapper.StockStatusMapper;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,21 +16,23 @@ import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
+/**
+ * Service Implementation for managing StockStatus.
+ */
 @Service
 @Transactional
-public class StockStatusServiceImplExtended extends StockStatusServiceImpl {
+public class StockStatusService {
 
-    private final Logger log = LoggerFactory.getLogger(StockStatusServiceImplExtended.class);
+    private final Logger log = LoggerFactory.getLogger(StockStatusService.class);
+
+    private final StockStatusRepository stockStatusRepository;
 
     private final StockStatusMapper stockStatusMapper;
 
     private final StockStatusSearchRepository stockStatusSearchRepository;
 
-    private final StockStatusRepositoryExtended stockStatusRepositoryExtended;
-
-    public StockStatusServiceImplExtended(StockStatusRepositoryExtended stockStatusRepositoryExtended, StockStatusMapper stockStatusMapper, StockStatusSearchRepository stockStatusSearchRepository) {
-        super(stockStatusRepositoryExtended, stockStatusMapper, stockStatusSearchRepository);
-        this.stockStatusRepositoryExtended = stockStatusRepositoryExtended;
+    public StockStatusService(StockStatusRepository stockStatusRepository, StockStatusMapper stockStatusMapper, StockStatusSearchRepository stockStatusSearchRepository) {
+        this.stockStatusRepository = stockStatusRepository;
         this.stockStatusMapper = stockStatusMapper;
         this.stockStatusSearchRepository = stockStatusSearchRepository;
     }
@@ -44,11 +43,11 @@ public class StockStatusServiceImplExtended extends StockStatusServiceImpl {
      * @param stockStatusDTO the entity to save
      * @return the persisted entity
      */
-    @Override
+
     public StockStatusDTO save(StockStatusDTO stockStatusDTO) {
         log.debug("Request to save StockStatus : {}", stockStatusDTO);
         StockStatus stockStatus = stockStatusMapper.toEntity(stockStatusDTO);
-        stockStatus = stockStatusRepositoryExtended.save(stockStatus);
+        stockStatus = stockStatusRepository.save(stockStatus);
         /*stockStatusSearchRepository.save(stockStatus);*/
         return stockStatusMapper.toDto(stockStatus);
     }
@@ -59,11 +58,11 @@ public class StockStatusServiceImplExtended extends StockStatusServiceImpl {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<StockStatusDTO> findAll(Pageable pageable) {
         log.debug("Request to get all StockStatuses");
-        return stockStatusRepositoryExtended.findAll(pageable)
+        return stockStatusRepository.findAll(pageable)
             .map(stockStatusMapper::toDto);
     }
 
@@ -74,11 +73,11 @@ public class StockStatusServiceImplExtended extends StockStatusServiceImpl {
      * @param id the id of the entity
      * @return the entity
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Optional<StockStatusDTO> findOne(Long id) {
         log.debug("Request to get StockStatus : {}", id);
-        return stockStatusRepositoryExtended.findById(id)
+        return stockStatusRepository.findById(id)
             .map(stockStatusMapper::toDto);
     }
 
@@ -87,10 +86,10 @@ public class StockStatusServiceImplExtended extends StockStatusServiceImpl {
      *
      * @param id the id of the entity
      */
-    @Override
+
     public void delete(Long id) {
         log.debug("Request to delete StockStatus : {}", id);
-        stockStatusRepositoryExtended.deleteById(id);
+        stockStatusRepository.deleteById(id);
         stockStatusSearchRepository.deleteById(id);
     }
 
@@ -101,7 +100,7 @@ public class StockStatusServiceImplExtended extends StockStatusServiceImpl {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<StockStatusDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of StockStatuses for query {}", query);
@@ -109,4 +108,3 @@ public class StockStatusServiceImplExtended extends StockStatusServiceImpl {
             .map(stockStatusMapper::toDto);
     }
 }
-

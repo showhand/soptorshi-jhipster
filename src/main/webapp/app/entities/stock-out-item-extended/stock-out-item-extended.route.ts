@@ -12,7 +12,7 @@ import { StockOutItemUpdateExtendedComponent } from 'app/entities/stock-out-item
 import { StockOutItemDeletePopupExtendedComponent } from 'app/entities/stock-out-item-extended/stock-out-item-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class StockOutItemResolveExtended implements Resolve<IStockOutItem> {
+export class StockOutItemExtendedResolve implements Resolve<IStockOutItem> {
     constructor(private service: StockOutItemExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IStockOutItem> {
@@ -41,7 +41,7 @@ export const stockOutItemExtendedRoute: Routes = [
         path: ':id/view',
         component: StockOutItemDetailExtendedComponent,
         resolve: {
-            stockOutItem: StockOutItemResolveExtended
+            stockOutItem: StockOutItemExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -53,7 +53,7 @@ export const stockOutItemExtendedRoute: Routes = [
         path: 'new',
         component: StockOutItemUpdateExtendedComponent,
         resolve: {
-            stockOutItem: StockOutItemResolveExtended
+            stockOutItem: StockOutItemExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -65,7 +65,7 @@ export const stockOutItemExtendedRoute: Routes = [
         path: ':id/edit',
         component: StockOutItemUpdateExtendedComponent,
         resolve: {
-            stockOutItem: StockOutItemResolveExtended
+            stockOutItem: StockOutItemExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -80,7 +80,7 @@ export const stockOutItemPopupRouteExtended: Routes = [
         path: ':id/delete',
         component: StockOutItemDeletePopupExtendedComponent,
         resolve: {
-            stockOutItem: StockOutItemResolveExtended
+            stockOutItem: StockOutItemExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

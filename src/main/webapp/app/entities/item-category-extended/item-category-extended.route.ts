@@ -12,7 +12,7 @@ import { ItemCategoryUpdateExtendedComponent } from 'app/entities/item-category-
 import { ItemCategoryDeletePopupExtendedComponent } from 'app/entities/item-category-extended/item-category-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class ItemCategoryResolveExtended implements Resolve<IItemCategory> {
+export class ItemCategoryExtendedResolve implements Resolve<IItemCategory> {
     constructor(private service: ItemCategoryExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IItemCategory> {
@@ -41,7 +41,7 @@ export const itemCategoryExtendedRoute: Routes = [
         path: ':id/view',
         component: ItemCategoryDetailExtendedComponent,
         resolve: {
-            itemCategory: ItemCategoryResolveExtended
+            itemCategory: ItemCategoryExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -53,7 +53,7 @@ export const itemCategoryExtendedRoute: Routes = [
         path: 'new',
         component: ItemCategoryUpdateExtendedComponent,
         resolve: {
-            itemCategory: ItemCategoryResolveExtended
+            itemCategory: ItemCategoryExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -65,7 +65,7 @@ export const itemCategoryExtendedRoute: Routes = [
         path: ':id/edit',
         component: ItemCategoryUpdateExtendedComponent,
         resolve: {
-            itemCategory: ItemCategoryResolveExtended
+            itemCategory: ItemCategoryExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -80,7 +80,7 @@ export const itemCategoryPopupRouteExtended: Routes = [
         path: ':id/delete',
         component: ItemCategoryDeletePopupExtendedComponent,
         resolve: {
-            itemCategory: ItemCategoryResolveExtended
+            itemCategory: ItemCategoryExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

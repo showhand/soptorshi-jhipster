@@ -1,13 +1,12 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.InventorySubLocation;
 import org.soptorshi.repository.InventorySubLocationRepository;
 import org.soptorshi.repository.search.InventorySubLocationSearchRepository;
 import org.soptorshi.service.dto.InventorySubLocationDTO;
 import org.soptorshi.service.mapper.InventorySubLocationMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing InventorySubLocation.
  */
 @Service
 @Transactional
-public class InventorySubLocationServiceImpl {
+public class InventorySubLocationService {
 
-    private final Logger log = LoggerFactory.getLogger(InventorySubLocationServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(InventorySubLocationService.class);
 
     private final InventorySubLocationRepository inventorySubLocationRepository;
 
@@ -32,7 +31,7 @@ public class InventorySubLocationServiceImpl {
 
     private final InventorySubLocationSearchRepository inventorySubLocationSearchRepository;
 
-    public InventorySubLocationServiceImpl(InventorySubLocationRepository inventorySubLocationRepository, InventorySubLocationMapper inventorySubLocationMapper, InventorySubLocationSearchRepository inventorySubLocationSearchRepository) {
+    public InventorySubLocationService(InventorySubLocationRepository inventorySubLocationRepository, InventorySubLocationMapper inventorySubLocationMapper, InventorySubLocationSearchRepository inventorySubLocationSearchRepository) {
         this.inventorySubLocationRepository = inventorySubLocationRepository;
         this.inventorySubLocationMapper = inventorySubLocationMapper;
         this.inventorySubLocationSearchRepository = inventorySubLocationSearchRepository;

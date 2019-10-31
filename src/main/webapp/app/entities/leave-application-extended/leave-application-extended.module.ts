@@ -37,4 +37,4 @@ const ENTITY_STATES = [...leaveApplicationExtendedRoute, ...leaveApplicationPopu
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SoptorshiLeaveApplicationModuleExtended {}
+export class SoptorshiLeaveApplicationExtendedModule {}

@@ -12,7 +12,7 @@ import { HolidayTypeUpdateExtendedComponent } from 'app/entities/holiday-type-ex
 import { HolidayTypeDeletePopupExtendedComponent } from 'app/entities/holiday-type-extended/holiday-type-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class HolidayTypeResolveExtended implements Resolve<IHolidayType> {
+export class HolidayTypeExtendedResolve implements Resolve<IHolidayType> {
     constructor(private service: HolidayTypeExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IHolidayType> {
@@ -41,7 +41,7 @@ export const holidayTypeExtendedRoute: Routes = [
         path: ':id/view',
         component: HolidayTypeDetailExtendedComponent,
         resolve: {
-            holidayType: HolidayTypeResolveExtended
+            holidayType: HolidayTypeExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
@@ -53,7 +53,7 @@ export const holidayTypeExtendedRoute: Routes = [
         path: 'new',
         component: HolidayTypeUpdateExtendedComponent,
         resolve: {
-            holidayType: HolidayTypeResolveExtended
+            holidayType: HolidayTypeExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
@@ -65,7 +65,7 @@ export const holidayTypeExtendedRoute: Routes = [
         path: ':id/edit',
         component: HolidayTypeUpdateExtendedComponent,
         resolve: {
-            holidayType: HolidayTypeResolveExtended
+            holidayType: HolidayTypeExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
@@ -80,7 +80,7 @@ export const holidayTypePopupRouteExtended: Routes = [
         path: ':id/delete',
         component: HolidayTypeDeletePopupExtendedComponent,
         resolve: {
-            holidayType: HolidayTypeResolveExtended
+            holidayType: HolidayTypeExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],

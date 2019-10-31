@@ -6,7 +6,7 @@ import org.soptorshi.domain.LeaveType;
 import org.soptorshi.domain.enumeration.LeaveStatus;
 import org.soptorshi.repository.EmployeeRepository;
 import org.soptorshi.repository.LeaveTypeRepository;
-import org.soptorshi.repository.extended.LeaveApplicationRepositoryExtended;
+import org.soptorshi.repository.extended.LeaveApplicationExtendedRepository;
 import org.soptorshi.service.dto.LeaveBalanceDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,16 +20,16 @@ import static java.time.temporal.TemporalAdjusters.lastDayOfYear;
 
 @Service
 @Transactional
-public class LeaveBalanceServiceImpl {
+public class LeaveBalanceService {
 
-    private final LeaveApplicationRepositoryExtended leaveApplicationRepositoryExtended;
+    private final LeaveApplicationExtendedRepository leaveApplicationExtendedRepository;
 
     private final LeaveTypeRepository leaveTypeRepository;
 
     private final EmployeeRepository employeeRepository;
 
-    public LeaveBalanceServiceImpl(LeaveApplicationRepositoryExtended leaveApplicationRepositoryExtended, LeaveTypeRepository leaveTypeRepository, EmployeeRepository employeeRepository) {
-        this.leaveApplicationRepositoryExtended = leaveApplicationRepositoryExtended;
+    public LeaveBalanceService(LeaveApplicationExtendedRepository leaveApplicationExtendedRepository, LeaveTypeRepository leaveTypeRepository, EmployeeRepository employeeRepository) {
+        this.leaveApplicationExtendedRepository = leaveApplicationExtendedRepository;
         this.leaveTypeRepository = leaveTypeRepository;
         this.employeeRepository = employeeRepository;
     }
@@ -138,7 +138,7 @@ public class LeaveBalanceServiceImpl {
 
     private List<LeaveApplication> getAppliedLeave(final String employeeId, final LeaveType leaveType,
                                                    final LocalDate fromDate, final LocalDate toDate) {
-        return leaveApplicationRepositoryExtended.
+        return leaveApplicationExtendedRepository.
             findByEmployeeIdAndLeaveTypesAndStatusAndFromDateGreaterThanAndToDateLessThan(employeeId, leaveType, LeaveStatus.ACCEPTED, fromDate, toDate);
     }
 }

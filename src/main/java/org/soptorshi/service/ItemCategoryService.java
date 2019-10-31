@@ -1,13 +1,12 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.ItemCategory;
 import org.soptorshi.repository.ItemCategoryRepository;
 import org.soptorshi.repository.search.ItemCategorySearchRepository;
 import org.soptorshi.service.dto.ItemCategoryDTO;
 import org.soptorshi.service.mapper.ItemCategoryMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing ItemCategory.
  */
 @Service
 @Transactional
-public class ItemCategoryServiceImpl {
+public class ItemCategoryService {
 
-    private final Logger log = LoggerFactory.getLogger(ItemCategoryServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(ItemCategoryService.class);
 
     private final ItemCategoryRepository itemCategoryRepository;
 
@@ -32,7 +31,7 @@ public class ItemCategoryServiceImpl {
 
     private final ItemCategorySearchRepository itemCategorySearchRepository;
 
-    public ItemCategoryServiceImpl(ItemCategoryRepository itemCategoryRepository, ItemCategoryMapper itemCategoryMapper, ItemCategorySearchRepository itemCategorySearchRepository) {
+    public ItemCategoryService(ItemCategoryRepository itemCategoryRepository, ItemCategoryMapper itemCategoryMapper, ItemCategorySearchRepository itemCategorySearchRepository) {
         this.itemCategoryRepository = itemCategoryRepository;
         this.itemCategoryMapper = itemCategoryMapper;
         this.itemCategorySearchRepository = itemCategorySearchRepository;

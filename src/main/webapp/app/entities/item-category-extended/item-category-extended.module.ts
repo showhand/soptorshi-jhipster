@@ -31,4 +31,4 @@ const ENTITY_STATES = [...itemCategoryExtendedRoute, ...itemCategoryPopupRouteEx
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SoptorshiItemCategoryModuleExtended {}
+export class SoptorshiItemCategoryExtendedModule {}

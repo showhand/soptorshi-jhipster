@@ -146,11 +146,11 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'holiday-type',
-                loadChildren: './holiday-type-extended/holiday-type-extended.module#SoptorshiHolidayTypeModuleExtended'
+                loadChildren: './holiday-type-extended/holiday-type-extended.module#SoptorshiHolidayTypeExtendedModule'
             },
             {
                 path: 'holiday',
-                loadChildren: './holiday/holiday.module#SoptorshiHolidayModuleExtended'
+                loadChildren: './holiday-extended/holiday-extended.module#SoptorshiHolidayExtendedModule'
             },
             {
                 path: 'employee',
@@ -287,15 +287,15 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'leave-type',
-                loadChildren: './leave-type/leave-type.module#SoptorshiLeaveTypeModuleExtended'
+                loadChildren: './leave-type-extended/leave-type-extended.module#SoptorshiLeaveTypeExtendedModule'
             },
             {
                 path: 'leave-application',
-                loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModuleExtended'
+                loadChildren: './leave-application-extended/leave-application-extended.module#SoptorshiLeaveApplicationExtendedModule'
             },
             {
                 path: 'leave-attachment',
-                loadChildren: './leave-attachment/leave-attachment.module#SoptorshiLeaveAttachmentModuleExtended'
+                loadChildren: './leave-attachment-extended/leave-attachment-extended.module#SoptorshiLeaveAttachmentExtendedModule'
             },
             {
                 path: 'leave-balance',
@@ -402,83 +402,44 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'attendance',
-                loadChildren: './attendance/attendance.module#SoptorshiAttendanceModuleExtended'
+                loadChildren: './attendance-extended/attendance-extended.module#SoptorshiAttendanceExtendedModule'
             },
             {
                 path: 'manufacturer',
-                loadChildren: './manufacturer/manufacturer.module#SoptorshiManufacturerModuleExtended'
+                loadChildren: './manufacturer-extended/manufacturer-extended.module#SoptorshiManufacturerExtendedModule'
             },
             {
                 path: 'item-category',
-                loadChildren: './item-category/item-category.module#SoptorshiItemCategoryModuleExtended'
+                loadChildren: './item-category-extended/item-category-extended.module#SoptorshiItemCategoryExtendedModule'
             },
             {
                 path: 'item-sub-category',
-                loadChildren: './item-sub-category/item-sub-category.module#SoptorshiItemSubCategoryModuleExtended'
+                loadChildren: './item-sub-category-extended/item-sub-category-extended.module#SoptorshiItemSubCategoryExtendedModule'
             },
             {
                 path: 'inventory-location',
-                loadChildren: './inventory-location/inventory-location.module#SoptorshiInventoryLocationModuleExtended'
+                loadChildren: './inventory-location-extended/inventory-location-extended.module#SoptorshiInventoryLocationExtendedModule'
             },
             {
                 path: 'inventory-sub-location',
-                loadChildren: './inventory-sub-location/inventory-sub-location.module#SoptorshiInventorySubLocationModuleExtended'
+                loadChildren:
+                    './inventory-sub-location-extended/inventory-sub-location-extended.module#SoptorshiInventorySubLocationExtendedModule'
             },
             {
                 path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModuleExtended'
+                loadChildren: './stock-in-process-extended/stock-in-process-extended.module#SoptorshiStockInProcessExtendedModule'
             },
             {
                 path: 'stock-in-item',
-                loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModuleExtended'
+                loadChildren: './stock-in-item-extended/stock-in-item-extended.module#SoptorshiStockInItemExtendedModule'
             },
             {
                 path: 'stock-out-item',
-                loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModuleExtended'
+                loadChildren: './stock-out-item-extended/stock-out-item-extended.module#SoptorshiStockOutItemExtendedModule'
             },
             {
                 path: 'stock-status',
-                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModuleExtended'
-            },
-            {
-                path: 'stock-status',
-                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModuleExtended'
-            },
-            {
-                path: 'stock-status',
-                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModuleExtended'
-            },
-            {
-                path: 'stock-status',
-                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModuleExtended'
-            },
-            {
-                path: 'stock-status',
-                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModuleExtended'
-            },
-            {
-                path: 'stock-status',
-                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModuleExtended'
-            },
-            {
-                path: 'inventory-sub-location',
-                loadChildren: './inventory-sub-location/inventory-sub-location.module#SoptorshiInventorySubLocationModuleExtended'
-            },
-            {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModuleExtended'
-            },
-            {
-                path: 'stock-in-item',
-                loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModuleExtended'
-            },
-            {
-                path: 'stock-status',
-                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModuleExtended'
-            },
-            {
-                path: 'stock-out-item',
-                loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModuleExtended'
+                loadChildren: './stock-status-extended/stock-status-extended.module#SoptorshiStockStatusExtendedModule'
             },
             {
                 path: 'vendor',

@@ -11,9 +11,9 @@ import org.soptorshi.repository.LeaveApplicationRepository;
 import org.soptorshi.repository.ManagerRepository;
 import org.soptorshi.repository.search.LeaveApplicationSearchRepository;
 import org.soptorshi.security.SecurityUtils;
+import org.soptorshi.service.LeaveApplicationService;
 import org.soptorshi.service.dto.LeaveApplicationDTO;
 import org.soptorshi.service.dto.LeaveBalanceDTO;
-import org.soptorshi.service.impl.LeaveApplicationServiceImpl;
 import org.soptorshi.service.mapper.LeaveApplicationMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,9 +26,9 @@ import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 @Service
 @Transactional
-public class LeaveApplicationServiceImplExtended extends LeaveApplicationServiceImpl {
+public class LeaveApplicationExtendedService extends LeaveApplicationService {
 
-    private final Logger log = LoggerFactory.getLogger(LeaveApplicationServiceImplExtended.class);
+    private final Logger log = LoggerFactory.getLogger(LeaveApplicationExtendedService.class);
 
     private final LeaveApplicationRepository leaveApplicationRepository;
 
@@ -36,20 +36,20 @@ public class LeaveApplicationServiceImplExtended extends LeaveApplicationService
 
     private final LeaveApplicationSearchRepository leaveApplicationSearchRepository;
 
-    private final LeaveBalanceServiceImpl leaveBalanceServiceImpl;
+    private final LeaveBalanceService leaveBalanceService;
 
     private final EmployeeRepository employeeRepository;
 
     private final ManagerRepository managerRepository;
 
-    public LeaveApplicationServiceImplExtended(LeaveApplicationRepository leaveApplicationRepository, LeaveApplicationMapper leaveApplicationMapper, LeaveApplicationSearchRepository leaveApplicationSearchRepository,
-                                               LeaveBalanceServiceImpl leaveBalanceServiceImpl, EmployeeRepository employeeRepository,
-                                       ManagerRepository managerRepository) {
-        super(leaveApplicationRepository, leaveApplicationMapper, leaveApplicationSearchRepository, leaveBalanceServiceImpl, employeeRepository, managerRepository);
+    public LeaveApplicationExtendedService(LeaveApplicationRepository leaveApplicationRepository, LeaveApplicationMapper leaveApplicationMapper, LeaveApplicationSearchRepository leaveApplicationSearchRepository,
+                                           LeaveBalanceService leaveBalanceService, EmployeeRepository employeeRepository,
+                                           ManagerRepository managerRepository) {
+        super(leaveApplicationRepository, leaveApplicationMapper, leaveApplicationSearchRepository, leaveBalanceService, employeeRepository, managerRepository);
         this.leaveApplicationRepository = leaveApplicationRepository;
         this.leaveApplicationMapper = leaveApplicationMapper;
         this.leaveApplicationSearchRepository = leaveApplicationSearchRepository;
-        this.leaveBalanceServiceImpl = leaveBalanceServiceImpl;
+        this.leaveBalanceService = leaveBalanceService;
         this.employeeRepository = employeeRepository;
         this.managerRepository = managerRepository;
     }
@@ -103,7 +103,7 @@ public class LeaveApplicationServiceImplExtended extends LeaveApplicationService
     private boolean isValid(LeaveApplicationDTO leaveApplicationDTO) {
         log.debug("Validating LeaveApplication : {}", leaveApplicationDTO);
         if (leaveApplicationDTO.getStatus().equals(LeaveStatus.REJECTED)) return true;
-        LeaveBalanceDTO leaveBalance = leaveBalanceServiceImpl
+        LeaveBalanceDTO leaveBalance = leaveBalanceService
             .calculateLeaveBalance(leaveApplicationDTO.getEmployeeId(), leaveApplicationDTO.getFromDate().getYear(),
                 leaveApplicationDTO.getLeaveTypesId());
         return leaveApplicationDTO.getNumberOfDays() <= leaveBalance.getRemainingDays();

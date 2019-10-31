@@ -31,4 +31,4 @@ const ENTITY_STATES = [...attendanceExcelUploadExtendedRoute, ...attendanceExcel
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SoptorshiAttendanceExcelUploadModuleExtended {}
+export class SoptorshiAttendanceExcelUploadExtendedModule {}

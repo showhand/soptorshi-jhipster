@@ -1,20 +1,18 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.InventoryLocation;
-import org.soptorshi.repository.InventoryLocationRepository;
-import org.soptorshi.repository.search.InventoryLocationSearchRepository;
-import org.soptorshi.service.dto.InventoryLocationDTO;
-import org.soptorshi.service.impl.InventoryLocationServiceImpl;
-import org.soptorshi.service.mapper.InventoryLocationMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.InventoryLocationQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.InventoryLocation;
+import org.soptorshi.repository.InventoryLocationRepository;
+import org.soptorshi.repository.search.InventoryLocationSearchRepository;
+import org.soptorshi.service.InventoryLocationQueryService;
+import org.soptorshi.service.InventoryLocationService;
+import org.soptorshi.service.dto.InventoryLocationDTO;
+import org.soptorshi.service.mapper.InventoryLocationMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -32,12 +30,11 @@ import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -66,7 +63,7 @@ public class InventoryLocationResourceIntTest {
     private InventoryLocationMapper inventoryLocationMapper;
 
     @Autowired
-    private InventoryLocationServiceImpl inventoryLocationService;
+    private InventoryLocationService inventoryLocationService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.

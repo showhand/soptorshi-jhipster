@@ -1,15 +1,16 @@
 package org.soptorshi.web.rest;
+
+import io.github.jhipster.web.util.ResponseUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.soptorshi.service.extended.AttendanceExcelUploadServiceImplExtended;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.soptorshi.service.AttendanceExcelUploadQueryService;
+import org.soptorshi.service.dto.AttendanceExcelUploadCriteria;
+import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
+import org.soptorshi.service.extended.AttendanceExcelUploadExtendedService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
-import org.soptorshi.service.dto.AttendanceExcelUploadCriteria;
-import org.soptorshi.service.AttendanceExcelUploadQueryService;
-import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +22,6 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -36,12 +36,12 @@ public class AttendanceExcelUploadResource {
 
     private static final String ENTITY_NAME = "attendanceExcelUpload";
 
-    private final AttendanceExcelUploadServiceImplExtended attendanceExcelUploadServiceImplExtended;
+    private final AttendanceExcelUploadExtendedService attendanceExcelUploadExtendedService;
 
     private final AttendanceExcelUploadQueryService attendanceExcelUploadQueryService;
 
-    public AttendanceExcelUploadResource(AttendanceExcelUploadServiceImplExtended attendanceExcelUploadServiceImplExtended, AttendanceExcelUploadQueryService attendanceExcelUploadQueryService) {
-        this.attendanceExcelUploadServiceImplExtended = attendanceExcelUploadServiceImplExtended;
+    public AttendanceExcelUploadResource(AttendanceExcelUploadExtendedService attendanceExcelUploadExtendedService, AttendanceExcelUploadQueryService attendanceExcelUploadQueryService) {
+        this.attendanceExcelUploadExtendedService = attendanceExcelUploadExtendedService;
         this.attendanceExcelUploadQueryService = attendanceExcelUploadQueryService;
     }
 
@@ -59,7 +59,7 @@ public class AttendanceExcelUploadResource {
         if (attendanceExcelUploadDTO.getId() != null) {
             throw new BadRequestAlertException("A new attendanceExcelUpload cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        AttendanceExcelUploadDTO result = attendanceExcelUploadServiceImplExtended.save(attendanceExcelUploadDTO);
+        AttendanceExcelUploadDTO result = attendanceExcelUploadExtendedService.save(attendanceExcelUploadDTO);
         return ResponseEntity.created(new URI("/api/attendance-excel-uploads/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -81,7 +81,7 @@ public class AttendanceExcelUploadResource {
         if (attendanceExcelUploadDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        AttendanceExcelUploadDTO result = attendanceExcelUploadServiceImplExtended.save(attendanceExcelUploadDTO);
+        AttendanceExcelUploadDTO result = attendanceExcelUploadExtendedService.save(attendanceExcelUploadDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, attendanceExcelUploadDTO.getId().toString()))
             .body(result);
@@ -123,7 +123,7 @@ public class AttendanceExcelUploadResource {
     @GetMapping("/attendance-excel-uploads/{id}")
     public ResponseEntity<AttendanceExcelUploadDTO> getAttendanceExcelUpload(@PathVariable Long id) {
         log.debug("REST request to get AttendanceExcelUpload : {}", id);
-        Optional<AttendanceExcelUploadDTO> attendanceExcelUploadDTO = attendanceExcelUploadServiceImplExtended.findOne(id);
+        Optional<AttendanceExcelUploadDTO> attendanceExcelUploadDTO = attendanceExcelUploadExtendedService.findOne(id);
         return ResponseUtil.wrapOrNotFound(attendanceExcelUploadDTO);
     }
 
@@ -136,7 +136,7 @@ public class AttendanceExcelUploadResource {
     @DeleteMapping("/attendance-excel-uploads/{id}")
     public ResponseEntity<Void> deleteAttendanceExcelUpload(@PathVariable Long id) {
         log.debug("REST request to delete AttendanceExcelUpload : {}", id);
-        attendanceExcelUploadServiceImplExtended.delete(id);
+        attendanceExcelUploadExtendedService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -151,7 +151,7 @@ public class AttendanceExcelUploadResource {
     @GetMapping("/_search/attendance-excel-uploads")
     public ResponseEntity<List<AttendanceExcelUploadDTO>> searchAttendanceExcelUploads(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of AttendanceExcelUploads for query {}", query);
-        Page<AttendanceExcelUploadDTO> page = attendanceExcelUploadServiceImplExtended.search(query, pageable);
+        Page<AttendanceExcelUploadDTO> page = attendanceExcelUploadExtendedService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/attendance-excel-uploads");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

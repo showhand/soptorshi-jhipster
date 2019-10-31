@@ -1,20 +1,19 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.HolidayType;
-import org.soptorshi.repository.HolidayTypeRepository;
-import org.soptorshi.repository.search.HolidayTypeSearchRepository;
-import org.soptorshi.service.dto.HolidayTypeDTO;
-import org.soptorshi.service.impl.HolidayTypeServiceImpl;
-import org.soptorshi.service.mapper.HolidayTypeMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.HolidayTypeQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.HolidayType;
+import org.soptorshi.domain.enumeration.YesOrNo;
+import org.soptorshi.repository.HolidayTypeRepository;
+import org.soptorshi.repository.search.HolidayTypeSearchRepository;
+import org.soptorshi.service.HolidayTypeQueryService;
+import org.soptorshi.service.HolidayTypeService;
+import org.soptorshi.service.dto.HolidayTypeDTO;
+import org.soptorshi.service.mapper.HolidayTypeMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -32,16 +31,13 @@ import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.soptorshi.domain.enumeration.YesOrNo;
 /**
  * Test class for the HolidayTypeResource REST controller.
  *
@@ -64,7 +60,7 @@ public class HolidayTypeResourceIntTest {
     private HolidayTypeMapper holidayTypeMapper;
 
     @Autowired
-    private HolidayTypeServiceImpl holidayTypeService;
+    private HolidayTypeService holidayTypeService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.

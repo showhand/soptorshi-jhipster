@@ -31,4 +31,4 @@ const ENTITY_STATES = [...stockStatusExtendedRoute, ...stockStatusPopupRouteExte
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SoptorshiStockStatusModuleExtended {}
+export class SoptorshiStockStatusExtendedModule {}

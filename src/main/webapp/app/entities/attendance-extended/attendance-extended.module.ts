@@ -33,4 +33,4 @@ const ENTITY_STATES = [...attendanceExtendedRoute, ...attendancePopupRouteExtend
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SoptorshiAttendanceModuleExtended {}
+export class SoptorshiAttendanceExtendedModule {}

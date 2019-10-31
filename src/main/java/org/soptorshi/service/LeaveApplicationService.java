@@ -1,21 +1,20 @@
-package org.soptorshi.service.impl;
+package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.Employee;
+import org.soptorshi.domain.LeaveApplication;
 import org.soptorshi.domain.Manager;
 import org.soptorshi.domain.enumeration.LeaveStatus;
 import org.soptorshi.repository.EmployeeRepository;
-import org.soptorshi.repository.ManagerRepository;
-import org.soptorshi.security.SecurityUtils;
-import org.soptorshi.domain.LeaveApplication;
 import org.soptorshi.repository.LeaveApplicationRepository;
+import org.soptorshi.repository.ManagerRepository;
 import org.soptorshi.repository.search.LeaveApplicationSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.LeaveApplicationDTO;
 import org.soptorshi.service.dto.LeaveBalanceDTO;
-import org.soptorshi.service.extended.LeaveBalanceServiceImpl;
+import org.soptorshi.service.extended.LeaveBalanceService;
 import org.soptorshi.service.mapper.LeaveApplicationMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,16 +22,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing LeaveApplication.
  */
 @Service
 @Transactional
-public class LeaveApplicationServiceImpl {
+public class LeaveApplicationService {
 
-    private final Logger log = LoggerFactory.getLogger(LeaveApplicationServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(LeaveApplicationService.class);
 
     private final LeaveApplicationRepository leaveApplicationRepository;
 
@@ -40,19 +39,19 @@ public class LeaveApplicationServiceImpl {
 
     private final LeaveApplicationSearchRepository leaveApplicationSearchRepository;
 
-    private final LeaveBalanceServiceImpl leaveBalanceServiceImpl;
+    private final LeaveBalanceService leaveBalanceService;
 
     private final EmployeeRepository employeeRepository;
 
     private final ManagerRepository managerRepository;
 
-    public LeaveApplicationServiceImpl(LeaveApplicationRepository leaveApplicationRepository, LeaveApplicationMapper leaveApplicationMapper, LeaveApplicationSearchRepository leaveApplicationSearchRepository,
-                                       LeaveBalanceServiceImpl leaveBalanceServiceImpl, EmployeeRepository employeeRepository,
-                                       ManagerRepository managerRepository) {
+    public LeaveApplicationService(LeaveApplicationRepository leaveApplicationRepository, LeaveApplicationMapper leaveApplicationMapper, LeaveApplicationSearchRepository leaveApplicationSearchRepository,
+                                   LeaveBalanceService leaveBalanceService, EmployeeRepository employeeRepository,
+                                   ManagerRepository managerRepository) {
         this.leaveApplicationRepository = leaveApplicationRepository;
         this.leaveApplicationMapper = leaveApplicationMapper;
         this.leaveApplicationSearchRepository = leaveApplicationSearchRepository;
-        this.leaveBalanceServiceImpl = leaveBalanceServiceImpl;
+        this.leaveBalanceService = leaveBalanceService;
         this.employeeRepository = employeeRepository;
         this.managerRepository = managerRepository;
     }
@@ -106,7 +105,7 @@ public class LeaveApplicationServiceImpl {
     private boolean isValid(LeaveApplicationDTO leaveApplicationDTO) {
         log.debug("Validating LeaveApplication : {}", leaveApplicationDTO);
         if (leaveApplicationDTO.getStatus().equals(LeaveStatus.REJECTED)) return true;
-        LeaveBalanceDTO leaveBalance = leaveBalanceServiceImpl
+        LeaveBalanceDTO leaveBalance = leaveBalanceService
             .calculateLeaveBalance(leaveApplicationDTO.getEmployeeId(), leaveApplicationDTO.getFromDate().getYear(),
                 leaveApplicationDTO.getLeaveTypesId());
         return leaveApplicationDTO.getNumberOfDays() <= leaveBalance.getRemainingDays();

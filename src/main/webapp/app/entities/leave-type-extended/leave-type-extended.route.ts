@@ -12,7 +12,7 @@ import { LeaveTypeUpdateExtendedComponent } from 'app/entities/leave-type-extend
 import { LeaveTypeDeletePopupExtendedComponent } from 'app/entities/leave-type-extended/leave-type-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class LeaveTypeResolveExtended implements Resolve<ILeaveType> {
+export class LeaveTypeExtendedResolve implements Resolve<ILeaveType> {
     constructor(private service: LeaveTypeExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ILeaveType> {
@@ -41,7 +41,7 @@ export const leaveTypeExtendedRoute: Routes = [
         path: ':id/view',
         component: LeaveTypeDetailExtendedComponent,
         resolve: {
-            leaveType: LeaveTypeResolveExtended
+            leaveType: LeaveTypeExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN'],
@@ -53,7 +53,7 @@ export const leaveTypeExtendedRoute: Routes = [
         path: 'new',
         component: LeaveTypeUpdateExtendedComponent,
         resolve: {
-            leaveType: LeaveTypeResolveExtended
+            leaveType: LeaveTypeExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN'],
@@ -65,7 +65,7 @@ export const leaveTypeExtendedRoute: Routes = [
         path: ':id/edit',
         component: LeaveTypeUpdateExtendedComponent,
         resolve: {
-            leaveType: LeaveTypeResolveExtended
+            leaveType: LeaveTypeExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN'],
@@ -80,7 +80,7 @@ export const leaveTypePopupRouteExtended: Routes = [
         path: ':id/delete',
         component: LeaveTypeDeletePopupExtendedComponent,
         resolve: {
-            leaveType: LeaveTypeResolveExtended
+            leaveType: LeaveTypeExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN'],

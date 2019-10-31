@@ -1,4 +1,4 @@
-package org.soptorshi.service.extended;
+package org.soptorshi.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,7 +6,6 @@ import org.soptorshi.domain.Holiday;
 import org.soptorshi.repository.HolidayRepository;
 import org.soptorshi.repository.search.HolidaySearchRepository;
 import org.soptorshi.service.dto.HolidayDTO;
-import org.soptorshi.service.impl.HolidayServiceImpl;
 import org.soptorshi.service.mapper.HolidayMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,11 +18,14 @@ import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
+/**
+ * Service Implementation for managing Holiday.
+ */
 @Service
 @Transactional
-public class HolidayServiceImplExtended extends HolidayServiceImpl {
+public class HolidayService {
 
-    private final Logger log = LoggerFactory.getLogger(HolidayServiceImplExtended.class);
+    private final Logger log = LoggerFactory.getLogger(HolidayService.class);
 
     private final HolidayRepository holidayRepository;
 
@@ -31,13 +33,11 @@ public class HolidayServiceImplExtended extends HolidayServiceImpl {
 
     private final HolidaySearchRepository holidaySearchRepository;
 
-    public HolidayServiceImplExtended(HolidayRepository holidayRepository, HolidayMapper holidayMapper, HolidaySearchRepository holidaySearchRepository) {
-        super(holidayRepository, holidayMapper, holidaySearchRepository);
+    public HolidayService(HolidayRepository holidayRepository, HolidayMapper holidayMapper, HolidaySearchRepository holidaySearchRepository) {
         this.holidayRepository = holidayRepository;
         this.holidayMapper = holidayMapper;
         this.holidaySearchRepository = holidaySearchRepository;
     }
-
 
     /**
      * Save a holiday.
@@ -45,7 +45,7 @@ public class HolidayServiceImplExtended extends HolidayServiceImpl {
      * @param holidayDTO the entity to save
      * @return the persisted entity
      */
-    @Override
+
     public HolidayDTO save(HolidayDTO holidayDTO) {
         log.debug("Request to save Holiday : {}", holidayDTO);
         Holiday holiday = holidayMapper.toEntity(holidayDTO);
@@ -61,7 +61,7 @@ public class HolidayServiceImplExtended extends HolidayServiceImpl {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<HolidayDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Holidays");
@@ -76,7 +76,7 @@ public class HolidayServiceImplExtended extends HolidayServiceImpl {
      * @param id the id of the entity
      * @return the entity
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Optional<HolidayDTO> findOne(Long id) {
         log.debug("Request to get Holiday : {}", id);
@@ -89,7 +89,7 @@ public class HolidayServiceImplExtended extends HolidayServiceImpl {
      *
      * @param id the id of the entity
      */
-    @Override
+
     public void delete(Long id) {
         log.debug("Request to delete Holiday : {}", id);
         holidayRepository.deleteById(id);
@@ -103,7 +103,7 @@ public class HolidayServiceImplExtended extends HolidayServiceImpl {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    @Override
+
     @Transactional(readOnly = true)
     public Page<HolidayDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Holidays for query {}", query);
@@ -113,7 +113,7 @@ public class HolidayServiceImplExtended extends HolidayServiceImpl {
         List<Holiday> holidayList = holidayRepository.findAllById(ids);
         result.stream().forEach(x -> holidayList.forEach(
             a -> x.setHolidayType(a.getId().equals(x.getId()) ? a.getHolidayType() :
-                x.getHolidayType())));
+            x.getHolidayType())));
         return result.map(holidayMapper::toDto);
     }
 }
