@@ -42,7 +42,7 @@ export class LeaveApplicationDeleteDialogExtendedComponent extends LeaveApplicat
     selector: 'jhi-leave-application-delete-popup-extended',
     template: ''
 })
-export class LeaveApplicationDeletePopupComponentExtended extends LeaveApplicationDeletePopupComponent implements OnInit, OnDestroy {
+export class LeaveApplicationDeletePopupExtendedComponent extends LeaveApplicationDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {

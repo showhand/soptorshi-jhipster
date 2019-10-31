@@ -10,7 +10,7 @@ import { AttendanceExtendedService } from 'app/entities/attendance-extended/atte
 import { AttendanceExtendedComponent } from 'app/entities/attendance-extended/attendance-extended.component';
 import { AttendanceDetailExtendedComponent } from 'app/entities/attendance-extended/attendance-detail-extended.component';
 import { AttendanceUpdateExtendedComponent } from 'app/entities/attendance-extended/attendance-update-extended.component';
-import { AttendanceDeletePopupComponentExtended } from 'app/entities/attendance-extended/attendance-delete-dialog-extended.component';
+import { AttendanceDeletePopupExtendedComponent } from 'app/entities/attendance-extended/attendance-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class AttendanceResolveExtended implements Resolve<IAttendance> {
@@ -91,7 +91,7 @@ export const attendanceExtendedRoute: Routes = [
 export const attendancePopupRouteExtended: Routes = [
     {
         path: ':id/delete',
-        component: AttendanceDeletePopupComponentExtended,
+        component: AttendanceDeletePopupExtendedComponent,
         resolve: {
             attendance: AttendanceResolveExtended
         },

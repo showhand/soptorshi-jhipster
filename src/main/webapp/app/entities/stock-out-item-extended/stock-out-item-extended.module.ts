@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     StockOutItemDeleteDialogExtendedComponent,
-    StockOutItemDeletePopupComponentExtended,
+    StockOutItemDeletePopupExtendedComponent,
     StockOutItemDetailExtendedComponent,
     StockOutItemExtendedComponent,
     stockOutItemExtendedRoute,
@@ -21,13 +21,13 @@ const ENTITY_STATES = [...stockOutItemExtendedRoute, ...stockOutItemPopupRouteEx
         StockOutItemDetailExtendedComponent,
         StockOutItemUpdateExtendedComponent,
         StockOutItemDeleteDialogExtendedComponent,
-        StockOutItemDeletePopupComponentExtended
+        StockOutItemDeletePopupExtendedComponent
     ],
     entryComponents: [
         StockOutItemExtendedComponent,
         StockOutItemUpdateExtendedComponent,
         StockOutItemDeleteDialogExtendedComponent,
-        StockOutItemDeletePopupComponentExtended
+        StockOutItemDeletePopupExtendedComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

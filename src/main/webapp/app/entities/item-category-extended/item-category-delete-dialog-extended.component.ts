@@ -42,7 +42,7 @@ export class ItemCategoryDeleteDialogExtendedComponent extends ItemCategoryDelet
     selector: 'jhi-item-category-delete-popup-extended',
     template: ''
 })
-export class ItemCategoryDeletePopupComponentExtended extends ItemCategoryDeletePopupComponent implements OnInit, OnDestroy {
+export class ItemCategoryDeletePopupExtendedComponent extends ItemCategoryDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {

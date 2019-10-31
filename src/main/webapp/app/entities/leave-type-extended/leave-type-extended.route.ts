@@ -9,7 +9,7 @@ import { LeaveTypeExtendedComponent } from 'app/entities/leave-type-extended/lea
 import { LeaveTypeExtendedService } from 'app/entities/leave-type-extended/leave-type-extended.service';
 import { LeaveTypeDetailExtendedComponent } from 'app/entities/leave-type-extended/leave-type-detail-extended.component';
 import { LeaveTypeUpdateExtendedComponent } from 'app/entities/leave-type-extended/leave-type-update-extended.component';
-import { LeaveTypeDeletePopupComponentExtended } from 'app/entities/leave-type-extended/leave-type-delete-dialog-extended.component';
+import { LeaveTypeDeletePopupExtendedComponent } from 'app/entities/leave-type-extended/leave-type-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveTypeResolveExtended implements Resolve<ILeaveType> {
@@ -78,7 +78,7 @@ export const leaveTypeExtendedRoute: Routes = [
 export const leaveTypePopupRouteExtended: Routes = [
     {
         path: ':id/delete',
-        component: LeaveTypeDeletePopupComponentExtended,
+        component: LeaveTypeDeletePopupExtendedComponent,
         resolve: {
             leaveType: LeaveTypeResolveExtended
         },

@@ -42,7 +42,7 @@ export class StockStatusDeleteDialogExtendedComponent extends StockStatusDeleteD
     selector: 'jhi-stock-status-delete-popup-extended',
     template: ''
 })
-export class StockStatusDeletePopupComponentExtended extends StockStatusDeletePopupComponent implements OnInit, OnDestroy {
+export class StockStatusDeletePopupExtendedComponent extends StockStatusDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {

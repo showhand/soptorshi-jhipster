@@ -42,7 +42,7 @@ export class StockOutItemDeleteDialogExtendedComponent extends StockOutItemDelet
     selector: 'jhi-stock-out-item-delete-popup-extended',
     template: ''
 })
-export class StockOutItemDeletePopupComponentExtended extends StockOutItemDeletePopupComponent implements OnInit, OnDestroy {
+export class StockOutItemDeletePopupExtendedComponent extends StockOutItemDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {

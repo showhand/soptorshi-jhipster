@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     HolidayTypeDeleteDialogExtendedComponent,
-    HolidayTypeDeletePopupComponentExtended,
+    HolidayTypeDeletePopupExtendedComponent,
     HolidayTypeDetailExtendedComponent,
     HolidayTypeExtendedComponent,
     holidayTypeExtendedRoute,
@@ -21,13 +21,13 @@ const ENTITY_STATES = [...holidayTypeExtendedRoute, ...holidayTypePopupRouteExte
         HolidayTypeDetailExtendedComponent,
         HolidayTypeUpdateExtendedComponent,
         HolidayTypeDeleteDialogExtendedComponent,
-        HolidayTypeDeletePopupComponentExtended
+        HolidayTypeDeletePopupExtendedComponent
     ],
     entryComponents: [
         HolidayTypeExtendedComponent,
         HolidayTypeUpdateExtendedComponent,
         HolidayTypeDeleteDialogExtendedComponent,
-        HolidayTypeDeletePopupComponentExtended
+        HolidayTypeDeletePopupExtendedComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

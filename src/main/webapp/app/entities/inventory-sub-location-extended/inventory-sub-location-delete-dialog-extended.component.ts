@@ -42,7 +42,7 @@ export class InventorySubLocationDeleteDialogExtendedComponent extends Inventory
     selector: 'jhi-inventory-sub-location-delete-popup-extended',
     template: ''
 })
-export class InventorySubLocationDeletePopupComponentExtended extends InventorySubLocationDeletePopupComponent
+export class InventorySubLocationDeletePopupExtendedComponent extends InventorySubLocationDeletePopupComponent
     implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 

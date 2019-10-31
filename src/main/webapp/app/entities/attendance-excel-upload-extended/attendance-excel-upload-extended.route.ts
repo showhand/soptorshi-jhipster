@@ -8,7 +8,7 @@ import { AttendanceExcelUpload, IAttendanceExcelUpload } from 'app/shared/model/
 import { AttendanceExcelUploadExtendedComponent } from 'app/entities/attendance-excel-upload-extended/attendance-excel-upload-extended.component';
 import { AttendanceExcelUploadDetailExtendedComponent } from 'app/entities/attendance-excel-upload-extended/attendance-excel-upload-detail-extended.component';
 import { AttendanceExcelUploadUpdateExtendedComponent } from 'app/entities/attendance-excel-upload-extended/attendance-excel-upload-update-extended.component';
-import { AttendanceExcelUploadDeletePopupComponentExtended } from 'app/entities/attendance-excel-upload-extended/attendance-excel-upload-delete-dialog-extended.component';
+import { AttendanceExcelUploadDeletePopupExtendedComponent } from 'app/entities/attendance-excel-upload-extended/attendance-excel-upload-delete-dialog-extended.component';
 import { AttendanceExcelUploadExtendedService } from 'app/entities/attendance-excel-upload-extended/attendance-excel-upload-extended.service';
 
 @Injectable({ providedIn: 'root' })
@@ -78,7 +78,7 @@ export const attendanceExcelUploadExtendedRoute: Routes = [
 export const attendanceExcelUploadPopupRouteExtended: Routes = [
     {
         path: ':id/delete',
-        component: AttendanceExcelUploadDeletePopupComponentExtended,
+        component: AttendanceExcelUploadDeletePopupExtendedComponent,
         resolve: {
             attendanceExcelUpload: AttendanceExcelUploadResolveExtended
         },

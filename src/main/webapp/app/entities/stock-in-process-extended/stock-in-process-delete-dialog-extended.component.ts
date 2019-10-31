@@ -42,7 +42,7 @@ export class StockInProcessDeleteDialogExtendedComponent extends StockInProcessD
     selector: 'jhi-stock-in-process-delete-popup-extended',
     template: ''
 })
-export class StockInProcessDeletePopupComponentExtended extends StockInProcessDeletePopupComponent implements OnInit, OnDestroy {
+export class StockInProcessDeletePopupExtendedComponent extends StockInProcessDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {

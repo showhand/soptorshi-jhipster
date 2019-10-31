@@ -42,7 +42,7 @@ export class ManufacturerDeleteDialogExtendedComponent extends ManufacturerDelet
     selector: 'jhi-manufacturer-delete-popup-extended',
     template: ''
 })
-export class ManufacturerDeletePopupComponentExtended extends ManufacturerDeletePopupComponent implements OnInit, OnDestroy {
+export class ManufacturerDeletePopupExtendedComponent extends ManufacturerDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {

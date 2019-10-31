@@ -42,7 +42,7 @@ export class InventoryLocationDeleteDialogExtendedComponent extends InventoryLoc
     selector: 'jhi-inventory-location-delete-popup-extended',
     template: ''
 })
-export class InventoryLocationDeletePopupComponentExtended extends InventoryLocationDeletePopupComponent implements OnInit, OnDestroy {
+export class InventoryLocationDeletePopupExtendedComponent extends InventoryLocationDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {

@@ -9,7 +9,7 @@ import { InventorySubLocationExtendedService } from 'app/entities/inventory-sub-
 import { InventorySubLocationExtendedComponent } from 'app/entities/inventory-sub-location-extended/inventory-sub-location-extended.component';
 import { InventorySubLocationDetailExtendedComponent } from 'app/entities/inventory-sub-location-extended/inventory-sub-location-detail-extended.component';
 import { InventorySubLocationUpdateExtendedComponent } from 'app/entities/inventory-sub-location-extended/inventory-sub-location-update-extended.component';
-import { InventorySubLocationDeletePopupComponentExtended } from 'app/entities/inventory-sub-location-extended/inventory-sub-location-delete-dialog-extended.component';
+import { InventorySubLocationDeletePopupExtendedComponent } from 'app/entities/inventory-sub-location-extended/inventory-sub-location-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class InventorySubLocationResolveExtended implements Resolve<IInventorySubLocation> {
@@ -78,7 +78,7 @@ export const inventorySubLocationExtendedRoute: Routes = [
 export const inventorySubLocationPopupRouteExtended: Routes = [
     {
         path: ':id/delete',
-        component: InventorySubLocationDeletePopupComponentExtended,
+        component: InventorySubLocationDeletePopupExtendedComponent,
         resolve: {
             inventorySubLocation: InventorySubLocationResolveExtended
         },

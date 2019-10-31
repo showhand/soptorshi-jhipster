@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     AttendanceDeleteDialogExtendedComponent,
-    AttendanceDeletePopupComponentExtended,
+    AttendanceDeletePopupExtendedComponent,
     AttendanceDetailExtendedComponent,
     AttendanceExtendedComponent,
     attendanceExtendedRoute,
@@ -21,7 +21,7 @@ const ENTITY_STATES = [...attendanceExtendedRoute, ...attendancePopupRouteExtend
         AttendanceExtendedComponent,
         AttendanceDetailExtendedComponent,
         AttendanceUpdateExtendedComponent,
-        AttendanceDeletePopupComponentExtended,
+        AttendanceDeletePopupExtendedComponent,
         AttendanceDeleteDialogExtendedComponent,
         MyAttendanceComponent
     ],
@@ -29,7 +29,7 @@ const ENTITY_STATES = [...attendanceExtendedRoute, ...attendancePopupRouteExtend
         AttendanceExtendedComponent,
         AttendanceUpdateExtendedComponent,
         AttendanceDeleteDialogExtendedComponent,
-        AttendanceDeletePopupComponentExtended
+        AttendanceDeletePopupExtendedComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

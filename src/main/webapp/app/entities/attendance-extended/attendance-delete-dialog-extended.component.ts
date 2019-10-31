@@ -41,7 +41,7 @@ export class AttendanceDeleteDialogExtendedComponent extends AttendanceDeleteDia
     selector: 'jhi-attendance-delete-popup-extended',
     template: ''
 })
-export class AttendanceDeletePopupComponentExtended extends AttendanceDeletePopupComponent implements OnInit, OnDestroy {
+export class AttendanceDeletePopupExtendedComponent extends AttendanceDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {

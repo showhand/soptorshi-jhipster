@@ -12,7 +12,7 @@ import { LeaveApplicationExtendedService } from 'app/entities/leave-application-
 import { LeaveApplicationExtendedComponent } from 'app/entities/leave-application-extended/leave-application-extended.component';
 import { LeaveApplicationDetailExtendedComponent } from 'app/entities/leave-application-extended/leave-application-detail-extended.component';
 import { LeaveApplicationUpdateExtendedComponent } from 'app/entities/leave-application-extended/leave-application-update-extended.component';
-import { LeaveApplicationDeletePopupComponentExtended } from 'app/entities/leave-application-extended/leave-application-delete-dialog-extended.component';
+import { LeaveApplicationDeletePopupExtendedComponent } from 'app/entities/leave-application-extended/leave-application-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveApplicationResolveExtended implements Resolve<ILeaveApplication> {
@@ -117,7 +117,7 @@ export const leaveApplicationExtendedRoute: Routes = [
 export const leaveApplicationPopupRouteExtended: Routes = [
     {
         path: ':id/delete',
-        component: LeaveApplicationDeletePopupComponentExtended,
+        component: LeaveApplicationDeletePopupExtendedComponent,
         resolve: {
             leaveApplication: LeaveApplicationResolveExtended
         },

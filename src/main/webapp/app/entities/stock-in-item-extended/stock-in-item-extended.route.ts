@@ -9,7 +9,7 @@ import { StockInItemExtendedService } from 'app/entities/stock-in-item-extended/
 import { StockInItemExtendedComponent } from 'app/entities/stock-in-item-extended/stock-in-item-extended.component';
 import { StockInItemDetailExtendedComponent } from 'app/entities/stock-in-item-extended/stock-in-item-detail-extended.component';
 import { StockInItemUpdateExtendedComponent } from 'app/entities/stock-in-item-extended/stock-in-item-update-extended.component';
-import { StockInItemDeletePopupComponentExtended } from 'app/entities/stock-in-item-extended/stock-in-item-delete-dialog-extended.component';
+import { StockInItemDeletePopupExtendedComponent } from 'app/entities/stock-in-item-extended/stock-in-item-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class StockInItemResolveExtended implements Resolve<IStockInItem> {
@@ -78,7 +78,7 @@ export const stockInItemExtendedRoute: Routes = [
 export const stockInItemPopupRouteExtended: Routes = [
     {
         path: ':id/delete',
-        component: StockInItemDeletePopupComponentExtended,
+        component: StockInItemDeletePopupExtendedComponent,
         resolve: {
             stockInItem: StockInItemResolveExtended
         },

@@ -9,7 +9,7 @@ import { ManufacturerExtendedService } from 'app/entities/manufacturer-extended/
 import { ManufacturerExtendedComponent } from 'app/entities/manufacturer-extended/manufacturer-extended.component';
 import { ManufacturerDetailExtendedComponent } from 'app/entities/manufacturer-extended/manufacturer-detail-extended.component';
 import { ManufacturerUpdateExtendedComponent } from 'app/entities/manufacturer-extended/manufacturer-update-extended.component';
-import { ManufacturerDeletePopupComponentExtended } from 'app/entities/manufacturer-extended/manufacturer-delete-dialog-extended.component';
+import { ManufacturerDeletePopupExtendedComponent } from 'app/entities/manufacturer-extended/manufacturer-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class ManufacturerResolveExtended implements Resolve<IManufacturer> {
@@ -78,7 +78,7 @@ export const manufacturerExtendedRoute: Routes = [
 export const manufacturerPopupRouteExtended: Routes = [
     {
         path: ':id/delete',
-        component: ManufacturerDeletePopupComponentExtended,
+        component: ManufacturerDeletePopupExtendedComponent,
         resolve: {
             manufacturer: ManufacturerResolveExtended
         },

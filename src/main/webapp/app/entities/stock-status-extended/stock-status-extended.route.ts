@@ -9,7 +9,7 @@ import { StockStatusExtendedService } from 'app/entities/stock-status-extended/s
 import { StockStatusExtendedComponent } from 'app/entities/stock-status-extended/stock-status-extended.component';
 import { StockStatusDetailExtendedComponent } from 'app/entities/stock-status-extended/stock-status-detail-extended.component';
 import { StockStatusUpdateExtendedComponent } from 'app/entities/stock-status-extended/stock-status-update-extended.component';
-import { StockStatusDeletePopupComponentExtended } from 'app/entities/stock-status-extended/stock-status-delete-dialog-extended.component';
+import { StockStatusDeletePopupExtendedComponent } from 'app/entities/stock-status-extended/stock-status-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class StockStatusResolveExtended implements Resolve<IStockStatus> {
@@ -78,7 +78,7 @@ export const stockStatusExtendedRoute: Routes = [
 export const stockStatusPopupRouteExtended: Routes = [
     {
         path: ':id/delete',
-        component: StockStatusDeletePopupComponentExtended,
+        component: StockStatusDeletePopupExtendedComponent,
         resolve: {
             stockStatus: StockStatusResolveExtended
         },

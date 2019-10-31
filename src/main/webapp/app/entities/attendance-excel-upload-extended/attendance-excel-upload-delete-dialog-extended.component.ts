@@ -45,7 +45,7 @@ export class AttendanceExcelUploadDeleteDialogExtendedComponent extends Attendan
     selector: 'jhi-attendance-excel-upload-delete-popup-extended',
     template: ''
 })
-export class AttendanceExcelUploadDeletePopupComponentExtended extends AttendanceExcelUploadDeletePopupComponent
+export class AttendanceExcelUploadDeletePopupExtendedComponent extends AttendanceExcelUploadDeletePopupComponent
     implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 

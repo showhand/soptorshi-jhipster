@@ -42,7 +42,7 @@ export class LeaveAttachmentDeleteDialogExtendedComponent extends LeaveAttachmen
     selector: 'jhi-leave-attachment-delete-popup-extended',
     template: ''
 })
-export class LeaveAttachmentDeletePopupComponentExtended extends LeaveAttachmentDeletePopupComponent implements OnInit, OnDestroy {
+export class LeaveAttachmentDeletePopupExtendedComponent extends LeaveAttachmentDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {

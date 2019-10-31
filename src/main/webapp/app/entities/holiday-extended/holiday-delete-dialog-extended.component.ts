@@ -42,7 +42,7 @@ export class HolidayDeleteDialogExtendedComponent extends HolidayDeleteDialogCom
     selector: 'jhi-holiday-delete-popup-extended',
     template: ''
 })
-export class HolidayDeletePopupComponentExtended extends HolidayDeletePopupComponent implements OnInit, OnDestroy {
+export class HolidayDeletePopupExtendedComponent extends HolidayDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {

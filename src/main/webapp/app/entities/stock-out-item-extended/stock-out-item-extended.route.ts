@@ -9,7 +9,7 @@ import { StockOutItemExtendedService } from 'app/entities/stock-out-item-extende
 import { StockOutItemExtendedComponent } from 'app/entities/stock-out-item-extended/stock-out-item-extended.component';
 import { StockOutItemDetailExtendedComponent } from 'app/entities/stock-out-item-extended/stock-out-item-detail-extended.component';
 import { StockOutItemUpdateExtendedComponent } from 'app/entities/stock-out-item-extended/stock-out-item-update-extended.component';
-import { StockOutItemDeletePopupComponentExtended } from 'app/entities/stock-out-item-extended/stock-out-item-delete-dialog-extended.component';
+import { StockOutItemDeletePopupExtendedComponent } from 'app/entities/stock-out-item-extended/stock-out-item-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class StockOutItemResolveExtended implements Resolve<IStockOutItem> {
@@ -78,7 +78,7 @@ export const stockOutItemExtendedRoute: Routes = [
 export const stockOutItemPopupRouteExtended: Routes = [
     {
         path: ':id/delete',
-        component: StockOutItemDeletePopupComponentExtended,
+        component: StockOutItemDeletePopupExtendedComponent,
         resolve: {
             stockOutItem: StockOutItemResolveExtended
         },

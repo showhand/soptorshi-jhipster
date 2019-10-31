@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     LeaveAttachmentDeleteDialogExtendedComponent,
-    LeaveAttachmentDeletePopupComponentExtended,
+    LeaveAttachmentDeletePopupExtendedComponent,
     LeaveAttachmentDetailExtendedComponent,
     LeaveAttachmentExtendedComponent,
     leaveAttachmentExtendedRoute,
@@ -21,13 +21,13 @@ const ENTITY_STATES = [...leaveAttachmentExtendedRoute, ...leaveAttachmentPopupR
         LeaveAttachmentDetailExtendedComponent,
         LeaveAttachmentUpdateExtendedComponent,
         LeaveAttachmentDeleteDialogExtendedComponent,
-        LeaveAttachmentDeletePopupComponentExtended
+        LeaveAttachmentDeletePopupExtendedComponent
     ],
     entryComponents: [
         LeaveAttachmentExtendedComponent,
         LeaveAttachmentUpdateExtendedComponent,
         LeaveAttachmentDeleteDialogExtendedComponent,
-        LeaveAttachmentDeletePopupComponentExtended
+        LeaveAttachmentDeletePopupExtendedComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -9,7 +9,7 @@ import { HolidayTypeExtendedService } from 'app/entities/holiday-type-extended/h
 import { HolidayTypeExtendedComponent } from 'app/entities/holiday-type-extended/holiday-type-extended.component';
 import { HolidayTypeDetailExtendedComponent } from 'app/entities/holiday-type-extended/holiday-type-detail-extended.component';
 import { HolidayTypeUpdateExtendedComponent } from 'app/entities/holiday-type-extended/holiday-type-update-extended.component';
-import { HolidayTypeDeletePopupComponentExtended } from 'app/entities/holiday-type-extended/holiday-type-delete-dialog-extended.component';
+import { HolidayTypeDeletePopupExtendedComponent } from 'app/entities/holiday-type-extended/holiday-type-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class HolidayTypeResolveExtended implements Resolve<IHolidayType> {
@@ -78,7 +78,7 @@ export const holidayTypeExtendedRoute: Routes = [
 export const holidayTypePopupRouteExtended: Routes = [
     {
         path: ':id/delete',
-        component: HolidayTypeDeletePopupComponentExtended,
+        component: HolidayTypeDeletePopupExtendedComponent,
         resolve: {
             holidayType: HolidayTypeResolveExtended
         },

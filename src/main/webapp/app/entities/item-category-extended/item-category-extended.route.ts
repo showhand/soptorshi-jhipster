@@ -9,7 +9,7 @@ import { ItemCategoryExtendedService } from 'app/entities/item-category-extended
 import { ItemCategoryExtendedComponent } from 'app/entities/item-category-extended/item-category-extended.component';
 import { ItemCategoryDetailExtendedComponent } from 'app/entities/item-category-extended/item-category-detail-extended.component';
 import { ItemCategoryUpdateExtendedComponent } from 'app/entities/item-category-extended/item-category-update-extended.component';
-import { ItemCategoryDeletePopupComponentExtended } from 'app/entities/item-category-extended/item-category-delete-dialog-extended.component';
+import { ItemCategoryDeletePopupExtendedComponent } from 'app/entities/item-category-extended/item-category-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class ItemCategoryResolveExtended implements Resolve<IItemCategory> {
@@ -78,7 +78,7 @@ export const itemCategoryExtendedRoute: Routes = [
 export const itemCategoryPopupRouteExtended: Routes = [
     {
         path: ':id/delete',
-        component: ItemCategoryDeletePopupComponentExtended,
+        component: ItemCategoryDeletePopupExtendedComponent,
         resolve: {
             itemCategory: ItemCategoryResolveExtended
         },

@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     InventorySubLocationDeleteDialogExtendedComponent,
-    InventorySubLocationDeletePopupComponentExtended,
+    InventorySubLocationDeletePopupExtendedComponent,
     InventorySubLocationDetailExtendedComponent,
     InventorySubLocationExtendedComponent,
     inventorySubLocationExtendedRoute,
@@ -21,13 +21,13 @@ const ENTITY_STATES = [...inventorySubLocationExtendedRoute, ...inventorySubLoca
         InventorySubLocationDetailExtendedComponent,
         InventorySubLocationUpdateExtendedComponent,
         InventorySubLocationDeleteDialogExtendedComponent,
-        InventorySubLocationDeletePopupComponentExtended
+        InventorySubLocationDeletePopupExtendedComponent
     ],
     entryComponents: [
         InventorySubLocationExtendedComponent,
         InventorySubLocationUpdateExtendedComponent,
         InventorySubLocationDeleteDialogExtendedComponent,
-        InventorySubLocationDeletePopupComponentExtended
+        InventorySubLocationDeletePopupExtendedComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

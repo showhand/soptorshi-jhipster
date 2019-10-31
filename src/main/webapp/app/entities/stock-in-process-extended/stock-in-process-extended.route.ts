@@ -9,7 +9,7 @@ import { StockInProcessExtendedService } from 'app/entities/stock-in-process-ext
 import { StockInProcessExtendedComponent } from 'app/entities/stock-in-process-extended/stock-in-process-extended.component';
 import { StockInProcessDetailExtendedComponent } from 'app/entities/stock-in-process-extended/stock-in-process-detail-extended.component';
 import { StockInProcessUpdateExtendedComponent } from 'app/entities/stock-in-process-extended/stock-in-process-update-extended.component';
-import { StockInProcessDeletePopupComponentExtended } from 'app/entities/stock-in-process-extended/stock-in-process-delete-dialog-extended.component';
+import { StockInProcessDeletePopupExtendedComponent } from 'app/entities/stock-in-process-extended/stock-in-process-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class StockInProcessResolveExtended implements Resolve<IStockInProcess> {
@@ -78,7 +78,7 @@ export const stockInProcessExtendedRoute: Routes = [
 export const stockInProcessPopupRouteExtended: Routes = [
     {
         path: ':id/delete',
-        component: StockInProcessDeletePopupComponentExtended,
+        component: StockInProcessDeletePopupExtendedComponent,
         resolve: {
             stockInProcess: StockInProcessResolveExtended
         },
