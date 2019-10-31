@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="form-control-label" for="field_account">Account</label>
+                            <label class="form-control-label" for="field_account">Bank Account</label>
                             <select class="form-control" id="field_account" name="account" [(ngModel)]="paymentVoucher.accountId" >
                                 <option [ngValue]="null"></option>
                                 <option [ngValue]="mstAccountOption.id" *ngFor="let mstAccountOption of mstaccounts; trackBy: trackMstAccountById">{{mstAccountOption.name}}</option>
