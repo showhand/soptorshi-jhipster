@@ -1,16 +1,15 @@
-import { Component, OnInit, OnDestroy, Input, Output } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
-import { BalanceType, IDtTransaction } from 'app/shared/model/dt-transaction.model';
+import { BalanceType, DtTransaction, IDtTransaction } from 'app/shared/model/dt-transaction.model';
 import { AccountService } from 'app/core';
-
-import { ITEMS_PER_PAGE } from 'app/shared';
 import { DtTransactionComponent, DtTransactionService } from 'app/entities/dt-transaction';
 import { IReceiptVoucher } from 'app/shared/model/receipt-voucher.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ReceiptVoucherTransactionUpdateComponent } from 'app/entities/receipt-voucher-extended/receipt-voucher-transaction-update.component';
+import { Observable, of } from 'rxjs';
 
 @Component({
     selector: 'jhi-receipt-voucher-transaction',
@@ -19,7 +18,8 @@ import { IReceiptVoucher } from 'app/shared/model/receipt-voucher.model';
 export class ReceiptVoucherTransactionComponent extends DtTransactionComponent implements OnInit, OnDestroy {
     @Input()
     receiptVoucher: IReceiptVoucher;
-    @Input()
+    @Output()
+    totalAmountChanged = new EventEmitter<number>();
     totalAmount: number;
     constructor(
         protected dtTransactionService: DtTransactionService,
@@ -28,7 +28,8 @@ export class ReceiptVoucherTransactionComponent extends DtTransactionComponent i
         protected accountService: AccountService,
         protected activatedRoute: ActivatedRoute,
         protected router: Router,
-        protected eventManager: JhiEventManager
+        protected eventManager: JhiEventManager,
+        protected modalService: NgbModal
     ) {
         super(dtTransactionService, parseLinks, jhiAlertService, accountService, activatedRoute, router, eventManager);
         this.page = 0;
@@ -48,9 +49,8 @@ export class ReceiptVoucherTransactionComponent extends DtTransactionComponent i
             })
             .subscribe(
                 (res: HttpResponse<IDtTransaction[]>) => {
-                    this.totalAmount = 0;
-                    res.body.forEach((r: IDtTransaction) => {
-                        this.totalAmount = this.totalAmount + r.amount;
+                    this.countTotalAmount(res.body).subscribe((response: any) => {
+                        this.totalAmountChanged.emit(this.totalAmount);
                     });
                     this.paginateDtTransactions(res.body, res.headers);
                 },
@@ -58,9 +58,32 @@ export class ReceiptVoucherTransactionComponent extends DtTransactionComponent i
             );
     }
 
+    countTotalAmount(data: IDtTransaction[]): Observable<number> {
+        this.totalAmount = 0;
+        data.forEach((r: IDtTransaction) => {
+            this.totalAmount = this.totalAmount + r.amount;
+        });
+        return of(this.totalAmount);
+    }
+
+    addTransaction() {
+        let transaction = new DtTransaction();
+        transaction.voucherNo = this.receiptVoucher.voucherNo;
+        transaction.voucherDate = this.receiptVoucher.voucherDate;
+        transaction.convFactor = 1;
+        transaction.balanceType = BalanceType.CREDIT;
+        let modalRef = this.modalService.open(ReceiptVoucherTransactionUpdateComponent, { size: 'lg' });
+        modalRef.componentInstance.dtTransaction = transaction;
+    }
+
     deleteTransaction(dtTransaction: IDtTransaction) {
         this.dtTransactionService.delete(dtTransaction.id).subscribe((response: any) => {
             this.loadAll();
         });
+    }
+
+    editTransaction(transaction: DtTransaction) {
+        let modalRef = this.modalService.open(ReceiptVoucherTransactionUpdateComponent, { size: 'lg' });
+        modalRef.componentInstance.dtTransaction = transaction;
     }
 }

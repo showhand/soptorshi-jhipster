@@ -59,10 +59,6 @@ export class JournalVoucherTransactionUpdateComponent extends DtTransactionUpdat
 
     accountSelected() {
         const selectedAccount: IMstAccount = this.accountNameMapAccount[this.selectedAccountName];
-        console.log('selected account');
-        console.log(selectedAccount);
-        console.log('system group map');
-        console.log(this.groupTypeWithSystemGroupMap);
         if (
             this.groupTypeWithSystemGroupMap[GroupType.SUNDRY_DEBTOR] &&
             selectedAccount.groupId == this.groupTypeWithSystemGroupMap[GroupType.SUNDRY_DEBTOR].groupId

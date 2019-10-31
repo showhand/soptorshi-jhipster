@@ -15,7 +15,7 @@
                         <div class="form-group">
                             <label class="form-control-label" for="field_voucherDate">Voucher Date</label>
                             <div class="input-group">
-                                <input id="field_voucherDate" type="text" class="form-control" name="voucherDate" ngbDatepicker  #voucherDateDp="ngbDatepicker" [(ngModel)]="receiptVoucher.voucherDate"
+                                <input [disabled]="receiptVoucher.postDate" id="field_voucherDate" type="date" class="form-control" name="voucherDate" ngbDatepicker  #voucherDateDp="ngbDatepicker" [(ngModel)]="receiptVoucher.voucherDate"
                                 />
                                 <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="voucherDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <label class="form-control-label" for="field_postDate">Post Date</label>
                             <div class="input-group">
-                                <input disabled id="field_postDate" type="text" class="form-control" name="postDate" ngbDatepicker  #postDateDp="ngbDatepicker" [(ngModel)]="receiptVoucher.postDate"
+                                <input disabled id="field_postDate" type="date" class="form-control" name="postDate" ngbDatepicker  #postDateDp="ngbDatepicker" [(ngModel)]="receiptVoucher.postDate"
                                 />
                                 <span class="input-group-append">
                             <button disabled type="button" class="btn btn-secondary" (click)="postDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
@@ -36,7 +36,7 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label class="form-control-label" for="field_account">Debit Account</label>
-                            <select class="form-control" id="field_account" name="account" [(ngModel)]="receiptVoucher.accountId" >
+                            <select [disabled]="receiptVoucher.postDate" class="form-control" id="field_account" name="account" [(ngModel)]="receiptVoucher.accountId" >
                                 <option [ngValue]="null"></option>
                                 <option [ngValue]="mstAccountOption.id" *ngFor="let mstAccountOption of mstaccounts; trackBy: trackMstAccountById">{{mstAccountOption.name}}</option>
                             </select>
@@ -50,7 +50,7 @@
                 </div>
                 <div *ngIf="receiptVoucher.id" class="row">
                     <div class="col-12">
-                        <jhi-receipt-voucher-transaction [receiptVoucher]="receiptVoucher" ></jhi-receipt-voucher-transaction>
+                        <jhi-receipt-voucher-transaction [receiptVoucher]="receiptVoucher" (totalAmountChanged)="calculateTotalAmount($event)"></jhi-receipt-voucher-transaction>
                     </div>
                 </div>
 
@@ -60,8 +60,11 @@
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Back</span>
                 </button>
-                <button (click)="save()" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button  (click)="save()" id="save-entity" [disabled]="editForm.form.invalid || isSaving || receiptVoucher.postDate" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+                <button  *ngIf="totalAmount>0" (click)="post()" id="post" [disabled]="editForm.form.invalid || isSaving ||receiptVoucher.postDate" class="btn btn-secondary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Post</span>
                 </button>
             </div>
         </form>

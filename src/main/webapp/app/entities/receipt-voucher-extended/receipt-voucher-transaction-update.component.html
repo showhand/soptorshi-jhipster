@@ -1,59 +1,50 @@
-<div class="row justify-content-center">
-    <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-dt-transaction-heading">Create or edit a Dt Transaction</h2>
-            <div>
-                <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!dtTransaction.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="dtTransaction.id" readonly />
-                </div>
+
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" *ngIf="dtTransaction.id">Update Transaction for Voucher <b>{{dtTransaction.voucherNo}}</b></h4>
+        <h4 class="modal-title" *ngIf="!dtTransaction.id">Add Transaction for Voucher <b>{{dtTransaction.voucherNo}}</b></h4>
+    </div>
+    <div class="modal-body">
+        <div class="row justify-content-center">
+            <div class="col-12">
+
                 <div class="form-group">
-                    <label class="form-control-label" for="field_voucherNo">Voucher No</label>
-                    <input type="text" class="form-control" name="voucherNo" id="field_voucherNo"
-                        [(ngModel)]="dtTransaction.voucherNo" />
+                    <label class="form-control-label" for="field_account">Account</label>
+                    <input type="text" class="form-control" name="account" id="field_account"
+                           [(ngModel)]="selectedAccountName" [ngbTypeahead]="search" (ngModelChange)="accountSelected()"
+                           (focus)="focus$.next($event.target.value)"
+                           (click)="click$.next($event.target.value)"
+                           #instance="ngbTypeahead"
+                    />
                 </div>
+
                 <div class="form-group">
-                    <label class="form-control-label" for="field_voucherDate">Voucher Date</label>
-                    <div class="input-group">
-                        <input id="field_voucherDate" type="text" class="form-control" name="voucherDate" ngbDatepicker  #voucherDateDp="ngbDatepicker" [(ngModel)]="dtTransaction.voucherDate"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="voucherDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
+                    <label class="form-control-label" for="field_amount">Amount in Specific</label>
+                    <input type="number" class="form-control" name="amount" id="field_amount" autofocus
+                           [(ngModel)]="dtTransaction.amount" />
                 </div>
+
                 <div class="form-group">
-                    <label class="form-control-label" for="field_serialNo">Serial No</label>
-                    <input type="number" class="form-control" name="serialNo" id="field_serialNo"
-                        [(ngModel)]="dtTransaction.serialNo" />
+                    <label class="form-control-label" for="field_amount_in_base">Amount in Base</label>
+                    <input readonly type="number" class="form-control" name="amount" id="field_amount_in_base" autofocus
+                           value="{{dtTransaction.amount* dtTransaction.convFactor}}" />
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_amount">Amount</label>
-                    <input type="number" class="form-control" name="amount" id="field_amount"
-                        [(ngModel)]="dtTransaction.amount" />
-                </div>
+
                 <div class="form-group">
                     <label class="form-control-label" for="field_balanceType">Balance Type</label>
-                    <select class="form-control" name="balanceType" [(ngModel)]="dtTransaction.balanceType" id="field_balanceType" >
+                    <select disabled class="form-control" name="balanceType" [(ngModel)]="dtTransaction.balanceType" id="field_balanceType" >
                         <option value="DEBIT">DEBIT</option>
                         <option value="CREDIT">CREDIT</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_type">Type</label>
-                    <select class="form-control" name="type" [(ngModel)]="dtTransaction.type" id="field_type" >
-                        <option value="SELLING">SELLING</option>
-                        <option value="BUYING">BUYING</option>
-                    </select>
-                </div>
-                <div class="form-group">
+
+                <div class="form-group" *ngIf="showInvoice">
                     <label class="form-control-label" for="field_invoiceNo">Invoice No</label>
                     <input type="text" class="form-control" name="invoiceNo" id="field_invoiceNo"
-                        [(ngModel)]="dtTransaction.invoiceNo" />
+                           [(ngModel)]="dtTransaction.invoiceNo" />
                 </div>
-                <div class="form-group">
+                <div class="form-group" *ngIf="showInvoice">
                     <label class="form-control-label" for="field_invoiceDate">Invoice Date</label>
                     <div class="input-group">
                         <input id="field_invoiceDate" type="text" class="form-control" name="invoiceDate" ngbDatepicker  #invoiceDateDp="ngbDatepicker" [(ngModel)]="dtTransaction.invoiceDate"
@@ -63,7 +54,8 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" *ngIf="showCheque">
                     <label class="form-control-label" for="field_instrumentType">Instrument Type</label>
                     <select class="form-control" name="instrumentType" [(ngModel)]="dtTransaction.instrumentType" id="field_instrumentType" >
                         <option value="CHEQUE">CHEQUE</option>
@@ -71,12 +63,12 @@
                         <option value="DEMAND_DRAFT">DEMAND_DRAFT</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group" *ngIf="showCheque">
                     <label class="form-control-label" for="field_instrumentNo">Instrument No</label>
                     <input type="text" class="form-control" name="instrumentNo" id="field_instrumentNo"
-                        [(ngModel)]="dtTransaction.instrumentNo" />
+                           [(ngModel)]="dtTransaction.instrumentNo" />
                 </div>
-                <div class="form-group">
+                <div class="form-group" *ngIf="showCheque">
                     <label class="form-control-label" for="field_instrumentDate">Instrument Date</label>
                     <div class="input-group">
                         <input id="field_instrumentDate" type="text" class="form-control" name="instrumentDate" ngbDatepicker  #instrumentDateDp="ngbDatepicker" [(ngModel)]="dtTransaction.instrumentDate"
@@ -86,82 +78,26 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_fCurrency">F Currency</label>
-                    <input type="number" class="form-control" name="fCurrency" id="field_fCurrency"
-                        [(ngModel)]="dtTransaction.fCurrency" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_convFactor">Conv Factor</label>
-                    <input type="number" class="form-control" name="convFactor" id="field_convFactor"
-                        [(ngModel)]="dtTransaction.convFactor" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_postDate">Post Date</label>
-                    <div class="input-group">
-                        <input id="field_postDate" type="text" class="form-control" name="postDate" ngbDatepicker  #postDateDp="ngbDatepicker" [(ngModel)]="dtTransaction.postDate"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="postDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
-                </div>
+
                 <div class="form-group">
                     <label class="form-control-label" for="field_narration">Narration</label>
                     <input type="text" class="form-control" name="narration" id="field_narration"
-                        [(ngModel)]="dtTransaction.narration" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
-                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
-                        [(ngModel)]="dtTransaction.modifiedBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
-                    <div class="input-group">
-                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="dtTransaction.modifiedOn"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_reference">Reference</label>
-                    <input type="text" class="form-control" name="reference" id="field_reference"
-                        [(ngModel)]="dtTransaction.reference" />
+                           [(ngModel)]="dtTransaction.narration" />
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_account">Account</label>
-                    <select class="form-control" id="field_account" name="account" [(ngModel)]="dtTransaction.accountId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="mstAccountOption.id" *ngFor="let mstAccountOption of mstaccounts; trackBy: trackMstAccountById">{{mstAccountOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_voucher">Voucher</label>
-                    <select class="form-control" id="field_voucher" name="voucher" [(ngModel)]="dtTransaction.voucherId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="voucherOption.id" *ngFor="let voucherOption of vouchers; trackBy: trackVoucherById">{{voucherOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_currency">Currency</label>
-                    <select class="form-control" id="field_currency" name="currency" [(ngModel)]="dtTransaction.currencyId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="currencyOption.id" *ngFor="let currencyOption of currencies; trackBy: trackCurrencyById">{{currencyOption.notation}}</option>
-                    </select>
-                </div>
+
+
             </div>
-            <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
-                </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-                </button>
-            </div>
-        </form>
+
+        </div>
     </div>
-</div>
+    <div class="modal-footer">
+        <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+            <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
+

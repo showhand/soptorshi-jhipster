@@ -56,7 +56,9 @@ public class ReceiptVoucherExtendedService extends ReceiptVoucherService {
             receiptVoucherDTO.setVoucherNo("BR"+voucherNo);
         }
         receiptVoucherDTO.setPostDate(receiptVoucherDTO.getPostDate()==null?receiptVoucherDTO.getPostDate():LocalDate.now());
-
+        receiptVoucherDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
+        receiptVoucherDTO.setModifiedOn(LocalDate.now());
+        updateTransactions(receiptVoucherDTO);
         return super.save(receiptVoucherDTO);
     }
 

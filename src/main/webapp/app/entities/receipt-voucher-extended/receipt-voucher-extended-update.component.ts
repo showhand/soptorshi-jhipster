@@ -88,4 +88,13 @@ export class ReceiptVoucherExtendedUpdateComponent extends ReceiptVoucherUpdateC
     protected onSaveSuccess() {
         this.isSaving = false;
     }
+
+    protected calculateTotalAmount(totalAmount: number) {
+        this.totalAmount = totalAmount;
+    }
+
+    post() {
+        this.receiptVoucher.postDate = moment();
+        this.save();
+    }
 }
