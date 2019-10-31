@@ -542,7 +542,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'receipt-voucher',
-                loadChildren: './receipt-voucher/receipt-voucher.module#SoptorshiReceiptVoucherModule'
+                loadChildren: './receipt-voucher-extended/receipt-voucher-extended.module#SoptorshiReceiptVoucherModule'
             },
             {
                 path: 'contra-voucher',
@@ -555,10 +555,6 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'system-group-map',
                 loadChildren: './system-group-map/system-group-map.module#SoptorshiSystemGroupMapModule'
-            },
-            {
-                path: 'receipt-voucher',
-                loadChildren: './receipt-voucher/receipt-voucher.module#SoptorshiReceiptVoucherModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

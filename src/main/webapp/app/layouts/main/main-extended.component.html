@@ -616,6 +616,13 @@
                         </a>
                     </li>
                     <li>
+                        <a class="dropdown-item" routerLink="receipt-voucher" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                            <span>Receipt Voucher</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="dropdown-item" routerLink="dt-transaction" routerLinkActive="active"
                            [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
