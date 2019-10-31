@@ -10,19 +10,48 @@ import { IMstAccount } from 'app/shared/model/mst-account.model';
 import { MstAccountService } from 'app/entities/mst-account';
 import { ReceiptVoucherExtendedService } from 'app/entities/receipt-voucher-extended/receipt-voucher-extended.service';
 import { ReceiptVoucherUpdateComponent } from 'app/entities/receipt-voucher';
+import { SystemGroupMapService } from 'app/entities/system-group-map';
+import { GroupType, ISystemGroupMap } from 'app/shared/model/system-group-map.model';
 
 @Component({
     selector: 'jhi-receipt-voucher-update',
     templateUrl: './receipt-voucher-extended-update.component.html'
 })
 export class ReceiptVoucherExtendedUpdateComponent extends ReceiptVoucherUpdateComponent implements OnInit {
+    totalAmount: number;
+    bankAndCashGroupIds: number[];
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected receiptVoucherService: ReceiptVoucherExtendedService,
         protected mstAccountService: MstAccountService,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        protected systemGroupMapService: SystemGroupMapService
     ) {
         super(jhiAlertService, receiptVoucherService, mstAccountService, activatedRoute);
+    }
+
+    loadAll() {
+        this.systemGroupMapService
+            .query({
+                'groupType.in': [GroupType.BANK_ACCOUNTS, GroupType.CASH_IN_HAND]
+            })
+            .subscribe((response: HttpResponse<ISystemGroupMap[]>) => {
+                this.bankAndCashGroupIds = [];
+                response.body.forEach((s: ISystemGroupMap) => {
+                    this.bankAndCashGroupIds.push(s.groupId);
+                });
+
+                this.mstAccountService
+                    .query({
+                        'groupId.in': this.bankAndCashGroupIds,
+                        size: 200
+                    })
+                    .pipe(
+                        filter((mayBeOk: HttpResponse<IMstAccount[]>) => mayBeOk.ok),
+                        map((response: HttpResponse<IMstAccount[]>) => response.body)
+                    )
+                    .subscribe((res: IMstAccount[]) => (this.mstaccounts = res), (res: HttpErrorResponse) => this.onError(res.message));
+            });
     }
 
     ngOnInit() {
@@ -30,13 +59,7 @@ export class ReceiptVoucherExtendedUpdateComponent extends ReceiptVoucherUpdateC
         this.activatedRoute.data.subscribe(({ receiptVoucher }) => {
             this.receiptVoucher = receiptVoucher;
         });
-        this.mstAccountService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IMstAccount[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IMstAccount[]>) => response.body)
-            )
-            .subscribe((res: IMstAccount[]) => (this.mstaccounts = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.loadAll();
     }
 
     previousState() {

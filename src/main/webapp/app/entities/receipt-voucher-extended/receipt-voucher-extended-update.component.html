@@ -1,62 +1,54 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-receipt-voucher-heading">Create or edit a Receipt Voucher</h2>
+            <h2 *ngIf="!receiptVoucher.id" id="jhi-receipt-voucher-heading">Create a Receipt Voucher</h2>
+            <h2 *ngIf="receiptVoucher.id" id="jhi-receipt-voucher-update-heading">Receipt Voucher <b>{{receiptVoucher.voucherNo}}</b></h2>
+
             <div>
-                <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!receiptVoucher.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="receiptVoucher.id" readonly />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_voucherNo">Voucher No</label>
-                    <input type="text" class="form-control" name="voucherNo" id="field_voucherNo"
-                        [(ngModel)]="receiptVoucher.voucherNo" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_voucherDate">Voucher Date</label>
-                    <div class="input-group">
-                        <input id="field_voucherDate" type="text" class="form-control" name="voucherDate" ngbDatepicker  #voucherDateDp="ngbDatepicker" [(ngModel)]="receiptVoucher.voucherDate"
-                        />
-                        <span class="input-group-append">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_voucherNo">Voucher No</label>
+                            <input readonly type="text" class="form-control" name="voucherNo" id="field_voucherNo"
+                                   [(ngModel)]="receiptVoucher.voucherNo" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_voucherDate">Voucher Date</label>
+                            <div class="input-group">
+                                <input id="field_voucherDate" type="text" class="form-control" name="voucherDate" ngbDatepicker  #voucherDateDp="ngbDatepicker" [(ngModel)]="receiptVoucher.voucherDate"
+                                />
+                                <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="voucherDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_postDate">Post Date</label>
-                    <div class="input-group">
-                        <input id="field_postDate" type="text" class="form-control" name="postDate" ngbDatepicker  #postDateDp="ngbDatepicker" [(ngModel)]="receiptVoucher.postDate"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="postDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_postDate">Post Date</label>
+                            <div class="input-group">
+                                <input disabled id="field_postDate" type="text" class="form-control" name="postDate" ngbDatepicker  #postDateDp="ngbDatepicker" [(ngModel)]="receiptVoucher.postDate"
+                                />
+                                <span class="input-group-append">
+                            <button disabled type="button" class="btn btn-secondary" (click)="postDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
-                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
-                        [(ngModel)]="receiptVoucher.modifiedBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
-                    <div class="input-group">
-                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="receiptVoucher.modifiedOn"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_account">Debit Account</label>
+                            <select class="form-control" id="field_account" name="account" [(ngModel)]="receiptVoucher.accountId" >
+                                <option [ngValue]="null"></option>
+                                <option [ngValue]="mstAccountOption.id" *ngFor="let mstAccountOption of mstaccounts; trackBy: trackMstAccountById">{{mstAccountOption.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_totalAmount">Total Voucher Amount</label>
+                            <input readonly type="text" class="form-control" name="voucherNo" id="field_totalAmount"
+                                   [(ngModel)]="totalAmount" />
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_account">Account</label>
-                    <select class="form-control" id="field_account" name="account" [(ngModel)]="receiptVoucher.accountId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="mstAccountOption.id" *ngFor="let mstAccountOption of mstaccounts; trackBy: trackMstAccountById">{{mstAccountOption.name}}</option>
-                    </select>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
