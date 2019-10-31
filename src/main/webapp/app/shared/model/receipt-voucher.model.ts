@@ -7,6 +7,8 @@ export interface IReceiptVoucher {
     postDate?: Moment;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    accountName?: string;
+    accountId?: number;
 }
 
 export class ReceiptVoucher implements IReceiptVoucher {
@@ -16,6 +18,8 @@ export class ReceiptVoucher implements IReceiptVoucher {
         public voucherDate?: Moment,
         public postDate?: Moment,
         public modifiedBy?: string,
-        public modifiedOn?: Moment
+        public modifiedOn?: Moment,
+        public accountName?: string,
+        public accountId?: number
     ) {}
 }

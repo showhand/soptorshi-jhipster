@@ -22,7 +22,15 @@
             "fieldType": "LocalDate"
         }
     ],
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "mstAccount",
+            "otherEntityRelationshipName": "receiptVoucher",
+            "relationshipName": "account",
+            "otherEntityField": "name"
+        }
+    ],
     "changelogDate": "20191026143214",
     "entityTableName": "receipt_voucher",
     "dto": "mapstruct",

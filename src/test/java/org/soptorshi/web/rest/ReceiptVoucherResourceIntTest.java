@@ -3,6 +3,7 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.ReceiptVoucher;
+import org.soptorshi.domain.MstAccount;
 import org.soptorshi.repository.ReceiptVoucherRepository;
 import org.soptorshi.repository.search.ReceiptVoucherSearchRepository;
 import org.soptorshi.service.ReceiptVoucherService;
@@ -498,6 +499,25 @@ public class ReceiptVoucherResourceIntTest {
 
         // Get all the receiptVoucherList where modifiedOn less than or equals to UPDATED_MODIFIED_ON
         defaultReceiptVoucherShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllReceiptVouchersByAccountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        MstAccount account = MstAccountResourceIntTest.createEntity(em);
+        em.persist(account);
+        em.flush();
+        receiptVoucher.setAccount(account);
+        receiptVoucherRepository.saveAndFlush(receiptVoucher);
+        Long accountId = account.getId();
+
+        // Get all the receiptVoucherList where account equals to accountId
+        defaultReceiptVoucherShouldBeFound("accountId.equals=" + accountId);
+
+        // Get all the receiptVoucherList where account equals to accountId + 1
+        defaultReceiptVoucherShouldNotBeFound("accountId.equals=" + (accountId + 1));
     }
 
     /**

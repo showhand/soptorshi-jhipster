@@ -25,6 +25,12 @@
                 <dd>
                     <span>{{receiptVoucher.modifiedOn}}</span>
                 </dd>
+                <dt><span>Account</span></dt>
+                <dd>
+                    <div *ngIf="receiptVoucher.accountId">
+                        <a [routerLink]="['/mst-account', receiptVoucher.accountId, 'view']">{{receiptVoucher.accountName}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"
