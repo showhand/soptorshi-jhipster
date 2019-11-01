@@ -1,4 +1,3 @@
-/*
 package org.soptorshi.web.rest;
 
 import org.junit.Before;
@@ -44,13 +43,11 @@ import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-*/
 /**
  * Test class for the AttendanceResource REST controller.
  *
  * @see AttendanceResource
- *//*
-
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
 public class AttendanceResourceIntTest {
@@ -76,13 +73,11 @@ public class AttendanceResourceIntTest {
     @Autowired
     private AttendanceExtendedService attendanceService;
 
-    */
-/**
+    /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
      *
      * @see org.soptorshi.repository.search.AttendanceSearchRepositoryMockConfiguration
-     *//*
-
+     */
     @Autowired
     private AttendanceSearchRepository mockAttendanceSearchRepository;
 
@@ -120,14 +115,12 @@ public class AttendanceResourceIntTest {
             .setValidator(validator).build();
     }
 
-    */
-/**
+    /**
      * Create an entity for this test.
      *
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
-     *//*
-
+     */
     public static Attendance createEntity(EntityManager em) {
         Attendance attendance = new Attendance()
             .employeeId(DEFAULT_EMPLOYEE_ID)
@@ -425,11 +418,9 @@ public class AttendanceResourceIntTest {
         defaultAttendanceShouldNotBeFound("attendanceExcelUploadId.equals=" + (attendanceExcelUploadId + 1));
     }
 
-    */
-/**
+    /**
      * Executes the search, and checks that the default entity is returned
-     *//*
-
+     */
     private void defaultAttendanceShouldBeFound(String filter) throws Exception {
         restAttendanceMockMvc.perform(get("/api/attendances?sort=id,desc&" + filter))
             .andExpect(status().isOk())
@@ -447,11 +438,9 @@ public class AttendanceResourceIntTest {
             .andExpect(content().string("1"));
     }
 
-    */
-/**
+    /**
      * Executes the search, and checks that the default entity is not returned
-     *//*
-
+     */
     private void defaultAttendanceShouldNotBeFound(String filter) throws Exception {
         restAttendanceMockMvc.perform(get("/api/attendances?sort=id,desc&" + filter))
             .andExpect(status().isOk())
@@ -611,4 +600,3 @@ public class AttendanceResourceIntTest {
         assertThat(attendanceMapper.fromId(null)).isNull();
     }
 }
-*/

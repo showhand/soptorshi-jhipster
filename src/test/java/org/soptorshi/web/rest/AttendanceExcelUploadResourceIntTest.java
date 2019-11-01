@@ -1,4 +1,3 @@
-/*
 package org.soptorshi.web.rest;
 
 import org.junit.Before;
@@ -40,13 +39,11 @@ import static org.mockito.Mockito.*;
 import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-*/
 /**
  * Test class for the AttendanceExcelUploadResource REST controller.
  *
  * @see AttendanceExcelUploadResource
- *//*
-
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
 public class AttendanceExcelUploadResourceIntTest {
@@ -68,13 +65,11 @@ public class AttendanceExcelUploadResourceIntTest {
     @Autowired
     private AttendanceExcelUploadExtendedService attendanceExcelUploadExtendedService;
 
-    */
-/**
+    /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
      *
      * @see org.soptorshi.repository.search.AttendanceExcelUploadSearchRepositoryMockConfiguration
-     *//*
-
+     */
     @Autowired
     private AttendanceExcelUploadSearchRepository mockAttendanceExcelUploadSearchRepository;
 
@@ -112,14 +107,12 @@ public class AttendanceExcelUploadResourceIntTest {
             .setValidator(validator).build();
     }
 
-    */
-/**
+    /**
      * Create an entity for this test.
      *
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
-     *//*
-
+     */
     public static AttendanceExcelUpload createEntity(EntityManager em) {
         AttendanceExcelUpload attendanceExcelUpload = new AttendanceExcelUpload()
             .file(DEFAULT_FILE)
@@ -250,11 +243,9 @@ public class AttendanceExcelUploadResourceIntTest {
         // Get all the attendanceExcelUploadList where type is null
         defaultAttendanceExcelUploadShouldNotBeFound("type.specified=false");
     }
-    */
-/**
+    /**
      * Executes the search, and checks that the default entity is returned
-     *//*
-
+     */
     private void defaultAttendanceExcelUploadShouldBeFound(String filter) throws Exception {
         restAttendanceExcelUploadMockMvc.perform(get("/api/attendance-excel-uploads?sort=id,desc&" + filter))
             .andExpect(status().isOk())
@@ -271,11 +262,9 @@ public class AttendanceExcelUploadResourceIntTest {
             .andExpect(content().string("1"));
     }
 
-    */
-/**
+    /**
      * Executes the search, and checks that the default entity is not returned
-     *//*
-
+     */
     private void defaultAttendanceExcelUploadShouldNotBeFound(String filter) throws Exception {
         restAttendanceExcelUploadMockMvc.perform(get("/api/attendance-excel-uploads?sort=id,desc&" + filter))
             .andExpect(status().isOk())
@@ -432,4 +421,3 @@ public class AttendanceExcelUploadResourceIntTest {
         assertThat(attendanceExcelUploadMapper.fromId(null)).isNull();
     }
 }
-*/
