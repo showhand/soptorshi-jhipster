@@ -31,7 +31,7 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
 
     constructor(
         protected jhiAlertService: JhiAlertService,
-        protected paymentVoucherService: PaymentVoucherService,
+        protected paymentVoucherService: PaymentVoucherExtendedService,
         protected mstAccountService: MstAccountService,
         protected activatedRoute: ActivatedRoute,
         protected accountBalanceService: AccountBalanceService,
@@ -57,6 +57,7 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
             })
             .subscribe((response: HttpResponse<IFinancialAccountYear[]>) => {
                 this.openedFinancialAccountYear = response.body[0];
+                if (this.paymentVoucher.accountId) this.accountSelected();
             });
     }
 
@@ -66,6 +67,10 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
             this.paymentVoucher = paymentVoucher;
         });
         this.loadAll();
+    }
+
+    protected calculateTotalAmount(totalAmount: number) {
+        this.totalAmount = totalAmount;
     }
 
     accountSelected() {
@@ -79,5 +84,10 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
                     this.bankAccountBalance = response.body[0];
                 });
         }
+    }
+
+    post() {
+        this.paymentVoucher.postDate = moment();
+        this.save();
     }
 }

@@ -1,0 +1,103 @@
+
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" *ngIf="dtTransaction.id">Update Transaction for Voucher <b>{{dtTransaction.voucherNo}}</b></h4>
+        <h4 class="modal-title" *ngIf="!dtTransaction.id">Add Transaction for Voucher <b>{{dtTransaction.voucherNo}}</b></h4>
+    </div>
+    <div class="modal-body">
+        <div class="row justify-content-center">
+            <div class="col-12">
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_account">Account</label>
+                    <input type="text" class="form-control" name="account" id="field_account"
+                           [(ngModel)]="selectedAccountName" [ngbTypeahead]="search" (ngModelChange)="accountSelected()"
+                           (focus)="focus$.next($event.target.value)"
+                           (click)="click$.next($event.target.value)"
+                           #instance="ngbTypeahead"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amount">Amount in Specific</label>
+                    <input type="number" class="form-control" name="amount" id="field_amount" autofocus
+                           [(ngModel)]="dtTransaction.amount" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amount_in_base">Amount in Base</label>
+                    <input readonly type="number" class="form-control" name="amount" id="field_amount_in_base" autofocus
+                           value="{{dtTransaction.amount* dtTransaction.convFactor}}" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_balanceType">Balance Type</label>
+                    <select disabled class="form-control" name="balanceType" [(ngModel)]="dtTransaction.balanceType" id="field_balanceType" >
+                        <option value="DEBIT">DEBIT</option>
+                        <option value="CREDIT">CREDIT</option>
+                    </select>
+                </div>
+
+                <div class="form-group" *ngIf="showInvoice">
+                    <label class="form-control-label" for="field_invoiceNo">Invoice No</label>
+                    <input type="text" class="form-control" name="invoiceNo" id="field_invoiceNo"
+                           [(ngModel)]="dtTransaction.invoiceNo" />
+                </div>
+                <div class="form-group" *ngIf="showInvoice">
+                    <label class="form-control-label" for="field_invoiceDate">Invoice Date</label>
+                    <div class="input-group">
+                        <input id="field_invoiceDate" type="text" class="form-control" name="invoiceDate" ngbDatepicker  #invoiceDateDp="ngbDatepicker" [(ngModel)]="dtTransaction.invoiceDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="invoiceDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="showCheque">
+                    <label class="form-control-label" for="field_instrumentType">Instrument Type</label>
+                    <select class="form-control" name="instrumentType" [(ngModel)]="dtTransaction.instrumentType" id="field_instrumentType" >
+                        <option value="CHEQUE">CHEQUE</option>
+                        <option value="PAY_ORDER">PAY_ORDER</option>
+                        <option value="DEMAND_DRAFT">DEMAND_DRAFT</option>
+                    </select>
+                </div>
+                <div class="form-group" *ngIf="showCheque">
+                    <label class="form-control-label" for="field_instrumentNo">Instrument No</label>
+                    <input type="text" class="form-control" name="instrumentNo" id="field_instrumentNo"
+                           [(ngModel)]="dtTransaction.instrumentNo" />
+                </div>
+                <div class="form-group" *ngIf="showCheque">
+                    <label class="form-control-label" for="field_instrumentDate">Instrument Date</label>
+                    <div class="input-group">
+                        <input id="field_instrumentDate" type="text" class="form-control" name="instrumentDate" ngbDatepicker  #instrumentDateDp="ngbDatepicker" [(ngModel)]="dtTransaction.instrumentDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="instrumentDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_narration">Narration</label>
+                    <input type="text" class="form-control" name="narration" id="field_narration"
+                           [(ngModel)]="dtTransaction.narration" />
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+            <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
+

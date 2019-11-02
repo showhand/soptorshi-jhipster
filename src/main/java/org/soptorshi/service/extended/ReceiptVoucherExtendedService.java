@@ -49,7 +49,7 @@ public class ReceiptVoucherExtendedService extends ReceiptVoucherService {
 
     @Override
     public ReceiptVoucherDTO save(ReceiptVoucherDTO receiptVoucherDTO) {
-        if(receiptVoucherDTO.getId()==null){
+        if(receiptVoucherDTO.getVoucherNo()==null){
             ReceiptVoucherGenerator receiptVoucherGenerator = new ReceiptVoucherGenerator();
             receiptVoucherGeneratorRepository.save(receiptVoucherGenerator);
             String voucherNo = String.format("%06d", receiptVoucherGenerator.getId());

@@ -1,0 +1,64 @@
+<div>
+    <h2 id="page-heading">
+        <span>Transactions</span>
+        <button (click)="addTransaction()" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-dt-transaction" >
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Add
+            </span>
+        </button>
+    </h2>
+
+    <br/>
+    <div class="table-responsive" *ngIf="dtTransactions">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                <th jhiSortBy="serialNo"><span>Serial No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="accountName"><span>Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="balanceType"><span>Balance Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let dtTransaction of dtTransactions ;trackBy: trackId;let i = index">
+                <td>{{i+1}}</td>
+                <td>
+                    <div *ngIf="dtTransaction.accountId">
+                        <a [routerLink]="['../mst-account', dtTransaction.accountId , 'view' ]" >{{dtTransaction.accountName}}</a>
+                    </div>
+                </td>
+                <td>{{dtTransaction.amount}}</td>
+                <td>{{dtTransaction.balanceType}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button [disabled]="paymentVoucher.postDate" type="submit"
+                                class="btn btn-primary btn-sm" (click)="editTransaction(dtTransaction)">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button [disabled]="paymentVoucher.postDate" type="submit"
+                                (click)="deleteTransaction(dtTransaction)"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Pager is not implemented yet, so this is normal pagination instead -->
+    <div *ngIf="dtTransactions && dtTransactions.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

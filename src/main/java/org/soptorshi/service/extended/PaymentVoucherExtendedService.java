@@ -49,7 +49,7 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
 
     @Override
     public PaymentVoucherDTO save(PaymentVoucherDTO paymentVoucherDTO) {
-        if(paymentVoucherDTO.getId()==null){
+        if(paymentVoucherDTO.getVoucherNo()==null){
             PaymentVoucherGenerator paymentVoucherGenerator = new PaymentVoucherGenerator();
             paymentVoucherGeneratorRepository.save(paymentVoucherGenerator);
             String voucherNo = String.format("%06d", paymentVoucherGenerator.getId());

@@ -15,7 +15,7 @@ type EntityArrayResponseType = HttpResponse<IPaymentVoucher[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PaymentVoucherExtendedService extends PaymentVoucherService {
-    public resourceUrl = SERVER_API_URL + 'api/payment-vouchers';
+    public resourceUrlExtended = SERVER_API_URL + 'api/extended/payment-vouchers';
 
     constructor(protected http: HttpClient) {
         super(http);
@@ -24,14 +24,14 @@ export class PaymentVoucherExtendedService extends PaymentVoucherService {
     create(paymentVoucher: IPaymentVoucher): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(paymentVoucher);
         return this.http
-            .post<IPaymentVoucher>(this.resourceUrl, copy, { observe: 'response' })
+            .post<IPaymentVoucher>(this.resourceUrlExtended, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
     update(paymentVoucher: IPaymentVoucher): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(paymentVoucher);
         return this.http
-            .put<IPaymentVoucher>(this.resourceUrl, copy, { observe: 'response' })
+            .put<IPaymentVoucher>(this.resourceUrlExtended, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 }
