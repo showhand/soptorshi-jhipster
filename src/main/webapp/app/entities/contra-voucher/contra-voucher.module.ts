@@ -16,7 +16,7 @@ const ENTITY_STATES = [...contraVoucherRoute, ...contraVoucherPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /*declarations: [
         ContraVoucherComponent,
         ContraVoucherDetailComponent,
         ContraVoucherUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...contraVoucherRoute, ...contraVoucherPopupRoute];
         ContraVoucherUpdateComponent,
         ContraVoucherDeleteDialogComponent,
         ContraVoucherDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiContraVoucherModule {}

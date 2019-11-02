@@ -546,15 +546,11 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'contra-voucher',
-                loadChildren: './contra-voucher/contra-voucher.module#SoptorshiContraVoucherModule'
+                loadChildren: './contra-voucher-extended/contra-voucher-extended.module#SoptorshiContraVoucherModule'
             },
             {
                 path: 'system-group-map',
                 loadChildren: './system-group-map/system-group-map.module#SoptorshiSystemGroupMapModule'
-            },
-            {
-                path: 'contra-voucher',
-                loadChildren: './contra-voucher/contra-voucher.module#SoptorshiContraVoucherModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
