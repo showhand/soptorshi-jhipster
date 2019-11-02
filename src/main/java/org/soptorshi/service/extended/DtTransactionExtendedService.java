@@ -100,16 +100,17 @@ public class DtTransactionExtendedService extends DtTransactionService {
         LongFilter accountBalanceIdFilter = new LongFilter();
         accountBalanceIdFilter.setIn(accountBalanceIds);
 
+        MonthlyBalanceCriteria.MonthTypeFilter monthTypeFilter = new MonthlyBalanceCriteria.MonthTypeFilter();
+        monthTypeFilter.setEquals(SoptorshiUtils.getMonthType(transactionDTOList.get(0).getPostDate().getMonth()));
+
         MonthlyBalanceCriteria monthlyBalanceCriteria = new MonthlyBalanceCriteria();
         monthlyBalanceCriteria.setAccountBalanceId(accountBalanceIdFilter);
+        monthlyBalanceCriteria.setMonthType(monthTypeFilter);
 
         List<MonthlyBalanceDTO> monthlyBalanceDTOS = monthlyBalanceQueryService.findByCriteria(monthlyBalanceCriteria);
         Map<String, MonthlyBalanceDTO> accountBalanceAndMonthTypeMapWithMonthlyBalance = monthlyBalanceDTOS.stream()
             .collect(Collectors.toMap(m->m.getAccountBalanceId()+""+ SoptorshiUtils.getMonthType(), m->m));
         // end of block 2
-
-
-
 
         List<MonthlyBalanceDTO> newMonthlyBalanceDtos = new ArrayList<>();
         for(DtTransactionDTO dtTransactionDTO: transactionDTOList){
@@ -132,6 +133,7 @@ public class DtTransactionExtendedService extends DtTransactionService {
                     monthlyBalance.setTotMonthCrBal(monthlyBalance.getTotMonthCrBal().add(dtTransactionDTO.getAmount().multiply(dtTransactionDTO.getConvFactor())));
             }else{
                 MonthlyBalanceDTO monthlyBalanceDTO = new MonthlyBalanceDTO();
+                monthlyBalanceDTO.setAccountBalanceId(accountBalanceDTO.getId());
                 monthlyBalanceDTO.setMonthType(SoptorshiUtils.getMonthType(dtTransactionDTO.getPostDate().getMonth()));
                 if(dtTransactionDTO.getBalanceType().equals(BalanceType.DEBIT)){
                     monthlyBalanceDTO.setTotMonthDbBal(dtTransactionDTO.getAmount().multiply(dtTransactionDTO.getConvFactor()));

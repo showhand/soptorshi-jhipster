@@ -4,7 +4,6 @@
             <h2 *ngIf="!paymentVoucher.id" id="jhi-payment-voucher-heading">Create a Payment Voucher</h2>
             <h2 *ngIf="paymentVoucher.id" id="jhi-payment-voucher-edit-heading">Payment Voucher {{paymentVoucher.voucherNo}}</h2>
             <div>
-                <jhi-alert-error></jhi-alert-error>
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -58,13 +57,16 @@
                 </div>
             </div>
             <div>
+                <jhi-alert></jhi-alert>
+            </div>
+            <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Back</span>
                 </button>
                 <button (click)="save()" type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving || paymentVoucher.postDate" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                 </button>
-                <button (click)="post()" type="submit" id="post-entity" [disabled]="editForm.form.invalid || isSaving || paymentVoucher.postDate" class="btn btn-secondary">
+                <button *ngIf="paymentVoucher.voucherNo && this.totalAmount>0" (click)="post()" type="submit" id="post-entity" [disabled]="editForm.form.invalid || isSaving || paymentVoucher.postDate" class="btn btn-secondary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Post</span>
                 </button>
             </div>

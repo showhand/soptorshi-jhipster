@@ -58,12 +58,17 @@ export class PaymentVoucherUpdateComponent implements OnInit {
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IPaymentVoucher>>) {
-        result.subscribe((res: HttpResponse<IPaymentVoucher>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe(
+            (res: HttpResponse<IPaymentVoucher>) => {
+                this.onSaveSuccess();
+                this.paymentVoucher = res.body;
+            },
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
     }
 
     protected onSaveSuccess() {
         this.isSaving = false;
-        this.previousState();
     }
 
     protected onSaveError() {

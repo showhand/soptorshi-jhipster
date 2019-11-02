@@ -14,6 +14,8 @@ import { AccountBalanceService } from 'app/entities/account-balance';
 import { IMstAccount } from 'app/shared/model/mst-account.model';
 import { FinancialAccountYearExtendedService } from 'app/entities/financial-account-year-extended';
 import { FinancialYearStatus, IFinancialAccountYear } from 'app/shared/model/financial-account-year.model';
+import { SystemGroupMapService } from 'app/entities/system-group-map';
+import { GroupType, ISystemGroupMap } from 'app/shared/model/system-group-map.model';
 
 @Component({
     selector: 'jhi-payment-voucher-update',
@@ -28,6 +30,7 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
     totalAmount: number;
     bankAccountBalance: IAccountBalance;
     openedFinancialAccountYear: IFinancialAccountYear;
+    bankAndCashGroupIds: number[];
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -35,21 +38,34 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
         protected mstAccountService: MstAccountService,
         protected activatedRoute: ActivatedRoute,
         protected accountBalanceService: AccountBalanceService,
-        protected financialAccountYearService: FinancialAccountYearExtendedService
+        protected financialAccountYearService: FinancialAccountYearExtendedService,
+        protected systemGroupMapService: SystemGroupMapService
     ) {
         super(jhiAlertService, paymentVoucherService, mstAccountService, activatedRoute);
     }
 
     loadAll() {
-        this.mstAccountService
+        this.systemGroupMapService
             .query({
-                size: 200
+                'groupType.in': [GroupType.BANK_ACCOUNTS, GroupType.CASH_IN_HAND]
             })
-            .pipe(
-                filter((mayBeOk: HttpResponse<IMstAccount[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IMstAccount[]>) => response.body)
-            )
-            .subscribe((res: IMstAccount[]) => (this.mstaccounts = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((response: HttpResponse<ISystemGroupMap[]>) => {
+                this.bankAndCashGroupIds = [];
+                response.body.forEach((s: ISystemGroupMap) => {
+                    this.bankAndCashGroupIds.push(s.groupId);
+                });
+
+                this.mstAccountService
+                    .query({
+                        'groupId.in': this.bankAndCashGroupIds,
+                        size: 200
+                    })
+                    .pipe(
+                        filter((mayBeOk: HttpResponse<IMstAccount[]>) => mayBeOk.ok),
+                        map((response: HttpResponse<IMstAccount[]>) => response.body)
+                    )
+                    .subscribe((res: IMstAccount[]) => (this.mstaccounts = res), (res: HttpErrorResponse) => this.onError(res.message));
+            });
 
         this.financialAccountYearService
             .query({
@@ -83,6 +99,15 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
                 .subscribe((response: HttpResponse<IAccountBalance[]>) => {
                     this.bankAccountBalance = response.body[0];
                 });
+        }
+    }
+
+    save() {
+        this.isSaving = true;
+        if (this.paymentVoucher.id !== undefined) {
+            this.subscribeToSaveResponse(this.paymentVoucherService.update(this.paymentVoucher));
+        } else {
+            this.subscribeToSaveResponse(this.paymentVoucherService.create(this.paymentVoucher));
         }
     }
 
