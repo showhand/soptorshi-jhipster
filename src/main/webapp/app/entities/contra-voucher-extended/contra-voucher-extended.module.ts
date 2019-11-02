@@ -15,6 +15,8 @@ import {
 } from 'app/entities/contra-voucher-extended/contra-voucher-extended.route';
 import { ContraVoucherExtendedComponent } from 'app/entities/contra-voucher-extended/contra-voucher-extended.component';
 import { ContraVoucherExtendedUpdateComponent } from 'app/entities/contra-voucher-extended/contra-voucher-extended-update.component';
+import { ContraVoucherTransactionsComponent } from 'app/entities/contra-voucher-extended/contra-voucher-transactions.component';
+import { ContraVoucherTransactionUpdateComponent } from 'app/entities/contra-voucher-extended/contra-voucher-transaction-update.component';
 
 const ENTITY_STATES = [...contraVoucherExtendedRoute, ...contraVoucherExtendedPopupRoute];
 
@@ -27,13 +29,17 @@ const ENTITY_STATES = [...contraVoucherExtendedRoute, ...contraVoucherExtendedPo
         ContraVoucherDeleteDialogComponent,
         ContraVoucherDeletePopupComponent,
         ContraVoucherExtendedComponent,
-        ContraVoucherExtendedUpdateComponent
+        ContraVoucherExtendedUpdateComponent,
+        ContraVoucherTransactionsComponent,
+        ContraVoucherTransactionUpdateComponent
     ],
     entryComponents: [
         ContraVoucherComponent,
         ContraVoucherUpdateComponent,
         ContraVoucherDeleteDialogComponent,
-        ContraVoucherDeletePopupComponent
+        ContraVoucherDeletePopupComponent,
+        ContraVoucherTransactionsComponent,
+        ContraVoucherTransactionUpdateComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

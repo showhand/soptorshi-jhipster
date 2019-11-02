@@ -15,7 +15,7 @@ type EntityArrayResponseType = HttpResponse<IContraVoucher[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ContraVoucherExtendedService extends ContraVoucherService {
-    public resourceUrlExtended = SERVER_API_URL + 'api/extends/contra-vouchers';
+    public resourceUrlExtended = SERVER_API_URL + 'api/extended/contra-vouchers';
 
     constructor(protected http: HttpClient) {
         super(http);
