@@ -155,6 +155,8 @@
     <include file="config/liquibase/changelog/20191028141524_journal_voucher_refactored.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191031100636_account_foreign_key_added_to_payment_voucher.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191031152123_account_foreign_key_added_to_receipt_voucher.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191102111218_contra_voucher_refactored.xml" relativeToChangelogFile="false"/>
+
 
 
     <include file="config/liquibase/changelog/20190906083824_added_entity_constraints_VoucherNumberControl.xml" relativeToChangelogFile="false"/>
