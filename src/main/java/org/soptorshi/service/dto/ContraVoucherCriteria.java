@@ -9,6 +9,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
@@ -31,9 +32,13 @@ public class ContraVoucherCriteria implements Serializable {
 
     private LocalDateFilter postDate;
 
+    private BigDecimalFilter conversionFactor;
+
     private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedOn;
+
+    private LongFilter currencyId;
 
     public LongFilter getId() {
         return id;
@@ -67,6 +72,14 @@ public class ContraVoucherCriteria implements Serializable {
         this.postDate = postDate;
     }
 
+    public BigDecimalFilter getConversionFactor() {
+        return conversionFactor;
+    }
+
+    public void setConversionFactor(BigDecimalFilter conversionFactor) {
+        this.conversionFactor = conversionFactor;
+    }
+
     public StringFilter getModifiedBy() {
         return modifiedBy;
     }
@@ -81,6 +94,14 @@ public class ContraVoucherCriteria implements Serializable {
 
     public void setModifiedOn(LocalDateFilter modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public LongFilter getCurrencyId() {
+        return currencyId;
+    }
+
+    public void setCurrencyId(LongFilter currencyId) {
+        this.currencyId = currencyId;
     }
 
 
@@ -98,8 +119,10 @@ public class ContraVoucherCriteria implements Serializable {
             Objects.equals(voucherNo, that.voucherNo) &&
             Objects.equals(voucherDate, that.voucherDate) &&
             Objects.equals(postDate, that.postDate) &&
+            Objects.equals(conversionFactor, that.conversionFactor) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
-            Objects.equals(modifiedOn, that.modifiedOn);
+            Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(currencyId, that.currencyId);
     }
 
     @Override
@@ -109,8 +132,10 @@ public class ContraVoucherCriteria implements Serializable {
         voucherNo,
         voucherDate,
         postDate,
+        conversionFactor,
         modifiedBy,
-        modifiedOn
+        modifiedOn,
+        currencyId
         );
     }
 
@@ -121,8 +146,10 @@ public class ContraVoucherCriteria implements Serializable {
                 (voucherNo != null ? "voucherNo=" + voucherNo + ", " : "") +
                 (voucherDate != null ? "voucherDate=" + voucherDate + ", " : "") +
                 (postDate != null ? "postDate=" + postDate + ", " : "") +
+                (conversionFactor != null ? "conversionFactor=" + conversionFactor + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
+                (currencyId != null ? "currencyId=" + currencyId + ", " : "") +
             "}";
     }
 

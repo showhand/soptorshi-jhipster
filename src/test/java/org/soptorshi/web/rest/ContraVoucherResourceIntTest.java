@@ -3,6 +3,7 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.ContraVoucher;
+import org.soptorshi.domain.Currency;
 import org.soptorshi.repository.ContraVoucherRepository;
 import org.soptorshi.repository.search.ContraVoucherSearchRepository;
 import org.soptorshi.service.ContraVoucherService;
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collections;
@@ -61,6 +63,9 @@ public class ContraVoucherResourceIntTest {
 
     private static final LocalDate DEFAULT_POST_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_POST_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final BigDecimal DEFAULT_CONVERSION_FACTOR = new BigDecimal(1);
+    private static final BigDecimal UPDATED_CONVERSION_FACTOR = new BigDecimal(2);
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
@@ -130,6 +135,7 @@ public class ContraVoucherResourceIntTest {
             .voucherNo(DEFAULT_VOUCHER_NO)
             .voucherDate(DEFAULT_VOUCHER_DATE)
             .postDate(DEFAULT_POST_DATE)
+            .conversionFactor(DEFAULT_CONVERSION_FACTOR)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
         return contraVoucher;
@@ -159,6 +165,7 @@ public class ContraVoucherResourceIntTest {
         assertThat(testContraVoucher.getVoucherNo()).isEqualTo(DEFAULT_VOUCHER_NO);
         assertThat(testContraVoucher.getVoucherDate()).isEqualTo(DEFAULT_VOUCHER_DATE);
         assertThat(testContraVoucher.getPostDate()).isEqualTo(DEFAULT_POST_DATE);
+        assertThat(testContraVoucher.getConversionFactor()).isEqualTo(DEFAULT_CONVERSION_FACTOR);
         assertThat(testContraVoucher.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testContraVoucher.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
@@ -203,6 +210,7 @@ public class ContraVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO.toString())))
             .andExpect(jsonPath("$.[*].voucherDate").value(hasItem(DEFAULT_VOUCHER_DATE.toString())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
@@ -221,6 +229,7 @@ public class ContraVoucherResourceIntTest {
             .andExpect(jsonPath("$.voucherNo").value(DEFAULT_VOUCHER_NO.toString()))
             .andExpect(jsonPath("$.voucherDate").value(DEFAULT_VOUCHER_DATE.toString()))
             .andExpect(jsonPath("$.postDate").value(DEFAULT_POST_DATE.toString()))
+            .andExpect(jsonPath("$.conversionFactor").value(DEFAULT_CONVERSION_FACTOR.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
@@ -398,6 +407,45 @@ public class ContraVoucherResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllContraVouchersByConversionFactorIsEqualToSomething() throws Exception {
+        // Initialize the database
+        contraVoucherRepository.saveAndFlush(contraVoucher);
+
+        // Get all the contraVoucherList where conversionFactor equals to DEFAULT_CONVERSION_FACTOR
+        defaultContraVoucherShouldBeFound("conversionFactor.equals=" + DEFAULT_CONVERSION_FACTOR);
+
+        // Get all the contraVoucherList where conversionFactor equals to UPDATED_CONVERSION_FACTOR
+        defaultContraVoucherShouldNotBeFound("conversionFactor.equals=" + UPDATED_CONVERSION_FACTOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllContraVouchersByConversionFactorIsInShouldWork() throws Exception {
+        // Initialize the database
+        contraVoucherRepository.saveAndFlush(contraVoucher);
+
+        // Get all the contraVoucherList where conversionFactor in DEFAULT_CONVERSION_FACTOR or UPDATED_CONVERSION_FACTOR
+        defaultContraVoucherShouldBeFound("conversionFactor.in=" + DEFAULT_CONVERSION_FACTOR + "," + UPDATED_CONVERSION_FACTOR);
+
+        // Get all the contraVoucherList where conversionFactor equals to UPDATED_CONVERSION_FACTOR
+        defaultContraVoucherShouldNotBeFound("conversionFactor.in=" + UPDATED_CONVERSION_FACTOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllContraVouchersByConversionFactorIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        contraVoucherRepository.saveAndFlush(contraVoucher);
+
+        // Get all the contraVoucherList where conversionFactor is not null
+        defaultContraVoucherShouldBeFound("conversionFactor.specified=true");
+
+        // Get all the contraVoucherList where conversionFactor is null
+        defaultContraVoucherShouldNotBeFound("conversionFactor.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllContraVouchersByModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         contraVoucherRepository.saveAndFlush(contraVoucher);
@@ -500,6 +548,25 @@ public class ContraVoucherResourceIntTest {
         defaultContraVoucherShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllContraVouchersByCurrencyIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Currency currency = CurrencyResourceIntTest.createEntity(em);
+        em.persist(currency);
+        em.flush();
+        contraVoucher.setCurrency(currency);
+        contraVoucherRepository.saveAndFlush(contraVoucher);
+        Long currencyId = currency.getId();
+
+        // Get all the contraVoucherList where currency equals to currencyId
+        defaultContraVoucherShouldBeFound("currencyId.equals=" + currencyId);
+
+        // Get all the contraVoucherList where currency equals to currencyId + 1
+        defaultContraVoucherShouldNotBeFound("currencyId.equals=" + (currencyId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -511,6 +578,7 @@ public class ContraVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].voucherDate").value(hasItem(DEFAULT_VOUCHER_DATE.toString())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
@@ -563,6 +631,7 @@ public class ContraVoucherResourceIntTest {
             .voucherNo(UPDATED_VOUCHER_NO)
             .voucherDate(UPDATED_VOUCHER_DATE)
             .postDate(UPDATED_POST_DATE)
+            .conversionFactor(UPDATED_CONVERSION_FACTOR)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
         ContraVoucherDTO contraVoucherDTO = contraVoucherMapper.toDto(updatedContraVoucher);
@@ -579,6 +648,7 @@ public class ContraVoucherResourceIntTest {
         assertThat(testContraVoucher.getVoucherNo()).isEqualTo(UPDATED_VOUCHER_NO);
         assertThat(testContraVoucher.getVoucherDate()).isEqualTo(UPDATED_VOUCHER_DATE);
         assertThat(testContraVoucher.getPostDate()).isEqualTo(UPDATED_POST_DATE);
+        assertThat(testContraVoucher.getConversionFactor()).isEqualTo(UPDATED_CONVERSION_FACTOR);
         assertThat(testContraVoucher.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testContraVoucher.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
@@ -644,6 +714,7 @@ public class ContraVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].voucherDate").value(hasItem(DEFAULT_VOUCHER_DATE.toString())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }

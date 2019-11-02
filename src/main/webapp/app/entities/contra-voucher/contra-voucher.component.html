@@ -33,8 +33,10 @@
             <th jhiSortBy="voucherNo"><span>Voucher No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="voucherDate"><span>Voucher Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="postDate"><span>Post Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="conversionFactor"><span>Conversion Factor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="currencyNotation"><span>Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -44,8 +46,14 @@
                 <td>{{contraVoucher.voucherNo}}</td>
                 <td>{{contraVoucher.voucherDate | date:'mediumDate'}}</td>
                 <td>{{contraVoucher.postDate | date:'mediumDate'}}</td>
+                <td>{{contraVoucher.conversionFactor}}</td>
                 <td>{{contraVoucher.modifiedBy}}</td>
                 <td>{{contraVoucher.modifiedOn | date:'mediumDate'}}</td>
+                <td>
+                    <div *ngIf="contraVoucher.currencyId">
+                        <a [routerLink]="['../currency', contraVoucher.currencyId , 'view' ]" >{{contraVoucher.currencyNotation}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

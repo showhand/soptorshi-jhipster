@@ -34,11 +34,19 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="conversion_factor" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="modified_by" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
             <column name="modified_on" type="date">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="currency_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

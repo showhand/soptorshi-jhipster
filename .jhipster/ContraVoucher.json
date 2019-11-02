@@ -14,6 +14,10 @@
             "fieldType": "LocalDate"
         },
         {
+            "fieldName": "conversionFactor",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "modifiedBy",
             "fieldType": "String"
         },
@@ -22,7 +26,15 @@
             "fieldType": "LocalDate"
         }
     ],
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "currency",
+            "otherEntityRelationshipName": "contraVoucher",
+            "relationshipName": "currency",
+            "otherEntityField": "notation"
+        }
+    ],
     "changelogDate": "20191026143215",
     "entityTableName": "contra_voucher",
     "dto": "mapstruct",

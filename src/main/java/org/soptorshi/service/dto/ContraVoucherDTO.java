@@ -1,6 +1,7 @@
 package org.soptorshi.service.dto;
 import java.time.LocalDate;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -16,10 +17,16 @@ public class ContraVoucherDTO implements Serializable {
 
     private LocalDate postDate;
 
+    private BigDecimal conversionFactor;
+
     private String modifiedBy;
 
     private LocalDate modifiedOn;
 
+
+    private Long currencyId;
+
+    private String currencyNotation;
 
     public Long getId() {
         return id;
@@ -53,6 +60,14 @@ public class ContraVoucherDTO implements Serializable {
         this.postDate = postDate;
     }
 
+    public BigDecimal getConversionFactor() {
+        return conversionFactor;
+    }
+
+    public void setConversionFactor(BigDecimal conversionFactor) {
+        this.conversionFactor = conversionFactor;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -67,6 +82,22 @@ public class ContraVoucherDTO implements Serializable {
 
     public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public Long getCurrencyId() {
+        return currencyId;
+    }
+
+    public void setCurrencyId(Long currencyId) {
+        this.currencyId = currencyId;
+    }
+
+    public String getCurrencyNotation() {
+        return currencyNotation;
+    }
+
+    public void setCurrencyNotation(String currencyNotation) {
+        this.currencyNotation = currencyNotation;
     }
 
     @Override
@@ -97,8 +128,11 @@ public class ContraVoucherDTO implements Serializable {
             ", voucherNo='" + getVoucherNo() + "'" +
             ", voucherDate='" + getVoucherDate() + "'" +
             ", postDate='" + getPostDate() + "'" +
+            ", conversionFactor=" + getConversionFactor() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
+            ", currency=" + getCurrencyId() +
+            ", currency='" + getCurrencyNotation() + "'" +
             "}";
     }
 }

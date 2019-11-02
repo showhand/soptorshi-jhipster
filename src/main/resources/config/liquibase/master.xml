@@ -181,5 +181,6 @@
     <include file="config/liquibase/changelog/20191026143212_added_entity_constraints_JournalVoucher.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191026143213_added_entity_constraints_PaymentVoucher.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191026143214_added_entity_constraints_ReceiptVoucher.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191026143215_added_entity_constraints_ContraVoucher.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

@@ -102,11 +102,18 @@ public class ContraVoucherQueryService extends QueryService<ContraVoucher> {
             if (criteria.getPostDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPostDate(), ContraVoucher_.postDate));
             }
+            if (criteria.getConversionFactor() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getConversionFactor(), ContraVoucher_.conversionFactor));
+            }
             if (criteria.getModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), ContraVoucher_.modifiedBy));
             }
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), ContraVoucher_.modifiedOn));
+            }
+            if (criteria.getCurrencyId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCurrencyId(),
+                    root -> root.join(ContraVoucher_.currency, JoinType.LEFT).get(Currency_.id)));
             }
         }
         return specification;
