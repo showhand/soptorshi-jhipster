@@ -549,10 +549,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './contra-voucher/contra-voucher.module#SoptorshiContraVoucherModule'
             },
             {
-                path: 'dt-transaction',
-                loadChildren: './dt-transaction/dt-transaction.module#SoptorshiDtTransactionModule'
-            },
-            {
                 path: 'system-group-map',
                 loadChildren: './system-group-map/system-group-map.module#SoptorshiSystemGroupMapModule'
             }
