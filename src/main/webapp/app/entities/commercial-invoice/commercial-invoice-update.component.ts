@@ -27,6 +27,7 @@ export class CommercialInvoiceUpdateComponent implements OnInit {
 
     commercialpackagings: ICommercialPackaging[];
     createOnDp: any;
+    updatedOnDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,

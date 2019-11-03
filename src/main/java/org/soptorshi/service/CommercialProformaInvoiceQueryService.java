@@ -131,7 +131,7 @@ public class CommercialProformaInvoiceQueryService extends QueryService<Commerci
                 specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), CommercialProformaInvoice_.updatedBy));
             }
             if (criteria.getUpdatedOn() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getUpdatedOn(), CommercialProformaInvoice_.updatedOn));
+                specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), CommercialProformaInvoice_.updatedOn));
             }
             if (criteria.getCommercialPurchaseOrderId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCommercialPurchaseOrderId(),

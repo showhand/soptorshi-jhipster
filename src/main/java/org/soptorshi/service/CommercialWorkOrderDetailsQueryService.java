@@ -122,7 +122,7 @@ public class CommercialWorkOrderDetailsQueryService extends QueryService<Commerc
                 specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), CommercialWorkOrderDetails_.updatedBy));
             }
             if (criteria.getUpdatedOn() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getUpdatedOn(), CommercialWorkOrderDetails_.updatedOn));
+                specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), CommercialWorkOrderDetails_.updatedOn));
             }
             if (criteria.getCommercialWorkOrderId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCommercialWorkOrderId(),

@@ -64,7 +64,7 @@
                 <td>{{commercialProformaInvoice.createdBy}}</td>
                 <td>{{commercialProformaInvoice.createOn | date:'mediumDate'}}</td>
                 <td>{{commercialProformaInvoice.updatedBy}}</td>
-                <td>{{commercialProformaInvoice.updatedOn}}</td>
+                <td>{{commercialProformaInvoice.updatedOn | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="commercialProformaInvoice.commercialPurchaseOrderId">
                         <a [routerLink]="['../commercial-purchase-order', commercialProformaInvoice.commercialPurchaseOrderId , 'view' ]" >{{commercialProformaInvoice.commercialPurchaseOrderPurchaseOrderNo}}</a>

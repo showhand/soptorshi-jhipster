@@ -32,7 +32,7 @@ public class CommercialPaymentInfoDTO implements Serializable {
 
     private String updatedBy;
 
-    private String updatedOn;
+    private LocalDate updatedOn;
 
 
     private Long commercialPurchaseOrderId;
@@ -103,11 +103,11 @@ public class CommercialPaymentInfoDTO implements Serializable {
         this.updatedBy = updatedBy;
     }
 
-    public String getUpdatedOn() {
+    public LocalDate getUpdatedOn() {
         return updatedOn;
     }
 
-    public void setUpdatedOn(String updatedOn) {
+    public void setUpdatedOn(LocalDate updatedOn) {
         this.updatedOn = updatedOn;
     }
 

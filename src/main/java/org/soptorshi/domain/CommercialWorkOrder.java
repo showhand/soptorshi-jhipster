@@ -49,7 +49,7 @@ public class CommercialWorkOrder implements Serializable {
     private String updatedBy;
 
     @Column(name = "updated_on")
-    private String updatedOn;
+    private LocalDate updatedOn;
 
     @ManyToOne
     @JsonIgnoreProperties("commercialWorkOrders")
@@ -155,16 +155,16 @@ public class CommercialWorkOrder implements Serializable {
         this.updatedBy = updatedBy;
     }
 
-    public String getUpdatedOn() {
+    public LocalDate getUpdatedOn() {
         return updatedOn;
     }
 
-    public CommercialWorkOrder updatedOn(String updatedOn) {
+    public CommercialWorkOrder updatedOn(LocalDate updatedOn) {
         this.updatedOn = updatedOn;
         return this;
     }
 
-    public void setUpdatedOn(String updatedOn) {
+    public void setUpdatedOn(LocalDate updatedOn) {
         this.updatedOn = updatedOn;
     }
 

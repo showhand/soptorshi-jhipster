@@ -52,7 +52,7 @@
                 <td>{{commercialWorkOrder.createdBy}}</td>
                 <td>{{commercialWorkOrder.createOn | date:'mediumDate'}}</td>
                 <td>{{commercialWorkOrder.updatedBy}}</td>
-                <td>{{commercialWorkOrder.updatedOn}}</td>
+                <td>{{commercialWorkOrder.updatedOn | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="commercialWorkOrder.commercialPurchaseOrderId">
                         <a [routerLink]="['../commercial-purchase-order', commercialWorkOrder.commercialPurchaseOrderId , 'view' ]" >{{commercialWorkOrder.commercialPurchaseOrderPurchaseOrderNo}}</a>

@@ -7,7 +7,7 @@ entity CommercialPurchaseOrder {
     CreatedBy String
     CreateOn LocalDate
     UpdatedBy String
-    UpdatedOn String
+    UpdatedOn LocalDate
 }
 
 entity CommercialPurchaseOrderItem {
@@ -23,7 +23,7 @@ entity CommercialPurchaseOrderItem {
     CreatedBy String
     CreateOn LocalDate
     UpdatedBy String
-    UpdatedOn String
+    UpdatedOn LocalDate
 }
 
 entity CommercialProformaInvoice {
@@ -40,7 +40,7 @@ entity CommercialProformaInvoice {
 	CreatedBy String
     CreateOn LocalDate
     UpdatedBy String
-    UpdatedOn String
+    UpdatedOn LocalDate
 }
 
 entity CommercialPaymentInfo {
@@ -51,7 +51,7 @@ entity CommercialPaymentInfo {
     CreatedBy String
     CreateOn LocalDate
     UpdatedBy String
-    UpdatedOn String
+    UpdatedOn LocalDate
 }
 
 entity CommercialPackaging {
@@ -61,7 +61,7 @@ entity CommercialPackaging {
     CreatedBy String
     CreateOn LocalDate
     UpdatedBy String
-    UpdatedOn String
+    UpdatedOn LocalDate
 }
 
 entity CommercialPackagingDetails {
@@ -76,7 +76,7 @@ entity CommercialPackagingDetails {
     CreatedBy String
     CreateOn LocalDate
     UpdatedBy String
-    UpdatedOn String
+    UpdatedOn LocalDate
 }
 
 entity CommercialWorkOrder {
@@ -87,7 +87,7 @@ entity CommercialWorkOrder {
     CreatedBy String
     CreateOn LocalDate
     UpdatedBy String
-    UpdatedOn String
+    UpdatedOn LocalDate
 }
 
 entity CommercialWorkOrderDetails {
@@ -101,7 +101,7 @@ entity CommercialWorkOrderDetails {
     CreatedBy String
     CreateOn LocalDate
     UpdatedBy String
-    UpdatedOn String
+    UpdatedOn LocalDate
 }
 
 entity CommercialPoStatus {
@@ -109,7 +109,7 @@ entity CommercialPoStatus {
 	CreatedBy String
     CreateOn LocalDate
     UpdatedBy String
-    UpdatedOn String
+    UpdatedOn LocalDate
 }
 
 entity CommercialInvoice {
@@ -123,7 +123,7 @@ entity CommercialInvoice {
     CreatedBy String
     CreateOn LocalDate
     UpdatedBy String
-    UpdatedOn String
+    UpdatedOn LocalDate
 }
 
 entity CommercialAttachment {

@@ -110,7 +110,7 @@ public class CommercialPackagingQueryService extends QueryService<CommercialPack
                 specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), CommercialPackaging_.updatedBy));
             }
             if (criteria.getUpdatedOn() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getUpdatedOn(), CommercialPackaging_.updatedOn));
+                specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), CommercialPackaging_.updatedOn));
             }
             if (criteria.getCommercialPurchaseOrderId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCommercialPurchaseOrderId(),

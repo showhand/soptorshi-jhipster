@@ -70,6 +70,10 @@ export class CommercialWorkOrderService {
             createOn:
                 commercialWorkOrder.createOn != null && commercialWorkOrder.createOn.isValid()
                     ? commercialWorkOrder.createOn.format(DATE_FORMAT)
+                    : null,
+            updatedOn:
+                commercialWorkOrder.updatedOn != null && commercialWorkOrder.updatedOn.isValid()
+                    ? commercialWorkOrder.updatedOn.format(DATE_FORMAT)
                     : null
         });
         return copy;
@@ -80,6 +84,7 @@ export class CommercialWorkOrderService {
             res.body.workOrderDate = res.body.workOrderDate != null ? moment(res.body.workOrderDate) : null;
             res.body.deliveryDate = res.body.deliveryDate != null ? moment(res.body.deliveryDate) : null;
             res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
     }
@@ -92,6 +97,7 @@ export class CommercialWorkOrderService {
                 commercialWorkOrder.deliveryDate =
                     commercialWorkOrder.deliveryDate != null ? moment(commercialWorkOrder.deliveryDate) : null;
                 commercialWorkOrder.createOn = commercialWorkOrder.createOn != null ? moment(commercialWorkOrder.createOn) : null;
+                commercialWorkOrder.updatedOn = commercialWorkOrder.updatedOn != null ? moment(commercialWorkOrder.updatedOn) : null;
             });
         }
         return res;

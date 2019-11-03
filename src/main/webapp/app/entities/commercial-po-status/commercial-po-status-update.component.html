@@ -65,8 +65,13 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_updatedOn">Updated On</label>
-                    <input type="text" class="form-control" name="updatedOn" id="field_updatedOn"
-                        [(ngModel)]="commercialPoStatus.updatedOn" />
+                    <div class="input-group">
+                        <input id="field_updatedOn" type="text" class="form-control" name="updatedOn" ngbDatepicker  #updatedOnDp="ngbDatepicker" [(ngModel)]="commercialPoStatus.updatedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="updatedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
                 </div>
 
                 <div class="form-group">

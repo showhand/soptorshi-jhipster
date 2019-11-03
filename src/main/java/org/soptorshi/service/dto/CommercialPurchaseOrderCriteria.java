@@ -38,7 +38,7 @@ public class CommercialPurchaseOrderCriteria implements Serializable {
 
     private StringFilter updatedBy;
 
-    private StringFilter updatedOn;
+    private LocalDateFilter updatedOn;
 
     public LongFilter getId() {
         return id;
@@ -112,11 +112,11 @@ public class CommercialPurchaseOrderCriteria implements Serializable {
         this.updatedBy = updatedBy;
     }
 
-    public StringFilter getUpdatedOn() {
+    public LocalDateFilter getUpdatedOn() {
         return updatedOn;
     }
 
-    public void setUpdatedOn(StringFilter updatedOn) {
+    public void setUpdatedOn(LocalDateFilter updatedOn) {
         this.updatedOn = updatedOn;
     }
 

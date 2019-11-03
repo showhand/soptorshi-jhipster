@@ -44,7 +44,7 @@ public class CommercialPackaging implements Serializable {
     private String updatedBy;
 
     @Column(name = "updated_on")
-    private String updatedOn;
+    private LocalDate updatedOn;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -137,16 +137,16 @@ public class CommercialPackaging implements Serializable {
         this.updatedBy = updatedBy;
     }
 
-    public String getUpdatedOn() {
+    public LocalDate getUpdatedOn() {
         return updatedOn;
     }
 
-    public CommercialPackaging updatedOn(String updatedOn) {
+    public CommercialPackaging updatedOn(LocalDate updatedOn) {
         this.updatedOn = updatedOn;
         return this;
     }
 
-    public void setUpdatedOn(String updatedOn) {
+    public void setUpdatedOn(LocalDate updatedOn) {
         this.updatedOn = updatedOn;
     }
 

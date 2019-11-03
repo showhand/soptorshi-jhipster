@@ -19,6 +19,7 @@ export class CommercialPurchaseOrderItemUpdateComponent implements OnInit {
 
     commercialpurchaseorders: ICommercialPurchaseOrder[];
     createOnDp: any;
+    updatedOnDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,

@@ -62,6 +62,10 @@ export class CommercialPurchaseOrderItemService {
             createOn:
                 commercialPurchaseOrderItem.createOn != null && commercialPurchaseOrderItem.createOn.isValid()
                     ? commercialPurchaseOrderItem.createOn.format(DATE_FORMAT)
+                    : null,
+            updatedOn:
+                commercialPurchaseOrderItem.updatedOn != null && commercialPurchaseOrderItem.updatedOn.isValid()
+                    ? commercialPurchaseOrderItem.updatedOn.format(DATE_FORMAT)
                     : null
         });
         return copy;
@@ -70,6 +74,7 @@ export class CommercialPurchaseOrderItemService {
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
             res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
     }
@@ -79,6 +84,8 @@ export class CommercialPurchaseOrderItemService {
             res.body.forEach((commercialPurchaseOrderItem: ICommercialPurchaseOrderItem) => {
                 commercialPurchaseOrderItem.createOn =
                     commercialPurchaseOrderItem.createOn != null ? moment(commercialPurchaseOrderItem.createOn) : null;
+                commercialPurchaseOrderItem.updatedOn =
+                    commercialPurchaseOrderItem.updatedOn != null ? moment(commercialPurchaseOrderItem.updatedOn) : null;
             });
         }
         return res;

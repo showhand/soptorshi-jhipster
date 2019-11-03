@@ -29,7 +29,7 @@ describe('Service Tests', () => {
                 'AAAAAAA',
                 currentDate,
                 'AAAAAAA',
-                'AAAAAAA'
+                currentDate
             );
         });
 
@@ -37,7 +37,8 @@ describe('Service Tests', () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        createOn: currentDate.format(DATE_FORMAT)
+                        createOn: currentDate.format(DATE_FORMAT),
+                        updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -54,13 +55,15 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
-                        createOn: currentDate.format(DATE_FORMAT)
+                        createOn: currentDate.format(DATE_FORMAT),
+                        updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
-                        createOn: currentDate
+                        createOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
@@ -79,14 +82,15 @@ describe('Service Tests', () => {
                         createdBy: 'BBBBBB',
                         createOn: currentDate.format(DATE_FORMAT),
                         updatedBy: 'BBBBBB',
-                        updatedOn: 'BBBBBB'
+                        updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
 
                 const expected = Object.assign(
                     {
-                        createOn: currentDate
+                        createOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
@@ -105,13 +109,14 @@ describe('Service Tests', () => {
                         createdBy: 'BBBBBB',
                         createOn: currentDate.format(DATE_FORMAT),
                         updatedBy: 'BBBBBB',
-                        updatedOn: 'BBBBBB'
+                        updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
-                        createOn: currentDate
+                        createOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );

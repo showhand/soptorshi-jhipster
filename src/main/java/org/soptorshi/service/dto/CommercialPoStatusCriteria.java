@@ -36,7 +36,7 @@ public class CommercialPoStatusCriteria implements Serializable {
 
     private StringFilter updatedBy;
 
-    private StringFilter updatedOn;
+    private LocalDateFilter updatedOn;
 
     private LongFilter commercialPurchaseOrderId;
 
@@ -80,11 +80,11 @@ public class CommercialPoStatusCriteria implements Serializable {
         this.updatedBy = updatedBy;
     }
 
-    public StringFilter getUpdatedOn() {
+    public LocalDateFilter getUpdatedOn() {
         return updatedOn;
     }
 
-    public void setUpdatedOn(StringFilter updatedOn) {
+    public void setUpdatedOn(LocalDateFilter updatedOn) {
         this.updatedOn = updatedOn;
     }
 

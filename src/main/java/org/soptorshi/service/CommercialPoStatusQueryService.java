@@ -104,7 +104,7 @@ public class CommercialPoStatusQueryService extends QueryService<CommercialPoSta
                 specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), CommercialPoStatus_.updatedBy));
             }
             if (criteria.getUpdatedOn() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getUpdatedOn(), CommercialPoStatus_.updatedOn));
+                specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), CommercialPoStatus_.updatedOn));
             }
             if (criteria.getCommercialPurchaseOrderId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCommercialPurchaseOrderId(),

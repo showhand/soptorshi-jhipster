@@ -15,6 +15,7 @@ export class CommercialPurchaseOrderUpdateComponent implements OnInit {
     purchaseOrderDateDp: any;
     shipmentDateDp: any;
     createOnDp: any;
+    updatedOnDp: any;
 
     constructor(protected commercialPurchaseOrderService: CommercialPurchaseOrderService, protected activatedRoute: ActivatedRoute) {}
 

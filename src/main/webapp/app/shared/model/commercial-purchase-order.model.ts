@@ -10,7 +10,7 @@ export interface ICommercialPurchaseOrder {
     createdBy?: string;
     createOn?: Moment;
     updatedBy?: string;
-    updatedOn?: string;
+    updatedOn?: Moment;
 }
 
 export class CommercialPurchaseOrder implements ICommercialPurchaseOrder {
@@ -24,6 +24,6 @@ export class CommercialPurchaseOrder implements ICommercialPurchaseOrder {
         public createdBy?: string,
         public createOn?: Moment,
         public updatedBy?: string,
-        public updatedOn?: string
+        public updatedOn?: Moment
     ) {}
 }

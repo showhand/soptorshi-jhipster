@@ -73,7 +73,7 @@
         },
         {
             "fieldName": "updatedOn",
-            "fieldType": "String"
+            "fieldType": "LocalDate"
         }
     ],
     "relationships": [

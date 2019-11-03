@@ -13,7 +13,7 @@ export interface ICommercialPackagingDetails {
     createdBy?: string;
     createOn?: Moment;
     updatedBy?: string;
-    updatedOn?: string;
+    updatedOn?: Moment;
     commercialPackagingConsignmentNo?: string;
     commercialPackagingId?: number;
 }
@@ -32,7 +32,7 @@ export class CommercialPackagingDetails implements ICommercialPackagingDetails {
         public createdBy?: string,
         public createOn?: Moment,
         public updatedBy?: string,
-        public updatedOn?: string,
+        public updatedOn?: Moment,
         public commercialPackagingConsignmentNo?: string,
         public commercialPackagingId?: number
     ) {}

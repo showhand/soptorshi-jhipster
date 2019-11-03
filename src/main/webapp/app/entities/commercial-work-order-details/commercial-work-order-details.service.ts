@@ -62,6 +62,10 @@ export class CommercialWorkOrderDetailsService {
             createOn:
                 commercialWorkOrderDetails.createOn != null && commercialWorkOrderDetails.createOn.isValid()
                     ? commercialWorkOrderDetails.createOn.format(DATE_FORMAT)
+                    : null,
+            updatedOn:
+                commercialWorkOrderDetails.updatedOn != null && commercialWorkOrderDetails.updatedOn.isValid()
+                    ? commercialWorkOrderDetails.updatedOn.format(DATE_FORMAT)
                     : null
         });
         return copy;
@@ -70,6 +74,7 @@ export class CommercialWorkOrderDetailsService {
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
             res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
     }
@@ -79,6 +84,8 @@ export class CommercialWorkOrderDetailsService {
             res.body.forEach((commercialWorkOrderDetails: ICommercialWorkOrderDetails) => {
                 commercialWorkOrderDetails.createOn =
                     commercialWorkOrderDetails.createOn != null ? moment(commercialWorkOrderDetails.createOn) : null;
+                commercialWorkOrderDetails.updatedOn =
+                    commercialWorkOrderDetails.updatedOn != null ? moment(commercialWorkOrderDetails.updatedOn) : null;
             });
         }
         return res;

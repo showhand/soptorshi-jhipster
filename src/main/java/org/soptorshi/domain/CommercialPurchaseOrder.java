@@ -51,7 +51,7 @@ public class CommercialPurchaseOrder implements Serializable {
     private String updatedBy;
 
     @Column(name = "updated_on")
-    private String updatedOn;
+    private LocalDate updatedOn;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -166,16 +166,16 @@ public class CommercialPurchaseOrder implements Serializable {
         this.updatedBy = updatedBy;
     }
 
-    public String getUpdatedOn() {
+    public LocalDate getUpdatedOn() {
         return updatedOn;
     }
 
-    public CommercialPurchaseOrder updatedOn(String updatedOn) {
+    public CommercialPurchaseOrder updatedOn(LocalDate updatedOn) {
         this.updatedOn = updatedOn;
         return this;
     }
 
-    public void setUpdatedOn(String updatedOn) {
+    public void setUpdatedOn(LocalDate updatedOn) {
         this.updatedOn = updatedOn;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove

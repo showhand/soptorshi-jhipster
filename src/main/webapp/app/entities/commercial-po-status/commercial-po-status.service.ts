@@ -62,6 +62,10 @@ export class CommercialPoStatusService {
             createOn:
                 commercialPoStatus.createOn != null && commercialPoStatus.createOn.isValid()
                     ? commercialPoStatus.createOn.format(DATE_FORMAT)
+                    : null,
+            updatedOn:
+                commercialPoStatus.updatedOn != null && commercialPoStatus.updatedOn.isValid()
+                    ? commercialPoStatus.updatedOn.format(DATE_FORMAT)
                     : null
         });
         return copy;
@@ -70,6 +74,7 @@ export class CommercialPoStatusService {
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
             res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
     }
@@ -78,6 +83,7 @@ export class CommercialPoStatusService {
         if (res.body) {
             res.body.forEach((commercialPoStatus: ICommercialPoStatus) => {
                 commercialPoStatus.createOn = commercialPoStatus.createOn != null ? moment(commercialPoStatus.createOn) : null;
+                commercialPoStatus.updatedOn = commercialPoStatus.updatedOn != null ? moment(commercialPoStatus.updatedOn) : null;
             });
         }
         return res;

@@ -12,7 +12,7 @@ export interface ICommercialInvoice {
     createdBy?: string;
     createOn?: Moment;
     updatedBy?: string;
-    updatedOn?: string;
+    updatedOn?: Moment;
     commercialPurchaseOrderPurchaseOrderNo?: string;
     commercialPurchaseOrderId?: number;
     commercialProformaInvoiceProformaNo?: string;
@@ -34,7 +34,7 @@ export class CommercialInvoice implements ICommercialInvoice {
         public createdBy?: string,
         public createOn?: Moment,
         public updatedBy?: string,
-        public updatedOn?: string,
+        public updatedOn?: Moment,
         public commercialPurchaseOrderPurchaseOrderNo?: string,
         public commercialPurchaseOrderId?: number,
         public commercialProformaInvoiceProformaNo?: string,

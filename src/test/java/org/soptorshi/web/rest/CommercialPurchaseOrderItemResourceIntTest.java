@@ -86,8 +86,8 @@ public class CommercialPurchaseOrderItemResourceIntTest {
     private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
 
-    private static final String DEFAULT_UPDATED_ON = "AAAAAAAAAA";
-    private static final String UPDATED_UPDATED_ON = "BBBBBBBBBB";
+    private static final LocalDate DEFAULT_UPDATED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_UPDATED_ON = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private CommercialPurchaseOrderItemRepository commercialPurchaseOrderItemRepository;
@@ -947,6 +947,33 @@ public class CommercialPurchaseOrderItemResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllCommercialPurchaseOrderItemsByUpdatedOnIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPurchaseOrderItemRepository.saveAndFlush(commercialPurchaseOrderItem);
+
+        // Get all the commercialPurchaseOrderItemList where updatedOn greater than or equals to DEFAULT_UPDATED_ON
+        defaultCommercialPurchaseOrderItemShouldBeFound("updatedOn.greaterOrEqualThan=" + DEFAULT_UPDATED_ON);
+
+        // Get all the commercialPurchaseOrderItemList where updatedOn greater than or equals to UPDATED_UPDATED_ON
+        defaultCommercialPurchaseOrderItemShouldNotBeFound("updatedOn.greaterOrEqualThan=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPurchaseOrderItemsByUpdatedOnIsLessThanSomething() throws Exception {
+        // Initialize the database
+        commercialPurchaseOrderItemRepository.saveAndFlush(commercialPurchaseOrderItem);
+
+        // Get all the commercialPurchaseOrderItemList where updatedOn less than or equals to DEFAULT_UPDATED_ON
+        defaultCommercialPurchaseOrderItemShouldNotBeFound("updatedOn.lessThan=" + DEFAULT_UPDATED_ON);
+
+        // Get all the commercialPurchaseOrderItemList where updatedOn less than or equals to UPDATED_UPDATED_ON
+        defaultCommercialPurchaseOrderItemShouldBeFound("updatedOn.lessThan=" + UPDATED_UPDATED_ON);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllCommercialPurchaseOrderItemsByCommercialPurchaseOrderIsEqualToSomething() throws Exception {
         // Initialize the database
         CommercialPurchaseOrder commercialPurchaseOrder = CommercialPurchaseOrderResourceIntTest.createEntity(em);
@@ -983,7 +1010,7 @@ public class CommercialPurchaseOrderItemResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON)));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
         // Check, that the count call also returns 1
         restCommercialPurchaseOrderItemMockMvc.perform(get("/api/commercial-purchase-order-items/count?sort=id,desc&" + filter))
@@ -1140,7 +1167,7 @@ public class CommercialPurchaseOrderItemResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON)));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
 
     @Test

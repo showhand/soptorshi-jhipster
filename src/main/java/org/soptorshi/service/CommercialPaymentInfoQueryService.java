@@ -113,7 +113,7 @@ public class CommercialPaymentInfoQueryService extends QueryService<CommercialPa
                 specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), CommercialPaymentInfo_.updatedBy));
             }
             if (criteria.getUpdatedOn() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getUpdatedOn(), CommercialPaymentInfo_.updatedOn));
+                specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), CommercialPaymentInfo_.updatedOn));
             }
             if (criteria.getCommercialPurchaseOrderId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCommercialPurchaseOrderId(),

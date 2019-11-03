@@ -83,8 +83,8 @@ public class CommercialPackagingDetailsResourceIntTest {
     private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
 
-    private static final String DEFAULT_UPDATED_ON = "AAAAAAAAAA";
-    private static final String UPDATED_UPDATED_ON = "BBBBBBBBBB";
+    private static final LocalDate DEFAULT_UPDATED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_UPDATED_ON = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private CommercialPackagingDetailsRepository commercialPackagingDetailsRepository;
@@ -822,6 +822,33 @@ public class CommercialPackagingDetailsResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllCommercialPackagingDetailsByUpdatedOnIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPackagingDetailsRepository.saveAndFlush(commercialPackagingDetails);
+
+        // Get all the commercialPackagingDetailsList where updatedOn greater than or equals to DEFAULT_UPDATED_ON
+        defaultCommercialPackagingDetailsShouldBeFound("updatedOn.greaterOrEqualThan=" + DEFAULT_UPDATED_ON);
+
+        // Get all the commercialPackagingDetailsList where updatedOn greater than or equals to UPDATED_UPDATED_ON
+        defaultCommercialPackagingDetailsShouldNotBeFound("updatedOn.greaterOrEqualThan=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPackagingDetailsByUpdatedOnIsLessThanSomething() throws Exception {
+        // Initialize the database
+        commercialPackagingDetailsRepository.saveAndFlush(commercialPackagingDetails);
+
+        // Get all the commercialPackagingDetailsList where updatedOn less than or equals to DEFAULT_UPDATED_ON
+        defaultCommercialPackagingDetailsShouldNotBeFound("updatedOn.lessThan=" + DEFAULT_UPDATED_ON);
+
+        // Get all the commercialPackagingDetailsList where updatedOn less than or equals to UPDATED_UPDATED_ON
+        defaultCommercialPackagingDetailsShouldBeFound("updatedOn.lessThan=" + UPDATED_UPDATED_ON);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllCommercialPackagingDetailsByCommercialPackagingIsEqualToSomething() throws Exception {
         // Initialize the database
         CommercialPackaging commercialPackaging = CommercialPackagingResourceIntTest.createEntity(em);
@@ -857,7 +884,7 @@ public class CommercialPackagingDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON)));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
         // Check, that the count call also returns 1
         restCommercialPackagingDetailsMockMvc.perform(get("/api/commercial-packaging-details/count?sort=id,desc&" + filter))
@@ -1011,7 +1038,7 @@ public class CommercialPackagingDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON)));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
 
     @Test

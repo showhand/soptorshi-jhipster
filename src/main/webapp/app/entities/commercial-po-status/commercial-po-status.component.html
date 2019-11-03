@@ -46,7 +46,7 @@
                 <td>{{commercialPoStatus.createdBy}}</td>
                 <td>{{commercialPoStatus.createOn | date:'mediumDate'}}</td>
                 <td>{{commercialPoStatus.updatedBy}}</td>
-                <td>{{commercialPoStatus.updatedOn}}</td>
+                <td>{{commercialPoStatus.updatedOn | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="commercialPoStatus.commercialPurchaseOrderId">
                         <a [routerLink]="['../commercial-purchase-order', commercialPoStatus.commercialPurchaseOrderId , 'view' ]" >{{commercialPoStatus.commercialPurchaseOrderPurchaseOrderNo}}</a>

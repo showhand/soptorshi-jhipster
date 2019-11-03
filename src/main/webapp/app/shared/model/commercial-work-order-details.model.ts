@@ -17,7 +17,7 @@ export interface ICommercialWorkOrderDetails {
     createdBy?: string;
     createOn?: Moment;
     updatedBy?: string;
-    updatedOn?: string;
+    updatedOn?: Moment;
     commercialWorkOrderRefNo?: string;
     commercialWorkOrderId?: number;
 }
@@ -35,7 +35,7 @@ export class CommercialWorkOrderDetails implements ICommercialWorkOrderDetails {
         public createdBy?: string,
         public createOn?: Moment,
         public updatedBy?: string,
-        public updatedOn?: string,
+        public updatedOn?: Moment,
         public commercialWorkOrderRefNo?: string,
         public commercialWorkOrderId?: number
     ) {}

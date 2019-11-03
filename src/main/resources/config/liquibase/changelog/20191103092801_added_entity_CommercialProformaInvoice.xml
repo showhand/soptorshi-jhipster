@@ -72,7 +72,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="updated_on" type="varchar(255)">
+            <column name="updated_on" type="date">
                 <constraints nullable="true" />
             </column>
             <column name="commercial_purchase_order_id" type="bigint">

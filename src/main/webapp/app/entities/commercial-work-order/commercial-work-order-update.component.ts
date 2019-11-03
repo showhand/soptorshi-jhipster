@@ -21,6 +21,7 @@ export class CommercialWorkOrderUpdateComponent implements OnInit {
     workOrderDateDp: any;
     deliveryDateDp: any;
     createOnDp: any;
+    updatedOnDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,

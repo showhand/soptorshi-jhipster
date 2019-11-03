@@ -20,6 +20,7 @@ export class CommercialProformaInvoiceUpdateComponent implements OnInit {
     commercialpurchaseorders: ICommercialPurchaseOrder[];
     proformaDateDp: any;
     createOnDp: any;
+    updatedOnDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,

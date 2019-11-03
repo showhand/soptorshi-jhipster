@@ -33,7 +33,7 @@ describe('Service Tests', () => {
                 'AAAAAAA',
                 currentDate,
                 'AAAAAAA',
-                'AAAAAAA'
+                currentDate
             );
         });
 
@@ -43,7 +43,8 @@ describe('Service Tests', () => {
                     {
                         purchaseOrderDate: currentDate.format(DATE_FORMAT),
                         shipmentDate: currentDate.format(DATE_FORMAT),
-                        createOn: currentDate.format(DATE_FORMAT)
+                        createOn: currentDate.format(DATE_FORMAT),
+                        updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -62,7 +63,8 @@ describe('Service Tests', () => {
                         id: 0,
                         purchaseOrderDate: currentDate.format(DATE_FORMAT),
                         shipmentDate: currentDate.format(DATE_FORMAT),
-                        createOn: currentDate.format(DATE_FORMAT)
+                        createOn: currentDate.format(DATE_FORMAT),
+                        updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -70,7 +72,8 @@ describe('Service Tests', () => {
                     {
                         purchaseOrderDate: currentDate,
                         shipmentDate: currentDate,
-                        createOn: currentDate
+                        createOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
@@ -93,7 +96,7 @@ describe('Service Tests', () => {
                         createdBy: 'BBBBBB',
                         createOn: currentDate.format(DATE_FORMAT),
                         updatedBy: 'BBBBBB',
-                        updatedOn: 'BBBBBB'
+                        updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -102,7 +105,8 @@ describe('Service Tests', () => {
                     {
                         purchaseOrderDate: currentDate,
                         shipmentDate: currentDate,
-                        createOn: currentDate
+                        createOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
@@ -125,7 +129,7 @@ describe('Service Tests', () => {
                         createdBy: 'BBBBBB',
                         createOn: currentDate.format(DATE_FORMAT),
                         updatedBy: 'BBBBBB',
-                        updatedOn: 'BBBBBB'
+                        updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -133,7 +137,8 @@ describe('Service Tests', () => {
                     {
                         purchaseOrderDate: currentDate,
                         shipmentDate: currentDate,
-                        createOn: currentDate
+                        createOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );

@@ -62,6 +62,10 @@ export class CommercialPaymentInfoService {
             createOn:
                 commercialPaymentInfo.createOn != null && commercialPaymentInfo.createOn.isValid()
                     ? commercialPaymentInfo.createOn.format(DATE_FORMAT)
+                    : null,
+            updatedOn:
+                commercialPaymentInfo.updatedOn != null && commercialPaymentInfo.updatedOn.isValid()
+                    ? commercialPaymentInfo.updatedOn.format(DATE_FORMAT)
                     : null
         });
         return copy;
@@ -70,6 +74,7 @@ export class CommercialPaymentInfoService {
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
             res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
     }
@@ -78,6 +83,7 @@ export class CommercialPaymentInfoService {
         if (res.body) {
             res.body.forEach((commercialPaymentInfo: ICommercialPaymentInfo) => {
                 commercialPaymentInfo.createOn = commercialPaymentInfo.createOn != null ? moment(commercialPaymentInfo.createOn) : null;
+                commercialPaymentInfo.updatedOn = commercialPaymentInfo.updatedOn != null ? moment(commercialPaymentInfo.updatedOn) : null;
             });
         }
         return res;

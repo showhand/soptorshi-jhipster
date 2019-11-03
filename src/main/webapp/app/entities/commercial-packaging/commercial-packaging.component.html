@@ -50,7 +50,7 @@
                 <td>{{commercialPackaging.createdBy}}</td>
                 <td>{{commercialPackaging.createOn | date:'mediumDate'}}</td>
                 <td>{{commercialPackaging.updatedBy}}</td>
-                <td>{{commercialPackaging.updatedOn}}</td>
+                <td>{{commercialPackaging.updatedOn | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="commercialPackaging.commercialPurchaseOrderId">
                         <a [routerLink]="['../commercial-purchase-order', commercialPackaging.commercialPurchaseOrderId , 'view' ]" >{{commercialPackaging.commercialPurchaseOrderPurchaseOrderNo}}</a>

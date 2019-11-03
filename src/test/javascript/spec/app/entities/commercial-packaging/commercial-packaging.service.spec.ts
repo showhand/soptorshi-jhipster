@@ -23,7 +23,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new CommercialPackaging(0, 'AAAAAAA', currentDate, 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', 'AAAAAAA');
+            elemDefault = new CommercialPackaging(0, 'AAAAAAA', currentDate, 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
@@ -31,7 +31,8 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         consignmentDate: currentDate.format(DATE_FORMAT),
-                        createOn: currentDate.format(DATE_FORMAT)
+                        createOn: currentDate.format(DATE_FORMAT),
+                        updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -49,14 +50,16 @@ describe('Service Tests', () => {
                     {
                         id: 0,
                         consignmentDate: currentDate.format(DATE_FORMAT),
-                        createOn: currentDate.format(DATE_FORMAT)
+                        createOn: currentDate.format(DATE_FORMAT),
+                        updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
                         consignmentDate: currentDate,
-                        createOn: currentDate
+                        createOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
@@ -77,7 +80,7 @@ describe('Service Tests', () => {
                         createdBy: 'BBBBBB',
                         createOn: currentDate.format(DATE_FORMAT),
                         updatedBy: 'BBBBBB',
-                        updatedOn: 'BBBBBB'
+                        updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -85,7 +88,8 @@ describe('Service Tests', () => {
                 const expected = Object.assign(
                     {
                         consignmentDate: currentDate,
-                        createOn: currentDate
+                        createOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
@@ -106,14 +110,15 @@ describe('Service Tests', () => {
                         createdBy: 'BBBBBB',
                         createOn: currentDate.format(DATE_FORMAT),
                         updatedBy: 'BBBBBB',
-                        updatedOn: 'BBBBBB'
+                        updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
                         consignmentDate: currentDate,
-                        createOn: currentDate
+                        createOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );

@@ -128,7 +128,7 @@ public class CommercialPurchaseOrderItemQueryService extends QueryService<Commer
                 specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), CommercialPurchaseOrderItem_.updatedBy));
             }
             if (criteria.getUpdatedOn() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getUpdatedOn(), CommercialPurchaseOrderItem_.updatedOn));
+                specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), CommercialPurchaseOrderItem_.updatedOn));
             }
             if (criteria.getCommercialPurchaseOrderId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCommercialPurchaseOrderId(),

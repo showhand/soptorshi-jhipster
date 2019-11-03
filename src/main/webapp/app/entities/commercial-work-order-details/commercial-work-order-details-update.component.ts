@@ -19,6 +19,7 @@ export class CommercialWorkOrderDetailsUpdateComponent implements OnInit {
 
     commercialworkorders: ICommercialWorkOrder[];
     createOnDp: any;
+    updatedOnDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,

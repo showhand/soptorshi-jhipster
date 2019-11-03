@@ -70,6 +70,10 @@ export class CommercialPurchaseOrderService {
             createOn:
                 commercialPurchaseOrder.createOn != null && commercialPurchaseOrder.createOn.isValid()
                     ? commercialPurchaseOrder.createOn.format(DATE_FORMAT)
+                    : null,
+            updatedOn:
+                commercialPurchaseOrder.updatedOn != null && commercialPurchaseOrder.updatedOn.isValid()
+                    ? commercialPurchaseOrder.updatedOn.format(DATE_FORMAT)
                     : null
         });
         return copy;
@@ -80,6 +84,7 @@ export class CommercialPurchaseOrderService {
             res.body.purchaseOrderDate = res.body.purchaseOrderDate != null ? moment(res.body.purchaseOrderDate) : null;
             res.body.shipmentDate = res.body.shipmentDate != null ? moment(res.body.shipmentDate) : null;
             res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
     }
@@ -93,6 +98,8 @@ export class CommercialPurchaseOrderService {
                     commercialPurchaseOrder.shipmentDate != null ? moment(commercialPurchaseOrder.shipmentDate) : null;
                 commercialPurchaseOrder.createOn =
                     commercialPurchaseOrder.createOn != null ? moment(commercialPurchaseOrder.createOn) : null;
+                commercialPurchaseOrder.updatedOn =
+                    commercialPurchaseOrder.updatedOn != null ? moment(commercialPurchaseOrder.updatedOn) : null;
             });
         }
         return res;

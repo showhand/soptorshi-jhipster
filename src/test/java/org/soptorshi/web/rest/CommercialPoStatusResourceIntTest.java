@@ -62,8 +62,8 @@ public class CommercialPoStatusResourceIntTest {
     private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
 
-    private static final String DEFAULT_UPDATED_ON = "AAAAAAAAAA";
-    private static final String UPDATED_UPDATED_ON = "BBBBBBBBBB";
+    private static final LocalDate DEFAULT_UPDATED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_UPDATED_ON = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private CommercialPoStatusRepository commercialPoStatusRepository;
@@ -465,6 +465,33 @@ public class CommercialPoStatusResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllCommercialPoStatusesByUpdatedOnIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPoStatusRepository.saveAndFlush(commercialPoStatus);
+
+        // Get all the commercialPoStatusList where updatedOn greater than or equals to DEFAULT_UPDATED_ON
+        defaultCommercialPoStatusShouldBeFound("updatedOn.greaterOrEqualThan=" + DEFAULT_UPDATED_ON);
+
+        // Get all the commercialPoStatusList where updatedOn greater than or equals to UPDATED_UPDATED_ON
+        defaultCommercialPoStatusShouldNotBeFound("updatedOn.greaterOrEqualThan=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPoStatusesByUpdatedOnIsLessThanSomething() throws Exception {
+        // Initialize the database
+        commercialPoStatusRepository.saveAndFlush(commercialPoStatus);
+
+        // Get all the commercialPoStatusList where updatedOn less than or equals to DEFAULT_UPDATED_ON
+        defaultCommercialPoStatusShouldNotBeFound("updatedOn.lessThan=" + DEFAULT_UPDATED_ON);
+
+        // Get all the commercialPoStatusList where updatedOn less than or equals to UPDATED_UPDATED_ON
+        defaultCommercialPoStatusShouldBeFound("updatedOn.lessThan=" + UPDATED_UPDATED_ON);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllCommercialPoStatusesByCommercialPurchaseOrderIsEqualToSomething() throws Exception {
         // Initialize the database
         CommercialPurchaseOrder commercialPurchaseOrder = CommercialPurchaseOrderResourceIntTest.createEntity(em);
@@ -493,7 +520,7 @@ public class CommercialPoStatusResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON)));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
         // Check, that the count call also returns 1
         restCommercialPoStatusMockMvc.perform(get("/api/commercial-po-statuses/count?sort=id,desc&" + filter))
@@ -626,7 +653,7 @@ public class CommercialPoStatusResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON)));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
 
     @Test

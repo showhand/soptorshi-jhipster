@@ -66,6 +66,10 @@ export class CommercialPackagingService {
             createOn:
                 commercialPackaging.createOn != null && commercialPackaging.createOn.isValid()
                     ? commercialPackaging.createOn.format(DATE_FORMAT)
+                    : null,
+            updatedOn:
+                commercialPackaging.updatedOn != null && commercialPackaging.updatedOn.isValid()
+                    ? commercialPackaging.updatedOn.format(DATE_FORMAT)
                     : null
         });
         return copy;
@@ -75,6 +79,7 @@ export class CommercialPackagingService {
         if (res.body) {
             res.body.consignmentDate = res.body.consignmentDate != null ? moment(res.body.consignmentDate) : null;
             res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
     }
@@ -85,6 +90,7 @@ export class CommercialPackagingService {
                 commercialPackaging.consignmentDate =
                     commercialPackaging.consignmentDate != null ? moment(commercialPackaging.consignmentDate) : null;
                 commercialPackaging.createOn = commercialPackaging.createOn != null ? moment(commercialPackaging.createOn) : null;
+                commercialPackaging.updatedOn = commercialPackaging.updatedOn != null ? moment(commercialPackaging.updatedOn) : null;
             });
         }
         return res;

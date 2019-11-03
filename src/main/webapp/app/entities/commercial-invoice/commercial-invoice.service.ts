@@ -62,6 +62,10 @@ export class CommercialInvoiceService {
             createOn:
                 commercialInvoice.createOn != null && commercialInvoice.createOn.isValid()
                     ? commercialInvoice.createOn.format(DATE_FORMAT)
+                    : null,
+            updatedOn:
+                commercialInvoice.updatedOn != null && commercialInvoice.updatedOn.isValid()
+                    ? commercialInvoice.updatedOn.format(DATE_FORMAT)
                     : null
         });
         return copy;
@@ -70,6 +74,7 @@ export class CommercialInvoiceService {
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
             res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
     }
@@ -78,6 +83,7 @@ export class CommercialInvoiceService {
         if (res.body) {
             res.body.forEach((commercialInvoice: ICommercialInvoice) => {
                 commercialInvoice.createOn = commercialInvoice.createOn != null ? moment(commercialInvoice.createOn) : null;
+                commercialInvoice.updatedOn = commercialInvoice.updatedOn != null ? moment(commercialInvoice.updatedOn) : null;
             });
         }
         return res;

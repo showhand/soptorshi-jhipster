@@ -21,6 +21,7 @@ export class CommercialPackagingDetailsUpdateComponent implements OnInit {
     proDateDp: any;
     expDateDp: any;
     createOnDp: any;
+    updatedOnDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,

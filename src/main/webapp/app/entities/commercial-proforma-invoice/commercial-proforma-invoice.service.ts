@@ -66,6 +66,10 @@ export class CommercialProformaInvoiceService {
             createOn:
                 commercialProformaInvoice.createOn != null && commercialProformaInvoice.createOn.isValid()
                     ? commercialProformaInvoice.createOn.format(DATE_FORMAT)
+                    : null,
+            updatedOn:
+                commercialProformaInvoice.updatedOn != null && commercialProformaInvoice.updatedOn.isValid()
+                    ? commercialProformaInvoice.updatedOn.format(DATE_FORMAT)
                     : null
         });
         return copy;
@@ -75,6 +79,7 @@ export class CommercialProformaInvoiceService {
         if (res.body) {
             res.body.proformaDate = res.body.proformaDate != null ? moment(res.body.proformaDate) : null;
             res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
     }
@@ -86,6 +91,8 @@ export class CommercialProformaInvoiceService {
                     commercialProformaInvoice.proformaDate != null ? moment(commercialProformaInvoice.proformaDate) : null;
                 commercialProformaInvoice.createOn =
                     commercialProformaInvoice.createOn != null ? moment(commercialProformaInvoice.createOn) : null;
+                commercialProformaInvoice.updatedOn =
+                    commercialProformaInvoice.updatedOn != null ? moment(commercialProformaInvoice.updatedOn) : null;
             });
         }
         return res;
