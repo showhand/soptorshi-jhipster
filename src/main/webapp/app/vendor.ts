@@ -1,84 +1,95 @@
 /* after changing this file run 'npm run webpack:build' */
 /* tslint:disable */
 import '../content/css/vendor.css';
-
-// Imports all fontawesome core and solid icons
-
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
-    faUser,
-    faSort,
-    faSortUp,
-    faSortDown,
-    faSync,
-    faEye,
-    faBan,
-    faTimes,
-    faArrowLeft,
-    faSave,
-    faPlus,
-    faPencilAlt,
-    faBars,
-    faThList,
-    faUserPlus,
-    faRoad,
-    faTachometerAlt,
-    faHeart,
-    faList,
-    faBell,
-    faBook,
-    faHdd,
-    faFlag,
-    faWrench,
-    faClock,
-    faCloud,
-    faSignOutAlt,
-    faSignInAlt,
-    faCalendarAlt,
-    faSearch,
-    faTrashAlt,
-    faAsterisk,
-    faTasks,
-    faHome,
-    faCog,
-    faIdCard,
-    faChess,
-    faUserCog,
-    faUserEdit,
-    faEdit,
     faAddressBook,
-    faBuilding,
-    faPlane,
-    faDonate,
-    faDollarSign,
-    faMoneyCheck,
-    faHandHolding,
-    faMoneyBillWave,
-    faMoneyBillAlt,
-    faCreditCard,
-    faPiggyBank,
-    faTools,
+    faAlignJustify,
     faAngleDown,
     faAngleLeft,
-    faAlignJustify,
-    faStar,
+    faArrowLeft,
+    faAsterisk,
+    faBan,
+    faBars,
+    faBell,
+    faBook,
+    faBox,
+    faBoxes,
+    faBoxOpen,
+    faBriefcase,
+    faBuilding,
+    faCalculator,
+    faCalendarAlt,
     faCar,
     faCheck,
-    faHistory,
-    faSuperscript,
-    faCalculator,
-    faUserClock,
-    faFileExcel,
-    faTruck,
-    faBriefcase,
+    faChess,
+    faClock,
+    faCloud,
+    faCog,
+    faCreditCard,
     faCube,
     faCubes,
-    faSitemap,
     faDatabase,
-    faBoxes,
+    faDollarSign,
+    faDonate,
+    faEdit,
+    faEye,
+    faFileExcel,
     faFileMedicalAlt,
-    faMoneyCheckAlt
+    faFlag,
+    faHandHolding,
+    faHdd,
+    faHeart,
+    faHistory,
+    faHome,
+    faIdCard,
+    faInfo,
+    faInfoCircle,
+    faList,
+    faMoneyBill,
+    faMoneyBillAlt,
+    faMoneyBillWave,
+    faMoneyCheck,
+    faMoneyCheckAlt,
+    faPencilAlt,
+    faPiggyBank,
+    faPlane,
+    faPlus,
+    faRandom,
+    faRoad,
+    faSave,
+    faSearch,
+    faShoppingBasket,
+    faShoppingCart,
+    faSignInAlt,
+    faSignOutAlt,
+    faSitemap,
+    faSort,
+    faSortDown,
+    faSortUp,
+    faStar,
+    faSuperscript,
+    faSync,
+    faTachometerAlt,
+    faTasks,
+    faThList,
+    faTimes,
+    faTools,
+    faTrashAlt,
+    faTruck,
+    faUser,
+    faUserClock,
+    faUserCog,
+    faUserEdit,
+    faUserPlus,
+    faWrench
 } from '@fortawesome/free-solid-svg-icons';
+import 'quill/dist/quill.js';
+import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';
+import 'chart.js/src/chart.js';
+import '../../../../node_modules/jquery/dist/jquery.min.js';
+
+// Imports all fontawesome core and solid icons
 
 // Adds the SVG icon to the library so you can use it in your page
 library.add(faUser);
@@ -153,10 +164,13 @@ library.add(faDatabase);
 library.add(faBoxes);
 library.add(faFileMedicalAlt);
 library.add(faMoneyCheckAlt);
-
-import 'quill/dist/quill.js';
-import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';
-import 'chart.js/src/chart.js';
-import '../../../../node_modules/jquery/dist/jquery.min.js';
+library.add(faShoppingBasket);
+library.add(faShoppingCart);
+library.add(faMoneyBill);
+library.add(faBox);
+library.add(faInfoCircle);
+library.add(faInfo);
+library.add(faRandom);
+library.add(faBoxOpen);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
