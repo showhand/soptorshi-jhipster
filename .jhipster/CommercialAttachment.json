@@ -1,0 +1,38 @@
+{
+    "name": "CommercialAttachment",
+    "fields": [
+        {
+            "fieldName": "file",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "commercialPurchaseOrder",
+            "otherEntityRelationshipName": "commercialAttachment",
+            "relationshipName": "commercialPurchaseOrder",
+            "otherEntityField": "purchaseOrderNo"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "commercialPoStatus",
+            "otherEntityRelationshipName": "commercialAttachment",
+            "relationshipName": "commercialPoStatus",
+            "otherEntityField": "status"
+        }
+    ],
+    "changelogDate": "20191103092809",
+    "entityTableName": "commercial_attachment",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

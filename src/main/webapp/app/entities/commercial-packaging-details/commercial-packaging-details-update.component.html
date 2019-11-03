@@ -1,0 +1,106 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-commercial-packaging-details-heading">Create or edit a Commercial Packaging Details</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!commercialPackagingDetails.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="commercialPackagingDetails.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_proDate">Pro Date</label>
+                    <div class="input-group">
+                        <input id="field_proDate" type="text" class="form-control" name="proDate" ngbDatepicker  #proDateDp="ngbDatepicker" [(ngModel)]="commercialPackagingDetails.proDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="proDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_expDate">Exp Date</label>
+                    <div class="input-group">
+                        <input id="field_expDate" type="text" class="form-control" name="expDate" ngbDatepicker  #expDateDp="ngbDatepicker" [(ngModel)]="commercialPackagingDetails.expDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="expDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shift1">Shift 1</label>
+                    <input type="text" class="form-control" name="shift1" id="field_shift1"
+                        [(ngModel)]="commercialPackagingDetails.shift1" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shift1Total">Shift 1 Total</label>
+                    <input type="number" class="form-control" name="shift1Total" id="field_shift1Total"
+                        [(ngModel)]="commercialPackagingDetails.shift1Total" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shift2">Shift 2</label>
+                    <input type="text" class="form-control" name="shift2" id="field_shift2"
+                        [(ngModel)]="commercialPackagingDetails.shift2" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shift2Total">Shift 2 Total</label>
+                    <input type="number" class="form-control" name="shift2Total" id="field_shift2Total"
+                        [(ngModel)]="commercialPackagingDetails.shift2Total" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dayTotal">Day Total</label>
+                    <input type="number" class="form-control" name="dayTotal" id="field_dayTotal"
+                        [(ngModel)]="commercialPackagingDetails.dayTotal" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_total">Total</label>
+                    <input type="number" class="form-control" name="total" id="field_total"
+                        [(ngModel)]="commercialPackagingDetails.total" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdBy">Created By</label>
+                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                        [(ngModel)]="commercialPackagingDetails.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createOn">Create On</label>
+                    <div class="input-group">
+                        <input id="field_createOn" type="text" class="form-control" name="createOn" ngbDatepicker  #createOnDp="ngbDatepicker" [(ngModel)]="commercialPackagingDetails.createOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="createOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
+                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
+                        [(ngModel)]="commercialPackagingDetails.updatedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
+                    <input type="text" class="form-control" name="updatedOn" id="field_updatedOn"
+                        [(ngModel)]="commercialPackagingDetails.updatedOn" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialPackaging">Commercial Packaging</label>
+                    <select class="form-control" id="field_commercialPackaging" name="commercialPackaging" [(ngModel)]="commercialPackagingDetails.commercialPackagingId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialPackagingOption.id" *ngFor="let commercialPackagingOption of commercialpackagings; trackBy: trackCommercialPackagingById">{{commercialPackagingOption.consignmentNo}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -87,6 +87,17 @@
     <include file="config/liquibase/changelog/20191026143213_added_entity_PaymentVoucher.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191026143214_added_entity_ReceiptVoucher.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191026143215_added_entity_ContraVoucher.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092759_added_entity_CommercialPurchaseOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092800_added_entity_CommercialPurchaseOrderItem.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092801_added_entity_CommercialProformaInvoice.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092802_added_entity_CommercialPaymentInfo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092803_added_entity_CommercialPackaging.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092804_added_entity_CommercialPackagingDetails.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092805_added_entity_CommercialWorkOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092806_added_entity_CommercialWorkOrderDetails.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092807_added_entity_CommercialPoStatus.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092808_added_entity_CommercialInvoice.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092809_added_entity_CommercialAttachment.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
@@ -184,5 +195,15 @@
     <include file="config/liquibase/changelog/20191026143213_added_entity_constraints_PaymentVoucher.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191026143214_added_entity_constraints_ReceiptVoucher.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191026143215_added_entity_constraints_ContraVoucher.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092800_added_entity_constraints_CommercialPurchaseOrderItem.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092801_added_entity_constraints_CommercialProformaInvoice.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092802_added_entity_constraints_CommercialPaymentInfo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092803_added_entity_constraints_CommercialPackaging.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092804_added_entity_constraints_CommercialPackagingDetails.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092805_added_entity_constraints_CommercialWorkOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092806_added_entity_constraints_CommercialWorkOrderDetails.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092807_added_entity_constraints_CommercialPoStatus.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092808_added_entity_constraints_CommercialInvoice.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103092809_added_entity_constraints_CommercialAttachment.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

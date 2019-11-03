@@ -1,0 +1,67 @@
+{
+    "name": "CommercialPaymentInfo",
+    "fields": [
+        {
+            "fieldName": "paymentCategory",
+            "fieldType": "CommercialPaymentCategory",
+            "fieldValues": "UNDEFINED,TT_BASED,LC_BASED,CASH,CHEQUE,PAY_ORDER",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "totalAmount",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "currencyType",
+            "fieldType": "CommercialCurrency",
+            "fieldValues": "BDT,US_DOLLAR",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "paymentTerms",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createOn",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "updatedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedOn",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "commercialPurchaseOrder",
+            "otherEntityRelationshipName": "commercialPaymentInfo",
+            "relationshipName": "commercialPurchaseOrder",
+            "otherEntityField": "purchaseOrderNo",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20191103092802",
+    "entityTableName": "commercial_payment_info",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,4 +1,4 @@
-entity CommPurchaseOrder {
+entity CommercialPurchaseOrder {
 	PurchaseOrderNo String required
     PurchaseOrderDate LocalDate required
     OriginOfGoods String
@@ -10,7 +10,7 @@ entity CommPurchaseOrder {
     UpdatedOn String
 }
 
-entity CommPurchaseOrderItem {
+entity CommercialPurchaseOrderItem {
 	GoodsOrServices String required
     DescriptionOfGoodsOrServices String
     Packaging String
@@ -18,7 +18,7 @@ entity CommPurchaseOrderItem {
     QtyOrMc Double required
     QtyOrKgs Double required
     RateOrKg Double required
-    CurrencyType CommCurrency required
+    CurrencyType CommercialCurrency required
     Total Double required
     CreatedBy String
     CreateOn LocalDate
@@ -26,7 +26,7 @@ entity CommPurchaseOrderItem {
     UpdatedOn String
 }
 
-entity CommProformaInvoice {
+entity CommercialProformaInvoice {
     CompanyName String required
     CompanyDescriptionOrAddress String
 	ProformaNo String required
@@ -43,10 +43,10 @@ entity CommProformaInvoice {
     UpdatedOn String
 }
 
-entity CommPaymentInfo {
-	PaymentCategory CommPaymentCategory required
+entity CommercialPaymentInfo {
+	PaymentCategory CommercialPaymentCategory required
     TotalAmount Double required
-    CurrencyType CommCurrency required
+    CurrencyType CommercialCurrency required
     PaymentTerms String
     CreatedBy String
     CreateOn LocalDate
@@ -54,7 +54,7 @@ entity CommPaymentInfo {
     UpdatedOn String
 }
 
-entity CommPackaging {
+entity CommercialPackaging {
 	ConsignmentNo String required
     ConsignmentDate LocalDate required
     Brand String
@@ -64,7 +64,7 @@ entity CommPackaging {
     UpdatedOn String
 }
 
-entity CommPackagingDetails {
+entity CommercialPackagingDetails {
 	ProDate LocalDate
     ExpDate LocalDate
     Shift1 String
@@ -79,7 +79,7 @@ entity CommPackagingDetails {
     UpdatedOn String
 }
 
-entity CommWorkOrder {
+entity CommercialWorkOrder {
 	RefNo String required
     WorkOrderDate LocalDate required
     DeliveryDate LocalDate required
@@ -90,13 +90,13 @@ entity CommWorkOrder {
     UpdatedOn String
 }
 
-entity CommWorkOrderDetails {
+entity CommercialWorkOrderDetails {
 	Goods String required
     Reason String
     Size String
     Color String
     Quantity Double required
-    CurrencyType CommCurrency required
+    CurrencyType CommercialCurrency required
     Rate Double required
     CreatedBy String
     CreateOn LocalDate
@@ -104,15 +104,15 @@ entity CommWorkOrderDetails {
     UpdatedOn String
 }
 
-entity CommPurchaseOrderStatus {
-	Status CommPurchaseOrderStatus required
+entity CommercialPoStatus {
+	Status CommercialStatus required
 	CreatedBy String
     CreateOn LocalDate
     UpdatedBy String
     UpdatedOn String
 }
 
-entity CommInvoice {
+entity CommercialInvoice {
 	InvoiceNo String required
     InvoiceDate String required
     TermsOfPayment String required
@@ -126,15 +126,15 @@ entity CommInvoice {
     UpdatedOn String
 }
 
-entity CommAttachment {
+entity CommercialAttachment {
 	file AnyBlob required
 }
 
-enum CommPaymentCategory {
+enum CommercialPaymentCategory {
 	UNDEFINED, TT_BASED, LC_BASED, CASH, CHEQUE, PAY_ORDER
 }
 
-enum CommPurchaseOrderStatus {
+enum CommercialStatus {
 	WAITING_FOR_PROFORMA_INVOICE,
     WAITING_FOR_PROFORMA_INVOICE_APPROVAL,
     PROFORMA_INVOICE_APPROVED_BY_THE_BUYER_AND_WAITING_FOR_PAYMENT,
@@ -160,26 +160,27 @@ enum CommPurchaseOrderStatus {
     GETTING_EXPORT_PAYMENT_AND_WAITING_FOR_BANGLADESH_BANK_CLEARANCE_OR_FUND
 }
 
-enum CommCurrency {
+enum CommercialCurrency {
 	BDT, US_DOLLAR
 }
 
 relationship OneToOne {
-	CommProformaInvoice{CommPurchaseOrder(PurchaseOrderNo)} to CommPurchaseOrder
-    CommPaymentInfo{CommPurchaseOrder(PurchaseOrderNo)} to CommPurchaseOrder
-    CommPackaging{CommPurchaseOrder(PurchaseOrderNo)} to CommPurchaseOrder
-    CommInvoice{CommPurchaseOrder(PurchaseOrderNo)} to CommPurchaseOrder
-    CommInvoice{CommProformaInvoice(ProformaNo)} to CommProformaInvoice
-    CommInvoice{CommPackaging(ConsignmentNo)} to CommPackaging
+	CommercialProformaInvoice{CommercialPurchaseOrder(PurchaseOrderNo)} to CommercialPurchaseOrder
+    CommercialPaymentInfo{CommercialPurchaseOrder(PurchaseOrderNo)} to CommercialPurchaseOrder
+    CommercialPackaging{CommercialPurchaseOrder(PurchaseOrderNo)} to CommercialPurchaseOrder
+    CommercialInvoice{CommercialPurchaseOrder(PurchaseOrderNo)} to CommercialPurchaseOrder
+    CommercialInvoice{CommercialProformaInvoice(ProformaNo)} to CommercialProformaInvoice
+    CommercialInvoice{CommercialPackaging(ConsignmentNo)} to CommercialPackaging
 }
 
 relationship ManyToOne {
-	CommPurchaseOrderItem{CommPurchaseOrder(PurchaseOrderNo)} to CommPurchaseOrder
-    CommPurchaseOrderStatus{CommPurchaseOrder(PurchaseOrderNo)} to CommPurchaseOrder
-    CommAttachment to CommPurchaseOrderStatus
-    CommPackagingDetails{CommPackaging(ConsignmentNo)} to CommPackaging
-    CommWorkOrder{CommPurchaseOrder(PurchaseOrderNo)} to CommPurchaseOrder
-    CommWorkOrderDetails{CommWorkOrder(RefNo)} to CommWorkOrder
+	CommercialPurchaseOrderItem{CommercialPurchaseOrder(PurchaseOrderNo)} to CommercialPurchaseOrder
+    CommercialPoStatus{CommercialPurchaseOrder(PurchaseOrderNo)} to CommercialPurchaseOrder
+    CommercialAttachment{CommercialPurchaseOrder(PurchaseOrderNo)} to CommercialPurchaseOrder
+    CommercialAttachment{CommercialPoStatus(Status)} to CommercialPoStatus
+    CommercialPackagingDetails{CommercialPackaging(ConsignmentNo)} to CommercialPackaging
+    CommercialWorkOrder{CommercialPurchaseOrder(PurchaseOrderNo)} to CommercialPurchaseOrder
+    CommercialWorkOrderDetails{CommercialWorkOrder(RefNo)} to CommercialWorkOrder
 }
 
 paginate * with infinite-scroll

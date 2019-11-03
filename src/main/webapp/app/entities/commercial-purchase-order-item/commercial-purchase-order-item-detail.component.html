@@ -1,0 +1,81 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="commercialPurchaseOrderItem">
+            <h2><span>Commercial Purchase Order Item</span> {{commercialPurchaseOrderItem.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Goods Or Services</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.goodsOrServices}}</span>
+                </dd>
+                <dt><span>Description Of Goods Or Services</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.descriptionOfGoodsOrServices}}</span>
+                </dd>
+                <dt><span>Packaging</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.packaging}}</span>
+                </dd>
+                <dt><span>Size Or Grade</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.sizeOrGrade}}</span>
+                </dd>
+                <dt><span>Qty Or Mc</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.qtyOrMc}}</span>
+                </dd>
+                <dt><span>Qty Or Kgs</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.qtyOrKgs}}</span>
+                </dd>
+                <dt><span>Rate Or Kg</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.rateOrKg}}</span>
+                </dd>
+                <dt><span>Currency Type</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.currencyType}}</span>
+                </dd>
+                <dt><span>Total</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.total}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.createdBy}}</span>
+                </dd>
+                <dt><span>Create On</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.createOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{commercialPurchaseOrderItem.updatedOn}}</span>
+                </dd>
+                <dt><span>Commercial Purchase Order</span></dt>
+                <dd>
+                    <div *ngIf="commercialPurchaseOrderItem.commercialPurchaseOrderId">
+                        <a [routerLink]="['/commercial-purchase-order', commercialPurchaseOrderItem.commercialPurchaseOrderId, 'view']">{{commercialPurchaseOrderItem.commercialPurchaseOrderPurchaseOrderNo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/commercial-purchase-order-item', commercialPurchaseOrderItem.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-commercial-purchase-order-heading">Create or edit a Commercial Purchase Order</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!commercialPurchaseOrder.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="commercialPurchaseOrder.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_purchaseOrderNo">Purchase Order No</label>
+                    <input type="text" class="form-control" name="purchaseOrderNo" id="field_purchaseOrderNo"
+                        [(ngModel)]="commercialPurchaseOrder.purchaseOrderNo" required/>
+                    <div [hidden]="!(editForm.controls.purchaseOrderNo?.dirty && editForm.controls.purchaseOrderNo?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.purchaseOrderNo?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_purchaseOrderDate">Purchase Order Date</label>
+                    <div class="input-group">
+                        <input id="field_purchaseOrderDate" type="text" class="form-control" name="purchaseOrderDate" ngbDatepicker  #purchaseOrderDateDp="ngbDatepicker" [(ngModel)]="commercialPurchaseOrder.purchaseOrderDate"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="purchaseOrderDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.purchaseOrderDate?.dirty && editForm.controls.purchaseOrderDate?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.purchaseOrderDate?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_originOfGoods">Origin Of Goods</label>
+                    <input type="text" class="form-control" name="originOfGoods" id="field_originOfGoods"
+                        [(ngModel)]="commercialPurchaseOrder.originOfGoods" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_finalDestination">Final Destination</label>
+                    <input type="text" class="form-control" name="finalDestination" id="field_finalDestination"
+                        [(ngModel)]="commercialPurchaseOrder.finalDestination" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shipmentDate">Shipment Date</label>
+                    <div class="input-group">
+                        <input id="field_shipmentDate" type="text" class="form-control" name="shipmentDate" ngbDatepicker  #shipmentDateDp="ngbDatepicker" [(ngModel)]="commercialPurchaseOrder.shipmentDate"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="shipmentDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.shipmentDate?.dirty && editForm.controls.shipmentDate?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.shipmentDate?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <!--<div class="form-group">
+                    <label class="form-control-label" for="field_createdBy">Created By</label>
+                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                        [(ngModel)]="commercialPurchaseOrder.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createOn">Create On</label>
+                    <div class="input-group">
+                        <input id="field_createOn" type="text" class="form-control" name="createOn" ngbDatepicker  #createOnDp="ngbDatepicker" [(ngModel)]="commercialPurchaseOrder.createOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="createOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
+                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
+                        [(ngModel)]="commercialPurchaseOrder.updatedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
+                    <input type="text" class="form-control" name="updatedOn" id="field_updatedOn"
+                        [(ngModel)]="commercialPurchaseOrder.updatedOn" />
+                </div>-->
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
