@@ -1,51 +1,94 @@
-<div class="row justify-content-center">
-    <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+<div class="justify-content-center">
+    <div class="col-12">
+        <form name="editForm" role="form" novalidate  #editForm="ngForm">
             <h2 id="jhi-journal-voucher-heading" *ngIf="!journalVoucher.id">Create a Journal Voucher</h2>
             <h2 id="jhi-journal-voucher-heading-update" *ngIf="journalVoucher.id">Edit Voucher <b>{{journalVoucher.voucherNo}}</b></h2>
             <div>
-                <jhi-alert-error></jhi-alert-error>
+                <div class="row" >
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_voucherNo">Voucher No</label>
+                            <input type="text" class="form-control" name="voucherNo" id="field_voucherNo"
+                                   [(ngModel)]="journalVoucher.voucherNo" readonly/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_voucherDate">Voucher Date</label>
+                            <div class="input-group">
+                                <input [readOnly]="journalVoucher.postDate" id="field_voucherDate" type="date" class="form-control" name="voucherDate" ngbDatepicker  #voucherDateDp="ngbDatepicker" [(ngModel)]="journalVoucher.voucherDate"
+                                />
+                                <span class="input-group-append">
+                                        <button [disabled]="journalVoucher.postDate" type="button" class="btn btn-secondary" (click)="voucherDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                                    </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_postDate">Post Date</label>
+                            <div class="input-group">
+                                <input readonly id="field_postDate" type="text" class="form-control" name="postDate" ngbDatepicker  #postDateDp="ngbDatepicker" [(ngModel)]="journalVoucher.postDate"
+                                />
+                                <span class="input-group-append">
+                                        <button [disabled]="true" type="button" class="btn btn-secondary" (click)="postDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                                    </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_type">Type</label>
+                            <select [disabled]="journalVoucher.postDate" class="form-control" name="type" [(ngModel)]="journalVoucher.type" id="field_type" >
+                                <option value="SELLING">SELLING</option>
+                                <option value="BUYING">BUYING</option>
+                            </select>
+                        </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_voucherNo">Voucher No</label>
-                    <input type="text" class="form-control" name="voucherNo" id="field_voucherNo"
-                           [(ngModel)]="journalVoucher.voucherNo" readonly/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_voucherDate">Voucher Date</label>
-                    <div class="input-group">
-                        <input id="field_voucherDate" type="text" class="form-control" name="voucherDate" ngbDatepicker  #voucherDateDp="ngbDatepicker" [(ngModel)]="journalVoucher.voucherDate"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="voucherDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_totalDebit">Total Debit</label>
+                            <input readonly type="text" class="form-control" name="totalDebit" id="field_totalDebit"[(ngModel)]="totalDebit"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_totalCredit">Total Credit</label>
+                            <input readonly type="text" class="form-control" name="totalCredit" id="field_totalCredit" [(ngModel)]="totalCredit"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="field_currency">Currency</label>
+                                    <select [disabled]="journalVoucher.postDate" class="form-control" id="field_currency" name="currency" [(ngModel)]="journalVoucher.currencyId" (ngModelChange)="fetchConversionFactor()">
+                                        <option [ngValue]="currency.id" *ngFor="let currency of currencies">{{currency.notation}}</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="field_conversion_factor">Base</label>
+                                    <label class="form-control" id="field_conversion_factor">{{journalVoucher.conversionFactor}}</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_currency">Currency</label>
-                    <select class="form-control" id="field_currency" name="currency" [(ngModel)]="journalVoucher.currencyId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="currencyOption.id" *ngFor="let currencyOption of currencies; trackBy: trackCurrencyById">{{currencyOption.notation}}</option>
-                    </select>
+                <div class="row" *ngIf="journalVoucher.postDate">
+                    <div class="col-12">
+                        <jhi-journal-voucher-transactions [journalVoucher]="journalVoucher" [currency]="selectedCurrency" [conversionFactor]="conversionFactor" [voucherType]="voucherType"  (totalCreditChanged)="totalCreditChanged($event)" (totalDebitChanged)="totalDebitChanged($event)"></jhi-journal-voucher-transactions>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_type">Type</label>
-                    <select class="form-control" name="type" [(ngModel)]="journalVoucher.type" id="field_type" >
-                        <option value="SELLING">SELLING</option>
-                        <option value="BUYING">BUYING</option>
-                    </select>
-                </div>
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                <jhi-alert></jhi-alert>
+
+            </div>
+            <div>
+                <button  type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Back</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button  type="submit" id="save-entity" [disabled]="editForm.form.invalid || !isSaving || journalVoucher.postDate" class="btn btn-primary" (click)="save()">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+                <button  type="submit" *ngIf="totalDebit!=0 && totalDebit==totalCredit" id="post" [disabled]="editForm.form.invalid || !isSaving || journalVoucher.postDate" class="btn btn-secondary" (click)="post()">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Post</span>
                 </button>
             </div>
         </form>
     </div>
-
-</div>
