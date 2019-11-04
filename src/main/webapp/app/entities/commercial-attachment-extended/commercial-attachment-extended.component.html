@@ -1,0 +1,105 @@
+<div class="row justify-content-center">
+    <div class="col-12">
+        <jhi-alert></jhi-alert>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <h2 id="page-heading">Add Documents</h2>
+    </div>
+    <div class="col-6">
+        <form name="searchForm" class="form-inline">
+            <div class="input-group w-100 mt-3">
+                <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                       name="currentSearch" placeholder="Purchase Order No">
+                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+                <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                    <fa-icon [icon]="'trash-alt'"></fa-icon>
+                </button>
+                <button id="jh-create-entity"
+                        class="btn btn-primary float-right jh-create-entity create-commercial-attachment"
+                        [routerLink]="['/commercial-attachment/new']" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                    <fa-icon [icon]="'plus'"></fa-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-12 ">
+        <br/>
+        <div class="table-responsive" *ngIf="commercialAttachments">
+            <table class="table table-striped">
+                <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                    <th jhiSortBy="id"><span>ID</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="commercialPurchaseOrderPurchaseOrderNo"><span>Commercial Purchase Order</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="commercialPoStatusStatus"><span>Commercial Po Status</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="file"><span>File</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                       [infiniteScrollDistance]="0">
+                <tr *ngFor="let commercialAttachment of commercialAttachments ;trackBy: trackId">
+                    <td><a
+                        [routerLink]="['/commercial-attachment', commercialAttachment.id, 'view' ]">{{commercialAttachment.id}}</a>
+                    </td>
+                    <td>
+                        <div *ngIf="commercialAttachment.commercialPurchaseOrderId">
+                            <a [routerLink]="['../commercial-purchase-order', commercialAttachment.commercialPurchaseOrderId , 'view' ]">{{commercialAttachment.commercialPurchaseOrderPurchaseOrderNo}}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="commercialAttachment.commercialPoStatusId">
+                            <a [routerLink]="['../commercial-po-status', commercialAttachment.commercialPoStatusId , 'view' ]">{{commercialAttachment.commercialPoStatusStatus}}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <a *ngIf="commercialAttachment.file"
+                           (click)="openFile(commercialAttachment.fileContentType, commercialAttachment.file)">open</a>
+                        <span *ngIf="commercialAttachment.file">{{commercialAttachment.fileContentType}}
+                            , {{byteSize(commercialAttachment.file)}}</span>
+                    </td>
+                    <td class="text-right" width="20%">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    [routerLink]="['/commercial-attachment', commercialAttachment.id, 'view' ]"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/commercial-attachment', commercialAttachment.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/', 'commercial-attachment', { outlets: { popup: commercialAttachment.id + '/delete'} }]"
+                                    replaceUrl="true"
+                                    queryParamsHandling="merge"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
