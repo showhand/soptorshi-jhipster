@@ -9,6 +9,14 @@
                     <input type="text" class="form-control" id="id" name="id"
                         [(ngModel)]="commercialWorkOrderDetails.id" readonly />
                 </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialWorkOrder">Commercial Work Order</label>
+                    <select class="form-control" id="field_commercialWorkOrder" name="commercialWorkOrder" [(ngModel)]="commercialWorkOrderDetails.commercialWorkOrderId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialWorkOrderOption.id" *ngFor="let commercialWorkOrderOption of commercialworkorders; trackBy: trackCommercialWorkOrderById">{{commercialWorkOrderOption.refNo}}</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_goods">Goods</label>
                     <input type="text" class="form-control" name="goods" id="field_goods"
@@ -78,7 +86,7 @@
                         </small>
                     </div>
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_createdBy">Created By</label>
                     <input type="text" class="form-control" name="createdBy" id="field_createdBy"
                         [(ngModel)]="commercialWorkOrderDetails.createdBy" />
@@ -107,15 +115,7 @@
                             <button type="button" class="btn btn-secondary" (click)="updatedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_commercialWorkOrder">Commercial Work Order</label>
-                    <select class="form-control" id="field_commercialWorkOrder" name="commercialWorkOrder" [(ngModel)]="commercialWorkOrderDetails.commercialWorkOrderId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="commercialWorkOrderOption.id" *ngFor="let commercialWorkOrderOption of commercialworkorders; trackBy: trackCommercialWorkOrderById">{{commercialWorkOrderOption.refNo}}</option>
-                    </select>
-                </div>
+                </div>-->
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

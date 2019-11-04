@@ -49,7 +49,7 @@ export class CommercialPackagingComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.commercialPackagingService
                 .search({
                     query: this.currentSearch,
@@ -62,17 +62,31 @@ export class CommercialPackagingComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
+        }*/
+        if (this.currentSearch) {
+            this.commercialPackagingService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'commercialPurchaseOrderPurchaseOrderNo.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ICommercialPackaging[]>) => this.paginateCommercialPackagings(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.commercialPackagingService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ICommercialPackaging[]>) => this.paginateCommercialPackagings(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         }
-        this.commercialPackagingService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ICommercialPackaging[]>) => this.paginateCommercialPackagings(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     reset() {

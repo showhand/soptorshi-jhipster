@@ -49,7 +49,7 @@ export class CommercialPackagingDetailsComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.commercialPackagingDetailsService
                 .search({
                     query: this.currentSearch,
@@ -62,17 +62,31 @@ export class CommercialPackagingDetailsComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
+        }*/
+        if (this.currentSearch) {
+            this.commercialPackagingDetailsService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'commercialPackagingConsignmentNo.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ICommercialPackagingDetails[]>) => this.paginateCommercialPackagingDetails(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.commercialPackagingDetailsService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ICommercialPackagingDetails[]>) => this.paginateCommercialPackagingDetails(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         }
-        this.commercialPackagingDetailsService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ICommercialPackagingDetails[]>) => this.paginateCommercialPackagingDetails(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     reset() {

@@ -9,6 +9,28 @@
                     <input type="text" class="form-control" id="id" name="id"
                         [(ngModel)]="commercialInvoice.id" readonly />
                 </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialPurchaseOrder">Commercial Purchase Order</label>
+                    <select class="form-control" id="field_commercialPurchaseOrder" name="commercialPurchaseOrder" [(ngModel)]="commercialInvoice.commercialPurchaseOrderId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialProformaInvoice">Commercial Proforma Invoice</label>
+                    <select class="form-control" id="field_commercialProformaInvoice" name="commercialProformaInvoice" [(ngModel)]="commercialInvoice.commercialProformaInvoiceId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialProformaInvoiceOption.id" *ngFor="let commercialProformaInvoiceOption of commercialproformainvoices; trackBy: trackCommercialProformaInvoiceById">{{commercialProformaInvoiceOption.proformaNo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialPackaging">Commercial Packaging</label>
+                    <select class="form-control" id="field_commercialPackaging" name="commercialPackaging" [(ngModel)]="commercialInvoice.commercialPackagingId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialPackagingOption.id" *ngFor="let commercialPackagingOption of commercialpackagings; trackBy: trackCommercialPackagingById">{{commercialPackagingOption.consignmentNo}}</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_invoiceNo">Invoice No</label>
                     <input type="text" class="form-control" name="invoiceNo" id="field_invoiceNo"
@@ -86,7 +108,7 @@
                         </small>
                     </div>
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_createdBy">Created By</label>
                     <input type="text" class="form-control" name="createdBy" id="field_createdBy"
                         [(ngModel)]="commercialInvoice.createdBy" />
@@ -115,29 +137,7 @@
                             <button type="button" class="btn btn-secondary" (click)="updatedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_commercialPurchaseOrder">Commercial Purchase Order</label>
-                    <select class="form-control" id="field_commercialPurchaseOrder" name="commercialPurchaseOrder" [(ngModel)]="commercialInvoice.commercialPurchaseOrderId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_commercialProformaInvoice">Commercial Proforma Invoice</label>
-                    <select class="form-control" id="field_commercialProformaInvoice" name="commercialProformaInvoice" [(ngModel)]="commercialInvoice.commercialProformaInvoiceId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="commercialProformaInvoiceOption.id" *ngFor="let commercialProformaInvoiceOption of commercialproformainvoices; trackBy: trackCommercialProformaInvoiceById">{{commercialProformaInvoiceOption.proformaNo}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_commercialPackaging">Commercial Packaging</label>
-                    <select class="form-control" id="field_commercialPackaging" name="commercialPackaging" [(ngModel)]="commercialInvoice.commercialPackagingId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="commercialPackagingOption.id" *ngFor="let commercialPackagingOption of commercialpackagings; trackBy: trackCommercialPackagingById">{{commercialPackagingOption.consignmentNo}}</option>
-                    </select>
-                </div>
+                </div>-->
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

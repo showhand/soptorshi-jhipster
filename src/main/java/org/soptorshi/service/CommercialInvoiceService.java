@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialInvoice;
 import org.soptorshi.repository.CommercialInvoiceRepository;
 import org.soptorshi.repository.search.CommercialInvoiceSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.CommercialInvoiceDTO;
 import org.soptorshi.service.mapper.CommercialInvoiceMapper;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -45,6 +47,15 @@ public class CommercialInvoiceService {
      */
     public CommercialInvoiceDTO save(CommercialInvoiceDTO commercialInvoiceDTO) {
         log.debug("Request to save CommercialInvoice : {}", commercialInvoiceDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        LocalDate currentDate = LocalDate.now();
+        if (commercialInvoiceDTO.getId() == null) {
+            commercialInvoiceDTO.setCreatedBy(currentUser);
+            commercialInvoiceDTO.setCreateOn(currentDate);
+        } else {
+            commercialInvoiceDTO.setUpdatedBy(currentUser);
+            commercialInvoiceDTO.setUpdatedOn(currentDate);
+        }
         CommercialInvoice commercialInvoice = commercialInvoiceMapper.toEntity(commercialInvoiceDTO);
         commercialInvoice = commercialInvoiceRepository.save(commercialInvoice);
         CommercialInvoiceDTO result = commercialInvoiceMapper.toDto(commercialInvoice);
@@ -86,8 +97,8 @@ public class CommercialInvoiceService {
      */
     public void delete(Long id) {
         log.debug("Request to delete CommercialInvoice : {}", id);
-        commercialInvoiceRepository.deleteById(id);
-        commercialInvoiceSearchRepository.deleteById(id);
+        /*commercialInvoiceRepository.deleteById(id);
+        commercialInvoiceSearchRepository.deleteById(id);*/
     }
 
     /**

@@ -1,89 +1,121 @@
-<div>
-    <h2 id="page-heading">
-        <span>Commercial Work Orders</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-commercial-work-order" [routerLink]="['/commercial-work-order/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down" >
-            Create new Commercial Work Order
-            </span>
-        </button>
-    </h2>
-    <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
+<div class="row justify-content-center">
+    <div class="col-12">
+        <jhi-alert></jhi-alert>
     </div>
-    <br/>
-    <div class="table-responsive" *ngIf="commercialWorkOrders">
-        <table class="table table-striped">
-            <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="refNo"><span>Ref No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="workOrderDate"><span>Work Order Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="deliveryDate"><span>Delivery Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createOn"><span>Create On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="commercialPurchaseOrderPurchaseOrderNo"><span>Commercial Purchase Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-            <tr *ngFor="let commercialWorkOrder of commercialWorkOrders ;trackBy: trackId">
-                <td><a [routerLink]="['/commercial-work-order', commercialWorkOrder.id, 'view' ]">{{commercialWorkOrder.id}}</a></td>
-                <td>{{commercialWorkOrder.refNo}}</td>
-                <td>{{commercialWorkOrder.workOrderDate | date:'mediumDate'}}</td>
-                <td>{{commercialWorkOrder.deliveryDate | date:'mediumDate'}}</td>
-                <td>{{commercialWorkOrder.remarks}}</td>
-                <td>{{commercialWorkOrder.createdBy}}</td>
-                <td>{{commercialWorkOrder.createOn | date:'mediumDate'}}</td>
-                <td>{{commercialWorkOrder.updatedBy}}</td>
-                <td>{{commercialWorkOrder.updatedOn | date:'mediumDate'}}</td>
-                <td>
-                    <div *ngIf="commercialWorkOrder.commercialPurchaseOrderId">
-                        <a [routerLink]="['../commercial-purchase-order', commercialWorkOrder.commercialPurchaseOrderId , 'view' ]" >{{commercialWorkOrder.commercialPurchaseOrderPurchaseOrderNo}}</a>
-                    </div>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/commercial-work-order', commercialWorkOrder.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/commercial-work-order', commercialWorkOrder.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', 'commercial-work-order', { outlets: { popup: commercialWorkOrder.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <h2 id="page-heading">Work Orders</h2>
+    </div>
+    <div class="col-6">
+        <form name="searchForm" class="form-inline">
+            <div class="input-group w-100 mt-3">
+                <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                       name="currentSearch" placeholder="Purchase Order No">
+                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+                <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                    <fa-icon [icon]="'trash-alt'"></fa-icon>
+                </button>
+                <button id="jh-create-entity"
+                        class="btn btn-primary float-right jh-create-entity create-commercial-work-order"
+                        [routerLink]="['/commercial-work-order/new']" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                    <fa-icon [icon]="'plus'"></fa-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-12 ">
+        <br/>
+        <div class="table-responsive" *ngIf="commercialWorkOrders">
+            <table class="table table-striped">
+                <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                    <th jhiSortBy="id"><span>ID</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="commercialPurchaseOrderPurchaseOrderNo"><span>Commercial Purchase Order</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="refNo"><span>Ref No</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="workOrderDate"><span>Work Order Date</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="deliveryDate"><span>Delivery Date</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="remarks"><span>Remarks</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <!--<th jhiSortBy="createdBy"><span>Created By</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="createOn"><span>Create On</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="updatedBy"><span>Updated By</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="updatedOn"><span>Updated On</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>-->
+
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                       [infiniteScrollDistance]="0">
+                <tr *ngFor="let commercialWorkOrder of commercialWorkOrders ;trackBy: trackId">
+                    <td><a
+                        [routerLink]="['/commercial-work-order', commercialWorkOrder.id, 'view' ]">{{commercialWorkOrder.id}}</a>
+                    </td>
+                    <td>
+                        <div *ngIf="commercialWorkOrder.commercialPurchaseOrderId">
+                            <a [routerLink]="['../commercial-purchase-order', commercialWorkOrder.commercialPurchaseOrderId , 'view' ]">{{commercialWorkOrder.commercialPurchaseOrderPurchaseOrderNo}}</a>
+                        </div>
+                    </td>
+                    <td>{{commercialWorkOrder.refNo}}</td>
+                    <td>{{commercialWorkOrder.workOrderDate | date:'mediumDate'}}</td>
+                    <td>{{commercialWorkOrder.deliveryDate | date:'mediumDate'}}</td>
+                    <td>{{commercialWorkOrder.remarks}}</td>
+                    <!--<td>{{commercialWorkOrder.createdBy}}</td>
+                    <td>{{commercialWorkOrder.createOn | date:'mediumDate'}}</td>
+                    <td>{{commercialWorkOrder.updatedBy}}</td>
+                    <td>{{commercialWorkOrder.updatedOn | date:'mediumDate'}}</td>-->
+                    <td class="text-right" width="20%">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    [routerLink]="['/commercial-work-order', commercialWorkOrder.id, 'view' ]"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/commercial-work-order', commercialWorkOrder.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/', 'commercial-work-order', { outlets: { popup: commercialWorkOrder.id + '/delete'} }]"
+                                    replaceUrl="true"
+                                    queryParamsHandling="merge"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

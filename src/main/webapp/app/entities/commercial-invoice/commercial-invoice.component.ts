@@ -49,7 +49,7 @@ export class CommercialInvoiceComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.commercialInvoiceService
                 .search({
                     query: this.currentSearch,
@@ -62,17 +62,31 @@ export class CommercialInvoiceComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
+        }*/
+        if (this.currentSearch) {
+            this.commercialInvoiceService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'commercialPurchaseOrderPurchaseOrderNo.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ICommercialInvoice[]>) => this.paginateCommercialInvoices(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.commercialInvoiceService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ICommercialInvoice[]>) => this.paginateCommercialInvoices(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         }
-        this.commercialInvoiceService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ICommercialInvoice[]>) => this.paginateCommercialInvoices(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     reset() {

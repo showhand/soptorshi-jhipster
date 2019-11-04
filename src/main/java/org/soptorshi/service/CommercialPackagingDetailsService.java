@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialPackagingDetails;
 import org.soptorshi.repository.CommercialPackagingDetailsRepository;
 import org.soptorshi.repository.search.CommercialPackagingDetailsSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.CommercialPackagingDetailsDTO;
 import org.soptorshi.service.mapper.CommercialPackagingDetailsMapper;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -45,6 +47,15 @@ public class CommercialPackagingDetailsService {
      */
     public CommercialPackagingDetailsDTO save(CommercialPackagingDetailsDTO commercialPackagingDetailsDTO) {
         log.debug("Request to save CommercialPackagingDetails : {}", commercialPackagingDetailsDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        LocalDate currentDate = LocalDate.now();
+        if (commercialPackagingDetailsDTO.getId() == null) {
+            commercialPackagingDetailsDTO.setCreatedBy(currentUser);
+            commercialPackagingDetailsDTO.setCreateOn(currentDate);
+        } else {
+            commercialPackagingDetailsDTO.setUpdatedBy(currentUser);
+            commercialPackagingDetailsDTO.setUpdatedOn(currentDate);
+        }
         CommercialPackagingDetails commercialPackagingDetails = commercialPackagingDetailsMapper.toEntity(commercialPackagingDetailsDTO);
         commercialPackagingDetails = commercialPackagingDetailsRepository.save(commercialPackagingDetails);
         CommercialPackagingDetailsDTO result = commercialPackagingDetailsMapper.toDto(commercialPackagingDetails);

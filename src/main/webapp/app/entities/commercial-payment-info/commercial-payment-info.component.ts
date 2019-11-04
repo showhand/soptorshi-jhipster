@@ -49,7 +49,7 @@ export class CommercialPaymentInfoComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.commercialPaymentInfoService
                 .search({
                     query: this.currentSearch,
@@ -62,17 +62,31 @@ export class CommercialPaymentInfoComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
+        }*/
+        if (this.currentSearch) {
+            this.commercialPaymentInfoService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'commercialPurchaseOrderPurchaseOrderNo.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ICommercialPaymentInfo[]>) => this.paginateCommercialPaymentInfos(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.commercialPaymentInfoService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ICommercialPaymentInfo[]>) => this.paginateCommercialPaymentInfos(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         }
-        this.commercialPaymentInfoService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ICommercialPaymentInfo[]>) => this.paginateCommercialPaymentInfos(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     reset() {

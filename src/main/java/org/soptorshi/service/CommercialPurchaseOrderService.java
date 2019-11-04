@@ -117,8 +117,8 @@ public class CommercialPurchaseOrderService {
      */
     public void delete(Long id) {
         log.debug("Request to delete CommercialPurchaseOrder : {}", id);
-        commercialPurchaseOrderRepository.deleteById(id);
-        commercialPurchaseOrderSearchRepository.deleteById(id);
+        /*commercialPurchaseOrderRepository.deleteById(id);
+        commercialPurchaseOrderSearchRepository.deleteById(id);*/
     }
 
     /**

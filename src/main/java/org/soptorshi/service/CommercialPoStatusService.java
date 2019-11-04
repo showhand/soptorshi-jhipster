@@ -99,8 +99,8 @@ public class CommercialPoStatusService {
      */
     public void delete(Long id) {
         log.debug("Request to delete CommercialPoStatus : {}", id);
-        commercialPoStatusRepository.deleteById(id);
-        commercialPoStatusSearchRepository.deleteById(id);
+        /*commercialPoStatusRepository.deleteById(id);
+        commercialPoStatusSearchRepository.deleteById(id);*/
     }
 
     /**

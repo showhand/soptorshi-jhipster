@@ -9,6 +9,22 @@
                     <input type="text" class="form-control" id="id" name="id"
                         [(ngModel)]="commercialAttachment.id" readonly />
                 </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialPurchaseOrder">Commercial Purchase Order</label>
+                    <select class="form-control" id="field_commercialPurchaseOrder" name="commercialPurchaseOrder" [(ngModel)]="commercialAttachment.commercialPurchaseOrderId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialPoStatus">Commercial Po Status</label>
+                    <select class="form-control" id="field_commercialPoStatus" name="commercialPoStatus" [(ngModel)]="commercialAttachment.commercialPoStatusId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialPoStatusOption.id" *ngFor="let commercialPoStatusOption of commercialpostatuses; trackBy: trackCommercialPoStatusById">{{commercialPoStatusOption.status}}</option>
+                    </select>
+                </div>
+
                 <div class="form-group">
                     <label class="form-control-label" for="field_file">File</label>
                     <div>
@@ -32,21 +48,6 @@
                         This field is required.
                         </small>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_commercialPurchaseOrder">Commercial Purchase Order</label>
-                    <select class="form-control" id="field_commercialPurchaseOrder" name="commercialPurchaseOrder" [(ngModel)]="commercialAttachment.commercialPurchaseOrderId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_commercialPoStatus">Commercial Po Status</label>
-                    <select class="form-control" id="field_commercialPoStatus" name="commercialPoStatus" [(ngModel)]="commercialAttachment.commercialPoStatusId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="commercialPoStatusOption.id" *ngFor="let commercialPoStatusOption of commercialpostatuses; trackBy: trackCommercialPoStatusById">{{commercialPoStatusOption.status}}</option>
-                    </select>
                 </div>
             </div>
             <div>

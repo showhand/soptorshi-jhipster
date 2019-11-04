@@ -9,6 +9,14 @@
                     <input type="text" class="form-control" id="id" name="id"
                         [(ngModel)]="commercialPaymentInfo.id" readonly />
                 </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialPurchaseOrder">Commercial Purchase Order</label>
+                    <select class="form-control" id="field_commercialPurchaseOrder" name="commercialPurchaseOrder" [(ngModel)]="commercialPaymentInfo.commercialPurchaseOrderId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_paymentCategory">Payment Category</label>
                     <select class="form-control" name="paymentCategory" [(ngModel)]="commercialPaymentInfo.paymentCategory" id="field_paymentCategory"  required>
@@ -59,7 +67,7 @@
                     <input type="text" class="form-control" name="paymentTerms" id="field_paymentTerms"
                         [(ngModel)]="commercialPaymentInfo.paymentTerms" />
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_createdBy">Created By</label>
                     <input type="text" class="form-control" name="createdBy" id="field_createdBy"
                         [(ngModel)]="commercialPaymentInfo.createdBy" />
@@ -88,15 +96,8 @@
                             <button type="button" class="btn btn-secondary" (click)="updatedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
-                </div>
+                </div>-->
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_commercialPurchaseOrder">Commercial Purchase Order</label>
-                    <select class="form-control" id="field_commercialPurchaseOrder" name="commercialPurchaseOrder" [(ngModel)]="commercialPaymentInfo.commercialPurchaseOrderId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
-                    </select>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

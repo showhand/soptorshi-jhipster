@@ -114,8 +114,8 @@ public class CommercialProformaInvoiceService {
      */
     public void delete(Long id) {
         log.debug("Request to delete CommercialProformaInvoice : {}", id);
-        commercialProformaInvoiceRepository.deleteById(id);
-        commercialProformaInvoiceSearchRepository.deleteById(id);
+        /*commercialProformaInvoiceRepository.deleteById(id);
+        commercialProformaInvoiceSearchRepository.deleteById(id);*/
     }
 
     /**

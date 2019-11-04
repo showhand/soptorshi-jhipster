@@ -86,8 +86,8 @@ public class CommercialAttachmentService {
      */
     public void delete(Long id) {
         log.debug("Request to delete CommercialAttachment : {}", id);
-        commercialAttachmentRepository.deleteById(id);
-        commercialAttachmentSearchRepository.deleteById(id);
+        /*commercialAttachmentRepository.deleteById(id);
+        commercialAttachmentSearchRepository.deleteById(id);*/
     }
 
     /**
