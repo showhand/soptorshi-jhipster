@@ -70,15 +70,19 @@ public class ChartsOfAccountReportService {
         cell.addElement(new Paragraph("Account Title", SoptorshiUtils.mBoldFont));
         table.addCell(cell);
 
-        List<MstGroup> assetGroups = mstGroupExtendedRepository.findByMainGroup(groupTypeMapWithSystemGroup.get(GroupType.ASSETS).getGroup().getId());
-        List<MstGroup> liabilities = mstGroupExtendedRepository.findByMainGroup(groupTypeMapWithSystemGroup.get(GroupType.LIABILITIES).getGroup().getId());
-        List<MstGroup> income = mstGroupExtendedRepository.findByMainGroup(groupTypeMapWithSystemGroup.get(GroupType.INCOME).getGroup().getId());
-        List<MstGroup> expenditure = mstGroupExtendedRepository.findByMainGroup(groupTypeMapWithSystemGroup.get(GroupType.EXPENSES).getGroup().getId());
+        Long assetGroupId = groupTypeMapWithSystemGroup.get(GroupType.ASSETS).getGroup().getId();
+        List<MstGroup> assetGroups = mstGroupExtendedRepository.findByMainGroup(assetGroupId);
+        Long liabilitiesGroupId = groupTypeMapWithSystemGroup.get(GroupType.LIABILITIES).getGroup().getId();
+        List<MstGroup> liabilities = mstGroupExtendedRepository.findByMainGroup(liabilitiesGroupId);
+        Long incomeGroupId = groupTypeMapWithSystemGroup.get(GroupType.INCOME).getGroup().getId();
+        List<MstGroup> income = mstGroupExtendedRepository.findByMainGroup(incomeGroupId);
+        Long expenditureGroupId = groupTypeMapWithSystemGroup.get(GroupType.EXPENSES).getGroup().getId();
+        List<MstGroup> expenditure = mstGroupExtendedRepository.findByMainGroup(expenditureGroupId);
 
-        createGroupStructure(table, "ASSET", assetGroups, groupMapWithAccounts);
-        createGroupStructure(table, "LIABILITIES",liabilities, groupMapWithAccounts);
-        createGroupStructure(table, "INCOME", income, groupMapWithAccounts);
-        createGroupStructure(table, "EXPENDITURE", expenditure, groupMapWithAccounts);
+        table =  createGroupStructure(table, "ASSET", assetGroups, groupMapWithAccounts);
+        table  = createGroupStructure(table, "LIABILITIES",liabilities, groupMapWithAccounts);
+        table = createGroupStructure(table, "INCOME", income, groupMapWithAccounts);
+        table = createGroupStructure(table, "EXPENDITURE", expenditure, groupMapWithAccounts);
 
 
         table.setHeaderRows(1);
@@ -88,7 +92,7 @@ public class ChartsOfAccountReportService {
         return new ByteArrayInputStream(baos.toByteArray());
     }
 
-    public void createGroupStructure(PdfPTable table, String groupName, List<MstGroup> groups, Map<Long, List<MstAccount>> groupMapAccounts){
+    public PdfPTable createGroupStructure(PdfPTable table, String groupName, List<MstGroup> groups, Map<Long, List<MstAccount>> groupMapAccounts){
         SoptorshiPdfCell cell = new SoptorshiPdfCell();
         Paragraph paragraph = new Paragraph(groupName, SoptorshiUtils.mBoldFontItalic);
         cell.addElement(paragraph);
@@ -122,5 +126,15 @@ public class ChartsOfAccountReportService {
 
         }
 
+        cell = new SoptorshiPdfCell();
+        paragraph = new Paragraph("");
+        cell.addElement(paragraph);
+
+        table.addCell(cell);
+        cell = new SoptorshiPdfCell();
+        cell.addElement(new Paragraph(""));
+        table.addCell(cell);
+
+        return table;
     }
 }

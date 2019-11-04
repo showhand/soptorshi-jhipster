@@ -13,7 +13,7 @@ public interface MstGroupExtendedRepository extends MstGroupRepository {
         value="select mst_group.* from mst_group, ( " +
             "with recursive groupCTE(id, name, main_group, reserved_flag, modified_by, modified_on) as ( " +
             "   select id, name, main_group, reserved_flag, modified_by, modified_on  from mst_group " +
-            "   where main_group=1 " +
+            "   where main_group=?1 " +
             " " +
             "   union all " +
             " " +
