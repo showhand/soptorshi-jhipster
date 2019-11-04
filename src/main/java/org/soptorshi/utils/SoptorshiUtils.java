@@ -17,6 +17,8 @@ import java.util.Date;
 public class SoptorshiUtils {
     public static Font mLiteFont = new Font(Font.FontFamily.TIMES_ROMAN, 10);
     public static Font mBoldFont = new Font(Font.FontFamily.TIMES_ROMAN, 10f, Font.BOLD, BaseColor.BLACK);
+    public static Font mLiteFontItalic = new Font(Font.FontFamily.TIMES_ROMAN, 10f, Font.ITALIC, BaseColor.BLACK);
+    public static Font mBoldFontItalic = new Font(Font.FontFamily.TIMES_ROMAN, 10f, Font.BOLDITALIC, BaseColor.BLACK);
     public static Font mLiteMediumFont = new Font(Font.FontFamily.TIMES_ROMAN, 8);
     public static Font mLiteSmallFont = new Font(Font.FontFamily.TIMES_ROMAN, 7);
     public static Font mLiteSmallBoldFont = new Font(Font.FontFamily.TIMES_ROMAN, 7, Font.BOLD, BaseColor.BLACK);
