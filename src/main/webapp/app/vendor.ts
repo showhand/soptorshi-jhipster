@@ -77,7 +77,8 @@ import {
     faDatabase,
     faBoxes,
     faFileMedicalAlt,
-    faMoneyCheckAlt
+    faMoneyCheckAlt,
+    faFilePdf
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -153,6 +154,7 @@ library.add(faDatabase);
 library.add(faBoxes);
 library.add(faFileMedicalAlt);
 library.add(faMoneyCheckAlt);
+library.add(faFilePdf);
 
 import 'quill/dist/quill.js';
 import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';

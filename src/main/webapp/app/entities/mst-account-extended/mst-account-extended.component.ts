@@ -18,7 +18,7 @@ import { MstAccountComponent, MstAccountService } from 'app/entities/mst-account
 })
 export class MstAccountExtendedComponent extends MstAccountComponent implements OnInit, OnDestroy {
     constructor(
-        protected mstAccountService: MstAccountService,
+        protected mstAccountService: MstAccountExtendedService,
         protected parseLinks: JhiParseLinks,
         protected jhiAlertService: JhiAlertService,
         protected accountService: AccountService,
@@ -27,5 +27,9 @@ export class MstAccountExtendedComponent extends MstAccountComponent implements 
         protected eventManager: JhiEventManager
     ) {
         super(mstAccountService, parseLinks, jhiAlertService, accountService, activatedRoute, router, eventManager);
+    }
+
+    downloadChartsOfAccount() {
+        this.mstAccountService.chartsOfAccount();
     }
 }

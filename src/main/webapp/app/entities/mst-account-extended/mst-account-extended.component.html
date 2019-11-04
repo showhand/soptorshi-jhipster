@@ -1,12 +1,21 @@
 <div>
     <h2 id="page-heading">
         <span>Mst Accounts</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-mst-account" [routerLink]="['/mst-account/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down" >
+        <div class="float-right">
+            <button id="jh-charts-of-account" class="btn btn-secondary" (click)="downloadChartsOfAccount()">
+                <fa-icon [icon]="'file-pdf'"></fa-icon>
+                <span class="hidden-sm-down" >
+            Charts of Account
+            </span>
+            </button>
+            <button id="jh-create-entity" class="btn btn-primary  jh-create-entity create-mst-account" [routerLink]="['/mst-account/new']">
+                <fa-icon [icon]="'plus'"></fa-icon>
+                <span class="hidden-sm-down" >
             Create new Mst Account
             </span>
-        </button>
+            </button>
+        </div>
+
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
