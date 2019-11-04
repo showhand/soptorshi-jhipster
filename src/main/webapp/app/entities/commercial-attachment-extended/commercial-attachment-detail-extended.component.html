@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="commercialAttachment">
+            <h2><span>Commercial Attachment</span> {{commercialAttachment.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>File</span></dt>
+                <dd>
+                    <div *ngIf="commercialAttachment.file">
+                        <a (click)="openFile(commercialAttachment.fileContentType, commercialAttachment.file)">open</a>
+                        {{commercialAttachment.fileContentType}}, {{byteSize(commercialAttachment.file)}}
+                    </div>
+                </dd>
+                <dt><span>Commercial Purchase Order</span></dt>
+                <dd>
+                    <div *ngIf="commercialAttachment.commercialPurchaseOrderId">
+                        <a [routerLink]="['/commercial-purchase-order', commercialAttachment.commercialPurchaseOrderId, 'view']">{{commercialAttachment.commercialPurchaseOrderPurchaseOrderNo}}</a>
+                    </div>
+                </dd>
+                <dt><span>Commercial Po Status</span></dt>
+                <dd>
+                    <div *ngIf="commercialAttachment.commercialPoStatusId">
+                        <a [routerLink]="['/commercial-po-status', commercialAttachment.commercialPoStatusId, 'view']">{{commercialAttachment.commercialPoStatusStatus}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/commercial-attachment', commercialAttachment.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

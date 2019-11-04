@@ -1,0 +1,77 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="commercialPackagingDetails">
+            <h2><span>Commercial Packaging Details</span> {{commercialPackagingDetails.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Pro Date</span></dt>
+                <dd>
+                    <span>{{commercialPackagingDetails.proDate}}</span>
+                </dd>
+                <dt><span>Exp Date</span></dt>
+                <dd>
+                    <span>{{commercialPackagingDetails.expDate}}</span>
+                </dd>
+                <dt><span>Shift 1</span></dt>
+                <dd>
+                    <span>{{commercialPackagingDetails.shift1}}</span>
+                </dd>
+                <dt><span>Shift 1 Total</span></dt>
+                <dd>
+                    <span>{{commercialPackagingDetails.shift1Total}}</span>
+                </dd>
+                <dt><span>Shift 2</span></dt>
+                <dd>
+                    <span>{{commercialPackagingDetails.shift2}}</span>
+                </dd>
+                <dt><span>Shift 2 Total</span></dt>
+                <dd>
+                    <span>{{commercialPackagingDetails.shift2Total}}</span>
+                </dd>
+                <dt><span>Day Total</span></dt>
+                <dd>
+                    <span>{{commercialPackagingDetails.dayTotal}}</span>
+                </dd>
+                <dt><span>Total</span></dt>
+                <dd>
+                    <span>{{commercialPackagingDetails.total}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{commercialPackagingDetails.createdBy}}</span>
+                </dd>
+                <dt><span>Create On</span></dt>
+                <dd>
+                    <span>{{commercialPackagingDetails.createOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{commercialPackagingDetails.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{commercialPackagingDetails.updatedOn}}</span>
+                </dd>
+                <dt><span>Commercial Packaging</span></dt>
+                <dd>
+                    <div *ngIf="commercialPackagingDetails.commercialPackagingId">
+                        <a [routerLink]="['/commercial-packaging', commercialPackagingDetails.commercialPackagingId, 'view']">{{commercialPackagingDetails.commercialPackagingConsignmentNo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/commercial-packaging-details', commercialPackagingDetails.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

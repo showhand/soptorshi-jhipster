@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity CommercialInvoice.
+    -->
+    <changeSet id="20191103092808-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="commercial_purchase_order_id"
+                                 baseTableName="commercial_invoice"
+                                 constraintName="fk_commercial_invoice_commercial_purchase_order_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="commercial_purchase_order"/>
+
+        <addForeignKeyConstraint baseColumnNames="commercial_proforma_invoice_id"
+                                 baseTableName="commercial_invoice"
+                                 constraintName="fk_commercial_invoice_commercial_proforma_invoice_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="commercial_proforma_invoice"/>
+
+        <addForeignKeyConstraint baseColumnNames="commercial_packaging_id"
+                                 baseTableName="commercial_invoice"
+                                 constraintName="fk_commercial_invoice_commercial_packaging_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="commercial_packaging"/>
+
+    </changeSet>
+</databaseChangeLog>

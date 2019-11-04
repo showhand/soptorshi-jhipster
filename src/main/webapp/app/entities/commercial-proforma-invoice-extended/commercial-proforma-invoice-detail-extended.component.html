@@ -1,0 +1,85 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="commercialProformaInvoice">
+            <h2><span>Commercial Proforma Invoice</span> {{commercialProformaInvoice.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Company Name</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.companyName}}</span>
+                </dd>
+                <dt><span>Company Description Or Address</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.companyDescriptionOrAddress}}</span>
+                </dd>
+                <dt><span>Proforma No</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.proformaNo}}</span>
+                </dd>
+                <dt><span>Proforma Date</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.proformaDate}}</span>
+                </dd>
+                <dt><span>Harmonic Code</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.harmonicCode}}</span>
+                </dd>
+                <dt><span>Payment Term</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.paymentTerm}}</span>
+                </dd>
+                <dt><span>Terms Of Delivery</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.termsOfDelivery}}</span>
+                </dd>
+                <dt><span>Shipment Date</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.shipmentDate}}</span>
+                </dd>
+                <dt><span>Port Of Landing</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.portOfLanding}}</span>
+                </dd>
+                <dt><span>Port Of Destination</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.portOfDestination}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.createdBy}}</span>
+                </dd>
+                <dt><span>Create On</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.createOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{commercialProformaInvoice.updatedOn}}</span>
+                </dd>
+                <dt><span>Commercial Purchase Order</span></dt>
+                <dd>
+                    <div *ngIf="commercialProformaInvoice.commercialPurchaseOrderId">
+                        <a [routerLink]="['/commercial-purchase-order', commercialProformaInvoice.commercialPurchaseOrderId, 'view']">{{commercialProformaInvoice.commercialPurchaseOrderPurchaseOrderNo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/commercial-proforma-invoice', commercialProformaInvoice.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

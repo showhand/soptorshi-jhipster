@@ -78,8 +78,22 @@ import {
     faBoxes,
     faFileMedicalAlt,
     faMoneyCheckAlt,
-    faFilePdf
+    faFilePdf,
+    faShoppingBasket,
+    faShoppingCart,
+    faMoneyBill,
+    faBox,
+    faInfoCircle,
+    faInfo,
+    faRandom,
+    faBoxOpen
 } from '@fortawesome/free-solid-svg-icons';
+import 'quill/dist/quill.js';
+import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';
+import 'chart.js/src/chart.js';
+import '../../../../node_modules/jquery/dist/jquery.min.js';
+
+// Imports all fontawesome core and solid icons
 
 // Adds the SVG icon to the library so you can use it in your page
 library.add(faUser);
@@ -154,6 +168,14 @@ library.add(faDatabase);
 library.add(faBoxes);
 library.add(faFileMedicalAlt);
 library.add(faMoneyCheckAlt);
+library.add(faShoppingBasket);
+library.add(faShoppingCart);
+library.add(faMoneyBill);
+library.add(faBox);
+library.add(faInfoCircle);
+library.add(faInfo);
+library.add(faRandom);
+library.add(faBoxOpen);
 library.add(faFilePdf);
 
 import 'quill/dist/quill.js';

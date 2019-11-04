@@ -1,0 +1,57 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="commercialPackaging">
+            <h2><span>Commercial Packaging</span> {{commercialPackaging.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Consignment No</span></dt>
+                <dd>
+                    <span>{{commercialPackaging.consignmentNo}}</span>
+                </dd>
+                <dt><span>Consignment Date</span></dt>
+                <dd>
+                    <span>{{commercialPackaging.consignmentDate}}</span>
+                </dd>
+                <dt><span>Brand</span></dt>
+                <dd>
+                    <span>{{commercialPackaging.brand}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{commercialPackaging.createdBy}}</span>
+                </dd>
+                <dt><span>Create On</span></dt>
+                <dd>
+                    <span>{{commercialPackaging.createOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{commercialPackaging.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{commercialPackaging.updatedOn}}</span>
+                </dd>
+                <dt><span>Commercial Purchase Order</span></dt>
+                <dd>
+                    <div *ngIf="commercialPackaging.commercialPurchaseOrderId">
+                        <a [routerLink]="['/commercial-purchase-order', commercialPackaging.commercialPurchaseOrderId, 'view']">{{commercialPackaging.commercialPurchaseOrderPurchaseOrderNo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/commercial-packaging', commercialPackaging.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

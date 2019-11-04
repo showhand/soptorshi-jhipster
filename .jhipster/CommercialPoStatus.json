@@ -1,0 +1,47 @@
+{
+    "name": "CommercialPoStatus",
+    "fields": [
+        {
+            "fieldName": "status",
+            "fieldType": "CommercialStatus",
+            "fieldValues": "WAITING_FOR_PROFORMA_INVOICE,WAITING_FOR_PROFORMA_INVOICE_APPROVAL,PROFORMA_INVOICE_APPROVED_BY_THE_BUYER_AND_WAITING_FOR_PAYMENT,PROFORMA_INVOICE_DECLINED_BY_THE_BUYER,PAYMENT_COMPLETED_AND_WAITING_FOR_ARTWORK_OF_PACKAGING,ARTWORK_OF_PACKAGING_APPROVED_AND_ISSUE_WORK_ORDER_FOR_PACKAGING_ACCESSORIES,ARTWORK_OF_PACKAGING_DECLINED,WORK_ORDER_ISSUED_AND_WAITING_FOR_BILL_OR_INVOICE_FROM_SUPPLIER,BILL_OR_INVOICE_APPROVED_BY_CFO,BILL_OR_INVOICE_DECLINED_BY_CFO,BILL_OR_INVOICE_APPROVED_BY_MANAGING_DIRECTOR_AND_WAITING_FOR_PAYMENT_TO_SUPPLIER,BILL_OR_INVOICE_DECLINED_BY_MANAGING_DIRECTOR,PAYMENT_COMPLETED_TO_SUPPLIER_AND_WAITING_FOR_SUBMITTING_LOT_DOCS_TO_FIQC,SUBMITTED_LOT_DOCS_TO_FIQC_AND_WAITING_FOR_SAMPLE_COLLECTION_FOR_MICRO_AND_CHEMICAL_TEST,SAMPLE_COLLECTED_FOR_MICRO_AND_CHEMICAL_TEST_AND_PREPARING_AND_SUBMITTING_THE_DOCS_FOR_HEALTH_CERTIFICATE,RECEIVED_HEALTH_CERTIFICATE_AND_WAITING_FOR_CONTAINER_BOOKING,CONTAINER_BOOK_AND_WAITING_FOR_CONTACTING_WITH_CNF_AGENT_FOR_REQUIRED_DOCS,RECEIVED_LIST_FOR_REQUIRED_DOCS_AND_WAITING_FOR_HIRE_REFRIGERATED_VAN_FOR_SENDING_CARGO_TO_PORT_AREA,HIRED_REFRIGERATED_VAN_AND_WAITING_FOR_SHIPMENT,COMPLETE_SHIPMENT_AND_WAITING_FOR_COLLECTION_OF_BL_FROM_SHIPPING_LINES,COLLECTED_BL_FROM_SHIPPING_LINES_AND_WAITING_FOR_SUBMISSION_OF_THE_EXPORT_DOCS_TO_BANK_FOR_NEGOTIATION_OR_COLLECTION,SUBMITTED_THE_EXPORT_DOCS_TO_BANK_FOR_NEGOTIATION_OR_COLLECTION_AND_WAITING_FOR_EXPORT_PAYMENT,GETTING_EXPORT_PAYMENT_AND_WAITING_FOR_BANGLADESH_BANK_CLEARANCE_OR_FUND",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createOn",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "updatedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "commercialPurchaseOrder",
+            "otherEntityRelationshipName": "commercialPoStatus",
+            "relationshipName": "commercialPurchaseOrder",
+            "otherEntityField": "purchaseOrderNo"
+        }
+    ],
+    "changelogDate": "20191103092807",
+    "entityTableName": "commercial_po_status",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
