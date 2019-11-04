@@ -116,10 +116,14 @@ public class DtTransactionExtendedService extends DtTransactionService {
         for(DtTransactionDTO dtTransactionDTO: transactionDTOList){
             //account balance section
             AccountBalanceDTO accountBalanceDTO = accountMapWithAccountBalance.get(dtTransactionDTO.getAccountId());
-            if(dtTransactionDTO.getBalanceType().equals(BalanceType.DEBIT))
-                accountBalanceDTO.setTotDebitTrans(accountBalanceDTO.getTotDebitTrans().add(dtTransactionDTO.getAmount().multiply(dtTransactionDTO.getConvFactor())));
-            else
-                accountBalanceDTO.setTotCreditTrans(accountBalanceDTO.getTotCreditTrans().add(dtTransactionDTO.getAmount().multiply(dtTransactionDTO.getConvFactor())));
+            if(dtTransactionDTO.getBalanceType().equals(BalanceType.DEBIT)){
+                BigDecimal totalAmount = accountBalanceDTO.getTotDebitTrans().add(dtTransactionDTO.getAmount().multiply(dtTransactionDTO.getConvFactor()));
+                accountBalanceDTO.setTotDebitTrans(totalAmount);
+            }
+            else{
+                BigDecimal totalAmount = accountBalanceDTO.getTotCreditTrans().add(dtTransactionDTO.getAmount().multiply(dtTransactionDTO.getConvFactor()));
+                accountBalanceDTO.setTotCreditTrans(totalAmount);
+            }
             // end of account balance section
 
             // monthly balance section

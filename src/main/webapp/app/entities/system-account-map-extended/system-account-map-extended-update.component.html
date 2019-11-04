@@ -16,28 +16,15 @@
                         <option value="PROVIDENT_FUND_ACCOUNT">PROVIDENT_FUND_ACCOUNT</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
-                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
-                        [(ngModel)]="systemAccountMap.modifiedBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
-                    <div class="input-group">
-                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="systemAccountMap.modifiedOn"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
-                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_account">Account</label>
-                    <select class="form-control" id="field_account" name="account" [(ngModel)]="systemAccountMap.accountId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="mstAccountOption.id" *ngFor="let mstAccountOption of mstaccounts; trackBy: trackMstAccountById">{{mstAccountOption.name}}</option>
-                    </select>
+                    <input type="text" class="form-control" name="account" id="field_account"
+                           [(ngModel)]="selectedAccountName" [ngbTypeahead]="search" (ngModelChange)="accountSelected()"
+                           (focus)="focus$.next($event.target.value)"
+                           (click)="click$.next($event.target.value)"
+                           #instance="ngbTypeahead"
+                    />
                 </div>
             </div>
             <div>
