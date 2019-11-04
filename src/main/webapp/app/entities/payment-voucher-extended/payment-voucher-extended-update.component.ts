@@ -16,6 +16,7 @@ import { FinancialAccountYearExtendedService } from 'app/entities/financial-acco
 import { FinancialYearStatus, IFinancialAccountYear } from 'app/shared/model/financial-account-year.model';
 import { SystemGroupMapService } from 'app/entities/system-group-map';
 import { GroupType, ISystemGroupMap } from 'app/shared/model/system-group-map.model';
+import { DtTransactionExtendedService } from 'app/entities/dt-transaction-extended';
 
 @Component({
     selector: 'jhi-payment-voucher-update',
@@ -39,7 +40,8 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
         protected activatedRoute: ActivatedRoute,
         protected accountBalanceService: AccountBalanceService,
         protected financialAccountYearService: FinancialAccountYearExtendedService,
-        protected systemGroupMapService: SystemGroupMapService
+        protected systemGroupMapService: SystemGroupMapService,
+        protected dtTransactionService: DtTransactionExtendedService
     ) {
         super(jhiAlertService, paymentVoucherService, mstAccountService, activatedRoute);
     }
@@ -114,5 +116,9 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
     post() {
         this.paymentVoucher.postDate = moment();
         this.save();
+    }
+
+    downloadVoucherReport() {
+        this.dtTransactionService.downloadVoucherReport('PAYMENT VOUCHER', this.paymentVoucher.voucherNo, this.paymentVoucher.voucherDate);
     }
 }

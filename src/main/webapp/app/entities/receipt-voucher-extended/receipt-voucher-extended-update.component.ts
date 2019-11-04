@@ -12,6 +12,7 @@ import { ReceiptVoucherExtendedService } from 'app/entities/receipt-voucher-exte
 import { ReceiptVoucherUpdateComponent } from 'app/entities/receipt-voucher';
 import { SystemGroupMapService } from 'app/entities/system-group-map';
 import { GroupType, ISystemGroupMap } from 'app/shared/model/system-group-map.model';
+import { DtTransactionExtendedService } from 'app/entities/dt-transaction-extended';
 
 @Component({
     selector: 'jhi-receipt-voucher-update',
@@ -25,7 +26,8 @@ export class ReceiptVoucherExtendedUpdateComponent extends ReceiptVoucherUpdateC
         protected receiptVoucherService: ReceiptVoucherExtendedService,
         protected mstAccountService: MstAccountService,
         protected activatedRoute: ActivatedRoute,
-        protected systemGroupMapService: SystemGroupMapService
+        protected systemGroupMapService: SystemGroupMapService,
+        protected dtTransactionService: DtTransactionExtendedService
     ) {
         super(jhiAlertService, receiptVoucherService, mstAccountService, activatedRoute);
     }
@@ -96,5 +98,9 @@ export class ReceiptVoucherExtendedUpdateComponent extends ReceiptVoucherUpdateC
     post() {
         this.receiptVoucher.postDate = moment();
         this.save();
+    }
+
+    downloadVoucherReport() {
+        this.dtTransactionService.downloadVoucherReport('RECEIPT VOUCHER', this.receiptVoucher.voucherNo, this.receiptVoucher.voucherDate);
     }
 }

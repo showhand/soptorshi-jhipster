@@ -9,6 +9,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IDtTransaction } from 'app/shared/model/dt-transaction.model';
 import { DtTransactionService } from 'app/entities/dt-transaction';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 
 type EntityResponseType = HttpResponse<IDtTransaction>;
 type EntityArrayResponseType = HttpResponse<IDtTransaction[]>;
@@ -33,5 +34,14 @@ export class DtTransactionExtendedService extends DtTransactionService {
         return this.http
             .put<IDtTransaction>(this.resourceUrlExtended, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    downloadVoucherReport(voucherName: string, voucherNo: string, voucherDate: any) {
+        const voucherDateStr = moment(voucherDate).format('YYYY-MM-DD');
+        return this.http
+            .get(`${this.resourceUrlExtended}/voucher-report/${voucherName}/${voucherNo}/${voucherDateStr}`, { responseType: 'blob' })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', voucherName);
+            });
     }
 }

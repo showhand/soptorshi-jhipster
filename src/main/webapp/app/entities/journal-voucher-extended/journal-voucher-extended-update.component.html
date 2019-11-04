@@ -89,6 +89,9 @@
                 <button  type="submit" *ngIf="totalDebit!=0 && totalDebit==totalCredit" id="post" [disabled]="editForm.form.invalid || !isSaving || journalVoucher.postDate" class="btn btn-secondary" (click)="post()">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Post</span>
                 </button>
+                <button  type="submit" *ngIf="journalVoucher.postDate" id="report"  class="btn btn-secondary" (click)="downloadVoucherReport()">
+                    <fa-icon [icon]="'file-pdf'"></fa-icon>&nbsp;<span>Download Report</span>
+                </button>
             </div>
         </form>
     </div>

@@ -82,6 +82,9 @@
                 <button *ngIf="contraVoucher.voucherNo && totalDebit>0 && totalCredit==totalCredit" (click)="post()" type="submit" id="post-entity" [disabled]="editForm.form.invalid || isSaving || contraVoucher.postDate" class="btn btn-secondary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Post</span>
                 </button>
+                <button  type="submit" *ngIf="contraVoucher.postDate" id="report"  class="btn btn-secondary" (click)="downloadVoucherReport()">
+                    <fa-icon [icon]="'file-pdf'"></fa-icon>&nbsp;<span>Download Report</span>
+                </button>
             </div>
         </form>
     </div>

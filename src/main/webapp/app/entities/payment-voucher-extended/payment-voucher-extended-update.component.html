@@ -69,6 +69,9 @@
                 <button *ngIf="paymentVoucher.voucherNo && this.totalAmount>0" (click)="post()" type="submit" id="post-entity" [disabled]="editForm.form.invalid || isSaving || paymentVoucher.postDate" class="btn btn-secondary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Post</span>
                 </button>
+                <button  type="submit" *ngIf="paymentVoucher.postDate" id="report"  class="btn btn-secondary" (click)="downloadVoucherReport()">
+                    <fa-icon [icon]="'file-pdf'"></fa-icon>&nbsp;<span>Download Report</span>
+                </button>
             </div>
         </form>
     </div>

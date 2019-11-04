@@ -12,6 +12,7 @@ import { ContraVoucherExtendedService } from 'app/entities/contra-voucher-extend
 import { ContraVoucherUpdateComponent } from 'app/entities/contra-voucher';
 import { IConversionFactor } from 'app/shared/model/conversion-factor.model';
 import { ConversionFactorExtendedService } from 'app/entities/conversion-factor-extended';
+import { DtTransactionExtendedService } from 'app/entities/dt-transaction-extended';
 
 @Component({
     selector: 'jhi-contra-voucher-update',
@@ -26,7 +27,8 @@ export class ContraVoucherExtendedUpdateComponent extends ContraVoucherUpdateCom
         protected contraVoucherService: ContraVoucherExtendedService,
         protected currencyService: CurrencyService,
         protected activatedRoute: ActivatedRoute,
-        protected conversionFactorService: ConversionFactorExtendedService
+        protected conversionFactorService: ConversionFactorExtendedService,
+        protected dtTransactionService: DtTransactionExtendedService
     ) {
         super(jhiAlertService, contraVoucherService, currencyService, activatedRoute);
     }
@@ -97,5 +99,9 @@ export class ContraVoucherExtendedUpdateComponent extends ContraVoucherUpdateCom
     protected post() {
         this.contraVoucher.postDate = moment();
         this.save();
+    }
+
+    downloadVoucherReport() {
+        this.dtTransactionService.downloadVoucherReport('CONTRA VOUCHER', this.contraVoucher.voucherNo, this.contraVoucher.voucherDate);
     }
 }

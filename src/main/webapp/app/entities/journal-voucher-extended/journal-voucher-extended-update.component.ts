@@ -13,6 +13,7 @@ import { IConversionFactor } from 'app/shared/model/conversion-factor.model';
 import { VoucherType } from 'app/shared/model/dt-transaction.model';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import moment = require('moment');
+import { DtTransactionExtendedService } from 'app/entities/dt-transaction-extended';
 
 @Component({
     selector: 'jhi-journal-voucher-extended-update',
@@ -35,7 +36,8 @@ export class JournalVoucherExtendedUpdateComponent extends JournalVoucherUpdateC
         protected conversionFactorService: ConversionFactorExtendedService,
         protected eventManager: JhiEventManager,
         protected jhiAlertService: JhiAlertService,
-        protected router: Router
+        protected router: Router,
+        protected dtTransactionService: DtTransactionExtendedService
     ) {
         super(jhiAlertService, journalVoucherService, currencyService, activatedRoute);
         this.totalCredit = 0;
@@ -125,5 +127,9 @@ export class JournalVoucherExtendedUpdateComponent extends JournalVoucherUpdateC
 
     protected onSaveError() {
         this.isSaving = false;
+    }
+
+    downloadVoucherReport() {
+        this.dtTransactionService.downloadVoucherReport('JOURNAL VOUCHER', this.journalVoucher.voucherNo, this.journalVoucher.voucherDate);
     }
 }

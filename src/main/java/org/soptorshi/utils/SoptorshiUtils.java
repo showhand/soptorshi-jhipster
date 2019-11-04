@@ -17,6 +17,7 @@ import java.util.Date;
 public class SoptorshiUtils {
     public static Font mLiteFont = new Font(Font.FontFamily.TIMES_ROMAN, 10);
     public static Font mBoldFont = new Font(Font.FontFamily.TIMES_ROMAN, 10f, Font.BOLD, BaseColor.BLACK);
+    public static Font mBoldFontUnderLine = new Font(Font.FontFamily.TIMES_ROMAN, 10f, Font.BOLD|Font.UNDERLINE, BaseColor.BLACK);
     public static Font mLiteFontItalic = new Font(Font.FontFamily.TIMES_ROMAN, 10f, Font.ITALIC, BaseColor.BLACK);
     public static Font mBoldFontItalic = new Font(Font.FontFamily.TIMES_ROMAN, 10f, Font.BOLDITALIC, BaseColor.BLACK);
     public static Font mLiteMediumFont = new Font(Font.FontFamily.TIMES_ROMAN, 8);
@@ -188,6 +189,8 @@ public class SoptorshiUtils {
     }
 
     public static String formatDate(LocalDate date, String outputFormat) {
+        if(date==null)
+            return "";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(outputFormat);
         return date.format(formatter);
     }
