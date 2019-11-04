@@ -47,7 +47,7 @@ export class JournalVoucherExtendedUpdateComponent extends JournalVoucherUpdateC
         this.activatedRoute.data.subscribe(({ journalVoucher }) => {
             this.journalVoucher = journalVoucher;
             this.loadAll();
-            this.journalVoucher.type = this.voucherType == null ? (this.voucherType = VoucherType.BUYING) : this.voucherType;
+            //this.journalVoucher.type = this.voucherType == null ? (this.voucherType = VoucherType.BUYING) : this.voucherType;
         });
     }
 

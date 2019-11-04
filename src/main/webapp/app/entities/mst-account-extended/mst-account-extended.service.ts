@@ -9,6 +9,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IMstAccount } from 'app/shared/model/mst-account.model';
 import { MstAccountService } from 'app/entities/mst-account';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 
 type EntityResponseType = HttpResponse<IMstAccount>;
 type EntityArrayResponseType = HttpResponse<IMstAccount[]>;
@@ -33,5 +34,11 @@ export class MstAccountExtendedService extends MstAccountService {
         return this.http
             .put<IMstAccount>(this.resourceExtendedUrl, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    chartsOfAccount(): any {
+        return this.http.get(`${this.resourceExtendedUrl}/charts-of-account`, { responseType: 'blob' }).subscribe((data: any) => {
+            SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Charts of Accounts');
+        });
     }
 }

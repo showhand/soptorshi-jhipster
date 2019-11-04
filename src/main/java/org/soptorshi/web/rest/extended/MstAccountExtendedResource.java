@@ -1,7 +1,9 @@
 package org.soptorshi.web.rest.extended;
 
+import com.itextpdf.text.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.ChartsOfAccountReportService;
 import org.soptorshi.service.MstAccountQueryService;
 import org.soptorshi.service.MstAccountService;
 import org.soptorshi.service.dto.MstAccountDTO;
@@ -9,9 +11,13 @@ import org.soptorshi.service.extended.MstAccountExtendedService;
 import org.soptorshi.web.rest.MstAccountResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -26,9 +32,12 @@ public class MstAccountExtendedResource {
 
     private final MstAccountQueryService mstAccountQueryService;
 
-    public MstAccountExtendedResource(MstAccountExtendedService mstAccountService, MstAccountQueryService mstAccountQueryService) {
+    private final ChartsOfAccountReportService chartsOfAccountReportService;
+
+    public MstAccountExtendedResource(MstAccountExtendedService mstAccountService, MstAccountQueryService mstAccountQueryService, ChartsOfAccountReportService chartsOfAccountReportService) {
         this.mstAccountService = mstAccountService;
         this.mstAccountQueryService = mstAccountQueryService;
+        this.chartsOfAccountReportService = chartsOfAccountReportService;
     }
 
     /**
@@ -69,6 +78,18 @@ public class MstAccountExtendedResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, mstAccountDTO.getId().toString()))
             .body(result);
+    }
+
+    @GetMapping(value = "/mst-accounts/charts-of-account", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> generateChartsOfAccounts() throws Exception, DocumentException {
+        ByteArrayInputStream byteArrayInputStream = chartsOfAccountReportService.createChartsOrAccountReport();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "/api/extended/charts-of-account");
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_PDF)
+            .body(new InputStreamResource(byteArrayInputStream));
     }
 }
 
