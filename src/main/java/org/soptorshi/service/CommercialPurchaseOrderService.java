@@ -59,7 +59,6 @@ public class CommercialPurchaseOrderService {
         if(commercialPurchaseOrderDTO.getId() == null) {
             commercialPurchaseOrderDTO.setCreatedBy(currentUser);
             commercialPurchaseOrderDTO.setCreateOn(currentDate);
-            updateCommercialStatus(currentUser, currentDate);
         }
         else {
             commercialPurchaseOrderDTO.setUpdatedBy(currentUser);
@@ -67,14 +66,18 @@ public class CommercialPurchaseOrderService {
         }
         CommercialPurchaseOrder commercialPurchaseOrder = commercialPurchaseOrderMapper.toEntity(commercialPurchaseOrderDTO);
         commercialPurchaseOrder = commercialPurchaseOrderRepository.save(commercialPurchaseOrder);
+        if(commercialPurchaseOrderDTO.getId() == null) {
+            updateCommercialStatus(commercialPurchaseOrder, currentUser, currentDate);
+        }
         CommercialPurchaseOrderDTO result = commercialPurchaseOrderMapper.toDto(commercialPurchaseOrder);
         commercialPurchaseOrderSearchRepository.save(commercialPurchaseOrder);
         return result;
     }
 
-    private void updateCommercialStatus(String currentUser, LocalDate currentDate) {
+    private void updateCommercialStatus(CommercialPurchaseOrder commercialPurchaseOrder, String currentUser, LocalDate currentDate) {
         CommercialPoStatusDTO commercialPoStatusDTO = new CommercialPoStatusDTO();
         commercialPoStatusDTO.setStatus(CommercialStatus.WAITING_FOR_PROFORMA_INVOICE);
+        commercialPoStatusDTO.setCommercialPurchaseOrderId(commercialPurchaseOrder.getId());
         commercialPoStatusDTO.setCreatedBy(currentUser);
         commercialPoStatusDTO.setCreateOn(currentDate);
         commercialPoStatusService.save(commercialPoStatusDTO);

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialPurchaseOrderItem;
 import org.soptorshi.repository.CommercialPurchaseOrderItemRepository;
 import org.soptorshi.repository.search.CommercialPurchaseOrderItemSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.CommercialPurchaseOrderItemDTO;
 import org.soptorshi.service.mapper.CommercialPurchaseOrderItemMapper;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -45,6 +47,16 @@ public class CommercialPurchaseOrderItemService {
      */
     public CommercialPurchaseOrderItemDTO save(CommercialPurchaseOrderItemDTO commercialPurchaseOrderItemDTO) {
         log.debug("Request to save CommercialPurchaseOrderItem : {}", commercialPurchaseOrderItemDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        LocalDate currentDate = LocalDate.now();
+        if(commercialPurchaseOrderItemDTO.getId() == null) {
+            commercialPurchaseOrderItemDTO.setCreatedBy(currentUser);
+            commercialPurchaseOrderItemDTO.setCreateOn(currentDate);
+        }
+        else {
+            commercialPurchaseOrderItemDTO.setUpdatedBy(currentUser);
+            commercialPurchaseOrderItemDTO.setUpdatedOn(currentDate);
+        }
         CommercialPurchaseOrderItem commercialPurchaseOrderItem = commercialPurchaseOrderItemMapper.toEntity(commercialPurchaseOrderItemDTO);
         commercialPurchaseOrderItem = commercialPurchaseOrderItemRepository.save(commercialPurchaseOrderItem);
         CommercialPurchaseOrderItemDTO result = commercialPurchaseOrderItemMapper.toDto(commercialPurchaseOrderItem);

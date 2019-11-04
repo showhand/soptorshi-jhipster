@@ -63,17 +63,30 @@ export class CommercialPurchaseOrderComponent implements OnInit, OnDestroy {
                 );
             return;
         }*/
-        this.commercialPurchaseOrderService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort(),
-                'purchaseOrderNo.equals': this.currentSearch
-            })
-            .subscribe(
-                (res: HttpResponse<ICommercialPurchaseOrder[]>) => this.paginateCommercialPurchaseOrders(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        if (this.currentSearch) {
+            this.commercialPurchaseOrderService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'purchaseOrderNo.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ICommercialPurchaseOrder[]>) => this.paginateCommercialPurchaseOrders(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.commercialPurchaseOrderService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ICommercialPurchaseOrder[]>) => this.paginateCommercialPurchaseOrders(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
     }
 
     reset() {

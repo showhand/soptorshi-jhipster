@@ -1,101 +1,143 @@
-<div>
-    <h2 id="page-heading">
-        <span>Commercial Proforma Invoices</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-commercial-proforma-invoice" [routerLink]="['/commercial-proforma-invoice/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down" >
-            Create new Commercial Proforma Invoice
-            </span>
-        </button>
-    </h2>
-    <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
+<div class="row justify-content-center">
+    <div class="col-12">
+        <jhi-alert></jhi-alert>
     </div>
-    <br/>
-    <div class="table-responsive" *ngIf="commercialProformaInvoices">
-        <table class="table table-striped">
-            <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="companyName"><span>Company Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="companyDescriptionOrAddress"><span>Company Description Or Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="proformaNo"><span>Proforma No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="proformaDate"><span>Proforma Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="harmonicCode"><span>Harmonic Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="paymentTerm"><span>Payment Term</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="termsOfDelivery"><span>Terms Of Delivery</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="shipmentDate"><span>Shipment Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="portOfLanding"><span>Port Of Landing</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="portOfDestination"><span>Port Of Destination</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createOn"><span>Create On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="commercialPurchaseOrderPurchaseOrderNo"><span>Commercial Purchase Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-            <tr *ngFor="let commercialProformaInvoice of commercialProformaInvoices ;trackBy: trackId">
-                <td><a [routerLink]="['/commercial-proforma-invoice', commercialProformaInvoice.id, 'view' ]">{{commercialProformaInvoice.id}}</a></td>
-                <td>{{commercialProformaInvoice.companyName}}</td>
-                <td>{{commercialProformaInvoice.companyDescriptionOrAddress}}</td>
-                <td>{{commercialProformaInvoice.proformaNo}}</td>
-                <td>{{commercialProformaInvoice.proformaDate | date:'mediumDate'}}</td>
-                <td>{{commercialProformaInvoice.harmonicCode}}</td>
-                <td>{{commercialProformaInvoice.paymentTerm}}</td>
-                <td>{{commercialProformaInvoice.termsOfDelivery}}</td>
-                <td>{{commercialProformaInvoice.shipmentDate}}</td>
-                <td>{{commercialProformaInvoice.portOfLanding}}</td>
-                <td>{{commercialProformaInvoice.portOfDestination}}</td>
-                <td>{{commercialProformaInvoice.createdBy}}</td>
-                <td>{{commercialProformaInvoice.createOn | date:'mediumDate'}}</td>
-                <td>{{commercialProformaInvoice.updatedBy}}</td>
-                <td>{{commercialProformaInvoice.updatedOn | date:'mediumDate'}}</td>
-                <td>
-                    <div *ngIf="commercialProformaInvoice.commercialPurchaseOrderId">
-                        <a [routerLink]="['../commercial-purchase-order', commercialProformaInvoice.commercialPurchaseOrderId , 'view' ]" >{{commercialProformaInvoice.commercialPurchaseOrderPurchaseOrderNo}}</a>
-                    </div>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/commercial-proforma-invoice', commercialProformaInvoice.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/commercial-proforma-invoice', commercialProformaInvoice.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', 'commercial-proforma-invoice', { outlets: { popup: commercialProformaInvoice.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <h2 id="page-heading">Proforma Invoices</h2>
+    </div>
+    <div class="col-6">
+        <form name="searchForm" class="form-inline">
+            <div class="input-group w-100 mt-3">
+                <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                       name="currentSearch" placeholder="Purchase Order No">
+                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+                <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                    <fa-icon [icon]="'trash-alt'"></fa-icon>
+                </button>
+                <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-proforma-invoice"
+                        [routerLink]="['/commercial-proforma-invoice/new']" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                    <fa-icon [icon]="'plus'"></fa-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-12 ">
+        <br/>
+        <div class="table-responsive" *ngIf="commercialProformaInvoices">
+            <table class="table table-striped">
+                <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                    <th jhiSortBy="id"><span>ID</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="commercialPurchaseOrderPurchaseOrderNo"><span>Commercial Purchase Order</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <!--<th jhiSortBy="companyName"><span>Company Name</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="companyDescriptionOrAddress"><span>Company Description Or Address</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>-->
+                    <th jhiSortBy="proformaNo"><span>Proforma No</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="proformaDate"><span>Proforma Date</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="harmonicCode"><span>Harmonic Code</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="paymentTerm"><span>Payment Term</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="termsOfDelivery"><span>Terms Of Delivery</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="shipmentDate"><span>Shipment Date</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="portOfLanding"><span>Port Of Landing</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="portOfDestination"><span>Port Of Destination</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <!--<th jhiSortBy="createdBy"><span>Created By</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="createOn"><span>Create On</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="updatedBy"><span>Updated By</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="updatedOn"><span>Updated On</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>-->
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                       [infiniteScrollDistance]="0">
+                <tr *ngFor="let commercialProformaInvoice of commercialProformaInvoices ;trackBy: trackId">
+                    <td><a
+                        [routerLink]="['/commercial-proforma-invoice', commercialProformaInvoice.id, 'view' ]">{{commercialProformaInvoice.id}}</a>
+                    </td>
+                    <td>
+                        <div *ngIf="commercialProformaInvoice.commercialPurchaseOrderId">
+                            <a [routerLink]="['../commercial-purchase-order', commercialProformaInvoice.commercialPurchaseOrderId , 'view' ]">{{commercialProformaInvoice.commercialPurchaseOrderPurchaseOrderNo}}</a>
+                        </div>
+                    </td>
+                    <!--<td>{{commercialProformaInvoice.companyName}}</td>
+                    <td>{{commercialProformaInvoice.companyDescriptionOrAddress}}</td>-->
+                    <td>{{commercialProformaInvoice.proformaNo}}</td>
+                    <td>{{commercialProformaInvoice.proformaDate | date:'mediumDate'}}</td>
+                    <td>{{commercialProformaInvoice.harmonicCode}}</td>
+                    <td>{{commercialProformaInvoice.paymentTerm}}</td>
+                    <td>{{commercialProformaInvoice.termsOfDelivery}}</td>
+                    <td>{{commercialProformaInvoice.shipmentDate}}</td>
+                    <td>{{commercialProformaInvoice.portOfLanding}}</td>
+                    <td>{{commercialProformaInvoice.portOfDestination}}</td>
+                   <!--<td>{{commercialProformaInvoice.createdBy}}</td>
+                    <td>{{commercialProformaInvoice.createOn | date:'mediumDate'}}</td>
+                    <td>{{commercialProformaInvoice.updatedBy}}</td>
+                    <td>{{commercialProformaInvoice.updatedOn | date:'mediumDate'}}</td>-->
+                    <td class="text-right" width="20%">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    [routerLink]="['/commercial-proforma-invoice', commercialProformaInvoice.id, 'view' ]"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/commercial-proforma-invoice', commercialProformaInvoice.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/', 'commercial-proforma-invoice', { outlets: { popup: commercialProformaInvoice.id + '/delete'} }]"
+                                    replaceUrl="true"
+                                    queryParamsHandling="merge"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
