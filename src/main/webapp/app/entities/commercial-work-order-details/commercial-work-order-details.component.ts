@@ -68,8 +68,7 @@ export class CommercialWorkOrderDetailsComponent implements OnInit, OnDestroy {
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'commercialWorkOrderRefNo.equals': this.currentSearch
+                    sort: this.sort()
                 })
                 .subscribe(
                     (res: HttpResponse<ICommercialWorkOrderDetails[]>) => this.paginateCommercialWorkOrderDetails(res.body, res.headers),

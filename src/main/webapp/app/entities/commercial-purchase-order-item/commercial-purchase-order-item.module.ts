@@ -5,7 +5,7 @@ import { SoptorshiSharedModule } from 'app/shared';
 import {
     CommercialPurchaseOrderItemComponent,
     CommercialPurchaseOrderItemDeleteDialogComponent,
-    CommercialPurchaseOrderItemDeletePopupExtendedComponent,
+    CommercialPurchaseOrderItemDeletePopupComponent,
     CommercialPurchaseOrderItemDetailComponent,
     commercialPurchaseOrderItemPopupRoute,
     commercialPurchaseOrderItemRoute,
@@ -21,13 +21,13 @@ const ENTITY_STATES = [...commercialPurchaseOrderItemRoute, ...commercialPurchas
         CommercialPurchaseOrderItemDetailComponent,
         CommercialPurchaseOrderItemUpdateComponent,
         CommercialPurchaseOrderItemDeleteDialogComponent,
-        CommercialPurchaseOrderItemDeletePopupExtendedComponent
+        CommercialPurchaseOrderItemDeletePopupComponent
     ],
     entryComponents: [
         CommercialPurchaseOrderItemComponent,
         CommercialPurchaseOrderItemUpdateComponent,
         CommercialPurchaseOrderItemDeleteDialogComponent,
-        CommercialPurchaseOrderItemDeletePopupExtendedComponent
+        CommercialPurchaseOrderItemDeletePopupComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -6,7 +6,10 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { ICommercialPurchaseOrderItem } from 'app/shared/model/commercial-purchase-order-item.model';
 import { CommercialPurchaseOrderItemExtendedService } from './commercial-purchase-order-item-extended.service';
-import { CommercialPurchaseOrderItemDeleteDialogComponent } from 'app/entities/commercial-purchase-order-item';
+import {
+    CommercialPurchaseOrderItemDeleteDialogComponent,
+    CommercialPurchaseOrderItemDeletePopupComponent
+} from 'app/entities/commercial-purchase-order-item';
 
 @Component({
     selector: 'jhi-commercial-purchase-order-item-delete-dialog-extended',
@@ -42,7 +45,7 @@ export class CommercialPurchaseOrderItemDeleteDialogExtendedComponent extends Co
     selector: 'jhi-commercial-purchase-order-item-delete-popup-extended',
     template: ''
 })
-export class CommercialPurchaseOrderItemDeletePopupExtendedComponent extends CommercialPurchaseOrderItemDeletePopupExtendedComponent {
+export class CommercialPurchaseOrderItemDeletePopupExtendedComponent extends CommercialPurchaseOrderItemDeletePopupComponent {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {

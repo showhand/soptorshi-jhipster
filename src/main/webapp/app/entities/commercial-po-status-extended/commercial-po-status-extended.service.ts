@@ -15,7 +15,7 @@ type EntityArrayResponseType = HttpResponse<ICommercialPoStatus[]>;
 
 @Injectable({ providedIn: 'root' })
 export class CommercialPoStatusExtendedService extends CommercialPoStatusService {
-    public resourceUrl = SERVER_API_URL + 'api/commercial-po-statuses';
+    public resourceUrl = SERVER_API_URL + 'api/extended/commercial-po-statuses';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/commercial-po-statuses';
 
     constructor(protected http: HttpClient) {

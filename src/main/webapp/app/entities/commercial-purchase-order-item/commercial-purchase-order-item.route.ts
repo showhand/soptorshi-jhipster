@@ -9,7 +9,7 @@ import { CommercialPurchaseOrderItemService } from './commercial-purchase-order-
 import { CommercialPurchaseOrderItemComponent } from './commercial-purchase-order-item.component';
 import { CommercialPurchaseOrderItemDetailComponent } from './commercial-purchase-order-item-detail.component';
 import { CommercialPurchaseOrderItemUpdateComponent } from './commercial-purchase-order-item-update.component';
-import { CommercialPurchaseOrderItemDeletePopupExtendedComponent } from './commercial-purchase-order-item-delete-dialog.component';
+import { CommercialPurchaseOrderItemDeletePopupComponent } from './commercial-purchase-order-item-delete-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class CommercialPurchaseOrderItemResolve implements Resolve<ICommercialPurchaseOrderItem> {
@@ -78,7 +78,7 @@ export const commercialPurchaseOrderItemRoute: Routes = [
 export const commercialPurchaseOrderItemPopupRoute: Routes = [
     {
         path: ':id/delete',
-        component: CommercialPurchaseOrderItemDeletePopupExtendedComponent,
+        component: CommercialPurchaseOrderItemDeletePopupComponent,
         resolve: {
             commercialPurchaseOrderItem: CommercialPurchaseOrderItemResolve
         },

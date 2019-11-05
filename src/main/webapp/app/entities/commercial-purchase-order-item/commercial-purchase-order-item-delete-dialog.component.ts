@@ -39,7 +39,7 @@ export class CommercialPurchaseOrderItemDeleteDialogComponent {
     selector: 'jhi-commercial-purchase-order-item-delete-popup',
     template: ''
 })
-export class CommercialPurchaseOrderItemDeletePopupExtendedComponent implements OnInit, OnDestroy {
+export class CommercialPurchaseOrderItemDeletePopupComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
