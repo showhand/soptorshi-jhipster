@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -6,15 +6,14 @@ import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
 import { ICommercialWorkOrderDetails } from 'app/shared/model/commercial-work-order-details.model';
 import { AccountService } from 'app/core';
-
-import { ITEMS_PER_PAGE } from 'app/shared';
-import { CommercialWorkOrderDetailsService } from './commercial-work-order-details.service';
+import { CommercialWorkOrderDetailsExtendedService } from './commercial-work-order-details-extended.service';
+import { CommercialWorkOrderDetailsComponent } from 'app/entities/commercial-work-order-details';
 
 @Component({
-    selector: 'jhi-commercial-work-order-details',
-    templateUrl: './commercial-work-order-details.component.html'
+    selector: 'jhi-commercial-work-order-details-extended',
+    templateUrl: './commercial-work-order-details-extended.component.html'
 })
-export class CommercialWorkOrderDetailsComponent implements OnInit, OnDestroy {
+export class CommercialWorkOrderDetailsExtendedComponent extends CommercialWorkOrderDetailsComponent {
     commercialWorkOrderDetails: ICommercialWorkOrderDetails[];
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -27,25 +26,14 @@ export class CommercialWorkOrderDetailsComponent implements OnInit, OnDestroy {
     currentSearch: string;
 
     constructor(
-        protected commercialWorkOrderDetailsService: CommercialWorkOrderDetailsService,
+        protected commercialWorkOrderDetailsService: CommercialWorkOrderDetailsExtendedService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
     ) {
-        this.commercialWorkOrderDetails = [];
-        this.itemsPerPage = ITEMS_PER_PAGE;
-        this.page = 0;
-        this.links = {
-            last: 0
-        };
-        this.predicate = 'id';
-        this.reverse = true;
-        this.currentSearch =
-            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-                ? this.activatedRoute.snapshot.params['search']
-                : '';
+        super(commercialWorkOrderDetailsService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
     }
 
     loadAll() {
@@ -68,7 +56,8 @@ export class CommercialWorkOrderDetailsComponent implements OnInit, OnDestroy {
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort()
+                    sort: this.sort(),
+                    'commercialWorkOrderRefNo.equals': this.currentSearch
                 })
                 .subscribe(
                     (res: HttpResponse<ICommercialWorkOrderDetails[]>) => this.paginateCommercialWorkOrderDetails(res.body, res.headers),

@@ -1,21 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
-import { ICommercialWorkOrderDetails } from 'app/shared/model/commercial-work-order-details.model';
+import { ICommercialPurchaseOrder } from 'app/shared/model/commercial-purchase-order.model';
 import { AccountService } from 'app/core';
-
-import { ITEMS_PER_PAGE } from 'app/shared';
-import { CommercialWorkOrderDetailsService } from './commercial-work-order-details.service';
+import { CommercialPurchaseOrderExtendedService } from './commercial-purchase-order-extended.service';
+import { CommercialPurchaseOrderComponent } from 'app/entities/commercial-purchase-order';
 
 @Component({
-    selector: 'jhi-commercial-work-order-details',
-    templateUrl: './commercial-work-order-details.component.html'
+    selector: 'jhi-commercial-purchase-order-extended',
+    templateUrl: './commercial-purchase-order-extended.component.html'
 })
-export class CommercialWorkOrderDetailsComponent implements OnInit, OnDestroy {
-    commercialWorkOrderDetails: ICommercialWorkOrderDetails[];
+export class CommercialPurchaseOrderExtendedComponent extends CommercialPurchaseOrderComponent {
+    commercialPurchaseOrders: ICommercialPurchaseOrder[];
     currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
@@ -27,30 +26,19 @@ export class CommercialWorkOrderDetailsComponent implements OnInit, OnDestroy {
     currentSearch: string;
 
     constructor(
-        protected commercialWorkOrderDetailsService: CommercialWorkOrderDetailsService,
+        protected commercialPurchaseOrderService: CommercialPurchaseOrderExtendedService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
     ) {
-        this.commercialWorkOrderDetails = [];
-        this.itemsPerPage = ITEMS_PER_PAGE;
-        this.page = 0;
-        this.links = {
-            last: 0
-        };
-        this.predicate = 'id';
-        this.reverse = true;
-        this.currentSearch =
-            this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
-                ? this.activatedRoute.snapshot.params['search']
-                : '';
+        super(commercialPurchaseOrderService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
     }
 
     loadAll() {
         /*if (this.currentSearch) {
-            this.commercialWorkOrderDetailsService
+            this.commercialPurchaseOrderService
                 .search({
                     query: this.currentSearch,
                     page: this.page,
@@ -58,31 +46,32 @@ export class CommercialWorkOrderDetailsComponent implements OnInit, OnDestroy {
                     sort: this.sort()
                 })
                 .subscribe(
-                    (res: HttpResponse<ICommercialWorkOrderDetails[]>) => this.paginateCommercialWorkOrderDetails(res.body, res.headers),
+                    (res: HttpResponse<ICommercialPurchaseOrder[]>) => this.paginateCommercialPurchaseOrders(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
         }*/
         if (this.currentSearch) {
-            this.commercialWorkOrderDetailsService
+            this.commercialPurchaseOrderService
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort()
+                    sort: this.sort(),
+                    'purchaseOrderNo.equals': this.currentSearch
                 })
                 .subscribe(
-                    (res: HttpResponse<ICommercialWorkOrderDetails[]>) => this.paginateCommercialWorkOrderDetails(res.body, res.headers),
+                    (res: HttpResponse<ICommercialPurchaseOrder[]>) => this.paginateCommercialPurchaseOrders(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
         } else {
-            this.commercialWorkOrderDetailsService
+            this.commercialPurchaseOrderService
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
                     sort: this.sort()
                 })
                 .subscribe(
-                    (res: HttpResponse<ICommercialWorkOrderDetails[]>) => this.paginateCommercialWorkOrderDetails(res.body, res.headers),
+                    (res: HttpResponse<ICommercialPurchaseOrder[]>) => this.paginateCommercialPurchaseOrders(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
         }
@@ -90,7 +79,7 @@ export class CommercialWorkOrderDetailsComponent implements OnInit, OnDestroy {
 
     reset() {
         this.page = 0;
-        this.commercialWorkOrderDetails = [];
+        this.commercialPurchaseOrders = [];
         this.loadAll();
     }
 
@@ -100,7 +89,7 @@ export class CommercialWorkOrderDetailsComponent implements OnInit, OnDestroy {
     }
 
     clear() {
-        this.commercialWorkOrderDetails = [];
+        this.commercialPurchaseOrders = [];
         this.links = {
             last: 0
         };
@@ -115,7 +104,7 @@ export class CommercialWorkOrderDetailsComponent implements OnInit, OnDestroy {
         if (!query) {
             return this.clear();
         }
-        this.commercialWorkOrderDetails = [];
+        this.commercialPurchaseOrders = [];
         this.links = {
             last: 0
         };
@@ -131,19 +120,19 @@ export class CommercialWorkOrderDetailsComponent implements OnInit, OnDestroy {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
-        this.registerChangeInCommercialWorkOrderDetails();
+        this.registerChangeInCommercialPurchaseOrders();
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: ICommercialWorkOrderDetails) {
+    trackId(index: number, item: ICommercialPurchaseOrder) {
         return item.id;
     }
 
-    registerChangeInCommercialWorkOrderDetails() {
-        this.eventSubscriber = this.eventManager.subscribe('commercialWorkOrderDetailsListModification', response => this.reset());
+    registerChangeInCommercialPurchaseOrders() {
+        this.eventSubscriber = this.eventManager.subscribe('commercialPurchaseOrderListModification', response => this.reset());
     }
 
     sort() {
@@ -154,11 +143,11 @@ export class CommercialWorkOrderDetailsComponent implements OnInit, OnDestroy {
         return result;
     }
 
-    protected paginateCommercialWorkOrderDetails(data: ICommercialWorkOrderDetails[], headers: HttpHeaders) {
+    protected paginateCommercialPurchaseOrders(data: ICommercialPurchaseOrder[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
-            this.commercialWorkOrderDetails.push(data[i]);
+            this.commercialPurchaseOrders.push(data[i]);
         }
     }
 

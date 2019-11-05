@@ -2,15 +2,9 @@ package org.soptorshi.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.CommercialPoStatus;
 import org.soptorshi.domain.CommercialWorkOrder;
-import org.soptorshi.domain.enumeration.CommercialStatus;
-import org.soptorshi.repository.CommercialPoStatusRepository;
-import org.soptorshi.repository.CommercialPurchaseOrderRepository;
 import org.soptorshi.repository.CommercialWorkOrderRepository;
 import org.soptorshi.repository.search.CommercialWorkOrderSearchRepository;
-import org.soptorshi.security.SecurityUtils;
-import org.soptorshi.service.dto.CommercialPoStatusDTO;
 import org.soptorshi.service.dto.CommercialWorkOrderDTO;
 import org.soptorshi.service.mapper.CommercialWorkOrderMapper;
 import org.springframework.data.domain.Page;
@@ -18,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -38,19 +31,10 @@ public class CommercialWorkOrderService {
 
     private final CommercialWorkOrderSearchRepository commercialWorkOrderSearchRepository;
 
-    private final CommercialPoStatusRepository commercialPoStatusRepository;
-
-    private final CommercialPoStatusService commercialPoStatusService;
-
-    private final CommercialPurchaseOrderRepository commercialPurchaseOrderRepository;
-
-    public CommercialWorkOrderService(CommercialWorkOrderRepository commercialWorkOrderRepository, CommercialWorkOrderMapper commercialWorkOrderMapper, CommercialWorkOrderSearchRepository commercialWorkOrderSearchRepository, CommercialPoStatusRepository commercialPoStatusRepository, CommercialPoStatusService commercialPoStatusService, CommercialPurchaseOrderRepository commercialPurchaseOrderRepository) {
+    public CommercialWorkOrderService(CommercialWorkOrderRepository commercialWorkOrderRepository, CommercialWorkOrderMapper commercialWorkOrderMapper, CommercialWorkOrderSearchRepository commercialWorkOrderSearchRepository) {
         this.commercialWorkOrderRepository = commercialWorkOrderRepository;
         this.commercialWorkOrderMapper = commercialWorkOrderMapper;
         this.commercialWorkOrderSearchRepository = commercialWorkOrderSearchRepository;
-        this.commercialPoStatusRepository = commercialPoStatusRepository;
-        this.commercialPoStatusService = commercialPoStatusService;
-        this.commercialPurchaseOrderRepository = commercialPurchaseOrderRepository;
     }
 
     /**
@@ -61,38 +45,11 @@ public class CommercialWorkOrderService {
      */
     public CommercialWorkOrderDTO save(CommercialWorkOrderDTO commercialWorkOrderDTO) {
         log.debug("Request to save CommercialWorkOrder : {}", commercialWorkOrderDTO);
-        CommercialPoStatus commercialPoStatus = commercialPoStatusRepository.findTopByCommercialPurchaseOrderOrderByCreateOnDesc(
-            commercialPurchaseOrderRepository.getOne(commercialWorkOrderDTO.getCommercialPurchaseOrderId()));
-
-        if(commercialPoStatus.getStatus().equals(CommercialStatus.ARTWORK_OF_PACKAGING_APPROVED_AND_ISSUE_WORK_ORDER_FOR_PACKAGING_ACCESSORIES)) {
-            String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
-            LocalDate currentDate = LocalDate.now();
-            if (commercialWorkOrderDTO.getId() == null) {
-                commercialWorkOrderDTO.setCreatedBy(currentUser);
-                commercialWorkOrderDTO.setCreateOn(currentDate);
-                updateCommercialStatus(commercialWorkOrderDTO, currentUser, currentDate);
-            } else {
-                commercialWorkOrderDTO.setUpdatedBy(currentUser);
-                commercialWorkOrderDTO.setUpdatedOn(currentDate);
-            }
-            CommercialWorkOrder commercialWorkOrder = commercialWorkOrderMapper.toEntity(commercialWorkOrderDTO);
-            commercialWorkOrder = commercialWorkOrderRepository.save(commercialWorkOrder);
-            CommercialWorkOrderDTO result = commercialWorkOrderMapper.toDto(commercialWorkOrder);
-            commercialWorkOrderSearchRepository.save(commercialWorkOrder);
-            return result;
-        }
-        else {
-            return null;
-        }
-    }
-
-    private void updateCommercialStatus(CommercialWorkOrderDTO commercialWorkOrderDTO, String currentUser, LocalDate currentDate) {
-        CommercialPoStatusDTO commercialPoStatusDTO = new CommercialPoStatusDTO();
-        commercialPoStatusDTO.setStatus(CommercialStatus.WORK_ORDER_ISSUED_AND_WAITING_FOR_BILL_OR_INVOICE_FROM_SUPPLIER);
-        commercialPoStatusDTO.setCommercialPurchaseOrderId(commercialWorkOrderDTO.getCommercialPurchaseOrderId());
-        commercialPoStatusDTO.setCreatedBy(currentUser);
-        commercialPoStatusDTO.setCreateOn(currentDate);
-        commercialPoStatusService.save(commercialPoStatusDTO);
+        CommercialWorkOrder commercialWorkOrder = commercialWorkOrderMapper.toEntity(commercialWorkOrderDTO);
+        commercialWorkOrder = commercialWorkOrderRepository.save(commercialWorkOrder);
+        CommercialWorkOrderDTO result = commercialWorkOrderMapper.toDto(commercialWorkOrder);
+        commercialWorkOrderSearchRepository.save(commercialWorkOrder);
+        return result;
     }
 
     /**
@@ -129,8 +86,8 @@ public class CommercialWorkOrderService {
      */
     public void delete(Long id) {
         log.debug("Request to delete CommercialWorkOrder : {}", id);
-        /*commercialWorkOrderRepository.deleteById(id);
-        commercialWorkOrderSearchRepository.deleteById(id);*/
+        commercialWorkOrderRepository.deleteById(id);
+        commercialWorkOrderSearchRepository.deleteById(id);
     }
 
     /**

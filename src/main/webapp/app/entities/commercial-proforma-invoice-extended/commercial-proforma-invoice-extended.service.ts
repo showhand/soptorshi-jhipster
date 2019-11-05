@@ -15,7 +15,7 @@ type EntityArrayResponseType = HttpResponse<ICommercialProformaInvoice[]>;
 
 @Injectable({ providedIn: 'root' })
 export class CommercialProformaInvoiceExtendedService extends CommercialProformaInvoiceService {
-    public resourceUrl = SERVER_API_URL + 'api/commercial-proforma-invoices';
+    public resourceUrl = SERVER_API_URL + 'api/extended/commercial-proforma-invoices';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/commercial-proforma-invoices';
 
     constructor(protected http: HttpClient) {

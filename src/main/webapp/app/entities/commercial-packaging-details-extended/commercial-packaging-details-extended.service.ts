@@ -15,7 +15,7 @@ type EntityArrayResponseType = HttpResponse<ICommercialPackagingDetails[]>;
 
 @Injectable({ providedIn: 'root' })
 export class CommercialPackagingDetailsExtendedService extends CommercialPackagingDetailsService {
-    public resourceUrl = SERVER_API_URL + 'api/commercial-packaging-details';
+    public resourceUrl = SERVER_API_URL + 'api/extended/commercial-packaging-details';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/commercial-packaging-details';
 
     constructor(protected http: HttpClient) {
