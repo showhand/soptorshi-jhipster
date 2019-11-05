@@ -12,6 +12,7 @@ import { AccountBalanceDetailComponent } from './account-balance-detail.componen
 import { AccountBalanceUpdateComponent } from './account-balance-update.component';
 import { AccountBalanceDeletePopupComponent } from './account-balance-delete-dialog.component';
 import { IAccountBalance } from 'app/shared/model/account-balance.model';
+import { BalanceSheetComponent } from 'app/entities/account-balance-extended';
 
 @Injectable({ providedIn: 'root' })
 export class AccountBalanceResolve implements Resolve<IAccountBalance> {
@@ -52,6 +53,16 @@ export const accountBalanceRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'AccountBalances'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'balance-sheet',
+        component: BalanceSheetComponent,
+
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Balance Sheet'
         },
         canActivate: [UserRouteAccessService]
     },

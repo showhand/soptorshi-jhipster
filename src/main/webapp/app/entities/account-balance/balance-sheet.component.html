@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">Balance Sheet</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-8">
+                        <form name="specification" role="form">
+                            <div>
+                                <div class="form-group">
+                                    <label class="form-control-label" for="field_voucherDate">As on  Date</label>
+                                    <div class="input-group">
+                                        <input id="field_as_on_date" type="date" class="form-control" name="asOnDate" ngbDatepicker  #voucherDateDp="ngbDatepicker" [(ngModel)]="asOnDate"
+                                        />
+                                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="voucherDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label" for="field_type">Fetch Type</label>
+                                    <select class="form-control" name="type" [(ngModel)]="fetchType" id="field_type" >
+                                        <option value="0">SUMMARIZED</option>
+                                        <option value="1">DETAILED</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

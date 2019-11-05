@@ -2,15 +2,16 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
+import { BalanceSheetComponent } from './';
+import { accountBalanceExtendedRoute } from 'app/entities/account-balance-extended/account-balance-extended.route';
 import {
     AccountBalanceComponent,
-    AccountBalanceDetailComponent,
-    AccountBalanceUpdateComponent,
-    AccountBalanceDeletePopupComponent,
     AccountBalanceDeleteDialogComponent,
-    accountBalanceExtendedRoute,
-    accountBalancePopupRoute
-} from './';
+    AccountBalanceDeletePopupComponent,
+    AccountBalanceDetailComponent,
+    accountBalancePopupRoute,
+    AccountBalanceUpdateComponent
+} from 'app/entities/account-balance';
 
 const ENTITY_STATES = [...accountBalanceExtendedRoute, ...accountBalancePopupRoute];
 
@@ -21,13 +22,15 @@ const ENTITY_STATES = [...accountBalanceExtendedRoute, ...accountBalancePopupRou
         AccountBalanceDetailComponent,
         AccountBalanceUpdateComponent,
         AccountBalanceDeleteDialogComponent,
-        AccountBalanceDeletePopupComponent
+        AccountBalanceDeletePopupComponent,
+        BalanceSheetComponent
     ],
     entryComponents: [
         AccountBalanceComponent,
         AccountBalanceUpdateComponent,
         AccountBalanceDeleteDialogComponent,
-        AccountBalanceDeletePopupComponent
+        AccountBalanceDeletePopupComponent,
+        BalanceSheetComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

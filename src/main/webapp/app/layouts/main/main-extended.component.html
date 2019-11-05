@@ -639,6 +639,29 @@
                 </ul>
             </li>
 
+
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            >
+                <a (click)="reports=!reports" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
+                     <span>
+                        <fa-icon icon="money-check-alt" fixedWidth="true"></fa-icon>
+                        <span>
+                            Acc Reports
+                        </span>
+                    </span>
+                </a>
+                <ul [ngbCollapse]="!reports" class="list-unstyled" id="reports">
+                    <li>
+                        <a class="dropdown-item" routerLink="account-balance/balance-sheet" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                            <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                            <span>Balance Sheet</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
                 *jhiHasAnyAuthority="['ROLE_ADMIN']">
                 <a (click)="commercialManagement=!commercialManagement" data-toggle="collapse" class="dropdown-toggle"

@@ -9,6 +9,8 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IAccountBalance } from 'app/shared/model/account-balance.model';
 import { AccountBalanceService } from 'app/entities/account-balance';
+import { BalanceSheetFetchType } from 'app/entities/account-balance-extended/balance-sheet.component';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 
 type EntityResponseType = HttpResponse<IAccountBalance>;
 type EntityArrayResponseType = HttpResponse<IAccountBalance[]>;
@@ -20,5 +22,14 @@ export class AccountBalanceExtendedService extends AccountBalanceService {
 
     constructor(protected http: HttpClient) {
         super(http);
+    }
+
+    downloadBalanceSheet(fetchType: BalanceSheetFetchType, asOnDate: any) {
+        const asOnDateStr = moment(asOnDate).format('YYYY-MM-DD');
+        return this.http
+            .get(`${this.resourceUrlExtended}/balance-sheet/${fetchType.valueOf()}/${asOnDateStr}`, { responseType: 'blob' })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'BalanceSheet');
+            });
     }
 }

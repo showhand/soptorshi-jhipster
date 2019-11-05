@@ -14,6 +14,7 @@ import {
     AccountBalanceUpdateComponent
 } from 'app/entities/account-balance';
 import { AccountBalanceExtendedService } from 'app/entities/account-balance-extended/account-balance-extended.service';
+import { BalanceSheetComponent } from 'app/entities/account-balance-extended/balance-sheet.component';
 
 @Injectable({ providedIn: 'root' })
 export class AccountBalanceExtendedResolve implements Resolve<IAccountBalance> {
@@ -63,6 +64,15 @@ export const accountBalanceExtendedRoute: Routes = [
         resolve: {
             accountBalance: AccountBalanceExtendedResolve
         },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'AccountBalances'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'balance-sheet',
+        component: BalanceSheetComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'AccountBalances'
