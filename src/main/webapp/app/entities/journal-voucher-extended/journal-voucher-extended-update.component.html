@@ -68,7 +68,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" *ngIf="journalVoucher.postDate">
+                <div class="row" *ngIf="journalVoucher.id">
                     <div class="col-12">
                         <jhi-journal-voucher-transactions [journalVoucher]="journalVoucher" [currency]="selectedCurrency" [conversionFactor]="conversionFactor" [voucherType]="voucherType"  (totalCreditChanged)="totalCreditChanged($event)" (totalDebitChanged)="totalDebitChanged($event)"></jhi-journal-voucher-transactions>
                     </div>

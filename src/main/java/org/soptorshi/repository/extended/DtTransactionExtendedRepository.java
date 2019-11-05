@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface DtTransactionExtendedRepository extends DtTransactionRepository {
     List<DtTransaction>findByVoucherNoAndVoucherDate(String vocherNo, LocalDate voucherDate);
+
+    List<DtTransaction> findByVoucherDateBetween(LocalDate fromDate, LocalDate toDate);
 }
