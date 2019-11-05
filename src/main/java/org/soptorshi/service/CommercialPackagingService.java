@@ -3,22 +3,15 @@ package org.soptorshi.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialPackaging;
-import org.soptorshi.domain.CommercialPoStatus;
-import org.soptorshi.domain.enumeration.CommercialStatus;
 import org.soptorshi.repository.CommercialPackagingRepository;
-import org.soptorshi.repository.CommercialPoStatusRepository;
-import org.soptorshi.repository.CommercialPurchaseOrderRepository;
 import org.soptorshi.repository.search.CommercialPackagingSearchRepository;
-import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.CommercialPackagingDTO;
-import org.soptorshi.service.dto.CommercialPoStatusDTO;
 import org.soptorshi.service.mapper.CommercialPackagingMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -38,19 +31,10 @@ public class CommercialPackagingService {
 
     private final CommercialPackagingSearchRepository commercialPackagingSearchRepository;
 
-    private final CommercialPoStatusRepository commercialPoStatusRepository;
-
-    private final CommercialPoStatusService commercialPoStatusService;
-
-    private final CommercialPurchaseOrderRepository commercialPurchaseOrderRepository;
-
-    public CommercialPackagingService(CommercialPackagingRepository commercialPackagingRepository, CommercialPackagingMapper commercialPackagingMapper, CommercialPackagingSearchRepository commercialPackagingSearchRepository, CommercialPoStatusRepository commercialPoStatusRepository, CommercialPoStatusService commercialPoStatusService, CommercialPurchaseOrderRepository commercialPurchaseOrderRepository) {
+    public CommercialPackagingService(CommercialPackagingRepository commercialPackagingRepository, CommercialPackagingMapper commercialPackagingMapper, CommercialPackagingSearchRepository commercialPackagingSearchRepository) {
         this.commercialPackagingRepository = commercialPackagingRepository;
         this.commercialPackagingMapper = commercialPackagingMapper;
         this.commercialPackagingSearchRepository = commercialPackagingSearchRepository;
-        this.commercialPoStatusRepository = commercialPoStatusRepository;
-        this.commercialPoStatusService = commercialPoStatusService;
-        this.commercialPurchaseOrderRepository = commercialPurchaseOrderRepository;
     }
 
     /**
@@ -61,38 +45,11 @@ public class CommercialPackagingService {
      */
     public CommercialPackagingDTO save(CommercialPackagingDTO commercialPackagingDTO) {
         log.debug("Request to save CommercialPackaging : {}", commercialPackagingDTO);
-        CommercialPoStatus commercialPoStatus = commercialPoStatusRepository.findTopByCommercialPurchaseOrderOrderByCreateOnDesc(
-            commercialPurchaseOrderRepository.getOne(commercialPackagingDTO.getCommercialPurchaseOrderId()));
-
-        if(commercialPoStatus.getStatus().equals(CommercialStatus.PAYMENT_COMPLETED_AND_WAITING_FOR_ARTWORK_OF_PACKAGING)) {
-            String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
-            LocalDate currentDate = LocalDate.now();
-            if (commercialPackagingDTO.getId() == null) {
-                commercialPackagingDTO.setCreatedBy(currentUser);
-                commercialPackagingDTO.setCreateOn(currentDate);
-                updateCommercialStatus(commercialPackagingDTO, currentUser, currentDate);
-            } else {
-                commercialPackagingDTO.setUpdatedBy(currentUser);
-                commercialPackagingDTO.setUpdatedOn(currentDate);
-            }
-            CommercialPackaging commercialPackaging = commercialPackagingMapper.toEntity(commercialPackagingDTO);
-            commercialPackaging = commercialPackagingRepository.save(commercialPackaging);
-            CommercialPackagingDTO result = commercialPackagingMapper.toDto(commercialPackaging);
-            commercialPackagingSearchRepository.save(commercialPackaging);
-            return result;
-        }
-        else {
-            return null;
-        }
-    }
-
-    private void updateCommercialStatus(CommercialPackagingDTO commercialPackagingDTO, String currentUser, LocalDate currentDate) {
-        CommercialPoStatusDTO commercialPoStatusDTO = new CommercialPoStatusDTO();
-        commercialPoStatusDTO.setStatus(CommercialStatus.ARTWORK_OF_PACKAGING_APPROVED_AND_ISSUE_WORK_ORDER_FOR_PACKAGING_ACCESSORIES);
-        commercialPoStatusDTO.setCommercialPurchaseOrderId(commercialPackagingDTO.getCommercialPurchaseOrderId());
-        commercialPoStatusDTO.setCreatedBy(currentUser);
-        commercialPoStatusDTO.setCreateOn(currentDate);
-        commercialPoStatusService.save(commercialPoStatusDTO);
+        CommercialPackaging commercialPackaging = commercialPackagingMapper.toEntity(commercialPackagingDTO);
+        commercialPackaging = commercialPackagingRepository.save(commercialPackaging);
+        CommercialPackagingDTO result = commercialPackagingMapper.toDto(commercialPackaging);
+        commercialPackagingSearchRepository.save(commercialPackaging);
+        return result;
     }
 
     /**
@@ -129,14 +86,14 @@ public class CommercialPackagingService {
      */
     public void delete(Long id) {
         log.debug("Request to delete CommercialPackaging : {}", id);
-        /*commercialPackagingRepository.deleteById(id);
-        commercialPackagingSearchRepository.deleteById(id);*/
+        commercialPackagingRepository.deleteById(id);
+        commercialPackagingSearchRepository.deleteById(id);
     }
 
     /**
      * Search for the commercialPackaging corresponding to the query.
      *
-     * @param query    the query of the search
+     * @param query the query of the search
      * @param pageable the pagination information
      * @return the list of entities
      */

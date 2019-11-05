@@ -5,15 +5,15 @@ import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CommercialPurchaseOrderItem, ICommercialPurchaseOrderItem } from 'app/shared/model/commercial-purchase-order-item.model';
-import { CommercialPurchaseOrderItemService } from './commercial-purchase-order-item.service';
-import { CommercialPurchaseOrderItemComponent } from './commercial-purchase-order-item.component';
-import { CommercialPurchaseOrderItemDetailComponent } from './commercial-purchase-order-item-detail.component';
-import { CommercialPurchaseOrderItemUpdateComponent } from './commercial-purchase-order-item-update.component';
-import { CommercialPurchaseOrderItemDeletePopupExtendedComponent } from './commercial-purchase-order-item-delete-dialog.component';
+import { CommercialPurchaseOrderItemExtendedService } from './commercial-purchase-order-item-extended.service';
+import { CommercialPurchaseOrderItemExtendedComponent } from './commercial-purchase-order-item-extended.component';
+import { CommercialPurchaseOrderItemDetailExtendedComponent } from './commercial-purchase-order-item-detail-extended.component';
+import { CommercialPurchaseOrderItemUpdateExtendedComponent } from './commercial-purchase-order-item-update-extended.component';
+import { CommercialPurchaseOrderItemDeletePopupExtendedComponent } from './commercial-purchase-order-item-delete-dialog-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class CommercialPurchaseOrderItemResolve implements Resolve<ICommercialPurchaseOrderItem> {
-    constructor(private service: CommercialPurchaseOrderItemService) {}
+export class CommercialPurchaseOrderItemExtendedResolve implements Resolve<ICommercialPurchaseOrderItem> {
+    constructor(private service: CommercialPurchaseOrderItemExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ICommercialPurchaseOrderItem> {
         const id = route.params['id'] ? route.params['id'] : null;
@@ -27,10 +27,10 @@ export class CommercialPurchaseOrderItemResolve implements Resolve<ICommercialPu
     }
 }
 
-export const commercialPurchaseOrderItemRoute: Routes = [
+export const commercialPurchaseOrderItemExtendedRoute: Routes = [
     {
         path: '',
-        component: CommercialPurchaseOrderItemComponent,
+        component: CommercialPurchaseOrderItemExtendedComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'CommercialPurchaseOrderItems'
@@ -39,9 +39,9 @@ export const commercialPurchaseOrderItemRoute: Routes = [
     },
     {
         path: ':id/view',
-        component: CommercialPurchaseOrderItemDetailComponent,
+        component: CommercialPurchaseOrderItemDetailExtendedComponent,
         resolve: {
-            commercialPurchaseOrderItem: CommercialPurchaseOrderItemResolve
+            commercialPurchaseOrderItem: CommercialPurchaseOrderItemExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -51,9 +51,9 @@ export const commercialPurchaseOrderItemRoute: Routes = [
     },
     {
         path: 'new',
-        component: CommercialPurchaseOrderItemUpdateComponent,
+        component: CommercialPurchaseOrderItemUpdateExtendedComponent,
         resolve: {
-            commercialPurchaseOrderItem: CommercialPurchaseOrderItemResolve
+            commercialPurchaseOrderItem: CommercialPurchaseOrderItemExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -63,9 +63,9 @@ export const commercialPurchaseOrderItemRoute: Routes = [
     },
     {
         path: ':id/edit',
-        component: CommercialPurchaseOrderItemUpdateComponent,
+        component: CommercialPurchaseOrderItemUpdateExtendedComponent,
         resolve: {
-            commercialPurchaseOrderItem: CommercialPurchaseOrderItemResolve
+            commercialPurchaseOrderItem: CommercialPurchaseOrderItemExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -75,12 +75,12 @@ export const commercialPurchaseOrderItemRoute: Routes = [
     }
 ];
 
-export const commercialPurchaseOrderItemPopupRoute: Routes = [
+export const commercialPurchaseOrderItemPopupExtendedRoute: Routes = [
     {
         path: ':id/delete',
         component: CommercialPurchaseOrderItemDeletePopupExtendedComponent,
         resolve: {
-            commercialPurchaseOrderItem: CommercialPurchaseOrderItemResolve
+            commercialPurchaseOrderItem: CommercialPurchaseOrderItemExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

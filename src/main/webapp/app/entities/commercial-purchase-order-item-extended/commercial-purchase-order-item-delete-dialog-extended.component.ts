@@ -1,24 +1,27 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { ICommercialPurchaseOrderItem } from 'app/shared/model/commercial-purchase-order-item.model';
-import { CommercialPurchaseOrderItemService } from './commercial-purchase-order-item.service';
+import { CommercialPurchaseOrderItemExtendedService } from './commercial-purchase-order-item-extended.service';
+import { CommercialPurchaseOrderItemDeleteDialogComponent } from 'app/entities/commercial-purchase-order-item';
 
 @Component({
-    selector: 'jhi-commercial-purchase-order-item-delete-dialog',
-    templateUrl: './commercial-purchase-order-item-delete-dialog.component.html'
+    selector: 'jhi-commercial-purchase-order-item-delete-dialog-extended',
+    templateUrl: './commercial-purchase-order-item-delete-dialog-extended.component.html'
 })
-export class CommercialPurchaseOrderItemDeleteDialogComponent {
+export class CommercialPurchaseOrderItemDeleteDialogExtendedComponent extends CommercialPurchaseOrderItemDeleteDialogComponent {
     commercialPurchaseOrderItem: ICommercialPurchaseOrderItem;
 
     constructor(
-        protected commercialPurchaseOrderItemService: CommercialPurchaseOrderItemService,
+        protected commercialPurchaseOrderItemService: CommercialPurchaseOrderItemExtendedService,
         public activeModal: NgbActiveModal,
         protected eventManager: JhiEventManager
-    ) {}
+    ) {
+        super(commercialPurchaseOrderItemService, activeModal, eventManager);
+    }
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -36,18 +39,20 @@ export class CommercialPurchaseOrderItemDeleteDialogComponent {
 }
 
 @Component({
-    selector: 'jhi-commercial-purchase-order-item-delete-popup',
+    selector: 'jhi-commercial-purchase-order-item-delete-popup-extended',
     template: ''
 })
-export class CommercialPurchaseOrderItemDeletePopupExtendedComponent implements OnInit, OnDestroy {
+export class CommercialPurchaseOrderItemDeletePopupExtendedComponent extends CommercialPurchaseOrderItemDeletePopupExtendedComponent {
     protected ngbModalRef: NgbModalRef;
 
-    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
+    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
+        super(activatedRoute, router, modalService);
+    }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ commercialPurchaseOrderItem }) => {
             setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(CommercialPurchaseOrderItemDeleteDialogComponent as Component, {
+                this.ngbModalRef = this.modalService.open(CommercialPurchaseOrderItemDeleteDialogExtendedComponent as Component, {
                     size: 'lg',
                     backdrop: 'static'
                 });
