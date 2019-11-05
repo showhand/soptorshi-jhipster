@@ -471,7 +471,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'account-balance',
-                loadChildren: './account-balance/account-balance.module#SoptorshiAccountBalanceModule'
+                loadChildren: './account-balance-extended/account-balance-extended.module#SoptorshiAccountBalanceModule'
             },
             {
                 path: 'monthly-balance',

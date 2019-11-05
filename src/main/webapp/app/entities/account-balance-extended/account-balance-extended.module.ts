@@ -8,15 +8,15 @@ import {
     AccountBalanceUpdateComponent,
     AccountBalanceDeletePopupComponent,
     AccountBalanceDeleteDialogComponent,
-    accountBalanceRoute,
+    accountBalanceExtendedRoute,
     accountBalancePopupRoute
 } from './';
 
-const ENTITY_STATES = [...accountBalanceRoute, ...accountBalancePopupRoute];
+const ENTITY_STATES = [...accountBalanceExtendedRoute, ...accountBalancePopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /*declarations: [
+    declarations: [
         AccountBalanceComponent,
         AccountBalanceDetailComponent,
         AccountBalanceUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...accountBalanceRoute, ...accountBalancePopupRoute];
         AccountBalanceUpdateComponent,
         AccountBalanceDeleteDialogComponent,
         AccountBalanceDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiAccountBalanceModule {}
