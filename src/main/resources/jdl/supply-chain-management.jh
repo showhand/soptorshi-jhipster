@@ -74,7 +74,7 @@ entity SupplyChallan {
     UpdatedOn Instant
 }
 
-entity SupplyDistributeAndCollection {
+entity SupplyMoneyCollection {
 	TotalAmount Double
     ReceivedAmount Double
 	Remarks String
