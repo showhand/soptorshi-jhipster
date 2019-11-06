@@ -46,7 +46,7 @@ entity SupplyShop {
 
 entity SupplyOrder {
 	OrderNo String required
-	DateOfOrder Date
+	DateOfOrder LocalDate
 	Offer String required
 	CreatedBy String
     CreatedOn Instant
@@ -66,7 +66,7 @@ entity SupplyOrderDetails {
 
 entity SupplyChallan {
 	ChallanNo String required
-    DateOfChallan Date
+    DateOfChallan LocalDate
     Remarks String
     CreatedBy String
     CreatedOn Instant
