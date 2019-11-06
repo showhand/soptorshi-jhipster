@@ -1,0 +1,108 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-supply-order-heading">Create or edit a Supply Order</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!supplyOrder.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="supplyOrder.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_orderNo">Order No</label>
+                    <input type="text" class="form-control" name="orderNo" id="field_orderNo"
+                        [(ngModel)]="supplyOrder.orderNo" required/>
+                    <div [hidden]="!(editForm.controls.orderNo?.dirty && editForm.controls.orderNo?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.orderNo?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dateOfOrder">Date Of Order</label>
+                    <div class="input-group">
+                        <input id="field_dateOfOrder" type="text" class="form-control" name="dateOfOrder" ngbDatepicker  #dateOfOrderDp="ngbDatepicker" [(ngModel)]="supplyOrder.dateOfOrder"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateOfOrderDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_offer">Offer</label>
+                    <input type="text" class="form-control" name="offer" id="field_offer"
+                        [(ngModel)]="supplyOrder.offer" required/>
+                    <div [hidden]="!(editForm.controls.offer?.dirty && editForm.controls.offer?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.offer?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdBy">Created By</label>
+                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                        [(ngModel)]="supplyOrder.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdOn">Created On</label>
+                    <div class="d-flex">
+                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
+                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
+                        [(ngModel)]="supplyOrder.updatedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
+                    <div class="d-flex">
+                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
+                    <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyOrder.supplyZoneId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.zoneName}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyArea">Supply Area</label>
+                    <select class="form-control" id="field_supplyArea" name="supplyArea" [(ngModel)]="supplyOrder.supplyAreaId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplyAreaOption.id" *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.areaName}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyAreaManager">Supply Area Manager</label>
+                    <select class="form-control" id="field_supplyAreaManager" name="supplyAreaManager" [(ngModel)]="supplyOrder.supplyAreaManagerId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplyAreaManagerOption.id" *ngFor="let supplyAreaManagerOption of supplyareamanagers; trackBy: trackSupplyAreaManagerById">{{supplyAreaManagerOption.managerName}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplySalesRepresentative">Supply Sales Representative</label>
+                    <select class="form-control" id="field_supplySalesRepresentative" name="supplySalesRepresentative" [(ngModel)]="supplyOrder.supplySalesRepresentativeId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplySalesRepresentativeOption.id" *ngFor="let supplySalesRepresentativeOption of supplysalesrepresentatives; trackBy: trackSupplySalesRepresentativeById">{{supplySalesRepresentativeOption.salesRepresentativeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

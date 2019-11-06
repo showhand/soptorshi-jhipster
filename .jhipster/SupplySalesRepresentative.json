@@ -1,0 +1,64 @@
+{
+    "name": "SupplySalesRepresentative",
+    "fields": [
+        {
+            "fieldName": "salesRepresentativeName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "additionalInformation",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdOn",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updatedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedOn",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZone",
+            "otherEntityRelationshipName": "supplySalesRepresentative",
+            "relationshipName": "supplyZone",
+            "otherEntityField": "zoneName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyArea",
+            "otherEntityRelationshipName": "supplySalesRepresentative",
+            "relationshipName": "supplyArea",
+            "otherEntityField": "areaName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyAreaManager",
+            "otherEntityRelationshipName": "supplySalesRepresentative",
+            "relationshipName": "supplyAreaManager",
+            "otherEntityField": "managerName"
+        }
+    ],
+    "changelogDate": "20191106144402",
+    "entityTableName": "supply_sales_representative",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

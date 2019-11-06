@@ -1,0 +1,78 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-supply-area-manager-heading">Create or edit a Supply Area Manager</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!supplyAreaManager.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="supplyAreaManager.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_managerName">Manager Name</label>
+                    <input type="text" class="form-control" name="managerName" id="field_managerName"
+                        [(ngModel)]="supplyAreaManager.managerName" required/>
+                    <div [hidden]="!(editForm.controls.managerName?.dirty && editForm.controls.managerName?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.managerName?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_additionalInformation">Additional Information</label>
+                    <input type="text" class="form-control" name="additionalInformation" id="field_additionalInformation"
+                        [(ngModel)]="supplyAreaManager.additionalInformation" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdBy">Created By</label>
+                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                        [(ngModel)]="supplyAreaManager.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdOn">Created On</label>
+                    <div class="d-flex">
+                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
+                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
+                        [(ngModel)]="supplyAreaManager.updatedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
+                    <div class="d-flex">
+                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
+                    <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyAreaManager.supplyZoneId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.zoneName}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyArea">Supply Area</label>
+                    <select class="form-control" id="field_supplyArea" name="supplyArea" [(ngModel)]="supplyAreaManager.supplyAreaId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplyAreaOption.id" *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.areaName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

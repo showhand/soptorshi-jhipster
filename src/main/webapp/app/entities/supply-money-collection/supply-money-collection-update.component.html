@@ -1,0 +1,91 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-supply-money-collection-heading">Create or edit a Supply Money Collection</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!supplyMoneyCollection.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="supplyMoneyCollection.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totalAmount">Total Amount</label>
+                    <input type="number" class="form-control" name="totalAmount" id="field_totalAmount"
+                        [(ngModel)]="supplyMoneyCollection.totalAmount" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_receivedAmount">Received Amount</label>
+                    <input type="number" class="form-control" name="receivedAmount" id="field_receivedAmount"
+                        [(ngModel)]="supplyMoneyCollection.receivedAmount" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_remarks">Remarks</label>
+                    <input type="text" class="form-control" name="remarks" id="field_remarks"
+                        [(ngModel)]="supplyMoneyCollection.remarks" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdBy">Created By</label>
+                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                        [(ngModel)]="supplyMoneyCollection.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdOn">Created On</label>
+                    <div class="d-flex">
+                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
+                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
+                        [(ngModel)]="supplyMoneyCollection.updatedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
+                    <div class="d-flex">
+                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
+                    <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyMoneyCollection.supplyZoneId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.zoneName}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyArea">Supply Area</label>
+                    <select class="form-control" id="field_supplyArea" name="supplyArea" [(ngModel)]="supplyMoneyCollection.supplyAreaId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplyAreaOption.id" *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.areaName}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyAreaManager">Supply Area Manager</label>
+                    <select class="form-control" id="field_supplyAreaManager" name="supplyAreaManager" [(ngModel)]="supplyMoneyCollection.supplyAreaManagerId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplyAreaManagerOption.id" *ngFor="let supplyAreaManagerOption of supplyareamanagers; trackBy: trackSupplyAreaManagerById">{{supplyAreaManagerOption.managerName}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplySalesRepresentative">Supply Sales Representative</label>
+                    <select class="form-control" id="field_supplySalesRepresentative" name="supplySalesRepresentative" [(ngModel)]="supplyMoneyCollection.supplySalesRepresentativeId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplySalesRepresentativeOption.id" *ngFor="let supplySalesRepresentativeOption of supplysalesrepresentatives; trackBy: trackSupplySalesRepresentativeById">{{supplySalesRepresentativeOption.salesRepresentativeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
