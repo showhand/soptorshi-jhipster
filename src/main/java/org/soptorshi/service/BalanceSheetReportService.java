@@ -345,7 +345,7 @@ public class BalanceSheetReportService {
                                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                                 groupTable.addCell(cell);
                             }else{
-                                cell = new SoptorshiPdfCell(new Paragraph(SoptorshiUtils.getFormattedBalance(totalAccCredit.subtract(totalDebit)), mLiteFont));
+                                cell = new SoptorshiPdfCell(new Paragraph(SoptorshiUtils.getFormattedBalance(totalAccCredit.subtract(totalAccDebit)), mLiteFont));
                                 cell.setBorder(Rectangle.NO_BORDER);
                                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                                 groupTable.addCell(cell);

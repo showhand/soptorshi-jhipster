@@ -53,8 +53,8 @@ public class AccountBalanceExtendedService extends AccountBalanceService {
     public AccountBalanceDTO createAccountBalanceForNewAccount(MstAccountDTO mstAccount){
         AccountBalanceDTO accountBalance = new AccountBalanceDTO();
         accountBalance.setAccountId(mstAccount.getId());
-        accountBalance.setYearOpenBalance(mstAccount.getYearOpenBalance());
-        accountBalance.setYearOpenBalanceType(mstAccount.getYearOpenBalanceType());
+        accountBalance.setYearOpenBalance(BigDecimal.ZERO);
+        accountBalance.setYearOpenBalanceType(BalanceType.DEBIT);
         FinancialAccountYear openedFinancialAccountYear = financialAccountYearExtendedRepository.getByStatus(FinancialYearStatus.ACTIVE);
         accountBalance.setFinancialAccountYearId(openedFinancialAccountYear.getId());
         if(mstAccount.getYearOpenBalanceType().equals(BalanceType.DEBIT)){
