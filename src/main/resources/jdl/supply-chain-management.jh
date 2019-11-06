@@ -108,10 +108,10 @@ relationship ManyToOne {
 
     SupplyChallan{SupplyOrder(OrderNo)} to SupplyOrder
 
-    SupplyDistributeAndCollection{SupplyZone(ZoneName)} to SupplyZone
-    SupplyDistributeAndCollection{SupplyArea(AreaName)} to SupplyArea
-    SupplyDistributeAndCollection{SupplyAreaManager(ManagerName)} to SupplyAreaManager
-    SupplyDistributeAndCollection{SupplySalesRepresentative(SalesRepresentativeName)} to SupplySalesRepresentative
+    SupplyMoneyCollection{SupplyZone(ZoneName)} to SupplyZone
+    SupplyMoneyCollection{SupplyArea(AreaName)} to SupplyArea
+    SupplyMoneyCollection{SupplyAreaManager(ManagerName)} to SupplyAreaManager
+    SupplyMoneyCollection{SupplySalesRepresentative(SalesRepresentativeName)} to SupplySalesRepresentative
 }
 
 paginate * with infinite-scroll
