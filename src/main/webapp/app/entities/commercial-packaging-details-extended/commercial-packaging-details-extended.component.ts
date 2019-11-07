@@ -56,8 +56,7 @@ export class CommercialPackagingDetailsExtendedComponent extends CommercialPacka
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'commercialPackagingConsignmentNo.equals': this.currentSearch
+                    'commercialPackagingId.equals': this.currentSearch
                 })
                 .subscribe(
                     (res: HttpResponse<ICommercialPackagingDetails[]>) => this.paginateCommercialPackagingDetails(res.body, res.headers),

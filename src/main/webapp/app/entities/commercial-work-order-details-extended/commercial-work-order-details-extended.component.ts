@@ -56,8 +56,7 @@ export class CommercialWorkOrderDetailsExtendedComponent extends CommercialWorkO
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'commercialWorkOrderRefNo.equals': this.currentSearch
+                    'commercialWorkOrderId.equals': this.currentSearch
                 })
                 .subscribe(
                     (res: HttpResponse<ICommercialWorkOrderDetails[]>) => this.paginateCommercialWorkOrderDetails(res.body, res.headers),

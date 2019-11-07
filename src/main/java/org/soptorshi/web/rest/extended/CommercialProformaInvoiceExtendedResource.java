@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialProformaInvoiceQueryService;
-import org.soptorshi.service.CommercialProformaInvoiceService;
 import org.soptorshi.service.dto.CommercialProformaInvoiceCriteria;
 import org.soptorshi.service.dto.CommercialProformaInvoiceDTO;
+import org.soptorshi.service.extended.CommercialProformaInvoiceExtendedService;
 import org.soptorshi.web.rest.CommercialProformaInvoiceResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -34,11 +34,11 @@ public class CommercialProformaInvoiceExtendedResource extends CommercialProform
 
     private static final String ENTITY_NAME = "commercialProformaInvoice";
 
-    private final CommercialProformaInvoiceService commercialProformaInvoiceService;
+    private final CommercialProformaInvoiceExtendedService commercialProformaInvoiceService;
 
     private final CommercialProformaInvoiceQueryService commercialProformaInvoiceQueryService;
 
-    public CommercialProformaInvoiceExtendedResource(CommercialProformaInvoiceService commercialProformaInvoiceService, CommercialProformaInvoiceQueryService commercialProformaInvoiceQueryService) {
+    public CommercialProformaInvoiceExtendedResource(CommercialProformaInvoiceExtendedService commercialProformaInvoiceService, CommercialProformaInvoiceQueryService commercialProformaInvoiceQueryService) {
         super(commercialProformaInvoiceService, commercialProformaInvoiceQueryService);
         this.commercialProformaInvoiceService = commercialProformaInvoiceService;
         this.commercialProformaInvoiceQueryService = commercialProformaInvoiceQueryService;

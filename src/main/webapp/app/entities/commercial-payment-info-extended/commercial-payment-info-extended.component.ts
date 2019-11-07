@@ -56,8 +56,7 @@ export class CommercialPaymentInfoExtendedComponent extends CommercialPaymentInf
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'commercialPurchaseOrderPurchaseOrderNo.equals': this.currentSearch
+                    'commercialPurchaseOrderId.equals': this.currentSearch
                 })
                 .subscribe(
                     (res: HttpResponse<ICommercialPaymentInfo[]>) => this.paginateCommercialPaymentInfos(res.body, res.headers),

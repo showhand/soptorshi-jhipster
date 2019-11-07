@@ -56,8 +56,7 @@ export class CommercialInvoiceExtendedComponent extends CommercialInvoiceCompone
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'commercialPurchaseOrderPurchaseOrderNo.equals': this.currentSearch
+                    'commercialPurchaseOrderId.equals': this.currentSearch
                 })
                 .subscribe(
                     (res: HttpResponse<ICommercialInvoice[]>) => this.paginateCommercialInvoices(res.body, res.headers),

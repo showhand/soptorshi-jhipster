@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialAttachmentQueryService;
-import org.soptorshi.service.CommercialAttachmentService;
 import org.soptorshi.service.dto.CommercialAttachmentCriteria;
 import org.soptorshi.service.dto.CommercialAttachmentDTO;
+import org.soptorshi.service.extended.CommercialAttachmentExtendedService;
 import org.soptorshi.web.rest.CommercialAttachmentResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -34,11 +34,11 @@ public class CommercialAttachmentExtendedResource extends CommercialAttachmentRe
 
     private static final String ENTITY_NAME = "commercialAttachment";
 
-    private final CommercialAttachmentService commercialAttachmentService;
+    private final CommercialAttachmentExtendedService commercialAttachmentService;
 
     private final CommercialAttachmentQueryService commercialAttachmentQueryService;
 
-    public CommercialAttachmentExtendedResource(CommercialAttachmentService commercialAttachmentService, CommercialAttachmentQueryService commercialAttachmentQueryService) {
+    public CommercialAttachmentExtendedResource(CommercialAttachmentExtendedService commercialAttachmentService, CommercialAttachmentQueryService commercialAttachmentQueryService) {
         super(commercialAttachmentService, commercialAttachmentQueryService);
         this.commercialAttachmentService = commercialAttachmentService;
         this.commercialAttachmentQueryService = commercialAttachmentQueryService;

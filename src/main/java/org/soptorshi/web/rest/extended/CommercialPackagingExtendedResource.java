@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialPackagingQueryService;
-import org.soptorshi.service.CommercialPackagingService;
 import org.soptorshi.service.dto.CommercialPackagingCriteria;
 import org.soptorshi.service.dto.CommercialPackagingDTO;
+import org.soptorshi.service.extended.CommercialPackagingExtendedService;
 import org.soptorshi.web.rest.CommercialPackagingResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -34,11 +34,11 @@ public class CommercialPackagingExtendedResource extends CommercialPackagingReso
 
     private static final String ENTITY_NAME = "commercialPackaging";
 
-    private final CommercialPackagingService commercialPackagingService;
+    private final CommercialPackagingExtendedService commercialPackagingService;
 
     private final CommercialPackagingQueryService commercialPackagingQueryService;
 
-    public CommercialPackagingExtendedResource(CommercialPackagingService commercialPackagingService, CommercialPackagingQueryService commercialPackagingQueryService) {
+    public CommercialPackagingExtendedResource(CommercialPackagingExtendedService commercialPackagingService, CommercialPackagingQueryService commercialPackagingQueryService) {
         super(commercialPackagingService, commercialPackagingQueryService);
         this.commercialPackagingService = commercialPackagingService;
         this.commercialPackagingQueryService = commercialPackagingQueryService;
