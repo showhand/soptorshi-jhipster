@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialWorkOrderQueryService;
-import org.soptorshi.service.CommercialWorkOrderService;
 import org.soptorshi.service.dto.CommercialWorkOrderCriteria;
 import org.soptorshi.service.dto.CommercialWorkOrderDTO;
+import org.soptorshi.service.extended.CommercialWorkOrderExtendedService;
 import org.soptorshi.web.rest.CommercialWorkOrderResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -34,11 +34,11 @@ public class CommercialWorkOrderExtendedResource extends CommercialWorkOrderReso
 
     private static final String ENTITY_NAME = "commercialWorkOrder";
 
-    private final CommercialWorkOrderService commercialWorkOrderService;
+    private final CommercialWorkOrderExtendedService commercialWorkOrderService;
 
     private final CommercialWorkOrderQueryService commercialWorkOrderQueryService;
 
-    public CommercialWorkOrderExtendedResource(CommercialWorkOrderService commercialWorkOrderService, CommercialWorkOrderQueryService commercialWorkOrderQueryService) {
+    public CommercialWorkOrderExtendedResource(CommercialWorkOrderExtendedService commercialWorkOrderService, CommercialWorkOrderQueryService commercialWorkOrderQueryService) {
         super(commercialWorkOrderService, commercialWorkOrderQueryService);
         this.commercialWorkOrderService = commercialWorkOrderService;
         this.commercialWorkOrderQueryService = commercialWorkOrderQueryService;

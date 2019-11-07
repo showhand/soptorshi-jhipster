@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialInvoiceQueryService;
-import org.soptorshi.service.CommercialInvoiceService;
 import org.soptorshi.service.dto.CommercialInvoiceCriteria;
 import org.soptorshi.service.dto.CommercialInvoiceDTO;
+import org.soptorshi.service.extended.CommercialInvoiceExtendedService;
 import org.soptorshi.web.rest.CommercialInvoiceResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -34,11 +34,11 @@ public class CommercialInvoiceExtendedResource extends CommercialInvoiceResource
 
     private static final String ENTITY_NAME = "commercialInvoice";
 
-    private final CommercialInvoiceService commercialInvoiceService;
+    private final CommercialInvoiceExtendedService commercialInvoiceService;
 
     private final CommercialInvoiceQueryService commercialInvoiceQueryService;
 
-    public CommercialInvoiceExtendedResource(CommercialInvoiceService commercialInvoiceService, CommercialInvoiceQueryService commercialInvoiceQueryService) {
+    public CommercialInvoiceExtendedResource(CommercialInvoiceExtendedService commercialInvoiceService, CommercialInvoiceQueryService commercialInvoiceQueryService) {
         super(commercialInvoiceService, commercialInvoiceQueryService);
         this.commercialInvoiceService = commercialInvoiceService;
         this.commercialInvoiceQueryService = commercialInvoiceQueryService;

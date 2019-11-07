@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialPackagingDetailsQueryService;
-import org.soptorshi.service.CommercialPackagingDetailsService;
 import org.soptorshi.service.dto.CommercialPackagingDetailsCriteria;
 import org.soptorshi.service.dto.CommercialPackagingDetailsDTO;
+import org.soptorshi.service.extended.CommercialPackagingDetailsExtendedService;
 import org.soptorshi.web.rest.CommercialPackagingDetailsResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -33,11 +33,11 @@ public class CommercialPackagingDetailsExtendedResource extends CommercialPackag
 
     private static final String ENTITY_NAME = "commercialPackagingDetails";
 
-    private final CommercialPackagingDetailsService commercialPackagingDetailsService;
+    private final CommercialPackagingDetailsExtendedService commercialPackagingDetailsService;
 
     private final CommercialPackagingDetailsQueryService commercialPackagingDetailsQueryService;
 
-    public CommercialPackagingDetailsExtendedResource(CommercialPackagingDetailsService commercialPackagingDetailsService, CommercialPackagingDetailsQueryService commercialPackagingDetailsQueryService) {
+    public CommercialPackagingDetailsExtendedResource(CommercialPackagingDetailsExtendedService commercialPackagingDetailsService, CommercialPackagingDetailsQueryService commercialPackagingDetailsQueryService) {
         super(commercialPackagingDetailsService, commercialPackagingDetailsQueryService);
         this.commercialPackagingDetailsService = commercialPackagingDetailsService;
         this.commercialPackagingDetailsQueryService = commercialPackagingDetailsQueryService;

@@ -3,7 +3,6 @@ package org.soptorshi.service.extended;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialPackaging;
-import org.soptorshi.domain.CommercialPoStatus;
 import org.soptorshi.domain.enumeration.CommercialStatus;
 import org.soptorshi.repository.CommercialPackagingRepository;
 import org.soptorshi.repository.CommercialPurchaseOrderRepository;
@@ -64,10 +63,10 @@ public class CommercialPackagingExtendedService extends CommercialPackagingServi
      */
     public CommercialPackagingDTO save(CommercialPackagingDTO commercialPackagingDTO) {
         log.debug("Request to save CommercialPackaging : {}", commercialPackagingDTO);
-        CommercialPoStatus commercialPoStatus = commercialPoStatusRepository.findTopByCommercialPurchaseOrderOrderByCreateOnDesc(
-            commercialPurchaseOrderRepository.getOne(commercialPackagingDTO.getCommercialPurchaseOrderId()));
+        boolean commercialPoStatus = commercialPoStatusRepository.existsByCommercialPurchaseOrderAndStatus(
+            commercialPurchaseOrderRepository.getOne(commercialPackagingDTO.getCommercialPurchaseOrderId()), CommercialStatus.PAYMENT_COMPLETED_AND_WAITING_FOR_ARTWORK_OF_PACKAGING);
 
-        if(commercialPoStatus.getStatus().equals(CommercialStatus.PAYMENT_COMPLETED_AND_WAITING_FOR_ARTWORK_OF_PACKAGING)) {
+        if(commercialPoStatus) {
             String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
             LocalDate currentDate = LocalDate.now();
             if (commercialPackagingDTO.getId() == null) {

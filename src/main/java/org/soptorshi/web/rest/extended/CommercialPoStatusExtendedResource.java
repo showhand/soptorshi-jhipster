@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialPoStatusQueryService;
-import org.soptorshi.service.CommercialPoStatusService;
 import org.soptorshi.service.dto.CommercialPoStatusCriteria;
 import org.soptorshi.service.dto.CommercialPoStatusDTO;
+import org.soptorshi.service.extended.CommercialPoStatusExtendedService;
 import org.soptorshi.web.rest.CommercialPoStatusResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -34,11 +34,11 @@ public class CommercialPoStatusExtendedResource extends CommercialPoStatusResour
 
     private static final String ENTITY_NAME = "commercialPoStatus";
 
-    private final CommercialPoStatusService commercialPoStatusService;
+    private final CommercialPoStatusExtendedService commercialPoStatusService;
 
     private final CommercialPoStatusQueryService commercialPoStatusQueryService;
 
-    public CommercialPoStatusExtendedResource(CommercialPoStatusService commercialPoStatusService, CommercialPoStatusQueryService commercialPoStatusQueryService) {
+    public CommercialPoStatusExtendedResource(CommercialPoStatusExtendedService commercialPoStatusService, CommercialPoStatusQueryService commercialPoStatusQueryService) {
         super(commercialPoStatusService, commercialPoStatusQueryService);
         this.commercialPoStatusService = commercialPoStatusService;
         this.commercialPoStatusQueryService = commercialPoStatusQueryService;

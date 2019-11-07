@@ -56,8 +56,7 @@ export class CommercialPurchaseOrderItemExtendedComponent extends CommercialPurc
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'commercialPurchaseOrderPurchaseOrderNo.equals': this.currentSearch
+                    'commercialPurchaseOrderId.equals': this.currentSearch
                 })
                 .subscribe(
                     (res: HttpResponse<ICommercialPurchaseOrderItem[]>) => this.paginateCommercialPurchaseOrderItems(res.body, res.headers),

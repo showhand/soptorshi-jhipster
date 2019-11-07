@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialPurchaseOrderQueryService;
-import org.soptorshi.service.CommercialPurchaseOrderService;
 import org.soptorshi.service.dto.CommercialPurchaseOrderCriteria;
 import org.soptorshi.service.dto.CommercialPurchaseOrderDTO;
+import org.soptorshi.service.extended.CommercialPurchaseOrderExtendedService;
 import org.soptorshi.web.rest.CommercialPurchaseOrderResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -34,11 +34,11 @@ public class CommercialPurchaseOrderExtendedResource extends CommercialPurchaseO
 
     private static final String ENTITY_NAME = "commercialPurchaseOrder";
 
-    private final CommercialPurchaseOrderService commercialPurchaseOrderService;
+    private final CommercialPurchaseOrderExtendedService commercialPurchaseOrderService;
 
     private final CommercialPurchaseOrderQueryService commercialPurchaseOrderQueryService;
 
-    public CommercialPurchaseOrderExtendedResource(CommercialPurchaseOrderService commercialPurchaseOrderService, CommercialPurchaseOrderQueryService commercialPurchaseOrderQueryService) {
+    public CommercialPurchaseOrderExtendedResource(CommercialPurchaseOrderExtendedService commercialPurchaseOrderService, CommercialPurchaseOrderQueryService commercialPurchaseOrderQueryService) {
         super(commercialPurchaseOrderService, commercialPurchaseOrderQueryService);
         this.commercialPurchaseOrderService = commercialPurchaseOrderService;
         this.commercialPurchaseOrderQueryService = commercialPurchaseOrderQueryService;
