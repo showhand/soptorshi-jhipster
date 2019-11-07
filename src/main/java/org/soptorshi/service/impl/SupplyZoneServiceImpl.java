@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.SupplyZone;
 import org.soptorshi.repository.SupplyZoneRepository;
 import org.soptorshi.repository.search.SupplyZoneSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.SupplyZoneService;
 import org.soptorshi.service.dto.SupplyZoneDTO;
 import org.soptorshi.service.mapper.SupplyZoneMapper;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -47,6 +49,16 @@ public class SupplyZoneServiceImpl implements SupplyZoneService {
     @Override
     public SupplyZoneDTO save(SupplyZoneDTO supplyZoneDTO) {
         log.debug("Request to save SupplyZone : {}", supplyZoneDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        Instant currentDateTime = Instant.now();
+        if(supplyZoneDTO.getId() == null) {
+            supplyZoneDTO.setCreatedBy(currentUser);
+            supplyZoneDTO.setCreatedOn(currentDateTime);
+        }
+        else {
+            supplyZoneDTO.setUpdatedBy(currentUser);
+            supplyZoneDTO.setUpdatedOn(currentDateTime);
+        }
         SupplyZone supplyZone = supplyZoneMapper.toEntity(supplyZoneDTO);
         supplyZone = supplyZoneRepository.save(supplyZone);
         SupplyZoneDTO result = supplyZoneMapper.toDto(supplyZone);

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.SupplyChallan;
 import org.soptorshi.repository.SupplyChallanRepository;
 import org.soptorshi.repository.search.SupplyChallanSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.SupplyChallanService;
 import org.soptorshi.service.dto.SupplyChallanDTO;
 import org.soptorshi.service.mapper.SupplyChallanMapper;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -47,6 +49,16 @@ public class SupplyChallanServiceImpl implements SupplyChallanService {
     @Override
     public SupplyChallanDTO save(SupplyChallanDTO supplyChallanDTO) {
         log.debug("Request to save SupplyChallan : {}", supplyChallanDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        Instant currentDateTime = Instant.now();
+        if(supplyChallanDTO.getId() == null) {
+            supplyChallanDTO.setCreatedBy(currentUser);
+            supplyChallanDTO.setCreatedOn(currentDateTime);
+        }
+        else {
+            supplyChallanDTO.setUpdatedBy(currentUser);
+            supplyChallanDTO.setUpdatedOn(currentDateTime);
+        }
         SupplyChallan supplyChallan = supplyChallanMapper.toEntity(supplyChallanDTO);
         supplyChallan = supplyChallanRepository.save(supplyChallan);
         SupplyChallanDTO result = supplyChallanMapper.toDto(supplyChallan);

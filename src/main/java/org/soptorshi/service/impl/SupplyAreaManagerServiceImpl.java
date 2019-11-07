@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.SupplyAreaManager;
 import org.soptorshi.repository.SupplyAreaManagerRepository;
 import org.soptorshi.repository.search.SupplyAreaManagerSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.SupplyAreaManagerService;
 import org.soptorshi.service.dto.SupplyAreaManagerDTO;
 import org.soptorshi.service.mapper.SupplyAreaManagerMapper;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -47,6 +50,16 @@ public class SupplyAreaManagerServiceImpl implements SupplyAreaManagerService {
     @Override
     public SupplyAreaManagerDTO save(SupplyAreaManagerDTO supplyAreaManagerDTO) {
         log.debug("Request to save SupplyAreaManager : {}", supplyAreaManagerDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        Instant currentDateTime = Instant.now();
+        if(supplyAreaManagerDTO.getId() == null) {
+            supplyAreaManagerDTO.setCreatedBy(currentUser);
+            supplyAreaManagerDTO.setCreatedOn(currentDateTime);
+        }
+        else {
+            supplyAreaManagerDTO.setUpdatedBy(currentUser);
+            supplyAreaManagerDTO.setUpdatedOn(currentDateTime);
+        }
         SupplyAreaManager supplyAreaManager = supplyAreaManagerMapper.toEntity(supplyAreaManagerDTO);
         supplyAreaManager = supplyAreaManagerRepository.save(supplyAreaManager);
         SupplyAreaManagerDTO result = supplyAreaManagerMapper.toDto(supplyAreaManager);

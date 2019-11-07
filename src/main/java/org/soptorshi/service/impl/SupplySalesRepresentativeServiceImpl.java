@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.SupplySalesRepresentative;
 import org.soptorshi.repository.SupplySalesRepresentativeRepository;
 import org.soptorshi.repository.search.SupplySalesRepresentativeSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.SupplySalesRepresentativeService;
 import org.soptorshi.service.dto.SupplySalesRepresentativeDTO;
 import org.soptorshi.service.mapper.SupplySalesRepresentativeMapper;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -47,6 +49,16 @@ public class SupplySalesRepresentativeServiceImpl implements SupplySalesRepresen
     @Override
     public SupplySalesRepresentativeDTO save(SupplySalesRepresentativeDTO supplySalesRepresentativeDTO) {
         log.debug("Request to save SupplySalesRepresentative : {}", supplySalesRepresentativeDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        Instant currentDateTime = Instant.now();
+        if(supplySalesRepresentativeDTO.getId() == null) {
+            supplySalesRepresentativeDTO.setCreatedBy(currentUser);
+            supplySalesRepresentativeDTO.setCreatedOn(currentDateTime);
+        }
+        else {
+            supplySalesRepresentativeDTO.setUpdatedBy(currentUser);
+            supplySalesRepresentativeDTO.setUpdatedOn(currentDateTime);
+        }
         SupplySalesRepresentative supplySalesRepresentative = supplySalesRepresentativeMapper.toEntity(supplySalesRepresentativeDTO);
         supplySalesRepresentative = supplySalesRepresentativeRepository.save(supplySalesRepresentative);
         SupplySalesRepresentativeDTO result = supplySalesRepresentativeMapper.toDto(supplySalesRepresentative);

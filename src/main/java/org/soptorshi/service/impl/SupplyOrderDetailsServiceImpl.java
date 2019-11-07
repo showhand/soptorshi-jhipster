@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.SupplyOrderDetails;
 import org.soptorshi.repository.SupplyOrderDetailsRepository;
 import org.soptorshi.repository.search.SupplyOrderDetailsSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.SupplyOrderDetailsService;
 import org.soptorshi.service.dto.SupplyOrderDetailsDTO;
 import org.soptorshi.service.mapper.SupplyOrderDetailsMapper;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -47,6 +49,16 @@ public class SupplyOrderDetailsServiceImpl implements SupplyOrderDetailsService 
     @Override
     public SupplyOrderDetailsDTO save(SupplyOrderDetailsDTO supplyOrderDetailsDTO) {
         log.debug("Request to save SupplyOrderDetails : {}", supplyOrderDetailsDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        Instant currentDateTime = Instant.now();
+        if(supplyOrderDetailsDTO.getId() == null) {
+            supplyOrderDetailsDTO.setCreatedBy(currentUser);
+            supplyOrderDetailsDTO.setCreatedOn(currentDateTime);
+        }
+        else {
+            supplyOrderDetailsDTO.setUpdatedBy(currentUser);
+            supplyOrderDetailsDTO.setUpdatedOn(currentDateTime);
+        }
         SupplyOrderDetails supplyOrderDetails = supplyOrderDetailsMapper.toEntity(supplyOrderDetailsDTO);
         supplyOrderDetails = supplyOrderDetailsRepository.save(supplyOrderDetails);
         SupplyOrderDetailsDTO result = supplyOrderDetailsMapper.toDto(supplyOrderDetails);

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.SupplyOrder;
 import org.soptorshi.repository.SupplyOrderRepository;
 import org.soptorshi.repository.search.SupplyOrderSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.SupplyOrderService;
 import org.soptorshi.service.dto.SupplyOrderDTO;
 import org.soptorshi.service.mapper.SupplyOrderMapper;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -47,6 +49,16 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
     @Override
     public SupplyOrderDTO save(SupplyOrderDTO supplyOrderDTO) {
         log.debug("Request to save SupplyOrder : {}", supplyOrderDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        Instant currentDateTime = Instant.now();
+        if(supplyOrderDTO.getId() == null) {
+            supplyOrderDTO.setCreatedBy(currentUser);
+            supplyOrderDTO.setCreatedOn(currentDateTime);
+        }
+        else {
+            supplyOrderDTO.setUpdatedBy(currentUser);
+            supplyOrderDTO.setUpdatedOn(currentDateTime);
+        }
         SupplyOrder supplyOrder = supplyOrderMapper.toEntity(supplyOrderDTO);
         supplyOrder = supplyOrderRepository.save(supplyOrder);
         SupplyOrderDTO result = supplyOrderMapper.toDto(supplyOrder);

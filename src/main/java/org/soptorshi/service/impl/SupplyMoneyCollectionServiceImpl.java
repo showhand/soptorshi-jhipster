@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.SupplyMoneyCollection;
 import org.soptorshi.repository.SupplyMoneyCollectionRepository;
 import org.soptorshi.repository.search.SupplyMoneyCollectionSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.SupplyMoneyCollectionService;
 import org.soptorshi.service.dto.SupplyMoneyCollectionDTO;
 import org.soptorshi.service.mapper.SupplyMoneyCollectionMapper;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -47,6 +49,16 @@ public class SupplyMoneyCollectionServiceImpl implements SupplyMoneyCollectionSe
     @Override
     public SupplyMoneyCollectionDTO save(SupplyMoneyCollectionDTO supplyMoneyCollectionDTO) {
         log.debug("Request to save SupplyMoneyCollection : {}", supplyMoneyCollectionDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        Instant currentDateTime = Instant.now();
+        if(supplyMoneyCollectionDTO.getId() == null) {
+            supplyMoneyCollectionDTO.setCreatedBy(currentUser);
+            supplyMoneyCollectionDTO.setCreatedOn(currentDateTime);
+        }
+        else {
+            supplyMoneyCollectionDTO.setUpdatedBy(currentUser);
+            supplyMoneyCollectionDTO.setUpdatedOn(currentDateTime);
+        }
         SupplyMoneyCollection supplyMoneyCollection = supplyMoneyCollectionMapper.toEntity(supplyMoneyCollectionDTO);
         supplyMoneyCollection = supplyMoneyCollectionRepository.save(supplyMoneyCollection);
         SupplyMoneyCollectionDTO result = supplyMoneyCollectionMapper.toDto(supplyMoneyCollection);
