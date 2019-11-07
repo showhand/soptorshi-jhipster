@@ -117,4 +117,4 @@ relationship ManyToOne {
 paginate * with infinite-scroll
 dto * with mapstruct
 filter all
-service all with serviceImpl
+service all with serviceClass
