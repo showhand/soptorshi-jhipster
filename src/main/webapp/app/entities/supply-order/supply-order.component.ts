@@ -49,7 +49,7 @@ export class SupplyOrderComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.supplyOrderService
                 .search({
                     query: this.currentSearch,
@@ -62,17 +62,31 @@ export class SupplyOrderComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
+        }*/
+        if (this.currentSearch) {
+            this.supplyOrderService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'orderNo.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyOrder[]>) => this.paginateSupplyOrders(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.supplyOrderService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyOrder[]>) => this.paginateSupplyOrders(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         }
-        this.supplyOrderService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ISupplyOrder[]>) => this.paginateSupplyOrders(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     reset() {

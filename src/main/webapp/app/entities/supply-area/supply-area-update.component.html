@@ -9,6 +9,15 @@
                     <input type="text" class="form-control" id="id" name="id"
                         [(ngModel)]="supplyArea.id" readonly />
                 </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
+                    <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyArea.supplyZoneId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.zoneName}}</option>
+                    </select>
+                </div>
+
                 <div class="form-group">
                     <label class="form-control-label" for="field_areaName">Area Name</label>
                     <input type="text" class="form-control" name="areaName" id="field_areaName"
@@ -25,7 +34,7 @@
                     <input type="text" class="form-control" name="areaCode" id="field_areaCode"
                         [(ngModel)]="supplyArea.areaCode" />
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_createdBy">Created By</label>
                     <input type="text" class="form-control" name="createdBy" id="field_createdBy"
                         [(ngModel)]="supplyArea.createdBy" />
@@ -48,15 +57,9 @@
                         <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
                         />
                     </div>
-                </div>
+                </div>-->
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
-                    <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyArea.supplyZoneId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.zoneName}}</option>
-                    </select>
-                </div>
+
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

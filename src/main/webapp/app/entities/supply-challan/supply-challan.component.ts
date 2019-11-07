@@ -49,7 +49,7 @@ export class SupplyChallanComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.supplyChallanService
                 .search({
                     query: this.currentSearch,
@@ -62,17 +62,31 @@ export class SupplyChallanComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
+        }*/
+        if (this.currentSearch) {
+            this.supplyChallanService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'challanNo.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyChallan[]>) => this.paginateSupplyChallans(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.supplyChallanService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyChallan[]>) => this.paginateSupplyChallans(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         }
-        this.supplyChallanService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ISupplyChallan[]>) => this.paginateSupplyChallans(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     reset() {

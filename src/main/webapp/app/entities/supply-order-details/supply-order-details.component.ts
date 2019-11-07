@@ -49,7 +49,7 @@ export class SupplyOrderDetailsComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.supplyOrderDetailsService
                 .search({
                     query: this.currentSearch,
@@ -62,17 +62,31 @@ export class SupplyOrderDetailsComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
+        }*/
+        if (this.currentSearch) {
+            this.supplyOrderDetailsService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'supplyOrderOrderNo.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyOrderDetails[]>) => this.paginateSupplyOrderDetails(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.supplyOrderDetailsService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyOrderDetails[]>) => this.paginateSupplyOrderDetails(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         }
-        this.supplyOrderDetailsService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ISupplyOrderDetails[]>) => this.paginateSupplyOrderDetails(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     reset() {

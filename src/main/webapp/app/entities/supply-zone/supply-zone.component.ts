@@ -49,7 +49,7 @@ export class SupplyZoneComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.supplyZoneService
                 .search({
                     query: this.currentSearch,
@@ -62,17 +62,31 @@ export class SupplyZoneComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
+        }*/
+        if (this.currentSearch) {
+            this.supplyZoneService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'zoneName.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyZone[]>) => this.paginateSupplyZones(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.supplyZoneService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyZone[]>) => this.paginateSupplyZones(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         }
-        this.supplyZoneService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ISupplyZone[]>) => this.paginateSupplyZones(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     reset() {

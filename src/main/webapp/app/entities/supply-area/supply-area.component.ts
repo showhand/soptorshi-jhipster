@@ -49,7 +49,7 @@ export class SupplyAreaComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.supplyAreaService
                 .search({
                     query: this.currentSearch,
@@ -62,17 +62,31 @@ export class SupplyAreaComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
+        }*/
+        if (this.currentSearch) {
+            this.supplyAreaService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'areaName.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyArea[]>) => this.paginateSupplyAreas(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.supplyAreaService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyArea[]>) => this.paginateSupplyAreas(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         }
-        this.supplyAreaService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ISupplyArea[]>) => this.paginateSupplyAreas(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     reset() {

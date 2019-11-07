@@ -49,7 +49,7 @@ export class SupplyMoneyCollectionComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.supplyMoneyCollectionService
                 .search({
                     query: this.currentSearch,
@@ -62,17 +62,31 @@ export class SupplyMoneyCollectionComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
+        }*/
+        if (this.currentSearch) {
+            this.supplyMoneyCollectionService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'supplySalesRepresentativeSalesRepresentativeName.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyMoneyCollection[]>) => this.paginateSupplyMoneyCollections(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.supplyMoneyCollectionService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyMoneyCollection[]>) => this.paginateSupplyMoneyCollections(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         }
-        this.supplyMoneyCollectionService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ISupplyMoneyCollection[]>) => this.paginateSupplyMoneyCollections(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     reset() {

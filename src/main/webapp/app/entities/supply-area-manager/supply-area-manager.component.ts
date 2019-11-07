@@ -49,7 +49,7 @@ export class SupplyAreaManagerComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        /*if (this.currentSearch) {
             this.supplyAreaManagerService
                 .search({
                     query: this.currentSearch,
@@ -62,17 +62,31 @@ export class SupplyAreaManagerComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
+        }*/
+        if (this.currentSearch) {
+            this.supplyAreaManagerService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'managerName.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyAreaManager[]>) => this.paginateSupplyAreaManagers(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.supplyAreaManagerService
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyAreaManager[]>) => this.paginateSupplyAreaManagers(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         }
-        this.supplyAreaManagerService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ISupplyAreaManager[]>) => this.paginateSupplyAreaManagers(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     reset() {

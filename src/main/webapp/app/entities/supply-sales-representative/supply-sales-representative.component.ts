@@ -49,10 +49,35 @@ export class SupplySalesRepresentativeComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+        /* if (this.currentSearch) {
+             this.supplySalesRepresentativeService
+                 .search({
+                     query: this.currentSearch,
+                     page: this.page,
+                     size: this.itemsPerPage,
+                     sort: this.sort()
+                 })
+                 .subscribe(
+                     (res: HttpResponse<ISupplySalesRepresentative[]>) => this.paginateSupplySalesRepresentatives(res.body, res.headers),
+                     (res: HttpErrorResponse) => this.onError(res.message)
+                 );
+             return;
+         }*/
         if (this.currentSearch) {
             this.supplySalesRepresentativeService
-                .search({
-                    query: this.currentSearch,
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'salesRepresentativeName.equals': this.currentSearch
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplySalesRepresentative[]>) => this.paginateSupplySalesRepresentatives(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.supplySalesRepresentativeService
+                .query({
                     page: this.page,
                     size: this.itemsPerPage,
                     sort: this.sort()
@@ -61,18 +86,7 @@ export class SupplySalesRepresentativeComponent implements OnInit, OnDestroy {
                     (res: HttpResponse<ISupplySalesRepresentative[]>) => this.paginateSupplySalesRepresentatives(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
-            return;
         }
-        this.supplySalesRepresentativeService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ISupplySalesRepresentative[]>) => this.paginateSupplySalesRepresentatives(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     reset() {
