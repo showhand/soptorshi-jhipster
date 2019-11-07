@@ -68,7 +68,6 @@ export class SupplyAreaManagerComponent implements OnInit, OnDestroy {
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
                     'managerName.equals': this.currentSearch
                 })
                 .subscribe(

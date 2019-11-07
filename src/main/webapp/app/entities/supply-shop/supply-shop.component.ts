@@ -68,7 +68,6 @@ export class SupplyShopComponent implements OnInit, OnDestroy {
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
                     'shopName.equals': this.currentSearch
                 })
                 .subscribe(

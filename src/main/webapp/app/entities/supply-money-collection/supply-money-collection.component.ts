@@ -68,7 +68,6 @@ export class SupplyMoneyCollectionComponent implements OnInit, OnDestroy {
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
                     'supplySalesRepresentativeSalesRepresentativeName.equals': this.currentSearch
                 })
                 .subscribe(

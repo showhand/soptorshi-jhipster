@@ -68,7 +68,6 @@ export class SupplyChallanComponent implements OnInit, OnDestroy {
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
                     'challanNo.equals': this.currentSearch
                 })
                 .subscribe(

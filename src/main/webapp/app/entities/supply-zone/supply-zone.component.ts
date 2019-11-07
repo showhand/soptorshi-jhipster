@@ -68,7 +68,6 @@ export class SupplyZoneComponent implements OnInit, OnDestroy {
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
                     'zoneName.equals': this.currentSearch
                 })
                 .subscribe(

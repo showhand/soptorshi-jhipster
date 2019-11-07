@@ -68,7 +68,6 @@ export class SupplyOrderDetailsComponent implements OnInit, OnDestroy {
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
                     'supplyOrderOrderNo.equals': this.currentSearch
                 })
                 .subscribe(

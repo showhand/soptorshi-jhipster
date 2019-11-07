@@ -68,7 +68,6 @@ export class SupplySalesRepresentativeComponent implements OnInit, OnDestroy {
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
                     'salesRepresentativeName.equals': this.currentSearch
                 })
                 .subscribe(
