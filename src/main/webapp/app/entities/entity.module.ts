@@ -511,7 +511,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'system-group-map',
-                loadChildren: './system-group-map-extended/system-group-map-extended.module#SoptorshiSystemGroupMapModule'
+                loadChildren: './system-group-map-extended/system-group-map-extended.module#SoptorshiSystemGroupMapExtendedModule'
             },
             {
                 path: 'academic-information-attachment',
@@ -550,7 +550,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'system-group-map',
-                loadChildren: './system-group-map/system-group-map.module#SoptorshiSystemGroupMapModule'
+                loadChildren: './system-group-map/system-group-map.module#SoptorshiSystemGroupMapExtendedModule'
             },
             {
                 path: 'commercial-purchase-order',

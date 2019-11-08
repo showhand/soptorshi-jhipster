@@ -38,4 +38,4 @@ const ENTITY_STATES = [...systemGroupMapExtendedRoute, ...systemGroupMapExtended
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SoptorshiSystemGroupMapModule {}
+export class SoptorshiSystemGroupMapExtendedModule {}
