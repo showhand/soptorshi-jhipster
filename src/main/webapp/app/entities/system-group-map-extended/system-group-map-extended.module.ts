@@ -10,6 +10,7 @@ import {
     SystemGroupMapExtendedUpdateComponent
 } from './';
 import {
+    SystemGroupMapComponent,
     SystemGroupMapDeleteDialogComponent,
     SystemGroupMapDeletePopupComponent,
     SystemGroupMapDetailComponent,
@@ -21,6 +22,7 @@ const ENTITY_STATES = [...systemGroupMapExtendedRoute, ...systemGroupMapExtended
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
+        SystemGroupMapComponent,
         SystemGroupMapExtendedComponent,
         SystemGroupMapDetailComponent,
         SystemGroupMapUpdateComponent,

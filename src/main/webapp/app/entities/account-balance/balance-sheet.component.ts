@@ -1,3 +1,4 @@
+/*
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AccountBalanceExtendedService } from 'app/entities/account-balance-extended';
 import * as moment from 'moment';
@@ -23,3 +24,4 @@ export class BalanceSheetComponent implements OnInit, OnDestroy {
         this.fetchType = BalanceSheetFetchType.SUMMARIZED;
     }
 }
+*/
