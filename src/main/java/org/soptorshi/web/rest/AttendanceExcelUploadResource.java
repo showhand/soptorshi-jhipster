@@ -2,7 +2,6 @@ package org.soptorshi.web.rest;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import io.github.jhipster.web.util.ResponseUtil;
-import jdk.internal.org.xml.sax.SAXException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.AttendanceExcelUploadQueryService;
@@ -78,7 +77,7 @@ public class AttendanceExcelUploadResource {
      */
     @PutMapping("/attendance-excel-uploads")
     @Transactional
-    public ResponseEntity<AttendanceExcelUploadDTO> updateAttendanceExcelUpload(@RequestBody AttendanceExcelUploadDTO attendanceExcelUploadDTO) throws InvalidFormatException, SAXException, IOException {
+    public ResponseEntity<AttendanceExcelUploadDTO> updateAttendanceExcelUpload(@RequestBody AttendanceExcelUploadDTO attendanceExcelUploadDTO) throws InvalidFormatException, IOException {
         log.debug("REST request to update AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
         if (attendanceExcelUploadDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
