@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AccountBalanceExtendedService } from 'app/entities/account-balance-extended';
-
+import * as moment from 'moment';
 export const enum BalanceSheetFetchType {
     SUMMARIZED,
     DETAILED
