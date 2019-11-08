@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AccountBalanceExtendedService } from 'app/entities/account-balance-extended/account-balance-extended.service';
-import { Moment } from 'moment';
-import moment = require('moment');
+import { Moment } from 'Moment';
 
 export const enum BalanceSheetFetchType {
     SUMMARIZED,
@@ -21,7 +20,7 @@ export class BalanceSheetComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {}
 
     ngOnInit(): void {
-        this.asOnDate = moment();
+        this.asOnDate = new Date();
         this.fetchType = BalanceSheetFetchType.SUMMARIZED;
     }
 
