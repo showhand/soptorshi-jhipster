@@ -83,6 +83,10 @@ export class ContraVoucherTransactionsComponent extends DtTransactionComponent i
         });
     }
 
+    transition() {
+        this.loadAll();
+    }
+
     ngOnInit() {
         this.loadAll();
         this.accountService.identity().then(account => {
