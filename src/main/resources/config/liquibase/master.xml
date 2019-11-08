@@ -223,5 +223,6 @@
     <include file="config/liquibase/changelog/20191106144405_added_entity_constraints_SupplyOrderDetails.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191106144406_added_entity_constraints_SupplyChallan.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191106144407_added_entity_constraints_SupplyMoneyCollection.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191108191310_changelog.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
