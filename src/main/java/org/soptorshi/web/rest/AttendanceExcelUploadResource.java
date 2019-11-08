@@ -56,7 +56,7 @@ public class AttendanceExcelUploadResource {
 
     @PostMapping("/attendance-excel-uploads")
     @Transactional
-    public ResponseEntity<AttendanceExcelUploadDTO> createAttendanceExcelUpload(@RequestBody AttendanceExcelUploadDTO attendanceExcelUploadDTO) throws InvalidFormatException, SAXException, IOException, URISyntaxException {
+    public ResponseEntity<AttendanceExcelUploadDTO> createAttendanceExcelUpload(@RequestBody AttendanceExcelUploadDTO attendanceExcelUploadDTO) throws InvalidFormatException, IOException, URISyntaxException {
         log.debug("REST request to save AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
         if (attendanceExcelUploadDTO.getId() != null) {
             throw new BadRequestAlertException("A new attendanceExcelUpload cannot already have an ID", ENTITY_NAME, "idexists");
