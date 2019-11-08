@@ -1,0 +1,57 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="supplyOrderDetails">
+            <h2><span>Supply Order Details</span> {{supplyOrderDetails.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Product Name</span></dt>
+                <dd>
+                    <span>{{supplyOrderDetails.productName}}</span>
+                </dd>
+                <dt><span>Product Volume</span></dt>
+                <dd>
+                    <span>{{supplyOrderDetails.productVolume}}</span>
+                </dd>
+                <dt><span>Total Price</span></dt>
+                <dd>
+                    <span>{{supplyOrderDetails.totalPrice}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{supplyOrderDetails.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{supplyOrderDetails.createdOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{supplyOrderDetails.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{supplyOrderDetails.updatedOn}}</span>
+                </dd>
+                <dt><span>Supply Order</span></dt>
+                <dd>
+                    <div *ngIf="supplyOrderDetails.supplyOrderId">
+                        <a [routerLink]="['/supply-order', supplyOrderDetails.supplyOrderId, 'view']">{{supplyOrderDetails.supplyOrderOrderNo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/supply-order-details', supplyOrderDetails.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
