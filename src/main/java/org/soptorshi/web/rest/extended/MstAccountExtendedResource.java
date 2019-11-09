@@ -3,6 +3,7 @@ package org.soptorshi.web.rest.extended;
 import com.itextpdf.text.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.ChartOfAccountsExcelReportService;
 import org.soptorshi.service.ChartsOfAccountReportService;
 import org.soptorshi.service.MstAccountQueryService;
 import org.soptorshi.service.MstAccountService;
@@ -34,10 +35,13 @@ public class MstAccountExtendedResource {
 
     private final ChartsOfAccountReportService chartsOfAccountReportService;
 
-    public MstAccountExtendedResource(MstAccountExtendedService mstAccountService, MstAccountQueryService mstAccountQueryService, ChartsOfAccountReportService chartsOfAccountReportService) {
+    private final ChartOfAccountsExcelReportService chartOfAccountsExcelReportService;
+
+    public MstAccountExtendedResource(MstAccountExtendedService mstAccountService, MstAccountQueryService mstAccountQueryService, ChartsOfAccountReportService chartsOfAccountReportService, ChartOfAccountsExcelReportService chartOfAccountsExcelReportService) {
         this.mstAccountService = mstAccountService;
         this.mstAccountQueryService = mstAccountQueryService;
         this.chartsOfAccountReportService = chartsOfAccountReportService;
+        this.chartOfAccountsExcelReportService = chartOfAccountsExcelReportService;
     }
 
     /**
@@ -89,6 +93,17 @@ public class MstAccountExtendedResource {
             .ok()
             .headers(headers)
             .contentType(MediaType.APPLICATION_PDF)
+            .body(new InputStreamResource(byteArrayInputStream));
+    }
+    @GetMapping(value = "/mst-accounts/charts-of-account/excel")
+    public ResponseEntity<InputStreamResource> generateChartsOfAccountsExcelFormat() throws Exception, DocumentException {
+        ByteArrayInputStream byteArrayInputStream = chartOfAccountsExcelReportService.createChartsOrAccountReport();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "/api/extended/charts-of-account");
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
             .body(new InputStreamResource(byteArrayInputStream));
     }
 }

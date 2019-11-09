@@ -76,6 +76,9 @@
         <git-commit-id-plugin.version>2.2.5</git-commit-id-plugin.version>
         <SOPTORSHI_USERNAME>USERNAME</SOPTORSHI_USERNAME>
         <SOPTORSHI_PASSWORD>PASSWORD</SOPTORSHI_PASSWORD>
+        <jxls-version>2.4.4</jxls-version>
+        <jxls-poi-version>1.0.14</jxls-poi-version>
+        <apache-poi-version>3.15</apache-poi-version>
 
         <!-- Sonar properties -->
         <sonar.host.url>http://localhost:9001</sonar.host.url>
@@ -358,6 +361,30 @@
             <groupId>org.jxls</groupId>
             <artifactId>jxls-reader</artifactId>
             <version>2.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jxls</groupId>
+            <artifactId>jxls</artifactId>
+            <version>${jxls-version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jxls</groupId>
+            <artifactId>jxls-poi</artifactId>
+            <version>${jxls-poi-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>
