@@ -73,6 +73,10 @@ export class PaymentVoucherTransactionComponent extends DtTransactionComponent i
         return of(this.totalAmount);
     }
 
+    transition() {
+        this.loadAll();
+    }
+
     ngOnInit() {
         this.loadAll();
         this.accountService.identity().then(account => {

@@ -57,8 +57,7 @@ export class CommercialAttachmentExtendedComponent extends CommercialAttachmentC
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'commercialPurchaseOrderPurchaseOrderNo.equals': this.currentSearch
+                    'commercialPurchaseOrderId.equals': this.currentSearch
                 })
                 .subscribe(
                     (res: HttpResponse<ICommercialAttachment[]>) => this.paginateCommercialAttachments(res.body, res.headers),

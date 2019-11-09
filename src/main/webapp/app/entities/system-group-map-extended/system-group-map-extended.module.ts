@@ -1,20 +1,19 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     SystemGroupMapExtendedComponent,
     SystemGroupMapExtendedDetailComponent,
-    SystemGroupMapExtendedUpdateComponent,
+    systemGroupMapExtendedPopupRoute,
     systemGroupMapExtendedRoute,
-    systemGroupMapExtendedPopupRoute
+    SystemGroupMapExtendedUpdateComponent
 } from './';
 import {
     SystemGroupMapComponent,
     SystemGroupMapDeleteDialogComponent,
     SystemGroupMapDeletePopupComponent,
     SystemGroupMapDetailComponent,
-    systemGroupMapPopupRoute,
     SystemGroupMapUpdateComponent
 } from 'app/entities/system-group-map';
 
@@ -24,6 +23,7 @@ const ENTITY_STATES = [...systemGroupMapExtendedRoute, ...systemGroupMapExtended
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         SystemGroupMapComponent,
+        SystemGroupMapExtendedComponent,
         SystemGroupMapDetailComponent,
         SystemGroupMapUpdateComponent,
         SystemGroupMapExtendedComponent,
@@ -40,4 +40,4 @@ const ENTITY_STATES = [...systemGroupMapExtendedRoute, ...systemGroupMapExtended
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SoptorshiSystemGroupMapModule {}
+export class SoptorshiSystemGroupMapExtendedModule {}

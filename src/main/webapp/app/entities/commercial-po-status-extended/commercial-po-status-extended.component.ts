@@ -56,8 +56,7 @@ export class CommercialPoStatusExtendedComponent extends CommercialPoStatusCompo
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'commercialPurchaseOrderPurchaseOrderNo.equals': this.currentSearch
+                    'commercialPurchaseOrderId.equals': this.currentSearch
                 })
                 .subscribe(
                     (res: HttpResponse<ICommercialPoStatus[]>) => this.paginateCommercialPoStatuses(res.body, res.headers),

@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialPaymentInfoQueryService;
-import org.soptorshi.service.CommercialPaymentInfoService;
 import org.soptorshi.service.dto.CommercialPaymentInfoCriteria;
 import org.soptorshi.service.dto.CommercialPaymentInfoDTO;
+import org.soptorshi.service.extended.CommercialPaymentInfoExtendedService;
 import org.soptorshi.web.rest.CommercialPaymentInfoResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -34,11 +34,11 @@ public class CommercialPaymentInfoExtendedResource extends CommercialPaymentInfo
 
     private static final String ENTITY_NAME = "commercialPaymentInfo";
 
-    private final CommercialPaymentInfoService commercialPaymentInfoService;
+    private final CommercialPaymentInfoExtendedService commercialPaymentInfoService;
 
     private final CommercialPaymentInfoQueryService commercialPaymentInfoQueryService;
 
-    public CommercialPaymentInfoExtendedResource(CommercialPaymentInfoService commercialPaymentInfoService, CommercialPaymentInfoQueryService commercialPaymentInfoQueryService) {
+    public CommercialPaymentInfoExtendedResource(CommercialPaymentInfoExtendedService commercialPaymentInfoService, CommercialPaymentInfoQueryService commercialPaymentInfoQueryService) {
         super(commercialPaymentInfoService, commercialPaymentInfoQueryService);
         this.commercialPaymentInfoService = commercialPaymentInfoService;
         this.commercialPaymentInfoQueryService = commercialPaymentInfoQueryService;

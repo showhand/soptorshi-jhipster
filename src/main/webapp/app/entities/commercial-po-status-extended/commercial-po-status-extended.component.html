@@ -12,7 +12,7 @@
         <form name="searchForm" class="form-inline">
             <div class="input-group w-100 mt-3">
                 <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
-                       name="currentSearch" placeholder="Purchase Order No">
+                       name="currentSearch" placeholder="Purchase Order Id">
                 <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
                     <fa-icon [icon]="'search'"></fa-icon>
                 </button>
@@ -45,12 +45,13 @@
                     <th jhiSortBy="status"><span>Status</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <!--<th jhiSortBy="createdBy"><span>Created By</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
                     <th jhiSortBy="createOn"><span>Create On</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
+                    <!--<th jhiSortBy="createdBy"><span>Created By</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+
                     <th jhiSortBy="updatedBy"><span>Updated By</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -72,8 +73,9 @@
                         </div>
                     </td>
                     <td>{{commercialPoStatus.status}}</td>
-                    <!--<td>{{commercialPoStatus.createdBy}}</td>
                     <td>{{commercialPoStatus.createOn | date:'mediumDate'}}</td>
+                    <!--<td>{{commercialPoStatus.createdBy}}</td>
+
                     <td>{{commercialPoStatus.updatedBy}}</td>
                     <td>{{commercialPoStatus.updatedOn | date:'mediumDate'}}</td>-->
                     <td class="text-right" width="20%">

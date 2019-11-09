@@ -2,7 +2,6 @@ package org.soptorshi.service.extended;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.CommercialPoStatus;
 import org.soptorshi.domain.CommercialWorkOrder;
 import org.soptorshi.domain.enumeration.CommercialStatus;
 import org.soptorshi.repository.CommercialPurchaseOrderRepository;
@@ -65,10 +64,11 @@ public class CommercialWorkOrderExtendedService extends CommercialWorkOrderServi
      */
     public CommercialWorkOrderDTO save(CommercialWorkOrderDTO commercialWorkOrderDTO) {
         log.debug("Request to save CommercialWorkOrder : {}", commercialWorkOrderDTO);
-        CommercialPoStatus commercialPoStatus = commercialPoStatusRepository.findTopByCommercialPurchaseOrderOrderByCreateOnDesc(
-            commercialPurchaseOrderRepository.getOne(commercialWorkOrderDTO.getCommercialPurchaseOrderId()));
+        boolean commercialPoStatus = commercialPoStatusRepository.existsByCommercialPurchaseOrderAndStatus(
+            commercialPurchaseOrderRepository.getOne(commercialWorkOrderDTO.getCommercialPurchaseOrderId()),
+            CommercialStatus.ARTWORK_OF_PACKAGING_APPROVED_AND_ISSUE_WORK_ORDER_FOR_PACKAGING_ACCESSORIES);
 
-        if(commercialPoStatus.getStatus().equals(CommercialStatus.ARTWORK_OF_PACKAGING_APPROVED_AND_ISSUE_WORK_ORDER_FOR_PACKAGING_ACCESSORIES)) {
+        if(commercialPoStatus) {
             String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
             LocalDate currentDate = LocalDate.now();
             if (commercialWorkOrderDTO.getId() == null) {

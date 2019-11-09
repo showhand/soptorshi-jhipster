@@ -91,7 +91,7 @@ export class ReceiptVoucherExtendedUpdateComponent extends ReceiptVoucherUpdateC
         this.isSaving = false;
     }
 
-    protected calculateTotalAmount(totalAmount: number) {
+    public calculateTotalAmount(totalAmount: number) {
         this.totalAmount = totalAmount;
     }
 

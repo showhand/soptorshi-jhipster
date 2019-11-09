@@ -96,7 +96,7 @@ export class ContraVoucherExtendedUpdateComponent extends ContraVoucherUpdateCom
         this.isSaving = false;
     }
 
-    protected post() {
+    public post() {
         this.contraVoucher.postDate = moment();
         this.save();
     }

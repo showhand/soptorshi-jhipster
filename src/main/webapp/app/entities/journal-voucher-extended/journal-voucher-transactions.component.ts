@@ -65,6 +65,10 @@ export class JournalVoucherTransactionsComponent extends DtTransactionComponent 
             );
     }
 
+    transition() {
+        this.loadAll();
+    }
+
     addTransaction() {
         let transaction = new DtTransaction();
         transaction.voucherNo = this.journalVoucher.voucherNo;

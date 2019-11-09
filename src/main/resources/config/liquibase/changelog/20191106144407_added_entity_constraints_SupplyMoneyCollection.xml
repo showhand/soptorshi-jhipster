@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity SupplyMoneyCollection.
+    -->
+    <changeSet id="20191106144407-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="supply_zone_id"
+                                 baseTableName="supply_money_collection"
+                                 constraintName="fk_supply_money_collection_supply_zone_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_zone"/>
+
+        <addForeignKeyConstraint baseColumnNames="supply_area_id"
+                                 baseTableName="supply_money_collection"
+                                 constraintName="fk_supply_money_collection_supply_area_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_area"/>
+
+        <addForeignKeyConstraint baseColumnNames="supply_area_manager_id"
+                                 baseTableName="supply_money_collection"
+                                 constraintName="fk_supply_money_collection_supply_area_manager_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_area_manager"/>
+
+        <addForeignKeyConstraint baseColumnNames="supply_sales_representative_id"
+                                 baseTableName="supply_money_collection"
+                                 constraintName="fk_supply_money_collection_supply_sales_representative_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_sales_representative"/>
+
+    </changeSet>
+</databaseChangeLog>

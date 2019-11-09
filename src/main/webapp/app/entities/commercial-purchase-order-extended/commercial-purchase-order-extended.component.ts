@@ -56,7 +56,6 @@ export class CommercialPurchaseOrderExtendedComponent extends CommercialPurchase
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
                     'purchaseOrderNo.equals': this.currentSearch
                 })
                 .subscribe(

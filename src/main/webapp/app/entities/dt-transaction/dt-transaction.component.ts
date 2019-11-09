@@ -88,14 +88,6 @@ export class DtTransactionComponent implements OnInit, OnDestroy {
     }
 
     transition() {
-        this.router.navigate(['/dt-transaction'], {
-            queryParams: {
-                page: this.page,
-                size: this.itemsPerPage,
-                search: this.currentSearch,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
-        });
         this.loadAll();
     }
 

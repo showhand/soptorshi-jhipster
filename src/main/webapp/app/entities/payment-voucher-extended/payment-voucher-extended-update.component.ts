@@ -87,7 +87,7 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
         this.loadAll();
     }
 
-    protected calculateTotalAmount(totalAmount: number) {
+    calculateTotalAmount(totalAmount: number) {
         this.totalAmount = totalAmount;
     }
 

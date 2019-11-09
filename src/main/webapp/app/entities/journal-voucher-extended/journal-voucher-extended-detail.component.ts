@@ -12,7 +12,7 @@ import { ConversionFactorExtendedService } from 'app/entities/conversion-factor-
 import { IConversionFactor } from 'app/shared/model/conversion-factor.model';
 import { VoucherType } from 'app/shared/model/dt-transaction.model';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
     selector: 'jhi-journal-voucher-detail',

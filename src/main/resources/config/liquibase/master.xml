@@ -98,6 +98,15 @@
     <include file="config/liquibase/changelog/20191103092807_added_entity_CommercialPoStatus.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191103092808_added_entity_CommercialInvoice.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191103092809_added_entity_CommercialAttachment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144359_added_entity_SupplyZone.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144400_added_entity_SupplyArea.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144401_added_entity_SupplyAreaManager.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144402_added_entity_SupplySalesRepresentative.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144403_added_entity_SupplyShop.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144404_added_entity_SupplyOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144405_added_entity_SupplyOrderDetails.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144406_added_entity_SupplyChallan.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144407_added_entity_SupplyMoneyCollection.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
@@ -207,5 +216,14 @@
     <include file="config/liquibase/changelog/20191031100636_account_foreign_key_added_to_payment_voucher.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191031152123_account_foreign_key_added_to_receipt_voucher.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191102111218_contra_voucher_refactored.xml" relativeToChangelogFile="false"/>-->
+    <include file="config/liquibase/changelog/20191106144400_added_entity_constraints_SupplyArea.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144401_added_entity_constraints_SupplyAreaManager.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144402_added_entity_constraints_SupplySalesRepresentative.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144403_added_entity_constraints_SupplyShop.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144404_added_entity_constraints_SupplyOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144405_added_entity_constraints_SupplyOrderDetails.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144406_added_entity_constraints_SupplyChallan.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106144407_added_entity_constraints_SupplyMoneyCollection.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191108191310_changelog.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

@@ -76,6 +76,10 @@ export class ReceiptVoucherTransactionComponent extends DtTransactionComponent i
         modalRef.componentInstance.dtTransaction = transaction;
     }
 
+    transition() {
+        this.loadAll();
+    }
+
     deleteTransaction(dtTransaction: IDtTransaction) {
         this.dtTransactionService.delete(dtTransaction.id).subscribe((response: any) => {
             this.loadAll();
