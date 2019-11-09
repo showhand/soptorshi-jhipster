@@ -14,6 +14,7 @@ import { IDtTransaction } from 'app/shared/model/dt-transaction.model';
 import { DtTransactionDeletePopupComponent } from 'app/entities/dt-transaction';
 import { JournalVoucherExtendedService } from 'app/entities/journal-voucher-extended';
 import { IJournalVoucher } from 'app/shared/model/journal-voucher.model';
+import { GeneralLedgerReportComponent } from 'app/entities/dt-transaction-extended/general-ledger-report.component';
 
 @Injectable({ providedIn: 'root' })
 export class DtTransactionExtendedResolve implements Resolve<IDtTransaction> {
@@ -48,19 +49,6 @@ export class DtTransactionExtendedResolve implements Resolve<IDtTransaction> {
 
 export const dtTransactionExtendedRoute: Routes = [
     {
-        path: '',
-        component: DtTransactionExtendedComponent,
-        resolve: {
-            pagingParams: JhiResolvePagingParams
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            defaultSort: 'id,asc',
-            pageTitle: 'DtTransactions'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
         path: ':id/view',
         component: DtTransactionExtendedDetailComponent,
         resolve: {
@@ -78,6 +66,15 @@ export const dtTransactionExtendedRoute: Routes = [
         resolve: {
             dtTransaction: DtTransactionExtendedResolve
         },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'DtTransactions'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'general-ledger-report',
+        component: GeneralLedgerReportComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'DtTransactions'

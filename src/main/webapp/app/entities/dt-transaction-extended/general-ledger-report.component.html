@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">General Ledger</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form name="specification" role="form">
+                            <div>
+                                <div class="form-group">
+                                    <label class="form-control-label" for="field_type">Fetch Type</label>
+                                    <select class="form-control" name="type" [(ngModel)]="generalLedgerFetchType" id="field_type" >
+                                        <option value="ALL">All</option>
+                                        <option value="TRANSACTION_SPECIFIC">Transaction Specific</option>
+                                        <option value="ACCOUNT_SPECIFIC">Account Specific</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="form-group" *ngIf="generalLedgerFetchType=='ACCOUNT_SPECIFIC'">
+                            <label class="form-control-label" for="field_account">Account</label>
+                            <input type="text" class="form-control" name="account" id="field_account"
+                                   [(ngModel)]="selectedAccountName" [ngbTypeahead]="search" (ngModelChange)="accountSelected()"
+                                   (focus)="focus$.next($event.target.value)"
+                                   (click)="click$.next($event.target.value)"
+                                   #instance="ngbTypeahead"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_startDate">From Date</label>
+                            <div class="input-group">
+                                <input id="field_startDate" type="date" class="form-control" name="startDate" ngbDatepicker  #startDateDp="ngbDatepicker" [(ngModel)]="fromDate"
+                                />
+                                <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="startDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                            </div>
+                            <div [hidden]="!(specification.controls.startDate?.dirty && specification.controls.startDate?.invalid)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_toDate">To Date</label>
+                            <div class="input-group">
+                                <input id="field_toDate" type="date" class="form-control" name="toDate" ngbDatepicker  #toDateDp="ngbDatepicker" [(ngModel)]="toDate"
+                                />
+                                <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="toDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                            </div>
+                            <div [hidden]="!(specification.controls.toDate?.dirty && specification.controls.toDate?.invalid)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-secondary" (click)="downloadReport()">Download Report</button>
+            </div>
+        </div>
+    </div>
+</div>

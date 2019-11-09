@@ -3,8 +3,10 @@ package org.soptorshi.web.rest.extended;
 import com.itextpdf.text.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.enumeration.GeneralLedgerFetchType;
 import org.soptorshi.service.DtTransactionQueryService;
 import org.soptorshi.service.DtTransactionService;
+import org.soptorshi.service.GeneralLedgerReportService;
 import org.soptorshi.service.VoucherReport;
 import org.soptorshi.service.dto.DtTransactionDTO;
 import org.soptorshi.service.extended.DtTransactionExtendedService;
@@ -36,10 +38,13 @@ public class DtTransactionExtendedResource {
 
     private final VoucherReport voucherReport;
 
-    public DtTransactionExtendedResource(DtTransactionExtendedService dtTransactionService, DtTransactionQueryService dtTransactionQueryService, VoucherReport voucherReport) {
+    private final GeneralLedgerReportService generalLedgerReportService;
+
+    public DtTransactionExtendedResource(DtTransactionExtendedService dtTransactionService, DtTransactionQueryService dtTransactionQueryService, VoucherReport voucherReport, GeneralLedgerReportService generalLedgerReportService) {
         this.dtTransactionService = dtTransactionService;
         this.dtTransactionQueryService = dtTransactionQueryService;
         this.voucherReport = voucherReport;
+        this.generalLedgerReportService = generalLedgerReportService;
     }
 
     /**
@@ -88,6 +93,24 @@ public class DtTransactionExtendedResource {
         @PathVariable("voucherDate")String voucherdate
         ) throws Exception, DocumentException{
         ByteArrayInputStream byteArrayInputStream = voucherReport.createVoucherReport(voucherName, voucherNo, LocalDate.parse(voucherdate) );
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "/api/dt-transactions");
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_PDF)
+            .body(new InputStreamResource(byteArrayInputStream));
+    }
+
+    @GetMapping(value="/dt-transactions/general-ledger-report/{generalLedgerFetchType}/{accountId}/{fromDate}/{toDate}", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> generateGeneralLedgerReport(
+        @PathVariable("generalLedgerFetchType") String generalLedgerFetchType,
+        @PathVariable("accountId") Long accountId,
+        @PathVariable("fromDate")String fromDate,
+        @PathVariable("toDate") String toDate
+    ) throws Exception, DocumentException{
+        ByteArrayInputStream byteArrayInputStream = generalLedgerReportService.createGeneralLedger(GeneralLedgerFetchType.valueOf(generalLedgerFetchType),
+            accountId.equals(9999)?null: accountId, LocalDate.parse(fromDate), LocalDate.parse(toDate) );
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "/api/dt-transactions");
         return ResponseEntity

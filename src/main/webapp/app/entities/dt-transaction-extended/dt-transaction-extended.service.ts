@@ -14,6 +14,12 @@ import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 type EntityResponseType = HttpResponse<IDtTransaction>;
 type EntityArrayResponseType = HttpResponse<IDtTransaction[]>;
 
+export enum GeneralLedgerFetchType {
+    ALL = 'ALL',
+    TRANSACTION_SPECIFIC = 'TRANSACTION_SPECIFIC',
+    ACCOUNT_SPECIFIC = 'ACCOUNT_SPECIFIC'
+}
+
 @Injectable({ providedIn: 'root' })
 export class DtTransactionExtendedService extends DtTransactionService {
     public resourceUrlExtended = SERVER_API_URL + 'api/extended/dt-transactions';
@@ -42,6 +48,18 @@ export class DtTransactionExtendedService extends DtTransactionService {
             .get(`${this.resourceUrlExtended}/voucher-report/${voucherName}/${voucherNo}/${voucherDateStr}`, { responseType: 'blob' })
             .subscribe((data: any) => {
                 SoptorshiUtil.writeFileContent(data, 'application/pdf', voucherName);
+            });
+    }
+
+    downloadGeneralLedgerReport(generalLedgerFetchType: GeneralLedgerFetchType, accountId: number, fromDate: any, toDate: any) {
+        const fromDateStr = moment(fromDate).format('YYYY-MM-DD');
+        const toDateStr = moment(toDate).format('YYYY-MM-DD');
+        return this.http
+            .get(`${this.resourceUrlExtended}/general-ledger-report/${generalLedgerFetchType}/${accountId}/${fromDateStr}/${toDateStr}`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'General Ledger Report');
             });
     }
 }
