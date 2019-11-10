@@ -95,7 +95,7 @@ public class MstAccountExtendedResource {
             .contentType(MediaType.APPLICATION_PDF)
             .body(new InputStreamResource(byteArrayInputStream));
     }
-    @GetMapping(value = "/mst-accounts/charts-of-account/excel")
+    @GetMapping(value = "/mst-accounts/charts-of-account/excel", produces = MediaType.ALL_VALUE)
     public ResponseEntity<InputStreamResource> generateChartsOfAccountsExcelFormat() throws Exception, DocumentException {
         ByteArrayInputStream byteArrayInputStream = chartOfAccountsExcelReportService.createChartsOrAccountReport();
         HttpHeaders headers = new HttpHeaders();

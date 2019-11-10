@@ -38,7 +38,7 @@ export class MstAccountExtendedService extends MstAccountService {
 
     chartsOfAccount(): any {
         return this.http.get(`${this.resourceExtendedUrl}/charts-of-account/excel`, { responseType: 'blob' }).subscribe((data: any) => {
-            SoptorshiUtil.writeFileContent(data, 'application/vnd.ms-excel', 'Charts of Accounts');
+            SoptorshiUtil.writeFileContent(data, 'application/vnd.ms-excel', 'ChartsofAccounts');
         });
     }
 }

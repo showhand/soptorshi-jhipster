@@ -24,22 +24,23 @@ public class JxlsGenerator {
                       OutputStream out,
                       InputStream templateLocation) throws IOException{
         Context context = new Context();
-        context.putVar("asset", assetGroup);
+        context.putVar("assets", assetGroup);
         context.putVar("liabilities", liabilitiesGroup);
-        context.putVar("income", incomeGroup);
-        context.putVar("expenditure", expenditureGroup);
+        context.putVar("incomes", incomeGroup);
+        context.putVar("expenditures", expenditureGroup);
         processTemplate(context, templateLocation, out);
     }
 
     private void processTemplate(Context context, InputStream pTemplateLocation, OutputStream pOutputStream) throws IOException {
         JxlsHelper jxlsHelper = JxlsHelper.getInstance();
-        Transformer transformer = jxlsHelper.createTransformer(pTemplateLocation, pOutputStream);
+        /*Transformer transformer = jxlsHelper.createTransformer(pTemplateLocation, pOutputStream);
         setSilent(transformer);
-        jxlsHelper.processTemplate(context, transformer);
+        jxlsHelper.processTemplate(context, transformer);*/
+        jxlsHelper.processTemplate(pTemplateLocation, pOutputStream, context);
     }
 
     private void setSilent(Transformer transformer) {
         JexlExpressionEvaluator evaluator = (JexlExpressionEvaluator) transformer.getTransformationConfig().getExpressionEvaluator();
-        evaluator.getJexlEngine().setSilent(true);
+       // evaluator.getJexlEngine().setSilent(true);
     }
 }

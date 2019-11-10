@@ -1,6 +1,9 @@
 package org.soptorshi.service;
 
 import com.itextpdf.text.DocumentException;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.soptorshi.config.JxlsGenerator;
 import org.soptorshi.domain.MstAccount;
 import org.soptorshi.domain.MstGroup;
@@ -10,6 +13,8 @@ import org.soptorshi.repository.MstAccountRepository;
 import org.soptorshi.repository.SystemGroupMapRepository;
 import org.soptorshi.repository.extended.MstGroupExtendedRepository;
 import org.soptorshi.service.dto.ChartsOfAccountsDTO;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,12 +31,14 @@ public class ChartOfAccountsExcelReportService {
     private MstAccountRepository mstAccountRepository;
     private SystemGroupMapRepository systemGroupMapRepository;
     private JxlsGenerator jxlsGenerator;
+    private ResourceLoader resourceLoader;
 
-    public ChartOfAccountsExcelReportService(MstGroupExtendedRepository mstGroupExtendedRepository, MstAccountRepository mstAccountRepository, SystemGroupMapRepository systemGroupMapRepository, JxlsGenerator jxlsGenerator) {
+    public ChartOfAccountsExcelReportService(MstGroupExtendedRepository mstGroupExtendedRepository, MstAccountRepository mstAccountRepository, SystemGroupMapRepository systemGroupMapRepository, JxlsGenerator jxlsGenerator, ResourceLoader resourceLoader) {
         this.mstGroupExtendedRepository = mstGroupExtendedRepository;
         this.mstAccountRepository = mstAccountRepository;
         this.systemGroupMapRepository = systemGroupMapRepository;
         this.jxlsGenerator = jxlsGenerator;
+        this.resourceLoader = resourceLoader;
     }
 
     public ByteArrayInputStream createChartsOrAccountReport() throws Exception, DocumentException {
@@ -54,12 +61,23 @@ public class ChartOfAccountsExcelReportService {
         List<ChartsOfAccountsDTO> incomeExcelGroup = createChartsOfAccountsExcelMap(income, groupMapWithAccounts);
         List<ChartsOfAccountsDTO> expenditureExcelGroup = createChartsOfAccountsExcelMap(expenditure, groupMapWithAccounts);
 
-        InputStream template = new FileInputStream("ChartsOfAccounts.xls"); // ChartsOfAccountReportService.class.getResourceAsStream("/org/soptorshi/service/ChartsOfAccounts.xls");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        OutputStream outputStream = new FileOutputStream("ChartsOfAccounts.xls");
-        outputStream.write(baos.toByteArray());
+        Resource resource = resourceLoader.getResource("classpath:/templates/jxls/ChartsOfAccounts.xls");// templates/jxls/ChartsOfAccounts.xls
+        HSSFWorkbook workbook = new HSSFWorkbook(resource.getInputStream());
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        workbook.write(bos);
+        byte[] barray = bos.toByteArray();
+        InputStream is = new ByteArrayInputStream(barray);
+        InputStream template = resource.getInputStream(); // ChartsOfAccountReportService.class.getResourceAsStream("/org/soptorshi/service/ChartsOfAccounts.xls");
+       /* Resource outputResource = resourceLoader.getResource("classpath:/templates/jxls/ChartOfAccountsOutput.xls");
+        Workbook outputWorkbook = new HSSFWorkbook();
+        ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        outputWorkbook.write(bout);*/
+        OutputStream outputStream = new ByteArrayOutputStream() ; // new FileOutputStream(outputResource.getFile());
+//        outputStream.write(bout.toByteArray());
         jxlsGenerator.build(assetExcelGroup, liabilitiesExcelGroup, incomeExcelGroup, expenditureExcelGroup, outputStream, template);
-        baos.writeTo(outputStream);
+        ByteArrayOutputStream baos =(ByteArrayOutputStream) outputStream; //(ByteArrayOutputStream) outputStream; //new ByteArrayOutputStream();
+        byte[] data = baos.toByteArray();
+        outputStream.write(data);
         return new ByteArrayInputStream(baos.toByteArray());
     }
 
