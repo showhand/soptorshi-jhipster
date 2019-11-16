@@ -16,8 +16,8 @@ const ENTITY_STATES = [...salaryRoute, ...salaryPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [SalaryComponent, SalaryDetailComponent, SalaryUpdateComponent, SalaryDeleteDialogComponent, SalaryDeletePopupComponent],
-    entryComponents: [SalaryComponent, SalaryUpdateComponent, SalaryDeleteDialogComponent, SalaryDeletePopupComponent],
+    /*    declarations: [SalaryComponent, SalaryDetailComponent, SalaryUpdateComponent, SalaryDeleteDialogComponent, SalaryDeletePopupComponent],
+    entryComponents: [SalaryComponent, SalaryUpdateComponent, SalaryDeleteDialogComponent, SalaryDeletePopupComponent],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiSalaryModule {}

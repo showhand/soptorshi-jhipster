@@ -122,7 +122,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'salary',
-                loadChildren: './salary/salary.module#SoptorshiSalaryModule'
+                loadChildren: './salary-extended/salary-extended.module#SoptorshiSalaryModule'
             },
             {
                 path: 'provident-fund',
