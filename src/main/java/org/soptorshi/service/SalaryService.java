@@ -72,11 +72,6 @@ public class SalaryService {
             .map(salaryMapper::toDto);
     }
 
-    @Transactional(readOnly = true)
-    public Salary get(Employee employee, SalaryStatus salaryStatus){
-        return salaryRepository.getByEmployeeAndSalaryStatus(employee, salaryStatus);
-    }
-
 
     /**
      * Get one salary by id.

@@ -16,7 +16,7 @@ type EntityArrayResponseType = HttpResponse<ISalary[]>;
 
 @Injectable({ providedIn: 'root' })
 export class SalaryExtendedService extends SalaryService {
-    public resourceUrl = SERVER_API_URL + 'api/salaries';
+    public resourceUrlExtended = SERVER_API_URL + 'api/extended/salaries';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/salaries';
 
     constructor(protected http: HttpClient) {
@@ -26,14 +26,22 @@ export class SalaryExtendedService extends SalaryService {
     create(salary: ISalary): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(salary);
         return this.http
-            .post<ISalary>(this.resourceUrl, copy, { observe: 'response' })
+            .post<ISalary>(this.resourceUrlExtended, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
     update(salary: ISalary): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(salary);
         return this.http
-            .put<ISalary>(this.resourceUrl, copy, { observe: 'response' })
+            .put<ISalary>(this.resourceUrlExtended, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    generatePayroll(officeId: number, designationId: number, year: number, monthType: MonthType): Observable<EntityResponseType> {
+        return this.http
+            .get<any>(`${this.resourceUrlExtended}/generatePayRoll/${officeId}/${designationId}/${year}/${monthType.toString()}`, {
+                observe: 'response'
+            })
+            .pipe(map((res: any) => res));
     }
 }

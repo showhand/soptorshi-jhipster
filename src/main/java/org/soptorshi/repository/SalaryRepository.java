@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SalaryRepository extends JpaRepository<Salary, Long>, JpaSpecificationExecutor<Salary> {
 
-    Salary getByEmployeeAndSalaryStatus(Employee employee, SalaryStatus salaryStatus);
+
 
 }

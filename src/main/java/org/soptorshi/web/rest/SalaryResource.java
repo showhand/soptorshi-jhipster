@@ -109,11 +109,7 @@ public class SalaryResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    @GetMapping("/salaries/generatePayRoll/{officeId}/{designationId}/{year}/{monthType}")
-    public ResponseEntity<Void> generatePayroll(@PathVariable("officeId") Long officeId,@PathVariable("designationId") Long designationId,@PathVariable("year") Integer year,@PathVariable("monthType") MonthType monthType){
-        payrollService.generatePayroll(officeId, designationId, year, monthType);
-        return ResponseEntity.ok().build();
-    }
+
 
     /**
     * GET  /salaries/count : count all the salaries.
