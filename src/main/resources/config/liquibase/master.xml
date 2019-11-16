@@ -173,6 +173,7 @@
     <include file="config/liquibase/changelog/20190904033248_address_contact_number_added_in_vendor.xml" relativeToChangelogFile="false"/>
 
 
+    <include file="config/liquibase/changelog/20191116175448_religion_added_special_allowance.xml" relativeToChangelogFile="false"/>
 
 
 

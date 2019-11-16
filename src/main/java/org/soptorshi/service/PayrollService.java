@@ -9,6 +9,7 @@ import org.soptorshi.repository.MonthlySalaryRepository;
 import org.soptorshi.service.dto.EmployeeCriteria;
 import org.soptorshi.service.dto.EmployeeDTO;
 import org.soptorshi.service.extended.SalaryExtendedService;
+import org.soptorshi.service.extended.SpecialAllowanceTimeLineExtendedService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,14 +36,14 @@ public class PayrollService {
     private SalaryExtendedService salaryService;
     private EmployeeService employeeService;
     private MonthlySalaryService monthlySalaryService;
-    private SpecialAllowanceTimeLineService specialAllowanceTimeLineService;
+    private SpecialAllowanceTimeLineExtendedService specialAllowanceTimeLineService;
     private DesignationWiseAllowanceService designationWiseAllowanceService;
     private ProvidentFundService providentFundService;
     private BillService billService;
     private TaxService taxService;
 
 
-    public PayrollService(LoanService loanService, FineService fineService, AdvanceService advanceService, SalaryExtendedService salaryService, EmployeeService employeeService, MonthlySalaryService monthlySalaryService, SpecialAllowanceTimeLineService specialAllowanceTimeLineService, DesignationWiseAllowanceService designationWiseAllowanceService, ProvidentFundService providentFundService, BillService billService, TaxService taxService) {
+    public PayrollService(LoanService loanService, FineService fineService, AdvanceService advanceService, SalaryExtendedService salaryService, EmployeeService employeeService, MonthlySalaryService monthlySalaryService, SpecialAllowanceTimeLineExtendedService specialAllowanceTimeLineService, DesignationWiseAllowanceService designationWiseAllowanceService, ProvidentFundService providentFundService, BillService billService, TaxService taxService) {
         this.loanService = loanService;
         this.fineService = fineService;
         this.advanceService = advanceService;
