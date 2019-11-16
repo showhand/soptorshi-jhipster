@@ -26,6 +26,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="religion" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="jhi_year" type="integer">
                 <constraints nullable="true" />
             </column>

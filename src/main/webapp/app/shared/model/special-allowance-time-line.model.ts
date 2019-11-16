@@ -8,6 +8,14 @@ export const enum AllowanceType {
     OTHER_ALLOWANCE = 'OTHER_ALLOWANCE'
 }
 
+export const enum Religion {
+    ISLAM = 'ISLAM',
+    HINDU = 'HINDU',
+    BUDDHIST = 'BUDDHIST',
+    CHRISTIANS = 'CHRISTIANS',
+    OTHERS = 'OTHERS'
+}
+
 export const enum MonthType {
     JANUARY = 'JANUARY',
     FEBRUARY = 'FEBRUARY',
@@ -26,6 +34,7 @@ export const enum MonthType {
 export interface ISpecialAllowanceTimeLine {
     id?: number;
     allowanceType?: AllowanceType;
+    religion?: Religion;
     year?: number;
     month?: MonthType;
     modifiedBy?: string;
@@ -36,6 +45,7 @@ export class SpecialAllowanceTimeLine implements ISpecialAllowanceTimeLine {
     constructor(
         public id?: number,
         public allowanceType?: AllowanceType,
+        public religion?: Religion,
         public year?: number,
         public month?: MonthType,
         public modifiedBy?: string,

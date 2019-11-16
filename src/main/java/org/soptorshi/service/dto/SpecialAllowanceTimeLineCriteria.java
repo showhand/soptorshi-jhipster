@@ -3,6 +3,7 @@ package org.soptorshi.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.AllowanceType;
+import org.soptorshi.domain.enumeration.Religion;
 import org.soptorshi.domain.enumeration.MonthType;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
@@ -28,6 +29,11 @@ public class SpecialAllowanceTimeLineCriteria implements Serializable {
     public static class AllowanceTypeFilter extends Filter<AllowanceType> {
     }
     /**
+     * Class for filtering Religion
+     */
+    public static class ReligionFilter extends Filter<Religion> {
+    }
+    /**
      * Class for filtering MonthType
      */
     public static class MonthTypeFilter extends Filter<MonthType> {
@@ -38,6 +44,8 @@ public class SpecialAllowanceTimeLineCriteria implements Serializable {
     private LongFilter id;
 
     private AllowanceTypeFilter allowanceType;
+
+    private ReligionFilter religion;
 
     private IntegerFilter year;
 
@@ -61,6 +69,14 @@ public class SpecialAllowanceTimeLineCriteria implements Serializable {
 
     public void setAllowanceType(AllowanceTypeFilter allowanceType) {
         this.allowanceType = allowanceType;
+    }
+
+    public ReligionFilter getReligion() {
+        return religion;
+    }
+
+    public void setReligion(ReligionFilter religion) {
+        this.religion = religion;
     }
 
     public IntegerFilter getYear() {
@@ -108,6 +124,7 @@ public class SpecialAllowanceTimeLineCriteria implements Serializable {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(allowanceType, that.allowanceType) &&
+            Objects.equals(religion, that.religion) &&
             Objects.equals(year, that.year) &&
             Objects.equals(month, that.month) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
@@ -119,6 +136,7 @@ public class SpecialAllowanceTimeLineCriteria implements Serializable {
         return Objects.hash(
         id,
         allowanceType,
+        religion,
         year,
         month,
         modifiedBy,
@@ -131,6 +149,7 @@ public class SpecialAllowanceTimeLineCriteria implements Serializable {
         return "SpecialAllowanceTimeLineCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (allowanceType != null ? "allowanceType=" + allowanceType + ", " : "") +
+                (religion != null ? "religion=" + religion + ", " : "") +
                 (year != null ? "year=" + year + ", " : "") +
                 (month != null ? "month=" + month + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +

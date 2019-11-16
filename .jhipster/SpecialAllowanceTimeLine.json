@@ -7,6 +7,11 @@
             "fieldValues": "HOUSE_RENT,MEDICAL_ALLOWANCE,FESTIVAL_BONUS,OVERTIME_ALLOWANCE,OTHER_ALLOWANCE"
         },
         {
+            "fieldName": "religion",
+            "fieldType": "Religion",
+            "fieldValues": "ISLAM,HINDU,BUDDHIST,CHRISTIANS,OTHERS"
+        },
+        {
             "fieldName": "year",
             "fieldType": "Integer"
         },

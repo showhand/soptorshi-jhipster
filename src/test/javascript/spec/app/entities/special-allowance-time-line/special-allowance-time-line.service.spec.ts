@@ -11,6 +11,7 @@ import {
     ISpecialAllowanceTimeLine,
     SpecialAllowanceTimeLine,
     AllowanceType,
+    Religion,
     MonthType
 } from 'app/shared/model/special-allowance-time-line.model';
 
@@ -30,7 +31,15 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new SpecialAllowanceTimeLine(0, AllowanceType.HOUSE_RENT, 0, MonthType.JANUARY, 'AAAAAAA', currentDate);
+            elemDefault = new SpecialAllowanceTimeLine(
+                0,
+                AllowanceType.HOUSE_RENT,
+                Religion.ISLAM,
+                0,
+                MonthType.JANUARY,
+                'AAAAAAA',
+                currentDate
+            );
         });
 
         describe('Service methods', async () => {
@@ -76,6 +85,7 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         allowanceType: 'BBBBBB',
+                        religion: 'BBBBBB',
                         year: 1,
                         month: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
@@ -102,6 +112,7 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         allowanceType: 'BBBBBB',
+                        religion: 'BBBBBB',
                         year: 1,
                         month: 'BBBBBB',
                         modifiedBy: 'BBBBBB',

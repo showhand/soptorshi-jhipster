@@ -31,6 +31,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="allowanceType"><span>Allowance Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="religion"><span>Religion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="year"><span>Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="month"><span>Month</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -42,6 +43,7 @@
             <tr *ngFor="let specialAllowanceTimeLine of specialAllowanceTimeLines ;trackBy: trackId">
                 <td><a [routerLink]="['/special-allowance-time-line', specialAllowanceTimeLine.id, 'view' ]">{{specialAllowanceTimeLine.id}}</a></td>
                 <td>{{specialAllowanceTimeLine.allowanceType}}</td>
+                <td>{{specialAllowanceTimeLine.religion}}</td>
                 <td>{{specialAllowanceTimeLine.year}}</td>
                 <td>{{specialAllowanceTimeLine.month}}</td>
                 <td>{{specialAllowanceTimeLine.modifiedBy}}</td>

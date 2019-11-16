@@ -11,6 +11,8 @@ import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.AllowanceType;
 
+import org.soptorshi.domain.enumeration.Religion;
+
 import org.soptorshi.domain.enumeration.MonthType;
 
 /**
@@ -30,6 +32,10 @@ public class SpecialAllowanceTimeLine implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "allowance_type")
     private AllowanceType allowanceType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "religion")
+    private Religion religion;
 
     @Column(name = "jhi_year")
     private Integer year;
@@ -64,6 +70,19 @@ public class SpecialAllowanceTimeLine implements Serializable {
 
     public void setAllowanceType(AllowanceType allowanceType) {
         this.allowanceType = allowanceType;
+    }
+
+    public Religion getReligion() {
+        return religion;
+    }
+
+    public SpecialAllowanceTimeLine religion(Religion religion) {
+        this.religion = religion;
+        return this;
+    }
+
+    public void setReligion(Religion religion) {
+        this.religion = religion;
     }
 
     public Integer getYear() {
@@ -144,6 +163,7 @@ public class SpecialAllowanceTimeLine implements Serializable {
         return "SpecialAllowanceTimeLine{" +
             "id=" + getId() +
             ", allowanceType='" + getAllowanceType() + "'" +
+            ", religion='" + getReligion() + "'" +
             ", year=" + getYear() +
             ", month='" + getMonth() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +

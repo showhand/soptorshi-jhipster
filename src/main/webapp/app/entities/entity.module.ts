@@ -641,6 +641,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'supply-money-collection',
                 loadChildren: './supply-money-collection/supply-money-collection.module#SoptorshiSupplyMoneyCollectionModule'
+            },
+            {
+                path: 'special-allowance-time-line',
+                loadChildren: './special-allowance-time-line/special-allowance-time-line.module#SoptorshiSpecialAllowanceTimeLineModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

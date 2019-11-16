@@ -96,6 +96,9 @@ public class SpecialAllowanceTimeLineQueryService extends QueryService<SpecialAl
             if (criteria.getAllowanceType() != null) {
                 specification = specification.and(buildSpecification(criteria.getAllowanceType(), SpecialAllowanceTimeLine_.allowanceType));
             }
+            if (criteria.getReligion() != null) {
+                specification = specification.and(buildSpecification(criteria.getReligion(), SpecialAllowanceTimeLine_.religion));
+            }
             if (criteria.getYear() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getYear(), SpecialAllowanceTimeLine_.year));
             }
