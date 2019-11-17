@@ -1,11 +1,8 @@
 package org.soptorshi.service;
 
-import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.Salary;
-import org.soptorshi.domain.enumeration.SalaryStatus;
 import org.soptorshi.repository.SalaryRepository;
 import org.soptorshi.repository.search.SalarySearchRepository;
-import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.SalaryDTO;
 import org.soptorshi.service.mapper.SalaryMapper;
 import org.slf4j.Logger;
@@ -16,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -51,8 +47,6 @@ public class SalaryService {
     public SalaryDTO save(SalaryDTO salaryDTO) {
         log.debug("Request to save Salary : {}", salaryDTO);
         Salary salary = salaryMapper.toEntity(salaryDTO);
-        salary.setModifiedBy(SecurityUtils.getCurrentUserLogin().toString());
-        salary.setModifiedOn(LocalDate.now());
         salary = salaryRepository.save(salary);
         SalaryDTO result = salaryMapper.toDto(salary);
         salarySearchRepository.save(salary);

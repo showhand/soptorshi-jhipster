@@ -32,6 +32,10 @@ public class Salary implements Serializable {
     @Column(name = "basic", precision = 10, scale = 2, nullable = false)
     private BigDecimal basic;
 
+    @NotNull
+    @Column(name = "gross", precision = 10, scale = 2, nullable = false)
+    private BigDecimal gross;
+
     @Column(name = "started_on")
     private LocalDate startedOn;
 
@@ -72,6 +76,19 @@ public class Salary implements Serializable {
 
     public void setBasic(BigDecimal basic) {
         this.basic = basic;
+    }
+
+    public BigDecimal getGross() {
+        return gross;
+    }
+
+    public Salary gross(BigDecimal gross) {
+        this.gross = gross;
+        return this;
+    }
+
+    public void setGross(BigDecimal gross) {
+        this.gross = gross;
     }
 
     public LocalDate getStartedOn() {
@@ -178,6 +195,7 @@ public class Salary implements Serializable {
         return "Salary{" +
             "id=" + getId() +
             ", basic=" + getBasic() +
+            ", gross=" + getGross() +
             ", startedOn='" + getStartedOn() + "'" +
             ", endedOn='" + getEndedOn() + "'" +
             ", salaryStatus='" + getSalaryStatus() + "'" +

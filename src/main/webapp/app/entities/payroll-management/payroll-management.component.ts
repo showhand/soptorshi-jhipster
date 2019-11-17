@@ -17,6 +17,7 @@ import { Employee, IEmployee } from 'app/shared/model/employee.model';
 import { MonthlySalaryService } from 'app/entities/monthly-salary';
 import { IMonthlySalary, MonthlySalary } from 'app/shared/model/monthly-salary.model';
 import { SalaryService } from 'app/entities/salary';
+import { SalaryExtendedService } from 'app/entities/salary-extended';
 
 @Component({
     selector: 'jhi-payroll-management',
@@ -51,7 +52,7 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         protected employeeService: EmployeeService,
         protected parseLinks: JhiParseLinks,
         protected monthlySalaryService: MonthlySalaryService,
-        protected salaryService: SalaryService,
+        protected salaryService: SalaryExtendedService,
         protected router: Router,
         public payrollManagementService: PayrollManagementService
     ) {

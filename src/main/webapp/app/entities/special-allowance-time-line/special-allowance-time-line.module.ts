@@ -16,7 +16,7 @@ const ENTITY_STATES = [...specialAllowanceTimeLineRoute, ...specialAllowanceTime
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /* declarations: [
         SpecialAllowanceTimeLineComponent,
         SpecialAllowanceTimeLineDetailComponent,
         SpecialAllowanceTimeLineUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...specialAllowanceTimeLineRoute, ...specialAllowanceTime
         SpecialAllowanceTimeLineUpdateComponent,
         SpecialAllowanceTimeLineDeleteDialogComponent,
         SpecialAllowanceTimeLineDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiSpecialAllowanceTimeLineModule {}

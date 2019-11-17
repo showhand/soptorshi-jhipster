@@ -8,7 +8,6 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { ISalary } from 'app/shared/model/salary.model';
-import { MonthType } from 'app/shared/model/monthly-salary.model';
 
 type EntityResponseType = HttpResponse<ISalary>;
 type EntityArrayResponseType = HttpResponse<ISalary[]>;
@@ -38,14 +37,6 @@ export class SalaryService {
         return this.http
             .get<ISalary>(`${this.resourceUrl}/${id}`, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
-    }
-
-    generatePayroll(officeId: number, designationId: number, year: number, monthType: MonthType): Observable<EntityResponseType> {
-        return this.http
-            .get<any>(`${this.resourceUrl}/generatePayRoll/${officeId}/${designationId}/${year}/${monthType.toString()}`, {
-                observe: 'response'
-            })
-            .pipe(map((res: any) => res));
     }
 
     query(req?: any): Observable<EntityArrayResponseType> {

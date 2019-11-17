@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Salaries</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-salary" [routerLink]="['/salary', salary.employeeId,'new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-salary" [routerLink]="['/salary/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Salary
@@ -31,10 +31,13 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="basic"><span>Basic</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="gross"><span>Gross</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="startedOn"><span>Started On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="endedOn"><span>Ended On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="salaryStatus"><span>Salary Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -42,10 +45,17 @@
             <tr *ngFor="let salary of salaries ;trackBy: trackId">
                 <td><a [routerLink]="['/salary', salary.id, 'view' ]">{{salary.id}}</a></td>
                 <td>{{salary.basic}}</td>
+                <td>{{salary.gross}}</td>
                 <td>{{salary.startedOn | date:'mediumDate'}}</td>
                 <td>{{salary.endedOn | date:'mediumDate'}}</td>
                 <td>{{salary.salaryStatus}}</td>
+                <td>{{salary.modifiedBy}}</td>
                 <td>{{salary.modifiedOn | date:'mediumDate'}}</td>
+                <td>
+                    <div *ngIf="salary.employeeId">
+                        <a [routerLink]="['../employee', salary.employeeId , 'view' ]" >{{salary.employeeFullName}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
@@ -81,11 +91,6 @@
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
-    </div>
-    <div class="row" *ngIf="salary.employeeId" align="right">
-        <div class="col-12">
-            <button class="btn btn-danger" (click)="back()">Back</button>
         </div>
     </div>
 </div>

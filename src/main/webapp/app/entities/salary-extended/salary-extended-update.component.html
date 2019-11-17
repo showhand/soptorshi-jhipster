@@ -10,20 +10,36 @@
                         [(ngModel)]="salary.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_basic">Basic</label>
-                    <input type="number" class="form-control" name="basic" id="field_basic"
-                        [(ngModel)]="salary.basic" required/>
-                    <div [hidden]="!(editForm.controls.basic?.dirty && editForm.controls.basic?.invalid)">
+                    <label class="form-control-label" for="field_gross">Gross</label>
+                    <input type="number" class="form-control" name="gross" id="field_gross"
+                           [(ngModel)]="salary.gross" required/>
+                    <div [hidden]="!(editForm.controls.gross?.dirty && editForm.controls.gross?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.basic?.errors?.required">
-                        This field is required.
+                               [hidden]="!editForm.controls.gross?.errors?.required">
+                            This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.basic?.errors?.number">
+                               [hidden]="!editForm.controls.gross?.errors?.number">
                             This field should be a number.
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_basic">Basic (% of Gross)</label>
+                    <input type="number" class="form-control" name="basic" id="field_basic"
+                           [(ngModel)]="salary.basic" required/>
+                    <div [hidden]="!(editForm.controls.basic?.dirty && editForm.controls.basic?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.basic?.errors?.required">
+                            This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.basic?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="form-control-label" for="field_startedOn">Started On</label>
                     <div class="input-group">

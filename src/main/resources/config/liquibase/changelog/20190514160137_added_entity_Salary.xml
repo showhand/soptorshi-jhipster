@@ -26,6 +26,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="gross" type="decimal(10,2)">
+                <constraints nullable="false" />
+            </column>
+
             <column name="started_on" type="date">
                 <constraints nullable="true" />
             </column>

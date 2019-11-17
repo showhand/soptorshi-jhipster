@@ -271,7 +271,8 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'special-allowance-time-line',
-                loadChildren: './special-allowance-time-line/special-allowance-time-line.module#SoptorshiSpecialAllowanceTimeLineModule'
+                loadChildren:
+                    './special-allowance-time-line-extended/special-allowance-time-line-extended.module#SoptorshiSpecialAllowanceTimeLineModule'
             },
             {
                 path: 'monthly-salary',
@@ -643,8 +644,12 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './supply-money-collection/supply-money-collection.module#SoptorshiSupplyMoneyCollectionModule'
             },
             {
-                path: 'special-allowance-time-line',
-                loadChildren: './special-allowance-time-line/special-allowance-time-line.module#SoptorshiSpecialAllowanceTimeLineModule'
+                path: 'salary',
+                loadChildren: './salary/salary.module#SoptorshiSalaryModule'
+            },
+            {
+                path: 'salary',
+                loadChildren: './salary/salary.module#SoptorshiSalaryModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

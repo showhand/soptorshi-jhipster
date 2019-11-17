@@ -1,0 +1,81 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-special-allowance-time-line-heading">Create or edit a Special Allowance Time Line</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!specialAllowanceTimeLine.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="specialAllowanceTimeLine.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_allowanceType">Allowance Type</label>
+                    <select class="form-control" name="allowanceType" [(ngModel)]="specialAllowanceTimeLine.allowanceType" id="field_allowanceType" >
+                        <option value="HOUSE_RENT">HOUSE_RENT</option>
+                        <option value="MEDICAL_ALLOWANCE">MEDICAL_ALLOWANCE</option>
+                        <option value="FESTIVAL_BONUS">FESTIVAL_BONUS</option>
+                        <option value="OVERTIME_ALLOWANCE">OVERTIME_ALLOWANCE</option>
+                        <option value="OTHER_ALLOWANCE">OTHER_ALLOWANCE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_religion">Religion</label>
+                    <select class="form-control" name="religion" [(ngModel)]="specialAllowanceTimeLine.religion" id="field_religion" >
+                        <option value="ISLAM">ISLAM</option>
+                        <option value="HINDU">HINDU</option>
+                        <option value="BUDDHIST">BUDDHIST</option>
+                        <option value="CHRISTIANS">CHRISTIANS</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_year">Year</label>
+                    <input type="number" class="form-control" name="year" id="field_year"
+                        [(ngModel)]="specialAllowanceTimeLine.year" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_month">Month</label>
+                    <select class="form-control" name="month" [(ngModel)]="specialAllowanceTimeLine.month" id="field_month" >
+                        <option value="JANUARY">JANUARY</option>
+                        <option value="FEBRUARY">FEBRUARY</option>
+                        <option value="MARCH">MARCH</option>
+                        <option value="APRIL">APRIL</option>
+                        <option value="MAY">MAY</option>
+                        <option value="JUNE">JUNE</option>
+                        <option value="JULY">JULY</option>
+                        <option value="AUGUST">AUGUST</option>
+                        <option value="SEPTEMBER">SEPTEMBER</option>
+                        <option value="OCTOBER">OCTOBER</option>
+                        <option value="NOVEMBER">NOVEMBER</option>
+                        <option value="DECEMBER">DECEMBER</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                        [(ngModel)]="specialAllowanceTimeLine.modifiedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="specialAllowanceTimeLine.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

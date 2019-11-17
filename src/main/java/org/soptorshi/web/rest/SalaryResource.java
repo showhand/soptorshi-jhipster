@@ -1,6 +1,4 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.domain.enumeration.MonthType;
-import org.soptorshi.service.PayrollService;
 import org.soptorshi.service.SalaryService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -16,12 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
-import javax.xml.ws.Response;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -46,12 +41,9 @@ public class SalaryResource {
 
     private final SalaryQueryService salaryQueryService;
 
-    private final PayrollService payrollService;
-
-    public SalaryResource(SalaryService salaryService, SalaryQueryService salaryQueryService, PayrollService payrollService) {
+    public SalaryResource(SalaryService salaryService, SalaryQueryService salaryQueryService) {
         this.salaryService = salaryService;
         this.salaryQueryService = salaryQueryService;
-        this.payrollService = payrollService;
     }
 
     /**
@@ -108,8 +100,6 @@ public class SalaryResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/salaries");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-
-
 
     /**
     * GET  /salaries/count : count all the salaries.

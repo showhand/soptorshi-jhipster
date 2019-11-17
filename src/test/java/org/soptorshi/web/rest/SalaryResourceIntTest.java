@@ -6,7 +6,6 @@ import org.soptorshi.domain.Salary;
 import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.SalaryRepository;
 import org.soptorshi.repository.search.SalarySearchRepository;
-import org.soptorshi.service.PayrollService;
 import org.soptorshi.service.SalaryService;
 import org.soptorshi.service.dto.SalaryDTO;
 import org.soptorshi.service.mapper.SalaryMapper;
@@ -59,6 +58,9 @@ public class SalaryResourceIntTest {
 
     private static final BigDecimal DEFAULT_BASIC = new BigDecimal(1);
     private static final BigDecimal UPDATED_BASIC = new BigDecimal(2);
+
+    private static final BigDecimal DEFAULT_GROSS = new BigDecimal(1);
+    private static final BigDecimal UPDATED_GROSS = new BigDecimal(2);
 
     private static final LocalDate DEFAULT_STARTED_ON = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_STARTED_ON = LocalDate.now(ZoneId.systemDefault());
@@ -114,12 +116,10 @@ public class SalaryResourceIntTest {
 
     private Salary salary;
 
-    private PayrollService payrollService;
-
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final SalaryResource salaryResource = new SalaryResource(salaryService, salaryQueryService, payrollService);
+        final SalaryResource salaryResource = new SalaryResource(salaryService, salaryQueryService);
         this.restSalaryMockMvc = MockMvcBuilders.standaloneSetup(salaryResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -137,6 +137,7 @@ public class SalaryResourceIntTest {
     public static Salary createEntity(EntityManager em) {
         Salary salary = new Salary()
             .basic(DEFAULT_BASIC)
+            .gross(DEFAULT_GROSS)
             .startedOn(DEFAULT_STARTED_ON)
             .endedOn(DEFAULT_ENDED_ON)
             .salaryStatus(DEFAULT_SALARY_STATUS)
@@ -167,6 +168,7 @@ public class SalaryResourceIntTest {
         assertThat(salaryList).hasSize(databaseSizeBeforeCreate + 1);
         Salary testSalary = salaryList.get(salaryList.size() - 1);
         assertThat(testSalary.getBasic()).isEqualTo(DEFAULT_BASIC);
+        assertThat(testSalary.getGross()).isEqualTo(DEFAULT_GROSS);
         assertThat(testSalary.getStartedOn()).isEqualTo(DEFAULT_STARTED_ON);
         assertThat(testSalary.getEndedOn()).isEqualTo(DEFAULT_ENDED_ON);
         assertThat(testSalary.getSalaryStatus()).isEqualTo(DEFAULT_SALARY_STATUS);
@@ -221,6 +223,25 @@ public class SalaryResourceIntTest {
 
     @Test
     @Transactional
+    public void checkGrossIsRequired() throws Exception {
+        int databaseSizeBeforeTest = salaryRepository.findAll().size();
+        // set the field null
+        salary.setGross(null);
+
+        // Create the Salary, which fails.
+        SalaryDTO salaryDTO = salaryMapper.toDto(salary);
+
+        restSalaryMockMvc.perform(post("/api/salaries")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(salaryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Salary> salaryList = salaryRepository.findAll();
+        assertThat(salaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllSalaries() throws Exception {
         // Initialize the database
         salaryRepository.saveAndFlush(salary);
@@ -231,6 +252,7 @@ public class SalaryResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(salary.getId().intValue())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
+            .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
             .andExpect(jsonPath("$.[*].startedOn").value(hasItem(DEFAULT_STARTED_ON.toString())))
             .andExpect(jsonPath("$.[*].endedOn").value(hasItem(DEFAULT_ENDED_ON.toString())))
             .andExpect(jsonPath("$.[*].salaryStatus").value(hasItem(DEFAULT_SALARY_STATUS.toString())))
@@ -250,6 +272,7 @@ public class SalaryResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(salary.getId().intValue()))
             .andExpect(jsonPath("$.basic").value(DEFAULT_BASIC.intValue()))
+            .andExpect(jsonPath("$.gross").value(DEFAULT_GROSS.intValue()))
             .andExpect(jsonPath("$.startedOn").value(DEFAULT_STARTED_ON.toString()))
             .andExpect(jsonPath("$.endedOn").value(DEFAULT_ENDED_ON.toString()))
             .andExpect(jsonPath("$.salaryStatus").value(DEFAULT_SALARY_STATUS.toString()))
@@ -294,6 +317,45 @@ public class SalaryResourceIntTest {
 
         // Get all the salaryList where basic is null
         defaultSalaryShouldNotBeFound("basic.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalariesByGrossIsEqualToSomething() throws Exception {
+        // Initialize the database
+        salaryRepository.saveAndFlush(salary);
+
+        // Get all the salaryList where gross equals to DEFAULT_GROSS
+        defaultSalaryShouldBeFound("gross.equals=" + DEFAULT_GROSS);
+
+        // Get all the salaryList where gross equals to UPDATED_GROSS
+        defaultSalaryShouldNotBeFound("gross.equals=" + UPDATED_GROSS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalariesByGrossIsInShouldWork() throws Exception {
+        // Initialize the database
+        salaryRepository.saveAndFlush(salary);
+
+        // Get all the salaryList where gross in DEFAULT_GROSS or UPDATED_GROSS
+        defaultSalaryShouldBeFound("gross.in=" + DEFAULT_GROSS + "," + UPDATED_GROSS);
+
+        // Get all the salaryList where gross equals to UPDATED_GROSS
+        defaultSalaryShouldNotBeFound("gross.in=" + UPDATED_GROSS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalariesByGrossIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        salaryRepository.saveAndFlush(salary);
+
+        // Get all the salaryList where gross is not null
+        defaultSalaryShouldBeFound("gross.specified=true");
+
+        // Get all the salaryList where gross is null
+        defaultSalaryShouldNotBeFound("gross.specified=false");
     }
 
     @Test
@@ -599,6 +661,7 @@ public class SalaryResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(salary.getId().intValue())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
+            .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
             .andExpect(jsonPath("$.[*].startedOn").value(hasItem(DEFAULT_STARTED_ON.toString())))
             .andExpect(jsonPath("$.[*].endedOn").value(hasItem(DEFAULT_ENDED_ON.toString())))
             .andExpect(jsonPath("$.[*].salaryStatus").value(hasItem(DEFAULT_SALARY_STATUS.toString())))
@@ -652,6 +715,7 @@ public class SalaryResourceIntTest {
         em.detach(updatedSalary);
         updatedSalary
             .basic(UPDATED_BASIC)
+            .gross(UPDATED_GROSS)
             .startedOn(UPDATED_STARTED_ON)
             .endedOn(UPDATED_ENDED_ON)
             .salaryStatus(UPDATED_SALARY_STATUS)
@@ -669,6 +733,7 @@ public class SalaryResourceIntTest {
         assertThat(salaryList).hasSize(databaseSizeBeforeUpdate);
         Salary testSalary = salaryList.get(salaryList.size() - 1);
         assertThat(testSalary.getBasic()).isEqualTo(UPDATED_BASIC);
+        assertThat(testSalary.getGross()).isEqualTo(UPDATED_GROSS);
         assertThat(testSalary.getStartedOn()).isEqualTo(UPDATED_STARTED_ON);
         assertThat(testSalary.getEndedOn()).isEqualTo(UPDATED_ENDED_ON);
         assertThat(testSalary.getSalaryStatus()).isEqualTo(UPDATED_SALARY_STATUS);
@@ -735,6 +800,7 @@ public class SalaryResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(salary.getId().intValue())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
+            .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
             .andExpect(jsonPath("$.[*].startedOn").value(hasItem(DEFAULT_STARTED_ON.toString())))
             .andExpect(jsonPath("$.[*].endedOn").value(hasItem(DEFAULT_ENDED_ON.toString())))
             .andExpect(jsonPath("$.[*].salaryStatus").value(hasItem(DEFAULT_SALARY_STATUS.toString())))

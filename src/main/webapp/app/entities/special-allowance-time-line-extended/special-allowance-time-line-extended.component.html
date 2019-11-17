@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span>Salaries</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-salary" [routerLink]="['/salary', salary.employeeId,'new']">
+        <span>Special Allowance Time Lines</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-special-allowance-time-line" [routerLink]="['/special-allowance-time-line/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
-            Create new Salary
+            Create new Special Allowance Time Line
             </span>
         </button>
     </h2>
@@ -25,45 +25,45 @@
         </div>
     </div>
     <br/>
-    <div class="table-responsive" *ngIf="salaries">
+    <div class="table-responsive" *ngIf="specialAllowanceTimeLines">
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="basic"><span>Basic (% of Gross)</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-             <th jhiSortBy="gross"><span>Gross</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="startedOn"><span>Started On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="endedOn"><span>Ended On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="salaryStatus"><span>Salary Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="allowanceType"><span>Allowance Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="religion"><span>Religion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="year"><span>Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="month"><span>Month</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let salary of salaries ;trackBy: trackId">
-                <td><a [routerLink]="['/salary', salary.id, 'view' ]">{{salary.id}}</a></td>
-                <td>{{salary.basic}}</td>
-                <td>{{salary.gross}}</td>
-                <td>{{salary.startedOn | date:'mediumDate'}}</td>
-                <td>{{salary.endedOn | date:'mediumDate'}}</td>
-                <td>{{salary.salaryStatus}}</td>
-                <td>{{salary.modifiedOn | date:'mediumDate'}}</td>
+            <tr *ngFor="let specialAllowanceTimeLine of specialAllowanceTimeLines ;trackBy: trackId">
+                <td><a [routerLink]="['/special-allowance-time-line', specialAllowanceTimeLine.id, 'view' ]">{{specialAllowanceTimeLine.id}}</a></td>
+                <td>{{specialAllowanceTimeLine.allowanceType}}</td>
+                <td>{{specialAllowanceTimeLine.religion}}</td>
+                <td>{{specialAllowanceTimeLine.year}}</td>
+                <td>{{specialAllowanceTimeLine.month}}</td>
+                <td>{{specialAllowanceTimeLine.modifiedBy}}</td>
+                <td>{{specialAllowanceTimeLine.modifiedOn | date:'mediumDate'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['/salary', salary.id, 'view' ]"
+                                [routerLink]="['/special-allowance-time-line', specialAllowanceTimeLine.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/salary', salary.id, 'edit']"
+                                [routerLink]="['/special-allowance-time-line', specialAllowanceTimeLine.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'salary', { outlets: { popup: salary.id + '/delete'} }]"
+                                [routerLink]="['/', 'special-allowance-time-line', { outlets: { popup: specialAllowanceTimeLine.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
@@ -77,17 +77,12 @@
         </table>
     </div>
     <!-- Pager is not implemented yet, so this is normal pagination instead -->
-    <div *ngIf="salaries && salaries.length">
+    <div *ngIf="specialAllowanceTimeLines && specialAllowanceTimeLines.length">
         <div class="row justify-content-center">
             <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
-    </div>
-    <div class="row" *ngIf="salary.employeeId" align="right">
-        <div class="col-12">
-            <button class="btn btn-danger" (click)="back()">Back</button>
         </div>
     </div>
 </div>
