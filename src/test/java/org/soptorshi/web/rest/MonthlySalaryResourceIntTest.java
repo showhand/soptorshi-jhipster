@@ -65,6 +65,9 @@ public class MonthlySalaryResourceIntTest {
     private static final BigDecimal DEFAULT_BASIC = new BigDecimal(1);
     private static final BigDecimal UPDATED_BASIC = new BigDecimal(2);
 
+    private static final BigDecimal DEFAULT_GROSS = new BigDecimal(1);
+    private static final BigDecimal UPDATED_GROSS = new BigDecimal(2);
+
     private static final BigDecimal DEFAULT_HOUSE_RENT = new BigDecimal(1);
     private static final BigDecimal UPDATED_HOUSE_RENT = new BigDecimal(2);
 
@@ -175,6 +178,7 @@ public class MonthlySalaryResourceIntTest {
             .year(DEFAULT_YEAR)
             .month(DEFAULT_MONTH)
             .basic(DEFAULT_BASIC)
+            .gross(DEFAULT_GROSS)
             .houseRent(DEFAULT_HOUSE_RENT)
             .medicalAllowance(DEFAULT_MEDICAL_ALLOWANCE)
             .otherAllowance(DEFAULT_OTHER_ALLOWANCE)
@@ -218,6 +222,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getYear()).isEqualTo(DEFAULT_YEAR);
         assertThat(testMonthlySalary.getMonth()).isEqualTo(DEFAULT_MONTH);
         assertThat(testMonthlySalary.getBasic()).isEqualTo(DEFAULT_BASIC);
+        assertThat(testMonthlySalary.getGross()).isEqualTo(DEFAULT_GROSS);
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(DEFAULT_HOUSE_RENT);
         assertThat(testMonthlySalary.getMedicalAllowance()).isEqualTo(DEFAULT_MEDICAL_ALLOWANCE);
         assertThat(testMonthlySalary.getOtherAllowance()).isEqualTo(DEFAULT_OTHER_ALLOWANCE);
@@ -321,6 +326,25 @@ public class MonthlySalaryResourceIntTest {
 
     @Test
     @Transactional
+    public void checkGrossIsRequired() throws Exception {
+        int databaseSizeBeforeTest = monthlySalaryRepository.findAll().size();
+        // set the field null
+        monthlySalary.setGross(null);
+
+        // Create the MonthlySalary, which fails.
+        MonthlySalaryDTO monthlySalaryDTO = monthlySalaryMapper.toDto(monthlySalary);
+
+        restMonthlySalaryMockMvc.perform(post("/api/monthly-salaries")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(monthlySalaryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<MonthlySalary> monthlySalaryList = monthlySalaryRepository.findAll();
+        assertThat(monthlySalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllMonthlySalaries() throws Exception {
         // Initialize the database
         monthlySalaryRepository.saveAndFlush(monthlySalary);
@@ -333,6 +357,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
+            .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
@@ -365,6 +390,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
             .andExpect(jsonPath("$.month").value(DEFAULT_MONTH.toString()))
             .andExpect(jsonPath("$.basic").value(DEFAULT_BASIC.intValue()))
+            .andExpect(jsonPath("$.gross").value(DEFAULT_GROSS.intValue()))
             .andExpect(jsonPath("$.houseRent").value(DEFAULT_HOUSE_RENT.intValue()))
             .andExpect(jsonPath("$.medicalAllowance").value(DEFAULT_MEDICAL_ALLOWANCE.intValue()))
             .andExpect(jsonPath("$.otherAllowance").value(DEFAULT_OTHER_ALLOWANCE.intValue()))
@@ -525,6 +551,45 @@ public class MonthlySalaryResourceIntTest {
 
         // Get all the monthlySalaryList where basic is null
         defaultMonthlySalaryShouldNotBeFound("basic.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByGrossIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where gross equals to DEFAULT_GROSS
+        defaultMonthlySalaryShouldBeFound("gross.equals=" + DEFAULT_GROSS);
+
+        // Get all the monthlySalaryList where gross equals to UPDATED_GROSS
+        defaultMonthlySalaryShouldNotBeFound("gross.equals=" + UPDATED_GROSS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByGrossIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where gross in DEFAULT_GROSS or UPDATED_GROSS
+        defaultMonthlySalaryShouldBeFound("gross.in=" + DEFAULT_GROSS + "," + UPDATED_GROSS);
+
+        // Get all the monthlySalaryList where gross equals to UPDATED_GROSS
+        defaultMonthlySalaryShouldNotBeFound("gross.in=" + UPDATED_GROSS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByGrossIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where gross is not null
+        defaultMonthlySalaryShouldBeFound("gross.specified=true");
+
+        // Get all the monthlySalaryList where gross is null
+        defaultMonthlySalaryShouldNotBeFound("gross.specified=false");
     }
 
     @Test
@@ -1234,6 +1299,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
+            .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
@@ -1300,6 +1366,7 @@ public class MonthlySalaryResourceIntTest {
             .year(UPDATED_YEAR)
             .month(UPDATED_MONTH)
             .basic(UPDATED_BASIC)
+            .gross(UPDATED_GROSS)
             .houseRent(UPDATED_HOUSE_RENT)
             .medicalAllowance(UPDATED_MEDICAL_ALLOWANCE)
             .otherAllowance(UPDATED_OTHER_ALLOWANCE)
@@ -1330,6 +1397,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getYear()).isEqualTo(UPDATED_YEAR);
         assertThat(testMonthlySalary.getMonth()).isEqualTo(UPDATED_MONTH);
         assertThat(testMonthlySalary.getBasic()).isEqualTo(UPDATED_BASIC);
+        assertThat(testMonthlySalary.getGross()).isEqualTo(UPDATED_GROSS);
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(UPDATED_HOUSE_RENT);
         assertThat(testMonthlySalary.getMedicalAllowance()).isEqualTo(UPDATED_MEDICAL_ALLOWANCE);
         assertThat(testMonthlySalary.getOtherAllowance()).isEqualTo(UPDATED_OTHER_ALLOWANCE);
@@ -1409,6 +1477,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
+            .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))

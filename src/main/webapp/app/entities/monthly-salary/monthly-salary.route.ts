@@ -15,7 +15,7 @@ import { IMonthlySalary } from 'app/shared/model/monthly-salary.model';
 
 @Injectable({ providedIn: 'root' })
 export class MonthlySalaryResolve implements Resolve<IMonthlySalary> {
-    constructor(public service: MonthlySalaryService) {}
+    constructor(private service: MonthlySalaryService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IMonthlySalary> {
         const id = route.params['id'] ? route.params['id'] : null;

@@ -22,6 +22,9 @@ public class MonthlySalaryDTO implements Serializable {
     @NotNull
     private BigDecimal basic;
 
+    @NotNull
+    private BigDecimal gross;
+
     private BigDecimal houseRent;
 
     private BigDecimal medicalAllowance;
@@ -89,6 +92,14 @@ public class MonthlySalaryDTO implements Serializable {
 
     public void setBasic(BigDecimal basic) {
         this.basic = basic;
+    }
+
+    public BigDecimal getGross() {
+        return gross;
+    }
+
+    public void setGross(BigDecimal gross) {
+        this.gross = gross;
     }
 
     public BigDecimal getHouseRent() {
@@ -263,6 +274,7 @@ public class MonthlySalaryDTO implements Serializable {
             ", year=" + getYear() +
             ", month='" + getMonth() + "'" +
             ", basic=" + getBasic() +
+            ", gross=" + getGross() +
             ", houseRent=" + getHouseRent() +
             ", medicalAllowance=" + getMedicalAllowance() +
             ", otherAllowance=" + getOtherAllowance() +

@@ -20,6 +20,7 @@ export interface IMonthlySalary {
     year?: number;
     month?: MonthType;
     basic?: number;
+    gross?: number;
     houseRent?: number;
     medicalAllowance?: number;
     otherAllowance?: number;
@@ -46,6 +47,7 @@ export class MonthlySalary implements IMonthlySalary {
         public year?: number,
         public month?: MonthType,
         public basic?: number,
+        public gross?: number,
         public houseRent?: number,
         public medicalAllowance?: number,
         public otherAllowance?: number,

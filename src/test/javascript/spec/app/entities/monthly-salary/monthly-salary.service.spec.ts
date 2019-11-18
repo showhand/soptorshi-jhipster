@@ -25,7 +25,29 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new MonthlySalary(0, 0, MonthType.JANUARY, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'AAAAAAA', currentDate);
+            elemDefault = new MonthlySalary(
+                0,
+                0,
+                MonthType.JANUARY,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                'AAAAAAA',
+                currentDate
+            );
         });
 
         describe('Service methods', async () => {
@@ -73,6 +95,7 @@ describe('Service Tests', () => {
                         year: 1,
                         month: 'BBBBBB',
                         basic: 1,
+                        gross: 1,
                         houseRent: 1,
                         medicalAllowance: 1,
                         otherAllowance: 1,
@@ -113,6 +136,7 @@ describe('Service Tests', () => {
                         year: 1,
                         month: 'BBBBBB',
                         basic: 1,
+                        gross: 1,
                         houseRent: 1,
                         medicalAllowance: 1,
                         otherAllowance: 1,

@@ -41,6 +41,10 @@ public class MonthlySalary implements Serializable {
     @Column(name = "basic", precision = 10, scale = 2, nullable = false)
     private BigDecimal basic;
 
+    @NotNull
+    @Column(name = "gross", precision = 10, scale = 2, nullable = false)
+    private BigDecimal gross;
+
     @Column(name = "house_rent", precision = 10, scale = 2)
     private BigDecimal houseRent;
 
@@ -139,6 +143,19 @@ public class MonthlySalary implements Serializable {
 
     public void setBasic(BigDecimal basic) {
         this.basic = basic;
+    }
+
+    public BigDecimal getGross() {
+        return gross;
+    }
+
+    public MonthlySalary gross(BigDecimal gross) {
+        this.gross = gross;
+        return this;
+    }
+
+    public void setGross(BigDecimal gross) {
+        this.gross = gross;
     }
 
     public BigDecimal getHouseRent() {
@@ -390,6 +407,7 @@ public class MonthlySalary implements Serializable {
             ", year=" + getYear() +
             ", month='" + getMonth() + "'" +
             ", basic=" + getBasic() +
+            ", gross=" + getGross() +
             ", houseRent=" + getHouseRent() +
             ", medicalAllowance=" + getMedicalAllowance() +
             ", otherAllowance=" + getOtherAllowance() +

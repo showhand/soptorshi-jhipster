@@ -63,6 +63,21 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_gross">Gross</label>
+                    <input type="number" class="form-control" name="gross" id="field_gross"
+                        [(ngModel)]="monthlySalary.gross" required/>
+                    <div [hidden]="!(editForm.controls.gross?.dirty && editForm.controls.gross?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.gross?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.gross?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_houseRent">House Rent</label>
                     <input type="number" class="form-control" name="houseRent" id="field_houseRent"
                         [(ngModel)]="monthlySalary.houseRent" />

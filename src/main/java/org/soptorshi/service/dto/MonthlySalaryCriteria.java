@@ -38,6 +38,8 @@ public class MonthlySalaryCriteria implements Serializable {
 
     private BigDecimalFilter basic;
 
+    private BigDecimalFilter gross;
+
     private BigDecimalFilter houseRent;
 
     private BigDecimalFilter medicalAllowance;
@@ -102,6 +104,14 @@ public class MonthlySalaryCriteria implements Serializable {
 
     public void setBasic(BigDecimalFilter basic) {
         this.basic = basic;
+    }
+
+    public BigDecimalFilter getGross() {
+        return gross;
+    }
+
+    public void setGross(BigDecimalFilter gross) {
+        this.gross = gross;
     }
 
     public BigDecimalFilter getHouseRent() {
@@ -255,6 +265,7 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(year, that.year) &&
             Objects.equals(month, that.month) &&
             Objects.equals(basic, that.basic) &&
+            Objects.equals(gross, that.gross) &&
             Objects.equals(houseRent, that.houseRent) &&
             Objects.equals(medicalAllowance, that.medicalAllowance) &&
             Objects.equals(otherAllowance, that.otherAllowance) &&
@@ -281,6 +292,7 @@ public class MonthlySalaryCriteria implements Serializable {
         year,
         month,
         basic,
+        gross,
         houseRent,
         medicalAllowance,
         otherAllowance,
@@ -308,6 +320,7 @@ public class MonthlySalaryCriteria implements Serializable {
                 (year != null ? "year=" + year + ", " : "") +
                 (month != null ? "month=" + month + ", " : "") +
                 (basic != null ? "basic=" + basic + ", " : "") +
+                (gross != null ? "gross=" + gross + ", " : "") +
                 (houseRent != null ? "houseRent=" + houseRent + ", " : "") +
                 (medicalAllowance != null ? "medicalAllowance=" + medicalAllowance + ", " : "") +
                 (otherAllowance != null ? "otherAllowance=" + otherAllowance + ", " : "") +
