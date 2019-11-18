@@ -8,6 +8,7 @@ import org.soptorshi.domain.enumeration.*;
 import org.soptorshi.repository.MonthlySalaryRepository;
 import org.soptorshi.service.dto.EmployeeCriteria;
 import org.soptorshi.service.dto.EmployeeDTO;
+import org.soptorshi.service.extended.MonthlySalaryExtendedService;
 import org.soptorshi.service.extended.SalaryExtendedService;
 import org.soptorshi.service.extended.SpecialAllowanceTimeLineExtendedService;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class PayrollService {
     private AdvanceService advanceService;
     private SalaryExtendedService salaryService;
     private EmployeeService employeeService;
-    private MonthlySalaryService monthlySalaryService;
+    private MonthlySalaryExtendedService monthlySalaryService;
     private SpecialAllowanceTimeLineExtendedService specialAllowanceTimeLineService;
     private DesignationWiseAllowanceService designationWiseAllowanceService;
     private ProvidentFundService providentFundService;
@@ -43,7 +44,7 @@ public class PayrollService {
     private TaxService taxService;
 
 
-    public PayrollService(LoanService loanService, FineService fineService, AdvanceService advanceService, SalaryExtendedService salaryService, EmployeeService employeeService, MonthlySalaryService monthlySalaryService, SpecialAllowanceTimeLineExtendedService specialAllowanceTimeLineService, DesignationWiseAllowanceService designationWiseAllowanceService, ProvidentFundService providentFundService, BillService billService, TaxService taxService) {
+    public PayrollService(LoanService loanService, FineService fineService, AdvanceService advanceService, SalaryExtendedService salaryService, EmployeeService employeeService, MonthlySalaryExtendedService monthlySalaryService, SpecialAllowanceTimeLineExtendedService specialAllowanceTimeLineService, DesignationWiseAllowanceService designationWiseAllowanceService, ProvidentFundService providentFundService, BillService billService, TaxService taxService) {
         this.loanService = loanService;
         this.fineService = fineService;
         this.advanceService = advanceService;

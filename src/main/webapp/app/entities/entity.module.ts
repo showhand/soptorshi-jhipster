@@ -642,18 +642,6 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'supply-money-collection',
                 loadChildren: './supply-money-collection/supply-money-collection.module#SoptorshiSupplyMoneyCollectionModule'
-            },
-            {
-                path: 'salary',
-                loadChildren: './salary/salary.module#SoptorshiSalaryModule'
-            },
-            {
-                path: 'salary',
-                loadChildren: './salary/salary.module#SoptorshiSalaryModule'
-            },
-            {
-                path: 'monthly-salary',
-                loadChildren: './monthly-salary/monthly-salary.module#SoptorshiMonthlySalaryModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

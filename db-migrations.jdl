@@ -145,6 +145,8 @@ entity MonthlySalary {
   billPayable BigDecimal,
   billReceivable BigDecimal,
   payable BigDecimal,
+  approved Boolean,
+  rejected Boolean,
   modifiedBy String,
   modifiedOn LocalDate
 }
