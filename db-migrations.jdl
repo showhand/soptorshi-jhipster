@@ -130,6 +130,7 @@ entity MonthlySalary {
   year Integer required,
   month MonthType required,
   basic BigDecimal required,
+  gross BigDecimal required,
   houseRent BigDecimal,
   medicalAllowance BigDecimal,
   otherAllowance BigDecimal,
