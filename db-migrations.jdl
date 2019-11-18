@@ -150,6 +150,10 @@ entity MonthlySalary {
   modifiedBy String,
   modifiedOn LocalDate
 }
+
+entity MontlySalaryVouchers{
+
+}
 entity Advance {
   amount BigDecimal,
   reason TextBlob,
@@ -681,6 +685,10 @@ enum RequisitionStatus{
     RECEIVED_BY_REQUISIONER,
     RECEIVED_VERIFIED_BY_HEAD,
     CLOSED_BY_CFO
+}
+
+enum MonthlySalaryStatus{
+
 }
 
 enum PurchaseOrderStatus{
