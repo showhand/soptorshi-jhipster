@@ -30,4 +30,8 @@ public class MonthlySalaryExtendedService extends MonthlySalaryService {
         monthlySalaryExtendedRepository.deleteAllByYearAndMonthAndEmployee_Office_IdAndEmployee_Designation_Id(year, monthType, officeId, designationId);
     }
 
+    public void delete(Integer year, MonthType monthType, Long officeId, Long designationId, Long employeeId){
+        monthlySalaryExtendedRepository.deleteAllByYearAndMonthAndEmployee_Office_IdAndEmployee_Designation_IdAndEmployee_id(year, monthType, officeId, designationId, employeeId);
+    }
+
 }

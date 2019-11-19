@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MonthlySalaryExtendedRepository extends MonthlySalaryRepository {
     void deleteAllByYearAndMonthAndEmployee_Office_IdAndEmployee_Designation_Id(Integer year, MonthType monthType, Long officeId, Long designationId);
+
+    void deleteAllByYearAndMonthAndEmployee_Office_IdAndEmployee_Designation_IdAndEmployee_id(Integer year, MonthType monthType, Long officeId, Long designationId, Long employeeId);
+
 }
