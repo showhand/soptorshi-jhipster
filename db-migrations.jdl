@@ -151,9 +151,7 @@ entity MonthlySalary {
   modifiedOn LocalDate
 }
 
-entity MontlySalaryVouchers{
 
-}
 entity Advance {
   amount BigDecimal,
   reason TextBlob,

@@ -45,6 +45,8 @@ describe('Service Tests', () => {
                 0,
                 0,
                 0,
+                false,
+                false,
                 'AAAAAAA',
                 currentDate
             );
@@ -110,6 +112,8 @@ describe('Service Tests', () => {
                         billPayable: 1,
                         billReceivable: 1,
                         payable: 1,
+                        approved: true,
+                        onHold: true,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -151,6 +155,8 @@ describe('Service Tests', () => {
                         billPayable: 1,
                         billReceivable: 1,
                         payable: 1,
+                        approved: true,
+                        onHold: true,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },

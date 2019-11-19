@@ -68,6 +68,10 @@ public class MonthlySalaryCriteria implements Serializable {
 
     private BigDecimalFilter payable;
 
+    private BooleanFilter approved;
+
+    private BooleanFilter onHold;
+
     private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedOn;
@@ -226,6 +230,22 @@ public class MonthlySalaryCriteria implements Serializable {
         this.payable = payable;
     }
 
+    public BooleanFilter getApproved() {
+        return approved;
+    }
+
+    public void setApproved(BooleanFilter approved) {
+        this.approved = approved;
+    }
+
+    public BooleanFilter getOnHold() {
+        return onHold;
+    }
+
+    public void setOnHold(BooleanFilter onHold) {
+        this.onHold = onHold;
+    }
+
     public StringFilter getModifiedBy() {
         return modifiedBy;
     }
@@ -280,6 +300,8 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(billPayable, that.billPayable) &&
             Objects.equals(billReceivable, that.billReceivable) &&
             Objects.equals(payable, that.payable) &&
+            Objects.equals(approved, that.approved) &&
+            Objects.equals(onHold, that.onHold) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(employeeId, that.employeeId);
@@ -307,6 +329,8 @@ public class MonthlySalaryCriteria implements Serializable {
         billPayable,
         billReceivable,
         payable,
+        approved,
+        onHold,
         modifiedBy,
         modifiedOn,
         employeeId
@@ -335,6 +359,8 @@ public class MonthlySalaryCriteria implements Serializable {
                 (billPayable != null ? "billPayable=" + billPayable + ", " : "") +
                 (billReceivable != null ? "billReceivable=" + billReceivable + ", " : "") +
                 (payable != null ? "payable=" + payable + ", " : "") +
+                (approved != null ? "approved=" + approved + ", " : "") +
+                (onHold != null ? "onHold=" + onHold + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +

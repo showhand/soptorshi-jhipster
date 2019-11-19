@@ -87,6 +87,14 @@
             "fieldType": "BigDecimal"
         },
         {
+            "fieldName": "approved",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "onHold",
+            "fieldType": "Boolean"
+        },
+        {
             "fieldName": "modifiedBy",
             "fieldType": "String"
         },

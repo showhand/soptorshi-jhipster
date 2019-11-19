@@ -48,6 +48,8 @@
             <th jhiSortBy="billPayable"><span>Bill Payable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="billReceivable"><span>Bill Receivable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="payable"><span>Payable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="approved"><span>Approved</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="onHold"><span>On Hold</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -75,6 +77,8 @@
                 <td>{{monthlySalary.billPayable}}</td>
                 <td>{{monthlySalary.billReceivable}}</td>
                 <td>{{monthlySalary.payable}}</td>
+                <td>{{monthlySalary.approved}}</td>
+                <td>{{monthlySalary.onHold}}</td>
                 <td>{{monthlySalary.modifiedBy}}</td>
                 <td>{{monthlySalary.modifiedOn | date:'mediumDate'}}</td>
                 <td>

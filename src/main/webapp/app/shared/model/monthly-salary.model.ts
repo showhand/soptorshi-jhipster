@@ -35,6 +35,8 @@ export interface IMonthlySalary {
     billPayable?: number;
     billReceivable?: number;
     payable?: number;
+    approved?: boolean;
+    onHold?: boolean;
     modifiedBy?: string;
     modifiedOn?: Moment;
     employeeFullName?: string;
@@ -62,9 +64,14 @@ export class MonthlySalary implements IMonthlySalary {
         public billPayable?: number,
         public billReceivable?: number,
         public payable?: number,
+        public approved?: boolean,
+        public onHold?: boolean,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
         public employeeFullName?: string,
         public employeeId?: number
-    ) {}
+    ) {
+        this.approved = this.approved || false;
+        this.onHold = this.onHold || false;
+    }
 }

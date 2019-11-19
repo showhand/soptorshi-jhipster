@@ -87,6 +87,12 @@ public class MonthlySalary implements Serializable {
     @Column(name = "payable", precision = 10, scale = 2)
     private BigDecimal payable;
 
+    @Column(name = "approved")
+    private Boolean approved;
+
+    @Column(name = "on_hold")
+    private Boolean onHold;
+
     @Column(name = "modified_by")
     private String modifiedBy;
 
@@ -340,6 +346,32 @@ public class MonthlySalary implements Serializable {
         this.payable = payable;
     }
 
+    public Boolean isApproved() {
+        return approved;
+    }
+
+    public MonthlySalary approved(Boolean approved) {
+        this.approved = approved;
+        return this;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
+
+    public Boolean isOnHold() {
+        return onHold;
+    }
+
+    public MonthlySalary onHold(Boolean onHold) {
+        this.onHold = onHold;
+        return this;
+    }
+
+    public void setOnHold(Boolean onHold) {
+        this.onHold = onHold;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -422,6 +454,8 @@ public class MonthlySalary implements Serializable {
             ", billPayable=" + getBillPayable() +
             ", billReceivable=" + getBillReceivable() +
             ", payable=" + getPayable() +
+            ", approved='" + isApproved() + "'" +
+            ", onHold='" + isOnHold() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";

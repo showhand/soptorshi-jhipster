@@ -53,6 +53,10 @@ public class MonthlySalaryDTO implements Serializable {
 
     private BigDecimal payable;
 
+    private Boolean approved;
+
+    private Boolean onHold;
+
     private String modifiedBy;
 
     private LocalDate modifiedOn;
@@ -214,6 +218,22 @@ public class MonthlySalaryDTO implements Serializable {
         this.payable = payable;
     }
 
+    public Boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
+
+    public Boolean isOnHold() {
+        return onHold;
+    }
+
+    public void setOnHold(Boolean onHold) {
+        this.onHold = onHold;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -289,6 +309,8 @@ public class MonthlySalaryDTO implements Serializable {
             ", billPayable=" + getBillPayable() +
             ", billReceivable=" + getBillReceivable() +
             ", payable=" + getPayable() +
+            ", approved='" + isApproved() + "'" +
+            ", onHold='" + isOnHold() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +
