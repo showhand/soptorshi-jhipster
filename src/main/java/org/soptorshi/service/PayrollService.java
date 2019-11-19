@@ -76,15 +76,15 @@ public class PayrollService {
             monthlySalary.setFine(calculateFine(employee, year, monthType));
             monthlySalary.setAdvanceHO(calculateAdvance(employee, year, monthType));
             monthlySalary.setLoanAmount(calculateLoan(employee, year, monthType));
-            monthlySalary.setBasic(calculateSalary(employee, year, monthType));
+            calculateBasicAndGross(employee, year, monthType, monthlySalary);
             monthlySalary = calculateProvidentFund(monthlySalary);
             monthlySalary = calculateBill(monthlySalary);
             monthlySalary = assignAllowances(monthlySalary);
 
             BigDecimal totalPayable = new BigDecimal(0);
             totalPayable = totalPayable
-                .add(monthlySalary.getBasic())
-                .add(monthlySalary.getOtherAllowance());
+                .add(monthlySalary.getGross())
+                .add(monthlySalary.getFestivalAllowance());
             BigDecimal totalDeduction = new BigDecimal(0);
             totalDeduction = totalDeduction
                 .add(monthlySalary.getAdvanceFactory()==null? BigDecimal.ZERO: monthlySalary.getAdvanceFactory())
@@ -109,13 +109,13 @@ public class PayrollService {
         monthlySalary.setOtherAllowance(new BigDecimal(0));
         for(DesignationWiseAllowance designationWiseAllowance: designationWiseAllowances){
             if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.HOUSE_RENT) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
-                monthlySalary.setHouseRent(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+                monthlySalary.setHouseRent(monthlySalary.getGross().divide (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
             else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.MEDICAL_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
-                monthlySalary.setHouseRent(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+                monthlySalary.setHouseRent(monthlySalary.getGross().divide (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
             else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.FESTIVAL_BONUS) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.SPECIFIC))
-                monthlySalary.setFestivalAllowance(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+                monthlySalary.setFestivalAllowance(monthlySalary.getGross().divide (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
             else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.OTHER_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
-                monthlySalary.setOtherAllowance(monthlySalary.getOtherAllowance().add(monthlySalary.getBasic().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100)))));
+                monthlySalary.setOtherAllowance(monthlySalary.getOtherAllowance().add(monthlySalary.getGross().divide (designationWiseAllowance.getAmount().divide(new BigDecimal(100)))));
         }
 
         monthlySalary = calculateSpecialAndOtherAllowances(monthlySalary, designationWiseAllowances);
@@ -151,7 +151,7 @@ public class PayrollService {
     private MonthlySalary calculateProvidentFund(MonthlySalary monthlySalary){
         ProvidentFund providentFund = providentFundService.get(monthlySalary.getEmployee(), ProvidentFundStatus.ACTIVE);
         if(providentFund!=null){
-            monthlySalary.setProvidentFund(monthlySalary.getBasic().multiply(BigDecimal.valueOf(providentFund.getRate()/100)));
+            monthlySalary.setProvidentFund(monthlySalary.getGross().divide(BigDecimal.valueOf(providentFund.getRate()/100)));
         }
         return monthlySalary;
     }
@@ -218,11 +218,15 @@ public class PayrollService {
         return totalLoan;
     }
 
-    private BigDecimal calculateSalary(Employee employee, Integer year, MonthType monthType){
+    private void calculateBasicAndGross(Employee employee, Integer year, MonthType monthType, MonthlySalary monthlySalary){
         BigDecimal totalSalary = new BigDecimal(0);
         Salary activeSalary = salaryService.get(employee, SalaryStatus.ACTIVE);
-        if(activeSalary!=null)
-            totalSalary = totalSalary.add(activeSalary.getBasic());
-        return totalSalary;
+        if(activeSalary!=null){
+            monthlySalary.setBasic(activeSalary.getBasic());
+            monthlySalary.setGross(activeSalary.getGross());
+        }else{
+            monthlySalary.setBasic(BigDecimal.ZERO);
+            monthlySalary.setGross(BigDecimal.ZERO);
+        }
     }
 }
