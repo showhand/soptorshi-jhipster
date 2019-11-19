@@ -71,7 +71,8 @@
                             <th >Name</th>
                             <th>Basic</th>
                             <th>Gloss Salary</th>
-                            <th></th>
+                            <th>Payroll</th>
+                            <th>View</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -80,6 +81,8 @@
                             <td>{{employee.fullName}}</td>
                             <td>{{monthlySalaryMapWithEmployeeId[employee.id].basic}}</td>
                             <td>{{monthlySalaryMapWithEmployeeId[employee.id].payable}}</td>
+
+                            <td><button class="btn btn-secondary" (click)="generatePayrollEmployeeSpecific(employee.id, employee.fullName)">Generate</button></td>
                             <td> <button type="submit"
                                          [routerLink]="['/monthly-salary', monthlySalaryMapWithEmployeeId[employee.id].id, 'view' ]"
                                          class="btn btn-info btn-sm" *ngIf="monthlySalaryMapWithEmployeeId[employee.id]">

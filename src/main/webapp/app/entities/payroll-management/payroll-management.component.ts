@@ -103,6 +103,21 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             });
     }
 
+    public generatePayrollEmployeeSpecific(employeeId: number, name: string) {
+        this.salaryService
+            .generatePayrollEmployeeSpecific(
+                this.payrollManagementService.payrollManagement.officeId,
+                this.payrollManagementService.payrollManagement.designationId,
+                this.year,
+                this.payrollManagementService.payrollManagement.monthType,
+                employeeId
+            )
+            .subscribe((res: any) => {
+                this.jhiAlertService.success('Payroll successfully generated for employee: ' + name);
+                this.fetch();
+            });
+    }
+
     protected getMonthlySalaries(employees: IEmployee[]) {
         const employeeIds: number[] = [];
         employees.forEach(e => {

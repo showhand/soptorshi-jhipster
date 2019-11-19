@@ -44,4 +44,21 @@ export class SalaryExtendedService extends SalaryService {
             })
             .pipe(map((res: any) => res));
     }
+
+    generatePayrollEmployeeSpecific(
+        officeId: number,
+        designationId: number,
+        year: number,
+        monthType: MonthType,
+        employeeId: number
+    ): Observable<EntityResponseType> {
+        return this.http
+            .get<any>(
+                `${this.resourceUrlExtended}/generatePayRoll/${officeId}/${designationId}/${year}/${monthType.toString()}/${employeeId}`,
+                {
+                    observe: 'response'
+                }
+            )
+            .pipe(map((res: any) => res));
+    }
 }
