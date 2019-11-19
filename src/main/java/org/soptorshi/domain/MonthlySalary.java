@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.MonthType;
 
+import org.soptorshi.domain.enumeration.MonthlySalaryStatus;
+
 /**
  * A MonthlySalary.
  */
@@ -92,6 +94,10 @@ public class MonthlySalary implements Serializable {
 
     @Column(name = "on_hold")
     private Boolean onHold;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private MonthlySalaryStatus status;
 
     @Column(name = "modified_by")
     private String modifiedBy;
@@ -372,6 +378,19 @@ public class MonthlySalary implements Serializable {
         this.onHold = onHold;
     }
 
+    public MonthlySalaryStatus getStatus() {
+        return status;
+    }
+
+    public MonthlySalary status(MonthlySalaryStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(MonthlySalaryStatus status) {
+        this.status = status;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -456,6 +475,7 @@ public class MonthlySalary implements Serializable {
             ", payable=" + getPayable() +
             ", approved='" + isApproved() + "'" +
             ", onHold='" + isOnHold() + "'" +
+            ", status='" + getStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";

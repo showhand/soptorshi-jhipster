@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { MonthlySalaryService } from 'app/entities/monthly-salary/monthly-salary.service';
-import { IMonthlySalary, MonthlySalary, MonthType } from 'app/shared/model/monthly-salary.model';
+import { IMonthlySalary, MonthlySalary, MonthType, MonthlySalaryStatus } from 'app/shared/model/monthly-salary.model';
 
 describe('Service Tests', () => {
     describe('MonthlySalary Service', () => {
@@ -47,6 +47,7 @@ describe('Service Tests', () => {
                 0,
                 false,
                 false,
+                MonthlySalaryStatus.APPROVED_BY_MANAGER,
                 'AAAAAAA',
                 currentDate
             );
@@ -114,6 +115,7 @@ describe('Service Tests', () => {
                         payable: 1,
                         approved: true,
                         onHold: true,
+                        status: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -157,6 +159,7 @@ describe('Service Tests', () => {
                         payable: 1,
                         approved: true,
                         onHold: true,
+                        status: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },

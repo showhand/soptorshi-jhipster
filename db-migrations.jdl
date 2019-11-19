@@ -147,6 +147,7 @@ entity MonthlySalary {
   payable BigDecimal,
   approved Boolean,
   onHold Boolean,
+  status MonthlySalaryStatus,
   modifiedBy String,
   modifiedOn LocalDate
 }

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.MonthType;
+import org.soptorshi.domain.enumeration.MonthlySalaryStatus;
 
 /**
  * A DTO for the MonthlySalary entity.
@@ -56,6 +57,8 @@ public class MonthlySalaryDTO implements Serializable {
     private Boolean approved;
 
     private Boolean onHold;
+
+    private MonthlySalaryStatus status;
 
     private String modifiedBy;
 
@@ -234,6 +237,14 @@ public class MonthlySalaryDTO implements Serializable {
         this.onHold = onHold;
     }
 
+    public MonthlySalaryStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(MonthlySalaryStatus status) {
+        this.status = status;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -311,6 +322,7 @@ public class MonthlySalaryDTO implements Serializable {
             ", payable=" + getPayable() +
             ", approved='" + isApproved() + "'" +
             ", onHold='" + isOnHold() + "'" +
+            ", status='" + getStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +

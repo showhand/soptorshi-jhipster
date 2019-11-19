@@ -15,6 +15,16 @@ export const enum MonthType {
     DECEMBER = 'DECEMBER'
 }
 
+export const enum MonthlySalaryStatus {
+    APPROVED_BY_MANAGER = 'APPROVED_BY_MANAGER',
+    APPROVED_BY_ACCOUNTS = 'APPROVED_BY_ACCOUNTS',
+    MODIFICATION_REQUEST_BY_ACCOUNTS = 'MODIFICATION_REQUEST_BY_ACCOUNTS',
+    APPROVED_BY_CFO = 'APPROVED_BY_CFO',
+    MODIFICATION_REQUEST_BY_CFO = 'MODIFICATION_REQUEST_BY_CFO',
+    APPROVED_BY_MD = 'APPROVED_BY_MD',
+    MODIFICATION_REQUEST_BY_MD = 'MODIFICATION_REQUEST_BY_MD'
+}
+
 export interface IMonthlySalary {
     id?: number;
     year?: number;
@@ -37,6 +47,7 @@ export interface IMonthlySalary {
     payable?: number;
     approved?: boolean;
     onHold?: boolean;
+    status?: MonthlySalaryStatus;
     modifiedBy?: string;
     modifiedOn?: Moment;
     employeeFullName?: string;
@@ -66,6 +77,7 @@ export class MonthlySalary implements IMonthlySalary {
         public payable?: number,
         public approved?: boolean,
         public onHold?: boolean,
+        public status?: MonthlySalaryStatus,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
         public employeeFullName?: string,

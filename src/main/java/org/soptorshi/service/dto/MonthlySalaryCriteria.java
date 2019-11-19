@@ -3,6 +3,7 @@ package org.soptorshi.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.MonthType;
+import org.soptorshi.domain.enumeration.MonthlySalaryStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -26,6 +27,11 @@ public class MonthlySalaryCriteria implements Serializable {
      * Class for filtering MonthType
      */
     public static class MonthTypeFilter extends Filter<MonthType> {
+    }
+    /**
+     * Class for filtering MonthlySalaryStatus
+     */
+    public static class MonthlySalaryStatusFilter extends Filter<MonthlySalaryStatus> {
     }
 
     private static final long serialVersionUID = 1L;
@@ -71,6 +77,8 @@ public class MonthlySalaryCriteria implements Serializable {
     private BooleanFilter approved;
 
     private BooleanFilter onHold;
+
+    private MonthlySalaryStatusFilter status;
 
     private StringFilter modifiedBy;
 
@@ -246,6 +254,14 @@ public class MonthlySalaryCriteria implements Serializable {
         this.onHold = onHold;
     }
 
+    public MonthlySalaryStatusFilter getStatus() {
+        return status;
+    }
+
+    public void setStatus(MonthlySalaryStatusFilter status) {
+        this.status = status;
+    }
+
     public StringFilter getModifiedBy() {
         return modifiedBy;
     }
@@ -302,6 +318,7 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(payable, that.payable) &&
             Objects.equals(approved, that.approved) &&
             Objects.equals(onHold, that.onHold) &&
+            Objects.equals(status, that.status) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(employeeId, that.employeeId);
@@ -331,6 +348,7 @@ public class MonthlySalaryCriteria implements Serializable {
         payable,
         approved,
         onHold,
+        status,
         modifiedBy,
         modifiedOn,
         employeeId
@@ -361,6 +379,7 @@ public class MonthlySalaryCriteria implements Serializable {
                 (payable != null ? "payable=" + payable + ", " : "") +
                 (approved != null ? "approved=" + approved + ", " : "") +
                 (onHold != null ? "onHold=" + onHold + ", " : "") +
+                (status != null ? "status=" + status + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +

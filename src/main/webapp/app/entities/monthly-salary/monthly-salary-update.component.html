@@ -158,6 +158,18 @@
                         [(ngModel)]="monthlySalary.onHold" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" [(ngModel)]="monthlySalary.status" id="field_status" >
+                        <option value="APPROVED_BY_MANAGER">APPROVED_BY_MANAGER</option>
+                        <option value="APPROVED_BY_ACCOUNTS">APPROVED_BY_ACCOUNTS</option>
+                        <option value="MODIFICATION_REQUEST_BY_ACCOUNTS">MODIFICATION_REQUEST_BY_ACCOUNTS</option>
+                        <option value="APPROVED_BY_CFO">APPROVED_BY_CFO</option>
+                        <option value="MODIFICATION_REQUEST_BY_CFO">MODIFICATION_REQUEST_BY_CFO</option>
+                        <option value="APPROVED_BY_MD">APPROVED_BY_MD</option>
+                        <option value="MODIFICATION_REQUEST_BY_MD">MODIFICATION_REQUEST_BY_MD</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_modifiedBy">Modified By</label>
                     <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
                         [(ngModel)]="monthlySalary.modifiedBy" />
