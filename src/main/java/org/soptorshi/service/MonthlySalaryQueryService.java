@@ -102,6 +102,9 @@ public class MonthlySalaryQueryService extends QueryService<MonthlySalary> {
             if (criteria.getBasic() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getBasic(), MonthlySalary_.basic));
             }
+            if (criteria.getGross() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getGross(), MonthlySalary_.gross));
+            }
             if (criteria.getHouseRent() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getHouseRent(), MonthlySalary_.houseRent));
             }
@@ -143,6 +146,15 @@ public class MonthlySalaryQueryService extends QueryService<MonthlySalary> {
             }
             if (criteria.getPayable() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPayable(), MonthlySalary_.payable));
+            }
+            if (criteria.getApproved() != null) {
+                specification = specification.and(buildSpecification(criteria.getApproved(), MonthlySalary_.approved));
+            }
+            if (criteria.getOnHold() != null) {
+                specification = specification.and(buildSpecification(criteria.getOnHold(), MonthlySalary_.onHold));
+            }
+            if (criteria.getStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getStatus(), MonthlySalary_.status));
             }
             if (criteria.getModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), MonthlySalary_.modifiedBy));

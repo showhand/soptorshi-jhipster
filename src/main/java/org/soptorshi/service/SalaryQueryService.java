@@ -96,6 +96,9 @@ public class SalaryQueryService extends QueryService<Salary> {
             if (criteria.getBasic() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getBasic(), Salary_.basic));
             }
+            if (criteria.getGross() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getGross(), Salary_.gross));
+            }
             if (criteria.getStartedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getStartedOn(), Salary_.startedOn));
             }

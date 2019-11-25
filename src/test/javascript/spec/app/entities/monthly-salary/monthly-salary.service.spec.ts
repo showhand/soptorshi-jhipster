@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { MonthlySalaryService } from 'app/entities/monthly-salary/monthly-salary.service';
-import { IMonthlySalary, MonthlySalary, MonthType } from 'app/shared/model/monthly-salary.model';
+import { IMonthlySalary, MonthlySalary, MonthType, MonthlySalaryStatus } from 'app/shared/model/monthly-salary.model';
 
 describe('Service Tests', () => {
     describe('MonthlySalary Service', () => {
@@ -25,7 +25,32 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new MonthlySalary(0, 0, MonthType.JANUARY, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'AAAAAAA', currentDate);
+            elemDefault = new MonthlySalary(
+                0,
+                0,
+                MonthType.JANUARY,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                false,
+                false,
+                MonthlySalaryStatus.APPROVED_BY_MANAGER,
+                'AAAAAAA',
+                currentDate
+            );
         });
 
         describe('Service methods', async () => {
@@ -73,6 +98,7 @@ describe('Service Tests', () => {
                         year: 1,
                         month: 'BBBBBB',
                         basic: 1,
+                        gross: 1,
                         houseRent: 1,
                         medicalAllowance: 1,
                         otherAllowance: 1,
@@ -87,6 +113,9 @@ describe('Service Tests', () => {
                         billPayable: 1,
                         billReceivable: 1,
                         payable: 1,
+                        approved: true,
+                        onHold: true,
+                        status: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -113,6 +142,7 @@ describe('Service Tests', () => {
                         year: 1,
                         month: 'BBBBBB',
                         basic: 1,
+                        gross: 1,
                         houseRent: 1,
                         medicalAllowance: 1,
                         otherAllowance: 1,
@@ -127,6 +157,9 @@ describe('Service Tests', () => {
                         billPayable: 1,
                         billReceivable: 1,
                         payable: 1,
+                        approved: true,
+                        onHold: true,
+                        status: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },

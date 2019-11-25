@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.MonthType;
 
+import org.soptorshi.domain.enumeration.MonthlySalaryStatus;
+
 /**
  * A MonthlySalary.
  */
@@ -40,6 +42,10 @@ public class MonthlySalary implements Serializable {
     @NotNull
     @Column(name = "basic", precision = 10, scale = 2, nullable = false)
     private BigDecimal basic;
+
+    @NotNull
+    @Column(name = "gross", precision = 10, scale = 2, nullable = false)
+    private BigDecimal gross;
 
     @Column(name = "house_rent", precision = 10, scale = 2)
     private BigDecimal houseRent;
@@ -82,6 +88,16 @@ public class MonthlySalary implements Serializable {
 
     @Column(name = "payable", precision = 10, scale = 2)
     private BigDecimal payable;
+
+    @Column(name = "approved")
+    private Boolean approved;
+
+    @Column(name = "on_hold")
+    private Boolean onHold;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private MonthlySalaryStatus status;
 
     @Column(name = "modified_by")
     private String modifiedBy;
@@ -139,6 +155,19 @@ public class MonthlySalary implements Serializable {
 
     public void setBasic(BigDecimal basic) {
         this.basic = basic;
+    }
+
+    public BigDecimal getGross() {
+        return gross;
+    }
+
+    public MonthlySalary gross(BigDecimal gross) {
+        this.gross = gross;
+        return this;
+    }
+
+    public void setGross(BigDecimal gross) {
+        this.gross = gross;
     }
 
     public BigDecimal getHouseRent() {
@@ -323,6 +352,45 @@ public class MonthlySalary implements Serializable {
         this.payable = payable;
     }
 
+    public Boolean isApproved() {
+        return approved;
+    }
+
+    public MonthlySalary approved(Boolean approved) {
+        this.approved = approved;
+        return this;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
+
+    public Boolean isOnHold() {
+        return onHold;
+    }
+
+    public MonthlySalary onHold(Boolean onHold) {
+        this.onHold = onHold;
+        return this;
+    }
+
+    public void setOnHold(Boolean onHold) {
+        this.onHold = onHold;
+    }
+
+    public MonthlySalaryStatus getStatus() {
+        return status;
+    }
+
+    public MonthlySalary status(MonthlySalaryStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(MonthlySalaryStatus status) {
+        this.status = status;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -390,6 +458,7 @@ public class MonthlySalary implements Serializable {
             ", year=" + getYear() +
             ", month='" + getMonth() + "'" +
             ", basic=" + getBasic() +
+            ", gross=" + getGross() +
             ", houseRent=" + getHouseRent() +
             ", medicalAllowance=" + getMedicalAllowance() +
             ", otherAllowance=" + getOtherAllowance() +
@@ -404,6 +473,9 @@ public class MonthlySalary implements Serializable {
             ", billPayable=" + getBillPayable() +
             ", billReceivable=" + getBillReceivable() +
             ", payable=" + getPayable() +
+            ", approved='" + isApproved() + "'" +
+            ", onHold='" + isOnHold() + "'" +
+            ", status='" + getStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";

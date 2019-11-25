@@ -34,6 +34,8 @@ public class SalaryCriteria implements Serializable {
 
     private BigDecimalFilter basic;
 
+    private BigDecimalFilter gross;
+
     private LocalDateFilter startedOn;
 
     private LocalDateFilter endedOn;
@@ -60,6 +62,14 @@ public class SalaryCriteria implements Serializable {
 
     public void setBasic(BigDecimalFilter basic) {
         this.basic = basic;
+    }
+
+    public BigDecimalFilter getGross() {
+        return gross;
+    }
+
+    public void setGross(BigDecimalFilter gross) {
+        this.gross = gross;
     }
 
     public LocalDateFilter getStartedOn() {
@@ -123,6 +133,7 @@ public class SalaryCriteria implements Serializable {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(basic, that.basic) &&
+            Objects.equals(gross, that.gross) &&
             Objects.equals(startedOn, that.startedOn) &&
             Objects.equals(endedOn, that.endedOn) &&
             Objects.equals(salaryStatus, that.salaryStatus) &&
@@ -136,6 +147,7 @@ public class SalaryCriteria implements Serializable {
         return Objects.hash(
         id,
         basic,
+        gross,
         startedOn,
         endedOn,
         salaryStatus,
@@ -150,6 +162,7 @@ public class SalaryCriteria implements Serializable {
         return "SalaryCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (basic != null ? "basic=" + basic + ", " : "") +
+                (gross != null ? "gross=" + gross + ", " : "") +
                 (startedOn != null ? "startedOn=" + startedOn + ", " : "") +
                 (endedOn != null ? "endedOn=" + endedOn + ", " : "") +
                 (salaryStatus != null ? "salaryStatus=" + salaryStatus + ", " : "") +

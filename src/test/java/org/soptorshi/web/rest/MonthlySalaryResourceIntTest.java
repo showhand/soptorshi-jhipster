@@ -47,6 +47,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.soptorshi.domain.enumeration.MonthType;
+import org.soptorshi.domain.enumeration.MonthlySalaryStatus;
 /**
  * Test class for the MonthlySalaryResource REST controller.
  *
@@ -64,6 +65,9 @@ public class MonthlySalaryResourceIntTest {
 
     private static final BigDecimal DEFAULT_BASIC = new BigDecimal(1);
     private static final BigDecimal UPDATED_BASIC = new BigDecimal(2);
+
+    private static final BigDecimal DEFAULT_GROSS = new BigDecimal(1);
+    private static final BigDecimal UPDATED_GROSS = new BigDecimal(2);
 
     private static final BigDecimal DEFAULT_HOUSE_RENT = new BigDecimal(1);
     private static final BigDecimal UPDATED_HOUSE_RENT = new BigDecimal(2);
@@ -106,6 +110,15 @@ public class MonthlySalaryResourceIntTest {
 
     private static final BigDecimal DEFAULT_PAYABLE = new BigDecimal(1);
     private static final BigDecimal UPDATED_PAYABLE = new BigDecimal(2);
+
+    private static final Boolean DEFAULT_APPROVED = false;
+    private static final Boolean UPDATED_APPROVED = true;
+
+    private static final Boolean DEFAULT_ON_HOLD = false;
+    private static final Boolean UPDATED_ON_HOLD = true;
+
+    private static final MonthlySalaryStatus DEFAULT_STATUS = MonthlySalaryStatus.APPROVED_BY_MANAGER;
+    private static final MonthlySalaryStatus UPDATED_STATUS = MonthlySalaryStatus.APPROVED_BY_ACCOUNTS;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
@@ -175,6 +188,7 @@ public class MonthlySalaryResourceIntTest {
             .year(DEFAULT_YEAR)
             .month(DEFAULT_MONTH)
             .basic(DEFAULT_BASIC)
+            .gross(DEFAULT_GROSS)
             .houseRent(DEFAULT_HOUSE_RENT)
             .medicalAllowance(DEFAULT_MEDICAL_ALLOWANCE)
             .otherAllowance(DEFAULT_OTHER_ALLOWANCE)
@@ -189,6 +203,9 @@ public class MonthlySalaryResourceIntTest {
             .billPayable(DEFAULT_BILL_PAYABLE)
             .billReceivable(DEFAULT_BILL_RECEIVABLE)
             .payable(DEFAULT_PAYABLE)
+            .approved(DEFAULT_APPROVED)
+            .onHold(DEFAULT_ON_HOLD)
+            .status(DEFAULT_STATUS)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
         return monthlySalary;
@@ -218,6 +235,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getYear()).isEqualTo(DEFAULT_YEAR);
         assertThat(testMonthlySalary.getMonth()).isEqualTo(DEFAULT_MONTH);
         assertThat(testMonthlySalary.getBasic()).isEqualTo(DEFAULT_BASIC);
+        assertThat(testMonthlySalary.getGross()).isEqualTo(DEFAULT_GROSS);
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(DEFAULT_HOUSE_RENT);
         assertThat(testMonthlySalary.getMedicalAllowance()).isEqualTo(DEFAULT_MEDICAL_ALLOWANCE);
         assertThat(testMonthlySalary.getOtherAllowance()).isEqualTo(DEFAULT_OTHER_ALLOWANCE);
@@ -232,6 +250,9 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getBillPayable()).isEqualTo(DEFAULT_BILL_PAYABLE);
         assertThat(testMonthlySalary.getBillReceivable()).isEqualTo(DEFAULT_BILL_RECEIVABLE);
         assertThat(testMonthlySalary.getPayable()).isEqualTo(DEFAULT_PAYABLE);
+        assertThat(testMonthlySalary.isApproved()).isEqualTo(DEFAULT_APPROVED);
+        assertThat(testMonthlySalary.isOnHold()).isEqualTo(DEFAULT_ON_HOLD);
+        assertThat(testMonthlySalary.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testMonthlySalary.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testMonthlySalary.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
@@ -321,6 +342,25 @@ public class MonthlySalaryResourceIntTest {
 
     @Test
     @Transactional
+    public void checkGrossIsRequired() throws Exception {
+        int databaseSizeBeforeTest = monthlySalaryRepository.findAll().size();
+        // set the field null
+        monthlySalary.setGross(null);
+
+        // Create the MonthlySalary, which fails.
+        MonthlySalaryDTO monthlySalaryDTO = monthlySalaryMapper.toDto(monthlySalary);
+
+        restMonthlySalaryMockMvc.perform(post("/api/monthly-salaries")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(monthlySalaryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<MonthlySalary> monthlySalaryList = monthlySalaryRepository.findAll();
+        assertThat(monthlySalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllMonthlySalaries() throws Exception {
         // Initialize the database
         monthlySalaryRepository.saveAndFlush(monthlySalary);
@@ -333,6 +373,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
+            .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
@@ -347,6 +388,9 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].billPayable").value(hasItem(DEFAULT_BILL_PAYABLE.intValue())))
             .andExpect(jsonPath("$.[*].billReceivable").value(hasItem(DEFAULT_BILL_RECEIVABLE.intValue())))
             .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())))
+            .andExpect(jsonPath("$.[*].approved").value(hasItem(DEFAULT_APPROVED.booleanValue())))
+            .andExpect(jsonPath("$.[*].onHold").value(hasItem(DEFAULT_ON_HOLD.booleanValue())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
@@ -365,6 +409,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
             .andExpect(jsonPath("$.month").value(DEFAULT_MONTH.toString()))
             .andExpect(jsonPath("$.basic").value(DEFAULT_BASIC.intValue()))
+            .andExpect(jsonPath("$.gross").value(DEFAULT_GROSS.intValue()))
             .andExpect(jsonPath("$.houseRent").value(DEFAULT_HOUSE_RENT.intValue()))
             .andExpect(jsonPath("$.medicalAllowance").value(DEFAULT_MEDICAL_ALLOWANCE.intValue()))
             .andExpect(jsonPath("$.otherAllowance").value(DEFAULT_OTHER_ALLOWANCE.intValue()))
@@ -379,6 +424,9 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.billPayable").value(DEFAULT_BILL_PAYABLE.intValue()))
             .andExpect(jsonPath("$.billReceivable").value(DEFAULT_BILL_RECEIVABLE.intValue()))
             .andExpect(jsonPath("$.payable").value(DEFAULT_PAYABLE.intValue()))
+            .andExpect(jsonPath("$.approved").value(DEFAULT_APPROVED.booleanValue()))
+            .andExpect(jsonPath("$.onHold").value(DEFAULT_ON_HOLD.booleanValue()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
@@ -525,6 +573,45 @@ public class MonthlySalaryResourceIntTest {
 
         // Get all the monthlySalaryList where basic is null
         defaultMonthlySalaryShouldNotBeFound("basic.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByGrossIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where gross equals to DEFAULT_GROSS
+        defaultMonthlySalaryShouldBeFound("gross.equals=" + DEFAULT_GROSS);
+
+        // Get all the monthlySalaryList where gross equals to UPDATED_GROSS
+        defaultMonthlySalaryShouldNotBeFound("gross.equals=" + UPDATED_GROSS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByGrossIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where gross in DEFAULT_GROSS or UPDATED_GROSS
+        defaultMonthlySalaryShouldBeFound("gross.in=" + DEFAULT_GROSS + "," + UPDATED_GROSS);
+
+        // Get all the monthlySalaryList where gross equals to UPDATED_GROSS
+        defaultMonthlySalaryShouldNotBeFound("gross.in=" + UPDATED_GROSS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByGrossIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where gross is not null
+        defaultMonthlySalaryShouldBeFound("gross.specified=true");
+
+        // Get all the monthlySalaryList where gross is null
+        defaultMonthlySalaryShouldNotBeFound("gross.specified=false");
     }
 
     @Test
@@ -1102,6 +1189,123 @@ public class MonthlySalaryResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllMonthlySalariesByApprovedIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where approved equals to DEFAULT_APPROVED
+        defaultMonthlySalaryShouldBeFound("approved.equals=" + DEFAULT_APPROVED);
+
+        // Get all the monthlySalaryList where approved equals to UPDATED_APPROVED
+        defaultMonthlySalaryShouldNotBeFound("approved.equals=" + UPDATED_APPROVED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByApprovedIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where approved in DEFAULT_APPROVED or UPDATED_APPROVED
+        defaultMonthlySalaryShouldBeFound("approved.in=" + DEFAULT_APPROVED + "," + UPDATED_APPROVED);
+
+        // Get all the monthlySalaryList where approved equals to UPDATED_APPROVED
+        defaultMonthlySalaryShouldNotBeFound("approved.in=" + UPDATED_APPROVED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByApprovedIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where approved is not null
+        defaultMonthlySalaryShouldBeFound("approved.specified=true");
+
+        // Get all the monthlySalaryList where approved is null
+        defaultMonthlySalaryShouldNotBeFound("approved.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByOnHoldIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where onHold equals to DEFAULT_ON_HOLD
+        defaultMonthlySalaryShouldBeFound("onHold.equals=" + DEFAULT_ON_HOLD);
+
+        // Get all the monthlySalaryList where onHold equals to UPDATED_ON_HOLD
+        defaultMonthlySalaryShouldNotBeFound("onHold.equals=" + UPDATED_ON_HOLD);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByOnHoldIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where onHold in DEFAULT_ON_HOLD or UPDATED_ON_HOLD
+        defaultMonthlySalaryShouldBeFound("onHold.in=" + DEFAULT_ON_HOLD + "," + UPDATED_ON_HOLD);
+
+        // Get all the monthlySalaryList where onHold equals to UPDATED_ON_HOLD
+        defaultMonthlySalaryShouldNotBeFound("onHold.in=" + UPDATED_ON_HOLD);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByOnHoldIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where onHold is not null
+        defaultMonthlySalaryShouldBeFound("onHold.specified=true");
+
+        // Get all the monthlySalaryList where onHold is null
+        defaultMonthlySalaryShouldNotBeFound("onHold.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where status equals to DEFAULT_STATUS
+        defaultMonthlySalaryShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the monthlySalaryList where status equals to UPDATED_STATUS
+        defaultMonthlySalaryShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultMonthlySalaryShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the monthlySalaryList where status equals to UPDATED_STATUS
+        defaultMonthlySalaryShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where status is not null
+        defaultMonthlySalaryShouldBeFound("status.specified=true");
+
+        // Get all the monthlySalaryList where status is null
+        defaultMonthlySalaryShouldNotBeFound("status.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllMonthlySalariesByModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         monthlySalaryRepository.saveAndFlush(monthlySalary);
@@ -1234,6 +1438,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
+            .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
@@ -1248,6 +1453,9 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].billPayable").value(hasItem(DEFAULT_BILL_PAYABLE.intValue())))
             .andExpect(jsonPath("$.[*].billReceivable").value(hasItem(DEFAULT_BILL_RECEIVABLE.intValue())))
             .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())))
+            .andExpect(jsonPath("$.[*].approved").value(hasItem(DEFAULT_APPROVED.booleanValue())))
+            .andExpect(jsonPath("$.[*].onHold").value(hasItem(DEFAULT_ON_HOLD.booleanValue())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
@@ -1300,6 +1508,7 @@ public class MonthlySalaryResourceIntTest {
             .year(UPDATED_YEAR)
             .month(UPDATED_MONTH)
             .basic(UPDATED_BASIC)
+            .gross(UPDATED_GROSS)
             .houseRent(UPDATED_HOUSE_RENT)
             .medicalAllowance(UPDATED_MEDICAL_ALLOWANCE)
             .otherAllowance(UPDATED_OTHER_ALLOWANCE)
@@ -1314,6 +1523,9 @@ public class MonthlySalaryResourceIntTest {
             .billPayable(UPDATED_BILL_PAYABLE)
             .billReceivable(UPDATED_BILL_RECEIVABLE)
             .payable(UPDATED_PAYABLE)
+            .approved(UPDATED_APPROVED)
+            .onHold(UPDATED_ON_HOLD)
+            .status(UPDATED_STATUS)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
         MonthlySalaryDTO monthlySalaryDTO = monthlySalaryMapper.toDto(updatedMonthlySalary);
@@ -1330,6 +1542,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getYear()).isEqualTo(UPDATED_YEAR);
         assertThat(testMonthlySalary.getMonth()).isEqualTo(UPDATED_MONTH);
         assertThat(testMonthlySalary.getBasic()).isEqualTo(UPDATED_BASIC);
+        assertThat(testMonthlySalary.getGross()).isEqualTo(UPDATED_GROSS);
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(UPDATED_HOUSE_RENT);
         assertThat(testMonthlySalary.getMedicalAllowance()).isEqualTo(UPDATED_MEDICAL_ALLOWANCE);
         assertThat(testMonthlySalary.getOtherAllowance()).isEqualTo(UPDATED_OTHER_ALLOWANCE);
@@ -1344,6 +1557,9 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getBillPayable()).isEqualTo(UPDATED_BILL_PAYABLE);
         assertThat(testMonthlySalary.getBillReceivable()).isEqualTo(UPDATED_BILL_RECEIVABLE);
         assertThat(testMonthlySalary.getPayable()).isEqualTo(UPDATED_PAYABLE);
+        assertThat(testMonthlySalary.isApproved()).isEqualTo(UPDATED_APPROVED);
+        assertThat(testMonthlySalary.isOnHold()).isEqualTo(UPDATED_ON_HOLD);
+        assertThat(testMonthlySalary.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testMonthlySalary.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testMonthlySalary.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
@@ -1409,6 +1625,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].basic").value(hasItem(DEFAULT_BASIC.intValue())))
+            .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].otherAllowance").value(hasItem(DEFAULT_OTHER_ALLOWANCE.intValue())))
@@ -1423,6 +1640,9 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].billPayable").value(hasItem(DEFAULT_BILL_PAYABLE.intValue())))
             .andExpect(jsonPath("$.[*].billReceivable").value(hasItem(DEFAULT_BILL_RECEIVABLE.intValue())))
             .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.intValue())))
+            .andExpect(jsonPath("$.[*].approved").value(hasItem(DEFAULT_APPROVED.booleanValue())))
+            .andExpect(jsonPath("$.[*].onHold").value(hasItem(DEFAULT_ON_HOLD.booleanValue())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }

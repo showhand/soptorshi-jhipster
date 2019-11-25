@@ -112,6 +112,7 @@ entity Tax {
 }
 entity Salary {
   basic BigDecimal required,
+  gross BigDecimal required,
   startedOn LocalDate,
   endedOn LocalDate,
   salaryStatus SalaryStatus,
@@ -129,6 +130,7 @@ entity MonthlySalary {
   year Integer required,
   month MonthType required,
   basic BigDecimal required,
+  gross BigDecimal required,
   houseRent BigDecimal,
   medicalAllowance BigDecimal,
   otherAllowance BigDecimal,
@@ -143,9 +145,14 @@ entity MonthlySalary {
   billPayable BigDecimal,
   billReceivable BigDecimal,
   payable BigDecimal,
+  approved Boolean,
+  onHold Boolean,
+  status MonthlySalaryStatus,
   modifiedBy String,
   modifiedOn LocalDate
 }
+
+
 entity Advance {
   amount BigDecimal,
   reason TextBlob,
@@ -202,6 +209,7 @@ entity DesignationWiseAllowance {
 
 entity SpecialAllowanceTimeLine{
   allowanceType AllowanceType,
+  religion Religion,
   year Integer,
   month MonthType,
   modifiedBy String,
@@ -629,6 +637,16 @@ enum WarrantyStatus{
     NO_WARRANTY
 }
 
+enum MonthlySalaryStatus{
+    APPROVED_BY_MANAGER,
+    APPROVED_BY_ACCOUNTS,
+    MODIFICATION_REQUEST_BY_ACCOUNTS,
+    APPROVED_BY_CFO,
+    MODIFICATION_REQUEST_BY_CFO,
+    APPROVED_BY_MD,
+    MODIFICATION_REQUEST_BY_MD
+}
+
 enum PayType{
     CASH,
     PAY_ORDER,
@@ -677,6 +695,8 @@ enum RequisitionStatus{
     RECEIVED_VERIFIED_BY_HEAD,
     CLOSED_BY_CFO
 }
+
+
 
 enum PurchaseOrderStatus{
     WAITING_FOR_CFO_APPROVAL,
@@ -849,7 +869,7 @@ relationship ManyToOne {
   TrainingInformationAttachment{employee(employeeId) required} to Employee,
   Tax{financialAccountYear} to FinancialAccountYear,
   Tax{employee(fullName)} to Employee,
-  Salary{employee} to Employee,
+  Salary{employee(fullName)} to Employee,
   MonthlySalary{employee(fullName)} to Employee,
   Advance{employee(fullName)} to Employee,
   ProvidentFund{employee(fullName)} to Employee,

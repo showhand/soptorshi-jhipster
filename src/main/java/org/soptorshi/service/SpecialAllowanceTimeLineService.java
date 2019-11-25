@@ -1,8 +1,6 @@
 package org.soptorshi.service;
 
 import org.soptorshi.domain.SpecialAllowanceTimeLine;
-import org.soptorshi.domain.enumeration.AllowanceType;
-import org.soptorshi.domain.enumeration.MonthType;
 import org.soptorshi.repository.SpecialAllowanceTimeLineRepository;
 import org.soptorshi.repository.search.SpecialAllowanceTimeLineSearchRepository;
 import org.soptorshi.service.dto.SpecialAllowanceTimeLineDTO;
@@ -15,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -81,11 +78,6 @@ public class SpecialAllowanceTimeLineService {
         log.debug("Request to get SpecialAllowanceTimeLine : {}", id);
         return specialAllowanceTimeLineRepository.findById(id)
             .map(specialAllowanceTimeLineMapper::toDto);
-    }
-
-    @Transactional(readOnly = true)
-    public List<SpecialAllowanceTimeLine> get(Integer year, MonthType monthType){
-        return specialAllowanceTimeLineRepository.getByYearAndMonth(year, monthType);
     }
 
     /**

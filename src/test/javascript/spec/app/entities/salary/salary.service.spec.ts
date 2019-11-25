@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Salary(0, 0, currentDate, currentDate, SalaryStatus.ACTIVE, 'AAAAAAA', currentDate);
+            elemDefault = new Salary(0, 0, 0, currentDate, currentDate, SalaryStatus.ACTIVE, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
@@ -77,6 +77,7 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         basic: 1,
+                        gross: 1,
                         startedOn: currentDate.format(DATE_FORMAT),
                         endedOn: currentDate.format(DATE_FORMAT),
                         salaryStatus: 'BBBBBB',
@@ -106,6 +107,7 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         basic: 1,
+                        gross: 1,
                         startedOn: currentDate.format(DATE_FORMAT),
                         endedOn: currentDate.format(DATE_FORMAT),
                         salaryStatus: 'BBBBBB',

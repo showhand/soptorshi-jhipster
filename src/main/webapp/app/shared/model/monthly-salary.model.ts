@@ -15,11 +15,22 @@ export const enum MonthType {
     DECEMBER = 'DECEMBER'
 }
 
+export const enum MonthlySalaryStatus {
+    APPROVED_BY_MANAGER = 'APPROVED_BY_MANAGER',
+    APPROVED_BY_ACCOUNTS = 'APPROVED_BY_ACCOUNTS',
+    MODIFICATION_REQUEST_BY_ACCOUNTS = 'MODIFICATION_REQUEST_BY_ACCOUNTS',
+    APPROVED_BY_CFO = 'APPROVED_BY_CFO',
+    MODIFICATION_REQUEST_BY_CFO = 'MODIFICATION_REQUEST_BY_CFO',
+    APPROVED_BY_MD = 'APPROVED_BY_MD',
+    MODIFICATION_REQUEST_BY_MD = 'MODIFICATION_REQUEST_BY_MD'
+}
+
 export interface IMonthlySalary {
     id?: number;
     year?: number;
     month?: MonthType;
     basic?: number;
+    gross?: number;
     houseRent?: number;
     medicalAllowance?: number;
     otherAllowance?: number;
@@ -34,6 +45,9 @@ export interface IMonthlySalary {
     billPayable?: number;
     billReceivable?: number;
     payable?: number;
+    approved?: boolean;
+    onHold?: boolean;
+    status?: MonthlySalaryStatus;
     modifiedBy?: string;
     modifiedOn?: Moment;
     employeeFullName?: string;
@@ -46,6 +60,7 @@ export class MonthlySalary implements IMonthlySalary {
         public year?: number,
         public month?: MonthType,
         public basic?: number,
+        public gross?: number,
         public houseRent?: number,
         public medicalAllowance?: number,
         public otherAllowance?: number,
@@ -60,9 +75,15 @@ export class MonthlySalary implements IMonthlySalary {
         public billPayable?: number,
         public billReceivable?: number,
         public payable?: number,
+        public approved?: boolean,
+        public onHold?: boolean,
+        public status?: MonthlySalaryStatus,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
         public employeeFullName?: string,
         public employeeId?: number
-    ) {}
+    ) {
+        this.approved = this.approved || false;
+        this.onHold = this.onHold || false;
+    }
 }

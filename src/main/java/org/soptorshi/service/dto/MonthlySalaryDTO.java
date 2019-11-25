@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.MonthType;
+import org.soptorshi.domain.enumeration.MonthlySalaryStatus;
 
 /**
  * A DTO for the MonthlySalary entity.
@@ -21,6 +22,9 @@ public class MonthlySalaryDTO implements Serializable {
 
     @NotNull
     private BigDecimal basic;
+
+    @NotNull
+    private BigDecimal gross;
 
     private BigDecimal houseRent;
 
@@ -49,6 +53,12 @@ public class MonthlySalaryDTO implements Serializable {
     private BigDecimal billReceivable;
 
     private BigDecimal payable;
+
+    private Boolean approved;
+
+    private Boolean onHold;
+
+    private MonthlySalaryStatus status;
 
     private String modifiedBy;
 
@@ -89,6 +99,14 @@ public class MonthlySalaryDTO implements Serializable {
 
     public void setBasic(BigDecimal basic) {
         this.basic = basic;
+    }
+
+    public BigDecimal getGross() {
+        return gross;
+    }
+
+    public void setGross(BigDecimal gross) {
+        this.gross = gross;
     }
 
     public BigDecimal getHouseRent() {
@@ -203,6 +221,30 @@ public class MonthlySalaryDTO implements Serializable {
         this.payable = payable;
     }
 
+    public Boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
+
+    public Boolean isOnHold() {
+        return onHold;
+    }
+
+    public void setOnHold(Boolean onHold) {
+        this.onHold = onHold;
+    }
+
+    public MonthlySalaryStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(MonthlySalaryStatus status) {
+        this.status = status;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -263,6 +305,7 @@ public class MonthlySalaryDTO implements Serializable {
             ", year=" + getYear() +
             ", month='" + getMonth() + "'" +
             ", basic=" + getBasic() +
+            ", gross=" + getGross() +
             ", houseRent=" + getHouseRent() +
             ", medicalAllowance=" + getMedicalAllowance() +
             ", otherAllowance=" + getOtherAllowance() +
@@ -277,6 +320,9 @@ public class MonthlySalaryDTO implements Serializable {
             ", billPayable=" + getBillPayable() +
             ", billReceivable=" + getBillReceivable() +
             ", payable=" + getPayable() +
+            ", approved='" + isApproved() + "'" +
+            ", onHold='" + isOnHold() + "'" +
+            ", status='" + getStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +

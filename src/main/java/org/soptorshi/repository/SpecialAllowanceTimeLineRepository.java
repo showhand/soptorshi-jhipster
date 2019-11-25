@@ -1,7 +1,6 @@
 package org.soptorshi.repository;
 
 import org.soptorshi.domain.SpecialAllowanceTimeLine;
-import org.soptorshi.domain.enumeration.AllowanceType;
 import org.soptorshi.domain.enumeration.MonthType;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;

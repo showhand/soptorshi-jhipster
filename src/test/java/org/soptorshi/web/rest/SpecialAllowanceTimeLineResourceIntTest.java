@@ -45,6 +45,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.soptorshi.domain.enumeration.AllowanceType;
+import org.soptorshi.domain.enumeration.Religion;
 import org.soptorshi.domain.enumeration.MonthType;
 /**
  * Test class for the SpecialAllowanceTimeLineResource REST controller.
@@ -57,6 +58,9 @@ public class SpecialAllowanceTimeLineResourceIntTest {
 
     private static final AllowanceType DEFAULT_ALLOWANCE_TYPE = AllowanceType.HOUSE_RENT;
     private static final AllowanceType UPDATED_ALLOWANCE_TYPE = AllowanceType.MEDICAL_ALLOWANCE;
+
+    private static final Religion DEFAULT_RELIGION = Religion.ISLAM;
+    private static final Religion UPDATED_RELIGION = Religion.HINDU;
 
     private static final Integer DEFAULT_YEAR = 1;
     private static final Integer UPDATED_YEAR = 2;
@@ -130,6 +134,7 @@ public class SpecialAllowanceTimeLineResourceIntTest {
     public static SpecialAllowanceTimeLine createEntity(EntityManager em) {
         SpecialAllowanceTimeLine specialAllowanceTimeLine = new SpecialAllowanceTimeLine()
             .allowanceType(DEFAULT_ALLOWANCE_TYPE)
+            .religion(DEFAULT_RELIGION)
             .year(DEFAULT_YEAR)
             .month(DEFAULT_MONTH)
             .modifiedBy(DEFAULT_MODIFIED_BY)
@@ -159,6 +164,7 @@ public class SpecialAllowanceTimeLineResourceIntTest {
         assertThat(specialAllowanceTimeLineList).hasSize(databaseSizeBeforeCreate + 1);
         SpecialAllowanceTimeLine testSpecialAllowanceTimeLine = specialAllowanceTimeLineList.get(specialAllowanceTimeLineList.size() - 1);
         assertThat(testSpecialAllowanceTimeLine.getAllowanceType()).isEqualTo(DEFAULT_ALLOWANCE_TYPE);
+        assertThat(testSpecialAllowanceTimeLine.getReligion()).isEqualTo(DEFAULT_RELIGION);
         assertThat(testSpecialAllowanceTimeLine.getYear()).isEqualTo(DEFAULT_YEAR);
         assertThat(testSpecialAllowanceTimeLine.getMonth()).isEqualTo(DEFAULT_MONTH);
         assertThat(testSpecialAllowanceTimeLine.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
@@ -203,6 +209,7 @@ public class SpecialAllowanceTimeLineResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(specialAllowanceTimeLine.getId().intValue())))
             .andExpect(jsonPath("$.[*].allowanceType").value(hasItem(DEFAULT_ALLOWANCE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].religion").value(hasItem(DEFAULT_RELIGION.toString())))
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
@@ -221,6 +228,7 @@ public class SpecialAllowanceTimeLineResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(specialAllowanceTimeLine.getId().intValue()))
             .andExpect(jsonPath("$.allowanceType").value(DEFAULT_ALLOWANCE_TYPE.toString()))
+            .andExpect(jsonPath("$.religion").value(DEFAULT_RELIGION.toString()))
             .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
             .andExpect(jsonPath("$.month").value(DEFAULT_MONTH.toString()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
@@ -264,6 +272,45 @@ public class SpecialAllowanceTimeLineResourceIntTest {
 
         // Get all the specialAllowanceTimeLineList where allowanceType is null
         defaultSpecialAllowanceTimeLineShouldNotBeFound("allowanceType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpecialAllowanceTimeLinesByReligionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        specialAllowanceTimeLineRepository.saveAndFlush(specialAllowanceTimeLine);
+
+        // Get all the specialAllowanceTimeLineList where religion equals to DEFAULT_RELIGION
+        defaultSpecialAllowanceTimeLineShouldBeFound("religion.equals=" + DEFAULT_RELIGION);
+
+        // Get all the specialAllowanceTimeLineList where religion equals to UPDATED_RELIGION
+        defaultSpecialAllowanceTimeLineShouldNotBeFound("religion.equals=" + UPDATED_RELIGION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpecialAllowanceTimeLinesByReligionIsInShouldWork() throws Exception {
+        // Initialize the database
+        specialAllowanceTimeLineRepository.saveAndFlush(specialAllowanceTimeLine);
+
+        // Get all the specialAllowanceTimeLineList where religion in DEFAULT_RELIGION or UPDATED_RELIGION
+        defaultSpecialAllowanceTimeLineShouldBeFound("religion.in=" + DEFAULT_RELIGION + "," + UPDATED_RELIGION);
+
+        // Get all the specialAllowanceTimeLineList where religion equals to UPDATED_RELIGION
+        defaultSpecialAllowanceTimeLineShouldNotBeFound("religion.in=" + UPDATED_RELIGION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSpecialAllowanceTimeLinesByReligionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        specialAllowanceTimeLineRepository.saveAndFlush(specialAllowanceTimeLine);
+
+        // Get all the specialAllowanceTimeLineList where religion is not null
+        defaultSpecialAllowanceTimeLineShouldBeFound("religion.specified=true");
+
+        // Get all the specialAllowanceTimeLineList where religion is null
+        defaultSpecialAllowanceTimeLineShouldNotBeFound("religion.specified=false");
     }
 
     @Test
@@ -484,6 +531,7 @@ public class SpecialAllowanceTimeLineResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(specialAllowanceTimeLine.getId().intValue())))
             .andExpect(jsonPath("$.[*].allowanceType").value(hasItem(DEFAULT_ALLOWANCE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].religion").value(hasItem(DEFAULT_RELIGION.toString())))
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
@@ -536,6 +584,7 @@ public class SpecialAllowanceTimeLineResourceIntTest {
         em.detach(updatedSpecialAllowanceTimeLine);
         updatedSpecialAllowanceTimeLine
             .allowanceType(UPDATED_ALLOWANCE_TYPE)
+            .religion(UPDATED_RELIGION)
             .year(UPDATED_YEAR)
             .month(UPDATED_MONTH)
             .modifiedBy(UPDATED_MODIFIED_BY)
@@ -552,6 +601,7 @@ public class SpecialAllowanceTimeLineResourceIntTest {
         assertThat(specialAllowanceTimeLineList).hasSize(databaseSizeBeforeUpdate);
         SpecialAllowanceTimeLine testSpecialAllowanceTimeLine = specialAllowanceTimeLineList.get(specialAllowanceTimeLineList.size() - 1);
         assertThat(testSpecialAllowanceTimeLine.getAllowanceType()).isEqualTo(UPDATED_ALLOWANCE_TYPE);
+        assertThat(testSpecialAllowanceTimeLine.getReligion()).isEqualTo(UPDATED_RELIGION);
         assertThat(testSpecialAllowanceTimeLine.getYear()).isEqualTo(UPDATED_YEAR);
         assertThat(testSpecialAllowanceTimeLine.getMonth()).isEqualTo(UPDATED_MONTH);
         assertThat(testSpecialAllowanceTimeLine.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
@@ -617,6 +667,7 @@ public class SpecialAllowanceTimeLineResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(specialAllowanceTimeLine.getId().intValue())))
             .andExpect(jsonPath("$.[*].allowanceType").value(hasItem(DEFAULT_ALLOWANCE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].religion").value(hasItem(DEFAULT_RELIGION.toString())))
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))

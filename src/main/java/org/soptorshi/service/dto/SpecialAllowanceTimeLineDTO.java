@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.io.Serializable;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.AllowanceType;
+import org.soptorshi.domain.enumeration.Religion;
 import org.soptorshi.domain.enumeration.MonthType;
 
 /**
@@ -13,6 +14,8 @@ public class SpecialAllowanceTimeLineDTO implements Serializable {
     private Long id;
 
     private AllowanceType allowanceType;
+
+    private Religion religion;
 
     private Integer year;
 
@@ -37,6 +40,14 @@ public class SpecialAllowanceTimeLineDTO implements Serializable {
 
     public void setAllowanceType(AllowanceType allowanceType) {
         this.allowanceType = allowanceType;
+    }
+
+    public Religion getReligion() {
+        return religion;
+    }
+
+    public void setReligion(Religion religion) {
+        this.religion = religion;
     }
 
     public Integer getYear() {
@@ -97,6 +108,7 @@ public class SpecialAllowanceTimeLineDTO implements Serializable {
         return "SpecialAllowanceTimeLineDTO{" +
             "id=" + getId() +
             ", allowanceType='" + getAllowanceType() + "'" +
+            ", religion='" + getReligion() + "'" +
             ", year=" + getYear() +
             ", month='" + getMonth() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +

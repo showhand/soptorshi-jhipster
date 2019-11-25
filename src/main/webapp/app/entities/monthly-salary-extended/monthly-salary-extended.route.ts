@@ -14,10 +14,8 @@ import { MonthlySalaryExtendedDetailComponent } from 'app/entities/monthly-salar
 import { MonthlySalaryExtendedUpdateComponent } from 'app/entities/monthly-salary-extended/monthly-salary-extended-update.component';
 
 @Injectable({ providedIn: 'root' })
-export class MonthlySalaryExtendedResolve extends MonthlySalaryResolve implements Resolve<IMonthlySalary> {
-    constructor(public service: MonthlySalaryService) {
-        super(service);
-    }
+export class MonthlySalaryExtendedResolve implements Resolve<IMonthlySalary> {
+    constructor(public service: MonthlySalaryService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IMonthlySalary> {
         const id = route.params['id'] ? route.params['id'] : null;

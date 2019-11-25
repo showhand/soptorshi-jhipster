@@ -1,0 +1,45 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="monju (generated)" id="1574008385446-1">
+        <dropForeignKeyConstraint baseTableName="department" constraintName="fk_department_employee_id"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-2">
+        <dropForeignKeyConstraint baseTableName="dt_transaction" constraintName="fk_dt_transaction_cheque_register_id"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-3">
+        <dropForeignKeyConstraint baseTableName="dt_transaction" constraintName="fk_dt_transaction_creditor_ledger_id"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-4">
+        <dropForeignKeyConstraint baseTableName="dt_transaction" constraintName="fk_dt_transaction_debtor_ledger_id"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-5">
+        <dropUniqueConstraint constraintName="UC_DEPARTMENTEMPLOYEE_ID_COL" tableName="department"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-6">
+        <dropUniqueConstraint constraintName="unique_financial_year_month_type" tableName="period_close"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-7">
+        <dropUniqueConstraint constraintName="ux_dt_transaction_creditor_ledger_id" tableName="dt_transaction"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-8">
+        <dropUniqueConstraint constraintName="ux_dt_transaction_debtor_ledger_id" tableName="dt_transaction"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-9">
+        <dropUniqueConstraint constraintName="voucher_id" tableName="predefined_narration"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-10">
+        <dropUniqueConstraint constraintName="voucher_type" tableName="voucher_number_generator"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-11">
+        <dropColumn columnName="cheque_register_id" tableName="dt_transaction"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-12">
+        <dropColumn columnName="creditor_ledger_id" tableName="dt_transaction"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-13">
+        <dropColumn columnName="debtor_ledger_id" tableName="dt_transaction"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1574008385446-14">
+        <dropColumn columnName="employee_id" tableName="department"/>
+    </changeSet>
+</databaseChangeLog>

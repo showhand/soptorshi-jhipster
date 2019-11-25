@@ -16,6 +16,9 @@ public class SalaryDTO implements Serializable {
     @NotNull
     private BigDecimal basic;
 
+    @NotNull
+    private BigDecimal gross;
+
     private LocalDate startedOn;
 
     private LocalDate endedOn;
@@ -28,6 +31,8 @@ public class SalaryDTO implements Serializable {
 
 
     private Long employeeId;
+
+    private String employeeFullName;
 
     public Long getId() {
         return id;
@@ -43,6 +48,14 @@ public class SalaryDTO implements Serializable {
 
     public void setBasic(BigDecimal basic) {
         this.basic = basic;
+    }
+
+    public BigDecimal getGross() {
+        return gross;
+    }
+
+    public void setGross(BigDecimal gross) {
+        this.gross = gross;
     }
 
     public LocalDate getStartedOn() {
@@ -93,6 +106,14 @@ public class SalaryDTO implements Serializable {
         this.employeeId = employeeId;
     }
 
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -119,12 +140,14 @@ public class SalaryDTO implements Serializable {
         return "SalaryDTO{" +
             "id=" + getId() +
             ", basic=" + getBasic() +
+            ", gross=" + getGross() +
             ", startedOn='" + getStartedOn() + "'" +
             ", endedOn='" + getEndedOn() + "'" +
             ", salaryStatus='" + getSalaryStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +
+            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

@@ -3,6 +3,7 @@ package org.soptorshi.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.MonthType;
+import org.soptorshi.domain.enumeration.MonthlySalaryStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -27,6 +28,11 @@ public class MonthlySalaryCriteria implements Serializable {
      */
     public static class MonthTypeFilter extends Filter<MonthType> {
     }
+    /**
+     * Class for filtering MonthlySalaryStatus
+     */
+    public static class MonthlySalaryStatusFilter extends Filter<MonthlySalaryStatus> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -37,6 +43,8 @@ public class MonthlySalaryCriteria implements Serializable {
     private MonthTypeFilter month;
 
     private BigDecimalFilter basic;
+
+    private BigDecimalFilter gross;
 
     private BigDecimalFilter houseRent;
 
@@ -65,6 +73,12 @@ public class MonthlySalaryCriteria implements Serializable {
     private BigDecimalFilter billReceivable;
 
     private BigDecimalFilter payable;
+
+    private BooleanFilter approved;
+
+    private BooleanFilter onHold;
+
+    private MonthlySalaryStatusFilter status;
 
     private StringFilter modifiedBy;
 
@@ -102,6 +116,14 @@ public class MonthlySalaryCriteria implements Serializable {
 
     public void setBasic(BigDecimalFilter basic) {
         this.basic = basic;
+    }
+
+    public BigDecimalFilter getGross() {
+        return gross;
+    }
+
+    public void setGross(BigDecimalFilter gross) {
+        this.gross = gross;
     }
 
     public BigDecimalFilter getHouseRent() {
@@ -216,6 +238,30 @@ public class MonthlySalaryCriteria implements Serializable {
         this.payable = payable;
     }
 
+    public BooleanFilter getApproved() {
+        return approved;
+    }
+
+    public void setApproved(BooleanFilter approved) {
+        this.approved = approved;
+    }
+
+    public BooleanFilter getOnHold() {
+        return onHold;
+    }
+
+    public void setOnHold(BooleanFilter onHold) {
+        this.onHold = onHold;
+    }
+
+    public MonthlySalaryStatusFilter getStatus() {
+        return status;
+    }
+
+    public void setStatus(MonthlySalaryStatusFilter status) {
+        this.status = status;
+    }
+
     public StringFilter getModifiedBy() {
         return modifiedBy;
     }
@@ -255,6 +301,7 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(year, that.year) &&
             Objects.equals(month, that.month) &&
             Objects.equals(basic, that.basic) &&
+            Objects.equals(gross, that.gross) &&
             Objects.equals(houseRent, that.houseRent) &&
             Objects.equals(medicalAllowance, that.medicalAllowance) &&
             Objects.equals(otherAllowance, that.otherAllowance) &&
@@ -269,6 +316,9 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(billPayable, that.billPayable) &&
             Objects.equals(billReceivable, that.billReceivable) &&
             Objects.equals(payable, that.payable) &&
+            Objects.equals(approved, that.approved) &&
+            Objects.equals(onHold, that.onHold) &&
+            Objects.equals(status, that.status) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(employeeId, that.employeeId);
@@ -281,6 +331,7 @@ public class MonthlySalaryCriteria implements Serializable {
         year,
         month,
         basic,
+        gross,
         houseRent,
         medicalAllowance,
         otherAllowance,
@@ -295,6 +346,9 @@ public class MonthlySalaryCriteria implements Serializable {
         billPayable,
         billReceivable,
         payable,
+        approved,
+        onHold,
+        status,
         modifiedBy,
         modifiedOn,
         employeeId
@@ -308,6 +362,7 @@ public class MonthlySalaryCriteria implements Serializable {
                 (year != null ? "year=" + year + ", " : "") +
                 (month != null ? "month=" + month + ", " : "") +
                 (basic != null ? "basic=" + basic + ", " : "") +
+                (gross != null ? "gross=" + gross + ", " : "") +
                 (houseRent != null ? "houseRent=" + houseRent + ", " : "") +
                 (medicalAllowance != null ? "medicalAllowance=" + medicalAllowance + ", " : "") +
                 (otherAllowance != null ? "otherAllowance=" + otherAllowance + ", " : "") +
@@ -322,6 +377,9 @@ public class MonthlySalaryCriteria implements Serializable {
                 (billPayable != null ? "billPayable=" + billPayable + ", " : "") +
                 (billReceivable != null ? "billReceivable=" + billReceivable + ", " : "") +
                 (payable != null ? "payable=" + payable + ", " : "") +
+                (approved != null ? "approved=" + approved + ", " : "") +
+                (onHold != null ? "onHold=" + onHold + ", " : "") +
+                (status != null ? "status=" + status + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +

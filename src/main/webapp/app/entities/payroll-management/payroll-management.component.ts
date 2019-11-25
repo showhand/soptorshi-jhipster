@@ -17,6 +17,7 @@ import { Employee, IEmployee } from 'app/shared/model/employee.model';
 import { MonthlySalaryService } from 'app/entities/monthly-salary';
 import { IMonthlySalary, MonthlySalary } from 'app/shared/model/monthly-salary.model';
 import { SalaryService } from 'app/entities/salary';
+import { SalaryExtendedService } from 'app/entities/salary-extended';
 
 @Component({
     selector: 'jhi-payroll-management',
@@ -51,7 +52,7 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         protected employeeService: EmployeeService,
         protected parseLinks: JhiParseLinks,
         protected monthlySalaryService: MonthlySalaryService,
-        protected salaryService: SalaryService,
+        protected salaryService: SalaryExtendedService,
         protected router: Router,
         public payrollManagementService: PayrollManagementService
     ) {
@@ -98,6 +99,21 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             )
             .subscribe((res: any) => {
                 this.jhiAlertService.success('Payroll successfully generated');
+                this.fetch();
+            });
+    }
+
+    public generatePayrollEmployeeSpecific(employeeId: number, name: string) {
+        this.salaryService
+            .generatePayrollEmployeeSpecific(
+                this.payrollManagementService.payrollManagement.officeId,
+                this.payrollManagementService.payrollManagement.designationId,
+                this.year,
+                this.payrollManagementService.payrollManagement.monthType,
+                employeeId
+            )
+            .subscribe((res: any) => {
+                this.jhiAlertService.success('Payroll successfully generated for employee: ' + name);
                 this.fetch();
             });
     }

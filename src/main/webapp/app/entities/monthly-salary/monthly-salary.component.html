@@ -33,6 +33,7 @@
             <th jhiSortBy="year"><span>Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="month"><span>Month</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="basic"><span>Basic</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="gross"><span>Gross</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="houseRent"><span>House Rent</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="medicalAllowance"><span>Medical Allowance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="otherAllowance"><span>Other Allowance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -47,6 +48,9 @@
             <th jhiSortBy="billPayable"><span>Bill Payable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="billReceivable"><span>Bill Receivable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="payable"><span>Payable</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="approved"><span>Approved</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="onHold"><span>On Hold</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -59,6 +63,7 @@
                 <td>{{monthlySalary.year}}</td>
                 <td>{{monthlySalary.month}}</td>
                 <td>{{monthlySalary.basic}}</td>
+                <td>{{monthlySalary.gross}}</td>
                 <td>{{monthlySalary.houseRent}}</td>
                 <td>{{monthlySalary.medicalAllowance}}</td>
                 <td>{{monthlySalary.otherAllowance}}</td>
@@ -73,6 +78,9 @@
                 <td>{{monthlySalary.billPayable}}</td>
                 <td>{{monthlySalary.billReceivable}}</td>
                 <td>{{monthlySalary.payable}}</td>
+                <td>{{monthlySalary.approved}}</td>
+                <td>{{monthlySalary.onHold}}</td>
+                <td>{{monthlySalary.status}}</td>
                 <td>{{monthlySalary.modifiedBy}}</td>
                 <td>{{monthlySalary.modifiedOn | date:'mediumDate'}}</td>
                 <td>
