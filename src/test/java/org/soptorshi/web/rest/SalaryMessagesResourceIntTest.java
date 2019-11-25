@@ -33,6 +33,8 @@ import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,6 +58,9 @@ public class SalaryMessagesResourceIntTest {
 
     private static final String DEFAULT_COMMENTS = "AAAAAAAAAA";
     private static final String UPDATED_COMMENTS = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_COMMENTED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_COMMENTED_ON = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private SalaryMessagesRepository salaryMessagesRepository;
@@ -116,7 +121,8 @@ public class SalaryMessagesResourceIntTest {
      */
     public static SalaryMessages createEntity(EntityManager em) {
         SalaryMessages salaryMessages = new SalaryMessages()
-            .comments(DEFAULT_COMMENTS);
+            .comments(DEFAULT_COMMENTS)
+            .commentedOn(DEFAULT_COMMENTED_ON);
         return salaryMessages;
     }
 
@@ -142,6 +148,7 @@ public class SalaryMessagesResourceIntTest {
         assertThat(salaryMessagesList).hasSize(databaseSizeBeforeCreate + 1);
         SalaryMessages testSalaryMessages = salaryMessagesList.get(salaryMessagesList.size() - 1);
         assertThat(testSalaryMessages.getComments()).isEqualTo(DEFAULT_COMMENTS);
+        assertThat(testSalaryMessages.getCommentedOn()).isEqualTo(DEFAULT_COMMENTED_ON);
 
         // Validate the SalaryMessages in Elasticsearch
         verify(mockSalaryMessagesSearchRepository, times(1)).save(testSalaryMessages);
@@ -181,7 +188,8 @@ public class SalaryMessagesResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(salaryMessages.getId().intValue())))
-            .andExpect(jsonPath("$.[*].comments").value(hasItem(DEFAULT_COMMENTS.toString())));
+            .andExpect(jsonPath("$.[*].comments").value(hasItem(DEFAULT_COMMENTS.toString())))
+            .andExpect(jsonPath("$.[*].commentedOn").value(hasItem(DEFAULT_COMMENTED_ON.toString())));
     }
     
     @Test
@@ -195,8 +203,75 @@ public class SalaryMessagesResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(salaryMessages.getId().intValue()))
-            .andExpect(jsonPath("$.comments").value(DEFAULT_COMMENTS.toString()));
+            .andExpect(jsonPath("$.comments").value(DEFAULT_COMMENTS.toString()))
+            .andExpect(jsonPath("$.commentedOn").value(DEFAULT_COMMENTED_ON.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllSalaryMessagesByCommentedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        salaryMessagesRepository.saveAndFlush(salaryMessages);
+
+        // Get all the salaryMessagesList where commentedOn equals to DEFAULT_COMMENTED_ON
+        defaultSalaryMessagesShouldBeFound("commentedOn.equals=" + DEFAULT_COMMENTED_ON);
+
+        // Get all the salaryMessagesList where commentedOn equals to UPDATED_COMMENTED_ON
+        defaultSalaryMessagesShouldNotBeFound("commentedOn.equals=" + UPDATED_COMMENTED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalaryMessagesByCommentedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        salaryMessagesRepository.saveAndFlush(salaryMessages);
+
+        // Get all the salaryMessagesList where commentedOn in DEFAULT_COMMENTED_ON or UPDATED_COMMENTED_ON
+        defaultSalaryMessagesShouldBeFound("commentedOn.in=" + DEFAULT_COMMENTED_ON + "," + UPDATED_COMMENTED_ON);
+
+        // Get all the salaryMessagesList where commentedOn equals to UPDATED_COMMENTED_ON
+        defaultSalaryMessagesShouldNotBeFound("commentedOn.in=" + UPDATED_COMMENTED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalaryMessagesByCommentedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        salaryMessagesRepository.saveAndFlush(salaryMessages);
+
+        // Get all the salaryMessagesList where commentedOn is not null
+        defaultSalaryMessagesShouldBeFound("commentedOn.specified=true");
+
+        // Get all the salaryMessagesList where commentedOn is null
+        defaultSalaryMessagesShouldNotBeFound("commentedOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalaryMessagesByCommentedOnIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        salaryMessagesRepository.saveAndFlush(salaryMessages);
+
+        // Get all the salaryMessagesList where commentedOn greater than or equals to DEFAULT_COMMENTED_ON
+        defaultSalaryMessagesShouldBeFound("commentedOn.greaterOrEqualThan=" + DEFAULT_COMMENTED_ON);
+
+        // Get all the salaryMessagesList where commentedOn greater than or equals to UPDATED_COMMENTED_ON
+        defaultSalaryMessagesShouldNotBeFound("commentedOn.greaterOrEqualThan=" + UPDATED_COMMENTED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSalaryMessagesByCommentedOnIsLessThanSomething() throws Exception {
+        // Initialize the database
+        salaryMessagesRepository.saveAndFlush(salaryMessages);
+
+        // Get all the salaryMessagesList where commentedOn less than or equals to DEFAULT_COMMENTED_ON
+        defaultSalaryMessagesShouldNotBeFound("commentedOn.lessThan=" + DEFAULT_COMMENTED_ON);
+
+        // Get all the salaryMessagesList where commentedOn less than or equals to UPDATED_COMMENTED_ON
+        defaultSalaryMessagesShouldBeFound("commentedOn.lessThan=" + UPDATED_COMMENTED_ON);
+    }
+
 
     @Test
     @Transactional
@@ -243,7 +318,8 @@ public class SalaryMessagesResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(salaryMessages.getId().intValue())))
-            .andExpect(jsonPath("$.[*].comments").value(hasItem(DEFAULT_COMMENTS.toString())));
+            .andExpect(jsonPath("$.[*].comments").value(hasItem(DEFAULT_COMMENTS.toString())))
+            .andExpect(jsonPath("$.[*].commentedOn").value(hasItem(DEFAULT_COMMENTED_ON.toString())));
 
         // Check, that the count call also returns 1
         restSalaryMessagesMockMvc.perform(get("/api/salary-messages/count?sort=id,desc&" + filter))
@@ -291,7 +367,8 @@ public class SalaryMessagesResourceIntTest {
         // Disconnect from session so that the updates on updatedSalaryMessages are not directly saved in db
         em.detach(updatedSalaryMessages);
         updatedSalaryMessages
-            .comments(UPDATED_COMMENTS);
+            .comments(UPDATED_COMMENTS)
+            .commentedOn(UPDATED_COMMENTED_ON);
         SalaryMessagesDTO salaryMessagesDTO = salaryMessagesMapper.toDto(updatedSalaryMessages);
 
         restSalaryMessagesMockMvc.perform(put("/api/salary-messages")
@@ -304,6 +381,7 @@ public class SalaryMessagesResourceIntTest {
         assertThat(salaryMessagesList).hasSize(databaseSizeBeforeUpdate);
         SalaryMessages testSalaryMessages = salaryMessagesList.get(salaryMessagesList.size() - 1);
         assertThat(testSalaryMessages.getComments()).isEqualTo(UPDATED_COMMENTS);
+        assertThat(testSalaryMessages.getCommentedOn()).isEqualTo(UPDATED_COMMENTED_ON);
 
         // Validate the SalaryMessages in Elasticsearch
         verify(mockSalaryMessagesSearchRepository, times(1)).save(testSalaryMessages);
@@ -364,7 +442,8 @@ public class SalaryMessagesResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(salaryMessages.getId().intValue())))
-            .andExpect(jsonPath("$.[*].comments").value(hasItem(DEFAULT_COMMENTS.toString())));
+            .andExpect(jsonPath("$.[*].comments").value(hasItem(DEFAULT_COMMENTS.toString())))
+            .andExpect(jsonPath("$.[*].commentedOn").value(hasItem(DEFAULT_COMMENTED_ON.toString())));
     }
 
     @Test

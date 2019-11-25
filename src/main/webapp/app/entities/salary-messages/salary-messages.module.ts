@@ -16,7 +16,7 @@ const ENTITY_STATES = [...salaryMessagesRoute, ...salaryMessagesPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /*declarations: [
+    declarations: [
         SalaryMessagesComponent,
         SalaryMessagesDetailComponent,
         SalaryMessagesUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...salaryMessagesRoute, ...salaryMessagesPopupRoute];
         SalaryMessagesUpdateComponent,
         SalaryMessagesDeleteDialogComponent,
         SalaryMessagesDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiSalaryMessagesModule {}

@@ -14,6 +14,16 @@
                     <textarea class="form-control" name="comments" id="field_comments"
                         [(ngModel)]="salaryMessages.comments" ></textarea>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commentedOn">Commented On</label>
+                    <div class="input-group">
+                        <input id="field_commentedOn" type="text" class="form-control" name="commentedOn" ngbDatepicker  #commentedOnDp="ngbDatepicker" [(ngModel)]="salaryMessages.commentedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="commentedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_commenter">Commenter</label>

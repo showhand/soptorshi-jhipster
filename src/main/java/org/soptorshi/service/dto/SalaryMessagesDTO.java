@@ -1,4 +1,5 @@
 package org.soptorshi.service.dto;
+import java.time.LocalDate;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Lob;
@@ -12,6 +13,8 @@ public class SalaryMessagesDTO implements Serializable {
 
     @Lob
     private String comments;
+
+    private LocalDate commentedOn;
 
 
     private Long commenterId;
@@ -34,6 +37,14 @@ public class SalaryMessagesDTO implements Serializable {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public LocalDate getCommentedOn() {
+        return commentedOn;
+    }
+
+    public void setCommentedOn(LocalDate commentedOn) {
+        this.commentedOn = commentedOn;
     }
 
     public Long getCommenterId() {
@@ -86,6 +97,7 @@ public class SalaryMessagesDTO implements Serializable {
         return "SalaryMessagesDTO{" +
             "id=" + getId() +
             ", comments='" + getComments() + "'" +
+            ", commentedOn='" + getCommentedOn() + "'" +
             ", commenter=" + getCommenterId() +
             ", commenter='" + getCommenterFullName() + "'" +
             ", monthlySalary=" + getMonthlySalaryId() +

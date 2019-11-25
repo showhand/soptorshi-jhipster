@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { ISalaryMessages } from 'app/shared/model/salary-messages.model';
 import { SalaryMessagesService } from './salary-messages.service';
@@ -22,6 +23,7 @@ export class SalaryMessagesUpdateComponent implements OnInit {
     employees: IEmployee[];
 
     monthlysalaries: IMonthlySalary[];
+    commentedOnDp: any;
 
     constructor(
         protected dataUtils: JhiDataUtils,

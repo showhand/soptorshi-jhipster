@@ -93,6 +93,9 @@ public class SalaryMessagesQueryService extends QueryService<SalaryMessages> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), SalaryMessages_.id));
             }
+            if (criteria.getCommentedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCommentedOn(), SalaryMessages_.commentedOn));
+            }
             if (criteria.getCommenterId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCommenterId(),
                     root -> root.join(SalaryMessages_.commenter, JoinType.LEFT).get(Employee_.id)));

@@ -654,6 +654,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'salary-messages',
                 loadChildren: './salary-messages/salary-messages.module#SoptorshiSalaryMessagesModule'
+            },
+            {
+                path: 'salary-messages',
+                loadChildren: './salary-messages/salary-messages.module#SoptorshiSalaryMessagesModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

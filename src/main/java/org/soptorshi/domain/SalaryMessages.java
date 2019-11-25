@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -26,6 +27,9 @@ public class SalaryMessages implements Serializable {
     @Lob
     @Column(name = "comments")
     private String comments;
+
+    @Column(name = "commented_on")
+    private LocalDate commentedOn;
 
     @ManyToOne
     @JsonIgnoreProperties("salaryMessages")
@@ -55,6 +59,19 @@ public class SalaryMessages implements Serializable {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public LocalDate getCommentedOn() {
+        return commentedOn;
+    }
+
+    public SalaryMessages commentedOn(LocalDate commentedOn) {
+        this.commentedOn = commentedOn;
+        return this;
+    }
+
+    public void setCommentedOn(LocalDate commentedOn) {
+        this.commentedOn = commentedOn;
     }
 
     public Employee getCommenter() {
@@ -109,6 +126,7 @@ public class SalaryMessages implements Serializable {
         return "SalaryMessages{" +
             "id=" + getId() +
             ", comments='" + getComments() + "'" +
+            ", commentedOn='" + getCommentedOn() + "'" +
             "}";
     }
 }

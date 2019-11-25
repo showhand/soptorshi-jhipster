@@ -31,6 +31,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="comments"><span>Comments</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="commentedOn"><span>Commented On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="commenterFullName"><span>Commenter</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="monthlySalaryId"><span>Monthly Salary</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
@@ -40,6 +41,7 @@
             <tr *ngFor="let salaryMessages of salaryMessages ;trackBy: trackId">
                 <td><a [routerLink]="['/salary-messages', salaryMessages.id, 'view' ]">{{salaryMessages.id}}</a></td>
                 <td>{{salaryMessages.comments}}</td>
+                <td>{{salaryMessages.commentedOn | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="salaryMessages.commenterId">
                         <a [routerLink]="['../employee', salaryMessages.commenterId , 'view' ]" >{{salaryMessages.commenterFullName}}</a>

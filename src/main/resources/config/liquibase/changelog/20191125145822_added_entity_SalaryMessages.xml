@@ -26,6 +26,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="commented_on" type="date">
+                <constraints nullable="true" />
+            </column>
+
             <column name="commenter_id" type="bigint">
                 <constraints nullable="true" />
             </column>
