@@ -110,6 +110,12 @@
     ],
     "relationships": [
         {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "salaryMessages",
+            "otherEntityRelationshipName": "monthlySalary",
+            "relationshipName": "comments"
+        },
+        {
             "relationshipType": "many-to-one",
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "monthlySalary",

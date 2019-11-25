@@ -3,6 +3,7 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.MonthlySalary;
+import org.soptorshi.domain.SalaryMessages;
 import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.MonthlySalaryRepository;
 import org.soptorshi.repository.search.MonthlySalarySearchRepository;
@@ -1406,6 +1407,25 @@ public class MonthlySalaryResourceIntTest {
 
         // Get all the monthlySalaryList where modifiedOn less than or equals to UPDATED_MODIFIED_ON
         defaultMonthlySalaryShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByCommentsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SalaryMessages comments = SalaryMessagesResourceIntTest.createEntity(em);
+        em.persist(comments);
+        em.flush();
+        monthlySalary.addComments(comments);
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+        Long commentsId = comments.getId();
+
+        // Get all the monthlySalaryList where comments equals to commentsId
+        defaultMonthlySalaryShouldBeFound("commentsId.equals=" + commentsId);
+
+        // Get all the monthlySalaryList where comments equals to commentsId + 1
+        defaultMonthlySalaryShouldNotBeFound("commentsId.equals=" + (commentsId + 1));
     }
 
 

@@ -84,6 +84,8 @@ public class MonthlySalaryCriteria implements Serializable {
 
     private LocalDateFilter modifiedOn;
 
+    private LongFilter commentsId;
+
     private LongFilter employeeId;
 
     public LongFilter getId() {
@@ -278,6 +280,14 @@ public class MonthlySalaryCriteria implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public LongFilter getCommentsId() {
+        return commentsId;
+    }
+
+    public void setCommentsId(LongFilter commentsId) {
+        this.commentsId = commentsId;
+    }
+
     public LongFilter getEmployeeId() {
         return employeeId;
     }
@@ -321,6 +331,7 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(status, that.status) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(commentsId, that.commentsId) &&
             Objects.equals(employeeId, that.employeeId);
     }
 
@@ -351,6 +362,7 @@ public class MonthlySalaryCriteria implements Serializable {
         status,
         modifiedBy,
         modifiedOn,
+        commentsId,
         employeeId
         );
     }
@@ -382,6 +394,7 @@ public class MonthlySalaryCriteria implements Serializable {
                 (status != null ? "status=" + status + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
+                (commentsId != null ? "commentsId=" + commentsId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }

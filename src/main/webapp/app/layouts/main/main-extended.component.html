@@ -356,6 +356,12 @@
                             <span>Payroll Management</span>
                         </a>
                     </li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_CFO']">
+                        <a  routerLink="salary-messages" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                            <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
+                            <span>Salary Messages</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 

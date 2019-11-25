@@ -15,6 +15,7 @@ public interface MonthlySalaryMapper extends EntityMapper<MonthlySalaryDTO, Mont
     @Mapping(source = "employee.fullName", target = "employeeFullName")
     MonthlySalaryDTO toDto(MonthlySalary monthlySalary);
 
+    @Mapping(target = "comments", ignore = true)
     @Mapping(source = "employeeId", target = "employee")
     MonthlySalary toEntity(MonthlySalaryDTO monthlySalaryDTO);
 

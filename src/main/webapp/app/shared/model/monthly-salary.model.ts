@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { ISalaryMessages } from 'app/shared/model/salary-messages.model';
 
 export const enum MonthType {
     JANUARY = 'JANUARY',
@@ -50,6 +51,7 @@ export interface IMonthlySalary {
     status?: MonthlySalaryStatus;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    comments?: ISalaryMessages[];
     employeeFullName?: string;
     employeeId?: number;
 }
@@ -80,6 +82,7 @@ export class MonthlySalary implements IMonthlySalary {
         public status?: MonthlySalaryStatus,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
+        public comments?: ISalaryMessages[],
         public employeeFullName?: string,
         public employeeId?: number
     ) {

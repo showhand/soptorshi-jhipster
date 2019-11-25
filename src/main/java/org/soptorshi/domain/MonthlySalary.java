@@ -1,6 +1,7 @@
 package org.soptorshi.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -10,6 +11,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.MonthType;
@@ -105,6 +108,8 @@ public class MonthlySalary implements Serializable {
     @Column(name = "modified_on")
     private LocalDate modifiedOn;
 
+    @OneToMany(mappedBy = "monthlySalary")
+    private Set<SalaryMessages> comments = new HashSet<>();
     @ManyToOne
     @JsonIgnoreProperties("monthlySalaries")
     private Employee employee;
@@ -415,6 +420,31 @@ public class MonthlySalary implements Serializable {
 
     public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public Set<SalaryMessages> getComments() {
+        return comments;
+    }
+
+    public MonthlySalary comments(Set<SalaryMessages> salaryMessages) {
+        this.comments = salaryMessages;
+        return this;
+    }
+
+    public MonthlySalary addComments(SalaryMessages salaryMessages) {
+        this.comments.add(salaryMessages);
+        salaryMessages.setMonthlySalary(this);
+        return this;
+    }
+
+    public MonthlySalary removeComments(SalaryMessages salaryMessages) {
+        this.comments.remove(salaryMessages);
+        salaryMessages.setMonthlySalary(null);
+        return this;
+    }
+
+    public void setComments(Set<SalaryMessages> salaryMessages) {
+        this.comments = salaryMessages;
     }
 
     public Employee getEmployee() {

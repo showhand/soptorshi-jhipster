@@ -1,0 +1,35 @@
+{
+    "name": "SalaryMessages",
+    "fields": [
+        {
+            "fieldName": "comments",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "salaryMessages",
+            "relationshipName": "commenter",
+            "otherEntityField": "fullName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "monthlySalary",
+            "otherEntityRelationshipName": "comments",
+            "relationshipName": "monthlySalary",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191125145822",
+    "entityTableName": "salary_messages",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

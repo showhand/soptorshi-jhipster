@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity SalaryMessages.
+    -->
+    <changeSet id="20191125145822-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="commenter_id"
+                                 baseTableName="salary_messages"
+                                 constraintName="fk_salary_messages_commenter_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee"/>
+
+        <addForeignKeyConstraint baseColumnNames="monthly_salary_id"
+                                 baseTableName="salary_messages"
+                                 constraintName="fk_salary_messages_monthly_salary_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="monthly_salary"/>
+
+    </changeSet>
+</databaseChangeLog>
