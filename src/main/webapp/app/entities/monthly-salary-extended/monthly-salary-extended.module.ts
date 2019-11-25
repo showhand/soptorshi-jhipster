@@ -16,6 +16,7 @@ import {
 import { MonthlySalaryExtendedDetailComponent } from 'app/entities/monthly-salary-extended/monthly-salary-extended-detail.component';
 import { MonthlySalaryExtendedComponent } from 'app/entities/monthly-salary-extended/monthly-salary-extended.component';
 import { MonthlySalaryExtendedUpdateComponent } from 'app/entities/monthly-salary-extended/monthly-salary-extended-update.component';
+import { MonthlySalaryComments } from 'app/entities/monthly-salary-extended/monthly-salary-comments';
 
 const ENTITY_STATES = [...monthlySalaryExtendedRoute, ...monthlySalaryExtendedPopupRoute];
 
@@ -29,7 +30,8 @@ const ENTITY_STATES = [...monthlySalaryExtendedRoute, ...monthlySalaryExtendedPo
         MonthlySalaryExtendedDetailComponent,
         MonthlySalaryExtendedUpdateComponent,
         MonthlySalaryDeleteDialogComponent,
-        MonthlySalaryDeletePopupComponent
+        MonthlySalaryDeletePopupComponent,
+        MonthlySalaryComments
     ],
     entryComponents: [
         MonthlySalaryExtendedComponent,

@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="salaryMessages">
+            <h2><span>Salary Messages</span> {{salaryMessages.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Comments</span></dt>
+                <dd>
+                    <span>{{salaryMessages.comments}}</span>
+                </dd>
+                <dt><span>Commenter</span></dt>
+                <dd>
+                    <div *ngIf="salaryMessages.commenterId">
+                        <a [routerLink]="['/employee', salaryMessages.commenterId, 'view']">{{salaryMessages.commenterFullName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Monthly Salary</span></dt>
+                <dd>
+                    <div *ngIf="salaryMessages.monthlySalaryId">
+                        <a [routerLink]="['/monthly-salary', salaryMessages.monthlySalaryId, 'view']">{{salaryMessages.monthlySalaryId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/salary-messages', salaryMessages.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
