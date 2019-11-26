@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-salary-messages-heading">Create or edit a Salary Messages</h2>
+            <h2 id="jhi-salary-messages-heading">Add Comment</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!salaryMessages.id">
@@ -15,20 +15,6 @@
                         [(ngModel)]="salaryMessages.comments" ></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_commenter">Commenter</label>
-                    <select class="form-control" id="field_commenter" name="commenter" [(ngModel)]="salaryMessages.commenterId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_monthlySalary">Monthly Salary</label>
-                    <select class="form-control" id="field_monthlySalary" name="monthlySalary" [(ngModel)]="salaryMessages.monthlySalaryId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="monthlySalaryOption.id" *ngFor="let monthlySalaryOption of monthlysalaries; trackBy: trackMonthlySalaryById">{{monthlySalaryOption.id}}</option>
-                    </select>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

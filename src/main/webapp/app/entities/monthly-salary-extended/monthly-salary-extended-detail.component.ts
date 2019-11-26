@@ -10,6 +10,7 @@ import { MonthlySalaryDetailComponent } from 'app/entities/monthly-salary';
 })
 export class MonthlySalaryExtendedDetailComponent extends MonthlySalaryDetailComponent implements OnInit {
     monthlySalary: IMonthlySalary;
+    monthlySalaryId: number;
 
     constructor(protected activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -18,6 +19,7 @@ export class MonthlySalaryExtendedDetailComponent extends MonthlySalaryDetailCom
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ monthlySalary }) => {
             this.monthlySalary = monthlySalary;
+            this.monthlySalaryId = this.monthlySalary.id;
         });
     }
 

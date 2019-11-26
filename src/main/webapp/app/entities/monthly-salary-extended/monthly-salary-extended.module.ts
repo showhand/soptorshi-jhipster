@@ -34,6 +34,7 @@ const ENTITY_STATES = [...monthlySalaryExtendedRoute, ...monthlySalaryExtendedPo
         MonthlySalaryComments
     ],
     entryComponents: [
+        MonthlySalaryComments,
         MonthlySalaryExtendedComponent,
         MonthlySalaryExtendedUpdateComponent,
         MonthlySalaryDeleteDialogComponent,

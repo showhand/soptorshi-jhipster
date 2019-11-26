@@ -321,7 +321,7 @@
                 </ul>
             </li>
 
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_CFO']">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_USER']">
                 <a (click)="payrollManagement=!payrollManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="money-check"></fa-icon>
@@ -344,19 +344,19 @@
                             <span style="font-size: smaller">Fine, Advance, Loan & Provident</span>
                         </a>
                     </li>
-                    <li  *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_CFO']">
+                    <li  *jhiHasAnyAuthority="['ROLE_USER']">
                         <a class="dropdown-item" routerLink="special-allowance-time-line" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Special Allowance Time Line</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_CFO']">
+                    <li *jhiHasAnyAuthority="['ROLE_USER']">
                         <a  routerLink="payroll-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
                             <span>Payroll Management</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_CFO']">
+                    <li *jhiHasAnyAuthority="['ROLE_USER']">
                         <a  routerLink="salary-messages" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                             <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
                             <span>Salary Messages</span>

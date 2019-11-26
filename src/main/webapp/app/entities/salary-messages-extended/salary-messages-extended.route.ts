@@ -19,11 +19,17 @@ export class SalaryMessagesExtendedResolve implements Resolve<ISalaryMessages> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ISalaryMessages> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const monthlySalaryId = route.params['monthlySalaryId'] ? route.params['monthlySalaryId'] : null;
+
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<SalaryMessages>) => response.ok),
                 map((salaryMessages: HttpResponse<SalaryMessages>) => salaryMessages.body)
             );
+        } else if (monthlySalaryId) {
+            const salaryMessages = new SalaryMessages();
+            salaryMessages.monthlySalaryId = monthlySalaryId;
+            return of(salaryMessages);
         }
         return of(new SalaryMessages());
     }
@@ -57,6 +63,18 @@ export const salaryMessagesExtendedRoute: Routes = [
     },
     {
         path: 'new',
+        component: SalaryMessagesExtendedUpdateComponent,
+        resolve: {
+            salaryMessages: SalaryMessagesExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'SalaryMessages'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':monthlySalaryId/new',
         component: SalaryMessagesExtendedUpdateComponent,
         resolve: {
             salaryMessages: SalaryMessagesExtendedResolve

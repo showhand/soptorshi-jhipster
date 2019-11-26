@@ -180,6 +180,7 @@
     <include file="config/liquibase/changelog/20191119160630_monthly_salary_refactored.xml" relativeToChangelogFile="false"/>
 
 
+
     <include file="config/liquibase/changelog/20190906083824_added_entity_constraints_VoucherNumberControl.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190906083825_added_entity_constraints_PeriodClose.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190906083828_added_entity_constraints_MstAccount.xml" relativeToChangelogFile="false"/>

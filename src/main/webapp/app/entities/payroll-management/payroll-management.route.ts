@@ -31,7 +31,7 @@ export const payrollManagementRoute: Routes = [
             payrollManagement: PayrollManagementResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'PayrollManagements'
         },
         canActivate: [UserRouteAccessService]
@@ -43,7 +43,7 @@ export const payrollManagementRoute: Routes = [
             payrollManagement: PayrollManagementResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'PayrollManagements'
         },
         canActivate: [UserRouteAccessService]
@@ -55,7 +55,7 @@ export const payrollManagementRoute: Routes = [
             payrollManagement: PayrollManagementResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'PayrollManagements'
         },
         canActivate: [UserRouteAccessService]
@@ -67,7 +67,7 @@ export const payrollManagementRoute: Routes = [
             payrollManagement: PayrollManagementResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'PayrollManagements'
         },
         canActivate: [UserRouteAccessService]
@@ -82,7 +82,7 @@ export const payrollManagementPopupRoute: Routes = [
             payrollManagement: PayrollManagementResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'PayrollManagements'
         },
         canActivate: [UserRouteAccessService],
