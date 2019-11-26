@@ -1,11 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiAlertService, JhiParseLinks } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
-import { IPayrollManagement, PayrollManagement } from 'app/shared/model/payroll-management.model';
+import { PayrollManagement } from 'app/shared/model/payroll-management.model';
 import { AccountService } from 'app/core';
 import { PayrollManagementService } from './payroll-management.service';
 import { Office } from 'app/shared/model/office.model';
@@ -15,8 +14,7 @@ import { DesignationService } from 'app/entities/designation';
 import { EmployeeService } from 'app/entities/employee';
 import { Employee, IEmployee } from 'app/shared/model/employee.model';
 import { MonthlySalaryService } from 'app/entities/monthly-salary';
-import { IMonthlySalary, MonthlySalary } from 'app/shared/model/monthly-salary.model';
-import { SalaryService } from 'app/entities/salary';
+import { IMonthlySalary, MonthlySalary, MonthlySalaryStatus, MonthType } from 'app/shared/model/monthly-salary.model';
 import { SalaryExtendedService } from 'app/entities/salary-extended';
 
 @Component({
@@ -182,6 +180,8 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<Office[]>) => {
                     this.officeList = res.body;
+                    if (!this.payrollManagementService.payrollManagement.officeId)
+                        this.payrollManagementService.payrollManagement.officeId = this.officeList[0].id;
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
@@ -195,6 +195,8 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<Designation[]>) => {
                     this.designationList = res.body;
+                    if (!this.payrollManagementService.payrollManagement.designationId)
+                        this.payrollManagementService.payrollManagement.designationId = this.designationList[0].id;
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
@@ -208,6 +210,8 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             this.currentAccount = account;
         });
         this.registerChangeInPayrollManagements();
+        if (!this.payrollManagementService.payrollManagement.monthType)
+            this.payrollManagementService.payrollManagement.monthType = MonthType.AUGUST;
     }
 
     registerChangeInPayrollManagements() {
@@ -228,5 +232,54 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    approvedByManager(monthlySalary: IMonthlySalary) {
+        monthlySalary.status = MonthlySalaryStatus.APPROVED_BY_MANAGER;
+        this.monthlySalaryService.update(monthlySalary).subscribe((res: HttpResponse<IMonthlySalary>) => {
+            monthlySalary = res.body;
+        });
+    }
+
+    approvedByAccounts(monthlySalary: IMonthlySalary) {
+        monthlySalary.status = MonthlySalaryStatus.APPROVED_BY_ACCOUNTS;
+        this.monthlySalaryService.update(monthlySalary).subscribe((res: HttpResponse<IMonthlySalary>) => {
+            monthlySalary = res.body;
+        });
+    }
+
+    modificationRequestByAccounts(monthlySalary: IMonthlySalary) {
+        monthlySalary.status = MonthlySalaryStatus.MODIFICATION_REQUEST_BY_ACCOUNTS;
+        this.monthlySalaryService.update(monthlySalary).subscribe((res: HttpResponse<IMonthlySalary>) => {
+            monthlySalary = res.body;
+        });
+    }
+
+    approvedByCFO(monthlySalary: IMonthlySalary) {
+        monthlySalary.status = MonthlySalaryStatus.APPROVED_BY_CFO;
+        this.monthlySalaryService.update(monthlySalary).subscribe((res: HttpResponse<IMonthlySalary>) => {
+            monthlySalary = res.body;
+        });
+    }
+
+    modificationRequestByCFO(monthlySalary: IMonthlySalary) {
+        monthlySalary.status = MonthlySalaryStatus.MODIFICATION_REQUEST_BY_CFO;
+        this.monthlySalaryService.update(monthlySalary).subscribe((res: HttpResponse<IMonthlySalary>) => {
+            monthlySalary = res.body;
+        });
+    }
+
+    approvedByMD(monthlySalary: IMonthlySalary) {
+        monthlySalary.status = MonthlySalaryStatus.APPROVED_BY_MD;
+        this.monthlySalaryService.update(monthlySalary).subscribe((res: HttpResponse<IMonthlySalary>) => {
+            monthlySalary = res.body;
+        });
+    }
+
+    modificationRequestByMD(monthlySalary: IMonthlySalary) {
+        monthlySalary.status = MonthlySalaryStatus.APPROVED_BY_MD;
+        this.monthlySalaryService.update(monthlySalary).subscribe((res: HttpResponse<IMonthlySalary>) => {
+            monthlySalary = res.body;
+        });
     }
 }

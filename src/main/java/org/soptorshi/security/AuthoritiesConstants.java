@@ -61,7 +61,7 @@ public final class AuthoritiesConstants {
 
     public static final String ACCOUNTS = "ROLE_ACCOUNTS";
 
-
+    public static final String MD = "ROLE_MD";
     private AuthoritiesConstants() {
     }
 }
