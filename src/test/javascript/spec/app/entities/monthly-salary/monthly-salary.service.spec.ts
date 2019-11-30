@@ -49,7 +49,8 @@ describe('Service Tests', () => {
                 false,
                 MonthlySalaryStatus.APPROVED_BY_MANAGER,
                 'AAAAAAA',
-                currentDate
+                currentDate,
+                false
             );
         });
 
@@ -117,7 +118,8 @@ describe('Service Tests', () => {
                         onHold: true,
                         status: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
-                        modifiedOn: currentDate.format(DATE_FORMAT)
+                        modifiedOn: currentDate.format(DATE_FORMAT),
+                        voucherGenerated: true
                     },
                     elemDefault
                 );
@@ -161,7 +163,8 @@ describe('Service Tests', () => {
                         onHold: true,
                         status: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
-                        modifiedOn: currentDate.format(DATE_FORMAT)
+                        modifiedOn: currentDate.format(DATE_FORMAT),
+                        voucherGenerated: true
                     },
                     elemDefault
                 );

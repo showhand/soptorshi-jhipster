@@ -149,7 +149,8 @@ entity MonthlySalary {
   onHold Boolean,
   status MonthlySalaryStatus,
   modifiedBy String,
-  modifiedOn LocalDate
+  modifiedOn LocalDate,
+  voucherGenerated Boolean
 }
 
 entity SalaryMessages{

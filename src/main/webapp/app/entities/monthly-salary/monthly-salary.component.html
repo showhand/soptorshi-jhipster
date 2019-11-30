@@ -53,6 +53,7 @@
             <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="voucherGenerated"><span>Voucher Generated</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -83,6 +84,7 @@
                 <td>{{monthlySalary.status}}</td>
                 <td>{{monthlySalary.modifiedBy}}</td>
                 <td>{{monthlySalary.modifiedOn | date:'mediumDate'}}</td>
+                <td>{{monthlySalary.voucherGenerated}}</td>
                 <td>
                     <div *ngIf="monthlySalary.employeeId">
                         <a [routerLink]="['../employee', monthlySalary.employeeId , 'view' ]" >{{monthlySalary.employeeFullName}}</a>

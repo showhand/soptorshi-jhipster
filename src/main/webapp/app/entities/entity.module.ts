@@ -662,6 +662,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'journal-voucher',
                 loadChildren: './journal-voucher/journal-voucher.module#SoptorshiJournalVoucherModule'
+            },
+            {
+                path: 'monthly-salary',
+                loadChildren: './monthly-salary/monthly-salary.module#SoptorshiMonthlySalaryModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

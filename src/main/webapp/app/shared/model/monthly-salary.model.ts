@@ -51,6 +51,7 @@ export interface IMonthlySalary {
     status?: MonthlySalaryStatus;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    voucherGenerated?: boolean;
     comments?: ISalaryMessages[];
     employeeFullName?: string;
     employeeId?: number;
@@ -82,11 +83,13 @@ export class MonthlySalary implements IMonthlySalary {
         public status?: MonthlySalaryStatus,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
+        public voucherGenerated?: boolean,
         public comments?: ISalaryMessages[],
         public employeeFullName?: string,
         public employeeId?: number
     ) {
         this.approved = this.approved || false;
         this.onHold = this.onHold || false;
+        this.voucherGenerated = this.voucherGenerated || false;
     }
 }

@@ -64,6 +64,8 @@ public class MonthlySalaryDTO implements Serializable {
 
     private LocalDate modifiedOn;
 
+    private Boolean voucherGenerated;
+
 
     private Long employeeId;
 
@@ -261,6 +263,14 @@ public class MonthlySalaryDTO implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public Boolean isVoucherGenerated() {
+        return voucherGenerated;
+    }
+
+    public void setVoucherGenerated(Boolean voucherGenerated) {
+        this.voucherGenerated = voucherGenerated;
+    }
+
     public Long getEmployeeId() {
         return employeeId;
     }
@@ -325,6 +335,7 @@ public class MonthlySalaryDTO implements Serializable {
             ", status='" + getStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
+            ", voucherGenerated='" + isVoucherGenerated() + "'" +
             ", employee=" + getEmployeeId() +
             ", employee='" + getEmployeeFullName() + "'" +
             "}";

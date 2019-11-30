@@ -108,6 +108,9 @@ public class MonthlySalary implements Serializable {
     @Column(name = "modified_on")
     private LocalDate modifiedOn;
 
+    @Column(name = "voucher_generated")
+    private Boolean voucherGenerated;
+
     @OneToMany(mappedBy = "monthlySalary")
     private Set<SalaryMessages> comments = new HashSet<>();
     @ManyToOne
@@ -422,6 +425,19 @@ public class MonthlySalary implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public Boolean isVoucherGenerated() {
+        return voucherGenerated;
+    }
+
+    public MonthlySalary voucherGenerated(Boolean voucherGenerated) {
+        this.voucherGenerated = voucherGenerated;
+        return this;
+    }
+
+    public void setVoucherGenerated(Boolean voucherGenerated) {
+        this.voucherGenerated = voucherGenerated;
+    }
+
     public Set<SalaryMessages> getComments() {
         return comments;
     }
@@ -508,6 +524,7 @@ public class MonthlySalary implements Serializable {
             ", status='" + getStatus() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
+            ", voucherGenerated='" + isVoucherGenerated() + "'" +
             "}";
     }
 }

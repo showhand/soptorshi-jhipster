@@ -180,6 +180,7 @@
     <include file="config/liquibase/changelog/20191118181234_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191119160630_monthly_salary_refactored.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191130144834_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191130163357_changelog.xml" relativeToChangelogFile="false"/>
 
 
 

@@ -18,7 +18,7 @@
         Added the entity MonthlySalary.
     -->
     <changeSet id="20190514160139-1" author="jhipster">
-        <validCheckSum>7:6d34b459305c8c85ae95bf4de807762c</validCheckSum>
+        <validCheckSum>7:6a562a1ef91f659a1ceaf44fdc6dbbb6</validCheckSum>
         <createTable tableName="monthly_salary">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
@@ -112,6 +112,10 @@
             </column>
 
             <column name="modified_on" type="date">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="voucher_generated" type="boolean">
                 <constraints nullable="true" />
             </column>
 

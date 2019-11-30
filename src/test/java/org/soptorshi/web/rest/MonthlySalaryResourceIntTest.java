@@ -127,6 +127,9 @@ public class MonthlySalaryResourceIntTest {
     private static final LocalDate DEFAULT_MODIFIED_ON = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_MODIFIED_ON = LocalDate.now(ZoneId.systemDefault());
 
+    private static final Boolean DEFAULT_VOUCHER_GENERATED = false;
+    private static final Boolean UPDATED_VOUCHER_GENERATED = true;
+
     @Autowired
     private MonthlySalaryRepository monthlySalaryRepository;
 
@@ -208,7 +211,8 @@ public class MonthlySalaryResourceIntTest {
             .onHold(DEFAULT_ON_HOLD)
             .status(DEFAULT_STATUS)
             .modifiedBy(DEFAULT_MODIFIED_BY)
-            .modifiedOn(DEFAULT_MODIFIED_ON);
+            .modifiedOn(DEFAULT_MODIFIED_ON)
+            .voucherGenerated(DEFAULT_VOUCHER_GENERATED);
         return monthlySalary;
     }
 
@@ -256,6 +260,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testMonthlySalary.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testMonthlySalary.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
+        assertThat(testMonthlySalary.isVoucherGenerated()).isEqualTo(DEFAULT_VOUCHER_GENERATED);
 
         // Validate the MonthlySalary in Elasticsearch
         verify(mockMonthlySalarySearchRepository, times(1)).save(testMonthlySalary);
@@ -393,7 +398,8 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].onHold").value(hasItem(DEFAULT_ON_HOLD.booleanValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
-            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())))
+            .andExpect(jsonPath("$.[*].voucherGenerated").value(hasItem(DEFAULT_VOUCHER_GENERATED.booleanValue())));
     }
     
     @Test
@@ -429,7 +435,8 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.onHold").value(DEFAULT_ON_HOLD.booleanValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
-            .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
+            .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()))
+            .andExpect(jsonPath("$.voucherGenerated").value(DEFAULT_VOUCHER_GENERATED.booleanValue()));
     }
 
     @Test
@@ -1412,6 +1419,45 @@ public class MonthlySalaryResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllMonthlySalariesByVoucherGeneratedIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where voucherGenerated equals to DEFAULT_VOUCHER_GENERATED
+        defaultMonthlySalaryShouldBeFound("voucherGenerated.equals=" + DEFAULT_VOUCHER_GENERATED);
+
+        // Get all the monthlySalaryList where voucherGenerated equals to UPDATED_VOUCHER_GENERATED
+        defaultMonthlySalaryShouldNotBeFound("voucherGenerated.equals=" + UPDATED_VOUCHER_GENERATED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByVoucherGeneratedIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where voucherGenerated in DEFAULT_VOUCHER_GENERATED or UPDATED_VOUCHER_GENERATED
+        defaultMonthlySalaryShouldBeFound("voucherGenerated.in=" + DEFAULT_VOUCHER_GENERATED + "," + UPDATED_VOUCHER_GENERATED);
+
+        // Get all the monthlySalaryList where voucherGenerated equals to UPDATED_VOUCHER_GENERATED
+        defaultMonthlySalaryShouldNotBeFound("voucherGenerated.in=" + UPDATED_VOUCHER_GENERATED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByVoucherGeneratedIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where voucherGenerated is not null
+        defaultMonthlySalaryShouldBeFound("voucherGenerated.specified=true");
+
+        // Get all the monthlySalaryList where voucherGenerated is null
+        defaultMonthlySalaryShouldNotBeFound("voucherGenerated.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllMonthlySalariesByCommentsIsEqualToSomething() throws Exception {
         // Initialize the database
         SalaryMessages comments = SalaryMessagesResourceIntTest.createEntity(em);
@@ -1477,7 +1523,8 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].onHold").value(hasItem(DEFAULT_ON_HOLD.booleanValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
-            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())))
+            .andExpect(jsonPath("$.[*].voucherGenerated").value(hasItem(DEFAULT_VOUCHER_GENERATED.booleanValue())));
 
         // Check, that the count call also returns 1
         restMonthlySalaryMockMvc.perform(get("/api/monthly-salaries/count?sort=id,desc&" + filter))
@@ -1547,7 +1594,8 @@ public class MonthlySalaryResourceIntTest {
             .onHold(UPDATED_ON_HOLD)
             .status(UPDATED_STATUS)
             .modifiedBy(UPDATED_MODIFIED_BY)
-            .modifiedOn(UPDATED_MODIFIED_ON);
+            .modifiedOn(UPDATED_MODIFIED_ON)
+            .voucherGenerated(UPDATED_VOUCHER_GENERATED);
         MonthlySalaryDTO monthlySalaryDTO = monthlySalaryMapper.toDto(updatedMonthlySalary);
 
         restMonthlySalaryMockMvc.perform(put("/api/monthly-salaries")
@@ -1582,6 +1630,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testMonthlySalary.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testMonthlySalary.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
+        assertThat(testMonthlySalary.isVoucherGenerated()).isEqualTo(UPDATED_VOUCHER_GENERATED);
 
         // Validate the MonthlySalary in Elasticsearch
         verify(mockMonthlySalarySearchRepository, times(1)).save(testMonthlySalary);
@@ -1664,7 +1713,8 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].onHold").value(hasItem(DEFAULT_ON_HOLD.booleanValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
-            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())))
+            .andExpect(jsonPath("$.[*].voucherGenerated").value(hasItem(DEFAULT_VOUCHER_GENERATED.booleanValue())));
     }
 
     @Test
