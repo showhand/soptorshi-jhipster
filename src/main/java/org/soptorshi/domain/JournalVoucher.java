@@ -13,6 +13,8 @@ import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.VoucherType;
 
+import org.soptorshi.domain.enumeration.VoucherReferenceType;
+
 /**
  * A JournalVoucher.
  */
@@ -42,6 +44,13 @@ public class JournalVoucher implements Serializable {
 
     @Column(name = "conversion_factor", precision = 10, scale = 2)
     private BigDecimal conversionFactor;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "reference")
+    private VoucherReferenceType reference;
+
+    @Column(name = "reference_id")
+    private Long referenceId;
 
     @Column(name = "modified_by")
     private String modifiedBy;
@@ -127,6 +136,32 @@ public class JournalVoucher implements Serializable {
         this.conversionFactor = conversionFactor;
     }
 
+    public VoucherReferenceType getReference() {
+        return reference;
+    }
+
+    public JournalVoucher reference(VoucherReferenceType reference) {
+        this.reference = reference;
+        return this;
+    }
+
+    public void setReference(VoucherReferenceType reference) {
+        this.reference = reference;
+    }
+
+    public Long getReferenceId() {
+        return referenceId;
+    }
+
+    public JournalVoucher referenceId(Long referenceId) {
+        this.referenceId = referenceId;
+        return this;
+    }
+
+    public void setReferenceId(Long referenceId) {
+        this.referenceId = referenceId;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -196,6 +231,8 @@ public class JournalVoucher implements Serializable {
             ", postDate='" + getPostDate() + "'" +
             ", type='" + getType() + "'" +
             ", conversionFactor=" + getConversionFactor() +
+            ", reference='" + getReference() + "'" +
+            ", referenceId=" + getReferenceId() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";

@@ -6,46 +6,32 @@ import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { JournalVoucherService } from 'app/entities/journal-voucher/journal-voucher.service';
-import { IJournalVoucher, JournalVoucher, VoucherReferenceType } from 'app/shared/model/journal-voucher.model';
-import { VoucherType } from 'app/shared/model/dt-transaction.model';
+import { SalaryVoucherRelationService } from 'app/entities/salary-voucher-relation/salary-voucher-relation.service';
+import { ISalaryVoucherRelation, SalaryVoucherRelation, MonthType } from 'app/shared/model/salary-voucher-relation.model';
 
 describe('Service Tests', () => {
-    describe('JournalVoucher Service', () => {
+    describe('SalaryVoucherRelation Service', () => {
         let injector: TestBed;
-        let service: JournalVoucherService;
+        let service: SalaryVoucherRelationService;
         let httpMock: HttpTestingController;
-        let elemDefault: IJournalVoucher;
+        let elemDefault: ISalaryVoucherRelation;
         let currentDate: moment.Moment;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
             });
             injector = getTestBed();
-            service = injector.get(JournalVoucherService);
+            service = injector.get(SalaryVoucherRelationService);
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new JournalVoucher(
-                0,
-                'AAAAAAA',
-                currentDate,
-                currentDate,
-                VoucherType.SELLING,
-                0,
-                VoucherReferenceType.PAYROLL,
-                0,
-                'AAAAAAA',
-                currentDate
-            );
+            elemDefault = new SalaryVoucherRelation(0, 0, MonthType.JANUARY, 'AAAAAAA', 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        voucherDate: currentDate.format(DATE_FORMAT),
-                        postDate: currentDate.format(DATE_FORMAT),
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
@@ -59,42 +45,34 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should create a JournalVoucher', async () => {
+            it('should create a SalaryVoucherRelation', async () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
-                        voucherDate: currentDate.format(DATE_FORMAT),
-                        postDate: currentDate.format(DATE_FORMAT),
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
-                        voucherDate: currentDate,
-                        postDate: currentDate,
                         modifiedOn: currentDate
                     },
                     returnedFromService
                 );
                 service
-                    .create(new JournalVoucher(null))
+                    .create(new SalaryVoucherRelation(null))
                     .pipe(take(1))
                     .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
                 const req = httpMock.expectOne({ method: 'POST' });
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should update a JournalVoucher', async () => {
+            it('should update a SalaryVoucherRelation', async () => {
                 const returnedFromService = Object.assign(
                     {
+                        year: 1,
+                        month: 'BBBBBB',
                         voucherNo: 'BBBBBB',
-                        voucherDate: currentDate.format(DATE_FORMAT),
-                        postDate: currentDate.format(DATE_FORMAT),
-                        type: 'BBBBBB',
-                        conversionFactor: 1,
-                        reference: 'BBBBBB',
-                        referenceId: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -103,8 +81,6 @@ describe('Service Tests', () => {
 
                 const expected = Object.assign(
                     {
-                        voucherDate: currentDate,
-                        postDate: currentDate,
                         modifiedOn: currentDate
                     },
                     returnedFromService
@@ -117,16 +93,12 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should return a list of JournalVoucher', async () => {
+            it('should return a list of SalaryVoucherRelation', async () => {
                 const returnedFromService = Object.assign(
                     {
+                        year: 1,
+                        month: 'BBBBBB',
                         voucherNo: 'BBBBBB',
-                        voucherDate: currentDate.format(DATE_FORMAT),
-                        postDate: currentDate.format(DATE_FORMAT),
-                        type: 'BBBBBB',
-                        conversionFactor: 1,
-                        reference: 'BBBBBB',
-                        referenceId: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -134,8 +106,6 @@ describe('Service Tests', () => {
                 );
                 const expected = Object.assign(
                     {
-                        voucherDate: currentDate,
-                        postDate: currentDate,
                         modifiedOn: currentDate
                     },
                     returnedFromService
@@ -152,7 +122,7 @@ describe('Service Tests', () => {
                 httpMock.verify();
             });
 
-            it('should delete a JournalVoucher', async () => {
+            it('should delete a SalaryVoucherRelation', async () => {
                 const rxPromise = service.delete(123).subscribe(resp => expect(resp.ok));
 
                 const req = httpMock.expectOne({ method: 'DELETE' });

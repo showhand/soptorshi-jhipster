@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.VoucherType;
+import org.soptorshi.domain.enumeration.VoucherReferenceType;
 
 /**
  * A DTO for the JournalVoucher entity.
@@ -21,6 +22,10 @@ public class JournalVoucherDTO implements Serializable {
     private VoucherType type;
 
     private BigDecimal conversionFactor;
+
+    private VoucherReferenceType reference;
+
+    private Long referenceId;
 
     private String modifiedBy;
 
@@ -77,6 +82,22 @@ public class JournalVoucherDTO implements Serializable {
 
     public void setConversionFactor(BigDecimal conversionFactor) {
         this.conversionFactor = conversionFactor;
+    }
+
+    public VoucherReferenceType getReference() {
+        return reference;
+    }
+
+    public void setReference(VoucherReferenceType reference) {
+        this.reference = reference;
+    }
+
+    public Long getReferenceId() {
+        return referenceId;
+    }
+
+    public void setReferenceId(Long referenceId) {
+        this.referenceId = referenceId;
     }
 
     public String getModifiedBy() {
@@ -141,6 +162,8 @@ public class JournalVoucherDTO implements Serializable {
             ", postDate='" + getPostDate() + "'" +
             ", type='" + getType() + "'" +
             ", conversionFactor=" + getConversionFactor() +
+            ", reference='" + getReference() + "'" +
+            ", referenceId=" + getReferenceId() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", currency=" + getCurrencyId() +

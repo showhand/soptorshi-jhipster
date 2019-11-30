@@ -47,6 +47,19 @@
                         [(ngModel)]="journalVoucher.conversionFactor" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_reference">Reference</label>
+                    <select class="form-control" name="reference" [(ngModel)]="journalVoucher.reference" id="field_reference" >
+                        <option value="PAYROLL">PAYROLL</option>
+                        <option value="PURCHASE_ORDER">PURCHASE_ORDER</option>
+                        <option value="PROCUREMENT">PROCUREMENT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_referenceId">Reference Id</label>
+                    <input type="number" class="form-control" name="referenceId" id="field_referenceId"
+                        [(ngModel)]="journalVoucher.referenceId" />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_modifiedBy">Modified By</label>
                     <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
                         [(ngModel)]="journalVoucher.modifiedBy" />

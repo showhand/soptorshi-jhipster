@@ -5,7 +5,7 @@ import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { DtTransaction } from 'app/shared/model/dt-transaction.model';
+import { DtTransaction, VoucherType } from 'app/shared/model/dt-transaction.model';
 import { DtTransactionExtendedService } from './dt-transaction-extended.service';
 import { DtTransactionExtendedComponent } from './dt-transaction-extended.component';
 import { DtTransactionExtendedDetailComponent } from './dt-transaction-extended-detail.component';

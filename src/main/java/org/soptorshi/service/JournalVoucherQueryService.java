@@ -108,6 +108,12 @@ public class JournalVoucherQueryService extends QueryService<JournalVoucher> {
             if (criteria.getConversionFactor() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getConversionFactor(), JournalVoucher_.conversionFactor));
             }
+            if (criteria.getReference() != null) {
+                specification = specification.and(buildSpecification(criteria.getReference(), JournalVoucher_.reference));
+            }
+            if (criteria.getReferenceId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getReferenceId(), JournalVoucher_.referenceId));
+            }
             if (criteria.getModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), JournalVoucher_.modifiedBy));
             }

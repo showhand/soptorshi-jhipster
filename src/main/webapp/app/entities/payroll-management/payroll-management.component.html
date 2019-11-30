@@ -93,7 +93,7 @@
                             </button></td>
                             <th>{{monthlySalaryMapWithEmployeeId[employee.id].status}}</th>
                             <th>
-                                <div *ngIf="!monthlySalaryMapWithEmployeeId[employee.id].status || monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_ACCOUNTS'|| monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_CFO' || monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_CFO'">
+                                <div *ngIf=" monthlySalaryMapWithEmployeeId[employee.id].status==undefined ||  !monthlySalaryMapWithEmployeeId[employee.id].status || monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_ACCOUNTS'|| monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_CFO' || monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_CFO'">
                                     <button  class="btn btn-success" *jhiHasAnyAuthority="['ROLE_EMPLOYEE_MANAGEMENT']"  (click)="approvedByManager(monthlySalaryMapWithEmployeeId[employee.id])">Approve</button>
                                 </div>
                                 <div *ngIf="monthlySalaryMapWithEmployeeId[employee.id].status=='APPROVED_BY_MANAGER'">

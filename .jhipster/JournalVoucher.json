@@ -23,6 +23,15 @@
             "fieldType": "BigDecimal"
         },
         {
+            "fieldName": "reference",
+            "fieldType": "VoucherReferenceType",
+            "fieldValues": "PAYROLL,PURCHASE_ORDER,PROCUREMENT"
+        },
+        {
+            "fieldName": "referenceId",
+            "fieldType": "Long"
+        },
+        {
             "fieldName": "modifiedBy",
             "fieldType": "String"
         },

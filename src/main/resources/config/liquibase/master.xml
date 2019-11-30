@@ -108,6 +108,7 @@
     <include file="config/liquibase/changelog/20191106144406_added_entity_SupplyChallan.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191106144407_added_entity_SupplyMoneyCollection.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191125145822_added_entity_SalaryMessages.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191130141256_added_entity_SalaryVoucherRelation.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190405124355_added_entity_constraints_Attachment.xml" relativeToChangelogFile="false"/>
@@ -178,6 +179,7 @@
     <include file="config/liquibase/changelog/20191117161640_gross_added_in_salary.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191118181234_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191119160630_monthly_salary_refactored.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191130144834_changelog.xml" relativeToChangelogFile="false"/>
 
 
 
@@ -215,7 +217,7 @@
     <include file="config/liquibase/changelog/20191103092807_added_entity_constraints_CommercialPoStatus.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191103092808_added_entity_constraints_CommercialInvoice.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191103092809_added_entity_constraints_CommercialAttachment.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191106155915_changelog.xml" relativeToChangelogFile="false"/>
+<!--    <include file="config/liquibase/changelog/20191106155915_changelog.xml" relativeToChangelogFile="false"/>-->
     <!--    <include file="config/liquibase/changelog/20191027104252_changelog.xml" relativeToChangelogFile="false"/>-->
     <!--<include file="config/liquibase/changelog/20191028141524_journal_voucher_refactored.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191031100636_account_foreign_key_added_to_payment_voucher.xml" relativeToChangelogFile="false"/>
@@ -231,5 +233,6 @@
     <include file="config/liquibase/changelog/20191106144407_added_entity_constraints_SupplyMoneyCollection.xml" relativeToChangelogFile="false"/>
 <!--    <include file="config/liquibase/changelog/20191108191310_changelog.xml" relativeToChangelogFile="false"/>-->
     <include file="config/liquibase/changelog/20191125145822_added_entity_constraints_SalaryMessages.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191130141256_added_entity_constraints_SalaryVoucherRelation.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

@@ -47,6 +47,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.soptorshi.domain.enumeration.VoucherType;
+import org.soptorshi.domain.enumeration.VoucherReferenceType;
 /**
  * Test class for the JournalVoucherResource REST controller.
  *
@@ -70,6 +71,12 @@ public class JournalVoucherResourceIntTest {
 
     private static final BigDecimal DEFAULT_CONVERSION_FACTOR = new BigDecimal(1);
     private static final BigDecimal UPDATED_CONVERSION_FACTOR = new BigDecimal(2);
+
+    private static final VoucherReferenceType DEFAULT_REFERENCE = VoucherReferenceType.PAYROLL;
+    private static final VoucherReferenceType UPDATED_REFERENCE = VoucherReferenceType.PURCHASE_ORDER;
+
+    private static final Long DEFAULT_REFERENCE_ID = 1L;
+    private static final Long UPDATED_REFERENCE_ID = 2L;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
@@ -141,6 +148,8 @@ public class JournalVoucherResourceIntTest {
             .postDate(DEFAULT_POST_DATE)
             .type(DEFAULT_TYPE)
             .conversionFactor(DEFAULT_CONVERSION_FACTOR)
+            .reference(DEFAULT_REFERENCE)
+            .referenceId(DEFAULT_REFERENCE_ID)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
         return journalVoucher;
@@ -172,6 +181,8 @@ public class JournalVoucherResourceIntTest {
         assertThat(testJournalVoucher.getPostDate()).isEqualTo(DEFAULT_POST_DATE);
         assertThat(testJournalVoucher.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testJournalVoucher.getConversionFactor()).isEqualTo(DEFAULT_CONVERSION_FACTOR);
+        assertThat(testJournalVoucher.getReference()).isEqualTo(DEFAULT_REFERENCE);
+        assertThat(testJournalVoucher.getReferenceId()).isEqualTo(DEFAULT_REFERENCE_ID);
         assertThat(testJournalVoucher.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testJournalVoucher.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
@@ -218,6 +229,8 @@ public class JournalVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
+            .andExpect(jsonPath("$.[*].reference").value(hasItem(DEFAULT_REFERENCE.toString())))
+            .andExpect(jsonPath("$.[*].referenceId").value(hasItem(DEFAULT_REFERENCE_ID.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
@@ -238,6 +251,8 @@ public class JournalVoucherResourceIntTest {
             .andExpect(jsonPath("$.postDate").value(DEFAULT_POST_DATE.toString()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.conversionFactor").value(DEFAULT_CONVERSION_FACTOR.intValue()))
+            .andExpect(jsonPath("$.reference").value(DEFAULT_REFERENCE.toString()))
+            .andExpect(jsonPath("$.referenceId").value(DEFAULT_REFERENCE_ID.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
@@ -493,6 +508,111 @@ public class JournalVoucherResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllJournalVouchersByReferenceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where reference equals to DEFAULT_REFERENCE
+        defaultJournalVoucherShouldBeFound("reference.equals=" + DEFAULT_REFERENCE);
+
+        // Get all the journalVoucherList where reference equals to UPDATED_REFERENCE
+        defaultJournalVoucherShouldNotBeFound("reference.equals=" + UPDATED_REFERENCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByReferenceIsInShouldWork() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where reference in DEFAULT_REFERENCE or UPDATED_REFERENCE
+        defaultJournalVoucherShouldBeFound("reference.in=" + DEFAULT_REFERENCE + "," + UPDATED_REFERENCE);
+
+        // Get all the journalVoucherList where reference equals to UPDATED_REFERENCE
+        defaultJournalVoucherShouldNotBeFound("reference.in=" + UPDATED_REFERENCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByReferenceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where reference is not null
+        defaultJournalVoucherShouldBeFound("reference.specified=true");
+
+        // Get all the journalVoucherList where reference is null
+        defaultJournalVoucherShouldNotBeFound("reference.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByReferenceIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where referenceId equals to DEFAULT_REFERENCE_ID
+        defaultJournalVoucherShouldBeFound("referenceId.equals=" + DEFAULT_REFERENCE_ID);
+
+        // Get all the journalVoucherList where referenceId equals to UPDATED_REFERENCE_ID
+        defaultJournalVoucherShouldNotBeFound("referenceId.equals=" + UPDATED_REFERENCE_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByReferenceIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where referenceId in DEFAULT_REFERENCE_ID or UPDATED_REFERENCE_ID
+        defaultJournalVoucherShouldBeFound("referenceId.in=" + DEFAULT_REFERENCE_ID + "," + UPDATED_REFERENCE_ID);
+
+        // Get all the journalVoucherList where referenceId equals to UPDATED_REFERENCE_ID
+        defaultJournalVoucherShouldNotBeFound("referenceId.in=" + UPDATED_REFERENCE_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByReferenceIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where referenceId is not null
+        defaultJournalVoucherShouldBeFound("referenceId.specified=true");
+
+        // Get all the journalVoucherList where referenceId is null
+        defaultJournalVoucherShouldNotBeFound("referenceId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByReferenceIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where referenceId greater than or equals to DEFAULT_REFERENCE_ID
+        defaultJournalVoucherShouldBeFound("referenceId.greaterOrEqualThan=" + DEFAULT_REFERENCE_ID);
+
+        // Get all the journalVoucherList where referenceId greater than or equals to UPDATED_REFERENCE_ID
+        defaultJournalVoucherShouldNotBeFound("referenceId.greaterOrEqualThan=" + UPDATED_REFERENCE_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByReferenceIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where referenceId less than or equals to DEFAULT_REFERENCE_ID
+        defaultJournalVoucherShouldNotBeFound("referenceId.lessThan=" + DEFAULT_REFERENCE_ID);
+
+        // Get all the journalVoucherList where referenceId less than or equals to UPDATED_REFERENCE_ID
+        defaultJournalVoucherShouldBeFound("referenceId.lessThan=" + UPDATED_REFERENCE_ID);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllJournalVouchersByModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         journalVoucherRepository.saveAndFlush(journalVoucher);
@@ -627,6 +747,8 @@ public class JournalVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
+            .andExpect(jsonPath("$.[*].reference").value(hasItem(DEFAULT_REFERENCE.toString())))
+            .andExpect(jsonPath("$.[*].referenceId").value(hasItem(DEFAULT_REFERENCE_ID.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
@@ -681,6 +803,8 @@ public class JournalVoucherResourceIntTest {
             .postDate(UPDATED_POST_DATE)
             .type(UPDATED_TYPE)
             .conversionFactor(UPDATED_CONVERSION_FACTOR)
+            .reference(UPDATED_REFERENCE)
+            .referenceId(UPDATED_REFERENCE_ID)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
         JournalVoucherDTO journalVoucherDTO = journalVoucherMapper.toDto(updatedJournalVoucher);
@@ -699,6 +823,8 @@ public class JournalVoucherResourceIntTest {
         assertThat(testJournalVoucher.getPostDate()).isEqualTo(UPDATED_POST_DATE);
         assertThat(testJournalVoucher.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testJournalVoucher.getConversionFactor()).isEqualTo(UPDATED_CONVERSION_FACTOR);
+        assertThat(testJournalVoucher.getReference()).isEqualTo(UPDATED_REFERENCE);
+        assertThat(testJournalVoucher.getReferenceId()).isEqualTo(UPDATED_REFERENCE_ID);
         assertThat(testJournalVoucher.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testJournalVoucher.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
@@ -766,6 +892,8 @@ public class JournalVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
+            .andExpect(jsonPath("$.[*].reference").value(hasItem(DEFAULT_REFERENCE.toString())))
+            .andExpect(jsonPath("$.[*].referenceId").value(hasItem(DEFAULT_REFERENCE_ID.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }

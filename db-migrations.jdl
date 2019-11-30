@@ -157,6 +157,15 @@ entity SalaryMessages{
     commentedOn LocalDate
 }
 
+entity SalaryVoucherRelation{
+    year Integer,
+    month MonthType,
+    voucherNo String,
+    modifiedBy String,
+    modifiedOn LocalDate
+    //office
+}
+
 
 entity Advance {
   amount BigDecimal,
@@ -491,6 +500,8 @@ entity JournalVoucher{
     postDate LocalDate,
     type VoucherType,
     conversionFactor BigDecimal,
+    reference VoucherReferenceType,
+    referenceId Long,
     modifiedBy String,
     modifiedOn LocalDate
 }
@@ -589,6 +600,12 @@ enum GroupType{
     SUNDRY_DEBTOR,
     SUNDRY_CREDITOR,
     CURRENT_LIABILITIES
+}
+
+enum VoucherReferenceType{
+    PAYROLL,
+    PURCHASE_ORDER,
+    PROCUREMENT
 }
 
 enum VoucherType{
@@ -840,6 +857,7 @@ relationship OneToMany{
 relationship ManyToOne {
   Requisition{employee(fullName)} to Employee,
   Requisition{office(name)} to Office,
+  SalaryVoucherRelation{office(name)} to Office,
   Requisition{productCategory(name)} to ProductCategory,
   Requisition{department(name)} to Department,
   Quotation{requisition(requisitionNo)} to Requisition,
@@ -911,10 +929,10 @@ relationship ManyToOne {
   ContraVoucher{currency(notation)} to Currency
 }
 
-dto Department, SalaryMessages, Voucher, JournalVoucher, PaymentVoucher, ContraVoucher, ReceiptVoucher, VoucherNumberControl, SystemGroupMap, SystemAccountMap, DtTransaction, MstGroup, CreditorLedger, MstAccount, Customer, DebtorLedger, ChequeRegister,ConversionFactor, PredefinedNarration, MonthlyBalance, AccountBalance, Currency, PeriodClose,Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions ,BudgetAllocation, Bill, DepartmentHead , Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with mapstruct
+dto Department,SalaryVoucherRelation, SalaryMessages, Voucher, JournalVoucher, PaymentVoucher, ContraVoucher, ReceiptVoucher, VoucherNumberControl, SystemGroupMap, SystemAccountMap, DtTransaction, MstGroup, CreditorLedger, MstAccount, Customer, DebtorLedger, ChequeRegister,ConversionFactor, PredefinedNarration, MonthlyBalance, AccountBalance, Currency, PeriodClose,Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions ,BudgetAllocation, Bill, DepartmentHead , Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with mapstruct
 paginate Department, SalaryMessages, VoucherNumberControl,JournalVoucher, PaymentVoucher, ContraVoucher, ReceiptVoucher, MstAccount, DtTransaction, Customer, CreditorLedger, DebtorLedger, ChequeRegister, AccountBalance, MonthlyBalance,  Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions, Bill, DepartmentHead,  Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, SpecialAllowanceTimeLine with pager
-paginate HolidayType, Voucher, PeriodClose, SystemAccountMap, SystemGroupMap, Currency, ConversionFactor, PredefinedNarration, MstGroup, BudgetAllocation, Holiday, DesignationWiseAllowance, Manager with infinite-scroll
-service Department, SalaryMessages, VoucherNumberControl, JournalVoucher, PaymentVoucher, ContraVoucher, ReceiptVoucher, MstAccount, SystemAccountMap, DtTransaction, SystemGroupMap, Customer, ChequeRegister, CreditorLedger, DebtorLedger, ConversionFactor, AccountBalance, PredefinedNarration, MonthlyBalance, Currency, PeriodClose, Voucher, MstGroup, Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions, BudgetAllocation, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with serviceClass
+paginate HolidayType, Voucher, SalaryVoucherRelation, PeriodClose, SystemAccountMap, SystemGroupMap, Currency, ConversionFactor, PredefinedNarration, MstGroup, BudgetAllocation, Holiday, DesignationWiseAllowance, Manager with infinite-scroll
+service Department, SalaryVoucherRelation, SalaryMessages, VoucherNumberControl, JournalVoucher, PaymentVoucher, ContraVoucher, ReceiptVoucher, MstAccount, SystemAccountMap, DtTransaction, SystemGroupMap, Customer, ChequeRegister, CreditorLedger, DebtorLedger, ConversionFactor, AccountBalance, PredefinedNarration, MonthlyBalance, Currency, PeriodClose, Voucher, MstGroup, Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions, BudgetAllocation, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine with serviceClass
 service HolidayType, Holiday with serviceImpl
 search Department, JournalVoucher, PaymentVoucher, ContraVoucher, ReceiptVoucher,  Requisition, Quotation, MstGroup, SystemAccountMap, SystemGroupMap, MstAccount, DtTransaction, Customer, AccountBalance, DebtorLedger, CreditorLedger, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, Manager, SpecialAllowanceTimeLine with elasticsearch
-filter Department, JournalVoucher,SalaryMessages, PaymentVoucher, ContraVoucher, ReceiptVoucher, Voucher, VoucherNumberControl, SystemAccountMap, SystemGroupMap, MstGroup, MstAccount, DtTransaction, Customer, CreditorLedger, DebtorLedger, ChequeRegister, ConversionFactor, PredefinedNarration, AccountBalance, MonthlyBalance, Currency, PeriodClose, Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions, BudgetAllocation, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine
+filter Department, SalaryVoucherRelation, JournalVoucher,SalaryMessages, PaymentVoucher, ContraVoucher, ReceiptVoucher, Voucher, VoucherNumberControl, SystemAccountMap, SystemGroupMap, MstGroup, MstAccount, DtTransaction, Customer, CreditorLedger, DebtorLedger, ChequeRegister, ConversionFactor, PredefinedNarration, AccountBalance, MonthlyBalance, Currency, PeriodClose, Requisition, Quotation, ProductCategory, Product, ProductPrice, RequisitionDetails, QuotationDetails, PurchaseOrder, TermsAndConditions, BudgetAllocation, Bill, DepartmentHead, Vendor, VendorContactPerson, PurchaseCommittee, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine

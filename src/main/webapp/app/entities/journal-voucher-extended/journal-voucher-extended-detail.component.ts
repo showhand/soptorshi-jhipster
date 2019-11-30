@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { IJournalVoucher } from 'app/shared/model/journal-voucher.model';
 import { JournalVoucherDetailComponent } from 'app/entities/journal-voucher';
 import { CurrencyFlag, ICurrency } from 'app/shared/model/currency.model';
 import { JournalVoucherExtendedService } from 'app/entities/journal-voucher-extended/journal-voucher-extended.service';
-import { Observable } from 'rxjs';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 import { CurrencyExtendedService } from 'app/entities/currency-extended';
 import { ConversionFactorExtendedService } from 'app/entities/conversion-factor-extended';
 import { IConversionFactor } from 'app/shared/model/conversion-factor.model';
-import { VoucherType } from 'app/shared/model/dt-transaction.model';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import * as moment from 'moment';
+import { VoucherType } from 'app/shared/model/dt-transaction.model';
 
 @Component({
     selector: 'jhi-journal-voucher-detail',
@@ -47,7 +44,7 @@ export class JournalVoucherExtendedDetailComponent extends JournalVoucherDetailC
         this.activatedRoute.data.subscribe(({ journalVoucher }) => {
             this.journalVoucher = journalVoucher;
             this.loadAll();
-            this.journalVoucher.type = this.voucherType == null ? (this.voucherType = VoucherType.BUYING) : this.voucherType;
+            this.journalVoucher.type = this.voucherType == null ? (this.voucherType = VoucherType.SELLING) : this.voucherType;
         });
     }
 

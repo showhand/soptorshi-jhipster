@@ -3,6 +3,7 @@ package org.soptorshi.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.VoucherType;
+import org.soptorshi.domain.enumeration.VoucherReferenceType;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -27,6 +28,11 @@ public class JournalVoucherCriteria implements Serializable {
      */
     public static class VoucherTypeFilter extends Filter<VoucherType> {
     }
+    /**
+     * Class for filtering VoucherReferenceType
+     */
+    public static class VoucherReferenceTypeFilter extends Filter<VoucherReferenceType> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -41,6 +47,10 @@ public class JournalVoucherCriteria implements Serializable {
     private VoucherTypeFilter type;
 
     private BigDecimalFilter conversionFactor;
+
+    private VoucherReferenceTypeFilter reference;
+
+    private LongFilter referenceId;
 
     private StringFilter modifiedBy;
 
@@ -96,6 +106,22 @@ public class JournalVoucherCriteria implements Serializable {
         this.conversionFactor = conversionFactor;
     }
 
+    public VoucherReferenceTypeFilter getReference() {
+        return reference;
+    }
+
+    public void setReference(VoucherReferenceTypeFilter reference) {
+        this.reference = reference;
+    }
+
+    public LongFilter getReferenceId() {
+        return referenceId;
+    }
+
+    public void setReferenceId(LongFilter referenceId) {
+        this.referenceId = referenceId;
+    }
+
     public StringFilter getModifiedBy() {
         return modifiedBy;
     }
@@ -137,6 +163,8 @@ public class JournalVoucherCriteria implements Serializable {
             Objects.equals(postDate, that.postDate) &&
             Objects.equals(type, that.type) &&
             Objects.equals(conversionFactor, that.conversionFactor) &&
+            Objects.equals(reference, that.reference) &&
+            Objects.equals(referenceId, that.referenceId) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(currencyId, that.currencyId);
@@ -151,6 +179,8 @@ public class JournalVoucherCriteria implements Serializable {
         postDate,
         type,
         conversionFactor,
+        reference,
+        referenceId,
         modifiedBy,
         modifiedOn,
         currencyId
@@ -166,6 +196,8 @@ public class JournalVoucherCriteria implements Serializable {
                 (postDate != null ? "postDate=" + postDate + ", " : "") +
                 (type != null ? "type=" + type + ", " : "") +
                 (conversionFactor != null ? "conversionFactor=" + conversionFactor + ", " : "") +
+                (reference != null ? "reference=" + reference + ", " : "") +
+                (referenceId != null ? "referenceId=" + referenceId + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (currencyId != null ? "currencyId=" + currencyId + ", " : "") +
