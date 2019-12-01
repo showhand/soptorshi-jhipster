@@ -113,15 +113,24 @@
         padding-left: 30px !important;
         background: #444444;
     }
+
+    ::-webkit-scrollbar {
+        width: 0px;  /* Remove scrollbar space */
+        background: transparent;  /* Optional: just make scrollbar invisible */
+    }
+    /* Optional: show position indicator in red */
+    ::-webkit-scrollbar-thumb {
+        background: #FF0000;
+    }
 </style>
 
 <jhi-page-ribbon></jhi-page-ribbon>
 <div>
     <router-outlet name="navbar"></router-outlet>
 </div>
-<div class="wrapper" [ngSwitch]="isAuthenticated() && sidebarService.toggleSidenav">
-    <nav id="sidebar" *ngSwitchCase="true" >
-        <ul class="list-unstyled components">
+<div class="wrapper" [ngSwitch]="isAuthenticated() && sidebarService.toggleSidenav" >
+    <nav id="sidebar" *ngSwitchCase="true"  style="overflow:hidden;">
+        <ul class="list-unstyled components" style="height:65em;  overflow-y:scroll;">
 
             <!-- <p>Dummy Heading</p>-->
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">

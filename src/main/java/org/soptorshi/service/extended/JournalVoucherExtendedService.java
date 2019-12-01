@@ -2,11 +2,13 @@ package org.soptorshi.service.extended;
 
 import io.github.jhipster.service.filter.LocalDateFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import org.soptorshi.domain.DtTransaction;
-import org.soptorshi.domain.JournalVoucherGenerator;
+import org.soptorshi.domain.*;
+import org.soptorshi.domain.enumeration.CurrencyFlag;
+import org.soptorshi.domain.enumeration.VoucherReferenceType;
 import org.soptorshi.repository.DtTransactionRepository;
 import org.soptorshi.repository.JournalVoucherGeneratorRepository;
 import org.soptorshi.repository.JournalVoucherRepository;
+import org.soptorshi.repository.extended.CurrencyExtendedRepository;
 import org.soptorshi.repository.search.JournalVoucherSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.DtTransactionQueryService;
@@ -21,6 +23,7 @@ import org.soptorshi.service.mapper.JournalVoucherMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -32,14 +35,16 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
     private DtTransactionMapper dtTransactionMapper;
     private DtTransactionRepository dtTransactionRepository;
     private DtTransactionExtendedService dtTransactionService;
+    private CurrencyExtendedRepository currencyExtendedRepository;
 
-    public JournalVoucherExtendedService(JournalVoucherRepository journalVoucherRepository, JournalVoucherMapper journalVoucherMapper, JournalVoucherSearchRepository journalVoucherSearchRepository, JournalVoucherGeneratorRepository journalVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionService) {
+    public JournalVoucherExtendedService(JournalVoucherRepository journalVoucherRepository, JournalVoucherMapper journalVoucherMapper, JournalVoucherSearchRepository journalVoucherSearchRepository, JournalVoucherGeneratorRepository journalVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionService, CurrencyExtendedRepository currencyExtendedRepository) {
         super(journalVoucherRepository, journalVoucherMapper, journalVoucherSearchRepository);
         this.journalVoucherGeneratorRepository = journalVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
         this.dtTransactionMapper = dtTransactionMapper;
         this.dtTransactionRepository = dtTransactionRepository;
         this.dtTransactionService = dtTransactionService;
+        this.currencyExtendedRepository = currencyExtendedRepository;
     }
 
     @Override
@@ -48,7 +53,8 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
             JournalVoucherGenerator journalVoucherGenerator = new JournalVoucherGenerator();
             journalVoucherGeneratorRepository.save(journalVoucherGenerator);
             String voucherNo = String.format("%06d", journalVoucherGenerator.getId());
-            journalVoucherDTO.setVoucherNo("JN"+voucherNo);
+            LocalDate currentDate = LocalDate.now();
+            journalVoucherDTO.setVoucherNo(currentDate.getYear()+ "JN"+voucherNo);
         }
         journalVoucherDTO.setPostDate(journalVoucherDTO.getPostDate()!=null? LocalDate.now(): journalVoucherDTO.getPostDate());
         updateTransactions(journalVoucherDTO);
@@ -82,5 +88,18 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
         if(journalVoucherDTO.getPostDate()!=null){
             dtTransactionService.updateAccountBalance(dtTransactionMapper.toDto(dtTransactions));
         }
+    }
+
+    public void createPayrollJournalEntry(List<MonthlySalary> monthlySalaries, SalaryVoucherRelation salaryVoucherRelation){
+        JournalVoucherDTO journalVoucher = new JournalVoucherDTO();
+        Currency baseCurrency = currencyExtendedRepository.findByFlag(CurrencyFlag.BASE);
+        journalVoucher.setCurrencyId(baseCurrency.getId());
+        journalVoucher.setConversionFactor(BigDecimal.ONE);
+        journalVoucher.setReference(VoucherReferenceType.PAYROLL);
+        journalVoucher.setReferenceId(salaryVoucherRelation.getId());
+        journalVoucher.setVoucherDate(LocalDate.now());
+        journalVoucher.setModifiedOn(LocalDate.now());
+        journalVoucher = save(journalVoucher);
+
     }
 }
