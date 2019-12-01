@@ -16,6 +16,7 @@ import { Employee, IEmployee } from 'app/shared/model/employee.model';
 import { MonthlySalaryService } from 'app/entities/monthly-salary';
 import { IMonthlySalary, MonthlySalary, MonthlySalaryStatus, MonthType } from 'app/shared/model/monthly-salary.model';
 import { SalaryExtendedService } from 'app/entities/salary-extended';
+import { MonthlySalaryExtendedService } from 'app/entities/monthly-salary-extended/monthly-salary-extended.service';
 
 @Component({
     selector: 'jhi-payroll-management',
@@ -49,7 +50,7 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         protected designationService: DesignationService,
         protected employeeService: EmployeeService,
         protected parseLinks: JhiParseLinks,
-        protected monthlySalaryService: MonthlySalaryService,
+        protected monthlySalaryService: MonthlySalaryExtendedService,
         protected salaryService: SalaryExtendedService,
         protected router: Router,
         public payrollManagementService: PayrollManagementService
@@ -85,6 +86,18 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+    }
+
+    public generateVouchers() {
+        this.monthlySalaryService
+            .createSalaryVouchers(
+                this.payrollManagementService.payrollManagement.officeId,
+                this.year,
+                this.payrollManagementService.payrollManagement.monthType
+            )
+            .subscribe((response: any) => {
+                this.jhiAlertService.success('Vouchers successfully generated for valid salaries');
+            });
     }
 
     public generatePayroll() {

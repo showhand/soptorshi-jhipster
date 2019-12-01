@@ -2,14 +2,16 @@ package org.soptorshi.service.extended;
 
 import io.github.jhipster.service.filter.LocalDateFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import org.soptorshi.domain.DtTransaction;
-import org.soptorshi.domain.PaymentVoucherGenerator;
-import org.soptorshi.domain.ReceiptVoucherGenerator;
+import org.soptorshi.domain.*;
+import org.soptorshi.domain.enumeration.AccountType;
 import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.CurrencyFlag;
 import org.soptorshi.repository.DtTransactionRepository;
 import org.soptorshi.repository.PaymentVoucherGeneratorRepository;
 import org.soptorshi.repository.PaymentVoucherRepository;
+import org.soptorshi.repository.SalaryVoucherRelationRepository;
+import org.soptorshi.repository.extended.CurrencyExtendedRepository;
+import org.soptorshi.repository.extended.SystemAccountMapExtendedRepository;
 import org.soptorshi.repository.search.PaymentVoucherSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.CurrencyQueryService;
@@ -36,8 +38,11 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
     private DtTransactionExtendedService dtTransactionExtendedService;
     private CurrencyQueryService currencyQueryService;
     private DtTransactionMapper dtTransactionMapper;
+    private CurrencyExtendedRepository currencyExtendedRepository;
+    private SystemAccountMapExtendedRepository systemAccountMapExtendedRepository;
+    private SalaryVoucherRelationRepository salaryVoucherRelationRepository;
 
-    public PaymentVoucherExtendedService(PaymentVoucherRepository paymentVoucherRepository, PaymentVoucherMapper paymentVoucherMapper, PaymentVoucherSearchRepository paymentVoucherSearchRepository, PaymentVoucherGeneratorRepository paymentVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, CurrencyQueryService currencyQueryService, DtTransactionMapper dtTransactionMapper) {
+    public PaymentVoucherExtendedService(PaymentVoucherRepository paymentVoucherRepository, PaymentVoucherMapper paymentVoucherMapper, PaymentVoucherSearchRepository paymentVoucherSearchRepository, PaymentVoucherGeneratorRepository paymentVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, CurrencyQueryService currencyQueryService, DtTransactionMapper dtTransactionMapper, CurrencyExtendedRepository currencyExtendedRepository, SystemAccountMapExtendedRepository systemAccountMapExtendedRepository, SalaryVoucherRelationRepository salaryVoucherRelationRepository) {
         super(paymentVoucherRepository, paymentVoucherMapper, paymentVoucherSearchRepository);
         this.paymentVoucherGeneratorRepository = paymentVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
@@ -45,6 +50,9 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
         this.dtTransactionExtendedService = dtTransactionExtendedService;
         this.currencyQueryService = currencyQueryService;
         this.dtTransactionMapper = dtTransactionMapper;
+        this.currencyExtendedRepository = currencyExtendedRepository;
+        this.systemAccountMapExtendedRepository = systemAccountMapExtendedRepository;
+        this.salaryVoucherRelationRepository = salaryVoucherRelationRepository;
     }
 
     @Override
@@ -52,8 +60,9 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
         if(paymentVoucherDTO.getVoucherNo()==null){
             PaymentVoucherGenerator paymentVoucherGenerator = new PaymentVoucherGenerator();
             paymentVoucherGeneratorRepository.save(paymentVoucherGenerator);
+            LocalDate currentDate = LocalDate.now();
             String voucherNo = String.format("%06d", paymentVoucherGenerator.getId());
-            paymentVoucherDTO.setVoucherNo("BP"+voucherNo);
+            paymentVoucherDTO.setVoucherNo(currentDate.getYear()+"BP"+voucherNo);
         }
         paymentVoucherDTO.setPostDate(paymentVoucherDTO.getPostDate()==null?paymentVoucherDTO.getPostDate():LocalDate.now());
         paymentVoucherDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
@@ -132,6 +141,48 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
         debitTransaction.setBalanceType(BalanceType.CREDIT);
         debitTransaction.setAccountId(paymentVoucherDTO.getAccountId());
         return debitTransaction;
+    }
+
+
+    void createPayrollPaymentVoucherEntry(List<MonthlySalary> monthlySalaries, SalaryVoucherRelation salaryVoucherRelation){
+        PaymentVoucherDTO paymentVoucherDTO = new PaymentVoucherDTO();
+        Currency baseCurrency = currencyExtendedRepository.findByFlag(CurrencyFlag.BASE);
+        SystemAccountMap salaryBankAccount = systemAccountMapExtendedRepository.findByAccountType(AccountType.SALARY_ACCOUNT);
+        paymentVoucherDTO.setAccountId(salaryBankAccount.getId());
+        paymentVoucherDTO.setVoucherDate(LocalDate.now());
+        paymentVoucherDTO = save(paymentVoucherDTO);
+
+        salaryVoucherRelation.setVoucherNo(paymentVoucherDTO.getVoucherNo());
+        salaryVoucherRelation.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        salaryVoucherRelation.setModifiedOn(LocalDate.now());
+        salaryVoucherRelationRepository.save(salaryVoucherRelation);
+
+        BigDecimal totalAmount = monthlySalaries
+            .stream()
+            .map(s->s.getGross())
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+
+        List<DtTransaction> voucherTransactions = new ArrayList<>();
+        DtTransaction salaryPayableTransaction = new DtTransaction();
+        SystemAccountMap salaryPayableAccount = systemAccountMapExtendedRepository.findByAccountType(AccountType.SALARY_PAYABLE);
+        salaryPayableTransaction.setAccount(salaryPayableAccount.getAccount());
+        salaryPayableTransaction.setCurrency(baseCurrency);
+        salaryPayableTransaction.setAmount(totalAmount);
+        salaryPayableTransaction.setBalanceType(BalanceType.DEBIT);
+        salaryPayableTransaction.setConvFactor(BigDecimal.ONE);
+        salaryPayableTransaction.setfCurrency(BigDecimal.ONE);
+        salaryPayableTransaction.setNarration("Monthly Salary Payment Voucher");
+        salaryPayableTransaction.setVoucherDate(paymentVoucherDTO.getVoucherDate());
+        salaryPayableTransaction.setVoucherNo(paymentVoucherDTO.getVoucherNo());
+        salaryPayableTransaction.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
+        salaryPayableTransaction.setModifiedOn(LocalDate.now());
+        voucherTransactions.add(salaryPayableTransaction);
+
+        dtTransactionRepository.saveAll(voucherTransactions);
+
+        paymentVoucherDTO.setPostDate(LocalDate.now());
+        save(paymentVoucherDTO);
     }
 
 }
