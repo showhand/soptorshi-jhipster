@@ -100,6 +100,6 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
         journalVoucher.setVoucherDate(LocalDate.now());
         journalVoucher.setModifiedOn(LocalDate.now());
         journalVoucher = save(journalVoucher);
-
+        
     }
 }
