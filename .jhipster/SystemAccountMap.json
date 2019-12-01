@@ -4,7 +4,7 @@
         {
             "fieldName": "accountType",
             "fieldType": "AccountType",
-            "fieldValues": "OPENING_BALANCE_ADJUSTMENT_ACCOUNT,PROVIDENT_FUND_ACCOUNT"
+            "fieldValues": "OPENING_BALANCE_ADJUSTMENT_ACCOUNT,PROVIDENT_FUND_ACCOUNT,SALARY_ACCOUNT,SALARY_ALLOWANCES,SALARY_PAYABLE"
         },
         {
             "fieldName": "modifiedBy",

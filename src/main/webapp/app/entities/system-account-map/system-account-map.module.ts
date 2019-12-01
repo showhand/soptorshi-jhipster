@@ -16,7 +16,7 @@ const ENTITY_STATES = [...systemAccountMapRoute, ...systemAccountMapPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /*declarations: [
+    declarations: [
         SystemAccountMapComponent,
         SystemAccountMapDetailComponent,
         SystemAccountMapUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...systemAccountMapRoute, ...systemAccountMapPopupRoute];
         SystemAccountMapUpdateComponent,
         SystemAccountMapDeleteDialogComponent,
         SystemAccountMapDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiSystemAccountMapModule {}
