@@ -3,32 +3,40 @@ import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
-    SalaryVoucherRelationComponent,
-    SalaryVoucherRelationDetailComponent,
-    SalaryVoucherRelationUpdateComponent,
-    SalaryVoucherRelationDeletePopupComponent,
-    SalaryVoucherRelationDeleteDialogComponent,
-    salaryVoucherRelationRoute,
-    salaryVoucherRelationPopupRoute
+    SalaryVoucherRelationExtendedComponent,
+    SalaryVoucherRelationExtendedDetailComponent,
+    SalaryVoucherRelationExtendedUpdateComponent,
+    salaryVoucherRelationExtendedRoute
 } from './';
+import {
+    SalaryVoucherRelationComponent,
+    SalaryVoucherRelationDeleteDialogComponent,
+    SalaryVoucherRelationDeletePopupComponent,
+    SalaryVoucherRelationDetailComponent,
+    salaryVoucherRelationPopupRoute,
+    SalaryVoucherRelationUpdateComponent
+} from 'app/entities/salary-voucher-relation';
 
-const ENTITY_STATES = [...salaryVoucherRelationRoute, ...salaryVoucherRelationPopupRoute];
+const ENTITY_STATES = [...salaryVoucherRelationExtendedRoute, ...salaryVoucherRelationPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /* declarations: [
+    declarations: [
         SalaryVoucherRelationComponent,
         SalaryVoucherRelationDetailComponent,
         SalaryVoucherRelationUpdateComponent,
+        SalaryVoucherRelationExtendedComponent,
+        SalaryVoucherRelationExtendedDetailComponent,
+        SalaryVoucherRelationExtendedUpdateComponent,
         SalaryVoucherRelationDeleteDialogComponent,
         SalaryVoucherRelationDeletePopupComponent
     ],
     entryComponents: [
-        SalaryVoucherRelationComponent,
-        SalaryVoucherRelationUpdateComponent,
+        SalaryVoucherRelationExtendedComponent,
+        SalaryVoucherRelationExtendedUpdateComponent,
         SalaryVoucherRelationDeleteDialogComponent,
         SalaryVoucherRelationDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiSalaryVoucherRelationModule {}

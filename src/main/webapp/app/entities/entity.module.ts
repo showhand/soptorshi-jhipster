@@ -657,19 +657,8 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'salary-voucher-relation',
-                loadChildren: './salary-voucher-relation/salary-voucher-relation.module#SoptorshiSalaryVoucherRelationModule'
-            },
-            {
-                path: 'journal-voucher',
-                loadChildren: './journal-voucher/journal-voucher.module#SoptorshiJournalVoucherModule'
-            },
-            {
-                path: 'monthly-salary',
-                loadChildren: './monthly-salary/monthly-salary.module#SoptorshiMonthlySalaryModule'
-            },
-            {
-                path: 'system-account-map',
-                loadChildren: './system-account-map/system-account-map.module#SoptorshiSystemAccountMapModule'
+                loadChildren:
+                    './salary-voucher-relation-extended/salary-voucher-relation-extended.module#SoptorshiSalaryVoucherRelationModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

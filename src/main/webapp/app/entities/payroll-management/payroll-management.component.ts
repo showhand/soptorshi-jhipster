@@ -100,6 +100,17 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             });
     }
 
+    public showGeneratedVouchers() {
+        const officeId = this.payrollManagementService.payrollManagement.officeId;
+        this.router.navigate([
+            '/salary-voucher-relation',
+            this.payrollManagementService.payrollManagement.officeId,
+            this.year,
+            this.payrollManagementService.payrollManagement.monthType,
+            'home'
+        ]);
+    }
+
     public generatePayroll() {
         this.salaryService
             .generatePayroll(

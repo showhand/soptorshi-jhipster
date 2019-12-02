@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="salaryVoucherRelation">
+            <h2><span>Salary Voucher Relation</span> {{salaryVoucherRelation.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Year</span></dt>
+                <dd>
+                    <span>{{salaryVoucherRelation.year}}</span>
+                </dd>
+                <dt><span>Month</span></dt>
+                <dd>
+                    <span>{{salaryVoucherRelation.month}}</span>
+                </dd>
+                <dt><span>Voucher No</span></dt>
+                <dd>
+                    <span>{{salaryVoucherRelation.voucherNo}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{salaryVoucherRelation.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{salaryVoucherRelation.modifiedOn}}</span>
+                </dd>
+                <dt><span>Office</span></dt>
+                <dd>
+                    <div *ngIf="salaryVoucherRelation.officeId">
+                        <a [routerLink]="['/office', salaryVoucherRelation.officeId, 'view']">{{salaryVoucherRelation.officeName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/salary-voucher-relation', salaryVoucherRelation.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
