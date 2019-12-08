@@ -80,7 +80,7 @@
     "entityTableName": "stock_out_item",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
-    "service": "serviceImpl",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",

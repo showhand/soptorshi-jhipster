@@ -1,12 +1,13 @@
 package org.soptorshi.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.Attendance;
 import org.soptorshi.repository.AttendanceRepository;
 import org.soptorshi.repository.search.AttendanceSearchRepository;
 import org.soptorshi.service.dto.AttendanceDTO;
 import org.soptorshi.service.mapper.AttendanceMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Attendance.
@@ -43,7 +44,6 @@ public class AttendanceService {
      * @param attendanceDTO the entity to save
      * @return the persisted entity
      */
-
     public AttendanceDTO save(AttendanceDTO attendanceDTO) {
         log.debug("Request to save Attendance : {}", attendanceDTO);
         Attendance attendance = attendanceMapper.toEntity(attendanceDTO);
@@ -59,7 +59,6 @@ public class AttendanceService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-
     @Transactional(readOnly = true)
     public Page<AttendanceDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Attendances");
@@ -74,7 +73,6 @@ public class AttendanceService {
      * @param id the id of the entity
      * @return the entity
      */
-
     @Transactional(readOnly = true)
     public Optional<AttendanceDTO> findOne(Long id) {
         log.debug("Request to get Attendance : {}", id);
@@ -87,7 +85,6 @@ public class AttendanceService {
      *
      * @param id the id of the entity
      */
-
     public void delete(Long id) {
         log.debug("Request to delete Attendance : {}", id);
         attendanceRepository.deleteById(id);
@@ -101,7 +98,6 @@ public class AttendanceService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-
     @Transactional(readOnly = true)
     public Page<AttendanceDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Attendances for query {}", query);

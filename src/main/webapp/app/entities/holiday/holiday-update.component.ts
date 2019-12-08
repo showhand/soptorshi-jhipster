@@ -76,9 +76,4 @@ export class HolidayUpdateComponent implements OnInit {
     trackHolidayTypeById(index: number, item: IHolidayType) {
         return item.id;
     }
-
-    calculateDifference() {
-        this.holiday.numberOfDays =
-            this.holiday.toDate && this.holiday.fromDate ? this.holiday.toDate.diff(this.holiday.fromDate, 'days') + 1 : 0;
-    }
 }

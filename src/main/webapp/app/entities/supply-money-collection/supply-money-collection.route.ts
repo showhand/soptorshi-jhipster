@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ISupplyMoneyCollection, SupplyMoneyCollection } from 'app/shared/model/supply-money-collection.model';
+import { SupplyMoneyCollection } from 'app/shared/model/supply-money-collection.model';
 import { SupplyMoneyCollectionService } from './supply-money-collection.service';
 import { SupplyMoneyCollectionComponent } from './supply-money-collection.component';
 import { SupplyMoneyCollectionDetailComponent } from './supply-money-collection-detail.component';
 import { SupplyMoneyCollectionUpdateComponent } from './supply-money-collection-update.component';
 import { SupplyMoneyCollectionDeletePopupComponent } from './supply-money-collection-delete-dialog.component';
+import { ISupplyMoneyCollection } from 'app/shared/model/supply-money-collection.model';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyMoneyCollectionResolve implements Resolve<ISupplyMoneyCollection> {

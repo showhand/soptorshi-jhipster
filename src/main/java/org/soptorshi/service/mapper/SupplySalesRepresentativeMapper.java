@@ -1,9 +1,9 @@
 package org.soptorshi.service.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.soptorshi.domain.SupplySalesRepresentative;
+import org.soptorshi.domain.*;
 import org.soptorshi.service.dto.SupplySalesRepresentativeDTO;
+
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity SupplySalesRepresentative and its DTO SupplySalesRepresentativeDTO.

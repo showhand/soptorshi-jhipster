@@ -1,27 +1,30 @@
 package org.soptorshi.web.rest;
-
-import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.soptorshi.service.StockOutItemQueryService;
 import org.soptorshi.service.StockOutItemService;
-import org.soptorshi.service.dto.StockOutItemCriteria;
-import org.soptorshi.service.dto.StockOutItemDTO;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
+import org.soptorshi.service.dto.StockOutItemDTO;
+import org.soptorshi.service.dto.StockOutItemCriteria;
+import org.soptorshi.service.StockOutItemQueryService;
+import io.github.jhipster.web.util.ResponseUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing StockOutItem.
@@ -74,14 +77,13 @@ public class StockOutItemResource {
     @PutMapping("/stock-out-items")
     public ResponseEntity<StockOutItemDTO> updateStockOutItem(@Valid @RequestBody StockOutItemDTO stockOutItemDTO) throws URISyntaxException {
         log.debug("REST request to update StockOutItem : {}", stockOutItemDTO);
-        /*if (stockOutItemDTO.getId() == null) {
+        if (stockOutItemDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        StockOutItemDTO result = stockOutItemServiceImpl.save(stockOutItemDTO);
+        StockOutItemDTO result = stockOutItemService.save(stockOutItemDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, stockOutItemDTO.getId().toString()))
-            .body(result);*/
-        throw new NotImplementedException();
+            .body(result);
     }
 
     /**
@@ -133,9 +135,8 @@ public class StockOutItemResource {
     @DeleteMapping("/stock-out-items/{id}")
     public ResponseEntity<Void> deleteStockOutItem(@PathVariable Long id) {
         log.debug("REST request to delete StockOutItem : {}", id);
-        /*stockOutItemServiceImpl.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();*/
-        throw new NotImplementedException();
+        stockOutItemService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
     /**

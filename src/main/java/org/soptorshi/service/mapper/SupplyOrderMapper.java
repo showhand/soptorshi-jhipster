@@ -1,9 +1,9 @@
 package org.soptorshi.service.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.soptorshi.domain.SupplyOrder;
+import org.soptorshi.domain.*;
 import org.soptorshi.service.dto.SupplyOrderDTO;
+
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity SupplyOrder and its DTO SupplyOrderDTO.

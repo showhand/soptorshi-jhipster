@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
+import { filter, map } from 'rxjs/operators';
+import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { ISupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
 import { AccountService } from 'app/core';
@@ -49,34 +50,10 @@ export class SupplySalesRepresentativeComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        /* if (this.currentSearch) {
-             this.supplySalesRepresentativeService
-                 .search({
-                     query: this.currentSearch,
-                     page: this.page,
-                     size: this.itemsPerPage,
-                     sort: this.sort()
-                 })
-                 .subscribe(
-                     (res: HttpResponse<ISupplySalesRepresentative[]>) => this.paginateSupplySalesRepresentatives(res.body, res.headers),
-                     (res: HttpErrorResponse) => this.onError(res.message)
-                 );
-             return;
-         }*/
         if (this.currentSearch) {
             this.supplySalesRepresentativeService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    'salesRepresentativeName.equals': this.currentSearch
-                })
-                .subscribe(
-                    (res: HttpResponse<ISupplySalesRepresentative[]>) => this.paginateSupplySalesRepresentatives(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        } else {
-            this.supplySalesRepresentativeService
-                .query({
+                .search({
+                    query: this.currentSearch,
                     page: this.page,
                     size: this.itemsPerPage,
                     sort: this.sort()
@@ -85,7 +62,18 @@ export class SupplySalesRepresentativeComponent implements OnInit, OnDestroy {
                     (res: HttpResponse<ISupplySalesRepresentative[]>) => this.paginateSupplySalesRepresentatives(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
+            return;
         }
+        this.supplySalesRepresentativeService
+            .query({
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<ISupplySalesRepresentative[]>) => this.paginateSupplySalesRepresentatives(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     reset() {

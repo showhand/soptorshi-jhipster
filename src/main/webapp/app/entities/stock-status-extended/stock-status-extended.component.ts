@@ -56,19 +56,7 @@ export class StockStatusExtendedComponent extends StockStatusComponent implement
         protected inventorySubLocationService: InventorySubLocationService,
         protected manufacturerService: ManufacturerService
     ) {
-        super(
-            stockStatusService,
-            jhiAlertService,
-            eventManager,
-            parseLinks,
-            activatedRoute,
-            accountService,
-            itemCategoryService,
-            itemSubCategoryService,
-            inventoryLocationService,
-            inventorySubLocationService,
-            manufacturerService
-        );
+        super(stockStatusService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
     }
 
     loadAll() {

@@ -1,19 +1,26 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.*;
-import org.soptorshi.domain.enumeration.ItemUnit;
+
+import org.soptorshi.domain.StockStatus;
+import org.soptorshi.domain.StockInItem;
+import org.soptorshi.domain.ItemCategory;
+import org.soptorshi.domain.ItemSubCategory;
+import org.soptorshi.domain.InventoryLocation;
+import org.soptorshi.domain.InventorySubLocation;
 import org.soptorshi.repository.StockStatusRepository;
 import org.soptorshi.repository.search.StockStatusSearchRepository;
-import org.soptorshi.service.StockStatusQueryService;
 import org.soptorshi.service.StockStatusService;
 import org.soptorshi.service.dto.StockStatusDTO;
 import org.soptorshi.service.mapper.StockStatusMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.StockStatusCriteria;
+import org.soptorshi.service.StockStatusQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -33,13 +40,16 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.soptorshi.domain.enumeration.ItemUnit;
 /**
  * Test class for the StockStatusResource REST controller.
  *
@@ -334,7 +344,7 @@ public class StockStatusResourceIntTest {
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY.toString())))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getStockStatus() throws Exception {

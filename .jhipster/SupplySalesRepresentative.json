@@ -56,7 +56,7 @@
     "entityTableName": "supply_sales_representative",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
-    "service": "serviceImpl",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",

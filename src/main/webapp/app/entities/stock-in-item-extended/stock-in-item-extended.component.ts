@@ -52,19 +52,7 @@ export class StockInItemExtendedComponent extends StockInItemComponent implement
         protected inventorySubLocationService: InventorySubLocationService,
         protected manufacturerService: ManufacturerService
     ) {
-        super(
-            stockInItemService,
-            jhiAlertService,
-            eventManager,
-            parseLinks,
-            activatedRoute,
-            accountService,
-            itemCategoryService,
-            itemSubCategoryService,
-            inventoryLocationService,
-            inventorySubLocationService,
-            manufacturerService
-        );
+        super(stockInItemService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
         this.stockInItems = [];
     }
 

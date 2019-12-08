@@ -50,18 +50,7 @@ export class StockOutItemExtendedComponent extends StockOutItemComponent impleme
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService
     ) {
-        super(
-            stockOutItemService,
-            jhiAlertService,
-            eventManager,
-            parseLinks,
-            activatedRoute,
-            accountService,
-            itemCategoryService,
-            itemSubCategoryService,
-            inventoryLocationService,
-            inventorySubLocationService
-        );
+        super(stockOutItemService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
         this.stockOutItems = [];
     }
 

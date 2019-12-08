@@ -1,22 +1,26 @@
 package org.soptorshi.service;
 
-import io.github.jhipster.service.QueryService;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.*;
-import org.soptorshi.repository.SupplyMoneyCollectionRepository;
-import org.soptorshi.repository.search.SupplyMoneyCollectionSearchRepository;
-import org.soptorshi.service.dto.SupplyMoneyCollectionCriteria;
-import org.soptorshi.service.dto.SupplyMoneyCollectionDTO;
-import org.soptorshi.service.mapper.SupplyMoneyCollectionMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.JoinType;
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import org.soptorshi.domain.SupplyMoneyCollection;
+import org.soptorshi.domain.*; // for static metamodels
+import org.soptorshi.repository.SupplyMoneyCollectionRepository;
+import org.soptorshi.repository.search.SupplyMoneyCollectionSearchRepository;
+import org.soptorshi.service.dto.SupplyMoneyCollectionCriteria;
+import org.soptorshi.service.dto.SupplyMoneyCollectionDTO;
+import org.soptorshi.service.mapper.SupplyMoneyCollectionMapper;
 
 /**
  * Service for executing complex queries for SupplyMoneyCollection entities in the database.

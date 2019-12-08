@@ -114,7 +114,7 @@
     "entityTableName": "stock_in_process",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
-    "service": "serviceImpl",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",

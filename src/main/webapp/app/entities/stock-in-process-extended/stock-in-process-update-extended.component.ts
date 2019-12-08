@@ -59,8 +59,7 @@ export class StockInProcessUpdateExtendedComponent extends StockInProcessUpdateC
             inventoryLocationService,
             inventorySubLocationService,
             manufacturerService,
-            activatedRoute,
-            router
+            activatedRoute
         );
     }
 

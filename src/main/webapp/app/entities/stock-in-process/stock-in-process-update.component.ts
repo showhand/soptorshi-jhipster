@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -47,8 +47,7 @@ export class StockInProcessUpdateComponent implements OnInit {
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
         protected manufacturerService: ManufacturerService,
-        protected activatedRoute: ActivatedRoute,
-        protected router: Router
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -100,66 +99,18 @@ export class StockInProcessUpdateComponent implements OnInit {
             .subscribe((res: IManufacturer[]) => (this.manufacturers = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
-    getItemSubCategories() {
-        this.itemSubCategoryService
-            .query({
-                'itemCategoriesId.equals': this.stockInProcess.itemCategoriesId
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemSubCategory[]>) => response.body)
-            )
-            .subscribe((res: IItemSubCategory[]) => (this.itemsubcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
-    }
-
-    getInventorySubLocation() {
-        this.inventorySubLocationService
-            .query({
-                'inventoryLocationsId.equals': this.stockInProcess.inventoryLocationsId
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<IInventorySubLocation[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IInventorySubLocation[]>) => response.body)
-            )
-            .subscribe(
-                (res: IInventorySubLocation[]) => (this.inventorysublocations = res),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-    }
-
     previousState() {
         window.history.back();
     }
 
     save() {
         this.isSaving = true;
-        if (this.validateRequest()) {
-            this.stockInProcess.stockInDate = this.stockInDate != null ? moment(this.stockInDate, DATE_TIME_FORMAT) : null;
-            if (this.stockInProcess.id !== undefined) {
-                this.subscribeToSaveResponse(this.stockInProcessService.update(this.stockInProcess));
-            } else {
-                this.subscribeToSaveResponse(this.stockInProcessService.create(this.stockInProcess));
-            }
+        this.stockInProcess.stockInDate = this.stockInDate != null ? moment(this.stockInDate, DATE_TIME_FORMAT) : null;
+        if (this.stockInProcess.id !== undefined) {
+            this.subscribeToSaveResponse(this.stockInProcessService.update(this.stockInProcess));
         } else {
-            this.isSaving = false;
+            this.subscribeToSaveResponse(this.stockInProcessService.create(this.stockInProcess));
         }
-    }
-
-    validateRequest(): boolean {
-        const numberOfContainerTrackingId: string[] = this.stockInProcess.containerTrackingId.split(',');
-        const numberOfQuantityPerContainer: string[] = this.stockInProcess.quantityPerContainer.split(',');
-
-        if (
-            this.stockInProcess.totalContainer === numberOfContainerTrackingId.length &&
-            this.stockInProcess.totalContainer === numberOfQuantityPerContainer.length
-        ) {
-            return true;
-        }
-
-        this.onError(
-            'Total number of container should be equal to number of total container tracking Id & number of total quantity per container'
-        );
-        return false;
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IStockInProcess>>) {
@@ -168,8 +119,7 @@ export class StockInProcessUpdateComponent implements OnInit {
 
     protected onSaveSuccess() {
         this.isSaving = false;
-        /*this.previousState();*/
-        this.router.navigate(['/stock-in-item']);
+        this.previousState();
     }
 
     protected onSaveError() {

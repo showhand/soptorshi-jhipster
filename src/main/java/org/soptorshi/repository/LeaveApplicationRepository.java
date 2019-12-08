@@ -1,13 +1,8 @@
 package org.soptorshi.repository;
 
 import org.soptorshi.domain.LeaveApplication;
-import org.soptorshi.domain.LeaveType;
-import org.soptorshi.domain.enumeration.LeaveStatus;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
-
-import java.time.LocalDate;
-import java.util.List;
 
 
 /**
@@ -16,4 +11,5 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface LeaveApplicationRepository extends JpaRepository<LeaveApplication, Long>, JpaSpecificationExecutor<LeaveApplication> {
+
 }

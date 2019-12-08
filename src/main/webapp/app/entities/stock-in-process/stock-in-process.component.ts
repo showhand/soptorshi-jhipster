@@ -115,9 +115,9 @@ export class StockInProcessComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
-            this.loadAll();
         });
         this.registerChangeInStockInProcesses();
     }
