@@ -31,7 +31,10 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="moonDependency"><span>Moon Dependency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -39,7 +42,10 @@
             <tr *ngFor="let holidayType of holidayTypes ;trackBy: trackId">
                 <td><a [routerLink]="['/holiday-type', holidayType.id, 'view' ]">{{holidayType.id}}</a></td>
                 <td>{{holidayType.name}}</td>
-                <td>{{holidayType.moonDependency}}</td>
+                <td>{{holidayType.createdBy}}</td>
+                <td>{{holidayType.createdOn | date:'medium'}}</td>
+                <td>{{holidayType.updatedBy}}</td>
+                <td>{{holidayType.updatedOn | date:'medium'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

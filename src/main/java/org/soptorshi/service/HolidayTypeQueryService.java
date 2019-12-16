@@ -96,8 +96,17 @@ public class HolidayTypeQueryService extends QueryService<HolidayType> {
             if (criteria.getName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getName(), HolidayType_.name));
             }
-            if (criteria.getMoonDependency() != null) {
-                specification = specification.and(buildSpecification(criteria.getMoonDependency(), HolidayType_.moonDependency));
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), HolidayType_.createdBy));
+            }
+            if (criteria.getCreatedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedOn(), HolidayType_.createdOn));
+            }
+            if (criteria.getUpdatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), HolidayType_.updatedBy));
+            }
+            if (criteria.getUpdatedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), HolidayType_.updatedOn));
             }
         }
         return specification;

@@ -45,7 +45,7 @@ public class StockInProcessExtendedService extends StockInProcessService {
     private final StockStatusMapper stockStatusMapper;
 
     public StockInProcessExtendedService(StockInProcessRepository stockInProcessRepository, StockInProcessMapper stockInProcessMapper, StockInProcessSearchRepository stockInProcessSearchRepository, StockInItemService stockInItemService, StockStatusExtendedRepository stockStatusExtendedRepository, StockStatusMapper stockStatusMapper) {
-        super(stockInProcessRepository, stockInProcessMapper, stockInProcessSearchRepository, stockInItemService, stockStatusExtendedRepository, stockStatusMapper);
+        super(stockInProcessRepository, stockInProcessMapper, stockInProcessSearchRepository);
         this.stockInProcessRepository = stockInProcessRepository;
         this.stockInProcessMapper = stockInProcessMapper;
         this.stockInProcessSearchRepository = stockInProcessSearchRepository;

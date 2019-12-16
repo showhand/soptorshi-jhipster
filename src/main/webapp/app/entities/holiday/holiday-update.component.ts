@@ -4,7 +4,8 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { JhiAlertService } from 'ng-jhipster';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IHoliday } from 'app/shared/model/holiday.model';
 import { HolidayService } from './holiday.service';
 import { IHolidayType } from 'app/shared/model/holiday-type.model';
@@ -21,8 +22,11 @@ export class HolidayUpdateComponent implements OnInit {
     holidaytypes: IHolidayType[];
     fromDateDp: any;
     toDateDp: any;
+    createdOn: string;
+    updatedOn: string;
 
     constructor(
+        protected dataUtils: JhiDataUtils,
         protected jhiAlertService: JhiAlertService,
         protected holidayService: HolidayService,
         protected holidayTypeService: HolidayTypeService,
@@ -33,6 +37,8 @@ export class HolidayUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ holiday }) => {
             this.holiday = holiday;
+            this.createdOn = this.holiday.createdOn != null ? this.holiday.createdOn.format(DATE_TIME_FORMAT) : null;
+            this.updatedOn = this.holiday.updatedOn != null ? this.holiday.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
         this.holidayTypeService
             .query()
@@ -43,12 +49,26 @@ export class HolidayUpdateComponent implements OnInit {
             .subscribe((res: IHolidayType[]) => (this.holidaytypes = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
+    }
+
+    setFileData(event, entity, field, isImage) {
+        this.dataUtils.setFileData(event, entity, field, isImage);
+    }
+
     previousState() {
         window.history.back();
     }
 
     save() {
         this.isSaving = true;
+        this.holiday.createdOn = this.createdOn != null ? moment(this.createdOn, DATE_TIME_FORMAT) : null;
+        this.holiday.updatedOn = this.updatedOn != null ? moment(this.updatedOn, DATE_TIME_FORMAT) : null;
         if (this.holiday.id !== undefined) {
             this.subscribeToSaveResponse(this.holidayService.update(this.holiday));
         } else {

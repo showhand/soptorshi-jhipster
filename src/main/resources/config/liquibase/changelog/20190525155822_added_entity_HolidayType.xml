@@ -26,12 +26,26 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="moon_dependency" type="varchar(255)">
-                <constraints nullable="false" />
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="created_on" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="updated_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="updated_on" type="datetime">
+                <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="holiday_type" columnName="created_on" columnDataType="datetime"/>
+        <dropDefaultValue tableName="holiday_type" columnName="updated_on" columnDataType="datetime"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

@@ -33,6 +33,13 @@
             <th jhiSortBy="fromDate"><span>From Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="toDate"><span>To Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="numberOfDays"><span>Number Of Days</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="moonDependency"><span>Moon Dependency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="holidayDeclaredBy"><span>Holiday Declared By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="holidayTypeName"><span>Holiday Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -43,6 +50,13 @@
                 <td>{{holiday.fromDate | date:'mediumDate'}}</td>
                 <td>{{holiday.toDate | date:'mediumDate'}}</td>
                 <td>{{holiday.numberOfDays}}</td>
+                <td>{{holiday.moonDependency}}</td>
+                <td>{{holiday.holidayDeclaredBy}}</td>
+                <td>{{holiday.remarks}}</td>
+                <td>{{holiday.createdBy}}</td>
+                <td>{{holiday.createdOn | date:'medium'}}</td>
+                <td>{{holiday.updatedBy}}</td>
+                <td>{{holiday.updatedOn | date:'medium'}}</td>
                 <td>
                     <div *ngIf="holiday.holidayTypeId">
                         <a [routerLink]="['../holiday-type', holiday.holidayTypeId , 'view' ]" >{{holiday.holidayTypeName}}</a>

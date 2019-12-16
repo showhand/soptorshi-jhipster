@@ -1,8 +1,8 @@
 package org.soptorshi.service.dto;
+import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.YesOrNo;
 
 /**
  * A DTO for the HolidayType entity.
@@ -14,8 +14,13 @@ public class HolidayTypeDTO implements Serializable {
     @NotNull
     private String name;
 
-    @NotNull
-    private YesOrNo moonDependency;
+    private String createdBy;
+
+    private Instant createdOn;
+
+    private String updatedBy;
+
+    private Instant updatedOn;
 
 
     public Long getId() {
@@ -34,12 +39,36 @@ public class HolidayTypeDTO implements Serializable {
         this.name = name;
     }
 
-    public YesOrNo getMoonDependency() {
-        return moonDependency;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setMoonDependency(YesOrNo moonDependency) {
-        this.moonDependency = moonDependency;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Instant createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Instant getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
     @Override
@@ -68,7 +97,10 @@ public class HolidayTypeDTO implements Serializable {
         return "HolidayTypeDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", moonDependency='" + getMoonDependency() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdOn='" + getCreatedOn() + "'" +
+            ", updatedBy='" + getUpdatedBy() + "'" +
+            ", updatedOn='" + getUpdatedOn() + "'" +
             "}";
     }
 }

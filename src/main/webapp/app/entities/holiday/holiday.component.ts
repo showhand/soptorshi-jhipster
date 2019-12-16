@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/ht
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { IHoliday } from 'app/shared/model/holiday.model';
 import { AccountService } from 'app/core';
@@ -30,6 +30,7 @@ export class HolidayComponent implements OnInit, OnDestroy {
     constructor(
         protected holidayService: HolidayService,
         protected jhiAlertService: JhiAlertService,
+        protected dataUtils: JhiDataUtils,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
@@ -128,6 +129,14 @@ export class HolidayComponent implements OnInit, OnDestroy {
 
     trackId(index: number, item: IHoliday) {
         return item.id;
+    }
+
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
     }
 
     registerChangeInHolidays() {

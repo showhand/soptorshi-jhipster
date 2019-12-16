@@ -169,12 +169,22 @@ entity Loan {
 }
 entity HolidayType {
   name String required,
-  moonDependency YesOrNo required
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
 }
 entity Holiday {
   fromDate LocalDate required,
   toDate LocalDate required,
-  numberOfDays Integer required
+  numberOfDays Integer required,
+  moonDependency YesOrNo required,
+  holidayDeclaredBy HolidayImposedAuthority required,
+  remarks TextBlob,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
 }
 entity PayrollManagement
 entity LeaveType {
@@ -921,6 +931,10 @@ enum PaymentStatus {
 enum YesOrNo {
   YES,
   NO
+}
+
+enum HolidayImposedAuthority{
+    GOVERNMENT, ORGANIZATIONAL, COMBINED, OTHERS
 }
 
 enum PaidOrUnPaid {
