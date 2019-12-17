@@ -4,8 +4,8 @@ import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.StockStatus;
 import org.soptorshi.domain.StockInItem;
-import org.soptorshi.domain.ItemCategory;
-import org.soptorshi.domain.ItemSubCategory;
+import org.soptorshi.domain.ProductCategory;
+import org.soptorshi.domain.Product;
 import org.soptorshi.domain.InventoryLocation;
 import org.soptorshi.domain.InventorySubLocation;
 import org.soptorshi.repository.StockStatusRepository;
@@ -699,39 +699,39 @@ public class StockStatusResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllStockStatusesByItemCategoriesIsEqualToSomething() throws Exception {
+    public void getAllStockStatusesByProductCategoriesIsEqualToSomething() throws Exception {
         // Initialize the database
-        ItemCategory itemCategories = ItemCategoryResourceIntTest.createEntity(em);
-        em.persist(itemCategories);
+        ProductCategory productCategories = ProductCategoryResourceIntTest.createEntity(em);
+        em.persist(productCategories);
         em.flush();
-        stockStatus.setItemCategories(itemCategories);
+        stockStatus.setProductCategories(productCategories);
         stockStatusRepository.saveAndFlush(stockStatus);
-        Long itemCategoriesId = itemCategories.getId();
+        Long productCategoriesId = productCategories.getId();
 
-        // Get all the stockStatusList where itemCategories equals to itemCategoriesId
-        defaultStockStatusShouldBeFound("itemCategoriesId.equals=" + itemCategoriesId);
+        // Get all the stockStatusList where productCategories equals to productCategoriesId
+        defaultStockStatusShouldBeFound("productCategoriesId.equals=" + productCategoriesId);
 
-        // Get all the stockStatusList where itemCategories equals to itemCategoriesId + 1
-        defaultStockStatusShouldNotBeFound("itemCategoriesId.equals=" + (itemCategoriesId + 1));
+        // Get all the stockStatusList where productCategories equals to productCategoriesId + 1
+        defaultStockStatusShouldNotBeFound("productCategoriesId.equals=" + (productCategoriesId + 1));
     }
 
 
     @Test
     @Transactional
-    public void getAllStockStatusesByItemSubCategoriesIsEqualToSomething() throws Exception {
+    public void getAllStockStatusesByProductsIsEqualToSomething() throws Exception {
         // Initialize the database
-        ItemSubCategory itemSubCategories = ItemSubCategoryResourceIntTest.createEntity(em);
-        em.persist(itemSubCategories);
+        Product products = ProductResourceIntTest.createEntity(em);
+        em.persist(products);
         em.flush();
-        stockStatus.setItemSubCategories(itemSubCategories);
+        stockStatus.setProducts(products);
         stockStatusRepository.saveAndFlush(stockStatus);
-        Long itemSubCategoriesId = itemSubCategories.getId();
+        Long productsId = products.getId();
 
-        // Get all the stockStatusList where itemSubCategories equals to itemSubCategoriesId
-        defaultStockStatusShouldBeFound("itemSubCategoriesId.equals=" + itemSubCategoriesId);
+        // Get all the stockStatusList where products equals to productsId
+        defaultStockStatusShouldBeFound("productsId.equals=" + productsId);
 
-        // Get all the stockStatusList where itemSubCategories equals to itemSubCategoriesId + 1
-        defaultStockStatusShouldNotBeFound("itemSubCategoriesId.equals=" + (itemSubCategoriesId + 1));
+        // Get all the stockStatusList where products equals to productsId + 1
+        defaultStockStatusShouldNotBeFound("productsId.equals=" + (productsId + 1));
     }
 
 

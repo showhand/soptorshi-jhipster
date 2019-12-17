@@ -129,13 +129,13 @@ public class StockInProcessQueryService extends QueryService<StockInProcess> {
             if (criteria.getRemarks() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getRemarks(), StockInProcess_.remarks));
             }
-            if (criteria.getItemCategoriesId() != null) {
-                specification = specification.and(buildSpecification(criteria.getItemCategoriesId(),
-                    root -> root.join(StockInProcess_.itemCategories, JoinType.LEFT).get(ItemCategory_.id)));
+            if (criteria.getProductCategoriesId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductCategoriesId(),
+                    root -> root.join(StockInProcess_.productCategories, JoinType.LEFT).get(ProductCategory_.id)));
             }
-            if (criteria.getItemSubCategoriesId() != null) {
-                specification = specification.and(buildSpecification(criteria.getItemSubCategoriesId(),
-                    root -> root.join(StockInProcess_.itemSubCategories, JoinType.LEFT).get(ItemSubCategory_.id)));
+            if (criteria.getProductsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductsId(),
+                    root -> root.join(StockInProcess_.products, JoinType.LEFT).get(Product_.id)));
             }
             if (criteria.getInventoryLocationsId() != null) {
                 specification = specification.and(buildSpecification(criteria.getInventoryLocationsId(),
@@ -145,9 +145,9 @@ public class StockInProcessQueryService extends QueryService<StockInProcess> {
                 specification = specification.and(buildSpecification(criteria.getInventorySubLocationsId(),
                     root -> root.join(StockInProcess_.inventorySubLocations, JoinType.LEFT).get(InventorySubLocation_.id)));
             }
-            if (criteria.getManufacturersId() != null) {
-                specification = specification.and(buildSpecification(criteria.getManufacturersId(),
-                    root -> root.join(StockInProcess_.manufacturers, JoinType.LEFT).get(Manufacturer_.id)));
+            if (criteria.getVendorId() != null) {
+                specification = specification.and(buildSpecification(criteria.getVendorId(),
+                    root -> root.join(StockInProcess_.vendor, JoinType.LEFT).get(Vendor_.id)));
             }
         }
         return specification;

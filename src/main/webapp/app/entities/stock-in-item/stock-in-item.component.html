@@ -40,11 +40,11 @@
             <th jhiSortBy="stockInDate"><span>Stock In Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="purchaseOrderId"><span>Purchase Order Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="itemCategoriesName"><span>Item Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="itemSubCategoriesName"><span>Item Sub Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="manufacturersName"><span>Manufacturers</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="vendorCompanyName"><span>Vendor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInProcessesId"><span>Stock In Processes</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -63,13 +63,13 @@
                 <td>{{stockInItem.purchaseOrderId}}</td>
                 <td>{{stockInItem.remarks}}</td>
                 <td>
-                    <div *ngIf="stockInItem.itemCategoriesId">
-                        <a [routerLink]="['../item-category', stockInItem.itemCategoriesId , 'view' ]" >{{stockInItem.itemCategoriesName}}</a>
+                    <div *ngIf="stockInItem.productCategoriesId">
+                        <a [routerLink]="['../product-category', stockInItem.productCategoriesId , 'view' ]" >{{stockInItem.productCategoriesName}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="stockInItem.itemSubCategoriesId">
-                        <a [routerLink]="['../item-sub-category', stockInItem.itemSubCategoriesId , 'view' ]" >{{stockInItem.itemSubCategoriesName}}</a>
+                    <div *ngIf="stockInItem.productsId">
+                        <a [routerLink]="['../product', stockInItem.productsId , 'view' ]" >{{stockInItem.productsName}}</a>
                     </div>
                 </td>
                 <td>
@@ -83,8 +83,8 @@
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="stockInItem.manufacturersId">
-                        <a [routerLink]="['../manufacturer', stockInItem.manufacturersId , 'view' ]" >{{stockInItem.manufacturersName}}</a>
+                    <div *ngIf="stockInItem.vendorId">
+                        <a [routerLink]="['../vendor', stockInItem.vendorId , 'view' ]" >{{stockInItem.vendorCompanyName}}</a>
                     </div>
                 </td>
                 <td>

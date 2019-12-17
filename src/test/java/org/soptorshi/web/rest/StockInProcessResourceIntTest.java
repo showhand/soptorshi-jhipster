@@ -3,11 +3,11 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.StockInProcess;
-import org.soptorshi.domain.ItemCategory;
-import org.soptorshi.domain.ItemSubCategory;
+import org.soptorshi.domain.ProductCategory;
+import org.soptorshi.domain.Product;
 import org.soptorshi.domain.InventoryLocation;
 import org.soptorshi.domain.InventorySubLocation;
-import org.soptorshi.domain.Manufacturer;
+import org.soptorshi.domain.Vendor;
 import org.soptorshi.repository.StockInProcessRepository;
 import org.soptorshi.repository.search.StockInProcessSearchRepository;
 import org.soptorshi.service.StockInProcessService;
@@ -940,39 +940,39 @@ public class StockInProcessResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllStockInProcessesByItemCategoriesIsEqualToSomething() throws Exception {
+    public void getAllStockInProcessesByProductCategoriesIsEqualToSomething() throws Exception {
         // Initialize the database
-        ItemCategory itemCategories = ItemCategoryResourceIntTest.createEntity(em);
-        em.persist(itemCategories);
+        ProductCategory productCategories = ProductCategoryResourceIntTest.createEntity(em);
+        em.persist(productCategories);
         em.flush();
-        stockInProcess.setItemCategories(itemCategories);
+        stockInProcess.setProductCategories(productCategories);
         stockInProcessRepository.saveAndFlush(stockInProcess);
-        Long itemCategoriesId = itemCategories.getId();
+        Long productCategoriesId = productCategories.getId();
 
-        // Get all the stockInProcessList where itemCategories equals to itemCategoriesId
-        defaultStockInProcessShouldBeFound("itemCategoriesId.equals=" + itemCategoriesId);
+        // Get all the stockInProcessList where productCategories equals to productCategoriesId
+        defaultStockInProcessShouldBeFound("productCategoriesId.equals=" + productCategoriesId);
 
-        // Get all the stockInProcessList where itemCategories equals to itemCategoriesId + 1
-        defaultStockInProcessShouldNotBeFound("itemCategoriesId.equals=" + (itemCategoriesId + 1));
+        // Get all the stockInProcessList where productCategories equals to productCategoriesId + 1
+        defaultStockInProcessShouldNotBeFound("productCategoriesId.equals=" + (productCategoriesId + 1));
     }
 
 
     @Test
     @Transactional
-    public void getAllStockInProcessesByItemSubCategoriesIsEqualToSomething() throws Exception {
+    public void getAllStockInProcessesByProductsIsEqualToSomething() throws Exception {
         // Initialize the database
-        ItemSubCategory itemSubCategories = ItemSubCategoryResourceIntTest.createEntity(em);
-        em.persist(itemSubCategories);
+        Product products = ProductResourceIntTest.createEntity(em);
+        em.persist(products);
         em.flush();
-        stockInProcess.setItemSubCategories(itemSubCategories);
+        stockInProcess.setProducts(products);
         stockInProcessRepository.saveAndFlush(stockInProcess);
-        Long itemSubCategoriesId = itemSubCategories.getId();
+        Long productsId = products.getId();
 
-        // Get all the stockInProcessList where itemSubCategories equals to itemSubCategoriesId
-        defaultStockInProcessShouldBeFound("itemSubCategoriesId.equals=" + itemSubCategoriesId);
+        // Get all the stockInProcessList where products equals to productsId
+        defaultStockInProcessShouldBeFound("productsId.equals=" + productsId);
 
-        // Get all the stockInProcessList where itemSubCategories equals to itemSubCategoriesId + 1
-        defaultStockInProcessShouldNotBeFound("itemSubCategoriesId.equals=" + (itemSubCategoriesId + 1));
+        // Get all the stockInProcessList where products equals to productsId + 1
+        defaultStockInProcessShouldNotBeFound("productsId.equals=" + (productsId + 1));
     }
 
 
@@ -1016,20 +1016,20 @@ public class StockInProcessResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllStockInProcessesByManufacturersIsEqualToSomething() throws Exception {
+    public void getAllStockInProcessesByVendorIsEqualToSomething() throws Exception {
         // Initialize the database
-        Manufacturer manufacturers = ManufacturerResourceIntTest.createEntity(em);
-        em.persist(manufacturers);
+        Vendor vendor = VendorResourceIntTest.createEntity(em);
+        em.persist(vendor);
         em.flush();
-        stockInProcess.setManufacturers(manufacturers);
+        stockInProcess.setVendor(vendor);
         stockInProcessRepository.saveAndFlush(stockInProcess);
-        Long manufacturersId = manufacturers.getId();
+        Long vendorId = vendor.getId();
 
-        // Get all the stockInProcessList where manufacturers equals to manufacturersId
-        defaultStockInProcessShouldBeFound("manufacturersId.equals=" + manufacturersId);
+        // Get all the stockInProcessList where vendor equals to vendorId
+        defaultStockInProcessShouldBeFound("vendorId.equals=" + vendorId);
 
-        // Get all the stockInProcessList where manufacturers equals to manufacturersId + 1
-        defaultStockInProcessShouldNotBeFound("manufacturersId.equals=" + (manufacturersId + 1));
+        // Get all the stockInProcessList where vendor equals to vendorId + 1
+        defaultStockInProcessShouldNotBeFound("vendorId.equals=" + (vendorId + 1));
     }
 
     /**

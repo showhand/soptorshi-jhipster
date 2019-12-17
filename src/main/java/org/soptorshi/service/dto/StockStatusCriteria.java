@@ -49,9 +49,9 @@ public class StockStatusCriteria implements Serializable {
 
     private LongFilter stockInItemsId;
 
-    private LongFilter itemCategoriesId;
+    private LongFilter productCategoriesId;
 
-    private LongFilter itemSubCategoriesId;
+    private LongFilter productsId;
 
     private LongFilter inventoryLocationsId;
 
@@ -137,20 +137,20 @@ public class StockStatusCriteria implements Serializable {
         this.stockInItemsId = stockInItemsId;
     }
 
-    public LongFilter getItemCategoriesId() {
-        return itemCategoriesId;
+    public LongFilter getProductCategoriesId() {
+        return productCategoriesId;
     }
 
-    public void setItemCategoriesId(LongFilter itemCategoriesId) {
-        this.itemCategoriesId = itemCategoriesId;
+    public void setProductCategoriesId(LongFilter productCategoriesId) {
+        this.productCategoriesId = productCategoriesId;
     }
 
-    public LongFilter getItemSubCategoriesId() {
-        return itemSubCategoriesId;
+    public LongFilter getProductsId() {
+        return productsId;
     }
 
-    public void setItemSubCategoriesId(LongFilter itemSubCategoriesId) {
-        this.itemSubCategoriesId = itemSubCategoriesId;
+    public void setProductsId(LongFilter productsId) {
+        this.productsId = productsId;
     }
 
     public LongFilter getInventoryLocationsId() {
@@ -190,8 +190,8 @@ public class StockStatusCriteria implements Serializable {
             Objects.equals(stockInBy, that.stockInBy) &&
             Objects.equals(stockInDate, that.stockInDate) &&
             Objects.equals(stockInItemsId, that.stockInItemsId) &&
-            Objects.equals(itemCategoriesId, that.itemCategoriesId) &&
-            Objects.equals(itemSubCategoriesId, that.itemSubCategoriesId) &&
+            Objects.equals(productCategoriesId, that.productCategoriesId) &&
+            Objects.equals(productsId, that.productsId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
             Objects.equals(inventorySubLocationsId, that.inventorySubLocationsId);
     }
@@ -209,8 +209,8 @@ public class StockStatusCriteria implements Serializable {
         stockInBy,
         stockInDate,
         stockInItemsId,
-        itemCategoriesId,
-        itemSubCategoriesId,
+        productCategoriesId,
+        productsId,
         inventoryLocationsId,
         inventorySubLocationsId
         );
@@ -229,8 +229,8 @@ public class StockStatusCriteria implements Serializable {
                 (stockInBy != null ? "stockInBy=" + stockInBy + ", " : "") +
                 (stockInDate != null ? "stockInDate=" + stockInDate + ", " : "") +
                 (stockInItemsId != null ? "stockInItemsId=" + stockInItemsId + ", " : "") +
-                (itemCategoriesId != null ? "itemCategoriesId=" + itemCategoriesId + ", " : "") +
-                (itemSubCategoriesId != null ? "itemSubCategoriesId=" + itemSubCategoriesId + ", " : "") +
+                (productCategoriesId != null ? "productCategoriesId=" + productCategoriesId + ", " : "") +
+                (productsId != null ? "productsId=" + productsId + ", " : "") +
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +
                 (inventorySubLocationsId != null ? "inventorySubLocationsId=" + inventorySubLocationsId + ", " : "") +
             "}";

@@ -58,15 +58,15 @@ public class StockInItemCriteria implements Serializable {
 
     private StringFilter remarks;
 
-    private LongFilter itemCategoriesId;
+    private LongFilter productCategoriesId;
 
-    private LongFilter itemSubCategoriesId;
+    private LongFilter productsId;
 
     private LongFilter inventoryLocationsId;
 
     private LongFilter inventorySubLocationsId;
 
-    private LongFilter manufacturersId;
+    private LongFilter vendorId;
 
     private LongFilter stockInProcessesId;
 
@@ -158,20 +158,20 @@ public class StockInItemCriteria implements Serializable {
         this.remarks = remarks;
     }
 
-    public LongFilter getItemCategoriesId() {
-        return itemCategoriesId;
+    public LongFilter getProductCategoriesId() {
+        return productCategoriesId;
     }
 
-    public void setItemCategoriesId(LongFilter itemCategoriesId) {
-        this.itemCategoriesId = itemCategoriesId;
+    public void setProductCategoriesId(LongFilter productCategoriesId) {
+        this.productCategoriesId = productCategoriesId;
     }
 
-    public LongFilter getItemSubCategoriesId() {
-        return itemSubCategoriesId;
+    public LongFilter getProductsId() {
+        return productsId;
     }
 
-    public void setItemSubCategoriesId(LongFilter itemSubCategoriesId) {
-        this.itemSubCategoriesId = itemSubCategoriesId;
+    public void setProductsId(LongFilter productsId) {
+        this.productsId = productsId;
     }
 
     public LongFilter getInventoryLocationsId() {
@@ -190,12 +190,12 @@ public class StockInItemCriteria implements Serializable {
         this.inventorySubLocationsId = inventorySubLocationsId;
     }
 
-    public LongFilter getManufacturersId() {
-        return manufacturersId;
+    public LongFilter getVendorId() {
+        return vendorId;
     }
 
-    public void setManufacturersId(LongFilter manufacturersId) {
-        this.manufacturersId = manufacturersId;
+    public void setVendorId(LongFilter vendorId) {
+        this.vendorId = vendorId;
     }
 
     public LongFilter getStockInProcessesId() {
@@ -228,11 +228,11 @@ public class StockInItemCriteria implements Serializable {
             Objects.equals(stockInDate, that.stockInDate) &&
             Objects.equals(purchaseOrderId, that.purchaseOrderId) &&
             Objects.equals(remarks, that.remarks) &&
-            Objects.equals(itemCategoriesId, that.itemCategoriesId) &&
-            Objects.equals(itemSubCategoriesId, that.itemSubCategoriesId) &&
+            Objects.equals(productCategoriesId, that.productCategoriesId) &&
+            Objects.equals(productsId, that.productsId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
             Objects.equals(inventorySubLocationsId, that.inventorySubLocationsId) &&
-            Objects.equals(manufacturersId, that.manufacturersId) &&
+            Objects.equals(vendorId, that.vendorId) &&
             Objects.equals(stockInProcessesId, that.stockInProcessesId);
     }
 
@@ -250,11 +250,11 @@ public class StockInItemCriteria implements Serializable {
         stockInDate,
         purchaseOrderId,
         remarks,
-        itemCategoriesId,
-        itemSubCategoriesId,
+        productCategoriesId,
+        productsId,
         inventoryLocationsId,
         inventorySubLocationsId,
-        manufacturersId,
+        vendorId,
         stockInProcessesId
         );
     }
@@ -273,11 +273,11 @@ public class StockInItemCriteria implements Serializable {
                 (stockInDate != null ? "stockInDate=" + stockInDate + ", " : "") +
                 (purchaseOrderId != null ? "purchaseOrderId=" + purchaseOrderId + ", " : "") +
                 (remarks != null ? "remarks=" + remarks + ", " : "") +
-                (itemCategoriesId != null ? "itemCategoriesId=" + itemCategoriesId + ", " : "") +
-                (itemSubCategoriesId != null ? "itemSubCategoriesId=" + itemSubCategoriesId + ", " : "") +
+                (productCategoriesId != null ? "productCategoriesId=" + productCategoriesId + ", " : "") +
+                (productsId != null ? "productsId=" + productsId + ", " : "") +
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +
                 (inventorySubLocationsId != null ? "inventorySubLocationsId=" + inventorySubLocationsId + ", " : "") +
-                (manufacturersId != null ? "manufacturersId=" + manufacturersId + ", " : "") +
+                (vendorId != null ? "vendorId=" + vendorId + ", " : "") +
                 (stockInProcessesId != null ? "stockInProcessesId=" + stockInProcessesId + ", " : "") +
             "}";
     }

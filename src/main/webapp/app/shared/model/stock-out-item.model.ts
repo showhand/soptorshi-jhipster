@@ -8,10 +8,10 @@ export interface IStockOutItem {
     stockOutDate?: Moment;
     receiverId?: string;
     remarks?: string;
-    itemCategoriesName?: string;
-    itemCategoriesId?: number;
-    itemSubCategoriesName?: string;
-    itemSubCategoriesId?: number;
+    productCategoriesName?: string;
+    productCategoriesId?: number;
+    productsName?: string;
+    productsId?: number;
     inventoryLocationsName?: string;
     inventoryLocationsId?: number;
     inventorySubLocationsName?: string;
@@ -29,10 +29,10 @@ export class StockOutItem implements IStockOutItem {
         public stockOutDate?: Moment,
         public receiverId?: string,
         public remarks?: string,
-        public itemCategoriesName?: string,
-        public itemCategoriesId?: number,
-        public itemSubCategoriesName?: string,
-        public itemSubCategoriesId?: number,
+        public productCategoriesName?: string,
+        public productCategoriesId?: number,
+        public productsName?: string,
+        public productsId?: number,
         public inventoryLocationsName?: string,
         public inventoryLocationsId?: number,
         public inventorySubLocationsName?: string,

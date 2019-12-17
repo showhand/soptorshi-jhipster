@@ -45,16 +45,16 @@
                 <dd>
                     <span>{{stockInItem.remarks}}</span>
                 </dd>
-                <dt><span>Item Categories</span></dt>
+                <dt><span>Product Categories</span></dt>
                 <dd>
-                    <div *ngIf="stockInItem.itemCategoriesId">
-                        <a [routerLink]="['/item-category', stockInItem.itemCategoriesId, 'view']">{{stockInItem.itemCategoriesName}}</a>
+                    <div *ngIf="stockInItem.productCategoriesId">
+                        <a [routerLink]="['/product-category', stockInItem.productCategoriesId, 'view']">{{stockInItem.productCategoriesName}}</a>
                     </div>
                 </dd>
-                <dt><span>Item Sub Categories</span></dt>
+                <dt><span>Products</span></dt>
                 <dd>
-                    <div *ngIf="stockInItem.itemSubCategoriesId">
-                        <a [routerLink]="['/item-sub-category', stockInItem.itemSubCategoriesId, 'view']">{{stockInItem.itemSubCategoriesName}}</a>
+                    <div *ngIf="stockInItem.productsId">
+                        <a [routerLink]="['/product', stockInItem.productsId, 'view']">{{stockInItem.productsName}}</a>
                     </div>
                 </dd>
                 <dt><span>Inventory Locations</span></dt>
@@ -69,10 +69,10 @@
                         <a [routerLink]="['/inventory-sub-location', stockInItem.inventorySubLocationsId, 'view']">{{stockInItem.inventorySubLocationsName}}</a>
                     </div>
                 </dd>
-                <dt><span>Manufacturers</span></dt>
+                <dt><span>Vendor</span></dt>
                 <dd>
-                    <div *ngIf="stockInItem.manufacturersId">
-                        <a [routerLink]="['/manufacturer', stockInItem.manufacturersId, 'view']">{{stockInItem.manufacturersName}}</a>
+                    <div *ngIf="stockInItem.vendorId">
+                        <a [routerLink]="['/vendor', stockInItem.vendorId, 'view']">{{stockInItem.vendorCompanyName}}</a>
                     </div>
                 </dd>
                 <dt><span>Stock In Processes</span></dt>

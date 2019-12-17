@@ -69,11 +69,11 @@ public class StockInItem implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
-    private ItemCategory itemCategories;
+    private ProductCategory productCategories;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
-    private ItemSubCategory itemSubCategories;
+    private Product products;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
@@ -85,7 +85,7 @@ public class StockInItem implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
-    private Manufacturer manufacturers;
+    private Vendor vendor;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
@@ -230,30 +230,30 @@ public class StockInItem implements Serializable {
         this.remarks = remarks;
     }
 
-    public ItemCategory getItemCategories() {
-        return itemCategories;
+    public ProductCategory getProductCategories() {
+        return productCategories;
     }
 
-    public StockInItem itemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public StockInItem productCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
         return this;
     }
 
-    public void setItemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public void setProductCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
     }
 
-    public ItemSubCategory getItemSubCategories() {
-        return itemSubCategories;
+    public Product getProducts() {
+        return products;
     }
 
-    public StockInItem itemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public StockInItem products(Product product) {
+        this.products = product;
         return this;
     }
 
-    public void setItemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public void setProducts(Product product) {
+        this.products = product;
     }
 
     public InventoryLocation getInventoryLocations() {
@@ -282,17 +282,17 @@ public class StockInItem implements Serializable {
         this.inventorySubLocations = inventorySubLocation;
     }
 
-    public Manufacturer getManufacturers() {
-        return manufacturers;
+    public Vendor getVendor() {
+        return vendor;
     }
 
-    public StockInItem manufacturers(Manufacturer manufacturer) {
-        this.manufacturers = manufacturer;
+    public StockInItem vendor(Vendor vendor) {
+        this.vendor = vendor;
         return this;
     }
 
-    public void setManufacturers(Manufacturer manufacturer) {
-        this.manufacturers = manufacturer;
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
 
     public StockInProcess getStockInProcesses() {

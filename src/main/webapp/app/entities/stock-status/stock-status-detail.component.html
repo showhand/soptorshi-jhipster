@@ -43,16 +43,16 @@
                         <a [routerLink]="['/stock-in-item', stockStatus.stockInItemsId, 'view']">{{stockStatus.stockInItemsId}}</a>
                     </div>
                 </dd>
-                <dt><span>Item Categories</span></dt>
+                <dt><span>Product Categories</span></dt>
                 <dd>
-                    <div *ngIf="stockStatus.itemCategoriesId">
-                        <a [routerLink]="['/item-category', stockStatus.itemCategoriesId, 'view']">{{stockStatus.itemCategoriesName}}</a>
+                    <div *ngIf="stockStatus.productCategoriesId">
+                        <a [routerLink]="['/product-category', stockStatus.productCategoriesId, 'view']">{{stockStatus.productCategoriesName}}</a>
                     </div>
                 </dd>
-                <dt><span>Item Sub Categories</span></dt>
+                <dt><span>Products</span></dt>
                 <dd>
-                    <div *ngIf="stockStatus.itemSubCategoriesId">
-                        <a [routerLink]="['/item-sub-category', stockStatus.itemSubCategoriesId, 'view']">{{stockStatus.itemSubCategoriesName}}</a>
+                    <div *ngIf="stockStatus.productsId">
+                        <a [routerLink]="['/product', stockStatus.productsId, 'view']">{{stockStatus.productsName}}</a>
                     </div>
                 </dd>
                 <dt><span>Inventory Locations</span></dt>

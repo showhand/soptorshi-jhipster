@@ -36,8 +36,8 @@
             <th jhiSortBy="stockOutDate"><span>Stock Out Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="receiverId"><span>Receiver Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="itemCategoriesName"><span>Item Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="itemSubCategoriesName"><span>Item Sub Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInItemsId"><span>Stock In Items</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -55,13 +55,13 @@
                 <td>{{stockOutItem.receiverId}}</td>
                 <td>{{stockOutItem.remarks}}</td>
                 <td>
-                    <div *ngIf="stockOutItem.itemCategoriesId">
-                        <a [routerLink]="['../item-category', stockOutItem.itemCategoriesId , 'view' ]" >{{stockOutItem.itemCategoriesName}}</a>
+                    <div *ngIf="stockOutItem.productCategoriesId">
+                        <a [routerLink]="['../product-category', stockOutItem.productCategoriesId , 'view' ]" >{{stockOutItem.productCategoriesName}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="stockOutItem.itemSubCategoriesId">
-                        <a [routerLink]="['../item-sub-category', stockOutItem.itemSubCategoriesId , 'view' ]" >{{stockOutItem.itemSubCategoriesName}}</a>
+                    <div *ngIf="stockOutItem.productsId">
+                        <a [routerLink]="['../product', stockOutItem.productsId , 'view' ]" >{{stockOutItem.productsName}}</a>
                     </div>
                 </td>
                 <td>

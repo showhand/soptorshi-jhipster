@@ -10,10 +10,10 @@ import { IStockStatus } from 'app/shared/model/stock-status.model';
 import { StockStatusService } from './stock-status.service';
 import { IStockInItem } from 'app/shared/model/stock-in-item.model';
 import { StockInItemService } from 'app/entities/stock-in-item';
-import { IItemCategory } from 'app/shared/model/item-category.model';
-import { ItemCategoryService } from 'app/entities/item-category';
-import { IItemSubCategory } from 'app/shared/model/item-sub-category.model';
-import { ItemSubCategoryService } from 'app/entities/item-sub-category';
+import { IProductCategory } from 'app/shared/model/product-category.model';
+import { ProductCategoryService } from 'app/entities/product-category';
+import { IProduct } from 'app/shared/model/product.model';
+import { ProductService } from 'app/entities/product';
 import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
 import { InventoryLocationService } from 'app/entities/inventory-location';
 import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
@@ -29,9 +29,9 @@ export class StockStatusUpdateComponent implements OnInit {
 
     stockinitems: IStockInItem[];
 
-    itemcategories: IItemCategory[];
+    productcategories: IProductCategory[];
 
-    itemsubcategories: IItemSubCategory[];
+    products: IProduct[];
 
     inventorylocations: IInventoryLocation[];
 
@@ -42,8 +42,8 @@ export class StockStatusUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected stockStatusService: StockStatusService,
         protected stockInItemService: StockInItemService,
-        protected itemCategoryService: ItemCategoryService,
-        protected itemSubCategoryService: ItemSubCategoryService,
+        protected productCategoryService: ProductCategoryService,
+        protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
         protected activatedRoute: ActivatedRoute
@@ -80,20 +80,20 @@ export class StockStatusUpdateComponent implements OnInit {
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
-        this.itemCategoryService
+        this.productCategoryService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IItemCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemCategory[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IProductCategory[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProductCategory[]>) => response.body)
             )
-            .subscribe((res: IItemCategory[]) => (this.itemcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.itemSubCategoryService
+            .subscribe((res: IProductCategory[]) => (this.productcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.productService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemSubCategory[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProduct[]>) => response.body)
             )
-            .subscribe((res: IItemSubCategory[]) => (this.itemsubcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.inventoryLocationService
             .query()
             .pipe(
@@ -151,11 +151,11 @@ export class StockStatusUpdateComponent implements OnInit {
         return item.id;
     }
 
-    trackItemCategoryById(index: number, item: IItemCategory) {
+    trackProductCategoryById(index: number, item: IProductCategory) {
         return item.id;
     }
 
-    trackItemSubCategoryById(index: number, item: IItemSubCategory) {
+    trackProductById(index: number, item: IProduct) {
         return item.id;
     }
 

@@ -37,9 +37,9 @@ public class StockOutItemCriteria implements Serializable {
 
     private StringFilter remarks;
 
-    private LongFilter itemCategoriesId;
+    private LongFilter productCategoriesId;
 
-    private LongFilter itemSubCategoriesId;
+    private LongFilter productsId;
 
     private LongFilter inventoryLocationsId;
 
@@ -105,20 +105,20 @@ public class StockOutItemCriteria implements Serializable {
         this.remarks = remarks;
     }
 
-    public LongFilter getItemCategoriesId() {
-        return itemCategoriesId;
+    public LongFilter getProductCategoriesId() {
+        return productCategoriesId;
     }
 
-    public void setItemCategoriesId(LongFilter itemCategoriesId) {
-        this.itemCategoriesId = itemCategoriesId;
+    public void setProductCategoriesId(LongFilter productCategoriesId) {
+        this.productCategoriesId = productCategoriesId;
     }
 
-    public LongFilter getItemSubCategoriesId() {
-        return itemSubCategoriesId;
+    public LongFilter getProductsId() {
+        return productsId;
     }
 
-    public void setItemSubCategoriesId(LongFilter itemSubCategoriesId) {
-        this.itemSubCategoriesId = itemSubCategoriesId;
+    public void setProductsId(LongFilter productsId) {
+        this.productsId = productsId;
     }
 
     public LongFilter getInventoryLocationsId() {
@@ -171,8 +171,8 @@ public class StockOutItemCriteria implements Serializable {
             Objects.equals(stockOutDate, that.stockOutDate) &&
             Objects.equals(receiverId, that.receiverId) &&
             Objects.equals(remarks, that.remarks) &&
-            Objects.equals(itemCategoriesId, that.itemCategoriesId) &&
-            Objects.equals(itemSubCategoriesId, that.itemSubCategoriesId) &&
+            Objects.equals(productCategoriesId, that.productCategoriesId) &&
+            Objects.equals(productsId, that.productsId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
             Objects.equals(inventorySubLocationsId, that.inventorySubLocationsId) &&
             Objects.equals(stockInItemsId, that.stockInItemsId) &&
@@ -189,8 +189,8 @@ public class StockOutItemCriteria implements Serializable {
         stockOutDate,
         receiverId,
         remarks,
-        itemCategoriesId,
-        itemSubCategoriesId,
+        productCategoriesId,
+        productsId,
         inventoryLocationsId,
         inventorySubLocationsId,
         stockInItemsId,
@@ -208,8 +208,8 @@ public class StockOutItemCriteria implements Serializable {
                 (stockOutDate != null ? "stockOutDate=" + stockOutDate + ", " : "") +
                 (receiverId != null ? "receiverId=" + receiverId + ", " : "") +
                 (remarks != null ? "remarks=" + remarks + ", " : "") +
-                (itemCategoriesId != null ? "itemCategoriesId=" + itemCategoriesId + ", " : "") +
-                (itemSubCategoriesId != null ? "itemSubCategoriesId=" + itemSubCategoriesId + ", " : "") +
+                (productCategoriesId != null ? "productCategoriesId=" + productCategoriesId + ", " : "") +
+                (productsId != null ? "productsId=" + productsId + ", " : "") +
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +
                 (inventorySubLocationsId != null ? "inventorySubLocationsId=" + inventorySubLocationsId + ", " : "") +
                 (stockInItemsId != null ? "stockInItemsId=" + stockInItemsId + ", " : "") +

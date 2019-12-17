@@ -8,16 +8,16 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IStockInProcess } from 'app/shared/model/stock-in-process.model';
 import { StockInProcessService } from './stock-in-process.service';
-import { IItemCategory } from 'app/shared/model/item-category.model';
-import { ItemCategoryService } from 'app/entities/item-category';
-import { IItemSubCategory } from 'app/shared/model/item-sub-category.model';
-import { ItemSubCategoryService } from 'app/entities/item-sub-category';
+import { IProductCategory } from 'app/shared/model/product-category.model';
+import { ProductCategoryService } from 'app/entities/product-category';
+import { IProduct } from 'app/shared/model/product.model';
+import { ProductService } from 'app/entities/product';
 import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
 import { InventoryLocationService } from 'app/entities/inventory-location';
 import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
 import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
-import { IManufacturer } from 'app/shared/model/manufacturer.model';
-import { ManufacturerService } from 'app/entities/manufacturer';
+import { IVendor } from 'app/shared/model/vendor.model';
+import { VendorService } from 'app/entities/vendor';
 
 @Component({
     selector: 'jhi-stock-in-process-update',
@@ -27,26 +27,26 @@ export class StockInProcessUpdateComponent implements OnInit {
     stockInProcess: IStockInProcess;
     isSaving: boolean;
 
-    itemcategories: IItemCategory[];
+    productcategories: IProductCategory[];
 
-    itemsubcategories: IItemSubCategory[];
+    products: IProduct[];
 
     inventorylocations: IInventoryLocation[];
 
     inventorysublocations: IInventorySubLocation[];
 
-    manufacturers: IManufacturer[];
+    vendors: IVendor[];
     expiryDateDp: any;
     stockInDate: string;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockInProcessService: StockInProcessService,
-        protected itemCategoryService: ItemCategoryService,
-        protected itemSubCategoryService: ItemSubCategoryService,
+        protected productCategoryService: ProductCategoryService,
+        protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
-        protected manufacturerService: ManufacturerService,
+        protected vendorService: VendorService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -56,20 +56,20 @@ export class StockInProcessUpdateComponent implements OnInit {
             this.stockInProcess = stockInProcess;
             this.stockInDate = this.stockInProcess.stockInDate != null ? this.stockInProcess.stockInDate.format(DATE_TIME_FORMAT) : null;
         });
-        this.itemCategoryService
+        this.productCategoryService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IItemCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemCategory[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IProductCategory[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProductCategory[]>) => response.body)
             )
-            .subscribe((res: IItemCategory[]) => (this.itemcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.itemSubCategoryService
+            .subscribe((res: IProductCategory[]) => (this.productcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.productService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemSubCategory[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProduct[]>) => response.body)
             )
-            .subscribe((res: IItemSubCategory[]) => (this.itemsubcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.inventoryLocationService
             .query()
             .pipe(
@@ -90,13 +90,13 @@ export class StockInProcessUpdateComponent implements OnInit {
                 (res: IInventorySubLocation[]) => (this.inventorysublocations = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
-        this.manufacturerService
+        this.vendorService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IManufacturer[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IManufacturer[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IVendor[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IVendor[]>) => response.body)
             )
-            .subscribe((res: IManufacturer[]) => (this.manufacturers = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: IVendor[]) => (this.vendors = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -130,11 +130,11 @@ export class StockInProcessUpdateComponent implements OnInit {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
-    trackItemCategoryById(index: number, item: IItemCategory) {
+    trackProductCategoryById(index: number, item: IProductCategory) {
         return item.id;
     }
 
-    trackItemSubCategoryById(index: number, item: IItemSubCategory) {
+    trackProductById(index: number, item: IProduct) {
         return item.id;
     }
 
@@ -146,7 +146,7 @@ export class StockInProcessUpdateComponent implements OnInit {
         return item.id;
     }
 
-    trackManufacturerById(index: number, item: IManufacturer) {
+    trackVendorById(index: number, item: IVendor) {
         return item.id;
     }
 }

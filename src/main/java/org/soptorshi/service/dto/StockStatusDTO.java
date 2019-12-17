@@ -37,13 +37,13 @@ public class StockStatusDTO implements Serializable {
 
     private Long stockInItemsId;
 
-    private Long itemCategoriesId;
+    private Long productCategoriesId;
 
-    private String itemCategoriesName;
+    private String productCategoriesName;
 
-    private Long itemSubCategoriesId;
+    private Long productsId;
 
-    private String itemSubCategoriesName;
+    private String productsName;
 
     private Long inventoryLocationsId;
 
@@ -133,36 +133,36 @@ public class StockStatusDTO implements Serializable {
         this.stockInItemsId = stockInItemId;
     }
 
-    public Long getItemCategoriesId() {
-        return itemCategoriesId;
+    public Long getProductCategoriesId() {
+        return productCategoriesId;
     }
 
-    public void setItemCategoriesId(Long itemCategoryId) {
-        this.itemCategoriesId = itemCategoryId;
+    public void setProductCategoriesId(Long productCategoryId) {
+        this.productCategoriesId = productCategoryId;
     }
 
-    public String getItemCategoriesName() {
-        return itemCategoriesName;
+    public String getProductCategoriesName() {
+        return productCategoriesName;
     }
 
-    public void setItemCategoriesName(String itemCategoryName) {
-        this.itemCategoriesName = itemCategoryName;
+    public void setProductCategoriesName(String productCategoryName) {
+        this.productCategoriesName = productCategoryName;
     }
 
-    public Long getItemSubCategoriesId() {
-        return itemSubCategoriesId;
+    public Long getProductsId() {
+        return productsId;
     }
 
-    public void setItemSubCategoriesId(Long itemSubCategoryId) {
-        this.itemSubCategoriesId = itemSubCategoryId;
+    public void setProductsId(Long productId) {
+        this.productsId = productId;
     }
 
-    public String getItemSubCategoriesName() {
-        return itemSubCategoriesName;
+    public String getProductsName() {
+        return productsName;
     }
 
-    public void setItemSubCategoriesName(String itemSubCategoryName) {
-        this.itemSubCategoriesName = itemSubCategoryName;
+    public void setProductsName(String productName) {
+        this.productsName = productName;
     }
 
     public Long getInventoryLocationsId() {
@@ -231,10 +231,10 @@ public class StockStatusDTO implements Serializable {
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
             ", stockInItems=" + getStockInItemsId() +
-            ", itemCategories=" + getItemCategoriesId() +
-            ", itemCategories='" + getItemCategoriesName() + "'" +
-            ", itemSubCategories=" + getItemSubCategoriesId() +
-            ", itemSubCategories='" + getItemSubCategoriesName() + "'" +
+            ", productCategories=" + getProductCategoriesId() +
+            ", productCategories='" + getProductCategoriesName() + "'" +
+            ", products=" + getProductsId() +
+            ", products='" + getProductsName() + "'" +
             ", inventoryLocations=" + getInventoryLocationsId() +
             ", inventoryLocations='" + getInventoryLocationsName() + "'" +
             ", inventorySubLocations=" + getInventorySubLocationsId() +

@@ -14,17 +14,17 @@
                                  referencedColumnNames="id"
                                  referencedTableName="stock_in_item"/>
 
-        <addForeignKeyConstraint baseColumnNames="item_categories_id"
+        <addForeignKeyConstraint baseColumnNames="product_categories_id"
                                  baseTableName="stock_status"
-                                 constraintName="fk_stock_status_item_categories_id"
+                                 constraintName="fk_stock_status_product_categories_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="item_category"/>
+                                 referencedTableName="product_category"/>
 
-        <addForeignKeyConstraint baseColumnNames="item_sub_categories_id"
+        <addForeignKeyConstraint baseColumnNames="products_id"
                                  baseTableName="stock_status"
-                                 constraintName="fk_stock_status_item_sub_categories_id"
+                                 constraintName="fk_stock_status_products_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="item_sub_category"/>
+                                 referencedTableName="product"/>
 
         <addForeignKeyConstraint baseColumnNames="inventory_locations_id"
                                  baseTableName="stock_status"

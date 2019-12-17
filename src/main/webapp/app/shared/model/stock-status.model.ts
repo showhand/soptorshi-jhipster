@@ -19,10 +19,10 @@ export interface IStockStatus {
     stockInBy?: string;
     stockInDate?: Moment;
     stockInItemsId?: number;
-    itemCategoriesName?: string;
-    itemCategoriesId?: number;
-    itemSubCategoriesName?: string;
-    itemSubCategoriesId?: number;
+    productCategoriesName?: string;
+    productCategoriesId?: number;
+    productsName?: string;
+    productsId?: number;
     inventoryLocationsName?: string;
     inventoryLocationsId?: number;
     inventorySubLocationsName?: string;
@@ -41,10 +41,10 @@ export class StockStatus implements IStockStatus {
         public stockInBy?: string,
         public stockInDate?: Moment,
         public stockInItemsId?: number,
-        public itemCategoriesName?: string,
-        public itemCategoriesId?: number,
-        public itemSubCategoriesName?: string,
-        public itemSubCategoriesId?: number,
+        public productCategoriesName?: string,
+        public productCategoriesId?: number,
+        public productsName?: string,
+        public productsId?: number,
         public inventoryLocationsName?: string,
         public inventoryLocationsId?: number,
         public inventorySubLocationsName?: string,

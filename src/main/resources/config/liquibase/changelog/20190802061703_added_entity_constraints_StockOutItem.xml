@@ -8,17 +8,17 @@
     -->
     <changeSet id="20190802061703-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="item_categories_id"
+        <addForeignKeyConstraint baseColumnNames="product_categories_id"
                                  baseTableName="stock_out_item"
-                                 constraintName="fk_stock_out_item_item_categories_id"
+                                 constraintName="fk_stock_out_item_product_categories_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="item_category"/>
+                                 referencedTableName="product_category"/>
 
-        <addForeignKeyConstraint baseColumnNames="item_sub_categories_id"
+        <addForeignKeyConstraint baseColumnNames="products_id"
                                  baseTableName="stock_out_item"
-                                 constraintName="fk_stock_out_item_item_sub_categories_id"
+                                 constraintName="fk_stock_out_item_products_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="item_sub_category"/>
+                                 referencedTableName="product"/>
 
         <addForeignKeyConstraint baseColumnNames="inventory_locations_id"
                                  baseTableName="stock_out_item"

@@ -46,11 +46,11 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="item_categories_id" type="bigint">
+            <column name="product_categories_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
-            <column name="item_sub_categories_id" type="bigint">
+            <column name="products_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

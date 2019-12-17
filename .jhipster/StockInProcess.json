@@ -76,16 +76,16 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemCategory",
+            "otherEntityName": "productCategory",
             "otherEntityRelationshipName": "stockInProcess",
-            "relationshipName": "itemCategories",
+            "relationshipName": "productCategories",
             "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemSubCategory",
+            "otherEntityName": "product",
             "otherEntityRelationshipName": "stockInProcess",
-            "relationshipName": "itemSubCategories",
+            "relationshipName": "products",
             "otherEntityField": "name"
         },
         {
@@ -104,10 +104,10 @@
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "manufacturer",
+            "otherEntityName": "vendor",
             "otherEntityRelationshipName": "stockInProcess",
-            "relationshipName": "manufacturers",
-            "otherEntityField": "name"
+            "relationshipName": "vendor",
+            "otherEntityField": "companyName"
         }
     ],
     "changelogDate": "20190802061701",

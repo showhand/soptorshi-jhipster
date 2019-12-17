@@ -56,11 +56,11 @@
             <column name="stock_in_items_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_stock_status_stock_in_items_id" />
             </column>
-            <column name="item_categories_id" type="bigint">
+            <column name="product_categories_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
-            <column name="item_sub_categories_id" type="bigint">
+            <column name="products_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

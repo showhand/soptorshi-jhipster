@@ -204,8 +204,8 @@ public class StockInProcessExtendedService extends StockInProcessService {
 
     private StockInItemDTO getStockInItemDTO(StockInProcessDTO stockInProcessDTO, double quantity, String containerId, String currentUserId, Instant currentDateTime) {
         StockInItemDTO stockInItemDTO = new StockInItemDTO();
-        stockInItemDTO.setItemCategoriesId(stockInProcessDTO.getItemCategoriesId());
-        stockInItemDTO.setItemSubCategoriesId(stockInProcessDTO.getItemSubCategoriesId());
+        stockInItemDTO.setProductCategoriesId(stockInProcessDTO.getProductCategoriesId());
+        stockInItemDTO.setProductsId(stockInProcessDTO.getProductsId());
         stockInItemDTO.setInventoryLocationsId(stockInProcessDTO.getInventoryLocationsId());
         stockInItemDTO.setInventorySubLocationsId(stockInProcessDTO.getInventorySubLocationsId());
         stockInItemDTO.setQuantity(quantity);
@@ -224,8 +224,8 @@ public class StockInProcessExtendedService extends StockInProcessService {
 
     private StockStatusDTO getStockStatus(StockInProcessDTO stockInProcessDTO, double quantity, String containerId, String currentUserId, Instant currentDateTime, Long stockInItemId) {
         StockStatusDTO stockStatusDTO = new StockStatusDTO();
-        stockStatusDTO.setItemCategoriesId(stockInProcessDTO.getItemCategoriesId());
-        stockStatusDTO.setItemSubCategoriesId(stockInProcessDTO.getItemSubCategoriesId());
+        stockStatusDTO.setProductCategoriesId(stockInProcessDTO.getProductCategoriesId());
+        stockStatusDTO.setProductsId(stockInProcessDTO.getProductsId());
         stockStatusDTO.setInventoryLocationsId(stockInProcessDTO.getInventoryLocationsId());
         stockStatusDTO.setInventorySubLocationsId(stockInProcessDTO.getInventorySubLocationsId());
         stockStatusDTO.setContainerTrackingId(containerId);

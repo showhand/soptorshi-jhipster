@@ -35,16 +35,16 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemCategory",
+            "otherEntityName": "productCategory",
             "otherEntityRelationshipName": "stockOutItem",
-            "relationshipName": "itemCategories",
+            "relationshipName": "productCategories",
             "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemSubCategory",
+            "otherEntityName": "product",
             "otherEntityRelationshipName": "stockOutItem",
-            "relationshipName": "itemSubCategories",
+            "relationshipName": "products",
             "otherEntityField": "name"
         },
         {

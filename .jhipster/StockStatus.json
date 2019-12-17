@@ -64,16 +64,16 @@
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemCategory",
+            "otherEntityName": "productCategory",
             "otherEntityRelationshipName": "stockStatus",
-            "relationshipName": "itemCategories",
+            "relationshipName": "productCategories",
             "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemSubCategory",
+            "otherEntityName": "product",
             "otherEntityRelationshipName": "stockStatus",
-            "relationshipName": "itemSubCategories",
+            "relationshipName": "products",
             "otherEntityField": "name"
         },
         {

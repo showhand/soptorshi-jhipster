@@ -116,17 +116,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_itemCategories">Item Categories</label>
-                    <select class="form-control" id="field_itemCategories" name="itemCategories" [(ngModel)]="stockInItem.itemCategoriesId" >
+                    <label class="form-control-label" for="field_productCategories">Product Categories</label>
+                    <select class="form-control" id="field_productCategories" name="productCategories" [(ngModel)]="stockInItem.productCategoriesId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="itemCategoryOption.id" *ngFor="let itemCategoryOption of itemcategories; trackBy: trackItemCategoryById">{{itemCategoryOption.name}}</option>
+                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_itemSubCategories">Item Sub Categories</label>
-                    <select class="form-control" id="field_itemSubCategories" name="itemSubCategories" [(ngModel)]="stockInItem.itemSubCategoriesId" >
+                    <label class="form-control-label" for="field_products">Products</label>
+                    <select class="form-control" id="field_products" name="products" [(ngModel)]="stockInItem.productsId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="itemSubCategoryOption.id" *ngFor="let itemSubCategoryOption of itemsubcategories; trackBy: trackItemSubCategoryById">{{itemSubCategoryOption.name}}</option>
+                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -144,10 +144,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_manufacturers">Manufacturers</label>
-                    <select class="form-control" id="field_manufacturers" name="manufacturers" [(ngModel)]="stockInItem.manufacturersId" >
+                    <label class="form-control-label" for="field_vendor">Vendor</label>
+                    <select class="form-control" id="field_vendor" name="vendor" [(ngModel)]="stockInItem.vendorId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="manufacturerOption.id" *ngFor="let manufacturerOption of manufacturers; trackBy: trackManufacturerById">{{manufacturerOption.name}}</option>
+                        <option [ngValue]="vendorOption.id" *ngFor="let vendorOption of vendors; trackBy: trackVendorById">{{vendorOption.companyName}}</option>
                     </select>
                 </div>
                 <div class="form-group">

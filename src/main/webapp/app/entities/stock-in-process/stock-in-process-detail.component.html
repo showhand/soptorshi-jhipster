@@ -53,16 +53,16 @@
                 <dd>
                     <span>{{stockInProcess.remarks}}</span>
                 </dd>
-                <dt><span>Item Categories</span></dt>
+                <dt><span>Product Categories</span></dt>
                 <dd>
-                    <div *ngIf="stockInProcess.itemCategoriesId">
-                        <a [routerLink]="['/item-category', stockInProcess.itemCategoriesId, 'view']">{{stockInProcess.itemCategoriesName}}</a>
+                    <div *ngIf="stockInProcess.productCategoriesId">
+                        <a [routerLink]="['/product-category', stockInProcess.productCategoriesId, 'view']">{{stockInProcess.productCategoriesName}}</a>
                     </div>
                 </dd>
-                <dt><span>Item Sub Categories</span></dt>
+                <dt><span>Products</span></dt>
                 <dd>
-                    <div *ngIf="stockInProcess.itemSubCategoriesId">
-                        <a [routerLink]="['/item-sub-category', stockInProcess.itemSubCategoriesId, 'view']">{{stockInProcess.itemSubCategoriesName}}</a>
+                    <div *ngIf="stockInProcess.productsId">
+                        <a [routerLink]="['/product', stockInProcess.productsId, 'view']">{{stockInProcess.productsName}}</a>
                     </div>
                 </dd>
                 <dt><span>Inventory Locations</span></dt>
@@ -77,10 +77,10 @@
                         <a [routerLink]="['/inventory-sub-location', stockInProcess.inventorySubLocationsId, 'view']">{{stockInProcess.inventorySubLocationsName}}</a>
                     </div>
                 </dd>
-                <dt><span>Manufacturers</span></dt>
+                <dt><span>Vendor</span></dt>
                 <dd>
-                    <div *ngIf="stockInProcess.manufacturersId">
-                        <a [routerLink]="['/manufacturer', stockInProcess.manufacturersId, 'view']">{{stockInProcess.manufacturersName}}</a>
+                    <div *ngIf="stockInProcess.vendorId">
+                        <a [routerLink]="['/vendor', stockInProcess.vendorId, 'view']">{{stockInProcess.vendorCompanyName}}</a>
                     </div>
                 </dd>
             </dl>

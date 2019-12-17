@@ -47,11 +47,11 @@ public class StockOutItem implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("stockOutItems")
-    private ItemCategory itemCategories;
+    private ProductCategory productCategories;
 
     @ManyToOne
     @JsonIgnoreProperties("stockOutItems")
-    private ItemSubCategory itemSubCategories;
+    private Product products;
 
     @ManyToOne
     @JsonIgnoreProperties("stockOutItems")
@@ -156,30 +156,30 @@ public class StockOutItem implements Serializable {
         this.remarks = remarks;
     }
 
-    public ItemCategory getItemCategories() {
-        return itemCategories;
+    public ProductCategory getProductCategories() {
+        return productCategories;
     }
 
-    public StockOutItem itemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public StockOutItem productCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
         return this;
     }
 
-    public void setItemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public void setProductCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
     }
 
-    public ItemSubCategory getItemSubCategories() {
-        return itemSubCategories;
+    public Product getProducts() {
+        return products;
     }
 
-    public StockOutItem itemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public StockOutItem products(Product product) {
+        this.products = product;
         return this;
     }
 
-    public void setItemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public void setProducts(Product product) {
+        this.products = product;
     }
 
     public InventoryLocation getInventoryLocations() {

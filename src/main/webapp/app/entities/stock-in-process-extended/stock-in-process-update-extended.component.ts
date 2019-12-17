@@ -19,6 +19,7 @@ import { InventorySubLocationService } from 'app/entities/inventory-sub-location
 import { IManufacturer } from 'app/shared/model/manufacturer.model';
 import { ManufacturerService } from 'app/entities/manufacturer';
 import { StockInProcessUpdateComponent } from 'app/entities/stock-in-process';
+import { VendorService } from 'app/entities/vendor';
 
 @Component({
     selector: 'jhi-stock-in-process-update-extended',
@@ -47,7 +48,7 @@ export class StockInProcessUpdateExtendedComponent extends StockInProcessUpdateC
         protected itemSubCategoryService: ItemSubCategoryService,
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
-        protected manufacturerService: ManufacturerService,
+        protected vendorService: VendorService,
         protected activatedRoute: ActivatedRoute,
         protected router: Router
     ) {
@@ -58,7 +59,7 @@ export class StockInProcessUpdateExtendedComponent extends StockInProcessUpdateC
             itemSubCategoryService,
             inventoryLocationService,
             inventorySubLocationService,
-            manufacturerService,
+            vendorService,
             activatedRoute
         );
     }
@@ -103,7 +104,7 @@ export class StockInProcessUpdateExtendedComponent extends StockInProcessUpdateC
                 (res: IInventorySubLocation[]) => (this.inventorysublocations = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
-        this.manufacturerService
+        this.vendorService
             .query()
             .pipe(
                 filter((mayBeOk: HttpResponse<IManufacturer[]>) => mayBeOk.ok),

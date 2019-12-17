@@ -64,11 +64,11 @@ public class StockStatus implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("stockStatuses")
-    private ItemCategory itemCategories;
+    private ProductCategory productCategories;
 
     @ManyToOne
     @JsonIgnoreProperties("stockStatuses")
-    private ItemSubCategory itemSubCategories;
+    private Product products;
 
     @ManyToOne
     @JsonIgnoreProperties("stockStatuses")
@@ -204,30 +204,30 @@ public class StockStatus implements Serializable {
         this.stockInItems = stockInItem;
     }
 
-    public ItemCategory getItemCategories() {
-        return itemCategories;
+    public ProductCategory getProductCategories() {
+        return productCategories;
     }
 
-    public StockStatus itemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public StockStatus productCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
         return this;
     }
 
-    public void setItemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public void setProductCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
     }
 
-    public ItemSubCategory getItemSubCategories() {
-        return itemSubCategories;
+    public Product getProducts() {
+        return products;
     }
 
-    public StockStatus itemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public StockStatus products(Product product) {
+        this.products = product;
         return this;
     }
 
-    public void setItemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public void setProducts(Product product) {
+        this.products = product;
     }
 
     public InventoryLocation getInventoryLocations() {

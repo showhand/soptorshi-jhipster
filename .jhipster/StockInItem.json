@@ -62,16 +62,16 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemCategory",
+            "otherEntityName": "productCategory",
             "otherEntityRelationshipName": "stockInItem",
-            "relationshipName": "itemCategories",
+            "relationshipName": "productCategories",
             "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemSubCategory",
+            "otherEntityName": "product",
             "otherEntityRelationshipName": "stockInItem",
-            "relationshipName": "itemSubCategories",
+            "relationshipName": "products",
             "otherEntityField": "name"
         },
         {
@@ -90,10 +90,10 @@
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "manufacturer",
+            "otherEntityName": "vendor",
             "otherEntityRelationshipName": "stockInItem",
-            "relationshipName": "manufacturers",
-            "otherEntityField": "name"
+            "relationshipName": "vendor",
+            "otherEntityField": "companyName"
         },
         {
             "relationshipType": "many-to-one",

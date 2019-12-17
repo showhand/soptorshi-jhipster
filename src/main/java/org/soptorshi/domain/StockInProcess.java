@@ -77,11 +77,11 @@ public class StockInProcess implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("stockInProcesses")
-    private ItemCategory itemCategories;
+    private ProductCategory productCategories;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInProcesses")
-    private ItemSubCategory itemSubCategories;
+    private Product products;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInProcesses")
@@ -93,7 +93,7 @@ public class StockInProcess implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("stockInProcesses")
-    private Manufacturer manufacturers;
+    private Vendor vendor;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -260,30 +260,30 @@ public class StockInProcess implements Serializable {
         this.remarks = remarks;
     }
 
-    public ItemCategory getItemCategories() {
-        return itemCategories;
+    public ProductCategory getProductCategories() {
+        return productCategories;
     }
 
-    public StockInProcess itemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public StockInProcess productCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
         return this;
     }
 
-    public void setItemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public void setProductCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
     }
 
-    public ItemSubCategory getItemSubCategories() {
-        return itemSubCategories;
+    public Product getProducts() {
+        return products;
     }
 
-    public StockInProcess itemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public StockInProcess products(Product product) {
+        this.products = product;
         return this;
     }
 
-    public void setItemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public void setProducts(Product product) {
+        this.products = product;
     }
 
     public InventoryLocation getInventoryLocations() {
@@ -312,17 +312,17 @@ public class StockInProcess implements Serializable {
         this.inventorySubLocations = inventorySubLocation;
     }
 
-    public Manufacturer getManufacturers() {
-        return manufacturers;
+    public Vendor getVendor() {
+        return vendor;
     }
 
-    public StockInProcess manufacturers(Manufacturer manufacturer) {
-        this.manufacturers = manufacturer;
+    public StockInProcess vendor(Vendor vendor) {
+        this.vendor = vendor;
         return this;
     }
 
-    public void setManufacturers(Manufacturer manufacturer) {
-        this.manufacturers = manufacturer;
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
