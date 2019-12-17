@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 
 import org.soptorshi.domain.enumeration.ContainerCategory;
 
@@ -37,7 +37,7 @@ public class StockInItem implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "unit", nullable = false)
-    private ItemUnit unit;
+    private UnitOfMeasurements unit;
 
     @NotNull
     @Column(name = "price", nullable = false)
@@ -113,16 +113,16 @@ public class StockInItem implements Serializable {
         this.quantity = quantity;
     }
 
-    public ItemUnit getUnit() {
+    public UnitOfMeasurements getUnit() {
         return unit;
     }
 
-    public StockInItem unit(ItemUnit unit) {
+    public StockInItem unit(UnitOfMeasurements unit) {
         this.unit = unit;
         return this;
     }
 
-    public void setUnit(ItemUnit unit) {
+    public void setUnit(UnitOfMeasurements unit) {
         this.unit = unit;
     }
 

@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { StockInProcessService } from 'app/entities/stock-in-process/stock-in-process.service';
-import { IStockInProcess, StockInProcess, ItemUnit, ContainerCategory } from 'app/shared/model/stock-in-process.model';
+import { IStockInProcess, StockInProcess, UnitOfMeasurements, ContainerCategory } from 'app/shared/model/stock-in-process.model';
 
 describe('Service Tests', () => {
     describe('StockInProcess Service', () => {
@@ -28,7 +28,7 @@ describe('Service Tests', () => {
             elemDefault = new StockInProcess(
                 0,
                 0,
-                ItemUnit.KG,
+                UnitOfMeasurements.PCS,
                 0,
                 0,
                 ContainerCategory.BOTTLE,

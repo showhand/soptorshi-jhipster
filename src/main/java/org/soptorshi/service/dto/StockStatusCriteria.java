@@ -2,7 +2,7 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -22,9 +22,9 @@ import io.github.jhipster.service.filter.InstantFilter;
  */
 public class StockStatusCriteria implements Serializable {
     /**
-     * Class for filtering ItemUnit
+     * Class for filtering UnitOfMeasurements
      */
-    public static class ItemUnitFilter extends Filter<ItemUnit> {
+    public static class UnitOfMeasurementsFilter extends Filter<UnitOfMeasurements> {
     }
 
     private static final long serialVersionUID = 1L;
@@ -35,7 +35,7 @@ public class StockStatusCriteria implements Serializable {
 
     private DoubleFilter totalQuantity;
 
-    private ItemUnitFilter unit;
+    private UnitOfMeasurementsFilter unit;
 
     private DoubleFilter availableQuantity;
 
@@ -81,11 +81,11 @@ public class StockStatusCriteria implements Serializable {
         this.totalQuantity = totalQuantity;
     }
 
-    public ItemUnitFilter getUnit() {
+    public UnitOfMeasurementsFilter getUnit() {
         return unit;
     }
 
-    public void setUnit(ItemUnitFilter unit) {
+    public void setUnit(UnitOfMeasurementsFilter unit) {
         this.unit = unit;
     }
 

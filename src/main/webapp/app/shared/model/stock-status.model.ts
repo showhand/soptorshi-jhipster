@@ -1,18 +1,17 @@
 import { Moment } from 'moment';
 
-export const enum ItemUnit {
-    KG = 'KG',
+export const enum UnitOfMeasurements {
     PCS = 'PCS',
-    LITER = 'LITER',
-    DOZEN = 'DOZEN',
-    OTHERS = 'OTHERS'
+    KG = 'KG',
+    TON = 'TON',
+    GRAM = 'GRAM'
 }
 
 export interface IStockStatus {
     id?: number;
     containerTrackingId?: string;
     totalQuantity?: number;
-    unit?: ItemUnit;
+    unit?: UnitOfMeasurements;
     availableQuantity?: number;
     totalPrice?: number;
     availablePrice?: number;
@@ -34,7 +33,7 @@ export class StockStatus implements IStockStatus {
         public id?: number,
         public containerTrackingId?: string,
         public totalQuantity?: number,
-        public unit?: ItemUnit,
+        public unit?: UnitOfMeasurements,
         public availableQuantity?: number,
         public totalPrice?: number,
         public availablePrice?: number,

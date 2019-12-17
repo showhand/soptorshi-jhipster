@@ -3,7 +3,7 @@ import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 
 /**
  * A DTO for the StockStatus entity.
@@ -19,7 +19,7 @@ public class StockStatusDTO implements Serializable {
     private Double totalQuantity;
 
     @NotNull
-    private ItemUnit unit;
+    private UnitOfMeasurements unit;
 
     @NotNull
     private Double availableQuantity;
@@ -77,11 +77,11 @@ public class StockStatusDTO implements Serializable {
         this.totalQuantity = totalQuantity;
     }
 
-    public ItemUnit getUnit() {
+    public UnitOfMeasurements getUnit() {
         return unit;
     }
 
-    public void setUnit(ItemUnit unit) {
+    public void setUnit(UnitOfMeasurements unit) {
         this.unit = unit;
     }
 

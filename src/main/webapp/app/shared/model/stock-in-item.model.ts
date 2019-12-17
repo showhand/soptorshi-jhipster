@@ -1,11 +1,10 @@
 import { Moment } from 'moment';
 
-export const enum ItemUnit {
-    KG = 'KG',
+export const enum UnitOfMeasurements {
     PCS = 'PCS',
-    LITER = 'LITER',
-    DOZEN = 'DOZEN',
-    OTHERS = 'OTHERS'
+    KG = 'KG',
+    TON = 'TON',
+    GRAM = 'GRAM'
 }
 
 export const enum ContainerCategory {
@@ -19,7 +18,7 @@ export const enum ContainerCategory {
 export interface IStockInItem {
     id?: number;
     quantity?: number;
-    unit?: ItemUnit;
+    unit?: UnitOfMeasurements;
     price?: number;
     containerCategory?: ContainerCategory;
     containerTrackingId?: string;
@@ -45,7 +44,7 @@ export class StockInItem implements IStockInItem {
     constructor(
         public id?: number,
         public quantity?: number,
-        public unit?: ItemUnit,
+        public unit?: UnitOfMeasurements,
         public price?: number,
         public containerCategory?: ContainerCategory,
         public containerTrackingId?: string,

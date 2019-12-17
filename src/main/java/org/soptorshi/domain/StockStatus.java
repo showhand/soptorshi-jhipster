@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 
 /**
  * A StockStatus.
@@ -38,7 +38,7 @@ public class StockStatus implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "unit", nullable = false)
-    private ItemUnit unit;
+    private UnitOfMeasurements unit;
 
     @NotNull
     @Column(name = "available_quantity", nullable = false)
@@ -113,16 +113,16 @@ public class StockStatus implements Serializable {
         this.totalQuantity = totalQuantity;
     }
 
-    public ItemUnit getUnit() {
+    public UnitOfMeasurements getUnit() {
         return unit;
     }
 
-    public StockStatus unit(ItemUnit unit) {
+    public StockStatus unit(UnitOfMeasurements unit) {
         this.unit = unit;
         return this;
     }
 
-    public void setUnit(ItemUnit unit) {
+    public void setUnit(UnitOfMeasurements unit) {
         this.unit = unit;
     }
 

@@ -22,6 +22,8 @@ import { IStockInProcess } from 'app/shared/model/stock-in-process.model';
 import { StockInProcessService } from 'app/entities/stock-in-process';
 import { StockInItemUpdateComponent } from 'app/entities/stock-in-item';
 import { VendorService } from 'app/entities/vendor';
+import { ProductCategoryService } from 'app/entities/product-category';
+import { ProductService } from 'app/entities/product';
 
 @Component({
     selector: 'jhi-stock-in-item-update-extended',
@@ -48,8 +50,8 @@ export class StockInItemUpdateExtendedComponent extends StockInItemUpdateCompone
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockInItemService: StockInItemExtendedService,
-        protected itemCategoryService: ItemCategoryService,
-        protected itemSubCategoryService: ItemSubCategoryService,
+        protected productCategoryService: ProductCategoryService,
+        protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
         protected vendorService: VendorService,
@@ -59,8 +61,8 @@ export class StockInItemUpdateExtendedComponent extends StockInItemUpdateCompone
         super(
             jhiAlertService,
             stockInItemService,
-            itemCategoryService,
-            itemSubCategoryService,
+            productCategoryService,
+            productService,
             inventoryLocationService,
             inventorySubLocationService,
             vendorService,
@@ -75,14 +77,14 @@ export class StockInItemUpdateExtendedComponent extends StockInItemUpdateCompone
             this.stockInItem = stockInItem;
             this.stockInDate = this.stockInItem.stockInDate != null ? this.stockInItem.stockInDate.format(DATE_TIME_FORMAT) : null;
         });
-        this.itemCategoryService
+        this.productCategoryService
             .query()
             .pipe(
                 filter((mayBeOk: HttpResponse<IItemCategory[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IItemCategory[]>) => response.body)
             )
             .subscribe((res: IItemCategory[]) => (this.itemcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.itemSubCategoryService
+        this.productService
             .query()
             .pipe(
                 filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),

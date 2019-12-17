@@ -27,11 +27,10 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_unit">Unit</label>
                     <select class="form-control" name="unit" [(ngModel)]="stockInProcess.unit" id="field_unit"  required>
-                        <option value="KG">KG</option>
                         <option value="PCS">PCS</option>
-                        <option value="LITER">LITER</option>
-                        <option value="DOZEN">DOZEN</option>
-                        <option value="OTHERS">OTHERS</option>
+                        <option value="KG">KG</option>
+                        <option value="TON">TON</option>
+                        <option value="GRAM">GRAM</option>
                     </select>
                     <div [hidden]="!(editForm.controls.unit?.dirty && editForm.controls.unit?.invalid)">
                         <small class="form-text text-danger"

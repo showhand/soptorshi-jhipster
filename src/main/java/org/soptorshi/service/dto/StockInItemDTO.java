@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.ContainerCategory;
 
 /**
@@ -18,7 +18,7 @@ public class StockInItemDTO implements Serializable {
     private Double quantity;
 
     @NotNull
-    private ItemUnit unit;
+    private UnitOfMeasurements unit;
 
     @NotNull
     private Double price;
@@ -78,11 +78,11 @@ public class StockInItemDTO implements Serializable {
         this.quantity = quantity;
     }
 
-    public ItemUnit getUnit() {
+    public UnitOfMeasurements getUnit() {
         return unit;
     }
 
-    public void setUnit(ItemUnit unit) {
+    public void setUnit(UnitOfMeasurements unit) {
         this.unit = unit;
     }
 

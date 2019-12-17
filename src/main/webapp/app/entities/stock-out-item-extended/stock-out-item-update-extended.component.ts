@@ -21,6 +21,8 @@ import { StockInItemService } from 'app/entities/stock-in-item';
 import { IStockStatus } from 'app/shared/model/stock-status.model';
 import { StockStatusService } from 'app/entities/stock-status';
 import { StockOutItemUpdateComponent } from 'app/entities/stock-out-item';
+import { ProductCategoryService } from 'app/entities/product-category';
+import { ProductService } from 'app/entities/product';
 
 @Component({
     selector: 'jhi-stock-out-item-update-extended',
@@ -48,8 +50,8 @@ export class StockOutItemUpdateExtendedComponent extends StockOutItemUpdateCompo
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockOutItemService: StockOutItemExtendedService,
-        protected itemCategoryService: ItemCategoryService,
-        protected itemSubCategoryService: ItemSubCategoryService,
+        protected productCategoryService: ProductCategoryService,
+        protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
         protected stockInItemService: StockInItemService,
@@ -59,8 +61,8 @@ export class StockOutItemUpdateExtendedComponent extends StockOutItemUpdateCompo
         super(
             jhiAlertService,
             stockOutItemService,
-            itemCategoryService,
-            itemSubCategoryService,
+            productCategoryService,
+            productService,
             inventoryLocationService,
             inventorySubLocationService,
             stockInItemService,
@@ -75,14 +77,14 @@ export class StockOutItemUpdateExtendedComponent extends StockOutItemUpdateCompo
             this.stockOutItem = stockOutItem;
             this.stockOutDate = this.stockOutItem.stockOutDate != null ? this.stockOutItem.stockOutDate.format(DATE_TIME_FORMAT) : null;
         });
-        this.itemCategoryService
+        this.productCategoryService
             .query()
             .pipe(
                 filter((mayBeOk: HttpResponse<IItemCategory[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IItemCategory[]>) => response.body)
             )
             .subscribe((res: IItemCategory[]) => (this.itemcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.itemSubCategoryService
+        this.productService
             .query()
             .pipe(
                 filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
@@ -130,9 +132,9 @@ export class StockOutItemUpdateExtendedComponent extends StockOutItemUpdateCompo
     }
 
     getItemSubCategories() {
-        this.itemSubCategoryService
+        this.productService
             .query({
-                'itemCategoriesId.equals': this.stockOutItem.itemCategoriesId
+                'itemCategoriesId.equals': this.stockOutItem.productCategoriesId
             })
             .pipe(
                 filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
@@ -158,15 +160,15 @@ export class StockOutItemUpdateExtendedComponent extends StockOutItemUpdateCompo
 
     getContainerTrackingId() {
         if (
-            this.stockOutItem.itemCategoriesId &&
-            this.stockOutItem.itemSubCategoriesId &&
+            this.stockOutItem.productCategoriesId &&
+            this.stockOutItem.productsId &&
             this.stockOutItem.inventoryLocationsId &&
             this.stockOutItem.inventorySubLocationsId
         ) {
             this.stockStatusService
                 .query({
-                    'itemCategoriesId.equals': this.stockOutItem.itemCategoriesId,
-                    'itemSubCategoriesId.equals': this.stockOutItem.itemSubCategoriesId,
+                    'itemCategoriesId.equals': this.stockOutItem.productCategoriesId,
+                    'itemSubCategoriesId.equals': this.stockOutItem.productsId,
                     'inventoryLocationsId.equals': this.stockOutItem.inventoryLocationsId,
                     'inventorySubLocationsId.equals': this.stockOutItem.inventorySubLocationsId
                 })
@@ -179,16 +181,16 @@ export class StockOutItemUpdateExtendedComponent extends StockOutItemUpdateCompo
 
     getRemainingQuantity() {
         if (
-            this.stockOutItem.itemCategoriesId &&
-            this.stockOutItem.itemSubCategoriesId &&
+            this.stockOutItem.productCategoriesId &&
+            this.stockOutItem.productsId &&
             this.stockOutItem.inventoryLocationsId &&
             this.stockOutItem.inventorySubLocationsId &&
             this.stockOutItem.containerTrackingId
         ) {
             this.stockStatusService
                 .query({
-                    'itemCategoriesId.equals': this.stockOutItem.itemCategoriesId,
-                    'itemSubCategoriesId.equals': this.stockOutItem.itemSubCategoriesId,
+                    'itemCategoriesId.equals': this.stockOutItem.productCategoriesId,
+                    'itemSubCategoriesId.equals': this.stockOutItem.productsId,
                     'inventoryLocationsId.equals': this.stockOutItem.inventoryLocationsId,
                     'inventorySubLocationsId.equals': this.stockOutItem.inventorySubLocationsId,
                     'containerTrackingId.equals': this.stockOutItem.containerTrackingId

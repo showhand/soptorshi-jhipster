@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { StockStatusService } from 'app/entities/stock-status/stock-status.service';
-import { IStockStatus, StockStatus, ItemUnit } from 'app/shared/model/stock-status.model';
+import { IStockStatus, StockStatus, UnitOfMeasurements } from 'app/shared/model/stock-status.model';
 
 describe('Service Tests', () => {
     describe('StockStatus Service', () => {
@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new StockStatus(0, 'AAAAAAA', 0, ItemUnit.KG, 0, 0, 0, 'AAAAAAA', currentDate);
+            elemDefault = new StockStatus(0, 'AAAAAAA', 0, UnitOfMeasurements.PCS, 0, 0, 0, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {

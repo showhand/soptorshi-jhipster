@@ -10,8 +10,8 @@
         },
         {
             "fieldName": "unit",
-            "fieldType": "ItemUnit",
-            "fieldValues": "KG,PCS,LITER,DOZEN,OTHERS",
+            "fieldType": "UnitOfMeasurements",
+            "fieldValues": "PCS,KG,TON,GRAM",
             "fieldValidateRules": [
                 "required"
             ]

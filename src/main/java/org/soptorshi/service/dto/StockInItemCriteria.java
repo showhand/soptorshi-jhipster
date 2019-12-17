@@ -2,7 +2,7 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.ContainerCategory;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
@@ -24,9 +24,9 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  */
 public class StockInItemCriteria implements Serializable {
     /**
-     * Class for filtering ItemUnit
+     * Class for filtering UnitOfMeasurements
      */
-    public static class ItemUnitFilter extends Filter<ItemUnit> {
+    public static class UnitOfMeasurementsFilter extends Filter<UnitOfMeasurements> {
     }
     /**
      * Class for filtering ContainerCategory
@@ -40,7 +40,7 @@ public class StockInItemCriteria implements Serializable {
 
     private DoubleFilter quantity;
 
-    private ItemUnitFilter unit;
+    private UnitOfMeasurementsFilter unit;
 
     private DoubleFilter price;
 
@@ -86,11 +86,11 @@ public class StockInItemCriteria implements Serializable {
         this.quantity = quantity;
     }
 
-    public ItemUnitFilter getUnit() {
+    public UnitOfMeasurementsFilter getUnit() {
         return unit;
     }
 
-    public void setUnit(ItemUnitFilter unit) {
+    public void setUnit(UnitOfMeasurementsFilter unit) {
         this.unit = unit;
     }
 

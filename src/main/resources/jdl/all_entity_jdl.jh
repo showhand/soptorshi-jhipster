@@ -397,7 +397,7 @@ entity InventorySubLocation {
 }
 entity StockInProcess {
   totalQuantity Double required,
-  unit ItemUnit required,
+  unit UnitOfMeasurements required,
   unitPrice Double required,
   totalContainer Integer required,
   containerCategory ContainerCategory required,
@@ -411,7 +411,7 @@ entity StockInProcess {
 }
 entity StockInItem {
   quantity Double required,
-  unit ItemUnit required,
+  unit UnitOfMeasurements required,
   price Double required,
   containerCategory ContainerCategory required,
   containerTrackingId String required,
@@ -432,7 +432,7 @@ entity StockOutItem {
 entity StockStatus {
   containerTrackingId String required,
   totalQuantity Double required,
-  unit ItemUnit required,
+  unit UnitOfMeasurements required,
   availableQuantity Double required,
   totalPrice Double required,
   availablePrice Double required,

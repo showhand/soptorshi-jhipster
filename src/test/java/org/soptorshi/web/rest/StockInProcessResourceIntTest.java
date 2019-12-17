@@ -51,7 +51,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.ContainerCategory;
 /**
  * Test class for the StockInProcessResource REST controller.
@@ -65,8 +65,8 @@ public class StockInProcessResourceIntTest {
     private static final Double DEFAULT_TOTAL_QUANTITY = 1D;
     private static final Double UPDATED_TOTAL_QUANTITY = 2D;
 
-    private static final ItemUnit DEFAULT_UNIT = ItemUnit.KG;
-    private static final ItemUnit UPDATED_UNIT = ItemUnit.PCS;
+    private static final UnitOfMeasurements DEFAULT_UNIT = UnitOfMeasurements.PCS;
+    private static final UnitOfMeasurements UPDATED_UNIT = UnitOfMeasurements.KG;
 
     private static final Double DEFAULT_UNIT_PRICE = 1D;
     private static final Double UPDATED_UNIT_PRICE = 2D;
