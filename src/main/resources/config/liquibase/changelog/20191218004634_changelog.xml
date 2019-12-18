@@ -1,0 +1,394 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1576630044499-1">
+        <createTable tableName="advance_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="advance_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-2">
+        <createTable tableName="allowance_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="allowance_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-3">
+        <createTable tableName="fine_advance_loan_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="fine_advance_loan_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-4">
+        <createTable tableName="fine_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="fine_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-5">
+        <createTable tableName="loan_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="loan_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-6">
+        <createTable tableName="payroll_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="payroll_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-7">
+        <createTable tableName="provident_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="provident_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-8">
+        <addUniqueConstraint columnNames="department_id, employee_id" constraintName="UKae9kaaapjopo5twkh0edwqbh4" tableName="department_head"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-9">
+        <addUniqueConstraint columnNames="office_id, department_id, employee_id" constraintName="UKe1pmn4qnro11o8loy6dsfo2fi" tableName="department_head"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-10">
+        <addForeignKeyConstraint baseColumnNames="financial_account_year_id" baseTableName="period_close" constraintName="FK17fq4pmshvd8epdyxmhco3qsd" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="financial_account_year"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-11">
+        <addForeignKeyConstraint baseColumnNames="vendor_id" baseTableName="vendor_contact_person" constraintName="FK17k10akivxond20qyu98nb4n" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vendor"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-12">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="receipt_voucher" constraintName="FK1ap16paa7x3npgarw8c1cc030" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_account"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-13">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_id" baseTableName="supply_order" constraintName="FK25hms43oct9d28wohxckrl5nh" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-14">
+        <addForeignKeyConstraint baseColumnNames="quotation_id" baseTableName="purchase_order" constraintName="FK264mq9l1u99cn67a1dypssv6d" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="quotation"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-15">
+        <addForeignKeyConstraint baseColumnNames="commercial_po_status_id" baseTableName="commercial_attachment" constraintName="FK2exx7x7ygvct9cm5i88nxqvbo" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_po_status"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-16">
+        <addForeignKeyConstraint baseColumnNames="supply_area_manager_id" baseTableName="supply_shop" constraintName="FK2q0vvp20gedff57gctme3fk1l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-17">
+        <addForeignKeyConstraint baseColumnNames="commercial_purchase_order_id" baseTableName="commercial_invoice" constraintName="FK34p4nvgm24d3usuiodc0a0vk4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-18">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="system_account_map" constraintName="FK36oanhtjvxj3qffcaf6ou9uyr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_account"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-19">
+        <addForeignKeyConstraint baseColumnNames="requisition_details_id" baseTableName="quotation_details" constraintName="FK3fea7vkjrd7li737x3283hmf9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="requisition_details"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-20">
+        <addForeignKeyConstraint baseColumnNames="supply_sales_representative_id" baseTableName="supply_shop" constraintName="FK3mxaqp0a0lalby8e10soau3ct" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_sales_representative"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-21">
+        <addForeignKeyConstraint baseColumnNames="purchase_order_id" baseTableName="terms_and_conditions" constraintName="FK47fe064b4vx0ylsgv6mam339u" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-22">
+        <addForeignKeyConstraint baseColumnNames="office_id" baseTableName="requisition" constraintName="FK4y3mdhs8657cracqv1swav6xy" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="office"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-23">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="department_head" constraintName="FK57151urwoh7ee27uqaoq8p4to" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="employee"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-24">
+        <addForeignKeyConstraint baseColumnNames="office_id" baseTableName="department_head" constraintName="FK5eh7lutsx4kkakxvrckvmmah0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="office"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-25">
+        <addForeignKeyConstraint baseColumnNames="commercial_purchase_order_id" baseTableName="commercial_proforma_invoice" constraintName="FK5fbn6jenfk8ejt9y7nrumocaa" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-26">
+        <addForeignKeyConstraint baseColumnNames="requisition_id" baseTableName="quotation" constraintName="FK5lbb6sbn65sg8f2k2d899pho9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="requisition"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-27">
+        <addForeignKeyConstraint baseColumnNames="supply_area_manager_id" baseTableName="supply_order" constraintName="FK5tejthj0j5llgc3guhkq8em8a" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-28">
+        <addForeignKeyConstraint baseColumnNames="inventory_sub_locations_id" baseTableName="stock_status" constraintName="FK5v4rn0jiis7i7duq507ssrufr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inventory_sub_location"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-29">
+        <addForeignKeyConstraint baseColumnNames="products_id" baseTableName="stock_status" constraintName="FK65pk6nesu5re8wxeqe8lgi21j" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-30">
+        <addForeignKeyConstraint baseColumnNames="inventory_sub_locations_id" baseTableName="stock_in_item" constraintName="FK71hkbp79okugpd74ansb5efx3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inventory_sub_location"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-31">
+        <addForeignKeyConstraint baseColumnNames="currency_id" baseTableName="contra_voucher" constraintName="FK73qt19b5udbntouv70qd74lcw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="currency"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-32">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="dt_transaction" constraintName="FK74av7av78erl52jdlsicq65a6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_account"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-33">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_id" baseTableName="supply_area_manager" constraintName="FK8n2ri1uo3xs3c2jcj8hfxr2gt" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-34">
+        <addForeignKeyConstraint baseColumnNames="products_id" baseTableName="stock_out_item" constraintName="FK8thoc97pbv0g22tyl60qflk87" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-35">
+        <addForeignKeyConstraint baseColumnNames="department_id" baseTableName="requisition" constraintName="FK8uc55eg2932so5v915poa94y1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="department"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-36">
+        <addForeignKeyConstraint baseColumnNames="department_id" baseTableName="budget_allocation" constraintName="FK8w1p2ge6qxy6ngpqt1tqhy7qh" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="department"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-37">
+        <addForeignKeyConstraint baseColumnNames="commercial_purchase_order_id" baseTableName="commercial_po_status" constraintName="FK90vlctsgdxy3tlb5ohs03agfe" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-38">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="requisition" constraintName="FK9gvy62ovgyxm1qf1e1kur3pg" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="employee"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-39">
+        <addForeignKeyConstraint baseColumnNames="commercial_purchase_order_id" baseTableName="commercial_payment_info" constraintName="FK9ihkvnx99q4rvvhyjv62my80t" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-40">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_id" baseTableName="supply_money_collection" constraintName="FK9jfhxgeimqn27e8upm7recfgd" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-41">
+        <addForeignKeyConstraint baseColumnNames="commercial_proforma_invoice_id" baseTableName="commercial_invoice" constraintName="FK9kgcpvhe2l1ugpv44cvxe62m6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_proforma_invoice"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-42">
+        <addForeignKeyConstraint baseColumnNames="financial_account_year_id" baseTableName="budget_allocation" constraintName="FKagoxnnfun7jrkjlno36pmy3br" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="financial_account_year"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-43">
+        <addForeignKeyConstraint baseColumnNames="customer_id" baseTableName="debtor_ledger" constraintName="FKar7n4xfry9d7ksq34tev2fsfa" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="customer"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-44">
+        <addForeignKeyConstraint baseColumnNames="inventory_locations_id" baseTableName="stock_status" constraintName="FKb9dqel39veoqyx5i8luhif120" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inventory_location"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-45">
+        <addForeignKeyConstraint baseColumnNames="supply_sales_representative_id" baseTableName="supply_money_collection" constraintName="FKbcyp4x8gylo4ijlqa6fkxfxv5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_sales_representative"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-46">
+        <addForeignKeyConstraint baseColumnNames="commercial_work_order_id" baseTableName="commercial_work_order_details" constraintName="FKbj73yrtmc9alfo9h7jvp3iorn" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_work_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-47">
+        <addForeignKeyConstraint baseColumnNames="vendor_id" baseTableName="creditor_ledger" constraintName="FKbyce7qrtqpxxj23neps1rq50m" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vendor"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-48">
+        <addForeignKeyConstraint baseColumnNames="office_id" baseTableName="budget_allocation" constraintName="FKc80her0ye6oo1blkoo92j0yuu" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="office"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-49">
+        <addForeignKeyConstraint baseColumnNames="inventory_sub_locations_id" baseTableName="stock_out_item" constraintName="FKc9p6ewatkwes6nvnfkjq4g4od" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inventory_sub_location"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-50">
+        <addForeignKeyConstraint baseColumnNames="stock_in_items_id" baseTableName="stock_out_item" constraintName="FKcmsfxjdks2bhm0rmr71thocsg" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="stock_in_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-51">
+        <addForeignKeyConstraint baseColumnNames="product_category_id" baseTableName="product" constraintName="FKcwclrqu392y86y0pmyrsi649r" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-52">
+        <addForeignKeyConstraint baseColumnNames="supply_area_manager_id" baseTableName="supply_sales_representative" constraintName="FKcypglmm6fqqkmelm74gna5sir" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-53">
+        <addForeignKeyConstraint baseColumnNames="supply_order_id" baseTableName="supply_challan" constraintName="FKd6nvl8gruftl8qcks2so42myw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-54">
+        <addForeignKeyConstraint baseColumnNames="stock_in_processes_id" baseTableName="stock_in_item" constraintName="FKdcks506htg8ni5t4464j5pnmq" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-55">
+        <addForeignKeyConstraint baseColumnNames="group_id" baseTableName="mst_account" constraintName="FKdely0ajpvl1sabbcopnhjci24" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_group"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-56">
+        <addForeignKeyConstraint baseColumnNames="group_id" baseTableName="system_group_map" constraintName="FKe9ecywym2kpiwp8o27dy2faao" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_group"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-57">
+        <addForeignKeyConstraint baseColumnNames="stock_in_items_id" baseTableName="stock_status" constraintName="FKekuhvs7rfnb3am8ul72o4fc7k" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="stock_in_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-58">
+        <addForeignKeyConstraint baseColumnNames="financial_account_year_id" baseTableName="account_balance" constraintName="FKemesdnjfyjne9939twh1ksbls" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="financial_account_year"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-59">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_price" constraintName="FKeupemu63ifqfc4txkskyy1hyi" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-60">
+        <addForeignKeyConstraint baseColumnNames="product_categories_id" baseTableName="stock_in_process" constraintName="FKev9phkqx0ut4y0lybos8cm9m2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-61">
+        <addForeignKeyConstraint baseColumnNames="voucher_id" baseTableName="dt_transaction" constraintName="FKeyjfiwjthw2fnajw8eel48m3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="voucher"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-62">
+        <addForeignKeyConstraint baseColumnNames="quotation_id" baseTableName="quotation_details" constraintName="FKfq8lnt2k5dj7u4ukbk9xfkhdb" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="quotation"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-63">
+        <addForeignKeyConstraint baseColumnNames="supply_area_id" baseTableName="supply_money_collection" constraintName="FKge8nr7do47wyv4xe0o142egbw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-64">
+        <addForeignKeyConstraint baseColumnNames="supply_area_id" baseTableName="supply_area_manager" constraintName="FKgsgel8r5g2bb1qepmnm5v49df" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-65">
+        <addForeignKeyConstraint baseColumnNames="inventory_locations_id" baseTableName="stock_out_item" constraintName="FKgudseqvt2p65gmi8ha4s1kgiu" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inventory_location"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-66">
+        <addForeignKeyConstraint baseColumnNames="voucher_id" baseTableName="predefined_narration" constraintName="FKh9u2s9l4uo901y87p2tjqkbe4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="voucher"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-67">
+        <addForeignKeyConstraint baseColumnNames="supply_sales_representative_id" baseTableName="supply_order" constraintName="FKh9u2uswjoiulfg8ck1ce3smsg" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_sales_representative"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-68">
+        <addForeignKeyConstraint baseColumnNames="voucher_id" baseTableName="voucher_number_control" constraintName="FKipb5h96dy1re81nvcvxjwmw0d" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="voucher"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-69">
+        <addForeignKeyConstraint baseColumnNames="leave_application_id" baseTableName="leave_attachment" constraintName="FKj1ts41dd1b20gf7xeuyebkkmf" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="leave_application"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-70">
+        <addForeignKeyConstraint baseColumnNames="supply_area_id" baseTableName="supply_sales_representative" constraintName="FKjkkjq1gcphm1nv6tnxugfb217" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-71">
+        <addForeignKeyConstraint baseColumnNames="commenter_id" baseTableName="salary_messages" constraintName="FKjulc2cs7wd6kv54s8nolqymse" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="employee"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-72">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="quotation_details" constraintName="FKk6ga3v32b5a97ewqgrso50olp" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-73">
+        <addForeignKeyConstraint baseColumnNames="product_categories_id" baseTableName="stock_status" constraintName="FKkalktvldupd5qx79deqfiycng" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-74">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="provident_fund" constraintName="FKkcfc37eo2ylvd259l13emwqro" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="employee"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-75">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="requisition_details" constraintName="FKkcka0ggmjo3i2nbxqxfncyqit" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-76">
+        <addForeignKeyConstraint baseColumnNames="attendance_excel_upload_id" baseTableName="attendance" constraintName="FKkd0fori8drg4ilxd3hf6tl4pt" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="attendance_excel_upload"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-77">
+        <addForeignKeyConstraint baseColumnNames="commercial_purchase_order_id" baseTableName="commercial_attachment" constraintName="FKkq2jgi60rnn1updb1h4u2hhto" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-78">
+        <addForeignKeyConstraint baseColumnNames="supply_order_id" baseTableName="supply_order_details" constraintName="FKkr7o3pguc78usijts1ag8h1al" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-79">
+        <addForeignKeyConstraint baseColumnNames="products_id" baseTableName="stock_in_process" constraintName="FKl4hwjowax8e6a647ao73b3rrf" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-80">
+        <addForeignKeyConstraint baseColumnNames="commercial_packaging_id" baseTableName="commercial_packaging_details" constraintName="FKlcayfcuk4147fk9mp9ekda64f" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_packaging"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-81">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="bill" constraintName="FKle28mnhpamru2e2o22d5u78bu" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="employee"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-82">
+        <addForeignKeyConstraint baseColumnNames="commercial_purchase_order_id" baseTableName="commercial_packaging" constraintName="FKlu0h5gne5avejn03wbt5ck4ub" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-83">
+        <addForeignKeyConstraint baseColumnNames="inventory_sub_locations_id" baseTableName="stock_in_process" constraintName="FKly2enniknmkb08gjlmqtc1xo6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inventory_sub_location"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-84">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="account_balance" constraintName="FKm42s1qf925kfegse9sxoumy2m" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_account"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-85">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="purchase_committee" constraintName="FKm86eq14ciqef2pp420vdg2tkm" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="employee"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-86">
+        <addForeignKeyConstraint baseColumnNames="supply_area_manager_id" baseTableName="supply_money_collection" constraintName="FKmhc8fedgt1iju7fuk3wellnde" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-87">
+        <addForeignKeyConstraint baseColumnNames="financial_account_year_id" baseTableName="voucher_number_generator" constraintName="FKmhcwfjsg16yl6ti6uuaeatcj8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="financial_account_year"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-88">
+        <addForeignKeyConstraint baseColumnNames="products_id" baseTableName="stock_in_item" constraintName="FKmihntsypeghaie6ss87299io0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-89">
+        <addForeignKeyConstraint baseColumnNames="requisition_id" baseTableName="purchase_order" constraintName="FKmojo0ilbdtvo6g7n3aspngt90" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="requisition"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-90">
+        <addForeignKeyConstraint baseColumnNames="vendor_id" baseTableName="quotation" constraintName="FKmr8aih9m7gnrf27ycra9h3m67" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vendor"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-91">
+        <addForeignKeyConstraint baseColumnNames="currency_id" baseTableName="journal_voucher" constraintName="FKmxwq7vb0pc1slfn6gfbqhsqkh" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="currency"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-92">
+        <addForeignKeyConstraint baseColumnNames="account_balance_id" baseTableName="monthly_balance" constraintName="FKn5v2ejb7wal6l4e731938kvrc" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="account_balance"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-93">
+        <addForeignKeyConstraint baseColumnNames="product_categories_id" baseTableName="stock_out_item" constraintName="FKnb9g93dvuw695r3wphxud3emr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-94">
+        <addForeignKeyConstraint baseColumnNames="leave_types_id" baseTableName="leave_application" constraintName="FKngklesdrne4vechgw8y8un4ks" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="leave_type"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-95">
+        <addForeignKeyConstraint baseColumnNames="commercial_purchase_order_id" baseTableName="commercial_work_order" constraintName="FKnl2fpppovh9covt767o4l94hn" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-96">
+        <addForeignKeyConstraint baseColumnNames="vendor_id" baseTableName="stock_in_process" constraintName="FKntvbrviug5awo8rg07uuh484" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vendor"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-97">
+        <addForeignKeyConstraint baseColumnNames="commercial_purchase_order_id" baseTableName="commercial_purchase_order_item" constraintName="FKomrie06rw5t3ho0py3pjekpo3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-98">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="payment_voucher" constraintName="FKot0xh2rmgwwrqugfp2d57r2lr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_account"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-99">
+        <addForeignKeyConstraint baseColumnNames="requisition_id" baseTableName="requisition_details" constraintName="FKow8g3v22y93bennt8x5up5722" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="requisition"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-100">
+        <addForeignKeyConstraint baseColumnNames="supply_area_id" baseTableName="supply_shop" constraintName="FKp0s9gvcd7vstffswbcdbgnbvn" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-101">
+        <addForeignKeyConstraint baseColumnNames="department_id" baseTableName="department_head" constraintName="FKp4gjy7ptgl286du8x3yd9edvl" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="department"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-102">
+        <addForeignKeyConstraint baseColumnNames="currency_id" baseTableName="conversion_factor" constraintName="FKpe37r7f3narg4hq8lcetv5s2e" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="currency"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-103">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_id" baseTableName="supply_shop" constraintName="FKpfjh4f2fk3flh8rubjlbx6hi5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-104">
+        <addForeignKeyConstraint baseColumnNames="product_category_id" baseTableName="requisition" constraintName="FKpgy4k555bmiit4cif4rb6gc8a" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-105">
+        <addForeignKeyConstraint baseColumnNames="item_categories_id" baseTableName="item_sub_category" constraintName="FKpm3evid74k7d78pi5v6pke4oj" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="item_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-106">
+        <addForeignKeyConstraint baseColumnNames="product_categories_id" baseTableName="stock_in_item" constraintName="FKpor99cd3u60v6wvaao9n8yov4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-107">
+        <addForeignKeyConstraint baseColumnNames="currency_id" baseTableName="dt_transaction" constraintName="FKpvoovjebfeeanijuy32aia7rr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="currency"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-108">
+        <addForeignKeyConstraint baseColumnNames="inventory_locations_id" baseTableName="inventory_sub_location" constraintName="FKq6cdubxc6ct30a3onuew64x9r" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inventory_location"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-109">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_id" baseTableName="supply_area" constraintName="FKqydjwyoeva000ryy2x1bsaice" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-110">
+        <addForeignKeyConstraint baseColumnNames="vendor_id" baseTableName="stock_in_item" constraintName="FKr2pm8hajj70ah5mjg6h2inoem" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vendor"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-111">
+        <addForeignKeyConstraint baseColumnNames="supply_area_id" baseTableName="supply_order" constraintName="FKrsrtmolngi34a9ff6q2b1omfb" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-112">
+        <addForeignKeyConstraint baseColumnNames="monthly_salary_id" baseTableName="salary_messages" constraintName="FKrwswbrhxh4u5cxee3a2m7iimn" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="monthly_salary"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-113">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_id" baseTableName="supply_sales_representative" constraintName="FKrwu1uap22d1x7i5bue0aa43be" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-114">
+        <addForeignKeyConstraint baseColumnNames="inventory_locations_id" baseTableName="stock_in_item" constraintName="FKsg7xkd85ygq4hcfnm825p60d0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inventory_location"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-115">
+        <addForeignKeyConstraint baseColumnNames="requisition_id" baseTableName="work_order" constraintName="FKsjqhretstd7t6utduenyx1wms" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="requisition"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-116">
+        <addForeignKeyConstraint baseColumnNames="office_id" baseTableName="salary_voucher_relation" constraintName="FKsxsfqihssvfmp7p2n2q2a0tcf" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="office"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-117">
+        <addForeignKeyConstraint baseColumnNames="stock_statuses_id" baseTableName="stock_out_item" constraintName="FKsyj6msackymoww2bq8tyr5o2e" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="stock_status"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-118">
+        <addForeignKeyConstraint baseColumnNames="financial_account_year_id" baseTableName="voucher_number_control" constraintName="FKt1jmui54n9lhlsomw2j078qks" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="financial_account_year"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-119">
+        <addForeignKeyConstraint baseColumnNames="inventory_locations_id" baseTableName="stock_in_process" constraintName="FKtat3vtkbtkmuct6mofsykm565" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inventory_location"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-120">
+        <addForeignKeyConstraint baseColumnNames="commercial_packaging_id" baseTableName="commercial_invoice" constraintName="FKxpllgpio8akwtveuas6mf7m0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_packaging"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1576630044499-121">
+        <dropTable tableName="jhi_date_time_wrapper"/>
+    </changeSet>
+</databaseChangeLog>

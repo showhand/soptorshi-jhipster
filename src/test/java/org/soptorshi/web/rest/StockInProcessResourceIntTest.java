@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -62,14 +63,14 @@ import org.soptorshi.domain.enumeration.ContainerCategory;
 @SpringBootTest(classes = SoptorshiApp.class)
 public class StockInProcessResourceIntTest {
 
-    private static final Double DEFAULT_TOTAL_QUANTITY = 1D;
-    private static final Double UPDATED_TOTAL_QUANTITY = 2D;
+    private static final BigDecimal DEFAULT_TOTAL_QUANTITY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_QUANTITY = new BigDecimal(2);
 
     private static final UnitOfMeasurements DEFAULT_UNIT = UnitOfMeasurements.PCS;
     private static final UnitOfMeasurements UPDATED_UNIT = UnitOfMeasurements.KG;
 
-    private static final Double DEFAULT_UNIT_PRICE = 1D;
-    private static final Double UPDATED_UNIT_PRICE = 2D;
+    private static final BigDecimal DEFAULT_UNIT_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_UNIT_PRICE = new BigDecimal(2);
 
     private static final Integer DEFAULT_TOTAL_CONTAINER = 1;
     private static final Integer UPDATED_TOTAL_CONTAINER = 2;
@@ -377,9 +378,9 @@ public class StockInProcessResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockInProcess.getId().intValue())))
-            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.doubleValue())))
+            .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].totalContainer").value(hasItem(DEFAULT_TOTAL_CONTAINER)))
             .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID.toString())))
@@ -402,9 +403,9 @@ public class StockInProcessResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(stockInProcess.getId().intValue()))
-            .andExpect(jsonPath("$.totalQuantity").value(DEFAULT_TOTAL_QUANTITY.doubleValue()))
+            .andExpect(jsonPath("$.totalQuantity").value(DEFAULT_TOTAL_QUANTITY.intValue()))
             .andExpect(jsonPath("$.unit").value(DEFAULT_UNIT.toString()))
-            .andExpect(jsonPath("$.unitPrice").value(DEFAULT_UNIT_PRICE.doubleValue()))
+            .andExpect(jsonPath("$.unitPrice").value(DEFAULT_UNIT_PRICE.intValue()))
             .andExpect(jsonPath("$.totalContainer").value(DEFAULT_TOTAL_CONTAINER))
             .andExpect(jsonPath("$.containerCategory").value(DEFAULT_CONTAINER_CATEGORY.toString()))
             .andExpect(jsonPath("$.containerTrackingId").value(DEFAULT_CONTAINER_TRACKING_ID.toString()))
@@ -1040,9 +1041,9 @@ public class StockInProcessResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockInProcess.getId().intValue())))
-            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.doubleValue())))
+            .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].totalContainer").value(hasItem(DEFAULT_TOTAL_CONTAINER)))
             .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
@@ -1194,9 +1195,9 @@ public class StockInProcessResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockInProcess.getId().intValue())))
-            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.doubleValue())))
+            .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].totalContainer").value(hasItem(DEFAULT_TOTAL_CONTAINER)))
             .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))

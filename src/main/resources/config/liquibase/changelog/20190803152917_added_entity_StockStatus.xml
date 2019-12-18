@@ -26,7 +26,7 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="total_quantity" type="double">
+            <column name="total_quantity" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
 
@@ -34,15 +34,15 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="available_quantity" type="double">
+            <column name="available_quantity" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
 
-            <column name="total_price" type="double">
+            <column name="total_price" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
 
-            <column name="available_price" type="double">
+            <column name="available_price" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
 

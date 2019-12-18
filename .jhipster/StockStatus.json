@@ -10,7 +10,7 @@
         },
         {
             "fieldName": "totalQuantity",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
@@ -25,21 +25,21 @@
         },
         {
             "fieldName": "availableQuantity",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "totalPrice",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "availablePrice",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]

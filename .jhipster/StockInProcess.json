@@ -3,7 +3,7 @@
     "fields": [
         {
             "fieldName": "totalQuantity",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
@@ -18,7 +18,7 @@
         },
         {
             "fieldName": "unitPrice",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]

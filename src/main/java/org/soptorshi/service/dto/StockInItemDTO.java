@@ -3,6 +3,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.ContainerCategory;
@@ -15,13 +16,13 @@ public class StockInItemDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private Double quantity;
+    private BigDecimal quantity;
 
     @NotNull
     private UnitOfMeasurements unit;
 
     @NotNull
-    private Double price;
+    private BigDecimal price;
 
     @NotNull
     private ContainerCategory containerCategory;
@@ -70,11 +71,11 @@ public class StockInItemDTO implements Serializable {
         this.id = id;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
@@ -86,11 +87,11 @@ public class StockInItemDTO implements Serializable {
         this.unit = unit;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

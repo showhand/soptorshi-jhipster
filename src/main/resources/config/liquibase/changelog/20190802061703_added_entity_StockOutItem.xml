@@ -26,7 +26,7 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="quantity" type="double">
+            <column name="quantity" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
 

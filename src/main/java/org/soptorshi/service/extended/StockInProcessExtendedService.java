@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Optional;
@@ -142,10 +143,10 @@ public class StockInProcessExtendedService extends StockInProcessService {
         if (validateRecord(stockInProcessDTO, containerIds, itemsPerContainer)) return 0;
 
         for (int i = 0; i < stockInProcessDTO.getTotalContainer(); i++) {
-            StockInItemDTO stockInItemDTO = getStockInItemDTO(stockInProcessDTO, Double.parseDouble(itemsPerContainer[i].trim()), containerIds[i].trim(), currentUser, currentDateTime);
+            StockInItemDTO stockInItemDTO = getStockInItemDTO(stockInProcessDTO, BigDecimal.valueOf(Double.parseDouble(itemsPerContainer[i].trim())), containerIds[i].trim(), currentUser, currentDateTime);
             StockInItemDTO result = stockInItemService.save(stockInItemDTO);
 
-            StockStatusDTO stockStatusDTO = getStockStatus(stockInProcessDTO, Double.parseDouble(itemsPerContainer[i].trim()), containerIds[i].trim(), currentUser, currentDateTime, result.getId());
+            StockStatusDTO stockStatusDTO = getStockStatus(stockInProcessDTO, BigDecimal.valueOf(Double.parseDouble(itemsPerContainer[i].trim())), containerIds[i].trim(), currentUser, currentDateTime, result.getId());
             stockStatusExtendedRepository.save(stockStatusMapper.toEntity(stockStatusDTO));
         }
         return 1;
@@ -202,7 +203,7 @@ public class StockInProcessExtendedService extends StockInProcessService {
     }
 
 
-    private StockInItemDTO getStockInItemDTO(StockInProcessDTO stockInProcessDTO, double quantity, String containerId, String currentUserId, Instant currentDateTime) {
+    private StockInItemDTO getStockInItemDTO(StockInProcessDTO stockInProcessDTO, BigDecimal quantity, String containerId, String currentUserId, Instant currentDateTime) {
         StockInItemDTO stockInItemDTO = new StockInItemDTO();
         stockInItemDTO.setProductCategoriesId(stockInProcessDTO.getProductCategoriesId());
         stockInItemDTO.setProductsId(stockInProcessDTO.getProductsId());
@@ -210,7 +211,7 @@ public class StockInProcessExtendedService extends StockInProcessService {
         stockInItemDTO.setInventorySubLocationsId(stockInProcessDTO.getInventorySubLocationsId());
         stockInItemDTO.setQuantity(quantity);
         stockInItemDTO.setUnit(stockInProcessDTO.getUnit());
-        stockInItemDTO.setPrice(stockInProcessDTO.getUnitPrice() * quantity);
+        stockInItemDTO.setPrice(stockInProcessDTO.getUnitPrice().multiply(quantity));
         stockInItemDTO.setContainerCategory(stockInProcessDTO.getContainerCategory());
         stockInItemDTO.setContainerTrackingId(containerId);
         stockInItemDTO.setExpiryDate(stockInProcessDTO.getExpiryDate());
@@ -222,7 +223,7 @@ public class StockInProcessExtendedService extends StockInProcessService {
         return stockInItemDTO;
     }
 
-    private StockStatusDTO getStockStatus(StockInProcessDTO stockInProcessDTO, double quantity, String containerId, String currentUserId, Instant currentDateTime, Long stockInItemId) {
+    private StockStatusDTO getStockStatus(StockInProcessDTO stockInProcessDTO, BigDecimal quantity, String containerId, String currentUserId, Instant currentDateTime, Long stockInItemId) {
         StockStatusDTO stockStatusDTO = new StockStatusDTO();
         stockStatusDTO.setProductCategoriesId(stockInProcessDTO.getProductCategoriesId());
         stockStatusDTO.setProductsId(stockInProcessDTO.getProductsId());
@@ -232,8 +233,8 @@ public class StockInProcessExtendedService extends StockInProcessService {
         stockStatusDTO.setTotalQuantity(quantity);
         stockStatusDTO.setAvailableQuantity(quantity);
         stockStatusDTO.setUnit(stockInProcessDTO.getUnit());
-        stockStatusDTO.setTotalPrice(stockInProcessDTO.getUnitPrice() * quantity);
-        stockStatusDTO.setAvailablePrice(stockInProcessDTO.getUnitPrice() * quantity);
+        stockStatusDTO.setTotalPrice(stockInProcessDTO.getUnitPrice().multiply(quantity));
+        stockStatusDTO.setAvailablePrice(stockInProcessDTO.getUnitPrice().multiply(quantity));
         stockStatusDTO.setStockInBy(currentUserId);
         stockStatusDTO.setStockInDate(currentDateTime);
         stockStatusDTO.setStockInItemsId(stockInItemId);

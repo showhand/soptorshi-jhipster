@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -31,8 +32,8 @@ public class StockInItem implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "quantity", nullable = false)
-    private Double quantity;
+    @Column(name = "quantity", precision = 10, scale = 2, nullable = false)
+    private BigDecimal quantity;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -40,8 +41,8 @@ public class StockInItem implements Serializable {
     private UnitOfMeasurements unit;
 
     @NotNull
-    @Column(name = "price", nullable = false)
-    private Double price;
+    @Column(name = "price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal price;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -100,16 +101,16 @@ public class StockInItem implements Serializable {
         this.id = id;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public StockInItem quantity(Double quantity) {
+    public StockInItem quantity(BigDecimal quantity) {
         this.quantity = quantity;
         return this;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
@@ -126,16 +127,16 @@ public class StockInItem implements Serializable {
         this.unit = unit;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public StockInItem price(Double price) {
+    public StockInItem price(BigDecimal price) {
         this.price = price;
         return this;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

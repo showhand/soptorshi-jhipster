@@ -396,9 +396,9 @@ entity InventorySubLocation {
   description String
 }
 entity StockInProcess {
-  totalQuantity Double required,
+  totalQuantity BigDecimal required,
   unit UnitOfMeasurements required,
-  unitPrice Double required,
+  unitPrice BigDecimal required,
   totalContainer Integer required,
   containerCategory ContainerCategory required,
   containerTrackingId String required,
@@ -410,9 +410,9 @@ entity StockInProcess {
   remarks String
 }
 entity StockInItem {
-  quantity Double required,
+  quantity BigDecimal required,
   unit UnitOfMeasurements required,
-  price Double required,
+  price BigDecimal required,
   containerCategory ContainerCategory required,
   containerTrackingId String required,
   expiryDate LocalDate,
@@ -423,7 +423,7 @@ entity StockInItem {
 }
 entity StockOutItem {
   containerTrackingId String required,
-  quantity Double required,
+  quantity BigDecimal required,
   stockOutBy String,
   stockOutDate Instant,
   receiverId String,
@@ -431,11 +431,11 @@ entity StockOutItem {
 }
 entity StockStatus {
   containerTrackingId String required,
-  totalQuantity Double required,
+  totalQuantity BigDecimal required,
   unit UnitOfMeasurements required,
-  availableQuantity Double required,
-  totalPrice Double required,
-  availablePrice Double required,
+  availableQuantity BigDecimal required,
+  totalPrice BigDecimal required,
+  availablePrice BigDecimal required,
   stockInBy String,
   stockInDate Instant
 }

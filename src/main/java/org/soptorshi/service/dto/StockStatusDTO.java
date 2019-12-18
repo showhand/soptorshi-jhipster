@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 
@@ -16,19 +17,19 @@ public class StockStatusDTO implements Serializable {
     private String containerTrackingId;
 
     @NotNull
-    private Double totalQuantity;
+    private BigDecimal totalQuantity;
 
     @NotNull
     private UnitOfMeasurements unit;
 
     @NotNull
-    private Double availableQuantity;
+    private BigDecimal availableQuantity;
 
     @NotNull
-    private Double totalPrice;
+    private BigDecimal totalPrice;
 
     @NotNull
-    private Double availablePrice;
+    private BigDecimal availablePrice;
 
     private String stockInBy;
 
@@ -69,11 +70,11 @@ public class StockStatusDTO implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public Double getTotalQuantity() {
+    public BigDecimal getTotalQuantity() {
         return totalQuantity;
     }
 
-    public void setTotalQuantity(Double totalQuantity) {
+    public void setTotalQuantity(BigDecimal totalQuantity) {
         this.totalQuantity = totalQuantity;
     }
 
@@ -85,27 +86,27 @@ public class StockStatusDTO implements Serializable {
         this.unit = unit;
     }
 
-    public Double getAvailableQuantity() {
+    public BigDecimal getAvailableQuantity() {
         return availableQuantity;
     }
 
-    public void setAvailableQuantity(Double availableQuantity) {
+    public void setAvailableQuantity(BigDecimal availableQuantity) {
         this.availableQuantity = availableQuantity;
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public Double getAvailablePrice() {
+    public BigDecimal getAvailablePrice() {
         return availablePrice;
     }
 
-    public void setAvailablePrice(Double availablePrice) {
+    public void setAvailablePrice(BigDecimal availablePrice) {
         this.availablePrice = availablePrice;
     }
 

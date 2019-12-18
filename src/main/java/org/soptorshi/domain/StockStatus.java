@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -32,8 +33,8 @@ public class StockStatus implements Serializable {
     private String containerTrackingId;
 
     @NotNull
-    @Column(name = "total_quantity", nullable = false)
-    private Double totalQuantity;
+    @Column(name = "total_quantity", precision = 10, scale = 2, nullable = false)
+    private BigDecimal totalQuantity;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -41,16 +42,16 @@ public class StockStatus implements Serializable {
     private UnitOfMeasurements unit;
 
     @NotNull
-    @Column(name = "available_quantity", nullable = false)
-    private Double availableQuantity;
+    @Column(name = "available_quantity", precision = 10, scale = 2, nullable = false)
+    private BigDecimal availableQuantity;
 
     @NotNull
-    @Column(name = "total_price", nullable = false)
-    private Double totalPrice;
+    @Column(name = "total_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal totalPrice;
 
     @NotNull
-    @Column(name = "available_price", nullable = false)
-    private Double availablePrice;
+    @Column(name = "available_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal availablePrice;
 
     @Column(name = "stock_in_by")
     private String stockInBy;
@@ -100,16 +101,16 @@ public class StockStatus implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public Double getTotalQuantity() {
+    public BigDecimal getTotalQuantity() {
         return totalQuantity;
     }
 
-    public StockStatus totalQuantity(Double totalQuantity) {
+    public StockStatus totalQuantity(BigDecimal totalQuantity) {
         this.totalQuantity = totalQuantity;
         return this;
     }
 
-    public void setTotalQuantity(Double totalQuantity) {
+    public void setTotalQuantity(BigDecimal totalQuantity) {
         this.totalQuantity = totalQuantity;
     }
 
@@ -126,42 +127,42 @@ public class StockStatus implements Serializable {
         this.unit = unit;
     }
 
-    public Double getAvailableQuantity() {
+    public BigDecimal getAvailableQuantity() {
         return availableQuantity;
     }
 
-    public StockStatus availableQuantity(Double availableQuantity) {
+    public StockStatus availableQuantity(BigDecimal availableQuantity) {
         this.availableQuantity = availableQuantity;
         return this;
     }
 
-    public void setAvailableQuantity(Double availableQuantity) {
+    public void setAvailableQuantity(BigDecimal availableQuantity) {
         this.availableQuantity = availableQuantity;
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public StockStatus totalPrice(Double totalPrice) {
+    public StockStatus totalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
         return this;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public Double getAvailablePrice() {
+    public BigDecimal getAvailablePrice() {
         return availablePrice;
     }
 
-    public StockStatus availablePrice(Double availablePrice) {
+    public StockStatus availablePrice(BigDecimal availablePrice) {
         this.availablePrice = availablePrice;
         return this;
     }
 
-    public void setAvailablePrice(Double availablePrice) {
+    public void setAvailablePrice(BigDecimal availablePrice) {
         this.availablePrice = availablePrice;
     }
 

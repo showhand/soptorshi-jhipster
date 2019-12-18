@@ -10,7 +10,7 @@
         },
         {
             "fieldName": "quantity",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]

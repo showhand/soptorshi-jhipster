@@ -11,6 +11,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 
@@ -38,11 +39,11 @@ public class StockInProcessCriteria implements Serializable {
 
     private LongFilter id;
 
-    private DoubleFilter totalQuantity;
+    private BigDecimalFilter totalQuantity;
 
     private UnitOfMeasurementsFilter unit;
 
-    private DoubleFilter unitPrice;
+    private BigDecimalFilter unitPrice;
 
     private IntegerFilter totalContainer;
 
@@ -80,11 +81,11 @@ public class StockInProcessCriteria implements Serializable {
         this.id = id;
     }
 
-    public DoubleFilter getTotalQuantity() {
+    public BigDecimalFilter getTotalQuantity() {
         return totalQuantity;
     }
 
-    public void setTotalQuantity(DoubleFilter totalQuantity) {
+    public void setTotalQuantity(BigDecimalFilter totalQuantity) {
         this.totalQuantity = totalQuantity;
     }
 
@@ -96,11 +97,11 @@ public class StockInProcessCriteria implements Serializable {
         this.unit = unit;
     }
 
-    public DoubleFilter getUnitPrice() {
+    public BigDecimalFilter getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(DoubleFilter unitPrice) {
+    public void setUnitPrice(BigDecimalFilter unitPrice) {
         this.unitPrice = unitPrice;
     }
 

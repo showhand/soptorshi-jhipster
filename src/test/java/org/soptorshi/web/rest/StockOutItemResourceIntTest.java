@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
@@ -62,8 +63,8 @@ public class StockOutItemResourceIntTest {
     private static final String DEFAULT_CONTAINER_TRACKING_ID = "AAAAAAAAAA";
     private static final String UPDATED_CONTAINER_TRACKING_ID = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_QUANTITY = 1D;
-    private static final Double UPDATED_QUANTITY = 2D;
+    private static final BigDecimal DEFAULT_QUANTITY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_QUANTITY = new BigDecimal(2);
 
     private static final String DEFAULT_STOCK_OUT_BY = "AAAAAAAAAA";
     private static final String UPDATED_STOCK_OUT_BY = "BBBBBBBBBB";
@@ -250,7 +251,7 @@ public class StockOutItemResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockOutItem.getId().intValue())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID.toString())))
-            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].stockOutBy").value(hasItem(DEFAULT_STOCK_OUT_BY.toString())))
             .andExpect(jsonPath("$.[*].stockOutDate").value(hasItem(DEFAULT_STOCK_OUT_DATE.toString())))
             .andExpect(jsonPath("$.[*].receiverId").value(hasItem(DEFAULT_RECEIVER_ID.toString())))
@@ -269,7 +270,7 @@ public class StockOutItemResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(stockOutItem.getId().intValue()))
             .andExpect(jsonPath("$.containerTrackingId").value(DEFAULT_CONTAINER_TRACKING_ID.toString()))
-            .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY.doubleValue()))
+            .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY.intValue()))
             .andExpect(jsonPath("$.stockOutBy").value(DEFAULT_STOCK_OUT_BY.toString()))
             .andExpect(jsonPath("$.stockOutDate").value(DEFAULT_STOCK_OUT_DATE.toString()))
             .andExpect(jsonPath("$.receiverId").value(DEFAULT_RECEIVER_ID.toString()))
@@ -632,7 +633,7 @@ public class StockOutItemResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockOutItem.getId().intValue())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
-            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].stockOutBy").value(hasItem(DEFAULT_STOCK_OUT_BY)))
             .andExpect(jsonPath("$.[*].stockOutDate").value(hasItem(DEFAULT_STOCK_OUT_DATE.toString())))
             .andExpect(jsonPath("$.[*].receiverId").value(hasItem(DEFAULT_RECEIVER_ID)))
@@ -768,7 +769,7 @@ public class StockOutItemResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockOutItem.getId().intValue())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
-            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].stockOutBy").value(hasItem(DEFAULT_STOCK_OUT_BY)))
             .andExpect(jsonPath("$.[*].stockOutDate").value(hasItem(DEFAULT_STOCK_OUT_DATE.toString())))
             .andExpect(jsonPath("$.[*].receiverId").value(hasItem(DEFAULT_RECEIVER_ID)))

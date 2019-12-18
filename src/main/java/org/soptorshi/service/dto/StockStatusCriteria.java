@@ -10,6 +10,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.InstantFilter;
 
 /**
@@ -33,15 +34,15 @@ public class StockStatusCriteria implements Serializable {
 
     private StringFilter containerTrackingId;
 
-    private DoubleFilter totalQuantity;
+    private BigDecimalFilter totalQuantity;
 
     private UnitOfMeasurementsFilter unit;
 
-    private DoubleFilter availableQuantity;
+    private BigDecimalFilter availableQuantity;
 
-    private DoubleFilter totalPrice;
+    private BigDecimalFilter totalPrice;
 
-    private DoubleFilter availablePrice;
+    private BigDecimalFilter availablePrice;
 
     private StringFilter stockInBy;
 
@@ -73,11 +74,11 @@ public class StockStatusCriteria implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public DoubleFilter getTotalQuantity() {
+    public BigDecimalFilter getTotalQuantity() {
         return totalQuantity;
     }
 
-    public void setTotalQuantity(DoubleFilter totalQuantity) {
+    public void setTotalQuantity(BigDecimalFilter totalQuantity) {
         this.totalQuantity = totalQuantity;
     }
 
@@ -89,27 +90,27 @@ public class StockStatusCriteria implements Serializable {
         this.unit = unit;
     }
 
-    public DoubleFilter getAvailableQuantity() {
+    public BigDecimalFilter getAvailableQuantity() {
         return availableQuantity;
     }
 
-    public void setAvailableQuantity(DoubleFilter availableQuantity) {
+    public void setAvailableQuantity(BigDecimalFilter availableQuantity) {
         this.availableQuantity = availableQuantity;
     }
 
-    public DoubleFilter getTotalPrice() {
+    public BigDecimalFilter getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(DoubleFilter totalPrice) {
+    public void setTotalPrice(BigDecimalFilter totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public DoubleFilter getAvailablePrice() {
+    public BigDecimalFilter getAvailablePrice() {
         return availablePrice;
     }
 
-    public void setAvailablePrice(DoubleFilter availablePrice) {
+    public void setAvailablePrice(BigDecimalFilter availablePrice) {
         this.availablePrice = availablePrice;
     }
 

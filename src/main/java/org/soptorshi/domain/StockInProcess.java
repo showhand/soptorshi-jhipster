@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -31,8 +32,8 @@ public class StockInProcess implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "total_quantity", nullable = false)
-    private Double totalQuantity;
+    @Column(name = "total_quantity", precision = 10, scale = 2, nullable = false)
+    private BigDecimal totalQuantity;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -40,8 +41,8 @@ public class StockInProcess implements Serializable {
     private UnitOfMeasurements unit;
 
     @NotNull
-    @Column(name = "unit_price", nullable = false)
-    private Double unitPrice;
+    @Column(name = "unit_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal unitPrice;
 
     @NotNull
     @Column(name = "total_container", nullable = false)
@@ -104,16 +105,16 @@ public class StockInProcess implements Serializable {
         this.id = id;
     }
 
-    public Double getTotalQuantity() {
+    public BigDecimal getTotalQuantity() {
         return totalQuantity;
     }
 
-    public StockInProcess totalQuantity(Double totalQuantity) {
+    public StockInProcess totalQuantity(BigDecimal totalQuantity) {
         this.totalQuantity = totalQuantity;
         return this;
     }
 
-    public void setTotalQuantity(Double totalQuantity) {
+    public void setTotalQuantity(BigDecimal totalQuantity) {
         this.totalQuantity = totalQuantity;
     }
 
@@ -130,16 +131,16 @@ public class StockInProcess implements Serializable {
         this.unit = unit;
     }
 
-    public Double getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public StockInProcess unitPrice(Double unitPrice) {
+    public StockInProcess unitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
         return this;
     }
 
-    public void setUnitPrice(Double unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 

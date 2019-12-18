@@ -9,6 +9,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.InstantFilter;
 
 /**
@@ -27,7 +28,7 @@ public class StockOutItemCriteria implements Serializable {
 
     private StringFilter containerTrackingId;
 
-    private DoubleFilter quantity;
+    private BigDecimalFilter quantity;
 
     private StringFilter stockOutBy;
 
@@ -65,11 +66,11 @@ public class StockOutItemCriteria implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public DoubleFilter getQuantity() {
+    public BigDecimalFilter getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(DoubleFilter quantity) {
+    public void setQuantity(BigDecimalFilter quantity) {
         this.quantity = quantity;
     }
 

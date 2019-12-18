@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -30,8 +31,8 @@ public class StockOutItem implements Serializable {
     private String containerTrackingId;
 
     @NotNull
-    @Column(name = "quantity", nullable = false)
-    private Double quantity;
+    @Column(name = "quantity", precision = 10, scale = 2, nullable = false)
+    private BigDecimal quantity;
 
     @Column(name = "stock_out_by")
     private String stockOutBy;
@@ -91,16 +92,16 @@ public class StockOutItem implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public StockOutItem quantity(Double quantity) {
+    public StockOutItem quantity(BigDecimal quantity) {
         this.quantity = quantity;
         return this;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 

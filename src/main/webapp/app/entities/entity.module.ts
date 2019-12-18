@@ -811,6 +811,22 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'stock-status',
                 loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModule'
+            },
+            {
+                path: 'stock-in-process',
+                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
+            },
+            {
+                path: 'stock-in-item',
+                loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
+            },
+            {
+                path: 'stock-out-item',
+                loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
+            },
+            {
+                path: 'stock-status',
+                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

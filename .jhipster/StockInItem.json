@@ -3,7 +3,7 @@
     "fields": [
         {
             "fieldName": "quantity",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
@@ -18,7 +18,7 @@
         },
         {
             "fieldName": "price",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]

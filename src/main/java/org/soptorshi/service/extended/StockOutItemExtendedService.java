@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -75,7 +76,7 @@ public class StockOutItemExtendedService extends StockOutItemService {
 
     public StockOutItemDTO save(StockOutItemDTO stockOutItemDTO) {
         log.debug("Request to save StockOutItem : {}", stockOutItemDTO);
-        if (stockOutItemDTO.getId() == null && stockOutItemDTO.getQuantity() > 0) {
+        if (stockOutItemDTO.getId() == null && (stockOutItemDTO.getQuantity().compareTo(BigDecimal.ZERO) > 0)) {
             String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
             Instant currentDateTime = Instant.now();
 
@@ -174,8 +175,8 @@ public class StockOutItemExtendedService extends StockOutItemService {
             if (stockOutItemDTO.getQuantity().compareTo(stockStatus.getAvailableQuantity()) > 0) {
                 throw new InternalServerErrorException("Required quantity is greater than available quantity");
             } else {
-                stockStatus.setAvailableQuantity(stockStatus.getAvailableQuantity() - stockOutItemDTO.getQuantity());
-                stockStatus.setAvailablePrice(stockStatus.getAvailablePrice() - (stockOutItemDTO.getQuantity() * stockStatus.getStockInItems().getStockInProcesses().getUnitPrice()));
+                stockStatus.setAvailableQuantity(stockStatus.getAvailableQuantity().subtract(stockOutItemDTO.getQuantity()));
+                stockStatus.setAvailablePrice(stockStatus.getAvailablePrice().subtract((stockOutItemDTO.getQuantity().multiply(stockStatus.getStockInItems().getStockInProcesses().getUnitPrice()))));
                 stockStatusExtendedRepository.save(stockStatus);
             }
             return 1;

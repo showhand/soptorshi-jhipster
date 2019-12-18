@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,7 @@ public class StockOutItemDTO implements Serializable {
     private String containerTrackingId;
 
     @NotNull
-    private Double quantity;
+    private BigDecimal quantity;
 
     private String stockOutBy;
 
@@ -62,11 +63,11 @@ public class StockOutItemDTO implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 

@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
@@ -62,20 +63,20 @@ public class StockStatusResourceIntTest {
     private static final String DEFAULT_CONTAINER_TRACKING_ID = "AAAAAAAAAA";
     private static final String UPDATED_CONTAINER_TRACKING_ID = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_TOTAL_QUANTITY = 1D;
-    private static final Double UPDATED_TOTAL_QUANTITY = 2D;
+    private static final BigDecimal DEFAULT_TOTAL_QUANTITY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_QUANTITY = new BigDecimal(2);
 
     private static final UnitOfMeasurements DEFAULT_UNIT = UnitOfMeasurements.PCS;
     private static final UnitOfMeasurements UPDATED_UNIT = UnitOfMeasurements.KG;
 
-    private static final Double DEFAULT_AVAILABLE_QUANTITY = 1D;
-    private static final Double UPDATED_AVAILABLE_QUANTITY = 2D;
+    private static final BigDecimal DEFAULT_AVAILABLE_QUANTITY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_AVAILABLE_QUANTITY = new BigDecimal(2);
 
-    private static final Double DEFAULT_TOTAL_PRICE = 1D;
-    private static final Double UPDATED_TOTAL_PRICE = 2D;
+    private static final BigDecimal DEFAULT_TOTAL_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_PRICE = new BigDecimal(2);
 
-    private static final Double DEFAULT_AVAILABLE_PRICE = 1D;
-    private static final Double UPDATED_AVAILABLE_PRICE = 2D;
+    private static final BigDecimal DEFAULT_AVAILABLE_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_AVAILABLE_PRICE = new BigDecimal(2);
 
     private static final String DEFAULT_STOCK_IN_BY = "AAAAAAAAAA";
     private static final String UPDATED_STOCK_IN_BY = "BBBBBBBBBB";
@@ -336,11 +337,11 @@ public class StockStatusResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockStatus.getId().intValue())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID.toString())))
-            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].availableQuantity").value(hasItem(DEFAULT_AVAILABLE_QUANTITY.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.doubleValue())))
+            .andExpect(jsonPath("$.[*].availableQuantity").value(hasItem(DEFAULT_AVAILABLE_QUANTITY.intValue())))
+            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY.toString())))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())));
     }
@@ -357,11 +358,11 @@ public class StockStatusResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(stockStatus.getId().intValue()))
             .andExpect(jsonPath("$.containerTrackingId").value(DEFAULT_CONTAINER_TRACKING_ID.toString()))
-            .andExpect(jsonPath("$.totalQuantity").value(DEFAULT_TOTAL_QUANTITY.doubleValue()))
+            .andExpect(jsonPath("$.totalQuantity").value(DEFAULT_TOTAL_QUANTITY.intValue()))
             .andExpect(jsonPath("$.unit").value(DEFAULT_UNIT.toString()))
-            .andExpect(jsonPath("$.availableQuantity").value(DEFAULT_AVAILABLE_QUANTITY.doubleValue()))
-            .andExpect(jsonPath("$.totalPrice").value(DEFAULT_TOTAL_PRICE.doubleValue()))
-            .andExpect(jsonPath("$.availablePrice").value(DEFAULT_AVAILABLE_PRICE.doubleValue()))
+            .andExpect(jsonPath("$.availableQuantity").value(DEFAULT_AVAILABLE_QUANTITY.intValue()))
+            .andExpect(jsonPath("$.totalPrice").value(DEFAULT_TOTAL_PRICE.intValue()))
+            .andExpect(jsonPath("$.availablePrice").value(DEFAULT_AVAILABLE_PRICE.intValue()))
             .andExpect(jsonPath("$.stockInBy").value(DEFAULT_STOCK_IN_BY.toString()))
             .andExpect(jsonPath("$.stockInDate").value(DEFAULT_STOCK_IN_DATE.toString()));
     }
@@ -781,11 +782,11 @@ public class StockStatusResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockStatus.getId().intValue())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
-            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].availableQuantity").value(hasItem(DEFAULT_AVAILABLE_QUANTITY.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.doubleValue())))
+            .andExpect(jsonPath("$.[*].availableQuantity").value(hasItem(DEFAULT_AVAILABLE_QUANTITY.intValue())))
+            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())));
 
@@ -923,11 +924,11 @@ public class StockStatusResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockStatus.getId().intValue())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
-            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].availableQuantity").value(hasItem(DEFAULT_AVAILABLE_QUANTITY.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.doubleValue())))
+            .andExpect(jsonPath("$.[*].availableQuantity").value(hasItem(DEFAULT_AVAILABLE_QUANTITY.intValue())))
+            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())));
     }
