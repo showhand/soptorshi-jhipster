@@ -1,15 +1,15 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     CommercialWorkOrderDetailsComponent,
-    CommercialWorkOrderDetailsDeleteDialogComponent,
-    CommercialWorkOrderDetailsDeletePopupComponent,
     CommercialWorkOrderDetailsDetailComponent,
-    commercialWorkOrderDetailsPopupRoute,
+    CommercialWorkOrderDetailsUpdateComponent,
+    CommercialWorkOrderDetailsDeletePopupComponent,
+    CommercialWorkOrderDetailsDeleteDialogComponent,
     commercialWorkOrderDetailsRoute,
-    CommercialWorkOrderDetailsUpdateComponent
+    commercialWorkOrderDetailsPopupRoute
 } from './';
 
 const ENTITY_STATES = [...commercialWorkOrderDetailsRoute, ...commercialWorkOrderDetailsPopupRoute];

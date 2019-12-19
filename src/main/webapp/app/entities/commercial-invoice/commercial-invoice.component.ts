@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
+import { filter, map } from 'rxjs/operators';
+import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { ICommercialInvoice } from 'app/shared/model/commercial-invoice.model';
 import { AccountService } from 'app/core';
@@ -49,7 +50,7 @@ export class CommercialInvoiceComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        /*if (this.currentSearch) {
+        if (this.currentSearch) {
             this.commercialInvoiceService
                 .search({
                     query: this.currentSearch,
@@ -62,31 +63,17 @@ export class CommercialInvoiceComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
-        }*/
-        if (this.currentSearch) {
-            this.commercialInvoiceService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'commercialPurchaseOrderPurchaseOrderNo.equals': this.currentSearch
-                })
-                .subscribe(
-                    (res: HttpResponse<ICommercialInvoice[]>) => this.paginateCommercialInvoices(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        } else {
-            this.commercialInvoiceService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort()
-                })
-                .subscribe(
-                    (res: HttpResponse<ICommercialInvoice[]>) => this.paginateCommercialInvoices(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
         }
+        this.commercialInvoiceService
+            .query({
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<ICommercialInvoice[]>) => this.paginateCommercialInvoices(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     reset() {

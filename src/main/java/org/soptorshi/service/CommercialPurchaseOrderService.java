@@ -1,24 +1,21 @@
 package org.soptorshi.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialPurchaseOrder;
-import org.soptorshi.domain.enumeration.CommercialStatus;
 import org.soptorshi.repository.CommercialPurchaseOrderRepository;
 import org.soptorshi.repository.search.CommercialPurchaseOrderSearchRepository;
-import org.soptorshi.security.SecurityUtils;
-import org.soptorshi.service.dto.CommercialPoStatusDTO;
 import org.soptorshi.service.dto.CommercialPurchaseOrderDTO;
 import org.soptorshi.service.mapper.CommercialPurchaseOrderMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing CommercialPurchaseOrder.
@@ -35,14 +32,10 @@ public class CommercialPurchaseOrderService {
 
     private final CommercialPurchaseOrderSearchRepository commercialPurchaseOrderSearchRepository;
 
-    private final CommercialPoStatusService commercialPoStatusService;
-
-    public CommercialPurchaseOrderService(CommercialPurchaseOrderRepository commercialPurchaseOrderRepository, CommercialPurchaseOrderMapper commercialPurchaseOrderMapper, CommercialPurchaseOrderSearchRepository commercialPurchaseOrderSearchRepository,
-                                          CommercialPoStatusService commercialPoStatusService) {
+    public CommercialPurchaseOrderService(CommercialPurchaseOrderRepository commercialPurchaseOrderRepository, CommercialPurchaseOrderMapper commercialPurchaseOrderMapper, CommercialPurchaseOrderSearchRepository commercialPurchaseOrderSearchRepository) {
         this.commercialPurchaseOrderRepository = commercialPurchaseOrderRepository;
         this.commercialPurchaseOrderMapper = commercialPurchaseOrderMapper;
         this.commercialPurchaseOrderSearchRepository = commercialPurchaseOrderSearchRepository;
-        this.commercialPoStatusService = commercialPoStatusService;
     }
 
     /**
@@ -51,36 +44,13 @@ public class CommercialPurchaseOrderService {
      * @param commercialPurchaseOrderDTO the entity to save
      * @return the persisted entity
      */
-    @Transactional
     public CommercialPurchaseOrderDTO save(CommercialPurchaseOrderDTO commercialPurchaseOrderDTO) {
         log.debug("Request to save CommercialPurchaseOrder : {}", commercialPurchaseOrderDTO);
-        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
-        LocalDate currentDate = LocalDate.now();
-        if(commercialPurchaseOrderDTO.getId() == null) {
-            commercialPurchaseOrderDTO.setCreatedBy(currentUser);
-            commercialPurchaseOrderDTO.setCreateOn(currentDate);
-        }
-        else {
-            commercialPurchaseOrderDTO.setUpdatedBy(currentUser);
-            commercialPurchaseOrderDTO.setUpdatedOn(currentDate);
-        }
         CommercialPurchaseOrder commercialPurchaseOrder = commercialPurchaseOrderMapper.toEntity(commercialPurchaseOrderDTO);
         commercialPurchaseOrder = commercialPurchaseOrderRepository.save(commercialPurchaseOrder);
-        if(commercialPurchaseOrderDTO.getId() == null) {
-            updateCommercialStatus(commercialPurchaseOrder, currentUser, currentDate);
-        }
         CommercialPurchaseOrderDTO result = commercialPurchaseOrderMapper.toDto(commercialPurchaseOrder);
         commercialPurchaseOrderSearchRepository.save(commercialPurchaseOrder);
         return result;
-    }
-
-    private void updateCommercialStatus(CommercialPurchaseOrder commercialPurchaseOrder, String currentUser, LocalDate currentDate) {
-        CommercialPoStatusDTO commercialPoStatusDTO = new CommercialPoStatusDTO();
-        commercialPoStatusDTO.setStatus(CommercialStatus.WAITING_FOR_PROFORMA_INVOICE);
-        commercialPoStatusDTO.setCommercialPurchaseOrderId(commercialPurchaseOrder.getId());
-        commercialPoStatusDTO.setCreatedBy(currentUser);
-        commercialPoStatusDTO.setCreateOn(currentDate);
-        commercialPoStatusService.save(commercialPoStatusDTO);
     }
 
     /**
@@ -117,8 +87,8 @@ public class CommercialPurchaseOrderService {
      */
     public void delete(Long id) {
         log.debug("Request to delete CommercialPurchaseOrder : {}", id);
-        /*commercialPurchaseOrderRepository.deleteById(id);
-        commercialPurchaseOrderSearchRepository.deleteById(id);*/
+        commercialPurchaseOrderRepository.deleteById(id);
+        commercialPurchaseOrderSearchRepository.deleteById(id);
     }
 
     /**

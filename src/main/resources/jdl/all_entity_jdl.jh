@@ -642,7 +642,7 @@ entity CommercialPurchaseOrder {
   finalDestination String,
   shipmentDate LocalDate required,
   createdBy String,
-  createOn LocalDate,
+  createdOn LocalDate,
   updatedBy String,
   updatedOn LocalDate
 }
@@ -657,7 +657,7 @@ entity CommercialPurchaseOrderItem {
   currencyType CommercialCurrency required,
   total Double required,
   createdBy String,
-  createOn LocalDate,
+  createdOn LocalDate,
   updatedBy String,
   updatedOn LocalDate
 }
@@ -673,7 +673,7 @@ entity CommercialProformaInvoice {
   portOfLanding String required,
   portOfDestination String required,
   createdBy String,
-  createOn LocalDate,
+  createdOn LocalDate,
   updatedBy String,
   updatedOn LocalDate
 }
@@ -683,7 +683,7 @@ entity CommercialPaymentInfo {
   currencyType CommercialCurrency required,
   paymentTerms String,
   createdBy String,
-  createOn LocalDate,
+  createdOn LocalDate,
   updatedBy String,
   updatedOn LocalDate
 }
@@ -692,7 +692,7 @@ entity CommercialPackaging {
   consignmentDate LocalDate required,
   brand String,
   createdBy String,
-  createOn LocalDate,
+  createdOn LocalDate,
   updatedBy String,
   updatedOn LocalDate
 }
@@ -706,7 +706,7 @@ entity CommercialPackagingDetails {
   dayTotal Double,
   total Double,
   createdBy String,
-  createOn LocalDate,
+  createdOn LocalDate,
   updatedBy String,
   updatedOn LocalDate
 }
@@ -716,7 +716,7 @@ entity CommercialWorkOrder {
   deliveryDate LocalDate required,
   remarks String,
   createdBy String,
-  createOn LocalDate,
+  createdOn LocalDate,
   updatedBy String,
   updatedOn LocalDate
 }
@@ -729,14 +729,14 @@ entity CommercialWorkOrderDetails {
   currencyType CommercialCurrency required,
   rate Double required,
   createdBy String,
-  createOn LocalDate,
+  createdOn LocalDate,
   updatedBy String,
   updatedOn LocalDate
 }
 entity CommercialPoStatus {
   status CommercialStatus required,
   createdBy String,
-  createOn LocalDate,
+  createdOn LocalDate,
   updatedBy String,
   updatedOn LocalDate
 }
@@ -749,7 +749,7 @@ entity CommercialInvoice {
   portOfDischarge String required,
   exportRegistrationCertificateNo String required,
   createdBy String,
-  createOn LocalDate,
+  createdOn LocalDate,
   updatedBy String,
   updatedOn LocalDate
 }

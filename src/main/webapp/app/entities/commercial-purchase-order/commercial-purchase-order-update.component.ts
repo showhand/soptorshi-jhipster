@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
 import { ICommercialPurchaseOrder } from 'app/shared/model/commercial-purchase-order.model';
 import { CommercialPurchaseOrderService } from './commercial-purchase-order.service';
 
@@ -14,7 +16,7 @@ export class CommercialPurchaseOrderUpdateComponent implements OnInit {
     isSaving: boolean;
     purchaseOrderDateDp: any;
     shipmentDateDp: any;
-    createOnDp: any;
+    createdOnDp: any;
     updatedOnDp: any;
 
     constructor(protected commercialPurchaseOrderService: CommercialPurchaseOrderService, protected activatedRoute: ActivatedRoute) {}

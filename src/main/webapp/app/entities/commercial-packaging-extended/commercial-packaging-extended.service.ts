@@ -66,9 +66,9 @@ export class CommercialPackagingExtendedService extends CommercialPackagingServi
                 commercialPackaging.consignmentDate != null && commercialPackaging.consignmentDate.isValid()
                     ? commercialPackaging.consignmentDate.format(DATE_FORMAT)
                     : null,
-            createOn:
-                commercialPackaging.createOn != null && commercialPackaging.createOn.isValid()
-                    ? commercialPackaging.createOn.format(DATE_FORMAT)
+            createdOn:
+                commercialPackaging.createdOn != null && commercialPackaging.createdOn.isValid()
+                    ? commercialPackaging.createdOn.format(DATE_FORMAT)
                     : null,
             updatedOn:
                 commercialPackaging.updatedOn != null && commercialPackaging.updatedOn.isValid()
@@ -81,7 +81,7 @@ export class CommercialPackagingExtendedService extends CommercialPackagingServi
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
             res.body.consignmentDate = res.body.consignmentDate != null ? moment(res.body.consignmentDate) : null;
-            res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
             res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
@@ -92,7 +92,7 @@ export class CommercialPackagingExtendedService extends CommercialPackagingServi
             res.body.forEach((commercialPackaging: ICommercialPackaging) => {
                 commercialPackaging.consignmentDate =
                     commercialPackaging.consignmentDate != null ? moment(commercialPackaging.consignmentDate) : null;
-                commercialPackaging.createOn = commercialPackaging.createOn != null ? moment(commercialPackaging.createOn) : null;
+                commercialPackaging.createdOn = commercialPackaging.createdOn != null ? moment(commercialPackaging.createdOn) : null;
                 commercialPackaging.updatedOn = commercialPackaging.updatedOn != null ? moment(commercialPackaging.updatedOn) : null;
             });
         }

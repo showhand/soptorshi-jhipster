@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { CommercialWorkOrderDetails, ICommercialWorkOrderDetails } from 'app/shared/model/commercial-work-order-details.model';
+import { CommercialWorkOrderDetails } from 'app/shared/model/commercial-work-order-details.model';
 import { CommercialWorkOrderDetailsService } from './commercial-work-order-details.service';
 import { CommercialWorkOrderDetailsComponent } from './commercial-work-order-details.component';
 import { CommercialWorkOrderDetailsDetailComponent } from './commercial-work-order-details-detail.component';
 import { CommercialWorkOrderDetailsUpdateComponent } from './commercial-work-order-details-update.component';
 import { CommercialWorkOrderDetailsDeletePopupComponent } from './commercial-work-order-details-delete-dialog.component';
+import { ICommercialWorkOrderDetails } from 'app/shared/model/commercial-work-order-details.model';
 
 @Injectable({ providedIn: 'root' })
 export class CommercialWorkOrderDetailsResolve implements Resolve<ICommercialWorkOrderDetails> {

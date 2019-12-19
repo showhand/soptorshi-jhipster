@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { ICommercialProformaInvoice } from 'app/shared/model/commercial-proforma-invoice.model';
 import { CommercialProformaInvoiceService } from './commercial-proforma-invoice.service';
@@ -19,7 +20,7 @@ export class CommercialProformaInvoiceUpdateComponent implements OnInit {
 
     commercialpurchaseorders: ICommercialPurchaseOrder[];
     proformaDateDp: any;
-    createOnDp: any;
+    createdOnDp: any;
     updatedOnDp: any;
 
     constructor(

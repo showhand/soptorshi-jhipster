@@ -10,7 +10,7 @@ export interface ICommercialInvoice {
     portOfDischarge?: string;
     exportRegistrationCertificateNo?: string;
     createdBy?: string;
-    createOn?: Moment;
+    createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
     commercialPurchaseOrderPurchaseOrderNo?: string;
@@ -32,7 +32,7 @@ export class CommercialInvoice implements ICommercialInvoice {
         public portOfDischarge?: string,
         public exportRegistrationCertificateNo?: string,
         public createdBy?: string,
-        public createOn?: Moment,
+        public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
         public commercialPurchaseOrderPurchaseOrderNo?: string,

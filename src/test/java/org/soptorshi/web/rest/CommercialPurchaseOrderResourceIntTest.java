@@ -1,18 +1,21 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
+
 import org.soptorshi.domain.CommercialPurchaseOrder;
 import org.soptorshi.repository.CommercialPurchaseOrderRepository;
 import org.soptorshi.repository.search.CommercialPurchaseOrderSearchRepository;
-import org.soptorshi.service.CommercialPurchaseOrderQueryService;
 import org.soptorshi.service.CommercialPurchaseOrderService;
 import org.soptorshi.service.dto.CommercialPurchaseOrderDTO;
 import org.soptorshi.service.mapper.CommercialPurchaseOrderMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.CommercialPurchaseOrderCriteria;
+import org.soptorshi.service.CommercialPurchaseOrderQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -32,11 +35,12 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -67,8 +71,8 @@ public class CommercialPurchaseOrderResourceIntTest {
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATE_ON = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATE_ON = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate DEFAULT_CREATED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_ON = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
@@ -141,7 +145,7 @@ public class CommercialPurchaseOrderResourceIntTest {
             .finalDestination(DEFAULT_FINAL_DESTINATION)
             .shipmentDate(DEFAULT_SHIPMENT_DATE)
             .createdBy(DEFAULT_CREATED_BY)
-            .createOn(DEFAULT_CREATE_ON)
+            .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
         return commercialPurchaseOrder;
@@ -174,7 +178,7 @@ public class CommercialPurchaseOrderResourceIntTest {
         assertThat(testCommercialPurchaseOrder.getFinalDestination()).isEqualTo(DEFAULT_FINAL_DESTINATION);
         assertThat(testCommercialPurchaseOrder.getShipmentDate()).isEqualTo(DEFAULT_SHIPMENT_DATE);
         assertThat(testCommercialPurchaseOrder.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
-        assertThat(testCommercialPurchaseOrder.getCreateOn()).isEqualTo(DEFAULT_CREATE_ON);
+        assertThat(testCommercialPurchaseOrder.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testCommercialPurchaseOrder.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testCommercialPurchaseOrder.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
@@ -279,11 +283,11 @@ public class CommercialPurchaseOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].finalDestination").value(hasItem(DEFAULT_FINAL_DESTINATION.toString())))
             .andExpect(jsonPath("$.[*].shipmentDate").value(hasItem(DEFAULT_SHIPMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getCommercialPurchaseOrder() throws Exception {
@@ -301,7 +305,7 @@ public class CommercialPurchaseOrderResourceIntTest {
             .andExpect(jsonPath("$.finalDestination").value(DEFAULT_FINAL_DESTINATION.toString()))
             .andExpect(jsonPath("$.shipmentDate").value(DEFAULT_SHIPMENT_DATE.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
-            .andExpect(jsonPath("$.createOn").value(DEFAULT_CREATE_ON.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
             .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
     }
@@ -596,67 +600,67 @@ public class CommercialPurchaseOrderResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllCommercialPurchaseOrdersByCreateOnIsEqualToSomething() throws Exception {
+    public void getAllCommercialPurchaseOrdersByCreatedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialPurchaseOrderRepository.saveAndFlush(commercialPurchaseOrder);
 
-        // Get all the commercialPurchaseOrderList where createOn equals to DEFAULT_CREATE_ON
-        defaultCommercialPurchaseOrderShouldBeFound("createOn.equals=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPurchaseOrderList where createdOn equals to DEFAULT_CREATED_ON
+        defaultCommercialPurchaseOrderShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPurchaseOrderList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialPurchaseOrderShouldNotBeFound("createOn.equals=" + UPDATED_CREATE_ON);
+        // Get all the commercialPurchaseOrderList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialPurchaseOrderShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPurchaseOrdersByCreateOnIsInShouldWork() throws Exception {
+    public void getAllCommercialPurchaseOrdersByCreatedOnIsInShouldWork() throws Exception {
         // Initialize the database
         commercialPurchaseOrderRepository.saveAndFlush(commercialPurchaseOrder);
 
-        // Get all the commercialPurchaseOrderList where createOn in DEFAULT_CREATE_ON or UPDATED_CREATE_ON
-        defaultCommercialPurchaseOrderShouldBeFound("createOn.in=" + DEFAULT_CREATE_ON + "," + UPDATED_CREATE_ON);
+        // Get all the commercialPurchaseOrderList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultCommercialPurchaseOrderShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
 
-        // Get all the commercialPurchaseOrderList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialPurchaseOrderShouldNotBeFound("createOn.in=" + UPDATED_CREATE_ON);
+        // Get all the commercialPurchaseOrderList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialPurchaseOrderShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPurchaseOrdersByCreateOnIsNullOrNotNull() throws Exception {
+    public void getAllCommercialPurchaseOrdersByCreatedOnIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialPurchaseOrderRepository.saveAndFlush(commercialPurchaseOrder);
 
-        // Get all the commercialPurchaseOrderList where createOn is not null
-        defaultCommercialPurchaseOrderShouldBeFound("createOn.specified=true");
+        // Get all the commercialPurchaseOrderList where createdOn is not null
+        defaultCommercialPurchaseOrderShouldBeFound("createdOn.specified=true");
 
-        // Get all the commercialPurchaseOrderList where createOn is null
-        defaultCommercialPurchaseOrderShouldNotBeFound("createOn.specified=false");
+        // Get all the commercialPurchaseOrderList where createdOn is null
+        defaultCommercialPurchaseOrderShouldNotBeFound("createdOn.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPurchaseOrdersByCreateOnIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllCommercialPurchaseOrdersByCreatedOnIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         commercialPurchaseOrderRepository.saveAndFlush(commercialPurchaseOrder);
 
-        // Get all the commercialPurchaseOrderList where createOn greater than or equals to DEFAULT_CREATE_ON
-        defaultCommercialPurchaseOrderShouldBeFound("createOn.greaterOrEqualThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPurchaseOrderList where createdOn greater than or equals to DEFAULT_CREATED_ON
+        defaultCommercialPurchaseOrderShouldBeFound("createdOn.greaterOrEqualThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPurchaseOrderList where createOn greater than or equals to UPDATED_CREATE_ON
-        defaultCommercialPurchaseOrderShouldNotBeFound("createOn.greaterOrEqualThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialPurchaseOrderList where createdOn greater than or equals to UPDATED_CREATED_ON
+        defaultCommercialPurchaseOrderShouldNotBeFound("createdOn.greaterOrEqualThan=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPurchaseOrdersByCreateOnIsLessThanSomething() throws Exception {
+    public void getAllCommercialPurchaseOrdersByCreatedOnIsLessThanSomething() throws Exception {
         // Initialize the database
         commercialPurchaseOrderRepository.saveAndFlush(commercialPurchaseOrder);
 
-        // Get all the commercialPurchaseOrderList where createOn less than or equals to DEFAULT_CREATE_ON
-        defaultCommercialPurchaseOrderShouldNotBeFound("createOn.lessThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPurchaseOrderList where createdOn less than or equals to DEFAULT_CREATED_ON
+        defaultCommercialPurchaseOrderShouldNotBeFound("createdOn.lessThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPurchaseOrderList where createOn less than or equals to UPDATED_CREATE_ON
-        defaultCommercialPurchaseOrderShouldBeFound("createOn.lessThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialPurchaseOrderList where createdOn less than or equals to UPDATED_CREATED_ON
+        defaultCommercialPurchaseOrderShouldBeFound("createdOn.lessThan=" + UPDATED_CREATED_ON);
     }
 
 
@@ -778,7 +782,7 @@ public class CommercialPurchaseOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].finalDestination").value(hasItem(DEFAULT_FINAL_DESTINATION)))
             .andExpect(jsonPath("$.[*].shipmentDate").value(hasItem(DEFAULT_SHIPMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
@@ -834,7 +838,7 @@ public class CommercialPurchaseOrderResourceIntTest {
             .finalDestination(UPDATED_FINAL_DESTINATION)
             .shipmentDate(UPDATED_SHIPMENT_DATE)
             .createdBy(UPDATED_CREATED_BY)
-            .createOn(UPDATED_CREATE_ON)
+            .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
             .updatedOn(UPDATED_UPDATED_ON);
         CommercialPurchaseOrderDTO commercialPurchaseOrderDTO = commercialPurchaseOrderMapper.toDto(updatedCommercialPurchaseOrder);
@@ -854,7 +858,7 @@ public class CommercialPurchaseOrderResourceIntTest {
         assertThat(testCommercialPurchaseOrder.getFinalDestination()).isEqualTo(UPDATED_FINAL_DESTINATION);
         assertThat(testCommercialPurchaseOrder.getShipmentDate()).isEqualTo(UPDATED_SHIPMENT_DATE);
         assertThat(testCommercialPurchaseOrder.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
-        assertThat(testCommercialPurchaseOrder.getCreateOn()).isEqualTo(UPDATED_CREATE_ON);
+        assertThat(testCommercialPurchaseOrder.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testCommercialPurchaseOrder.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testCommercialPurchaseOrder.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
@@ -923,7 +927,7 @@ public class CommercialPurchaseOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].finalDestination").value(hasItem(DEFAULT_FINAL_DESTINATION)))
             .andExpect(jsonPath("$.[*].shipmentDate").value(hasItem(DEFAULT_SHIPMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }

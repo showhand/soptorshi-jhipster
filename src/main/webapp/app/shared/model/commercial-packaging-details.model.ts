@@ -11,7 +11,7 @@ export interface ICommercialPackagingDetails {
     dayTotal?: number;
     total?: number;
     createdBy?: string;
-    createOn?: Moment;
+    createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
     commercialPackagingConsignmentNo?: string;
@@ -30,7 +30,7 @@ export class CommercialPackagingDetails implements ICommercialPackagingDetails {
         public dayTotal?: number,
         public total?: number,
         public createdBy?: string,
-        public createOn?: Moment,
+        public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
         public commercialPackagingConsignmentNo?: string,

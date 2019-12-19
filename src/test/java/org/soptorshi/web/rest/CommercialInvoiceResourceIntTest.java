@@ -1,21 +1,24 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
+
 import org.soptorshi.domain.CommercialInvoice;
-import org.soptorshi.domain.CommercialPackaging;
-import org.soptorshi.domain.CommercialProformaInvoice;
 import org.soptorshi.domain.CommercialPurchaseOrder;
+import org.soptorshi.domain.CommercialProformaInvoice;
+import org.soptorshi.domain.CommercialPackaging;
 import org.soptorshi.repository.CommercialInvoiceRepository;
 import org.soptorshi.repository.search.CommercialInvoiceSearchRepository;
-import org.soptorshi.service.CommercialInvoiceQueryService;
 import org.soptorshi.service.CommercialInvoiceService;
 import org.soptorshi.service.dto.CommercialInvoiceDTO;
 import org.soptorshi.service.mapper.CommercialInvoiceMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.CommercialInvoiceCriteria;
+import org.soptorshi.service.CommercialInvoiceQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -35,11 +38,12 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -76,8 +80,8 @@ public class CommercialInvoiceResourceIntTest {
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATE_ON = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATE_ON = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate DEFAULT_CREATED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_ON = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
@@ -152,7 +156,7 @@ public class CommercialInvoiceResourceIntTest {
             .portOfDischarge(DEFAULT_PORT_OF_DISCHARGE)
             .exportRegistrationCertificateNo(DEFAULT_EXPORT_REGISTRATION_CERTIFICATE_NO)
             .createdBy(DEFAULT_CREATED_BY)
-            .createOn(DEFAULT_CREATE_ON)
+            .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
         return commercialInvoice;
@@ -187,7 +191,7 @@ public class CommercialInvoiceResourceIntTest {
         assertThat(testCommercialInvoice.getPortOfDischarge()).isEqualTo(DEFAULT_PORT_OF_DISCHARGE);
         assertThat(testCommercialInvoice.getExportRegistrationCertificateNo()).isEqualTo(DEFAULT_EXPORT_REGISTRATION_CERTIFICATE_NO);
         assertThat(testCommercialInvoice.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
-        assertThat(testCommercialInvoice.getCreateOn()).isEqualTo(DEFAULT_CREATE_ON);
+        assertThat(testCommercialInvoice.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testCommercialInvoice.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testCommercialInvoice.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
@@ -370,11 +374,11 @@ public class CommercialInvoiceResourceIntTest {
             .andExpect(jsonPath("$.[*].portOfDischarge").value(hasItem(DEFAULT_PORT_OF_DISCHARGE.toString())))
             .andExpect(jsonPath("$.[*].exportRegistrationCertificateNo").value(hasItem(DEFAULT_EXPORT_REGISTRATION_CERTIFICATE_NO.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getCommercialInvoice() throws Exception {
@@ -394,7 +398,7 @@ public class CommercialInvoiceResourceIntTest {
             .andExpect(jsonPath("$.portOfDischarge").value(DEFAULT_PORT_OF_DISCHARGE.toString()))
             .andExpect(jsonPath("$.exportRegistrationCertificateNo").value(DEFAULT_EXPORT_REGISTRATION_CERTIFICATE_NO.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
-            .andExpect(jsonPath("$.createOn").value(DEFAULT_CREATE_ON.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
             .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
     }
@@ -713,67 +717,67 @@ public class CommercialInvoiceResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllCommercialInvoicesByCreateOnIsEqualToSomething() throws Exception {
+    public void getAllCommercialInvoicesByCreatedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialInvoiceRepository.saveAndFlush(commercialInvoice);
 
-        // Get all the commercialInvoiceList where createOn equals to DEFAULT_CREATE_ON
-        defaultCommercialInvoiceShouldBeFound("createOn.equals=" + DEFAULT_CREATE_ON);
+        // Get all the commercialInvoiceList where createdOn equals to DEFAULT_CREATED_ON
+        defaultCommercialInvoiceShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialInvoiceList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialInvoiceShouldNotBeFound("createOn.equals=" + UPDATED_CREATE_ON);
+        // Get all the commercialInvoiceList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialInvoiceShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialInvoicesByCreateOnIsInShouldWork() throws Exception {
+    public void getAllCommercialInvoicesByCreatedOnIsInShouldWork() throws Exception {
         // Initialize the database
         commercialInvoiceRepository.saveAndFlush(commercialInvoice);
 
-        // Get all the commercialInvoiceList where createOn in DEFAULT_CREATE_ON or UPDATED_CREATE_ON
-        defaultCommercialInvoiceShouldBeFound("createOn.in=" + DEFAULT_CREATE_ON + "," + UPDATED_CREATE_ON);
+        // Get all the commercialInvoiceList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultCommercialInvoiceShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
 
-        // Get all the commercialInvoiceList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialInvoiceShouldNotBeFound("createOn.in=" + UPDATED_CREATE_ON);
+        // Get all the commercialInvoiceList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialInvoiceShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialInvoicesByCreateOnIsNullOrNotNull() throws Exception {
+    public void getAllCommercialInvoicesByCreatedOnIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialInvoiceRepository.saveAndFlush(commercialInvoice);
 
-        // Get all the commercialInvoiceList where createOn is not null
-        defaultCommercialInvoiceShouldBeFound("createOn.specified=true");
+        // Get all the commercialInvoiceList where createdOn is not null
+        defaultCommercialInvoiceShouldBeFound("createdOn.specified=true");
 
-        // Get all the commercialInvoiceList where createOn is null
-        defaultCommercialInvoiceShouldNotBeFound("createOn.specified=false");
+        // Get all the commercialInvoiceList where createdOn is null
+        defaultCommercialInvoiceShouldNotBeFound("createdOn.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllCommercialInvoicesByCreateOnIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllCommercialInvoicesByCreatedOnIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         commercialInvoiceRepository.saveAndFlush(commercialInvoice);
 
-        // Get all the commercialInvoiceList where createOn greater than or equals to DEFAULT_CREATE_ON
-        defaultCommercialInvoiceShouldBeFound("createOn.greaterOrEqualThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialInvoiceList where createdOn greater than or equals to DEFAULT_CREATED_ON
+        defaultCommercialInvoiceShouldBeFound("createdOn.greaterOrEqualThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialInvoiceList where createOn greater than or equals to UPDATED_CREATE_ON
-        defaultCommercialInvoiceShouldNotBeFound("createOn.greaterOrEqualThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialInvoiceList where createdOn greater than or equals to UPDATED_CREATED_ON
+        defaultCommercialInvoiceShouldNotBeFound("createdOn.greaterOrEqualThan=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialInvoicesByCreateOnIsLessThanSomething() throws Exception {
+    public void getAllCommercialInvoicesByCreatedOnIsLessThanSomething() throws Exception {
         // Initialize the database
         commercialInvoiceRepository.saveAndFlush(commercialInvoice);
 
-        // Get all the commercialInvoiceList where createOn less than or equals to DEFAULT_CREATE_ON
-        defaultCommercialInvoiceShouldNotBeFound("createOn.lessThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialInvoiceList where createdOn less than or equals to DEFAULT_CREATED_ON
+        defaultCommercialInvoiceShouldNotBeFound("createdOn.lessThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialInvoiceList where createOn less than or equals to UPDATED_CREATE_ON
-        defaultCommercialInvoiceShouldBeFound("createOn.lessThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialInvoiceList where createdOn less than or equals to UPDATED_CREATED_ON
+        defaultCommercialInvoiceShouldBeFound("createdOn.lessThan=" + UPDATED_CREATED_ON);
     }
 
 
@@ -954,7 +958,7 @@ public class CommercialInvoiceResourceIntTest {
             .andExpect(jsonPath("$.[*].portOfDischarge").value(hasItem(DEFAULT_PORT_OF_DISCHARGE)))
             .andExpect(jsonPath("$.[*].exportRegistrationCertificateNo").value(hasItem(DEFAULT_EXPORT_REGISTRATION_CERTIFICATE_NO)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
@@ -1012,7 +1016,7 @@ public class CommercialInvoiceResourceIntTest {
             .portOfDischarge(UPDATED_PORT_OF_DISCHARGE)
             .exportRegistrationCertificateNo(UPDATED_EXPORT_REGISTRATION_CERTIFICATE_NO)
             .createdBy(UPDATED_CREATED_BY)
-            .createOn(UPDATED_CREATE_ON)
+            .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
             .updatedOn(UPDATED_UPDATED_ON);
         CommercialInvoiceDTO commercialInvoiceDTO = commercialInvoiceMapper.toDto(updatedCommercialInvoice);
@@ -1034,7 +1038,7 @@ public class CommercialInvoiceResourceIntTest {
         assertThat(testCommercialInvoice.getPortOfDischarge()).isEqualTo(UPDATED_PORT_OF_DISCHARGE);
         assertThat(testCommercialInvoice.getExportRegistrationCertificateNo()).isEqualTo(UPDATED_EXPORT_REGISTRATION_CERTIFICATE_NO);
         assertThat(testCommercialInvoice.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
-        assertThat(testCommercialInvoice.getCreateOn()).isEqualTo(UPDATED_CREATE_ON);
+        assertThat(testCommercialInvoice.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testCommercialInvoice.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testCommercialInvoice.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
@@ -1105,7 +1109,7 @@ public class CommercialInvoiceResourceIntTest {
             .andExpect(jsonPath("$.[*].portOfDischarge").value(hasItem(DEFAULT_PORT_OF_DISCHARGE)))
             .andExpect(jsonPath("$.[*].exportRegistrationCertificateNo").value(hasItem(DEFAULT_EXPORT_REGISTRATION_CERTIFICATE_NO)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }

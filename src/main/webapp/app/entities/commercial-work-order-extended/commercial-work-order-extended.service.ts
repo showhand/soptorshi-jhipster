@@ -70,9 +70,9 @@ export class CommercialWorkOrderExtendedService extends CommercialWorkOrderServi
                 commercialWorkOrder.deliveryDate != null && commercialWorkOrder.deliveryDate.isValid()
                     ? commercialWorkOrder.deliveryDate.format(DATE_FORMAT)
                     : null,
-            createOn:
-                commercialWorkOrder.createOn != null && commercialWorkOrder.createOn.isValid()
-                    ? commercialWorkOrder.createOn.format(DATE_FORMAT)
+            createdOn:
+                commercialWorkOrder.createdOn != null && commercialWorkOrder.createdOn.isValid()
+                    ? commercialWorkOrder.createdOn.format(DATE_FORMAT)
                     : null,
             updatedOn:
                 commercialWorkOrder.updatedOn != null && commercialWorkOrder.updatedOn.isValid()
@@ -86,7 +86,7 @@ export class CommercialWorkOrderExtendedService extends CommercialWorkOrderServi
         if (res.body) {
             res.body.workOrderDate = res.body.workOrderDate != null ? moment(res.body.workOrderDate) : null;
             res.body.deliveryDate = res.body.deliveryDate != null ? moment(res.body.deliveryDate) : null;
-            res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
             res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
@@ -99,7 +99,7 @@ export class CommercialWorkOrderExtendedService extends CommercialWorkOrderServi
                     commercialWorkOrder.workOrderDate != null ? moment(commercialWorkOrder.workOrderDate) : null;
                 commercialWorkOrder.deliveryDate =
                     commercialWorkOrder.deliveryDate != null ? moment(commercialWorkOrder.deliveryDate) : null;
-                commercialWorkOrder.createOn = commercialWorkOrder.createOn != null ? moment(commercialWorkOrder.createOn) : null;
+                commercialWorkOrder.createdOn = commercialWorkOrder.createdOn != null ? moment(commercialWorkOrder.createdOn) : null;
                 commercialWorkOrder.updatedOn = commercialWorkOrder.updatedOn != null ? moment(commercialWorkOrder.updatedOn) : null;
             });
         }

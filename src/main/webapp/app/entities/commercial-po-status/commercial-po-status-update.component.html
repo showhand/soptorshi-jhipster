@@ -10,14 +10,6 @@
                         [(ngModel)]="commercialPoStatus.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_commercialPurchaseOrder">Commercial Purchase Order</label>
-                    <select class="form-control" id="field_commercialPurchaseOrder" name="commercialPurchaseOrder" [(ngModel)]="commercialPoStatus.commercialPurchaseOrderId"
-                    required>
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_status">Status</label>
                     <select class="form-control" name="status" [(ngModel)]="commercialPoStatus.status" id="field_status"  required>
                         <option value="WAITING_FOR_PROFORMA_INVOICE">WAITING_FOR_PROFORMA_INVOICE</option>
@@ -51,18 +43,18 @@
                         </small>
                     </div>
                 </div>
-                <!--<div class="form-group">
+                <div class="form-group">
                     <label class="form-control-label" for="field_createdBy">Created By</label>
                     <input type="text" class="form-control" name="createdBy" id="field_createdBy"
                         [(ngModel)]="commercialPoStatus.createdBy" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_createOn">Create On</label>
+                    <label class="form-control-label" for="field_createdOn">Created On</label>
                     <div class="input-group">
-                        <input id="field_createOn" type="text" class="form-control" name="createOn" ngbDatepicker  #createOnDp="ngbDatepicker" [(ngModel)]="commercialPoStatus.createOn"
+                        <input id="field_createdOn" type="text" class="form-control" name="createdOn" ngbDatepicker  #createdOnDp="ngbDatepicker" [(ngModel)]="commercialPoStatus.createdOn"
                         />
                         <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="createOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                            <button type="button" class="btn btn-secondary" (click)="createdOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
                 </div>
@@ -80,7 +72,15 @@
                             <button type="button" class="btn btn-secondary" (click)="updatedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
-                </div>-->
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialPurchaseOrder">Commercial Purchase Order</label>
+                    <select class="form-control" id="field_commercialPurchaseOrder" name="commercialPurchaseOrder" [(ngModel)]="commercialPoStatus.commercialPurchaseOrderId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
+                    </select>
+                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

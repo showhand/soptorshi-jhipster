@@ -59,9 +59,9 @@ export class CommercialPurchaseOrderItemService {
 
     protected convertDateFromClient(commercialPurchaseOrderItem: ICommercialPurchaseOrderItem): ICommercialPurchaseOrderItem {
         const copy: ICommercialPurchaseOrderItem = Object.assign({}, commercialPurchaseOrderItem, {
-            createOn:
-                commercialPurchaseOrderItem.createOn != null && commercialPurchaseOrderItem.createOn.isValid()
-                    ? commercialPurchaseOrderItem.createOn.format(DATE_FORMAT)
+            createdOn:
+                commercialPurchaseOrderItem.createdOn != null && commercialPurchaseOrderItem.createdOn.isValid()
+                    ? commercialPurchaseOrderItem.createdOn.format(DATE_FORMAT)
                     : null,
             updatedOn:
                 commercialPurchaseOrderItem.updatedOn != null && commercialPurchaseOrderItem.updatedOn.isValid()
@@ -73,7 +73,7 @@ export class CommercialPurchaseOrderItemService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
             res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
@@ -82,8 +82,8 @@ export class CommercialPurchaseOrderItemService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((commercialPurchaseOrderItem: ICommercialPurchaseOrderItem) => {
-                commercialPurchaseOrderItem.createOn =
-                    commercialPurchaseOrderItem.createOn != null ? moment(commercialPurchaseOrderItem.createOn) : null;
+                commercialPurchaseOrderItem.createdOn =
+                    commercialPurchaseOrderItem.createdOn != null ? moment(commercialPurchaseOrderItem.createdOn) : null;
                 commercialPurchaseOrderItem.updatedOn =
                     commercialPurchaseOrderItem.updatedOn != null ? moment(commercialPurchaseOrderItem.updatedOn) : null;
             });

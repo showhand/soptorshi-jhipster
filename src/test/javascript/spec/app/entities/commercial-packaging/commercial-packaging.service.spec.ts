@@ -1,11 +1,13 @@
 /* tslint:disable max-line-length */
-import { getTestBed, TestBed } from '@angular/core/testing';
+import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { map, take } from 'rxjs/operators';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { of } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { CommercialPackagingService } from 'app/entities/commercial-packaging/commercial-packaging.service';
-import { CommercialPackaging, ICommercialPackaging } from 'app/shared/model/commercial-packaging.model';
+import { ICommercialPackaging, CommercialPackaging } from 'app/shared/model/commercial-packaging.model';
 
 describe('Service Tests', () => {
     describe('CommercialPackaging Service', () => {
@@ -31,7 +33,7 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         consignmentDate: currentDate.format(DATE_FORMAT),
-                        createOn: currentDate.format(DATE_FORMAT),
+                        createdOn: currentDate.format(DATE_FORMAT),
                         updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
@@ -50,7 +52,7 @@ describe('Service Tests', () => {
                     {
                         id: 0,
                         consignmentDate: currentDate.format(DATE_FORMAT),
-                        createOn: currentDate.format(DATE_FORMAT),
+                        createdOn: currentDate.format(DATE_FORMAT),
                         updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
@@ -58,7 +60,7 @@ describe('Service Tests', () => {
                 const expected = Object.assign(
                     {
                         consignmentDate: currentDate,
-                        createOn: currentDate,
+                        createdOn: currentDate,
                         updatedOn: currentDate
                     },
                     returnedFromService
@@ -78,7 +80,7 @@ describe('Service Tests', () => {
                         consignmentDate: currentDate.format(DATE_FORMAT),
                         brand: 'BBBBBB',
                         createdBy: 'BBBBBB',
-                        createOn: currentDate.format(DATE_FORMAT),
+                        createdOn: currentDate.format(DATE_FORMAT),
                         updatedBy: 'BBBBBB',
                         updatedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -88,7 +90,7 @@ describe('Service Tests', () => {
                 const expected = Object.assign(
                     {
                         consignmentDate: currentDate,
-                        createOn: currentDate,
+                        createdOn: currentDate,
                         updatedOn: currentDate
                     },
                     returnedFromService
@@ -108,7 +110,7 @@ describe('Service Tests', () => {
                         consignmentDate: currentDate.format(DATE_FORMAT),
                         brand: 'BBBBBB',
                         createdBy: 'BBBBBB',
-                        createOn: currentDate.format(DATE_FORMAT),
+                        createdOn: currentDate.format(DATE_FORMAT),
                         updatedBy: 'BBBBBB',
                         updatedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -117,7 +119,7 @@ describe('Service Tests', () => {
                 const expected = Object.assign(
                     {
                         consignmentDate: currentDate,
-                        createOn: currentDate,
+                        createdOn: currentDate,
                         updatedOn: currentDate
                     },
                     returnedFromService

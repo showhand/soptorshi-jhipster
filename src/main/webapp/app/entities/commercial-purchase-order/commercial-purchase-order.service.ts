@@ -67,9 +67,9 @@ export class CommercialPurchaseOrderService {
                 commercialPurchaseOrder.shipmentDate != null && commercialPurchaseOrder.shipmentDate.isValid()
                     ? commercialPurchaseOrder.shipmentDate.format(DATE_FORMAT)
                     : null,
-            createOn:
-                commercialPurchaseOrder.createOn != null && commercialPurchaseOrder.createOn.isValid()
-                    ? commercialPurchaseOrder.createOn.format(DATE_FORMAT)
+            createdOn:
+                commercialPurchaseOrder.createdOn != null && commercialPurchaseOrder.createdOn.isValid()
+                    ? commercialPurchaseOrder.createdOn.format(DATE_FORMAT)
                     : null,
             updatedOn:
                 commercialPurchaseOrder.updatedOn != null && commercialPurchaseOrder.updatedOn.isValid()
@@ -83,7 +83,7 @@ export class CommercialPurchaseOrderService {
         if (res.body) {
             res.body.purchaseOrderDate = res.body.purchaseOrderDate != null ? moment(res.body.purchaseOrderDate) : null;
             res.body.shipmentDate = res.body.shipmentDate != null ? moment(res.body.shipmentDate) : null;
-            res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
             res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
@@ -96,8 +96,8 @@ export class CommercialPurchaseOrderService {
                     commercialPurchaseOrder.purchaseOrderDate != null ? moment(commercialPurchaseOrder.purchaseOrderDate) : null;
                 commercialPurchaseOrder.shipmentDate =
                     commercialPurchaseOrder.shipmentDate != null ? moment(commercialPurchaseOrder.shipmentDate) : null;
-                commercialPurchaseOrder.createOn =
-                    commercialPurchaseOrder.createOn != null ? moment(commercialPurchaseOrder.createOn) : null;
+                commercialPurchaseOrder.createdOn =
+                    commercialPurchaseOrder.createdOn != null ? moment(commercialPurchaseOrder.createdOn) : null;
                 commercialPurchaseOrder.updatedOn =
                     commercialPurchaseOrder.updatedOn != null ? moment(commercialPurchaseOrder.updatedOn) : null;
             });

@@ -63,9 +63,9 @@ export class CommercialProformaInvoiceService {
                 commercialProformaInvoice.proformaDate != null && commercialProformaInvoice.proformaDate.isValid()
                     ? commercialProformaInvoice.proformaDate.format(DATE_FORMAT)
                     : null,
-            createOn:
-                commercialProformaInvoice.createOn != null && commercialProformaInvoice.createOn.isValid()
-                    ? commercialProformaInvoice.createOn.format(DATE_FORMAT)
+            createdOn:
+                commercialProformaInvoice.createdOn != null && commercialProformaInvoice.createdOn.isValid()
+                    ? commercialProformaInvoice.createdOn.format(DATE_FORMAT)
                     : null,
             updatedOn:
                 commercialProformaInvoice.updatedOn != null && commercialProformaInvoice.updatedOn.isValid()
@@ -78,7 +78,7 @@ export class CommercialProformaInvoiceService {
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
             res.body.proformaDate = res.body.proformaDate != null ? moment(res.body.proformaDate) : null;
-            res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
             res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
@@ -89,8 +89,8 @@ export class CommercialProformaInvoiceService {
             res.body.forEach((commercialProformaInvoice: ICommercialProformaInvoice) => {
                 commercialProformaInvoice.proformaDate =
                     commercialProformaInvoice.proformaDate != null ? moment(commercialProformaInvoice.proformaDate) : null;
-                commercialProformaInvoice.createOn =
-                    commercialProformaInvoice.createOn != null ? moment(commercialProformaInvoice.createOn) : null;
+                commercialProformaInvoice.createdOn =
+                    commercialProformaInvoice.createdOn != null ? moment(commercialProformaInvoice.createdOn) : null;
                 commercialProformaInvoice.updatedOn =
                     commercialProformaInvoice.updatedOn != null ? moment(commercialProformaInvoice.updatedOn) : null;
             });

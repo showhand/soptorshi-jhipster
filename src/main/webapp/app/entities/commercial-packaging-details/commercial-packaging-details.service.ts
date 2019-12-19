@@ -67,9 +67,9 @@ export class CommercialPackagingDetailsService {
                 commercialPackagingDetails.expDate != null && commercialPackagingDetails.expDate.isValid()
                     ? commercialPackagingDetails.expDate.format(DATE_FORMAT)
                     : null,
-            createOn:
-                commercialPackagingDetails.createOn != null && commercialPackagingDetails.createOn.isValid()
-                    ? commercialPackagingDetails.createOn.format(DATE_FORMAT)
+            createdOn:
+                commercialPackagingDetails.createdOn != null && commercialPackagingDetails.createdOn.isValid()
+                    ? commercialPackagingDetails.createdOn.format(DATE_FORMAT)
                     : null,
             updatedOn:
                 commercialPackagingDetails.updatedOn != null && commercialPackagingDetails.updatedOn.isValid()
@@ -83,7 +83,7 @@ export class CommercialPackagingDetailsService {
         if (res.body) {
             res.body.proDate = res.body.proDate != null ? moment(res.body.proDate) : null;
             res.body.expDate = res.body.expDate != null ? moment(res.body.expDate) : null;
-            res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
             res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
@@ -96,8 +96,8 @@ export class CommercialPackagingDetailsService {
                     commercialPackagingDetails.proDate != null ? moment(commercialPackagingDetails.proDate) : null;
                 commercialPackagingDetails.expDate =
                     commercialPackagingDetails.expDate != null ? moment(commercialPackagingDetails.expDate) : null;
-                commercialPackagingDetails.createOn =
-                    commercialPackagingDetails.createOn != null ? moment(commercialPackagingDetails.createOn) : null;
+                commercialPackagingDetails.createdOn =
+                    commercialPackagingDetails.createdOn != null ? moment(commercialPackagingDetails.createdOn) : null;
                 commercialPackagingDetails.updatedOn =
                     commercialPackagingDetails.updatedOn != null ? moment(commercialPackagingDetails.updatedOn) : null;
             });

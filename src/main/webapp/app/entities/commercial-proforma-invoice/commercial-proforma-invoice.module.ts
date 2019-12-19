@@ -1,15 +1,15 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     CommercialProformaInvoiceComponent,
-    CommercialProformaInvoiceDeleteDialogComponent,
-    CommercialProformaInvoiceDeletePopupComponent,
     CommercialProformaInvoiceDetailComponent,
-    commercialProformaInvoicePopupRoute,
+    CommercialProformaInvoiceUpdateComponent,
+    CommercialProformaInvoiceDeletePopupComponent,
+    CommercialProformaInvoiceDeleteDialogComponent,
     commercialProformaInvoiceRoute,
-    CommercialProformaInvoiceUpdateComponent
+    commercialProformaInvoicePopupRoute
 } from './';
 
 const ENTITY_STATES = [...commercialProformaInvoiceRoute, ...commercialProformaInvoicePopupRoute];

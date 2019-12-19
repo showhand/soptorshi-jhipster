@@ -1,24 +1,26 @@
 package org.soptorshi.service;
 
-import io.github.jhipster.service.QueryService;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.CommercialWorkOrderDetails;
-import org.soptorshi.domain.CommercialWorkOrderDetails_;
-import org.soptorshi.domain.CommercialWorkOrder_;
-import org.soptorshi.repository.CommercialWorkOrderDetailsRepository;
-import org.soptorshi.repository.search.CommercialWorkOrderDetailsSearchRepository;
-import org.soptorshi.service.dto.CommercialWorkOrderDetailsCriteria;
-import org.soptorshi.service.dto.CommercialWorkOrderDetailsDTO;
-import org.soptorshi.service.mapper.CommercialWorkOrderDetailsMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.JoinType;
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import org.soptorshi.domain.CommercialWorkOrderDetails;
+import org.soptorshi.domain.*; // for static metamodels
+import org.soptorshi.repository.CommercialWorkOrderDetailsRepository;
+import org.soptorshi.repository.search.CommercialWorkOrderDetailsSearchRepository;
+import org.soptorshi.service.dto.CommercialWorkOrderDetailsCriteria;
+import org.soptorshi.service.dto.CommercialWorkOrderDetailsDTO;
+import org.soptorshi.service.mapper.CommercialWorkOrderDetailsMapper;
 
 /**
  * Service for executing complex queries for CommercialWorkOrderDetails entities in the database.
@@ -115,8 +117,8 @@ public class CommercialWorkOrderDetailsQueryService extends QueryService<Commerc
             if (criteria.getCreatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), CommercialWorkOrderDetails_.createdBy));
             }
-            if (criteria.getCreateOn() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getCreateOn(), CommercialWorkOrderDetails_.createOn));
+            if (criteria.getCreatedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedOn(), CommercialWorkOrderDetails_.createdOn));
             }
             if (criteria.getUpdatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), CommercialWorkOrderDetails_.updatedBy));

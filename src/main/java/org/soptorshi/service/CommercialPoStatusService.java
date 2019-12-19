@@ -1,22 +1,21 @@
 package org.soptorshi.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialPoStatus;
 import org.soptorshi.repository.CommercialPoStatusRepository;
 import org.soptorshi.repository.search.CommercialPoStatusSearchRepository;
-import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.CommercialPoStatusDTO;
 import org.soptorshi.service.mapper.CommercialPoStatusMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing CommercialPoStatus.
@@ -47,22 +46,11 @@ public class CommercialPoStatusService {
      */
     public CommercialPoStatusDTO save(CommercialPoStatusDTO commercialPoStatusDTO) {
         log.debug("Request to save CommercialPoStatus : {}", commercialPoStatusDTO);
-        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
-        LocalDate currentDate = LocalDate.now();
-        if(commercialPoStatusDTO.getId() == null) {
-            commercialPoStatusDTO.setCreatedBy(currentUser);
-            commercialPoStatusDTO.setCreateOn(currentDate);
-            CommercialPoStatus commercialPoStatus = commercialPoStatusMapper.toEntity(commercialPoStatusDTO);
-            commercialPoStatus = commercialPoStatusRepository.save(commercialPoStatus);
-            CommercialPoStatusDTO result = commercialPoStatusMapper.toDto(commercialPoStatus);
-            commercialPoStatusSearchRepository.save(commercialPoStatus);
-            return result;
-        }
-        else {
-            commercialPoStatusDTO.setUpdatedBy(currentUser);
-            commercialPoStatusDTO.setUpdatedOn(currentDate);
-            return null;
-        }
+        CommercialPoStatus commercialPoStatus = commercialPoStatusMapper.toEntity(commercialPoStatusDTO);
+        commercialPoStatus = commercialPoStatusRepository.save(commercialPoStatus);
+        CommercialPoStatusDTO result = commercialPoStatusMapper.toDto(commercialPoStatus);
+        commercialPoStatusSearchRepository.save(commercialPoStatus);
+        return result;
     }
 
     /**
@@ -99,8 +87,8 @@ public class CommercialPoStatusService {
      */
     public void delete(Long id) {
         log.debug("Request to delete CommercialPoStatus : {}", id);
-        /*commercialPoStatusRepository.deleteById(id);
-        commercialPoStatusSearchRepository.deleteById(id);*/
+        commercialPoStatusRepository.deleteById(id);
+        commercialPoStatusSearchRepository.deleteById(id);
     }
 
     /**

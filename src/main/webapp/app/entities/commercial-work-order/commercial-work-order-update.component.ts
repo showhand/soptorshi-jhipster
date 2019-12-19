@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { ICommercialWorkOrder } from 'app/shared/model/commercial-work-order.model';
 import { CommercialWorkOrderService } from './commercial-work-order.service';
@@ -20,7 +21,7 @@ export class CommercialWorkOrderUpdateComponent implements OnInit {
     commercialpurchaseorders: ICommercialPurchaseOrder[];
     workOrderDateDp: any;
     deliveryDateDp: any;
-    createOnDp: any;
+    createdOnDp: any;
     updatedOnDp: any;
 
     constructor(
