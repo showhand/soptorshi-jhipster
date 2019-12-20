@@ -41,8 +41,7 @@ public class CommercialProformaInvoiceExtendedService extends CommercialProforma
 
     public CommercialProformaInvoiceExtendedService(CommercialProformaInvoiceRepository commercialProformaInvoiceRepository, CommercialProformaInvoiceMapper commercialProformaInvoiceMapper, CommercialProformaInvoiceSearchRepository commercialProformaInvoiceSearchRepository,
                                                     CommercialPoStatusService commercialPoStatusService) {
-        super(commercialProformaInvoiceRepository, commercialProformaInvoiceMapper, commercialProformaInvoiceSearchRepository,
-            commercialPoStatusService);
+        super(commercialProformaInvoiceRepository, commercialProformaInvoiceMapper, commercialProformaInvoiceSearchRepository);
         this.commercialProformaInvoiceRepository = commercialProformaInvoiceRepository;
         this.commercialProformaInvoiceMapper = commercialProformaInvoiceMapper;
         this.commercialProformaInvoiceSearchRepository = commercialProformaInvoiceSearchRepository;
@@ -61,7 +60,7 @@ public class CommercialProformaInvoiceExtendedService extends CommercialProforma
         LocalDate currentDate = LocalDate.now();
         if(commercialProformaInvoiceDTO.getId() == null) {
             commercialProformaInvoiceDTO.setCreatedBy(currentUser);
-            commercialProformaInvoiceDTO.setCreateOn(currentDate);
+            commercialProformaInvoiceDTO.setCreatedOn(currentDate);
             updateCommercialStatus(commercialProformaInvoiceDTO, currentUser, currentDate);
         }
         else {
@@ -80,7 +79,7 @@ public class CommercialProformaInvoiceExtendedService extends CommercialProforma
         commercialPoStatusDTO.setStatus(CommercialStatus.WAITING_FOR_PROFORMA_INVOICE_APPROVAL);
         commercialPoStatusDTO.setCommercialPurchaseOrderId(commercialProformaInvoiceDTO.getCommercialPurchaseOrderId());
         commercialPoStatusDTO.setCreatedBy(currentUser);
-        commercialPoStatusDTO.setCreateOn(currentDate);
+        commercialPoStatusDTO.setCreatedOn(currentDate);
         commercialPoStatusService.save(commercialPoStatusDTO);
     }
 

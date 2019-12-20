@@ -53,7 +53,7 @@ public class CommercialInvoiceExtendedService extends CommercialInvoiceService {
         LocalDate currentDate = LocalDate.now();
         if (commercialInvoiceDTO.getId() == null) {
             commercialInvoiceDTO.setCreatedBy(currentUser);
-            commercialInvoiceDTO.setCreateOn(currentDate);
+            commercialInvoiceDTO.setCreatedOn(currentDate);
         } else {
             commercialInvoiceDTO.setUpdatedBy(currentUser);
             commercialInvoiceDTO.setUpdatedOn(currentDate);

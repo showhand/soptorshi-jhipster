@@ -38,7 +38,7 @@ public class CommercialPaymentInfoExtendedService extends CommercialPaymentInfoS
     private final CommercialPoStatusService commercialPoStatusService;
 
     public CommercialPaymentInfoExtendedService(CommercialPaymentInfoRepository commercialPaymentInfoRepository, CommercialPaymentInfoMapper commercialPaymentInfoMapper, CommercialPaymentInfoSearchRepository commercialPaymentInfoSearchRepository, CommercialPoStatusService commercialPoStatusService) {
-        super(commercialPaymentInfoRepository, commercialPaymentInfoMapper, commercialPaymentInfoSearchRepository, commercialPoStatusService);
+        super(commercialPaymentInfoRepository, commercialPaymentInfoMapper, commercialPaymentInfoSearchRepository);
         this.commercialPaymentInfoRepository = commercialPaymentInfoRepository;
         this.commercialPaymentInfoMapper = commercialPaymentInfoMapper;
         this.commercialPaymentInfoSearchRepository = commercialPaymentInfoSearchRepository;
@@ -58,7 +58,7 @@ public class CommercialPaymentInfoExtendedService extends CommercialPaymentInfoS
         LocalDate currentDate = LocalDate.now();
         if (commercialPaymentInfoDTO.getId() == null) {
             commercialPaymentInfoDTO.setCreatedBy(currentUser);
-            commercialPaymentInfoDTO.setCreateOn(currentDate);
+            commercialPaymentInfoDTO.setCreatedOn(currentDate);
         } else {
             commercialPaymentInfoDTO.setUpdatedBy(currentUser);
             commercialPaymentInfoDTO.setUpdatedOn(currentDate);

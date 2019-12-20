@@ -53,7 +53,7 @@ public class CommercialPackagingDetailsExtendedService extends CommercialPackagi
         LocalDate currentDate = LocalDate.now();
         if (commercialPackagingDetailsDTO.getId() == null) {
             commercialPackagingDetailsDTO.setCreatedBy(currentUser);
-            commercialPackagingDetailsDTO.setCreateOn(currentDate);
+            commercialPackagingDetailsDTO.setCreatedOn(currentDate);
         } else {
             commercialPackagingDetailsDTO.setUpdatedBy(currentUser);
             commercialPackagingDetailsDTO.setUpdatedOn(currentDate);

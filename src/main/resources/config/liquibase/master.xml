@@ -185,6 +185,7 @@
     <include file="config/liquibase/changelog/20191216174416_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191218004634_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191219093156_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191220082745_changelog.xml" relativeToChangelogFile="false"/>
 
 
     <include file="config/liquibase/changelog/20190906083824_added_entity_constraints_VoucherNumberControl.xml" relativeToChangelogFile="false"/>
