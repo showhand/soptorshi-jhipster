@@ -176,7 +176,7 @@ public class StockOutItemExtendedService extends StockOutItemService {
                 throw new InternalServerErrorException("Required quantity is greater than available quantity");
             } else {
                 stockStatus.setAvailableQuantity(stockStatus.getAvailableQuantity().subtract(stockOutItemDTO.getQuantity()));
-                stockStatus.setAvailablePrice(stockStatus.getAvailablePrice().subtract((stockOutItemDTO.getQuantity().multiply(stockStatus.getStockInItems().getStockInProcesses().getUnitPrice()))));
+                stockStatus.setAvailablePrice(stockStatus.getAvailablePrice().subtract((stockOutItemDTO.getQuantity().multiply(stockStatus.getStockInItem().getStockInProcesses().getUnitPrice()))));
                 stockStatusExtendedRepository.save(stockStatus);
             }
             return 1;

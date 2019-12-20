@@ -58,7 +58,7 @@
             "relationshipType": "one-to-one",
             "otherEntityName": "stockInItem",
             "otherEntityRelationshipName": "stockStatus",
-            "relationshipName": "stockInItems",
+            "relationshipName": "stockInItem",
             "otherEntityField": "id",
             "ownerSide": true
         },

@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ProductType;
+import org.soptorshi.domain.enumeration.StockInProcessStatus;
 
 /**
  * A DTO for the StockInProcess entity.
@@ -24,28 +26,36 @@ public class StockInProcessDTO implements Serializable {
     @NotNull
     private BigDecimal unitPrice;
 
-    @NotNull
     private Integer totalContainer;
 
-    @NotNull
     private ContainerCategory containerCategory;
 
-    @NotNull
     private String containerTrackingId;
 
-    @NotNull
     private String quantityPerContainer;
 
+    private LocalDate mfgDate;
+
     private LocalDate expiryDate;
+
+    private ProductType typeOfProduct;
+
+    private StockInProcessStatus status;
 
     private String stockInBy;
 
     private Instant stockInDate;
 
-    private String purchaseOrderId;
-
     private String remarks;
 
+
+    private Long purchaseOrderId;
+
+    private String purchaseOrderPurchaseOrderNo;
+
+    private Long commercialPurchaseOrderId;
+
+    private String commercialPurchaseOrderPurchaseOrderNo;
 
     private Long productCategoriesId;
 
@@ -131,12 +141,36 @@ public class StockInProcessDTO implements Serializable {
         this.quantityPerContainer = quantityPerContainer;
     }
 
+    public LocalDate getMfgDate() {
+        return mfgDate;
+    }
+
+    public void setMfgDate(LocalDate mfgDate) {
+        this.mfgDate = mfgDate;
+    }
+
     public LocalDate getExpiryDate() {
         return expiryDate;
     }
 
     public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public ProductType getTypeOfProduct() {
+        return typeOfProduct;
+    }
+
+    public void setTypeOfProduct(ProductType typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
+    }
+
+    public StockInProcessStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(StockInProcessStatus status) {
+        this.status = status;
     }
 
     public String getStockInBy() {
@@ -155,20 +189,44 @@ public class StockInProcessDTO implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public String getPurchaseOrderId() {
-        return purchaseOrderId;
-    }
-
-    public void setPurchaseOrderId(String purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-    }
-
     public String getRemarks() {
         return remarks;
     }
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public Long getPurchaseOrderId() {
+        return purchaseOrderId;
+    }
+
+    public void setPurchaseOrderId(Long purchaseOrderId) {
+        this.purchaseOrderId = purchaseOrderId;
+    }
+
+    public String getPurchaseOrderPurchaseOrderNo() {
+        return purchaseOrderPurchaseOrderNo;
+    }
+
+    public void setPurchaseOrderPurchaseOrderNo(String purchaseOrderPurchaseOrderNo) {
+        this.purchaseOrderPurchaseOrderNo = purchaseOrderPurchaseOrderNo;
+    }
+
+    public Long getCommercialPurchaseOrderId() {
+        return commercialPurchaseOrderId;
+    }
+
+    public void setCommercialPurchaseOrderId(Long commercialPurchaseOrderId) {
+        this.commercialPurchaseOrderId = commercialPurchaseOrderId;
+    }
+
+    public String getCommercialPurchaseOrderPurchaseOrderNo() {
+        return commercialPurchaseOrderPurchaseOrderNo;
+    }
+
+    public void setCommercialPurchaseOrderPurchaseOrderNo(String commercialPurchaseOrderPurchaseOrderNo) {
+        this.commercialPurchaseOrderPurchaseOrderNo = commercialPurchaseOrderPurchaseOrderNo;
     }
 
     public Long getProductCategoriesId() {
@@ -283,11 +341,17 @@ public class StockInProcessDTO implements Serializable {
             ", containerCategory='" + getContainerCategory() + "'" +
             ", containerTrackingId='" + getContainerTrackingId() + "'" +
             ", quantityPerContainer='" + getQuantityPerContainer() + "'" +
+            ", mfgDate='" + getMfgDate() + "'" +
             ", expiryDate='" + getExpiryDate() + "'" +
+            ", typeOfProduct='" + getTypeOfProduct() + "'" +
+            ", status='" + getStatus() + "'" +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
-            ", purchaseOrderId='" + getPurchaseOrderId() + "'" +
             ", remarks='" + getRemarks() + "'" +
+            ", purchaseOrder=" + getPurchaseOrderId() +
+            ", purchaseOrder='" + getPurchaseOrderPurchaseOrderNo() + "'" +
+            ", commercialPurchaseOrder=" + getCommercialPurchaseOrderId() +
+            ", commercialPurchaseOrder='" + getCommercialPurchaseOrderPurchaseOrderNo() + "'" +
             ", productCategories=" + getProductCategoriesId() +
             ", productCategories='" + getProductCategoriesName() + "'" +
             ", products=" + getProductsId() +

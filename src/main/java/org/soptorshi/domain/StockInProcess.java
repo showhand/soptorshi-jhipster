@@ -17,6 +17,10 @@ import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 
 import org.soptorshi.domain.enumeration.ContainerCategory;
 
+import org.soptorshi.domain.enumeration.ProductType;
+
+import org.soptorshi.domain.enumeration.StockInProcessStatus;
+
 /**
  * A StockInProcess.
  */
@@ -44,25 +48,32 @@ public class StockInProcess implements Serializable {
     @Column(name = "unit_price", precision = 10, scale = 2, nullable = false)
     private BigDecimal unitPrice;
 
-    @NotNull
-    @Column(name = "total_container", nullable = false)
+    @Column(name = "total_container")
     private Integer totalContainer;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "container_category", nullable = false)
+    @Column(name = "container_category")
     private ContainerCategory containerCategory;
 
-    @NotNull
-    @Column(name = "container_tracking_id", nullable = false)
+    @Column(name = "container_tracking_id")
     private String containerTrackingId;
 
-    @NotNull
-    @Column(name = "quantity_per_container", nullable = false)
+    @Column(name = "quantity_per_container")
     private String quantityPerContainer;
+
+    @Column(name = "mfg_date")
+    private LocalDate mfgDate;
 
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type_of_product")
+    private ProductType typeOfProduct;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private StockInProcessStatus status;
 
     @Column(name = "stock_in_by")
     private String stockInBy;
@@ -70,11 +81,16 @@ public class StockInProcess implements Serializable {
     @Column(name = "stock_in_date")
     private Instant stockInDate;
 
-    @Column(name = "purchase_order_id")
-    private String purchaseOrderId;
-
     @Column(name = "remarks")
     private String remarks;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private PurchaseOrder purchaseOrder;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private CommercialPurchaseOrder commercialPurchaseOrder;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInProcesses")
@@ -196,6 +212,19 @@ public class StockInProcess implements Serializable {
         this.quantityPerContainer = quantityPerContainer;
     }
 
+    public LocalDate getMfgDate() {
+        return mfgDate;
+    }
+
+    public StockInProcess mfgDate(LocalDate mfgDate) {
+        this.mfgDate = mfgDate;
+        return this;
+    }
+
+    public void setMfgDate(LocalDate mfgDate) {
+        this.mfgDate = mfgDate;
+    }
+
     public LocalDate getExpiryDate() {
         return expiryDate;
     }
@@ -207,6 +236,32 @@ public class StockInProcess implements Serializable {
 
     public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public ProductType getTypeOfProduct() {
+        return typeOfProduct;
+    }
+
+    public StockInProcess typeOfProduct(ProductType typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
+        return this;
+    }
+
+    public void setTypeOfProduct(ProductType typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
+    }
+
+    public StockInProcessStatus getStatus() {
+        return status;
+    }
+
+    public StockInProcess status(StockInProcessStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(StockInProcessStatus status) {
+        this.status = status;
     }
 
     public String getStockInBy() {
@@ -235,19 +290,6 @@ public class StockInProcess implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public String getPurchaseOrderId() {
-        return purchaseOrderId;
-    }
-
-    public StockInProcess purchaseOrderId(String purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-        return this;
-    }
-
-    public void setPurchaseOrderId(String purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-    }
-
     public String getRemarks() {
         return remarks;
     }
@@ -259,6 +301,32 @@ public class StockInProcess implements Serializable {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public StockInProcess purchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+        return this;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+    }
+
+    public CommercialPurchaseOrder getCommercialPurchaseOrder() {
+        return commercialPurchaseOrder;
+    }
+
+    public StockInProcess commercialPurchaseOrder(CommercialPurchaseOrder commercialPurchaseOrder) {
+        this.commercialPurchaseOrder = commercialPurchaseOrder;
+        return this;
+    }
+
+    public void setCommercialPurchaseOrder(CommercialPurchaseOrder commercialPurchaseOrder) {
+        this.commercialPurchaseOrder = commercialPurchaseOrder;
     }
 
     public ProductCategory getProductCategories() {
@@ -358,10 +426,12 @@ public class StockInProcess implements Serializable {
             ", containerCategory='" + getContainerCategory() + "'" +
             ", containerTrackingId='" + getContainerTrackingId() + "'" +
             ", quantityPerContainer='" + getQuantityPerContainer() + "'" +
+            ", mfgDate='" + getMfgDate() + "'" +
             ", expiryDate='" + getExpiryDate() + "'" +
+            ", typeOfProduct='" + getTypeOfProduct() + "'" +
+            ", status='" + getStatus() + "'" +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
-            ", purchaseOrderId='" + getPurchaseOrderId() + "'" +
             ", remarks='" + getRemarks() + "'" +
             "}";
     }

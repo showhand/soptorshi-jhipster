@@ -108,6 +108,9 @@ public class StockOutItemQueryService extends QueryService<StockOutItem> {
             if (criteria.getReceiverId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getReceiverId(), StockOutItem_.receiverId));
             }
+            if (criteria.getReceivingPlace() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getReceivingPlace(), StockOutItem_.receivingPlace));
+            }
             if (criteria.getRemarks() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getRemarks(), StockOutItem_.remarks));
             }

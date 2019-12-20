@@ -8,9 +8,9 @@
     -->
     <changeSet id="20190803152917-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="stock_in_items_id"
+        <addForeignKeyConstraint baseColumnNames="stock_in_item_id"
                                  baseTableName="stock_status"
-                                 constraintName="fk_stock_status_stock_in_items_id"
+                                 constraintName="fk_stock_status_stock_in_item_id"
                                  referencedColumnNames="id"
                                  referencedTableName="stock_in_item"/>
 

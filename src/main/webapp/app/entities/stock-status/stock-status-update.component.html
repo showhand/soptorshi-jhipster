@@ -109,8 +109,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_stockInItems">Stock In Items</label>
-                    <select class="form-control" id="field_stockInItems" name="stockInItems" [(ngModel)]="stockStatus.stockInItemsId">
+                    <label class="form-control-label" for="field_stockInItem">Stock In Item</label>
+                    <select class="form-control" id="field_stockInItem" name="stockInItem" [(ngModel)]="stockStatus.stockInItemId">
                         <option [ngValue]="null"></option>
                         <option [ngValue]="stockInItemOption.id" *ngFor="let stockInItemOption of stockinitems; trackBy: trackStockInItemById">{{stockInItemOption.id}}</option>
                     </select>

@@ -399,14 +399,16 @@ entity StockInProcess {
   totalQuantity BigDecimal required,
   unit UnitOfMeasurements required,
   unitPrice BigDecimal required,
-  totalContainer Integer required,
-  containerCategory ContainerCategory required,
-  containerTrackingId String required,
-  quantityPerContainer String required,
+  totalContainer Integer,
+  containerCategory ContainerCategory,
+  containerTrackingId String,
+  quantityPerContainer String,
+  mfgDate LocalDate,
   expiryDate LocalDate,
+  typeOfProduct ProductType,
+  status StockInProcessStatus,
   stockInBy String,
   stockInDate Instant,
-  purchaseOrderId String,
   remarks String
 }
 entity StockInItem {
@@ -415,10 +417,11 @@ entity StockInItem {
   price BigDecimal required,
   containerCategory ContainerCategory required,
   containerTrackingId String required,
+  mfgDate LocalDate,
   expiryDate LocalDate,
+  typeOfProduct ProductType,
   stockInBy String,
   stockInDate Instant,
-  purchaseOrderId String,
   remarks String
 }
 entity StockOutItem {
@@ -427,6 +430,7 @@ entity StockOutItem {
   stockOutBy String,
   stockOutDate Instant,
   receiverId String,
+  receivingPlace String,
   remarks String
 }
 entity StockStatus {
@@ -1182,15 +1186,25 @@ enum CommercialStatus {
   GETTING_EXPORT_PAYMENT_AND_WAITING_FOR_BANGLADESH_BANK_CLEARANCE_OR_FUND
 }
 
+enum StockInProcessStatus {
+    WAITING_FOR_STOCK_IN_PROCESS, COMPLETED_STOCK_IN_PROCESS
+}
+
+enum ProductType{
+    REGULAR_PRODUCT, FINISHED_PRODUCT, BY_PRODUCT
+}
+
 relationship OneToOne {
   PurchaseCommittee{employee(fullName)} to Employee,
-  StockStatus{stockInItems} to StockInItem,
+  StockStatus{stockInItem} to StockInItem,
   CommercialProformaInvoice{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
   CommercialPaymentInfo{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
   CommercialPackaging{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
   CommercialInvoice{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
   CommercialInvoice{commercialProformaInvoice(proformaNo)} to CommercialProformaInvoice,
-  CommercialInvoice{commercialPackaging(consignmentNo)} to CommercialPackaging
+  CommercialInvoice{commercialPackaging(consignmentNo)} to CommercialPackaging,
+  StockInProcess{PurchaseOrder(purchaseOrderNo)} to PurchaseOrder,
+  StockInProcess{CommercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder
 }
 relationship OneToMany {
   MonthlySalary{comments} to SalaryMessages{monthlySalary}
@@ -1262,6 +1276,8 @@ relationship ManyToOne {
   StockInItem{inventorySubLocations(name)} to InventorySubLocation,
   StockInItem{vendor(companyName)} to Vendor,
   StockInItem{stockInProcesses} to StockInProcess,
+  StockInItem{PurchaseOrders(purchaseOrderNo)} to PurchaseOrder,
+  StockInItem{CommercialPurchaseOrders(purchaseOrderNo)} to CommercialPurchaseOrder,
   StockOutItem{productCategories(name)} to ProductCategory,
   StockOutItem{products(name)} to Product,
   StockOutItem{inventoryLocations(name)} to InventoryLocation,

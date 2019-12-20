@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { StockInItemService } from 'app/entities/stock-in-item/stock-in-item.service';
-import { IStockInItem, StockInItem, UnitOfMeasurements, ContainerCategory } from 'app/shared/model/stock-in-item.model';
+import { IStockInItem, StockInItem, UnitOfMeasurements, ContainerCategory, ProductType } from 'app/shared/model/stock-in-item.model';
 
 describe('Service Tests', () => {
     describe('StockInItem Service', () => {
@@ -33,9 +33,10 @@ describe('Service Tests', () => {
                 ContainerCategory.BOTTLE,
                 'AAAAAAA',
                 currentDate,
+                currentDate,
+                ProductType.REGULAR_PRODUCT,
                 'AAAAAAA',
                 currentDate,
-                'AAAAAAA',
                 'AAAAAAA'
             );
         });
@@ -44,6 +45,7 @@ describe('Service Tests', () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
+                        mfgDate: currentDate.format(DATE_FORMAT),
                         expiryDate: currentDate.format(DATE_FORMAT),
                         stockInDate: currentDate.format(DATE_TIME_FORMAT)
                     },
@@ -62,6 +64,7 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
+                        mfgDate: currentDate.format(DATE_FORMAT),
                         expiryDate: currentDate.format(DATE_FORMAT),
                         stockInDate: currentDate.format(DATE_TIME_FORMAT)
                     },
@@ -69,6 +72,7 @@ describe('Service Tests', () => {
                 );
                 const expected = Object.assign(
                     {
+                        mfgDate: currentDate,
                         expiryDate: currentDate,
                         stockInDate: currentDate
                     },
@@ -90,10 +94,11 @@ describe('Service Tests', () => {
                         price: 1,
                         containerCategory: 'BBBBBB',
                         containerTrackingId: 'BBBBBB',
+                        mfgDate: currentDate.format(DATE_FORMAT),
                         expiryDate: currentDate.format(DATE_FORMAT),
+                        typeOfProduct: 'BBBBBB',
                         stockInBy: 'BBBBBB',
                         stockInDate: currentDate.format(DATE_TIME_FORMAT),
-                        purchaseOrderId: 'BBBBBB',
                         remarks: 'BBBBBB'
                     },
                     elemDefault
@@ -101,6 +106,7 @@ describe('Service Tests', () => {
 
                 const expected = Object.assign(
                     {
+                        mfgDate: currentDate,
                         expiryDate: currentDate,
                         stockInDate: currentDate
                     },
@@ -122,16 +128,18 @@ describe('Service Tests', () => {
                         price: 1,
                         containerCategory: 'BBBBBB',
                         containerTrackingId: 'BBBBBB',
+                        mfgDate: currentDate.format(DATE_FORMAT),
                         expiryDate: currentDate.format(DATE_FORMAT),
+                        typeOfProduct: 'BBBBBB',
                         stockInBy: 'BBBBBB',
                         stockInDate: currentDate.format(DATE_TIME_FORMAT),
-                        purchaseOrderId: 'BBBBBB',
                         remarks: 'BBBBBB'
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
+                        mfgDate: currentDate,
                         expiryDate: currentDate,
                         stockInDate: currentDate
                     },

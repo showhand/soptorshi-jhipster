@@ -8,7 +8,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity StockInItem and its DTO StockInItemDTO.
  */
-@Mapper(componentModel = "spring", uses = {ProductCategoryMapper.class, ProductMapper.class, InventoryLocationMapper.class, InventorySubLocationMapper.class, VendorMapper.class, StockInProcessMapper.class})
+@Mapper(componentModel = "spring", uses = {ProductCategoryMapper.class, ProductMapper.class, InventoryLocationMapper.class, InventorySubLocationMapper.class, VendorMapper.class, StockInProcessMapper.class, PurchaseOrderMapper.class, CommercialPurchaseOrderMapper.class})
 public interface StockInItemMapper extends EntityMapper<StockInItemDTO, StockInItem> {
 
     @Mapping(source = "productCategories.id", target = "productCategoriesId")
@@ -22,6 +22,10 @@ public interface StockInItemMapper extends EntityMapper<StockInItemDTO, StockInI
     @Mapping(source = "vendor.id", target = "vendorId")
     @Mapping(source = "vendor.companyName", target = "vendorCompanyName")
     @Mapping(source = "stockInProcesses.id", target = "stockInProcessesId")
+    @Mapping(source = "purchaseOrders.id", target = "purchaseOrdersId")
+    @Mapping(source = "purchaseOrders.purchaseOrderNo", target = "purchaseOrdersPurchaseOrderNo")
+    @Mapping(source = "commercialPurchaseOrders.id", target = "commercialPurchaseOrdersId")
+    @Mapping(source = "commercialPurchaseOrders.purchaseOrderNo", target = "commercialPurchaseOrdersPurchaseOrderNo")
     StockInItemDTO toDto(StockInItem stockInItem);
 
     @Mapping(source = "productCategoriesId", target = "productCategories")
@@ -30,6 +34,8 @@ public interface StockInItemMapper extends EntityMapper<StockInItemDTO, StockInI
     @Mapping(source = "inventorySubLocationsId", target = "inventorySubLocations")
     @Mapping(source = "vendorId", target = "vendor")
     @Mapping(source = "stockInProcessesId", target = "stockInProcesses")
+    @Mapping(source = "purchaseOrdersId", target = "purchaseOrders")
+    @Mapping(source = "commercialPurchaseOrdersId", target = "commercialPurchaseOrders")
     StockInItem toEntity(StockInItemDTO stockInItemDTO);
 
     default StockInItem fromId(Long id) {

@@ -35,6 +35,7 @@
             <th jhiSortBy="stockOutBy"><span>Stock Out By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockOutDate"><span>Stock Out Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="receiverId"><span>Receiver Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="receivingPlace"><span>Receiving Place</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -53,6 +54,7 @@
                 <td>{{stockOutItem.stockOutBy}}</td>
                 <td>{{stockOutItem.stockOutDate | date:'medium'}}</td>
                 <td>{{stockOutItem.receiverId}}</td>
+                <td>{{stockOutItem.receivingPlace}}</td>
                 <td>{{stockOutItem.remarks}}</td>
                 <td>
                     <div *ngIf="stockOutItem.productCategoriesId">

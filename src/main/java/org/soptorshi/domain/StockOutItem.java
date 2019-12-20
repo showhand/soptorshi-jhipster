@@ -43,6 +43,9 @@ public class StockOutItem implements Serializable {
     @Column(name = "receiver_id")
     private String receiverId;
 
+    @Column(name = "receiving_place")
+    private String receivingPlace;
+
     @Column(name = "remarks")
     private String remarks;
 
@@ -142,6 +145,19 @@ public class StockOutItem implements Serializable {
 
     public void setReceiverId(String receiverId) {
         this.receiverId = receiverId;
+    }
+
+    public String getReceivingPlace() {
+        return receivingPlace;
+    }
+
+    public StockOutItem receivingPlace(String receivingPlace) {
+        this.receivingPlace = receivingPlace;
+        return this;
+    }
+
+    public void setReceivingPlace(String receivingPlace) {
+        this.receivingPlace = receivingPlace;
     }
 
     public String getRemarks() {
@@ -265,6 +281,7 @@ public class StockOutItem implements Serializable {
             ", stockOutBy='" + getStockOutBy() + "'" +
             ", stockOutDate='" + getStockOutDate() + "'" +
             ", receiverId='" + getReceiverId() + "'" +
+            ", receivingPlace='" + getReceivingPlace() + "'" +
             ", remarks='" + getRemarks() + "'" +
             "}";
     }

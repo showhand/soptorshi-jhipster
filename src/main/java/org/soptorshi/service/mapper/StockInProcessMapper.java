@@ -8,9 +8,13 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity StockInProcess and its DTO StockInProcessDTO.
  */
-@Mapper(componentModel = "spring", uses = {ProductCategoryMapper.class, ProductMapper.class, InventoryLocationMapper.class, InventorySubLocationMapper.class, VendorMapper.class})
+@Mapper(componentModel = "spring", uses = {PurchaseOrderMapper.class, CommercialPurchaseOrderMapper.class, ProductCategoryMapper.class, ProductMapper.class, InventoryLocationMapper.class, InventorySubLocationMapper.class, VendorMapper.class})
 public interface StockInProcessMapper extends EntityMapper<StockInProcessDTO, StockInProcess> {
 
+    @Mapping(source = "purchaseOrder.id", target = "purchaseOrderId")
+    @Mapping(source = "purchaseOrder.purchaseOrderNo", target = "purchaseOrderPurchaseOrderNo")
+    @Mapping(source = "commercialPurchaseOrder.id", target = "commercialPurchaseOrderId")
+    @Mapping(source = "commercialPurchaseOrder.purchaseOrderNo", target = "commercialPurchaseOrderPurchaseOrderNo")
     @Mapping(source = "productCategories.id", target = "productCategoriesId")
     @Mapping(source = "productCategories.name", target = "productCategoriesName")
     @Mapping(source = "products.id", target = "productsId")
@@ -23,6 +27,8 @@ public interface StockInProcessMapper extends EntityMapper<StockInProcessDTO, St
     @Mapping(source = "vendor.companyName", target = "vendorCompanyName")
     StockInProcessDTO toDto(StockInProcess stockInProcess);
 
+    @Mapping(source = "purchaseOrderId", target = "purchaseOrder")
+    @Mapping(source = "commercialPurchaseOrderId", target = "commercialPurchaseOrder")
     @Mapping(source = "productCategoriesId", target = "productCategories")
     @Mapping(source = "productsId", target = "products")
     @Mapping(source = "inventoryLocationsId", target = "inventoryLocations")

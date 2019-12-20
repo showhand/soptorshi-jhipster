@@ -15,6 +15,12 @@ export const enum ContainerCategory {
     OTHERS = 'OTHERS'
 }
 
+export const enum ProductType {
+    REGULAR_PRODUCT = 'REGULAR_PRODUCT',
+    FINISHED_PRODUCT = 'FINISHED_PRODUCT',
+    BY_PRODUCT = 'BY_PRODUCT'
+}
+
 export interface IStockInItem {
     id?: number;
     quantity?: number;
@@ -22,10 +28,11 @@ export interface IStockInItem {
     price?: number;
     containerCategory?: ContainerCategory;
     containerTrackingId?: string;
+    mfgDate?: Moment;
     expiryDate?: Moment;
+    typeOfProduct?: ProductType;
     stockInBy?: string;
     stockInDate?: Moment;
-    purchaseOrderId?: string;
     remarks?: string;
     productCategoriesName?: string;
     productCategoriesId?: number;
@@ -38,6 +45,10 @@ export interface IStockInItem {
     vendorCompanyName?: string;
     vendorId?: number;
     stockInProcessesId?: number;
+    purchaseOrdersPurchaseOrderNo?: string;
+    purchaseOrdersId?: number;
+    commercialPurchaseOrdersPurchaseOrderNo?: string;
+    commercialPurchaseOrdersId?: number;
 }
 
 export class StockInItem implements IStockInItem {
@@ -48,10 +59,11 @@ export class StockInItem implements IStockInItem {
         public price?: number,
         public containerCategory?: ContainerCategory,
         public containerTrackingId?: string,
+        public mfgDate?: Moment,
         public expiryDate?: Moment,
+        public typeOfProduct?: ProductType,
         public stockInBy?: string,
         public stockInDate?: Moment,
-        public purchaseOrderId?: string,
         public remarks?: string,
         public productCategoriesName?: string,
         public productCategoriesId?: number,
@@ -63,6 +75,10 @@ export class StockInItem implements IStockInItem {
         public inventorySubLocationsId?: number,
         public vendorCompanyName?: string,
         public vendorId?: number,
-        public stockInProcessesId?: number
+        public stockInProcessesId?: number,
+        public purchaseOrdersPurchaseOrderNo?: string,
+        public purchaseOrdersId?: number,
+        public commercialPurchaseOrdersPurchaseOrderNo?: string,
+        public commercialPurchaseOrdersId?: number
     ) {}
 }

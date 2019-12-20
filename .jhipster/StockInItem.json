@@ -39,8 +39,17 @@
             ]
         },
         {
+            "fieldName": "mfgDate",
+            "fieldType": "LocalDate"
+        },
+        {
             "fieldName": "expiryDate",
             "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "typeOfProduct",
+            "fieldType": "ProductType",
+            "fieldValues": "REGULAR_PRODUCT,FINISHED_PRODUCT,BY_PRODUCT"
         },
         {
             "fieldName": "stockInBy",
@@ -49,10 +58,6 @@
         {
             "fieldName": "stockInDate",
             "fieldType": "Instant"
-        },
-        {
-            "fieldName": "purchaseOrderId",
-            "fieldType": "String"
         },
         {
             "fieldName": "remarks",
@@ -101,6 +106,20 @@
             "otherEntityRelationshipName": "stockInItem",
             "relationshipName": "stockInProcesses",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "purchaseOrder",
+            "otherEntityRelationshipName": "stockInItem",
+            "relationshipName": "purchaseOrders",
+            "otherEntityField": "purchaseOrderNo"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "commercialPurchaseOrder",
+            "otherEntityRelationshipName": "stockInItem",
+            "relationshipName": "commercialPurchaseOrders",
+            "otherEntityField": "purchaseOrderNo"
         }
     ],
     "changelogDate": "20190802061702",

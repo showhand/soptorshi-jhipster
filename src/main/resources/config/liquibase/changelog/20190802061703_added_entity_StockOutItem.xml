@@ -42,6 +42,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="receiving_place" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="remarks" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

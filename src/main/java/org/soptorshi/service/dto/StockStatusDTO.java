@@ -36,7 +36,7 @@ public class StockStatusDTO implements Serializable {
     private Instant stockInDate;
 
 
-    private Long stockInItemsId;
+    private Long stockInItemId;
 
     private Long productCategoriesId;
 
@@ -126,12 +126,12 @@ public class StockStatusDTO implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public Long getStockInItemsId() {
-        return stockInItemsId;
+    public Long getStockInItemId() {
+        return stockInItemId;
     }
 
-    public void setStockInItemsId(Long stockInItemId) {
-        this.stockInItemsId = stockInItemId;
+    public void setStockInItemId(Long stockInItemId) {
+        this.stockInItemId = stockInItemId;
     }
 
     public Long getProductCategoriesId() {
@@ -231,7 +231,7 @@ public class StockStatusDTO implements Serializable {
             ", availablePrice=" + getAvailablePrice() +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
-            ", stockInItems=" + getStockInItemsId() +
+            ", stockInItem=" + getStockInItemId() +
             ", productCategories=" + getProductCategoriesId() +
             ", productCategories='" + getProductCategoriesName() + "'" +
             ", products=" + getProductsId() +

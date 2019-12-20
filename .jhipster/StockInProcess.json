@@ -25,36 +25,38 @@
         },
         {
             "fieldName": "totalContainer",
-            "fieldType": "Integer",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Integer"
         },
         {
             "fieldName": "containerCategory",
             "fieldType": "ContainerCategory",
-            "fieldValues": "BOTTLE,DRUM,PACKET,SACK,OTHERS",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldValues": "BOTTLE,DRUM,PACKET,SACK,OTHERS"
         },
         {
             "fieldName": "containerTrackingId",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "String"
         },
         {
             "fieldName": "quantityPerContainer",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "mfgDate",
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "expiryDate",
             "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "typeOfProduct",
+            "fieldType": "ProductType",
+            "fieldValues": "REGULAR_PRODUCT,FINISHED_PRODUCT,BY_PRODUCT"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "StockInProcessStatus",
+            "fieldValues": "WAITING_FOR_STOCK_IN_PROCESS,COMPLETED_STOCK_IN_PROCESS"
         },
         {
             "fieldName": "stockInBy",
@@ -65,15 +67,27 @@
             "fieldType": "Instant"
         },
         {
-            "fieldName": "purchaseOrderId",
-            "fieldType": "String"
-        },
-        {
             "fieldName": "remarks",
             "fieldType": "String"
         }
     ],
     "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "purchaseOrder",
+            "otherEntityRelationshipName": "stockInProcess",
+            "relationshipName": "purchaseOrder",
+            "otherEntityField": "purchaseOrderNo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "commercialPurchaseOrder",
+            "otherEntityRelationshipName": "stockInProcess",
+            "relationshipName": "commercialPurchaseOrder",
+            "otherEntityField": "purchaseOrderNo",
+            "ownerSide": true
+        },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "productCategory",

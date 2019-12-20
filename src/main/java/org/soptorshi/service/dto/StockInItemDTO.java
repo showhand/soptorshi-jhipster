@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ProductType;
 
 /**
  * A DTO for the StockInItem entity.
@@ -30,13 +31,15 @@ public class StockInItemDTO implements Serializable {
     @NotNull
     private String containerTrackingId;
 
+    private LocalDate mfgDate;
+
     private LocalDate expiryDate;
+
+    private ProductType typeOfProduct;
 
     private String stockInBy;
 
     private Instant stockInDate;
-
-    private String purchaseOrderId;
 
     private String remarks;
 
@@ -62,6 +65,14 @@ public class StockInItemDTO implements Serializable {
     private String vendorCompanyName;
 
     private Long stockInProcessesId;
+
+    private Long purchaseOrdersId;
+
+    private String purchaseOrdersPurchaseOrderNo;
+
+    private Long commercialPurchaseOrdersId;
+
+    private String commercialPurchaseOrdersPurchaseOrderNo;
 
     public Long getId() {
         return id;
@@ -111,12 +122,28 @@ public class StockInItemDTO implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
+    public LocalDate getMfgDate() {
+        return mfgDate;
+    }
+
+    public void setMfgDate(LocalDate mfgDate) {
+        this.mfgDate = mfgDate;
+    }
+
     public LocalDate getExpiryDate() {
         return expiryDate;
     }
 
     public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public ProductType getTypeOfProduct() {
+        return typeOfProduct;
+    }
+
+    public void setTypeOfProduct(ProductType typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
     }
 
     public String getStockInBy() {
@@ -133,14 +160,6 @@ public class StockInItemDTO implements Serializable {
 
     public void setStockInDate(Instant stockInDate) {
         this.stockInDate = stockInDate;
-    }
-
-    public String getPurchaseOrderId() {
-        return purchaseOrderId;
-    }
-
-    public void setPurchaseOrderId(String purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
     }
 
     public String getRemarks() {
@@ -239,6 +258,38 @@ public class StockInItemDTO implements Serializable {
         this.stockInProcessesId = stockInProcessId;
     }
 
+    public Long getPurchaseOrdersId() {
+        return purchaseOrdersId;
+    }
+
+    public void setPurchaseOrdersId(Long purchaseOrderId) {
+        this.purchaseOrdersId = purchaseOrderId;
+    }
+
+    public String getPurchaseOrdersPurchaseOrderNo() {
+        return purchaseOrdersPurchaseOrderNo;
+    }
+
+    public void setPurchaseOrdersPurchaseOrderNo(String purchaseOrderPurchaseOrderNo) {
+        this.purchaseOrdersPurchaseOrderNo = purchaseOrderPurchaseOrderNo;
+    }
+
+    public Long getCommercialPurchaseOrdersId() {
+        return commercialPurchaseOrdersId;
+    }
+
+    public void setCommercialPurchaseOrdersId(Long commercialPurchaseOrderId) {
+        this.commercialPurchaseOrdersId = commercialPurchaseOrderId;
+    }
+
+    public String getCommercialPurchaseOrdersPurchaseOrderNo() {
+        return commercialPurchaseOrdersPurchaseOrderNo;
+    }
+
+    public void setCommercialPurchaseOrdersPurchaseOrderNo(String commercialPurchaseOrderPurchaseOrderNo) {
+        this.commercialPurchaseOrdersPurchaseOrderNo = commercialPurchaseOrderPurchaseOrderNo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -269,10 +320,11 @@ public class StockInItemDTO implements Serializable {
             ", price=" + getPrice() +
             ", containerCategory='" + getContainerCategory() + "'" +
             ", containerTrackingId='" + getContainerTrackingId() + "'" +
+            ", mfgDate='" + getMfgDate() + "'" +
             ", expiryDate='" + getExpiryDate() + "'" +
+            ", typeOfProduct='" + getTypeOfProduct() + "'" +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
-            ", purchaseOrderId='" + getPurchaseOrderId() + "'" +
             ", remarks='" + getRemarks() + "'" +
             ", productCategories=" + getProductCategoriesId() +
             ", productCategories='" + getProductCategoriesName() + "'" +
@@ -285,6 +337,10 @@ public class StockInItemDTO implements Serializable {
             ", vendor=" + getVendorId() +
             ", vendor='" + getVendorCompanyName() + "'" +
             ", stockInProcesses=" + getStockInProcessesId() +
+            ", purchaseOrders=" + getPurchaseOrdersId() +
+            ", purchaseOrders='" + getPurchaseOrdersPurchaseOrderNo() + "'" +
+            ", commercialPurchaseOrders=" + getCommercialPurchaseOrdersId() +
+            ", commercialPurchaseOrders='" + getCommercialPurchaseOrdersPurchaseOrderNo() + "'" +
             "}";
     }
 }

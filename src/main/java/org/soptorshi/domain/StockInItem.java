@@ -17,6 +17,8 @@ import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 
 import org.soptorshi.domain.enumeration.ContainerCategory;
 
+import org.soptorshi.domain.enumeration.ProductType;
+
 /**
  * A StockInItem.
  */
@@ -53,17 +55,21 @@ public class StockInItem implements Serializable {
     @Column(name = "container_tracking_id", nullable = false)
     private String containerTrackingId;
 
+    @Column(name = "mfg_date")
+    private LocalDate mfgDate;
+
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type_of_product")
+    private ProductType typeOfProduct;
 
     @Column(name = "stock_in_by")
     private String stockInBy;
 
     @Column(name = "stock_in_date")
     private Instant stockInDate;
-
-    @Column(name = "purchase_order_id")
-    private String purchaseOrderId;
 
     @Column(name = "remarks")
     private String remarks;
@@ -91,6 +97,14 @@ public class StockInItem implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
     private StockInProcess stockInProcesses;
+
+    @ManyToOne
+    @JsonIgnoreProperties("stockInItems")
+    private PurchaseOrder purchaseOrders;
+
+    @ManyToOne
+    @JsonIgnoreProperties("stockInItems")
+    private CommercialPurchaseOrder commercialPurchaseOrders;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -166,6 +180,19 @@ public class StockInItem implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
+    public LocalDate getMfgDate() {
+        return mfgDate;
+    }
+
+    public StockInItem mfgDate(LocalDate mfgDate) {
+        this.mfgDate = mfgDate;
+        return this;
+    }
+
+    public void setMfgDate(LocalDate mfgDate) {
+        this.mfgDate = mfgDate;
+    }
+
     public LocalDate getExpiryDate() {
         return expiryDate;
     }
@@ -177,6 +204,19 @@ public class StockInItem implements Serializable {
 
     public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public ProductType getTypeOfProduct() {
+        return typeOfProduct;
+    }
+
+    public StockInItem typeOfProduct(ProductType typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
+        return this;
+    }
+
+    public void setTypeOfProduct(ProductType typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
     }
 
     public String getStockInBy() {
@@ -203,19 +243,6 @@ public class StockInItem implements Serializable {
 
     public void setStockInDate(Instant stockInDate) {
         this.stockInDate = stockInDate;
-    }
-
-    public String getPurchaseOrderId() {
-        return purchaseOrderId;
-    }
-
-    public StockInItem purchaseOrderId(String purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-        return this;
-    }
-
-    public void setPurchaseOrderId(String purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
     }
 
     public String getRemarks() {
@@ -308,6 +335,32 @@ public class StockInItem implements Serializable {
     public void setStockInProcesses(StockInProcess stockInProcess) {
         this.stockInProcesses = stockInProcess;
     }
+
+    public PurchaseOrder getPurchaseOrders() {
+        return purchaseOrders;
+    }
+
+    public StockInItem purchaseOrders(PurchaseOrder purchaseOrder) {
+        this.purchaseOrders = purchaseOrder;
+        return this;
+    }
+
+    public void setPurchaseOrders(PurchaseOrder purchaseOrder) {
+        this.purchaseOrders = purchaseOrder;
+    }
+
+    public CommercialPurchaseOrder getCommercialPurchaseOrders() {
+        return commercialPurchaseOrders;
+    }
+
+    public StockInItem commercialPurchaseOrders(CommercialPurchaseOrder commercialPurchaseOrder) {
+        this.commercialPurchaseOrders = commercialPurchaseOrder;
+        return this;
+    }
+
+    public void setCommercialPurchaseOrders(CommercialPurchaseOrder commercialPurchaseOrder) {
+        this.commercialPurchaseOrders = commercialPurchaseOrder;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -339,10 +392,11 @@ public class StockInItem implements Serializable {
             ", price=" + getPrice() +
             ", containerCategory='" + getContainerCategory() + "'" +
             ", containerTrackingId='" + getContainerTrackingId() + "'" +
+            ", mfgDate='" + getMfgDate() + "'" +
             ", expiryDate='" + getExpiryDate() + "'" +
+            ", typeOfProduct='" + getTypeOfProduct() + "'" +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
-            ", purchaseOrderId='" + getPurchaseOrderId() + "'" +
             ", remarks='" + getRemarks() + "'" +
             "}";
     }

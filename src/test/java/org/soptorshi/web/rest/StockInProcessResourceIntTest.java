@@ -3,6 +3,8 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.StockInProcess;
+import org.soptorshi.domain.PurchaseOrder;
+import org.soptorshi.domain.CommercialPurchaseOrder;
 import org.soptorshi.domain.ProductCategory;
 import org.soptorshi.domain.Product;
 import org.soptorshi.domain.InventoryLocation;
@@ -54,6 +56,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ProductType;
+import org.soptorshi.domain.enumeration.StockInProcessStatus;
 /**
  * Test class for the StockInProcessResource REST controller.
  *
@@ -84,17 +88,23 @@ public class StockInProcessResourceIntTest {
     private static final String DEFAULT_QUANTITY_PER_CONTAINER = "AAAAAAAAAA";
     private static final String UPDATED_QUANTITY_PER_CONTAINER = "BBBBBBBBBB";
 
+    private static final LocalDate DEFAULT_MFG_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_MFG_DATE = LocalDate.now(ZoneId.systemDefault());
+
     private static final LocalDate DEFAULT_EXPIRY_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_EXPIRY_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final ProductType DEFAULT_TYPE_OF_PRODUCT = ProductType.REGULAR_PRODUCT;
+    private static final ProductType UPDATED_TYPE_OF_PRODUCT = ProductType.FINISHED_PRODUCT;
+
+    private static final StockInProcessStatus DEFAULT_STATUS = StockInProcessStatus.WAITING_FOR_STOCK_IN_PROCESS;
+    private static final StockInProcessStatus UPDATED_STATUS = StockInProcessStatus.COMPLETED_STOCK_IN_PROCESS;
 
     private static final String DEFAULT_STOCK_IN_BY = "AAAAAAAAAA";
     private static final String UPDATED_STOCK_IN_BY = "BBBBBBBBBB";
 
     private static final Instant DEFAULT_STOCK_IN_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_STOCK_IN_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final String DEFAULT_PURCHASE_ORDER_ID = "AAAAAAAAAA";
-    private static final String UPDATED_PURCHASE_ORDER_ID = "BBBBBBBBBB";
 
     private static final String DEFAULT_REMARKS = "AAAAAAAAAA";
     private static final String UPDATED_REMARKS = "BBBBBBBBBB";
@@ -165,10 +175,12 @@ public class StockInProcessResourceIntTest {
             .containerCategory(DEFAULT_CONTAINER_CATEGORY)
             .containerTrackingId(DEFAULT_CONTAINER_TRACKING_ID)
             .quantityPerContainer(DEFAULT_QUANTITY_PER_CONTAINER)
+            .mfgDate(DEFAULT_MFG_DATE)
             .expiryDate(DEFAULT_EXPIRY_DATE)
+            .typeOfProduct(DEFAULT_TYPE_OF_PRODUCT)
+            .status(DEFAULT_STATUS)
             .stockInBy(DEFAULT_STOCK_IN_BY)
             .stockInDate(DEFAULT_STOCK_IN_DATE)
-            .purchaseOrderId(DEFAULT_PURCHASE_ORDER_ID)
             .remarks(DEFAULT_REMARKS);
         return stockInProcess;
     }
@@ -201,10 +213,12 @@ public class StockInProcessResourceIntTest {
         assertThat(testStockInProcess.getContainerCategory()).isEqualTo(DEFAULT_CONTAINER_CATEGORY);
         assertThat(testStockInProcess.getContainerTrackingId()).isEqualTo(DEFAULT_CONTAINER_TRACKING_ID);
         assertThat(testStockInProcess.getQuantityPerContainer()).isEqualTo(DEFAULT_QUANTITY_PER_CONTAINER);
+        assertThat(testStockInProcess.getMfgDate()).isEqualTo(DEFAULT_MFG_DATE);
         assertThat(testStockInProcess.getExpiryDate()).isEqualTo(DEFAULT_EXPIRY_DATE);
+        assertThat(testStockInProcess.getTypeOfProduct()).isEqualTo(DEFAULT_TYPE_OF_PRODUCT);
+        assertThat(testStockInProcess.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testStockInProcess.getStockInBy()).isEqualTo(DEFAULT_STOCK_IN_BY);
         assertThat(testStockInProcess.getStockInDate()).isEqualTo(DEFAULT_STOCK_IN_DATE);
-        assertThat(testStockInProcess.getPurchaseOrderId()).isEqualTo(DEFAULT_PURCHASE_ORDER_ID);
         assertThat(testStockInProcess.getRemarks()).isEqualTo(DEFAULT_REMARKS);
 
         // Validate the StockInProcess in Elasticsearch
@@ -293,82 +307,6 @@ public class StockInProcessResourceIntTest {
 
     @Test
     @Transactional
-    public void checkTotalContainerIsRequired() throws Exception {
-        int databaseSizeBeforeTest = stockInProcessRepository.findAll().size();
-        // set the field null
-        stockInProcess.setTotalContainer(null);
-
-        // Create the StockInProcess, which fails.
-        StockInProcessDTO stockInProcessDTO = stockInProcessMapper.toDto(stockInProcess);
-
-        restStockInProcessMockMvc.perform(post("/api/stock-in-processes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(stockInProcessDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<StockInProcess> stockInProcessList = stockInProcessRepository.findAll();
-        assertThat(stockInProcessList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkContainerCategoryIsRequired() throws Exception {
-        int databaseSizeBeforeTest = stockInProcessRepository.findAll().size();
-        // set the field null
-        stockInProcess.setContainerCategory(null);
-
-        // Create the StockInProcess, which fails.
-        StockInProcessDTO stockInProcessDTO = stockInProcessMapper.toDto(stockInProcess);
-
-        restStockInProcessMockMvc.perform(post("/api/stock-in-processes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(stockInProcessDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<StockInProcess> stockInProcessList = stockInProcessRepository.findAll();
-        assertThat(stockInProcessList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkContainerTrackingIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = stockInProcessRepository.findAll().size();
-        // set the field null
-        stockInProcess.setContainerTrackingId(null);
-
-        // Create the StockInProcess, which fails.
-        StockInProcessDTO stockInProcessDTO = stockInProcessMapper.toDto(stockInProcess);
-
-        restStockInProcessMockMvc.perform(post("/api/stock-in-processes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(stockInProcessDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<StockInProcess> stockInProcessList = stockInProcessRepository.findAll();
-        assertThat(stockInProcessList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkQuantityPerContainerIsRequired() throws Exception {
-        int databaseSizeBeforeTest = stockInProcessRepository.findAll().size();
-        // set the field null
-        stockInProcess.setQuantityPerContainer(null);
-
-        // Create the StockInProcess, which fails.
-        StockInProcessDTO stockInProcessDTO = stockInProcessMapper.toDto(stockInProcess);
-
-        restStockInProcessMockMvc.perform(post("/api/stock-in-processes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(stockInProcessDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<StockInProcess> stockInProcessList = stockInProcessRepository.findAll();
-        assertThat(stockInProcessList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllStockInProcesses() throws Exception {
         // Initialize the database
         stockInProcessRepository.saveAndFlush(stockInProcess);
@@ -385,10 +323,12 @@ public class StockInProcessResourceIntTest {
             .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID.toString())))
             .andExpect(jsonPath("$.[*].quantityPerContainer").value(hasItem(DEFAULT_QUANTITY_PER_CONTAINER.toString())))
+            .andExpect(jsonPath("$.[*].mfgDate").value(hasItem(DEFAULT_MFG_DATE.toString())))
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].typeOfProduct").value(hasItem(DEFAULT_TYPE_OF_PRODUCT.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY.toString())))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
-            .andExpect(jsonPath("$.[*].purchaseOrderId").value(hasItem(DEFAULT_PURCHASE_ORDER_ID.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
     
@@ -410,10 +350,12 @@ public class StockInProcessResourceIntTest {
             .andExpect(jsonPath("$.containerCategory").value(DEFAULT_CONTAINER_CATEGORY.toString()))
             .andExpect(jsonPath("$.containerTrackingId").value(DEFAULT_CONTAINER_TRACKING_ID.toString()))
             .andExpect(jsonPath("$.quantityPerContainer").value(DEFAULT_QUANTITY_PER_CONTAINER.toString()))
+            .andExpect(jsonPath("$.mfgDate").value(DEFAULT_MFG_DATE.toString()))
             .andExpect(jsonPath("$.expiryDate").value(DEFAULT_EXPIRY_DATE.toString()))
+            .andExpect(jsonPath("$.typeOfProduct").value(DEFAULT_TYPE_OF_PRODUCT.toString()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.stockInBy").value(DEFAULT_STOCK_IN_BY.toString()))
             .andExpect(jsonPath("$.stockInDate").value(DEFAULT_STOCK_IN_DATE.toString()))
-            .andExpect(jsonPath("$.purchaseOrderId").value(DEFAULT_PURCHASE_ORDER_ID.toString()))
             .andExpect(jsonPath("$.remarks").value(DEFAULT_REMARKS.toString()));
     }
 
@@ -719,6 +661,72 @@ public class StockInProcessResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllStockInProcessesByMfgDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where mfgDate equals to DEFAULT_MFG_DATE
+        defaultStockInProcessShouldBeFound("mfgDate.equals=" + DEFAULT_MFG_DATE);
+
+        // Get all the stockInProcessList where mfgDate equals to UPDATED_MFG_DATE
+        defaultStockInProcessShouldNotBeFound("mfgDate.equals=" + UPDATED_MFG_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByMfgDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where mfgDate in DEFAULT_MFG_DATE or UPDATED_MFG_DATE
+        defaultStockInProcessShouldBeFound("mfgDate.in=" + DEFAULT_MFG_DATE + "," + UPDATED_MFG_DATE);
+
+        // Get all the stockInProcessList where mfgDate equals to UPDATED_MFG_DATE
+        defaultStockInProcessShouldNotBeFound("mfgDate.in=" + UPDATED_MFG_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByMfgDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where mfgDate is not null
+        defaultStockInProcessShouldBeFound("mfgDate.specified=true");
+
+        // Get all the stockInProcessList where mfgDate is null
+        defaultStockInProcessShouldNotBeFound("mfgDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByMfgDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where mfgDate greater than or equals to DEFAULT_MFG_DATE
+        defaultStockInProcessShouldBeFound("mfgDate.greaterOrEqualThan=" + DEFAULT_MFG_DATE);
+
+        // Get all the stockInProcessList where mfgDate greater than or equals to UPDATED_MFG_DATE
+        defaultStockInProcessShouldNotBeFound("mfgDate.greaterOrEqualThan=" + UPDATED_MFG_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByMfgDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where mfgDate less than or equals to DEFAULT_MFG_DATE
+        defaultStockInProcessShouldNotBeFound("mfgDate.lessThan=" + DEFAULT_MFG_DATE);
+
+        // Get all the stockInProcessList where mfgDate less than or equals to UPDATED_MFG_DATE
+        defaultStockInProcessShouldBeFound("mfgDate.lessThan=" + UPDATED_MFG_DATE);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllStockInProcessesByExpiryDateIsEqualToSomething() throws Exception {
         // Initialize the database
         stockInProcessRepository.saveAndFlush(stockInProcess);
@@ -782,6 +790,84 @@ public class StockInProcessResourceIntTest {
         defaultStockInProcessShouldBeFound("expiryDate.lessThan=" + UPDATED_EXPIRY_DATE);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByTypeOfProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where typeOfProduct equals to DEFAULT_TYPE_OF_PRODUCT
+        defaultStockInProcessShouldBeFound("typeOfProduct.equals=" + DEFAULT_TYPE_OF_PRODUCT);
+
+        // Get all the stockInProcessList where typeOfProduct equals to UPDATED_TYPE_OF_PRODUCT
+        defaultStockInProcessShouldNotBeFound("typeOfProduct.equals=" + UPDATED_TYPE_OF_PRODUCT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByTypeOfProductIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where typeOfProduct in DEFAULT_TYPE_OF_PRODUCT or UPDATED_TYPE_OF_PRODUCT
+        defaultStockInProcessShouldBeFound("typeOfProduct.in=" + DEFAULT_TYPE_OF_PRODUCT + "," + UPDATED_TYPE_OF_PRODUCT);
+
+        // Get all the stockInProcessList where typeOfProduct equals to UPDATED_TYPE_OF_PRODUCT
+        defaultStockInProcessShouldNotBeFound("typeOfProduct.in=" + UPDATED_TYPE_OF_PRODUCT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByTypeOfProductIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where typeOfProduct is not null
+        defaultStockInProcessShouldBeFound("typeOfProduct.specified=true");
+
+        // Get all the stockInProcessList where typeOfProduct is null
+        defaultStockInProcessShouldNotBeFound("typeOfProduct.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where status equals to DEFAULT_STATUS
+        defaultStockInProcessShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the stockInProcessList where status equals to UPDATED_STATUS
+        defaultStockInProcessShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultStockInProcessShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the stockInProcessList where status equals to UPDATED_STATUS
+        defaultStockInProcessShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where status is not null
+        defaultStockInProcessShouldBeFound("status.specified=true");
+
+        // Get all the stockInProcessList where status is null
+        defaultStockInProcessShouldNotBeFound("status.specified=false");
+    }
 
     @Test
     @Transactional
@@ -863,45 +949,6 @@ public class StockInProcessResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllStockInProcessesByPurchaseOrderIdIsEqualToSomething() throws Exception {
-        // Initialize the database
-        stockInProcessRepository.saveAndFlush(stockInProcess);
-
-        // Get all the stockInProcessList where purchaseOrderId equals to DEFAULT_PURCHASE_ORDER_ID
-        defaultStockInProcessShouldBeFound("purchaseOrderId.equals=" + DEFAULT_PURCHASE_ORDER_ID);
-
-        // Get all the stockInProcessList where purchaseOrderId equals to UPDATED_PURCHASE_ORDER_ID
-        defaultStockInProcessShouldNotBeFound("purchaseOrderId.equals=" + UPDATED_PURCHASE_ORDER_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllStockInProcessesByPurchaseOrderIdIsInShouldWork() throws Exception {
-        // Initialize the database
-        stockInProcessRepository.saveAndFlush(stockInProcess);
-
-        // Get all the stockInProcessList where purchaseOrderId in DEFAULT_PURCHASE_ORDER_ID or UPDATED_PURCHASE_ORDER_ID
-        defaultStockInProcessShouldBeFound("purchaseOrderId.in=" + DEFAULT_PURCHASE_ORDER_ID + "," + UPDATED_PURCHASE_ORDER_ID);
-
-        // Get all the stockInProcessList where purchaseOrderId equals to UPDATED_PURCHASE_ORDER_ID
-        defaultStockInProcessShouldNotBeFound("purchaseOrderId.in=" + UPDATED_PURCHASE_ORDER_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllStockInProcessesByPurchaseOrderIdIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        stockInProcessRepository.saveAndFlush(stockInProcess);
-
-        // Get all the stockInProcessList where purchaseOrderId is not null
-        defaultStockInProcessShouldBeFound("purchaseOrderId.specified=true");
-
-        // Get all the stockInProcessList where purchaseOrderId is null
-        defaultStockInProcessShouldNotBeFound("purchaseOrderId.specified=false");
-    }
-
-    @Test
-    @Transactional
     public void getAllStockInProcessesByRemarksIsEqualToSomething() throws Exception {
         // Initialize the database
         stockInProcessRepository.saveAndFlush(stockInProcess);
@@ -938,6 +985,44 @@ public class StockInProcessResourceIntTest {
         // Get all the stockInProcessList where remarks is null
         defaultStockInProcessShouldNotBeFound("remarks.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByPurchaseOrderIsEqualToSomething() throws Exception {
+        // Initialize the database
+        PurchaseOrder purchaseOrder = PurchaseOrderResourceIntTest.createEntity(em);
+        em.persist(purchaseOrder);
+        em.flush();
+        stockInProcess.setPurchaseOrder(purchaseOrder);
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+        Long purchaseOrderId = purchaseOrder.getId();
+
+        // Get all the stockInProcessList where purchaseOrder equals to purchaseOrderId
+        defaultStockInProcessShouldBeFound("purchaseOrderId.equals=" + purchaseOrderId);
+
+        // Get all the stockInProcessList where purchaseOrder equals to purchaseOrderId + 1
+        defaultStockInProcessShouldNotBeFound("purchaseOrderId.equals=" + (purchaseOrderId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByCommercialPurchaseOrderIsEqualToSomething() throws Exception {
+        // Initialize the database
+        CommercialPurchaseOrder commercialPurchaseOrder = CommercialPurchaseOrderResourceIntTest.createEntity(em);
+        em.persist(commercialPurchaseOrder);
+        em.flush();
+        stockInProcess.setCommercialPurchaseOrder(commercialPurchaseOrder);
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+        Long commercialPurchaseOrderId = commercialPurchaseOrder.getId();
+
+        // Get all the stockInProcessList where commercialPurchaseOrder equals to commercialPurchaseOrderId
+        defaultStockInProcessShouldBeFound("commercialPurchaseOrderId.equals=" + commercialPurchaseOrderId);
+
+        // Get all the stockInProcessList where commercialPurchaseOrder equals to commercialPurchaseOrderId + 1
+        defaultStockInProcessShouldNotBeFound("commercialPurchaseOrderId.equals=" + (commercialPurchaseOrderId + 1));
+    }
+
 
     @Test
     @Transactional
@@ -1048,10 +1133,12 @@ public class StockInProcessResourceIntTest {
             .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
             .andExpect(jsonPath("$.[*].quantityPerContainer").value(hasItem(DEFAULT_QUANTITY_PER_CONTAINER)))
+            .andExpect(jsonPath("$.[*].mfgDate").value(hasItem(DEFAULT_MFG_DATE.toString())))
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].typeOfProduct").value(hasItem(DEFAULT_TYPE_OF_PRODUCT.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
-            .andExpect(jsonPath("$.[*].purchaseOrderId").value(hasItem(DEFAULT_PURCHASE_ORDER_ID)))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)));
 
         // Check, that the count call also returns 1
@@ -1107,10 +1194,12 @@ public class StockInProcessResourceIntTest {
             .containerCategory(UPDATED_CONTAINER_CATEGORY)
             .containerTrackingId(UPDATED_CONTAINER_TRACKING_ID)
             .quantityPerContainer(UPDATED_QUANTITY_PER_CONTAINER)
+            .mfgDate(UPDATED_MFG_DATE)
             .expiryDate(UPDATED_EXPIRY_DATE)
+            .typeOfProduct(UPDATED_TYPE_OF_PRODUCT)
+            .status(UPDATED_STATUS)
             .stockInBy(UPDATED_STOCK_IN_BY)
             .stockInDate(UPDATED_STOCK_IN_DATE)
-            .purchaseOrderId(UPDATED_PURCHASE_ORDER_ID)
             .remarks(UPDATED_REMARKS);
         StockInProcessDTO stockInProcessDTO = stockInProcessMapper.toDto(updatedStockInProcess);
 
@@ -1130,10 +1219,12 @@ public class StockInProcessResourceIntTest {
         assertThat(testStockInProcess.getContainerCategory()).isEqualTo(UPDATED_CONTAINER_CATEGORY);
         assertThat(testStockInProcess.getContainerTrackingId()).isEqualTo(UPDATED_CONTAINER_TRACKING_ID);
         assertThat(testStockInProcess.getQuantityPerContainer()).isEqualTo(UPDATED_QUANTITY_PER_CONTAINER);
+        assertThat(testStockInProcess.getMfgDate()).isEqualTo(UPDATED_MFG_DATE);
         assertThat(testStockInProcess.getExpiryDate()).isEqualTo(UPDATED_EXPIRY_DATE);
+        assertThat(testStockInProcess.getTypeOfProduct()).isEqualTo(UPDATED_TYPE_OF_PRODUCT);
+        assertThat(testStockInProcess.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testStockInProcess.getStockInBy()).isEqualTo(UPDATED_STOCK_IN_BY);
         assertThat(testStockInProcess.getStockInDate()).isEqualTo(UPDATED_STOCK_IN_DATE);
-        assertThat(testStockInProcess.getPurchaseOrderId()).isEqualTo(UPDATED_PURCHASE_ORDER_ID);
         assertThat(testStockInProcess.getRemarks()).isEqualTo(UPDATED_REMARKS);
 
         // Validate the StockInProcess in Elasticsearch
@@ -1202,10 +1293,12 @@ public class StockInProcessResourceIntTest {
             .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
             .andExpect(jsonPath("$.[*].quantityPerContainer").value(hasItem(DEFAULT_QUANTITY_PER_CONTAINER)))
+            .andExpect(jsonPath("$.[*].mfgDate").value(hasItem(DEFAULT_MFG_DATE.toString())))
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].typeOfProduct").value(hasItem(DEFAULT_TYPE_OF_PRODUCT.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
-            .andExpect(jsonPath("$.[*].purchaseOrderId").value(hasItem(DEFAULT_PURCHASE_ORDER_ID)))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)));
     }
 

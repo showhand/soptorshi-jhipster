@@ -11,7 +11,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {StockInItemMapper.class, ProductCategoryMapper.class, ProductMapper.class, InventoryLocationMapper.class, InventorySubLocationMapper.class})
 public interface StockStatusMapper extends EntityMapper<StockStatusDTO, StockStatus> {
 
-    @Mapping(source = "stockInItems.id", target = "stockInItemsId")
+    @Mapping(source = "stockInItem.id", target = "stockInItemId")
     @Mapping(source = "productCategories.id", target = "productCategoriesId")
     @Mapping(source = "productCategories.name", target = "productCategoriesName")
     @Mapping(source = "products.id", target = "productsId")
@@ -22,7 +22,7 @@ public interface StockStatusMapper extends EntityMapper<StockStatusDTO, StockSta
     @Mapping(source = "inventorySubLocations.name", target = "inventorySubLocationsName")
     StockStatusDTO toDto(StockStatus stockStatus);
 
-    @Mapping(source = "stockInItemsId", target = "stockInItems")
+    @Mapping(source = "stockInItemId", target = "stockInItem")
     @Mapping(source = "productCategoriesId", target = "productCategories")
     @Mapping(source = "productsId", target = "products")
     @Mapping(source = "inventoryLocationsId", target = "inventoryLocations")

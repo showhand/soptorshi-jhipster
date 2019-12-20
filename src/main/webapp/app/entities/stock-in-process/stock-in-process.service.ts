@@ -59,6 +59,7 @@ export class StockInProcessService {
 
     protected convertDateFromClient(stockInProcess: IStockInProcess): IStockInProcess {
         const copy: IStockInProcess = Object.assign({}, stockInProcess, {
+            mfgDate: stockInProcess.mfgDate != null && stockInProcess.mfgDate.isValid() ? stockInProcess.mfgDate.format(DATE_FORMAT) : null,
             expiryDate:
                 stockInProcess.expiryDate != null && stockInProcess.expiryDate.isValid()
                     ? stockInProcess.expiryDate.format(DATE_FORMAT)
@@ -71,6 +72,7 @@ export class StockInProcessService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
+            res.body.mfgDate = res.body.mfgDate != null ? moment(res.body.mfgDate) : null;
             res.body.expiryDate = res.body.expiryDate != null ? moment(res.body.expiryDate) : null;
             res.body.stockInDate = res.body.stockInDate != null ? moment(res.body.stockInDate) : null;
         }
@@ -80,6 +82,7 @@ export class StockInProcessService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((stockInProcess: IStockInProcess) => {
+                stockInProcess.mfgDate = stockInProcess.mfgDate != null ? moment(stockInProcess.mfgDate) : null;
                 stockInProcess.expiryDate = stockInProcess.expiryDate != null ? moment(stockInProcess.expiryDate) : null;
                 stockInProcess.stockInDate = stockInProcess.stockInDate != null ? moment(stockInProcess.stockInDate) : null;
             });

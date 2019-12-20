@@ -9,6 +9,8 @@ import org.soptorshi.domain.InventoryLocation;
 import org.soptorshi.domain.InventorySubLocation;
 import org.soptorshi.domain.Vendor;
 import org.soptorshi.domain.StockInProcess;
+import org.soptorshi.domain.PurchaseOrder;
+import org.soptorshi.domain.CommercialPurchaseOrder;
 import org.soptorshi.repository.StockInItemRepository;
 import org.soptorshi.repository.search.StockInItemSearchRepository;
 import org.soptorshi.service.StockInItemService;
@@ -55,6 +57,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ProductType;
 /**
  * Test class for the StockInItemResource REST controller.
  *
@@ -79,17 +82,20 @@ public class StockInItemResourceIntTest {
     private static final String DEFAULT_CONTAINER_TRACKING_ID = "AAAAAAAAAA";
     private static final String UPDATED_CONTAINER_TRACKING_ID = "BBBBBBBBBB";
 
+    private static final LocalDate DEFAULT_MFG_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_MFG_DATE = LocalDate.now(ZoneId.systemDefault());
+
     private static final LocalDate DEFAULT_EXPIRY_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_EXPIRY_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final ProductType DEFAULT_TYPE_OF_PRODUCT = ProductType.REGULAR_PRODUCT;
+    private static final ProductType UPDATED_TYPE_OF_PRODUCT = ProductType.FINISHED_PRODUCT;
 
     private static final String DEFAULT_STOCK_IN_BY = "AAAAAAAAAA";
     private static final String UPDATED_STOCK_IN_BY = "BBBBBBBBBB";
 
     private static final Instant DEFAULT_STOCK_IN_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_STOCK_IN_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final String DEFAULT_PURCHASE_ORDER_ID = "AAAAAAAAAA";
-    private static final String UPDATED_PURCHASE_ORDER_ID = "BBBBBBBBBB";
 
     private static final String DEFAULT_REMARKS = "AAAAAAAAAA";
     private static final String UPDATED_REMARKS = "BBBBBBBBBB";
@@ -158,10 +164,11 @@ public class StockInItemResourceIntTest {
             .price(DEFAULT_PRICE)
             .containerCategory(DEFAULT_CONTAINER_CATEGORY)
             .containerTrackingId(DEFAULT_CONTAINER_TRACKING_ID)
+            .mfgDate(DEFAULT_MFG_DATE)
             .expiryDate(DEFAULT_EXPIRY_DATE)
+            .typeOfProduct(DEFAULT_TYPE_OF_PRODUCT)
             .stockInBy(DEFAULT_STOCK_IN_BY)
             .stockInDate(DEFAULT_STOCK_IN_DATE)
-            .purchaseOrderId(DEFAULT_PURCHASE_ORDER_ID)
             .remarks(DEFAULT_REMARKS);
         return stockInItem;
     }
@@ -192,10 +199,11 @@ public class StockInItemResourceIntTest {
         assertThat(testStockInItem.getPrice()).isEqualTo(DEFAULT_PRICE);
         assertThat(testStockInItem.getContainerCategory()).isEqualTo(DEFAULT_CONTAINER_CATEGORY);
         assertThat(testStockInItem.getContainerTrackingId()).isEqualTo(DEFAULT_CONTAINER_TRACKING_ID);
+        assertThat(testStockInItem.getMfgDate()).isEqualTo(DEFAULT_MFG_DATE);
         assertThat(testStockInItem.getExpiryDate()).isEqualTo(DEFAULT_EXPIRY_DATE);
+        assertThat(testStockInItem.getTypeOfProduct()).isEqualTo(DEFAULT_TYPE_OF_PRODUCT);
         assertThat(testStockInItem.getStockInBy()).isEqualTo(DEFAULT_STOCK_IN_BY);
         assertThat(testStockInItem.getStockInDate()).isEqualTo(DEFAULT_STOCK_IN_DATE);
-        assertThat(testStockInItem.getPurchaseOrderId()).isEqualTo(DEFAULT_PURCHASE_ORDER_ID);
         assertThat(testStockInItem.getRemarks()).isEqualTo(DEFAULT_REMARKS);
 
         // Validate the StockInItem in Elasticsearch
@@ -336,10 +344,11 @@ public class StockInItemResourceIntTest {
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID.toString())))
+            .andExpect(jsonPath("$.[*].mfgDate").value(hasItem(DEFAULT_MFG_DATE.toString())))
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].typeOfProduct").value(hasItem(DEFAULT_TYPE_OF_PRODUCT.toString())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY.toString())))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
-            .andExpect(jsonPath("$.[*].purchaseOrderId").value(hasItem(DEFAULT_PURCHASE_ORDER_ID.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
     
@@ -359,10 +368,11 @@ public class StockInItemResourceIntTest {
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE.intValue()))
             .andExpect(jsonPath("$.containerCategory").value(DEFAULT_CONTAINER_CATEGORY.toString()))
             .andExpect(jsonPath("$.containerTrackingId").value(DEFAULT_CONTAINER_TRACKING_ID.toString()))
+            .andExpect(jsonPath("$.mfgDate").value(DEFAULT_MFG_DATE.toString()))
             .andExpect(jsonPath("$.expiryDate").value(DEFAULT_EXPIRY_DATE.toString()))
+            .andExpect(jsonPath("$.typeOfProduct").value(DEFAULT_TYPE_OF_PRODUCT.toString()))
             .andExpect(jsonPath("$.stockInBy").value(DEFAULT_STOCK_IN_BY.toString()))
             .andExpect(jsonPath("$.stockInDate").value(DEFAULT_STOCK_IN_DATE.toString()))
-            .andExpect(jsonPath("$.purchaseOrderId").value(DEFAULT_PURCHASE_ORDER_ID.toString()))
             .andExpect(jsonPath("$.remarks").value(DEFAULT_REMARKS.toString()));
     }
 
@@ -563,6 +573,72 @@ public class StockInItemResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllStockInItemsByMfgDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockInItemRepository.saveAndFlush(stockInItem);
+
+        // Get all the stockInItemList where mfgDate equals to DEFAULT_MFG_DATE
+        defaultStockInItemShouldBeFound("mfgDate.equals=" + DEFAULT_MFG_DATE);
+
+        // Get all the stockInItemList where mfgDate equals to UPDATED_MFG_DATE
+        defaultStockInItemShouldNotBeFound("mfgDate.equals=" + UPDATED_MFG_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInItemsByMfgDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockInItemRepository.saveAndFlush(stockInItem);
+
+        // Get all the stockInItemList where mfgDate in DEFAULT_MFG_DATE or UPDATED_MFG_DATE
+        defaultStockInItemShouldBeFound("mfgDate.in=" + DEFAULT_MFG_DATE + "," + UPDATED_MFG_DATE);
+
+        // Get all the stockInItemList where mfgDate equals to UPDATED_MFG_DATE
+        defaultStockInItemShouldNotBeFound("mfgDate.in=" + UPDATED_MFG_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInItemsByMfgDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockInItemRepository.saveAndFlush(stockInItem);
+
+        // Get all the stockInItemList where mfgDate is not null
+        defaultStockInItemShouldBeFound("mfgDate.specified=true");
+
+        // Get all the stockInItemList where mfgDate is null
+        defaultStockInItemShouldNotBeFound("mfgDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInItemsByMfgDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        stockInItemRepository.saveAndFlush(stockInItem);
+
+        // Get all the stockInItemList where mfgDate greater than or equals to DEFAULT_MFG_DATE
+        defaultStockInItemShouldBeFound("mfgDate.greaterOrEqualThan=" + DEFAULT_MFG_DATE);
+
+        // Get all the stockInItemList where mfgDate greater than or equals to UPDATED_MFG_DATE
+        defaultStockInItemShouldNotBeFound("mfgDate.greaterOrEqualThan=" + UPDATED_MFG_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInItemsByMfgDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        stockInItemRepository.saveAndFlush(stockInItem);
+
+        // Get all the stockInItemList where mfgDate less than or equals to DEFAULT_MFG_DATE
+        defaultStockInItemShouldNotBeFound("mfgDate.lessThan=" + DEFAULT_MFG_DATE);
+
+        // Get all the stockInItemList where mfgDate less than or equals to UPDATED_MFG_DATE
+        defaultStockInItemShouldBeFound("mfgDate.lessThan=" + UPDATED_MFG_DATE);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllStockInItemsByExpiryDateIsEqualToSomething() throws Exception {
         // Initialize the database
         stockInItemRepository.saveAndFlush(stockInItem);
@@ -626,6 +702,45 @@ public class StockInItemResourceIntTest {
         defaultStockInItemShouldBeFound("expiryDate.lessThan=" + UPDATED_EXPIRY_DATE);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllStockInItemsByTypeOfProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockInItemRepository.saveAndFlush(stockInItem);
+
+        // Get all the stockInItemList where typeOfProduct equals to DEFAULT_TYPE_OF_PRODUCT
+        defaultStockInItemShouldBeFound("typeOfProduct.equals=" + DEFAULT_TYPE_OF_PRODUCT);
+
+        // Get all the stockInItemList where typeOfProduct equals to UPDATED_TYPE_OF_PRODUCT
+        defaultStockInItemShouldNotBeFound("typeOfProduct.equals=" + UPDATED_TYPE_OF_PRODUCT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInItemsByTypeOfProductIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockInItemRepository.saveAndFlush(stockInItem);
+
+        // Get all the stockInItemList where typeOfProduct in DEFAULT_TYPE_OF_PRODUCT or UPDATED_TYPE_OF_PRODUCT
+        defaultStockInItemShouldBeFound("typeOfProduct.in=" + DEFAULT_TYPE_OF_PRODUCT + "," + UPDATED_TYPE_OF_PRODUCT);
+
+        // Get all the stockInItemList where typeOfProduct equals to UPDATED_TYPE_OF_PRODUCT
+        defaultStockInItemShouldNotBeFound("typeOfProduct.in=" + UPDATED_TYPE_OF_PRODUCT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInItemsByTypeOfProductIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockInItemRepository.saveAndFlush(stockInItem);
+
+        // Get all the stockInItemList where typeOfProduct is not null
+        defaultStockInItemShouldBeFound("typeOfProduct.specified=true");
+
+        // Get all the stockInItemList where typeOfProduct is null
+        defaultStockInItemShouldNotBeFound("typeOfProduct.specified=false");
+    }
 
     @Test
     @Transactional
@@ -703,45 +818,6 @@ public class StockInItemResourceIntTest {
 
         // Get all the stockInItemList where stockInDate is null
         defaultStockInItemShouldNotBeFound("stockInDate.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllStockInItemsByPurchaseOrderIdIsEqualToSomething() throws Exception {
-        // Initialize the database
-        stockInItemRepository.saveAndFlush(stockInItem);
-
-        // Get all the stockInItemList where purchaseOrderId equals to DEFAULT_PURCHASE_ORDER_ID
-        defaultStockInItemShouldBeFound("purchaseOrderId.equals=" + DEFAULT_PURCHASE_ORDER_ID);
-
-        // Get all the stockInItemList where purchaseOrderId equals to UPDATED_PURCHASE_ORDER_ID
-        defaultStockInItemShouldNotBeFound("purchaseOrderId.equals=" + UPDATED_PURCHASE_ORDER_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllStockInItemsByPurchaseOrderIdIsInShouldWork() throws Exception {
-        // Initialize the database
-        stockInItemRepository.saveAndFlush(stockInItem);
-
-        // Get all the stockInItemList where purchaseOrderId in DEFAULT_PURCHASE_ORDER_ID or UPDATED_PURCHASE_ORDER_ID
-        defaultStockInItemShouldBeFound("purchaseOrderId.in=" + DEFAULT_PURCHASE_ORDER_ID + "," + UPDATED_PURCHASE_ORDER_ID);
-
-        // Get all the stockInItemList where purchaseOrderId equals to UPDATED_PURCHASE_ORDER_ID
-        defaultStockInItemShouldNotBeFound("purchaseOrderId.in=" + UPDATED_PURCHASE_ORDER_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllStockInItemsByPurchaseOrderIdIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        stockInItemRepository.saveAndFlush(stockInItem);
-
-        // Get all the stockInItemList where purchaseOrderId is not null
-        defaultStockInItemShouldBeFound("purchaseOrderId.specified=true");
-
-        // Get all the stockInItemList where purchaseOrderId is null
-        defaultStockInItemShouldNotBeFound("purchaseOrderId.specified=false");
     }
 
     @Test
@@ -896,6 +972,44 @@ public class StockInItemResourceIntTest {
         defaultStockInItemShouldNotBeFound("stockInProcessesId.equals=" + (stockInProcessesId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllStockInItemsByPurchaseOrdersIsEqualToSomething() throws Exception {
+        // Initialize the database
+        PurchaseOrder purchaseOrders = PurchaseOrderResourceIntTest.createEntity(em);
+        em.persist(purchaseOrders);
+        em.flush();
+        stockInItem.setPurchaseOrders(purchaseOrders);
+        stockInItemRepository.saveAndFlush(stockInItem);
+        Long purchaseOrdersId = purchaseOrders.getId();
+
+        // Get all the stockInItemList where purchaseOrders equals to purchaseOrdersId
+        defaultStockInItemShouldBeFound("purchaseOrdersId.equals=" + purchaseOrdersId);
+
+        // Get all the stockInItemList where purchaseOrders equals to purchaseOrdersId + 1
+        defaultStockInItemShouldNotBeFound("purchaseOrdersId.equals=" + (purchaseOrdersId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllStockInItemsByCommercialPurchaseOrdersIsEqualToSomething() throws Exception {
+        // Initialize the database
+        CommercialPurchaseOrder commercialPurchaseOrders = CommercialPurchaseOrderResourceIntTest.createEntity(em);
+        em.persist(commercialPurchaseOrders);
+        em.flush();
+        stockInItem.setCommercialPurchaseOrders(commercialPurchaseOrders);
+        stockInItemRepository.saveAndFlush(stockInItem);
+        Long commercialPurchaseOrdersId = commercialPurchaseOrders.getId();
+
+        // Get all the stockInItemList where commercialPurchaseOrders equals to commercialPurchaseOrdersId
+        defaultStockInItemShouldBeFound("commercialPurchaseOrdersId.equals=" + commercialPurchaseOrdersId);
+
+        // Get all the stockInItemList where commercialPurchaseOrders equals to commercialPurchaseOrdersId + 1
+        defaultStockInItemShouldNotBeFound("commercialPurchaseOrdersId.equals=" + (commercialPurchaseOrdersId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -909,10 +1023,11 @@ public class StockInItemResourceIntTest {
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
+            .andExpect(jsonPath("$.[*].mfgDate").value(hasItem(DEFAULT_MFG_DATE.toString())))
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].typeOfProduct").value(hasItem(DEFAULT_TYPE_OF_PRODUCT.toString())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
-            .andExpect(jsonPath("$.[*].purchaseOrderId").value(hasItem(DEFAULT_PURCHASE_ORDER_ID)))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)));
 
         // Check, that the count call also returns 1
@@ -966,10 +1081,11 @@ public class StockInItemResourceIntTest {
             .price(UPDATED_PRICE)
             .containerCategory(UPDATED_CONTAINER_CATEGORY)
             .containerTrackingId(UPDATED_CONTAINER_TRACKING_ID)
+            .mfgDate(UPDATED_MFG_DATE)
             .expiryDate(UPDATED_EXPIRY_DATE)
+            .typeOfProduct(UPDATED_TYPE_OF_PRODUCT)
             .stockInBy(UPDATED_STOCK_IN_BY)
             .stockInDate(UPDATED_STOCK_IN_DATE)
-            .purchaseOrderId(UPDATED_PURCHASE_ORDER_ID)
             .remarks(UPDATED_REMARKS);
         StockInItemDTO stockInItemDTO = stockInItemMapper.toDto(updatedStockInItem);
 
@@ -987,10 +1103,11 @@ public class StockInItemResourceIntTest {
         assertThat(testStockInItem.getPrice()).isEqualTo(UPDATED_PRICE);
         assertThat(testStockInItem.getContainerCategory()).isEqualTo(UPDATED_CONTAINER_CATEGORY);
         assertThat(testStockInItem.getContainerTrackingId()).isEqualTo(UPDATED_CONTAINER_TRACKING_ID);
+        assertThat(testStockInItem.getMfgDate()).isEqualTo(UPDATED_MFG_DATE);
         assertThat(testStockInItem.getExpiryDate()).isEqualTo(UPDATED_EXPIRY_DATE);
+        assertThat(testStockInItem.getTypeOfProduct()).isEqualTo(UPDATED_TYPE_OF_PRODUCT);
         assertThat(testStockInItem.getStockInBy()).isEqualTo(UPDATED_STOCK_IN_BY);
         assertThat(testStockInItem.getStockInDate()).isEqualTo(UPDATED_STOCK_IN_DATE);
-        assertThat(testStockInItem.getPurchaseOrderId()).isEqualTo(UPDATED_PURCHASE_ORDER_ID);
         assertThat(testStockInItem.getRemarks()).isEqualTo(UPDATED_REMARKS);
 
         // Validate the StockInItem in Elasticsearch
@@ -1057,10 +1174,11 @@ public class StockInItemResourceIntTest {
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].containerCategory").value(hasItem(DEFAULT_CONTAINER_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
+            .andExpect(jsonPath("$.[*].mfgDate").value(hasItem(DEFAULT_MFG_DATE.toString())))
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].typeOfProduct").value(hasItem(DEFAULT_TYPE_OF_PRODUCT.toString())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
-            .andExpect(jsonPath("$.[*].purchaseOrderId").value(hasItem(DEFAULT_PURCHASE_ORDER_ID)))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)));
     }
 

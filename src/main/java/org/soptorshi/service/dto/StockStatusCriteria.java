@@ -48,7 +48,7 @@ public class StockStatusCriteria implements Serializable {
 
     private InstantFilter stockInDate;
 
-    private LongFilter stockInItemsId;
+    private LongFilter stockInItemId;
 
     private LongFilter productCategoriesId;
 
@@ -130,12 +130,12 @@ public class StockStatusCriteria implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public LongFilter getStockInItemsId() {
-        return stockInItemsId;
+    public LongFilter getStockInItemId() {
+        return stockInItemId;
     }
 
-    public void setStockInItemsId(LongFilter stockInItemsId) {
-        this.stockInItemsId = stockInItemsId;
+    public void setStockInItemId(LongFilter stockInItemId) {
+        this.stockInItemId = stockInItemId;
     }
 
     public LongFilter getProductCategoriesId() {
@@ -190,7 +190,7 @@ public class StockStatusCriteria implements Serializable {
             Objects.equals(availablePrice, that.availablePrice) &&
             Objects.equals(stockInBy, that.stockInBy) &&
             Objects.equals(stockInDate, that.stockInDate) &&
-            Objects.equals(stockInItemsId, that.stockInItemsId) &&
+            Objects.equals(stockInItemId, that.stockInItemId) &&
             Objects.equals(productCategoriesId, that.productCategoriesId) &&
             Objects.equals(productsId, that.productsId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
@@ -209,7 +209,7 @@ public class StockStatusCriteria implements Serializable {
         availablePrice,
         stockInBy,
         stockInDate,
-        stockInItemsId,
+        stockInItemId,
         productCategoriesId,
         productsId,
         inventoryLocationsId,
@@ -229,7 +229,7 @@ public class StockStatusCriteria implements Serializable {
                 (availablePrice != null ? "availablePrice=" + availablePrice + ", " : "") +
                 (stockInBy != null ? "stockInBy=" + stockInBy + ", " : "") +
                 (stockInDate != null ? "stockInDate=" + stockInDate + ", " : "") +
-                (stockInItemsId != null ? "stockInItemsId=" + stockInItemsId + ", " : "") +
+                (stockInItemId != null ? "stockInItemId=" + stockInItemId + ", " : "") +
                 (productCategoriesId != null ? "productCategoriesId=" + productCategoriesId + ", " : "") +
                 (productsId != null ? "productsId=" + productsId + ", " : "") +
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +

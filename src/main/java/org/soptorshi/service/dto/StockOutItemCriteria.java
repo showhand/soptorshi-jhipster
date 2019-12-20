@@ -36,6 +36,8 @@ public class StockOutItemCriteria implements Serializable {
 
     private StringFilter receiverId;
 
+    private StringFilter receivingPlace;
+
     private StringFilter remarks;
 
     private LongFilter productCategoriesId;
@@ -96,6 +98,14 @@ public class StockOutItemCriteria implements Serializable {
 
     public void setReceiverId(StringFilter receiverId) {
         this.receiverId = receiverId;
+    }
+
+    public StringFilter getReceivingPlace() {
+        return receivingPlace;
+    }
+
+    public void setReceivingPlace(StringFilter receivingPlace) {
+        this.receivingPlace = receivingPlace;
     }
 
     public StringFilter getRemarks() {
@@ -171,6 +181,7 @@ public class StockOutItemCriteria implements Serializable {
             Objects.equals(stockOutBy, that.stockOutBy) &&
             Objects.equals(stockOutDate, that.stockOutDate) &&
             Objects.equals(receiverId, that.receiverId) &&
+            Objects.equals(receivingPlace, that.receivingPlace) &&
             Objects.equals(remarks, that.remarks) &&
             Objects.equals(productCategoriesId, that.productCategoriesId) &&
             Objects.equals(productsId, that.productsId) &&
@@ -189,6 +200,7 @@ public class StockOutItemCriteria implements Serializable {
         stockOutBy,
         stockOutDate,
         receiverId,
+        receivingPlace,
         remarks,
         productCategoriesId,
         productsId,
@@ -208,6 +220,7 @@ public class StockOutItemCriteria implements Serializable {
                 (stockOutBy != null ? "stockOutBy=" + stockOutBy + ", " : "") +
                 (stockOutDate != null ? "stockOutDate=" + stockOutDate + ", " : "") +
                 (receiverId != null ? "receiverId=" + receiverId + ", " : "") +
+                (receivingPlace != null ? "receivingPlace=" + receivingPlace + ", " : "") +
                 (remarks != null ? "remarks=" + remarks + ", " : "") +
                 (productCategoriesId != null ? "productCategoriesId=" + productCategoriesId + ", " : "") +
                 (productsId != null ? "productsId=" + productsId + ", " : "") +

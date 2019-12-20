@@ -8,6 +8,10 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IStockInProcess } from 'app/shared/model/stock-in-process.model';
 import { StockInProcessService } from './stock-in-process.service';
+import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
+import { PurchaseOrderService } from 'app/entities/purchase-order';
+import { ICommercialPurchaseOrder } from 'app/shared/model/commercial-purchase-order.model';
+import { CommercialPurchaseOrderService } from 'app/entities/commercial-purchase-order';
 import { IProductCategory } from 'app/shared/model/product-category.model';
 import { ProductCategoryService } from 'app/entities/product-category';
 import { IProduct } from 'app/shared/model/product.model';
@@ -27,6 +31,10 @@ export class StockInProcessUpdateComponent implements OnInit {
     stockInProcess: IStockInProcess;
     isSaving: boolean;
 
+    purchaseorders: IPurchaseOrder[];
+
+    commercialpurchaseorders: ICommercialPurchaseOrder[];
+
     productcategories: IProductCategory[];
 
     products: IProduct[];
@@ -36,12 +44,15 @@ export class StockInProcessUpdateComponent implements OnInit {
     inventorysublocations: IInventorySubLocation[];
 
     vendors: IVendor[];
+    mfgDateDp: any;
     expiryDateDp: any;
     stockInDate: string;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockInProcessService: StockInProcessService,
+        protected purchaseOrderService: PurchaseOrderService,
+        protected commercialPurchaseOrderService: CommercialPurchaseOrderService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
@@ -56,6 +67,56 @@ export class StockInProcessUpdateComponent implements OnInit {
             this.stockInProcess = stockInProcess;
             this.stockInDate = this.stockInProcess.stockInDate != null ? this.stockInProcess.stockInDate.format(DATE_TIME_FORMAT) : null;
         });
+        this.purchaseOrderService
+            .query({ 'stockInProcessId.specified': 'false' })
+            .pipe(
+                filter((mayBeOk: HttpResponse<IPurchaseOrder[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IPurchaseOrder[]>) => response.body)
+            )
+            .subscribe(
+                (res: IPurchaseOrder[]) => {
+                    if (!this.stockInProcess.purchaseOrderId) {
+                        this.purchaseorders = res;
+                    } else {
+                        this.purchaseOrderService
+                            .find(this.stockInProcess.purchaseOrderId)
+                            .pipe(
+                                filter((subResMayBeOk: HttpResponse<IPurchaseOrder>) => subResMayBeOk.ok),
+                                map((subResponse: HttpResponse<IPurchaseOrder>) => subResponse.body)
+                            )
+                            .subscribe(
+                                (subRes: IPurchaseOrder) => (this.purchaseorders = [subRes].concat(res)),
+                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+                            );
+                    }
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        this.commercialPurchaseOrderService
+            .query({ 'stockInProcessId.specified': 'false' })
+            .pipe(
+                filter((mayBeOk: HttpResponse<ICommercialPurchaseOrder[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ICommercialPurchaseOrder[]>) => response.body)
+            )
+            .subscribe(
+                (res: ICommercialPurchaseOrder[]) => {
+                    if (!this.stockInProcess.commercialPurchaseOrderId) {
+                        this.commercialpurchaseorders = res;
+                    } else {
+                        this.commercialPurchaseOrderService
+                            .find(this.stockInProcess.commercialPurchaseOrderId)
+                            .pipe(
+                                filter((subResMayBeOk: HttpResponse<ICommercialPurchaseOrder>) => subResMayBeOk.ok),
+                                map((subResponse: HttpResponse<ICommercialPurchaseOrder>) => subResponse.body)
+                            )
+                            .subscribe(
+                                (subRes: ICommercialPurchaseOrder) => (this.commercialpurchaseorders = [subRes].concat(res)),
+                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+                            );
+                    }
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
         this.productCategoryService
             .query()
             .pipe(
@@ -128,6 +189,14 @@ export class StockInProcessUpdateComponent implements OnInit {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackPurchaseOrderById(index: number, item: IPurchaseOrder) {
+        return item.id;
+    }
+
+    trackCommercialPurchaseOrderById(index: number, item: ICommercialPurchaseOrder) {
+        return item.id;
     }
 
     trackProductCategoryById(index: number, item: IProductCategory) {

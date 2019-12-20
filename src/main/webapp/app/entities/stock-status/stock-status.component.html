@@ -38,7 +38,7 @@
             <th jhiSortBy="availablePrice"><span>Available Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInBy"><span>Stock In By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInDate"><span>Stock In Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="stockInItemsId"><span>Stock In Items</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="stockInItemId"><span>Stock In Item</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -58,8 +58,8 @@
                 <td>{{stockStatus.stockInBy}}</td>
                 <td>{{stockStatus.stockInDate | date:'medium'}}</td>
                 <td>
-                    <div *ngIf="stockStatus.stockInItemsId">
-                        <a [routerLink]="['../stock-in-item', stockStatus.stockInItemsId , 'view' ]" >{{stockStatus.stockInItemsId}}</a>
+                    <div *ngIf="stockStatus.stockInItemId">
+                        <a [routerLink]="['../stock-in-item', stockStatus.stockInItemId , 'view' ]" >{{stockStatus.stockInItemId}}</a>
                     </div>
                 </td>
                 <td>

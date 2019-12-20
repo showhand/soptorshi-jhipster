@@ -17,7 +17,7 @@ export interface IStockStatus {
     availablePrice?: number;
     stockInBy?: string;
     stockInDate?: Moment;
-    stockInItemsId?: number;
+    stockInItemId?: number;
     productCategoriesName?: string;
     productCategoriesId?: number;
     productsName?: string;
@@ -39,7 +39,7 @@ export class StockStatus implements IStockStatus {
         public availablePrice?: number,
         public stockInBy?: string,
         public stockInDate?: Moment,
-        public stockInItemsId?: number,
+        public stockInItemId?: number,
         public productCategoriesName?: string,
         public productCategoriesId?: number,
         public productsName?: string,

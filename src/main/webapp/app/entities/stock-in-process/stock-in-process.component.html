@@ -37,11 +37,15 @@
             <th jhiSortBy="containerCategory"><span>Container Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="containerTrackingId"><span>Container Tracking Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="quantityPerContainer"><span>Quantity Per Container</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="mfgDate"><span>Mfg Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="expiryDate"><span>Expiry Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="typeOfProduct"><span>Type Of Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInBy"><span>Stock In By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInDate"><span>Stock In Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="purchaseOrderId"><span>Purchase Order Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="purchaseOrderPurchaseOrderNo"><span>Purchase Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="commercialPurchaseOrderPurchaseOrderNo"><span>Commercial Purchase Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -60,11 +64,23 @@
                 <td>{{stockInProcess.containerCategory}}</td>
                 <td>{{stockInProcess.containerTrackingId}}</td>
                 <td>{{stockInProcess.quantityPerContainer}}</td>
+                <td>{{stockInProcess.mfgDate | date:'mediumDate'}}</td>
                 <td>{{stockInProcess.expiryDate | date:'mediumDate'}}</td>
+                <td>{{stockInProcess.typeOfProduct}}</td>
+                <td>{{stockInProcess.status}}</td>
                 <td>{{stockInProcess.stockInBy}}</td>
                 <td>{{stockInProcess.stockInDate | date:'medium'}}</td>
-                <td>{{stockInProcess.purchaseOrderId}}</td>
                 <td>{{stockInProcess.remarks}}</td>
+                <td>
+                    <div *ngIf="stockInProcess.purchaseOrderId">
+                        <a [routerLink]="['../purchase-order', stockInProcess.purchaseOrderId , 'view' ]" >{{stockInProcess.purchaseOrderPurchaseOrderNo}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="stockInProcess.commercialPurchaseOrderId">
+                        <a [routerLink]="['../commercial-purchase-order', stockInProcess.commercialPurchaseOrderId , 'view' ]" >{{stockInProcess.commercialPurchaseOrderPurchaseOrderNo}}</a>
+                    </div>
+                </td>
                 <td>
                     <div *ngIf="stockInProcess.productCategoriesId">
                         <a [routerLink]="['../product-category', stockInProcess.productCategoriesId , 'view' ]" >{{stockInProcess.productCategoriesName}}</a>

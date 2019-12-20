@@ -25,9 +25,17 @@
                 <dd>
                     <span>{{stockInItem.containerTrackingId}}</span>
                 </dd>
+                <dt><span>Mfg Date</span></dt>
+                <dd>
+                    <span>{{stockInItem.mfgDate}}</span>
+                </dd>
                 <dt><span>Expiry Date</span></dt>
                 <dd>
                     <span>{{stockInItem.expiryDate}}</span>
+                </dd>
+                <dt><span>Type Of Product</span></dt>
+                <dd>
+                    <span>{{stockInItem.typeOfProduct}}</span>
                 </dd>
                 <dt><span>Stock In By</span></dt>
                 <dd>
@@ -36,10 +44,6 @@
                 <dt><span>Stock In Date</span></dt>
                 <dd>
                     <span>{{stockInItem.stockInDate}}</span>
-                </dd>
-                <dt><span>Purchase Order Id</span></dt>
-                <dd>
-                    <span>{{stockInItem.purchaseOrderId}}</span>
                 </dd>
                 <dt><span>Remarks</span></dt>
                 <dd>
@@ -79,6 +83,18 @@
                 <dd>
                     <div *ngIf="stockInItem.stockInProcessesId">
                         <a [routerLink]="['/stock-in-process', stockInItem.stockInProcessesId, 'view']">{{stockInItem.stockInProcessesId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Purchase Orders</span></dt>
+                <dd>
+                    <div *ngIf="stockInItem.purchaseOrdersId">
+                        <a [routerLink]="['/purchase-order', stockInItem.purchaseOrdersId, 'view']">{{stockInItem.purchaseOrdersPurchaseOrderNo}}</a>
+                    </div>
+                </dd>
+                <dt><span>Commercial Purchase Orders</span></dt>
+                <dd>
+                    <div *ngIf="stockInItem.commercialPurchaseOrdersId">
+                        <a [routerLink]="['/commercial-purchase-order', stockInItem.commercialPurchaseOrdersId, 'view']">{{stockInItem.commercialPurchaseOrdersPurchaseOrderNo}}</a>
                     </div>
                 </dd>
             </dl>

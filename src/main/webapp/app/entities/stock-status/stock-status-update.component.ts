@@ -63,11 +63,11 @@ export class StockStatusUpdateComponent implements OnInit {
             )
             .subscribe(
                 (res: IStockInItem[]) => {
-                    if (!this.stockStatus.stockInItemsId) {
+                    if (!this.stockStatus.stockInItemId) {
                         this.stockinitems = res;
                     } else {
                         this.stockInItemService
-                            .find(this.stockStatus.stockInItemsId)
+                            .find(this.stockStatus.stockInItemId)
                             .pipe(
                                 filter((subResMayBeOk: HttpResponse<IStockInItem>) => subResMayBeOk.ok),
                                 map((subResponse: HttpResponse<IStockInItem>) => subResponse.body)

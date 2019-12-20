@@ -22,6 +22,8 @@ import { StockInProcessUpdateComponent } from 'app/entities/stock-in-process';
 import { VendorService } from 'app/entities/vendor';
 import { ProductCategoryService } from 'app/entities/product-category';
 import { ProductService } from 'app/entities/product';
+import { PurchaseOrderService } from 'app/entities/purchase-order';
+import { CommercialPurchaseOrderService } from 'app/entities/commercial-purchase-order';
 
 @Component({
     selector: 'jhi-stock-in-process-update-extended',
@@ -46,6 +48,8 @@ export class StockInProcessUpdateExtendedComponent extends StockInProcessUpdateC
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockInProcessService: StockInProcessExtendedService,
+        protected purchaseOrderService: PurchaseOrderService,
+        protected commercialPurchaseOrderService: CommercialPurchaseOrderService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
@@ -57,6 +61,8 @@ export class StockInProcessUpdateExtendedComponent extends StockInProcessUpdateC
         super(
             jhiAlertService,
             stockInProcessService,
+            purchaseOrderService,
+            commercialPurchaseOrderService,
             productCategoryService,
             productService,
             inventoryLocationService,

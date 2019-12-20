@@ -37,10 +37,10 @@
                 <dd>
                     <span>{{stockStatus.stockInDate}}</span>
                 </dd>
-                <dt><span>Stock In Items</span></dt>
+                <dt><span>Stock In Item</span></dt>
                 <dd>
-                    <div *ngIf="stockStatus.stockInItemsId">
-                        <a [routerLink]="['/stock-in-item', stockStatus.stockInItemsId, 'view']">{{stockStatus.stockInItemsId}}</a>
+                    <div *ngIf="stockStatus.stockInItemId">
+                        <a [routerLink]="['/stock-in-item', stockStatus.stockInItemId, 'view']">{{stockStatus.stockInItemId}}</a>
                     </div>
                 </dd>
                 <dt><span>Product Categories</span></dt>

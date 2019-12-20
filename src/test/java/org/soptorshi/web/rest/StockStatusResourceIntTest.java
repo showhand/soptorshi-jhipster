@@ -681,20 +681,20 @@ public class StockStatusResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllStockStatusesByStockInItemsIsEqualToSomething() throws Exception {
+    public void getAllStockStatusesByStockInItemIsEqualToSomething() throws Exception {
         // Initialize the database
-        StockInItem stockInItems = StockInItemResourceIntTest.createEntity(em);
-        em.persist(stockInItems);
+        StockInItem stockInItem = StockInItemResourceIntTest.createEntity(em);
+        em.persist(stockInItem);
         em.flush();
-        stockStatus.setStockInItems(stockInItems);
+        stockStatus.setStockInItem(stockInItem);
         stockStatusRepository.saveAndFlush(stockStatus);
-        Long stockInItemsId = stockInItems.getId();
+        Long stockInItemId = stockInItem.getId();
 
-        // Get all the stockStatusList where stockInItems equals to stockInItemsId
-        defaultStockStatusShouldBeFound("stockInItemsId.equals=" + stockInItemsId);
+        // Get all the stockStatusList where stockInItem equals to stockInItemId
+        defaultStockStatusShouldBeFound("stockInItemId.equals=" + stockInItemId);
 
-        // Get all the stockStatusList where stockInItems equals to stockInItemsId + 1
-        defaultStockStatusShouldNotBeFound("stockInItemsId.equals=" + (stockInItemsId + 1));
+        // Get all the stockStatusList where stockInItem equals to stockInItemId + 1
+        defaultStockStatusShouldNotBeFound("stockInItemId.equals=" + (stockInItemId + 1));
     }
 
 

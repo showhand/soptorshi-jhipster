@@ -61,7 +61,7 @@ public class StockStatus implements Serializable {
 
     @OneToOne
     @JoinColumn(unique = true)
-    private StockInItem stockInItems;
+    private StockInItem stockInItem;
 
     @ManyToOne
     @JsonIgnoreProperties("stockStatuses")
@@ -192,17 +192,17 @@ public class StockStatus implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public StockInItem getStockInItems() {
-        return stockInItems;
+    public StockInItem getStockInItem() {
+        return stockInItem;
     }
 
-    public StockStatus stockInItems(StockInItem stockInItem) {
-        this.stockInItems = stockInItem;
+    public StockStatus stockInItem(StockInItem stockInItem) {
+        this.stockInItem = stockInItem;
         return this;
     }
 
-    public void setStockInItems(StockInItem stockInItem) {
-        this.stockInItems = stockInItem;
+    public void setStockInItem(StockInItem stockInItem) {
+        this.stockInItem = stockInItem;
     }
 
     public ProductCategory getProductCategories() {

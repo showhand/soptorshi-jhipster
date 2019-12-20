@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new StockOutItem(0, 'AAAAAAA', 0, 'AAAAAAA', currentDate, 'AAAAAAA', 'AAAAAAA');
+            elemDefault = new StockOutItem(0, 'AAAAAAA', 0, 'AAAAAAA', currentDate, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -75,6 +75,7 @@ describe('Service Tests', () => {
                         stockOutBy: 'BBBBBB',
                         stockOutDate: currentDate.format(DATE_TIME_FORMAT),
                         receiverId: 'BBBBBB',
+                        receivingPlace: 'BBBBBB',
                         remarks: 'BBBBBB'
                     },
                     elemDefault
@@ -102,6 +103,7 @@ describe('Service Tests', () => {
                         stockOutBy: 'BBBBBB',
                         stockOutDate: currentDate.format(DATE_TIME_FORMAT),
                         receiverId: 'BBBBBB',
+                        receivingPlace: 'BBBBBB',
                         remarks: 'BBBBBB'
                     },
                     elemDefault

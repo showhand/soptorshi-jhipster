@@ -75,6 +75,9 @@ public class StockOutItemResourceIntTest {
     private static final String DEFAULT_RECEIVER_ID = "AAAAAAAAAA";
     private static final String UPDATED_RECEIVER_ID = "BBBBBBBBBB";
 
+    private static final String DEFAULT_RECEIVING_PLACE = "AAAAAAAAAA";
+    private static final String UPDATED_RECEIVING_PLACE = "BBBBBBBBBB";
+
     private static final String DEFAULT_REMARKS = "AAAAAAAAAA";
     private static final String UPDATED_REMARKS = "BBBBBBBBBB";
 
@@ -142,6 +145,7 @@ public class StockOutItemResourceIntTest {
             .stockOutBy(DEFAULT_STOCK_OUT_BY)
             .stockOutDate(DEFAULT_STOCK_OUT_DATE)
             .receiverId(DEFAULT_RECEIVER_ID)
+            .receivingPlace(DEFAULT_RECEIVING_PLACE)
             .remarks(DEFAULT_REMARKS);
         return stockOutItem;
     }
@@ -172,6 +176,7 @@ public class StockOutItemResourceIntTest {
         assertThat(testStockOutItem.getStockOutBy()).isEqualTo(DEFAULT_STOCK_OUT_BY);
         assertThat(testStockOutItem.getStockOutDate()).isEqualTo(DEFAULT_STOCK_OUT_DATE);
         assertThat(testStockOutItem.getReceiverId()).isEqualTo(DEFAULT_RECEIVER_ID);
+        assertThat(testStockOutItem.getReceivingPlace()).isEqualTo(DEFAULT_RECEIVING_PLACE);
         assertThat(testStockOutItem.getRemarks()).isEqualTo(DEFAULT_REMARKS);
 
         // Validate the StockOutItem in Elasticsearch
@@ -255,6 +260,7 @@ public class StockOutItemResourceIntTest {
             .andExpect(jsonPath("$.[*].stockOutBy").value(hasItem(DEFAULT_STOCK_OUT_BY.toString())))
             .andExpect(jsonPath("$.[*].stockOutDate").value(hasItem(DEFAULT_STOCK_OUT_DATE.toString())))
             .andExpect(jsonPath("$.[*].receiverId").value(hasItem(DEFAULT_RECEIVER_ID.toString())))
+            .andExpect(jsonPath("$.[*].receivingPlace").value(hasItem(DEFAULT_RECEIVING_PLACE.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
     
@@ -274,6 +280,7 @@ public class StockOutItemResourceIntTest {
             .andExpect(jsonPath("$.stockOutBy").value(DEFAULT_STOCK_OUT_BY.toString()))
             .andExpect(jsonPath("$.stockOutDate").value(DEFAULT_STOCK_OUT_DATE.toString()))
             .andExpect(jsonPath("$.receiverId").value(DEFAULT_RECEIVER_ID.toString()))
+            .andExpect(jsonPath("$.receivingPlace").value(DEFAULT_RECEIVING_PLACE.toString()))
             .andExpect(jsonPath("$.remarks").value(DEFAULT_REMARKS.toString()));
     }
 
@@ -474,6 +481,45 @@ public class StockOutItemResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllStockOutItemsByReceivingPlaceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockOutItemRepository.saveAndFlush(stockOutItem);
+
+        // Get all the stockOutItemList where receivingPlace equals to DEFAULT_RECEIVING_PLACE
+        defaultStockOutItemShouldBeFound("receivingPlace.equals=" + DEFAULT_RECEIVING_PLACE);
+
+        // Get all the stockOutItemList where receivingPlace equals to UPDATED_RECEIVING_PLACE
+        defaultStockOutItemShouldNotBeFound("receivingPlace.equals=" + UPDATED_RECEIVING_PLACE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockOutItemsByReceivingPlaceIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockOutItemRepository.saveAndFlush(stockOutItem);
+
+        // Get all the stockOutItemList where receivingPlace in DEFAULT_RECEIVING_PLACE or UPDATED_RECEIVING_PLACE
+        defaultStockOutItemShouldBeFound("receivingPlace.in=" + DEFAULT_RECEIVING_PLACE + "," + UPDATED_RECEIVING_PLACE);
+
+        // Get all the stockOutItemList where receivingPlace equals to UPDATED_RECEIVING_PLACE
+        defaultStockOutItemShouldNotBeFound("receivingPlace.in=" + UPDATED_RECEIVING_PLACE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockOutItemsByReceivingPlaceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockOutItemRepository.saveAndFlush(stockOutItem);
+
+        // Get all the stockOutItemList where receivingPlace is not null
+        defaultStockOutItemShouldBeFound("receivingPlace.specified=true");
+
+        // Get all the stockOutItemList where receivingPlace is null
+        defaultStockOutItemShouldNotBeFound("receivingPlace.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllStockOutItemsByRemarksIsEqualToSomething() throws Exception {
         // Initialize the database
         stockOutItemRepository.saveAndFlush(stockOutItem);
@@ -637,6 +683,7 @@ public class StockOutItemResourceIntTest {
             .andExpect(jsonPath("$.[*].stockOutBy").value(hasItem(DEFAULT_STOCK_OUT_BY)))
             .andExpect(jsonPath("$.[*].stockOutDate").value(hasItem(DEFAULT_STOCK_OUT_DATE.toString())))
             .andExpect(jsonPath("$.[*].receiverId").value(hasItem(DEFAULT_RECEIVER_ID)))
+            .andExpect(jsonPath("$.[*].receivingPlace").value(hasItem(DEFAULT_RECEIVING_PLACE)))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)));
 
         // Check, that the count call also returns 1
@@ -690,6 +737,7 @@ public class StockOutItemResourceIntTest {
             .stockOutBy(UPDATED_STOCK_OUT_BY)
             .stockOutDate(UPDATED_STOCK_OUT_DATE)
             .receiverId(UPDATED_RECEIVER_ID)
+            .receivingPlace(UPDATED_RECEIVING_PLACE)
             .remarks(UPDATED_REMARKS);
         StockOutItemDTO stockOutItemDTO = stockOutItemMapper.toDto(updatedStockOutItem);
 
@@ -707,6 +755,7 @@ public class StockOutItemResourceIntTest {
         assertThat(testStockOutItem.getStockOutBy()).isEqualTo(UPDATED_STOCK_OUT_BY);
         assertThat(testStockOutItem.getStockOutDate()).isEqualTo(UPDATED_STOCK_OUT_DATE);
         assertThat(testStockOutItem.getReceiverId()).isEqualTo(UPDATED_RECEIVER_ID);
+        assertThat(testStockOutItem.getReceivingPlace()).isEqualTo(UPDATED_RECEIVING_PLACE);
         assertThat(testStockOutItem.getRemarks()).isEqualTo(UPDATED_REMARKS);
 
         // Validate the StockOutItem in Elasticsearch
@@ -773,6 +822,7 @@ public class StockOutItemResourceIntTest {
             .andExpect(jsonPath("$.[*].stockOutBy").value(hasItem(DEFAULT_STOCK_OUT_BY)))
             .andExpect(jsonPath("$.[*].stockOutDate").value(hasItem(DEFAULT_STOCK_OUT_DATE.toString())))
             .andExpect(jsonPath("$.[*].receiverId").value(hasItem(DEFAULT_RECEIVER_ID)))
+            .andExpect(jsonPath("$.[*].receivingPlace").value(hasItem(DEFAULT_RECEIVING_PLACE)))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)));
     }
 

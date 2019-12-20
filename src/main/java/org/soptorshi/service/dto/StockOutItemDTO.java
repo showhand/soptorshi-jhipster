@@ -24,6 +24,8 @@ public class StockOutItemDTO implements Serializable {
 
     private String receiverId;
 
+    private String receivingPlace;
+
     private String remarks;
 
 
@@ -93,6 +95,14 @@ public class StockOutItemDTO implements Serializable {
 
     public void setReceiverId(String receiverId) {
         this.receiverId = receiverId;
+    }
+
+    public String getReceivingPlace() {
+        return receivingPlace;
+    }
+
+    public void setReceivingPlace(String receivingPlace) {
+        this.receivingPlace = receivingPlace;
     }
 
     public String getRemarks() {
@@ -213,6 +223,7 @@ public class StockOutItemDTO implements Serializable {
             ", stockOutBy='" + getStockOutBy() + "'" +
             ", stockOutDate='" + getStockOutDate() + "'" +
             ", receiverId='" + getReceiverId() + "'" +
+            ", receivingPlace='" + getReceivingPlace() + "'" +
             ", remarks='" + getRemarks() + "'" +
             ", productCategories=" + getProductCategoriesId() +
             ", productCategories='" + getProductCategoriesName() + "'" +

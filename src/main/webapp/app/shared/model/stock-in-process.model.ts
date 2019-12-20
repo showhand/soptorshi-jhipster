@@ -15,6 +15,17 @@ export const enum ContainerCategory {
     OTHERS = 'OTHERS'
 }
 
+export const enum ProductType {
+    REGULAR_PRODUCT = 'REGULAR_PRODUCT',
+    FINISHED_PRODUCT = 'FINISHED_PRODUCT',
+    BY_PRODUCT = 'BY_PRODUCT'
+}
+
+export const enum StockInProcessStatus {
+    WAITING_FOR_STOCK_IN_PROCESS = 'WAITING_FOR_STOCK_IN_PROCESS',
+    COMPLETED_STOCK_IN_PROCESS = 'COMPLETED_STOCK_IN_PROCESS'
+}
+
 export interface IStockInProcess {
     id?: number;
     totalQuantity?: number;
@@ -24,11 +35,17 @@ export interface IStockInProcess {
     containerCategory?: ContainerCategory;
     containerTrackingId?: string;
     quantityPerContainer?: string;
+    mfgDate?: Moment;
     expiryDate?: Moment;
+    typeOfProduct?: ProductType;
+    status?: StockInProcessStatus;
     stockInBy?: string;
     stockInDate?: Moment;
-    purchaseOrderId?: string;
     remarks?: string;
+    purchaseOrderPurchaseOrderNo?: string;
+    purchaseOrderId?: number;
+    commercialPurchaseOrderPurchaseOrderNo?: string;
+    commercialPurchaseOrderId?: number;
     productCategoriesName?: string;
     productCategoriesId?: number;
     productsName?: string;
@@ -51,11 +68,17 @@ export class StockInProcess implements IStockInProcess {
         public containerCategory?: ContainerCategory,
         public containerTrackingId?: string,
         public quantityPerContainer?: string,
+        public mfgDate?: Moment,
         public expiryDate?: Moment,
+        public typeOfProduct?: ProductType,
+        public status?: StockInProcessStatus,
         public stockInBy?: string,
         public stockInDate?: Moment,
-        public purchaseOrderId?: string,
         public remarks?: string,
+        public purchaseOrderPurchaseOrderNo?: string,
+        public purchaseOrderId?: number,
+        public commercialPurchaseOrderPurchaseOrderNo?: string,
+        public commercialPurchaseOrderId?: number,
         public productCategoriesName?: string,
         public productCategoriesId?: number,
         public productsName?: string,

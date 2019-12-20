@@ -217,7 +217,6 @@ public class StockInProcessExtendedService extends StockInProcessService {
         stockInItemDTO.setExpiryDate(stockInProcessDTO.getExpiryDate());
         stockInItemDTO.setStockInBy(currentUserId);
         stockInItemDTO.setStockInDate(currentDateTime);
-        stockInItemDTO.setPurchaseOrderId(stockInProcessDTO.getPurchaseOrderId());
         stockInItemDTO.setRemarks(stockInProcessDTO.getRemarks());
         stockInItemDTO.setStockInProcessesId(stockInProcessDTO.getId());
         return stockInItemDTO;
@@ -237,7 +236,7 @@ public class StockInProcessExtendedService extends StockInProcessService {
         stockStatusDTO.setAvailablePrice(stockInProcessDTO.getUnitPrice().multiply(quantity));
         stockStatusDTO.setStockInBy(currentUserId);
         stockStatusDTO.setStockInDate(currentDateTime);
-        stockStatusDTO.setStockInItemsId(stockInItemId);
+        stockStatusDTO.setStockInItemId(stockInItemId);
         return stockStatusDTO;
     }
 }

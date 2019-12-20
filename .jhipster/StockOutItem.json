@@ -28,6 +28,10 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "receivingPlace",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "remarks",
             "fieldType": "String"
         }

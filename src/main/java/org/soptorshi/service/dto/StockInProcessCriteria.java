@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ProductType;
+import org.soptorshi.domain.enumeration.StockInProcessStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -34,6 +36,16 @@ public class StockInProcessCriteria implements Serializable {
      */
     public static class ContainerCategoryFilter extends Filter<ContainerCategory> {
     }
+    /**
+     * Class for filtering ProductType
+     */
+    public static class ProductTypeFilter extends Filter<ProductType> {
+    }
+    /**
+     * Class for filtering StockInProcessStatus
+     */
+    public static class StockInProcessStatusFilter extends Filter<StockInProcessStatus> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -53,15 +65,23 @@ public class StockInProcessCriteria implements Serializable {
 
     private StringFilter quantityPerContainer;
 
+    private LocalDateFilter mfgDate;
+
     private LocalDateFilter expiryDate;
+
+    private ProductTypeFilter typeOfProduct;
+
+    private StockInProcessStatusFilter status;
 
     private StringFilter stockInBy;
 
     private InstantFilter stockInDate;
 
-    private StringFilter purchaseOrderId;
-
     private StringFilter remarks;
+
+    private LongFilter purchaseOrderId;
+
+    private LongFilter commercialPurchaseOrderId;
 
     private LongFilter productCategoriesId;
 
@@ -137,12 +157,36 @@ public class StockInProcessCriteria implements Serializable {
         this.quantityPerContainer = quantityPerContainer;
     }
 
+    public LocalDateFilter getMfgDate() {
+        return mfgDate;
+    }
+
+    public void setMfgDate(LocalDateFilter mfgDate) {
+        this.mfgDate = mfgDate;
+    }
+
     public LocalDateFilter getExpiryDate() {
         return expiryDate;
     }
 
     public void setExpiryDate(LocalDateFilter expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public ProductTypeFilter getTypeOfProduct() {
+        return typeOfProduct;
+    }
+
+    public void setTypeOfProduct(ProductTypeFilter typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
+    }
+
+    public StockInProcessStatusFilter getStatus() {
+        return status;
+    }
+
+    public void setStatus(StockInProcessStatusFilter status) {
+        this.status = status;
     }
 
     public StringFilter getStockInBy() {
@@ -161,20 +205,28 @@ public class StockInProcessCriteria implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public StringFilter getPurchaseOrderId() {
-        return purchaseOrderId;
-    }
-
-    public void setPurchaseOrderId(StringFilter purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-    }
-
     public StringFilter getRemarks() {
         return remarks;
     }
 
     public void setRemarks(StringFilter remarks) {
         this.remarks = remarks;
+    }
+
+    public LongFilter getPurchaseOrderId() {
+        return purchaseOrderId;
+    }
+
+    public void setPurchaseOrderId(LongFilter purchaseOrderId) {
+        this.purchaseOrderId = purchaseOrderId;
+    }
+
+    public LongFilter getCommercialPurchaseOrderId() {
+        return commercialPurchaseOrderId;
+    }
+
+    public void setCommercialPurchaseOrderId(LongFilter commercialPurchaseOrderId) {
+        this.commercialPurchaseOrderId = commercialPurchaseOrderId;
     }
 
     public LongFilter getProductCategoriesId() {
@@ -236,11 +288,15 @@ public class StockInProcessCriteria implements Serializable {
             Objects.equals(containerCategory, that.containerCategory) &&
             Objects.equals(containerTrackingId, that.containerTrackingId) &&
             Objects.equals(quantityPerContainer, that.quantityPerContainer) &&
+            Objects.equals(mfgDate, that.mfgDate) &&
             Objects.equals(expiryDate, that.expiryDate) &&
+            Objects.equals(typeOfProduct, that.typeOfProduct) &&
+            Objects.equals(status, that.status) &&
             Objects.equals(stockInBy, that.stockInBy) &&
             Objects.equals(stockInDate, that.stockInDate) &&
-            Objects.equals(purchaseOrderId, that.purchaseOrderId) &&
             Objects.equals(remarks, that.remarks) &&
+            Objects.equals(purchaseOrderId, that.purchaseOrderId) &&
+            Objects.equals(commercialPurchaseOrderId, that.commercialPurchaseOrderId) &&
             Objects.equals(productCategoriesId, that.productCategoriesId) &&
             Objects.equals(productsId, that.productsId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
@@ -259,11 +315,15 @@ public class StockInProcessCriteria implements Serializable {
         containerCategory,
         containerTrackingId,
         quantityPerContainer,
+        mfgDate,
         expiryDate,
+        typeOfProduct,
+        status,
         stockInBy,
         stockInDate,
-        purchaseOrderId,
         remarks,
+        purchaseOrderId,
+        commercialPurchaseOrderId,
         productCategoriesId,
         productsId,
         inventoryLocationsId,
@@ -283,11 +343,15 @@ public class StockInProcessCriteria implements Serializable {
                 (containerCategory != null ? "containerCategory=" + containerCategory + ", " : "") +
                 (containerTrackingId != null ? "containerTrackingId=" + containerTrackingId + ", " : "") +
                 (quantityPerContainer != null ? "quantityPerContainer=" + quantityPerContainer + ", " : "") +
+                (mfgDate != null ? "mfgDate=" + mfgDate + ", " : "") +
                 (expiryDate != null ? "expiryDate=" + expiryDate + ", " : "") +
+                (typeOfProduct != null ? "typeOfProduct=" + typeOfProduct + ", " : "") +
+                (status != null ? "status=" + status + ", " : "") +
                 (stockInBy != null ? "stockInBy=" + stockInBy + ", " : "") +
                 (stockInDate != null ? "stockInDate=" + stockInDate + ", " : "") +
-                (purchaseOrderId != null ? "purchaseOrderId=" + purchaseOrderId + ", " : "") +
                 (remarks != null ? "remarks=" + remarks + ", " : "") +
+                (purchaseOrderId != null ? "purchaseOrderId=" + purchaseOrderId + ", " : "") +
+                (commercialPurchaseOrderId != null ? "commercialPurchaseOrderId=" + commercialPurchaseOrderId + ", " : "") +
                 (productCategoriesId != null ? "productCategoriesId=" + productCategoriesId + ", " : "") +
                 (productsId != null ? "productsId=" + productsId + ", " : "") +
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +
