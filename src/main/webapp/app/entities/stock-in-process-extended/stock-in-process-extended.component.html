@@ -60,7 +60,16 @@
                     <th jhiSortBy="quantityPerContainer"><span>Quantity Per Container</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
+                    <th jhiSortBy="mfgDate"><span>Mfg Date</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
                     <th jhiSortBy="expiryDate"><span>Expiry Date</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="typeOfProduct"><span>Type Of Product</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="status"><span>Status</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="stockInBy"><span>Stock In By</span>
@@ -69,16 +78,19 @@
                     <th jhiSortBy="stockInDate"><span>Stock In Date</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="purchaseOrderId"><span>Purchase Order Id</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
                     <th jhiSortBy="remarks"><span>Remarks</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="itemCategoriesName"><span>Item Categories</span>
+                    <th jhiSortBy="purchaseOrderPurchaseOrderNo"><span>Purchase Order</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="itemSubCategoriesName"><span>Item Sub Categories</span>
+                    <th jhiSortBy="commercialPurchaseOrderPurchaseOrderNo"><span>Commercial Purchase Order</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="productCategoriesName"><span>Product Categories</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="productsName"><span>Products</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span>
@@ -87,7 +99,7 @@
                     <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="manufacturersName"><span>Manufacturers</span>
+                    <th jhiSortBy="vendorCompanyName"><span>Vendor</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th></th>
@@ -105,19 +117,31 @@
                     <td>{{stockInProcess.containerCategory}}</td>
                     <td>{{stockInProcess.containerTrackingId}}</td>
                     <td>{{stockInProcess.quantityPerContainer}}</td>
+                    <td>{{stockInProcess.mfgDate | date:'mediumDate'}}</td>
                     <td>{{stockInProcess.expiryDate | date:'mediumDate'}}</td>
+                    <td>{{stockInProcess.typeOfProduct}}</td>
+                    <td>{{stockInProcess.status}}</td>
                     <td>{{stockInProcess.stockInBy}}</td>
                     <td>{{stockInProcess.stockInDate | date:'medium'}}</td>
-                    <td>{{stockInProcess.purchaseOrderId}}</td>
                     <td>{{stockInProcess.remarks}}</td>
                     <td>
-                        <div *ngIf="stockInProcess.itemCategoriesId">
-                            <a [routerLink]="['../item-category', stockInProcess.itemCategoriesId , 'view' ]">{{stockInProcess.itemCategoriesName}}</a>
+                        <div *ngIf="stockInProcess.purchaseOrderId">
+                            <a [routerLink]="['../purchase-order', stockInProcess.purchaseOrderId , 'view' ]">{{stockInProcess.purchaseOrderPurchaseOrderNo}}</a>
                         </div>
                     </td>
                     <td>
-                        <div *ngIf="stockInProcess.itemSubCategoriesId">
-                            <a [routerLink]="['../item-sub-category', stockInProcess.itemSubCategoriesId , 'view' ]">{{stockInProcess.itemSubCategoriesName}}</a>
+                        <div *ngIf="stockInProcess.commercialPurchaseOrderId">
+                            <a [routerLink]="['../commercial-purchase-order', stockInProcess.commercialPurchaseOrderId , 'view' ]">{{stockInProcess.commercialPurchaseOrderPurchaseOrderNo}}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="stockInProcess.productCategoriesId">
+                            <a [routerLink]="['../product-category', stockInProcess.productCategoriesId , 'view' ]">{{stockInProcess.productCategoriesName}}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="stockInProcess.productsId">
+                            <a [routerLink]="['../product', stockInProcess.productsId , 'view' ]">{{stockInProcess.productsName}}</a>
                         </div>
                     </td>
                     <td>
@@ -131,8 +155,8 @@
                         </div>
                     </td>
                     <td>
-                        <div *ngIf="stockInProcess.manufacturersId">
-                            <a [routerLink]="['../manufacturer', stockInProcess.manufacturersId , 'view' ]">{{stockInProcess.manufacturersName}}</a>
+                        <div *ngIf="stockInProcess.vendorId">
+                            <a [routerLink]="['../vendor', stockInProcess.vendorId , 'view' ]">{{stockInProcess.vendorCompanyName}}</a>
                         </div>
                     </td>
                     <td class="text-right">
@@ -143,7 +167,7 @@
                                 <fa-icon [icon]="'eye'"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
-                            <!--<button type="submit"
+                            <button type="submit"
                                     [routerLink]="['/stock-in-process', stockInProcess.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
@@ -156,7 +180,7 @@
                                     class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>
-                            </button>-->
+                            </button>
                         </div>
                     </td>
                 </tr>

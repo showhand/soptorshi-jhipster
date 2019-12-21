@@ -709,10 +709,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './inventory-sub-location/inventory-sub-location.module#SoptorshiInventorySubLocationModule'
             },
             {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
-            },
-            {
                 path: 'stock-in-item',
                 loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
             },
@@ -769,24 +765,12 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './holiday/holiday.module#SoptorshiHolidayModule'
             },
             {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
-            },
-            {
                 path: 'stock-in-item',
                 loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
             },
             {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
-            },
-            {
                 path: 'stock-in-item',
                 loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
-            },
-            {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
             },
             {
                 path: 'stock-in-item',
@@ -801,20 +785,12 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModule'
             },
             {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
-            },
-            {
                 path: 'stock-in-item',
                 loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
             },
             {
                 path: 'stock-status',
                 loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModule'
-            },
-            {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
             },
             {
                 path: 'stock-in-item',
@@ -869,10 +845,6 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'commercial-invoice',
                 loadChildren: './commercial-invoice/commercial-invoice.module#SoptorshiCommercialInvoiceModule'
-            },
-            {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
             },
             {
                 path: 'stock-in-item',

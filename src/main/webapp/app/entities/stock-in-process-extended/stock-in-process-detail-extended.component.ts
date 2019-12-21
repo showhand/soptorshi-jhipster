@@ -8,20 +8,10 @@ import { StockInProcessDetailComponent } from 'app/entities/stock-in-process';
     selector: 'jhi-stock-in-process-detail-extended',
     templateUrl: './stock-in-process-detail-extended.component.html'
 })
-export class StockInProcessDetailExtendedComponent extends StockInProcessDetailComponent implements OnInit {
+export class StockInProcessDetailExtendedComponent extends StockInProcessDetailComponent {
     stockInProcess: IStockInProcess;
 
     constructor(protected activatedRoute: ActivatedRoute) {
         super(activatedRoute);
-    }
-
-    ngOnInit() {
-        this.activatedRoute.data.subscribe(({ stockInProcess }) => {
-            this.stockInProcess = stockInProcess;
-        });
-    }
-
-    previousState() {
-        window.history.back();
     }
 }

@@ -639,6 +639,16 @@ entity ContraVoucher {
   modifiedBy String,
   modifiedOn LocalDate
 }
+entity CommercialBudgetEstimation {
+    budgetNo String required,
+    contractType CommercialContractType required,
+    customerType CommercialCustomerType required,
+    budgetEstimationDate LocalDate required,
+    createdBy String,
+    createdOn LocalDate,
+    updatedBy String,
+    updatedOn LocalDate
+}
 entity CommercialPurchaseOrder {
   purchaseOrderNo String required,
   purchaseOrderDate LocalDate required,

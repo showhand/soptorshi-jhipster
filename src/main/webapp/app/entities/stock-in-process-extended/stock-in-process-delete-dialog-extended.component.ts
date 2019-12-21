@@ -42,36 +42,10 @@ export class StockInProcessDeleteDialogExtendedComponent extends StockInProcessD
     selector: 'jhi-stock-in-process-delete-popup-extended',
     template: ''
 })
-export class StockInProcessDeletePopupExtendedComponent extends StockInProcessDeletePopupComponent implements OnInit, OnDestroy {
+export class StockInProcessDeletePopupExtendedComponent extends StockInProcessDeletePopupComponent {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
         super(activatedRoute, router, modalService);
-    }
-
-    ngOnInit() {
-        this.activatedRoute.data.subscribe(({ stockInProcess }) => {
-            setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(StockInProcessDeleteDialogExtendedComponent as Component, {
-                    size: 'lg',
-                    backdrop: 'static'
-                });
-                this.ngbModalRef.componentInstance.stockInProcess = stockInProcess;
-                this.ngbModalRef.result.then(
-                    result => {
-                        this.router.navigate(['/stock-in-process', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    },
-                    reason => {
-                        this.router.navigate(['/stock-in-process', { outlets: { popup: null } }]);
-                        this.ngbModalRef = null;
-                    }
-                );
-            }, 0);
-        });
-    }
-
-    ngOnDestroy() {
-        this.ngbModalRef = null;
     }
 }
