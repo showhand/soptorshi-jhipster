@@ -39,6 +39,8 @@ export interface IStockInProcess {
     expiryDate?: Moment;
     typeOfProduct?: ProductType;
     status?: StockInProcessStatus;
+    processStartedBy?: string;
+    processStartedOn?: Moment;
     stockInBy?: string;
     stockInDate?: Moment;
     remarks?: string;
@@ -72,6 +74,8 @@ export class StockInProcess implements IStockInProcess {
         public expiryDate?: Moment,
         public typeOfProduct?: ProductType,
         public status?: StockInProcessStatus,
+        public processStartedBy?: string,
+        public processStartedOn?: Moment,
         public stockInBy?: string,
         public stockInDate?: Moment,
         public remarks?: string,

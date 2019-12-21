@@ -1,26 +1,22 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.*;
+import org.soptorshi.repository.StockInProcessRepository;
+import org.soptorshi.repository.search.StockInProcessSearchRepository;
+import org.soptorshi.service.dto.StockInProcessCriteria;
+import org.soptorshi.service.dto.StockInProcessDTO;
+import org.soptorshi.service.mapper.StockInProcessMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.StockInProcess;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.StockInProcessRepository;
-import org.soptorshi.repository.search.StockInProcessSearchRepository;
-import org.soptorshi.service.dto.StockInProcessCriteria;
-import org.soptorshi.service.dto.StockInProcessDTO;
-import org.soptorshi.service.mapper.StockInProcessMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for StockInProcess entities in the database.
@@ -125,6 +121,12 @@ public class StockInProcessQueryService extends QueryService<StockInProcess> {
             }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), StockInProcess_.status));
+            }
+            if (criteria.getProcessStartedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getProcessStartedBy(), StockInProcess_.processStartedBy));
+            }
+            if (criteria.getProcessStartedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getProcessStartedOn(), StockInProcess_.processStartedOn));
             }
             if (criteria.getStockInBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getStockInBy(), StockInProcess_.stockInBy));

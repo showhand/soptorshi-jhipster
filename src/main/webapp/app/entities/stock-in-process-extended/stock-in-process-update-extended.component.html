@@ -115,6 +115,18 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_processStartedBy">Process Started By</label>
+                    <input type="text" class="form-control" name="processStartedBy" id="field_processStartedBy"
+                           [(ngModel)]="stockInProcess.processStartedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_processStartedOn">Process Started On</label>
+                    <div class="d-flex">
+                        <input id="field_processStartedOn" type="datetime-local" class="form-control" name="processStartedOn" [(ngModel)]="processStartedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_stockInBy">Stock In By</label>
                     <input type="text" class="form-control" name="stockInBy" id="field_stockInBy"
                            [(ngModel)]="stockInProcess.stockInBy" />

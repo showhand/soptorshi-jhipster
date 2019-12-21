@@ -10,4 +10,6 @@ public interface StockInItemExtendedRepository extends StockInItemRepository {
     StockInItem getByProductCategoriesAndProductsAndInventoryLocationsAndInventorySubLocationsAndContainerTrackingId(
         ProductCategory productCategory, Product product, InventoryLocation inventoryLocation, InventorySubLocation
         inventorySubLocation, String containerTrackingId);
+
+    boolean existsByStockInProcesses(StockInProcess stockInProcess);
 }

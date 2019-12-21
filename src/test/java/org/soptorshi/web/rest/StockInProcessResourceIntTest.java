@@ -1,28 +1,22 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.StockInProcess;
-import org.soptorshi.domain.PurchaseOrder;
-import org.soptorshi.domain.CommercialPurchaseOrder;
-import org.soptorshi.domain.ProductCategory;
-import org.soptorshi.domain.Product;
-import org.soptorshi.domain.InventoryLocation;
-import org.soptorshi.domain.InventorySubLocation;
-import org.soptorshi.domain.Vendor;
-import org.soptorshi.repository.StockInProcessRepository;
-import org.soptorshi.repository.search.StockInProcessSearchRepository;
-import org.soptorshi.service.StockInProcessService;
-import org.soptorshi.service.dto.StockInProcessDTO;
-import org.soptorshi.service.mapper.StockInProcessMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.StockInProcessCriteria;
-import org.soptorshi.service.StockInProcessQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.*;
+import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ProductType;
+import org.soptorshi.domain.enumeration.StockInProcessStatus;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+import org.soptorshi.repository.StockInProcessRepository;
+import org.soptorshi.repository.search.StockInProcessSearchRepository;
+import org.soptorshi.service.StockInProcessQueryService;
+import org.soptorshi.service.StockInProcessService;
+import org.soptorshi.service.dto.StockInProcessDTO;
+import org.soptorshi.service.mapper.StockInProcessMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -38,26 +32,20 @@ import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.soptorshi.domain.enumeration.UnitOfMeasurements;
-import org.soptorshi.domain.enumeration.ContainerCategory;
-import org.soptorshi.domain.enumeration.ProductType;
-import org.soptorshi.domain.enumeration.StockInProcessStatus;
 /**
  * Test class for the StockInProcessResource REST controller.
  *
@@ -99,6 +87,12 @@ public class StockInProcessResourceIntTest {
 
     private static final StockInProcessStatus DEFAULT_STATUS = StockInProcessStatus.WAITING_FOR_STOCK_IN_PROCESS;
     private static final StockInProcessStatus UPDATED_STATUS = StockInProcessStatus.COMPLETED_STOCK_IN_PROCESS;
+
+    private static final String DEFAULT_PROCESS_STARTED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_PROCESS_STARTED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_PROCESS_STARTED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_PROCESS_STARTED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String DEFAULT_STOCK_IN_BY = "AAAAAAAAAA";
     private static final String UPDATED_STOCK_IN_BY = "BBBBBBBBBB";
@@ -179,6 +173,8 @@ public class StockInProcessResourceIntTest {
             .expiryDate(DEFAULT_EXPIRY_DATE)
             .typeOfProduct(DEFAULT_TYPE_OF_PRODUCT)
             .status(DEFAULT_STATUS)
+            .processStartedBy(DEFAULT_PROCESS_STARTED_BY)
+            .processStartedOn(DEFAULT_PROCESS_STARTED_ON)
             .stockInBy(DEFAULT_STOCK_IN_BY)
             .stockInDate(DEFAULT_STOCK_IN_DATE)
             .remarks(DEFAULT_REMARKS);
@@ -217,6 +213,8 @@ public class StockInProcessResourceIntTest {
         assertThat(testStockInProcess.getExpiryDate()).isEqualTo(DEFAULT_EXPIRY_DATE);
         assertThat(testStockInProcess.getTypeOfProduct()).isEqualTo(DEFAULT_TYPE_OF_PRODUCT);
         assertThat(testStockInProcess.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testStockInProcess.getProcessStartedBy()).isEqualTo(DEFAULT_PROCESS_STARTED_BY);
+        assertThat(testStockInProcess.getProcessStartedOn()).isEqualTo(DEFAULT_PROCESS_STARTED_ON);
         assertThat(testStockInProcess.getStockInBy()).isEqualTo(DEFAULT_STOCK_IN_BY);
         assertThat(testStockInProcess.getStockInDate()).isEqualTo(DEFAULT_STOCK_IN_DATE);
         assertThat(testStockInProcess.getRemarks()).isEqualTo(DEFAULT_REMARKS);
@@ -327,11 +325,13 @@ public class StockInProcessResourceIntTest {
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
             .andExpect(jsonPath("$.[*].typeOfProduct").value(hasItem(DEFAULT_TYPE_OF_PRODUCT.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].processStartedBy").value(hasItem(DEFAULT_PROCESS_STARTED_BY.toString())))
+            .andExpect(jsonPath("$.[*].processStartedOn").value(hasItem(DEFAULT_PROCESS_STARTED_ON.toString())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY.toString())))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getStockInProcess() throws Exception {
@@ -354,6 +354,8 @@ public class StockInProcessResourceIntTest {
             .andExpect(jsonPath("$.expiryDate").value(DEFAULT_EXPIRY_DATE.toString()))
             .andExpect(jsonPath("$.typeOfProduct").value(DEFAULT_TYPE_OF_PRODUCT.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.processStartedBy").value(DEFAULT_PROCESS_STARTED_BY.toString()))
+            .andExpect(jsonPath("$.processStartedOn").value(DEFAULT_PROCESS_STARTED_ON.toString()))
             .andExpect(jsonPath("$.stockInBy").value(DEFAULT_STOCK_IN_BY.toString()))
             .andExpect(jsonPath("$.stockInDate").value(DEFAULT_STOCK_IN_DATE.toString()))
             .andExpect(jsonPath("$.remarks").value(DEFAULT_REMARKS.toString()));
@@ -871,6 +873,84 @@ public class StockInProcessResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllStockInProcessesByProcessStartedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where processStartedBy equals to DEFAULT_PROCESS_STARTED_BY
+        defaultStockInProcessShouldBeFound("processStartedBy.equals=" + DEFAULT_PROCESS_STARTED_BY);
+
+        // Get all the stockInProcessList where processStartedBy equals to UPDATED_PROCESS_STARTED_BY
+        defaultStockInProcessShouldNotBeFound("processStartedBy.equals=" + UPDATED_PROCESS_STARTED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByProcessStartedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where processStartedBy in DEFAULT_PROCESS_STARTED_BY or UPDATED_PROCESS_STARTED_BY
+        defaultStockInProcessShouldBeFound("processStartedBy.in=" + DEFAULT_PROCESS_STARTED_BY + "," + UPDATED_PROCESS_STARTED_BY);
+
+        // Get all the stockInProcessList where processStartedBy equals to UPDATED_PROCESS_STARTED_BY
+        defaultStockInProcessShouldNotBeFound("processStartedBy.in=" + UPDATED_PROCESS_STARTED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByProcessStartedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where processStartedBy is not null
+        defaultStockInProcessShouldBeFound("processStartedBy.specified=true");
+
+        // Get all the stockInProcessList where processStartedBy is null
+        defaultStockInProcessShouldNotBeFound("processStartedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByProcessStartedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where processStartedOn equals to DEFAULT_PROCESS_STARTED_ON
+        defaultStockInProcessShouldBeFound("processStartedOn.equals=" + DEFAULT_PROCESS_STARTED_ON);
+
+        // Get all the stockInProcessList where processStartedOn equals to UPDATED_PROCESS_STARTED_ON
+        defaultStockInProcessShouldNotBeFound("processStartedOn.equals=" + UPDATED_PROCESS_STARTED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByProcessStartedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where processStartedOn in DEFAULT_PROCESS_STARTED_ON or UPDATED_PROCESS_STARTED_ON
+        defaultStockInProcessShouldBeFound("processStartedOn.in=" + DEFAULT_PROCESS_STARTED_ON + "," + UPDATED_PROCESS_STARTED_ON);
+
+        // Get all the stockInProcessList where processStartedOn equals to UPDATED_PROCESS_STARTED_ON
+        defaultStockInProcessShouldNotBeFound("processStartedOn.in=" + UPDATED_PROCESS_STARTED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByProcessStartedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+
+        // Get all the stockInProcessList where processStartedOn is not null
+        defaultStockInProcessShouldBeFound("processStartedOn.specified=true");
+
+        // Get all the stockInProcessList where processStartedOn is null
+        defaultStockInProcessShouldNotBeFound("processStartedOn.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllStockInProcessesByStockInByIsEqualToSomething() throws Exception {
         // Initialize the database
         stockInProcessRepository.saveAndFlush(stockInProcess);
@@ -1137,6 +1217,8 @@ public class StockInProcessResourceIntTest {
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
             .andExpect(jsonPath("$.[*].typeOfProduct").value(hasItem(DEFAULT_TYPE_OF_PRODUCT.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].processStartedBy").value(hasItem(DEFAULT_PROCESS_STARTED_BY)))
+            .andExpect(jsonPath("$.[*].processStartedOn").value(hasItem(DEFAULT_PROCESS_STARTED_ON.toString())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)));
@@ -1198,6 +1280,8 @@ public class StockInProcessResourceIntTest {
             .expiryDate(UPDATED_EXPIRY_DATE)
             .typeOfProduct(UPDATED_TYPE_OF_PRODUCT)
             .status(UPDATED_STATUS)
+            .processStartedBy(UPDATED_PROCESS_STARTED_BY)
+            .processStartedOn(UPDATED_PROCESS_STARTED_ON)
             .stockInBy(UPDATED_STOCK_IN_BY)
             .stockInDate(UPDATED_STOCK_IN_DATE)
             .remarks(UPDATED_REMARKS);
@@ -1223,6 +1307,8 @@ public class StockInProcessResourceIntTest {
         assertThat(testStockInProcess.getExpiryDate()).isEqualTo(UPDATED_EXPIRY_DATE);
         assertThat(testStockInProcess.getTypeOfProduct()).isEqualTo(UPDATED_TYPE_OF_PRODUCT);
         assertThat(testStockInProcess.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testStockInProcess.getProcessStartedBy()).isEqualTo(UPDATED_PROCESS_STARTED_BY);
+        assertThat(testStockInProcess.getProcessStartedOn()).isEqualTo(UPDATED_PROCESS_STARTED_ON);
         assertThat(testStockInProcess.getStockInBy()).isEqualTo(UPDATED_STOCK_IN_BY);
         assertThat(testStockInProcess.getStockInDate()).isEqualTo(UPDATED_STOCK_IN_DATE);
         assertThat(testStockInProcess.getRemarks()).isEqualTo(UPDATED_REMARKS);
@@ -1297,6 +1383,8 @@ public class StockInProcessResourceIntTest {
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())))
             .andExpect(jsonPath("$.[*].typeOfProduct").value(hasItem(DEFAULT_TYPE_OF_PRODUCT.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].processStartedBy").value(hasItem(DEFAULT_PROCESS_STARTED_BY)))
+            .andExpect(jsonPath("$.[*].processStartedOn").value(hasItem(DEFAULT_PROCESS_STARTED_ON.toString())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)));

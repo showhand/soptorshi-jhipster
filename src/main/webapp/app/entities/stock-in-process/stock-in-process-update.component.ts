@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -46,6 +46,7 @@ export class StockInProcessUpdateComponent implements OnInit {
     vendors: IVendor[];
     mfgDateDp: any;
     expiryDateDp: any;
+    processStartedOn: string;
     stockInDate: string;
 
     constructor(
@@ -65,6 +66,8 @@ export class StockInProcessUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ stockInProcess }) => {
             this.stockInProcess = stockInProcess;
+            this.processStartedOn =
+                this.stockInProcess.processStartedOn != null ? this.stockInProcess.processStartedOn.format(DATE_TIME_FORMAT) : null;
             this.stockInDate = this.stockInProcess.stockInDate != null ? this.stockInProcess.stockInDate.format(DATE_TIME_FORMAT) : null;
         });
         this.purchaseOrderService
@@ -166,6 +169,7 @@ export class StockInProcessUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.stockInProcess.processStartedOn = this.processStartedOn != null ? moment(this.processStartedOn, DATE_TIME_FORMAT) : null;
         this.stockInProcess.stockInDate = this.stockInDate != null ? moment(this.stockInDate, DATE_TIME_FORMAT) : null;
         if (this.stockInProcess.id !== undefined) {
             this.subscribeToSaveResponse(this.stockInProcessService.update(this.stockInProcess));

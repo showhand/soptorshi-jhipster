@@ -2,24 +2,19 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ProductType;
+import org.soptorshi.domain.enumeration.StockInProcessStatus;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
-
-import org.soptorshi.domain.enumeration.UnitOfMeasurements;
-
-import org.soptorshi.domain.enumeration.ContainerCategory;
-
-import org.soptorshi.domain.enumeration.ProductType;
-
-import org.soptorshi.domain.enumeration.StockInProcessStatus;
 
 /**
  * A StockInProcess.
@@ -30,7 +25,7 @@ import org.soptorshi.domain.enumeration.StockInProcessStatus;
 public class StockInProcess implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -74,6 +69,12 @@ public class StockInProcess implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private StockInProcessStatus status;
+
+    @Column(name = "process_started_by")
+    private String processStartedBy;
+
+    @Column(name = "process_started_on")
+    private Instant processStartedOn;
 
     @Column(name = "stock_in_by")
     private String stockInBy;
@@ -264,6 +265,32 @@ public class StockInProcess implements Serializable {
         this.status = status;
     }
 
+    public String getProcessStartedBy() {
+        return processStartedBy;
+    }
+
+    public StockInProcess processStartedBy(String processStartedBy) {
+        this.processStartedBy = processStartedBy;
+        return this;
+    }
+
+    public void setProcessStartedBy(String processStartedBy) {
+        this.processStartedBy = processStartedBy;
+    }
+
+    public Instant getProcessStartedOn() {
+        return processStartedOn;
+    }
+
+    public StockInProcess processStartedOn(Instant processStartedOn) {
+        this.processStartedOn = processStartedOn;
+        return this;
+    }
+
+    public void setProcessStartedOn(Instant processStartedOn) {
+        this.processStartedOn = processStartedOn;
+    }
+
     public String getStockInBy() {
         return stockInBy;
     }
@@ -430,6 +457,8 @@ public class StockInProcess implements Serializable {
             ", expiryDate='" + getExpiryDate() + "'" +
             ", typeOfProduct='" + getTypeOfProduct() + "'" +
             ", status='" + getStatus() + "'" +
+            ", processStartedBy='" + getProcessStartedBy() + "'" +
+            ", processStartedOn='" + getProcessStartedOn() + "'" +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
             ", remarks='" + getRemarks() + "'" +

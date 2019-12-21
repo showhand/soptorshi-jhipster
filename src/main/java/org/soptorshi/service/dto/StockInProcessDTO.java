@@ -1,14 +1,16 @@
 package org.soptorshi.service.dto;
-import java.time.Instant;
-import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Objects;
-import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+
 import org.soptorshi.domain.enumeration.ContainerCategory;
 import org.soptorshi.domain.enumeration.ProductType;
 import org.soptorshi.domain.enumeration.StockInProcessStatus;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A DTO for the StockInProcess entity.
@@ -41,6 +43,10 @@ public class StockInProcessDTO implements Serializable {
     private ProductType typeOfProduct;
 
     private StockInProcessStatus status;
+
+    private String processStartedBy;
+
+    private Instant processStartedOn;
 
     private String stockInBy;
 
@@ -171,6 +177,22 @@ public class StockInProcessDTO implements Serializable {
 
     public void setStatus(StockInProcessStatus status) {
         this.status = status;
+    }
+
+    public String getProcessStartedBy() {
+        return processStartedBy;
+    }
+
+    public void setProcessStartedBy(String processStartedBy) {
+        this.processStartedBy = processStartedBy;
+    }
+
+    public Instant getProcessStartedOn() {
+        return processStartedOn;
+    }
+
+    public void setProcessStartedOn(Instant processStartedOn) {
+        this.processStartedOn = processStartedOn;
     }
 
     public String getStockInBy() {
@@ -345,6 +367,8 @@ public class StockInProcessDTO implements Serializable {
             ", expiryDate='" + getExpiryDate() + "'" +
             ", typeOfProduct='" + getTypeOfProduct() + "'" +
             ", status='" + getStatus() + "'" +
+            ", processStartedBy='" + getProcessStartedBy() + "'" +
+            ", processStartedOn='" + getProcessStartedOn() + "'" +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
             ", remarks='" + getRemarks() + "'" +

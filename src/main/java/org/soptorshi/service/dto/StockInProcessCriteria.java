@@ -1,21 +1,13 @@
 package org.soptorshi.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
-import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+import io.github.jhipster.service.filter.*;
 import org.soptorshi.domain.enumeration.ContainerCategory;
 import org.soptorshi.domain.enumeration.ProductType;
 import org.soptorshi.domain.enumeration.StockInProcessStatus;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.BigDecimalFilter;
-import io.github.jhipster.service.filter.InstantFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the StockInProcess entity. This class is used in StockInProcessResource to
@@ -72,6 +64,10 @@ public class StockInProcessCriteria implements Serializable {
     private ProductTypeFilter typeOfProduct;
 
     private StockInProcessStatusFilter status;
+
+    private StringFilter processStartedBy;
+
+    private InstantFilter processStartedOn;
 
     private StringFilter stockInBy;
 
@@ -189,6 +185,22 @@ public class StockInProcessCriteria implements Serializable {
         this.status = status;
     }
 
+    public StringFilter getProcessStartedBy() {
+        return processStartedBy;
+    }
+
+    public void setProcessStartedBy(StringFilter processStartedBy) {
+        this.processStartedBy = processStartedBy;
+    }
+
+    public InstantFilter getProcessStartedOn() {
+        return processStartedOn;
+    }
+
+    public void setProcessStartedOn(InstantFilter processStartedOn) {
+        this.processStartedOn = processStartedOn;
+    }
+
     public StringFilter getStockInBy() {
         return stockInBy;
     }
@@ -292,6 +304,8 @@ public class StockInProcessCriteria implements Serializable {
             Objects.equals(expiryDate, that.expiryDate) &&
             Objects.equals(typeOfProduct, that.typeOfProduct) &&
             Objects.equals(status, that.status) &&
+            Objects.equals(processStartedBy, that.processStartedBy) &&
+            Objects.equals(processStartedOn, that.processStartedOn) &&
             Objects.equals(stockInBy, that.stockInBy) &&
             Objects.equals(stockInDate, that.stockInDate) &&
             Objects.equals(remarks, that.remarks) &&
@@ -319,6 +333,8 @@ public class StockInProcessCriteria implements Serializable {
         expiryDate,
         typeOfProduct,
         status,
+        processStartedBy,
+        processStartedOn,
         stockInBy,
         stockInDate,
         remarks,
@@ -347,6 +363,8 @@ public class StockInProcessCriteria implements Serializable {
                 (expiryDate != null ? "expiryDate=" + expiryDate + ", " : "") +
                 (typeOfProduct != null ? "typeOfProduct=" + typeOfProduct + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
+                (processStartedBy != null ? "processStartedBy=" + processStartedBy + ", " : "") +
+                (processStartedOn != null ? "processStartedOn=" + processStartedOn + ", " : "") +
                 (stockInBy != null ? "stockInBy=" + stockInBy + ", " : "") +
                 (stockInDate != null ? "stockInDate=" + stockInDate + ", " : "") +
                 (remarks != null ? "remarks=" + remarks + ", " : "") +

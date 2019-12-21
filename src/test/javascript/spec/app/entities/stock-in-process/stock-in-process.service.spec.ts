@@ -1,19 +1,17 @@
 /* tslint:disable max-line-length */
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { StockInProcessService } from 'app/entities/stock-in-process/stock-in-process.service';
 import {
-    IStockInProcess,
-    StockInProcess,
-    UnitOfMeasurements,
     ContainerCategory,
+    IStockInProcess,
     ProductType,
-    StockInProcessStatus
+    StockInProcess,
+    StockInProcessStatus,
+    UnitOfMeasurements
 } from 'app/shared/model/stock-in-process.model';
 
 describe('Service Tests', () => {
@@ -47,6 +45,8 @@ describe('Service Tests', () => {
                 StockInProcessStatus.WAITING_FOR_STOCK_IN_PROCESS,
                 'AAAAAAA',
                 currentDate,
+                'AAAAAAA',
+                currentDate,
                 'AAAAAAA'
             );
         });
@@ -57,6 +57,7 @@ describe('Service Tests', () => {
                     {
                         mfgDate: currentDate.format(DATE_FORMAT),
                         expiryDate: currentDate.format(DATE_FORMAT),
+                        processStartedOn: currentDate.format(DATE_TIME_FORMAT),
                         stockInDate: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
@@ -76,6 +77,7 @@ describe('Service Tests', () => {
                         id: 0,
                         mfgDate: currentDate.format(DATE_FORMAT),
                         expiryDate: currentDate.format(DATE_FORMAT),
+                        processStartedOn: currentDate.format(DATE_TIME_FORMAT),
                         stockInDate: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
@@ -84,6 +86,7 @@ describe('Service Tests', () => {
                     {
                         mfgDate: currentDate,
                         expiryDate: currentDate,
+                        processStartedOn: currentDate,
                         stockInDate: currentDate
                     },
                     returnedFromService
@@ -110,6 +113,8 @@ describe('Service Tests', () => {
                         expiryDate: currentDate.format(DATE_FORMAT),
                         typeOfProduct: 'BBBBBB',
                         status: 'BBBBBB',
+                        processStartedBy: 'BBBBBB',
+                        processStartedOn: currentDate.format(DATE_TIME_FORMAT),
                         stockInBy: 'BBBBBB',
                         stockInDate: currentDate.format(DATE_TIME_FORMAT),
                         remarks: 'BBBBBB'
@@ -121,6 +126,7 @@ describe('Service Tests', () => {
                     {
                         mfgDate: currentDate,
                         expiryDate: currentDate,
+                        processStartedOn: currentDate,
                         stockInDate: currentDate
                     },
                     returnedFromService
@@ -147,6 +153,8 @@ describe('Service Tests', () => {
                         expiryDate: currentDate.format(DATE_FORMAT),
                         typeOfProduct: 'BBBBBB',
                         status: 'BBBBBB',
+                        processStartedBy: 'BBBBBB',
+                        processStartedOn: currentDate.format(DATE_TIME_FORMAT),
                         stockInBy: 'BBBBBB',
                         stockInDate: currentDate.format(DATE_TIME_FORMAT),
                         remarks: 'BBBBBB'
@@ -157,6 +165,7 @@ describe('Service Tests', () => {
                     {
                         mfgDate: currentDate,
                         expiryDate: currentDate,
+                        processStartedOn: currentDate,
                         stockInDate: currentDate
                     },
                     returnedFromService

@@ -41,6 +41,8 @@
             <th jhiSortBy="expiryDate"><span>Expiry Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="typeOfProduct"><span>Type Of Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="processStartedBy"><span>Process Started By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="processStartedOn"><span>Process Started On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInBy"><span>Stock In By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInDate"><span>Stock In Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -68,6 +70,8 @@
                 <td>{{stockInProcess.expiryDate | date:'mediumDate'}}</td>
                 <td>{{stockInProcess.typeOfProduct}}</td>
                 <td>{{stockInProcess.status}}</td>
+                <td>{{stockInProcess.processStartedBy}}</td>
+                <td>{{stockInProcess.processStartedOn | date:'medium'}}</td>
                 <td>{{stockInProcess.stockInBy}}</td>
                 <td>{{stockInProcess.stockInDate | date:'medium'}}</td>
                 <td>{{stockInProcess.remarks}}</td>

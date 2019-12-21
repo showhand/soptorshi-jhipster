@@ -7,6 +7,7 @@ import org.soptorshi.service.StockInItemQueryService;
 import org.soptorshi.service.StockInItemService;
 import org.soptorshi.service.dto.StockInItemCriteria;
 import org.soptorshi.service.dto.StockInItemDTO;
+import org.soptorshi.web.rest.StockInItemResource;
 import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,9 +26,9 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api/extended")
-public class StockInItemResourceExtended {
+public class StockInItemExtendedResource extends StockInItemResource {
 
-    private final Logger log = LoggerFactory.getLogger(StockInItemResourceExtended.class);
+    private final Logger log = LoggerFactory.getLogger(StockInItemExtendedResource.class);
 
     private static final String ENTITY_NAME = "stockInItem";
 
@@ -35,7 +36,8 @@ public class StockInItemResourceExtended {
 
     private final StockInItemQueryService stockInItemQueryService;
 
-    public StockInItemResourceExtended(StockInItemService stockInItemService, StockInItemQueryService stockInItemQueryService) {
+    public StockInItemExtendedResource(StockInItemService stockInItemService, StockInItemQueryService stockInItemQueryService) {
+        super(stockInItemService, stockInItemQueryService);
         this.stockInItemService = stockInItemService;
         this.stockInItemQueryService = stockInItemQueryService;
     }

@@ -59,6 +59,14 @@
             "fieldValues": "WAITING_FOR_STOCK_IN_PROCESS,COMPLETED_STOCK_IN_PROCESS"
         },
         {
+            "fieldName": "processStartedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "processStartedOn",
+            "fieldType": "Instant"
+        },
+        {
             "fieldName": "stockInBy",
             "fieldType": "String"
         },

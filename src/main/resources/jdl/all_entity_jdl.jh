@@ -407,6 +407,8 @@ entity StockInProcess {
   expiryDate LocalDate,
   typeOfProduct ProductType,
   status StockInProcessStatus,
+  processStartedBy String,
+  processStartedOn Instant,
   stockInBy String,
   stockInDate Instant,
   remarks String
