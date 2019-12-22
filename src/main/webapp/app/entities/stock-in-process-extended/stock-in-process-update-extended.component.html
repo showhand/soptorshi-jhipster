@@ -10,6 +10,43 @@
                            [(ngModel)]="stockInProcess.id" readonly />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_productCategories">Product Categories</label>
+                    <select class="form-control" id="field_productCategories" name="productCategories" [(ngModel)]="stockInProcess.productCategoriesId"
+                            (ngModelChange)="getProducts()" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_products">Products</label>
+                    <select class="form-control" id="field_products" name="products" [(ngModel)]="stockInProcess.productsId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_inventoryLocations">Inventory Locations</label>
+                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="stockInProcess.inventoryLocationsId"
+                            (ngModelChange)="getInventorySubLocation()" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="inventoryLocationOption.id" *ngFor="let inventoryLocationOption of inventorylocations; trackBy: trackInventoryLocationById">{{inventoryLocationOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_inventorySubLocations">Inventory Sub Locations</label>
+                    <select class="form-control" id="field_inventorySubLocations" name="inventorySubLocations" [(ngModel)]="stockInProcess.inventorySubLocationsId" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="inventorySubLocationOption.id" *ngFor="let inventorySubLocationOption of inventorysublocations; trackBy: trackInventorySubLocationById">{{inventorySubLocationOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_vendor">Vendor</label>
+                    <select class="form-control" id="field_vendor" name="vendor" [(ngModel)]="stockInProcess.vendorId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="vendorOption.id" *ngFor="let vendorOption of vendors; trackBy: trackVendorById">{{vendorOption.companyName}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_totalQuantity">Total Quantity</label>
                     <input type="number" class="form-control" name="totalQuantity" id="field_totalQuantity"
                            [(ngModel)]="stockInProcess.totalQuantity" required/>
@@ -57,11 +94,11 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_totalContainer">Total Container</label>
                     <input type="number" class="form-control" name="totalContainer" id="field_totalContainer"
-                           [(ngModel)]="stockInProcess.totalContainer" />
+                           [(ngModel)]="stockInProcess.totalContainer" required/>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_containerCategory">Container Category</label>
-                    <select class="form-control" name="containerCategory" [(ngModel)]="stockInProcess.containerCategory" id="field_containerCategory" >
+                    <select class="form-control" name="containerCategory" [(ngModel)]="stockInProcess.containerCategory" id="field_containerCategory" required>
                         <option value="BOTTLE">BOTTLE</option>
                         <option value="DRUM">DRUM</option>
                         <option value="PACKET">PACKET</option>
@@ -72,12 +109,14 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_containerTrackingId">Container Tracking Id</label>
                     <input type="text" class="form-control" name="containerTrackingId" id="field_containerTrackingId"
-                           [(ngModel)]="stockInProcess.containerTrackingId" />
+                           [(ngModel)]="stockInProcess.containerTrackingId"
+                           placeholder="Example: A-101,B-200,C-222,..." required/>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_quantityPerContainer">Quantity Per Container</label>
                     <input type="text" class="form-control" name="quantityPerContainer" id="field_quantityPerContainer"
-                           [(ngModel)]="stockInProcess.quantityPerContainer" />
+                           [(ngModel)]="stockInProcess.quantityPerContainer"
+                           placeholder="Example: 15,10,20,..." required/>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_mfgDate">Mfg Date</label>
@@ -101,15 +140,15 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_typeOfProduct">Type Of Product</label>
-                    <select class="form-control" name="typeOfProduct" [(ngModel)]="stockInProcess.typeOfProduct" id="field_typeOfProduct" >
+                    <select class="form-control" name="typeOfProduct" [(ngModel)]="stockInProcess.typeOfProduct" id="field_typeOfProduct" required>
                         <option value="REGULAR_PRODUCT">REGULAR_PRODUCT</option>
                         <option value="FINISHED_PRODUCT">FINISHED_PRODUCT</option>
                         <option value="BY_PRODUCT">BY_PRODUCT</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_status">Status</label>
-                    <select class="form-control" name="status" [(ngModel)]="stockInProcess.status" id="field_status" >
+                    <select class="form-control" name="status" [(ngModel)]="stockInProcess.status" id="field_status" required>
                         <option value="WAITING_FOR_STOCK_IN_PROCESS">WAITING_FOR_STOCK_IN_PROCESS</option>
                         <option value="COMPLETED_STOCK_IN_PROCESS">COMPLETED_STOCK_IN_PROCESS</option>
                     </select>
@@ -137,7 +176,7 @@
                         <input id="field_stockInDate" type="datetime-local" class="form-control" name="stockInDate" [(ngModel)]="stockInDate" placeholder="YYYY-MM-DD HH:mm"
                         />
                     </div>
-                </div>
+                </div>-->
                 <div class="form-group">
                     <label class="form-control-label" for="field_remarks">Remarks</label>
                     <input type="text" class="form-control" name="remarks" id="field_remarks"
@@ -158,48 +197,15 @@
                         <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_productCategories">Product Categories</label>
-                    <select class="form-control" id="field_productCategories" name="productCategories" [(ngModel)]="stockInProcess.productCategoriesId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_products">Products</label>
-                    <select class="form-control" id="field_products" name="products" [(ngModel)]="stockInProcess.productsId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_inventoryLocations">Inventory Locations</label>
-                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="stockInProcess.inventoryLocationsId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="inventoryLocationOption.id" *ngFor="let inventoryLocationOption of inventorylocations; trackBy: trackInventoryLocationById">{{inventoryLocationOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_inventorySubLocations">Inventory Sub Locations</label>
-                    <select class="form-control" id="field_inventorySubLocations" name="inventorySubLocations" [(ngModel)]="stockInProcess.inventorySubLocationsId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="inventorySubLocationOption.id" *ngFor="let inventorySubLocationOption of inventorysublocations; trackBy: trackInventorySubLocationById">{{inventorySubLocationOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_vendor">Vendor</label>
-                    <select class="form-control" id="field_vendor" name="vendor" [(ngModel)]="stockInProcess.vendorId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="vendorOption.id" *ngFor="let vendorOption of vendors; trackBy: trackVendorById">{{vendorOption.companyName}}</option>
-                    </select>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;
+                    <span [hidden]="stockInProcess.id">Save</span>
+                    <span [hidden]="!stockInProcess.id">Verify & Complete Stock In Process</span>
                 </button>
             </div>
         </form>

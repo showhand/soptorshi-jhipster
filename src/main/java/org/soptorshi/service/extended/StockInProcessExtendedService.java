@@ -21,6 +21,8 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Arrays;
 
+import static java.lang.Double.parseDouble;
+
 @Service
 @Transactional
 public class StockInProcessExtendedService extends StockInProcessService {
@@ -86,16 +88,26 @@ public class StockInProcessExtendedService extends StockInProcessService {
         }
     }
 
+    /**
+     * Delete the stockInProcess by id.
+     *
+     * @param id the id of the entity
+     */
+    public void delete(Long id) {
+        log.debug("Request to delete StockInProcess : {}", id);
+        log.error("Delete operation is not allowed");
+    }
+
     private int insertInStock(StockInProcessDTO stockInProcessDTO, String currentUser, Instant currentDateTime) {
         String[] containerIds = getContainerIds(stockInProcessDTO);
         String[] itemsPerContainer = stockInProcessDTO.getQuantityPerContainer().split(",");
         if (validateRecord(stockInProcessDTO, containerIds, itemsPerContainer)) return 0;
 
         for (int i = 0; i < stockInProcessDTO.getTotalContainer(); i++) {
-            StockInItemDTO stockInItemDTO = getStockInItemDTO(stockInProcessDTO, BigDecimal.valueOf(Double.parseDouble(itemsPerContainer[i].trim())), containerIds[i].trim(), currentUser, currentDateTime);
+            StockInItemDTO stockInItemDTO = getStockInItemDTO(stockInProcessDTO, BigDecimal.valueOf(parseDouble(itemsPerContainer[i].trim())), containerIds[i].trim(), currentUser, currentDateTime);
             StockInItemDTO result = stockInItemExtendedService.save(stockInItemDTO);
 
-            StockStatusDTO stockStatusDTO = getStockStatus(stockInProcessDTO, BigDecimal.valueOf(Double.parseDouble(itemsPerContainer[i].trim())), containerIds[i].trim(), currentUser, currentDateTime, result.getId());
+            StockStatusDTO stockStatusDTO = getStockStatus(stockInProcessDTO, BigDecimal.valueOf(parseDouble(itemsPerContainer[i].trim())), containerIds[i].trim(), currentUser, currentDateTime, result.getId());
             stockStatusExtendedService.save(stockStatusDTO);
         }
         return 1;
@@ -113,9 +125,10 @@ public class StockInProcessExtendedService extends StockInProcessService {
     }
 
     private boolean isTotalQuantityAndSumOfItemsPerContainerEqual(StockInProcessDTO stockInProcessDTO, String[] itemsPerContainer) {
-        Double totalQuantity = 0.0;
+        BigDecimal totalQuantity = BigDecimal.ZERO;
         for (String itemPerContainer : itemsPerContainer) {
-            totalQuantity += Double.parseDouble(itemPerContainer);
+            BigDecimal bigDecimal = new BigDecimal(itemPerContainer);
+            totalQuantity = bigDecimal.add(totalQuantity);
         }
         return !totalQuantity.equals(stockInProcessDTO.getTotalQuantity());
     }

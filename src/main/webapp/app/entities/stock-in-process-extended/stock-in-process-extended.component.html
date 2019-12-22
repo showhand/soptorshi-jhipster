@@ -39,6 +39,12 @@
                     <th jhiSortBy="id"><span>ID</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
+                    <th jhiSortBy="productCategoriesName"><span>Product Categories</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="productsName"><span>Products</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
                     <th jhiSortBy="totalQuantity"><span>Total Quantity</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -48,7 +54,7 @@
                     <th jhiSortBy="unitPrice"><span>Unit Price</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="totalContainer"><span>Total Container</span>
+                    <!--<th jhiSortBy="totalContainer"><span>Total Container</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="containerCategory"><span>Container Category</span>
@@ -65,20 +71,20 @@
                     </th>
                     <th jhiSortBy="expiryDate"><span>Expiry Date</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
+                    </th>-->
                     <th jhiSortBy="typeOfProduct"><span>Type Of Product</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="status"><span>Status</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="processStartedBy"><span>Process Started By</span>
+                    <!--<th jhiSortBy="processStartedBy"><span>Process Started By</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
+                    </th>-->
                     <th jhiSortBy="processStartedOn"><span>Process Started On</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="stockInBy"><span>Stock In By</span>
+                    <!--<th jhiSortBy="stockInBy"><span>Stock In By</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="stockInDate"><span>Stock In Date</span>
@@ -93,12 +99,6 @@
                     <th jhiSortBy="commercialPurchaseOrderPurchaseOrderNo"><span>Commercial Purchase Order</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="productCategoriesName"><span>Product Categories</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th jhiSortBy="productsName"><span>Products</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
                     <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -107,7 +107,7 @@
                     </th>
                     <th jhiSortBy="vendorCompanyName"><span>Vendor</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
+                    </th>-->
                     <th></th>
                 </tr>
                 </thead>
@@ -116,20 +116,30 @@
                 <tr *ngFor="let stockInProcess of stockInProcesses ;trackBy: trackId">
                     <td><a [routerLink]="['/stock-in-process', stockInProcess.id, 'view' ]">{{stockInProcess.id}}</a>
                     </td>
+                    <td>
+                        <div *ngIf="stockInProcess.productCategoriesId">
+                            <a [routerLink]="['../product-category', stockInProcess.productCategoriesId , 'view' ]">{{stockInProcess.productCategoriesName}}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="stockInProcess.productsId">
+                            <a [routerLink]="['../product', stockInProcess.productsId , 'view' ]">{{stockInProcess.productsName}}</a>
+                        </div>
+                    </td>
                     <td>{{stockInProcess.totalQuantity}}</td>
                     <td>{{stockInProcess.unit}}</td>
                     <td>{{stockInProcess.unitPrice}}</td>
-                    <td>{{stockInProcess.totalContainer}}</td>
+                    <!--<td>{{stockInProcess.totalContainer}}</td>
                     <td>{{stockInProcess.containerCategory}}</td>
                     <td>{{stockInProcess.containerTrackingId}}</td>
                     <td>{{stockInProcess.quantityPerContainer}}</td>
                     <td>{{stockInProcess.mfgDate | date:'mediumDate'}}</td>
-                    <td>{{stockInProcess.expiryDate | date:'mediumDate'}}</td>
+                    <td>{{stockInProcess.expiryDate | date:'mediumDate'}}</td>-->
                     <td>{{stockInProcess.typeOfProduct}}</td>
                     <td>{{stockInProcess.status}}</td>
-                    <td>{{stockInProcess.processStartedBy}}</td>
+                    <!--<td>{{stockInProcess.processStartedBy}}</td>-->
                     <td>{{stockInProcess.processStartedOn | date:'medium'}}</td>
-                    <td>{{stockInProcess.stockInBy}}</td>
+                    <!--<td>{{stockInProcess.stockInBy}}</td>
                     <td>{{stockInProcess.stockInDate | date:'medium'}}</td>
                     <td>{{stockInProcess.remarks}}</td>
                     <td>
@@ -140,16 +150,6 @@
                     <td>
                         <div *ngIf="stockInProcess.commercialPurchaseOrderId">
                             <a [routerLink]="['../commercial-purchase-order', stockInProcess.commercialPurchaseOrderId , 'view' ]">{{stockInProcess.commercialPurchaseOrderPurchaseOrderNo}}</a>
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="stockInProcess.productCategoriesId">
-                            <a [routerLink]="['../product-category', stockInProcess.productCategoriesId , 'view' ]">{{stockInProcess.productCategoriesName}}</a>
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="stockInProcess.productsId">
-                            <a [routerLink]="['../product', stockInProcess.productsId , 'view' ]">{{stockInProcess.productsName}}</a>
                         </div>
                     </td>
                     <td>
@@ -166,8 +166,8 @@
                         <div *ngIf="stockInProcess.vendorId">
                             <a [routerLink]="['../vendor', stockInProcess.vendorId , 'view' ]">{{stockInProcess.vendorCompanyName}}</a>
                         </div>
-                    </td>
-                    <td class="text-right">
+                    </td>-->
+                    <td class="text-right" width="20%">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     [routerLink]="['/stock-in-process', stockInProcess.id, 'view' ]"
@@ -181,14 +181,14 @@
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
-                            <button type="submit"
+                            <!--<button type="submit"
                                     [routerLink]="['/', 'stock-in-process', { outlets: { popup: stockInProcess.id + '/delete'} }]"
                                     replaceUrl="true"
                                     queryParamsHandling="merge"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>
-                            </button>
+                            </button>-->
                         </div>
                     </td>
                 </tr>

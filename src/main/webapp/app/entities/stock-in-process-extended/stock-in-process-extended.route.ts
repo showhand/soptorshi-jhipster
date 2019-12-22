@@ -64,7 +64,7 @@ export const stockInProcessExtendedRoute: Routes = [
     }
 ];
 
-export const stockInProcessPopupRouteExtended: Routes = [
+export const stockInProcessPopupExtendedRoute: Routes = [
     {
         path: ':id/delete',
         component: StockInProcessDeletePopupExtendedComponent,
