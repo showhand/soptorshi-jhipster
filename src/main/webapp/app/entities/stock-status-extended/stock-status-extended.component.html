@@ -110,35 +110,48 @@
     <div class="table-responsive" *ngIf="stockStatuses">
         <table class="table table-striped">
             <thead>
-            <tr>
-            <th ><span>ID</span> </th>
-                <th ><span>Item Categories</span></th>
-                <th><span>Item Sub Categories</span></th>
-                <th><span>Inventory Locations</span></th>
-                <th><span>Inventory Sub Locations</span></th>
-            <th><span>Container Tracking Id</span></th>
-            <th><span>Total Quantity</span></th>
-            <th><span>Unit</span></th>
-            <th><span>Available Quantity</span></th>
-            <th><span>Total Price</span></th>
-            <th><span>Available Price</span></th>
-            <!--<th jhiSortBy="stockInBy"><span>Stock In By</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th><span>Stock In Date</span></th>
-            <!--<th jhiSortBy="stockInItemsId"><span>Stock In Items</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th></th>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="containerTrackingId"><span>Container Tracking Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="totalQuantity"><span>Total Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="unit"><span>Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="availableQuantity"><span>Available Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="totalPrice"><span>Total Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="availablePrice"><span>Available Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="stockInBy"><span>Stock In By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="stockInDate"><span>Stock In Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="stockInItemId"><span>Stock In Item</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let stockStatus of stockStatuses ;trackBy: trackId">
                 <td><a [routerLink]="['/stock-status', stockStatus.id, 'view' ]">{{stockStatus.id}}</a></td>
+                <td>{{stockStatus.containerTrackingId}}</td>
+                <td>{{stockStatus.totalQuantity}}</td>
+                <td>{{stockStatus.unit}}</td>
+                <td>{{stockStatus.availableQuantity}}</td>
+                <td>{{stockStatus.totalPrice}}</td>
+                <td>{{stockStatus.availablePrice}}</td>
+                <td>{{stockStatus.stockInBy}}</td>
+                <td>{{stockStatus.stockInDate | date:'medium'}}</td>
                 <td>
-                    <div *ngIf="stockStatus.itemCategoriesId">
-                        <a [routerLink]="['../item-category', stockStatus.itemCategoriesId , 'view' ]" >{{stockStatus.itemCategoriesName}}</a>
+                    <div *ngIf="stockStatus.stockInItemId">
+                        <a [routerLink]="['../stock-in-item', stockStatus.stockInItemId , 'view' ]" >{{stockStatus.stockInItemId}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="stockStatus.itemSubCategoriesId">
-                        <a [routerLink]="['../item-sub-category', stockStatus.itemSubCategoriesId , 'view' ]" >{{stockStatus.itemSubCategoriesName}}</a>
+                    <div *ngIf="stockStatus.productCategoriesId">
+                        <a [routerLink]="['../product-category', stockStatus.productCategoriesId , 'view' ]" >{{stockStatus.productCategoriesName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="stockStatus.productsId">
+                        <a [routerLink]="['../product', stockStatus.productsId , 'view' ]" >{{stockStatus.productsName}}</a>
                     </div>
                 </td>
                 <td>
@@ -151,19 +164,6 @@
                         <a [routerLink]="['../inventory-sub-location', stockStatus.inventorySubLocationsId , 'view' ]" >{{stockStatus.inventorySubLocationsName}}</a>
                     </div>
                 </td>
-                <td>{{stockStatus.containerTrackingId}}</td>
-                <td>{{stockStatus.totalQuantity}}</td>
-                <td>{{stockStatus.unit}}</td>
-                <td>{{stockStatus.availableQuantity}}</td>
-                <td>{{stockStatus.totalPrice}}</td>
-                <td>{{stockStatus.availablePrice}}</td>
-                <!--<td>{{stockStatus.stockInBy}}</td>-->
-                <td>{{stockStatus.stockInDate | date:'medium'}}</td>
-                <!--<td>
-                    <div *ngIf="stockStatus.stockInItemsId">
-                        <a [routerLink]="['../stock-in-item', stockStatus.stockInItemsId , 'view' ]" >{{stockStatus.stockInItemsId}}</a>
-                    </div>
-                </td>-->
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
@@ -172,7 +172,7 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
-                        <!--<button type="submit"
+                        <button type="submit"
                                 [routerLink]="['/stock-status', stockStatus.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
@@ -185,24 +185,9 @@
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline">Delete</span>
-                        </button>-->
+                        </button>
                     </div>
                 </td>
-            </tr>
-            <tr style="background-color: lightgray">
-                <td><b>Total</b></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><b>{{totalQuantity}}</b></td>
-                <td></td>
-                <td><b>{{totalAvailableQuantity}}</b></td>
-                <td><b>{{totalPrice}}</b></td>
-                <td><b>{{totalAvailablePrice}}</b></td>
-                <td></td>
-                <td></td>
             </tr>
             </tbody>
         </table>

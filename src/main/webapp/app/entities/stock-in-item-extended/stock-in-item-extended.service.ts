@@ -10,8 +10,8 @@ type EntityArrayResponseType = HttpResponse<IStockInItem[]>;
 
 @Injectable({ providedIn: 'root' })
 export class StockInItemExtendedService extends StockInItemService {
-    public resourceUrl = SERVER_API_URL + 'api/stock-in-items';
-    public resourceSearchUrl = SERVER_API_URL + 'api/_search/stock-in-items';
+    public resourceUrl = SERVER_API_URL + 'api/extended/stock-in-items';
+    public resourceSearchUrl = SERVER_API_URL + 'api/extended/_search/stock-in-items';
 
     constructor(protected http: HttpClient) {
         super(http);

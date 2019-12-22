@@ -713,10 +713,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
             },
             {
-                path: 'stock-status',
-                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModule'
-            },
-            {
                 path: 'supply-zone',
                 loadChildren: './supply-zone/supply-zone.module#SoptorshiSupplyZoneModule'
             },
@@ -765,20 +761,8 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
             },
             {
-                path: 'stock-status',
-                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModule'
-            },
-            {
-                path: 'stock-status',
-                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModule'
-            },
-            {
                 path: 'stock-out-item',
                 loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
-            },
-            {
-                path: 'stock-status',
-                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModule'
             },
             {
                 path: 'commercial-purchase-order',
@@ -825,10 +809,6 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'stock-out-item',
                 loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
-            },
-            {
-                path: 'stock-status',
-                loadChildren: './stock-status/stock-status.module#SoptorshiStockStatusModule'
             },
             {
                 path: 'stock-in-process',

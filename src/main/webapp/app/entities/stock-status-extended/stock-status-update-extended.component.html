@@ -7,30 +7,30 @@
                 <div class="form-group" [hidden]="!stockStatus.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="stockStatus.id" readonly />
+                           [(ngModel)]="stockStatus.id" readonly />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_containerTrackingId">Container Tracking Id</label>
                     <input type="text" class="form-control" name="containerTrackingId" id="field_containerTrackingId"
-                        [(ngModel)]="stockStatus.containerTrackingId" required/>
+                           [(ngModel)]="stockStatus.containerTrackingId" required/>
                     <div [hidden]="!(editForm.controls.containerTrackingId?.dirty && editForm.controls.containerTrackingId?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.containerTrackingId?.errors?.required">
-                        This field is required.
+                               [hidden]="!editForm.controls.containerTrackingId?.errors?.required">
+                            This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_totalQuantity">Total Quantity</label>
                     <input type="number" class="form-control" name="totalQuantity" id="field_totalQuantity"
-                        [(ngModel)]="stockStatus.totalQuantity" required/>
+                           [(ngModel)]="stockStatus.totalQuantity" required/>
                     <div [hidden]="!(editForm.controls.totalQuantity?.dirty && editForm.controls.totalQuantity?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.totalQuantity?.errors?.required">
-                        This field is required.
+                               [hidden]="!editForm.controls.totalQuantity?.errors?.required">
+                            This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.totalQuantity?.errors?.number">
+                               [hidden]="!editForm.controls.totalQuantity?.errors?.number">
                             This field should be a number.
                         </small>
                     </div>
@@ -38,30 +38,29 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_unit">Unit</label>
                     <select class="form-control" name="unit" [(ngModel)]="stockStatus.unit" id="field_unit"  required>
-                        <option value="KG">KG</option>
                         <option value="PCS">PCS</option>
-                        <option value="LITER">LITER</option>
-                        <option value="DOZEN">DOZEN</option>
-                        <option value="OTHERS">OTHERS</option>
+                        <option value="KG">KG</option>
+                        <option value="TON">TON</option>
+                        <option value="GRAM">GRAM</option>
                     </select>
                     <div [hidden]="!(editForm.controls.unit?.dirty && editForm.controls.unit?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.unit?.errors?.required">
-                        This field is required.
+                               [hidden]="!editForm.controls.unit?.errors?.required">
+                            This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_availableQuantity">Available Quantity</label>
                     <input type="number" class="form-control" name="availableQuantity" id="field_availableQuantity"
-                        [(ngModel)]="stockStatus.availableQuantity" required/>
+                           [(ngModel)]="stockStatus.availableQuantity" required/>
                     <div [hidden]="!(editForm.controls.availableQuantity?.dirty && editForm.controls.availableQuantity?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.availableQuantity?.errors?.required">
-                        This field is required.
+                               [hidden]="!editForm.controls.availableQuantity?.errors?.required">
+                            This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.availableQuantity?.errors?.number">
+                               [hidden]="!editForm.controls.availableQuantity?.errors?.number">
                             This field should be a number.
                         </small>
                     </div>
@@ -69,14 +68,14 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_totalPrice">Total Price</label>
                     <input type="number" class="form-control" name="totalPrice" id="field_totalPrice"
-                        [(ngModel)]="stockStatus.totalPrice" required/>
+                           [(ngModel)]="stockStatus.totalPrice" required/>
                     <div [hidden]="!(editForm.controls.totalPrice?.dirty && editForm.controls.totalPrice?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.totalPrice?.errors?.required">
-                        This field is required.
+                               [hidden]="!editForm.controls.totalPrice?.errors?.required">
+                            This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.totalPrice?.errors?.number">
+                               [hidden]="!editForm.controls.totalPrice?.errors?.number">
                             This field should be a number.
                         </small>
                     </div>
@@ -84,14 +83,14 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_availablePrice">Available Price</label>
                     <input type="number" class="form-control" name="availablePrice" id="field_availablePrice"
-                        [(ngModel)]="stockStatus.availablePrice" required/>
+                           [(ngModel)]="stockStatus.availablePrice" required/>
                     <div [hidden]="!(editForm.controls.availablePrice?.dirty && editForm.controls.availablePrice?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.availablePrice?.errors?.required">
-                        This field is required.
+                               [hidden]="!editForm.controls.availablePrice?.errors?.required">
+                            This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.availablePrice?.errors?.number">
+                               [hidden]="!editForm.controls.availablePrice?.errors?.number">
                             This field should be a number.
                         </small>
                     </div>
@@ -99,7 +98,7 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_stockInBy">Stock In By</label>
                     <input type="text" class="form-control" name="stockInBy" id="field_stockInBy"
-                        [(ngModel)]="stockStatus.stockInBy" />
+                           [(ngModel)]="stockStatus.stockInBy" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_stockInDate">Stock In Date</label>
@@ -110,24 +109,24 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_stockInItems">Stock In Items</label>
-                    <select class="form-control" id="field_stockInItems" name="stockInItems" [(ngModel)]="stockStatus.stockInItemsId">
+                    <label class="form-control-label" for="field_stockInItem">Stock In Item</label>
+                    <select class="form-control" id="field_stockInItem" name="stockInItem" [(ngModel)]="stockStatus.stockInItemId">
                         <option [ngValue]="null"></option>
                         <option [ngValue]="stockInItemOption.id" *ngFor="let stockInItemOption of stockinitems; trackBy: trackStockInItemById">{{stockInItemOption.id}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_itemCategories">Item Categories</label>
-                    <select class="form-control" id="field_itemCategories" name="itemCategories" [(ngModel)]="stockStatus.itemCategoriesId" >
+                    <label class="form-control-label" for="field_productCategories">Product Categories</label>
+                    <select class="form-control" id="field_productCategories" name="productCategories" [(ngModel)]="stockStatus.productCategoriesId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="itemCategoryOption.id" *ngFor="let itemCategoryOption of itemcategories; trackBy: trackItemCategoryById">{{itemCategoryOption.name}}</option>
+                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_itemSubCategories">Item Sub Categories</label>
-                    <select class="form-control" id="field_itemSubCategories" name="itemSubCategories" [(ngModel)]="stockStatus.itemSubCategoriesId" >
+                    <label class="form-control-label" for="field_products">Products</label>
+                    <select class="form-control" id="field_products" name="products" [(ngModel)]="stockStatus.productsId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="itemSubCategoryOption.id" *ngFor="let itemSubCategoryOption of itemsubcategories; trackBy: trackItemSubCategoryById">{{itemSubCategoryOption.name}}</option>
+                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
