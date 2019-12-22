@@ -9,7 +9,7 @@ import { IMstAccount, MstAccount } from 'app/shared/model/mst-account.model';
 import { GroupType } from 'app/shared/model/system-group-map.model';
 import { FinancialAccountYearExtendedService } from 'app/entities/financial-account-year-extended';
 import { FinancialYearStatus, IFinancialAccountYear } from 'app/shared/model/financial-account-year.model';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
     selector: 'jh-general-ledger-report',
@@ -24,6 +24,7 @@ export class GeneralLedgerReportComponent implements OnInit, OnDestroy {
     selectedAccountName: string;
     fromDate: any;
     toDate: any;
+    specification: any;
 
     @ViewChild('instance') instance: NgbTypeahead;
     focus$ = new Subject<string>();
