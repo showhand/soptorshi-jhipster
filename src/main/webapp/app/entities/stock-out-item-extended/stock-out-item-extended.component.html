@@ -121,75 +121,64 @@
         <div class="table-responsive" *ngIf="stockOutItems">
             <table class="table table-striped">
                 <thead>
-                <tr>
-                    <th><span>ID</span>
-                    </th>
-                    <th><span>Item Categories</span>
-                    </th>
-                    <th><span>Item Sub Categories</span>
-                    </th>
-                    <th><span>Inventory Locations</span>
-                    </th>
-                    <th><span>Inventory Sub Locations</span>
-                    </th>
-                    <th><span>Container Tracking Id</span>
-                    </th>
-                    <th><span>Quantity</span>
-                    </th>
-                    <!--<th><span>Stock Out By</span>
-                    </th>-->
-                    <th><span>Stock Out Date</span>
-                    </th>
-                    <th><span>Receiver Id</span>
-                    </th>
-                    <!--<th><span>Remarks</span>
-                    </th>
-                    <th><span>Stock In Items</span>
-                    </th>
-                    <th><span>Stock Statuses</span>
-                    </th>-->
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                    <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="containerTrackingId"><span>Container Tracking Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="stockOutBy"><span>Stock Out By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="stockOutDate"><span>Stock Out Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="receiverId"><span>Receiver Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="receivingPlace"><span>Receiving Place</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="stockInItemsId"><span>Stock In Items</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="stockStatusesId"><span>Stock Statuses</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th></th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
                 <tr *ngFor="let stockOutItem of stockOutItems ;trackBy: trackId">
                     <td><a [routerLink]="['/stock-out-item', stockOutItem.id, 'view' ]">{{stockOutItem.id}}</a></td>
+                    <td>{{stockOutItem.containerTrackingId}}</td>
+                    <td>{{stockOutItem.quantity}}</td>
+                    <td>{{stockOutItem.stockOutBy}}</td>
+                    <td>{{stockOutItem.stockOutDate | date:'medium'}}</td>
+                    <td>{{stockOutItem.receiverId}}</td>
+                    <td>{{stockOutItem.receivingPlace}}</td>
+                    <td>{{stockOutItem.remarks}}</td>
                     <td>
-                        <div *ngIf="stockOutItem.itemCategoriesId">
-                            <a [routerLink]="['../item-category', stockOutItem.itemCategoriesId , 'view' ]">{{stockOutItem.itemCategoriesName}}</a>
+                        <div *ngIf="stockOutItem.productCategoriesId">
+                            <a [routerLink]="['../product-category', stockOutItem.productCategoriesId , 'view' ]" >{{stockOutItem.productCategoriesName}}</a>
                         </div>
                     </td>
                     <td>
-                        <div *ngIf="stockOutItem.itemSubCategoriesId">
-                            <a [routerLink]="['../item-sub-category', stockOutItem.itemSubCategoriesId , 'view' ]">{{stockOutItem.itemSubCategoriesName}}</a>
+                        <div *ngIf="stockOutItem.productsId">
+                            <a [routerLink]="['../product', stockOutItem.productsId , 'view' ]" >{{stockOutItem.productsName}}</a>
                         </div>
                     </td>
                     <td>
                         <div *ngIf="stockOutItem.inventoryLocationsId">
-                            <a [routerLink]="['../inventory-location', stockOutItem.inventoryLocationsId , 'view' ]">{{stockOutItem.inventoryLocationsName}}</a>
+                            <a [routerLink]="['../inventory-location', stockOutItem.inventoryLocationsId , 'view' ]" >{{stockOutItem.inventoryLocationsName}}</a>
                         </div>
                     </td>
                     <td>
                         <div *ngIf="stockOutItem.inventorySubLocationsId">
-                            <a [routerLink]="['../inventory-sub-location', stockOutItem.inventorySubLocationsId , 'view' ]">{{stockOutItem.inventorySubLocationsName}}</a>
+                            <a [routerLink]="['../inventory-sub-location', stockOutItem.inventorySubLocationsId , 'view' ]" >{{stockOutItem.inventorySubLocationsName}}</a>
                         </div>
                     </td>
-                    <td>{{stockOutItem.containerTrackingId}}</td>
-                    <td>{{stockOutItem.quantity}}</td>
-                    <!--<td>{{stockOutItem.stockOutBy}}</td>-->
-                    <td>{{stockOutItem.stockOutDate | date:'medium'}}</td>
-                    <td>{{stockOutItem.receiverId}}</td>
-                   <!-- <td>{{stockOutItem.remarks}}</td>
                     <td>
                         <div *ngIf="stockOutItem.stockInItemsId">
-                            <a [routerLink]="['../stock-in-item', stockOutItem.stockInItemsId , 'view' ]">{{stockOutItem.stockInItemsId}}</a>
+                            <a [routerLink]="['../stock-in-item', stockOutItem.stockInItemsId , 'view' ]" >{{stockOutItem.stockInItemsId}}</a>
                         </div>
                     </td>
                     <td>
                         <div *ngIf="stockOutItem.stockStatusesId">
-                            <a [routerLink]="['../stock-status', stockOutItem.stockStatusesId , 'view' ]">{{stockOutItem.stockStatusesId}}</a>
+                            <a [routerLink]="['../stock-status', stockOutItem.stockStatusesId , 'view' ]" >{{stockOutItem.stockStatusesId}}</a>
                         </div>
-                    </td>-->
+                    </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
@@ -198,7 +187,7 @@
                                 <fa-icon [icon]="'eye'"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
-                            <!--<button type="submit"
+                            <button type="submit"
                                     [routerLink]="['/stock-out-item', stockOutItem.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
@@ -211,7 +200,7 @@
                                     class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>
-                            </button>-->
+                            </button>
                         </div>
                     </td>
                 </tr>

@@ -709,10 +709,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './inventory-sub-location/inventory-sub-location.module#SoptorshiInventorySubLocationModule'
             },
             {
-                path: 'stock-out-item',
-                loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
-            },
-            {
                 path: 'supply-zone',
                 loadChildren: './supply-zone/supply-zone.module#SoptorshiSupplyZoneModule'
             },
@@ -757,14 +753,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './holiday/holiday.module#SoptorshiHolidayModule'
             },
             {
-                path: 'stock-out-item',
-                loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
-            },
-            {
-                path: 'stock-out-item',
-                loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
-            },
-            {
                 path: 'commercial-purchase-order',
                 loadChildren: './commercial-purchase-order/commercial-purchase-order.module#SoptorshiCommercialPurchaseOrderModule'
             },
@@ -805,10 +793,6 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'commercial-invoice',
                 loadChildren: './commercial-invoice/commercial-invoice.module#SoptorshiCommercialInvoiceModule'
-            },
-            {
-                path: 'stock-out-item',
-                loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
             },
             {
                 path: 'stock-in-process',

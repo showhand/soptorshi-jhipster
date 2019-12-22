@@ -7,83 +7,103 @@
                 <div class="form-group" [hidden]="!stockOutItem.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="stockOutItem.id" readonly />
+                           [(ngModel)]="stockOutItem.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_itemCategories">Item Categories</label>
-                    <select class="form-control" id="field_itemCategories" name="itemCategories" [(ngModel)]="stockOutItem.itemCategoriesId" (ngModelChange)="getItemSubCategories(); getContainerTrackingId(); getRemainingQuantity();"
-                    required>
+                    <label class="form-control-label" for="field_containerTrackingId">Container Tracking Id</label>
+                    <input type="text" class="form-control" name="containerTrackingId" id="field_containerTrackingId"
+                           [(ngModel)]="stockOutItem.containerTrackingId" required/>
+                    <div [hidden]="!(editForm.controls.containerTrackingId?.dirty && editForm.controls.containerTrackingId?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.containerTrackingId?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_quantity">Quantity</label>
+                    <input type="number" class="form-control" name="quantity" id="field_quantity"
+                           [(ngModel)]="stockOutItem.quantity" required/>
+                    <div [hidden]="!(editForm.controls.quantity?.dirty && editForm.controls.quantity?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.quantity?.errors?.required">
+                            This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.quantity?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_stockOutBy">Stock Out By</label>
+                    <input type="text" class="form-control" name="stockOutBy" id="field_stockOutBy"
+                           [(ngModel)]="stockOutItem.stockOutBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_stockOutDate">Stock Out Date</label>
+                    <div class="d-flex">
+                        <input id="field_stockOutDate" type="datetime-local" class="form-control" name="stockOutDate" [(ngModel)]="stockOutDate" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_receiverId">Receiver Id</label>
+                    <input type="text" class="form-control" name="receiverId" id="field_receiverId"
+                           [(ngModel)]="stockOutItem.receiverId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_receivingPlace">Receiving Place</label>
+                    <input type="text" class="form-control" name="receivingPlace" id="field_receivingPlace"
+                           [(ngModel)]="stockOutItem.receivingPlace" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_remarks">Remarks</label>
+                    <input type="text" class="form-control" name="remarks" id="field_remarks"
+                           [(ngModel)]="stockOutItem.remarks" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_productCategories">Product Categories</label>
+                    <select class="form-control" id="field_productCategories" name="productCategories" [(ngModel)]="stockOutItem.productCategoriesId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="itemCategoryOption.id" *ngFor="let itemCategoryOption of itemcategories; trackBy: trackItemCategoryById">{{itemCategoryOption.name}}</option>
+                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_itemSubCategories">Item Sub Categories</label>
-                    <select class="form-control" id="field_itemSubCategories" name="itemSubCategories" [(ngModel)]="stockOutItem.itemSubCategoriesId"
-                            (ngModelChange)="getContainerTrackingId(); getRemainingQuantity();" required>
+                    <label class="form-control-label" for="field_products">Products</label>
+                    <select class="form-control" id="field_products" name="products" [(ngModel)]="stockOutItem.productsId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="itemSubCategoryOption.id" *ngFor="let itemSubCategoryOption of itemsubcategories; trackBy: trackItemSubCategoryById">{{itemSubCategoryOption.name}}</option>
+                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_inventoryLocations">Inventory Locations</label>
-                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="stockOutItem.inventoryLocationsId" (ngModelChange)="getInventorySubLocation(); getContainerTrackingId(); getRemainingQuantity();" required>
+                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="stockOutItem.inventoryLocationsId" >
                         <option [ngValue]="null"></option>
                         <option [ngValue]="inventoryLocationOption.id" *ngFor="let inventoryLocationOption of inventorylocations; trackBy: trackInventoryLocationById">{{inventoryLocationOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_inventorySubLocations">Inventory Sub Locations</label>
-                    <select class="form-control" id="field_inventorySubLocations" name="inventorySubLocations" [(ngModel)]="stockOutItem.inventorySubLocationsId"
-                            (ngModelChange)="getContainerTrackingId(); getRemainingQuantity();" required>
+                    <select class="form-control" id="field_inventorySubLocations" name="inventorySubLocations" [(ngModel)]="stockOutItem.inventorySubLocationsId" >
                         <option [ngValue]="null"></option>
                         <option [ngValue]="inventorySubLocationOption.id" *ngFor="let inventorySubLocationOption of inventorysublocations; trackBy: trackInventorySubLocationById">{{inventorySubLocationOption.name}}</option>
                     </select>
                 </div>
-                <!--<div class="form-group">
-                    <label class="form-control-label" for="field_containerTrackingId">Container Tracking Id</label>
-                    <input type="text" class="form-control" name="containerTrackingId" id="field_containerTrackingId"
-                        [(ngModel)]="stockOutItem.containerTrackingId"
-                           (ngModelChange)="getRemainingQuantity();" required/>
-                    <div [hidden]="!(editForm.controls.containerTrackingId?.dirty && editForm.controls.containerTrackingId?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.containerTrackingId?.errors?.required">
-                        This field is required.
-                        </small>
-                    </div>
-                </div>-->
                 <div class="form-group">
-                    <label class="form-control-label" for="field_containerTrackingId">Container Tracking Id</label>
-                    <select class="form-control" name="containerTrackingId" id="field_containerTrackingId" [(ngModel)]="stockOutItem.containerTrackingId"
-                            (ngModelChange)="getRemainingQuantity();" required>
+                    <label class="form-control-label" for="field_stockInItems">Stock In Items</label>
+                    <select class="form-control" id="field_stockInItems" name="stockInItems" [(ngModel)]="stockOutItem.stockInItemsId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="stockStatusesForContainer.containerTrackingId" *ngFor="let stockStatusesForContainer of stockStatusesForContainers; trackBy: trackStockStatusForContainersById">{{stockStatusesForContainer.containerTrackingId}}</option>
+                        <option [ngValue]="stockInItemOption.id" *ngFor="let stockInItemOption of stockinitems; trackBy: trackStockInItemById">{{stockInItemOption.id}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_quantity">Quantity</label>
-                    <input type="number" class="form-control" name="quantity" id="field_quantity"
-                        [(ngModel)]="stockOutItem.quantity" required/>
-                    <div [hidden]="!(editForm.controls.quantity?.dirty && editForm.controls.quantity?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.quantity?.errors?.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.quantity?.errors?.number">
-                            This field should be a number.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_receiverId">Receiver Id</label>
-                    <input type="text" class="form-control" name="receiverId" id="field_receiverId"
-                        [(ngModel)]="stockOutItem.receiverId" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_remarks">Remarks</label>
-                    <input type="text" class="form-control" name="remarks" id="field_remarks"
-                        [(ngModel)]="stockOutItem.remarks" />
+                    <label class="form-control-label" for="field_stockStatuses">Stock Statuses</label>
+                    <select class="form-control" id="field_stockStatuses" name="stockStatuses" [(ngModel)]="stockOutItem.stockStatusesId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="stockStatusOption.id" *ngFor="let stockStatusOption of stockstatuses; trackBy: trackStockStatusById">{{stockStatusOption.id}}</option>
+                    </select>
                 </div>
             </div>
             <div>

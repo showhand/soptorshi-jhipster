@@ -37,22 +37,22 @@
                 <dd>
                     <span>{{stockStatus.stockInDate}}</span>
                 </dd>
-                <dt><span>Stock In Items</span></dt>
+                <dt><span>Stock In Item</span></dt>
                 <dd>
-                    <div *ngIf="stockStatus.stockInItemsId">
-                        <a [routerLink]="['/stock-in-item', stockStatus.stockInItemsId, 'view']">{{stockStatus.stockInItemsId}}</a>
+                    <div *ngIf="stockStatus.stockInItemId">
+                        <a [routerLink]="['/stock-in-item', stockStatus.stockInItemId, 'view']">{{stockStatus.stockInItemId}}</a>
                     </div>
                 </dd>
-                <dt><span>Item Categories</span></dt>
+                <dt><span>Product Categories</span></dt>
                 <dd>
-                    <div *ngIf="stockStatus.itemCategoriesId">
-                        <a [routerLink]="['/item-category', stockStatus.itemCategoriesId, 'view']">{{stockStatus.itemCategoriesName}}</a>
+                    <div *ngIf="stockStatus.productCategoriesId">
+                        <a [routerLink]="['/product-category', stockStatus.productCategoriesId, 'view']">{{stockStatus.productCategoriesName}}</a>
                     </div>
                 </dd>
-                <dt><span>Item Sub Categories</span></dt>
+                <dt><span>Products</span></dt>
                 <dd>
-                    <div *ngIf="stockStatus.itemSubCategoriesId">
-                        <a [routerLink]="['/item-sub-category', stockStatus.itemSubCategoriesId, 'view']">{{stockStatus.itemSubCategoriesName}}</a>
+                    <div *ngIf="stockStatus.productsId">
+                        <a [routerLink]="['/product', stockStatus.productsId, 'view']">{{stockStatus.productsName}}</a>
                     </div>
                 </dd>
                 <dt><span>Inventory Locations</span></dt>
@@ -75,11 +75,11 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
 
-            <!--<button type="button"
+            <button type="button"
                     [routerLink]="['/stock-status', stockStatus.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>-->
+            </button>
         </div>
     </div>
 </div>
