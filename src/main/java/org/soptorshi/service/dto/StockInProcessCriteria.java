@@ -77,8 +77,6 @@ public class StockInProcessCriteria implements Serializable {
 
     private LongFilter purchaseOrderId;
 
-    private LongFilter commercialPurchaseOrderId;
-
     private LongFilter productCategoriesId;
 
     private LongFilter productsId;
@@ -233,14 +231,6 @@ public class StockInProcessCriteria implements Serializable {
         this.purchaseOrderId = purchaseOrderId;
     }
 
-    public LongFilter getCommercialPurchaseOrderId() {
-        return commercialPurchaseOrderId;
-    }
-
-    public void setCommercialPurchaseOrderId(LongFilter commercialPurchaseOrderId) {
-        this.commercialPurchaseOrderId = commercialPurchaseOrderId;
-    }
-
     public LongFilter getProductCategoriesId() {
         return productCategoriesId;
     }
@@ -310,7 +300,6 @@ public class StockInProcessCriteria implements Serializable {
             Objects.equals(stockInDate, that.stockInDate) &&
             Objects.equals(remarks, that.remarks) &&
             Objects.equals(purchaseOrderId, that.purchaseOrderId) &&
-            Objects.equals(commercialPurchaseOrderId, that.commercialPurchaseOrderId) &&
             Objects.equals(productCategoriesId, that.productCategoriesId) &&
             Objects.equals(productsId, that.productsId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
@@ -339,7 +328,6 @@ public class StockInProcessCriteria implements Serializable {
         stockInDate,
         remarks,
         purchaseOrderId,
-        commercialPurchaseOrderId,
         productCategoriesId,
         productsId,
         inventoryLocationsId,
@@ -369,7 +357,6 @@ public class StockInProcessCriteria implements Serializable {
                 (stockInDate != null ? "stockInDate=" + stockInDate + ", " : "") +
                 (remarks != null ? "remarks=" + remarks + ", " : "") +
                 (purchaseOrderId != null ? "purchaseOrderId=" + purchaseOrderId + ", " : "") +
-                (commercialPurchaseOrderId != null ? "commercialPurchaseOrderId=" + commercialPurchaseOrderId + ", " : "") +
                 (productCategoriesId != null ? "productCategoriesId=" + productCategoriesId + ", " : "") +
                 (productsId != null ? "productsId=" + productsId + ", " : "") +
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +

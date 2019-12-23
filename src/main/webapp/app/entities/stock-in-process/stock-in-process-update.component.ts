@@ -10,8 +10,6 @@ import { IStockInProcess } from 'app/shared/model/stock-in-process.model';
 import { StockInProcessService } from './stock-in-process.service';
 import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
 import { PurchaseOrderService } from 'app/entities/purchase-order';
-import { ICommercialPurchaseOrder } from 'app/shared/model/commercial-purchase-order.model';
-import { CommercialPurchaseOrderService } from 'app/entities/commercial-purchase-order';
 import { IProductCategory } from 'app/shared/model/product-category.model';
 import { ProductCategoryService } from 'app/entities/product-category';
 import { IProduct } from 'app/shared/model/product.model';
@@ -33,8 +31,6 @@ export class StockInProcessUpdateComponent implements OnInit {
 
     purchaseorders: IPurchaseOrder[];
 
-    commercialpurchaseorders: ICommercialPurchaseOrder[];
-
     productcategories: IProductCategory[];
 
     products: IProduct[];
@@ -53,7 +49,6 @@ export class StockInProcessUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected stockInProcessService: StockInProcessService,
         protected purchaseOrderService: PurchaseOrderService,
-        protected commercialPurchaseOrderService: CommercialPurchaseOrderService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
@@ -89,31 +84,6 @@ export class StockInProcessUpdateComponent implements OnInit {
                             )
                             .subscribe(
                                 (subRes: IPurchaseOrder) => (this.purchaseorders = [subRes].concat(res)),
-                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-                            );
-                    }
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-        this.commercialPurchaseOrderService
-            .query({ 'stockInProcessId.specified': 'false' })
-            .pipe(
-                filter((mayBeOk: HttpResponse<ICommercialPurchaseOrder[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ICommercialPurchaseOrder[]>) => response.body)
-            )
-            .subscribe(
-                (res: ICommercialPurchaseOrder[]) => {
-                    if (!this.stockInProcess.commercialPurchaseOrderId) {
-                        this.commercialpurchaseorders = res;
-                    } else {
-                        this.commercialPurchaseOrderService
-                            .find(this.stockInProcess.commercialPurchaseOrderId)
-                            .pipe(
-                                filter((subResMayBeOk: HttpResponse<ICommercialPurchaseOrder>) => subResMayBeOk.ok),
-                                map((subResponse: HttpResponse<ICommercialPurchaseOrder>) => subResponse.body)
-                            )
-                            .subscribe(
-                                (subRes: ICommercialPurchaseOrder) => (this.commercialpurchaseorders = [subRes].concat(res)),
                                 (subRes: HttpErrorResponse) => this.onError(subRes.message)
                             );
                     }
@@ -196,10 +166,6 @@ export class StockInProcessUpdateComponent implements OnInit {
     }
 
     trackPurchaseOrderById(index: number, item: IPurchaseOrder) {
-        return item.id;
-    }
-
-    trackCommercialPurchaseOrderById(index: number, item: ICommercialPurchaseOrder) {
         return item.id;
     }
 

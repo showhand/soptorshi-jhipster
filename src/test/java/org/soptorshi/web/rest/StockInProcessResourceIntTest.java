@@ -1087,25 +1087,6 @@ public class StockInProcessResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllStockInProcessesByCommercialPurchaseOrderIsEqualToSomething() throws Exception {
-        // Initialize the database
-        CommercialPurchaseOrder commercialPurchaseOrder = CommercialPurchaseOrderResourceIntTest.createEntity(em);
-        em.persist(commercialPurchaseOrder);
-        em.flush();
-        stockInProcess.setCommercialPurchaseOrder(commercialPurchaseOrder);
-        stockInProcessRepository.saveAndFlush(stockInProcess);
-        Long commercialPurchaseOrderId = commercialPurchaseOrder.getId();
-
-        // Get all the stockInProcessList where commercialPurchaseOrder equals to commercialPurchaseOrderId
-        defaultStockInProcessShouldBeFound("commercialPurchaseOrderId.equals=" + commercialPurchaseOrderId);
-
-        // Get all the stockInProcessList where commercialPurchaseOrder equals to commercialPurchaseOrderId + 1
-        defaultStockInProcessShouldNotBeFound("commercialPurchaseOrderId.equals=" + (commercialPurchaseOrderId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllStockInProcessesByProductCategoriesIsEqualToSomething() throws Exception {
         // Initialize the database
         ProductCategory productCategories = ProductCategoryResourceIntTest.createEntity(em);

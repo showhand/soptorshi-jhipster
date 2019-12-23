@@ -1,0 +1,149 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--<changeSet author="kawsu (generated)" id="1577103922020-1">
+        <addForeignKeyConstraint baseColumnNames="purchase_order_id" baseTableName="stock_in_process" constraintName="FKl88j5f4925wt07bq7p2g9ih0q" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="purchase_order"/>
+    </changeSet>-->
+    <changeSet author="kawsu (generated)" id="1577103922020-2">
+        <addForeignKeyConstraint baseColumnNames="purchase_orders_id" baseTableName="stock_in_item" constraintName="FKm68gd4psfwwc4thffmy1xwu3b" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-3">
+        <addForeignKeyConstraint baseColumnNames="products_id" baseTableName="stock_in_item" constraintName="FKmihntsypeghaie6ss87299io0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-4">
+        <addForeignKeyConstraint baseColumnNames="commercial_purchase_orders_id" baseTableName="stock_in_item" constraintName="FKn8f77pnf9ojrq5scctuoras83" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-5">
+        <addForeignKeyConstraint baseColumnNames="product_categories_id" baseTableName="stock_out_item" constraintName="FKnb9g93dvuw695r3wphxud3emr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-6">
+        <addForeignKeyConstraint baseColumnNames="vendor_id" baseTableName="stock_in_process" constraintName="FKntvbrviug5awo8rg07uuh484" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vendor"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-7">
+        <addForeignKeyConstraint baseColumnNames="product_categories_id" baseTableName="stock_in_item" constraintName="FKpor99cd3u60v6wvaao9n8yov4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-8">
+        <addForeignKeyConstraint baseColumnNames="vendor_id" baseTableName="stock_in_item" constraintName="FKr2pm8hajj70ah5mjg6h2inoem" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vendor"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-10">
+        <dropForeignKeyConstraint baseTableName="stock_in_item" constraintName="fk_stock_in_item_item_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-11">
+        <dropForeignKeyConstraint baseTableName="stock_in_item" constraintName="fk_stock_in_item_item_sub_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-12">
+        <dropForeignKeyConstraint baseTableName="stock_in_item" constraintName="fk_stock_in_item_manufacturers_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-13">
+        <dropForeignKeyConstraint baseTableName="stock_in_process" constraintName="fk_stock_in_process_item_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-14">
+        <dropForeignKeyConstraint baseTableName="stock_in_process" constraintName="fk_stock_in_process_item_sub_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-15">
+        <dropForeignKeyConstraint baseTableName="stock_in_process" constraintName="fk_stock_in_process_manufacturers_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-16">
+        <dropForeignKeyConstraint baseTableName="stock_out_item" constraintName="fk_stock_out_item_item_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-17">
+        <dropForeignKeyConstraint baseTableName="stock_out_item" constraintName="fk_stock_out_item_item_sub_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-18">
+        <dropForeignKeyConstraint baseTableName="stock_status" constraintName="fk_stock_status_item_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-19">
+        <dropForeignKeyConstraint baseTableName="stock_status" constraintName="fk_stock_status_item_sub_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-20">
+        <dropForeignKeyConstraint baseTableName="stock_status" constraintName="fk_stock_status_stock_in_items_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-23">
+        <dropUniqueConstraint constraintName="ux_stock_status_stock_in_items_id" tableName="stock_status"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-27">
+        <dropColumn columnName="create_on" tableName="commercial_invoice"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-28">
+        <dropColumn columnName="create_on" tableName="commercial_packaging"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-29">
+        <dropColumn columnName="create_on" tableName="commercial_packaging_details"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-30">
+        <dropColumn columnName="create_on" tableName="commercial_payment_info"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-31">
+        <dropColumn columnName="create_on" tableName="commercial_po_status"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-32">
+        <dropColumn columnName="create_on" tableName="commercial_proforma_invoice"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-33">
+        <dropColumn columnName="create_on" tableName="commercial_purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-34">
+        <dropColumn columnName="create_on" tableName="commercial_purchase_order_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-35">
+        <dropColumn columnName="create_on" tableName="commercial_work_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-36">
+        <dropColumn columnName="create_on" tableName="commercial_work_order_details"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-38">
+        <dropColumn columnName="item_categories_id" tableName="stock_in_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-39">
+        <dropColumn columnName="item_categories_id" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-40">
+        <dropColumn columnName="item_categories_id" tableName="stock_out_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-41">
+        <dropColumn columnName="item_categories_id" tableName="stock_status"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-42">
+        <dropColumn columnName="item_sub_categories_id" tableName="stock_in_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-43">
+        <dropColumn columnName="item_sub_categories_id" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-44">
+        <dropColumn columnName="item_sub_categories_id" tableName="stock_out_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-45">
+        <dropColumn columnName="item_sub_categories_id" tableName="stock_status"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-46">
+        <dropColumn columnName="manufacturers_id" tableName="stock_in_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-47">
+        <dropColumn columnName="manufacturers_id" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-48">
+        <dropColumn columnName="moon_dependency" tableName="holiday_type"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-49">
+        <dropColumn columnName="purchase_order_id" tableName="stock_in_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-50">
+        <dropColumn columnName="stock_in_items_id" tableName="stock_status"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-51">
+        <addNotNullConstraint columnDataType="bigint" columnName="attendance_excel_upload_id" tableName="attendance"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-52">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="container_category" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-53">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="container_tracking_id" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-54">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="quantity_per_container" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577103922020-55">
+        <dropNotNullConstraint columnDataType="int" columnName="total_container" tableName="stock_in_process"/>
+    </changeSet>
+</databaseChangeLog>
