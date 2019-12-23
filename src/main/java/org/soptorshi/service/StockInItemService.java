@@ -1,13 +1,12 @@
 package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.StockInItem;
 import org.soptorshi.repository.StockInItemRepository;
 import org.soptorshi.repository.search.StockInItemSearchRepository;
 import org.soptorshi.service.dto.StockInItemDTO;
 import org.soptorshi.service.mapper.StockInItemMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing StockInItem.

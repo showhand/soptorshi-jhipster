@@ -1,14 +1,14 @@
 package org.soptorshi.service.mapper;
 
-import org.soptorshi.domain.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.soptorshi.domain.StockInItem;
 import org.soptorshi.service.dto.StockInItemDTO;
-
-import org.mapstruct.*;
 
 /**
  * Mapper for the entity StockInItem and its DTO StockInItemDTO.
  */
-@Mapper(componentModel = "spring", uses = {ProductCategoryMapper.class, ProductMapper.class, InventoryLocationMapper.class, InventorySubLocationMapper.class, VendorMapper.class, StockInProcessMapper.class, PurchaseOrderMapper.class, CommercialPurchaseOrderMapper.class})
+@Mapper(componentModel = "spring", uses = {ProductCategoryMapper.class, ProductMapper.class, InventoryLocationMapper.class, InventorySubLocationMapper.class, VendorMapper.class, StockInProcessMapper.class, PurchaseOrderMapper.class})
 public interface StockInItemMapper extends EntityMapper<StockInItemDTO, StockInItem> {
 
     @Mapping(source = "productCategories.id", target = "productCategoriesId")
@@ -24,8 +24,6 @@ public interface StockInItemMapper extends EntityMapper<StockInItemDTO, StockInI
     @Mapping(source = "stockInProcesses.id", target = "stockInProcessesId")
     @Mapping(source = "purchaseOrders.id", target = "purchaseOrdersId")
     @Mapping(source = "purchaseOrders.purchaseOrderNo", target = "purchaseOrdersPurchaseOrderNo")
-    @Mapping(source = "commercialPurchaseOrders.id", target = "commercialPurchaseOrdersId")
-    @Mapping(source = "commercialPurchaseOrders.purchaseOrderNo", target = "commercialPurchaseOrdersPurchaseOrderNo")
     StockInItemDTO toDto(StockInItem stockInItem);
 
     @Mapping(source = "productCategoriesId", target = "productCategories")
@@ -35,7 +33,6 @@ public interface StockInItemMapper extends EntityMapper<StockInItemDTO, StockInI
     @Mapping(source = "vendorId", target = "vendor")
     @Mapping(source = "stockInProcessesId", target = "stockInProcesses")
     @Mapping(source = "purchaseOrdersId", target = "purchaseOrders")
-    @Mapping(source = "commercialPurchaseOrdersId", target = "commercialPurchaseOrders")
     StockInItem toEntity(StockInItemDTO stockInItemDTO);
 
     default StockInItem fromId(Long id) {

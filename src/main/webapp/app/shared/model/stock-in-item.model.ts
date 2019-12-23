@@ -47,8 +47,6 @@ export interface IStockInItem {
     stockInProcessesId?: number;
     purchaseOrdersPurchaseOrderNo?: string;
     purchaseOrdersId?: number;
-    commercialPurchaseOrdersPurchaseOrderNo?: string;
-    commercialPurchaseOrdersId?: number;
 }
 
 export class StockInItem implements IStockInItem {
@@ -77,8 +75,6 @@ export class StockInItem implements IStockInItem {
         public vendorId?: number,
         public stockInProcessesId?: number,
         public purchaseOrdersPurchaseOrderNo?: string,
-        public purchaseOrdersId?: number,
-        public commercialPurchaseOrdersPurchaseOrderNo?: string,
-        public commercialPurchaseOrdersId?: number
+        public purchaseOrdersId?: number
     ) {}
 }

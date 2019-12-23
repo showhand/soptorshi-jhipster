@@ -125,8 +125,7 @@
                     <!--<th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="vendorCompanyName"><span>Vendor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="stockInProcessesId"><span>Stock In Processes</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="purchaseOrdersPurchaseOrderNo"><span>Purchase Orders</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="commercialPurchaseOrdersPurchaseOrderNo"><span>Commercial Purchase Orders</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+                    <th jhiSortBy="purchaseOrdersPurchaseOrderNo"><span>Purchase Orders</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
                     <th></th>
                 </tr>
                 </thead>
@@ -177,11 +176,6 @@
                     <td>
                         <div *ngIf="stockInItem.purchaseOrdersId">
                             <a [routerLink]="['../purchase-order', stockInItem.purchaseOrdersId , 'view' ]" >{{stockInItem.purchaseOrdersPurchaseOrderNo}}</a>
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="stockInItem.commercialPurchaseOrdersId">
-                            <a [routerLink]="['../commercial-purchase-order', stockInItem.commercialPurchaseOrdersId , 'view' ]" >{{stockInItem.commercialPurchaseOrdersPurchaseOrderNo}}</a>
                         </div>
                     </td>-->
                     <td class="text-right" width="20%">

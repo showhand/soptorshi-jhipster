@@ -50,11 +50,5 @@
                                  referencedColumnNames="id"
                                  referencedTableName="purchase_order"/>
 
-        <addForeignKeyConstraint baseColumnNames="commercial_purchase_orders_id"
-                                 baseTableName="stock_in_item"
-                                 constraintName="fk_stock_in_item_commercial_purchase_orders_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="commercial_purchase_order"/>
-
     </changeSet>
 </databaseChangeLog>

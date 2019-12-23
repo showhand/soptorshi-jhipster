@@ -14,12 +14,6 @@
                                  referencedColumnNames="id"
                                  referencedTableName="purchase_order"/>
 
-        <addForeignKeyConstraint baseColumnNames="commercial_purchase_order_id"
-                                 baseTableName="stock_in_process"
-                                 constraintName="fk_stock_in_process_commercial_purchase_order_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="commercial_purchase_order"/>
-
         <addForeignKeyConstraint baseColumnNames="product_categories_id"
                                  baseTableName="stock_in_process"
                                  constraintName="fk_stock_in_process_product_categories_id"
