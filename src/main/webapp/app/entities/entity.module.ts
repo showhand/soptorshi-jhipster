@@ -554,60 +554,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './system-group-map/system-group-map.module#SoptorshiSystemGroupMapExtendedModule'
             },
             {
-                path: 'commercial-purchase-order',
-                loadChildren:
-                    './commercial-purchase-order-extended/commercial-purchase-order-extended.module#SoptorshiCommercialPurchaseOrderExtendedModule'
-            },
-            {
-                path: 'commercial-purchase-order-item',
-                loadChildren:
-                    './commercial-purchase-order-item-extended/commercial-purchase-order-item-extended.module#SoptorshiCommercialPurchaseOrderItemExtendedModule'
-            },
-            {
-                path: 'commercial-proforma-invoice',
-                loadChildren:
-                    './commercial-proforma-invoice-extended/commercial-proforma-invoice-extended.module#SoptorshiCommercialProformaInvoiceExtendedModule'
-            },
-            {
-                path: 'commercial-payment-info',
-                loadChildren:
-                    './commercial-payment-info-extended/commercial-payment-info-extended.module#SoptorshiCommercialPaymentInfoExtendedModule'
-            },
-            {
-                path: 'commercial-packaging',
-                loadChildren:
-                    './commercial-packaging-extended/commercial-packaging-extended.module#SoptorshiCommercialPackagingExtendedModule'
-            },
-            {
-                path: 'commercial-packaging-details',
-                loadChildren:
-                    './commercial-packaging-details-extended/commercial-packaging-details-extended.module#SoptorshiCommercialPackagingDetailsExtendedModule'
-            },
-            {
-                path: 'commercial-work-order',
-                loadChildren:
-                    './commercial-work-order-extended/commercial-work-order-extended.module#SoptorshiCommercialWorkOrderExtendedModule'
-            },
-            {
-                path: 'commercial-work-order-details',
-                loadChildren:
-                    './commercial-work-order-details-extended/commercial-work-order-details-extended.module#SoptorshiCommercialWorkOrderDetailsExtendedModule'
-            },
-            {
-                path: 'commercial-invoice',
-                loadChildren: './commercial-invoice-extended/commercial-invoice-extended.module#SoptorshiCommercialInvoiceExtendedModule'
-            },
-            {
-                path: 'commercial-po-status',
-                loadChildren:
-                    './commercial-po-status-extended/commercial-po-status-extended.module#SoptorshiCommercialPoStatusExtendedModule'
-            },
-            {
-                path: 'commercial-attachment',
-                loadChildren:
-                    './commercial-attachment-extended/commercial-attachment-extended.module#SoptorshiCommercialAttachmentExtendedModule'
-            },
-            {
                 path: 'supply-zone',
                 loadChildren: './supply-zone/supply-zone.module#SoptorshiSupplyZoneModule'
             },
@@ -753,54 +699,8 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './holiday/holiday.module#SoptorshiHolidayModule'
             },
             {
-                path: 'commercial-purchase-order',
-                loadChildren: './commercial-purchase-order/commercial-purchase-order.module#SoptorshiCommercialPurchaseOrderModule'
-            },
-            {
-                path: 'commercial-purchase-order-item',
-                loadChildren:
-                    './commercial-purchase-order-item/commercial-purchase-order-item.module#SoptorshiCommercialPurchaseOrderItemModule'
-            },
-            {
-                path: 'commercial-proforma-invoice',
-                loadChildren: './commercial-proforma-invoice/commercial-proforma-invoice.module#SoptorshiCommercialProformaInvoiceModule'
-            },
-            {
-                path: 'commercial-payment-info',
-                loadChildren: './commercial-payment-info/commercial-payment-info.module#SoptorshiCommercialPaymentInfoModule'
-            },
-            {
-                path: 'commercial-packaging',
-                loadChildren: './commercial-packaging/commercial-packaging.module#SoptorshiCommercialPackagingModule'
-            },
-            {
-                path: 'commercial-packaging-details',
-                loadChildren: './commercial-packaging-details/commercial-packaging-details.module#SoptorshiCommercialPackagingDetailsModule'
-            },
-            {
-                path: 'commercial-work-order',
-                loadChildren: './commercial-work-order/commercial-work-order.module#SoptorshiCommercialWorkOrderModule'
-            },
-            {
-                path: 'commercial-work-order-details',
-                loadChildren:
-                    './commercial-work-order-details/commercial-work-order-details.module#SoptorshiCommercialWorkOrderDetailsModule'
-            },
-            {
-                path: 'commercial-po-status',
-                loadChildren: './commercial-po-status/commercial-po-status.module#SoptorshiCommercialPoStatusModule'
-            },
-            {
-                path: 'commercial-invoice',
-                loadChildren: './commercial-invoice/commercial-invoice.module#SoptorshiCommercialInvoiceModule'
-            },
-            {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
-            },
-            {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
+                path: 'stock-in-item',
+                loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

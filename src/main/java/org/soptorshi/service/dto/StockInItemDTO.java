@@ -1,13 +1,15 @@
 package org.soptorshi.service.dto;
-import java.time.Instant;
-import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Objects;
-import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+
 import org.soptorshi.domain.enumeration.ContainerCategory;
 import org.soptorshi.domain.enumeration.ProductType;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A DTO for the StockInItem entity.
@@ -69,10 +71,6 @@ public class StockInItemDTO implements Serializable {
     private Long purchaseOrdersId;
 
     private String purchaseOrdersPurchaseOrderNo;
-
-    private Long commercialPurchaseOrdersId;
-
-    private String commercialPurchaseOrdersPurchaseOrderNo;
 
     public Long getId() {
         return id;
@@ -274,22 +272,6 @@ public class StockInItemDTO implements Serializable {
         this.purchaseOrdersPurchaseOrderNo = purchaseOrderPurchaseOrderNo;
     }
 
-    public Long getCommercialPurchaseOrdersId() {
-        return commercialPurchaseOrdersId;
-    }
-
-    public void setCommercialPurchaseOrdersId(Long commercialPurchaseOrderId) {
-        this.commercialPurchaseOrdersId = commercialPurchaseOrderId;
-    }
-
-    public String getCommercialPurchaseOrdersPurchaseOrderNo() {
-        return commercialPurchaseOrdersPurchaseOrderNo;
-    }
-
-    public void setCommercialPurchaseOrdersPurchaseOrderNo(String commercialPurchaseOrderPurchaseOrderNo) {
-        this.commercialPurchaseOrdersPurchaseOrderNo = commercialPurchaseOrderPurchaseOrderNo;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -339,8 +321,6 @@ public class StockInItemDTO implements Serializable {
             ", stockInProcesses=" + getStockInProcessesId() +
             ", purchaseOrders=" + getPurchaseOrdersId() +
             ", purchaseOrders='" + getPurchaseOrdersPurchaseOrderNo() + "'" +
-            ", commercialPurchaseOrders=" + getCommercialPurchaseOrdersId() +
-            ", commercialPurchaseOrders='" + getCommercialPurchaseOrdersPurchaseOrderNo() + "'" +
             "}";
     }
 }

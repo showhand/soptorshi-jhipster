@@ -176,13 +176,6 @@
                         <option [ngValue]="purchaseOrderOption.id" *ngFor="let purchaseOrderOption of purchaseorders; trackBy: trackPurchaseOrderById">{{purchaseOrderOption.purchaseOrderNo}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_commercialPurchaseOrders">Commercial Purchase Orders</label>
-                    <select class="form-control" id="field_commercialPurchaseOrders" name="commercialPurchaseOrders" [(ngModel)]="stockInItem.commercialPurchaseOrdersId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
-                    </select>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

@@ -85,8 +85,6 @@
             </column>
             <column name="purchase_order_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_stock_in_process_purchase_order_id" />
-            </column>            <column name="commercial_purchase_order_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_stock_in_process_commercial_purchase_order_id" />
             </column>
             <column name="product_categories_id" type="bigint">
                 <constraints nullable="true" />

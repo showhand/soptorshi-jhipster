@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -22,8 +22,6 @@ import { IStockInProcess } from 'app/shared/model/stock-in-process.model';
 import { StockInProcessService } from 'app/entities/stock-in-process';
 import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
 import { PurchaseOrderService } from 'app/entities/purchase-order';
-import { ICommercialPurchaseOrder } from 'app/shared/model/commercial-purchase-order.model';
-import { CommercialPurchaseOrderService } from 'app/entities/commercial-purchase-order';
 
 @Component({
     selector: 'jhi-stock-in-item-update',
@@ -46,8 +44,6 @@ export class StockInItemUpdateComponent implements OnInit {
     stockinprocesses: IStockInProcess[];
 
     purchaseorders: IPurchaseOrder[];
-
-    commercialpurchaseorders: ICommercialPurchaseOrder[];
     mfgDateDp: any;
     expiryDateDp: any;
     stockInDate: string;
@@ -62,7 +58,6 @@ export class StockInItemUpdateComponent implements OnInit {
         protected vendorService: VendorService,
         protected stockInProcessService: StockInProcessService,
         protected purchaseOrderService: PurchaseOrderService,
-        protected commercialPurchaseOrderService: CommercialPurchaseOrderService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -127,16 +122,6 @@ export class StockInItemUpdateComponent implements OnInit {
                 map((response: HttpResponse<IPurchaseOrder[]>) => response.body)
             )
             .subscribe((res: IPurchaseOrder[]) => (this.purchaseorders = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.commercialPurchaseOrderService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<ICommercialPurchaseOrder[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ICommercialPurchaseOrder[]>) => response.body)
-            )
-            .subscribe(
-                (res: ICommercialPurchaseOrder[]) => (this.commercialpurchaseorders = res),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     previousState() {
@@ -195,10 +180,6 @@ export class StockInItemUpdateComponent implements OnInit {
     }
 
     trackPurchaseOrderById(index: number, item: IPurchaseOrder) {
-        return item.id;
-    }
-
-    trackCommercialPurchaseOrderById(index: number, item: ICommercialPurchaseOrder) {
         return item.id;
     }
 }

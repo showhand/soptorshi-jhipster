@@ -2,22 +2,18 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ProductType;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
-
-import org.soptorshi.domain.enumeration.UnitOfMeasurements;
-
-import org.soptorshi.domain.enumeration.ContainerCategory;
-
-import org.soptorshi.domain.enumeration.ProductType;
 
 /**
  * A StockInItem.
@@ -28,7 +24,7 @@ import org.soptorshi.domain.enumeration.ProductType;
 public class StockInItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -101,10 +97,6 @@ public class StockInItem implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
     private PurchaseOrder purchaseOrders;
-
-    @ManyToOne
-    @JsonIgnoreProperties("stockInItems")
-    private CommercialPurchaseOrder commercialPurchaseOrders;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -347,19 +339,6 @@ public class StockInItem implements Serializable {
 
     public void setPurchaseOrders(PurchaseOrder purchaseOrder) {
         this.purchaseOrders = purchaseOrder;
-    }
-
-    public CommercialPurchaseOrder getCommercialPurchaseOrders() {
-        return commercialPurchaseOrders;
-    }
-
-    public StockInItem commercialPurchaseOrders(CommercialPurchaseOrder commercialPurchaseOrder) {
-        this.commercialPurchaseOrders = commercialPurchaseOrder;
-        return this;
-    }
-
-    public void setCommercialPurchaseOrders(CommercialPurchaseOrder commercialPurchaseOrder) {
-        this.commercialPurchaseOrders = commercialPurchaseOrder;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

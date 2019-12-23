@@ -91,12 +91,6 @@
                         <a [routerLink]="['/purchase-order', stockInItem.purchaseOrdersId, 'view']">{{stockInItem.purchaseOrdersPurchaseOrderNo}}</a>
                     </div>
                 </dd>
-                <dt><span>Commercial Purchase Orders</span></dt>
-                <dd>
-                    <div *ngIf="stockInItem.commercialPurchaseOrdersId">
-                        <a [routerLink]="['/commercial-purchase-order', stockInItem.commercialPurchaseOrdersId, 'view']">{{stockInItem.commercialPurchaseOrdersPurchaseOrderNo}}</a>
-                    </div>
-                </dd>
             </dl>
 
             <button type="submit"

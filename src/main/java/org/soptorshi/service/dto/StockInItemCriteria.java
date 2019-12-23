@@ -1,20 +1,12 @@
 package org.soptorshi.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
-import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+import io.github.jhipster.service.filter.*;
 import org.soptorshi.domain.enumeration.ContainerCategory;
 import org.soptorshi.domain.enumeration.ProductType;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.BigDecimalFilter;
-import io.github.jhipster.service.filter.InstantFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the StockInItem entity. This class is used in StockInItemResource to
@@ -80,8 +72,6 @@ public class StockInItemCriteria implements Serializable {
     private LongFilter stockInProcessesId;
 
     private LongFilter purchaseOrdersId;
-
-    private LongFilter commercialPurchaseOrdersId;
 
     public LongFilter getId() {
         return id;
@@ -235,14 +225,6 @@ public class StockInItemCriteria implements Serializable {
         this.purchaseOrdersId = purchaseOrdersId;
     }
 
-    public LongFilter getCommercialPurchaseOrdersId() {
-        return commercialPurchaseOrdersId;
-    }
-
-    public void setCommercialPurchaseOrdersId(LongFilter commercialPurchaseOrdersId) {
-        this.commercialPurchaseOrdersId = commercialPurchaseOrdersId;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -272,8 +254,7 @@ public class StockInItemCriteria implements Serializable {
             Objects.equals(inventorySubLocationsId, that.inventorySubLocationsId) &&
             Objects.equals(vendorId, that.vendorId) &&
             Objects.equals(stockInProcessesId, that.stockInProcessesId) &&
-            Objects.equals(purchaseOrdersId, that.purchaseOrdersId) &&
-            Objects.equals(commercialPurchaseOrdersId, that.commercialPurchaseOrdersId);
+            Objects.equals(purchaseOrdersId, that.purchaseOrdersId);
     }
 
     @Override
@@ -297,8 +278,7 @@ public class StockInItemCriteria implements Serializable {
         inventorySubLocationsId,
         vendorId,
         stockInProcessesId,
-        purchaseOrdersId,
-        commercialPurchaseOrdersId
+        purchaseOrdersId
         );
     }
 
@@ -324,7 +304,6 @@ public class StockInItemCriteria implements Serializable {
                 (vendorId != null ? "vendorId=" + vendorId + ", " : "") +
                 (stockInProcessesId != null ? "stockInProcessesId=" + stockInProcessesId + ", " : "") +
                 (purchaseOrdersId != null ? "purchaseOrdersId=" + purchaseOrdersId + ", " : "") +
-                (commercialPurchaseOrdersId != null ? "commercialPurchaseOrdersId=" + commercialPurchaseOrdersId + ", " : "") +
             "}";
     }
 

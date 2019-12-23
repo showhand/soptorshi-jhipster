@@ -113,13 +113,6 @@
             "otherEntityRelationshipName": "stockInItem",
             "relationshipName": "purchaseOrders",
             "otherEntityField": "purchaseOrderNo"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "commercialPurchaseOrder",
-            "otherEntityRelationshipName": "stockInItem",
-            "relationshipName": "commercialPurchaseOrders",
-            "otherEntityField": "purchaseOrderNo"
         }
     ],
     "changelogDate": "20190802061702",

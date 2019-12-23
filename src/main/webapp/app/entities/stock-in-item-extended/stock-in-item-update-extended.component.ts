@@ -10,7 +10,6 @@ import { ProductCategoryService } from 'app/entities/product-category';
 import { ProductService } from 'app/entities/product';
 import { StockInProcessExtendedService } from 'app/entities/stock-in-process-extended';
 import { PurchaseOrderExtendedService } from 'app/entities/purchase-order-extended';
-import { CommercialPurchaseOrderExtendedService } from 'app/entities/commercial-purchase-order-extended';
 
 @Component({
     selector: 'jhi-stock-in-item-update-extended',
@@ -27,7 +26,6 @@ export class StockInItemUpdateExtendedComponent extends StockInItemUpdateCompone
         protected vendorService: VendorService,
         protected stockInProcessService: StockInProcessExtendedService,
         protected purchaseOrderService: PurchaseOrderExtendedService,
-        protected commercialPurchaseOrderService: CommercialPurchaseOrderExtendedService,
         protected activatedRoute: ActivatedRoute
     ) {
         super(
@@ -40,7 +38,6 @@ export class StockInItemUpdateExtendedComponent extends StockInItemUpdateCompone
             vendorService,
             stockInProcessService,
             purchaseOrderService,
-            commercialPurchaseOrderService,
             activatedRoute
         );
     }

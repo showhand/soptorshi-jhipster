@@ -1,29 +1,21 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.StockInItem;
-import org.soptorshi.domain.ProductCategory;
-import org.soptorshi.domain.Product;
-import org.soptorshi.domain.InventoryLocation;
-import org.soptorshi.domain.InventorySubLocation;
-import org.soptorshi.domain.Vendor;
-import org.soptorshi.domain.StockInProcess;
-import org.soptorshi.domain.PurchaseOrder;
-import org.soptorshi.domain.CommercialPurchaseOrder;
-import org.soptorshi.repository.StockInItemRepository;
-import org.soptorshi.repository.search.StockInItemSearchRepository;
-import org.soptorshi.service.StockInItemService;
-import org.soptorshi.service.dto.StockInItemDTO;
-import org.soptorshi.service.mapper.StockInItemMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.StockInItemCriteria;
-import org.soptorshi.service.StockInItemQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.*;
+import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ProductType;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+import org.soptorshi.repository.StockInItemRepository;
+import org.soptorshi.repository.search.StockInItemSearchRepository;
+import org.soptorshi.service.StockInItemQueryService;
+import org.soptorshi.service.StockInItemService;
+import org.soptorshi.service.dto.StockInItemDTO;
+import org.soptorshi.service.mapper.StockInItemMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -39,25 +31,20 @@ import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.soptorshi.domain.enumeration.UnitOfMeasurements;
-import org.soptorshi.domain.enumeration.ContainerCategory;
-import org.soptorshi.domain.enumeration.ProductType;
 /**
  * Test class for the StockInItemResource REST controller.
  *
@@ -351,7 +338,7 @@ public class StockInItemResourceIntTest {
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getStockInItem() throws Exception {
@@ -989,25 +976,6 @@ public class StockInItemResourceIntTest {
 
         // Get all the stockInItemList where purchaseOrders equals to purchaseOrdersId + 1
         defaultStockInItemShouldNotBeFound("purchaseOrdersId.equals=" + (purchaseOrdersId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllStockInItemsByCommercialPurchaseOrdersIsEqualToSomething() throws Exception {
-        // Initialize the database
-        CommercialPurchaseOrder commercialPurchaseOrders = CommercialPurchaseOrderResourceIntTest.createEntity(em);
-        em.persist(commercialPurchaseOrders);
-        em.flush();
-        stockInItem.setCommercialPurchaseOrders(commercialPurchaseOrders);
-        stockInItemRepository.saveAndFlush(stockInItem);
-        Long commercialPurchaseOrdersId = commercialPurchaseOrders.getId();
-
-        // Get all the stockInItemList where commercialPurchaseOrders equals to commercialPurchaseOrdersId
-        defaultStockInItemShouldBeFound("commercialPurchaseOrdersId.equals=" + commercialPurchaseOrdersId);
-
-        // Get all the stockInItemList where commercialPurchaseOrders equals to commercialPurchaseOrdersId + 1
-        defaultStockInItemShouldNotBeFound("commercialPurchaseOrdersId.equals=" + (commercialPurchaseOrdersId + 1));
     }
 
     /**
