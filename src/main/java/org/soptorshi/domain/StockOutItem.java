@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -30,8 +31,8 @@ public class StockOutItem implements Serializable {
     private String containerTrackingId;
 
     @NotNull
-    @Column(name = "quantity", nullable = false)
-    private Double quantity;
+    @Column(name = "quantity", precision = 10, scale = 2, nullable = false)
+    private BigDecimal quantity;
 
     @Column(name = "stock_out_by")
     private String stockOutBy;
@@ -42,16 +43,19 @@ public class StockOutItem implements Serializable {
     @Column(name = "receiver_id")
     private String receiverId;
 
+    @Column(name = "receiving_place")
+    private String receivingPlace;
+
     @Column(name = "remarks")
     private String remarks;
 
     @ManyToOne
     @JsonIgnoreProperties("stockOutItems")
-    private ItemCategory itemCategories;
+    private ProductCategory productCategories;
 
     @ManyToOne
     @JsonIgnoreProperties("stockOutItems")
-    private ItemSubCategory itemSubCategories;
+    private Product products;
 
     @ManyToOne
     @JsonIgnoreProperties("stockOutItems")
@@ -91,16 +95,16 @@ public class StockOutItem implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public StockOutItem quantity(Double quantity) {
+    public StockOutItem quantity(BigDecimal quantity) {
         this.quantity = quantity;
         return this;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
@@ -143,6 +147,19 @@ public class StockOutItem implements Serializable {
         this.receiverId = receiverId;
     }
 
+    public String getReceivingPlace() {
+        return receivingPlace;
+    }
+
+    public StockOutItem receivingPlace(String receivingPlace) {
+        this.receivingPlace = receivingPlace;
+        return this;
+    }
+
+    public void setReceivingPlace(String receivingPlace) {
+        this.receivingPlace = receivingPlace;
+    }
+
     public String getRemarks() {
         return remarks;
     }
@@ -156,30 +173,30 @@ public class StockOutItem implements Serializable {
         this.remarks = remarks;
     }
 
-    public ItemCategory getItemCategories() {
-        return itemCategories;
+    public ProductCategory getProductCategories() {
+        return productCategories;
     }
 
-    public StockOutItem itemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public StockOutItem productCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
         return this;
     }
 
-    public void setItemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public void setProductCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
     }
 
-    public ItemSubCategory getItemSubCategories() {
-        return itemSubCategories;
+    public Product getProducts() {
+        return products;
     }
 
-    public StockOutItem itemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public StockOutItem products(Product product) {
+        this.products = product;
         return this;
     }
 
-    public void setItemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public void setProducts(Product product) {
+        this.products = product;
     }
 
     public InventoryLocation getInventoryLocations() {
@@ -264,6 +281,7 @@ public class StockOutItem implements Serializable {
             ", stockOutBy='" + getStockOutBy() + "'" +
             ", stockOutDate='" + getStockOutDate() + "'" +
             ", receiverId='" + getReceiverId() + "'" +
+            ", receivingPlace='" + getReceivingPlace() + "'" +
             ", remarks='" + getRemarks() + "'" +
             "}";
     }

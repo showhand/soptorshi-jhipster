@@ -62,9 +62,9 @@ export class CommercialWorkOrderDetailsExtendedService extends CommercialWorkOrd
 
     protected convertDateFromClient(commercialWorkOrderDetails: ICommercialWorkOrderDetails): ICommercialWorkOrderDetails {
         const copy: ICommercialWorkOrderDetails = Object.assign({}, commercialWorkOrderDetails, {
-            createOn:
-                commercialWorkOrderDetails.createOn != null && commercialWorkOrderDetails.createOn.isValid()
-                    ? commercialWorkOrderDetails.createOn.format(DATE_FORMAT)
+            createdOn:
+                commercialWorkOrderDetails.createdOn != null && commercialWorkOrderDetails.createdOn.isValid()
+                    ? commercialWorkOrderDetails.createdOn.format(DATE_FORMAT)
                     : null,
             updatedOn:
                 commercialWorkOrderDetails.updatedOn != null && commercialWorkOrderDetails.updatedOn.isValid()
@@ -76,7 +76,7 @@ export class CommercialWorkOrderDetailsExtendedService extends CommercialWorkOrd
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
             res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
@@ -85,8 +85,8 @@ export class CommercialWorkOrderDetailsExtendedService extends CommercialWorkOrd
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((commercialWorkOrderDetails: ICommercialWorkOrderDetails) => {
-                commercialWorkOrderDetails.createOn =
-                    commercialWorkOrderDetails.createOn != null ? moment(commercialWorkOrderDetails.createOn) : null;
+                commercialWorkOrderDetails.createdOn =
+                    commercialWorkOrderDetails.createdOn != null ? moment(commercialWorkOrderDetails.createdOn) : null;
                 commercialWorkOrderDetails.updatedOn =
                     commercialWorkOrderDetails.updatedOn != null ? moment(commercialWorkOrderDetails.updatedOn) : null;
             });

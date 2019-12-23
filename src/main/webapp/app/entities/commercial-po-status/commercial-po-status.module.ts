@@ -1,15 +1,15 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     CommercialPoStatusComponent,
-    CommercialPoStatusDeleteDialogComponent,
-    CommercialPoStatusDeletePopupComponent,
     CommercialPoStatusDetailComponent,
-    commercialPoStatusPopupRoute,
+    CommercialPoStatusUpdateComponent,
+    CommercialPoStatusDeletePopupComponent,
+    CommercialPoStatusDeleteDialogComponent,
     commercialPoStatusRoute,
-    CommercialPoStatusUpdateComponent
+    commercialPoStatusPopupRoute
 } from './';
 
 const ENTITY_STATES = [...commercialPoStatusRoute, ...commercialPoStatusPopupRoute];

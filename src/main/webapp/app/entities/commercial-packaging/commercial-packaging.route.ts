@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { CommercialPackaging, ICommercialPackaging } from 'app/shared/model/commercial-packaging.model';
+import { CommercialPackaging } from 'app/shared/model/commercial-packaging.model';
 import { CommercialPackagingService } from './commercial-packaging.service';
 import { CommercialPackagingComponent } from './commercial-packaging.component';
 import { CommercialPackagingDetailComponent } from './commercial-packaging-detail.component';
 import { CommercialPackagingUpdateComponent } from './commercial-packaging-update.component';
 import { CommercialPackagingDeletePopupComponent } from './commercial-packaging-delete-dialog.component';
+import { ICommercialPackaging } from 'app/shared/model/commercial-packaging.model';
 
 @Injectable({ providedIn: 'root' })
 export class CommercialPackagingResolve implements Resolve<ICommercialPackaging> {

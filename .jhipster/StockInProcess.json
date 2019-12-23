@@ -3,58 +3,68 @@
     "fields": [
         {
             "fieldName": "totalQuantity",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "unit",
-            "fieldType": "ItemUnit",
-            "fieldValues": "KG,PCS,LITER,DOZEN,OTHERS",
+            "fieldType": "UnitOfMeasurements",
+            "fieldValues": "PCS,KG,TON,GRAM",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "unitPrice",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "totalContainer",
-            "fieldType": "Integer",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Integer"
         },
         {
             "fieldName": "containerCategory",
             "fieldType": "ContainerCategory",
-            "fieldValues": "BOTTLE,DRUM,PACKET,SACK,OTHERS",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldValues": "BOTTLE,DRUM,PACKET,SACK,OTHERS"
         },
         {
             "fieldName": "containerTrackingId",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "String"
         },
         {
             "fieldName": "quantityPerContainer",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "mfgDate",
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "expiryDate",
             "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "typeOfProduct",
+            "fieldType": "ProductType",
+            "fieldValues": "REGULAR_PRODUCT,FINISHED_PRODUCT,BY_PRODUCT"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "StockInProcessStatus",
+            "fieldValues": "WAITING_FOR_STOCK_IN_PROCESS,COMPLETED_STOCK_IN_PROCESS"
+        },
+        {
+            "fieldName": "processStartedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "processStartedOn",
+            "fieldType": "Instant"
         },
         {
             "fieldName": "stockInBy",
@@ -65,27 +75,39 @@
             "fieldType": "Instant"
         },
         {
-            "fieldName": "purchaseOrderId",
-            "fieldType": "String"
-        },
-        {
             "fieldName": "remarks",
             "fieldType": "String"
         }
     ],
     "relationships": [
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "itemCategory",
+            "relationshipType": "one-to-one",
+            "otherEntityName": "purchaseOrder",
             "otherEntityRelationshipName": "stockInProcess",
-            "relationshipName": "itemCategories",
+            "relationshipName": "purchaseOrder",
+            "otherEntityField": "purchaseOrderNo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "commercialPurchaseOrder",
+            "otherEntityRelationshipName": "stockInProcess",
+            "relationshipName": "commercialPurchaseOrder",
+            "otherEntityField": "purchaseOrderNo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "productCategory",
+            "otherEntityRelationshipName": "stockInProcess",
+            "relationshipName": "productCategories",
             "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemSubCategory",
+            "otherEntityName": "product",
             "otherEntityRelationshipName": "stockInProcess",
-            "relationshipName": "itemSubCategories",
+            "relationshipName": "products",
             "otherEntityField": "name"
         },
         {
@@ -104,17 +126,17 @@
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "manufacturer",
+            "otherEntityName": "vendor",
             "otherEntityRelationshipName": "stockInProcess",
-            "relationshipName": "manufacturers",
-            "otherEntityField": "name"
+            "relationshipName": "vendor",
+            "otherEntityField": "companyName"
         }
     ],
     "changelogDate": "20190802061701",
     "entityTableName": "stock_in_process",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
-    "service": "serviceImpl",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",

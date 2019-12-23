@@ -1,11 +1,10 @@
 import { Moment } from 'moment';
 
-export const enum ItemUnit {
-    KG = 'KG',
+export const enum UnitOfMeasurements {
     PCS = 'PCS',
-    LITER = 'LITER',
-    DOZEN = 'DOZEN',
-    OTHERS = 'OTHERS'
+    KG = 'KG',
+    TON = 'TON',
+    GRAM = 'GRAM'
 }
 
 export const enum ContainerCategory {
@@ -16,56 +15,83 @@ export const enum ContainerCategory {
     OTHERS = 'OTHERS'
 }
 
+export const enum ProductType {
+    REGULAR_PRODUCT = 'REGULAR_PRODUCT',
+    FINISHED_PRODUCT = 'FINISHED_PRODUCT',
+    BY_PRODUCT = 'BY_PRODUCT'
+}
+
+export const enum StockInProcessStatus {
+    WAITING_FOR_STOCK_IN_PROCESS = 'WAITING_FOR_STOCK_IN_PROCESS',
+    COMPLETED_STOCK_IN_PROCESS = 'COMPLETED_STOCK_IN_PROCESS'
+}
+
 export interface IStockInProcess {
     id?: number;
     totalQuantity?: number;
-    unit?: ItemUnit;
+    unit?: UnitOfMeasurements;
     unitPrice?: number;
     totalContainer?: number;
     containerCategory?: ContainerCategory;
     containerTrackingId?: string;
     quantityPerContainer?: string;
+    mfgDate?: Moment;
     expiryDate?: Moment;
+    typeOfProduct?: ProductType;
+    status?: StockInProcessStatus;
+    processStartedBy?: string;
+    processStartedOn?: Moment;
     stockInBy?: string;
     stockInDate?: Moment;
-    purchaseOrderId?: string;
     remarks?: string;
-    itemCategoriesName?: string;
-    itemCategoriesId?: number;
-    itemSubCategoriesName?: string;
-    itemSubCategoriesId?: number;
+    purchaseOrderPurchaseOrderNo?: string;
+    purchaseOrderId?: number;
+    commercialPurchaseOrderPurchaseOrderNo?: string;
+    commercialPurchaseOrderId?: number;
+    productCategoriesName?: string;
+    productCategoriesId?: number;
+    productsName?: string;
+    productsId?: number;
     inventoryLocationsName?: string;
     inventoryLocationsId?: number;
     inventorySubLocationsName?: string;
     inventorySubLocationsId?: number;
-    manufacturersName?: string;
-    manufacturersId?: number;
+    vendorCompanyName?: string;
+    vendorId?: number;
 }
 
 export class StockInProcess implements IStockInProcess {
     constructor(
         public id?: number,
         public totalQuantity?: number,
-        public unit?: ItemUnit,
+        public unit?: UnitOfMeasurements,
         public unitPrice?: number,
         public totalContainer?: number,
         public containerCategory?: ContainerCategory,
         public containerTrackingId?: string,
         public quantityPerContainer?: string,
+        public mfgDate?: Moment,
         public expiryDate?: Moment,
+        public typeOfProduct?: ProductType,
+        public status?: StockInProcessStatus,
+        public processStartedBy?: string,
+        public processStartedOn?: Moment,
         public stockInBy?: string,
         public stockInDate?: Moment,
-        public purchaseOrderId?: string,
         public remarks?: string,
-        public itemCategoriesName?: string,
-        public itemCategoriesId?: number,
-        public itemSubCategoriesName?: string,
-        public itemSubCategoriesId?: number,
+        public purchaseOrderPurchaseOrderNo?: string,
+        public purchaseOrderId?: number,
+        public commercialPurchaseOrderPurchaseOrderNo?: string,
+        public commercialPurchaseOrderId?: number,
+        public productCategoriesName?: string,
+        public productCategoriesId?: number,
+        public productsName?: string,
+        public productsId?: number,
         public inventoryLocationsName?: string,
         public inventoryLocationsId?: number,
         public inventorySubLocationsName?: string,
         public inventorySubLocationsId?: number,
-        public manufacturersName?: string,
-        public manufacturersId?: number
+        public vendorCompanyName?: string,
+        public vendorId?: number
     ) {}
 }

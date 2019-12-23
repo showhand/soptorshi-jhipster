@@ -1,20 +1,22 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.CommercialWorkOrder;
+
 import org.soptorshi.domain.CommercialWorkOrderDetails;
-import org.soptorshi.domain.enumeration.CommercialCurrency;
+import org.soptorshi.domain.CommercialWorkOrder;
 import org.soptorshi.repository.CommercialWorkOrderDetailsRepository;
 import org.soptorshi.repository.search.CommercialWorkOrderDetailsSearchRepository;
-import org.soptorshi.service.CommercialWorkOrderDetailsQueryService;
 import org.soptorshi.service.CommercialWorkOrderDetailsService;
 import org.soptorshi.service.dto.CommercialWorkOrderDetailsDTO;
 import org.soptorshi.service.mapper.CommercialWorkOrderDetailsMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.CommercialWorkOrderDetailsCriteria;
+import org.soptorshi.service.CommercialWorkOrderDetailsQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -34,13 +36,16 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.soptorshi.domain.enumeration.CommercialCurrency;
 /**
  * Test class for the CommercialWorkOrderDetailsResource REST controller.
  *
@@ -74,8 +79,8 @@ public class CommercialWorkOrderDetailsResourceIntTest {
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATE_ON = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATE_ON = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate DEFAULT_CREATED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_ON = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
@@ -150,7 +155,7 @@ public class CommercialWorkOrderDetailsResourceIntTest {
             .currencyType(DEFAULT_CURRENCY_TYPE)
             .rate(DEFAULT_RATE)
             .createdBy(DEFAULT_CREATED_BY)
-            .createOn(DEFAULT_CREATE_ON)
+            .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
         return commercialWorkOrderDetails;
@@ -185,7 +190,7 @@ public class CommercialWorkOrderDetailsResourceIntTest {
         assertThat(testCommercialWorkOrderDetails.getCurrencyType()).isEqualTo(DEFAULT_CURRENCY_TYPE);
         assertThat(testCommercialWorkOrderDetails.getRate()).isEqualTo(DEFAULT_RATE);
         assertThat(testCommercialWorkOrderDetails.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
-        assertThat(testCommercialWorkOrderDetails.getCreateOn()).isEqualTo(DEFAULT_CREATE_ON);
+        assertThat(testCommercialWorkOrderDetails.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testCommercialWorkOrderDetails.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testCommercialWorkOrderDetails.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
@@ -311,11 +316,11 @@ public class CommercialWorkOrderDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].currencyType").value(hasItem(DEFAULT_CURRENCY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getCommercialWorkOrderDetails() throws Exception {
@@ -335,7 +340,7 @@ public class CommercialWorkOrderDetailsResourceIntTest {
             .andExpect(jsonPath("$.currencyType").value(DEFAULT_CURRENCY_TYPE.toString()))
             .andExpect(jsonPath("$.rate").value(DEFAULT_RATE.doubleValue()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
-            .andExpect(jsonPath("$.createOn").value(DEFAULT_CREATE_ON.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
             .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
     }
@@ -654,67 +659,67 @@ public class CommercialWorkOrderDetailsResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllCommercialWorkOrderDetailsByCreateOnIsEqualToSomething() throws Exception {
+    public void getAllCommercialWorkOrderDetailsByCreatedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialWorkOrderDetailsRepository.saveAndFlush(commercialWorkOrderDetails);
 
-        // Get all the commercialWorkOrderDetailsList where createOn equals to DEFAULT_CREATE_ON
-        defaultCommercialWorkOrderDetailsShouldBeFound("createOn.equals=" + DEFAULT_CREATE_ON);
+        // Get all the commercialWorkOrderDetailsList where createdOn equals to DEFAULT_CREATED_ON
+        defaultCommercialWorkOrderDetailsShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialWorkOrderDetailsList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialWorkOrderDetailsShouldNotBeFound("createOn.equals=" + UPDATED_CREATE_ON);
+        // Get all the commercialWorkOrderDetailsList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialWorkOrderDetailsShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialWorkOrderDetailsByCreateOnIsInShouldWork() throws Exception {
+    public void getAllCommercialWorkOrderDetailsByCreatedOnIsInShouldWork() throws Exception {
         // Initialize the database
         commercialWorkOrderDetailsRepository.saveAndFlush(commercialWorkOrderDetails);
 
-        // Get all the commercialWorkOrderDetailsList where createOn in DEFAULT_CREATE_ON or UPDATED_CREATE_ON
-        defaultCommercialWorkOrderDetailsShouldBeFound("createOn.in=" + DEFAULT_CREATE_ON + "," + UPDATED_CREATE_ON);
+        // Get all the commercialWorkOrderDetailsList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultCommercialWorkOrderDetailsShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
 
-        // Get all the commercialWorkOrderDetailsList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialWorkOrderDetailsShouldNotBeFound("createOn.in=" + UPDATED_CREATE_ON);
+        // Get all the commercialWorkOrderDetailsList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialWorkOrderDetailsShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialWorkOrderDetailsByCreateOnIsNullOrNotNull() throws Exception {
+    public void getAllCommercialWorkOrderDetailsByCreatedOnIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialWorkOrderDetailsRepository.saveAndFlush(commercialWorkOrderDetails);
 
-        // Get all the commercialWorkOrderDetailsList where createOn is not null
-        defaultCommercialWorkOrderDetailsShouldBeFound("createOn.specified=true");
+        // Get all the commercialWorkOrderDetailsList where createdOn is not null
+        defaultCommercialWorkOrderDetailsShouldBeFound("createdOn.specified=true");
 
-        // Get all the commercialWorkOrderDetailsList where createOn is null
-        defaultCommercialWorkOrderDetailsShouldNotBeFound("createOn.specified=false");
+        // Get all the commercialWorkOrderDetailsList where createdOn is null
+        defaultCommercialWorkOrderDetailsShouldNotBeFound("createdOn.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllCommercialWorkOrderDetailsByCreateOnIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllCommercialWorkOrderDetailsByCreatedOnIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         commercialWorkOrderDetailsRepository.saveAndFlush(commercialWorkOrderDetails);
 
-        // Get all the commercialWorkOrderDetailsList where createOn greater than or equals to DEFAULT_CREATE_ON
-        defaultCommercialWorkOrderDetailsShouldBeFound("createOn.greaterOrEqualThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialWorkOrderDetailsList where createdOn greater than or equals to DEFAULT_CREATED_ON
+        defaultCommercialWorkOrderDetailsShouldBeFound("createdOn.greaterOrEqualThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialWorkOrderDetailsList where createOn greater than or equals to UPDATED_CREATE_ON
-        defaultCommercialWorkOrderDetailsShouldNotBeFound("createOn.greaterOrEqualThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialWorkOrderDetailsList where createdOn greater than or equals to UPDATED_CREATED_ON
+        defaultCommercialWorkOrderDetailsShouldNotBeFound("createdOn.greaterOrEqualThan=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialWorkOrderDetailsByCreateOnIsLessThanSomething() throws Exception {
+    public void getAllCommercialWorkOrderDetailsByCreatedOnIsLessThanSomething() throws Exception {
         // Initialize the database
         commercialWorkOrderDetailsRepository.saveAndFlush(commercialWorkOrderDetails);
 
-        // Get all the commercialWorkOrderDetailsList where createOn less than or equals to DEFAULT_CREATE_ON
-        defaultCommercialWorkOrderDetailsShouldNotBeFound("createOn.lessThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialWorkOrderDetailsList where createdOn less than or equals to DEFAULT_CREATED_ON
+        defaultCommercialWorkOrderDetailsShouldNotBeFound("createdOn.lessThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialWorkOrderDetailsList where createOn less than or equals to UPDATED_CREATE_ON
-        defaultCommercialWorkOrderDetailsShouldBeFound("createOn.lessThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialWorkOrderDetailsList where createdOn less than or equals to UPDATED_CREATED_ON
+        defaultCommercialWorkOrderDetailsShouldBeFound("createdOn.lessThan=" + UPDATED_CREATED_ON);
     }
 
 
@@ -857,7 +862,7 @@ public class CommercialWorkOrderDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].currencyType").value(hasItem(DEFAULT_CURRENCY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
@@ -915,7 +920,7 @@ public class CommercialWorkOrderDetailsResourceIntTest {
             .currencyType(UPDATED_CURRENCY_TYPE)
             .rate(UPDATED_RATE)
             .createdBy(UPDATED_CREATED_BY)
-            .createOn(UPDATED_CREATE_ON)
+            .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
             .updatedOn(UPDATED_UPDATED_ON);
         CommercialWorkOrderDetailsDTO commercialWorkOrderDetailsDTO = commercialWorkOrderDetailsMapper.toDto(updatedCommercialWorkOrderDetails);
@@ -937,7 +942,7 @@ public class CommercialWorkOrderDetailsResourceIntTest {
         assertThat(testCommercialWorkOrderDetails.getCurrencyType()).isEqualTo(UPDATED_CURRENCY_TYPE);
         assertThat(testCommercialWorkOrderDetails.getRate()).isEqualTo(UPDATED_RATE);
         assertThat(testCommercialWorkOrderDetails.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
-        assertThat(testCommercialWorkOrderDetails.getCreateOn()).isEqualTo(UPDATED_CREATE_ON);
+        assertThat(testCommercialWorkOrderDetails.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testCommercialWorkOrderDetails.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testCommercialWorkOrderDetails.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
@@ -1008,7 +1013,7 @@ public class CommercialWorkOrderDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].currencyType").value(hasItem(DEFAULT_CURRENCY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.doubleValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }

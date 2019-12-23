@@ -108,8 +108,14 @@ public class StockInItemQueryService extends QueryService<StockInItem> {
             if (criteria.getContainerTrackingId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getContainerTrackingId(), StockInItem_.containerTrackingId));
             }
+            if (criteria.getMfgDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMfgDate(), StockInItem_.mfgDate));
+            }
             if (criteria.getExpiryDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getExpiryDate(), StockInItem_.expiryDate));
+            }
+            if (criteria.getTypeOfProduct() != null) {
+                specification = specification.and(buildSpecification(criteria.getTypeOfProduct(), StockInItem_.typeOfProduct));
             }
             if (criteria.getStockInBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getStockInBy(), StockInItem_.stockInBy));
@@ -117,19 +123,16 @@ public class StockInItemQueryService extends QueryService<StockInItem> {
             if (criteria.getStockInDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getStockInDate(), StockInItem_.stockInDate));
             }
-            if (criteria.getPurchaseOrderId() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getPurchaseOrderId(), StockInItem_.purchaseOrderId));
-            }
             if (criteria.getRemarks() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getRemarks(), StockInItem_.remarks));
             }
-            if (criteria.getItemCategoriesId() != null) {
-                specification = specification.and(buildSpecification(criteria.getItemCategoriesId(),
-                    root -> root.join(StockInItem_.itemCategories, JoinType.LEFT).get(ItemCategory_.id)));
+            if (criteria.getProductCategoriesId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductCategoriesId(),
+                    root -> root.join(StockInItem_.productCategories, JoinType.LEFT).get(ProductCategory_.id)));
             }
-            if (criteria.getItemSubCategoriesId() != null) {
-                specification = specification.and(buildSpecification(criteria.getItemSubCategoriesId(),
-                    root -> root.join(StockInItem_.itemSubCategories, JoinType.LEFT).get(ItemSubCategory_.id)));
+            if (criteria.getProductsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductsId(),
+                    root -> root.join(StockInItem_.products, JoinType.LEFT).get(Product_.id)));
             }
             if (criteria.getInventoryLocationsId() != null) {
                 specification = specification.and(buildSpecification(criteria.getInventoryLocationsId(),
@@ -139,13 +142,21 @@ public class StockInItemQueryService extends QueryService<StockInItem> {
                 specification = specification.and(buildSpecification(criteria.getInventorySubLocationsId(),
                     root -> root.join(StockInItem_.inventorySubLocations, JoinType.LEFT).get(InventorySubLocation_.id)));
             }
-            if (criteria.getManufacturersId() != null) {
-                specification = specification.and(buildSpecification(criteria.getManufacturersId(),
-                    root -> root.join(StockInItem_.manufacturers, JoinType.LEFT).get(Manufacturer_.id)));
+            if (criteria.getVendorId() != null) {
+                specification = specification.and(buildSpecification(criteria.getVendorId(),
+                    root -> root.join(StockInItem_.vendor, JoinType.LEFT).get(Vendor_.id)));
             }
             if (criteria.getStockInProcessesId() != null) {
                 specification = specification.and(buildSpecification(criteria.getStockInProcessesId(),
                     root -> root.join(StockInItem_.stockInProcesses, JoinType.LEFT).get(StockInProcess_.id)));
+            }
+            if (criteria.getPurchaseOrdersId() != null) {
+                specification = specification.and(buildSpecification(criteria.getPurchaseOrdersId(),
+                    root -> root.join(StockInItem_.purchaseOrders, JoinType.LEFT).get(PurchaseOrder_.id)));
+            }
+            if (criteria.getCommercialPurchaseOrdersId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCommercialPurchaseOrdersId(),
+                    root -> root.join(StockInItem_.commercialPurchaseOrders, JoinType.LEFT).get(CommercialPurchaseOrder_.id)));
             }
         }
         return specification;

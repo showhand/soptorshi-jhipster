@@ -1,9 +1,9 @@
 package org.soptorshi.service.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.soptorshi.domain.CommercialPackaging;
+import org.soptorshi.domain.*;
 import org.soptorshi.service.dto.CommercialPackagingDTO;
+
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity CommercialPackaging and its DTO CommercialPackagingDTO.

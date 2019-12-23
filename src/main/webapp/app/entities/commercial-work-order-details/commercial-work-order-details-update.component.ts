@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { ICommercialWorkOrderDetails } from 'app/shared/model/commercial-work-order-details.model';
 import { CommercialWorkOrderDetailsService } from './commercial-work-order-details.service';
@@ -18,7 +19,7 @@ export class CommercialWorkOrderDetailsUpdateComponent implements OnInit {
     isSaving: boolean;
 
     commercialworkorders: ICommercialWorkOrder[];
-    createOnDp: any;
+    createdOnDp: any;
     updatedOnDp: any;
 
     constructor(

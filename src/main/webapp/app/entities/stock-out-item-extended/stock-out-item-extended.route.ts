@@ -75,7 +75,7 @@ export const stockOutItemExtendedRoute: Routes = [
     }
 ];
 
-export const stockOutItemPopupRouteExtended: Routes = [
+export const stockOutItemPopupExtendedRoute: Routes = [
     {
         path: ':id/delete',
         component: StockOutItemDeletePopupExtendedComponent,

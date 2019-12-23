@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
+import { filter, map } from 'rxjs/operators';
+import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
 import { AccountService } from 'app/core';
@@ -49,7 +50,7 @@ export class SupplyAreaComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        /*if (this.currentSearch) {
+        if (this.currentSearch) {
             this.supplyAreaService
                 .search({
                     query: this.currentSearch,
@@ -62,30 +63,17 @@ export class SupplyAreaComponent implements OnInit, OnDestroy {
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
             return;
-        }*/
-        if (this.currentSearch) {
-            this.supplyAreaService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    'areaName.equals': this.currentSearch
-                })
-                .subscribe(
-                    (res: HttpResponse<ISupplyArea[]>) => this.paginateSupplyAreas(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        } else {
-            this.supplyAreaService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort()
-                })
-                .subscribe(
-                    (res: HttpResponse<ISupplyArea[]>) => this.paginateSupplyAreas(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
         }
+        this.supplyAreaService
+            .query({
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<ISupplyArea[]>) => this.paginateSupplyAreas(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     reset() {

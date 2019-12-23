@@ -1,12 +1,13 @@
 package org.soptorshi.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.Manufacturer;
 import org.soptorshi.repository.ManufacturerRepository;
 import org.soptorshi.repository.search.ManufacturerSearchRepository;
 import org.soptorshi.service.dto.ManufacturerDTO;
 import org.soptorshi.service.mapper.ManufacturerMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Manufacturer.
@@ -43,7 +44,6 @@ public class ManufacturerService {
      * @param manufacturerDTO the entity to save
      * @return the persisted entity
      */
-
     public ManufacturerDTO save(ManufacturerDTO manufacturerDTO) {
         log.debug("Request to save Manufacturer : {}", manufacturerDTO);
         Manufacturer manufacturer = manufacturerMapper.toEntity(manufacturerDTO);
@@ -59,7 +59,6 @@ public class ManufacturerService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-
     @Transactional(readOnly = true)
     public Page<ManufacturerDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Manufacturers");
@@ -74,7 +73,6 @@ public class ManufacturerService {
      * @param id the id of the entity
      * @return the entity
      */
-
     @Transactional(readOnly = true)
     public Optional<ManufacturerDTO> findOne(Long id) {
         log.debug("Request to get Manufacturer : {}", id);
@@ -87,7 +85,6 @@ public class ManufacturerService {
      *
      * @param id the id of the entity
      */
-
     public void delete(Long id) {
         log.debug("Request to delete Manufacturer : {}", id);
         manufacturerRepository.deleteById(id);
@@ -101,7 +98,6 @@ public class ManufacturerService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-
     @Transactional(readOnly = true)
     public Page<ManufacturerDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Manufacturers for query {}", query);

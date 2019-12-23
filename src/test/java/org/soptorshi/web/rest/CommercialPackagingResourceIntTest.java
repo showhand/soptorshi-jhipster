@@ -1,19 +1,22 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
+
 import org.soptorshi.domain.CommercialPackaging;
 import org.soptorshi.domain.CommercialPurchaseOrder;
 import org.soptorshi.repository.CommercialPackagingRepository;
 import org.soptorshi.repository.search.CommercialPackagingSearchRepository;
-import org.soptorshi.service.CommercialPackagingQueryService;
 import org.soptorshi.service.CommercialPackagingService;
 import org.soptorshi.service.dto.CommercialPackagingDTO;
 import org.soptorshi.service.mapper.CommercialPackagingMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.CommercialPackagingCriteria;
+import org.soptorshi.service.CommercialPackagingQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -33,11 +36,12 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -62,8 +66,8 @@ public class CommercialPackagingResourceIntTest {
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATE_ON = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATE_ON = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate DEFAULT_CREATED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_ON = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
@@ -134,7 +138,7 @@ public class CommercialPackagingResourceIntTest {
             .consignmentDate(DEFAULT_CONSIGNMENT_DATE)
             .brand(DEFAULT_BRAND)
             .createdBy(DEFAULT_CREATED_BY)
-            .createOn(DEFAULT_CREATE_ON)
+            .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
         return commercialPackaging;
@@ -165,7 +169,7 @@ public class CommercialPackagingResourceIntTest {
         assertThat(testCommercialPackaging.getConsignmentDate()).isEqualTo(DEFAULT_CONSIGNMENT_DATE);
         assertThat(testCommercialPackaging.getBrand()).isEqualTo(DEFAULT_BRAND);
         assertThat(testCommercialPackaging.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
-        assertThat(testCommercialPackaging.getCreateOn()).isEqualTo(DEFAULT_CREATE_ON);
+        assertThat(testCommercialPackaging.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testCommercialPackaging.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testCommercialPackaging.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
@@ -249,11 +253,11 @@ public class CommercialPackagingResourceIntTest {
             .andExpect(jsonPath("$.[*].consignmentDate").value(hasItem(DEFAULT_CONSIGNMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].brand").value(hasItem(DEFAULT_BRAND.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getCommercialPackaging() throws Exception {
@@ -269,7 +273,7 @@ public class CommercialPackagingResourceIntTest {
             .andExpect(jsonPath("$.consignmentDate").value(DEFAULT_CONSIGNMENT_DATE.toString()))
             .andExpect(jsonPath("$.brand").value(DEFAULT_BRAND.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
-            .andExpect(jsonPath("$.createOn").value(DEFAULT_CREATE_ON.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
             .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
     }
@@ -459,67 +463,67 @@ public class CommercialPackagingResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllCommercialPackagingsByCreateOnIsEqualToSomething() throws Exception {
+    public void getAllCommercialPackagingsByCreatedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialPackagingRepository.saveAndFlush(commercialPackaging);
 
-        // Get all the commercialPackagingList where createOn equals to DEFAULT_CREATE_ON
-        defaultCommercialPackagingShouldBeFound("createOn.equals=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPackagingList where createdOn equals to DEFAULT_CREATED_ON
+        defaultCommercialPackagingShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPackagingList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialPackagingShouldNotBeFound("createOn.equals=" + UPDATED_CREATE_ON);
+        // Get all the commercialPackagingList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialPackagingShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPackagingsByCreateOnIsInShouldWork() throws Exception {
+    public void getAllCommercialPackagingsByCreatedOnIsInShouldWork() throws Exception {
         // Initialize the database
         commercialPackagingRepository.saveAndFlush(commercialPackaging);
 
-        // Get all the commercialPackagingList where createOn in DEFAULT_CREATE_ON or UPDATED_CREATE_ON
-        defaultCommercialPackagingShouldBeFound("createOn.in=" + DEFAULT_CREATE_ON + "," + UPDATED_CREATE_ON);
+        // Get all the commercialPackagingList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultCommercialPackagingShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
 
-        // Get all the commercialPackagingList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialPackagingShouldNotBeFound("createOn.in=" + UPDATED_CREATE_ON);
+        // Get all the commercialPackagingList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialPackagingShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPackagingsByCreateOnIsNullOrNotNull() throws Exception {
+    public void getAllCommercialPackagingsByCreatedOnIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialPackagingRepository.saveAndFlush(commercialPackaging);
 
-        // Get all the commercialPackagingList where createOn is not null
-        defaultCommercialPackagingShouldBeFound("createOn.specified=true");
+        // Get all the commercialPackagingList where createdOn is not null
+        defaultCommercialPackagingShouldBeFound("createdOn.specified=true");
 
-        // Get all the commercialPackagingList where createOn is null
-        defaultCommercialPackagingShouldNotBeFound("createOn.specified=false");
+        // Get all the commercialPackagingList where createdOn is null
+        defaultCommercialPackagingShouldNotBeFound("createdOn.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPackagingsByCreateOnIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllCommercialPackagingsByCreatedOnIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         commercialPackagingRepository.saveAndFlush(commercialPackaging);
 
-        // Get all the commercialPackagingList where createOn greater than or equals to DEFAULT_CREATE_ON
-        defaultCommercialPackagingShouldBeFound("createOn.greaterOrEqualThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPackagingList where createdOn greater than or equals to DEFAULT_CREATED_ON
+        defaultCommercialPackagingShouldBeFound("createdOn.greaterOrEqualThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPackagingList where createOn greater than or equals to UPDATED_CREATE_ON
-        defaultCommercialPackagingShouldNotBeFound("createOn.greaterOrEqualThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialPackagingList where createdOn greater than or equals to UPDATED_CREATED_ON
+        defaultCommercialPackagingShouldNotBeFound("createdOn.greaterOrEqualThan=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPackagingsByCreateOnIsLessThanSomething() throws Exception {
+    public void getAllCommercialPackagingsByCreatedOnIsLessThanSomething() throws Exception {
         // Initialize the database
         commercialPackagingRepository.saveAndFlush(commercialPackaging);
 
-        // Get all the commercialPackagingList where createOn less than or equals to DEFAULT_CREATE_ON
-        defaultCommercialPackagingShouldNotBeFound("createOn.lessThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPackagingList where createdOn less than or equals to DEFAULT_CREATED_ON
+        defaultCommercialPackagingShouldNotBeFound("createdOn.lessThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPackagingList where createOn less than or equals to UPDATED_CREATE_ON
-        defaultCommercialPackagingShouldBeFound("createOn.lessThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialPackagingList where createdOn less than or equals to UPDATED_CREATED_ON
+        defaultCommercialPackagingShouldBeFound("createdOn.lessThan=" + UPDATED_CREATED_ON);
     }
 
 
@@ -658,7 +662,7 @@ public class CommercialPackagingResourceIntTest {
             .andExpect(jsonPath("$.[*].consignmentDate").value(hasItem(DEFAULT_CONSIGNMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].brand").value(hasItem(DEFAULT_BRAND)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
@@ -712,7 +716,7 @@ public class CommercialPackagingResourceIntTest {
             .consignmentDate(UPDATED_CONSIGNMENT_DATE)
             .brand(UPDATED_BRAND)
             .createdBy(UPDATED_CREATED_BY)
-            .createOn(UPDATED_CREATE_ON)
+            .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
             .updatedOn(UPDATED_UPDATED_ON);
         CommercialPackagingDTO commercialPackagingDTO = commercialPackagingMapper.toDto(updatedCommercialPackaging);
@@ -730,7 +734,7 @@ public class CommercialPackagingResourceIntTest {
         assertThat(testCommercialPackaging.getConsignmentDate()).isEqualTo(UPDATED_CONSIGNMENT_DATE);
         assertThat(testCommercialPackaging.getBrand()).isEqualTo(UPDATED_BRAND);
         assertThat(testCommercialPackaging.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
-        assertThat(testCommercialPackaging.getCreateOn()).isEqualTo(UPDATED_CREATE_ON);
+        assertThat(testCommercialPackaging.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testCommercialPackaging.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testCommercialPackaging.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
@@ -797,7 +801,7 @@ public class CommercialPackagingResourceIntTest {
             .andExpect(jsonPath("$.[*].consignmentDate").value(hasItem(DEFAULT_CONSIGNMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].brand").value(hasItem(DEFAULT_BRAND)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }

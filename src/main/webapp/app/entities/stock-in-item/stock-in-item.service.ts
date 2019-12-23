@@ -59,6 +59,7 @@ export class StockInItemService {
 
     protected convertDateFromClient(stockInItem: IStockInItem): IStockInItem {
         const copy: IStockInItem = Object.assign({}, stockInItem, {
+            mfgDate: stockInItem.mfgDate != null && stockInItem.mfgDate.isValid() ? stockInItem.mfgDate.format(DATE_FORMAT) : null,
             expiryDate:
                 stockInItem.expiryDate != null && stockInItem.expiryDate.isValid() ? stockInItem.expiryDate.format(DATE_FORMAT) : null,
             stockInDate: stockInItem.stockInDate != null && stockInItem.stockInDate.isValid() ? stockInItem.stockInDate.toJSON() : null
@@ -68,6 +69,7 @@ export class StockInItemService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
+            res.body.mfgDate = res.body.mfgDate != null ? moment(res.body.mfgDate) : null;
             res.body.expiryDate = res.body.expiryDate != null ? moment(res.body.expiryDate) : null;
             res.body.stockInDate = res.body.stockInDate != null ? moment(res.body.stockInDate) : null;
         }
@@ -77,6 +79,7 @@ export class StockInItemService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((stockInItem: IStockInItem) => {
+                stockInItem.mfgDate = stockInItem.mfgDate != null ? moment(stockInItem.mfgDate) : null;
                 stockInItem.expiryDate = stockInItem.expiryDate != null ? moment(stockInItem.expiryDate) : null;
                 stockInItem.stockInDate = stockInItem.stockInDate != null ? moment(stockInItem.stockInDate) : null;
             });

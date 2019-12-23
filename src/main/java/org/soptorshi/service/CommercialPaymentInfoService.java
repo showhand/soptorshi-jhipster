@@ -1,22 +1,21 @@
 package org.soptorshi.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialPaymentInfo;
 import org.soptorshi.repository.CommercialPaymentInfoRepository;
 import org.soptorshi.repository.search.CommercialPaymentInfoSearchRepository;
-import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.CommercialPaymentInfoDTO;
 import org.soptorshi.service.mapper.CommercialPaymentInfoMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing CommercialPaymentInfo.
@@ -33,13 +32,10 @@ public class CommercialPaymentInfoService {
 
     private final CommercialPaymentInfoSearchRepository commercialPaymentInfoSearchRepository;
 
-    private final CommercialPoStatusService commercialPoStatusService;
-
-    public CommercialPaymentInfoService(CommercialPaymentInfoRepository commercialPaymentInfoRepository, CommercialPaymentInfoMapper commercialPaymentInfoMapper, CommercialPaymentInfoSearchRepository commercialPaymentInfoSearchRepository, CommercialPoStatusService commercialPoStatusService) {
+    public CommercialPaymentInfoService(CommercialPaymentInfoRepository commercialPaymentInfoRepository, CommercialPaymentInfoMapper commercialPaymentInfoMapper, CommercialPaymentInfoSearchRepository commercialPaymentInfoSearchRepository) {
         this.commercialPaymentInfoRepository = commercialPaymentInfoRepository;
         this.commercialPaymentInfoMapper = commercialPaymentInfoMapper;
         this.commercialPaymentInfoSearchRepository = commercialPaymentInfoSearchRepository;
-        this.commercialPoStatusService = commercialPoStatusService;
     }
 
     /**
@@ -50,23 +46,12 @@ public class CommercialPaymentInfoService {
      */
     public CommercialPaymentInfoDTO save(CommercialPaymentInfoDTO commercialPaymentInfoDTO) {
         log.debug("Request to save CommercialPaymentInfo : {}", commercialPaymentInfoDTO);
-
-        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
-        LocalDate currentDate = LocalDate.now();
-        if (commercialPaymentInfoDTO.getId() == null) {
-            commercialPaymentInfoDTO.setCreatedBy(currentUser);
-            commercialPaymentInfoDTO.setCreateOn(currentDate);
-        } else {
-            commercialPaymentInfoDTO.setUpdatedBy(currentUser);
-            commercialPaymentInfoDTO.setUpdatedOn(currentDate);
-        }
         CommercialPaymentInfo commercialPaymentInfo = commercialPaymentInfoMapper.toEntity(commercialPaymentInfoDTO);
         commercialPaymentInfo = commercialPaymentInfoRepository.save(commercialPaymentInfo);
         CommercialPaymentInfoDTO result = commercialPaymentInfoMapper.toDto(commercialPaymentInfo);
         commercialPaymentInfoSearchRepository.save(commercialPaymentInfo);
         return result;
     }
-
 
     /**
      * Get all the commercialPaymentInfos.
@@ -102,14 +87,14 @@ public class CommercialPaymentInfoService {
      */
     public void delete(Long id) {
         log.debug("Request to delete CommercialPaymentInfo : {}", id);
-        /*commercialPaymentInfoRepository.deleteById(id);
-        commercialPaymentInfoSearchRepository.deleteById(id);*/
+        commercialPaymentInfoRepository.deleteById(id);
+        commercialPaymentInfoSearchRepository.deleteById(id);
     }
 
     /**
      * Search for the commercialPaymentInfo corresponding to the query.
      *
-     * @param query    the query of the search
+     * @param query the query of the search
      * @param pageable the pagination information
      * @return the list of entities
      */

@@ -7,7 +7,7 @@ export interface ICommercialWorkOrder {
     deliveryDate?: Moment;
     remarks?: string;
     createdBy?: string;
-    createOn?: Moment;
+    createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
     commercialPurchaseOrderPurchaseOrderNo?: string;
@@ -22,7 +22,7 @@ export class CommercialWorkOrder implements ICommercialWorkOrder {
         public deliveryDate?: Moment,
         public remarks?: string,
         public createdBy?: string,
-        public createOn?: Moment,
+        public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
         public commercialPurchaseOrderPurchaseOrderNo?: string,

@@ -1,42 +1,40 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
-import { IStockOutItem } from 'app/shared/model/stock-out-item.model';
 import { AccountService } from 'app/core';
 import { StockOutItemExtendedService } from './stock-out-item-extended.service';
-import { IItemCategory } from 'app/shared/model/item-category.model';
-import { IItemSubCategory } from 'app/shared/model/item-sub-category.model';
-import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
-import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
-import { IManufacturer } from 'app/shared/model/manufacturer.model';
-import { ItemCategoryService } from 'app/entities/item-category';
-import { ItemSubCategoryService } from 'app/entities/item-sub-category';
 import { InventoryLocationService } from 'app/entities/inventory-location';
 import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
 import { StockOutItemComponent } from 'app/entities/stock-out-item';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { IStockStatus } from 'app/shared/model/stock-status.model';
+import { filter, map } from 'rxjs/operators';
+import { IProductCategory } from 'app/shared/model/product-category.model';
+import { IProduct } from 'app/shared/model/product.model';
+import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
+import { IInventorySubLocation, InventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
+import { ProductCategoryService } from 'app/entities/product-category';
+import { ProductService } from 'app/entities/product';
 
 @Component({
     selector: 'jhi-stock-out-item-extended',
     templateUrl: './stock-out-item-extended.component.html'
 })
-export class StockOutItemExtendedComponent extends StockOutItemComponent implements OnInit, OnDestroy {
-    stockOutItems: IStockOutItem[];
-    currentAccount: any;
-    eventSubscriber: Subscription;
-    itemcategories: IItemCategory[];
-    itemsubcategories: IItemSubCategory[];
+export class StockOutItemExtendedComponent extends StockOutItemComponent implements OnInit {
+    productCategoryId: number;
+    productId: number;
+    inventoryLocationId: number;
+    inventorySubLocationId: number;
+    containerTrackingId: string;
+
+    productcategories: IProductCategory[];
+    products: IProduct[];
     inventorylocations: IInventoryLocation[];
-    inventorysublocations: IInventorySubLocation[];
-    manufacturers: IManufacturer[];
-    s_ItemCategoriesId: number;
-    s_ItemSubCategoriesId: number;
-    s_InventoryLocationsId: number;
-    s_InventorySubLocationsId: number;
-    s_ContainerTrackingId: string;
+    inventorysublocations: InventorySubLocation[];
+
+    predicate: any;
+    reverse: any;
 
     constructor(
         protected stockOutItemService: StockOutItemExtendedService,
@@ -45,47 +43,85 @@ export class StockOutItemExtendedComponent extends StockOutItemComponent impleme
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService,
-        protected itemCategoryService: ItemCategoryService,
-        protected itemSubCategoryService: ItemSubCategoryService,
+        protected productCategoryService: ProductCategoryService,
+        protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService
     ) {
-        super(
-            stockOutItemService,
-            jhiAlertService,
-            eventManager,
-            parseLinks,
-            activatedRoute,
-            accountService,
-            itemCategoryService,
-            itemSubCategoryService,
-            inventoryLocationService,
-            inventorySubLocationService
-        );
-        this.stockOutItems = [];
+        super(stockOutItemService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
+        this.predicate = 'stockOutDate';
+        this.reverse = false;
     }
 
-    loadAll() {
-        this.stockOutItemService
-            .query()
-            .subscribe(
-                (res: HttpResponse<IStockOutItem[]>) => this.paginateStockOutItems(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-        this.itemCategoryService
+    ngOnInit() {
+        this.getProductCategories();
+        this.getInventoryLocation();
+        this.loadAll();
+        this.accountService.identity().then(account => {
+            this.currentAccount = account;
+        });
+        this.registerChangeInStockOutItems();
+    }
+
+    hunt() {
+        this.stockOutItems = [];
+        if (this.containerTrackingId) {
+            this.stockOutItemService
+                .query({
+                    'productCategoriesId.equals': this.productCategoryId ? this.productCategoryId : '',
+                    'productsId.equals': this.productId ? this.productId : '',
+                    'inventoryLocationsId.equals': this.inventoryLocationId ? this.inventoryLocationId : '',
+                    'inventorySubLocationsId.equals': this.inventorySubLocationId ? this.inventorySubLocationId : '',
+                    'containerTrackingId.equals': this.containerTrackingId,
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<IStockStatus[]>) => this.paginateStockOutItems(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.stockOutItemService
+                .query({
+                    'productCategoriesId.equals': this.productCategoryId ? this.productCategoryId : '',
+                    'productsId.equals': this.productId ? this.productId : '',
+                    'inventoryLocationsId.equals': this.inventoryLocationId ? this.inventoryLocationId : '',
+                    'inventorySubLocationsId.equals': this.inventorySubLocationId ? this.inventorySubLocationId : '',
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort()
+                })
+                .subscribe(
+                    (res: HttpResponse<IStockStatus[]>) => this.paginateStockOutItems(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
+    }
+
+    getProductCategories() {
+        this.productCategoryService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IItemCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemCategory[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IProductCategory[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProductCategory[]>) => response.body)
             )
-            .subscribe((res: IItemCategory[]) => (this.itemcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.itemSubCategoryService
-            .query()
+            .subscribe((res: IProductCategory[]) => (this.productcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    getProducts() {
+        this.productService
+            .query({
+                'productCategoryId.equals': this.productCategoryId ? this.productCategoryId : ''
+            })
             .pipe(
-                filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemSubCategory[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProduct[]>) => response.body)
             )
-            .subscribe((res: IItemSubCategory[]) => (this.itemsubcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    getInventoryLocation() {
         this.inventoryLocationService
             .query()
             .pipe(
@@ -96,34 +132,12 @@ export class StockOutItemExtendedComponent extends StockOutItemComponent impleme
                 (res: IInventoryLocation[]) => (this.inventorylocations = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
-        this.inventorySubLocationService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IInventorySubLocation[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IInventorySubLocation[]>) => response.body)
-            )
-            .subscribe(
-                (res: IInventorySubLocation[]) => (this.inventorysublocations = res),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-    }
-
-    getItemSubCategories() {
-        this.itemSubCategoryService
-            .query({
-                'itemCategoriesId.equals': this.s_ItemCategoriesId ? this.s_ItemCategoriesId : ''
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemSubCategory[]>) => response.body)
-            )
-            .subscribe((res: IItemSubCategory[]) => (this.itemsubcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     getInventorySubLocation() {
         this.inventorySubLocationService
             .query({
-                'inventoryLocationsId.equals': this.s_InventoryLocationsId ? this.s_InventoryLocationsId : ''
+                'inventoryLocationsId.equals': this.inventoryLocationId ? this.inventoryLocationId : ''
             })
             .pipe(
                 filter((mayBeOk: HttpResponse<IInventorySubLocation[]>) => mayBeOk.ok),
@@ -135,71 +149,11 @@ export class StockOutItemExtendedComponent extends StockOutItemComponent impleme
             );
     }
 
-    search() {
-        if (this.s_ContainerTrackingId) {
-            this.stockOutItemService
-                .query({
-                    'itemCategoriesId.equals': this.s_ItemCategoriesId ? this.s_ItemCategoriesId : '',
-                    'itemSubCategoriesId.equals': this.s_ItemSubCategoriesId ? this.s_ItemSubCategoriesId : '',
-                    'inventoryLocationsId.equals': this.s_InventoryLocationsId ? this.s_InventoryLocationsId : '',
-                    'inventorySubLocationsId.equals': this.s_InventorySubLocationsId ? this.s_InventorySubLocationsId : '',
-                    'containerTrackingId.equals': this.s_ContainerTrackingId
-                })
-                .subscribe(
-                    (res: HttpResponse<IStockOutItem[]>) => this.paginateStockOutItems(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        } else {
-            this.stockOutItemService
-                .query({
-                    'itemCategoriesId.equals': this.s_ItemCategoriesId ? this.s_ItemCategoriesId : '',
-                    'itemSubCategoriesId.equals': this.s_ItemSubCategoriesId ? this.s_ItemSubCategoriesId : '',
-                    'inventoryLocationsId.equals': this.s_InventoryLocationsId ? this.s_InventoryLocationsId : '',
-                    'inventorySubLocationsId.equals': this.s_InventorySubLocationsId ? this.s_InventorySubLocationsId : ''
-                })
-                .subscribe(
-                    (res: HttpResponse<IStockOutItem[]>) => this.paginateStockOutItems(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        }
-    }
-
-    ngOnInit() {
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
-            this.loadAll();
-        });
-        this.registerChangeInStockOutItems();
-    }
-
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
-    }
-
-    trackId(index: number, item: IStockOutItem) {
+    trackProductCategoryById(index: number, item: IProductCategory) {
         return item.id;
     }
 
-    registerChangeInStockOutItems() {
-        this.eventSubscriber = this.eventManager.subscribe('stockOutItemListModification', response => undefined);
-    }
-
-    protected paginateStockOutItems(data: IStockOutItem[], headers: HttpHeaders) {
-        this.stockOutItems = [];
-        for (let i = 0; i < data.length; i++) {
-            this.stockOutItems.push(data[i]);
-        }
-    }
-
-    protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
-    }
-
-    trackItemCategoryById(index: number, item: IItemCategory) {
-        return item.id;
-    }
-
-    trackItemSubCategoryById(index: number, item: IItemSubCategory) {
+    trackProductById(index: number, item: IProduct) {
         return item.id;
     }
 

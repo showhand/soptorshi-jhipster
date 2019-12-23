@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IHoliday } from 'app/shared/model/holiday.model';
 import { HolidayExtendedService } from './holiday-extended.service';
 import { IHolidayType } from 'app/shared/model/holiday-type.model';
@@ -23,12 +23,13 @@ export class HolidayUpdateExtendedComponent extends HolidayUpdateComponent imple
     toDateDp: any;
 
     constructor(
+        protected dataUtils: JhiDataUtils,
         protected jhiAlertService: JhiAlertService,
         protected holidayService: HolidayExtendedService,
         protected holidayTypeService: HolidayTypeService,
         protected activatedRoute: ActivatedRoute
     ) {
-        super(jhiAlertService, holidayService, holidayTypeService, activatedRoute);
+        super(dataUtils, jhiAlertService, holidayService, holidayTypeService, activatedRoute);
     }
 
     ngOnInit() {

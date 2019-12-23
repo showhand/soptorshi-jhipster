@@ -1,10 +1,11 @@
 package org.soptorshi.domain;
 
 
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -18,7 +19,7 @@ import java.util.Objects;
 public class CommercialPackaging implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,8 +38,8 @@ public class CommercialPackaging implements Serializable {
     @Column(name = "created_by")
     private String createdBy;
 
-    @Column(name = "create_on")
-    private LocalDate createOn;
+    @Column(name = "created_on")
+    private LocalDate createdOn;
 
     @Column(name = "updated_by")
     private String updatedBy;
@@ -111,17 +112,17 @@ public class CommercialPackaging implements Serializable {
         this.createdBy = createdBy;
     }
 
-    public LocalDate getCreateOn() {
-        return createOn;
+    public LocalDate getCreatedOn() {
+        return createdOn;
     }
 
-    public CommercialPackaging createOn(LocalDate createOn) {
-        this.createOn = createOn;
+    public CommercialPackaging createdOn(LocalDate createdOn) {
+        this.createdOn = createdOn;
         return this;
     }
 
-    public void setCreateOn(LocalDate createOn) {
-        this.createOn = createOn;
+    public void setCreatedOn(LocalDate createdOn) {
+        this.createdOn = createdOn;
     }
 
     public String getUpdatedBy() {
@@ -192,7 +193,7 @@ public class CommercialPackaging implements Serializable {
             ", consignmentDate='" + getConsignmentDate() + "'" +
             ", brand='" + getBrand() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
-            ", createOn='" + getCreateOn() + "'" +
+            ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
             "}";

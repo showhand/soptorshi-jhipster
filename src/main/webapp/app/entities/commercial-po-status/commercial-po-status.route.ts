@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { CommercialPoStatus, ICommercialPoStatus } from 'app/shared/model/commercial-po-status.model';
+import { CommercialPoStatus } from 'app/shared/model/commercial-po-status.model';
 import { CommercialPoStatusService } from './commercial-po-status.service';
 import { CommercialPoStatusComponent } from './commercial-po-status.component';
 import { CommercialPoStatusDetailComponent } from './commercial-po-status-detail.component';
 import { CommercialPoStatusUpdateComponent } from './commercial-po-status-update.component';
 import { CommercialPoStatusDeletePopupComponent } from './commercial-po-status-delete-dialog.component';
+import { ICommercialPoStatus } from 'app/shared/model/commercial-po-status.model';
 
 @Injectable({ providedIn: 'root' })
 export class CommercialPoStatusResolve implements Resolve<ICommercialPoStatus> {

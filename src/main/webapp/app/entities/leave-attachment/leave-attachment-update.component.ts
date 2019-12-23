@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -24,8 +24,7 @@ export class LeaveAttachmentUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected leaveAttachmentService: LeaveAttachmentService,
         protected leaveApplicationService: LeaveApplicationService,
-        protected activatedRoute: ActivatedRoute,
-        protected router: Router
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -55,8 +54,7 @@ export class LeaveAttachmentUpdateComponent implements OnInit {
     }
 
     previousState() {
-        /*window.history.back();*/
-        this.router.navigate(['/leave-application']);
+        window.history.back();
     }
 
     save() {

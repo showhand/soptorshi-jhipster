@@ -1,22 +1,26 @@
 package org.soptorshi.service;
 
-import io.github.jhipster.service.QueryService;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.*;
-import org.soptorshi.repository.SupplyOrderRepository;
-import org.soptorshi.repository.search.SupplyOrderSearchRepository;
-import org.soptorshi.service.dto.SupplyOrderCriteria;
-import org.soptorshi.service.dto.SupplyOrderDTO;
-import org.soptorshi.service.mapper.SupplyOrderMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.JoinType;
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import org.soptorshi.domain.SupplyOrder;
+import org.soptorshi.domain.*; // for static metamodels
+import org.soptorshi.repository.SupplyOrderRepository;
+import org.soptorshi.repository.search.SupplyOrderSearchRepository;
+import org.soptorshi.service.dto.SupplyOrderCriteria;
+import org.soptorshi.service.dto.SupplyOrderDTO;
+import org.soptorshi.service.mapper.SupplyOrderMapper;
 
 /**
  * Service for executing complex queries for SupplyOrder entities in the database.

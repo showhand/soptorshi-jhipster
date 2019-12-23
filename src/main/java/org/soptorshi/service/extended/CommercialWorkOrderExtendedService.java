@@ -73,7 +73,7 @@ public class CommercialWorkOrderExtendedService extends CommercialWorkOrderServi
             LocalDate currentDate = LocalDate.now();
             if (commercialWorkOrderDTO.getId() == null) {
                 commercialWorkOrderDTO.setCreatedBy(currentUser);
-                commercialWorkOrderDTO.setCreateOn(currentDate);
+                commercialWorkOrderDTO.setCreatedOn(currentDate);
                 updateCommercialStatus(commercialWorkOrderDTO, currentUser, currentDate);
             } else {
                 commercialWorkOrderDTO.setUpdatedBy(currentUser);
@@ -95,7 +95,7 @@ public class CommercialWorkOrderExtendedService extends CommercialWorkOrderServi
         commercialPoStatusDTO.setStatus(CommercialStatus.WORK_ORDER_ISSUED_AND_WAITING_FOR_BILL_OR_INVOICE_FROM_SUPPLIER);
         commercialPoStatusDTO.setCommercialPurchaseOrderId(commercialWorkOrderDTO.getCommercialPurchaseOrderId());
         commercialPoStatusDTO.setCreatedBy(currentUser);
-        commercialPoStatusDTO.setCreateOn(currentDate);
+        commercialPoStatusDTO.setCreatedOn(currentDate);
         commercialPoStatusService.save(commercialPoStatusDTO);
     }
 

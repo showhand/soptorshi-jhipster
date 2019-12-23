@@ -1,20 +1,22 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
+
 import org.soptorshi.domain.CommercialPoStatus;
 import org.soptorshi.domain.CommercialPurchaseOrder;
-import org.soptorshi.domain.enumeration.CommercialStatus;
 import org.soptorshi.repository.CommercialPoStatusRepository;
 import org.soptorshi.repository.search.CommercialPoStatusSearchRepository;
-import org.soptorshi.service.CommercialPoStatusQueryService;
 import org.soptorshi.service.CommercialPoStatusService;
 import org.soptorshi.service.dto.CommercialPoStatusDTO;
 import org.soptorshi.service.mapper.CommercialPoStatusMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.CommercialPoStatusCriteria;
+import org.soptorshi.service.CommercialPoStatusQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -34,13 +36,16 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.soptorshi.domain.enumeration.CommercialStatus;
 /**
  * Test class for the CommercialPoStatusResource REST controller.
  *
@@ -56,8 +61,8 @@ public class CommercialPoStatusResourceIntTest {
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATE_ON = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATE_ON = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate DEFAULT_CREATED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_ON = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
@@ -126,7 +131,7 @@ public class CommercialPoStatusResourceIntTest {
         CommercialPoStatus commercialPoStatus = new CommercialPoStatus()
             .status(DEFAULT_STATUS)
             .createdBy(DEFAULT_CREATED_BY)
-            .createOn(DEFAULT_CREATE_ON)
+            .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
         return commercialPoStatus;
@@ -155,7 +160,7 @@ public class CommercialPoStatusResourceIntTest {
         CommercialPoStatus testCommercialPoStatus = commercialPoStatusList.get(commercialPoStatusList.size() - 1);
         assertThat(testCommercialPoStatus.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testCommercialPoStatus.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
-        assertThat(testCommercialPoStatus.getCreateOn()).isEqualTo(DEFAULT_CREATE_ON);
+        assertThat(testCommercialPoStatus.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testCommercialPoStatus.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testCommercialPoStatus.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
@@ -218,11 +223,11 @@ public class CommercialPoStatusResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(commercialPoStatus.getId().intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getCommercialPoStatus() throws Exception {
@@ -236,7 +241,7 @@ public class CommercialPoStatusResourceIntTest {
             .andExpect(jsonPath("$.id").value(commercialPoStatus.getId().intValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
-            .andExpect(jsonPath("$.createOn").value(DEFAULT_CREATE_ON.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
             .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
     }
@@ -321,67 +326,67 @@ public class CommercialPoStatusResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllCommercialPoStatusesByCreateOnIsEqualToSomething() throws Exception {
+    public void getAllCommercialPoStatusesByCreatedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialPoStatusRepository.saveAndFlush(commercialPoStatus);
 
-        // Get all the commercialPoStatusList where createOn equals to DEFAULT_CREATE_ON
-        defaultCommercialPoStatusShouldBeFound("createOn.equals=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPoStatusList where createdOn equals to DEFAULT_CREATED_ON
+        defaultCommercialPoStatusShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPoStatusList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialPoStatusShouldNotBeFound("createOn.equals=" + UPDATED_CREATE_ON);
+        // Get all the commercialPoStatusList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialPoStatusShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPoStatusesByCreateOnIsInShouldWork() throws Exception {
+    public void getAllCommercialPoStatusesByCreatedOnIsInShouldWork() throws Exception {
         // Initialize the database
         commercialPoStatusRepository.saveAndFlush(commercialPoStatus);
 
-        // Get all the commercialPoStatusList where createOn in DEFAULT_CREATE_ON or UPDATED_CREATE_ON
-        defaultCommercialPoStatusShouldBeFound("createOn.in=" + DEFAULT_CREATE_ON + "," + UPDATED_CREATE_ON);
+        // Get all the commercialPoStatusList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultCommercialPoStatusShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
 
-        // Get all the commercialPoStatusList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialPoStatusShouldNotBeFound("createOn.in=" + UPDATED_CREATE_ON);
+        // Get all the commercialPoStatusList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialPoStatusShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPoStatusesByCreateOnIsNullOrNotNull() throws Exception {
+    public void getAllCommercialPoStatusesByCreatedOnIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialPoStatusRepository.saveAndFlush(commercialPoStatus);
 
-        // Get all the commercialPoStatusList where createOn is not null
-        defaultCommercialPoStatusShouldBeFound("createOn.specified=true");
+        // Get all the commercialPoStatusList where createdOn is not null
+        defaultCommercialPoStatusShouldBeFound("createdOn.specified=true");
 
-        // Get all the commercialPoStatusList where createOn is null
-        defaultCommercialPoStatusShouldNotBeFound("createOn.specified=false");
+        // Get all the commercialPoStatusList where createdOn is null
+        defaultCommercialPoStatusShouldNotBeFound("createdOn.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPoStatusesByCreateOnIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllCommercialPoStatusesByCreatedOnIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         commercialPoStatusRepository.saveAndFlush(commercialPoStatus);
 
-        // Get all the commercialPoStatusList where createOn greater than or equals to DEFAULT_CREATE_ON
-        defaultCommercialPoStatusShouldBeFound("createOn.greaterOrEqualThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPoStatusList where createdOn greater than or equals to DEFAULT_CREATED_ON
+        defaultCommercialPoStatusShouldBeFound("createdOn.greaterOrEqualThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPoStatusList where createOn greater than or equals to UPDATED_CREATE_ON
-        defaultCommercialPoStatusShouldNotBeFound("createOn.greaterOrEqualThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialPoStatusList where createdOn greater than or equals to UPDATED_CREATED_ON
+        defaultCommercialPoStatusShouldNotBeFound("createdOn.greaterOrEqualThan=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPoStatusesByCreateOnIsLessThanSomething() throws Exception {
+    public void getAllCommercialPoStatusesByCreatedOnIsLessThanSomething() throws Exception {
         // Initialize the database
         commercialPoStatusRepository.saveAndFlush(commercialPoStatus);
 
-        // Get all the commercialPoStatusList where createOn less than or equals to DEFAULT_CREATE_ON
-        defaultCommercialPoStatusShouldNotBeFound("createOn.lessThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPoStatusList where createdOn less than or equals to DEFAULT_CREATED_ON
+        defaultCommercialPoStatusShouldNotBeFound("createdOn.lessThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPoStatusList where createOn less than or equals to UPDATED_CREATE_ON
-        defaultCommercialPoStatusShouldBeFound("createOn.lessThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialPoStatusList where createdOn less than or equals to UPDATED_CREATED_ON
+        defaultCommercialPoStatusShouldBeFound("createdOn.lessThan=" + UPDATED_CREATED_ON);
     }
 
 
@@ -518,7 +523,7 @@ public class CommercialPoStatusResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(commercialPoStatus.getId().intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
@@ -570,7 +575,7 @@ public class CommercialPoStatusResourceIntTest {
         updatedCommercialPoStatus
             .status(UPDATED_STATUS)
             .createdBy(UPDATED_CREATED_BY)
-            .createOn(UPDATED_CREATE_ON)
+            .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
             .updatedOn(UPDATED_UPDATED_ON);
         CommercialPoStatusDTO commercialPoStatusDTO = commercialPoStatusMapper.toDto(updatedCommercialPoStatus);
@@ -586,7 +591,7 @@ public class CommercialPoStatusResourceIntTest {
         CommercialPoStatus testCommercialPoStatus = commercialPoStatusList.get(commercialPoStatusList.size() - 1);
         assertThat(testCommercialPoStatus.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testCommercialPoStatus.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
-        assertThat(testCommercialPoStatus.getCreateOn()).isEqualTo(UPDATED_CREATE_ON);
+        assertThat(testCommercialPoStatus.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testCommercialPoStatus.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testCommercialPoStatus.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
@@ -651,7 +656,7 @@ public class CommercialPoStatusResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(commercialPoStatus.getId().intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }

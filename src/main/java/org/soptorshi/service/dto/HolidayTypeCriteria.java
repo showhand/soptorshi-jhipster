@@ -2,7 +2,6 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.YesOrNo;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -10,6 +9,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.InstantFilter;
 
 /**
  * Criteria class for the HolidayType entity. This class is used in HolidayTypeResource to
@@ -20,11 +20,6 @@ import io.github.jhipster.service.filter.StringFilter;
  * fix type specific filters.
  */
 public class HolidayTypeCriteria implements Serializable {
-    /**
-     * Class for filtering YesOrNo
-     */
-    public static class YesOrNoFilter extends Filter<YesOrNo> {
-    }
 
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +27,13 @@ public class HolidayTypeCriteria implements Serializable {
 
     private StringFilter name;
 
-    private YesOrNoFilter moonDependency;
+    private StringFilter createdBy;
+
+    private InstantFilter createdOn;
+
+    private StringFilter updatedBy;
+
+    private InstantFilter updatedOn;
 
     public LongFilter getId() {
         return id;
@@ -50,12 +51,36 @@ public class HolidayTypeCriteria implements Serializable {
         this.name = name;
     }
 
-    public YesOrNoFilter getMoonDependency() {
-        return moonDependency;
+    public StringFilter getCreatedBy() {
+        return createdBy;
     }
 
-    public void setMoonDependency(YesOrNoFilter moonDependency) {
-        this.moonDependency = moonDependency;
+    public void setCreatedBy(StringFilter createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public InstantFilter getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(InstantFilter createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public StringFilter getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(StringFilter updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public InstantFilter getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(InstantFilter updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
 
@@ -71,7 +96,10 @@ public class HolidayTypeCriteria implements Serializable {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
-            Objects.equals(moonDependency, that.moonDependency);
+            Objects.equals(createdBy, that.createdBy) &&
+            Objects.equals(createdOn, that.createdOn) &&
+            Objects.equals(updatedBy, that.updatedBy) &&
+            Objects.equals(updatedOn, that.updatedOn);
     }
 
     @Override
@@ -79,7 +107,10 @@ public class HolidayTypeCriteria implements Serializable {
         return Objects.hash(
         id,
         name,
-        moonDependency
+        createdBy,
+        createdOn,
+        updatedBy,
+        updatedOn
         );
     }
 
@@ -88,7 +119,10 @@ public class HolidayTypeCriteria implements Serializable {
         return "HolidayTypeCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
-                (moonDependency != null ? "moonDependency=" + moonDependency + ", " : "") +
+                (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
+                (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
+                (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
+                (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
             "}";
     }
 

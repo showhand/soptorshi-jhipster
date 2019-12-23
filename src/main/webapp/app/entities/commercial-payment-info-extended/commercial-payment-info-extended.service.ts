@@ -62,9 +62,9 @@ export class CommercialPaymentInfoExtendedService extends CommercialPaymentInfoS
 
     protected convertDateFromClient(commercialPaymentInfo: ICommercialPaymentInfo): ICommercialPaymentInfo {
         const copy: ICommercialPaymentInfo = Object.assign({}, commercialPaymentInfo, {
-            createOn:
-                commercialPaymentInfo.createOn != null && commercialPaymentInfo.createOn.isValid()
-                    ? commercialPaymentInfo.createOn.format(DATE_FORMAT)
+            createdOn:
+                commercialPaymentInfo.createdOn != null && commercialPaymentInfo.createdOn.isValid()
+                    ? commercialPaymentInfo.createdOn.format(DATE_FORMAT)
                     : null,
             updatedOn:
                 commercialPaymentInfo.updatedOn != null && commercialPaymentInfo.updatedOn.isValid()
@@ -76,7 +76,7 @@ export class CommercialPaymentInfoExtendedService extends CommercialPaymentInfoS
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
             res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
@@ -85,7 +85,7 @@ export class CommercialPaymentInfoExtendedService extends CommercialPaymentInfoS
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((commercialPaymentInfo: ICommercialPaymentInfo) => {
-                commercialPaymentInfo.createOn = commercialPaymentInfo.createOn != null ? moment(commercialPaymentInfo.createOn) : null;
+                commercialPaymentInfo.createdOn = commercialPaymentInfo.createdOn != null ? moment(commercialPaymentInfo.createdOn) : null;
                 commercialPaymentInfo.updatedOn = commercialPaymentInfo.updatedOn != null ? moment(commercialPaymentInfo.updatedOn) : null;
             });
         }

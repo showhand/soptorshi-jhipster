@@ -1,24 +1,26 @@
 package org.soptorshi.service;
 
-import io.github.jhipster.service.QueryService;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.CommercialProformaInvoice;
-import org.soptorshi.domain.CommercialProformaInvoice_;
-import org.soptorshi.domain.CommercialPurchaseOrder_;
-import org.soptorshi.repository.CommercialProformaInvoiceRepository;
-import org.soptorshi.repository.search.CommercialProformaInvoiceSearchRepository;
-import org.soptorshi.service.dto.CommercialProformaInvoiceCriteria;
-import org.soptorshi.service.dto.CommercialProformaInvoiceDTO;
-import org.soptorshi.service.mapper.CommercialProformaInvoiceMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.JoinType;
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import org.soptorshi.domain.CommercialProformaInvoice;
+import org.soptorshi.domain.*; // for static metamodels
+import org.soptorshi.repository.CommercialProformaInvoiceRepository;
+import org.soptorshi.repository.search.CommercialProformaInvoiceSearchRepository;
+import org.soptorshi.service.dto.CommercialProformaInvoiceCriteria;
+import org.soptorshi.service.dto.CommercialProformaInvoiceDTO;
+import org.soptorshi.service.mapper.CommercialProformaInvoiceMapper;
 
 /**
  * Service for executing complex queries for CommercialProformaInvoice entities in the database.
@@ -124,8 +126,8 @@ public class CommercialProformaInvoiceQueryService extends QueryService<Commerci
             if (criteria.getCreatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), CommercialProformaInvoice_.createdBy));
             }
-            if (criteria.getCreateOn() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getCreateOn(), CommercialProformaInvoice_.createOn));
+            if (criteria.getCreatedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedOn(), CommercialProformaInvoice_.createdOn));
             }
             if (criteria.getUpdatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), CommercialProformaInvoice_.updatedBy));

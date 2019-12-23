@@ -1,15 +1,42 @@
 package org.soptorshi.service;
 
+import org.soptorshi.domain.SupplySalesRepresentative;
+import org.soptorshi.repository.SupplySalesRepresentativeRepository;
+import org.soptorshi.repository.search.SupplySalesRepresentativeSearchRepository;
 import org.soptorshi.service.dto.SupplySalesRepresentativeDTO;
+import org.soptorshi.service.mapper.SupplySalesRepresentativeMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static org.elasticsearch.index.query.QueryBuilders.*;
+
 /**
- * Service Interface for managing SupplySalesRepresentative.
+ * Service Implementation for managing SupplySalesRepresentative.
  */
-public interface SupplySalesRepresentativeService {
+@Service
+@Transactional
+public class SupplySalesRepresentativeService {
+
+    private final Logger log = LoggerFactory.getLogger(SupplySalesRepresentativeService.class);
+
+    private final SupplySalesRepresentativeRepository supplySalesRepresentativeRepository;
+
+    private final SupplySalesRepresentativeMapper supplySalesRepresentativeMapper;
+
+    private final SupplySalesRepresentativeSearchRepository supplySalesRepresentativeSearchRepository;
+
+    public SupplySalesRepresentativeService(SupplySalesRepresentativeRepository supplySalesRepresentativeRepository, SupplySalesRepresentativeMapper supplySalesRepresentativeMapper, SupplySalesRepresentativeSearchRepository supplySalesRepresentativeSearchRepository) {
+        this.supplySalesRepresentativeRepository = supplySalesRepresentativeRepository;
+        this.supplySalesRepresentativeMapper = supplySalesRepresentativeMapper;
+        this.supplySalesRepresentativeSearchRepository = supplySalesRepresentativeSearchRepository;
+    }
 
     /**
      * Save a supplySalesRepresentative.
@@ -17,7 +44,14 @@ public interface SupplySalesRepresentativeService {
      * @param supplySalesRepresentativeDTO the entity to save
      * @return the persisted entity
      */
-    SupplySalesRepresentativeDTO save(SupplySalesRepresentativeDTO supplySalesRepresentativeDTO);
+    public SupplySalesRepresentativeDTO save(SupplySalesRepresentativeDTO supplySalesRepresentativeDTO) {
+        log.debug("Request to save SupplySalesRepresentative : {}", supplySalesRepresentativeDTO);
+        SupplySalesRepresentative supplySalesRepresentative = supplySalesRepresentativeMapper.toEntity(supplySalesRepresentativeDTO);
+        supplySalesRepresentative = supplySalesRepresentativeRepository.save(supplySalesRepresentative);
+        SupplySalesRepresentativeDTO result = supplySalesRepresentativeMapper.toDto(supplySalesRepresentative);
+        supplySalesRepresentativeSearchRepository.save(supplySalesRepresentative);
+        return result;
+    }
 
     /**
      * Get all the supplySalesRepresentatives.
@@ -25,31 +59,49 @@ public interface SupplySalesRepresentativeService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    Page<SupplySalesRepresentativeDTO> findAll(Pageable pageable);
+    @Transactional(readOnly = true)
+    public Page<SupplySalesRepresentativeDTO> findAll(Pageable pageable) {
+        log.debug("Request to get all SupplySalesRepresentatives");
+        return supplySalesRepresentativeRepository.findAll(pageable)
+            .map(supplySalesRepresentativeMapper::toDto);
+    }
 
 
     /**
-     * Get the "id" supplySalesRepresentative.
+     * Get one supplySalesRepresentative by id.
      *
      * @param id the id of the entity
      * @return the entity
      */
-    Optional<SupplySalesRepresentativeDTO> findOne(Long id);
+    @Transactional(readOnly = true)
+    public Optional<SupplySalesRepresentativeDTO> findOne(Long id) {
+        log.debug("Request to get SupplySalesRepresentative : {}", id);
+        return supplySalesRepresentativeRepository.findById(id)
+            .map(supplySalesRepresentativeMapper::toDto);
+    }
 
     /**
-     * Delete the "id" supplySalesRepresentative.
+     * Delete the supplySalesRepresentative by id.
      *
      * @param id the id of the entity
      */
-    void delete(Long id);
+    public void delete(Long id) {
+        log.debug("Request to delete SupplySalesRepresentative : {}", id);
+        supplySalesRepresentativeRepository.deleteById(id);
+        supplySalesRepresentativeSearchRepository.deleteById(id);
+    }
 
     /**
      * Search for the supplySalesRepresentative corresponding to the query.
      *
      * @param query the query of the search
-     *
      * @param pageable the pagination information
      * @return the list of entities
      */
-    Page<SupplySalesRepresentativeDTO> search(String query, Pageable pageable);
+    @Transactional(readOnly = true)
+    public Page<SupplySalesRepresentativeDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of SupplySalesRepresentatives for query {}", query);
+        return supplySalesRepresentativeSearchRepository.search(queryStringQuery(query), pageable)
+            .map(supplySalesRepresentativeMapper::toDto);
+    }
 }

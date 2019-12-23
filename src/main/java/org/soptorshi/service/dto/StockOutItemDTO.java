@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,7 @@ public class StockOutItemDTO implements Serializable {
     private String containerTrackingId;
 
     @NotNull
-    private Double quantity;
+    private BigDecimal quantity;
 
     private String stockOutBy;
 
@@ -23,16 +24,18 @@ public class StockOutItemDTO implements Serializable {
 
     private String receiverId;
 
+    private String receivingPlace;
+
     private String remarks;
 
 
-    private Long itemCategoriesId;
+    private Long productCategoriesId;
 
-    private String itemCategoriesName;
+    private String productCategoriesName;
 
-    private Long itemSubCategoriesId;
+    private Long productsId;
 
-    private String itemSubCategoriesName;
+    private String productsName;
 
     private Long inventoryLocationsId;
 
@@ -62,11 +65,11 @@ public class StockOutItemDTO implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
@@ -94,6 +97,14 @@ public class StockOutItemDTO implements Serializable {
         this.receiverId = receiverId;
     }
 
+    public String getReceivingPlace() {
+        return receivingPlace;
+    }
+
+    public void setReceivingPlace(String receivingPlace) {
+        this.receivingPlace = receivingPlace;
+    }
+
     public String getRemarks() {
         return remarks;
     }
@@ -102,36 +113,36 @@ public class StockOutItemDTO implements Serializable {
         this.remarks = remarks;
     }
 
-    public Long getItemCategoriesId() {
-        return itemCategoriesId;
+    public Long getProductCategoriesId() {
+        return productCategoriesId;
     }
 
-    public void setItemCategoriesId(Long itemCategoryId) {
-        this.itemCategoriesId = itemCategoryId;
+    public void setProductCategoriesId(Long productCategoryId) {
+        this.productCategoriesId = productCategoryId;
     }
 
-    public String getItemCategoriesName() {
-        return itemCategoriesName;
+    public String getProductCategoriesName() {
+        return productCategoriesName;
     }
 
-    public void setItemCategoriesName(String itemCategoryName) {
-        this.itemCategoriesName = itemCategoryName;
+    public void setProductCategoriesName(String productCategoryName) {
+        this.productCategoriesName = productCategoryName;
     }
 
-    public Long getItemSubCategoriesId() {
-        return itemSubCategoriesId;
+    public Long getProductsId() {
+        return productsId;
     }
 
-    public void setItemSubCategoriesId(Long itemSubCategoryId) {
-        this.itemSubCategoriesId = itemSubCategoryId;
+    public void setProductsId(Long productId) {
+        this.productsId = productId;
     }
 
-    public String getItemSubCategoriesName() {
-        return itemSubCategoriesName;
+    public String getProductsName() {
+        return productsName;
     }
 
-    public void setItemSubCategoriesName(String itemSubCategoryName) {
-        this.itemSubCategoriesName = itemSubCategoryName;
+    public void setProductsName(String productName) {
+        this.productsName = productName;
     }
 
     public Long getInventoryLocationsId() {
@@ -212,11 +223,12 @@ public class StockOutItemDTO implements Serializable {
             ", stockOutBy='" + getStockOutBy() + "'" +
             ", stockOutDate='" + getStockOutDate() + "'" +
             ", receiverId='" + getReceiverId() + "'" +
+            ", receivingPlace='" + getReceivingPlace() + "'" +
             ", remarks='" + getRemarks() + "'" +
-            ", itemCategories=" + getItemCategoriesId() +
-            ", itemCategories='" + getItemCategoriesName() + "'" +
-            ", itemSubCategories=" + getItemSubCategoriesId() +
-            ", itemSubCategories='" + getItemSubCategoriesName() + "'" +
+            ", productCategories=" + getProductCategoriesId() +
+            ", productCategories='" + getProductCategoriesName() + "'" +
+            ", products=" + getProductsId() +
+            ", products='" + getProductsName() + "'" +
             ", inventoryLocations=" + getInventoryLocationsId() +
             ", inventoryLocations='" + getInventoryLocationsName() + "'" +
             ", inventorySubLocations=" + getInventorySubLocationsId() +

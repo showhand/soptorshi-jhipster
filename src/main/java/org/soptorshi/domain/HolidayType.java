@@ -7,9 +7,8 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
-
-import org.soptorshi.domain.enumeration.YesOrNo;
 
 /**
  * A HolidayType.
@@ -29,10 +28,17 @@ public class HolidayType implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "moon_dependency", nullable = false)
-    private YesOrNo moonDependency;
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "created_on")
+    private Instant createdOn;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+
+    @Column(name = "updated_on")
+    private Instant updatedOn;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -56,17 +62,56 @@ public class HolidayType implements Serializable {
         this.name = name;
     }
 
-    public YesOrNo getMoonDependency() {
-        return moonDependency;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public HolidayType moonDependency(YesOrNo moonDependency) {
-        this.moonDependency = moonDependency;
+    public HolidayType createdBy(String createdBy) {
+        this.createdBy = createdBy;
         return this;
     }
 
-    public void setMoonDependency(YesOrNo moonDependency) {
-        this.moonDependency = moonDependency;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedOn() {
+        return createdOn;
+    }
+
+    public HolidayType createdOn(Instant createdOn) {
+        this.createdOn = createdOn;
+        return this;
+    }
+
+    public void setCreatedOn(Instant createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public HolidayType updatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+        return this;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Instant getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public HolidayType updatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
+        return this;
+    }
+
+    public void setUpdatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -95,7 +140,10 @@ public class HolidayType implements Serializable {
         return "HolidayType{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", moonDependency='" + getMoonDependency() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdOn='" + getCreatedOn() + "'" +
+            ", updatedBy='" + getUpdatedBy() + "'" +
+            ", updatedOn='" + getUpdatedOn() + "'" +
             "}";
     }
 }

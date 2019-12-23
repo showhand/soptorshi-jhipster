@@ -1,24 +1,30 @@
 package org.soptorshi.web.rest;
-
+import org.soptorshi.service.StockInItemService;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
+import org.soptorshi.service.dto.StockInItemDTO;
+import org.soptorshi.service.dto.StockInItemCriteria;
+import org.soptorshi.service.StockInItemQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.service.StockInItemQueryService;
-import org.soptorshi.service.StockInItemService;
-import org.soptorshi.service.dto.StockInItemCriteria;
-import org.soptorshi.service.dto.StockInItemDTO;
-import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing StockInItem.
@@ -50,14 +56,13 @@ public class StockInItemResource {
     @PostMapping("/stock-in-items")
     public ResponseEntity<StockInItemDTO> createStockInItem(@Valid @RequestBody StockInItemDTO stockInItemDTO) throws URISyntaxException {
         log.debug("REST request to save StockInItem : {}", stockInItemDTO);
-        /*if (stockInItemDTO.getId() != null) {
+        if (stockInItemDTO.getId() != null) {
             throw new BadRequestAlertException("A new stockInItem cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        StockInItemDTO result = stockInItemServiceImpl.save(stockInItemDTO);
+        StockInItemDTO result = stockInItemService.save(stockInItemDTO);
         return ResponseEntity.created(new URI("/api/stock-in-items/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);*/
-        throw new NotImplementedException();
+            .body(result);
     }
 
     /**
@@ -72,14 +77,13 @@ public class StockInItemResource {
     @PutMapping("/stock-in-items")
     public ResponseEntity<StockInItemDTO> updateStockInItem(@Valid @RequestBody StockInItemDTO stockInItemDTO) throws URISyntaxException {
         log.debug("REST request to update StockInItem : {}", stockInItemDTO);
-        /*if (stockInItemDTO.getId() == null) {
+        if (stockInItemDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        StockInItemDTO result = stockInItemServiceImpl.save(stockInItemDTO);
+        StockInItemDTO result = stockInItemService.save(stockInItemDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, stockInItemDTO.getId().toString()))
-            .body(result);*/
-        throw new NotImplementedException();
+            .body(result);
     }
 
     /**
@@ -131,9 +135,8 @@ public class StockInItemResource {
     @DeleteMapping("/stock-in-items/{id}")
     public ResponseEntity<Void> deleteStockInItem(@PathVariable Long id) {
         log.debug("REST request to delete StockInItem : {}", id);
-        /*stockInItemServiceImpl.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();*/
-        throw new NotImplementedException();
+        stockInItemService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
     /**

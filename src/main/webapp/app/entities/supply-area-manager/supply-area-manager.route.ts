@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ISupplyAreaManager, SupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
+import { SupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
 import { SupplyAreaManagerService } from './supply-area-manager.service';
 import { SupplyAreaManagerComponent } from './supply-area-manager.component';
 import { SupplyAreaManagerDetailComponent } from './supply-area-manager-detail.component';
 import { SupplyAreaManagerUpdateComponent } from './supply-area-manager-update.component';
 import { SupplyAreaManagerDeletePopupComponent } from './supply-area-manager-delete-dialog.component';
+import { ISupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyAreaManagerResolve implements Resolve<ISupplyAreaManager> {

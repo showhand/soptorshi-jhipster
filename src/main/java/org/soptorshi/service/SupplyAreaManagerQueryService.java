@@ -1,25 +1,26 @@
 package org.soptorshi.service;
 
-import io.github.jhipster.service.QueryService;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.SupplyAreaManager;
-import org.soptorshi.domain.SupplyAreaManager_;
-import org.soptorshi.domain.SupplyArea_;
-import org.soptorshi.domain.SupplyZone_;
-import org.soptorshi.repository.SupplyAreaManagerRepository;
-import org.soptorshi.repository.search.SupplyAreaManagerSearchRepository;
-import org.soptorshi.service.dto.SupplyAreaManagerCriteria;
-import org.soptorshi.service.dto.SupplyAreaManagerDTO;
-import org.soptorshi.service.mapper.SupplyAreaManagerMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.JoinType;
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import org.soptorshi.domain.SupplyAreaManager;
+import org.soptorshi.domain.*; // for static metamodels
+import org.soptorshi.repository.SupplyAreaManagerRepository;
+import org.soptorshi.repository.search.SupplyAreaManagerSearchRepository;
+import org.soptorshi.service.dto.SupplyAreaManagerCriteria;
+import org.soptorshi.service.dto.SupplyAreaManagerDTO;
+import org.soptorshi.service.mapper.SupplyAreaManagerMapper;
 
 /**
  * Service for executing complex queries for SupplyAreaManager entities in the database.

@@ -43,7 +43,7 @@ export class LeaveApplicationUpdateExtendedComponent extends LeaveApplicationUpd
         protected accountService: AccountService,
         protected router: Router
     ) {
-        super(jhiAlertService, leaveApplicationService, leaveBalanceService, leaveTypeService, activatedRoute, accountService, router);
+        super(jhiAlertService, leaveApplicationService, leaveTypeService, activatedRoute);
     }
 
     ngOnInit() {
@@ -95,10 +95,18 @@ export class LeaveApplicationUpdateExtendedComponent extends LeaveApplicationUpd
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<ILeaveApplication>>) {
-        result.subscribe((res: HttpResponse<ILeaveApplication>) => this.onSaveSuccess(res), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe(
+            (res: HttpResponse<ILeaveApplication>) => this.onSaveSuccessChangeState(res),
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
     }
 
-    protected onSaveSuccess(res: HttpResponse<ILeaveApplication>) {
+    protected onSaveSuccess() {
+        this.isSaving = false;
+        this.previousState();
+    }
+
+    protected onSaveSuccessChangeState(res: HttpResponse<ILeaveApplication>) {
         this.isSaving = false;
         this.editState(res);
     }

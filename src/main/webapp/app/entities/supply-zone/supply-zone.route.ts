@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ISupplyZone, SupplyZone } from 'app/shared/model/supply-zone.model';
+import { SupplyZone } from 'app/shared/model/supply-zone.model';
 import { SupplyZoneService } from './supply-zone.service';
 import { SupplyZoneComponent } from './supply-zone.component';
 import { SupplyZoneDetailComponent } from './supply-zone-detail.component';
 import { SupplyZoneUpdateComponent } from './supply-zone-update.component';
 import { SupplyZoneDeletePopupComponent } from './supply-zone-delete-dialog.component';
+import { ISupplyZone } from 'app/shared/model/supply-zone.model';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyZoneResolve implements Resolve<ISupplyZone> {

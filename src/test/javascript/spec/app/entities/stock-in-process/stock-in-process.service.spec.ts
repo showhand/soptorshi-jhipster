@@ -1,13 +1,18 @@
 /* tslint:disable max-line-length */
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { StockInProcessService } from 'app/entities/stock-in-process/stock-in-process.service';
-import { IStockInProcess, StockInProcess, ItemUnit, ContainerCategory } from 'app/shared/model/stock-in-process.model';
+import {
+    ContainerCategory,
+    IStockInProcess,
+    ProductType,
+    StockInProcess,
+    StockInProcessStatus,
+    UnitOfMeasurements
+} from 'app/shared/model/stock-in-process.model';
 
 describe('Service Tests', () => {
     describe('StockInProcess Service', () => {
@@ -28,16 +33,20 @@ describe('Service Tests', () => {
             elemDefault = new StockInProcess(
                 0,
                 0,
-                ItemUnit.KG,
+                UnitOfMeasurements.PCS,
                 0,
                 0,
                 ContainerCategory.BOTTLE,
                 'AAAAAAA',
                 'AAAAAAA',
                 currentDate,
+                currentDate,
+                ProductType.REGULAR_PRODUCT,
+                StockInProcessStatus.WAITING_FOR_STOCK_IN_PROCESS,
                 'AAAAAAA',
                 currentDate,
                 'AAAAAAA',
+                currentDate,
                 'AAAAAAA'
             );
         });
@@ -46,7 +55,9 @@ describe('Service Tests', () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
+                        mfgDate: currentDate.format(DATE_FORMAT),
                         expiryDate: currentDate.format(DATE_FORMAT),
+                        processStartedOn: currentDate.format(DATE_TIME_FORMAT),
                         stockInDate: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
@@ -64,14 +75,18 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
+                        mfgDate: currentDate.format(DATE_FORMAT),
                         expiryDate: currentDate.format(DATE_FORMAT),
+                        processStartedOn: currentDate.format(DATE_TIME_FORMAT),
                         stockInDate: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
+                        mfgDate: currentDate,
                         expiryDate: currentDate,
+                        processStartedOn: currentDate,
                         stockInDate: currentDate
                     },
                     returnedFromService
@@ -94,10 +109,14 @@ describe('Service Tests', () => {
                         containerCategory: 'BBBBBB',
                         containerTrackingId: 'BBBBBB',
                         quantityPerContainer: 'BBBBBB',
+                        mfgDate: currentDate.format(DATE_FORMAT),
                         expiryDate: currentDate.format(DATE_FORMAT),
+                        typeOfProduct: 'BBBBBB',
+                        status: 'BBBBBB',
+                        processStartedBy: 'BBBBBB',
+                        processStartedOn: currentDate.format(DATE_TIME_FORMAT),
                         stockInBy: 'BBBBBB',
                         stockInDate: currentDate.format(DATE_TIME_FORMAT),
-                        purchaseOrderId: 'BBBBBB',
                         remarks: 'BBBBBB'
                     },
                     elemDefault
@@ -105,7 +124,9 @@ describe('Service Tests', () => {
 
                 const expected = Object.assign(
                     {
+                        mfgDate: currentDate,
                         expiryDate: currentDate,
+                        processStartedOn: currentDate,
                         stockInDate: currentDate
                     },
                     returnedFromService
@@ -128,17 +149,23 @@ describe('Service Tests', () => {
                         containerCategory: 'BBBBBB',
                         containerTrackingId: 'BBBBBB',
                         quantityPerContainer: 'BBBBBB',
+                        mfgDate: currentDate.format(DATE_FORMAT),
                         expiryDate: currentDate.format(DATE_FORMAT),
+                        typeOfProduct: 'BBBBBB',
+                        status: 'BBBBBB',
+                        processStartedBy: 'BBBBBB',
+                        processStartedOn: currentDate.format(DATE_TIME_FORMAT),
                         stockInBy: 'BBBBBB',
                         stockInDate: currentDate.format(DATE_TIME_FORMAT),
-                        purchaseOrderId: 'BBBBBB',
                         remarks: 'BBBBBB'
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
+                        mfgDate: currentDate,
                         expiryDate: currentDate,
+                        processStartedOn: currentDate,
                         stockInDate: currentDate
                     },
                     returnedFromService

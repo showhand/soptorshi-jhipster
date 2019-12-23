@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { CommercialProformaInvoice, ICommercialProformaInvoice } from 'app/shared/model/commercial-proforma-invoice.model';
+import { CommercialProformaInvoice } from 'app/shared/model/commercial-proforma-invoice.model';
 import { CommercialProformaInvoiceService } from './commercial-proforma-invoice.service';
 import { CommercialProformaInvoiceComponent } from './commercial-proforma-invoice.component';
 import { CommercialProformaInvoiceDetailComponent } from './commercial-proforma-invoice-detail.component';
 import { CommercialProformaInvoiceUpdateComponent } from './commercial-proforma-invoice-update.component';
 import { CommercialProformaInvoiceDeletePopupComponent } from './commercial-proforma-invoice-delete-dialog.component';
+import { ICommercialProformaInvoice } from 'app/shared/model/commercial-proforma-invoice.model';
 
 @Injectable({ providedIn: 'root' })
 export class CommercialProformaInvoiceResolve implements Resolve<ICommercialProformaInvoice> {

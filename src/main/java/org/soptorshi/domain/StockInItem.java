@@ -8,13 +8,16 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 
 import org.soptorshi.domain.enumeration.ContainerCategory;
+
+import org.soptorshi.domain.enumeration.ProductType;
 
 /**
  * A StockInItem.
@@ -31,17 +34,17 @@ public class StockInItem implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "quantity", nullable = false)
-    private Double quantity;
+    @Column(name = "quantity", precision = 10, scale = 2, nullable = false)
+    private BigDecimal quantity;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "unit", nullable = false)
-    private ItemUnit unit;
+    private UnitOfMeasurements unit;
 
     @NotNull
-    @Column(name = "price", nullable = false)
-    private Double price;
+    @Column(name = "price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal price;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -52,8 +55,15 @@ public class StockInItem implements Serializable {
     @Column(name = "container_tracking_id", nullable = false)
     private String containerTrackingId;
 
+    @Column(name = "mfg_date")
+    private LocalDate mfgDate;
+
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type_of_product")
+    private ProductType typeOfProduct;
 
     @Column(name = "stock_in_by")
     private String stockInBy;
@@ -61,19 +71,16 @@ public class StockInItem implements Serializable {
     @Column(name = "stock_in_date")
     private Instant stockInDate;
 
-    @Column(name = "purchase_order_id")
-    private String purchaseOrderId;
-
     @Column(name = "remarks")
     private String remarks;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
-    private ItemCategory itemCategories;
+    private ProductCategory productCategories;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
-    private ItemSubCategory itemSubCategories;
+    private Product products;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
@@ -85,11 +92,19 @@ public class StockInItem implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
-    private Manufacturer manufacturers;
+    private Vendor vendor;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
     private StockInProcess stockInProcesses;
+
+    @ManyToOne
+    @JsonIgnoreProperties("stockInItems")
+    private PurchaseOrder purchaseOrders;
+
+    @ManyToOne
+    @JsonIgnoreProperties("stockInItems")
+    private CommercialPurchaseOrder commercialPurchaseOrders;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -100,42 +115,42 @@ public class StockInItem implements Serializable {
         this.id = id;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public StockInItem quantity(Double quantity) {
+    public StockInItem quantity(BigDecimal quantity) {
         this.quantity = quantity;
         return this;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
-    public ItemUnit getUnit() {
+    public UnitOfMeasurements getUnit() {
         return unit;
     }
 
-    public StockInItem unit(ItemUnit unit) {
+    public StockInItem unit(UnitOfMeasurements unit) {
         this.unit = unit;
         return this;
     }
 
-    public void setUnit(ItemUnit unit) {
+    public void setUnit(UnitOfMeasurements unit) {
         this.unit = unit;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public StockInItem price(Double price) {
+    public StockInItem price(BigDecimal price) {
         this.price = price;
         return this;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -165,6 +180,19 @@ public class StockInItem implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
+    public LocalDate getMfgDate() {
+        return mfgDate;
+    }
+
+    public StockInItem mfgDate(LocalDate mfgDate) {
+        this.mfgDate = mfgDate;
+        return this;
+    }
+
+    public void setMfgDate(LocalDate mfgDate) {
+        this.mfgDate = mfgDate;
+    }
+
     public LocalDate getExpiryDate() {
         return expiryDate;
     }
@@ -176,6 +204,19 @@ public class StockInItem implements Serializable {
 
     public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public ProductType getTypeOfProduct() {
+        return typeOfProduct;
+    }
+
+    public StockInItem typeOfProduct(ProductType typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
+        return this;
+    }
+
+    public void setTypeOfProduct(ProductType typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
     }
 
     public String getStockInBy() {
@@ -204,19 +245,6 @@ public class StockInItem implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public String getPurchaseOrderId() {
-        return purchaseOrderId;
-    }
-
-    public StockInItem purchaseOrderId(String purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-        return this;
-    }
-
-    public void setPurchaseOrderId(String purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-    }
-
     public String getRemarks() {
         return remarks;
     }
@@ -230,30 +258,30 @@ public class StockInItem implements Serializable {
         this.remarks = remarks;
     }
 
-    public ItemCategory getItemCategories() {
-        return itemCategories;
+    public ProductCategory getProductCategories() {
+        return productCategories;
     }
 
-    public StockInItem itemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public StockInItem productCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
         return this;
     }
 
-    public void setItemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public void setProductCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
     }
 
-    public ItemSubCategory getItemSubCategories() {
-        return itemSubCategories;
+    public Product getProducts() {
+        return products;
     }
 
-    public StockInItem itemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public StockInItem products(Product product) {
+        this.products = product;
         return this;
     }
 
-    public void setItemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public void setProducts(Product product) {
+        this.products = product;
     }
 
     public InventoryLocation getInventoryLocations() {
@@ -282,17 +310,17 @@ public class StockInItem implements Serializable {
         this.inventorySubLocations = inventorySubLocation;
     }
 
-    public Manufacturer getManufacturers() {
-        return manufacturers;
+    public Vendor getVendor() {
+        return vendor;
     }
 
-    public StockInItem manufacturers(Manufacturer manufacturer) {
-        this.manufacturers = manufacturer;
+    public StockInItem vendor(Vendor vendor) {
+        this.vendor = vendor;
         return this;
     }
 
-    public void setManufacturers(Manufacturer manufacturer) {
-        this.manufacturers = manufacturer;
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
 
     public StockInProcess getStockInProcesses() {
@@ -306,6 +334,32 @@ public class StockInItem implements Serializable {
 
     public void setStockInProcesses(StockInProcess stockInProcess) {
         this.stockInProcesses = stockInProcess;
+    }
+
+    public PurchaseOrder getPurchaseOrders() {
+        return purchaseOrders;
+    }
+
+    public StockInItem purchaseOrders(PurchaseOrder purchaseOrder) {
+        this.purchaseOrders = purchaseOrder;
+        return this;
+    }
+
+    public void setPurchaseOrders(PurchaseOrder purchaseOrder) {
+        this.purchaseOrders = purchaseOrder;
+    }
+
+    public CommercialPurchaseOrder getCommercialPurchaseOrders() {
+        return commercialPurchaseOrders;
+    }
+
+    public StockInItem commercialPurchaseOrders(CommercialPurchaseOrder commercialPurchaseOrder) {
+        this.commercialPurchaseOrders = commercialPurchaseOrder;
+        return this;
+    }
+
+    public void setCommercialPurchaseOrders(CommercialPurchaseOrder commercialPurchaseOrder) {
+        this.commercialPurchaseOrders = commercialPurchaseOrder;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -338,10 +392,11 @@ public class StockInItem implements Serializable {
             ", price=" + getPrice() +
             ", containerCategory='" + getContainerCategory() + "'" +
             ", containerTrackingId='" + getContainerTrackingId() + "'" +
+            ", mfgDate='" + getMfgDate() + "'" +
             ", expiryDate='" + getExpiryDate() + "'" +
+            ", typeOfProduct='" + getTypeOfProduct() + "'" +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
-            ", purchaseOrderId='" + getPurchaseOrderId() + "'" +
             ", remarks='" + getRemarks() + "'" +
             "}";
     }

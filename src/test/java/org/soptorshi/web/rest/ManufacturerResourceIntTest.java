@@ -1,18 +1,21 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
+
 import org.soptorshi.domain.Manufacturer;
 import org.soptorshi.repository.ManufacturerRepository;
 import org.soptorshi.repository.search.ManufacturerSearchRepository;
-import org.soptorshi.service.ManufacturerQueryService;
 import org.soptorshi.service.ManufacturerService;
 import org.soptorshi.service.dto.ManufacturerDTO;
 import org.soptorshi.service.mapper.ManufacturerMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.ManufacturerCriteria;
+import org.soptorshi.service.ManufacturerQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -30,11 +33,12 @@ import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -225,7 +229,7 @@ public class ManufacturerResourceIntTest {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getManufacturer() throws Exception {

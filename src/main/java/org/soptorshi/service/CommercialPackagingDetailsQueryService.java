@@ -1,24 +1,26 @@
 package org.soptorshi.service;
 
-import io.github.jhipster.service.QueryService;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.CommercialPackagingDetails;
-import org.soptorshi.domain.CommercialPackagingDetails_;
-import org.soptorshi.domain.CommercialPackaging_;
-import org.soptorshi.repository.CommercialPackagingDetailsRepository;
-import org.soptorshi.repository.search.CommercialPackagingDetailsSearchRepository;
-import org.soptorshi.service.dto.CommercialPackagingDetailsCriteria;
-import org.soptorshi.service.dto.CommercialPackagingDetailsDTO;
-import org.soptorshi.service.mapper.CommercialPackagingDetailsMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.JoinType;
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import org.soptorshi.domain.CommercialPackagingDetails;
+import org.soptorshi.domain.*; // for static metamodels
+import org.soptorshi.repository.CommercialPackagingDetailsRepository;
+import org.soptorshi.repository.search.CommercialPackagingDetailsSearchRepository;
+import org.soptorshi.service.dto.CommercialPackagingDetailsCriteria;
+import org.soptorshi.service.dto.CommercialPackagingDetailsDTO;
+import org.soptorshi.service.mapper.CommercialPackagingDetailsMapper;
 
 /**
  * Service for executing complex queries for CommercialPackagingDetails entities in the database.
@@ -118,8 +120,8 @@ public class CommercialPackagingDetailsQueryService extends QueryService<Commerc
             if (criteria.getCreatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), CommercialPackagingDetails_.createdBy));
             }
-            if (criteria.getCreateOn() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getCreateOn(), CommercialPackagingDetails_.createOn));
+            if (criteria.getCreatedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedOn(), CommercialPackagingDetails_.createdOn));
             }
             if (criteria.getUpdatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), CommercialPackagingDetails_.updatedBy));

@@ -3,22 +3,22 @@
     "fields": [
         {
             "fieldName": "quantity",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "unit",
-            "fieldType": "ItemUnit",
-            "fieldValues": "KG,PCS,LITER,DOZEN,OTHERS",
+            "fieldType": "UnitOfMeasurements",
+            "fieldValues": "PCS,KG,TON,GRAM",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "price",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
@@ -39,8 +39,17 @@
             ]
         },
         {
+            "fieldName": "mfgDate",
+            "fieldType": "LocalDate"
+        },
+        {
             "fieldName": "expiryDate",
             "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "typeOfProduct",
+            "fieldType": "ProductType",
+            "fieldValues": "REGULAR_PRODUCT,FINISHED_PRODUCT,BY_PRODUCT"
         },
         {
             "fieldName": "stockInBy",
@@ -51,10 +60,6 @@
             "fieldType": "Instant"
         },
         {
-            "fieldName": "purchaseOrderId",
-            "fieldType": "String"
-        },
-        {
             "fieldName": "remarks",
             "fieldType": "String"
         }
@@ -62,16 +67,16 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemCategory",
+            "otherEntityName": "productCategory",
             "otherEntityRelationshipName": "stockInItem",
-            "relationshipName": "itemCategories",
+            "relationshipName": "productCategories",
             "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemSubCategory",
+            "otherEntityName": "product",
             "otherEntityRelationshipName": "stockInItem",
-            "relationshipName": "itemSubCategories",
+            "relationshipName": "products",
             "otherEntityField": "name"
         },
         {
@@ -90,10 +95,10 @@
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "manufacturer",
+            "otherEntityName": "vendor",
             "otherEntityRelationshipName": "stockInItem",
-            "relationshipName": "manufacturers",
-            "otherEntityField": "name"
+            "relationshipName": "vendor",
+            "otherEntityField": "companyName"
         },
         {
             "relationshipType": "many-to-one",
@@ -101,13 +106,27 @@
             "otherEntityRelationshipName": "stockInItem",
             "relationshipName": "stockInProcesses",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "purchaseOrder",
+            "otherEntityRelationshipName": "stockInItem",
+            "relationshipName": "purchaseOrders",
+            "otherEntityField": "purchaseOrderNo"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "commercialPurchaseOrder",
+            "otherEntityRelationshipName": "stockInItem",
+            "relationshipName": "commercialPurchaseOrders",
+            "otherEntityField": "purchaseOrderNo"
         }
     ],
     "changelogDate": "20190802061702",
     "entityTableName": "stock_in_item",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
-    "service": "serviceImpl",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",

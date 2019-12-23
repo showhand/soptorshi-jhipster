@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { CommercialPurchaseOrderItem, ICommercialPurchaseOrderItem } from 'app/shared/model/commercial-purchase-order-item.model';
+import { CommercialPurchaseOrderItem } from 'app/shared/model/commercial-purchase-order-item.model';
 import { CommercialPurchaseOrderItemService } from './commercial-purchase-order-item.service';
 import { CommercialPurchaseOrderItemComponent } from './commercial-purchase-order-item.component';
 import { CommercialPurchaseOrderItemDetailComponent } from './commercial-purchase-order-item-detail.component';
 import { CommercialPurchaseOrderItemUpdateComponent } from './commercial-purchase-order-item-update.component';
 import { CommercialPurchaseOrderItemDeletePopupComponent } from './commercial-purchase-order-item-delete-dialog.component';
+import { ICommercialPurchaseOrderItem } from 'app/shared/model/commercial-purchase-order-item.model';
 
 @Injectable({ providedIn: 'root' })
 export class CommercialPurchaseOrderItemResolve implements Resolve<ICommercialPurchaseOrderItem> {

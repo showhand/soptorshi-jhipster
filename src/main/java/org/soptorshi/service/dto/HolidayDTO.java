@@ -1,8 +1,12 @@
 package org.soptorshi.service.dto;
+import java.time.Instant;
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Lob;
+import org.soptorshi.domain.enumeration.YesOrNo;
+import org.soptorshi.domain.enumeration.HolidayImposedAuthority;
 
 /**
  * A DTO for the Holiday entity.
@@ -19,6 +23,23 @@ public class HolidayDTO implements Serializable {
 
     @NotNull
     private Integer numberOfDays;
+
+    @NotNull
+    private YesOrNo moonDependency;
+
+    @NotNull
+    private HolidayImposedAuthority holidayDeclaredBy;
+
+    @Lob
+    private String remarks;
+
+    private String createdBy;
+
+    private Instant createdOn;
+
+    private String updatedBy;
+
+    private Instant updatedOn;
 
 
     private Long holidayTypeId;
@@ -55,6 +76,62 @@ public class HolidayDTO implements Serializable {
 
     public void setNumberOfDays(Integer numberOfDays) {
         this.numberOfDays = numberOfDays;
+    }
+
+    public YesOrNo getMoonDependency() {
+        return moonDependency;
+    }
+
+    public void setMoonDependency(YesOrNo moonDependency) {
+        this.moonDependency = moonDependency;
+    }
+
+    public HolidayImposedAuthority getHolidayDeclaredBy() {
+        return holidayDeclaredBy;
+    }
+
+    public void setHolidayDeclaredBy(HolidayImposedAuthority holidayDeclaredBy) {
+        this.holidayDeclaredBy = holidayDeclaredBy;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Instant createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Instant getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
     public Long getHolidayTypeId() {
@@ -101,6 +178,13 @@ public class HolidayDTO implements Serializable {
             ", fromDate='" + getFromDate() + "'" +
             ", toDate='" + getToDate() + "'" +
             ", numberOfDays=" + getNumberOfDays() +
+            ", moonDependency='" + getMoonDependency() + "'" +
+            ", holidayDeclaredBy='" + getHolidayDeclaredBy() + "'" +
+            ", remarks='" + getRemarks() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdOn='" + getCreatedOn() + "'" +
+            ", updatedBy='" + getUpdatedBy() + "'" +
+            ", updatedOn='" + getUpdatedOn() + "'" +
             ", holidayType=" + getHolidayTypeId() +
             ", holidayType='" + getHolidayTypeName() + "'" +
             "}";

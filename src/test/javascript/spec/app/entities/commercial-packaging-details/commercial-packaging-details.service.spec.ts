@@ -1,11 +1,13 @@
 /* tslint:disable max-line-length */
-import { getTestBed, TestBed } from '@angular/core/testing';
+import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { map, take } from 'rxjs/operators';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { of } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { CommercialPackagingDetailsService } from 'app/entities/commercial-packaging-details/commercial-packaging-details.service';
-import { CommercialPackagingDetails, ICommercialPackagingDetails } from 'app/shared/model/commercial-packaging-details.model';
+import { ICommercialPackagingDetails, CommercialPackagingDetails } from 'app/shared/model/commercial-packaging-details.model';
 
 describe('Service Tests', () => {
     describe('CommercialPackagingDetails Service', () => {
@@ -46,7 +48,7 @@ describe('Service Tests', () => {
                     {
                         proDate: currentDate.format(DATE_FORMAT),
                         expDate: currentDate.format(DATE_FORMAT),
-                        createOn: currentDate.format(DATE_FORMAT),
+                        createdOn: currentDate.format(DATE_FORMAT),
                         updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
@@ -66,7 +68,7 @@ describe('Service Tests', () => {
                         id: 0,
                         proDate: currentDate.format(DATE_FORMAT),
                         expDate: currentDate.format(DATE_FORMAT),
-                        createOn: currentDate.format(DATE_FORMAT),
+                        createdOn: currentDate.format(DATE_FORMAT),
                         updatedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
@@ -75,7 +77,7 @@ describe('Service Tests', () => {
                     {
                         proDate: currentDate,
                         expDate: currentDate,
-                        createOn: currentDate,
+                        createdOn: currentDate,
                         updatedOn: currentDate
                     },
                     returnedFromService
@@ -100,7 +102,7 @@ describe('Service Tests', () => {
                         dayTotal: 1,
                         total: 1,
                         createdBy: 'BBBBBB',
-                        createOn: currentDate.format(DATE_FORMAT),
+                        createdOn: currentDate.format(DATE_FORMAT),
                         updatedBy: 'BBBBBB',
                         updatedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -111,7 +113,7 @@ describe('Service Tests', () => {
                     {
                         proDate: currentDate,
                         expDate: currentDate,
-                        createOn: currentDate,
+                        createdOn: currentDate,
                         updatedOn: currentDate
                     },
                     returnedFromService
@@ -136,7 +138,7 @@ describe('Service Tests', () => {
                         dayTotal: 1,
                         total: 1,
                         createdBy: 'BBBBBB',
-                        createOn: currentDate.format(DATE_FORMAT),
+                        createdOn: currentDate.format(DATE_FORMAT),
                         updatedBy: 'BBBBBB',
                         updatedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -146,7 +148,7 @@ describe('Service Tests', () => {
                     {
                         proDate: currentDate,
                         expDate: currentDate,
-                        createOn: currentDate,
+                        createdOn: currentDate,
                         updatedOn: currentDate
                     },
                     returnedFromService

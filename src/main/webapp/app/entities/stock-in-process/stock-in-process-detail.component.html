@@ -33,9 +33,29 @@
                 <dd>
                     <span>{{stockInProcess.quantityPerContainer}}</span>
                 </dd>
+                <dt><span>Mfg Date</span></dt>
+                <dd>
+                    <span>{{stockInProcess.mfgDate}}</span>
+                </dd>
                 <dt><span>Expiry Date</span></dt>
                 <dd>
                     <span>{{stockInProcess.expiryDate}}</span>
+                </dd>
+                <dt><span>Type Of Product</span></dt>
+                <dd>
+                    <span>{{stockInProcess.typeOfProduct}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{stockInProcess.status}}</span>
+                </dd>
+                <dt><span>Process Started By</span></dt>
+                <dd>
+                    <span>{{stockInProcess.processStartedBy}}</span>
+                </dd>
+                <dt><span>Process Started On</span></dt>
+                <dd>
+                    <span>{{stockInProcess.processStartedOn}}</span>
                 </dd>
                 <dt><span>Stock In By</span></dt>
                 <dd>
@@ -45,24 +65,32 @@
                 <dd>
                     <span>{{stockInProcess.stockInDate}}</span>
                 </dd>
-                <dt><span>Purchase Order Id</span></dt>
-                <dd>
-                    <span>{{stockInProcess.purchaseOrderId}}</span>
-                </dd>
                 <dt><span>Remarks</span></dt>
                 <dd>
                     <span>{{stockInProcess.remarks}}</span>
                 </dd>
-                <dt><span>Item Categories</span></dt>
+                <dt><span>Purchase Order</span></dt>
                 <dd>
-                    <div *ngIf="stockInProcess.itemCategoriesId">
-                        <a [routerLink]="['/item-category', stockInProcess.itemCategoriesId, 'view']">{{stockInProcess.itemCategoriesName}}</a>
+                    <div *ngIf="stockInProcess.purchaseOrderId">
+                        <a [routerLink]="['/purchase-order', stockInProcess.purchaseOrderId, 'view']">{{stockInProcess.purchaseOrderPurchaseOrderNo}}</a>
                     </div>
                 </dd>
-                <dt><span>Item Sub Categories</span></dt>
+                <dt><span>Commercial Purchase Order</span></dt>
                 <dd>
-                    <div *ngIf="stockInProcess.itemSubCategoriesId">
-                        <a [routerLink]="['/item-sub-category', stockInProcess.itemSubCategoriesId, 'view']">{{stockInProcess.itemSubCategoriesName}}</a>
+                    <div *ngIf="stockInProcess.commercialPurchaseOrderId">
+                        <a [routerLink]="['/commercial-purchase-order', stockInProcess.commercialPurchaseOrderId, 'view']">{{stockInProcess.commercialPurchaseOrderPurchaseOrderNo}}</a>
+                    </div>
+                </dd>
+                <dt><span>Product Categories</span></dt>
+                <dd>
+                    <div *ngIf="stockInProcess.productCategoriesId">
+                        <a [routerLink]="['/product-category', stockInProcess.productCategoriesId, 'view']">{{stockInProcess.productCategoriesName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Products</span></dt>
+                <dd>
+                    <div *ngIf="stockInProcess.productsId">
+                        <a [routerLink]="['/product', stockInProcess.productsId, 'view']">{{stockInProcess.productsName}}</a>
                     </div>
                 </dd>
                 <dt><span>Inventory Locations</span></dt>
@@ -77,10 +105,10 @@
                         <a [routerLink]="['/inventory-sub-location', stockInProcess.inventorySubLocationsId, 'view']">{{stockInProcess.inventorySubLocationsName}}</a>
                     </div>
                 </dd>
-                <dt><span>Manufacturers</span></dt>
+                <dt><span>Vendor</span></dt>
                 <dd>
-                    <div *ngIf="stockInProcess.manufacturersId">
-                        <a [routerLink]="['/manufacturer', stockInProcess.manufacturersId, 'view']">{{stockInProcess.manufacturersName}}</a>
+                    <div *ngIf="stockInProcess.vendorId">
+                        <a [routerLink]="['/vendor', stockInProcess.vendorId, 'view']">{{stockInProcess.vendorCompanyName}}</a>
                     </div>
                 </dd>
             </dl>
@@ -91,11 +119,11 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
 
-            <!--<button type="button"
+            <button type="button"
                     [routerLink]="['/stock-in-process', stockInProcess.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>-->
+            </button>
         </div>
     </div>
 </div>

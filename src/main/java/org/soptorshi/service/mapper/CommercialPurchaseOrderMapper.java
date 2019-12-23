@@ -1,8 +1,9 @@
 package org.soptorshi.service.mapper;
 
-import org.mapstruct.Mapper;
-import org.soptorshi.domain.CommercialPurchaseOrder;
+import org.soptorshi.domain.*;
 import org.soptorshi.service.dto.CommercialPurchaseOrderDTO;
+
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity CommercialPurchaseOrder and its DTO CommercialPurchaseOrderDTO.

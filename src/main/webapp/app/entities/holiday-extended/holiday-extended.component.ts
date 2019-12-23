@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
+import { JhiAlertService, JhiDataUtils, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
 import { IHoliday } from 'app/shared/model/holiday.model';
 import { AccountService } from 'app/core';
@@ -40,12 +40,13 @@ export class HolidayExtendedComponent extends HolidayComponent implements OnInit
     constructor(
         protected holidayService: HolidayExtendedService,
         protected jhiAlertService: JhiAlertService,
+        protected dataUtils: JhiDataUtils,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
     ) {
-        super(holidayService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
+        super(holidayService, jhiAlertService, dataUtils, eventManager, parseLinks, activatedRoute, accountService);
     }
 
     loadAll() {

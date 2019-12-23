@@ -1,0 +1,1360 @@
+// JDL definition for application 'soptorshi' generated with command 'jhipster export-jdl'
+
+entity Department {
+  name String,
+  shortName String,
+  code String
+}
+entity Designation {
+  name String,
+  shortName String,
+  description String
+}
+entity Employee {
+  employeeId String required,
+  fullName String required,
+  fathersName String required,
+  mothersName String required,
+  birthDate LocalDate required,
+  maritalStatus MaritalStatus required,
+  gender Gender required,
+  religion Religion required,
+  permanentAddress String required,
+  presentAddress String required,
+  nId String required,
+  tin String,
+  contactNumber String required,
+  email String,
+  bloodGroup String,
+  emergencyContact String required,
+  joiningDate LocalDate,
+  manager Long,
+  employeeStatus EmployeeStatus,
+  employmentType EmploymentType,
+  terminationDate LocalDate,
+  reasonOfTermination String,
+  userAccount Boolean,
+  photo ImageBlob
+}
+entity Attachment {
+  file AnyBlob
+}
+entity AcademicInformation {
+  degree String,
+  boardOrUniversity String,
+  passingYear Integer,
+  group String
+}
+entity TrainingInformation {
+  name String,
+  subject String,
+  organization String
+}
+entity FamilyInformation {
+  name String,
+  relation String,
+  contactNumber String
+}
+entity ReferenceInformation {
+  name String,
+  designation String,
+  organization String,
+  contactNumber String
+}
+entity ExperienceInformation {
+  organization String,
+  designation String,
+  startDate LocalDate,
+  endDate LocalDate,
+  employmentType EmploymentType
+}
+entity AcademicInformationAttachment (academic_attachment) {
+  file AnyBlob required
+}
+entity ExperienceInformationAttachment (experience_attachment) {
+  file AnyBlob required
+}
+entity TrainingInformationAttachment (training_attachment) {
+  file AnyBlob required
+}
+entity Office {
+  name String,
+  description String,
+  location String
+}
+entity FinancialAccountYear {
+  startDate LocalDate unique,
+  endDate LocalDate unique,
+  previousStartDate LocalDate,
+  previousEndDate LocalDate,
+  durationStr String,
+  status FinancialYearStatus unique
+}
+entity Tax {
+  amount BigDecimal,
+  taxStatus TaxStatus,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity Salary {
+  basic BigDecimal required,
+  gross BigDecimal required,
+  startedOn LocalDate,
+  endedOn LocalDate,
+  salaryStatus SalaryStatus,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity ProvidentFund {
+  startDate LocalDate unique,
+  rate Double unique,
+  status ProvidentFundStatus unique,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity MonthlySalary {
+  year Integer required,
+  month MonthType required,
+  basic BigDecimal required,
+  gross BigDecimal required,
+  houseRent BigDecimal,
+  medicalAllowance BigDecimal,
+  otherAllowance BigDecimal,
+  festivalAllowance BigDecimal,
+  absent Integer,
+  fine BigDecimal,
+  advanceHO BigDecimal,
+  advanceFactory BigDecimal,
+  providentFund BigDecimal,
+  tax BigDecimal,
+  loanAmount BigDecimal,
+  billPayable BigDecimal,
+  billReceivable BigDecimal,
+  payable BigDecimal,
+  approved Boolean,
+  onHold Boolean,
+  status MonthlySalaryStatus,
+  modifiedBy String,
+  modifiedOn LocalDate,
+  voucherGenerated Boolean
+}
+entity Advance {
+  amount BigDecimal,
+  reason TextBlob,
+  providedOn LocalDate,
+  monthlyPayable Double,
+  paymentStatus PaymentStatus,
+  left BigDecimal,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity Fine {
+  amount BigDecimal required,
+  fineDate LocalDate required,
+  monthlyPayable Double,
+  paymentStatus PaymentStatus,
+  left BigDecimal,
+  modifiedBy String,
+  modifiedDate LocalDate,
+  reason TextBlob
+}
+entity Loan {
+  amount BigDecimal required,
+  takenOn LocalDate,
+  monthlyPayable Double,
+  paymentStatus PaymentStatus,
+  left BigDecimal,
+  modifiedBy String,
+  modifiedDate LocalDate
+}
+entity HolidayType {
+  name String required,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
+}
+entity Holiday {
+  fromDate LocalDate required,
+  toDate LocalDate required,
+  numberOfDays Integer required,
+  moonDependency YesOrNo required,
+  holidayDeclaredBy HolidayImposedAuthority required,
+  remarks TextBlob,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
+}
+entity PayrollManagement
+entity LeaveType {
+  name String maxlength(50) required,
+  paidLeave PaidOrUnPaid,
+  maximumNumberOfDays Integer,
+  description String maxlength(250)
+}
+entity LeaveApplication {
+  employeeId String required,
+  fromDate LocalDate required,
+  toDate LocalDate required,
+  numberOfDays Integer required,
+  reason String maxlength(250) required,
+  appliedBy String required,
+  appliedOn Instant,
+  actionTakenBy String required,
+  actionTakenOn Instant,
+  status LeaveStatus required
+}
+entity LeaveAttachment {
+  file AnyBlob required
+}
+entity DesignationWiseAllowance {
+  allowanceType AllowanceType,
+  allowanceCategory AllowanceCategory,
+  amount BigDecimal,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity FineManagement
+entity AdvanceManagement
+entity LoanManagement
+entity ProvidentManagement
+entity AllowanceManagement
+entity FineAdvanceLoanManagement
+entity Manager {
+  parentEmployeeId Long,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity SpecialAllowanceTimeLine {
+  allowanceType AllowanceType,
+  religion Religion,
+  year Integer,
+  month MonthType,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity PurchaseCommittee
+entity Vendor {
+  companyName String,
+  description TextBlob,
+  address TextBlob,
+  contactNumber String,
+  remarks VendorRemarks
+}
+entity VendorContactPerson {
+  name String,
+  designation String,
+  contactNumber String
+}
+entity DepartmentHead
+entity Bill {
+  amount BigDecimal required,
+  billCategory BillCategory,
+  reason TextBlob,
+  modifiedBy String,
+  modifiedDate LocalDate
+}
+entity BudgetAllocation {
+  amount BigDecimal
+}
+entity ProductCategory {
+  name String,
+  description TextBlob,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity Product {
+  name String,
+  description TextBlob,
+  countryOrOrigin String,
+  status ProductStatus,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity ProductPrice {
+  price BigDecimal,
+  priceDate LocalDate,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity Requisition {
+  requisitionNo String,
+  reason TextBlob,
+  requisitionDate LocalDate,
+  amount BigDecimal,
+  status RequisitionStatus,
+  selected Boolean,
+  headRemarks TextBlob,
+  refToHead Long,
+  purchaseCommitteeRemarks TextBlob,
+  refToPurchaseCommittee Long,
+  cfoRemarks TextBlob,
+  refToCfo Long,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity RequisitionDetails {
+  requiredOn LocalDate,
+  estimatedDate LocalDate,
+  uom UnitOfMeasurements,
+  unit Integer,
+  unitPrice BigDecimal,
+  quantity BigDecimal,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity Quotation {
+  quotationNo String,
+  attachment AnyBlob required,
+  selectionStatus SelectionType,
+  totalAmount BigDecimal,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity QuotationDetails {
+  currency Currency,
+  rate BigDecimal,
+  quantity Integer,
+  payType PayType,
+  creditLimit BigDecimal,
+  vatStatus VatStatus,
+  aitStatus AITStatus,
+  estimatedDate LocalDate,
+  warrantyStatus WarrantyStatus,
+  loadingPort String,
+  remarks TextBlob,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity WorkOrder {
+  referenceNo String,
+  issueDate LocalDate,
+  referredTo String,
+  subject String,
+  note TextBlob,
+  laborOrOtherAmount BigDecimal,
+  discount Double,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity TermsAndConditions {
+  description TextBlob,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity PurchaseOrder {
+  purchaseOrderNo String,
+  workOrderNo String,
+  issueDate LocalDate,
+  referredTo String,
+  subject String,
+  note TextBlob,
+  laborOrOtherAmount BigDecimal,
+  discount Double,
+  status PurchaseOrderStatus,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity AttendanceExcelUpload {
+  file AnyBlob,
+  type AttendanceType
+}
+entity Attendance {
+  employeeId String,
+  attendanceDate LocalDate,
+  inTime Instant,
+  outTime Instant
+}
+entity Manufacturer {
+  name String required,
+  contact String,
+  email String,
+  address String,
+  description String,
+  remarks String
+}
+entity ItemCategory {
+  name String required,
+  shortName String,
+  description String
+}
+entity ItemSubCategory {
+  name String required,
+  shortName String,
+  description String
+}
+entity InventoryLocation {
+  name String required,
+  shortName String,
+  description String
+}
+entity InventorySubLocation {
+  category InventorySubLocationCategory required,
+  name String required,
+  shortName String,
+  description String
+}
+entity StockInProcess {
+  totalQuantity BigDecimal required,
+  unit UnitOfMeasurements required,
+  unitPrice BigDecimal required,
+  totalContainer Integer,
+  containerCategory ContainerCategory,
+  containerTrackingId String,
+  quantityPerContainer String,
+  mfgDate LocalDate,
+  expiryDate LocalDate,
+  typeOfProduct ProductType,
+  status StockInProcessStatus,
+  processStartedBy String,
+  processStartedOn Instant,
+  stockInBy String,
+  stockInDate Instant,
+  remarks String
+}
+entity StockInItem {
+  quantity BigDecimal required,
+  unit UnitOfMeasurements required,
+  price BigDecimal required,
+  containerCategory ContainerCategory required,
+  containerTrackingId String required,
+  mfgDate LocalDate,
+  expiryDate LocalDate,
+  typeOfProduct ProductType,
+  stockInBy String,
+  stockInDate Instant,
+  remarks String
+}
+entity StockOutItem {
+  containerTrackingId String required,
+  quantity BigDecimal required,
+  stockOutBy String,
+  stockOutDate Instant,
+  receiverId String,
+  receivingPlace String,
+  remarks String
+}
+entity StockStatus {
+  containerTrackingId String required,
+  totalQuantity BigDecimal required,
+  unit UnitOfMeasurements required,
+  availableQuantity BigDecimal required,
+  totalPrice BigDecimal required,
+  availablePrice BigDecimal required,
+  stockInBy String,
+  stockInDate Instant
+}
+entity Voucher {
+  name String,
+  shortName String,
+  modifiedOn String,
+  modifiedBy Long
+}
+entity VoucherNumberControl {
+  resetBasis VoucherResetBasis,
+  startVoucherNo Integer,
+  voucherLimit BigDecimal,
+  modifiedOn LocalDate,
+  modifiedBy String
+}
+entity PeriodClose {
+  monthType MonthType,
+  closeYear Integer,
+  flag PeriodCloseFlag,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity Currency {
+  description String,
+  notation String,
+  flag CurrencyFlag,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity MstGroup {
+  name String,
+  mainGroup Long,
+  reservedFlag ReservedFlag,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity MstAccount {
+  code String,
+  name String,
+  yearOpenBalance BigDecimal,
+  yearOpenBalanceType BalanceType,
+  yearCloseBalance BigDecimal,
+  reservedFlag ReservedFlag,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity AccountBalance {
+  yearOpenBalance BigDecimal,
+  yearOpenBalanceType BalanceType,
+  totDebitTrans BigDecimal,
+  totCreditTrans BigDecimal,
+  modifiedOn LocalDate,
+  modifiedBy String
+}
+entity MonthlyBalance {
+  monthType MonthType,
+  totMonthDbBal BigDecimal,
+  totMonthCrBal BigDecimal,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity PredefinedNarration {
+  narration String,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity ConversionFactor {
+  covFactor BigDecimal,
+  rcovFactor BigDecimal,
+  bcovFactor BigDecimal,
+  rbcovFactor BigDecimal,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity ChequeRegister {
+  chequeNo String,
+  chequeDate LocalDate,
+  status String,
+  realizationDate LocalDate,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity DtTransaction {
+  voucherNo String,
+  voucherDate LocalDate,
+  serialNo Integer,
+  amount BigDecimal,
+  balanceType BalanceType,
+  type VoucherType,
+  invoiceNo String,
+  invoiceDate LocalDate,
+  instrumentType InstrumentType,
+  instrumentNo String,
+  instrumentDate LocalDate,
+  fCurrency BigDecimal,
+  convFactor BigDecimal,
+  postDate LocalDate,
+  narration String,
+  modifiedBy String,
+  modifiedOn LocalDate,
+  reference String
+}
+entity Customer {
+  name String,
+  description TextBlob,
+  address TextBlob,
+  contactNo String,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity CreditorLedger {
+  serialNo Integer,
+  billNo String,
+  billDate LocalDate,
+  amount BigDecimal,
+  paidAmount BigDecimal,
+  balanceType BalanceType,
+  billClosingFlag BillClosingFlag,
+  dueDate LocalDate,
+  vatNo String,
+  contCode String,
+  orderNo String,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity DebtorLedger {
+  serialNo String,
+  billNo String,
+  billDate LocalDate,
+  amount BigDecimal,
+  paidAmount BigDecimal,
+  billClosingFlag BillClosingFlag,
+  dueDate LocalDate,
+  vatNo String,
+  contCode String,
+  orderNo String,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity SystemAccountMap {
+  accountType AccountType,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity SystemGroupMap {
+  groupType GroupType,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity VoucherNumberGenerator {
+  voucherType VoucherType,
+  voucherNumber Integer
+}
+entity JournalVoucherGenerator {
+  lastModified LocalDate
+}
+entity PaymentVoucherGenerator {
+  lastModified LocalDate
+}
+entity ReceiptVoucherGenerator {
+  lastModified LocalDate
+}
+entity ContraVoucherGenerator {
+  lastModified LocalDate
+}
+entity JournalVoucher {
+  voucherNo String,
+  voucherDate LocalDate,
+  postDate LocalDate,
+  type VoucherType,
+  conversionFactor BigDecimal,
+  reference VoucherReferenceType,
+  referenceId Long,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity PaymentVoucher {
+  voucherNo String,
+  voucherDate LocalDate,
+  postDate LocalDate,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity ReceiptVoucher {
+  voucherNo String,
+  voucherDate LocalDate,
+  postDate LocalDate,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity ContraVoucher {
+  voucherNo String,
+  voucherDate LocalDate,
+  postDate LocalDate,
+  conversionFactor BigDecimal,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+entity CommercialBudgetEstimation {
+    budgetNo String required,
+    contractType CommercialContractType required,
+    customerType CommercialCustomerType required,
+    budgetEstimationDate LocalDate required,
+    createdBy String,
+    createdOn LocalDate,
+    updatedBy String,
+    updatedOn LocalDate
+}
+entity CommercialPurchaseOrder {
+  purchaseOrderNo String required,
+  purchaseOrderDate LocalDate required,
+  originOfGoods String,
+  finalDestination String,
+  shipmentDate LocalDate required,
+  createdBy String,
+  createdOn LocalDate,
+  updatedBy String,
+  updatedOn LocalDate
+}
+entity CommercialPurchaseOrderItem {
+  goodsOrServices String required,
+  descriptionOfGoodsOrServices String,
+  packaging String,
+  sizeOrGrade String required,
+  qtyOrMc Double required,
+  qtyOrKgs Double required,
+  rateOrKg Double required,
+  currencyType CommercialCurrency required,
+  total Double required,
+  createdBy String,
+  createdOn LocalDate,
+  updatedBy String,
+  updatedOn LocalDate
+}
+entity CommercialProformaInvoice {
+  companyName String required,
+  companyDescriptionOrAddress String,
+  proformaNo String required,
+  proformaDate LocalDate,
+  harmonicCode String required,
+  paymentTerm String required,
+  termsOfDelivery String required,
+  shipmentDate String required,
+  portOfLanding String required,
+  portOfDestination String required,
+  createdBy String,
+  createdOn LocalDate,
+  updatedBy String,
+  updatedOn LocalDate
+}
+entity CommercialPaymentInfo {
+  paymentCategory CommercialPaymentCategory required,
+  totalAmount Double required,
+  currencyType CommercialCurrency required,
+  paymentTerms String,
+  createdBy String,
+  createdOn LocalDate,
+  updatedBy String,
+  updatedOn LocalDate
+}
+entity CommercialPackaging {
+  consignmentNo String required,
+  consignmentDate LocalDate required,
+  brand String,
+  createdBy String,
+  createdOn LocalDate,
+  updatedBy String,
+  updatedOn LocalDate
+}
+entity CommercialPackagingDetails {
+  proDate LocalDate,
+  expDate LocalDate,
+  shift1 String,
+  shift1Total Double,
+  shift2 String,
+  shift2Total Double,
+  dayTotal Double,
+  total Double,
+  createdBy String,
+  createdOn LocalDate,
+  updatedBy String,
+  updatedOn LocalDate
+}
+entity CommercialWorkOrder {
+  refNo String required,
+  workOrderDate LocalDate required,
+  deliveryDate LocalDate required,
+  remarks String,
+  createdBy String,
+  createdOn LocalDate,
+  updatedBy String,
+  updatedOn LocalDate
+}
+entity CommercialWorkOrderDetails {
+  goods String required,
+  reason String,
+  size String,
+  color String,
+  quantity Double required,
+  currencyType CommercialCurrency required,
+  rate Double required,
+  createdBy String,
+  createdOn LocalDate,
+  updatedBy String,
+  updatedOn LocalDate
+}
+entity CommercialPoStatus {
+  status CommercialStatus required,
+  createdBy String,
+  createdOn LocalDate,
+  updatedBy String,
+  updatedOn LocalDate
+}
+entity CommercialInvoice {
+  invoiceNo String required,
+  invoiceDate String required,
+  termsOfPayment String required,
+  consignedTo String required,
+  portOfLoading String required,
+  portOfDischarge String required,
+  exportRegistrationCertificateNo String required,
+  createdBy String,
+  createdOn LocalDate,
+  updatedBy String,
+  updatedOn LocalDate
+}
+entity CommercialAttachment {
+  file AnyBlob required
+}
+entity SupplyZone {
+  zoneName String required,
+  zoneCode String,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
+}
+entity SupplyArea {
+  areaName String required,
+  areaCode String,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
+}
+entity SupplyAreaManager {
+  managerName String required,
+  additionalInformation String,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
+}
+entity SupplySalesRepresentative {
+  salesRepresentativeName String required,
+  additionalInformation String,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
+}
+entity SupplyShop {
+  shopName String required,
+  additionalInformation String,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
+}
+entity SupplyOrder {
+  orderNo String required,
+  dateOfOrder LocalDate,
+  offer String required,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
+}
+entity SupplyOrderDetails {
+  productName String required,
+  productVolume Double required,
+  totalPrice Double required,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
+}
+entity SupplyChallan {
+  challanNo String required,
+  dateOfChallan LocalDate,
+  remarks String,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
+}
+entity SupplyMoneyCollection {
+  totalAmount Double,
+  receivedAmount Double,
+  remarks String,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
+}
+entity SalaryMessages {
+  comments TextBlob,
+  commentedOn LocalDate
+}
+entity SalaryVoucherRelation {
+  year Integer,
+  month MonthType,
+  voucherNo String,
+  modifiedBy String,
+  modifiedOn LocalDate
+}
+
+enum MaritalStatus {
+  MARRIED,
+  UNMARRIED,
+  SEPARATED
+}
+
+enum Gender {
+  MALE,
+  FEMALE,
+  OTHERS
+}
+
+enum Religion {
+  ISLAM,
+  HINDU,
+  BUDDHIST,
+  CHRISTIANS,
+  OTHERS
+}
+
+enum EmployeeStatus {
+  IN_PROBATION,
+  ACTIVE,
+  RESIGNED,
+  TERMINATED
+}
+
+enum EmploymentType {
+  PERMANENT,
+  TEMPORARY,
+  ADHOC,
+  PART_TIME
+}
+
+enum FinancialYearStatus {
+  ACTIVE,
+  NOT_ACTIVE
+}
+
+enum TaxStatus {
+  ACTIVE,
+  INACTIVE
+}
+
+enum SalaryStatus {
+  ACTIVE,
+  NOT_ACTIVE
+}
+
+enum ProvidentFundStatus {
+  ACTIVE,
+  NOT_ACTIVE
+}
+
+enum MonthType {
+  JANUARY,
+  FEBRUARY,
+  MARCH,
+  APRIL,
+  MAY,
+  JUNE,
+  JULY,
+  AUGUST,
+  SEPTEMBER,
+  OCTOBER,
+  NOVEMBER,
+  DECEMBER
+}
+
+enum MonthlySalaryStatus {
+  APPROVED_BY_MANAGER,
+  APPROVED_BY_ACCOUNTS,
+  MODIFICATION_REQUEST_BY_ACCOUNTS,
+  APPROVED_BY_CFO,
+  MODIFICATION_REQUEST_BY_CFO,
+  APPROVED_BY_MD,
+  MODIFICATION_REQUEST_BY_MD
+}
+
+enum PaymentStatus {
+  PAID,
+  NOT_PAID
+}
+
+enum YesOrNo {
+  YES,
+  NO
+}
+
+enum HolidayImposedAuthority{
+    GOVERNMENT, ORGANIZATIONAL, COMBINED, OTHERS
+}
+
+enum PaidOrUnPaid {
+  PAID,
+  UNPAID,
+  UNDECLARED
+}
+
+enum LeaveStatus {
+  WAITING,
+  ACCEPTED,
+  REJECTED
+}
+
+enum AllowanceType {
+  HOUSE_RENT,
+  MEDICAL_ALLOWANCE,
+  FESTIVAL_BONUS,
+  OVERTIME_ALLOWANCE,
+  OTHER_ALLOWANCE
+}
+
+enum AllowanceCategory {
+  MONTHLY,
+  SPECIFIC
+}
+
+enum VendorRemarks {
+  VERY_GOOD,
+  GOOD,
+  MODERATE,
+  AVERAGE,
+  BELOW_AVERAGE,
+  BAD
+}
+
+enum BillCategory {
+  PAYABLE,
+  RECEIVABLE
+}
+
+enum ProductStatus {
+  GOOD,
+  NOT_GOOD,
+  NOT_JUSTIFIED
+}
+
+enum RequisitionStatus {
+  WAITING_FOR_HEADS_APPROVAL,
+  REJECTED_BY_HEAD,
+  FORWARDED_BY_HEAD,
+  FORWARDED_BY_PURCHASE_COMMITTEE,
+  REJECTED_BY_PURCHASE_COMMITTEE,
+  MODIFICATION_REQUEST_BY_PURCHASE_COMMITTEE,
+  APPROVED_BY_CFO,
+  REJECTED_BY_CFO,
+  MODIFICATION_REQUEST_BY_CFO,
+  RECEIVED_BY_REQUISIONER,
+  RECEIVED_VERIFIED_BY_HEAD,
+  CLOSED_BY_CFO
+}
+
+enum UnitOfMeasurements {
+  PCS,
+  KG,
+  TON,
+  GRAM
+}
+
+enum SelectionType {
+  SELECTED,
+  NOT_SELECTED
+}
+
+enum Currency {
+  TAKA,
+  DOLLAR,
+  EURO
+}
+
+enum PayType {
+  CASH,
+  PAY_ORDER,
+  CHEQUE
+}
+
+enum VatStatus {
+  EXCLUDED,
+  INCLUDED
+}
+
+enum AITStatus {
+  EXCLUDED,
+  INCLUDED
+}
+
+enum WarrantyStatus {
+  WARRANTY,
+  NO_WARRANTY
+}
+
+enum PurchaseOrderStatus {
+  WAITING_FOR_CFO_APPROVAL,
+  APPROVED_BY_CFO,
+  REJECTED_BY_CFO,
+  MODIFICATION_REQUEST_BY_CFO,
+  CLOSED_BY_CFO
+}
+
+enum AttendanceType {
+  FINGER,
+  FACE
+}
+
+enum InventorySubLocationCategory {
+  SHELF,
+  FREEZER,
+  OTHERS
+}
+
+enum ItemUnit {
+  KG,
+  PCS,
+  LITER,
+  DOZEN,
+  OTHERS
+}
+
+enum ContainerCategory {
+  BOTTLE,
+  DRUM,
+  PACKET,
+  SACK,
+  OTHERS
+}
+
+enum VoucherResetBasis {
+  YEARLY,
+  MONTHLY,
+  WEEKLY,
+  DAILY,
+  CARRY_FORWARD
+}
+
+enum PeriodCloseFlag {
+  OPEN,
+  CLOSE
+}
+
+enum CurrencyFlag {
+  BASE,
+  OPTIONAL
+}
+
+enum ReservedFlag {
+  RESERVED,
+  NOT_RESERVED
+}
+
+enum BalanceType {
+  DEBIT,
+  CREDIT
+}
+
+enum VoucherType {
+  SELLING,
+  BUYING
+}
+
+enum InstrumentType {
+  CHEQUE,
+  PAY_ORDER,
+  DEMAND_DRAFT
+}
+
+enum BillClosingFlag {
+  OPEN,
+  CLOSED,
+  WITHHELD
+}
+
+enum AccountType {
+  OPENING_BALANCE_ADJUSTMENT_ACCOUNT,
+  PROVIDENT_FUND_ACCOUNT,
+  SALARY_ACCOUNT,
+  SALARY_ALLOWANCES,
+  SALARY_PAYABLE
+}
+
+enum GroupType {
+  ASSETS,
+  LIABILITIES,
+  INCOME,
+  EXPENSES,
+  BANK_ACCOUNTS,
+  CASH_IN_HAND,
+  SUNDRY_DEBTOR,
+  SUNDRY_CREDITOR,
+  CURRENT_LIABILITIES
+}
+
+enum VoucherReferenceType {
+  PAYROLL,
+  PURCHASE_ORDER,
+  PROCUREMENT
+}
+
+enum CommercialCurrency {
+  BDT,
+  US_DOLLAR
+}
+
+enum CommercialPaymentCategory {
+  UNDEFINED,
+  TT_BASED,
+  LC_BASED,
+  CASH,
+  CHEQUE,
+  PAY_ORDER
+}
+
+enum CommercialStatus {
+  WAITING_FOR_PROFORMA_INVOICE,
+  WAITING_FOR_PROFORMA_INVOICE_APPROVAL,
+  PROFORMA_INVOICE_APPROVED_BY_THE_BUYER_AND_WAITING_FOR_PAYMENT,
+  PROFORMA_INVOICE_DECLINED_BY_THE_BUYER,
+  PAYMENT_COMPLETED_AND_WAITING_FOR_ARTWORK_OF_PACKAGING,
+  ARTWORK_OF_PACKAGING_APPROVED_AND_ISSUE_WORK_ORDER_FOR_PACKAGING_ACCESSORIES,
+  ARTWORK_OF_PACKAGING_DECLINED,
+  WORK_ORDER_ISSUED_AND_WAITING_FOR_BILL_OR_INVOICE_FROM_SUPPLIER,
+  BILL_OR_INVOICE_APPROVED_BY_CFO,
+  BILL_OR_INVOICE_DECLINED_BY_CFO,
+  BILL_OR_INVOICE_APPROVED_BY_MANAGING_DIRECTOR_AND_WAITING_FOR_PAYMENT_TO_SUPPLIER,
+  BILL_OR_INVOICE_DECLINED_BY_MANAGING_DIRECTOR,
+  PAYMENT_COMPLETED_TO_SUPPLIER_AND_WAITING_FOR_SUBMITTING_LOT_DOCS_TO_FIQC,
+  SUBMITTED_LOT_DOCS_TO_FIQC_AND_WAITING_FOR_SAMPLE_COLLECTION_FOR_MICRO_AND_CHEMICAL_TEST,
+  SAMPLE_COLLECTED_FOR_MICRO_AND_CHEMICAL_TEST_AND_PREPARING_AND_SUBMITTING_THE_DOCS_FOR_HEALTH_CERTIFICATE,
+  RECEIVED_HEALTH_CERTIFICATE_AND_WAITING_FOR_CONTAINER_BOOKING,
+  CONTAINER_BOOK_AND_WAITING_FOR_CONTACTING_WITH_CNF_AGENT_FOR_REQUIRED_DOCS,
+  RECEIVED_LIST_FOR_REQUIRED_DOCS_AND_WAITING_FOR_HIRE_REFRIGERATED_VAN_FOR_SENDING_CARGO_TO_PORT_AREA,
+  HIRED_REFRIGERATED_VAN_AND_WAITING_FOR_SHIPMENT,
+  COMPLETE_SHIPMENT_AND_WAITING_FOR_COLLECTION_OF_BL_FROM_SHIPPING_LINES,
+  COLLECTED_BL_FROM_SHIPPING_LINES_AND_WAITING_FOR_SUBMISSION_OF_THE_EXPORT_DOCS_TO_BANK_FOR_NEGOTIATION_OR_COLLECTION,
+  SUBMITTED_THE_EXPORT_DOCS_TO_BANK_FOR_NEGOTIATION_OR_COLLECTION_AND_WAITING_FOR_EXPORT_PAYMENT,
+  GETTING_EXPORT_PAYMENT_AND_WAITING_FOR_BANGLADESH_BANK_CLEARANCE_OR_FUND
+}
+
+enum StockInProcessStatus {
+    WAITING_FOR_STOCK_IN_PROCESS, COMPLETED_STOCK_IN_PROCESS
+}
+
+enum ProductType{
+    REGULAR_PRODUCT, FINISHED_PRODUCT, BY_PRODUCT
+}
+
+relationship OneToOne {
+  PurchaseCommittee{employee(fullName)} to Employee,
+  StockStatus{stockInItem} to StockInItem,
+  CommercialProformaInvoice{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
+  CommercialPaymentInfo{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
+  CommercialPackaging{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
+  CommercialInvoice{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
+  CommercialInvoice{commercialProformaInvoice(proformaNo)} to CommercialProformaInvoice,
+  CommercialInvoice{commercialPackaging(consignmentNo)} to CommercialPackaging,
+  StockInProcess{PurchaseOrder(purchaseOrderNo)} to PurchaseOrder,
+  StockInProcess{CommercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder
+}
+relationship OneToMany {
+  MonthlySalary{comments} to SalaryMessages{monthlySalary}
+}
+relationship ManyToOne {
+  Employee{department(name)} to Department,
+  Employee{office(name)} to Office,
+  Employee{designation(name)} to Designation,
+  Attachment{academicInformation} to AcademicInformation,
+  Attachment{trainingInformation} to TrainingInformation,
+  Attachment{experienceInformation} to ExperienceInformation,
+  AcademicInformation{employee} to Employee,
+  TrainingInformation{employee} to Employee,
+  FamilyInformation{employee} to Employee,
+  ReferenceInformation{employee} to Employee,
+  ExperienceInformation{employee} to Employee,
+  AcademicInformationAttachment{employee(employeeId) required} to Employee,
+  ExperienceInformationAttachment{employee(employeeId) required} to Employee,
+  TrainingInformationAttachment{employee(employeeId) required} to Employee,
+  Tax{financialAccountYear} to FinancialAccountYear,
+  Tax{employee(fullName)} to Employee,
+  Salary{employee(fullName)} to Employee,
+  ProvidentFund{employee(fullName)} to Employee,
+  MonthlySalary{employee(fullName)} to Employee,
+  Advance{employee(fullName)} to Employee,
+  Fine{employee(fullName)} to Employee,
+  Loan{employee(fullName)} to Employee,
+  Holiday{holidayType(name)} to HolidayType,
+  LeaveApplication{leaveTypes(name)} to LeaveType,
+  LeaveAttachment{leaveApplication} to LeaveApplication,
+  DesignationWiseAllowance{designation} to Designation,
+  Manager{employee(fullName)} to Employee,
+  VendorContactPerson{vendor(companyName)} to Vendor,
+  DepartmentHead{office(name)} to Office,
+  DepartmentHead{department(name)} to Department,
+  DepartmentHead{employee(fullName)} to Employee,
+  Bill{employee(fullName)} to Employee,
+  BudgetAllocation{office(name)} to Office,
+  BudgetAllocation{department(name)} to Department,
+  BudgetAllocation{financialAccountYear} to FinancialAccountYear,
+  Product{productCategory(name)} to ProductCategory,
+  ProductPrice{product(name)} to Product,
+  Requisition{employee(fullName)} to Employee,
+  Requisition{office(name)} to Office,
+  Requisition{productCategory(name)} to ProductCategory,
+  Requisition{department(name)} to Department,
+  RequisitionDetails{requisition(requisitionNo)} to Requisition,
+  RequisitionDetails{product(name)} to Product,
+  Quotation{requisition(requisitionNo)} to Requisition,
+  Quotation{vendor(companyName)} to Vendor,
+  QuotationDetails{quotation(quotationNo)} to Quotation,
+  QuotationDetails{requisitionDetails} to RequisitionDetails,
+  QuotationDetails{product(name)} to Product,
+  WorkOrder{requisition(requisitionNo)} to Requisition,
+  TermsAndConditions{purchaseOrder(purchaseOrderNo)} to PurchaseOrder,
+  PurchaseOrder{requisition(requisitionNo)} to Requisition,
+  PurchaseOrder{quotation(quotationNo)} to Quotation,
+  Attendance{attendanceExcelUpload required} to AttendanceExcelUpload,
+  ItemSubCategory{itemCategories(name)} to ItemCategory,
+  InventorySubLocation{inventoryLocations(name)} to InventoryLocation,
+  StockInProcess{productCategories(name)} to ProductCategory,
+  StockInProcess{products(name)} to Product,
+  StockInProcess{inventoryLocations(name)} to InventoryLocation,
+  StockInProcess{inventorySubLocations(name)} to InventorySubLocation,
+  StockInProcess{vendor(companyName)} to Vendor,
+  StockInItem{productCategories(name)} to ProductCategory,
+  StockInItem{products(name)} to Product,
+  StockInItem{inventoryLocations(name)} to InventoryLocation,
+  StockInItem{inventorySubLocations(name)} to InventorySubLocation,
+  StockInItem{vendor(companyName)} to Vendor,
+  StockInItem{stockInProcesses} to StockInProcess,
+  StockInItem{PurchaseOrders(purchaseOrderNo)} to PurchaseOrder,
+  StockInItem{CommercialPurchaseOrders(purchaseOrderNo)} to CommercialPurchaseOrder,
+  StockOutItem{productCategories(name)} to ProductCategory,
+  StockOutItem{products(name)} to Product,
+  StockOutItem{inventoryLocations(name)} to InventoryLocation,
+  StockOutItem{inventorySubLocations(name)} to InventorySubLocation,
+  StockOutItem{stockInItems} to StockInItem,
+  StockOutItem{stockStatuses} to StockStatus,
+  StockStatus{productCategories(name)} to ProductCategory,
+  StockStatus{products(name)} to Product,
+  StockStatus{inventoryLocations(name)} to InventoryLocation,
+  StockStatus{inventorySubLocations(name)} to InventorySubLocation,
+  VoucherNumberControl{financialAccountYear(durationStr)} to FinancialAccountYear,
+  VoucherNumberControl{voucher(name)} to Voucher,
+  PeriodClose{financialAccountYear(durationStr)} to FinancialAccountYear,
+  MstAccount{group(name)} to MstGroup,
+  AccountBalance{financialAccountYear(durationStr)} to FinancialAccountYear,
+  AccountBalance{account(name)} to MstAccount,
+  MonthlyBalance{accountBalance} to AccountBalance,
+  PredefinedNarration{voucher(name)} to Voucher,
+  ConversionFactor{currency(notation)} to Currency,
+  DtTransaction{account(name)} to MstAccount,
+  DtTransaction{voucher(name)} to Voucher,
+  DtTransaction{currency(notation)} to Currency,
+  CreditorLedger{vendor(companyName)} to Vendor,
+  DebtorLedger{customer(name)} to Customer,
+  SystemAccountMap{account(name)} to MstAccount,
+  SystemGroupMap{group(name)} to MstGroup,
+  VoucherNumberGenerator{financialAccountYear} to FinancialAccountYear,
+  JournalVoucher{currency(notation)} to Currency,
+  PaymentVoucher{account(name)} to MstAccount,
+  ReceiptVoucher{account(name)} to MstAccount,
+  ContraVoucher{currency(notation)} to Currency,
+  CommercialPurchaseOrderItem{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
+  CommercialPackagingDetails{commercialPackaging(consignmentNo)} to CommercialPackaging,
+  CommercialWorkOrder{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
+  CommercialWorkOrderDetails{commercialWorkOrder(refNo)} to CommercialWorkOrder,
+  CommercialPoStatus{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
+  CommercialAttachment{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
+  CommercialAttachment{commercialPoStatus(status)} to CommercialPoStatus,
+  SupplyArea{supplyZone(zoneName)} to SupplyZone,
+  SupplyAreaManager{supplyZone(zoneName)} to SupplyZone,
+  SupplyAreaManager{supplyArea(areaName)} to SupplyArea,
+  SupplySalesRepresentative{supplyZone(zoneName)} to SupplyZone,
+  SupplySalesRepresentative{supplyArea(areaName)} to SupplyArea,
+  SupplySalesRepresentative{supplyAreaManager(managerName)} to SupplyAreaManager,
+  SupplyShop{supplyZone(zoneName)} to SupplyZone,
+  SupplyShop{supplyArea(areaName)} to SupplyArea,
+  SupplyShop{supplyAreaManager(managerName)} to SupplyAreaManager,
+  SupplyShop{supplySalesRepresentative(salesRepresentativeName)} to SupplySalesRepresentative,
+  SupplyOrder{supplyZone(zoneName)} to SupplyZone,
+  SupplyOrder{supplyArea(areaName)} to SupplyArea,
+  SupplyOrder{supplyAreaManager(managerName)} to SupplyAreaManager,
+  SupplyOrder{supplySalesRepresentative(salesRepresentativeName)} to SupplySalesRepresentative,
+  SupplyOrderDetails{supplyOrder(orderNo)} to SupplyOrder,
+  SupplyChallan{supplyOrder(orderNo)} to SupplyOrder,
+  SupplyMoneyCollection{supplyZone(zoneName)} to SupplyZone,
+  SupplyMoneyCollection{supplyArea(areaName)} to SupplyArea,
+  SupplyMoneyCollection{supplyAreaManager(managerName)} to SupplyAreaManager,
+  SupplyMoneyCollection{supplySalesRepresentative(salesRepresentativeName)} to SupplySalesRepresentative,
+  SalaryMessages{commenter(fullName)} to Employee,
+  SalaryVoucherRelation{office(name)} to Office
+}
+
+dto Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, BudgetAllocation, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, AttendanceExcelUpload, Attendance, Manufacturer, ItemCategory, ItemSubCategory, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus, Voucher, VoucherNumberControl, PeriodClose, Currency, MstGroup, MstAccount, AccountBalance, MonthlyBalance, PredefinedNarration, ConversionFactor, ChequeRegister, DtTransaction, Customer, CreditorLedger, DebtorLedger, SystemAccountMap, SystemGroupMap, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher, CommercialPurchaseOrder, CommercialPurchaseOrderItem, CommercialProformaInvoice, CommercialPaymentInfo, CommercialPackaging, CommercialPackagingDetails, CommercialWorkOrder, CommercialWorkOrderDetails, CommercialPoStatus, CommercialInvoice, CommercialAttachment, SupplyZone, SupplyArea, SupplyAreaManager, SupplySalesRepresentative, SupplyShop, SupplyOrder, SupplyOrderDetails, SupplyChallan, SupplyMoneyCollection, SalaryMessages, SalaryVoucherRelation with mapstruct
+paginate Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, VoucherNumberControl, MstAccount, AccountBalance, MonthlyBalance, ChequeRegister, DtTransaction, Customer, CreditorLedger, DebtorLedger, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher, SalaryMessages with pager
+paginate HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, DesignationWiseAllowance, Manager, BudgetAllocation, AttendanceExcelUpload, Attendance, Manufacturer, ItemCategory, ItemSubCategory, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus, Voucher, PeriodClose, Currency, MstGroup, PredefinedNarration, ConversionFactor, SystemAccountMap, SystemGroupMap, CommercialPurchaseOrder, CommercialPurchaseOrderItem, CommercialProformaInvoice, CommercialPaymentInfo, CommercialPackaging, CommercialPackagingDetails, CommercialWorkOrder, CommercialWorkOrderDetails, CommercialPoStatus, CommercialInvoice, CommercialAttachment, SupplyZone, SupplyArea, SupplyAreaManager, SupplySalesRepresentative, SupplyShop, SupplyOrder, SupplyOrderDetails, SupplyChallan, SupplyMoneyCollection, SalaryVoucherRelation with infinite-scroll
+service Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, BudgetAllocation, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, Voucher, VoucherNumberControl, PeriodClose, Currency, MstGroup, MstAccount, AccountBalance, MonthlyBalance, PredefinedNarration, ConversionFactor, ChequeRegister, DtTransaction, Customer, CreditorLedger, DebtorLedger, SystemAccountMap, SystemGroupMap, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher, CommercialPurchaseOrder, CommercialPurchaseOrderItem, CommercialProformaInvoice, CommercialPaymentInfo, CommercialPackaging, CommercialPackagingDetails, CommercialWorkOrder, CommercialWorkOrderDetails, CommercialPoStatus, CommercialInvoice, CommercialAttachment, SalaryMessages, SalaryVoucherRelation, HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, AttendanceExcelUpload, Attendance, Manufacturer, ItemCategory, ItemSubCategory, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus, SupplyZone, SupplyArea, SupplyAreaManager, SupplySalesRepresentative, SupplyShop, SupplyOrder, SupplyOrderDetails, SupplyChallan, SupplyMoneyCollection with serviceClass
+search Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, PayrollManagement, FineManagement, AdvanceManagement, LoanManagement, ProvidentManagement, AllowanceManagement, FineAdvanceLoanManagement, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, AttendanceExcelUpload, Attendance, MstGroup, MstAccount, AccountBalance, DtTransaction, Customer, CreditorLedger, DebtorLedger, SystemAccountMap, SystemGroupMap, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher with elasticsearch
+filter Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, BudgetAllocation, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, AttendanceExcelUpload, Attendance, Manufacturer, ItemCategory, ItemSubCategory, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus, Voucher, VoucherNumberControl, PeriodClose, Currency, MstGroup, MstAccount, AccountBalance, MonthlyBalance, PredefinedNarration, ConversionFactor, ChequeRegister, DtTransaction, Customer, CreditorLedger, DebtorLedger, SystemAccountMap, SystemGroupMap, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher, CommercialPurchaseOrder, CommercialPurchaseOrderItem, CommercialProformaInvoice, CommercialPaymentInfo, CommercialPackaging, CommercialPackagingDetails, CommercialWorkOrder, CommercialWorkOrderDetails, CommercialPoStatus, CommercialInvoice, CommercialAttachment, SupplyZone, SupplyArea, SupplyAreaManager, SupplySalesRepresentative, SupplyShop, SupplyOrder, SupplyOrderDetails, SupplyChallan, SupplyMoneyCollection, SalaryMessages, SalaryVoucherRelation

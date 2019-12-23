@@ -62,9 +62,9 @@ export class CommercialInvoiceExtendedService extends CommercialInvoiceService {
 
     protected convertDateFromClient(commercialInvoice: ICommercialInvoice): ICommercialInvoice {
         const copy: ICommercialInvoice = Object.assign({}, commercialInvoice, {
-            createOn:
-                commercialInvoice.createOn != null && commercialInvoice.createOn.isValid()
-                    ? commercialInvoice.createOn.format(DATE_FORMAT)
+            createdOn:
+                commercialInvoice.createdOn != null && commercialInvoice.createdOn.isValid()
+                    ? commercialInvoice.createdOn.format(DATE_FORMAT)
                     : null,
             updatedOn:
                 commercialInvoice.updatedOn != null && commercialInvoice.updatedOn.isValid()
@@ -76,7 +76,7 @@ export class CommercialInvoiceExtendedService extends CommercialInvoiceService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
             res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
@@ -85,7 +85,7 @@ export class CommercialInvoiceExtendedService extends CommercialInvoiceService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((commercialInvoice: ICommercialInvoice) => {
-                commercialInvoice.createOn = commercialInvoice.createOn != null ? moment(commercialInvoice.createOn) : null;
+                commercialInvoice.createdOn = commercialInvoice.createdOn != null ? moment(commercialInvoice.createdOn) : null;
                 commercialInvoice.updatedOn = commercialInvoice.updatedOn != null ? moment(commercialInvoice.updatedOn) : null;
             });
         }

@@ -5,12 +5,12 @@ import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Attendance, IAttendance } from 'app/shared/model/attendance.model';
-import { MyAttendanceComponent } from 'app/entities/attendance/my-attendance.component';
 import { AttendanceExtendedService } from 'app/entities/attendance-extended/attendance-extended.service';
 import { AttendanceExtendedComponent } from 'app/entities/attendance-extended/attendance-extended.component';
 import { AttendanceDetailExtendedComponent } from 'app/entities/attendance-extended/attendance-detail-extended.component';
 import { AttendanceUpdateExtendedComponent } from 'app/entities/attendance-extended/attendance-update-extended.component';
 import { AttendanceDeletePopupExtendedComponent } from 'app/entities/attendance-extended/attendance-delete-dialog-extended.component';
+import { MyAttendanceComponent } from 'app/entities/attendance-extended/my-attendance.component';
 
 @Injectable({ providedIn: 'root' })
 export class AttendanceExtendedResolve implements Resolve<IAttendance> {

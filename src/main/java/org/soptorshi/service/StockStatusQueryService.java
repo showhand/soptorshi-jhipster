@@ -117,17 +117,17 @@ public class StockStatusQueryService extends QueryService<StockStatus> {
             if (criteria.getStockInDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getStockInDate(), StockStatus_.stockInDate));
             }
-            if (criteria.getStockInItemsId() != null) {
-                specification = specification.and(buildSpecification(criteria.getStockInItemsId(),
-                    root -> root.join(StockStatus_.stockInItems, JoinType.LEFT).get(StockInItem_.id)));
+            if (criteria.getStockInItemId() != null) {
+                specification = specification.and(buildSpecification(criteria.getStockInItemId(),
+                    root -> root.join(StockStatus_.stockInItem, JoinType.LEFT).get(StockInItem_.id)));
             }
-            if (criteria.getItemCategoriesId() != null) {
-                specification = specification.and(buildSpecification(criteria.getItemCategoriesId(),
-                    root -> root.join(StockStatus_.itemCategories, JoinType.LEFT).get(ItemCategory_.id)));
+            if (criteria.getProductCategoriesId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductCategoriesId(),
+                    root -> root.join(StockStatus_.productCategories, JoinType.LEFT).get(ProductCategory_.id)));
             }
-            if (criteria.getItemSubCategoriesId() != null) {
-                specification = specification.and(buildSpecification(criteria.getItemSubCategoriesId(),
-                    root -> root.join(StockStatus_.itemSubCategories, JoinType.LEFT).get(ItemSubCategory_.id)));
+            if (criteria.getProductsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductsId(),
+                    root -> root.join(StockStatus_.products, JoinType.LEFT).get(Product_.id)));
             }
             if (criteria.getInventoryLocationsId() != null) {
                 specification = specification.and(buildSpecification(criteria.getInventoryLocationsId(),

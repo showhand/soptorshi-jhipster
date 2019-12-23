@@ -54,7 +54,7 @@ public class CommercialPurchaseOrderItemExtendedService extends CommercialPurcha
         LocalDate currentDate = LocalDate.now();
         if(commercialPurchaseOrderItemDTO.getId() == null) {
             commercialPurchaseOrderItemDTO.setCreatedBy(currentUser);
-            commercialPurchaseOrderItemDTO.setCreateOn(currentDate);
+            commercialPurchaseOrderItemDTO.setCreatedOn(currentDate);
         }
         else {
             commercialPurchaseOrderItemDTO.setUpdatedBy(currentUser);

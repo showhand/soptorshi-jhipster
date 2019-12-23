@@ -10,7 +10,7 @@
         },
         {
             "fieldName": "quantity",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
@@ -28,6 +28,10 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "receivingPlace",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "remarks",
             "fieldType": "String"
         }
@@ -35,16 +39,16 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemCategory",
+            "otherEntityName": "productCategory",
             "otherEntityRelationshipName": "stockOutItem",
-            "relationshipName": "itemCategories",
+            "relationshipName": "productCategories",
             "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemSubCategory",
+            "otherEntityName": "product",
             "otherEntityRelationshipName": "stockOutItem",
-            "relationshipName": "itemSubCategories",
+            "relationshipName": "products",
             "otherEntityField": "name"
         },
         {
@@ -80,7 +84,7 @@
     "entityTableName": "stock_out_item",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
-    "service": "serviceImpl",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",

@@ -9,6 +9,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.InstantFilter;
 
 /**
@@ -27,7 +28,7 @@ public class StockOutItemCriteria implements Serializable {
 
     private StringFilter containerTrackingId;
 
-    private DoubleFilter quantity;
+    private BigDecimalFilter quantity;
 
     private StringFilter stockOutBy;
 
@@ -35,11 +36,13 @@ public class StockOutItemCriteria implements Serializable {
 
     private StringFilter receiverId;
 
+    private StringFilter receivingPlace;
+
     private StringFilter remarks;
 
-    private LongFilter itemCategoriesId;
+    private LongFilter productCategoriesId;
 
-    private LongFilter itemSubCategoriesId;
+    private LongFilter productsId;
 
     private LongFilter inventoryLocationsId;
 
@@ -65,11 +68,11 @@ public class StockOutItemCriteria implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public DoubleFilter getQuantity() {
+    public BigDecimalFilter getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(DoubleFilter quantity) {
+    public void setQuantity(BigDecimalFilter quantity) {
         this.quantity = quantity;
     }
 
@@ -97,6 +100,14 @@ public class StockOutItemCriteria implements Serializable {
         this.receiverId = receiverId;
     }
 
+    public StringFilter getReceivingPlace() {
+        return receivingPlace;
+    }
+
+    public void setReceivingPlace(StringFilter receivingPlace) {
+        this.receivingPlace = receivingPlace;
+    }
+
     public StringFilter getRemarks() {
         return remarks;
     }
@@ -105,20 +116,20 @@ public class StockOutItemCriteria implements Serializable {
         this.remarks = remarks;
     }
 
-    public LongFilter getItemCategoriesId() {
-        return itemCategoriesId;
+    public LongFilter getProductCategoriesId() {
+        return productCategoriesId;
     }
 
-    public void setItemCategoriesId(LongFilter itemCategoriesId) {
-        this.itemCategoriesId = itemCategoriesId;
+    public void setProductCategoriesId(LongFilter productCategoriesId) {
+        this.productCategoriesId = productCategoriesId;
     }
 
-    public LongFilter getItemSubCategoriesId() {
-        return itemSubCategoriesId;
+    public LongFilter getProductsId() {
+        return productsId;
     }
 
-    public void setItemSubCategoriesId(LongFilter itemSubCategoriesId) {
-        this.itemSubCategoriesId = itemSubCategoriesId;
+    public void setProductsId(LongFilter productsId) {
+        this.productsId = productsId;
     }
 
     public LongFilter getInventoryLocationsId() {
@@ -170,9 +181,10 @@ public class StockOutItemCriteria implements Serializable {
             Objects.equals(stockOutBy, that.stockOutBy) &&
             Objects.equals(stockOutDate, that.stockOutDate) &&
             Objects.equals(receiverId, that.receiverId) &&
+            Objects.equals(receivingPlace, that.receivingPlace) &&
             Objects.equals(remarks, that.remarks) &&
-            Objects.equals(itemCategoriesId, that.itemCategoriesId) &&
-            Objects.equals(itemSubCategoriesId, that.itemSubCategoriesId) &&
+            Objects.equals(productCategoriesId, that.productCategoriesId) &&
+            Objects.equals(productsId, that.productsId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
             Objects.equals(inventorySubLocationsId, that.inventorySubLocationsId) &&
             Objects.equals(stockInItemsId, that.stockInItemsId) &&
@@ -188,9 +200,10 @@ public class StockOutItemCriteria implements Serializable {
         stockOutBy,
         stockOutDate,
         receiverId,
+        receivingPlace,
         remarks,
-        itemCategoriesId,
-        itemSubCategoriesId,
+        productCategoriesId,
+        productsId,
         inventoryLocationsId,
         inventorySubLocationsId,
         stockInItemsId,
@@ -207,9 +220,10 @@ public class StockOutItemCriteria implements Serializable {
                 (stockOutBy != null ? "stockOutBy=" + stockOutBy + ", " : "") +
                 (stockOutDate != null ? "stockOutDate=" + stockOutDate + ", " : "") +
                 (receiverId != null ? "receiverId=" + receiverId + ", " : "") +
+                (receivingPlace != null ? "receivingPlace=" + receivingPlace + ", " : "") +
                 (remarks != null ? "remarks=" + remarks + ", " : "") +
-                (itemCategoriesId != null ? "itemCategoriesId=" + itemCategoriesId + ", " : "") +
-                (itemSubCategoriesId != null ? "itemSubCategoriesId=" + itemSubCategoriesId + ", " : "") +
+                (productCategoriesId != null ? "productCategoriesId=" + productCategoriesId + ", " : "") +
+                (productsId != null ? "productsId=" + productsId + ", " : "") +
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +
                 (inventorySubLocationsId != null ? "inventorySubLocationsId=" + inventorySubLocationsId + ", " : "") +
                 (stockInItemsId != null ? "stockInItemsId=" + stockInItemsId + ", " : "") +

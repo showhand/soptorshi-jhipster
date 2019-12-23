@@ -8,10 +8,10 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IStockOutItem } from 'app/shared/model/stock-out-item.model';
 import { StockOutItemService } from './stock-out-item.service';
-import { IItemCategory } from 'app/shared/model/item-category.model';
-import { ItemCategoryService } from 'app/entities/item-category';
-import { IItemSubCategory } from 'app/shared/model/item-sub-category.model';
-import { ItemSubCategoryService } from 'app/entities/item-sub-category';
+import { IProductCategory } from 'app/shared/model/product-category.model';
+import { ProductCategoryService } from 'app/entities/product-category';
+import { IProduct } from 'app/shared/model/product.model';
+import { ProductService } from 'app/entities/product';
 import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
 import { InventoryLocationService } from 'app/entities/inventory-location';
 import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
@@ -29,9 +29,9 @@ export class StockOutItemUpdateComponent implements OnInit {
     stockOutItem: IStockOutItem;
     isSaving: boolean;
 
-    itemcategories: IItemCategory[];
+    productcategories: IProductCategory[];
 
-    itemsubcategories: IItemSubCategory[];
+    products: IProduct[];
 
     inventorylocations: IInventoryLocation[];
 
@@ -42,13 +42,11 @@ export class StockOutItemUpdateComponent implements OnInit {
     stockstatuses: IStockStatus[];
     stockOutDate: string;
 
-    stockStatusesForContainers: IStockStatus[];
-
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockOutItemService: StockOutItemService,
-        protected itemCategoryService: ItemCategoryService,
-        protected itemSubCategoryService: ItemSubCategoryService,
+        protected productCategoryService: ProductCategoryService,
+        protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
         protected stockInItemService: StockInItemService,
@@ -62,20 +60,20 @@ export class StockOutItemUpdateComponent implements OnInit {
             this.stockOutItem = stockOutItem;
             this.stockOutDate = this.stockOutItem.stockOutDate != null ? this.stockOutItem.stockOutDate.format(DATE_TIME_FORMAT) : null;
         });
-        this.itemCategoryService
+        this.productCategoryService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IItemCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemCategory[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IProductCategory[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProductCategory[]>) => response.body)
             )
-            .subscribe((res: IItemCategory[]) => (this.itemcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.itemSubCategoryService
+            .subscribe((res: IProductCategory[]) => (this.productcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.productService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemSubCategory[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProduct[]>) => response.body)
             )
-            .subscribe((res: IItemSubCategory[]) => (this.itemsubcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.inventoryLocationService
             .query()
             .pipe(
@@ -116,84 +114,6 @@ export class StockOutItemUpdateComponent implements OnInit {
         window.history.back();
     }
 
-    getItemSubCategories() {
-        this.itemSubCategoryService
-            .query({
-                'itemCategoriesId.equals': this.stockOutItem.itemCategoriesId
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemSubCategory[]>) => response.body)
-            )
-            .subscribe((res: IItemSubCategory[]) => (this.itemsubcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
-    }
-
-    getInventorySubLocation() {
-        this.inventorySubLocationService
-            .query({
-                'inventoryLocationsId.equals': this.stockOutItem.inventoryLocationsId
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<IInventorySubLocation[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IInventorySubLocation[]>) => response.body)
-            )
-            .subscribe(
-                (res: IInventorySubLocation[]) => (this.inventorysublocations = res),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-    }
-
-    getContainerTrackingId() {
-        if (
-            this.stockOutItem.itemCategoriesId &&
-            this.stockOutItem.itemSubCategoriesId &&
-            this.stockOutItem.inventoryLocationsId &&
-            this.stockOutItem.inventorySubLocationsId
-        ) {
-            this.stockStatusService
-                .query({
-                    'itemCategoriesId.equals': this.stockOutItem.itemCategoriesId,
-                    'itemSubCategoriesId.equals': this.stockOutItem.itemSubCategoriesId,
-                    'inventoryLocationsId.equals': this.stockOutItem.inventoryLocationsId,
-                    'inventorySubLocationsId.equals': this.stockOutItem.inventorySubLocationsId
-                })
-                .subscribe(
-                    (res: HttpResponse<IStockStatus[]>) => this.extractStockStatusForContainers(res.body),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        }
-    }
-
-    getRemainingQuantity() {
-        if (
-            this.stockOutItem.itemCategoriesId &&
-            this.stockOutItem.itemSubCategoriesId &&
-            this.stockOutItem.inventoryLocationsId &&
-            this.stockOutItem.inventorySubLocationsId &&
-            this.stockOutItem.containerTrackingId
-        ) {
-            this.stockStatusService
-                .query({
-                    'itemCategoriesId.equals': this.stockOutItem.itemCategoriesId,
-                    'itemSubCategoriesId.equals': this.stockOutItem.itemSubCategoriesId,
-                    'inventoryLocationsId.equals': this.stockOutItem.inventoryLocationsId,
-                    'inventorySubLocationsId.equals': this.stockOutItem.inventorySubLocationsId,
-                    'containerTrackingId.equals': this.stockOutItem.containerTrackingId
-                })
-                .subscribe(
-                    (res: HttpResponse<IStockStatus[]>) => (this.stockOutItem.quantity = res.body[0].availableQuantity),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        }
-    }
-
-    extractStockStatusForContainers(data: IStockStatus[]) {
-        this.stockStatusesForContainers = [];
-        for (let i = 0; i < data.length; i++) {
-            this.stockStatusesForContainers.push(data[i]);
-        }
-    }
-
     save() {
         this.isSaving = true;
         this.stockOutItem.stockOutDate = this.stockOutDate != null ? moment(this.stockOutDate, DATE_TIME_FORMAT) : null;
@@ -221,11 +141,11 @@ export class StockOutItemUpdateComponent implements OnInit {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
-    trackItemCategoryById(index: number, item: IItemCategory) {
+    trackProductCategoryById(index: number, item: IProductCategory) {
         return item.id;
     }
 
-    trackItemSubCategoryById(index: number, item: IItemSubCategory) {
+    trackProductById(index: number, item: IProduct) {
         return item.id;
     }
 
@@ -242,10 +162,6 @@ export class StockOutItemUpdateComponent implements OnInit {
     }
 
     trackStockStatusById(index: number, item: IStockStatus) {
-        return item.id;
-    }
-
-    trackStockStatusForContainersById(index: number, item: IStockStatus) {
         return item.id;
     }
 }

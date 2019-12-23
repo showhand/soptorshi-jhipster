@@ -1,18 +1,27 @@
 package org.soptorshi.web.rest;
 
+import org.soptorshi.SoptorshiApp;
+
+import org.soptorshi.domain.StockOutItem;
+import org.soptorshi.domain.ProductCategory;
+import org.soptorshi.domain.Product;
+import org.soptorshi.domain.InventoryLocation;
+import org.soptorshi.domain.InventorySubLocation;
+import org.soptorshi.domain.StockInItem;
+import org.soptorshi.domain.StockStatus;
+import org.soptorshi.repository.StockOutItemRepository;
+import org.soptorshi.repository.search.StockOutItemSearchRepository;
+import org.soptorshi.service.StockOutItemService;
+import org.soptorshi.service.dto.StockOutItemDTO;
+import org.soptorshi.service.mapper.StockOutItemMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.StockOutItemCriteria;
+import org.soptorshi.service.StockOutItemQueryService;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
-import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.*;
-import org.soptorshi.repository.StockOutItemRepository;
-import org.soptorshi.repository.search.StockOutItemSearchRepository;
-import org.soptorshi.service.StockOutItemQueryService;
-import org.soptorshi.service.dto.StockOutItemDTO;
-import org.soptorshi.service.extended.StockOutItemExtendedService;
-import org.soptorshi.service.mapper.StockOutItemMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -27,16 +36,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -52,8 +63,8 @@ public class StockOutItemResourceIntTest {
     private static final String DEFAULT_CONTAINER_TRACKING_ID = "AAAAAAAAAA";
     private static final String UPDATED_CONTAINER_TRACKING_ID = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_QUANTITY = 1D;
-    private static final Double UPDATED_QUANTITY = 2D;
+    private static final BigDecimal DEFAULT_QUANTITY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_QUANTITY = new BigDecimal(2);
 
     private static final String DEFAULT_STOCK_OUT_BY = "AAAAAAAAAA";
     private static final String UPDATED_STOCK_OUT_BY = "BBBBBBBBBB";
@@ -63,6 +74,9 @@ public class StockOutItemResourceIntTest {
 
     private static final String DEFAULT_RECEIVER_ID = "AAAAAAAAAA";
     private static final String UPDATED_RECEIVER_ID = "BBBBBBBBBB";
+
+    private static final String DEFAULT_RECEIVING_PLACE = "AAAAAAAAAA";
+    private static final String UPDATED_RECEIVING_PLACE = "BBBBBBBBBB";
 
     private static final String DEFAULT_REMARKS = "AAAAAAAAAA";
     private static final String UPDATED_REMARKS = "BBBBBBBBBB";
@@ -74,7 +88,7 @@ public class StockOutItemResourceIntTest {
     private StockOutItemMapper stockOutItemMapper;
 
     @Autowired
-    private StockOutItemExtendedService stockOutItemService;
+    private StockOutItemService stockOutItemService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -131,6 +145,7 @@ public class StockOutItemResourceIntTest {
             .stockOutBy(DEFAULT_STOCK_OUT_BY)
             .stockOutDate(DEFAULT_STOCK_OUT_DATE)
             .receiverId(DEFAULT_RECEIVER_ID)
+            .receivingPlace(DEFAULT_RECEIVING_PLACE)
             .remarks(DEFAULT_REMARKS);
         return stockOutItem;
     }
@@ -161,6 +176,7 @@ public class StockOutItemResourceIntTest {
         assertThat(testStockOutItem.getStockOutBy()).isEqualTo(DEFAULT_STOCK_OUT_BY);
         assertThat(testStockOutItem.getStockOutDate()).isEqualTo(DEFAULT_STOCK_OUT_DATE);
         assertThat(testStockOutItem.getReceiverId()).isEqualTo(DEFAULT_RECEIVER_ID);
+        assertThat(testStockOutItem.getReceivingPlace()).isEqualTo(DEFAULT_RECEIVING_PLACE);
         assertThat(testStockOutItem.getRemarks()).isEqualTo(DEFAULT_REMARKS);
 
         // Validate the StockOutItem in Elasticsearch
@@ -240,13 +256,14 @@ public class StockOutItemResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockOutItem.getId().intValue())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID.toString())))
-            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].stockOutBy").value(hasItem(DEFAULT_STOCK_OUT_BY.toString())))
             .andExpect(jsonPath("$.[*].stockOutDate").value(hasItem(DEFAULT_STOCK_OUT_DATE.toString())))
             .andExpect(jsonPath("$.[*].receiverId").value(hasItem(DEFAULT_RECEIVER_ID.toString())))
+            .andExpect(jsonPath("$.[*].receivingPlace").value(hasItem(DEFAULT_RECEIVING_PLACE.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getStockOutItem() throws Exception {
@@ -259,10 +276,11 @@ public class StockOutItemResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(stockOutItem.getId().intValue()))
             .andExpect(jsonPath("$.containerTrackingId").value(DEFAULT_CONTAINER_TRACKING_ID.toString()))
-            .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY.doubleValue()))
+            .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY.intValue()))
             .andExpect(jsonPath("$.stockOutBy").value(DEFAULT_STOCK_OUT_BY.toString()))
             .andExpect(jsonPath("$.stockOutDate").value(DEFAULT_STOCK_OUT_DATE.toString()))
             .andExpect(jsonPath("$.receiverId").value(DEFAULT_RECEIVER_ID.toString()))
+            .andExpect(jsonPath("$.receivingPlace").value(DEFAULT_RECEIVING_PLACE.toString()))
             .andExpect(jsonPath("$.remarks").value(DEFAULT_REMARKS.toString()));
     }
 
@@ -463,6 +481,45 @@ public class StockOutItemResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllStockOutItemsByReceivingPlaceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stockOutItemRepository.saveAndFlush(stockOutItem);
+
+        // Get all the stockOutItemList where receivingPlace equals to DEFAULT_RECEIVING_PLACE
+        defaultStockOutItemShouldBeFound("receivingPlace.equals=" + DEFAULT_RECEIVING_PLACE);
+
+        // Get all the stockOutItemList where receivingPlace equals to UPDATED_RECEIVING_PLACE
+        defaultStockOutItemShouldNotBeFound("receivingPlace.equals=" + UPDATED_RECEIVING_PLACE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockOutItemsByReceivingPlaceIsInShouldWork() throws Exception {
+        // Initialize the database
+        stockOutItemRepository.saveAndFlush(stockOutItem);
+
+        // Get all the stockOutItemList where receivingPlace in DEFAULT_RECEIVING_PLACE or UPDATED_RECEIVING_PLACE
+        defaultStockOutItemShouldBeFound("receivingPlace.in=" + DEFAULT_RECEIVING_PLACE + "," + UPDATED_RECEIVING_PLACE);
+
+        // Get all the stockOutItemList where receivingPlace equals to UPDATED_RECEIVING_PLACE
+        defaultStockOutItemShouldNotBeFound("receivingPlace.in=" + UPDATED_RECEIVING_PLACE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStockOutItemsByReceivingPlaceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stockOutItemRepository.saveAndFlush(stockOutItem);
+
+        // Get all the stockOutItemList where receivingPlace is not null
+        defaultStockOutItemShouldBeFound("receivingPlace.specified=true");
+
+        // Get all the stockOutItemList where receivingPlace is null
+        defaultStockOutItemShouldNotBeFound("receivingPlace.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllStockOutItemsByRemarksIsEqualToSomething() throws Exception {
         // Initialize the database
         stockOutItemRepository.saveAndFlush(stockOutItem);
@@ -502,39 +559,39 @@ public class StockOutItemResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllStockOutItemsByItemCategoriesIsEqualToSomething() throws Exception {
+    public void getAllStockOutItemsByProductCategoriesIsEqualToSomething() throws Exception {
         // Initialize the database
-        ItemCategory itemCategories = ItemCategoryResourceIntTest.createEntity(em);
-        em.persist(itemCategories);
+        ProductCategory productCategories = ProductCategoryResourceIntTest.createEntity(em);
+        em.persist(productCategories);
         em.flush();
-        stockOutItem.setItemCategories(itemCategories);
+        stockOutItem.setProductCategories(productCategories);
         stockOutItemRepository.saveAndFlush(stockOutItem);
-        Long itemCategoriesId = itemCategories.getId();
+        Long productCategoriesId = productCategories.getId();
 
-        // Get all the stockOutItemList where itemCategories equals to itemCategoriesId
-        defaultStockOutItemShouldBeFound("itemCategoriesId.equals=" + itemCategoriesId);
+        // Get all the stockOutItemList where productCategories equals to productCategoriesId
+        defaultStockOutItemShouldBeFound("productCategoriesId.equals=" + productCategoriesId);
 
-        // Get all the stockOutItemList where itemCategories equals to itemCategoriesId + 1
-        defaultStockOutItemShouldNotBeFound("itemCategoriesId.equals=" + (itemCategoriesId + 1));
+        // Get all the stockOutItemList where productCategories equals to productCategoriesId + 1
+        defaultStockOutItemShouldNotBeFound("productCategoriesId.equals=" + (productCategoriesId + 1));
     }
 
 
     @Test
     @Transactional
-    public void getAllStockOutItemsByItemSubCategoriesIsEqualToSomething() throws Exception {
+    public void getAllStockOutItemsByProductsIsEqualToSomething() throws Exception {
         // Initialize the database
-        ItemSubCategory itemSubCategories = ItemSubCategoryResourceIntTest.createEntity(em);
-        em.persist(itemSubCategories);
+        Product products = ProductResourceIntTest.createEntity(em);
+        em.persist(products);
         em.flush();
-        stockOutItem.setItemSubCategories(itemSubCategories);
+        stockOutItem.setProducts(products);
         stockOutItemRepository.saveAndFlush(stockOutItem);
-        Long itemSubCategoriesId = itemSubCategories.getId();
+        Long productsId = products.getId();
 
-        // Get all the stockOutItemList where itemSubCategories equals to itemSubCategoriesId
-        defaultStockOutItemShouldBeFound("itemSubCategoriesId.equals=" + itemSubCategoriesId);
+        // Get all the stockOutItemList where products equals to productsId
+        defaultStockOutItemShouldBeFound("productsId.equals=" + productsId);
 
-        // Get all the stockOutItemList where itemSubCategories equals to itemSubCategoriesId + 1
-        defaultStockOutItemShouldNotBeFound("itemSubCategoriesId.equals=" + (itemSubCategoriesId + 1));
+        // Get all the stockOutItemList where products equals to productsId + 1
+        defaultStockOutItemShouldNotBeFound("productsId.equals=" + (productsId + 1));
     }
 
 
@@ -622,10 +679,11 @@ public class StockOutItemResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockOutItem.getId().intValue())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
-            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].stockOutBy").value(hasItem(DEFAULT_STOCK_OUT_BY)))
             .andExpect(jsonPath("$.[*].stockOutDate").value(hasItem(DEFAULT_STOCK_OUT_DATE.toString())))
             .andExpect(jsonPath("$.[*].receiverId").value(hasItem(DEFAULT_RECEIVER_ID)))
+            .andExpect(jsonPath("$.[*].receivingPlace").value(hasItem(DEFAULT_RECEIVING_PLACE)))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)));
 
         // Check, that the count call also returns 1
@@ -679,6 +737,7 @@ public class StockOutItemResourceIntTest {
             .stockOutBy(UPDATED_STOCK_OUT_BY)
             .stockOutDate(UPDATED_STOCK_OUT_DATE)
             .receiverId(UPDATED_RECEIVER_ID)
+            .receivingPlace(UPDATED_RECEIVING_PLACE)
             .remarks(UPDATED_REMARKS);
         StockOutItemDTO stockOutItemDTO = stockOutItemMapper.toDto(updatedStockOutItem);
 
@@ -696,6 +755,7 @@ public class StockOutItemResourceIntTest {
         assertThat(testStockOutItem.getStockOutBy()).isEqualTo(UPDATED_STOCK_OUT_BY);
         assertThat(testStockOutItem.getStockOutDate()).isEqualTo(UPDATED_STOCK_OUT_DATE);
         assertThat(testStockOutItem.getReceiverId()).isEqualTo(UPDATED_RECEIVER_ID);
+        assertThat(testStockOutItem.getReceivingPlace()).isEqualTo(UPDATED_RECEIVING_PLACE);
         assertThat(testStockOutItem.getRemarks()).isEqualTo(UPDATED_REMARKS);
 
         // Validate the StockOutItem in Elasticsearch
@@ -758,10 +818,11 @@ public class StockOutItemResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockOutItem.getId().intValue())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
-            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].stockOutBy").value(hasItem(DEFAULT_STOCK_OUT_BY)))
             .andExpect(jsonPath("$.[*].stockOutDate").value(hasItem(DEFAULT_STOCK_OUT_DATE.toString())))
             .andExpect(jsonPath("$.[*].receiverId").value(hasItem(DEFAULT_RECEIVER_ID)))
+            .andExpect(jsonPath("$.[*].receivingPlace").value(hasItem(DEFAULT_RECEIVING_PLACE)))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)));
     }
 

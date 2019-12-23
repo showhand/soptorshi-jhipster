@@ -1,8 +1,7 @@
 package org.soptorshi.service.dto;
-
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDate;
+import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -25,7 +24,7 @@ public class CommercialWorkOrderDTO implements Serializable {
 
     private String createdBy;
 
-    private LocalDate createOn;
+    private LocalDate createdOn;
 
     private String updatedBy;
 
@@ -84,12 +83,12 @@ public class CommercialWorkOrderDTO implements Serializable {
         this.createdBy = createdBy;
     }
 
-    public LocalDate getCreateOn() {
-        return createOn;
+    public LocalDate getCreatedOn() {
+        return createdOn;
     }
 
-    public void setCreateOn(LocalDate createOn) {
-        this.createOn = createOn;
+    public void setCreatedOn(LocalDate createdOn) {
+        this.createdOn = createdOn;
     }
 
     public String getUpdatedBy() {
@@ -154,7 +153,7 @@ public class CommercialWorkOrderDTO implements Serializable {
             ", deliveryDate='" + getDeliveryDate() + "'" +
             ", remarks='" + getRemarks() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
-            ", createOn='" + getCreateOn() + "'" +
+            ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
             ", commercialPurchaseOrder=" + getCommercialPurchaseOrderId() +

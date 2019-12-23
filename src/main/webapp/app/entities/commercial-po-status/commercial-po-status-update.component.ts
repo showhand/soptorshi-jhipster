@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { ICommercialPoStatus } from 'app/shared/model/commercial-po-status.model';
 import { CommercialPoStatusService } from './commercial-po-status.service';
@@ -18,7 +19,7 @@ export class CommercialPoStatusUpdateComponent implements OnInit {
     isSaving: boolean;
 
     commercialpurchaseorders: ICommercialPurchaseOrder[];
-    createOnDp: any;
+    createdOnDp: any;
     updatedOnDp: any;
 
     constructor(

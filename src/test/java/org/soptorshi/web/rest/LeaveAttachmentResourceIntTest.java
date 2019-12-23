@@ -1,19 +1,22 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.LeaveApplication;
+
 import org.soptorshi.domain.LeaveAttachment;
+import org.soptorshi.domain.LeaveApplication;
 import org.soptorshi.repository.LeaveAttachmentRepository;
 import org.soptorshi.repository.search.LeaveAttachmentSearchRepository;
-import org.soptorshi.service.LeaveAttachmentQueryService;
 import org.soptorshi.service.LeaveAttachmentService;
 import org.soptorshi.service.dto.LeaveAttachmentDTO;
 import org.soptorshi.service.mapper.LeaveAttachmentMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.LeaveAttachmentCriteria;
+import org.soptorshi.service.LeaveAttachmentQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -32,11 +35,12 @@ import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -183,7 +187,7 @@ public class LeaveAttachmentResourceIntTest {
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
     }
-
+    
     @Test
     @Transactional
     public void getLeaveAttachment() throws Exception {
