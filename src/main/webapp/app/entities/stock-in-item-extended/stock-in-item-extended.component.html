@@ -38,49 +38,45 @@
 <div class="row">
 
     <div class="col-2">
-        <label class="form-control-label" for="field_itemCategories">Item Categories</label>
+        <label class="form-control-label" for="field_productCategories">Product Category</label>
     </div>
 
     <div class="col-2">
-        <label class="form-control-label" for="field_itemSubCategories">Item Sub Categories</label>
+        <label class="form-control-label" for="field_products">Product</label>
     </div>
 
     <div class="col-2">
-        <label class="form-control-label" for="field_inventoryLocations">Inventory Locations</label>
+        <label class="form-control-label" for="field_inventoryLocations">Inventory Location</label>
     </div>
 
     <div class="col-2">
-        <label class="form-control-label" for="field_inventorySubLocations">Inventory Sub Locations</label>
-    </div>
-
-    <div class="col-2">
-        <label class="form-control-label" for="field_manufacturers">Manufacturers</label>
+        <label class="form-control-label" for="field_inventorySubLocations">Inventory Sub Location</label>
     </div>
 </div>
 
 <div class="row">
     <div class="col-2">
-        <select class="form-control" id="field_itemCategories" name="itemCategories"
-                [(ngModel)]="s_ItemCategoriesId"
-                (ngModelChange)="getItemSubCategories()">
+        <select class="form-control" id="field_productCategories" name="productCategories"
+                [(ngModel)]="productCategoryId"
+                (ngModelChange)="getProducts()">
             <option [ngValue]="null">Select Item Category</option>
             <option [ngValue]="itemCategoryOption.id"
-                    *ngFor="let itemCategoryOption of itemcategories; trackBy: trackItemCategoryById">{{itemCategoryOption.name}}</option>
+                    *ngFor="let itemCategoryOption of productcategories; trackBy: trackProductCategoryById">{{itemCategoryOption.name}}</option>
         </select>
     </div>
 
     <div class="col-2">
-        <select class="form-control" id="field_itemSubCategories" name="itemSubCategories"
-                [(ngModel)]="s_ItemSubCategoriesId">
+        <select class="form-control" id="field_products" name="products"
+                [(ngModel)]="productId">
             <option [ngValue]="null">Select Item Sub Category</option>
             <option [ngValue]="itemSubCategoryOption.id"
-                    *ngFor="let itemSubCategoryOption of itemsubcategories; trackBy: trackItemSubCategoryById">{{itemSubCategoryOption.name}}</option>
+                    *ngFor="let itemSubCategoryOption of products; trackBy: trackProductById">{{itemSubCategoryOption.name}}</option>
         </select>
     </div>
 
     <div class="col-2">
         <select class="form-control" id="field_inventoryLocations" name="inventoryLocations"
-                [(ngModel)]="s_InventoryLocationsId" (ngModelChange)="getInventorySubLocation()">
+                [(ngModel)]="inventoryLocationId" (ngModelChange)="getInventorySubLocation()">
             <option [ngValue]="null">Select Inventory Location</option>
             <option [ngValue]="inventoryLocationOption.id"
                     *ngFor="let inventoryLocationOption of inventorylocations; trackBy: trackInventoryLocationById">{{inventoryLocationOption.name}}</option>
@@ -89,7 +85,7 @@
 
     <div class="col-2">
         <select class="form-control" id="field_inventorySubLocations" name="inventorySubLocations"
-                [(ngModel)]="s_InventorySubLocationsId">
+                [(ngModel)]="inventorySubLocationId">
             <option [ngValue]="null">Select Inventory Sub Location</option>
             <option [ngValue]="inventorySubLocationOption.id"
                     *ngFor="let inventorySubLocationOption of inventorysublocations; trackBy: trackInventorySubLocationById">{{inventorySubLocationOption.name}}</option>
@@ -97,16 +93,7 @@
     </div>
 
     <div class="col-2">
-        <select class="form-control" id="field_manufacturers" name="manufacturers"
-                [(ngModel)]="s_ManufacturersId">
-            <option [ngValue]="null">Select Manufacturer</option>
-            <option [ngValue]="manufacturerOption.id"
-                    *ngFor="let manufacturerOption of manufacturers; trackBy: trackManufacturerById">{{manufacturerOption.name}}</option>
-        </select>
-    </div>
-
-    <div class="col-2">
-        <button class="btn btn-info" (click)="search()">
+        <button class="btn btn-info" (click)="hunt()">
             <fa-icon [icon]="'search'"></fa-icon>
         </button>
     </div>
@@ -121,42 +108,31 @@
                 <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
                     <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="unit"><span>Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="price"><span>Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="containerCategory"><span>Container Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="containerTrackingId"><span>Container Tracking Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="mfgDate"><span>Mfg Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <!--<th jhiSortBy="mfgDate"><span>Mfg Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="expiryDate"><span>Expiry Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="typeOfProduct"><span>Type Of Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="stockInBy"><span>Stock In By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="stockInBy"><span>Stock In By</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
                     <th jhiSortBy="stockInDate"><span>Stock In Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <!--<th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="vendorCompanyName"><span>Vendor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="stockInProcessesId"><span>Stock In Processes</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="purchaseOrdersPurchaseOrderNo"><span>Purchase Orders</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="commercialPurchaseOrdersPurchaseOrderNo"><span>Commercial Purchase Orders</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="commercialPurchaseOrdersPurchaseOrderNo"><span>Commercial Purchase Orders</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
                     <th></th>
                 </tr>
                 </thead>
                 <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
                 <tr *ngFor="let stockInItem of stockInItems ;trackBy: trackId">
                     <td><a [routerLink]="['/stock-in-item', stockInItem.id, 'view' ]">{{stockInItem.id}}</a></td>
-                    <td>{{stockInItem.quantity}}</td>
-                    <td>{{stockInItem.unit}}</td>
-                    <td>{{stockInItem.price}}</td>
-                    <td>{{stockInItem.containerCategory}}</td>
-                    <td>{{stockInItem.containerTrackingId}}</td>
-                    <td>{{stockInItem.mfgDate | date:'mediumDate'}}</td>
-                    <td>{{stockInItem.expiryDate | date:'mediumDate'}}</td>
-                    <td>{{stockInItem.typeOfProduct}}</td>
-                    <td>{{stockInItem.stockInBy}}</td>
-                    <td>{{stockInItem.stockInDate | date:'medium'}}</td>
-                    <td>{{stockInItem.remarks}}</td>
                     <td>
                         <div *ngIf="stockInItem.productCategoriesId">
                             <a [routerLink]="['../product-category', stockInItem.productCategoriesId , 'view' ]" >{{stockInItem.productCategoriesName}}</a>
@@ -177,6 +153,17 @@
                             <a [routerLink]="['../inventory-sub-location', stockInItem.inventorySubLocationsId , 'view' ]" >{{stockInItem.inventorySubLocationsName}}</a>
                         </div>
                     </td>
+                    <td>{{stockInItem.quantity}}</td>
+                    <td>{{stockInItem.unit}}</td>
+                    <td>{{stockInItem.price}}</td>
+                    <td>{{stockInItem.containerCategory}}</td>
+                    <td>{{stockInItem.containerTrackingId}}</td>
+                    <!--<td>{{stockInItem.mfgDate | date:'mediumDate'}}</td>
+                    <td>{{stockInItem.expiryDate | date:'mediumDate'}}</td>
+                    <td>{{stockInItem.typeOfProduct}}</td>
+                    <td>{{stockInItem.stockInBy}}</td>-->
+                    <td>{{stockInItem.stockInDate | date:'medium'}}</td>
+                    <!--<td>{{stockInItem.remarks}}</td>
                     <td>
                         <div *ngIf="stockInItem.vendorId">
                             <a [routerLink]="['../vendor', stockInItem.vendorId , 'view' ]" >{{stockInItem.vendorCompanyName}}</a>
@@ -196,7 +183,7 @@
                         <div *ngIf="stockInItem.commercialPurchaseOrdersId">
                             <a [routerLink]="['../commercial-purchase-order', stockInItem.commercialPurchaseOrdersId , 'view' ]" >{{stockInItem.commercialPurchaseOrdersPurchaseOrderNo}}</a>
                         </div>
-                    </td>
+                    </td>-->
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
@@ -205,7 +192,7 @@
                                 <fa-icon [icon]="'eye'"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
-                            <button type="submit"
+                            <!--<button type="submit"
                                     [routerLink]="['/stock-in-item', stockInItem.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
@@ -218,7 +205,7 @@
                                     class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>
-                            </button>
+                            </button>-->
                         </div>
                     </td>
                 </tr>

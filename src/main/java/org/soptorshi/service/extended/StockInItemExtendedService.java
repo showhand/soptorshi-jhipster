@@ -6,6 +6,7 @@ import org.soptorshi.domain.*;
 import org.soptorshi.repository.extended.StockInItemExtendedRepository;
 import org.soptorshi.repository.search.StockInItemSearchRepository;
 import org.soptorshi.service.StockInItemService;
+import org.soptorshi.service.dto.StockInItemDTO;
 import org.soptorshi.service.mapper.StockInItemMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,28 @@ public class StockInItemExtendedService extends StockInItemService {
 
     public boolean exists(final StockInProcess stockInProcess) {
         return stockInItemExtendedRepository.existsByStockInProcesses(stockInProcess);
+    }
+
+    /**
+     * Save a stockInItem.
+     *
+     * @param stockInItemDTO the entity to save
+     * @return the persisted entity
+     */
+    public StockInItemDTO save(StockInItemDTO stockInItemDTO) {
+        log.debug("Request to save StockInItem : {}", stockInItemDTO);
+        log.error("Save operation is not allowed");
+        return null;
+    }
+
+    /**
+     * Delete the stockInItem by id.
+     *
+     * @param id the id of the entity
+     */
+    public void delete(Long id) {
+        log.debug("Request to delete StockInItem : {}", id);
+        log.error("Delete operation is not allowed");
     }
 
     public StockInItem getOne(ProductCategory productCategory, Product product, InventoryLocation inventoryLocation, InventorySubLocation inventorySubLocation,
