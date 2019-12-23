@@ -58,4 +58,8 @@ export class QuotationDetailsExtendedDirectiveForQuotation extends QuotationDeta
         });
         this.registerChangeInQuotationDetails();
     }
+
+    transition() {
+        this.loadAll();
+    }
 }

@@ -133,7 +133,7 @@
 </div>
 <div class="wrapper" [ngSwitch]="isAuthenticated() && sidebarService.toggleSidenav" >
     <nav id="sidebar" *ngSwitchCase="true"  style="overflow:hidden;">
-        <ul class="list-unstyled components" style="height:40em;  overflow-y:scroll;">
+        <ul class="list-unstyled components" style="height:40rem;  overflow-y:scroll;">
 
             <!-- <p>Dummy Heading</p>-->
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">

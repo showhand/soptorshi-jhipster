@@ -60,7 +60,10 @@
                        </div>
                    </div>
                </div>
-
+            </div>
+            <div class="col-12" *ngIf="quotation.id">
+                <br/>
+                <jhi-quotation-details-extended-directive-for-quotation [quotation]="quotation"></jhi-quotation-details-extended-directive-for-quotation>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
