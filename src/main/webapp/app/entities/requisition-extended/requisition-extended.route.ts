@@ -39,7 +39,7 @@ export const requisitionExtendedRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            defaultSort: 'id,asc',
+            defaultSort: 'id,desc',
             pageTitle: 'Requisitions',
             breadcrumb: 'Requisition'
         },

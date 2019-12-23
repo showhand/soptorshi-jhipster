@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { filter, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
 import { IRequisition, RequisitionStatus } from 'app/shared/model/requisition.model';
@@ -17,9 +17,10 @@ import { AccountService } from 'app/core';
 import { PurchaseOrderService } from 'app/entities/purchase-order';
 import { IPurchaseOrder, PurchaseOrderStatus } from 'app/shared/model/purchase-order.model';
 import { RequisitionService, RequisitionUpdateComponent } from 'app/entities/requisition';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { RequisitionDetailsService } from 'app/entities/requisition-details';
 import { QuotationService } from 'app/entities/quotation';
+import { merge, Observable, Subject } from 'rxjs';
 
 @Component({
     selector: 'jhi-requisition-extended-update',
@@ -35,6 +36,14 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
 
     productcategories: IProductCategory[];
     productCategory: IProductCategory;
+    selectedProductCategory: string;
+    productCategoryNameMapId: any;
+    productCategoryNameList: string[];
+    productCategoryIdMapName: any;
+
+    @ViewChild('instance') instance: NgbTypeahead;
+    focus$ = new Subject<string>();
+    click$ = new Subject<string>();
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -91,6 +100,7 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ requisition }) => {
             this.requisition = requisition;
+            this.selectedProductCategory = this.requisition.productCategoryName;
             this.generateRequisitionNo();
         });
 
@@ -107,7 +117,20 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
                 filter((mayBeOk: HttpResponse<IProductCategory[]>) => mayBeOk.ok),
                 map((response: HttpResponse<IProductCategory[]>) => response.body)
             )
-            .subscribe((res: IProductCategory[]) => (this.productcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe(
+                (res: IProductCategory[]) => {
+                    this.productcategories = res;
+                    this.productCategoryNameMapId = {};
+                    this.productCategoryNameList = [];
+                    this.productCategoryIdMapName = {};
+                    this.productcategories.forEach((p: IProductCategory) => {
+                        this.productCategoryNameMapId[p.name] = p.id;
+                        this.productCategoryIdMapName[p.id] = p.name;
+                        this.productCategoryNameList.push(p.name);
+                    });
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
 
         if (this.requisition.productCategoryId) {
             this.productCategoryService.find(this.requisition.productCategoryId).subscribe((res: HttpResponse<IProductCategory>) => {
@@ -159,7 +182,7 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
 
     save() {
         this.isSaving = true;
-        this.requisition.productCategoryId = this.productCategory.id;
+        this.requisition.productCategoryId = this.productCategoryNameMapId[this.selectedProductCategory];
         if (this.requisition.id !== undefined) {
             this.subscribeToSaveResponse(this.requisitionService.update(this.requisition));
         } else {
@@ -246,4 +269,22 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
     trackDepartmentById(index: number, item: IDepartment) {
         return item.id;
     }
+
+    search = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(
+            debounceTime(200),
+            distinctUntilChanged()
+        );
+        const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
+        const inputFocus$ = this.focus$;
+
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+            map(term =>
+                (term === ''
+                    ? this.productCategoryNameList
+                    : this.productCategoryNameList.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)
+                ).slice(0, 10)
+            )
+        );
+    };
 }
