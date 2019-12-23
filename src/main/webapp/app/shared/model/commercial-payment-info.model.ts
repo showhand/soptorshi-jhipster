@@ -21,7 +21,7 @@ export interface ICommercialPaymentInfo {
     currencyType?: CommercialCurrency;
     paymentTerms?: string;
     createdBy?: string;
-    createOn?: Moment;
+    createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
     commercialPurchaseOrderPurchaseOrderNo?: string;
@@ -36,7 +36,7 @@ export class CommercialPaymentInfo implements ICommercialPaymentInfo {
         public currencyType?: CommercialCurrency,
         public paymentTerms?: string,
         public createdBy?: string,
-        public createOn?: Moment,
+        public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
         public commercialPurchaseOrderPurchaseOrderNo?: string,

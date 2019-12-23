@@ -1,29 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { IStockInItem, StockInItem } from 'app/shared/model/stock-in-item.model';
+import { IStockInItem } from 'app/shared/model/stock-in-item.model';
 import { StockInItemExtendedService } from 'app/entities/stock-in-item-extended/stock-in-item-extended.service';
 import { StockInItemExtendedComponent } from 'app/entities/stock-in-item-extended/stock-in-item-extended.component';
 import { StockInItemDetailExtendedComponent } from 'app/entities/stock-in-item-extended/stock-in-item-detail-extended.component';
 import { StockInItemUpdateExtendedComponent } from 'app/entities/stock-in-item-extended/stock-in-item-update-extended.component';
 import { StockInItemDeletePopupExtendedComponent } from 'app/entities/stock-in-item-extended/stock-in-item-delete-dialog-extended.component';
+import { StockInItemResolve } from 'app/entities/stock-in-item';
 
 @Injectable({ providedIn: 'root' })
-export class StockInItemExtendedResolve implements Resolve<IStockInItem> {
-    constructor(private service: StockInItemExtendedService) {}
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IStockInItem> {
-        const id = route.params['id'] ? route.params['id'] : null;
-        if (id) {
-            return this.service.find(id).pipe(
-                filter((response: HttpResponse<StockInItem>) => response.ok),
-                map((stockInItem: HttpResponse<StockInItem>) => stockInItem.body)
-            );
-        }
-        return of(new StockInItem());
+export class StockInItemExtendedResolve extends StockInItemResolve implements Resolve<IStockInItem> {
+    constructor(service: StockInItemExtendedService) {
+        super(service);
     }
 }
 

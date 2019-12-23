@@ -8,8 +8,13 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import org.soptorshi.domain.enumeration.YesOrNo;
+
+import org.soptorshi.domain.enumeration.HolidayImposedAuthority;
 
 /**
  * A Holiday.
@@ -36,6 +41,32 @@ public class Holiday implements Serializable {
     @NotNull
     @Column(name = "number_of_days", nullable = false)
     private Integer numberOfDays;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "moon_dependency", nullable = false)
+    private YesOrNo moonDependency;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "holiday_declared_by", nullable = false)
+    private HolidayImposedAuthority holidayDeclaredBy;
+
+    @Lob
+    @Column(name = "remarks")
+    private String remarks;
+
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "created_on")
+    private Instant createdOn;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+
+    @Column(name = "updated_on")
+    private Instant updatedOn;
 
     @ManyToOne
     @JsonIgnoreProperties("holidays")
@@ -89,6 +120,97 @@ public class Holiday implements Serializable {
         this.numberOfDays = numberOfDays;
     }
 
+    public YesOrNo getMoonDependency() {
+        return moonDependency;
+    }
+
+    public Holiday moonDependency(YesOrNo moonDependency) {
+        this.moonDependency = moonDependency;
+        return this;
+    }
+
+    public void setMoonDependency(YesOrNo moonDependency) {
+        this.moonDependency = moonDependency;
+    }
+
+    public HolidayImposedAuthority getHolidayDeclaredBy() {
+        return holidayDeclaredBy;
+    }
+
+    public Holiday holidayDeclaredBy(HolidayImposedAuthority holidayDeclaredBy) {
+        this.holidayDeclaredBy = holidayDeclaredBy;
+        return this;
+    }
+
+    public void setHolidayDeclaredBy(HolidayImposedAuthority holidayDeclaredBy) {
+        this.holidayDeclaredBy = holidayDeclaredBy;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public Holiday remarks(String remarks) {
+        this.remarks = remarks;
+        return this;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public Holiday createdBy(String createdBy) {
+        this.createdBy = createdBy;
+        return this;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedOn() {
+        return createdOn;
+    }
+
+    public Holiday createdOn(Instant createdOn) {
+        this.createdOn = createdOn;
+        return this;
+    }
+
+    public void setCreatedOn(Instant createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public Holiday updatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+        return this;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Instant getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public Holiday updatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
+        return this;
+    }
+
+    public void setUpdatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
     public HolidayType getHolidayType() {
         return holidayType;
     }
@@ -130,6 +252,13 @@ public class Holiday implements Serializable {
             ", fromDate='" + getFromDate() + "'" +
             ", toDate='" + getToDate() + "'" +
             ", numberOfDays=" + getNumberOfDays() +
+            ", moonDependency='" + getMoonDependency() + "'" +
+            ", holidayDeclaredBy='" + getHolidayDeclaredBy() + "'" +
+            ", remarks='" + getRemarks() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdOn='" + getCreatedOn() + "'" +
+            ", updatedBy='" + getUpdatedBy() + "'" +
+            ", updatedOn='" + getUpdatedOn() + "'" +
             "}";
     }
 }

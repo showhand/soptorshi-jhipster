@@ -28,7 +28,7 @@ export class LeaveAttachmentUpdateExtendedComponent extends LeaveAttachmentUpdat
         protected activatedRoute: ActivatedRoute,
         protected router: Router
     ) {
-        super(dataUtils, jhiAlertService, leaveAttachmentService, leaveApplicationService, activatedRoute, router);
+        super(dataUtils, jhiAlertService, leaveAttachmentService, leaveApplicationService, activatedRoute);
     }
 
     ngOnInit() {

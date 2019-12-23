@@ -10,36 +10,36 @@
         },
         {
             "fieldName": "totalQuantity",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "unit",
-            "fieldType": "ItemUnit",
-            "fieldValues": "KG,PCS,LITER,DOZEN,OTHERS",
+            "fieldType": "UnitOfMeasurements",
+            "fieldValues": "PCS,KG,TON,GRAM",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "availableQuantity",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "totalPrice",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "availablePrice",
-            "fieldType": "Double",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]
@@ -58,22 +58,22 @@
             "relationshipType": "one-to-one",
             "otherEntityName": "stockInItem",
             "otherEntityRelationshipName": "stockStatus",
-            "relationshipName": "stockInItems",
+            "relationshipName": "stockInItem",
             "otherEntityField": "id",
             "ownerSide": true
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemCategory",
+            "otherEntityName": "productCategory",
             "otherEntityRelationshipName": "stockStatus",
-            "relationshipName": "itemCategories",
+            "relationshipName": "productCategories",
             "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "itemSubCategory",
+            "otherEntityName": "product",
             "otherEntityRelationshipName": "stockStatus",
-            "relationshipName": "itemSubCategories",
+            "relationshipName": "products",
             "otherEntityField": "name"
         },
         {
@@ -95,7 +95,7 @@
     "entityTableName": "stock_status",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
-    "service": "serviceImpl",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",

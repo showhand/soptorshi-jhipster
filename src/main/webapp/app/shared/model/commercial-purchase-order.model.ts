@@ -8,7 +8,7 @@ export interface ICommercialPurchaseOrder {
     finalDestination?: string;
     shipmentDate?: Moment;
     createdBy?: string;
-    createOn?: Moment;
+    createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
 }
@@ -22,7 +22,7 @@ export class CommercialPurchaseOrder implements ICommercialPurchaseOrder {
         public finalDestination?: string,
         public shipmentDate?: Moment,
         public createdBy?: string,
-        public createOn?: Moment,
+        public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment
     ) {}

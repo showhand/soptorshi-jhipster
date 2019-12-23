@@ -1,15 +1,15 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     SupplyAreaManagerComponent,
-    SupplyAreaManagerDeleteDialogComponent,
-    SupplyAreaManagerDeletePopupComponent,
     SupplyAreaManagerDetailComponent,
-    supplyAreaManagerPopupRoute,
+    SupplyAreaManagerUpdateComponent,
+    SupplyAreaManagerDeletePopupComponent,
+    SupplyAreaManagerDeleteDialogComponent,
     supplyAreaManagerRoute,
-    SupplyAreaManagerUpdateComponent
+    supplyAreaManagerPopupRoute
 } from './';
 
 const ENTITY_STATES = [...supplyAreaManagerRoute, ...supplyAreaManagerPopupRoute];

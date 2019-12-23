@@ -1,19 +1,26 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.*;
-import org.soptorshi.domain.enumeration.ItemUnit;
+
+import org.soptorshi.domain.StockStatus;
+import org.soptorshi.domain.StockInItem;
+import org.soptorshi.domain.ProductCategory;
+import org.soptorshi.domain.Product;
+import org.soptorshi.domain.InventoryLocation;
+import org.soptorshi.domain.InventorySubLocation;
 import org.soptorshi.repository.StockStatusRepository;
 import org.soptorshi.repository.search.StockStatusSearchRepository;
-import org.soptorshi.service.StockStatusQueryService;
 import org.soptorshi.service.StockStatusService;
 import org.soptorshi.service.dto.StockStatusDTO;
 import org.soptorshi.service.mapper.StockStatusMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.StockStatusCriteria;
+import org.soptorshi.service.StockStatusQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -28,18 +35,22 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 /**
  * Test class for the StockStatusResource REST controller.
  *
@@ -52,20 +63,20 @@ public class StockStatusResourceIntTest {
     private static final String DEFAULT_CONTAINER_TRACKING_ID = "AAAAAAAAAA";
     private static final String UPDATED_CONTAINER_TRACKING_ID = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_TOTAL_QUANTITY = 1D;
-    private static final Double UPDATED_TOTAL_QUANTITY = 2D;
+    private static final BigDecimal DEFAULT_TOTAL_QUANTITY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_QUANTITY = new BigDecimal(2);
 
-    private static final ItemUnit DEFAULT_UNIT = ItemUnit.KG;
-    private static final ItemUnit UPDATED_UNIT = ItemUnit.PCS;
+    private static final UnitOfMeasurements DEFAULT_UNIT = UnitOfMeasurements.PCS;
+    private static final UnitOfMeasurements UPDATED_UNIT = UnitOfMeasurements.KG;
 
-    private static final Double DEFAULT_AVAILABLE_QUANTITY = 1D;
-    private static final Double UPDATED_AVAILABLE_QUANTITY = 2D;
+    private static final BigDecimal DEFAULT_AVAILABLE_QUANTITY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_AVAILABLE_QUANTITY = new BigDecimal(2);
 
-    private static final Double DEFAULT_TOTAL_PRICE = 1D;
-    private static final Double UPDATED_TOTAL_PRICE = 2D;
+    private static final BigDecimal DEFAULT_TOTAL_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_PRICE = new BigDecimal(2);
 
-    private static final Double DEFAULT_AVAILABLE_PRICE = 1D;
-    private static final Double UPDATED_AVAILABLE_PRICE = 2D;
+    private static final BigDecimal DEFAULT_AVAILABLE_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_AVAILABLE_PRICE = new BigDecimal(2);
 
     private static final String DEFAULT_STOCK_IN_BY = "AAAAAAAAAA";
     private static final String UPDATED_STOCK_IN_BY = "BBBBBBBBBB";
@@ -326,15 +337,15 @@ public class StockStatusResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockStatus.getId().intValue())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID.toString())))
-            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].availableQuantity").value(hasItem(DEFAULT_AVAILABLE_QUANTITY.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.doubleValue())))
+            .andExpect(jsonPath("$.[*].availableQuantity").value(hasItem(DEFAULT_AVAILABLE_QUANTITY.intValue())))
+            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY.toString())))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getStockStatus() throws Exception {
@@ -347,11 +358,11 @@ public class StockStatusResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(stockStatus.getId().intValue()))
             .andExpect(jsonPath("$.containerTrackingId").value(DEFAULT_CONTAINER_TRACKING_ID.toString()))
-            .andExpect(jsonPath("$.totalQuantity").value(DEFAULT_TOTAL_QUANTITY.doubleValue()))
+            .andExpect(jsonPath("$.totalQuantity").value(DEFAULT_TOTAL_QUANTITY.intValue()))
             .andExpect(jsonPath("$.unit").value(DEFAULT_UNIT.toString()))
-            .andExpect(jsonPath("$.availableQuantity").value(DEFAULT_AVAILABLE_QUANTITY.doubleValue()))
-            .andExpect(jsonPath("$.totalPrice").value(DEFAULT_TOTAL_PRICE.doubleValue()))
-            .andExpect(jsonPath("$.availablePrice").value(DEFAULT_AVAILABLE_PRICE.doubleValue()))
+            .andExpect(jsonPath("$.availableQuantity").value(DEFAULT_AVAILABLE_QUANTITY.intValue()))
+            .andExpect(jsonPath("$.totalPrice").value(DEFAULT_TOTAL_PRICE.intValue()))
+            .andExpect(jsonPath("$.availablePrice").value(DEFAULT_AVAILABLE_PRICE.intValue()))
             .andExpect(jsonPath("$.stockInBy").value(DEFAULT_STOCK_IN_BY.toString()))
             .andExpect(jsonPath("$.stockInDate").value(DEFAULT_STOCK_IN_DATE.toString()));
     }
@@ -670,58 +681,58 @@ public class StockStatusResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllStockStatusesByStockInItemsIsEqualToSomething() throws Exception {
+    public void getAllStockStatusesByStockInItemIsEqualToSomething() throws Exception {
         // Initialize the database
-        StockInItem stockInItems = StockInItemResourceIntTest.createEntity(em);
-        em.persist(stockInItems);
+        StockInItem stockInItem = StockInItemResourceIntTest.createEntity(em);
+        em.persist(stockInItem);
         em.flush();
-        stockStatus.setStockInItems(stockInItems);
+        stockStatus.setStockInItem(stockInItem);
         stockStatusRepository.saveAndFlush(stockStatus);
-        Long stockInItemsId = stockInItems.getId();
+        Long stockInItemId = stockInItem.getId();
 
-        // Get all the stockStatusList where stockInItems equals to stockInItemsId
-        defaultStockStatusShouldBeFound("stockInItemsId.equals=" + stockInItemsId);
+        // Get all the stockStatusList where stockInItem equals to stockInItemId
+        defaultStockStatusShouldBeFound("stockInItemId.equals=" + stockInItemId);
 
-        // Get all the stockStatusList where stockInItems equals to stockInItemsId + 1
-        defaultStockStatusShouldNotBeFound("stockInItemsId.equals=" + (stockInItemsId + 1));
+        // Get all the stockStatusList where stockInItem equals to stockInItemId + 1
+        defaultStockStatusShouldNotBeFound("stockInItemId.equals=" + (stockInItemId + 1));
     }
 
 
     @Test
     @Transactional
-    public void getAllStockStatusesByItemCategoriesIsEqualToSomething() throws Exception {
+    public void getAllStockStatusesByProductCategoriesIsEqualToSomething() throws Exception {
         // Initialize the database
-        ItemCategory itemCategories = ItemCategoryResourceIntTest.createEntity(em);
-        em.persist(itemCategories);
+        ProductCategory productCategories = ProductCategoryResourceIntTest.createEntity(em);
+        em.persist(productCategories);
         em.flush();
-        stockStatus.setItemCategories(itemCategories);
+        stockStatus.setProductCategories(productCategories);
         stockStatusRepository.saveAndFlush(stockStatus);
-        Long itemCategoriesId = itemCategories.getId();
+        Long productCategoriesId = productCategories.getId();
 
-        // Get all the stockStatusList where itemCategories equals to itemCategoriesId
-        defaultStockStatusShouldBeFound("itemCategoriesId.equals=" + itemCategoriesId);
+        // Get all the stockStatusList where productCategories equals to productCategoriesId
+        defaultStockStatusShouldBeFound("productCategoriesId.equals=" + productCategoriesId);
 
-        // Get all the stockStatusList where itemCategories equals to itemCategoriesId + 1
-        defaultStockStatusShouldNotBeFound("itemCategoriesId.equals=" + (itemCategoriesId + 1));
+        // Get all the stockStatusList where productCategories equals to productCategoriesId + 1
+        defaultStockStatusShouldNotBeFound("productCategoriesId.equals=" + (productCategoriesId + 1));
     }
 
 
     @Test
     @Transactional
-    public void getAllStockStatusesByItemSubCategoriesIsEqualToSomething() throws Exception {
+    public void getAllStockStatusesByProductsIsEqualToSomething() throws Exception {
         // Initialize the database
-        ItemSubCategory itemSubCategories = ItemSubCategoryResourceIntTest.createEntity(em);
-        em.persist(itemSubCategories);
+        Product products = ProductResourceIntTest.createEntity(em);
+        em.persist(products);
         em.flush();
-        stockStatus.setItemSubCategories(itemSubCategories);
+        stockStatus.setProducts(products);
         stockStatusRepository.saveAndFlush(stockStatus);
-        Long itemSubCategoriesId = itemSubCategories.getId();
+        Long productsId = products.getId();
 
-        // Get all the stockStatusList where itemSubCategories equals to itemSubCategoriesId
-        defaultStockStatusShouldBeFound("itemSubCategoriesId.equals=" + itemSubCategoriesId);
+        // Get all the stockStatusList where products equals to productsId
+        defaultStockStatusShouldBeFound("productsId.equals=" + productsId);
 
-        // Get all the stockStatusList where itemSubCategories equals to itemSubCategoriesId + 1
-        defaultStockStatusShouldNotBeFound("itemSubCategoriesId.equals=" + (itemSubCategoriesId + 1));
+        // Get all the stockStatusList where products equals to productsId + 1
+        defaultStockStatusShouldNotBeFound("productsId.equals=" + (productsId + 1));
     }
 
 
@@ -771,11 +782,11 @@ public class StockStatusResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockStatus.getId().intValue())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
-            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].availableQuantity").value(hasItem(DEFAULT_AVAILABLE_QUANTITY.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.doubleValue())))
+            .andExpect(jsonPath("$.[*].availableQuantity").value(hasItem(DEFAULT_AVAILABLE_QUANTITY.intValue())))
+            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())));
 
@@ -913,11 +924,11 @@ public class StockStatusResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(stockStatus.getId().intValue())))
             .andExpect(jsonPath("$.[*].containerTrackingId").value(hasItem(DEFAULT_CONTAINER_TRACKING_ID)))
-            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].unit").value(hasItem(DEFAULT_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].availableQuantity").value(hasItem(DEFAULT_AVAILABLE_QUANTITY.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.doubleValue())))
+            .andExpect(jsonPath("$.[*].availableQuantity").value(hasItem(DEFAULT_AVAILABLE_QUANTITY.intValue())))
+            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].availablePrice").value(hasItem(DEFAULT_AVAILABLE_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].stockInBy").value(hasItem(DEFAULT_STOCK_IN_BY)))
             .andExpect(jsonPath("$.[*].stockInDate").value(hasItem(DEFAULT_STOCK_IN_DATE.toString())));
     }

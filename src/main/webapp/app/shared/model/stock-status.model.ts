@@ -1,28 +1,27 @@
 import { Moment } from 'moment';
 
-export const enum ItemUnit {
-    KG = 'KG',
+export const enum UnitOfMeasurements {
     PCS = 'PCS',
-    LITER = 'LITER',
-    DOZEN = 'DOZEN',
-    OTHERS = 'OTHERS'
+    KG = 'KG',
+    TON = 'TON',
+    GRAM = 'GRAM'
 }
 
 export interface IStockStatus {
     id?: number;
     containerTrackingId?: string;
     totalQuantity?: number;
-    unit?: ItemUnit;
+    unit?: UnitOfMeasurements;
     availableQuantity?: number;
     totalPrice?: number;
     availablePrice?: number;
     stockInBy?: string;
     stockInDate?: Moment;
-    stockInItemsId?: number;
-    itemCategoriesName?: string;
-    itemCategoriesId?: number;
-    itemSubCategoriesName?: string;
-    itemSubCategoriesId?: number;
+    stockInItemId?: number;
+    productCategoriesName?: string;
+    productCategoriesId?: number;
+    productsName?: string;
+    productsId?: number;
     inventoryLocationsName?: string;
     inventoryLocationsId?: number;
     inventorySubLocationsName?: string;
@@ -34,17 +33,17 @@ export class StockStatus implements IStockStatus {
         public id?: number,
         public containerTrackingId?: string,
         public totalQuantity?: number,
-        public unit?: ItemUnit,
+        public unit?: UnitOfMeasurements,
         public availableQuantity?: number,
         public totalPrice?: number,
         public availablePrice?: number,
         public stockInBy?: string,
         public stockInDate?: Moment,
-        public stockInItemsId?: number,
-        public itemCategoriesName?: string,
-        public itemCategoriesId?: number,
-        public itemSubCategoriesName?: string,
-        public itemSubCategoriesId?: number,
+        public stockInItemId?: number,
+        public productCategoriesName?: string,
+        public productCategoriesId?: number,
+        public productsName?: string,
+        public productsId?: number,
         public inventoryLocationsName?: string,
         public inventoryLocationsId?: number,
         public inventorySubLocationsName?: string,

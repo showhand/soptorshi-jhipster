@@ -1,11 +1,10 @@
 import { Moment } from 'moment';
 
-export const enum ItemUnit {
-    KG = 'KG',
+export const enum UnitOfMeasurements {
     PCS = 'PCS',
-    LITER = 'LITER',
-    DOZEN = 'DOZEN',
-    OTHERS = 'OTHERS'
+    KG = 'KG',
+    TON = 'TON',
+    GRAM = 'GRAM'
 }
 
 export const enum ContainerCategory {
@@ -16,54 +15,70 @@ export const enum ContainerCategory {
     OTHERS = 'OTHERS'
 }
 
+export const enum ProductType {
+    REGULAR_PRODUCT = 'REGULAR_PRODUCT',
+    FINISHED_PRODUCT = 'FINISHED_PRODUCT',
+    BY_PRODUCT = 'BY_PRODUCT'
+}
+
 export interface IStockInItem {
     id?: number;
     quantity?: number;
-    unit?: ItemUnit;
+    unit?: UnitOfMeasurements;
     price?: number;
     containerCategory?: ContainerCategory;
     containerTrackingId?: string;
+    mfgDate?: Moment;
     expiryDate?: Moment;
+    typeOfProduct?: ProductType;
     stockInBy?: string;
     stockInDate?: Moment;
-    purchaseOrderId?: string;
     remarks?: string;
-    itemCategoriesName?: string;
-    itemCategoriesId?: number;
-    itemSubCategoriesName?: string;
-    itemSubCategoriesId?: number;
+    productCategoriesName?: string;
+    productCategoriesId?: number;
+    productsName?: string;
+    productsId?: number;
     inventoryLocationsName?: string;
     inventoryLocationsId?: number;
     inventorySubLocationsName?: string;
     inventorySubLocationsId?: number;
-    manufacturersName?: string;
-    manufacturersId?: number;
+    vendorCompanyName?: string;
+    vendorId?: number;
     stockInProcessesId?: number;
+    purchaseOrdersPurchaseOrderNo?: string;
+    purchaseOrdersId?: number;
+    commercialPurchaseOrdersPurchaseOrderNo?: string;
+    commercialPurchaseOrdersId?: number;
 }
 
 export class StockInItem implements IStockInItem {
     constructor(
         public id?: number,
         public quantity?: number,
-        public unit?: ItemUnit,
+        public unit?: UnitOfMeasurements,
         public price?: number,
         public containerCategory?: ContainerCategory,
         public containerTrackingId?: string,
+        public mfgDate?: Moment,
         public expiryDate?: Moment,
+        public typeOfProduct?: ProductType,
         public stockInBy?: string,
         public stockInDate?: Moment,
-        public purchaseOrderId?: string,
         public remarks?: string,
-        public itemCategoriesName?: string,
-        public itemCategoriesId?: number,
-        public itemSubCategoriesName?: string,
-        public itemSubCategoriesId?: number,
+        public productCategoriesName?: string,
+        public productCategoriesId?: number,
+        public productsName?: string,
+        public productsId?: number,
         public inventoryLocationsName?: string,
         public inventoryLocationsId?: number,
         public inventorySubLocationsName?: string,
         public inventorySubLocationsId?: number,
-        public manufacturersName?: string,
-        public manufacturersId?: number,
-        public stockInProcessesId?: number
+        public vendorCompanyName?: string,
+        public vendorId?: number,
+        public stockInProcessesId?: number,
+        public purchaseOrdersPurchaseOrderNo?: string,
+        public purchaseOrdersId?: number,
+        public commercialPurchaseOrdersPurchaseOrderNo?: string,
+        public commercialPurchaseOrdersId?: number
     ) {}
 }

@@ -1,15 +1,15 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     SupplySalesRepresentativeComponent,
-    SupplySalesRepresentativeDeleteDialogComponent,
-    SupplySalesRepresentativeDeletePopupComponent,
     SupplySalesRepresentativeDetailComponent,
-    supplySalesRepresentativePopupRoute,
+    SupplySalesRepresentativeUpdateComponent,
+    SupplySalesRepresentativeDeletePopupComponent,
+    SupplySalesRepresentativeDeleteDialogComponent,
     supplySalesRepresentativeRoute,
-    SupplySalesRepresentativeUpdateComponent
+    supplySalesRepresentativePopupRoute
 } from './';
 
 const ENTITY_STATES = [...supplySalesRepresentativeRoute, ...supplySalesRepresentativePopupRoute];

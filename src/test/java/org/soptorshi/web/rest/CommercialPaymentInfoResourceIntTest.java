@@ -1,21 +1,22 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
+
 import org.soptorshi.domain.CommercialPaymentInfo;
 import org.soptorshi.domain.CommercialPurchaseOrder;
-import org.soptorshi.domain.enumeration.CommercialCurrency;
-import org.soptorshi.domain.enumeration.CommercialPaymentCategory;
 import org.soptorshi.repository.CommercialPaymentInfoRepository;
 import org.soptorshi.repository.search.CommercialPaymentInfoSearchRepository;
-import org.soptorshi.service.CommercialPaymentInfoQueryService;
 import org.soptorshi.service.CommercialPaymentInfoService;
 import org.soptorshi.service.dto.CommercialPaymentInfoDTO;
 import org.soptorshi.service.mapper.CommercialPaymentInfoMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.CommercialPaymentInfoCriteria;
+import org.soptorshi.service.CommercialPaymentInfoQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -35,13 +36,17 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.soptorshi.domain.enumeration.CommercialPaymentCategory;
+import org.soptorshi.domain.enumeration.CommercialCurrency;
 /**
  * Test class for the CommercialPaymentInfoResource REST controller.
  *
@@ -66,8 +71,8 @@ public class CommercialPaymentInfoResourceIntTest {
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATE_ON = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATE_ON = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate DEFAULT_CREATED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_ON = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
@@ -139,7 +144,7 @@ public class CommercialPaymentInfoResourceIntTest {
             .currencyType(DEFAULT_CURRENCY_TYPE)
             .paymentTerms(DEFAULT_PAYMENT_TERMS)
             .createdBy(DEFAULT_CREATED_BY)
-            .createOn(DEFAULT_CREATE_ON)
+            .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
         return commercialPaymentInfo;
@@ -171,7 +176,7 @@ public class CommercialPaymentInfoResourceIntTest {
         assertThat(testCommercialPaymentInfo.getCurrencyType()).isEqualTo(DEFAULT_CURRENCY_TYPE);
         assertThat(testCommercialPaymentInfo.getPaymentTerms()).isEqualTo(DEFAULT_PAYMENT_TERMS);
         assertThat(testCommercialPaymentInfo.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
-        assertThat(testCommercialPaymentInfo.getCreateOn()).isEqualTo(DEFAULT_CREATE_ON);
+        assertThat(testCommercialPaymentInfo.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testCommercialPaymentInfo.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testCommercialPaymentInfo.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
@@ -275,11 +280,11 @@ public class CommercialPaymentInfoResourceIntTest {
             .andExpect(jsonPath("$.[*].currencyType").value(hasItem(DEFAULT_CURRENCY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].paymentTerms").value(hasItem(DEFAULT_PAYMENT_TERMS.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getCommercialPaymentInfo() throws Exception {
@@ -296,7 +301,7 @@ public class CommercialPaymentInfoResourceIntTest {
             .andExpect(jsonPath("$.currencyType").value(DEFAULT_CURRENCY_TYPE.toString()))
             .andExpect(jsonPath("$.paymentTerms").value(DEFAULT_PAYMENT_TERMS.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
-            .andExpect(jsonPath("$.createOn").value(DEFAULT_CREATE_ON.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
             .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
     }
@@ -498,67 +503,67 @@ public class CommercialPaymentInfoResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllCommercialPaymentInfosByCreateOnIsEqualToSomething() throws Exception {
+    public void getAllCommercialPaymentInfosByCreatedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
 
-        // Get all the commercialPaymentInfoList where createOn equals to DEFAULT_CREATE_ON
-        defaultCommercialPaymentInfoShouldBeFound("createOn.equals=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPaymentInfoList where createdOn equals to DEFAULT_CREATED_ON
+        defaultCommercialPaymentInfoShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPaymentInfoList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialPaymentInfoShouldNotBeFound("createOn.equals=" + UPDATED_CREATE_ON);
+        // Get all the commercialPaymentInfoList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialPaymentInfoShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPaymentInfosByCreateOnIsInShouldWork() throws Exception {
+    public void getAllCommercialPaymentInfosByCreatedOnIsInShouldWork() throws Exception {
         // Initialize the database
         commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
 
-        // Get all the commercialPaymentInfoList where createOn in DEFAULT_CREATE_ON or UPDATED_CREATE_ON
-        defaultCommercialPaymentInfoShouldBeFound("createOn.in=" + DEFAULT_CREATE_ON + "," + UPDATED_CREATE_ON);
+        // Get all the commercialPaymentInfoList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultCommercialPaymentInfoShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
 
-        // Get all the commercialPaymentInfoList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialPaymentInfoShouldNotBeFound("createOn.in=" + UPDATED_CREATE_ON);
+        // Get all the commercialPaymentInfoList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialPaymentInfoShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPaymentInfosByCreateOnIsNullOrNotNull() throws Exception {
+    public void getAllCommercialPaymentInfosByCreatedOnIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
 
-        // Get all the commercialPaymentInfoList where createOn is not null
-        defaultCommercialPaymentInfoShouldBeFound("createOn.specified=true");
+        // Get all the commercialPaymentInfoList where createdOn is not null
+        defaultCommercialPaymentInfoShouldBeFound("createdOn.specified=true");
 
-        // Get all the commercialPaymentInfoList where createOn is null
-        defaultCommercialPaymentInfoShouldNotBeFound("createOn.specified=false");
+        // Get all the commercialPaymentInfoList where createdOn is null
+        defaultCommercialPaymentInfoShouldNotBeFound("createdOn.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPaymentInfosByCreateOnIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllCommercialPaymentInfosByCreatedOnIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
 
-        // Get all the commercialPaymentInfoList where createOn greater than or equals to DEFAULT_CREATE_ON
-        defaultCommercialPaymentInfoShouldBeFound("createOn.greaterOrEqualThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPaymentInfoList where createdOn greater than or equals to DEFAULT_CREATED_ON
+        defaultCommercialPaymentInfoShouldBeFound("createdOn.greaterOrEqualThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPaymentInfoList where createOn greater than or equals to UPDATED_CREATE_ON
-        defaultCommercialPaymentInfoShouldNotBeFound("createOn.greaterOrEqualThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialPaymentInfoList where createdOn greater than or equals to UPDATED_CREATED_ON
+        defaultCommercialPaymentInfoShouldNotBeFound("createdOn.greaterOrEqualThan=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPaymentInfosByCreateOnIsLessThanSomething() throws Exception {
+    public void getAllCommercialPaymentInfosByCreatedOnIsLessThanSomething() throws Exception {
         // Initialize the database
         commercialPaymentInfoRepository.saveAndFlush(commercialPaymentInfo);
 
-        // Get all the commercialPaymentInfoList where createOn less than or equals to DEFAULT_CREATE_ON
-        defaultCommercialPaymentInfoShouldNotBeFound("createOn.lessThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPaymentInfoList where createdOn less than or equals to DEFAULT_CREATED_ON
+        defaultCommercialPaymentInfoShouldNotBeFound("createdOn.lessThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPaymentInfoList where createOn less than or equals to UPDATED_CREATE_ON
-        defaultCommercialPaymentInfoShouldBeFound("createOn.lessThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialPaymentInfoList where createdOn less than or equals to UPDATED_CREATED_ON
+        defaultCommercialPaymentInfoShouldBeFound("createdOn.lessThan=" + UPDATED_CREATED_ON);
     }
 
 
@@ -698,7 +703,7 @@ public class CommercialPaymentInfoResourceIntTest {
             .andExpect(jsonPath("$.[*].currencyType").value(hasItem(DEFAULT_CURRENCY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].paymentTerms").value(hasItem(DEFAULT_PAYMENT_TERMS)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
@@ -753,7 +758,7 @@ public class CommercialPaymentInfoResourceIntTest {
             .currencyType(UPDATED_CURRENCY_TYPE)
             .paymentTerms(UPDATED_PAYMENT_TERMS)
             .createdBy(UPDATED_CREATED_BY)
-            .createOn(UPDATED_CREATE_ON)
+            .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
             .updatedOn(UPDATED_UPDATED_ON);
         CommercialPaymentInfoDTO commercialPaymentInfoDTO = commercialPaymentInfoMapper.toDto(updatedCommercialPaymentInfo);
@@ -772,7 +777,7 @@ public class CommercialPaymentInfoResourceIntTest {
         assertThat(testCommercialPaymentInfo.getCurrencyType()).isEqualTo(UPDATED_CURRENCY_TYPE);
         assertThat(testCommercialPaymentInfo.getPaymentTerms()).isEqualTo(UPDATED_PAYMENT_TERMS);
         assertThat(testCommercialPaymentInfo.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
-        assertThat(testCommercialPaymentInfo.getCreateOn()).isEqualTo(UPDATED_CREATE_ON);
+        assertThat(testCommercialPaymentInfo.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testCommercialPaymentInfo.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testCommercialPaymentInfo.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
@@ -840,7 +845,7 @@ public class CommercialPaymentInfoResourceIntTest {
             .andExpect(jsonPath("$.[*].currencyType").value(hasItem(DEFAULT_CURRENCY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].paymentTerms").value(hasItem(DEFAULT_PAYMENT_TERMS)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }

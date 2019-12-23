@@ -10,17 +10,10 @@
                         [(ngModel)]="holiday.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_holidayType">Holiday Type</label>
-                    <select class="form-control" id="field_holidayType" name="holidayType" [(ngModel)]="holiday.holidayTypeId" required >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="holidayTypeOption.id" *ngFor="let holidayTypeOption of holidaytypes; trackBy: trackHolidayTypeById">{{holidayTypeOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_fromDate">From Date</label>
                     <div class="input-group">
                         <input id="field_fromDate" type="text" class="form-control" name="fromDate" ngbDatepicker  #fromDateDp="ngbDatepicker" [(ngModel)]="holiday.fromDate"
-                               (ngModelChange)="calculateDifference()" required/>
+                        required/>
                         <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="fromDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
@@ -36,7 +29,7 @@
                     <label class="form-control-label" for="field_toDate">To Date</label>
                     <div class="input-group">
                         <input id="field_toDate" type="text" class="form-control" name="toDate" ngbDatepicker  #toDateDp="ngbDatepicker" [(ngModel)]="holiday.toDate"
-                               (ngModelChange)="calculateDifference()" required/>
+                        required/>
                         <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="toDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
@@ -63,7 +56,71 @@
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_moonDependency">Moon Dependency</label>
+                    <select class="form-control" name="moonDependency" [(ngModel)]="holiday.moonDependency" id="field_moonDependency"  required>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.moonDependency?.dirty && editForm.controls.moonDependency?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.moonDependency?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_holidayDeclaredBy">Holiday Declared By</label>
+                    <select class="form-control" name="holidayDeclaredBy" [(ngModel)]="holiday.holidayDeclaredBy" id="field_holidayDeclaredBy"  required>
+                        <option value="GOVERNMENT">GOVERNMENT</option>
+                        <option value="ORGANIZATIONAL">ORGANIZATIONAL</option>
+                        <option value="COMBINED">COMBINED</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.holidayDeclaredBy?.dirty && editForm.controls.holidayDeclaredBy?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.holidayDeclaredBy?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_remarks">Remarks</label>
+                    <textarea class="form-control" name="remarks" id="field_remarks"
+                        [(ngModel)]="holiday.remarks" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdBy">Created By</label>
+                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                        [(ngModel)]="holiday.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdOn">Created On</label>
+                    <div class="d-flex">
+                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
+                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
+                        [(ngModel)]="holiday.updatedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
+                    <div class="d-flex">
+                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
 
+                <div class="form-group">
+                    <label class="form-control-label" for="field_holidayType">Holiday Type</label>
+                    <select class="form-control" id="field_holidayType" name="holidayType" [(ngModel)]="holiday.holidayTypeId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="holidayTypeOption.id" *ngFor="let holidayTypeOption of holidaytypes; trackBy: trackHolidayTypeById">{{holidayTypeOption.name}}</option>
+                    </select>
+                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

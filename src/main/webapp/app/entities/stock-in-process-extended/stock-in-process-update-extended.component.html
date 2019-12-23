@@ -1,32 +1,33 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-stock-in-process-heading">Create a Stock In Process</h2>
+            <h2 id="jhi-stock-in-process-heading">Create or edit a Stock In Process</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!stockInProcess.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="stockInProcess.id" readonly />
+                           [(ngModel)]="stockInProcess.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_itemCategories">Item Categories</label>
-                    <select class="form-control" id="field_itemCategories" name="itemCategories" [(ngModel)]="stockInProcess.itemCategoriesId"  (ngModelChange)="getItemSubCategories()"
-                            required>
+                    <label class="form-control-label" for="field_productCategories">Product Categories</label>
+                    <select class="form-control" id="field_productCategories" name="productCategories" [(ngModel)]="stockInProcess.productCategoriesId"
+                            (ngModelChange)="getProducts()" required>
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="itemCategoryOption.id" *ngFor="let itemCategoryOption of itemcategories; trackBy: trackItemCategoryById">{{itemCategoryOption.name}}</option>
+                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_itemSubCategories">Item Sub Categories</label>
-                    <select class="form-control" id="field_itemSubCategories" name="itemSubCategories" [(ngModel)]="stockInProcess.itemSubCategoriesId" required>
+                    <label class="form-control-label" for="field_products">Products</label>
+                    <select class="form-control" id="field_products" name="products" [(ngModel)]="stockInProcess.productsId" required>
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="itemSubCategoryOption.id" *ngFor="let itemSubCategoryOption of itemsubcategories; trackBy: trackItemSubCategoryById">{{itemSubCategoryOption.name}}</option>
+                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_inventoryLocations">Inventory Locations</label>
-                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="stockInProcess.inventoryLocationsId" (ngModelChange)="getInventorySubLocation()" required>
+                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="stockInProcess.inventoryLocationsId"
+                            (ngModelChange)="getInventorySubLocation()" required>
                         <option [ngValue]="null"></option>
                         <option [ngValue]="inventoryLocationOption.id" *ngFor="let inventoryLocationOption of inventorylocations; trackBy: trackInventoryLocationById">{{inventoryLocationOption.name}}</option>
                     </select>
@@ -39,16 +40,23 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_vendor">Vendor</label>
+                    <select class="form-control" id="field_vendor" name="vendor" [(ngModel)]="stockInProcess.vendorId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="vendorOption.id" *ngFor="let vendorOption of vendors; trackBy: trackVendorById">{{vendorOption.companyName}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_totalQuantity">Total Quantity</label>
                     <input type="number" class="form-control" name="totalQuantity" id="field_totalQuantity"
-                        [(ngModel)]="stockInProcess.totalQuantity" required/>
+                           [(ngModel)]="stockInProcess.totalQuantity" required/>
                     <div [hidden]="!(editForm.controls.totalQuantity?.dirty && editForm.controls.totalQuantity?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.totalQuantity?.errors?.required">
-                        This field is required.
+                               [hidden]="!editForm.controls.totalQuantity?.errors?.required">
+                            This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.totalQuantity?.errors?.number">
+                               [hidden]="!editForm.controls.totalQuantity?.errors?.number">
                             This field should be a number.
                         </small>
                     </div>
@@ -56,30 +64,29 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_unit">Unit</label>
                     <select class="form-control" name="unit" [(ngModel)]="stockInProcess.unit" id="field_unit"  required>
-                        <option value="KG">KG</option>
                         <option value="PCS">PCS</option>
-                        <option value="LITER">LITER</option>
-                        <option value="DOZEN">DOZEN</option>
-                        <option value="OTHERS">OTHERS</option>
+                        <option value="KG">KG</option>
+                        <option value="TON">TON</option>
+                        <option value="GRAM">GRAM</option>
                     </select>
                     <div [hidden]="!(editForm.controls.unit?.dirty && editForm.controls.unit?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.unit?.errors?.required">
-                        This field is required.
+                               [hidden]="!editForm.controls.unit?.errors?.required">
+                            This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_unitPrice">Unit Price</label>
                     <input type="number" class="form-control" name="unitPrice" id="field_unitPrice"
-                        [(ngModel)]="stockInProcess.unitPrice" required/>
+                           [(ngModel)]="stockInProcess.unitPrice" required/>
                     <div [hidden]="!(editForm.controls.unitPrice?.dirty && editForm.controls.unitPrice?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.unitPrice?.errors?.required">
-                        This field is required.
+                               [hidden]="!editForm.controls.unitPrice?.errors?.required">
+                            This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.unitPrice?.errors?.number">
+                               [hidden]="!editForm.controls.unitPrice?.errors?.number">
                             This field should be a number.
                         </small>
                     </div>
@@ -87,62 +94,39 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_totalContainer">Total Container</label>
                     <input type="number" class="form-control" name="totalContainer" id="field_totalContainer"
-                        [(ngModel)]="stockInProcess.totalContainer" required/>
-                    <div [hidden]="!(editForm.controls.totalContainer?.dirty && editForm.controls.totalContainer?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.totalContainer?.errors?.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.totalContainer?.errors?.number">
-                            This field should be a number.
-                        </small>
-                    </div>
+                           [(ngModel)]="stockInProcess.totalContainer" required/>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_containerCategory">Container Category</label>
-                    <select class="form-control" name="containerCategory" [(ngModel)]="stockInProcess.containerCategory" id="field_containerCategory"  required>
+                    <select class="form-control" name="containerCategory" [(ngModel)]="stockInProcess.containerCategory" id="field_containerCategory" required>
                         <option value="BOTTLE">BOTTLE</option>
                         <option value="DRUM">DRUM</option>
                         <option value="PACKET">PACKET</option>
                         <option value="SACK">SACK</option>
                         <option value="OTHERS">OTHERS</option>
                     </select>
-                    <div [hidden]="!(editForm.controls.containerCategory?.dirty && editForm.controls.containerCategory?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.containerCategory?.errors?.required">
-                        This field is required.
-                        </small>
-                    </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_containerTrackingId">Container Tracking Id (Comma Separated)</label>
+                    <label class="form-control-label" for="field_containerTrackingId">Container Tracking Id</label>
                     <input type="text" class="form-control" name="containerTrackingId" id="field_containerTrackingId"
-                        [(ngModel)]="stockInProcess.containerTrackingId" placeholder="A-100, B-220, ..." required/>
-                    <div [hidden]="!(editForm.controls.containerTrackingId?.dirty && editForm.controls.containerTrackingId?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.containerTrackingId?.errors?.required">
-                        This field is required.
-                        </small>
-                    </div>
+                           [(ngModel)]="stockInProcess.containerTrackingId"
+                           placeholder="Example: A-101,B-200,C-222,..." required/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_quantityPerContainer">Quantity Per Container (Comma Separated)</label>
+                    <label class="form-control-label" for="field_quantityPerContainer">Quantity Per Container</label>
                     <input type="text" class="form-control" name="quantityPerContainer" id="field_quantityPerContainer"
-                        [(ngModel)]="stockInProcess.quantityPerContainer" placeholder="10, 20, ..." required/>
-                    <div [hidden]="!(editForm.controls.quantityPerContainer?.dirty && editForm.controls.quantityPerContainer?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.quantityPerContainer?.errors?.required">
-                        This field is required.
-                        </small>
-                    </div>
+                           [(ngModel)]="stockInProcess.quantityPerContainer"
+                           placeholder="Example: 15,10,20,..." required/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_manufacturers">Manufacturers</label>
-                    <select class="form-control" id="field_manufacturers" name="manufacturers" [(ngModel)]="stockInProcess.manufacturersId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="manufacturerOption.id" *ngFor="let manufacturerOption of manufacturers; trackBy: trackManufacturerById">{{manufacturerOption.name}}</option>
-                    </select>
+                    <label class="form-control-label" for="field_mfgDate">Mfg Date</label>
+                    <div class="input-group">
+                        <input id="field_mfgDate" type="text" class="form-control" name="mfgDate" ngbDatepicker  #mfgDateDp="ngbDatepicker" [(ngModel)]="stockInProcess.mfgDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="mfgDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_expiryDate">Expiry Date</label>
@@ -155,24 +139,73 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_purchaseOrderId">Purchase Order Id</label>
-                    <input type="text" class="form-control" name="purchaseOrderId" id="field_purchaseOrderId"
-                        [(ngModel)]="stockInProcess.purchaseOrderId" />
+                    <label class="form-control-label" for="field_typeOfProduct">Type Of Product</label>
+                    <select class="form-control" name="typeOfProduct" [(ngModel)]="stockInProcess.typeOfProduct" id="field_typeOfProduct" required>
+                        <option value="REGULAR_PRODUCT">REGULAR_PRODUCT</option>
+                        <option value="FINISHED_PRODUCT">FINISHED_PRODUCT</option>
+                        <option value="BY_PRODUCT">BY_PRODUCT</option>
+                    </select>
                 </div>
+                <!--<div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" [(ngModel)]="stockInProcess.status" id="field_status" required>
+                        <option value="WAITING_FOR_STOCK_IN_PROCESS">WAITING_FOR_STOCK_IN_PROCESS</option>
+                        <option value="COMPLETED_STOCK_IN_PROCESS">COMPLETED_STOCK_IN_PROCESS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_processStartedBy">Process Started By</label>
+                    <input type="text" class="form-control" name="processStartedBy" id="field_processStartedBy"
+                           [(ngModel)]="stockInProcess.processStartedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_processStartedOn">Process Started On</label>
+                    <div class="d-flex">
+                        <input id="field_processStartedOn" type="datetime-local" class="form-control" name="processStartedOn" [(ngModel)]="processStartedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_stockInBy">Stock In By</label>
+                    <input type="text" class="form-control" name="stockInBy" id="field_stockInBy"
+                           [(ngModel)]="stockInProcess.stockInBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_stockInDate">Stock In Date</label>
+                    <div class="d-flex">
+                        <input id="field_stockInDate" type="datetime-local" class="form-control" name="stockInDate" [(ngModel)]="stockInDate" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>-->
                 <div class="form-group">
                     <label class="form-control-label" for="field_remarks">Remarks</label>
                     <input type="text" class="form-control" name="remarks" id="field_remarks"
-                        [(ngModel)]="stockInProcess.remarks" />
+                           [(ngModel)]="stockInProcess.remarks" />
                 </div>
 
+                <div class="form-group">
+                    <label class="form-control-label" for="field_purchaseOrder">Purchase Order</label>
+                    <select class="form-control" id="field_purchaseOrder" name="purchaseOrder" [(ngModel)]="stockInProcess.purchaseOrderId" readonly>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="purchaseOrderOption.id" *ngFor="let purchaseOrderOption of purchaseorders; trackBy: trackPurchaseOrderById">{{purchaseOrderOption.purchaseOrderNo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialPurchaseOrder">Commercial Purchase Order</label>
+                    <select class="form-control" id="field_commercialPurchaseOrder" name="commercialPurchaseOrder" [(ngModel)]="stockInProcess.commercialPurchaseOrderId" readonly>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
+                    </select>
+                </div>
             </div>
-            <jhi-alert></jhi-alert>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;
+                    <span [hidden]="stockInProcess.id">Save</span>
+                    <span [hidden]="!stockInProcess.id">Verify & Complete Stock In Process</span>
                 </button>
             </div>
         </form>

@@ -108,16 +108,19 @@ public class StockOutItemQueryService extends QueryService<StockOutItem> {
             if (criteria.getReceiverId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getReceiverId(), StockOutItem_.receiverId));
             }
+            if (criteria.getReceivingPlace() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getReceivingPlace(), StockOutItem_.receivingPlace));
+            }
             if (criteria.getRemarks() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getRemarks(), StockOutItem_.remarks));
             }
-            if (criteria.getItemCategoriesId() != null) {
-                specification = specification.and(buildSpecification(criteria.getItemCategoriesId(),
-                    root -> root.join(StockOutItem_.itemCategories, JoinType.LEFT).get(ItemCategory_.id)));
+            if (criteria.getProductCategoriesId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductCategoriesId(),
+                    root -> root.join(StockOutItem_.productCategories, JoinType.LEFT).get(ProductCategory_.id)));
             }
-            if (criteria.getItemSubCategoriesId() != null) {
-                specification = specification.and(buildSpecification(criteria.getItemSubCategoriesId(),
-                    root -> root.join(StockOutItem_.itemSubCategories, JoinType.LEFT).get(ItemSubCategory_.id)));
+            if (criteria.getProductsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductsId(),
+                    root -> root.join(StockOutItem_.products, JoinType.LEFT).get(Product_.id)));
             }
             if (criteria.getInventoryLocationsId() != null) {
                 specification = specification.and(buildSpecification(criteria.getInventoryLocationsId(),

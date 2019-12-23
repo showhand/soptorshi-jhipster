@@ -2,14 +2,16 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.soptorshi.domain.enumeration.CommercialCurrency;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import org.soptorshi.domain.enumeration.CommercialCurrency;
 
 /**
  * A CommercialPurchaseOrderItem.
@@ -20,7 +22,7 @@ import java.util.Objects;
 public class CommercialPurchaseOrderItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -63,8 +65,8 @@ public class CommercialPurchaseOrderItem implements Serializable {
     @Column(name = "created_by")
     private String createdBy;
 
-    @Column(name = "create_on")
-    private LocalDate createOn;
+    @Column(name = "created_on")
+    private LocalDate createdOn;
 
     @Column(name = "updated_by")
     private String updatedBy;
@@ -215,17 +217,17 @@ public class CommercialPurchaseOrderItem implements Serializable {
         this.createdBy = createdBy;
     }
 
-    public LocalDate getCreateOn() {
-        return createOn;
+    public LocalDate getCreatedOn() {
+        return createdOn;
     }
 
-    public CommercialPurchaseOrderItem createOn(LocalDate createOn) {
-        this.createOn = createOn;
+    public CommercialPurchaseOrderItem createdOn(LocalDate createdOn) {
+        this.createdOn = createdOn;
         return this;
     }
 
-    public void setCreateOn(LocalDate createOn) {
-        this.createOn = createOn;
+    public void setCreatedOn(LocalDate createdOn) {
+        this.createdOn = createdOn;
     }
 
     public String getUpdatedBy() {
@@ -302,7 +304,7 @@ public class CommercialPurchaseOrderItem implements Serializable {
             ", currencyType='" + getCurrencyType() + "'" +
             ", total=" + getTotal() +
             ", createdBy='" + getCreatedBy() + "'" +
-            ", createOn='" + getCreateOn() + "'" +
+            ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
             "}";

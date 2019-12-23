@@ -25,20 +25,24 @@
                 <dd>
                     <span>{{stockOutItem.receiverId}}</span>
                 </dd>
+                <dt><span>Receiving Place</span></dt>
+                <dd>
+                    <span>{{stockOutItem.receivingPlace}}</span>
+                </dd>
                 <dt><span>Remarks</span></dt>
                 <dd>
                     <span>{{stockOutItem.remarks}}</span>
                 </dd>
-                <dt><span>Item Categories</span></dt>
+                <dt><span>Product Categories</span></dt>
                 <dd>
-                    <div *ngIf="stockOutItem.itemCategoriesId">
-                        <a [routerLink]="['/item-category', stockOutItem.itemCategoriesId, 'view']">{{stockOutItem.itemCategoriesName}}</a>
+                    <div *ngIf="stockOutItem.productCategoriesId">
+                        <a [routerLink]="['/product-category', stockOutItem.productCategoriesId, 'view']">{{stockOutItem.productCategoriesName}}</a>
                     </div>
                 </dd>
-                <dt><span>Item Sub Categories</span></dt>
+                <dt><span>Products</span></dt>
                 <dd>
-                    <div *ngIf="stockOutItem.itemSubCategoriesId">
-                        <a [routerLink]="['/item-sub-category', stockOutItem.itemSubCategoriesId, 'view']">{{stockOutItem.itemSubCategoriesName}}</a>
+                    <div *ngIf="stockOutItem.productsId">
+                        <a [routerLink]="['/product', stockOutItem.productsId, 'view']">{{stockOutItem.productsName}}</a>
                     </div>
                 </dd>
                 <dt><span>Inventory Locations</span></dt>
@@ -73,11 +77,11 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
 
-            <!--<button type="button"
+            <button type="button"
                     [routerLink]="['/stock-out-item', stockOutItem.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>-->
+            </button>
         </div>
     </div>
 </div>

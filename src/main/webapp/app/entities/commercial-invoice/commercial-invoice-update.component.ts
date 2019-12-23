@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { ICommercialInvoice } from 'app/shared/model/commercial-invoice.model';
 import { CommercialInvoiceService } from './commercial-invoice.service';
@@ -26,7 +27,7 @@ export class CommercialInvoiceUpdateComponent implements OnInit {
     commercialproformainvoices: ICommercialProformaInvoice[];
 
     commercialpackagings: ICommercialPackaging[];
-    createOnDp: any;
+    createdOnDp: any;
     updatedOnDp: any;
 
     constructor(

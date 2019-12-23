@@ -9,12 +9,20 @@
             ]
         },
         {
-            "fieldName": "moonDependency",
-            "fieldType": "YesOrNo",
-            "fieldValues": "YES,NO",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdOn",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updatedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedOn",
+            "fieldType": "Instant"
         }
     ],
     "relationships": [],
@@ -22,7 +30,7 @@
     "entityTableName": "holiday_type",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
-    "service": "serviceImpl",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",

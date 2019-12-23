@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { CommercialPaymentInfo, ICommercialPaymentInfo } from 'app/shared/model/commercial-payment-info.model';
+import { CommercialPaymentInfo } from 'app/shared/model/commercial-payment-info.model';
 import { CommercialPaymentInfoService } from './commercial-payment-info.service';
 import { CommercialPaymentInfoComponent } from './commercial-payment-info.component';
 import { CommercialPaymentInfoDetailComponent } from './commercial-payment-info-detail.component';
 import { CommercialPaymentInfoUpdateComponent } from './commercial-payment-info-update.component';
 import { CommercialPaymentInfoDeletePopupComponent } from './commercial-payment-info-delete-dialog.component';
+import { ICommercialPaymentInfo } from 'app/shared/model/commercial-payment-info.model';
 
 @Injectable({ providedIn: 'root' })
 export class CommercialPaymentInfoResolve implements Resolve<ICommercialPaymentInfo> {

@@ -53,7 +53,7 @@ public class CommercialPoStatusExtendedService extends CommercialPoStatusService
         LocalDate currentDate = LocalDate.now();
         if(commercialPoStatusDTO.getId() == null) {
             commercialPoStatusDTO.setCreatedBy(currentUser);
-            commercialPoStatusDTO.setCreateOn(currentDate);
+            commercialPoStatusDTO.setCreatedOn(currentDate);
             CommercialPoStatus commercialPoStatus = commercialPoStatusMapper.toEntity(commercialPoStatusDTO);
             commercialPoStatus = commercialPoStatusRepository.save(commercialPoStatus);
             CommercialPoStatusDTO result = commercialPoStatusMapper.toDto(commercialPoStatus);

@@ -8,17 +8,17 @@
     -->
     <changeSet id="20190802061702-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="item_categories_id"
+        <addForeignKeyConstraint baseColumnNames="product_categories_id"
                                  baseTableName="stock_in_item"
-                                 constraintName="fk_stock_in_item_item_categories_id"
+                                 constraintName="fk_stock_in_item_product_categories_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="item_category"/>
+                                 referencedTableName="product_category"/>
 
-        <addForeignKeyConstraint baseColumnNames="item_sub_categories_id"
+        <addForeignKeyConstraint baseColumnNames="products_id"
                                  baseTableName="stock_in_item"
-                                 constraintName="fk_stock_in_item_item_sub_categories_id"
+                                 constraintName="fk_stock_in_item_products_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="item_sub_category"/>
+                                 referencedTableName="product"/>
 
         <addForeignKeyConstraint baseColumnNames="inventory_locations_id"
                                  baseTableName="stock_in_item"
@@ -32,17 +32,29 @@
                                  referencedColumnNames="id"
                                  referencedTableName="inventory_sub_location"/>
 
-        <addForeignKeyConstraint baseColumnNames="manufacturers_id"
+        <addForeignKeyConstraint baseColumnNames="vendor_id"
                                  baseTableName="stock_in_item"
-                                 constraintName="fk_stock_in_item_manufacturers_id"
+                                 constraintName="fk_stock_in_item_vendor_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="manufacturer"/>
+                                 referencedTableName="vendor"/>
 
         <addForeignKeyConstraint baseColumnNames="stock_in_processes_id"
                                  baseTableName="stock_in_item"
                                  constraintName="fk_stock_in_item_stock_in_processes_id"
                                  referencedColumnNames="id"
                                  referencedTableName="stock_in_process"/>
+
+        <addForeignKeyConstraint baseColumnNames="purchase_orders_id"
+                                 baseTableName="stock_in_item"
+                                 constraintName="fk_stock_in_item_purchase_orders_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="purchase_order"/>
+
+        <addForeignKeyConstraint baseColumnNames="commercial_purchase_orders_id"
+                                 baseTableName="stock_in_item"
+                                 constraintName="fk_stock_in_item_commercial_purchase_orders_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="commercial_purchase_order"/>
 
     </changeSet>
 </databaseChangeLog>

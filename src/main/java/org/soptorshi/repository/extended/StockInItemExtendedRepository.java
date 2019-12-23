@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StockInItemExtendedRepository extends StockInItemRepository {
 
-    StockInItem getByItemCategoriesAndItemSubCategoriesAndInventoryLocationsAndInventorySubLocationsAndContainerTrackingId(
-        ItemCategory itemCategory, ItemSubCategory itemSubCategory, InventoryLocation inventoryLocation, InventorySubLocation
+    StockInItem getByProductCategoriesAndProductsAndInventoryLocationsAndInventorySubLocationsAndContainerTrackingId(
+        ProductCategory productCategory, Product product, InventoryLocation inventoryLocation, InventorySubLocation
         inventorySubLocation, String containerTrackingId);
+
+    boolean existsByStockInProcesses(StockInProcess stockInProcess);
 }

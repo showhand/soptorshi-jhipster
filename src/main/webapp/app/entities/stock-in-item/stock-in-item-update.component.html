@@ -27,11 +27,10 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_unit">Unit</label>
                     <select class="form-control" name="unit" [(ngModel)]="stockInItem.unit" id="field_unit"  required>
-                        <option value="KG">KG</option>
                         <option value="PCS">PCS</option>
-                        <option value="LITER">LITER</option>
-                        <option value="DOZEN">DOZEN</option>
-                        <option value="OTHERS">OTHERS</option>
+                        <option value="KG">KG</option>
+                        <option value="TON">TON</option>
+                        <option value="GRAM">GRAM</option>
                     </select>
                     <div [hidden]="!(editForm.controls.unit?.dirty && editForm.controls.unit?.invalid)">
                         <small class="form-text text-danger"
@@ -83,6 +82,16 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_mfgDate">Mfg Date</label>
+                    <div class="input-group">
+                        <input id="field_mfgDate" type="text" class="form-control" name="mfgDate" ngbDatepicker  #mfgDateDp="ngbDatepicker" [(ngModel)]="stockInItem.mfgDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="mfgDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_expiryDate">Expiry Date</label>
                     <div class="input-group">
                         <input id="field_expiryDate" type="text" class="form-control" name="expiryDate" ngbDatepicker  #expiryDateDp="ngbDatepicker" [(ngModel)]="stockInItem.expiryDate"
@@ -91,6 +100,14 @@
                             <button type="button" class="btn btn-secondary" (click)="expiryDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_typeOfProduct">Type Of Product</label>
+                    <select class="form-control" name="typeOfProduct" [(ngModel)]="stockInItem.typeOfProduct" id="field_typeOfProduct" >
+                        <option value="REGULAR_PRODUCT">REGULAR_PRODUCT</option>
+                        <option value="FINISHED_PRODUCT">FINISHED_PRODUCT</option>
+                        <option value="BY_PRODUCT">BY_PRODUCT</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_stockInBy">Stock In By</label>
@@ -105,28 +122,23 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_purchaseOrderId">Purchase Order Id</label>
-                    <input type="text" class="form-control" name="purchaseOrderId" id="field_purchaseOrderId"
-                        [(ngModel)]="stockInItem.purchaseOrderId" />
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_remarks">Remarks</label>
                     <input type="text" class="form-control" name="remarks" id="field_remarks"
                         [(ngModel)]="stockInItem.remarks" />
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_itemCategories">Item Categories</label>
-                    <select class="form-control" id="field_itemCategories" name="itemCategories" [(ngModel)]="stockInItem.itemCategoriesId" >
+                    <label class="form-control-label" for="field_productCategories">Product Categories</label>
+                    <select class="form-control" id="field_productCategories" name="productCategories" [(ngModel)]="stockInItem.productCategoriesId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="itemCategoryOption.id" *ngFor="let itemCategoryOption of itemcategories; trackBy: trackItemCategoryById">{{itemCategoryOption.name}}</option>
+                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_itemSubCategories">Item Sub Categories</label>
-                    <select class="form-control" id="field_itemSubCategories" name="itemSubCategories" [(ngModel)]="stockInItem.itemSubCategoriesId" >
+                    <label class="form-control-label" for="field_products">Products</label>
+                    <select class="form-control" id="field_products" name="products" [(ngModel)]="stockInItem.productsId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="itemSubCategoryOption.id" *ngFor="let itemSubCategoryOption of itemsubcategories; trackBy: trackItemSubCategoryById">{{itemSubCategoryOption.name}}</option>
+                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -144,10 +156,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_manufacturers">Manufacturers</label>
-                    <select class="form-control" id="field_manufacturers" name="manufacturers" [(ngModel)]="stockInItem.manufacturersId" >
+                    <label class="form-control-label" for="field_vendor">Vendor</label>
+                    <select class="form-control" id="field_vendor" name="vendor" [(ngModel)]="stockInItem.vendorId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="manufacturerOption.id" *ngFor="let manufacturerOption of manufacturers; trackBy: trackManufacturerById">{{manufacturerOption.name}}</option>
+                        <option [ngValue]="vendorOption.id" *ngFor="let vendorOption of vendors; trackBy: trackVendorById">{{vendorOption.companyName}}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -155,6 +167,20 @@
                     <select class="form-control" id="field_stockInProcesses" name="stockInProcesses" [(ngModel)]="stockInItem.stockInProcessesId" >
                         <option [ngValue]="null"></option>
                         <option [ngValue]="stockInProcessOption.id" *ngFor="let stockInProcessOption of stockinprocesses; trackBy: trackStockInProcessById">{{stockInProcessOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_purchaseOrders">Purchase Orders</label>
+                    <select class="form-control" id="field_purchaseOrders" name="purchaseOrders" [(ngModel)]="stockInItem.purchaseOrdersId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="purchaseOrderOption.id" *ngFor="let purchaseOrderOption of purchaseorders; trackBy: trackPurchaseOrderById">{{purchaseOrderOption.purchaseOrderNo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialPurchaseOrders">Commercial Purchase Orders</label>
+                    <select class="form-control" id="field_commercialPurchaseOrders" name="commercialPurchaseOrders" [(ngModel)]="stockInItem.commercialPurchaseOrdersId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
                     </select>
                 </div>
             </div>

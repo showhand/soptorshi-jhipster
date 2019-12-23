@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { IHoliday } from 'app/shared/model/holiday.model';
 import { HolidayDetailComponent } from 'app/entities/holiday';
+import { JhiDataUtils } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-holiday-detail-extended',
@@ -11,8 +12,8 @@ import { HolidayDetailComponent } from 'app/entities/holiday';
 export class HolidayDetailExtendedComponent extends HolidayDetailComponent implements OnInit {
     holiday: IHoliday;
 
-    constructor(protected activatedRoute: ActivatedRoute) {
-        super(activatedRoute);
+    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {
+        super(dataUtils, activatedRoute);
     }
 
     ngOnInit() {

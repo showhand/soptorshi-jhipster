@@ -13,7 +13,7 @@ export interface ICommercialProformaInvoice {
     portOfLanding?: string;
     portOfDestination?: string;
     createdBy?: string;
-    createOn?: Moment;
+    createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
     commercialPurchaseOrderPurchaseOrderNo?: string;
@@ -34,7 +34,7 @@ export class CommercialProformaInvoice implements ICommercialProformaInvoice {
         public portOfLanding?: string,
         public portOfDestination?: string,
         public createdBy?: string,
-        public createOn?: Moment,
+        public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
         public commercialPurchaseOrderPurchaseOrderNo?: string,

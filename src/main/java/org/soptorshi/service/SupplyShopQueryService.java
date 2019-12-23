@@ -1,22 +1,26 @@
 package org.soptorshi.service;
 
-import io.github.jhipster.service.QueryService;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.*;
-import org.soptorshi.repository.SupplyShopRepository;
-import org.soptorshi.repository.search.SupplyShopSearchRepository;
-import org.soptorshi.service.dto.SupplyShopCriteria;
-import org.soptorshi.service.dto.SupplyShopDTO;
-import org.soptorshi.service.mapper.SupplyShopMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.JoinType;
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import org.soptorshi.domain.SupplyShop;
+import org.soptorshi.domain.*; // for static metamodels
+import org.soptorshi.repository.SupplyShopRepository;
+import org.soptorshi.repository.search.SupplyShopSearchRepository;
+import org.soptorshi.service.dto.SupplyShopCriteria;
+import org.soptorshi.service.dto.SupplyShopDTO;
+import org.soptorshi.service.mapper.SupplyShopMapper;
 
 /**
  * Service for executing complex queries for SupplyShop entities in the database.

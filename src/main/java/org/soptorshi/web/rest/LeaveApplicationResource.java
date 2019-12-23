@@ -1,15 +1,14 @@
 package org.soptorshi.web.rest;
-
-import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.soptorshi.service.LeaveApplicationQueryService;
 import org.soptorshi.service.LeaveApplicationService;
-import org.soptorshi.service.dto.LeaveApplicationCriteria;
-import org.soptorshi.service.dto.LeaveApplicationDTO;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
+import org.soptorshi.service.dto.LeaveApplicationDTO;
+import org.soptorshi.service.dto.LeaveApplicationCriteria;
+import org.soptorshi.service.LeaveApplicationQueryService;
+import io.github.jhipster.web.util.ResponseUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -20,9 +19,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.Instant;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing LeaveApplication.
@@ -57,11 +59,7 @@ public class LeaveApplicationResource {
         if (leaveApplicationDTO.getId() != null) {
             throw new BadRequestAlertException("A new leaveApplication cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        leaveApplicationDTO.setAppliedOn(Instant.now());
         LeaveApplicationDTO result = leaveApplicationService.save(leaveApplicationDTO);
-        if(result == null) {
-            return  ResponseEntity.badRequest().build();
-        }
         return ResponseEntity.created(new URI("/api/leave-applications/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -82,11 +80,7 @@ public class LeaveApplicationResource {
         if (leaveApplicationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        leaveApplicationDTO.setActionTakenOn(Instant.now());
         LeaveApplicationDTO result = leaveApplicationService.save(leaveApplicationDTO);
-        if(result == null) {
-            return  ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
-        }
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, leaveApplicationDTO.getId().toString()))
             .body(result);

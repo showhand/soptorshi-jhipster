@@ -60,7 +60,9 @@ export class HolidayService {
     protected convertDateFromClient(holiday: IHoliday): IHoliday {
         const copy: IHoliday = Object.assign({}, holiday, {
             fromDate: holiday.fromDate != null && holiday.fromDate.isValid() ? holiday.fromDate.format(DATE_FORMAT) : null,
-            toDate: holiday.toDate != null && holiday.toDate.isValid() ? holiday.toDate.format(DATE_FORMAT) : null
+            toDate: holiday.toDate != null && holiday.toDate.isValid() ? holiday.toDate.format(DATE_FORMAT) : null,
+            createdOn: holiday.createdOn != null && holiday.createdOn.isValid() ? holiday.createdOn.toJSON() : null,
+            updatedOn: holiday.updatedOn != null && holiday.updatedOn.isValid() ? holiday.updatedOn.toJSON() : null
         });
         return copy;
     }
@@ -69,6 +71,8 @@ export class HolidayService {
         if (res.body) {
             res.body.fromDate = res.body.fromDate != null ? moment(res.body.fromDate) : null;
             res.body.toDate = res.body.toDate != null ? moment(res.body.toDate) : null;
+            res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
+            res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
     }
@@ -78,6 +82,8 @@ export class HolidayService {
             res.body.forEach((holiday: IHoliday) => {
                 holiday.fromDate = holiday.fromDate != null ? moment(holiday.fromDate) : null;
                 holiday.toDate = holiday.toDate != null ? moment(holiday.toDate) : null;
+                holiday.createdOn = holiday.createdOn != null ? moment(holiday.createdOn) : null;
+                holiday.updatedOn = holiday.updatedOn != null ? moment(holiday.updatedOn) : null;
             });
         }
         return res;

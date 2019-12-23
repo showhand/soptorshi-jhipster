@@ -6,7 +6,7 @@ export interface ICommercialPackaging {
     consignmentDate?: Moment;
     brand?: string;
     createdBy?: string;
-    createOn?: Moment;
+    createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
     commercialPurchaseOrderPurchaseOrderNo?: string;
@@ -20,7 +20,7 @@ export class CommercialPackaging implements ICommercialPackaging {
         public consignmentDate?: Moment,
         public brand?: string,
         public createdBy?: string,
-        public createOn?: Moment,
+        public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
         public commercialPurchaseOrderPurchaseOrderNo?: string,

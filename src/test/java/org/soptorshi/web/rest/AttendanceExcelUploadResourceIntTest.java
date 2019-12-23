@@ -1,19 +1,21 @@
 package org.soptorshi.web.rest;
 
+import org.soptorshi.SoptorshiApp;
+
+import org.soptorshi.domain.AttendanceExcelUpload;
+import org.soptorshi.repository.AttendanceExcelUploadRepository;
+import org.soptorshi.repository.search.AttendanceExcelUploadSearchRepository;
+import org.soptorshi.service.AttendanceExcelUploadService;
+import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
+import org.soptorshi.service.mapper.AttendanceExcelUploadMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.AttendanceExcelUploadCriteria;
+import org.soptorshi.service.AttendanceExcelUploadQueryService;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
-import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.AttendanceExcelUpload;
-import org.soptorshi.domain.enumeration.AttendanceType;
-import org.soptorshi.repository.AttendanceExcelUploadRepository;
-import org.soptorshi.repository.search.AttendanceExcelUploadSearchRepository;
-import org.soptorshi.service.AttendanceExcelUploadQueryService;
-import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
-import org.soptorshi.service.extended.AttendanceExcelUploadExtendedService;
-import org.soptorshi.service.mapper.AttendanceExcelUploadMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -32,13 +34,16 @@ import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.soptorshi.domain.enumeration.AttendanceType;
 /**
  * Test class for the AttendanceExcelUploadResource REST controller.
  *
@@ -63,7 +68,7 @@ public class AttendanceExcelUploadResourceIntTest {
     private AttendanceExcelUploadMapper attendanceExcelUploadMapper;
 
     @Autowired
-    private AttendanceExcelUploadExtendedService attendanceExcelUploadExtendedService;
+    private AttendanceExcelUploadService attendanceExcelUploadService;
 
     /**
      * This repository is mocked in the org.soptorshi.repository.search test package.
@@ -98,7 +103,7 @@ public class AttendanceExcelUploadResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AttendanceExcelUploadResource attendanceExcelUploadResource = new AttendanceExcelUploadResource(attendanceExcelUploadExtendedService, attendanceExcelUploadQueryService);
+        final AttendanceExcelUploadResource attendanceExcelUploadResource = new AttendanceExcelUploadResource(attendanceExcelUploadService, attendanceExcelUploadQueryService);
         this.restAttendanceExcelUploadMockMvc = MockMvcBuilders.standaloneSetup(attendanceExcelUploadResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -188,7 +193,7 @@ public class AttendanceExcelUploadResourceIntTest {
             .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getAttendanceExcelUpload() throws Exception {

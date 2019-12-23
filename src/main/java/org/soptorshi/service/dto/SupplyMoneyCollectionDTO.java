@@ -1,7 +1,6 @@
 package org.soptorshi.service.dto;
-
-import java.io.Serializable;
 import java.time.Instant;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**

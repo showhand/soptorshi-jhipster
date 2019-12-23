@@ -1,9 +1,9 @@
 package org.soptorshi.service.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.soptorshi.domain.CommercialPoStatus;
+import org.soptorshi.domain.*;
 import org.soptorshi.service.dto.CommercialPoStatusDTO;
+
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity CommercialPoStatus and its DTO CommercialPoStatusDTO.

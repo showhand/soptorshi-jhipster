@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { IHolidayType } from 'app/shared/model/holiday-type.model';
 import { HolidayTypeService } from './holiday-type.service';
 
@@ -13,6 +15,8 @@ import { HolidayTypeService } from './holiday-type.service';
 export class HolidayTypeUpdateComponent implements OnInit {
     holidayType: IHolidayType;
     isSaving: boolean;
+    createdOn: string;
+    updatedOn: string;
 
     constructor(protected holidayTypeService: HolidayTypeService, protected activatedRoute: ActivatedRoute) {}
 
@@ -20,6 +24,8 @@ export class HolidayTypeUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ holidayType }) => {
             this.holidayType = holidayType;
+            this.createdOn = this.holidayType.createdOn != null ? this.holidayType.createdOn.format(DATE_TIME_FORMAT) : null;
+            this.updatedOn = this.holidayType.updatedOn != null ? this.holidayType.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
     }
 
@@ -29,6 +35,8 @@ export class HolidayTypeUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.holidayType.createdOn = this.createdOn != null ? moment(this.createdOn, DATE_TIME_FORMAT) : null;
+        this.holidayType.updatedOn = this.updatedOn != null ? moment(this.updatedOn, DATE_TIME_FORMAT) : null;
         if (this.holidayType.id !== undefined) {
             this.subscribeToSaveResponse(this.holidayTypeService.update(this.holidayType));
         } else {

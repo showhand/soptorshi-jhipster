@@ -1,19 +1,21 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
+
 import org.soptorshi.domain.HolidayType;
-import org.soptorshi.domain.enumeration.YesOrNo;
 import org.soptorshi.repository.HolidayTypeRepository;
 import org.soptorshi.repository.search.HolidayTypeSearchRepository;
-import org.soptorshi.service.HolidayTypeQueryService;
 import org.soptorshi.service.HolidayTypeService;
 import org.soptorshi.service.dto.HolidayTypeDTO;
 import org.soptorshi.service.mapper.HolidayTypeMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.HolidayTypeCriteria;
+import org.soptorshi.service.HolidayTypeQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -28,16 +30,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 /**
  * Test class for the HolidayTypeResource REST controller.
  *
@@ -50,8 +56,17 @@ public class HolidayTypeResourceIntTest {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final YesOrNo DEFAULT_MOON_DEPENDENCY = YesOrNo.YES;
-    private static final YesOrNo UPDATED_MOON_DEPENDENCY = YesOrNo.NO;
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_UPDATED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_UPDATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private HolidayTypeRepository holidayTypeRepository;
@@ -113,7 +128,10 @@ public class HolidayTypeResourceIntTest {
     public static HolidayType createEntity(EntityManager em) {
         HolidayType holidayType = new HolidayType()
             .name(DEFAULT_NAME)
-            .moonDependency(DEFAULT_MOON_DEPENDENCY);
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdOn(DEFAULT_CREATED_ON)
+            .updatedBy(DEFAULT_UPDATED_BY)
+            .updatedOn(DEFAULT_UPDATED_ON);
         return holidayType;
     }
 
@@ -139,7 +157,10 @@ public class HolidayTypeResourceIntTest {
         assertThat(holidayTypeList).hasSize(databaseSizeBeforeCreate + 1);
         HolidayType testHolidayType = holidayTypeList.get(holidayTypeList.size() - 1);
         assertThat(testHolidayType.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testHolidayType.getMoonDependency()).isEqualTo(DEFAULT_MOON_DEPENDENCY);
+        assertThat(testHolidayType.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testHolidayType.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
+        assertThat(testHolidayType.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
+        assertThat(testHolidayType.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
         // Validate the HolidayType in Elasticsearch
         verify(mockHolidayTypeSearchRepository, times(1)).save(testHolidayType);
@@ -189,25 +210,6 @@ public class HolidayTypeResourceIntTest {
 
     @Test
     @Transactional
-    public void checkMoonDependencyIsRequired() throws Exception {
-        int databaseSizeBeforeTest = holidayTypeRepository.findAll().size();
-        // set the field null
-        holidayType.setMoonDependency(null);
-
-        // Create the HolidayType, which fails.
-        HolidayTypeDTO holidayTypeDTO = holidayTypeMapper.toDto(holidayType);
-
-        restHolidayTypeMockMvc.perform(post("/api/holiday-types")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(holidayTypeDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<HolidayType> holidayTypeList = holidayTypeRepository.findAll();
-        assertThat(holidayTypeList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllHolidayTypes() throws Exception {
         // Initialize the database
         holidayTypeRepository.saveAndFlush(holidayType);
@@ -218,9 +220,12 @@ public class HolidayTypeResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(holidayType.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].moonDependency").value(hasItem(DEFAULT_MOON_DEPENDENCY.toString())));
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getHolidayType() throws Exception {
@@ -233,7 +238,10 @@ public class HolidayTypeResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(holidayType.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.moonDependency").value(DEFAULT_MOON_DEPENDENCY.toString()));
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
+            .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
+            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
     }
 
     @Test
@@ -277,41 +285,158 @@ public class HolidayTypeResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllHolidayTypesByMoonDependencyIsEqualToSomething() throws Exception {
+    public void getAllHolidayTypesByCreatedByIsEqualToSomething() throws Exception {
         // Initialize the database
         holidayTypeRepository.saveAndFlush(holidayType);
 
-        // Get all the holidayTypeList where moonDependency equals to DEFAULT_MOON_DEPENDENCY
-        defaultHolidayTypeShouldBeFound("moonDependency.equals=" + DEFAULT_MOON_DEPENDENCY);
+        // Get all the holidayTypeList where createdBy equals to DEFAULT_CREATED_BY
+        defaultHolidayTypeShouldBeFound("createdBy.equals=" + DEFAULT_CREATED_BY);
 
-        // Get all the holidayTypeList where moonDependency equals to UPDATED_MOON_DEPENDENCY
-        defaultHolidayTypeShouldNotBeFound("moonDependency.equals=" + UPDATED_MOON_DEPENDENCY);
+        // Get all the holidayTypeList where createdBy equals to UPDATED_CREATED_BY
+        defaultHolidayTypeShouldNotBeFound("createdBy.equals=" + UPDATED_CREATED_BY);
     }
 
     @Test
     @Transactional
-    public void getAllHolidayTypesByMoonDependencyIsInShouldWork() throws Exception {
+    public void getAllHolidayTypesByCreatedByIsInShouldWork() throws Exception {
         // Initialize the database
         holidayTypeRepository.saveAndFlush(holidayType);
 
-        // Get all the holidayTypeList where moonDependency in DEFAULT_MOON_DEPENDENCY or UPDATED_MOON_DEPENDENCY
-        defaultHolidayTypeShouldBeFound("moonDependency.in=" + DEFAULT_MOON_DEPENDENCY + "," + UPDATED_MOON_DEPENDENCY);
+        // Get all the holidayTypeList where createdBy in DEFAULT_CREATED_BY or UPDATED_CREATED_BY
+        defaultHolidayTypeShouldBeFound("createdBy.in=" + DEFAULT_CREATED_BY + "," + UPDATED_CREATED_BY);
 
-        // Get all the holidayTypeList where moonDependency equals to UPDATED_MOON_DEPENDENCY
-        defaultHolidayTypeShouldNotBeFound("moonDependency.in=" + UPDATED_MOON_DEPENDENCY);
+        // Get all the holidayTypeList where createdBy equals to UPDATED_CREATED_BY
+        defaultHolidayTypeShouldNotBeFound("createdBy.in=" + UPDATED_CREATED_BY);
     }
 
     @Test
     @Transactional
-    public void getAllHolidayTypesByMoonDependencyIsNullOrNotNull() throws Exception {
+    public void getAllHolidayTypesByCreatedByIsNullOrNotNull() throws Exception {
         // Initialize the database
         holidayTypeRepository.saveAndFlush(holidayType);
 
-        // Get all the holidayTypeList where moonDependency is not null
-        defaultHolidayTypeShouldBeFound("moonDependency.specified=true");
+        // Get all the holidayTypeList where createdBy is not null
+        defaultHolidayTypeShouldBeFound("createdBy.specified=true");
 
-        // Get all the holidayTypeList where moonDependency is null
-        defaultHolidayTypeShouldNotBeFound("moonDependency.specified=false");
+        // Get all the holidayTypeList where createdBy is null
+        defaultHolidayTypeShouldNotBeFound("createdBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidayTypesByCreatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        holidayTypeRepository.saveAndFlush(holidayType);
+
+        // Get all the holidayTypeList where createdOn equals to DEFAULT_CREATED_ON
+        defaultHolidayTypeShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
+
+        // Get all the holidayTypeList where createdOn equals to UPDATED_CREATED_ON
+        defaultHolidayTypeShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidayTypesByCreatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        holidayTypeRepository.saveAndFlush(holidayType);
+
+        // Get all the holidayTypeList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultHolidayTypeShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
+
+        // Get all the holidayTypeList where createdOn equals to UPDATED_CREATED_ON
+        defaultHolidayTypeShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidayTypesByCreatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        holidayTypeRepository.saveAndFlush(holidayType);
+
+        // Get all the holidayTypeList where createdOn is not null
+        defaultHolidayTypeShouldBeFound("createdOn.specified=true");
+
+        // Get all the holidayTypeList where createdOn is null
+        defaultHolidayTypeShouldNotBeFound("createdOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidayTypesByUpdatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        holidayTypeRepository.saveAndFlush(holidayType);
+
+        // Get all the holidayTypeList where updatedBy equals to DEFAULT_UPDATED_BY
+        defaultHolidayTypeShouldBeFound("updatedBy.equals=" + DEFAULT_UPDATED_BY);
+
+        // Get all the holidayTypeList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultHolidayTypeShouldNotBeFound("updatedBy.equals=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidayTypesByUpdatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        holidayTypeRepository.saveAndFlush(holidayType);
+
+        // Get all the holidayTypeList where updatedBy in DEFAULT_UPDATED_BY or UPDATED_UPDATED_BY
+        defaultHolidayTypeShouldBeFound("updatedBy.in=" + DEFAULT_UPDATED_BY + "," + UPDATED_UPDATED_BY);
+
+        // Get all the holidayTypeList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultHolidayTypeShouldNotBeFound("updatedBy.in=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidayTypesByUpdatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        holidayTypeRepository.saveAndFlush(holidayType);
+
+        // Get all the holidayTypeList where updatedBy is not null
+        defaultHolidayTypeShouldBeFound("updatedBy.specified=true");
+
+        // Get all the holidayTypeList where updatedBy is null
+        defaultHolidayTypeShouldNotBeFound("updatedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidayTypesByUpdatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        holidayTypeRepository.saveAndFlush(holidayType);
+
+        // Get all the holidayTypeList where updatedOn equals to DEFAULT_UPDATED_ON
+        defaultHolidayTypeShouldBeFound("updatedOn.equals=" + DEFAULT_UPDATED_ON);
+
+        // Get all the holidayTypeList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultHolidayTypeShouldNotBeFound("updatedOn.equals=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidayTypesByUpdatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        holidayTypeRepository.saveAndFlush(holidayType);
+
+        // Get all the holidayTypeList where updatedOn in DEFAULT_UPDATED_ON or UPDATED_UPDATED_ON
+        defaultHolidayTypeShouldBeFound("updatedOn.in=" + DEFAULT_UPDATED_ON + "," + UPDATED_UPDATED_ON);
+
+        // Get all the holidayTypeList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultHolidayTypeShouldNotBeFound("updatedOn.in=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidayTypesByUpdatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        holidayTypeRepository.saveAndFlush(holidayType);
+
+        // Get all the holidayTypeList where updatedOn is not null
+        defaultHolidayTypeShouldBeFound("updatedOn.specified=true");
+
+        // Get all the holidayTypeList where updatedOn is null
+        defaultHolidayTypeShouldNotBeFound("updatedOn.specified=false");
     }
     /**
      * Executes the search, and checks that the default entity is returned
@@ -322,7 +447,10 @@ public class HolidayTypeResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(holidayType.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].moonDependency").value(hasItem(DEFAULT_MOON_DEPENDENCY.toString())));
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
         // Check, that the count call also returns 1
         restHolidayTypeMockMvc.perform(get("/api/holiday-types/count?sort=id,desc&" + filter))
@@ -371,7 +499,10 @@ public class HolidayTypeResourceIntTest {
         em.detach(updatedHolidayType);
         updatedHolidayType
             .name(UPDATED_NAME)
-            .moonDependency(UPDATED_MOON_DEPENDENCY);
+            .createdBy(UPDATED_CREATED_BY)
+            .createdOn(UPDATED_CREATED_ON)
+            .updatedBy(UPDATED_UPDATED_BY)
+            .updatedOn(UPDATED_UPDATED_ON);
         HolidayTypeDTO holidayTypeDTO = holidayTypeMapper.toDto(updatedHolidayType);
 
         restHolidayTypeMockMvc.perform(put("/api/holiday-types")
@@ -384,7 +515,10 @@ public class HolidayTypeResourceIntTest {
         assertThat(holidayTypeList).hasSize(databaseSizeBeforeUpdate);
         HolidayType testHolidayType = holidayTypeList.get(holidayTypeList.size() - 1);
         assertThat(testHolidayType.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testHolidayType.getMoonDependency()).isEqualTo(UPDATED_MOON_DEPENDENCY);
+        assertThat(testHolidayType.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testHolidayType.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
+        assertThat(testHolidayType.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
+        assertThat(testHolidayType.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
         // Validate the HolidayType in Elasticsearch
         verify(mockHolidayTypeSearchRepository, times(1)).save(testHolidayType);
@@ -446,7 +580,10 @@ public class HolidayTypeResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(holidayType.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].moonDependency").value(hasItem(DEFAULT_MOON_DEPENDENCY.toString())));
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
 
     @Test

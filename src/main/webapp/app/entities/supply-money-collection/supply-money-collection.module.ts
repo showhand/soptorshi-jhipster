@@ -1,15 +1,15 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     SupplyMoneyCollectionComponent,
-    SupplyMoneyCollectionDeleteDialogComponent,
-    SupplyMoneyCollectionDeletePopupComponent,
     SupplyMoneyCollectionDetailComponent,
-    supplyMoneyCollectionPopupRoute,
+    SupplyMoneyCollectionUpdateComponent,
+    SupplyMoneyCollectionDeletePopupComponent,
+    SupplyMoneyCollectionDeleteDialogComponent,
     supplyMoneyCollectionRoute,
-    SupplyMoneyCollectionUpdateComponent
+    supplyMoneyCollectionPopupRoute
 } from './';
 
 const ENTITY_STATES = [...supplyMoneyCollectionRoute, ...supplyMoneyCollectionPopupRoute];

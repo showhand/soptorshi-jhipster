@@ -71,7 +71,7 @@ public class CommercialPackagingExtendedService extends CommercialPackagingServi
             LocalDate currentDate = LocalDate.now();
             if (commercialPackagingDTO.getId() == null) {
                 commercialPackagingDTO.setCreatedBy(currentUser);
-                commercialPackagingDTO.setCreateOn(currentDate);
+                commercialPackagingDTO.setCreatedOn(currentDate);
                 updateCommercialStatus(commercialPackagingDTO, currentUser, currentDate);
             } else {
                 commercialPackagingDTO.setUpdatedBy(currentUser);
@@ -93,7 +93,7 @@ public class CommercialPackagingExtendedService extends CommercialPackagingServi
         commercialPoStatusDTO.setStatus(CommercialStatus.ARTWORK_OF_PACKAGING_APPROVED_AND_ISSUE_WORK_ORDER_FOR_PACKAGING_ACCESSORIES);
         commercialPoStatusDTO.setCommercialPurchaseOrderId(commercialPackagingDTO.getCommercialPurchaseOrderId());
         commercialPoStatusDTO.setCreatedBy(currentUser);
-        commercialPoStatusDTO.setCreateOn(currentDate);
+        commercialPoStatusDTO.setCreatedOn(currentDate);
         commercialPoStatusService.save(commercialPoStatusDTO);
     }
 

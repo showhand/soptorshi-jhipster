@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -8,16 +8,20 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IStockInProcess } from 'app/shared/model/stock-in-process.model';
 import { StockInProcessService } from './stock-in-process.service';
-import { IItemCategory } from 'app/shared/model/item-category.model';
-import { ItemCategoryService } from 'app/entities/item-category';
-import { IItemSubCategory } from 'app/shared/model/item-sub-category.model';
-import { ItemSubCategoryService } from 'app/entities/item-sub-category';
+import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
+import { PurchaseOrderService } from 'app/entities/purchase-order';
+import { ICommercialPurchaseOrder } from 'app/shared/model/commercial-purchase-order.model';
+import { CommercialPurchaseOrderService } from 'app/entities/commercial-purchase-order';
+import { IProductCategory } from 'app/shared/model/product-category.model';
+import { ProductCategoryService } from 'app/entities/product-category';
+import { IProduct } from 'app/shared/model/product.model';
+import { ProductService } from 'app/entities/product';
 import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
 import { InventoryLocationService } from 'app/entities/inventory-location';
 import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
 import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
-import { IManufacturer } from 'app/shared/model/manufacturer.model';
-import { ManufacturerService } from 'app/entities/manufacturer';
+import { IVendor } from 'app/shared/model/vendor.model';
+import { VendorService } from 'app/entities/vendor';
 
 @Component({
     selector: 'jhi-stock-in-process-update',
@@ -27,50 +31,109 @@ export class StockInProcessUpdateComponent implements OnInit {
     stockInProcess: IStockInProcess;
     isSaving: boolean;
 
-    itemcategories: IItemCategory[];
+    purchaseorders: IPurchaseOrder[];
 
-    itemsubcategories: IItemSubCategory[];
+    commercialpurchaseorders: ICommercialPurchaseOrder[];
+
+    productcategories: IProductCategory[];
+
+    products: IProduct[];
 
     inventorylocations: IInventoryLocation[];
 
     inventorysublocations: IInventorySubLocation[];
 
-    manufacturers: IManufacturer[];
+    vendors: IVendor[];
+    mfgDateDp: any;
     expiryDateDp: any;
+    processStartedOn: string;
     stockInDate: string;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockInProcessService: StockInProcessService,
-        protected itemCategoryService: ItemCategoryService,
-        protected itemSubCategoryService: ItemSubCategoryService,
+        protected purchaseOrderService: PurchaseOrderService,
+        protected commercialPurchaseOrderService: CommercialPurchaseOrderService,
+        protected productCategoryService: ProductCategoryService,
+        protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
-        protected manufacturerService: ManufacturerService,
-        protected activatedRoute: ActivatedRoute,
-        protected router: Router
+        protected vendorService: VendorService,
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ stockInProcess }) => {
             this.stockInProcess = stockInProcess;
+            this.processStartedOn =
+                this.stockInProcess.processStartedOn != null ? this.stockInProcess.processStartedOn.format(DATE_TIME_FORMAT) : null;
             this.stockInDate = this.stockInProcess.stockInDate != null ? this.stockInProcess.stockInDate.format(DATE_TIME_FORMAT) : null;
         });
-        this.itemCategoryService
+        this.purchaseOrderService
+            .query({ 'stockInProcessId.specified': 'false' })
+            .pipe(
+                filter((mayBeOk: HttpResponse<IPurchaseOrder[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IPurchaseOrder[]>) => response.body)
+            )
+            .subscribe(
+                (res: IPurchaseOrder[]) => {
+                    if (!this.stockInProcess.purchaseOrderId) {
+                        this.purchaseorders = res;
+                    } else {
+                        this.purchaseOrderService
+                            .find(this.stockInProcess.purchaseOrderId)
+                            .pipe(
+                                filter((subResMayBeOk: HttpResponse<IPurchaseOrder>) => subResMayBeOk.ok),
+                                map((subResponse: HttpResponse<IPurchaseOrder>) => subResponse.body)
+                            )
+                            .subscribe(
+                                (subRes: IPurchaseOrder) => (this.purchaseorders = [subRes].concat(res)),
+                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+                            );
+                    }
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        this.commercialPurchaseOrderService
+            .query({ 'stockInProcessId.specified': 'false' })
+            .pipe(
+                filter((mayBeOk: HttpResponse<ICommercialPurchaseOrder[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ICommercialPurchaseOrder[]>) => response.body)
+            )
+            .subscribe(
+                (res: ICommercialPurchaseOrder[]) => {
+                    if (!this.stockInProcess.commercialPurchaseOrderId) {
+                        this.commercialpurchaseorders = res;
+                    } else {
+                        this.commercialPurchaseOrderService
+                            .find(this.stockInProcess.commercialPurchaseOrderId)
+                            .pipe(
+                                filter((subResMayBeOk: HttpResponse<ICommercialPurchaseOrder>) => subResMayBeOk.ok),
+                                map((subResponse: HttpResponse<ICommercialPurchaseOrder>) => subResponse.body)
+                            )
+                            .subscribe(
+                                (subRes: ICommercialPurchaseOrder) => (this.commercialpurchaseorders = [subRes].concat(res)),
+                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+                            );
+                    }
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        this.productCategoryService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IItemCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemCategory[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IProductCategory[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProductCategory[]>) => response.body)
             )
-            .subscribe((res: IItemCategory[]) => (this.itemcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.itemSubCategoryService
+            .subscribe((res: IProductCategory[]) => (this.productcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.productService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemSubCategory[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProduct[]>) => response.body)
             )
-            .subscribe((res: IItemSubCategory[]) => (this.itemsubcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.inventoryLocationService
             .query()
             .pipe(
@@ -91,40 +154,13 @@ export class StockInProcessUpdateComponent implements OnInit {
                 (res: IInventorySubLocation[]) => (this.inventorysublocations = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
-        this.manufacturerService
+        this.vendorService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IManufacturer[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IManufacturer[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IVendor[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IVendor[]>) => response.body)
             )
-            .subscribe((res: IManufacturer[]) => (this.manufacturers = res), (res: HttpErrorResponse) => this.onError(res.message));
-    }
-
-    getItemSubCategories() {
-        this.itemSubCategoryService
-            .query({
-                'itemCategoriesId.equals': this.stockInProcess.itemCategoriesId
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<IItemSubCategory[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IItemSubCategory[]>) => response.body)
-            )
-            .subscribe((res: IItemSubCategory[]) => (this.itemsubcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
-    }
-
-    getInventorySubLocation() {
-        this.inventorySubLocationService
-            .query({
-                'inventoryLocationsId.equals': this.stockInProcess.inventoryLocationsId
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<IInventorySubLocation[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IInventorySubLocation[]>) => response.body)
-            )
-            .subscribe(
-                (res: IInventorySubLocation[]) => (this.inventorysublocations = res),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+            .subscribe((res: IVendor[]) => (this.vendors = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -133,33 +169,13 @@ export class StockInProcessUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.validateRequest()) {
-            this.stockInProcess.stockInDate = this.stockInDate != null ? moment(this.stockInDate, DATE_TIME_FORMAT) : null;
-            if (this.stockInProcess.id !== undefined) {
-                this.subscribeToSaveResponse(this.stockInProcessService.update(this.stockInProcess));
-            } else {
-                this.subscribeToSaveResponse(this.stockInProcessService.create(this.stockInProcess));
-            }
+        this.stockInProcess.processStartedOn = this.processStartedOn != null ? moment(this.processStartedOn, DATE_TIME_FORMAT) : null;
+        this.stockInProcess.stockInDate = this.stockInDate != null ? moment(this.stockInDate, DATE_TIME_FORMAT) : null;
+        if (this.stockInProcess.id !== undefined) {
+            this.subscribeToSaveResponse(this.stockInProcessService.update(this.stockInProcess));
         } else {
-            this.isSaving = false;
+            this.subscribeToSaveResponse(this.stockInProcessService.create(this.stockInProcess));
         }
-    }
-
-    validateRequest(): boolean {
-        const numberOfContainerTrackingId: string[] = this.stockInProcess.containerTrackingId.split(',');
-        const numberOfQuantityPerContainer: string[] = this.stockInProcess.quantityPerContainer.split(',');
-
-        if (
-            this.stockInProcess.totalContainer === numberOfContainerTrackingId.length &&
-            this.stockInProcess.totalContainer === numberOfQuantityPerContainer.length
-        ) {
-            return true;
-        }
-
-        this.onError(
-            'Total number of container should be equal to number of total container tracking Id & number of total quantity per container'
-        );
-        return false;
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IStockInProcess>>) {
@@ -168,8 +184,7 @@ export class StockInProcessUpdateComponent implements OnInit {
 
     protected onSaveSuccess() {
         this.isSaving = false;
-        /*this.previousState();*/
-        this.router.navigate(['/stock-in-item']);
+        this.previousState();
     }
 
     protected onSaveError() {
@@ -180,11 +195,19 @@ export class StockInProcessUpdateComponent implements OnInit {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
-    trackItemCategoryById(index: number, item: IItemCategory) {
+    trackPurchaseOrderById(index: number, item: IPurchaseOrder) {
         return item.id;
     }
 
-    trackItemSubCategoryById(index: number, item: IItemSubCategory) {
+    trackCommercialPurchaseOrderById(index: number, item: ICommercialPurchaseOrder) {
+        return item.id;
+    }
+
+    trackProductCategoryById(index: number, item: IProductCategory) {
+        return item.id;
+    }
+
+    trackProductById(index: number, item: IProduct) {
         return item.id;
     }
 
@@ -196,7 +219,7 @@ export class StockInProcessUpdateComponent implements OnInit {
         return item.id;
     }
 
-    trackManufacturerById(index: number, item: IManufacturer) {
+    trackVendorById(index: number, item: IVendor) {
         return item.id;
     }
 }

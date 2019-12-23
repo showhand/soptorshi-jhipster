@@ -2,8 +2,9 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ProductType;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -11,6 +12,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 
@@ -24,51 +26,62 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  */
 public class StockInItemCriteria implements Serializable {
     /**
-     * Class for filtering ItemUnit
+     * Class for filtering UnitOfMeasurements
      */
-    public static class ItemUnitFilter extends Filter<ItemUnit> {
+    public static class UnitOfMeasurementsFilter extends Filter<UnitOfMeasurements> {
     }
     /**
      * Class for filtering ContainerCategory
      */
     public static class ContainerCategoryFilter extends Filter<ContainerCategory> {
     }
+    /**
+     * Class for filtering ProductType
+     */
+    public static class ProductTypeFilter extends Filter<ProductType> {
+    }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
-    private DoubleFilter quantity;
+    private BigDecimalFilter quantity;
 
-    private ItemUnitFilter unit;
+    private UnitOfMeasurementsFilter unit;
 
-    private DoubleFilter price;
+    private BigDecimalFilter price;
 
     private ContainerCategoryFilter containerCategory;
 
     private StringFilter containerTrackingId;
 
+    private LocalDateFilter mfgDate;
+
     private LocalDateFilter expiryDate;
+
+    private ProductTypeFilter typeOfProduct;
 
     private StringFilter stockInBy;
 
     private InstantFilter stockInDate;
 
-    private StringFilter purchaseOrderId;
-
     private StringFilter remarks;
 
-    private LongFilter itemCategoriesId;
+    private LongFilter productCategoriesId;
 
-    private LongFilter itemSubCategoriesId;
+    private LongFilter productsId;
 
     private LongFilter inventoryLocationsId;
 
     private LongFilter inventorySubLocationsId;
 
-    private LongFilter manufacturersId;
+    private LongFilter vendorId;
 
     private LongFilter stockInProcessesId;
+
+    private LongFilter purchaseOrdersId;
+
+    private LongFilter commercialPurchaseOrdersId;
 
     public LongFilter getId() {
         return id;
@@ -78,27 +91,27 @@ public class StockInItemCriteria implements Serializable {
         this.id = id;
     }
 
-    public DoubleFilter getQuantity() {
+    public BigDecimalFilter getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(DoubleFilter quantity) {
+    public void setQuantity(BigDecimalFilter quantity) {
         this.quantity = quantity;
     }
 
-    public ItemUnitFilter getUnit() {
+    public UnitOfMeasurementsFilter getUnit() {
         return unit;
     }
 
-    public void setUnit(ItemUnitFilter unit) {
+    public void setUnit(UnitOfMeasurementsFilter unit) {
         this.unit = unit;
     }
 
-    public DoubleFilter getPrice() {
+    public BigDecimalFilter getPrice() {
         return price;
     }
 
-    public void setPrice(DoubleFilter price) {
+    public void setPrice(BigDecimalFilter price) {
         this.price = price;
     }
 
@@ -118,12 +131,28 @@ public class StockInItemCriteria implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
+    public LocalDateFilter getMfgDate() {
+        return mfgDate;
+    }
+
+    public void setMfgDate(LocalDateFilter mfgDate) {
+        this.mfgDate = mfgDate;
+    }
+
     public LocalDateFilter getExpiryDate() {
         return expiryDate;
     }
 
     public void setExpiryDate(LocalDateFilter expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public ProductTypeFilter getTypeOfProduct() {
+        return typeOfProduct;
+    }
+
+    public void setTypeOfProduct(ProductTypeFilter typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
     }
 
     public StringFilter getStockInBy() {
@@ -142,14 +171,6 @@ public class StockInItemCriteria implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public StringFilter getPurchaseOrderId() {
-        return purchaseOrderId;
-    }
-
-    public void setPurchaseOrderId(StringFilter purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-    }
-
     public StringFilter getRemarks() {
         return remarks;
     }
@@ -158,20 +179,20 @@ public class StockInItemCriteria implements Serializable {
         this.remarks = remarks;
     }
 
-    public LongFilter getItemCategoriesId() {
-        return itemCategoriesId;
+    public LongFilter getProductCategoriesId() {
+        return productCategoriesId;
     }
 
-    public void setItemCategoriesId(LongFilter itemCategoriesId) {
-        this.itemCategoriesId = itemCategoriesId;
+    public void setProductCategoriesId(LongFilter productCategoriesId) {
+        this.productCategoriesId = productCategoriesId;
     }
 
-    public LongFilter getItemSubCategoriesId() {
-        return itemSubCategoriesId;
+    public LongFilter getProductsId() {
+        return productsId;
     }
 
-    public void setItemSubCategoriesId(LongFilter itemSubCategoriesId) {
-        this.itemSubCategoriesId = itemSubCategoriesId;
+    public void setProductsId(LongFilter productsId) {
+        this.productsId = productsId;
     }
 
     public LongFilter getInventoryLocationsId() {
@@ -190,12 +211,12 @@ public class StockInItemCriteria implements Serializable {
         this.inventorySubLocationsId = inventorySubLocationsId;
     }
 
-    public LongFilter getManufacturersId() {
-        return manufacturersId;
+    public LongFilter getVendorId() {
+        return vendorId;
     }
 
-    public void setManufacturersId(LongFilter manufacturersId) {
-        this.manufacturersId = manufacturersId;
+    public void setVendorId(LongFilter vendorId) {
+        this.vendorId = vendorId;
     }
 
     public LongFilter getStockInProcessesId() {
@@ -204,6 +225,22 @@ public class StockInItemCriteria implements Serializable {
 
     public void setStockInProcessesId(LongFilter stockInProcessesId) {
         this.stockInProcessesId = stockInProcessesId;
+    }
+
+    public LongFilter getPurchaseOrdersId() {
+        return purchaseOrdersId;
+    }
+
+    public void setPurchaseOrdersId(LongFilter purchaseOrdersId) {
+        this.purchaseOrdersId = purchaseOrdersId;
+    }
+
+    public LongFilter getCommercialPurchaseOrdersId() {
+        return commercialPurchaseOrdersId;
+    }
+
+    public void setCommercialPurchaseOrdersId(LongFilter commercialPurchaseOrdersId) {
+        this.commercialPurchaseOrdersId = commercialPurchaseOrdersId;
     }
 
 
@@ -223,17 +260,20 @@ public class StockInItemCriteria implements Serializable {
             Objects.equals(price, that.price) &&
             Objects.equals(containerCategory, that.containerCategory) &&
             Objects.equals(containerTrackingId, that.containerTrackingId) &&
+            Objects.equals(mfgDate, that.mfgDate) &&
             Objects.equals(expiryDate, that.expiryDate) &&
+            Objects.equals(typeOfProduct, that.typeOfProduct) &&
             Objects.equals(stockInBy, that.stockInBy) &&
             Objects.equals(stockInDate, that.stockInDate) &&
-            Objects.equals(purchaseOrderId, that.purchaseOrderId) &&
             Objects.equals(remarks, that.remarks) &&
-            Objects.equals(itemCategoriesId, that.itemCategoriesId) &&
-            Objects.equals(itemSubCategoriesId, that.itemSubCategoriesId) &&
+            Objects.equals(productCategoriesId, that.productCategoriesId) &&
+            Objects.equals(productsId, that.productsId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
             Objects.equals(inventorySubLocationsId, that.inventorySubLocationsId) &&
-            Objects.equals(manufacturersId, that.manufacturersId) &&
-            Objects.equals(stockInProcessesId, that.stockInProcessesId);
+            Objects.equals(vendorId, that.vendorId) &&
+            Objects.equals(stockInProcessesId, that.stockInProcessesId) &&
+            Objects.equals(purchaseOrdersId, that.purchaseOrdersId) &&
+            Objects.equals(commercialPurchaseOrdersId, that.commercialPurchaseOrdersId);
     }
 
     @Override
@@ -245,17 +285,20 @@ public class StockInItemCriteria implements Serializable {
         price,
         containerCategory,
         containerTrackingId,
+        mfgDate,
         expiryDate,
+        typeOfProduct,
         stockInBy,
         stockInDate,
-        purchaseOrderId,
         remarks,
-        itemCategoriesId,
-        itemSubCategoriesId,
+        productCategoriesId,
+        productsId,
         inventoryLocationsId,
         inventorySubLocationsId,
-        manufacturersId,
-        stockInProcessesId
+        vendorId,
+        stockInProcessesId,
+        purchaseOrdersId,
+        commercialPurchaseOrdersId
         );
     }
 
@@ -268,17 +311,20 @@ public class StockInItemCriteria implements Serializable {
                 (price != null ? "price=" + price + ", " : "") +
                 (containerCategory != null ? "containerCategory=" + containerCategory + ", " : "") +
                 (containerTrackingId != null ? "containerTrackingId=" + containerTrackingId + ", " : "") +
+                (mfgDate != null ? "mfgDate=" + mfgDate + ", " : "") +
                 (expiryDate != null ? "expiryDate=" + expiryDate + ", " : "") +
+                (typeOfProduct != null ? "typeOfProduct=" + typeOfProduct + ", " : "") +
                 (stockInBy != null ? "stockInBy=" + stockInBy + ", " : "") +
                 (stockInDate != null ? "stockInDate=" + stockInDate + ", " : "") +
-                (purchaseOrderId != null ? "purchaseOrderId=" + purchaseOrderId + ", " : "") +
                 (remarks != null ? "remarks=" + remarks + ", " : "") +
-                (itemCategoriesId != null ? "itemCategoriesId=" + itemCategoriesId + ", " : "") +
-                (itemSubCategoriesId != null ? "itemSubCategoriesId=" + itemSubCategoriesId + ", " : "") +
+                (productCategoriesId != null ? "productCategoriesId=" + productCategoriesId + ", " : "") +
+                (productsId != null ? "productsId=" + productsId + ", " : "") +
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +
                 (inventorySubLocationsId != null ? "inventorySubLocationsId=" + inventorySubLocationsId + ", " : "") +
-                (manufacturersId != null ? "manufacturersId=" + manufacturersId + ", " : "") +
+                (vendorId != null ? "vendorId=" + vendorId + ", " : "") +
                 (stockInProcessesId != null ? "stockInProcessesId=" + stockInProcessesId + ", " : "") +
+                (purchaseOrdersId != null ? "purchaseOrdersId=" + purchaseOrdersId + ", " : "") +
+                (commercialPurchaseOrdersId != null ? "commercialPurchaseOrdersId=" + commercialPurchaseOrdersId + ", " : "") +
             "}";
     }
 

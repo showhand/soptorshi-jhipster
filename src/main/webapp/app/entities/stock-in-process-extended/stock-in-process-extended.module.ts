@@ -8,11 +8,11 @@ import {
     StockInProcessDetailExtendedComponent,
     StockInProcessExtendedComponent,
     stockInProcessExtendedRoute,
-    stockInProcessPopupRouteExtended,
+    stockInProcessPopupExtendedRoute,
     StockInProcessUpdateExtendedComponent
 } from './';
 
-const ENTITY_STATES = [...stockInProcessExtendedRoute, ...stockInProcessPopupRouteExtended];
+const ENTITY_STATES = [...stockInProcessExtendedRoute, ...stockInProcessPopupExtendedRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],

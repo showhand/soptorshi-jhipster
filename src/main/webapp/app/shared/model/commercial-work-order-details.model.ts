@@ -15,7 +15,7 @@ export interface ICommercialWorkOrderDetails {
     currencyType?: CommercialCurrency;
     rate?: number;
     createdBy?: string;
-    createOn?: Moment;
+    createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
     commercialWorkOrderRefNo?: string;
@@ -33,7 +33,7 @@ export class CommercialWorkOrderDetails implements ICommercialWorkOrderDetails {
         public currencyType?: CommercialCurrency,
         public rate?: number,
         public createdBy?: string,
-        public createOn?: Moment,
+        public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
         public commercialWorkOrderRefNo?: string,

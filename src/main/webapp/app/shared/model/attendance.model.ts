@@ -6,7 +6,6 @@ export interface IAttendance {
     attendanceDate?: Moment;
     inTime?: Moment;
     outTime?: Moment;
-    diff?: string;
     attendanceExcelUploadId?: number;
 }
 
@@ -17,7 +16,6 @@ export class Attendance implements IAttendance {
         public attendanceDate?: Moment,
         public inTime?: Moment,
         public outTime?: Moment,
-        public diff?: string,
         public attendanceExcelUploadId?: number
     ) {}
 }

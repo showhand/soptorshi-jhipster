@@ -1,19 +1,22 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
+
 import org.soptorshi.domain.Holiday;
 import org.soptorshi.domain.HolidayType;
 import org.soptorshi.repository.HolidayRepository;
 import org.soptorshi.repository.search.HolidaySearchRepository;
-import org.soptorshi.service.HolidayQueryService;
 import org.soptorshi.service.HolidayService;
 import org.soptorshi.service.dto.HolidayDTO;
 import org.soptorshi.service.mapper.HolidayMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.HolidayCriteria;
+import org.soptorshi.service.HolidayQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -25,22 +28,28 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.time.Instant;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.soptorshi.domain.enumeration.YesOrNo;
+import org.soptorshi.domain.enumeration.HolidayImposedAuthority;
 /**
  * Test class for the HolidayResource REST controller.
  *
@@ -58,6 +67,27 @@ public class HolidayResourceIntTest {
 
     private static final Integer DEFAULT_NUMBER_OF_DAYS = 1;
     private static final Integer UPDATED_NUMBER_OF_DAYS = 2;
+
+    private static final YesOrNo DEFAULT_MOON_DEPENDENCY = YesOrNo.YES;
+    private static final YesOrNo UPDATED_MOON_DEPENDENCY = YesOrNo.NO;
+
+    private static final HolidayImposedAuthority DEFAULT_HOLIDAY_DECLARED_BY = HolidayImposedAuthority.GOVERNMENT;
+    private static final HolidayImposedAuthority UPDATED_HOLIDAY_DECLARED_BY = HolidayImposedAuthority.ORGANIZATIONAL;
+
+    private static final String DEFAULT_REMARKS = "AAAAAAAAAA";
+    private static final String UPDATED_REMARKS = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_UPDATED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_UPDATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private HolidayRepository holidayRepository;
@@ -120,7 +150,14 @@ public class HolidayResourceIntTest {
         Holiday holiday = new Holiday()
             .fromDate(DEFAULT_FROM_DATE)
             .toDate(DEFAULT_TO_DATE)
-            .numberOfDays(DEFAULT_NUMBER_OF_DAYS);
+            .numberOfDays(DEFAULT_NUMBER_OF_DAYS)
+            .moonDependency(DEFAULT_MOON_DEPENDENCY)
+            .holidayDeclaredBy(DEFAULT_HOLIDAY_DECLARED_BY)
+            .remarks(DEFAULT_REMARKS)
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdOn(DEFAULT_CREATED_ON)
+            .updatedBy(DEFAULT_UPDATED_BY)
+            .updatedOn(DEFAULT_UPDATED_ON);
         return holiday;
     }
 
@@ -148,6 +185,13 @@ public class HolidayResourceIntTest {
         assertThat(testHoliday.getFromDate()).isEqualTo(DEFAULT_FROM_DATE);
         assertThat(testHoliday.getToDate()).isEqualTo(DEFAULT_TO_DATE);
         assertThat(testHoliday.getNumberOfDays()).isEqualTo(DEFAULT_NUMBER_OF_DAYS);
+        assertThat(testHoliday.getMoonDependency()).isEqualTo(DEFAULT_MOON_DEPENDENCY);
+        assertThat(testHoliday.getHolidayDeclaredBy()).isEqualTo(DEFAULT_HOLIDAY_DECLARED_BY);
+        assertThat(testHoliday.getRemarks()).isEqualTo(DEFAULT_REMARKS);
+        assertThat(testHoliday.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testHoliday.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
+        assertThat(testHoliday.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
+        assertThat(testHoliday.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
         // Validate the Holiday in Elasticsearch
         verify(mockHolidaySearchRepository, times(1)).save(testHoliday);
@@ -235,6 +279,44 @@ public class HolidayResourceIntTest {
 
     @Test
     @Transactional
+    public void checkMoonDependencyIsRequired() throws Exception {
+        int databaseSizeBeforeTest = holidayRepository.findAll().size();
+        // set the field null
+        holiday.setMoonDependency(null);
+
+        // Create the Holiday, which fails.
+        HolidayDTO holidayDTO = holidayMapper.toDto(holiday);
+
+        restHolidayMockMvc.perform(post("/api/holidays")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(holidayDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Holiday> holidayList = holidayRepository.findAll();
+        assertThat(holidayList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkHolidayDeclaredByIsRequired() throws Exception {
+        int databaseSizeBeforeTest = holidayRepository.findAll().size();
+        // set the field null
+        holiday.setHolidayDeclaredBy(null);
+
+        // Create the Holiday, which fails.
+        HolidayDTO holidayDTO = holidayMapper.toDto(holiday);
+
+        restHolidayMockMvc.perform(post("/api/holidays")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(holidayDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Holiday> holidayList = holidayRepository.findAll();
+        assertThat(holidayList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllHolidays() throws Exception {
         // Initialize the database
         holidayRepository.saveAndFlush(holiday);
@@ -246,9 +328,16 @@ public class HolidayResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(holiday.getId().intValue())))
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
-            .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)));
+            .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)))
+            .andExpect(jsonPath("$.[*].moonDependency").value(hasItem(DEFAULT_MOON_DEPENDENCY.toString())))
+            .andExpect(jsonPath("$.[*].holidayDeclaredBy").value(hasItem(DEFAULT_HOLIDAY_DECLARED_BY.toString())))
+            .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getHoliday() throws Exception {
@@ -262,7 +351,14 @@ public class HolidayResourceIntTest {
             .andExpect(jsonPath("$.id").value(holiday.getId().intValue()))
             .andExpect(jsonPath("$.fromDate").value(DEFAULT_FROM_DATE.toString()))
             .andExpect(jsonPath("$.toDate").value(DEFAULT_TO_DATE.toString()))
-            .andExpect(jsonPath("$.numberOfDays").value(DEFAULT_NUMBER_OF_DAYS));
+            .andExpect(jsonPath("$.numberOfDays").value(DEFAULT_NUMBER_OF_DAYS))
+            .andExpect(jsonPath("$.moonDependency").value(DEFAULT_MOON_DEPENDENCY.toString()))
+            .andExpect(jsonPath("$.holidayDeclaredBy").value(DEFAULT_HOLIDAY_DECLARED_BY.toString()))
+            .andExpect(jsonPath("$.remarks").value(DEFAULT_REMARKS.toString()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
+            .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
+            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
     }
 
     @Test
@@ -465,6 +561,240 @@ public class HolidayResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllHolidaysByMoonDependencyIsEqualToSomething() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where moonDependency equals to DEFAULT_MOON_DEPENDENCY
+        defaultHolidayShouldBeFound("moonDependency.equals=" + DEFAULT_MOON_DEPENDENCY);
+
+        // Get all the holidayList where moonDependency equals to UPDATED_MOON_DEPENDENCY
+        defaultHolidayShouldNotBeFound("moonDependency.equals=" + UPDATED_MOON_DEPENDENCY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByMoonDependencyIsInShouldWork() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where moonDependency in DEFAULT_MOON_DEPENDENCY or UPDATED_MOON_DEPENDENCY
+        defaultHolidayShouldBeFound("moonDependency.in=" + DEFAULT_MOON_DEPENDENCY + "," + UPDATED_MOON_DEPENDENCY);
+
+        // Get all the holidayList where moonDependency equals to UPDATED_MOON_DEPENDENCY
+        defaultHolidayShouldNotBeFound("moonDependency.in=" + UPDATED_MOON_DEPENDENCY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByMoonDependencyIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where moonDependency is not null
+        defaultHolidayShouldBeFound("moonDependency.specified=true");
+
+        // Get all the holidayList where moonDependency is null
+        defaultHolidayShouldNotBeFound("moonDependency.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByHolidayDeclaredByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where holidayDeclaredBy equals to DEFAULT_HOLIDAY_DECLARED_BY
+        defaultHolidayShouldBeFound("holidayDeclaredBy.equals=" + DEFAULT_HOLIDAY_DECLARED_BY);
+
+        // Get all the holidayList where holidayDeclaredBy equals to UPDATED_HOLIDAY_DECLARED_BY
+        defaultHolidayShouldNotBeFound("holidayDeclaredBy.equals=" + UPDATED_HOLIDAY_DECLARED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByHolidayDeclaredByIsInShouldWork() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where holidayDeclaredBy in DEFAULT_HOLIDAY_DECLARED_BY or UPDATED_HOLIDAY_DECLARED_BY
+        defaultHolidayShouldBeFound("holidayDeclaredBy.in=" + DEFAULT_HOLIDAY_DECLARED_BY + "," + UPDATED_HOLIDAY_DECLARED_BY);
+
+        // Get all the holidayList where holidayDeclaredBy equals to UPDATED_HOLIDAY_DECLARED_BY
+        defaultHolidayShouldNotBeFound("holidayDeclaredBy.in=" + UPDATED_HOLIDAY_DECLARED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByHolidayDeclaredByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where holidayDeclaredBy is not null
+        defaultHolidayShouldBeFound("holidayDeclaredBy.specified=true");
+
+        // Get all the holidayList where holidayDeclaredBy is null
+        defaultHolidayShouldNotBeFound("holidayDeclaredBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByCreatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where createdBy equals to DEFAULT_CREATED_BY
+        defaultHolidayShouldBeFound("createdBy.equals=" + DEFAULT_CREATED_BY);
+
+        // Get all the holidayList where createdBy equals to UPDATED_CREATED_BY
+        defaultHolidayShouldNotBeFound("createdBy.equals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByCreatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where createdBy in DEFAULT_CREATED_BY or UPDATED_CREATED_BY
+        defaultHolidayShouldBeFound("createdBy.in=" + DEFAULT_CREATED_BY + "," + UPDATED_CREATED_BY);
+
+        // Get all the holidayList where createdBy equals to UPDATED_CREATED_BY
+        defaultHolidayShouldNotBeFound("createdBy.in=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByCreatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where createdBy is not null
+        defaultHolidayShouldBeFound("createdBy.specified=true");
+
+        // Get all the holidayList where createdBy is null
+        defaultHolidayShouldNotBeFound("createdBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByCreatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where createdOn equals to DEFAULT_CREATED_ON
+        defaultHolidayShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
+
+        // Get all the holidayList where createdOn equals to UPDATED_CREATED_ON
+        defaultHolidayShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByCreatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultHolidayShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
+
+        // Get all the holidayList where createdOn equals to UPDATED_CREATED_ON
+        defaultHolidayShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByCreatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where createdOn is not null
+        defaultHolidayShouldBeFound("createdOn.specified=true");
+
+        // Get all the holidayList where createdOn is null
+        defaultHolidayShouldNotBeFound("createdOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByUpdatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where updatedBy equals to DEFAULT_UPDATED_BY
+        defaultHolidayShouldBeFound("updatedBy.equals=" + DEFAULT_UPDATED_BY);
+
+        // Get all the holidayList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultHolidayShouldNotBeFound("updatedBy.equals=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByUpdatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where updatedBy in DEFAULT_UPDATED_BY or UPDATED_UPDATED_BY
+        defaultHolidayShouldBeFound("updatedBy.in=" + DEFAULT_UPDATED_BY + "," + UPDATED_UPDATED_BY);
+
+        // Get all the holidayList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultHolidayShouldNotBeFound("updatedBy.in=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByUpdatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where updatedBy is not null
+        defaultHolidayShouldBeFound("updatedBy.specified=true");
+
+        // Get all the holidayList where updatedBy is null
+        defaultHolidayShouldNotBeFound("updatedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByUpdatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where updatedOn equals to DEFAULT_UPDATED_ON
+        defaultHolidayShouldBeFound("updatedOn.equals=" + DEFAULT_UPDATED_ON);
+
+        // Get all the holidayList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultHolidayShouldNotBeFound("updatedOn.equals=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByUpdatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where updatedOn in DEFAULT_UPDATED_ON or UPDATED_UPDATED_ON
+        defaultHolidayShouldBeFound("updatedOn.in=" + DEFAULT_UPDATED_ON + "," + UPDATED_UPDATED_ON);
+
+        // Get all the holidayList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultHolidayShouldNotBeFound("updatedOn.in=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByUpdatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where updatedOn is not null
+        defaultHolidayShouldBeFound("updatedOn.specified=true");
+
+        // Get all the holidayList where updatedOn is null
+        defaultHolidayShouldNotBeFound("updatedOn.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllHolidaysByHolidayTypeIsEqualToSomething() throws Exception {
         // Initialize the database
         HolidayType holidayType = HolidayTypeResourceIntTest.createEntity(em);
@@ -491,7 +821,14 @@ public class HolidayResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(holiday.getId().intValue())))
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
-            .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)));
+            .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)))
+            .andExpect(jsonPath("$.[*].moonDependency").value(hasItem(DEFAULT_MOON_DEPENDENCY.toString())))
+            .andExpect(jsonPath("$.[*].holidayDeclaredBy").value(hasItem(DEFAULT_HOLIDAY_DECLARED_BY.toString())))
+            .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
         // Check, that the count call also returns 1
         restHolidayMockMvc.perform(get("/api/holidays/count?sort=id,desc&" + filter))
@@ -541,7 +878,14 @@ public class HolidayResourceIntTest {
         updatedHoliday
             .fromDate(UPDATED_FROM_DATE)
             .toDate(UPDATED_TO_DATE)
-            .numberOfDays(UPDATED_NUMBER_OF_DAYS);
+            .numberOfDays(UPDATED_NUMBER_OF_DAYS)
+            .moonDependency(UPDATED_MOON_DEPENDENCY)
+            .holidayDeclaredBy(UPDATED_HOLIDAY_DECLARED_BY)
+            .remarks(UPDATED_REMARKS)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdOn(UPDATED_CREATED_ON)
+            .updatedBy(UPDATED_UPDATED_BY)
+            .updatedOn(UPDATED_UPDATED_ON);
         HolidayDTO holidayDTO = holidayMapper.toDto(updatedHoliday);
 
         restHolidayMockMvc.perform(put("/api/holidays")
@@ -556,6 +900,13 @@ public class HolidayResourceIntTest {
         assertThat(testHoliday.getFromDate()).isEqualTo(UPDATED_FROM_DATE);
         assertThat(testHoliday.getToDate()).isEqualTo(UPDATED_TO_DATE);
         assertThat(testHoliday.getNumberOfDays()).isEqualTo(UPDATED_NUMBER_OF_DAYS);
+        assertThat(testHoliday.getMoonDependency()).isEqualTo(UPDATED_MOON_DEPENDENCY);
+        assertThat(testHoliday.getHolidayDeclaredBy()).isEqualTo(UPDATED_HOLIDAY_DECLARED_BY);
+        assertThat(testHoliday.getRemarks()).isEqualTo(UPDATED_REMARKS);
+        assertThat(testHoliday.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testHoliday.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
+        assertThat(testHoliday.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
+        assertThat(testHoliday.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
         // Validate the Holiday in Elasticsearch
         verify(mockHolidaySearchRepository, times(1)).save(testHoliday);
@@ -618,7 +969,14 @@ public class HolidayResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(holiday.getId().intValue())))
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
-            .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)));
+            .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)))
+            .andExpect(jsonPath("$.[*].moonDependency").value(hasItem(DEFAULT_MOON_DEPENDENCY.toString())))
+            .andExpect(jsonPath("$.[*].holidayDeclaredBy").value(hasItem(DEFAULT_HOLIDAY_DECLARED_BY.toString())))
+            .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
 
     @Test

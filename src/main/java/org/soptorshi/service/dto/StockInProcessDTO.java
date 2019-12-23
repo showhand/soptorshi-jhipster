@@ -1,11 +1,16 @@
 package org.soptorshi.service.dto;
+
+import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ProductType;
+import org.soptorshi.domain.enumeration.StockInProcessStatus;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.ItemUnit;
-import org.soptorshi.domain.enumeration.ContainerCategory;
 
 /**
  * A DTO for the StockInProcess entity.
@@ -15,44 +20,56 @@ public class StockInProcessDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private Double totalQuantity;
+    private BigDecimal totalQuantity;
 
     @NotNull
-    private ItemUnit unit;
+    private UnitOfMeasurements unit;
 
     @NotNull
-    private Double unitPrice;
+    private BigDecimal unitPrice;
 
-    @NotNull
     private Integer totalContainer;
 
-    @NotNull
     private ContainerCategory containerCategory;
 
-    @NotNull
     private String containerTrackingId;
 
-    @NotNull
     private String quantityPerContainer;
 
+    private LocalDate mfgDate;
+
     private LocalDate expiryDate;
+
+    private ProductType typeOfProduct;
+
+    private StockInProcessStatus status;
+
+    private String processStartedBy;
+
+    private Instant processStartedOn;
 
     private String stockInBy;
 
     private Instant stockInDate;
 
-    private String purchaseOrderId;
-
     private String remarks;
 
 
-    private Long itemCategoriesId;
+    private Long purchaseOrderId;
 
-    private String itemCategoriesName;
+    private String purchaseOrderPurchaseOrderNo;
 
-    private Long itemSubCategoriesId;
+    private Long commercialPurchaseOrderId;
 
-    private String itemSubCategoriesName;
+    private String commercialPurchaseOrderPurchaseOrderNo;
+
+    private Long productCategoriesId;
+
+    private String productCategoriesName;
+
+    private Long productsId;
+
+    private String productsName;
 
     private Long inventoryLocationsId;
 
@@ -62,9 +79,9 @@ public class StockInProcessDTO implements Serializable {
 
     private String inventorySubLocationsName;
 
-    private Long manufacturersId;
+    private Long vendorId;
 
-    private String manufacturersName;
+    private String vendorCompanyName;
 
     public Long getId() {
         return id;
@@ -74,27 +91,27 @@ public class StockInProcessDTO implements Serializable {
         this.id = id;
     }
 
-    public Double getTotalQuantity() {
+    public BigDecimal getTotalQuantity() {
         return totalQuantity;
     }
 
-    public void setTotalQuantity(Double totalQuantity) {
+    public void setTotalQuantity(BigDecimal totalQuantity) {
         this.totalQuantity = totalQuantity;
     }
 
-    public ItemUnit getUnit() {
+    public UnitOfMeasurements getUnit() {
         return unit;
     }
 
-    public void setUnit(ItemUnit unit) {
+    public void setUnit(UnitOfMeasurements unit) {
         this.unit = unit;
     }
 
-    public Double getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Double unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -130,12 +147,52 @@ public class StockInProcessDTO implements Serializable {
         this.quantityPerContainer = quantityPerContainer;
     }
 
+    public LocalDate getMfgDate() {
+        return mfgDate;
+    }
+
+    public void setMfgDate(LocalDate mfgDate) {
+        this.mfgDate = mfgDate;
+    }
+
     public LocalDate getExpiryDate() {
         return expiryDate;
     }
 
     public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public ProductType getTypeOfProduct() {
+        return typeOfProduct;
+    }
+
+    public void setTypeOfProduct(ProductType typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
+    }
+
+    public StockInProcessStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(StockInProcessStatus status) {
+        this.status = status;
+    }
+
+    public String getProcessStartedBy() {
+        return processStartedBy;
+    }
+
+    public void setProcessStartedBy(String processStartedBy) {
+        this.processStartedBy = processStartedBy;
+    }
+
+    public Instant getProcessStartedOn() {
+        return processStartedOn;
+    }
+
+    public void setProcessStartedOn(Instant processStartedOn) {
+        this.processStartedOn = processStartedOn;
     }
 
     public String getStockInBy() {
@@ -154,14 +211,6 @@ public class StockInProcessDTO implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public String getPurchaseOrderId() {
-        return purchaseOrderId;
-    }
-
-    public void setPurchaseOrderId(String purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-    }
-
     public String getRemarks() {
         return remarks;
     }
@@ -170,36 +219,68 @@ public class StockInProcessDTO implements Serializable {
         this.remarks = remarks;
     }
 
-    public Long getItemCategoriesId() {
-        return itemCategoriesId;
+    public Long getPurchaseOrderId() {
+        return purchaseOrderId;
     }
 
-    public void setItemCategoriesId(Long itemCategoryId) {
-        this.itemCategoriesId = itemCategoryId;
+    public void setPurchaseOrderId(Long purchaseOrderId) {
+        this.purchaseOrderId = purchaseOrderId;
     }
 
-    public String getItemCategoriesName() {
-        return itemCategoriesName;
+    public String getPurchaseOrderPurchaseOrderNo() {
+        return purchaseOrderPurchaseOrderNo;
     }
 
-    public void setItemCategoriesName(String itemCategoryName) {
-        this.itemCategoriesName = itemCategoryName;
+    public void setPurchaseOrderPurchaseOrderNo(String purchaseOrderPurchaseOrderNo) {
+        this.purchaseOrderPurchaseOrderNo = purchaseOrderPurchaseOrderNo;
     }
 
-    public Long getItemSubCategoriesId() {
-        return itemSubCategoriesId;
+    public Long getCommercialPurchaseOrderId() {
+        return commercialPurchaseOrderId;
     }
 
-    public void setItemSubCategoriesId(Long itemSubCategoryId) {
-        this.itemSubCategoriesId = itemSubCategoryId;
+    public void setCommercialPurchaseOrderId(Long commercialPurchaseOrderId) {
+        this.commercialPurchaseOrderId = commercialPurchaseOrderId;
     }
 
-    public String getItemSubCategoriesName() {
-        return itemSubCategoriesName;
+    public String getCommercialPurchaseOrderPurchaseOrderNo() {
+        return commercialPurchaseOrderPurchaseOrderNo;
     }
 
-    public void setItemSubCategoriesName(String itemSubCategoryName) {
-        this.itemSubCategoriesName = itemSubCategoryName;
+    public void setCommercialPurchaseOrderPurchaseOrderNo(String commercialPurchaseOrderPurchaseOrderNo) {
+        this.commercialPurchaseOrderPurchaseOrderNo = commercialPurchaseOrderPurchaseOrderNo;
+    }
+
+    public Long getProductCategoriesId() {
+        return productCategoriesId;
+    }
+
+    public void setProductCategoriesId(Long productCategoryId) {
+        this.productCategoriesId = productCategoryId;
+    }
+
+    public String getProductCategoriesName() {
+        return productCategoriesName;
+    }
+
+    public void setProductCategoriesName(String productCategoryName) {
+        this.productCategoriesName = productCategoryName;
+    }
+
+    public Long getProductsId() {
+        return productsId;
+    }
+
+    public void setProductsId(Long productId) {
+        this.productsId = productId;
+    }
+
+    public String getProductsName() {
+        return productsName;
+    }
+
+    public void setProductsName(String productName) {
+        this.productsName = productName;
     }
 
     public Long getInventoryLocationsId() {
@@ -234,20 +315,20 @@ public class StockInProcessDTO implements Serializable {
         this.inventorySubLocationsName = inventorySubLocationName;
     }
 
-    public Long getManufacturersId() {
-        return manufacturersId;
+    public Long getVendorId() {
+        return vendorId;
     }
 
-    public void setManufacturersId(Long manufacturerId) {
-        this.manufacturersId = manufacturerId;
+    public void setVendorId(Long vendorId) {
+        this.vendorId = vendorId;
     }
 
-    public String getManufacturersName() {
-        return manufacturersName;
+    public String getVendorCompanyName() {
+        return vendorCompanyName;
     }
 
-    public void setManufacturersName(String manufacturerName) {
-        this.manufacturersName = manufacturerName;
+    public void setVendorCompanyName(String vendorCompanyName) {
+        this.vendorCompanyName = vendorCompanyName;
     }
 
     @Override
@@ -282,21 +363,29 @@ public class StockInProcessDTO implements Serializable {
             ", containerCategory='" + getContainerCategory() + "'" +
             ", containerTrackingId='" + getContainerTrackingId() + "'" +
             ", quantityPerContainer='" + getQuantityPerContainer() + "'" +
+            ", mfgDate='" + getMfgDate() + "'" +
             ", expiryDate='" + getExpiryDate() + "'" +
+            ", typeOfProduct='" + getTypeOfProduct() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", processStartedBy='" + getProcessStartedBy() + "'" +
+            ", processStartedOn='" + getProcessStartedOn() + "'" +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
-            ", purchaseOrderId='" + getPurchaseOrderId() + "'" +
             ", remarks='" + getRemarks() + "'" +
-            ", itemCategories=" + getItemCategoriesId() +
-            ", itemCategories='" + getItemCategoriesName() + "'" +
-            ", itemSubCategories=" + getItemSubCategoriesId() +
-            ", itemSubCategories='" + getItemSubCategoriesName() + "'" +
+            ", purchaseOrder=" + getPurchaseOrderId() +
+            ", purchaseOrder='" + getPurchaseOrderPurchaseOrderNo() + "'" +
+            ", commercialPurchaseOrder=" + getCommercialPurchaseOrderId() +
+            ", commercialPurchaseOrder='" + getCommercialPurchaseOrderPurchaseOrderNo() + "'" +
+            ", productCategories=" + getProductCategoriesId() +
+            ", productCategories='" + getProductCategoriesName() + "'" +
+            ", products=" + getProductsId() +
+            ", products='" + getProductsName() + "'" +
             ", inventoryLocations=" + getInventoryLocationsId() +
             ", inventoryLocations='" + getInventoryLocationsName() + "'" +
             ", inventorySubLocations=" + getInventorySubLocationsId() +
             ", inventorySubLocations='" + getInventorySubLocationsName() + "'" +
-            ", manufacturers=" + getManufacturersId() +
-            ", manufacturers='" + getManufacturersName() + "'" +
+            ", vendor=" + getVendorId() +
+            ", vendor='" + getVendorCompanyName() + "'" +
             "}";
     }
 }

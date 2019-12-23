@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { ICommercialPackagingDetails } from 'app/shared/model/commercial-packaging-details.model';
 import { CommercialPackagingDetailsService } from './commercial-packaging-details.service';
@@ -20,7 +21,7 @@ export class CommercialPackagingDetailsUpdateComponent implements OnInit {
     commercialpackagings: ICommercialPackaging[];
     proDateDp: any;
     expDateDp: any;
-    createOnDp: any;
+    createdOnDp: any;
     updatedOnDp: any;
 
     constructor(

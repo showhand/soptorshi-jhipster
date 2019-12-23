@@ -59,9 +59,9 @@ export class CommercialPoStatusService {
 
     protected convertDateFromClient(commercialPoStatus: ICommercialPoStatus): ICommercialPoStatus {
         const copy: ICommercialPoStatus = Object.assign({}, commercialPoStatus, {
-            createOn:
-                commercialPoStatus.createOn != null && commercialPoStatus.createOn.isValid()
-                    ? commercialPoStatus.createOn.format(DATE_FORMAT)
+            createdOn:
+                commercialPoStatus.createdOn != null && commercialPoStatus.createdOn.isValid()
+                    ? commercialPoStatus.createdOn.format(DATE_FORMAT)
                     : null,
             updatedOn:
                 commercialPoStatus.updatedOn != null && commercialPoStatus.updatedOn.isValid()
@@ -73,7 +73,7 @@ export class CommercialPoStatusService {
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.createOn = res.body.createOn != null ? moment(res.body.createOn) : null;
+            res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
             res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
@@ -82,7 +82,7 @@ export class CommercialPoStatusService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((commercialPoStatus: ICommercialPoStatus) => {
-                commercialPoStatus.createOn = commercialPoStatus.createOn != null ? moment(commercialPoStatus.createOn) : null;
+                commercialPoStatus.createdOn = commercialPoStatus.createdOn != null ? moment(commercialPoStatus.createdOn) : null;
                 commercialPoStatus.updatedOn = commercialPoStatus.updatedOn != null ? moment(commercialPoStatus.updatedOn) : null;
             });
         }

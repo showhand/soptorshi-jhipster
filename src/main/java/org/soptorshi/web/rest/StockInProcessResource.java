@@ -1,27 +1,30 @@
 package org.soptorshi.web.rest;
-
-import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.soptorshi.service.StockInProcessQueryService;
 import org.soptorshi.service.StockInProcessService;
-import org.soptorshi.service.dto.StockInProcessCriteria;
-import org.soptorshi.service.dto.StockInProcessDTO;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
+import org.soptorshi.service.dto.StockInProcessDTO;
+import org.soptorshi.service.dto.StockInProcessCriteria;
+import org.soptorshi.service.StockInProcessQueryService;
+import io.github.jhipster.web.util.ResponseUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing StockInProcess.
@@ -74,15 +77,13 @@ public class StockInProcessResource {
     @PutMapping("/stock-in-processes")
     public ResponseEntity<StockInProcessDTO> updateStockInProcess(@Valid @RequestBody StockInProcessDTO stockInProcessDTO) throws URISyntaxException {
         log.debug("REST request to update StockInProcess : {}", stockInProcessDTO);
-        /*if (stockInProcessDTO.getId() == null) {
+        if (stockInProcessDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        StockInProcessDTO result = stockInProcessServiceImpl.save(stockInProcessDTO);
+        StockInProcessDTO result = stockInProcessService.save(stockInProcessDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, stockInProcessDTO.getId().toString()))
-            .body(result);*/
-
-        throw new NotImplementedException();
+            .body(result);
     }
 
     /**
@@ -134,9 +135,8 @@ public class StockInProcessResource {
     @DeleteMapping("/stock-in-processes/{id}")
     public ResponseEntity<Void> deleteStockInProcess(@PathVariable Long id) {
         log.debug("REST request to delete StockInProcess : {}", id);
-        /*stockInProcessServiceImpl.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();*/
-        throw new NotImplementedException();
+        stockInProcessService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
     /**

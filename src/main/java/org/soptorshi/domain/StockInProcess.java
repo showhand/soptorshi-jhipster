@@ -2,19 +2,19 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.soptorshi.domain.enumeration.ContainerCategory;
+import org.soptorshi.domain.enumeration.ProductType;
+import org.soptorshi.domain.enumeration.StockInProcessStatus;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
-
-import org.soptorshi.domain.enumeration.ItemUnit;
-
-import org.soptorshi.domain.enumeration.ContainerCategory;
 
 /**
  * A StockInProcess.
@@ -25,43 +25,56 @@ import org.soptorshi.domain.enumeration.ContainerCategory;
 public class StockInProcess implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Column(name = "total_quantity", nullable = false)
-    private Double totalQuantity;
+    @Column(name = "total_quantity", precision = 10, scale = 2, nullable = false)
+    private BigDecimal totalQuantity;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "unit", nullable = false)
-    private ItemUnit unit;
+    private UnitOfMeasurements unit;
 
     @NotNull
-    @Column(name = "unit_price", nullable = false)
-    private Double unitPrice;
+    @Column(name = "unit_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal unitPrice;
 
-    @NotNull
-    @Column(name = "total_container", nullable = false)
+    @Column(name = "total_container")
     private Integer totalContainer;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "container_category", nullable = false)
+    @Column(name = "container_category")
     private ContainerCategory containerCategory;
 
-    @NotNull
-    @Column(name = "container_tracking_id", nullable = false)
+    @Column(name = "container_tracking_id")
     private String containerTrackingId;
 
-    @NotNull
-    @Column(name = "quantity_per_container", nullable = false)
+    @Column(name = "quantity_per_container")
     private String quantityPerContainer;
+
+    @Column(name = "mfg_date")
+    private LocalDate mfgDate;
 
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type_of_product")
+    private ProductType typeOfProduct;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private StockInProcessStatus status;
+
+    @Column(name = "process_started_by")
+    private String processStartedBy;
+
+    @Column(name = "process_started_on")
+    private Instant processStartedOn;
 
     @Column(name = "stock_in_by")
     private String stockInBy;
@@ -69,19 +82,24 @@ public class StockInProcess implements Serializable {
     @Column(name = "stock_in_date")
     private Instant stockInDate;
 
-    @Column(name = "purchase_order_id")
-    private String purchaseOrderId;
-
     @Column(name = "remarks")
     private String remarks;
 
-    @ManyToOne
-    @JsonIgnoreProperties("stockInProcesses")
-    private ItemCategory itemCategories;
+    @OneToOne
+    @JoinColumn(unique = true)
+    private PurchaseOrder purchaseOrder;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private CommercialPurchaseOrder commercialPurchaseOrder;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInProcesses")
-    private ItemSubCategory itemSubCategories;
+    private ProductCategory productCategories;
+
+    @ManyToOne
+    @JsonIgnoreProperties("stockInProcesses")
+    private Product products;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInProcesses")
@@ -93,7 +111,7 @@ public class StockInProcess implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("stockInProcesses")
-    private Manufacturer manufacturers;
+    private Vendor vendor;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -104,42 +122,42 @@ public class StockInProcess implements Serializable {
         this.id = id;
     }
 
-    public Double getTotalQuantity() {
+    public BigDecimal getTotalQuantity() {
         return totalQuantity;
     }
 
-    public StockInProcess totalQuantity(Double totalQuantity) {
+    public StockInProcess totalQuantity(BigDecimal totalQuantity) {
         this.totalQuantity = totalQuantity;
         return this;
     }
 
-    public void setTotalQuantity(Double totalQuantity) {
+    public void setTotalQuantity(BigDecimal totalQuantity) {
         this.totalQuantity = totalQuantity;
     }
 
-    public ItemUnit getUnit() {
+    public UnitOfMeasurements getUnit() {
         return unit;
     }
 
-    public StockInProcess unit(ItemUnit unit) {
+    public StockInProcess unit(UnitOfMeasurements unit) {
         this.unit = unit;
         return this;
     }
 
-    public void setUnit(ItemUnit unit) {
+    public void setUnit(UnitOfMeasurements unit) {
         this.unit = unit;
     }
 
-    public Double getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public StockInProcess unitPrice(Double unitPrice) {
+    public StockInProcess unitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
         return this;
     }
 
-    public void setUnitPrice(Double unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -195,6 +213,19 @@ public class StockInProcess implements Serializable {
         this.quantityPerContainer = quantityPerContainer;
     }
 
+    public LocalDate getMfgDate() {
+        return mfgDate;
+    }
+
+    public StockInProcess mfgDate(LocalDate mfgDate) {
+        this.mfgDate = mfgDate;
+        return this;
+    }
+
+    public void setMfgDate(LocalDate mfgDate) {
+        this.mfgDate = mfgDate;
+    }
+
     public LocalDate getExpiryDate() {
         return expiryDate;
     }
@@ -206,6 +237,58 @@ public class StockInProcess implements Serializable {
 
     public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public ProductType getTypeOfProduct() {
+        return typeOfProduct;
+    }
+
+    public StockInProcess typeOfProduct(ProductType typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
+        return this;
+    }
+
+    public void setTypeOfProduct(ProductType typeOfProduct) {
+        this.typeOfProduct = typeOfProduct;
+    }
+
+    public StockInProcessStatus getStatus() {
+        return status;
+    }
+
+    public StockInProcess status(StockInProcessStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(StockInProcessStatus status) {
+        this.status = status;
+    }
+
+    public String getProcessStartedBy() {
+        return processStartedBy;
+    }
+
+    public StockInProcess processStartedBy(String processStartedBy) {
+        this.processStartedBy = processStartedBy;
+        return this;
+    }
+
+    public void setProcessStartedBy(String processStartedBy) {
+        this.processStartedBy = processStartedBy;
+    }
+
+    public Instant getProcessStartedOn() {
+        return processStartedOn;
+    }
+
+    public StockInProcess processStartedOn(Instant processStartedOn) {
+        this.processStartedOn = processStartedOn;
+        return this;
+    }
+
+    public void setProcessStartedOn(Instant processStartedOn) {
+        this.processStartedOn = processStartedOn;
     }
 
     public String getStockInBy() {
@@ -234,19 +317,6 @@ public class StockInProcess implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public String getPurchaseOrderId() {
-        return purchaseOrderId;
-    }
-
-    public StockInProcess purchaseOrderId(String purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-        return this;
-    }
-
-    public void setPurchaseOrderId(String purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-    }
-
     public String getRemarks() {
         return remarks;
     }
@@ -260,30 +330,56 @@ public class StockInProcess implements Serializable {
         this.remarks = remarks;
     }
 
-    public ItemCategory getItemCategories() {
-        return itemCategories;
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
     }
 
-    public StockInProcess itemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public StockInProcess purchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
         return this;
     }
 
-    public void setItemCategories(ItemCategory itemCategory) {
-        this.itemCategories = itemCategory;
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
     }
 
-    public ItemSubCategory getItemSubCategories() {
-        return itemSubCategories;
+    public CommercialPurchaseOrder getCommercialPurchaseOrder() {
+        return commercialPurchaseOrder;
     }
 
-    public StockInProcess itemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public StockInProcess commercialPurchaseOrder(CommercialPurchaseOrder commercialPurchaseOrder) {
+        this.commercialPurchaseOrder = commercialPurchaseOrder;
         return this;
     }
 
-    public void setItemSubCategories(ItemSubCategory itemSubCategory) {
-        this.itemSubCategories = itemSubCategory;
+    public void setCommercialPurchaseOrder(CommercialPurchaseOrder commercialPurchaseOrder) {
+        this.commercialPurchaseOrder = commercialPurchaseOrder;
+    }
+
+    public ProductCategory getProductCategories() {
+        return productCategories;
+    }
+
+    public StockInProcess productCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
+        return this;
+    }
+
+    public void setProductCategories(ProductCategory productCategory) {
+        this.productCategories = productCategory;
+    }
+
+    public Product getProducts() {
+        return products;
+    }
+
+    public StockInProcess products(Product product) {
+        this.products = product;
+        return this;
+    }
+
+    public void setProducts(Product product) {
+        this.products = product;
     }
 
     public InventoryLocation getInventoryLocations() {
@@ -312,17 +408,17 @@ public class StockInProcess implements Serializable {
         this.inventorySubLocations = inventorySubLocation;
     }
 
-    public Manufacturer getManufacturers() {
-        return manufacturers;
+    public Vendor getVendor() {
+        return vendor;
     }
 
-    public StockInProcess manufacturers(Manufacturer manufacturer) {
-        this.manufacturers = manufacturer;
+    public StockInProcess vendor(Vendor vendor) {
+        this.vendor = vendor;
         return this;
     }
 
-    public void setManufacturers(Manufacturer manufacturer) {
-        this.manufacturers = manufacturer;
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -357,10 +453,14 @@ public class StockInProcess implements Serializable {
             ", containerCategory='" + getContainerCategory() + "'" +
             ", containerTrackingId='" + getContainerTrackingId() + "'" +
             ", quantityPerContainer='" + getQuantityPerContainer() + "'" +
+            ", mfgDate='" + getMfgDate() + "'" +
             ", expiryDate='" + getExpiryDate() + "'" +
+            ", typeOfProduct='" + getTypeOfProduct() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", processStartedBy='" + getProcessStartedBy() + "'" +
+            ", processStartedOn='" + getProcessStartedOn() + "'" +
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
-            ", purchaseOrderId='" + getPurchaseOrderId() + "'" +
             ", remarks='" + getRemarks() + "'" +
             "}";
     }

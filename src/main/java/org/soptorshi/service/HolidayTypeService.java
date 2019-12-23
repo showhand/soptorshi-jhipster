@@ -1,12 +1,13 @@
 package org.soptorshi.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.HolidayType;
 import org.soptorshi.repository.HolidayTypeRepository;
 import org.soptorshi.repository.search.HolidayTypeSearchRepository;
 import org.soptorshi.service.dto.HolidayTypeDTO;
 import org.soptorshi.service.mapper.HolidayTypeMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing HolidayType.
@@ -43,7 +44,6 @@ public class HolidayTypeService {
      * @param holidayTypeDTO the entity to save
      * @return the persisted entity
      */
-
     public HolidayTypeDTO save(HolidayTypeDTO holidayTypeDTO) {
         log.debug("Request to save HolidayType : {}", holidayTypeDTO);
         HolidayType holidayType = holidayTypeMapper.toEntity(holidayTypeDTO);
@@ -59,7 +59,6 @@ public class HolidayTypeService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-
     @Transactional(readOnly = true)
     public Page<HolidayTypeDTO> findAll(Pageable pageable) {
         log.debug("Request to get all HolidayTypes");
@@ -74,7 +73,6 @@ public class HolidayTypeService {
      * @param id the id of the entity
      * @return the entity
      */
-
     @Transactional(readOnly = true)
     public Optional<HolidayTypeDTO> findOne(Long id) {
         log.debug("Request to get HolidayType : {}", id);
@@ -87,7 +85,6 @@ public class HolidayTypeService {
      *
      * @param id the id of the entity
      */
-
     public void delete(Long id) {
         log.debug("Request to delete HolidayType : {}", id);
         holidayTypeRepository.deleteById(id);
@@ -101,7 +98,6 @@ public class HolidayTypeService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-
     @Transactional(readOnly = true)
     public Page<HolidayTypeDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of HolidayTypes for query {}", query);

@@ -5,9 +5,9 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { HolidayService } from 'app/entities/holiday/holiday.service';
-import { IHoliday, Holiday } from 'app/shared/model/holiday.model';
+import { IHoliday, Holiday, YesOrNo, HolidayImposedAuthority } from 'app/shared/model/holiday.model';
 
 describe('Service Tests', () => {
     describe('Holiday Service', () => {
@@ -25,7 +25,19 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Holiday(0, currentDate, currentDate, 0);
+            elemDefault = new Holiday(
+                0,
+                currentDate,
+                currentDate,
+                0,
+                YesOrNo.YES,
+                HolidayImposedAuthority.GOVERNMENT,
+                'AAAAAAA',
+                'AAAAAAA',
+                currentDate,
+                'AAAAAAA',
+                currentDate
+            );
         });
 
         describe('Service methods', async () => {
@@ -33,7 +45,9 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         fromDate: currentDate.format(DATE_FORMAT),
-                        toDate: currentDate.format(DATE_FORMAT)
+                        toDate: currentDate.format(DATE_FORMAT),
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
@@ -51,14 +65,18 @@ describe('Service Tests', () => {
                     {
                         id: 0,
                         fromDate: currentDate.format(DATE_FORMAT),
-                        toDate: currentDate.format(DATE_FORMAT)
+                        toDate: currentDate.format(DATE_FORMAT),
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
                         fromDate: currentDate,
-                        toDate: currentDate
+                        toDate: currentDate,
+                        createdOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
@@ -75,7 +93,14 @@ describe('Service Tests', () => {
                     {
                         fromDate: currentDate.format(DATE_FORMAT),
                         toDate: currentDate.format(DATE_FORMAT),
-                        numberOfDays: 1
+                        numberOfDays: 1,
+                        moonDependency: 'BBBBBB',
+                        holidayDeclaredBy: 'BBBBBB',
+                        remarks: 'BBBBBB',
+                        createdBy: 'BBBBBB',
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedBy: 'BBBBBB',
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
@@ -83,7 +108,9 @@ describe('Service Tests', () => {
                 const expected = Object.assign(
                     {
                         fromDate: currentDate,
-                        toDate: currentDate
+                        toDate: currentDate,
+                        createdOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
@@ -100,14 +127,23 @@ describe('Service Tests', () => {
                     {
                         fromDate: currentDate.format(DATE_FORMAT),
                         toDate: currentDate.format(DATE_FORMAT),
-                        numberOfDays: 1
+                        numberOfDays: 1,
+                        moonDependency: 'BBBBBB',
+                        holidayDeclaredBy: 'BBBBBB',
+                        remarks: 'BBBBBB',
+                        createdBy: 'BBBBBB',
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedBy: 'BBBBBB',
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
                         fromDate: currentDate,
-                        toDate: currentDate
+                        toDate: currentDate,
+                        createdOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );

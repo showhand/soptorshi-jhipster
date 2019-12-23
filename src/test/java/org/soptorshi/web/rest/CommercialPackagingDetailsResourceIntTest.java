@@ -1,19 +1,22 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.CommercialPackaging;
+
 import org.soptorshi.domain.CommercialPackagingDetails;
+import org.soptorshi.domain.CommercialPackaging;
 import org.soptorshi.repository.CommercialPackagingDetailsRepository;
 import org.soptorshi.repository.search.CommercialPackagingDetailsSearchRepository;
-import org.soptorshi.service.CommercialPackagingDetailsQueryService;
 import org.soptorshi.service.CommercialPackagingDetailsService;
 import org.soptorshi.service.dto.CommercialPackagingDetailsDTO;
 import org.soptorshi.service.mapper.CommercialPackagingDetailsMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.CommercialPackagingDetailsCriteria;
+import org.soptorshi.service.CommercialPackagingDetailsQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -33,11 +36,12 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -77,8 +81,8 @@ public class CommercialPackagingDetailsResourceIntTest {
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_CREATE_ON = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATE_ON = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate DEFAULT_CREATED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_ON = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
@@ -154,7 +158,7 @@ public class CommercialPackagingDetailsResourceIntTest {
             .dayTotal(DEFAULT_DAY_TOTAL)
             .total(DEFAULT_TOTAL)
             .createdBy(DEFAULT_CREATED_BY)
-            .createOn(DEFAULT_CREATE_ON)
+            .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
         return commercialPackagingDetails;
@@ -190,7 +194,7 @@ public class CommercialPackagingDetailsResourceIntTest {
         assertThat(testCommercialPackagingDetails.getDayTotal()).isEqualTo(DEFAULT_DAY_TOTAL);
         assertThat(testCommercialPackagingDetails.getTotal()).isEqualTo(DEFAULT_TOTAL);
         assertThat(testCommercialPackagingDetails.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
-        assertThat(testCommercialPackagingDetails.getCreateOn()).isEqualTo(DEFAULT_CREATE_ON);
+        assertThat(testCommercialPackagingDetails.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testCommercialPackagingDetails.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testCommercialPackagingDetails.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
@@ -241,11 +245,11 @@ public class CommercialPackagingDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].dayTotal").value(hasItem(DEFAULT_DAY_TOTAL.doubleValue())))
             .andExpect(jsonPath("$.[*].total").value(hasItem(DEFAULT_TOTAL.doubleValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getCommercialPackagingDetails() throws Exception {
@@ -266,7 +270,7 @@ public class CommercialPackagingDetailsResourceIntTest {
             .andExpect(jsonPath("$.dayTotal").value(DEFAULT_DAY_TOTAL.doubleValue()))
             .andExpect(jsonPath("$.total").value(DEFAULT_TOTAL.doubleValue()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
-            .andExpect(jsonPath("$.createOn").value(DEFAULT_CREATE_ON.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
             .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
     }
@@ -678,67 +682,67 @@ public class CommercialPackagingDetailsResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllCommercialPackagingDetailsByCreateOnIsEqualToSomething() throws Exception {
+    public void getAllCommercialPackagingDetailsByCreatedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialPackagingDetailsRepository.saveAndFlush(commercialPackagingDetails);
 
-        // Get all the commercialPackagingDetailsList where createOn equals to DEFAULT_CREATE_ON
-        defaultCommercialPackagingDetailsShouldBeFound("createOn.equals=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPackagingDetailsList where createdOn equals to DEFAULT_CREATED_ON
+        defaultCommercialPackagingDetailsShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPackagingDetailsList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialPackagingDetailsShouldNotBeFound("createOn.equals=" + UPDATED_CREATE_ON);
+        // Get all the commercialPackagingDetailsList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialPackagingDetailsShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPackagingDetailsByCreateOnIsInShouldWork() throws Exception {
+    public void getAllCommercialPackagingDetailsByCreatedOnIsInShouldWork() throws Exception {
         // Initialize the database
         commercialPackagingDetailsRepository.saveAndFlush(commercialPackagingDetails);
 
-        // Get all the commercialPackagingDetailsList where createOn in DEFAULT_CREATE_ON or UPDATED_CREATE_ON
-        defaultCommercialPackagingDetailsShouldBeFound("createOn.in=" + DEFAULT_CREATE_ON + "," + UPDATED_CREATE_ON);
+        // Get all the commercialPackagingDetailsList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultCommercialPackagingDetailsShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
 
-        // Get all the commercialPackagingDetailsList where createOn equals to UPDATED_CREATE_ON
-        defaultCommercialPackagingDetailsShouldNotBeFound("createOn.in=" + UPDATED_CREATE_ON);
+        // Get all the commercialPackagingDetailsList where createdOn equals to UPDATED_CREATED_ON
+        defaultCommercialPackagingDetailsShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPackagingDetailsByCreateOnIsNullOrNotNull() throws Exception {
+    public void getAllCommercialPackagingDetailsByCreatedOnIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialPackagingDetailsRepository.saveAndFlush(commercialPackagingDetails);
 
-        // Get all the commercialPackagingDetailsList where createOn is not null
-        defaultCommercialPackagingDetailsShouldBeFound("createOn.specified=true");
+        // Get all the commercialPackagingDetailsList where createdOn is not null
+        defaultCommercialPackagingDetailsShouldBeFound("createdOn.specified=true");
 
-        // Get all the commercialPackagingDetailsList where createOn is null
-        defaultCommercialPackagingDetailsShouldNotBeFound("createOn.specified=false");
+        // Get all the commercialPackagingDetailsList where createdOn is null
+        defaultCommercialPackagingDetailsShouldNotBeFound("createdOn.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPackagingDetailsByCreateOnIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllCommercialPackagingDetailsByCreatedOnIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         commercialPackagingDetailsRepository.saveAndFlush(commercialPackagingDetails);
 
-        // Get all the commercialPackagingDetailsList where createOn greater than or equals to DEFAULT_CREATE_ON
-        defaultCommercialPackagingDetailsShouldBeFound("createOn.greaterOrEqualThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPackagingDetailsList where createdOn greater than or equals to DEFAULT_CREATED_ON
+        defaultCommercialPackagingDetailsShouldBeFound("createdOn.greaterOrEqualThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPackagingDetailsList where createOn greater than or equals to UPDATED_CREATE_ON
-        defaultCommercialPackagingDetailsShouldNotBeFound("createOn.greaterOrEqualThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialPackagingDetailsList where createdOn greater than or equals to UPDATED_CREATED_ON
+        defaultCommercialPackagingDetailsShouldNotBeFound("createdOn.greaterOrEqualThan=" + UPDATED_CREATED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPackagingDetailsByCreateOnIsLessThanSomething() throws Exception {
+    public void getAllCommercialPackagingDetailsByCreatedOnIsLessThanSomething() throws Exception {
         // Initialize the database
         commercialPackagingDetailsRepository.saveAndFlush(commercialPackagingDetails);
 
-        // Get all the commercialPackagingDetailsList where createOn less than or equals to DEFAULT_CREATE_ON
-        defaultCommercialPackagingDetailsShouldNotBeFound("createOn.lessThan=" + DEFAULT_CREATE_ON);
+        // Get all the commercialPackagingDetailsList where createdOn less than or equals to DEFAULT_CREATED_ON
+        defaultCommercialPackagingDetailsShouldNotBeFound("createdOn.lessThan=" + DEFAULT_CREATED_ON);
 
-        // Get all the commercialPackagingDetailsList where createOn less than or equals to UPDATED_CREATE_ON
-        defaultCommercialPackagingDetailsShouldBeFound("createOn.lessThan=" + UPDATED_CREATE_ON);
+        // Get all the commercialPackagingDetailsList where createdOn less than or equals to UPDATED_CREATED_ON
+        defaultCommercialPackagingDetailsShouldBeFound("createdOn.lessThan=" + UPDATED_CREATED_ON);
     }
 
 
@@ -882,7 +886,7 @@ public class CommercialPackagingDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].dayTotal").value(hasItem(DEFAULT_DAY_TOTAL.doubleValue())))
             .andExpect(jsonPath("$.[*].total").value(hasItem(DEFAULT_TOTAL.doubleValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
@@ -941,7 +945,7 @@ public class CommercialPackagingDetailsResourceIntTest {
             .dayTotal(UPDATED_DAY_TOTAL)
             .total(UPDATED_TOTAL)
             .createdBy(UPDATED_CREATED_BY)
-            .createOn(UPDATED_CREATE_ON)
+            .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
             .updatedOn(UPDATED_UPDATED_ON);
         CommercialPackagingDetailsDTO commercialPackagingDetailsDTO = commercialPackagingDetailsMapper.toDto(updatedCommercialPackagingDetails);
@@ -964,7 +968,7 @@ public class CommercialPackagingDetailsResourceIntTest {
         assertThat(testCommercialPackagingDetails.getDayTotal()).isEqualTo(UPDATED_DAY_TOTAL);
         assertThat(testCommercialPackagingDetails.getTotal()).isEqualTo(UPDATED_TOTAL);
         assertThat(testCommercialPackagingDetails.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
-        assertThat(testCommercialPackagingDetails.getCreateOn()).isEqualTo(UPDATED_CREATE_ON);
+        assertThat(testCommercialPackagingDetails.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testCommercialPackagingDetails.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testCommercialPackagingDetails.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
@@ -1036,7 +1040,7 @@ public class CommercialPackagingDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].dayTotal").value(hasItem(DEFAULT_DAY_TOTAL.doubleValue())))
             .andExpect(jsonPath("$.[*].total").value(hasItem(DEFAULT_TOTAL.doubleValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
-            .andExpect(jsonPath("$.[*].createOn").value(hasItem(DEFAULT_CREATE_ON.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }

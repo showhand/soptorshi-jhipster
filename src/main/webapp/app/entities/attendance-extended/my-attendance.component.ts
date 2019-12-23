@@ -8,6 +8,7 @@ import { Account, AccountService } from 'app/core';
 import { DATE_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
+import { AttendanceExtendedService } from 'app/entities/attendance-extended/attendance-extended.service';
 
 @Component({
     selector: 'jhi-my-attendance',
@@ -28,7 +29,7 @@ export class MyAttendanceComponent implements OnInit {
     distinctAttendanceDate: IAttendance[];
 
     constructor(
-        protected attendanceService: AttendanceService,
+        protected attendanceService: AttendanceExtendedService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
@@ -144,9 +145,9 @@ export class MyAttendanceComponent implements OnInit {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
-            data[i].diff = moment
+            /*data[i].diff = moment
                 .utc(moment(data[i].outTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(data[i].inTime, 'DD/MM/YYYY HH:mm:ss')))
-                .format('HH:mm:ss');
+                .format('HH:mm:ss');*/
             this.attendances.push(data[i]);
         }
     }

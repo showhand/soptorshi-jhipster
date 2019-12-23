@@ -42,7 +42,7 @@ public class CommercialPurchaseOrderExtendedService extends CommercialPurchaseOr
     public CommercialPurchaseOrderExtendedService(CommercialPurchaseOrderRepository commercialPurchaseOrderRepository, CommercialPurchaseOrderMapper commercialPurchaseOrderMapper, CommercialPurchaseOrderSearchRepository commercialPurchaseOrderSearchRepository,
                                                   CommercialPoStatusService commercialPoStatusService) {
 
-        super(commercialPurchaseOrderRepository, commercialPurchaseOrderMapper, commercialPurchaseOrderSearchRepository, commercialPoStatusService);
+        super(commercialPurchaseOrderRepository, commercialPurchaseOrderMapper, commercialPurchaseOrderSearchRepository);
         this.commercialPurchaseOrderRepository = commercialPurchaseOrderRepository;
         this.commercialPurchaseOrderMapper = commercialPurchaseOrderMapper;
         this.commercialPurchaseOrderSearchRepository = commercialPurchaseOrderSearchRepository;
@@ -62,7 +62,7 @@ public class CommercialPurchaseOrderExtendedService extends CommercialPurchaseOr
         LocalDate currentDate = LocalDate.now();
         if(commercialPurchaseOrderDTO.getId() == null) {
             commercialPurchaseOrderDTO.setCreatedBy(currentUser);
-            commercialPurchaseOrderDTO.setCreateOn(currentDate);
+            commercialPurchaseOrderDTO.setCreatedOn(currentDate);
         }
         else {
             commercialPurchaseOrderDTO.setUpdatedBy(currentUser);
@@ -83,7 +83,7 @@ public class CommercialPurchaseOrderExtendedService extends CommercialPurchaseOr
         commercialPoStatusDTO.setStatus(CommercialStatus.WAITING_FOR_PROFORMA_INVOICE);
         commercialPoStatusDTO.setCommercialPurchaseOrderId(commercialPurchaseOrder.getId());
         commercialPoStatusDTO.setCreatedBy(currentUser);
-        commercialPoStatusDTO.setCreateOn(currentDate);
+        commercialPoStatusDTO.setCreatedOn(currentDate);
         commercialPoStatusService.save(commercialPoStatusDTO);
     }
 

@@ -70,7 +70,7 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "createOn",
+            "fieldName": "createdOn",
             "fieldType": "LocalDate"
         },
         {

@@ -26,7 +26,7 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="quantity" type="double">
+            <column name="quantity" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
 
@@ -42,15 +42,19 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="receiving_place" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="remarks" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="item_categories_id" type="bigint">
+            <column name="product_categories_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
-            <column name="item_sub_categories_id" type="bigint">
+            <column name="products_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

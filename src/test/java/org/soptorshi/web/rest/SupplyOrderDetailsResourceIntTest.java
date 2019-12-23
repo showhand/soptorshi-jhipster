@@ -1,19 +1,22 @@
 package org.soptorshi.web.rest;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.SupplyOrder;
+
 import org.soptorshi.domain.SupplyOrderDetails;
+import org.soptorshi.domain.SupplyOrder;
 import org.soptorshi.repository.SupplyOrderDetailsRepository;
 import org.soptorshi.repository.search.SupplyOrderDetailsSearchRepository;
-import org.soptorshi.service.SupplyOrderDetailsQueryService;
 import org.soptorshi.service.SupplyOrderDetailsService;
 import org.soptorshi.service.dto.SupplyOrderDetailsDTO;
 import org.soptorshi.service.mapper.SupplyOrderDetailsMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
+import org.soptorshi.service.dto.SupplyOrderDetailsCriteria;
+import org.soptorshi.service.SupplyOrderDetailsQueryService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -33,11 +36,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
+
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -272,7 +276,7 @@ public class SupplyOrderDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getSupplyOrderDetails() throws Exception {

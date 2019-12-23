@@ -1,12 +1,13 @@
 package org.soptorshi.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.ItemCategory;
 import org.soptorshi.repository.ItemCategoryRepository;
 import org.soptorshi.repository.search.ItemCategorySearchRepository;
 import org.soptorshi.service.dto.ItemCategoryDTO;
 import org.soptorshi.service.mapper.ItemCategoryMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing ItemCategory.
@@ -43,7 +44,6 @@ public class ItemCategoryService {
      * @param itemCategoryDTO the entity to save
      * @return the persisted entity
      */
-
     public ItemCategoryDTO save(ItemCategoryDTO itemCategoryDTO) {
         log.debug("Request to save ItemCategory : {}", itemCategoryDTO);
         ItemCategory itemCategory = itemCategoryMapper.toEntity(itemCategoryDTO);
@@ -59,7 +59,6 @@ public class ItemCategoryService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-
     @Transactional(readOnly = true)
     public Page<ItemCategoryDTO> findAll(Pageable pageable) {
         log.debug("Request to get all ItemCategories");
@@ -74,7 +73,6 @@ public class ItemCategoryService {
      * @param id the id of the entity
      * @return the entity
      */
-
     @Transactional(readOnly = true)
     public Optional<ItemCategoryDTO> findOne(Long id) {
         log.debug("Request to get ItemCategory : {}", id);
@@ -87,7 +85,6 @@ public class ItemCategoryService {
      *
      * @param id the id of the entity
      */
-
     public void delete(Long id) {
         log.debug("Request to delete ItemCategory : {}", id);
         itemCategoryRepository.deleteById(id);
@@ -101,7 +98,6 @@ public class ItemCategoryService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-
     @Transactional(readOnly = true)
     public Page<ItemCategoryDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of ItemCategories for query {}", query);

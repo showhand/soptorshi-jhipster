@@ -45,7 +45,7 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
     public LeaveApplicationExtendedService(LeaveApplicationRepository leaveApplicationRepository, LeaveApplicationMapper leaveApplicationMapper, LeaveApplicationSearchRepository leaveApplicationSearchRepository,
                                            LeaveBalanceService leaveBalanceService, EmployeeRepository employeeRepository,
                                            ManagerRepository managerRepository) {
-        super(leaveApplicationRepository, leaveApplicationMapper, leaveApplicationSearchRepository, leaveBalanceService, employeeRepository, managerRepository);
+        super(leaveApplicationRepository, leaveApplicationMapper, leaveApplicationSearchRepository);
         this.leaveApplicationRepository = leaveApplicationRepository;
         this.leaveApplicationMapper = leaveApplicationMapper;
         this.leaveApplicationSearchRepository = leaveApplicationSearchRepository;

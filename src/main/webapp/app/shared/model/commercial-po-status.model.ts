@@ -30,7 +30,7 @@ export interface ICommercialPoStatus {
     id?: number;
     status?: CommercialStatus;
     createdBy?: string;
-    createOn?: Moment;
+    createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
     commercialPurchaseOrderPurchaseOrderNo?: string;
@@ -42,7 +42,7 @@ export class CommercialPoStatus implements ICommercialPoStatus {
         public id?: number,
         public status?: CommercialStatus,
         public createdBy?: string,
-        public createOn?: Moment,
+        public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
         public commercialPurchaseOrderPurchaseOrderNo?: string,

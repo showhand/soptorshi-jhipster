@@ -2,7 +2,7 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.ItemUnit;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -10,6 +10,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.InstantFilter;
 
 /**
@@ -22,9 +23,9 @@ import io.github.jhipster.service.filter.InstantFilter;
  */
 public class StockStatusCriteria implements Serializable {
     /**
-     * Class for filtering ItemUnit
+     * Class for filtering UnitOfMeasurements
      */
-    public static class ItemUnitFilter extends Filter<ItemUnit> {
+    public static class UnitOfMeasurementsFilter extends Filter<UnitOfMeasurements> {
     }
 
     private static final long serialVersionUID = 1L;
@@ -33,25 +34,25 @@ public class StockStatusCriteria implements Serializable {
 
     private StringFilter containerTrackingId;
 
-    private DoubleFilter totalQuantity;
+    private BigDecimalFilter totalQuantity;
 
-    private ItemUnitFilter unit;
+    private UnitOfMeasurementsFilter unit;
 
-    private DoubleFilter availableQuantity;
+    private BigDecimalFilter availableQuantity;
 
-    private DoubleFilter totalPrice;
+    private BigDecimalFilter totalPrice;
 
-    private DoubleFilter availablePrice;
+    private BigDecimalFilter availablePrice;
 
     private StringFilter stockInBy;
 
     private InstantFilter stockInDate;
 
-    private LongFilter stockInItemsId;
+    private LongFilter stockInItemId;
 
-    private LongFilter itemCategoriesId;
+    private LongFilter productCategoriesId;
 
-    private LongFilter itemSubCategoriesId;
+    private LongFilter productsId;
 
     private LongFilter inventoryLocationsId;
 
@@ -73,43 +74,43 @@ public class StockStatusCriteria implements Serializable {
         this.containerTrackingId = containerTrackingId;
     }
 
-    public DoubleFilter getTotalQuantity() {
+    public BigDecimalFilter getTotalQuantity() {
         return totalQuantity;
     }
 
-    public void setTotalQuantity(DoubleFilter totalQuantity) {
+    public void setTotalQuantity(BigDecimalFilter totalQuantity) {
         this.totalQuantity = totalQuantity;
     }
 
-    public ItemUnitFilter getUnit() {
+    public UnitOfMeasurementsFilter getUnit() {
         return unit;
     }
 
-    public void setUnit(ItemUnitFilter unit) {
+    public void setUnit(UnitOfMeasurementsFilter unit) {
         this.unit = unit;
     }
 
-    public DoubleFilter getAvailableQuantity() {
+    public BigDecimalFilter getAvailableQuantity() {
         return availableQuantity;
     }
 
-    public void setAvailableQuantity(DoubleFilter availableQuantity) {
+    public void setAvailableQuantity(BigDecimalFilter availableQuantity) {
         this.availableQuantity = availableQuantity;
     }
 
-    public DoubleFilter getTotalPrice() {
+    public BigDecimalFilter getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(DoubleFilter totalPrice) {
+    public void setTotalPrice(BigDecimalFilter totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public DoubleFilter getAvailablePrice() {
+    public BigDecimalFilter getAvailablePrice() {
         return availablePrice;
     }
 
-    public void setAvailablePrice(DoubleFilter availablePrice) {
+    public void setAvailablePrice(BigDecimalFilter availablePrice) {
         this.availablePrice = availablePrice;
     }
 
@@ -129,28 +130,28 @@ public class StockStatusCriteria implements Serializable {
         this.stockInDate = stockInDate;
     }
 
-    public LongFilter getStockInItemsId() {
-        return stockInItemsId;
+    public LongFilter getStockInItemId() {
+        return stockInItemId;
     }
 
-    public void setStockInItemsId(LongFilter stockInItemsId) {
-        this.stockInItemsId = stockInItemsId;
+    public void setStockInItemId(LongFilter stockInItemId) {
+        this.stockInItemId = stockInItemId;
     }
 
-    public LongFilter getItemCategoriesId() {
-        return itemCategoriesId;
+    public LongFilter getProductCategoriesId() {
+        return productCategoriesId;
     }
 
-    public void setItemCategoriesId(LongFilter itemCategoriesId) {
-        this.itemCategoriesId = itemCategoriesId;
+    public void setProductCategoriesId(LongFilter productCategoriesId) {
+        this.productCategoriesId = productCategoriesId;
     }
 
-    public LongFilter getItemSubCategoriesId() {
-        return itemSubCategoriesId;
+    public LongFilter getProductsId() {
+        return productsId;
     }
 
-    public void setItemSubCategoriesId(LongFilter itemSubCategoriesId) {
-        this.itemSubCategoriesId = itemSubCategoriesId;
+    public void setProductsId(LongFilter productsId) {
+        this.productsId = productsId;
     }
 
     public LongFilter getInventoryLocationsId() {
@@ -189,9 +190,9 @@ public class StockStatusCriteria implements Serializable {
             Objects.equals(availablePrice, that.availablePrice) &&
             Objects.equals(stockInBy, that.stockInBy) &&
             Objects.equals(stockInDate, that.stockInDate) &&
-            Objects.equals(stockInItemsId, that.stockInItemsId) &&
-            Objects.equals(itemCategoriesId, that.itemCategoriesId) &&
-            Objects.equals(itemSubCategoriesId, that.itemSubCategoriesId) &&
+            Objects.equals(stockInItemId, that.stockInItemId) &&
+            Objects.equals(productCategoriesId, that.productCategoriesId) &&
+            Objects.equals(productsId, that.productsId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
             Objects.equals(inventorySubLocationsId, that.inventorySubLocationsId);
     }
@@ -208,9 +209,9 @@ public class StockStatusCriteria implements Serializable {
         availablePrice,
         stockInBy,
         stockInDate,
-        stockInItemsId,
-        itemCategoriesId,
-        itemSubCategoriesId,
+        stockInItemId,
+        productCategoriesId,
+        productsId,
         inventoryLocationsId,
         inventorySubLocationsId
         );
@@ -228,9 +229,9 @@ public class StockStatusCriteria implements Serializable {
                 (availablePrice != null ? "availablePrice=" + availablePrice + ", " : "") +
                 (stockInBy != null ? "stockInBy=" + stockInBy + ", " : "") +
                 (stockInDate != null ? "stockInDate=" + stockInDate + ", " : "") +
-                (stockInItemsId != null ? "stockInItemsId=" + stockInItemsId + ", " : "") +
-                (itemCategoriesId != null ? "itemCategoriesId=" + itemCategoriesId + ", " : "") +
-                (itemSubCategoriesId != null ? "itemSubCategoriesId=" + itemSubCategoriesId + ", " : "") +
+                (stockInItemId != null ? "stockInItemId=" + stockInItemId + ", " : "") +
+                (productCategoriesId != null ? "productCategoriesId=" + productCategoriesId + ", " : "") +
+                (productsId != null ? "productsId=" + productsId + ", " : "") +
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +
                 (inventorySubLocationsId != null ? "inventorySubLocationsId=" + inventorySubLocationsId + ", " : "") +
             "}";

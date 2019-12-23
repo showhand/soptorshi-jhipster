@@ -1,12 +1,13 @@
 package org.soptorshi.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.StockInItem;
 import org.soptorshi.repository.StockInItemRepository;
 import org.soptorshi.repository.search.StockInItemSearchRepository;
 import org.soptorshi.service.dto.StockInItemDTO;
 import org.soptorshi.service.mapper.StockInItemMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing StockInItem.
@@ -43,13 +44,13 @@ public class StockInItemService {
      * @param stockInItemDTO the entity to save
      * @return the persisted entity
      */
-
     public StockInItemDTO save(StockInItemDTO stockInItemDTO) {
         log.debug("Request to save StockInItem : {}", stockInItemDTO);
         StockInItem stockInItem = stockInItemMapper.toEntity(stockInItemDTO);
         stockInItem = stockInItemRepository.save(stockInItem);
-        /*stockInItemSearchRepository.save(stockInItem);*/
-        return stockInItemMapper.toDto(stockInItem);
+        StockInItemDTO result = stockInItemMapper.toDto(stockInItem);
+        stockInItemSearchRepository.save(stockInItem);
+        return result;
     }
 
     /**
@@ -58,7 +59,6 @@ public class StockInItemService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-
     @Transactional(readOnly = true)
     public Page<StockInItemDTO> findAll(Pageable pageable) {
         log.debug("Request to get all StockInItems");
@@ -73,7 +73,6 @@ public class StockInItemService {
      * @param id the id of the entity
      * @return the entity
      */
-
     @Transactional(readOnly = true)
     public Optional<StockInItemDTO> findOne(Long id) {
         log.debug("Request to get StockInItem : {}", id);
@@ -86,7 +85,6 @@ public class StockInItemService {
      *
      * @param id the id of the entity
      */
-
     public void delete(Long id) {
         log.debug("Request to delete StockInItem : {}", id);
         stockInItemRepository.deleteById(id);
@@ -100,7 +98,6 @@ public class StockInItemService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-
     @Transactional(readOnly = true)
     public Page<StockInItemDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of StockInItems for query {}", query);

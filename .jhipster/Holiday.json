@@ -21,6 +21,43 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "moonDependency",
+            "fieldType": "YesOrNo",
+            "fieldValues": "YES,NO",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "holidayDeclaredBy",
+            "fieldType": "HolidayImposedAuthority",
+            "fieldValues": "GOVERNMENT,ORGANIZATIONAL,COMBINED,OTHERS",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "remarks",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdOn",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updatedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedOn",
+            "fieldType": "Instant"
         }
     ],
     "relationships": [
@@ -36,7 +73,7 @@
     "entityTableName": "holiday",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
-    "service": "serviceImpl",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",
