@@ -9,7 +9,40 @@
                     <input type="text" class="form-control" id="id" name="id"
                            [(ngModel)]="stockOutItem.id" readonly />
                 </div>
+
                 <div class="form-group">
+                    <label class="form-control-label" for="field_productCategories">Product Categories</label>
+                    <select class="form-control" id="field_productCategories" name="productCategories" [(ngModel)]="stockOutItem.productCategoriesId"
+                            (ngModelChange)="getProducts(); getInventoryLocation(); getContainerTrackingId(); getRemainingQuantity();" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_products">Products</label>
+                    <select class="form-control" id="field_products" name="products" [(ngModel)]="stockOutItem.productsId"
+                            (ngModelChange)="getInventoryLocation(); getContainerTrackingId(); getRemainingQuantity();" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_inventoryLocations">Inventory Locations</label>
+                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="stockOutItem.inventoryLocationsId"
+                            (ngModelChange)="getInventorySubLocation(); getContainerTrackingId(); getRemainingQuantity();" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="inventoryLocationOption.id" *ngFor="let inventoryLocationOption of inventorylocations; trackBy: trackInventoryLocationById">{{inventoryLocationOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_inventorySubLocations">Inventory Sub Locations</label>
+                    <select class="form-control" id="field_inventorySubLocations" name="inventorySubLocations" [(ngModel)]="stockOutItem.inventorySubLocationsId"
+                            (ngModelChange)="getContainerTrackingId(); getRemainingQuantity();" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="inventorySubLocationOption.id" *ngFor="let inventorySubLocationOption of inventorysublocations; trackBy: trackInventorySubLocationById">{{inventorySubLocationOption.name}}</option>
+                    </select>
+                </div>
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_containerTrackingId">Container Tracking Id</label>
                     <input type="text" class="form-control" name="containerTrackingId" id="field_containerTrackingId"
                            [(ngModel)]="stockOutItem.containerTrackingId" required/>
@@ -19,6 +52,14 @@
                             This field is required.
                         </small>
                     </div>
+                </div>-->
+                <div class="form-group">
+                    <label class="form-control-label" for="field_containerTrackingId">Container Tracking Id</label>
+                    <select class="form-control" name="containerTrackingId" id="field_containerTrackingId" [(ngModel)]="stockOutItem.containerTrackingId"
+                            (ngModelChange)="getRemainingQuantity();" required>
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="stockStatusesForContainer.containerTrackingId" *ngFor="let stockStatusesForContainer of containers; trackBy: trackContainersById">{{stockStatusesForContainer.containerTrackingId}}</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_quantity">Quantity</label>
@@ -35,7 +76,7 @@
                         </small>
                     </div>
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_stockOutBy">Stock Out By</label>
                     <input type="text" class="form-control" name="stockOutBy" id="field_stockOutBy"
                            [(ngModel)]="stockOutItem.stockOutBy" />
@@ -46,7 +87,7 @@
                         <input id="field_stockOutDate" type="datetime-local" class="form-control" name="stockOutDate" [(ngModel)]="stockOutDate" placeholder="YYYY-MM-DD HH:mm"
                         />
                     </div>
-                </div>
+                </div>-->
                 <div class="form-group">
                     <label class="form-control-label" for="field_receiverId">Receiver Id</label>
                     <input type="text" class="form-control" name="receiverId" id="field_receiverId"
@@ -63,35 +104,7 @@
                            [(ngModel)]="stockOutItem.remarks" />
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_productCategories">Product Categories</label>
-                    <select class="form-control" id="field_productCategories" name="productCategories" [(ngModel)]="stockOutItem.productCategoriesId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_products">Products</label>
-                    <select class="form-control" id="field_products" name="products" [(ngModel)]="stockOutItem.productsId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_inventoryLocations">Inventory Locations</label>
-                    <select class="form-control" id="field_inventoryLocations" name="inventoryLocations" [(ngModel)]="stockOutItem.inventoryLocationsId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="inventoryLocationOption.id" *ngFor="let inventoryLocationOption of inventorylocations; trackBy: trackInventoryLocationById">{{inventoryLocationOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_inventorySubLocations">Inventory Sub Locations</label>
-                    <select class="form-control" id="field_inventorySubLocations" name="inventorySubLocations" [(ngModel)]="stockOutItem.inventorySubLocationsId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="inventorySubLocationOption.id" *ngFor="let inventorySubLocationOption of inventorysublocations; trackBy: trackInventorySubLocationById">{{inventorySubLocationOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_stockInItems">Stock In Items</label>
                     <select class="form-control" id="field_stockInItems" name="stockInItems" [(ngModel)]="stockOutItem.stockInItemsId" >
                         <option [ngValue]="null"></option>
@@ -104,7 +117,7 @@
                         <option [ngValue]="null"></option>
                         <option [ngValue]="stockStatusOption.id" *ngFor="let stockStatusOption of stockstatuses; trackBy: trackStockStatusById">{{stockStatusOption.id}}</option>
                     </select>
-                </div>
+                </div>-->
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

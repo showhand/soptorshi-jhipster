@@ -8,8 +8,6 @@ import { StockInProcessUpdateComponent } from 'app/entities/stock-in-process';
 import { VendorService } from 'app/entities/vendor';
 import { ProductCategoryService } from 'app/entities/product-category';
 import { ProductService } from 'app/entities/product';
-import { PurchaseOrderService } from 'app/entities/purchase-order';
-import { CommercialPurchaseOrderService } from 'app/entities/commercial-purchase-order';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { IProduct } from 'app/shared/model/product.model';
 import { filter, map } from 'rxjs/operators';
@@ -17,6 +15,8 @@ import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.m
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared';
 import { StockInProcessStatus } from 'app/shared/model/stock-in-process.model';
+import { PurchaseOrderExtendedService } from 'app/entities/purchase-order-extended';
+import { CommercialPurchaseOrderExtendedService } from 'app/entities/commercial-purchase-order-extended';
 
 @Component({
     selector: 'jhi-stock-in-process-update-extended',
@@ -29,8 +29,8 @@ export class StockInProcessUpdateExtendedComponent extends StockInProcessUpdateC
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockInProcessService: StockInProcessExtendedService,
-        protected purchaseOrderService: PurchaseOrderService,
-        protected commercialPurchaseOrderService: CommercialPurchaseOrderService,
+        protected purchaseOrderService: PurchaseOrderExtendedService,
+        protected commercialPurchaseOrderService: CommercialPurchaseOrderExtendedService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,

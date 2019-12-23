@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiAlertService } from 'ng-jhipster';
 import { StockStatusExtendedService } from './stock-status-extended.service';
-import { StockInItemService } from 'app/entities/stock-in-item';
 import { InventoryLocationService } from 'app/entities/inventory-location';
 import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
 import { StockStatusUpdateComponent } from 'app/entities/stock-status';
 import { ProductCategoryService } from 'app/entities/product-category';
 import { ProductService } from 'app/entities/product';
+import { StockInItemExtendedService } from 'app/entities/stock-in-item-extended';
 
 @Component({
     selector: 'jhi-stock-status-update-extended',
@@ -17,7 +17,7 @@ export class StockStatusUpdateExtendedComponent extends StockStatusUpdateCompone
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockStatusService: StockStatusExtendedService,
-        protected stockInItemService: StockInItemService,
+        protected stockInItemService: StockInItemExtendedService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
