@@ -24,14 +24,14 @@ export class SalaryVoucherRelationExtendedService extends SalaryVoucherRelationS
     create(salaryVoucherRelation: ISalaryVoucherRelation): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(salaryVoucherRelation);
         return this.http
-            .post<ISalaryVoucherRelation>(this.resourceUrl, copy, { observe: 'response' })
+            .post<ISalaryVoucherRelation>(this.resourceUrlExtended, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
     update(salaryVoucherRelation: ISalaryVoucherRelation): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(salaryVoucherRelation);
         return this.http
-            .put<ISalaryVoucherRelation>(this.resourceUrl, copy, { observe: 'response' })
+            .put<ISalaryVoucherRelation>(this.resourceUrlExtended, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 }

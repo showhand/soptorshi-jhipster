@@ -85,6 +85,18 @@ export const salaryVoucherRelationExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: ':officeId/:year/:monthType/new',
+        component: SalaryVoucherRelationExtendedUpdateComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'SalaryVoucherRelations'
+        },
+        resolve: {
+            salaryVoucherRelation: SalaryVoucherRelationExtendedResolve
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/edit',
         component: SalaryVoucherRelationExtendedUpdateComponent,
         resolve: {
