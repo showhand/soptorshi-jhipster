@@ -88,16 +88,6 @@ public class StockInProcessExtendedService extends StockInProcessService {
         }
     }
 
-    /**
-     * Delete the stockInProcess by id.
-     *
-     * @param id the id of the entity
-     */
-    public void delete(Long id) {
-        log.debug("Request to delete StockInProcess : {}", id);
-        log.error("Delete operation is not allowed");
-    }
-
     private int insertInStock(StockInProcessDTO stockInProcessDTO, String currentUser, Instant currentDateTime) {
         String[] containerIds = getContainerIds(stockInProcessDTO);
         String[] itemsPerContainer = stockInProcessDTO.getQuantityPerContainer().split(",");
