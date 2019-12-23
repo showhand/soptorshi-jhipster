@@ -89,14 +89,6 @@
             "ownerSide": true
         },
         {
-            "relationshipType": "one-to-one",
-            "otherEntityName": "commercialPurchaseOrder",
-            "otherEntityRelationshipName": "stockInProcess",
-            "relationshipName": "commercialPurchaseOrder",
-            "otherEntityField": "purchaseOrderNo",
-            "ownerSide": true
-        },
-        {
             "relationshipType": "many-to-one",
             "otherEntityName": "productCategory",
             "otherEntityRelationshipName": "stockInProcess",

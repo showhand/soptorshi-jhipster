@@ -641,16 +641,6 @@ entity ContraVoucher {
   modifiedBy String,
   modifiedOn LocalDate
 }
-entity CommercialBudgetEstimation {
-    budgetNo String required,
-    contractType CommercialContractType required,
-    customerType CommercialCustomerType required,
-    budgetEstimationDate LocalDate required,
-    createdBy String,
-    createdOn LocalDate,
-    updatedBy String,
-    updatedOn LocalDate
-}
 entity CommercialPurchaseOrder {
   purchaseOrderNo String required,
   purchaseOrderDate LocalDate required,
@@ -1215,8 +1205,7 @@ relationship OneToOne {
   CommercialInvoice{commercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder,
   CommercialInvoice{commercialProformaInvoice(proformaNo)} to CommercialProformaInvoice,
   CommercialInvoice{commercialPackaging(consignmentNo)} to CommercialPackaging,
-  StockInProcess{PurchaseOrder(purchaseOrderNo)} to PurchaseOrder,
-  StockInProcess{CommercialPurchaseOrder(purchaseOrderNo)} to CommercialPurchaseOrder
+  StockInProcess{PurchaseOrder(purchaseOrderNo)} to PurchaseOrder
 }
 relationship OneToMany {
   MonthlySalary{comments} to SalaryMessages{monthlySalary}

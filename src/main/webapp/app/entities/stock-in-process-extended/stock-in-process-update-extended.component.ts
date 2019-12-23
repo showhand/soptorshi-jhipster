@@ -16,7 +16,6 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared';
 import { StockInProcessStatus } from 'app/shared/model/stock-in-process.model';
 import { PurchaseOrderExtendedService } from 'app/entities/purchase-order-extended';
-import { CommercialPurchaseOrderExtendedService } from 'app/entities/commercial-purchase-order-extended';
 
 @Component({
     selector: 'jhi-stock-in-process-update-extended',
@@ -30,7 +29,6 @@ export class StockInProcessUpdateExtendedComponent extends StockInProcessUpdateC
         protected jhiAlertService: JhiAlertService,
         protected stockInProcessService: StockInProcessExtendedService,
         protected purchaseOrderService: PurchaseOrderExtendedService,
-        protected commercialPurchaseOrderService: CommercialPurchaseOrderExtendedService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
@@ -43,7 +41,6 @@ export class StockInProcessUpdateExtendedComponent extends StockInProcessUpdateC
             jhiAlertService,
             stockInProcessService,
             purchaseOrderService,
-            commercialPurchaseOrderService,
             productCategoryService,
             productService,
             inventoryLocationService,

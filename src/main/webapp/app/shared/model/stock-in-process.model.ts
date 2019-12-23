@@ -46,8 +46,6 @@ export interface IStockInProcess {
     remarks?: string;
     purchaseOrderPurchaseOrderNo?: string;
     purchaseOrderId?: number;
-    commercialPurchaseOrderPurchaseOrderNo?: string;
-    commercialPurchaseOrderId?: number;
     productCategoriesName?: string;
     productCategoriesId?: number;
     productsName?: string;
@@ -81,8 +79,6 @@ export class StockInProcess implements IStockInProcess {
         public remarks?: string,
         public purchaseOrderPurchaseOrderNo?: string,
         public purchaseOrderId?: number,
-        public commercialPurchaseOrderPurchaseOrderNo?: string,
-        public commercialPurchaseOrderId?: number,
         public productCategoriesName?: string,
         public productCategoriesId?: number,
         public productsName?: string,

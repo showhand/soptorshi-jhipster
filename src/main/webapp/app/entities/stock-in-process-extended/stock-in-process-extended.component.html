@@ -138,9 +138,6 @@
                     <th jhiSortBy="purchaseOrderPurchaseOrderNo"><span>Purchase Order</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="commercialPurchaseOrderPurchaseOrderNo"><span>Commercial Purchase Order</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
                     <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -187,11 +184,6 @@
                     <td>
                         <div *ngIf="stockInProcess.purchaseOrderId">
                             <a [routerLink]="['../purchase-order', stockInProcess.purchaseOrderId , 'view' ]">{{stockInProcess.purchaseOrderPurchaseOrderNo}}</a>
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="stockInProcess.commercialPurchaseOrderId">
-                            <a [routerLink]="['../commercial-purchase-order', stockInProcess.commercialPurchaseOrderId , 'view' ]">{{stockInProcess.commercialPurchaseOrderPurchaseOrderNo}}</a>
                         </div>
                     </td>
                     <td>

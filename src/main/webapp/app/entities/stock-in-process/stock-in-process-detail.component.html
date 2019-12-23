@@ -75,12 +75,6 @@
                         <a [routerLink]="['/purchase-order', stockInProcess.purchaseOrderId, 'view']">{{stockInProcess.purchaseOrderPurchaseOrderNo}}</a>
                     </div>
                 </dd>
-                <dt><span>Commercial Purchase Order</span></dt>
-                <dd>
-                    <div *ngIf="stockInProcess.commercialPurchaseOrderId">
-                        <a [routerLink]="['/commercial-purchase-order', stockInProcess.commercialPurchaseOrderId, 'view']">{{stockInProcess.commercialPurchaseOrderPurchaseOrderNo}}</a>
-                    </div>
-                </dd>
                 <dt><span>Product Categories</span></dt>
                 <dd>
                     <div *ngIf="stockInProcess.productCategoriesId">

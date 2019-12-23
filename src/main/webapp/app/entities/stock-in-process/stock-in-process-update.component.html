@@ -152,13 +152,6 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_commercialPurchaseOrder">Commercial Purchase Order</label>
-                    <select class="form-control" id="field_commercialPurchaseOrder" name="commercialPurchaseOrder" [(ngModel)]="stockInProcess.commercialPurchaseOrderId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="commercialPurchaseOrderOption.id" *ngFor="let commercialPurchaseOrderOption of commercialpurchaseorders; trackBy: trackCommercialPurchaseOrderById">{{commercialPurchaseOrderOption.purchaseOrderNo}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_productCategories">Product Categories</label>
                     <select class="form-control" id="field_productCategories" name="productCategories" [(ngModel)]="stockInProcess.productCategoriesId" >
                         <option [ngValue]="null"></option>

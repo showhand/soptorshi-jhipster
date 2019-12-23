@@ -59,10 +59,6 @@ public class StockInProcessDTO implements Serializable {
 
     private String purchaseOrderPurchaseOrderNo;
 
-    private Long commercialPurchaseOrderId;
-
-    private String commercialPurchaseOrderPurchaseOrderNo;
-
     private Long productCategoriesId;
 
     private String productCategoriesName;
@@ -235,22 +231,6 @@ public class StockInProcessDTO implements Serializable {
         this.purchaseOrderPurchaseOrderNo = purchaseOrderPurchaseOrderNo;
     }
 
-    public Long getCommercialPurchaseOrderId() {
-        return commercialPurchaseOrderId;
-    }
-
-    public void setCommercialPurchaseOrderId(Long commercialPurchaseOrderId) {
-        this.commercialPurchaseOrderId = commercialPurchaseOrderId;
-    }
-
-    public String getCommercialPurchaseOrderPurchaseOrderNo() {
-        return commercialPurchaseOrderPurchaseOrderNo;
-    }
-
-    public void setCommercialPurchaseOrderPurchaseOrderNo(String commercialPurchaseOrderPurchaseOrderNo) {
-        this.commercialPurchaseOrderPurchaseOrderNo = commercialPurchaseOrderPurchaseOrderNo;
-    }
-
     public Long getProductCategoriesId() {
         return productCategoriesId;
     }
@@ -374,8 +354,6 @@ public class StockInProcessDTO implements Serializable {
             ", remarks='" + getRemarks() + "'" +
             ", purchaseOrder=" + getPurchaseOrderId() +
             ", purchaseOrder='" + getPurchaseOrderPurchaseOrderNo() + "'" +
-            ", commercialPurchaseOrder=" + getCommercialPurchaseOrderId() +
-            ", commercialPurchaseOrder='" + getCommercialPurchaseOrderPurchaseOrderNo() + "'" +
             ", productCategories=" + getProductCategoriesId() +
             ", productCategories='" + getProductCategoriesName() + "'" +
             ", products=" + getProductsId() +
