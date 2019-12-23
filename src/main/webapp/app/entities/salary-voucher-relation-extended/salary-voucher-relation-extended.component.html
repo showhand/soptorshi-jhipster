@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
-        <span>Salary Voucher Relations</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-salary-voucher-relation" [routerLink]="['/salary-voucher-relation/new']">
+        <span>Salary Vouchers for month <b>{{salaryVoucherRelation.month}}</b></span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-salary-voucher-relation" [routerLink]="['/salary-voucher-relation',salaryVoucherRelation.officeId, salaryVoucherRelation.year, salaryVoucherRelation.month,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Salary Voucher Relation

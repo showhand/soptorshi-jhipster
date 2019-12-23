@@ -1,0 +1,14 @@
+{
+    "name": "MontlySalaryVouchers",
+    "fields": [],
+    "relationships": [],
+    "changelogDate": "20191119155739",
+    "entityTableName": "montly_salary_vouchers",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
