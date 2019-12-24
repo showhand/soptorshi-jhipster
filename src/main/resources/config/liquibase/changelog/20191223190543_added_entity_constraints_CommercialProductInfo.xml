@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity CommercialProductInfo.
+    -->
+    <changeSet id="20191223190543-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="commercial_budget_id"
+                                 baseTableName="commercial_product_info"
+                                 constraintName="fk_commercial_product_info_commercial_budget_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="commercial_budget"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_categories_id"
+                                 baseTableName="commercial_product_info"
+                                 constraintName="fk_commercial_product_info_product_categories_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product_category"/>
+
+        <addForeignKeyConstraint baseColumnNames="products_id"
+                                 baseTableName="commercial_product_info"
+                                 constraintName="fk_commercial_product_info_products_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+
+    </changeSet>
+</databaseChangeLog>

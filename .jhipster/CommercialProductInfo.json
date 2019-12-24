@@ -1,0 +1,126 @@
+{
+    "name": "CommercialProductInfo",
+    "fields": [
+        {
+            "fieldName": "serialNo",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "packagingDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "othersDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "offeredQuantity",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "offeredUnit",
+            "fieldType": "UnitOfMeasurements",
+            "fieldValues": "PCS,KG,TON,GRAM",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "offeredUnitPrice",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "offeredTotalPrice",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "buyingQuantity",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "buyingUnit",
+            "fieldType": "UnitOfMeasurements",
+            "fieldValues": "PCS,KG,TON,GRAM",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "buyingUnitPrice",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "buyingTotalPrice",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdOn",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updatedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedOn",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "commercialBudget",
+            "otherEntityRelationshipName": "commercialProductInfo",
+            "relationshipName": "commercialBudget",
+            "otherEntityField": "budgetNo"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "productCategory",
+            "otherEntityRelationshipName": "commercialProductInfo",
+            "relationshipName": "productCategories",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "product",
+            "otherEntityRelationshipName": "commercialProductInfo",
+            "relationshipName": "products",
+            "otherEntityField": "name"
+        }
+    ],
+    "changelogDate": "20191223190543",
+    "entityTableName": "commercial_product_info",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

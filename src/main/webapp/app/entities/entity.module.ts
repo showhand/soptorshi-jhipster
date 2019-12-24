@@ -701,6 +701,14 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'stock-in-item',
                 loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
+            },
+            {
+                path: 'commercial-budget',
+                loadChildren: './commercial-budget/commercial-budget.module#SoptorshiCommercialBudgetModule'
+            },
+            {
+                path: 'commercial-product-info',
+                loadChildren: './commercial-product-info/commercial-product-info.module#SoptorshiCommercialProductInfoModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

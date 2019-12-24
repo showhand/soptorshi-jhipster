@@ -682,6 +682,33 @@
 
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
                 *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                <a (click)="commercialManagement=!commercialManagement" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
+                     <span>
+                        <fa-icon icon="link" fixedWidth="true"></fa-icon>
+                        <span>
+                            Commercial Manag.
+                        </span>
+                    </span>
+                </a>
+                <ul [ngbCollapse]="!commercialManagement" class="list-unstyled" id="commercial-management">
+                    <li>
+                        <a class="dropdown-item" routerLink="commercial-budget" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Commercial Budget</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="commercial-product-info" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Commercial Product Info</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                *jhiHasAnyAuthority="['ROLE_ADMIN']">
                 <a (click)="supplyChainManagement=!supplyChainManagement" data-toggle="collapse" class="dropdown-toggle"
                    [attr.aria-expanded]="false">
                      <span>
