@@ -1,0 +1,115 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-commercial-po-heading">Create or edit a Commercial Po</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!commercialPo.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="commercialPo.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_purchaseOrderNo">Purchase Order No</label>
+                    <input type="text" class="form-control" name="purchaseOrderNo" id="field_purchaseOrderNo"
+                        [(ngModel)]="commercialPo.purchaseOrderNo" required/>
+                    <div [hidden]="!(editForm.controls.purchaseOrderNo?.dirty && editForm.controls.purchaseOrderNo?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.purchaseOrderNo?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_purchaseOrderDate">Purchase Order Date</label>
+                    <div class="input-group">
+                        <input id="field_purchaseOrderDate" type="text" class="form-control" name="purchaseOrderDate" ngbDatepicker  #purchaseOrderDateDp="ngbDatepicker" [(ngModel)]="commercialPo.purchaseOrderDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="purchaseOrderDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_originOfGoods">Origin Of Goods</label>
+                    <input type="text" class="form-control" name="originOfGoods" id="field_originOfGoods"
+                        [(ngModel)]="commercialPo.originOfGoods" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_finalDestination">Final Destination</label>
+                    <input type="text" class="form-control" name="finalDestination" id="field_finalDestination"
+                        [(ngModel)]="commercialPo.finalDestination" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shipmentDate">Shipment Date</label>
+                    <div class="input-group">
+                        <input id="field_shipmentDate" type="text" class="form-control" name="shipmentDate" ngbDatepicker  #shipmentDateDp="ngbDatepicker" [(ngModel)]="commercialPo.shipmentDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="shipmentDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_procurementId">Procurement Id</label>
+                    <input type="text" class="form-control" name="procurementId" id="field_procurementId"
+                        [(ngModel)]="commercialPo.procurementId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_inventoryId">Inventory Id</label>
+                    <input type="text" class="form-control" name="inventoryId" id="field_inventoryId"
+                        [(ngModel)]="commercialPo.inventoryId" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_poStatus">Po Status</label>
+                    <select class="form-control" name="poStatus" [(ngModel)]="commercialPo.poStatus" id="field_poStatus" >
+                        <option value="PO_CREATED">PO_CREATED</option>
+                        <option value="PREPARING_ORDER">PREPARING_ORDER</option>
+                        <option value="PRODUCT_DELIVERED">PRODUCT_DELIVERED</option>
+                        <option value="ORDER_CLOSED">ORDER_CLOSED</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdBy">Created By</label>
+                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                        [(ngModel)]="commercialPo.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdOn">Created On</label>
+                    <div class="d-flex">
+                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
+                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
+                        [(ngModel)]="commercialPo.updatedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
+                    <div class="d-flex">
+                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialPi">Commercial Pi</label>
+                    <select class="form-control" id="field_commercialPi" name="commercialPi" [(ngModel)]="commercialPo.commercialPiId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialPiOption.id" *ngFor="let commercialPiOption of commercialpis; trackBy: trackCommercialPiById">{{commercialPiOption.proformaNo}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

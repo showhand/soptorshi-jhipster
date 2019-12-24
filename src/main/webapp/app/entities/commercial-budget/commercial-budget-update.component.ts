@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { ICommercialBudget } from 'app/shared/model/commercial-budget.model';
 import { CommercialBudgetService } from './commercial-budget.service';
-import { ICommercialProductInfo } from 'app/shared/model/commercial-product-info.model';
-import { CommercialProductInfoService } from 'app/entities/commercial-product-info';
 
 @Component({
     selector: 'jhi-commercial-budget-update',
@@ -19,45 +17,17 @@ export class CommercialBudgetUpdateComponent implements OnInit {
     budgetDateDp: any;
     createdOn: string;
     updatedOn: string;
-    commercialProductInfos: ICommercialProductInfo[];
 
-    constructor(
-        protected commercialBudgetService: CommercialBudgetService,
-        protected activatedRoute: ActivatedRoute,
-        protected commercialProductInfoService: CommercialProductInfoService
-    ) {
-        this.commercialProductInfos = [];
-    }
+    constructor(protected commercialBudgetService: CommercialBudgetService, protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.isSaving = false;
-        this.loadAll();
         this.activatedRoute.data.subscribe(({ commercialBudget }) => {
             this.commercialBudget = commercialBudget;
             this.createdOn = this.commercialBudget.createdOn != null ? this.commercialBudget.createdOn.format(DATE_TIME_FORMAT) : null;
             this.updatedOn = this.commercialBudget.updatedOn != null ? this.commercialBudget.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
     }
-
-    loadAll() {
-        this.commercialProductInfoService
-            .query({})
-            .subscribe(
-                (res: HttpResponse<ICommercialProductInfo[]>) => this.paginateCommercialProductInfos(res.body, res.headers),
-                (res: HttpErrorResponse) => 'error'
-            );
-    }
-
-    protected paginateCommercialProductInfos(data: ICommercialProductInfo[], headers: HttpHeaders) {
-        this.commercialProductInfos = [];
-        for (let i = 0; i < data.length; i++) {
-            this.commercialProductInfos.push(data[i]);
-        }
-    }
-
-    /*protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
-    }*/
 
     previousState() {
         window.history.back();

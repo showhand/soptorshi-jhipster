@@ -81,6 +81,9 @@ public class CommercialBudgetResourceIntTest {
     private static final CommercialBudgetStatus DEFAULT_BUDGET_STATUS = CommercialBudgetStatus.WAITING_FOR_APPROVAL;
     private static final CommercialBudgetStatus UPDATED_BUDGET_STATUS = CommercialBudgetStatus.APPROVED;
 
+    private static final String DEFAULT_PROFORMA_NO = "AAAAAAAAAA";
+    private static final String UPDATED_PROFORMA_NO = "BBBBBBBBBB";
+
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
@@ -161,6 +164,7 @@ public class CommercialBudgetResourceIntTest {
             .profitAmount(DEFAULT_PROFIT_AMOUNT)
             .profitPercentage(DEFAULT_PROFIT_PERCENTAGE)
             .budgetStatus(DEFAULT_BUDGET_STATUS)
+            .proformaNo(DEFAULT_PROFORMA_NO)
             .createdBy(DEFAULT_CREATED_BY)
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
@@ -198,6 +202,7 @@ public class CommercialBudgetResourceIntTest {
         assertThat(testCommercialBudget.getProfitAmount()).isEqualTo(DEFAULT_PROFIT_AMOUNT);
         assertThat(testCommercialBudget.getProfitPercentage()).isEqualTo(DEFAULT_PROFIT_PERCENTAGE);
         assertThat(testCommercialBudget.getBudgetStatus()).isEqualTo(DEFAULT_BUDGET_STATUS);
+        assertThat(testCommercialBudget.getProformaNo()).isEqualTo(DEFAULT_PROFORMA_NO);
         assertThat(testCommercialBudget.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testCommercialBudget.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testCommercialBudget.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
@@ -326,6 +331,7 @@ public class CommercialBudgetResourceIntTest {
             .andExpect(jsonPath("$.[*].profitAmount").value(hasItem(DEFAULT_PROFIT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].profitPercentage").value(hasItem(DEFAULT_PROFIT_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].budgetStatus").value(hasItem(DEFAULT_BUDGET_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].proformaNo").value(hasItem(DEFAULT_PROFORMA_NO.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
@@ -352,6 +358,7 @@ public class CommercialBudgetResourceIntTest {
             .andExpect(jsonPath("$.profitAmount").value(DEFAULT_PROFIT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.profitPercentage").value(DEFAULT_PROFIT_PERCENTAGE.intValue()))
             .andExpect(jsonPath("$.budgetStatus").value(DEFAULT_BUDGET_STATUS.toString()))
+            .andExpect(jsonPath("$.proformaNo").value(DEFAULT_PROFORMA_NO.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
@@ -738,6 +745,45 @@ public class CommercialBudgetResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllCommercialBudgetsByProformaNoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where proformaNo equals to DEFAULT_PROFORMA_NO
+        defaultCommercialBudgetShouldBeFound("proformaNo.equals=" + DEFAULT_PROFORMA_NO);
+
+        // Get all the commercialBudgetList where proformaNo equals to UPDATED_PROFORMA_NO
+        defaultCommercialBudgetShouldNotBeFound("proformaNo.equals=" + UPDATED_PROFORMA_NO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByProformaNoIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where proformaNo in DEFAULT_PROFORMA_NO or UPDATED_PROFORMA_NO
+        defaultCommercialBudgetShouldBeFound("proformaNo.in=" + DEFAULT_PROFORMA_NO + "," + UPDATED_PROFORMA_NO);
+
+        // Get all the commercialBudgetList where proformaNo equals to UPDATED_PROFORMA_NO
+        defaultCommercialBudgetShouldNotBeFound("proformaNo.in=" + UPDATED_PROFORMA_NO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByProformaNoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where proformaNo is not null
+        defaultCommercialBudgetShouldBeFound("proformaNo.specified=true");
+
+        // Get all the commercialBudgetList where proformaNo is null
+        defaultCommercialBudgetShouldNotBeFound("proformaNo.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllCommercialBudgetsByCreatedByIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialBudgetRepository.saveAndFlush(commercialBudget);
@@ -908,6 +954,7 @@ public class CommercialBudgetResourceIntTest {
             .andExpect(jsonPath("$.[*].profitAmount").value(hasItem(DEFAULT_PROFIT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].profitPercentage").value(hasItem(DEFAULT_PROFIT_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].budgetStatus").value(hasItem(DEFAULT_BUDGET_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].proformaNo").value(hasItem(DEFAULT_PROFORMA_NO)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
@@ -968,6 +1015,7 @@ public class CommercialBudgetResourceIntTest {
             .profitAmount(UPDATED_PROFIT_AMOUNT)
             .profitPercentage(UPDATED_PROFIT_PERCENTAGE)
             .budgetStatus(UPDATED_BUDGET_STATUS)
+            .proformaNo(UPDATED_PROFORMA_NO)
             .createdBy(UPDATED_CREATED_BY)
             .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
@@ -992,6 +1040,7 @@ public class CommercialBudgetResourceIntTest {
         assertThat(testCommercialBudget.getProfitAmount()).isEqualTo(UPDATED_PROFIT_AMOUNT);
         assertThat(testCommercialBudget.getProfitPercentage()).isEqualTo(UPDATED_PROFIT_PERCENTAGE);
         assertThat(testCommercialBudget.getBudgetStatus()).isEqualTo(UPDATED_BUDGET_STATUS);
+        assertThat(testCommercialBudget.getProformaNo()).isEqualTo(UPDATED_PROFORMA_NO);
         assertThat(testCommercialBudget.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testCommercialBudget.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testCommercialBudget.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
@@ -1065,6 +1114,7 @@ public class CommercialBudgetResourceIntTest {
             .andExpect(jsonPath("$.[*].profitAmount").value(hasItem(DEFAULT_PROFIT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].profitPercentage").value(hasItem(DEFAULT_PROFIT_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].budgetStatus").value(hasItem(DEFAULT_BUDGET_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].proformaNo").value(hasItem(DEFAULT_PROFORMA_NO)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))

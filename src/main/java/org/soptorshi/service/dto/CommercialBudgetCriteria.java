@@ -55,6 +55,8 @@ public class CommercialBudgetCriteria implements Serializable {
 
     private CommercialBudgetStatusFilter budgetStatus;
 
+    private StringFilter proformaNo;
+
     private StringFilter createdBy;
 
     private InstantFilter createdOn;
@@ -143,6 +145,14 @@ public class CommercialBudgetCriteria implements Serializable {
         this.budgetStatus = budgetStatus;
     }
 
+    public StringFilter getProformaNo() {
+        return proformaNo;
+    }
+
+    public void setProformaNo(StringFilter proformaNo) {
+        this.proformaNo = proformaNo;
+    }
+
     public StringFilter getCreatedBy() {
         return createdBy;
     }
@@ -196,6 +206,7 @@ public class CommercialBudgetCriteria implements Serializable {
             Objects.equals(profitAmount, that.profitAmount) &&
             Objects.equals(profitPercentage, that.profitPercentage) &&
             Objects.equals(budgetStatus, that.budgetStatus) &&
+            Objects.equals(proformaNo, that.proformaNo) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
@@ -215,6 +226,7 @@ public class CommercialBudgetCriteria implements Serializable {
         profitAmount,
         profitPercentage,
         budgetStatus,
+        proformaNo,
         createdBy,
         createdOn,
         updatedBy,
@@ -235,6 +247,7 @@ public class CommercialBudgetCriteria implements Serializable {
                 (profitAmount != null ? "profitAmount=" + profitAmount + ", " : "") +
                 (profitPercentage != null ? "profitPercentage=" + profitPercentage + ", " : "") +
                 (budgetStatus != null ? "budgetStatus=" + budgetStatus + ", " : "") +
+                (proformaNo != null ? "proformaNo=" + proformaNo + ", " : "") +
                 (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +

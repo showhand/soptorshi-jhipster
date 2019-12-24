@@ -40,6 +40,8 @@ public class CommercialBudgetDTO implements Serializable {
 
     private CommercialBudgetStatus budgetStatus;
 
+    private String proformaNo;
+
     private String createdBy;
 
     private Instant createdOn;
@@ -129,6 +131,14 @@ public class CommercialBudgetDTO implements Serializable {
         this.budgetStatus = budgetStatus;
     }
 
+    public String getProformaNo() {
+        return proformaNo;
+    }
+
+    public void setProformaNo(String proformaNo) {
+        this.proformaNo = proformaNo;
+    }
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -195,6 +205,7 @@ public class CommercialBudgetDTO implements Serializable {
             ", profitAmount=" + getProfitAmount() +
             ", profitPercentage=" + getProfitPercentage() +
             ", budgetStatus='" + getBudgetStatus() + "'" +
+            ", proformaNo='" + getProformaNo() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +

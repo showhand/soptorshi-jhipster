@@ -53,6 +53,10 @@
             "fieldValues": "WAITING_FOR_APPROVAL,APPROVED,REJECTED"
         },
         {
+            "fieldName": "proformaNo",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "createdBy",
             "fieldType": "String"
         },

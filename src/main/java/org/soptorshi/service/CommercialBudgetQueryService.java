@@ -4,7 +4,6 @@ import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialBudget;
-import org.soptorshi.domain.CommercialBudget_;
 import org.soptorshi.repository.CommercialBudgetRepository;
 import org.soptorshi.repository.search.CommercialBudgetSearchRepository;
 import org.soptorshi.service.dto.CommercialBudgetCriteria;
@@ -115,6 +114,9 @@ public class CommercialBudgetQueryService extends QueryService<CommercialBudget>
             }
             if (criteria.getBudgetStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getBudgetStatus(), CommercialBudget_.budgetStatus));
+            }
+            if (criteria.getProformaNo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getProformaNo(), CommercialBudget_.proformaNo));
             }
             if (criteria.getCreatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), CommercialBudget_.createdBy));

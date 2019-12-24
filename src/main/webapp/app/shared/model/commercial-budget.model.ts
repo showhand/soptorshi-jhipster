@@ -27,6 +27,7 @@ export interface ICommercialBudget {
     profitAmount?: number;
     profitPercentage?: number;
     budgetStatus?: CommercialBudgetStatus;
+    proformaNo?: string;
     createdBy?: string;
     createdOn?: Moment;
     updatedBy?: string;
@@ -45,6 +46,7 @@ export class CommercialBudget implements ICommercialBudget {
         public profitAmount?: number,
         public profitPercentage?: number,
         public budgetStatus?: CommercialBudgetStatus,
+        public proformaNo?: string,
         public createdBy?: string,
         public createdOn?: Moment,
         public updatedBy?: string,

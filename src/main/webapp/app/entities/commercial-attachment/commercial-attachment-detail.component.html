@@ -1,0 +1,36 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="commercialAttachment">
+            <h2><span>Commercial Attachment</span> {{commercialAttachment.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>File</span></dt>
+                <dd>
+                    <div *ngIf="commercialAttachment.file">
+                        <a (click)="openFile(commercialAttachment.fileContentType, commercialAttachment.file)">open</a>
+                        {{commercialAttachment.fileContentType}}, {{byteSize(commercialAttachment.file)}}
+                    </div>
+                </dd>
+                <dt><span>Commercial Po</span></dt>
+                <dd>
+                    <div *ngIf="commercialAttachment.commercialPoId">
+                        <a [routerLink]="['/commercial-po', commercialAttachment.commercialPoId, 'view']">{{commercialAttachment.commercialPoPurchaseOrderNo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/commercial-attachment', commercialAttachment.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

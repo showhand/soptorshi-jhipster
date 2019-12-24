@@ -62,6 +62,9 @@ public class CommercialBudget implements Serializable {
     @Column(name = "budget_status")
     private CommercialBudgetStatus budgetStatus;
 
+    @Column(name = "proforma_no")
+    private String proformaNo;
+
     @Column(name = "created_by")
     private String createdBy;
 
@@ -200,6 +203,19 @@ public class CommercialBudget implements Serializable {
         this.budgetStatus = budgetStatus;
     }
 
+    public String getProformaNo() {
+        return proformaNo;
+    }
+
+    public CommercialBudget proformaNo(String proformaNo) {
+        this.proformaNo = proformaNo;
+        return this;
+    }
+
+    public void setProformaNo(String proformaNo) {
+        this.proformaNo = proformaNo;
+    }
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -286,6 +302,7 @@ public class CommercialBudget implements Serializable {
             ", profitAmount=" + getProfitAmount() +
             ", profitPercentage=" + getProfitPercentage() +
             ", budgetStatus='" + getBudgetStatus() + "'" +
+            ", proformaNo='" + getProformaNo() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +

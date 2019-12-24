@@ -1,0 +1,77 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="commercialPo">
+            <h2><span>Commercial Po</span> {{commercialPo.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Purchase Order No</span></dt>
+                <dd>
+                    <span>{{commercialPo.purchaseOrderNo}}</span>
+                </dd>
+                <dt><span>Purchase Order Date</span></dt>
+                <dd>
+                    <span>{{commercialPo.purchaseOrderDate}}</span>
+                </dd>
+                <dt><span>Origin Of Goods</span></dt>
+                <dd>
+                    <span>{{commercialPo.originOfGoods}}</span>
+                </dd>
+                <dt><span>Final Destination</span></dt>
+                <dd>
+                    <span>{{commercialPo.finalDestination}}</span>
+                </dd>
+                <dt><span>Shipment Date</span></dt>
+                <dd>
+                    <span>{{commercialPo.shipmentDate}}</span>
+                </dd>
+                <dt><span>Procurement Id</span></dt>
+                <dd>
+                    <span>{{commercialPo.procurementId}}</span>
+                </dd>
+                <dt><span>Inventory Id</span></dt>
+                <dd>
+                    <span>{{commercialPo.inventoryId}}</span>
+                </dd>
+                <dt><span>Po Status</span></dt>
+                <dd>
+                    <span>{{commercialPo.poStatus}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{commercialPo.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{commercialPo.createdOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{commercialPo.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{commercialPo.updatedOn}}</span>
+                </dd>
+                <dt><span>Commercial Pi</span></dt>
+                <dd>
+                    <div *ngIf="commercialPo.commercialPiId">
+                        <a [routerLink]="['/commercial-pi', commercialPo.commercialPiId, 'view']">{{commercialPo.commercialPiProformaNo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/commercial-po', commercialPo.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

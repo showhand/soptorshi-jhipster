@@ -41,6 +41,7 @@ describe('Service Tests', () => {
                 0,
                 CommercialBudgetStatus.WAITING_FOR_APPROVAL,
                 'AAAAAAA',
+                'AAAAAAA',
                 currentDate,
                 'AAAAAAA',
                 currentDate
@@ -104,6 +105,7 @@ describe('Service Tests', () => {
                         profitAmount: 1,
                         profitPercentage: 1,
                         budgetStatus: 'BBBBBB',
+                        proformaNo: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',
@@ -140,6 +142,7 @@ describe('Service Tests', () => {
                         profitAmount: 1,
                         profitPercentage: 1,
                         budgetStatus: 'BBBBBB',
+                        proformaNo: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',
