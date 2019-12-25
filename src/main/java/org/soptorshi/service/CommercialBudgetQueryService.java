@@ -4,6 +4,7 @@ import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialBudget;
+import org.soptorshi.domain.CommercialBudget_;
 import org.soptorshi.repository.CommercialBudgetRepository;
 import org.soptorshi.repository.search.CommercialBudgetSearchRepository;
 import org.soptorshi.service.dto.CommercialBudgetCriteria;

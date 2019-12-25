@@ -4,6 +4,8 @@ import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialAttachment;
+import org.soptorshi.domain.CommercialAttachment_;
+import org.soptorshi.domain.CommercialPo_;
 import org.soptorshi.repository.CommercialAttachmentRepository;
 import org.soptorshi.repository.search.CommercialAttachmentSearchRepository;
 import org.soptorshi.service.dto.CommercialAttachmentCriteria;

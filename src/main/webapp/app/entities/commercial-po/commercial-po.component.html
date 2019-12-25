@@ -38,10 +38,6 @@
             <th jhiSortBy="procurementId"><span>Procurement Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="inventoryId"><span>Inventory Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="poStatus"><span>Po Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="commercialPiProformaNo"><span>Commercial Pi</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -57,10 +53,6 @@
                 <td>{{commercialPo.procurementId}}</td>
                 <td>{{commercialPo.inventoryId}}</td>
                 <td>{{commercialPo.poStatus}}</td>
-                <td>{{commercialPo.createdBy}}</td>
-                <td>{{commercialPo.createdOn | date:'medium'}}</td>
-                <td>{{commercialPo.updatedBy}}</td>
-                <td>{{commercialPo.updatedOn | date:'medium'}}</td>
                 <td>
                     <div *ngIf="commercialPo.commercialPiId">
                         <a [routerLink]="['../commercial-pi', commercialPo.commercialPiId , 'view' ]" >{{commercialPo.commercialPiProformaNo}}</a>

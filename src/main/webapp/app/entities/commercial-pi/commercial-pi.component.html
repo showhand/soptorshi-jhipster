@@ -41,11 +41,6 @@
             <th jhiSortBy="portOfLoading"><span>Port Of Loading</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="portOfDestination"><span>Port Of Destination</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="purchaseOrderNo"><span>Purchase Order No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="piStatus"><span>Pi Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="commercialBudgetBudgetNo"><span>Commercial Budget</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -65,10 +60,6 @@
                 <td>{{commercialPi.portOfDestination}}</td>
                 <td>{{commercialPi.purchaseOrderNo}}</td>
                 <td>{{commercialPi.piStatus}}</td>
-                <td>{{commercialPi.createdBy}}</td>
-                <td>{{commercialPi.createdOn | date:'medium'}}</td>
-                <td>{{commercialPi.updatedBy}}</td>
-                <td>{{commercialPi.updatedOn | date:'medium'}}</td>
                 <td>
                     <div *ngIf="commercialPi.commercialBudgetId">
                         <a [routerLink]="['../commercial-budget', commercialPi.commercialBudgetId , 'view' ]" >{{commercialPi.commercialBudgetBudgetNo}}</a>

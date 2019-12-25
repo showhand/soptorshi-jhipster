@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialPo;
 import org.soptorshi.repository.CommercialPoRepository;
 import org.soptorshi.repository.search.CommercialPoSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.CommercialPoDTO;
 import org.soptorshi.service.mapper.CommercialPoMapper;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -45,6 +47,18 @@ public class CommercialPoService {
      */
     public CommercialPoDTO save(CommercialPoDTO commercialPoDTO) {
         log.debug("Request to save CommercialPo : {}", commercialPoDTO);
+
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        Instant currentDateTime = Instant.now();
+
+        if(commercialPoDTO.getId() == null) {
+            commercialPoDTO.setCreatedBy(currentUser);
+            commercialPoDTO.setCreatedOn(currentDateTime);
+        }
+        else {
+            commercialPoDTO.setUpdatedBy(currentUser);
+            commercialPoDTO.setUpdatedOn(currentDateTime);
+        }
         CommercialPo commercialPo = commercialPoMapper.toEntity(commercialPoDTO);
         commercialPo = commercialPoRepository.save(commercialPo);
         CommercialPoDTO result = commercialPoMapper.toDto(commercialPo);
