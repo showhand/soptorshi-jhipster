@@ -31,4 +31,4 @@ const ENTITY_STATES = [...commercialPoExtendedRoute, ...commercialPoPopupExtende
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SoptorshiCommercialPoModule {}
+export class SoptorshiCommercialPoExtendedModule {}
