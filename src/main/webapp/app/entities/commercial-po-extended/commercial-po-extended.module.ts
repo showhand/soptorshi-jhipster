@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     CommercialPoDeleteDialogExtendedComponent,
-    CommercialPoDeletePopupComponent,
+    CommercialPoDeletePopupExtendedComponent,
     CommercialPoDetailExtendedComponent,
     CommercialPoExtendedComponent,
     commercialPoExtendedRoute,
@@ -21,13 +21,13 @@ const ENTITY_STATES = [...commercialPoExtendedRoute, ...commercialPoPopupExtende
         CommercialPoDetailExtendedComponent,
         CommercialPoUpdateExtendedComponent,
         CommercialPoDeleteDialogExtendedComponent,
-        CommercialPoDeletePopupComponent
+        CommercialPoDeletePopupExtendedComponent
     ],
     entryComponents: [
         CommercialPoExtendedComponent,
         CommercialPoUpdateExtendedComponent,
         CommercialPoDeleteDialogExtendedComponent,
-        CommercialPoDeletePopupComponent
+        CommercialPoDeletePopupExtendedComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

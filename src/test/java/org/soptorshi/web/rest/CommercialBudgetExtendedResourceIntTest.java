@@ -52,7 +52,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
-public class CommercialBudgetResourceIntTest {
+public class CommercialBudgetExtendedResourceIntTest {
 
     private static final String DEFAULT_BUDGET_NO = "AAAAAAAAAA";
     private static final String UPDATED_BUDGET_NO = "BBBBBBBBBB";

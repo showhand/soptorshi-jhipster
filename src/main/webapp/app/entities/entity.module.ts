@@ -406,18 +406,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './attendance-extended/attendance-extended.module#SoptorshiAttendanceExtendedModule'
             },
             {
-                path: 'manufacturer',
-                loadChildren: './manufacturer-extended/manufacturer-extended.module#SoptorshiManufacturerExtendedModule'
-            },
-            {
-                path: 'item-category',
-                loadChildren: './item-category-extended/item-category-extended.module#SoptorshiItemCategoryExtendedModule'
-            },
-            {
-                path: 'item-sub-category',
-                loadChildren: './item-sub-category-extended/item-sub-category-extended.module#SoptorshiItemSubCategoryExtendedModule'
-            },
-            {
                 path: 'inventory-location',
                 loadChildren: './inventory-location-extended/inventory-location-extended.module#SoptorshiInventoryLocationExtendedModule'
             },
@@ -607,54 +595,6 @@ import { MatTabsModule } from '@angular/material';
                     './salary-voucher-relation-extended/salary-voucher-relation-extended.module#SoptorshiSalaryVoucherRelationModule'
             },
             {
-                path: 'holiday-type',
-                loadChildren: './holiday-type/holiday-type.module#SoptorshiHolidayTypeModule'
-            },
-            {
-                path: 'holiday',
-                loadChildren: './holiday/holiday.module#SoptorshiHolidayModule'
-            },
-            {
-                path: 'leave-type',
-                loadChildren: './leave-type/leave-type.module#SoptorshiLeaveTypeModule'
-            },
-            {
-                path: 'leave-application',
-                loadChildren: './leave-application/leave-application.module#SoptorshiLeaveApplicationModule'
-            },
-            {
-                path: 'leave-attachment',
-                loadChildren: './leave-attachment/leave-attachment.module#SoptorshiLeaveAttachmentModule'
-            },
-            {
-                path: 'attendance-excel-upload',
-                loadChildren: './attendance-excel-upload/attendance-excel-upload.module#SoptorshiAttendanceExcelUploadModule'
-            },
-            {
-                path: 'attendance',
-                loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
-            },
-            {
-                path: 'manufacturer',
-                loadChildren: './manufacturer/manufacturer.module#SoptorshiManufacturerModule'
-            },
-            {
-                path: 'item-category',
-                loadChildren: './item-category/item-category.module#SoptorshiItemCategoryModule'
-            },
-            {
-                path: 'item-sub-category',
-                loadChildren: './item-sub-category/item-sub-category.module#SoptorshiItemSubCategoryModule'
-            },
-            {
-                path: 'inventory-location',
-                loadChildren: './inventory-location/inventory-location.module#SoptorshiInventoryLocationModule'
-            },
-            {
-                path: 'inventory-sub-location',
-                loadChildren: './inventory-sub-location/inventory-sub-location.module#SoptorshiInventorySubLocationModule'
-            },
-            {
                 path: 'supply-zone',
                 loadChildren: './supply-zone/supply-zone.module#SoptorshiSupplyZoneModule'
             },
@@ -691,40 +631,26 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './supply-money-collection/supply-money-collection.module#SoptorshiSupplyMoneyCollectionModule'
             },
             {
-                path: 'holiday-type',
-                loadChildren: './holiday-type/holiday-type.module#SoptorshiHolidayTypeModule'
-            },
-            {
-                path: 'holiday',
-                loadChildren: './holiday/holiday.module#SoptorshiHolidayModule'
-            },
-            {
-                path: 'stock-in-item',
-                loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
-            },
-            {
                 path: 'commercial-budget',
-                loadChildren: './commercial-budget/commercial-budget.module#SoptorshiCommercialBudgetModule'
+                loadChildren: './commercial-budget-extended/commercial-budget-extended.module#SoptorshiCommercialBudgetExtendedModule'
             },
             {
                 path: 'commercial-product-info',
-                loadChildren: './commercial-product-info/commercial-product-info.module#SoptorshiCommercialProductInfoModule'
-            },
-            {
-                path: 'commercial-budget',
-                loadChildren: './commercial-budget/commercial-budget.module#SoptorshiCommercialBudgetModule'
+                loadChildren:
+                    './commercial-product-info-extended/commercial-product-info-extended.module#SoptorshiCommercialProductInfoExtendedModule'
             },
             {
                 path: 'commercial-pi',
-                loadChildren: './commercial-pi/commercial-pi.module#SoptorshiCommercialPiModule'
+                loadChildren: './commercial-pi-extended/commercial-pi-extended.module#SoptorshiCommercialPiExtendedModule'
             },
             {
                 path: 'commercial-po',
-                loadChildren: './commercial-po/commercial-po.module#SoptorshiCommercialPoModule'
+                loadChildren: './commercial-po-extended/commercial-po-extended.module#SoptorshiCommercialPoExtendedModule'
             },
             {
                 path: 'commercial-attachment',
-                loadChildren: './commercial-attachment/commercial-attachment.module#SoptorshiCommercialAttachmentModule'
+                loadChildren:
+                    './commercial-attachment-extended/commercial-attachment-extended.module#SoptorshiCommercialAttachmentExtendedModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

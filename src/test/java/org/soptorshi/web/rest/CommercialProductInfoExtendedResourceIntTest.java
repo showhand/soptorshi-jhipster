@@ -51,7 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
-public class CommercialProductInfoResourceIntTest {
+public class CommercialProductInfoExtendedResourceIntTest {
 
     private static final Integer DEFAULT_SERIAL_NO = 1;
     private static final Integer UPDATED_SERIAL_NO = 2;
@@ -1082,7 +1082,7 @@ public class CommercialProductInfoResourceIntTest {
     @Transactional
     public void getAllCommercialProductInfosByCommercialBudgetIsEqualToSomething() throws Exception {
         // Initialize the database
-        CommercialBudget commercialBudget = CommercialBudgetResourceIntTest.createEntity(em);
+        CommercialBudget commercialBudget = CommercialBudgetExtendedResourceIntTest.createEntity(em);
         em.persist(commercialBudget);
         em.flush();
         commercialProductInfo.setCommercialBudget(commercialBudget);

@@ -47,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
-public class CommercialAttachmentResourceIntTest {
+public class CommercialAttachmentExtendedResourceIntTest {
 
     private static final byte[] DEFAULT_FILE = TestUtil.createByteArray(1, "0");
     private static final byte[] UPDATED_FILE = TestUtil.createByteArray(1, "1");
@@ -203,7 +203,7 @@ public class CommercialAttachmentResourceIntTest {
     @Transactional
     public void getAllCommercialAttachmentsByCommercialPoIsEqualToSomething() throws Exception {
         // Initialize the database
-        CommercialPo commercialPo = CommercialPoResourceIntTest.createEntity(em);
+        CommercialPo commercialPo = CommercialPoExtendedResourceIntTest.createEntity(em);
         em.persist(commercialPo);
         em.flush();
         commercialAttachment.setCommercialPo(commercialPo);

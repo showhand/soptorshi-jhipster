@@ -50,7 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
-public class CommercialPoResourceIntTest {
+public class CommercialPoExtendedResourceIntTest {
 
     private static final String DEFAULT_PURCHASE_ORDER_NO = "AAAAAAAAAA";
     private static final String UPDATED_PURCHASE_ORDER_NO = "BBBBBBBBBB";
@@ -818,7 +818,7 @@ public class CommercialPoResourceIntTest {
     @Transactional
     public void getAllCommercialPosByCommercialPiIsEqualToSomething() throws Exception {
         // Initialize the database
-        CommercialPi commercialPi = CommercialPiResourceIntTest.createEntity(em);
+        CommercialPi commercialPi = CommercialPiExtendedResourceIntTest.createEntity(em);
         em.persist(commercialPi);
         em.flush();
         commercialPo.setCommercialPi(commercialPi);

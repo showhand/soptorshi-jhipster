@@ -50,7 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
-public class CommercialPiResourceIntTest {
+public class CommercialPiExtendedResourceIntTest {
 
     private static final String DEFAULT_COMPANY_NAME = "AAAAAAAAAA";
     private static final String UPDATED_COMPANY_NAME = "BBBBBBBBBB";
@@ -975,7 +975,7 @@ public class CommercialPiResourceIntTest {
     @Transactional
     public void getAllCommercialPisByCommercialBudgetIsEqualToSomething() throws Exception {
         // Initialize the database
-        CommercialBudget commercialBudget = CommercialBudgetResourceIntTest.createEntity(em);
+        CommercialBudget commercialBudget = CommercialBudgetExtendedResourceIntTest.createEntity(em);
         em.persist(commercialBudget);
         em.flush();
         commercialPi.setCommercialBudget(commercialBudget);
