@@ -1,0 +1,86 @@
+{
+    "name": "CommercialBudget",
+    "fields": [
+        {
+            "fieldName": "budgetNo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "CommercialOrderCategory",
+            "fieldValues": "LOCAL,FOREIGN",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "customer",
+            "fieldType": "CommercialCustomerCategory",
+            "fieldValues": "ZONE,FOREIGN",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "budgetDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "offeredPrice",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "buyingPrice",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "profitAmount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "profitPercentage",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "budgetStatus",
+            "fieldType": "CommercialBudgetStatus",
+            "fieldValues": "WAITING_FOR_APPROVAL,APPROVED,REJECTED"
+        },
+        {
+            "fieldName": "proformaNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdOn",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updatedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedOn",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20191223190542",
+    "entityTableName": "commercial_budget",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

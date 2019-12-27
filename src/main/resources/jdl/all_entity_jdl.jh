@@ -366,24 +366,6 @@ entity Attendance {
   inTime Instant,
   outTime Instant
 }
-entity Manufacturer {
-  name String required,
-  contact String,
-  email String,
-  address String,
-  description String,
-  remarks String
-}
-entity ItemCategory {
-  name String required,
-  shortName String,
-  description String
-}
-entity ItemSubCategory {
-  name String required,
-  shortName String,
-  description String
-}
 entity InventoryLocation {
   name String required,
   shortName String,
@@ -640,6 +622,74 @@ entity ContraVoucher {
   conversionFactor BigDecimal,
   modifiedBy String,
   modifiedOn LocalDate
+}
+entity CommercialBudget {
+    budgetNo String required,
+    type CommercialOrderCategory required,
+    customer CommercialCustomerCategory required,
+    budgetDate LocalDate required,
+    offeredPrice BigDecimal,
+    buyingPrice BigDecimal,
+    profitAmount BigDecimal,
+    profitPercentage BigDecimal,
+    budgetStatus CommercialBudgetStatus,
+    proformaNo String,
+    createdBy String,
+    createdOn Instant,
+    updatedBy String,
+    updatedOn Instant
+}
+entity CommercialProductInfo {
+    serialNo Integer required,
+    packagingDescription String,
+    othersDescription String,
+    offeredQuantity BigDecimal required,
+    offeredUnit UnitOfMeasurements required,
+    offeredUnitPrice BigDecimal required,
+    offeredTotalPrice BigDecimal required,
+    buyingQuantity BigDecimal required,
+    buyingUnit UnitOfMeasurements required,
+    buyingUnitPrice BigDecimal required,
+    buyingTotalPrice BigDecimal required,
+    createdBy String,
+    createdOn Instant,
+    updatedBy String,
+    updatedOn Instant
+}
+entity CommercialPi {
+    companyName String,
+    companyDescriptionOrAddress String,
+    proformaNo String required,
+    proformaDate LocalDate,
+    harmonicCode String,
+    paymentTerm String,
+    termsOfDelivery String,
+    shipmentDate String,
+    portOfLoading String,
+    portOfDestination String,
+    purchaseOrderNo String,
+    piStatus CommercialPiStatus,
+    createdBy String,
+    createdOn Instant,
+    updatedBy String,
+    updatedOn Instant
+}
+entity CommercialPo {
+    PurchaseOrderNo String required,
+    PurchaseOrderDate LocalDate,
+    OriginOfGoods String,
+    FinalDestination String,
+    ShipmentDate LocalDate,
+    procurementId String,
+    inventoryId String,
+    poStatus CommercialPoStatus,
+    CreatedBy String,
+    CreatedOn Instant,
+    UpdatedBy String,
+    UpdatedOn Instant
+}
+entity CommercialAttachment {
+    file AnyBlob
 }
 entity SupplyZone {
   zoneName String required,
@@ -1034,10 +1084,32 @@ enum ProductType{
     REGULAR_PRODUCT, FINISHED_PRODUCT, BY_PRODUCT
 }
 
+enum CommercialOrderCategory {
+    LOCAL, FOREIGN
+}
+
+enum CommercialCustomerCategory {
+    ZONE, FOREIGN
+}
+
+enum CommercialBudgetStatus {
+    WAITING_FOR_APPROVAL, APPROVED, REJECTED
+}
+
+enum CommercialPiStatus{
+    WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER, PI_APPROVED_BY_THE_CUSTOMER, PI_REJECTED_BY_THE_CUSTOMER
+}
+
+enum CommercialPoStatus {
+    PO_CREATED, PREPARING_ORDER, PRODUCT_DELIVERED, ORDER_CLOSED
+}
+
 relationship OneToOne {
   PurchaseCommittee{employee(fullName)} to Employee,
   StockStatus{stockInItem} to StockInItem,
   StockInProcess{PurchaseOrder(purchaseOrderNo)} to PurchaseOrder
+  CommercialPi{commercialBudget(budgetNo)} to CommercialBudget
+  CommercialPo{commercialPi(proformaNo)} to CommercialPi
 }
 relationship OneToMany {
   MonthlySalary{comments} to SalaryMessages{monthlySalary}
@@ -1096,7 +1168,6 @@ relationship ManyToOne {
   PurchaseOrder{requisition(requisitionNo)} to Requisition,
   PurchaseOrder{quotation(quotationNo)} to Quotation,
   Attendance{attendanceExcelUpload required} to AttendanceExcelUpload,
-  ItemSubCategory{itemCategories(name)} to ItemCategory,
   InventorySubLocation{inventoryLocations(name)} to InventoryLocation,
   StockInProcess{productCategories(name)} to ProductCategory,
   StockInProcess{products(name)} to Product,
@@ -1141,6 +1212,10 @@ relationship ManyToOne {
   PaymentVoucher{account(name)} to MstAccount,
   ReceiptVoucher{account(name)} to MstAccount,
   ContraVoucher{currency(notation)} to Currency,
+  CommercialProductInfo{commercialBudget(budgetNo)} to CommercialBudget,
+  CommercialProductInfo{productCategories(name)} to ProductCategory,
+  CommercialProductInfo{products(name)} to Product,
+  CommercialAttachment{commercialPo(purchaseOrderNo)} to CommercialPo,
   SupplyArea{supplyZone(zoneName)} to SupplyZone,
   SupplyAreaManager{supplyZone(zoneName)} to SupplyZone,
   SupplyAreaManager{supplyArea(areaName)} to SupplyArea,
@@ -1165,9 +1240,14 @@ relationship ManyToOne {
   SalaryVoucherRelation{office(name)} to Office
 }
 
-dto Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, BudgetAllocation, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, AttendanceExcelUpload, Attendance, Manufacturer, ItemCategory, ItemSubCategory, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus, Voucher, VoucherNumberControl, PeriodClose, Currency, MstGroup, MstAccount, AccountBalance, MonthlyBalance, PredefinedNarration, ConversionFactor, ChequeRegister, DtTransaction, Customer, CreditorLedger, DebtorLedger, SystemAccountMap, SystemGroupMap, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher, SupplyZone, SupplyArea, SupplyAreaManager, SupplySalesRepresentative, SupplyShop, SupplyOrder, SupplyOrderDetails, SupplyChallan, SupplyMoneyCollection, SalaryMessages, SalaryVoucherRelation with mapstruct
+dto Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, BudgetAllocation, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, AttendanceExcelUpload, Attendance, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus, Voucher, VoucherNumberControl, PeriodClose, Currency, MstGroup, MstAccount, AccountBalance, MonthlyBalance, PredefinedNarration, ConversionFactor, ChequeRegister, DtTransaction, Customer, CreditorLedger, DebtorLedger, SystemAccountMap, SystemGroupMap, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher, CommercialBudget, CommercialProductInfo, CommercialPi, CommercialPo, CommercialAttachment, SupplyZone, SupplyArea, SupplyAreaManager, SupplySalesRepresentative, SupplyShop, SupplyOrder, SupplyOrderDetails, SupplyChallan, SupplyMoneyCollection, SalaryMessages, SalaryVoucherRelation with mapstruct
+
 paginate Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, VoucherNumberControl, MstAccount, AccountBalance, MonthlyBalance, ChequeRegister, DtTransaction, Customer, CreditorLedger, DebtorLedger, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher, SalaryMessages with pager
-paginate HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, DesignationWiseAllowance, Manager, BudgetAllocation, AttendanceExcelUpload, Attendance, Manufacturer, ItemCategory, ItemSubCategory, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus, Voucher, PeriodClose, Currency, MstGroup, PredefinedNarration, ConversionFactor, SystemAccountMap, SystemGroupMap, SupplyZone, SupplyArea, SupplyAreaManager, SupplySalesRepresentative, SupplyShop, SupplyOrder, SupplyOrderDetails, SupplyChallan, SupplyMoneyCollection, SalaryVoucherRelation with infinite-scroll
-service Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, BudgetAllocation, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, Voucher, VoucherNumberControl, PeriodClose, Currency, MstGroup, MstAccount, AccountBalance, MonthlyBalance, PredefinedNarration, ConversionFactor, ChequeRegister, DtTransaction, Customer, CreditorLedger, DebtorLedger, SystemAccountMap, SystemGroupMap, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher, SalaryMessages, SalaryVoucherRelation, HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, AttendanceExcelUpload, Attendance, Manufacturer, ItemCategory, ItemSubCategory, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus, SupplyZone, SupplyArea, SupplyAreaManager, SupplySalesRepresentative, SupplyShop, SupplyOrder, SupplyOrderDetails, SupplyChallan, SupplyMoneyCollection with serviceClass
+
+paginate HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, DesignationWiseAllowance, Manager, BudgetAllocation, AttendanceExcelUpload, Attendance, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus, Voucher, PeriodClose, Currency, MstGroup, PredefinedNarration, ConversionFactor, SystemAccountMap, SystemGroupMap, CommercialBudget, CommercialProductInfo, CommercialPi, CommercialPo, CommercialAttachment, SupplyZone, SupplyArea, SupplyAreaManager, SupplySalesRepresentative, SupplyShop, SupplyOrder, SupplyOrderDetails, SupplyChallan, SupplyMoneyCollection, SalaryVoucherRelation with infinite-scroll
+
+service Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, AcademicInformationAttachment, ExperienceInformationAttachment, TrainingInformationAttachment, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, BudgetAllocation, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, Voucher, VoucherNumberControl, PeriodClose, Currency, MstGroup, MstAccount, AccountBalance, MonthlyBalance, PredefinedNarration, ConversionFactor, ChequeRegister, DtTransaction, Customer, CreditorLedger, DebtorLedger, SystemAccountMap, SystemGroupMap, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher, SalaryMessages, SalaryVoucherRelation, HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, AttendanceExcelUpload, Attendance, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus, CommercialBudget, CommercialProductInfo, CommercialPi, CommercialPo, CommercialAttachment, SupplyZone, SupplyArea, SupplyAreaManager, SupplySalesRepresentative, SupplyShop, SupplyOrder, SupplyOrderDetails, SupplyChallan, SupplyMoneyCollection with serviceClass
+
 search Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, PayrollManagement, FineManagement, AdvanceManagement, LoanManagement, ProvidentManagement, AllowanceManagement, FineAdvanceLoanManagement, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, AttendanceExcelUpload, Attendance, MstGroup, MstAccount, AccountBalance, DtTransaction, Customer, CreditorLedger, DebtorLedger, SystemAccountMap, SystemGroupMap, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher with elasticsearch
-filter Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, BudgetAllocation, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, AttendanceExcelUpload, Attendance, Manufacturer, ItemCategory, ItemSubCategory, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus, Voucher, VoucherNumberControl, PeriodClose, Currency, MstGroup, MstAccount, AccountBalance, MonthlyBalance, PredefinedNarration, ConversionFactor, ChequeRegister, DtTransaction, Customer, CreditorLedger, DebtorLedger, SystemAccountMap, SystemGroupMap, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher, SupplyZone, SupplyArea, SupplyAreaManager, SupplySalesRepresentative, SupplyShop, SupplyOrder, SupplyOrderDetails, SupplyChallan, SupplyMoneyCollection, SalaryMessages, SalaryVoucherRelation
+
+filter Department, Designation, Employee, Attachment, AcademicInformation, TrainingInformation, FamilyInformation, ReferenceInformation, ExperienceInformation, Office, FinancialAccountYear, Tax, Salary, ProvidentFund, MonthlySalary, Advance, Fine, Loan, HolidayType, Holiday, LeaveType, LeaveApplication, LeaveAttachment, DesignationWiseAllowance, Manager, SpecialAllowanceTimeLine, PurchaseCommittee, Vendor, VendorContactPerson, DepartmentHead, Bill, BudgetAllocation, ProductCategory, Product, ProductPrice, Requisition, RequisitionDetails, Quotation, QuotationDetails, WorkOrder, TermsAndConditions, PurchaseOrder, AttendanceExcelUpload, Attendance, InventoryLocation, InventorySubLocation, StockInProcess, StockInItem, StockOutItem, StockStatus, Voucher, VoucherNumberControl, PeriodClose, Currency, MstGroup, MstAccount, AccountBalance, MonthlyBalance, PredefinedNarration, ConversionFactor, ChequeRegister, DtTransaction, Customer, CreditorLedger, DebtorLedger, SystemAccountMap, SystemGroupMap, JournalVoucher, PaymentVoucher, ReceiptVoucher, ContraVoucher, CommercialBudget, CommercialProductInfo, CommercialPi, CommercialPo, CommercialAttachment, SupplyZone, SupplyArea, SupplyAreaManager, SupplySalesRepresentative, SupplyShop, SupplyOrder, SupplyOrderDetails, SupplyChallan, SupplyMoneyCollection, SalaryMessages, SalaryVoucherRelation

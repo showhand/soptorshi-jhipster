@@ -1,0 +1,79 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="commercialBudget">
+            <h2><span>Commercial Budget</span> {{commercialBudget.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Budget No</span></dt>
+                <dd>
+                    <span>{{commercialBudget.budgetNo}}</span>
+                </dd>
+                <dt><span>Type</span></dt>
+                <dd>
+                    <span>{{commercialBudget.type}}</span>
+                </dd>
+                <dt><span>Customer</span></dt>
+                <dd>
+                    <span>{{commercialBudget.customer}}</span>
+                </dd>
+                <dt><span>Budget Date</span></dt>
+                <dd>
+                    <span>{{commercialBudget.budgetDate}}</span>
+                </dd>
+                <dt><span>Offered Price</span></dt>
+                <dd>
+                    <span>{{commercialBudget.offeredPrice}}</span>
+                </dd>
+                <dt><span>Buying Price</span></dt>
+                <dd>
+                    <span>{{commercialBudget.buyingPrice}}</span>
+                </dd>
+                <dt><span>Profit Amount</span></dt>
+                <dd>
+                    <span>{{commercialBudget.profitAmount}}</span>
+                </dd>
+                <dt><span>Profit Percentage</span></dt>
+                <dd>
+                    <span>{{commercialBudget.profitPercentage}}</span>
+                </dd>
+                <dt><span>Budget Status</span></dt>
+                <dd>
+                    <span>{{commercialBudget.budgetStatus}}</span>
+                </dd>
+                <dt><span>Proforma No</span></dt>
+                <dd>
+                    <span>{{commercialBudget.proformaNo}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{commercialBudget.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{commercialBudget.createdOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{commercialBudget.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{commercialBudget.updatedOn}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/commercial-budget', commercialBudget.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

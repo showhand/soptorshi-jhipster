@@ -1,0 +1,101 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="commercialProductInfo">
+            <h2><span>Commercial Product Info</span> {{commercialProductInfo.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Serial No</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.serialNo}}</span>
+                </dd>
+                <dt><span>Packaging Description</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.packagingDescription}}</span>
+                </dd>
+                <dt><span>Others Description</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.othersDescription}}</span>
+                </dd>
+                <dt><span>Offered Quantity</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.offeredQuantity}}</span>
+                </dd>
+                <dt><span>Offered Unit</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.offeredUnit}}</span>
+                </dd>
+                <dt><span>Offered Unit Price</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.offeredUnitPrice}}</span>
+                </dd>
+                <dt><span>Offered Total Price</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.offeredTotalPrice}}</span>
+                </dd>
+                <dt><span>Buying Quantity</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.buyingQuantity}}</span>
+                </dd>
+                <dt><span>Buying Unit</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.buyingUnit}}</span>
+                </dd>
+                <dt><span>Buying Unit Price</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.buyingUnitPrice}}</span>
+                </dd>
+                <dt><span>Buying Total Price</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.buyingTotalPrice}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.createdOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{commercialProductInfo.updatedOn}}</span>
+                </dd>
+                <dt><span>Commercial Budget</span></dt>
+                <dd>
+                    <div *ngIf="commercialProductInfo.commercialBudgetId">
+                        <a [routerLink]="['/commercial-budget', commercialProductInfo.commercialBudgetId, 'view']">{{commercialProductInfo.commercialBudgetBudgetNo}}</a>
+                    </div>
+                </dd>
+                <dt><span>Product Categories</span></dt>
+                <dd>
+                    <div *ngIf="commercialProductInfo.productCategoriesId">
+                        <a [routerLink]="['/product-category', commercialProductInfo.productCategoriesId, 'view']">{{commercialProductInfo.productCategoriesName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Products</span></dt>
+                <dd>
+                    <div *ngIf="commercialProductInfo.productsId">
+                        <a [routerLink]="['/product', commercialProductInfo.productsId, 'view']">{{commercialProductInfo.productsName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/commercial-product-info', commercialProductInfo.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

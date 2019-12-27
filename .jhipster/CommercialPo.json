@@ -1,0 +1,76 @@
+{
+    "name": "CommercialPo",
+    "fields": [
+        {
+            "fieldName": "purchaseOrderNo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "purchaseOrderDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "originOfGoods",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "finalDestination",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipmentDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "procurementId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "inventoryId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "poStatus",
+            "fieldType": "CommercialPoStatus",
+            "fieldValues": "PO_CREATED,PREPARING_ORDER,PRODUCT_DELIVERED,ORDER_CLOSED"
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdOn",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updatedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedOn",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "commercialPi",
+            "otherEntityRelationshipName": "commercialPo",
+            "relationshipName": "commercialPi",
+            "otherEntityField": "proformaNo",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20191224021433",
+    "entityTableName": "commercial_po",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

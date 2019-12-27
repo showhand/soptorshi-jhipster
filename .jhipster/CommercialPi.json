@@ -1,0 +1,92 @@
+{
+    "name": "CommercialPi",
+    "fields": [
+        {
+            "fieldName": "companyName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "companyDescriptionOrAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "proformaNo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "proformaDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "harmonicCode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "paymentTerm",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "termsOfDelivery",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipmentDate",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "portOfLoading",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "portOfDestination",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "purchaseOrderNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "piStatus",
+            "fieldType": "CommercialPiStatus",
+            "fieldValues": "WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER,PI_APPROVED_BY_THE_CUSTOMER,PI_REJECTED_BY_THE_CUSTOMER"
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdOn",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updatedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedOn",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "commercialBudget",
+            "otherEntityRelationshipName": "commercialPi",
+            "relationshipName": "commercialBudget",
+            "otherEntityField": "budgetNo",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20191224021432",
+    "entityTableName": "commercial_pi",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

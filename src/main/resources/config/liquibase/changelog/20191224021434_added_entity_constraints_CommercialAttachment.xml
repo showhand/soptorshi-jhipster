@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity CommercialAttachment.
+    -->
+    <changeSet id="20191224021434-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="commercial_po_id"
+                                 baseTableName="commercial_attachment"
+                                 constraintName="fk_commercial_attachment_commercial_po_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="commercial_po"/>
+
+    </changeSet>
+</databaseChangeLog>
