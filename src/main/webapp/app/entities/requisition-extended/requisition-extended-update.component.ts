@@ -129,6 +129,7 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
                         this.productCategoryNameList.push(p.name);
                     });
                 },
+
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
 
