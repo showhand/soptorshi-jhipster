@@ -3,6 +3,7 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.PurchaseOrder;
+import org.soptorshi.domain.PurchaseOrderMessages;
 import org.soptorshi.domain.Requisition;
 import org.soptorshi.domain.Quotation;
 import org.soptorshi.repository.PurchaseOrderRepository;
@@ -713,6 +714,25 @@ public class PurchaseOrderResourceIntTest {
 
         // Get all the purchaseOrderList where modifiedOn less than or equals to UPDATED_MODIFIED_ON
         defaultPurchaseOrderShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllPurchaseOrdersByCommentsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        PurchaseOrderMessages comments = PurchaseOrderMessagesResourceIntTest.createEntity(em);
+        em.persist(comments);
+        em.flush();
+        purchaseOrder.addComments(comments);
+        purchaseOrderRepository.saveAndFlush(purchaseOrder);
+        Long commentsId = comments.getId();
+
+        // Get all the purchaseOrderList where comments equals to commentsId
+        defaultPurchaseOrderShouldBeFound("commentsId.equals=" + commentsId);
+
+        // Get all the purchaseOrderList where comments equals to commentsId + 1
+        defaultPurchaseOrderShouldNotBeFound("commentsId.equals=" + (commentsId + 1));
     }
 
 

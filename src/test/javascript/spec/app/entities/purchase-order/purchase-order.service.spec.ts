@@ -27,7 +27,6 @@ describe('Service Tests', () => {
 
             elemDefault = new PurchaseOrder(
                 0,
-                0,
                 'AAAAAAA',
                 'AAAAAAA',
                 currentDate,

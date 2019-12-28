@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RequisitionService } from 'app/entities/requisition';
 import { RequisitionDetails } from 'app/shared/model/requisition-details.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RequisitionExtendedService } from 'app/entities/requisition-extended/requisition-extended.service';
 
 @Component({
     selector: 'jhi-requisition-details-extended-directive',
@@ -25,7 +26,7 @@ export class RequisitionDetailsExtendedDirectiveComponent extends RequisitionDet
         protected activatedRoute: ActivatedRoute,
         protected router: Router,
         protected eventManager: JhiEventManager,
-        protected requisitionService: RequisitionService,
+        protected requisitionService: RequisitionExtendedService,
         public modalService: NgbModal
     ) {
         super(

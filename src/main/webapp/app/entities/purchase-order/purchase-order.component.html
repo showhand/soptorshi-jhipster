@@ -31,8 +31,16 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="purchaseOrderNo"><span>Purchase Order No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="workOrderNo"><span>Work Order No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="issueDate"><span>Issue Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="referredTo"><span>Referred To</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="subject"><span>Subject</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="note"><span>Note</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="laborOrOtherAmount"><span>Labor Or Other Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="discount"><span>Discount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="requisitionRequisitionNo"><span>Requisition</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="quotationQuotationNo"><span>Quotation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
@@ -42,8 +50,16 @@
             <tr *ngFor="let purchaseOrder of purchaseOrders ;trackBy: trackId">
                 <td><a [routerLink]="['/purchase-order', purchaseOrder.id, 'view' ]">{{purchaseOrder.id}}</a></td>
                 <td>{{purchaseOrder.purchaseOrderNo}}</td>
+                <td>{{purchaseOrder.workOrderNo}}</td>
                 <td>{{purchaseOrder.issueDate | date:'mediumDate'}}</td>
+                <td>{{purchaseOrder.referredTo}}</td>
+                <td>{{purchaseOrder.subject}}</td>
+                <td>{{purchaseOrder.note}}</td>
+                <td>{{purchaseOrder.laborOrOtherAmount}}</td>
+                <td>{{purchaseOrder.discount}}</td>
                 <td>{{purchaseOrder.status}}</td>
+                <td>{{purchaseOrder.modifiedBy}}</td>
+                <td>{{purchaseOrder.modifiedOn | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="purchaseOrder.requisitionId">
                         <a [routerLink]="['../requisition', purchaseOrder.requisitionId , 'view' ]" >{{purchaseOrder.requisitionRequisitionNo}}</a>

@@ -33,16 +33,7 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
         protected employeeService: EmployeeService,
         public accountService: AccountService
     ) {
-        super(
-            dataUtils,
-            jhiAlertService,
-            purchaseOrderService,
-            requisitionService,
-            quotationService,
-            activatedRoute,
-            employeeService,
-            accountService
-        );
+        super(dataUtils, jhiAlertService, purchaseOrderService, requisitionService, quotationService, activatedRoute);
     }
 
     ngOnInit() {

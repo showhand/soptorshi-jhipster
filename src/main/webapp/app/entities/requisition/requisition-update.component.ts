@@ -106,19 +106,12 @@ export class RequisitionUpdateComponent implements OnInit {
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IRequisition>>) {
-        result.subscribe(
-            (res: HttpResponse<IRequisition>) => {
-                this.onSaveSuccess();
-                this.requisition = res.body;
-            },
-            (res: HttpErrorResponse) => this.onSaveError()
-        );
+        result.subscribe((res: HttpResponse<IRequisition>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     protected onSaveSuccess() {
         this.isSaving = false;
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
-        //this.previousState();
+        this.previousState();
     }
 
     protected onSaveError() {

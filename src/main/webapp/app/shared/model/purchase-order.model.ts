@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { IPurchaseOrderMessages } from 'app/shared/model/purchase-order-messages.model';
 
 export const enum PurchaseOrderStatus {
     WAITING_FOR_CFO_APPROVAL = 'WAITING_FOR_CFO_APPROVAL',
@@ -10,7 +11,6 @@ export const enum PurchaseOrderStatus {
 
 export interface IPurchaseOrder {
     id?: number;
-    purchaseOrderId?: number;
     purchaseOrderNo?: string;
     workOrderNo?: string;
     issueDate?: Moment;
@@ -22,6 +22,7 @@ export interface IPurchaseOrder {
     status?: PurchaseOrderStatus;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    comments?: IPurchaseOrderMessages[];
     requisitionRequisitionNo?: string;
     requisitionId?: number;
     quotationQuotationNo?: string;
@@ -31,7 +32,6 @@ export interface IPurchaseOrder {
 export class PurchaseOrder implements IPurchaseOrder {
     constructor(
         public id?: number,
-        public purchaseOrderId?: number,
         public purchaseOrderNo?: string,
         public workOrderNo?: string,
         public issueDate?: Moment,
@@ -43,6 +43,7 @@ export class PurchaseOrder implements IPurchaseOrder {
         public status?: PurchaseOrderStatus,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
+        public comments?: IPurchaseOrderMessages[],
         public requisitionRequisitionNo?: string,
         public requisitionId?: number,
         public quotationQuotationNo?: string,

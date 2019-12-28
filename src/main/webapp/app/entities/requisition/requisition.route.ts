@@ -15,7 +15,7 @@ import { IRequisition } from 'app/shared/model/requisition.model';
 
 @Injectable({ providedIn: 'root' })
 export class RequisitionResolve implements Resolve<IRequisition> {
-    constructor(public service: RequisitionService) {}
+    constructor(private service: RequisitionService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IRequisition> {
         const id = route.params['id'] ? route.params['id'] : null;

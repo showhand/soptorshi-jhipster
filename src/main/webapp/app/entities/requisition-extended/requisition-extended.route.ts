@@ -13,10 +13,8 @@ import { RequisitionExtendedUpdateComponent } from 'app/entities/requisition-ext
 import { RequisitionExtendedComponent } from 'app/entities/requisition-extended/requisition-extended.component';
 
 @Injectable({ providedIn: 'root' })
-export class RequisitionExtendedResolve extends RequisitionResolve {
-    constructor(public service: RequisitionService) {
-        super(service);
-    }
+export class RequisitionExtendedResolve {
+    constructor(public service: RequisitionService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IRequisition> {
         const id = route.params['id'] ? route.params['id'] : null;
