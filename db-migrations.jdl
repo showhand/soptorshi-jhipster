@@ -179,6 +179,7 @@ entity SalaryVoucherRelation{
 }
 
 
+
 entity Advance {
   amount BigDecimal,
   reason TextBlob,
@@ -284,6 +285,7 @@ entity ProductPrice{
 
 entity Requisition{
    requisitionNo String,
+   requisitionType RequisitionType,
    reason TextBlob,
    requisitionDate LocalDate,
    amount BigDecimal,
@@ -618,6 +620,12 @@ enum VoucherReferenceType{
 enum VoucherType{
     SELLING,
     BUYING
+}
+
+enum RequisitionType{
+    NORMAL,
+    SUPPLY_CHAIN,
+    COMMERCIAL
 }
 
 enum BillClosingFlag{
