@@ -29,4 +29,8 @@ export class RequisitionMessagesExtendedComponent extends RequisitionMessagesCom
     ) {
         super(requisitionMessagesService, parseLinks, jhiAlertService, accountService, activatedRoute, dataUtils, router, eventManager);
     }
+
+    transition() {
+        this.loadAll();
+    }
 }

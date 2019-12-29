@@ -99,14 +99,16 @@ export class RequisitionUpdateComponent implements OnInit {
     save() {
         this.isSaving = true;
         if (this.requisition.id !== undefined) {
-            this.subscribeToSaveResponse(this.requisitionService.update(this.requisition));
+            this.requisitionService.update(this.requisition);
+            this.previousState();
         } else {
-            this.subscribeToSaveResponse(this.requisitionService.create(this.requisition));
+            this.requisitionService.create(this.requisition);
+            this.previousState();
         }
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IRequisition>>) {
-        result.subscribe((res: HttpResponse<IRequisition>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        // result.subscribe((res: HttpResponse<IRequisition>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     protected onSaveSuccess() {

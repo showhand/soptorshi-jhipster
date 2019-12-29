@@ -96,14 +96,6 @@ export class RequisitionExtendedComponent extends RequisitionComponent implement
     }
 
     transition() {
-        this.router.navigate(['/requisition'], {
-            queryParams: {
-                page: this.page,
-                size: this.itemsPerPage,
-                search: this.currentSearch,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
-        });
         this.loadAll();
     }
 

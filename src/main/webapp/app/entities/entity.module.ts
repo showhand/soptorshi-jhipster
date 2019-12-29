@@ -654,19 +654,11 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'requisition-messages',
-                loadChildren: './requisition-messages/requisition-messages.module#SoptorshiRequisitionMessagesModule'
+                loadChildren: './requisition-messages-extended/requisition-messages-extended.module#SoptorshiRequisitionMessagesModule'
             },
             {
                 path: 'purchase-order-messages',
                 loadChildren: './purchase-order-messages/purchase-order-messages.module#SoptorshiPurchaseOrderMessagesModule'
-            },
-            {
-                path: 'requisition',
-                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
-            },
-            {
-                path: 'purchase-order',
-                loadChildren: './purchase-order/purchase-order.module#SoptorshiPurchaseOrderModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

@@ -19,11 +19,16 @@ export class RequisitionMessagesExtendedResolve implements Resolve<IRequisitionM
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IRequisitionMessages> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const requisitionId = route.params['requisitionId'] ? route.params['requisitionId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<RequisitionMessages>) => response.ok),
                 map((requisitionMessages: HttpResponse<RequisitionMessages>) => requisitionMessages.body)
             );
+        } else if (requisitionId) {
+            const requisitionMessages = new RequisitionMessages();
+            requisitionMessages.requisitionId = requisitionId;
+            return of(requisitionMessages);
         }
         return of(new RequisitionMessages());
     }
@@ -57,6 +62,18 @@ export const requisitionMessagesExtendedRoute: Routes = [
     },
     {
         path: 'new',
+        component: RequisitionMessagesExtendedUpdateComponent,
+        resolve: {
+            requisitionMessages: RequisitionMessagesExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'RequisitionMessages'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':requisitionId/new',
         component: RequisitionMessagesExtendedUpdateComponent,
         resolve: {
             requisitionMessages: RequisitionMessagesExtendedResolve

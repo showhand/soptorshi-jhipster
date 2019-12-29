@@ -62,7 +62,7 @@ export const requisitionMessagesRoute: Routes = [
             requisitionMessages: RequisitionMessagesResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER, ROLE_REQUISITIONER'],
             pageTitle: 'RequisitionMessages'
         },
         canActivate: [UserRouteAccessService]
