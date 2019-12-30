@@ -232,7 +232,7 @@
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_offeredQuantity">Offered Quantity</label>
                             <input type="number" class="form-control" name="offeredQuantity" id="field_offeredQuantity"
-                                   [(ngModel)]="commercialProductInfo.offeredQuantity" required/>
+                                   [(ngModel)]="commercialProductInfo.offeredQuantity" (ngModelChange)="calculateTotalOfferedPrice();" required/>
                             <div
                                 [hidden]="!(editForm.controls.offeredQuantity?.dirty && editForm.controls.offeredQuantity?.invalid)">
                                 <small class="form-text text-danger"
@@ -249,7 +249,7 @@
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_buyingQuantity">Buying Quantity</label>
                             <input type="number" class="form-control" name="buyingQuantity" id="field_buyingQuantity"
-                                   [(ngModel)]="commercialProductInfo.buyingQuantity" required/>
+                                   [(ngModel)]="commercialProductInfo.buyingQuantity" (ngModelChange)="calculateTotalBuyingPrice();" required/>
                             <div
                                 [hidden]="!(editForm.controls.buyingQuantity?.dirty && editForm.controls.buyingQuantity?.invalid)">
                                 <small class="form-text text-danger"
@@ -274,7 +274,7 @@
                             <label class="form-control-label" for="field_offeredUnit">Offered Unit</label>
                             <select class="form-control" name="offeredUnit"
                                     [(ngModel)]="commercialProductInfo.offeredUnit"
-                                    id="field_offeredUnit" required>
+                                    id="field_offeredUnit" (ngModelChange)="calculateTotalOfferedPrice();" required>
                                 <option value="PCS">PCS</option>
                                 <option value="KG">KG</option>
                                 <option value="TON">TON</option>
@@ -293,7 +293,7 @@
                             <label class="form-control-label" for="field_buyingUnit">Buying Unit</label>
                             <select class="form-control" name="buyingUnit"
                                     [(ngModel)]="commercialProductInfo.buyingUnit"
-                                    id="field_buyingUnit" required>
+                                    id="field_buyingUnit" (ngModelChange)="calculateTotalBuyingPrice();" required>
                                 <option value="PCS">PCS</option>
                                 <option value="KG">KG</option>
                                 <option value="TON">TON</option>
@@ -319,7 +319,7 @@
                             <label class="form-control-label" for="field_offeredUnitPrice">Offered Unit Price</label>
                             <input type="number" class="form-control" name="offeredUnitPrice"
                                    id="field_offeredUnitPrice"
-                                   [(ngModel)]="commercialProductInfo.offeredUnitPrice" required/>
+                                   [(ngModel)]="commercialProductInfo.offeredUnitPrice" (ngModelChange)="calculateTotalOfferedPrice();" required/>
                             <div
                                 [hidden]="!(editForm.controls.offeredUnitPrice?.dirty && editForm.controls.offeredUnitPrice?.invalid)">
                                 <small class="form-text text-danger"
@@ -336,7 +336,7 @@
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_buyingUnitPrice">Buying Unit Price</label>
                             <input type="number" class="form-control" name="buyingUnitPrice" id="field_buyingUnitPrice"
-                                   [(ngModel)]="commercialProductInfo.buyingUnitPrice" required/>
+                                   [(ngModel)]="commercialProductInfo.buyingUnitPrice" (ngModelChange)="calculateTotalBuyingPrice();" required/>
                             <div
                                 [hidden]="!(editForm.controls.buyingUnitPrice?.dirty && editForm.controls.buyingUnitPrice?.invalid)">
                                 <small class="form-text text-danger"
