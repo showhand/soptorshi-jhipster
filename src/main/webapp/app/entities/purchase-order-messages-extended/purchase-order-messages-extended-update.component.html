@@ -4,41 +4,12 @@
             <h2 id="jhi-purchase-order-messages-heading">Create or edit a Purchase Order Messages</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!purchaseOrderMessages.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="purchaseOrderMessages.id" readonly />
-                </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_comments">Comments</label>
                     <textarea class="form-control" name="comments" id="field_comments"
                         [(ngModel)]="purchaseOrderMessages.comments" ></textarea>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_commentedOn">Commented On</label>
-                    <div class="input-group">
-                        <input id="field_commentedOn" type="text" class="form-control" name="commentedOn" ngbDatepicker  #commentedOnDp="ngbDatepicker" [(ngModel)]="purchaseOrderMessages.commentedOn"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="commentedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_commenter">Commenter</label>
-                    <select class="form-control" id="field_commenter" name="commenter" [(ngModel)]="purchaseOrderMessages.commenterId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_purchaseOrder">Purchase Order</label>
-                    <select class="form-control" id="field_purchaseOrder" name="purchaseOrder" [(ngModel)]="purchaseOrderMessages.purchaseOrderId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="purchaseOrderOption.id" *ngFor="let purchaseOrderOption of purchaseorders; trackBy: trackPurchaseOrderById">{{purchaseOrderOption.id}}</option>
-                    </select>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

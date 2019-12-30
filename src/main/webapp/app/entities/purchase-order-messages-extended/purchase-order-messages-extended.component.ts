@@ -18,14 +18,14 @@ import { PurchaseOrderMessagesComponent } from 'app/entities/purchase-order-mess
 })
 export class PurchaseOrderMessagesExtendedComponent extends PurchaseOrderMessagesComponent implements OnInit, OnDestroy {
     constructor(
-        purchaseOrderMessagesService: PurchaseOrderMessagesExtendedService,
-        parseLinks: JhiParseLinks,
-        jhiAlertService: JhiAlertService,
-        accountService: AccountService,
-        activatedRoute: ActivatedRoute,
-        dataUtils: JhiDataUtils,
-        router: Router,
-        eventManager: JhiEventManager
+        protected purchaseOrderMessagesService: PurchaseOrderMessagesExtendedService,
+        protected parseLinks: JhiParseLinks,
+        protected jhiAlertService: JhiAlertService,
+        protected accountService: AccountService,
+        protected activatedRoute: ActivatedRoute,
+        protected dataUtils: JhiDataUtils,
+        protected router: Router,
+        protected eventManager: JhiEventManager
     ) {
         super(purchaseOrderMessagesService, parseLinks, jhiAlertService, accountService, activatedRoute, dataUtils, router, eventManager);
     }

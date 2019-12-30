@@ -683,14 +683,6 @@ import { MatTabsModule } from '@angular/material';
                     './requisition-voucher-relation-extended/requisition-voucher-relation-extended.module#SoptorshiRequisitionVoucherRelationModule'
             },
             {
-                path: 'requisition',
-                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
-            },
-            {
-                path: 'purchase-order',
-                loadChildren: './purchase-order/purchase-order.module#SoptorshiPurchaseOrderModule'
-            },
-            {
                 path: 'stock-in-process',
                 loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
             },

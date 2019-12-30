@@ -10,7 +10,7 @@ import { PurchaseOrderMessagesDetailComponent } from 'app/entities/purchase-orde
     templateUrl: './purchase-order-messages-extended-detail.component.html'
 })
 export class PurchaseOrderMessagesExtendedDetailComponent extends PurchaseOrderMessagesDetailComponent implements OnInit {
-    constructor(dataUtils: JhiDataUtils, activatedRoute: ActivatedRoute) {
+    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {
         super(dataUtils, activatedRoute);
     }
 }

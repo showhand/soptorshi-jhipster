@@ -11,6 +11,7 @@ import { PurchaseOrderMessagesExtendedComponent } from './purchase-order-message
 import { PurchaseOrderMessagesExtendedDetailComponent } from './purchase-order-messages-extended-detail.component';
 import { PurchaseOrderMessagesExtendedUpdateComponent } from './purchase-order-messages-extended-update.component';
 import { IPurchaseOrderMessages } from 'app/shared/model/purchase-order-messages.model';
+import { PurchaseOrderMessagesDeletePopupComponent, PurchaseOrderMessagesResolve } from 'app/entities/purchase-order-messages';
 
 @Injectable({ providedIn: 'root' })
 export class PurchaseOrderMessagesExtendedResolve implements Resolve<IPurchaseOrderMessages> {
@@ -18,11 +19,16 @@ export class PurchaseOrderMessagesExtendedResolve implements Resolve<IPurchaseOr
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IPurchaseOrderMessages> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const purchaseOrderId = route.params['purchaseOrderId'] ? route.params['purchaseOrderId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<PurchaseOrderMessages>) => response.ok),
                 map((purchaseOrderMessages: HttpResponse<PurchaseOrderMessages>) => purchaseOrderMessages.body)
             );
+        } else if (purchaseOrderId) {
+            const purchaseOrderMessages = new PurchaseOrderMessages();
+            purchaseOrderMessages.purchaseOrderId = purchaseOrderId;
+            return of(purchaseOrderMessages);
         }
         return of(new PurchaseOrderMessages());
     }
@@ -67,6 +73,18 @@ export const purchaseOrderMessagesExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: ':purchaseOrderId/new',
+        component: PurchaseOrderMessagesExtendedUpdateComponent,
+        resolve: {
+            purchaseOrderMessages: PurchaseOrderMessagesExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'PurchaseOrderMessages'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/edit',
         component: PurchaseOrderMessagesExtendedUpdateComponent,
         resolve: {
@@ -77,5 +95,21 @@ export const purchaseOrderMessagesExtendedRoute: Routes = [
             pageTitle: 'PurchaseOrderMessages'
         },
         canActivate: [UserRouteAccessService]
+    }
+];
+
+export const purchaseOrderMessagesExtendedPopupRoute: Routes = [
+    {
+        path: ':id/delete',
+        component: PurchaseOrderMessagesDeletePopupComponent,
+        resolve: {
+            purchaseOrderMessages: PurchaseOrderMessagesResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'PurchaseOrderMessages'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
     }
 ];

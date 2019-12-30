@@ -6,7 +6,8 @@ import {
     PurchaseOrderMessagesExtendedComponent,
     PurchaseOrderMessagesExtendedDetailComponent,
     PurchaseOrderMessagesExtendedUpdateComponent,
-    purchaseOrderMessagesExtendedRoute
+    purchaseOrderMessagesExtendedRoute,
+    purchaseOrderMessagesExtendedPopupRoute
 } from './';
 import {
     PurchaseOrderMessagesComponent,
@@ -17,7 +18,7 @@ import {
     PurchaseOrderMessagesUpdateComponent
 } from 'app/entities/purchase-order-messages';
 
-const ENTITY_STATES = [...purchaseOrderMessagesExtendedRoute, ...purchaseOrderMessagesPopupRoute];
+const ENTITY_STATES = [...purchaseOrderMessagesExtendedRoute, ...purchaseOrderMessagesExtendedPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
