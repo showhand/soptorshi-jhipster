@@ -1,0 +1,66 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="monju (generated)" id="1577686906533-1">
+        <createTable tableName="advance_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="advance_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1577686906533-2">
+        <createTable tableName="allowance_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="allowance_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1577686906533-3">
+        <createTable tableName="fine_advance_loan_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="fine_advance_loan_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1577686906533-4">
+        <createTable tableName="fine_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="fine_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1577686906533-5">
+        <createTable tableName="loan_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="loan_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1577686906533-6">
+        <createTable tableName="montly_salary_vouchers">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="montly_salary_vouchersPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1577686906533-7">
+        <createTable tableName="payroll_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="payroll_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1577686906533-8">
+        <createTable tableName="provident_management">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="provident_managementPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="monju (generated)" id="1577686906533-30">
+        <addColumn tableName="requisition">
+            <column name="requisition_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
