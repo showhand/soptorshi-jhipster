@@ -3,32 +3,40 @@ import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
 import {
-    PurchaseOrderMessagesComponent,
-    PurchaseOrderMessagesDetailComponent,
-    PurchaseOrderMessagesUpdateComponent,
-    PurchaseOrderMessagesDeletePopupComponent,
-    PurchaseOrderMessagesDeleteDialogComponent,
-    purchaseOrderMessagesRoute,
-    purchaseOrderMessagesPopupRoute
+    PurchaseOrderMessagesExtendedComponent,
+    PurchaseOrderMessagesExtendedDetailComponent,
+    PurchaseOrderMessagesExtendedUpdateComponent,
+    purchaseOrderMessagesExtendedRoute
 } from './';
+import {
+    PurchaseOrderMessagesComponent,
+    PurchaseOrderMessagesDeleteDialogComponent,
+    PurchaseOrderMessagesDeletePopupComponent,
+    PurchaseOrderMessagesDetailComponent,
+    purchaseOrderMessagesPopupRoute,
+    PurchaseOrderMessagesUpdateComponent
+} from 'app/entities/purchase-order-messages';
 
-const ENTITY_STATES = [...purchaseOrderMessagesRoute, ...purchaseOrderMessagesPopupRoute];
+const ENTITY_STATES = [...purchaseOrderMessagesExtendedRoute, ...purchaseOrderMessagesPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /*declarations: [
+    declarations: [
         PurchaseOrderMessagesComponent,
         PurchaseOrderMessagesDetailComponent,
         PurchaseOrderMessagesUpdateComponent,
+        PurchaseOrderMessagesExtendedComponent,
+        PurchaseOrderMessagesExtendedDetailComponent,
+        PurchaseOrderMessagesExtendedUpdateComponent,
         PurchaseOrderMessagesDeleteDialogComponent,
         PurchaseOrderMessagesDeletePopupComponent
     ],
     entryComponents: [
-        PurchaseOrderMessagesComponent,
-        PurchaseOrderMessagesUpdateComponent,
+        PurchaseOrderMessagesExtendedComponent,
+        PurchaseOrderMessagesExtendedUpdateComponent,
         PurchaseOrderMessagesDeleteDialogComponent,
         PurchaseOrderMessagesDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiPurchaseOrderMessagesModule {}

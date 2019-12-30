@@ -1,6 +1,6 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {MatTabsModule} from '@angular/material';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { MatTabsModule } from '@angular/material';
 
 @NgModule({
     imports: [
@@ -674,7 +674,8 @@ import {MatTabsModule} from '@angular/material';
             },
             {
                 path: 'purchase-order-messages',
-                loadChildren: './purchase-order-messages/purchase-order-messages.module#SoptorshiPurchaseOrderMessagesModule'
+                loadChildren:
+                    './purchase-order-messages-extended/purchase-order-messages-extended.module#SoptorshiPurchaseOrderMessagesModule'
             },
             {
                 path: 'requisition-voucher-relation',
