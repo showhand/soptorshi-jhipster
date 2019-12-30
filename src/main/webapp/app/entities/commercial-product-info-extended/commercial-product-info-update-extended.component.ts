@@ -29,4 +29,26 @@ export class CommercialProductInfoUpdateExtendedComponent extends CommercialProd
             activatedRoute
         );
     }
+
+    calculateTotalOfferedPrice() {
+        if (
+            this.commercialProductInfo.offeredQuantity &&
+            this.commercialProductInfo.offeredUnit &&
+            this.commercialProductInfo.offeredUnitPrice
+        ) {
+            this.commercialProductInfo.offeredTotalPrice =
+                this.commercialProductInfo.offeredQuantity * this.commercialProductInfo.offeredUnitPrice;
+        }
+    }
+
+    calculateTotalBuyingPrice() {
+        if (
+            this.commercialProductInfo.buyingQuantity &&
+            this.commercialProductInfo.buyingUnit &&
+            this.commercialProductInfo.buyingUnitPrice
+        ) {
+            this.commercialProductInfo.buyingTotalPrice =
+                this.commercialProductInfo.buyingQuantity * this.commercialProductInfo.buyingUnitPrice;
+        }
+    }
 }

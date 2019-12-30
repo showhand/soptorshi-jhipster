@@ -6,11 +6,10 @@ import org.soptorshi.domain.CommercialProductInfo;
 import org.soptorshi.repository.CommercialProductInfoRepository;
 import org.soptorshi.repository.search.CommercialProductInfoSearchRepository;
 import org.soptorshi.security.SecurityUtils;
+import org.soptorshi.service.CommercialProductInfoService;
 import org.soptorshi.service.dto.CommercialBudgetDTO;
 import org.soptorshi.service.dto.CommercialProductInfoDTO;
 import org.soptorshi.service.mapper.CommercialProductInfoMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +18,12 @@ import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-
 /**
  * Service Implementation for managing CommercialProductInfo.
  */
 @Service
 @Transactional
-public class CommercialProductInfoExtendedService {
+public class CommercialProductInfoExtendedService extends CommercialProductInfoService {
 
     private final Logger log = LoggerFactory.getLogger(CommercialProductInfoExtendedService.class);
 
@@ -39,6 +36,7 @@ public class CommercialProductInfoExtendedService {
     private final CommercialBudgetExtendedService commercialBudgetExtendedService;
 
     public CommercialProductInfoExtendedService(CommercialProductInfoRepository commercialProductInfoRepository, CommercialProductInfoMapper commercialProductInfoMapper, CommercialProductInfoSearchRepository commercialProductInfoSearchRepository, CommercialBudgetExtendedService commercialBudgetExtendedService) {
+        super(commercialProductInfoRepository, commercialProductInfoMapper, commercialProductInfoSearchRepository);
         this.commercialProductInfoRepository = commercialProductInfoRepository;
         this.commercialProductInfoMapper = commercialProductInfoMapper;
         this.commercialProductInfoSearchRepository = commercialProductInfoSearchRepository;
@@ -82,57 +80,5 @@ public class CommercialProductInfoExtendedService {
         }
 
         return result;
-    }
-
-    /**
-     * Get all the commercialProductInfos.
-     *
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    @Transactional(readOnly = true)
-    public Page<CommercialProductInfoDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all CommercialProductInfos");
-        return commercialProductInfoRepository.findAll(pageable)
-            .map(commercialProductInfoMapper::toDto);
-    }
-
-
-    /**
-     * Get one commercialProductInfo by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    @Transactional(readOnly = true)
-    public Optional<CommercialProductInfoDTO> findOne(Long id) {
-        log.debug("Request to get CommercialProductInfo : {}", id);
-        return commercialProductInfoRepository.findById(id)
-            .map(commercialProductInfoMapper::toDto);
-    }
-
-    /**
-     * Delete the commercialProductInfo by id.
-     *
-     * @param id the id of the entity
-     */
-    public void delete(Long id) {
-        log.debug("Request to delete CommercialProductInfo : {}", id);
-        commercialProductInfoRepository.deleteById(id);
-        commercialProductInfoSearchRepository.deleteById(id);
-    }
-
-    /**
-     * Search for the commercialProductInfo corresponding to the query.
-     *
-     * @param query    the query of the search
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    @Transactional(readOnly = true)
-    public Page<CommercialProductInfoDTO> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of CommercialProductInfos for query {}", query);
-        return commercialProductInfoSearchRepository.search(queryStringQuery(query), pageable)
-            .map(commercialProductInfoMapper::toDto);
     }
 }

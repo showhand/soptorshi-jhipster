@@ -8,25 +8,22 @@ import org.soptorshi.domain.enumeration.CommercialPoStatus;
 import org.soptorshi.repository.CommercialPiRepository;
 import org.soptorshi.repository.search.CommercialPiSearchRepository;
 import org.soptorshi.security.SecurityUtils;
+import org.soptorshi.service.CommercialPiService;
 import org.soptorshi.service.dto.CommercialPiDTO;
 import org.soptorshi.service.dto.CommercialPoDTO;
 import org.soptorshi.service.mapper.CommercialPiMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-
 /**
  * Service Implementation for managing CommercialPi.
  */
 @Service
 @Transactional
-public class CommercialPiExtendedService {
+public class CommercialPiExtendedService extends CommercialPiService {
 
     private final Logger log = LoggerFactory.getLogger(CommercialPiExtendedService.class);
 
@@ -40,6 +37,7 @@ public class CommercialPiExtendedService {
 
     public CommercialPiExtendedService(CommercialPiRepository commercialPiRepository, CommercialPiMapper commercialPiMapper, CommercialPiSearchRepository commercialPiSearchRepository,
                                        CommercialPoExtendedService commercialPoExtendedService) {
+        super(commercialPiRepository, commercialPiMapper, commercialPiSearchRepository);
         this.commercialPiRepository = commercialPiRepository;
         this.commercialPiMapper = commercialPiMapper;
         this.commercialPiSearchRepository = commercialPiSearchRepository;
@@ -59,77 +57,37 @@ public class CommercialPiExtendedService {
         Instant currentDateTime = Instant.now();
 
         if(commercialPiDTO.getId() == null) {
+            commercialPiDTO.setPiStatus(CommercialPiStatus.WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER);
             commercialPiDTO.setCreatedBy(currentUser);
             commercialPiDTO.setCreatedOn(currentDateTime);
+            CommercialPi commercialPi = commercialPiMapper.toEntity(commercialPiDTO);
+            commercialPi = commercialPiRepository.save(commercialPi);
+            CommercialPiDTO result = commercialPiMapper.toDto(commercialPi);
+            commercialPiSearchRepository.save(commercialPi);
+            return result;
         }
         else {
-            if(commercialPiDTO.getPiStatus().equals(CommercialPiStatus.PI_APPROVED_BY_THE_CUSTOMER)) {
-                CommercialPoDTO commercialPoDTO = new CommercialPoDTO();
-                commercialPoDTO.setCommercialPiId(commercialPiDTO.getId());
-                commercialPoDTO.setCommercialPiProformaNo(commercialPiDTO.getProformaNo());
-                commercialPoDTO.setPoStatus(CommercialPoStatus.PO_CREATED);
-                commercialPoDTO.setPurchaseOrderNo(commercialPiDTO.getPurchaseOrderNo());
-                commercialPoExtendedService.save(commercialPoDTO);
+            Optional<CommercialPi> currentCommercialPi = commercialPiRepository.findById(commercialPiDTO.getId());
+            if(currentCommercialPi.isPresent()) {
+                if(currentCommercialPi.get().getPiStatus().equals(CommercialPiStatus.WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER)) {
+                    if (commercialPiDTO.getPiStatus().equals(CommercialPiStatus.PI_APPROVED_BY_THE_CUSTOMER)) {
+                        CommercialPoDTO commercialPoDTO = new CommercialPoDTO();
+                        commercialPoDTO.setCommercialPiId(commercialPiDTO.getId());
+                        commercialPoDTO.setCommercialPiProformaNo(commercialPiDTO.getProformaNo());
+                        commercialPoDTO.setPoStatus(CommercialPoStatus.PO_CREATED);
+                        commercialPoDTO.setPurchaseOrderNo(commercialPiDTO.getPurchaseOrderNo());
+                        commercialPoExtendedService.save(commercialPoDTO);
+                    }
+                    commercialPiDTO.setUpdatedBy(currentUser);
+                    commercialPiDTO.setUpdatedOn(currentDateTime);
+                    CommercialPi commercialPi = commercialPiMapper.toEntity(commercialPiDTO);
+                    commercialPi = commercialPiRepository.save(commercialPi);
+                    CommercialPiDTO result = commercialPiMapper.toDto(commercialPi);
+                    commercialPiSearchRepository.save(commercialPi);
+                    return result;
+                }
             }
-            commercialPiDTO.setUpdatedBy(currentUser);
-            commercialPiDTO.setUpdatedOn(currentDateTime);
         }
-        CommercialPi commercialPi = commercialPiMapper.toEntity(commercialPiDTO);
-        commercialPi = commercialPiRepository.save(commercialPi);
-        CommercialPiDTO result = commercialPiMapper.toDto(commercialPi);
-        commercialPiSearchRepository.save(commercialPi);
-        return result;
-    }
-
-    /**
-     * Get all the commercialPis.
-     *
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    @Transactional(readOnly = true)
-    public Page<CommercialPiDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all CommercialPis");
-        return commercialPiRepository.findAll(pageable)
-            .map(commercialPiMapper::toDto);
-    }
-
-
-    /**
-     * Get one commercialPi by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    @Transactional(readOnly = true)
-    public Optional<CommercialPiDTO> findOne(Long id) {
-        log.debug("Request to get CommercialPi : {}", id);
-        return commercialPiRepository.findById(id)
-            .map(commercialPiMapper::toDto);
-    }
-
-    /**
-     * Delete the commercialPi by id.
-     *
-     * @param id the id of the entity
-     */
-    public void delete(Long id) {
-        log.debug("Request to delete CommercialPi : {}", id);
-        commercialPiRepository.deleteById(id);
-        commercialPiSearchRepository.deleteById(id);
-    }
-
-    /**
-     * Search for the commercialPi corresponding to the query.
-     *
-     * @param query the query of the search
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-    @Transactional(readOnly = true)
-    public Page<CommercialPiDTO> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of CommercialPis for query {}", query);
-        return commercialPiSearchRepository.search(queryStringQuery(query), pageable)
-            .map(commercialPiMapper::toDto);
+        return null;
     }
 }
