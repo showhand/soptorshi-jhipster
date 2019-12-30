@@ -1,0 +1,53 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-requisition-messages-heading">Create or edit a Requisition Messages</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!requisitionMessages.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="requisitionMessages.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_comments">Comments</label>
+                    <textarea class="form-control" name="comments" id="field_comments"
+                        [(ngModel)]="requisitionMessages.comments" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commentedOn">Commented On</label>
+                    <div class="input-group">
+                        <input id="field_commentedOn" type="text" class="form-control" name="commentedOn" ngbDatepicker  #commentedOnDp="ngbDatepicker" [(ngModel)]="requisitionMessages.commentedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="commentedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commenter">Commenter</label>
+                    <select class="form-control" id="field_commenter" name="commenter" [(ngModel)]="requisitionMessages.commenterId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_requisition">Requisition</label>
+                    <select class="form-control" id="field_requisition" name="requisition" [(ngModel)]="requisitionMessages.requisitionId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="requisitionOption.id" *ngFor="let requisitionOption of requisitions; trackBy: trackRequisitionById">{{requisitionOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

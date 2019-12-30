@@ -52,6 +52,8 @@ public class RequisitionCriteria implements Serializable {
 
     private LocalDateFilter modifiedOn;
 
+    private LongFilter commentsId;
+
     private LongFilter employeeId;
 
     private LongFilter officeId;
@@ -148,6 +150,14 @@ public class RequisitionCriteria implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public LongFilter getCommentsId() {
+        return commentsId;
+    }
+
+    public void setCommentsId(LongFilter commentsId) {
+        this.commentsId = commentsId;
+    }
+
     public LongFilter getEmployeeId() {
         return employeeId;
     }
@@ -202,6 +212,7 @@ public class RequisitionCriteria implements Serializable {
             Objects.equals(refToCfo, that.refToCfo) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(commentsId, that.commentsId) &&
             Objects.equals(employeeId, that.employeeId) &&
             Objects.equals(officeId, that.officeId) &&
             Objects.equals(productCategoryId, that.productCategoryId) &&
@@ -222,6 +233,7 @@ public class RequisitionCriteria implements Serializable {
         refToCfo,
         modifiedBy,
         modifiedOn,
+        commentsId,
         employeeId,
         officeId,
         productCategoryId,
@@ -243,6 +255,7 @@ public class RequisitionCriteria implements Serializable {
                 (refToCfo != null ? "refToCfo=" + refToCfo + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
+                (commentsId != null ? "commentsId=" + commentsId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
                 (officeId != null ? "officeId=" + officeId + ", " : "") +
                 (productCategoryId != null ? "productCategoryId=" + productCategoryId + ", " : "") +

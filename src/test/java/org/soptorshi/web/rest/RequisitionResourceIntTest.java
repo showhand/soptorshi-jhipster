@@ -3,6 +3,7 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.Requisition;
+import org.soptorshi.domain.RequisitionMessages;
 import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.Office;
 import org.soptorshi.domain.ProductCategory;
@@ -817,6 +818,25 @@ public class RequisitionResourceIntTest {
 
         // Get all the requisitionList where modifiedOn less than or equals to UPDATED_MODIFIED_ON
         defaultRequisitionShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByCommentsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        RequisitionMessages comments = RequisitionMessagesResourceIntTest.createEntity(em);
+        em.persist(comments);
+        em.flush();
+        requisition.addComments(comments);
+        requisitionRepository.saveAndFlush(requisition);
+        Long commentsId = comments.getId();
+
+        // Get all the requisitionList where comments equals to commentsId
+        defaultRequisitionShouldBeFound("commentsId.equals=" + commentsId);
+
+        // Get all the requisitionList where comments equals to commentsId + 1
+        defaultRequisitionShouldNotBeFound("commentsId.equals=" + (commentsId + 1));
     }
 
 

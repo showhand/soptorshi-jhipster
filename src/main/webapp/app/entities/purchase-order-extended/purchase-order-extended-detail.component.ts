@@ -24,7 +24,6 @@ export class PurchaseOrderExtendedDetailComponent extends PurchaseOrderDetailCom
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ purchaseOrder }) => {
             this.purchaseOrder = purchaseOrder;
-            this.purchaseOrder.purchaseOrderId = this.purchaseOrder.id;
         });
     }
 

@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { IRequisitionMessages } from 'app/shared/model/requisition-messages.model';
 
 export const enum RequisitionStatus {
     WAITING_FOR_HEADS_APPROVAL = 'WAITING_FOR_HEADS_APPROVAL',
@@ -31,6 +32,7 @@ export interface IRequisition {
     refToCfo?: number;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    comments?: IRequisitionMessages[];
     employeeFullName?: string;
     employeeId?: number;
     officeName?: string;
@@ -58,6 +60,7 @@ export class Requisition implements IRequisition {
         public refToCfo?: number,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
+        public comments?: IRequisitionMessages[],
         public employeeFullName?: string,
         public employeeId?: number,
         public officeName?: string,

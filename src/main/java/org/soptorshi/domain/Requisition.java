@@ -1,6 +1,7 @@
 package org.soptorshi.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -9,6 +10,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.RequisitionStatus;
@@ -74,6 +77,8 @@ public class Requisition implements Serializable {
     @Column(name = "modified_on")
     private LocalDate modifiedOn;
 
+    @OneToMany(mappedBy = "requisition")
+    private Set<RequisitionMessages> comments = new HashSet<>();
     @ManyToOne
     @JsonIgnoreProperties("requisitions")
     private Employee employee;
@@ -279,6 +284,31 @@ public class Requisition implements Serializable {
 
     public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public Set<RequisitionMessages> getComments() {
+        return comments;
+    }
+
+    public Requisition comments(Set<RequisitionMessages> requisitionMessages) {
+        this.comments = requisitionMessages;
+        return this;
+    }
+
+    public Requisition addComments(RequisitionMessages requisitionMessages) {
+        this.comments.add(requisitionMessages);
+        requisitionMessages.setRequisition(this);
+        return this;
+    }
+
+    public Requisition removeComments(RequisitionMessages requisitionMessages) {
+        this.comments.remove(requisitionMessages);
+        requisitionMessages.setRequisition(null);
+        return this;
+    }
+
+    public void setComments(Set<RequisitionMessages> requisitionMessages) {
+        this.comments = requisitionMessages;
     }
 
     public Employee getEmployee() {

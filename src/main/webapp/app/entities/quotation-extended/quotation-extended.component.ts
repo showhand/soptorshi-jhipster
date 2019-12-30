@@ -59,6 +59,9 @@ export class QuotationExtendedComponent extends QuotationComponent implements On
             );
     }
 
+    transition() {
+        this.loadAll();
+    }
     back() {
         window.history.back();
     }

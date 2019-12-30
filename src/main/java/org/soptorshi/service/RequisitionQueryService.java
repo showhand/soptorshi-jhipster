@@ -123,6 +123,10 @@ public class RequisitionQueryService extends QueryService<Requisition> {
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), Requisition_.modifiedOn));
             }
+            if (criteria.getCommentsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCommentsId(),
+                    root -> root.join(Requisition_.comments, JoinType.LEFT).get(RequisitionMessages_.id)));
+            }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),
                     root -> root.join(Requisition_.employee, JoinType.LEFT).get(Employee_.id)));

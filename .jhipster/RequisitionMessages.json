@@ -1,0 +1,39 @@
+{
+    "name": "RequisitionMessages",
+    "fields": [
+        {
+            "fieldName": "comments",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "commentedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "requisitionMessages",
+            "relationshipName": "commenter",
+            "otherEntityField": "fullName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "requisition",
+            "otherEntityRelationshipName": "comments",
+            "relationshipName": "requisition",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191228175919",
+    "entityTableName": "requisition_messages",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -117,14 +117,6 @@ export class RequisitionDetailsExtendedComponent extends RequisitionDetailsCompo
     }
 
     transition() {
-        this.router.navigate(['/requisition-details'], {
-            queryParams: {
-                page: this.page,
-                size: this.itemsPerPage,
-                search: this.currentSearch,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
-        });
         this.loadAll();
     }
 

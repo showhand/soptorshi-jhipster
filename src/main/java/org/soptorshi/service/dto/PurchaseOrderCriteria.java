@@ -52,6 +52,8 @@ public class PurchaseOrderCriteria implements Serializable {
 
     private LocalDateFilter modifiedOn;
 
+    private LongFilter commentsId;
+
     private LongFilter requisitionId;
 
     private LongFilter quotationId;
@@ -144,6 +146,14 @@ public class PurchaseOrderCriteria implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public LongFilter getCommentsId() {
+        return commentsId;
+    }
+
+    public void setCommentsId(LongFilter commentsId) {
+        this.commentsId = commentsId;
+    }
+
     public LongFilter getRequisitionId() {
         return requisitionId;
     }
@@ -182,6 +192,7 @@ public class PurchaseOrderCriteria implements Serializable {
             Objects.equals(status, that.status) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(commentsId, that.commentsId) &&
             Objects.equals(requisitionId, that.requisitionId) &&
             Objects.equals(quotationId, that.quotationId);
     }
@@ -200,6 +211,7 @@ public class PurchaseOrderCriteria implements Serializable {
         status,
         modifiedBy,
         modifiedOn,
+        commentsId,
         requisitionId,
         quotationId
         );
@@ -219,6 +231,7 @@ public class PurchaseOrderCriteria implements Serializable {
                 (status != null ? "status=" + status + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
+                (commentsId != null ? "commentsId=" + commentsId + ", " : "") +
                 (requisitionId != null ? "requisitionId=" + requisitionId + ", " : "") +
                 (quotationId != null ? "quotationId=" + quotationId + ", " : "") +
             "}";

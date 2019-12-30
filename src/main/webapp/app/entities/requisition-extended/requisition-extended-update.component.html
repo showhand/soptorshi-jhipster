@@ -74,47 +74,18 @@
                 <div class="row">
                     <div class="col-md-12"><hr/></div>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_headRemarks">Head Remarks </label>
-                    <textarea class="form-control" name="headRemarks" id="field_headRemarks"  [disabled]="!this.accountService.hasAnyAuthority(['ROLE_DEPARTMENT_HEAD']) || requisition.status!=='WAITING_FOR_HEADS_APPROVAL'"
-                              [(ngModel)]="requisition.headRemarks" ></textarea>
-                </div>
-
-                <div class="form-group" >
-                    <label class="form-control-label" for="field_purchaseCommitteeRemarks">Purchase Committee Remarks</label>
-                    <textarea class="form-control" name="purchaseCommitteeRemarks" id="field_purchaseCommitteeRemarks" [disabled]="!this.accountService.hasAnyAuthority(['ROLE_PURCHASE_COMMITTEE']) && requisition.status!== 'FORWARDED_BY_HEAD'"
-                        [(ngModel)]="requisition.purchaseCommitteeRemarks" ></textarea>
-                </div>
-              <!--  <div class="form-group">
-                    <label class="form-control-label" for="field_refToPurchaseCommittee">Ref To Purchase Committee</label>
-                    <input type="number" class="form-control" name="refToPurchaseCommittee" id="field_refToPurchaseCommittee"
-                        [(ngModel)]="requisition.refToPurchaseCommittee" />
-                </div>-->
-                <div class="form-group" >
-                    <label class="form-control-label" for="field_cfoRemarks">Cfo Remarks</label>
-                    <textarea class="form-control" name="cfoRemarks" id="field_cfoRemarks"  [disabled]="!accountService.hasAnyAuthority(['ROLE_CFO']) || requisition.status!== 'FORWARDED_BY_PURCHASE_COMMITTEE'"
-                        [(ngModel)]="requisition.cfoRemarks" ></textarea>
-                </div>
-                <div class="form-group" *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO', 'ROLE_REQUISITION_COMMITTEE'])">
-                    <label class="form-control-label" for="field_office">Office</label>
-                    <select class="form-control" id="field_office" name="office" [(ngModel)]="requisition.officeId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="officeOption.id" *ngFor="let officeOption of offices; trackBy: trackOfficeById">{{officeOption.name}}</option>
-                    </select>
-                </div>
-
-                <div class="form-group" *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO', 'ROLE_REQUISITION_COMMITTEE'])">
-                    <label class="form-control-label" for="field_department">Department</label>
-                    <select class="form-control" id="field_department" name="department" [(ngModel)]="requisition.departmentId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.name}}</option>
-                    </select>
+                <div class="row" *ngIf="requisition.id">
+                    <div class="col-md-12">
+                        <jhi-requisition-messages-extended-directive [requisitionId]="requisition.id"></jhi-requisition-messages-extended-directive>
+                    </div>
                 </div>
             </div>
             <div>
+
+            </div>
+            <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                    <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span>Back</span>
                 </button>
                 <button type="submit" id="save-entity" *ngIf="requisition.status==null " [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>

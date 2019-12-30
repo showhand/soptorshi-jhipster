@@ -1,0 +1,39 @@
+{
+    "name": "PurchaseOrderMessages",
+    "fields": [
+        {
+            "fieldName": "comments",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "commentedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "purchaseOrderMessages",
+            "relationshipName": "commenter",
+            "otherEntityField": "fullName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "purchaseOrder",
+            "otherEntityRelationshipName": "comments",
+            "relationshipName": "purchaseOrder",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191228175920",
+    "entityTableName": "purchase_order_messages",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

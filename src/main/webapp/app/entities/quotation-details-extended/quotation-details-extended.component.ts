@@ -78,6 +78,10 @@ export class QuotationDetailsExtendedComponent extends QuotationDetailsComponent
         }
     }
 
+    transition() {
+        this.loadAll();
+    }
+
     ngOnInit() {
         this.loadAll();
         this.accountService.identity().then(account => {

@@ -65,6 +65,12 @@
     ],
     "relationships": [
         {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "requisitionMessages",
+            "otherEntityRelationshipName": "requisition",
+            "relationshipName": "comments"
+        },
+        {
             "relationshipType": "many-to-one",
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "requisition",

@@ -123,6 +123,10 @@ public class PurchaseOrderQueryService extends QueryService<PurchaseOrder> {
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), PurchaseOrder_.modifiedOn));
             }
+            if (criteria.getCommentsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCommentsId(),
+                    root -> root.join(PurchaseOrder_.comments, JoinType.LEFT).get(PurchaseOrderMessages_.id)));
+            }
             if (criteria.getRequisitionId() != null) {
                 specification = specification.and(buildSpecification(criteria.getRequisitionId(),
                     root -> root.join(PurchaseOrder_.requisition, JoinType.LEFT).get(Requisition_.id)));

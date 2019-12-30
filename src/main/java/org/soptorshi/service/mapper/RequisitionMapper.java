@@ -21,6 +21,7 @@ public interface RequisitionMapper extends EntityMapper<RequisitionDTO, Requisit
     @Mapping(source = "department.name", target = "departmentName")
     RequisitionDTO toDto(Requisition requisition);
 
+    @Mapping(target = "comments", ignore = true)
     @Mapping(source = "employeeId", target = "employee")
     @Mapping(source = "officeId", target = "office")
     @Mapping(source = "productCategoryId", target = "productCategory")

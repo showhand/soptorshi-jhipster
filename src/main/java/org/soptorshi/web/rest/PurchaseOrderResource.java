@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -99,11 +98,6 @@ public class PurchaseOrderResource {
         Page<PurchaseOrderDTO> page = purchaseOrderQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/purchase-orders");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    @GetMapping("/purchase-orders/workorder-report/requisitionId/{requisitionId}")
-    public StreamingHttpOutputMessage getWorkOrderReport(@PathVariable("requisitionId") Long requisitionId){
-        return null;
     }
 
     /**

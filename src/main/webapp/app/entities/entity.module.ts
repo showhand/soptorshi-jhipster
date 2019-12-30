@@ -667,6 +667,14 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'commercial-po',
                 loadChildren: './commercial-po/commercial-po.module#SoptorshiCommercialPoModule'
+            },
+            {
+                path: 'requisition-messages',
+                loadChildren: './requisition-messages-extended/requisition-messages-extended.module#SoptorshiRequisitionMessagesModule'
+            },
+            {
+                path: 'purchase-order-messages',
+                loadChildren: './purchase-order-messages/purchase-order-messages.module#SoptorshiPurchaseOrderMessagesModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
