@@ -82,10 +82,10 @@
     "relationships": [
         {
             "relationshipType": "one-to-one",
-            "otherEntityName": "purchaseOrder",
+            "otherEntityName": "requisition",
             "otherEntityRelationshipName": "stockInProcess",
-            "relationshipName": "purchaseOrder",
-            "otherEntityField": "purchaseOrderNo",
+            "relationshipName": "requisition",
+            "otherEntityField": "requisitionNo",
             "ownerSide": true
         },
         {

@@ -42,7 +42,6 @@
             <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInItemsId"><span>Stock In Items</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="stockStatusesId"><span>Stock Statuses</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -79,11 +78,6 @@
                 <td>
                     <div *ngIf="stockOutItem.stockInItemsId">
                         <a [routerLink]="['../stock-in-item', stockOutItem.stockInItemsId , 'view' ]" >{{stockOutItem.stockInItemsId}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="stockOutItem.stockStatusesId">
-                        <a [routerLink]="['../stock-status', stockOutItem.stockStatusesId , 'view' ]" >{{stockOutItem.stockStatusesId}}</a>
                     </div>
                 </td>
                 <td class="text-right">

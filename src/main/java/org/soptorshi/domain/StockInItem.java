@@ -96,7 +96,7 @@ public class StockInItem implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("stockInItems")
-    private PurchaseOrder purchaseOrders;
+    private Requisition requisitions;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -328,17 +328,17 @@ public class StockInItem implements Serializable {
         this.stockInProcesses = stockInProcess;
     }
 
-    public PurchaseOrder getPurchaseOrders() {
-        return purchaseOrders;
+    public Requisition getRequisitions() {
+        return requisitions;
     }
 
-    public StockInItem purchaseOrders(PurchaseOrder purchaseOrder) {
-        this.purchaseOrders = purchaseOrder;
+    public StockInItem requisitions(Requisition requisition) {
+        this.requisitions = requisition;
         return this;
     }
 
-    public void setPurchaseOrders(PurchaseOrder purchaseOrder) {
-        this.purchaseOrders = purchaseOrder;
+    public void setRequisitions(Requisition requisition) {
+        this.requisitions = requisition;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -1,13 +1,13 @@
 /* tslint:disable max-line-length */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Data } from '@angular/router';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {of} from 'rxjs';
+import {HttpHeaders, HttpResponse} from '@angular/common/http';
+import {ActivatedRoute, Data} from '@angular/router';
 
-import { SoptorshiTestModule } from '../../../test.module';
-import { StockInItemComponent } from 'app/entities/stock-in-item/stock-in-item.component';
-import { StockInItemService } from 'app/entities/stock-in-item/stock-in-item.service';
-import { StockInItem } from 'app/shared/model/stock-in-item.model';
+import {SoptorshiTestModule} from '../../../test.module';
+import {StockInItemComponent} from 'app/entities/stock-in-item/stock-in-item.component';
+import {StockInItemService} from 'app/entities/stock-in-item/stock-in-item.service';
+import {StockInItem} from 'app/shared/model/stock-in-item.model';
 
 describe('Component Tests', () => {
     describe('StockInItem Management Component', () => {

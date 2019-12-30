@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import * as moment from 'moment';
-import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-import { IRequisition } from 'app/shared/model/requisition.model';
-import { RequisitionService } from './requisition.service';
-import { IEmployee } from 'app/shared/model/employee.model';
-import { EmployeeService } from 'app/entities/employee';
-import { IOffice } from 'app/shared/model/office.model';
-import { OfficeService } from 'app/entities/office';
-import { IProductCategory } from 'app/shared/model/product-category.model';
-import { ProductCategoryService } from 'app/entities/product-category';
-import { IDepartment } from 'app/shared/model/department.model';
-import { DepartmentService } from 'app/entities/department';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
+import {JhiAlertService, JhiDataUtils} from 'ng-jhipster';
+import {IRequisition} from 'app/shared/model/requisition.model';
+import {RequisitionService} from './requisition.service';
+import {IEmployee} from 'app/shared/model/employee.model';
+import {EmployeeService} from 'app/entities/employee';
+import {IOffice} from 'app/shared/model/office.model';
+import {OfficeService} from 'app/entities/office';
+import {IProductCategory} from 'app/shared/model/product-category.model';
+import {ProductCategoryService} from 'app/entities/product-category';
+import {IDepartment} from 'app/shared/model/department.model';
+import {DepartmentService} from 'app/entities/department';
 
 @Component({
     selector: 'jhi-requisition-update',

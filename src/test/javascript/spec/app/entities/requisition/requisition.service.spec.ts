@@ -1,13 +1,11 @@
 /* tslint:disable max-line-length */
-import { TestBed, getTestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import {getTestBed, TestBed} from '@angular/core/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {map, take} from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { RequisitionService } from 'app/entities/requisition/requisition.service';
-import { IRequisition, Requisition, RequisitionType, RequisitionStatus } from 'app/shared/model/requisition.model';
+import {DATE_FORMAT} from 'app/shared/constants/input.constants';
+import {RequisitionService} from 'app/entities/requisition/requisition.service';
+import {IRequisition, Requisition, RequisitionStatus} from 'app/shared/model/requisition.model';
 
 describe('Service Tests', () => {
     describe('Requisition Service', () => {
@@ -28,7 +26,6 @@ describe('Service Tests', () => {
             elemDefault = new Requisition(
                 0,
                 'AAAAAAA',
-                RequisitionType.NORMAL,
                 'AAAAAAA',
                 currentDate,
                 0,
@@ -91,7 +88,6 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         requisitionNo: 'BBBBBB',
-                        requisitionType: 'BBBBBB',
                         reason: 'BBBBBB',
                         requisitionDate: currentDate.format(DATE_FORMAT),
                         amount: 1,
@@ -128,7 +124,6 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         requisitionNo: 'BBBBBB',
-                        requisitionType: 'BBBBBB',
                         reason: 'BBBBBB',
                         requisitionDate: currentDate.format(DATE_FORMAT),
                         amount: 1,

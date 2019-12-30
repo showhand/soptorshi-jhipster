@@ -1,12 +1,12 @@
 /* tslint:disable max-line-length */
-import { ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, of } from 'rxjs';
-import { JhiEventManager } from 'ng-jhipster';
+import {ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {of} from 'rxjs';
+import {JhiEventManager} from 'ng-jhipster';
 
-import { SoptorshiTestModule } from '../../../test.module';
-import { RequisitionDeleteDialogComponent } from 'app/entities/requisition/requisition-delete-dialog.component';
-import { RequisitionService } from 'app/entities/requisition/requisition.service';
+import {SoptorshiTestModule} from '../../../test.module';
+import {RequisitionDeleteDialogComponent} from 'app/entities/requisition/requisition-delete-dialog.component';
+import {RequisitionService} from 'app/entities/requisition/requisition.service';
 
 describe('Component Tests', () => {
     describe('Requisition Management Delete Component', () => {

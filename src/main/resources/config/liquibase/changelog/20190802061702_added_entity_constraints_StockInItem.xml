@@ -44,11 +44,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="stock_in_process"/>
 
-        <addForeignKeyConstraint baseColumnNames="purchase_orders_id"
+        <addForeignKeyConstraint baseColumnNames="requisitions_id"
                                  baseTableName="stock_in_item"
-                                 constraintName="fk_stock_in_item_purchase_orders_id"
+                                 constraintName="fk_stock_in_item_requisitions_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="purchase_order"/>
+                                 referencedTableName="requisition"/>
 
     </changeSet>
 </databaseChangeLog>

@@ -38,11 +38,5 @@
                                  referencedColumnNames="id"
                                  referencedTableName="stock_in_item"/>
 
-        <addForeignKeyConstraint baseColumnNames="stock_statuses_id"
-                                 baseTableName="stock_out_item"
-                                 constraintName="fk_stock_out_item_stock_statuses_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="stock_status"/>
-
     </changeSet>
 </databaseChangeLog>

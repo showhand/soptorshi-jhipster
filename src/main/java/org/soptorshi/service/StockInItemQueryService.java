@@ -3,7 +3,7 @@ package org.soptorshi.service;
 import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.*;
+import org.soptorshi.domain.StockInItem;
 import org.soptorshi.repository.StockInItemRepository;
 import org.soptorshi.repository.search.StockInItemSearchRepository;
 import org.soptorshi.service.dto.StockInItemCriteria;
@@ -146,9 +146,9 @@ public class StockInItemQueryService extends QueryService<StockInItem> {
                 specification = specification.and(buildSpecification(criteria.getStockInProcessesId(),
                     root -> root.join(StockInItem_.stockInProcesses, JoinType.LEFT).get(StockInProcess_.id)));
             }
-            if (criteria.getPurchaseOrdersId() != null) {
-                specification = specification.and(buildSpecification(criteria.getPurchaseOrdersId(),
-                    root -> root.join(StockInItem_.purchaseOrders, JoinType.LEFT).get(PurchaseOrder_.id)));
+            if (criteria.getRequisitionsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getRequisitionsId(),
+                    root -> root.join(StockInItem_.requisitions, JoinType.LEFT).get(Requisition_.id)));
             }
         }
         return specification;

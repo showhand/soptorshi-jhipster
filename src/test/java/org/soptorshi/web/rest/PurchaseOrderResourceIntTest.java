@@ -1,24 +1,21 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.PurchaseOrder;
-import org.soptorshi.domain.PurchaseOrderMessages;
-import org.soptorshi.domain.Requisition;
-import org.soptorshi.domain.Quotation;
-import org.soptorshi.repository.PurchaseOrderRepository;
-import org.soptorshi.repository.search.PurchaseOrderSearchRepository;
-import org.soptorshi.service.PurchaseOrderService;
-import org.soptorshi.service.dto.PurchaseOrderDTO;
-import org.soptorshi.service.mapper.PurchaseOrderMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.PurchaseOrderCriteria;
-import org.soptorshi.service.PurchaseOrderQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.PurchaseOrder;
+import org.soptorshi.domain.Quotation;
+import org.soptorshi.domain.Requisition;
+import org.soptorshi.domain.enumeration.PurchaseOrderStatus;
+import org.soptorshi.repository.PurchaseOrderRepository;
+import org.soptorshi.repository.search.PurchaseOrderSearchRepository;
+import org.soptorshi.service.PurchaseOrderQueryService;
+import org.soptorshi.service.PurchaseOrderService;
+import org.soptorshi.service.dto.PurchaseOrderDTO;
+import org.soptorshi.service.mapper.PurchaseOrderMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -30,7 +27,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
@@ -40,16 +36,13 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.soptorshi.domain.enumeration.PurchaseOrderStatus;
 /**
  * Test class for the PurchaseOrderResource REST controller.
  *
@@ -248,7 +241,7 @@ public class PurchaseOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getPurchaseOrder() throws Exception {
@@ -714,25 +707,6 @@ public class PurchaseOrderResourceIntTest {
 
         // Get all the purchaseOrderList where modifiedOn less than or equals to UPDATED_MODIFIED_ON
         defaultPurchaseOrderShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllPurchaseOrdersByCommentsIsEqualToSomething() throws Exception {
-        // Initialize the database
-        PurchaseOrderMessages comments = PurchaseOrderMessagesResourceIntTest.createEntity(em);
-        em.persist(comments);
-        em.flush();
-        purchaseOrder.addComments(comments);
-        purchaseOrderRepository.saveAndFlush(purchaseOrder);
-        Long commentsId = comments.getId();
-
-        // Get all the purchaseOrderList where comments equals to commentsId
-        defaultPurchaseOrderShouldBeFound("commentsId.equals=" + commentsId);
-
-        // Get all the purchaseOrderList where comments equals to commentsId + 1
-        defaultPurchaseOrderShouldNotBeFound("commentsId.equals=" + (commentsId + 1));
     }
 
 

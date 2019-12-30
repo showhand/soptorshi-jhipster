@@ -8,11 +8,11 @@
     -->
     <changeSet id="20190802061701-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="purchase_order_id"
+        <addForeignKeyConstraint baseColumnNames="requisition_id"
                                  baseTableName="stock_in_process"
-                                 constraintName="fk_stock_in_process_purchase_order_id"
+                                 constraintName="fk_stock_in_process_requisition_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="purchase_order"/>
+                                 referencedTableName="requisition"/>
 
         <addForeignKeyConstraint baseColumnNames="product_categories_id"
                                  baseTableName="stock_in_process"

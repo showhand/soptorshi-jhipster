@@ -1,6 +1,6 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { MatTabsModule } from '@angular/material';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
+import {MatTabsModule} from '@angular/material';
 
 @NgModule({
     imports: [
@@ -680,6 +680,26 @@ import { MatTabsModule } from '@angular/material';
                 path: 'requisition-voucher-relation',
                 loadChildren:
                     './requisition-voucher-relation-extended/requisition-voucher-relation-extended.module#SoptorshiRequisitionVoucherRelationModule'
+            },
+            {
+                path: 'requisition',
+                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
+            },
+            {
+                path: 'purchase-order',
+                loadChildren: './purchase-order/purchase-order.module#SoptorshiPurchaseOrderModule'
+            },
+            {
+                path: 'stock-in-process',
+                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
+            },
+            {
+                path: 'stock-in-item',
+                loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
+            },
+            {
+                path: 'stock-out-item',
+                loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

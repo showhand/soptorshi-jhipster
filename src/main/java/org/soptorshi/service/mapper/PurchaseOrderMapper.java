@@ -1,9 +1,9 @@
 package org.soptorshi.service.mapper;
 
-import org.soptorshi.domain.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.soptorshi.domain.PurchaseOrder;
 import org.soptorshi.service.dto.PurchaseOrderDTO;
-
-import org.mapstruct.*;
 
 /**
  * Mapper for the entity PurchaseOrder and its DTO PurchaseOrderDTO.
@@ -17,7 +17,6 @@ public interface PurchaseOrderMapper extends EntityMapper<PurchaseOrderDTO, Purc
     @Mapping(source = "quotation.quotationNo", target = "quotationQuotationNo")
     PurchaseOrderDTO toDto(PurchaseOrder purchaseOrder);
 
-    @Mapping(target = "comments", ignore = true)
     @Mapping(source = "requisitionId", target = "requisition")
     @Mapping(source = "quotationId", target = "quotation")
     PurchaseOrder toEntity(PurchaseOrderDTO purchaseOrderDTO);

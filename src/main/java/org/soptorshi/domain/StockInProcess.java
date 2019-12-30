@@ -87,7 +87,7 @@ public class StockInProcess implements Serializable {
 
     @OneToOne
     @JoinColumn(unique = true)
-    private PurchaseOrder purchaseOrder;
+    private Requisition requisition;
 
     @ManyToOne
     @JsonIgnoreProperties("stockInProcesses")
@@ -326,17 +326,17 @@ public class StockInProcess implements Serializable {
         this.remarks = remarks;
     }
 
-    public PurchaseOrder getPurchaseOrder() {
-        return purchaseOrder;
+    public Requisition getRequisition() {
+        return requisition;
     }
 
-    public StockInProcess purchaseOrder(PurchaseOrder purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
+    public StockInProcess requisition(Requisition requisition) {
+        this.requisition = requisition;
         return this;
     }
 
-    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
+    public void setRequisition(Requisition requisition) {
+        this.requisition = requisition;
     }
 
     public ProductCategory getProductCategories() {

@@ -170,10 +170,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_purchaseOrders">Purchase Orders</label>
-                    <select class="form-control" id="field_purchaseOrders" name="purchaseOrders" [(ngModel)]="stockInItem.purchaseOrdersId" >
+                    <label class="form-control-label" for="field_requisitions">Requisitions</label>
+                    <select class="form-control" id="field_requisitions" name="requisitions" [(ngModel)]="stockInItem.requisitionsId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="purchaseOrderOption.id" *ngFor="let purchaseOrderOption of purchaseorders; trackBy: trackPurchaseOrderById">{{purchaseOrderOption.purchaseOrderNo}}</option>
+                        <option [ngValue]="requisitionOption.id" *ngFor="let requisitionOption of requisitions; trackBy: trackRequisitionById">{{requisitionOption.requisitionNo}}</option>
                     </select>
                 </div>
             </div>

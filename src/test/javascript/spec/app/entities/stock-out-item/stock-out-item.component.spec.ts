@@ -1,13 +1,13 @@
 /* tslint:disable max-line-length */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Data } from '@angular/router';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {of} from 'rxjs';
+import {HttpHeaders, HttpResponse} from '@angular/common/http';
+import {ActivatedRoute, Data} from '@angular/router';
 
-import { SoptorshiTestModule } from '../../../test.module';
-import { StockOutItemComponent } from 'app/entities/stock-out-item/stock-out-item.component';
-import { StockOutItemService } from 'app/entities/stock-out-item/stock-out-item.service';
-import { StockOutItem } from 'app/shared/model/stock-out-item.model';
+import {SoptorshiTestModule} from '../../../test.module';
+import {StockOutItemComponent} from 'app/entities/stock-out-item/stock-out-item.component';
+import {StockOutItemService} from 'app/entities/stock-out-item/stock-out-item.service';
+import {StockOutItem} from 'app/shared/model/stock-out-item.model';
 
 describe('Component Tests', () => {
     describe('StockOutItem Management Component', () => {

@@ -1,10 +1,10 @@
 /* tslint:disable max-line-length */
-import { getTestBed, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { map, take } from 'rxjs/operators';
+import {getTestBed, TestBed} from '@angular/core/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {map, take} from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { StockInProcessService } from 'app/entities/stock-in-process/stock-in-process.service';
+import {DATE_FORMAT, DATE_TIME_FORMAT} from 'app/shared/constants/input.constants';
+import {StockInProcessService} from 'app/entities/stock-in-process/stock-in-process.service';
 import {
     ContainerCategory,
     IStockInProcess,

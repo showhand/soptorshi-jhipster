@@ -1,11 +1,11 @@
 /* tslint:disable max-line-length */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ActivatedRoute} from '@angular/router';
+import {of} from 'rxjs';
 
-import { SoptorshiTestModule } from '../../../test.module';
-import { PurchaseOrderDetailComponent } from 'app/entities/purchase-order/purchase-order-detail.component';
-import { PurchaseOrder } from 'app/shared/model/purchase-order.model';
+import {SoptorshiTestModule} from '../../../test.module';
+import {PurchaseOrderDetailComponent} from 'app/entities/purchase-order/purchase-order-detail.component';
+import {PurchaseOrder} from 'app/shared/model/purchase-order.model';
 
 describe('Component Tests', () => {
     describe('PurchaseOrder Management Detail Component', () => {

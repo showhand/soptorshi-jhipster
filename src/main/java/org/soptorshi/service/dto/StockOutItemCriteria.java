@@ -1,16 +1,9 @@
 package org.soptorshi.service.dto;
 
+import io.github.jhipster.service.filter.*;
+
 import java.io.Serializable;
 import java.util.Objects;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.BigDecimalFilter;
-import io.github.jhipster.service.filter.InstantFilter;
 
 /**
  * Criteria class for the StockOutItem entity. This class is used in StockOutItemResource to
@@ -49,8 +42,6 @@ public class StockOutItemCriteria implements Serializable {
     private LongFilter inventorySubLocationsId;
 
     private LongFilter stockInItemsId;
-
-    private LongFilter stockStatusesId;
 
     public LongFilter getId() {
         return id;
@@ -156,14 +147,6 @@ public class StockOutItemCriteria implements Serializable {
         this.stockInItemsId = stockInItemsId;
     }
 
-    public LongFilter getStockStatusesId() {
-        return stockStatusesId;
-    }
-
-    public void setStockStatusesId(LongFilter stockStatusesId) {
-        this.stockStatusesId = stockStatusesId;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -187,8 +170,7 @@ public class StockOutItemCriteria implements Serializable {
             Objects.equals(productsId, that.productsId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
             Objects.equals(inventorySubLocationsId, that.inventorySubLocationsId) &&
-            Objects.equals(stockInItemsId, that.stockInItemsId) &&
-            Objects.equals(stockStatusesId, that.stockStatusesId);
+            Objects.equals(stockInItemsId, that.stockInItemsId);
     }
 
     @Override
@@ -206,8 +188,7 @@ public class StockOutItemCriteria implements Serializable {
         productsId,
         inventoryLocationsId,
         inventorySubLocationsId,
-        stockInItemsId,
-        stockStatusesId
+        stockInItemsId
         );
     }
 
@@ -227,7 +208,6 @@ public class StockOutItemCriteria implements Serializable {
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +
                 (inventorySubLocationsId != null ? "inventorySubLocationsId=" + inventorySubLocationsId + ", " : "") +
                 (stockInItemsId != null ? "stockInItemsId=" + stockInItemsId + ", " : "") +
-                (stockStatusesId != null ? "stockStatusesId=" + stockStatusesId + ", " : "") +
             "}";
     }
 

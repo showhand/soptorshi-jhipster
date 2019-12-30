@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import {Moment} from 'moment';
 
 export interface IStockOutItem {
     id?: number;
@@ -18,7 +18,6 @@ export interface IStockOutItem {
     inventorySubLocationsName?: string;
     inventorySubLocationsId?: number;
     stockInItemsId?: number;
-    stockStatusesId?: number;
 }
 
 export class StockOutItem implements IStockOutItem {
@@ -39,7 +38,6 @@ export class StockOutItem implements IStockOutItem {
         public inventoryLocationsId?: number,
         public inventorySubLocationsName?: string,
         public inventorySubLocationsId?: number,
-        public stockInItemsId?: number,
-        public stockStatusesId?: number
+        public stockInItemsId?: number
     ) {}
 }

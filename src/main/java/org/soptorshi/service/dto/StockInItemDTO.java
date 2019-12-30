@@ -68,9 +68,9 @@ public class StockInItemDTO implements Serializable {
 
     private Long stockInProcessesId;
 
-    private Long purchaseOrdersId;
+    private Long requisitionsId;
 
-    private String purchaseOrdersPurchaseOrderNo;
+    private String requisitionsRequisitionNo;
 
     public Long getId() {
         return id;
@@ -256,20 +256,20 @@ public class StockInItemDTO implements Serializable {
         this.stockInProcessesId = stockInProcessId;
     }
 
-    public Long getPurchaseOrdersId() {
-        return purchaseOrdersId;
+    public Long getRequisitionsId() {
+        return requisitionsId;
     }
 
-    public void setPurchaseOrdersId(Long purchaseOrderId) {
-        this.purchaseOrdersId = purchaseOrderId;
+    public void setRequisitionsId(Long requisitionId) {
+        this.requisitionsId = requisitionId;
     }
 
-    public String getPurchaseOrdersPurchaseOrderNo() {
-        return purchaseOrdersPurchaseOrderNo;
+    public String getRequisitionsRequisitionNo() {
+        return requisitionsRequisitionNo;
     }
 
-    public void setPurchaseOrdersPurchaseOrderNo(String purchaseOrderPurchaseOrderNo) {
-        this.purchaseOrdersPurchaseOrderNo = purchaseOrderPurchaseOrderNo;
+    public void setRequisitionsRequisitionNo(String requisitionRequisitionNo) {
+        this.requisitionsRequisitionNo = requisitionRequisitionNo;
     }
 
     @Override
@@ -319,8 +319,8 @@ public class StockInItemDTO implements Serializable {
             ", vendor=" + getVendorId() +
             ", vendor='" + getVendorCompanyName() + "'" +
             ", stockInProcesses=" + getStockInProcessesId() +
-            ", purchaseOrders=" + getPurchaseOrdersId() +
-            ", purchaseOrders='" + getPurchaseOrdersPurchaseOrderNo() + "'" +
+            ", requisitions=" + getRequisitionsId() +
+            ", requisitions='" + getRequisitionsRequisitionNo() + "'" +
             "}";
     }
 }

@@ -1,25 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { JhiAlertService } from 'ng-jhipster';
-import { IStockOutItem } from 'app/shared/model/stock-out-item.model';
-import { StockOutItemService } from './stock-out-item.service';
-import { IProductCategory } from 'app/shared/model/product-category.model';
-import { ProductCategoryService } from 'app/entities/product-category';
-import { IProduct } from 'app/shared/model/product.model';
-import { ProductService } from 'app/entities/product';
-import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
-import { InventoryLocationService } from 'app/entities/inventory-location';
-import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
-import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
-import { IStockInItem } from 'app/shared/model/stock-in-item.model';
-import { StockInItemService } from 'app/entities/stock-in-item';
-import { IStockStatus } from 'app/shared/model/stock-status.model';
-import { StockStatusService } from 'app/entities/stock-status';
+import {DATE_TIME_FORMAT} from 'app/shared/constants/input.constants';
+import {JhiAlertService} from 'ng-jhipster';
+import {IStockOutItem} from 'app/shared/model/stock-out-item.model';
+import {StockOutItemService} from './stock-out-item.service';
+import {IProductCategory} from 'app/shared/model/product-category.model';
+import {ProductCategoryService} from 'app/entities/product-category';
+import {IProduct} from 'app/shared/model/product.model';
+import {ProductService} from 'app/entities/product';
+import {IInventoryLocation} from 'app/shared/model/inventory-location.model';
+import {InventoryLocationService} from 'app/entities/inventory-location';
+import {IInventorySubLocation} from 'app/shared/model/inventory-sub-location.model';
+import {InventorySubLocationService} from 'app/entities/inventory-sub-location';
+import {IStockInItem} from 'app/shared/model/stock-in-item.model';
+import {StockInItemService} from 'app/entities/stock-in-item';
 
 @Component({
     selector: 'jhi-stock-out-item-update',
@@ -38,8 +36,6 @@ export class StockOutItemUpdateComponent implements OnInit {
     inventorysublocations: IInventorySubLocation[];
 
     stockinitems: IStockInItem[];
-
-    stockstatuses: IStockStatus[];
     stockOutDate: string;
 
     constructor(
@@ -50,7 +46,6 @@ export class StockOutItemUpdateComponent implements OnInit {
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
         protected stockInItemService: StockInItemService,
-        protected stockStatusService: StockStatusService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -101,13 +96,6 @@ export class StockOutItemUpdateComponent implements OnInit {
                 map((response: HttpResponse<IStockInItem[]>) => response.body)
             )
             .subscribe((res: IStockInItem[]) => (this.stockinitems = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.stockStatusService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<IStockStatus[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IStockStatus[]>) => response.body)
-            )
-            .subscribe((res: IStockStatus[]) => (this.stockstatuses = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -158,10 +146,6 @@ export class StockOutItemUpdateComponent implements OnInit {
     }
 
     trackStockInItemById(index: number, item: IStockInItem) {
-        return item.id;
-    }
-
-    trackStockStatusById(index: number, item: IStockStatus) {
         return item.id;
     }
 }

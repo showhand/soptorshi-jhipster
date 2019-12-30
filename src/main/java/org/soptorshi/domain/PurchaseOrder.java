@@ -1,20 +1,15 @@
 package org.soptorshi.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.soptorshi.domain.enumeration.PurchaseOrderStatus;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
-
-import org.soptorshi.domain.enumeration.PurchaseOrderStatus;
 
 /**
  * A PurchaseOrder.
@@ -25,7 +20,7 @@ import org.soptorshi.domain.enumeration.PurchaseOrderStatus;
 public class PurchaseOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -65,8 +60,6 @@ public class PurchaseOrder implements Serializable {
     @Column(name = "modified_on")
     private LocalDate modifiedOn;
 
-    @OneToMany(mappedBy = "purchaseOrder")
-    private Set<PurchaseOrderMessages> comments = new HashSet<>();
     @ManyToOne
     @JsonIgnoreProperties("purchaseOrders")
     private Requisition requisition;
@@ -225,31 +218,6 @@ public class PurchaseOrder implements Serializable {
 
     public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
-    }
-
-    public Set<PurchaseOrderMessages> getComments() {
-        return comments;
-    }
-
-    public PurchaseOrder comments(Set<PurchaseOrderMessages> purchaseOrderMessages) {
-        this.comments = purchaseOrderMessages;
-        return this;
-    }
-
-    public PurchaseOrder addComments(PurchaseOrderMessages purchaseOrderMessages) {
-        this.comments.add(purchaseOrderMessages);
-        purchaseOrderMessages.setPurchaseOrder(this);
-        return this;
-    }
-
-    public PurchaseOrder removeComments(PurchaseOrderMessages purchaseOrderMessages) {
-        this.comments.remove(purchaseOrderMessages);
-        purchaseOrderMessages.setPurchaseOrder(null);
-        return this;
-    }
-
-    public void setComments(Set<PurchaseOrderMessages> purchaseOrderMessages) {
-        this.comments = purchaseOrderMessages;
     }
 
     public Requisition getRequisition() {
