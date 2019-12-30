@@ -30,9 +30,11 @@ public class CommercialBudgetDTO implements Serializable {
     @NotNull
     private LocalDate budgetDate;
 
-    private BigDecimal offeredPrice;
+    private BigDecimal totalQuantity;
 
-    private BigDecimal buyingPrice;
+    private BigDecimal totalOfferedPrice;
+
+    private BigDecimal totalBuyingPrice;
 
     private BigDecimal profitAmount;
 
@@ -91,20 +93,28 @@ public class CommercialBudgetDTO implements Serializable {
         this.budgetDate = budgetDate;
     }
 
-    public BigDecimal getOfferedPrice() {
-        return offeredPrice;
+    public BigDecimal getTotalQuantity() {
+        return totalQuantity;
     }
 
-    public void setOfferedPrice(BigDecimal offeredPrice) {
-        this.offeredPrice = offeredPrice;
+    public void setTotalQuantity(BigDecimal totalQuantity) {
+        this.totalQuantity = totalQuantity;
     }
 
-    public BigDecimal getBuyingPrice() {
-        return buyingPrice;
+    public BigDecimal getTotalOfferedPrice() {
+        return totalOfferedPrice;
     }
 
-    public void setBuyingPrice(BigDecimal buyingPrice) {
-        this.buyingPrice = buyingPrice;
+    public void setTotalOfferedPrice(BigDecimal totalOfferedPrice) {
+        this.totalOfferedPrice = totalOfferedPrice;
+    }
+
+    public BigDecimal getTotalBuyingPrice() {
+        return totalBuyingPrice;
+    }
+
+    public void setTotalBuyingPrice(BigDecimal totalBuyingPrice) {
+        this.totalBuyingPrice = totalBuyingPrice;
     }
 
     public BigDecimal getProfitAmount() {
@@ -200,8 +210,9 @@ public class CommercialBudgetDTO implements Serializable {
             ", type='" + getType() + "'" +
             ", customer='" + getCustomer() + "'" +
             ", budgetDate='" + getBudgetDate() + "'" +
-            ", offeredPrice=" + getOfferedPrice() +
-            ", buyingPrice=" + getBuyingPrice() +
+            ", totalQuantity=" + getTotalQuantity() +
+            ", totalOfferedPrice=" + getTotalOfferedPrice() +
+            ", totalBuyingPrice=" + getTotalBuyingPrice() +
             ", profitAmount=" + getProfitAmount() +
             ", profitPercentage=" + getProfitPercentage() +
             ", budgetStatus='" + getBudgetStatus() + "'" +

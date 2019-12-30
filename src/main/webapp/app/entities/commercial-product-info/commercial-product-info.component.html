@@ -30,13 +30,30 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="serialNo"><span>Serial No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="packagingDescription"><span>Packaging Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="othersDescription"><span>Others Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="taskNo"><span>Task No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productSpecification"><span>Product Specification</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="spSize"><span>Sp Size</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="offeredQuantity"><span>Offered Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="offeredUnit"><span>Offered Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="offeredUnitPrice"><span>Offered Unit Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="offeredTotalPrice"><span>Offered Total Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="spSticker"><span>Sp Sticker</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="spLabel"><span>Sp Label</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="spQtyInPack"><span>Sp Qty In Pack</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="spQtyInMc"><span>Sp Qty In Mc</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="ipColor"><span>Ip Color</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="ipSize"><span>Ip Size</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="ipSticker"><span>Ip Sticker</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="ipLabel"><span>Ip Label</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="ipQtyInMc"><span>Ip Qty In Mc</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="mcColor"><span>Mc Color</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="mcPly"><span>Mc Ply</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="mcSize"><span>Mc Size</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="mcSticker"><span>Mc Sticker</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="mcLabel"><span>Mc Label</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="cylColor"><span>Cyl Color</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="cylSize"><span>Cyl Size</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="cylQty"><span>Cyl Qty</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="buyingQuantity"><span>Buying Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="buyingUnit"><span>Buying Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="buyingUnitPrice"><span>Buying Unit Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -54,13 +71,30 @@
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let commercialProductInfo of commercialProductInfos ;trackBy: trackId">
                 <td><a [routerLink]="['/commercial-product-info', commercialProductInfo.id, 'view' ]">{{commercialProductInfo.id}}</a></td>
-                <td>{{commercialProductInfo.serialNo}}</td>
-                <td>{{commercialProductInfo.packagingDescription}}</td>
-                <td>{{commercialProductInfo.othersDescription}}</td>
+                <td>{{commercialProductInfo.taskNo}}</td>
+                <td>{{commercialProductInfo.productSpecification}}</td>
+                <td>{{commercialProductInfo.spSize}}</td>
                 <td>{{commercialProductInfo.offeredQuantity}}</td>
                 <td>{{commercialProductInfo.offeredUnit}}</td>
                 <td>{{commercialProductInfo.offeredUnitPrice}}</td>
                 <td>{{commercialProductInfo.offeredTotalPrice}}</td>
+                <td>{{commercialProductInfo.spSticker}}</td>
+                <td>{{commercialProductInfo.spLabel}}</td>
+                <td>{{commercialProductInfo.spQtyInPack}}</td>
+                <td>{{commercialProductInfo.spQtyInMc}}</td>
+                <td>{{commercialProductInfo.ipColor}}</td>
+                <td>{{commercialProductInfo.ipSize}}</td>
+                <td>{{commercialProductInfo.ipSticker}}</td>
+                <td>{{commercialProductInfo.ipLabel}}</td>
+                <td>{{commercialProductInfo.ipQtyInMc}}</td>
+                <td>{{commercialProductInfo.mcColor}}</td>
+                <td>{{commercialProductInfo.mcPly}}</td>
+                <td>{{commercialProductInfo.mcSize}}</td>
+                <td>{{commercialProductInfo.mcSticker}}</td>
+                <td>{{commercialProductInfo.mcLabel}}</td>
+                <td>{{commercialProductInfo.cylColor}}</td>
+                <td>{{commercialProductInfo.cylSize}}</td>
+                <td>{{commercialProductInfo.cylQty}}</td>
                 <td>{{commercialProductInfo.buyingQuantity}}</td>
                 <td>{{commercialProductInfo.buyingUnit}}</td>
                 <td>{{commercialProductInfo.buyingUnitPrice}}</td>

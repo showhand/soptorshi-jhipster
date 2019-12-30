@@ -101,11 +101,14 @@ public class CommercialBudgetQueryService extends QueryService<CommercialBudget>
             if (criteria.getBudgetDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getBudgetDate(), CommercialBudget_.budgetDate));
             }
-            if (criteria.getOfferedPrice() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getOfferedPrice(), CommercialBudget_.offeredPrice));
+            if (criteria.getTotalQuantity() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalQuantity(), CommercialBudget_.totalQuantity));
             }
-            if (criteria.getBuyingPrice() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBuyingPrice(), CommercialBudget_.buyingPrice));
+            if (criteria.getTotalOfferedPrice() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalOfferedPrice(), CommercialBudget_.totalOfferedPrice));
+            }
+            if (criteria.getTotalBuyingPrice() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalBuyingPrice(), CommercialBudget_.totalBuyingPrice));
             }
             if (criteria.getProfitAmount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getProfitAmount(), CommercialBudget_.profitAmount));

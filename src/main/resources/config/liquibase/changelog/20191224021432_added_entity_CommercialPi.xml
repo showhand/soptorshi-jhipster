@@ -24,7 +24,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="company_description_or_address" type="varchar(255)">
+            <column name="company_description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 

@@ -3,20 +3,15 @@ package org.soptorshi.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialPi;
-import org.soptorshi.domain.enumeration.CommercialPiStatus;
-import org.soptorshi.domain.enumeration.CommercialPoStatus;
 import org.soptorshi.repository.CommercialPiRepository;
 import org.soptorshi.repository.search.CommercialPiSearchRepository;
-import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.CommercialPiDTO;
-import org.soptorshi.service.dto.CommercialPoDTO;
 import org.soptorshi.service.mapper.CommercialPiMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -36,14 +31,10 @@ public class CommercialPiService {
 
     private final CommercialPiSearchRepository commercialPiSearchRepository;
 
-    private final CommercialPoService commercialPoService;
-
-    public CommercialPiService(CommercialPiRepository commercialPiRepository, CommercialPiMapper commercialPiMapper, CommercialPiSearchRepository commercialPiSearchRepository,
-                               CommercialPoService commercialPoService) {
+    public CommercialPiService(CommercialPiRepository commercialPiRepository, CommercialPiMapper commercialPiMapper, CommercialPiSearchRepository commercialPiSearchRepository) {
         this.commercialPiRepository = commercialPiRepository;
         this.commercialPiMapper = commercialPiMapper;
         this.commercialPiSearchRepository = commercialPiSearchRepository;
-        this.commercialPoService = commercialPoService;
     }
 
     /**
@@ -54,26 +45,6 @@ public class CommercialPiService {
      */
     public CommercialPiDTO save(CommercialPiDTO commercialPiDTO) {
         log.debug("Request to save CommercialPi : {}", commercialPiDTO);
-
-        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
-        Instant currentDateTime = Instant.now();
-
-        if(commercialPiDTO.getId() == null) {
-            commercialPiDTO.setCreatedBy(currentUser);
-            commercialPiDTO.setCreatedOn(currentDateTime);
-        }
-        else {
-            if(commercialPiDTO.getPiStatus().equals(CommercialPiStatus.PI_APPROVED_BY_THE_CUSTOMER)) {
-                CommercialPoDTO commercialPoDTO = new CommercialPoDTO();
-                commercialPoDTO.setCommercialPiId(commercialPiDTO.getId());
-                commercialPoDTO.setCommercialPiProformaNo(commercialPiDTO.getProformaNo());
-                commercialPoDTO.setPoStatus(CommercialPoStatus.PO_CREATED);
-                commercialPoDTO.setPurchaseOrderNo(commercialPiDTO.getPurchaseOrderNo());
-                commercialPoService.save(commercialPoDTO);
-            }
-            commercialPiDTO.setUpdatedBy(currentUser);
-            commercialPiDTO.setUpdatedOn(currentDateTime);
-        }
         CommercialPi commercialPi = commercialPiMapper.toEntity(commercialPiDTO);
         commercialPi = commercialPiRepository.save(commercialPi);
         CommercialPiDTO result = commercialPiMapper.toDto(commercialPi);

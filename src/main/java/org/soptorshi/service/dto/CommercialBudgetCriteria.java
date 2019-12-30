@@ -45,9 +45,11 @@ public class CommercialBudgetCriteria implements Serializable {
 
     private LocalDateFilter budgetDate;
 
-    private BigDecimalFilter offeredPrice;
+    private BigDecimalFilter totalQuantity;
 
-    private BigDecimalFilter buyingPrice;
+    private BigDecimalFilter totalOfferedPrice;
+
+    private BigDecimalFilter totalBuyingPrice;
 
     private BigDecimalFilter profitAmount;
 
@@ -105,20 +107,28 @@ public class CommercialBudgetCriteria implements Serializable {
         this.budgetDate = budgetDate;
     }
 
-    public BigDecimalFilter getOfferedPrice() {
-        return offeredPrice;
+    public BigDecimalFilter getTotalQuantity() {
+        return totalQuantity;
     }
 
-    public void setOfferedPrice(BigDecimalFilter offeredPrice) {
-        this.offeredPrice = offeredPrice;
+    public void setTotalQuantity(BigDecimalFilter totalQuantity) {
+        this.totalQuantity = totalQuantity;
     }
 
-    public BigDecimalFilter getBuyingPrice() {
-        return buyingPrice;
+    public BigDecimalFilter getTotalOfferedPrice() {
+        return totalOfferedPrice;
     }
 
-    public void setBuyingPrice(BigDecimalFilter buyingPrice) {
-        this.buyingPrice = buyingPrice;
+    public void setTotalOfferedPrice(BigDecimalFilter totalOfferedPrice) {
+        this.totalOfferedPrice = totalOfferedPrice;
+    }
+
+    public BigDecimalFilter getTotalBuyingPrice() {
+        return totalBuyingPrice;
+    }
+
+    public void setTotalBuyingPrice(BigDecimalFilter totalBuyingPrice) {
+        this.totalBuyingPrice = totalBuyingPrice;
     }
 
     public BigDecimalFilter getProfitAmount() {
@@ -201,8 +211,9 @@ public class CommercialBudgetCriteria implements Serializable {
             Objects.equals(type, that.type) &&
             Objects.equals(customer, that.customer) &&
             Objects.equals(budgetDate, that.budgetDate) &&
-            Objects.equals(offeredPrice, that.offeredPrice) &&
-            Objects.equals(buyingPrice, that.buyingPrice) &&
+            Objects.equals(totalQuantity, that.totalQuantity) &&
+            Objects.equals(totalOfferedPrice, that.totalOfferedPrice) &&
+            Objects.equals(totalBuyingPrice, that.totalBuyingPrice) &&
             Objects.equals(profitAmount, that.profitAmount) &&
             Objects.equals(profitPercentage, that.profitPercentage) &&
             Objects.equals(budgetStatus, that.budgetStatus) &&
@@ -221,8 +232,9 @@ public class CommercialBudgetCriteria implements Serializable {
         type,
         customer,
         budgetDate,
-        offeredPrice,
-        buyingPrice,
+        totalQuantity,
+        totalOfferedPrice,
+        totalBuyingPrice,
         profitAmount,
         profitPercentage,
         budgetStatus,
@@ -242,8 +254,9 @@ public class CommercialBudgetCriteria implements Serializable {
                 (type != null ? "type=" + type + ", " : "") +
                 (customer != null ? "customer=" + customer + ", " : "") +
                 (budgetDate != null ? "budgetDate=" + budgetDate + ", " : "") +
-                (offeredPrice != null ? "offeredPrice=" + offeredPrice + ", " : "") +
-                (buyingPrice != null ? "buyingPrice=" + buyingPrice + ", " : "") +
+                (totalQuantity != null ? "totalQuantity=" + totalQuantity + ", " : "") +
+                (totalOfferedPrice != null ? "totalOfferedPrice=" + totalOfferedPrice + ", " : "") +
+                (totalBuyingPrice != null ? "totalBuyingPrice=" + totalBuyingPrice + ", " : "") +
                 (profitAmount != null ? "profitAmount=" + profitAmount + ", " : "") +
                 (profitPercentage != null ? "profitPercentage=" + profitPercentage + ", " : "") +
                 (budgetStatus != null ? "budgetStatus=" + budgetStatus + ", " : "") +

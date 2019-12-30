@@ -106,12 +106,6 @@ public class CommercialPoQueryService extends QueryService<CommercialPo> {
             if (criteria.getShipmentDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getShipmentDate(), CommercialPo_.shipmentDate));
             }
-            if (criteria.getProcurementId() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getProcurementId(), CommercialPo_.procurementId));
-            }
-            if (criteria.getInventoryId() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getInventoryId(), CommercialPo_.inventoryId));
-            }
             if (criteria.getPoStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getPoStatus(), CommercialPo_.poStatus));
             }

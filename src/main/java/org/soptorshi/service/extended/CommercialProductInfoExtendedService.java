@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialProductInfo;
 import org.soptorshi.repository.CommercialProductInfoRepository;
 import org.soptorshi.repository.search.CommercialProductInfoSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.CommercialBudgetDTO;
 import org.soptorshi.service.dto.CommercialProductInfoDTO;
 import org.soptorshi.service.mapper.CommercialProductInfoMapper;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -53,19 +55,32 @@ public class CommercialProductInfoExtendedService {
     @Transactional
     public CommercialProductInfoDTO save(CommercialProductInfoDTO commercialProductInfoDTO) {
         log.debug("Request to save CommercialProductInfo : {}", commercialProductInfoDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        Instant currentDateTime = Instant.now();
+
+        if (commercialProductInfoDTO.getId() == null) {
+            commercialProductInfoDTO.setCreatedBy(currentUser);
+            commercialProductInfoDTO.setCreatedOn(currentDateTime);
+        } else {
+            commercialProductInfoDTO.setUpdatedBy(currentUser);
+            commercialProductInfoDTO.setUpdatedOn(currentDateTime);
+        }
         CommercialProductInfo commercialProductInfo = commercialProductInfoMapper.toEntity(commercialProductInfoDTO);
         commercialProductInfo = commercialProductInfoRepository.save(commercialProductInfo);
         CommercialProductInfoDTO result = commercialProductInfoMapper.toDto(commercialProductInfo);
+
         commercialProductInfoSearchRepository.save(commercialProductInfo);
         Optional<CommercialBudgetDTO> commercialBudgetDTO = commercialBudgetExtendedService.findOne(commercialProductInfo.getCommercialBudget().getId());
-        if(commercialBudgetDTO.isPresent()) {
-            commercialBudgetDTO.get().setOfferedPrice(commercialBudgetDTO.get().getOfferedPrice() == null ? commercialProductInfo.getOfferedTotalPrice() :
-                commercialBudgetDTO.get().getOfferedPrice().add(commercialProductInfo.getOfferedTotalPrice()));
-            commercialBudgetDTO.get().setBuyingPrice(commercialBudgetDTO.get().getBuyingPrice() == null ? commercialProductInfo.getBuyingTotalPrice() : commercialBudgetDTO.get().getBuyingPrice().add(commercialProductInfo.getBuyingTotalPrice()));
-            commercialBudgetDTO.get().setProfitAmount(commercialBudgetDTO.get().getOfferedPrice().subtract(commercialBudgetDTO.get().getBuyingPrice()));
-            commercialBudgetDTO.get().setProfitPercentage(commercialBudgetDTO.get().getBuyingPrice().divide(commercialBudgetDTO.get().getOfferedPrice().subtract(commercialBudgetDTO.get().getBuyingPrice()).multiply(BigDecimal.valueOf(100)), 4, RoundingMode.HALF_UP));
+        if (commercialBudgetDTO.isPresent()) {
+            commercialBudgetDTO.get().setTotalQuantity(commercialBudgetDTO.get().getTotalQuantity() == null ? commercialProductInfo.getOfferedQuantity() : commercialBudgetDTO.get().getTotalQuantity().add(commercialProductInfo.getOfferedQuantity()));
+            commercialBudgetDTO.get().setTotalOfferedPrice(commercialBudgetDTO.get().getTotalOfferedPrice() == null ? commercialProductInfo.getOfferedTotalPrice() :
+                commercialBudgetDTO.get().getTotalOfferedPrice().add(commercialProductInfo.getOfferedTotalPrice()));
+            commercialBudgetDTO.get().setTotalBuyingPrice(commercialBudgetDTO.get().getTotalBuyingPrice() == null ? commercialProductInfo.getBuyingTotalPrice() : commercialBudgetDTO.get().getTotalBuyingPrice().add(commercialProductInfo.getBuyingTotalPrice()));
+            commercialBudgetDTO.get().setProfitAmount(commercialBudgetDTO.get().getTotalOfferedPrice().subtract(commercialBudgetDTO.get().getTotalBuyingPrice()));
+            commercialBudgetDTO.get().setProfitPercentage(commercialBudgetDTO.get().getTotalBuyingPrice().divide(commercialBudgetDTO.get().getTotalOfferedPrice().subtract(commercialBudgetDTO.get().getTotalBuyingPrice()).multiply(BigDecimal.valueOf(100)), 4, RoundingMode.HALF_UP));
             commercialBudgetExtendedService.save(commercialBudgetDTO.get());
         }
+
         return result;
     }
 
@@ -110,7 +125,7 @@ public class CommercialProductInfoExtendedService {
     /**
      * Search for the commercialProductInfo corresponding to the query.
      *
-     * @param query the query of the search
+     * @param query    the query of the search
      * @param pageable the pagination information
      * @return the list of entities
      */

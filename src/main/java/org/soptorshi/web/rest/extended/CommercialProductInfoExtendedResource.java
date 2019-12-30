@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialProductInfoQueryService;
-import org.soptorshi.service.CommercialProductInfoService;
 import org.soptorshi.service.dto.CommercialProductInfoCriteria;
 import org.soptorshi.service.dto.CommercialProductInfoDTO;
+import org.soptorshi.service.extended.CommercialProductInfoExtendedService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
@@ -33,11 +33,11 @@ public class CommercialProductInfoExtendedResource {
 
     private static final String ENTITY_NAME = "commercialProductInfo";
 
-    private final CommercialProductInfoService commercialProductInfoService;
+    private final CommercialProductInfoExtendedService commercialProductInfoService;
 
     private final CommercialProductInfoQueryService commercialProductInfoQueryService;
 
-    public CommercialProductInfoExtendedResource(CommercialProductInfoService commercialProductInfoService, CommercialProductInfoQueryService commercialProductInfoQueryService) {
+    public CommercialProductInfoExtendedResource(CommercialProductInfoExtendedService commercialProductInfoService, CommercialProductInfoQueryService commercialProductInfoQueryService) {
         this.commercialProductInfoService = commercialProductInfoService;
         this.commercialProductInfoQueryService = commercialProductInfoQueryService;
     }

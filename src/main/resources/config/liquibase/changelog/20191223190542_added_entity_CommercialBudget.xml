@@ -36,11 +36,15 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="offered_price" type="decimal(10,2)">
+            <column name="total_quantity" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="buying_price" type="decimal(10,2)">
+            <column name="total_offered_price" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="total_buying_price" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
 

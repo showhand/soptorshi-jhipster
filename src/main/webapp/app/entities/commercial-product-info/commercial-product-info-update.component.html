@@ -1,236 +1,315 @@
-<div class="row">
-    <div class="col-12">
+<div class="row justify-content-center">
+    <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-commercial-product-info-heading">Create or edit a Commercial Product Info</h2>
-            <jhi-alert-error></jhi-alert-error>
-            <div class="row">
-                <div class="col-4">
-                    <div class="form-group" [hidden]="!commercialProductInfo.id">
-                        <label for="id">ID</label>
-                        <input type="text" class="form-control" id="id" name="id"
-                               [(ngModel)]="commercialProductInfo.id" readonly/>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_productCategories">Product Categories</label>
-                        <select class="form-control" id="field_productCategories" name="productCategories"
-                                [(ngModel)]="commercialProductInfo.productCategoriesId" required>
-                            <option [ngValue]="null"></option>
-                            <option [ngValue]="productCategoryOption.id"
-                                    *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_products">Products</label>
-                        <select class="form-control" id="field_products" name="products"
-                                [(ngModel)]="commercialProductInfo.productsId" required>
-                            <option [ngValue]="null"></option>
-                            <option [ngValue]="productOption.id"
-                                    *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_commercialBudget">Commercial Budget</label>
-                        <select class="form-control" id="field_commercialBudget" name="commercialBudget"
-                                [(ngModel)]="commercialProductInfo.commercialBudgetId" required>
-                            <option [ngValue]="null"></option>
-                            <option [ngValue]="commercialBudgetOption.id"
-                                    *ngFor="let commercialBudgetOption of commercialbudgets; trackBy: trackCommercialBudgetById">{{commercialBudgetOption.budgetNo}}</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_serialNo">Serial No</label>
-                        <input type="number" class="form-control" name="serialNo" id="field_serialNo"
-                               [(ngModel)]="commercialProductInfo.serialNo" required/>
-                        <div [hidden]="!(editForm.controls.serialNo?.dirty && editForm.controls.serialNo?.invalid)">
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.serialNo?.errors?.required">
-                                This field is required.
-                            </small>
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.serialNo?.errors?.number">
-                                This field should be a number.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_packagingDescription">Packaging Description</label>
-                        <input type="text" class="form-control" name="packagingDescription"
-                               id="field_packagingDescription"
-                               [(ngModel)]="commercialProductInfo.packagingDescription"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_othersDescription">Others Description</label>
-                        <input type="text" class="form-control" name="othersDescription" id="field_othersDescription"
-                               [(ngModel)]="commercialProductInfo.othersDescription"/>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!commercialProductInfo.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="commercialProductInfo.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_taskNo">Task No</label>
+                    <input type="number" class="form-control" name="taskNo" id="field_taskNo"
+                        [(ngModel)]="commercialProductInfo.taskNo" required/>
+                    <div [hidden]="!(editForm.controls.taskNo?.dirty && editForm.controls.taskNo?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.taskNo?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.taskNo?.errors?.number">
+                            This field should be a number.
+                        </small>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_offeredQuantity">Offered Quantity</label>
-                        <input type="number" class="form-control" name="offeredQuantity" id="field_offeredQuantity"
-                               [(ngModel)]="commercialProductInfo.offeredQuantity" required/>
-                        <div
-                            [hidden]="!(editForm.controls.offeredQuantity?.dirty && editForm.controls.offeredQuantity?.invalid)">
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.offeredQuantity?.errors?.required">
-                                This field is required.
-                            </small>
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.offeredQuantity?.errors?.number">
-                                This field should be a number.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_offeredUnit">Offered Unit</label>
-                        <select class="form-control" name="offeredUnit" [(ngModel)]="commercialProductInfo.offeredUnit"
-                                id="field_offeredUnit" required>
-                            <option value="PCS">PCS</option>
-                            <option value="KG">KG</option>
-                            <option value="TON">TON</option>
-                            <option value="GRAM">GRAM</option>
-                        </select>
-                        <div
-                            [hidden]="!(editForm.controls.offeredUnit?.dirty && editForm.controls.offeredUnit?.invalid)">
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.offeredUnit?.errors?.required">
-                                This field is required.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_offeredUnitPrice">Offered Unit Price</label>
-                        <input type="number" class="form-control" name="offeredUnitPrice" id="field_offeredUnitPrice"
-                               [(ngModel)]="commercialProductInfo.offeredUnitPrice" required/>
-                        <div
-                            [hidden]="!(editForm.controls.offeredUnitPrice?.dirty && editForm.controls.offeredUnitPrice?.invalid)">
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.offeredUnitPrice?.errors?.required">
-                                This field is required.
-                            </small>
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.offeredUnitPrice?.errors?.number">
-                                This field should be a number.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_offeredTotalPrice">Offered Total Price</label>
-                        <input type="number" class="form-control" name="offeredTotalPrice" id="field_offeredTotalPrice"
-                               [(ngModel)]="commercialProductInfo.offeredTotalPrice" required/>
-                        <div
-                            [hidden]="!(editForm.controls.offeredTotalPrice?.dirty && editForm.controls.offeredTotalPrice?.invalid)">
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.offeredTotalPrice?.errors?.required">
-                                This field is required.
-                            </small>
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.offeredTotalPrice?.errors?.number">
-                                This field should be a number.
-                            </small>
-                        </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_productSpecification">Product Specification</label>
+                    <select class="form-control" name="productSpecification" [(ngModel)]="commercialProductInfo.productSpecification" id="field_productSpecification"  required>
+                        <option value="FILLET">FILLET</option>
+                        <option value="STEAK">STEAK</option>
+                        <option value="CUBE">CUBE</option>
+                        <option value="BLOCK">BLOCK</option>
+                        <option value="BUTTERFLY">BUTTERFLY</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.productSpecification?.dirty && editForm.controls.productSpecification?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.productSpecification?.errors?.required">
+                        This field is required.
+                        </small>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_buyingQuantity">Buying Quantity</label>
-                        <input type="number" class="form-control" name="buyingQuantity" id="field_buyingQuantity"
-                               [(ngModel)]="commercialProductInfo.buyingQuantity" required/>
-                        <div
-                            [hidden]="!(editForm.controls.buyingQuantity?.dirty && editForm.controls.buyingQuantity?.invalid)">
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.buyingQuantity?.errors?.required">
-                                This field is required.
-                            </small>
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.buyingQuantity?.errors?.number">
-                                This field should be a number.
-                            </small>
-                        </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_spSize">Sp Size</label>
+                    <input type="text" class="form-control" name="spSize" id="field_spSize"
+                        [(ngModel)]="commercialProductInfo.spSize" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_offeredQuantity">Offered Quantity</label>
+                    <input type="number" class="form-control" name="offeredQuantity" id="field_offeredQuantity"
+                        [(ngModel)]="commercialProductInfo.offeredQuantity" required/>
+                    <div [hidden]="!(editForm.controls.offeredQuantity?.dirty && editForm.controls.offeredQuantity?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.offeredQuantity?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.offeredQuantity?.errors?.number">
+                            This field should be a number.
+                        </small>
                     </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_buyingUnit">Buying Unit</label>
-                        <select class="form-control" name="buyingUnit" [(ngModel)]="commercialProductInfo.buyingUnit"
-                                id="field_buyingUnit" required>
-                            <option value="PCS">PCS</option>
-                            <option value="KG">KG</option>
-                            <option value="TON">TON</option>
-                            <option value="GRAM">GRAM</option>
-                        </select>
-                        <div [hidden]="!(editForm.controls.buyingUnit?.dirty && editForm.controls.buyingUnit?.invalid)">
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.buyingUnit?.errors?.required">
-                                This field is required.
-                            </small>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_offeredUnit">Offered Unit</label>
+                    <select class="form-control" name="offeredUnit" [(ngModel)]="commercialProductInfo.offeredUnit" id="field_offeredUnit"  required>
+                        <option value="PCS">PCS</option>
+                        <option value="KG">KG</option>
+                        <option value="TON">TON</option>
+                        <option value="GRAM">GRAM</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.offeredUnit?.dirty && editForm.controls.offeredUnit?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.offeredUnit?.errors?.required">
+                        This field is required.
+                        </small>
                     </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_buyingUnitPrice">Buying Unit Price</label>
-                        <input type="number" class="form-control" name="buyingUnitPrice" id="field_buyingUnitPrice"
-                               [(ngModel)]="commercialProductInfo.buyingUnitPrice" required/>
-                        <div
-                            [hidden]="!(editForm.controls.buyingUnitPrice?.dirty && editForm.controls.buyingUnitPrice?.invalid)">
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.buyingUnitPrice?.errors?.required">
-                                This field is required.
-                            </small>
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.buyingUnitPrice?.errors?.number">
-                                This field should be a number.
-                            </small>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_offeredUnitPrice">Offered Unit Price</label>
+                    <input type="number" class="form-control" name="offeredUnitPrice" id="field_offeredUnitPrice"
+                        [(ngModel)]="commercialProductInfo.offeredUnitPrice" required/>
+                    <div [hidden]="!(editForm.controls.offeredUnitPrice?.dirty && editForm.controls.offeredUnitPrice?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.offeredUnitPrice?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.offeredUnitPrice?.errors?.number">
+                            This field should be a number.
+                        </small>
                     </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_buyingTotalPrice">Buying Total Price</label>
-                        <input type="number" class="form-control" name="buyingTotalPrice" id="field_buyingTotalPrice"
-                               [(ngModel)]="commercialProductInfo.buyingTotalPrice" required/>
-                        <div
-                            [hidden]="!(editForm.controls.buyingTotalPrice?.dirty && editForm.controls.buyingTotalPrice?.invalid)">
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.buyingTotalPrice?.errors?.required">
-                                This field is required.
-                            </small>
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.buyingTotalPrice?.errors?.number">
-                                This field should be a number.
-                            </small>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_offeredTotalPrice">Offered Total Price</label>
+                    <input type="number" class="form-control" name="offeredTotalPrice" id="field_offeredTotalPrice"
+                        [(ngModel)]="commercialProductInfo.offeredTotalPrice" required/>
+                    <div [hidden]="!(editForm.controls.offeredTotalPrice?.dirty && editForm.controls.offeredTotalPrice?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.offeredTotalPrice?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.offeredTotalPrice?.errors?.number">
+                            This field should be a number.
+                        </small>
                     </div>
-                    <!--<div class="form-group">
-                        <label class="form-control-label" for="field_createdBy">Created By</label>
-                        <input type="text" class="form-control" name="createdBy" id="field_createdBy"
-                            [(ngModel)]="commercialProductInfo.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_spSticker">Sp Sticker</label>
+                    <input type="text" class="form-control" name="spSticker" id="field_spSticker"
+                        [(ngModel)]="commercialProductInfo.spSticker" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_spLabel">Sp Label</label>
+                    <input type="text" class="form-control" name="spLabel" id="field_spLabel"
+                        [(ngModel)]="commercialProductInfo.spLabel" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_spQtyInPack">Sp Qty In Pack</label>
+                    <input type="number" class="form-control" name="spQtyInPack" id="field_spQtyInPack"
+                        [(ngModel)]="commercialProductInfo.spQtyInPack" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_spQtyInMc">Sp Qty In Mc</label>
+                    <input type="number" class="form-control" name="spQtyInMc" id="field_spQtyInMc"
+                        [(ngModel)]="commercialProductInfo.spQtyInMc" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_ipColor">Ip Color</label>
+                    <select class="form-control" name="ipColor" [(ngModel)]="commercialProductInfo.ipColor" id="field_ipColor" >
+                        <option value="PLAIN">PLAIN</option>
+                        <option value="PRINT">PRINT</option>
+                        <option value="BOTH">BOTH</option>
+                        <option value="NONE">NONE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_ipSize">Ip Size</label>
+                    <input type="text" class="form-control" name="ipSize" id="field_ipSize"
+                        [(ngModel)]="commercialProductInfo.ipSize" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_ipSticker">Ip Sticker</label>
+                    <input type="text" class="form-control" name="ipSticker" id="field_ipSticker"
+                        [(ngModel)]="commercialProductInfo.ipSticker" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_ipLabel">Ip Label</label>
+                    <input type="text" class="form-control" name="ipLabel" id="field_ipLabel"
+                        [(ngModel)]="commercialProductInfo.ipLabel" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_ipQtyInMc">Ip Qty In Mc</label>
+                    <input type="number" class="form-control" name="ipQtyInMc" id="field_ipQtyInMc"
+                        [(ngModel)]="commercialProductInfo.ipQtyInMc" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_mcColor">Mc Color</label>
+                    <select class="form-control" name="mcColor" [(ngModel)]="commercialProductInfo.mcColor" id="field_mcColor" >
+                        <option value="PLAIN">PLAIN</option>
+                        <option value="PRINT">PRINT</option>
+                        <option value="BOTH">BOTH</option>
+                        <option value="NONE">NONE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_mcPly">Mc Ply</label>
+                    <input type="text" class="form-control" name="mcPly" id="field_mcPly"
+                        [(ngModel)]="commercialProductInfo.mcPly" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_mcSize">Mc Size</label>
+                    <input type="text" class="form-control" name="mcSize" id="field_mcSize"
+                        [(ngModel)]="commercialProductInfo.mcSize" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_mcSticker">Mc Sticker</label>
+                    <input type="text" class="form-control" name="mcSticker" id="field_mcSticker"
+                        [(ngModel)]="commercialProductInfo.mcSticker" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_mcLabel">Mc Label</label>
+                    <input type="text" class="form-control" name="mcLabel" id="field_mcLabel"
+                        [(ngModel)]="commercialProductInfo.mcLabel" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_cylColor">Cyl Color</label>
+                    <input type="text" class="form-control" name="cylColor" id="field_cylColor"
+                        [(ngModel)]="commercialProductInfo.cylColor" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_cylSize">Cyl Size</label>
+                    <input type="text" class="form-control" name="cylSize" id="field_cylSize"
+                        [(ngModel)]="commercialProductInfo.cylSize" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_cylQty">Cyl Qty</label>
+                    <input type="number" class="form-control" name="cylQty" id="field_cylQty"
+                        [(ngModel)]="commercialProductInfo.cylQty" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_buyingQuantity">Buying Quantity</label>
+                    <input type="number" class="form-control" name="buyingQuantity" id="field_buyingQuantity"
+                        [(ngModel)]="commercialProductInfo.buyingQuantity" required/>
+                    <div [hidden]="!(editForm.controls.buyingQuantity?.dirty && editForm.controls.buyingQuantity?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.buyingQuantity?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.buyingQuantity?.errors?.number">
+                            This field should be a number.
+                        </small>
                     </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_createdOn">Created On</label>
-                        <div class="d-flex">
-                            <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
-                            />
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_buyingUnit">Buying Unit</label>
+                    <select class="form-control" name="buyingUnit" [(ngModel)]="commercialProductInfo.buyingUnit" id="field_buyingUnit"  required>
+                        <option value="PCS">PCS</option>
+                        <option value="KG">KG</option>
+                        <option value="TON">TON</option>
+                        <option value="GRAM">GRAM</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.buyingUnit?.dirty && editForm.controls.buyingUnit?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.buyingUnit?.errors?.required">
+                        This field is required.
+                        </small>
                     </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_updatedBy">Updated By</label>
-                        <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
-                            [(ngModel)]="commercialProductInfo.updatedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_buyingUnitPrice">Buying Unit Price</label>
+                    <input type="number" class="form-control" name="buyingUnitPrice" id="field_buyingUnitPrice"
+                        [(ngModel)]="commercialProductInfo.buyingUnitPrice" required/>
+                    <div [hidden]="!(editForm.controls.buyingUnitPrice?.dirty && editForm.controls.buyingUnitPrice?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.buyingUnitPrice?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.buyingUnitPrice?.errors?.number">
+                            This field should be a number.
+                        </small>
                     </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="field_updatedOn">Updated On</label>
-                        <div class="d-flex">
-                            <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
-                            />
-                        </div>
-                    </div>-->
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_buyingTotalPrice">Buying Total Price</label>
+                    <input type="number" class="form-control" name="buyingTotalPrice" id="field_buyingTotalPrice"
+                        [(ngModel)]="commercialProductInfo.buyingTotalPrice" required/>
+                    <div [hidden]="!(editForm.controls.buyingTotalPrice?.dirty && editForm.controls.buyingTotalPrice?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.buyingTotalPrice?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.buyingTotalPrice?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdBy">Created By</label>
+                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                        [(ngModel)]="commercialProductInfo.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdOn">Created On</label>
+                    <div class="d-flex">
+                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
+                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
+                        [(ngModel)]="commercialProductInfo.updatedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
+                    <div class="d-flex">
+                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialBudget">Commercial Budget</label>
+                    <select class="form-control" id="field_commercialBudget" name="commercialBudget" [(ngModel)]="commercialProductInfo.commercialBudgetId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="commercialBudgetOption.id" *ngFor="let commercialBudgetOption of commercialbudgets; trackBy: trackCommercialBudgetById">{{commercialBudgetOption.budgetNo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_productCategories">Product Categories</label>
+                    <select class="form-control" id="field_productCategories" name="productCategories" [(ngModel)]="commercialProductInfo.productCategoriesId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_products">Products</label>
+                    <select class="form-control" id="field_products" name="products" [(ngModel)]="commercialProductInfo.productsId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+                    </select>
                 </div>
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
-                        class="btn btn-primary">
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                 </button>
             </div>

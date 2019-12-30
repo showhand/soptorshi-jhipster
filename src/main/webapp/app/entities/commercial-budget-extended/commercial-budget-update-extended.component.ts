@@ -23,7 +23,7 @@ export class CommercialBudgetUpdateExtendedComponent extends CommercialBudgetUpd
         protected activatedRoute: ActivatedRoute,
         protected commercialProductInfoService: CommercialProductInfoExtendedService
     ) {
-        super(commercialBudgetService, activatedRoute, commercialProductInfoService);
+        super(commercialBudgetService, activatedRoute);
         this.commercialProductInfos = [];
     }
 

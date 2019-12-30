@@ -9,7 +9,7 @@ export const enum CommercialPiStatus {
 export interface ICommercialPi {
     id?: number;
     companyName?: string;
-    companyDescriptionOrAddress?: string;
+    companyDescription?: string;
     proformaNo?: string;
     proformaDate?: Moment;
     harmonicCode?: string;
@@ -32,7 +32,7 @@ export class CommercialPi implements ICommercialPi {
     constructor(
         public id?: number,
         public companyName?: string,
-        public companyDescriptionOrAddress?: string,
+        public companyDescription?: string,
         public proformaNo?: string,
         public proformaDate?: Moment,
         public harmonicCode?: string,

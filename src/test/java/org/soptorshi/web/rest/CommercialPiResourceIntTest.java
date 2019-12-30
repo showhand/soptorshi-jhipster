@@ -50,13 +50,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
-public class CommercialPiExtendedResourceIntTest {
+public class CommercialPiResourceIntTest {
 
     private static final String DEFAULT_COMPANY_NAME = "AAAAAAAAAA";
     private static final String UPDATED_COMPANY_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_COMPANY_DESCRIPTION_OR_ADDRESS = "AAAAAAAAAA";
-    private static final String UPDATED_COMPANY_DESCRIPTION_OR_ADDRESS = "BBBBBBBBBB";
+    private static final String DEFAULT_COMPANY_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_COMPANY_DESCRIPTION = "BBBBBBBBBB";
 
     private static final String DEFAULT_PROFORMA_NO = "AAAAAAAAAA";
     private static final String UPDATED_PROFORMA_NO = "BBBBBBBBBB";
@@ -160,7 +160,7 @@ public class CommercialPiExtendedResourceIntTest {
     public static CommercialPi createEntity(EntityManager em) {
         CommercialPi commercialPi = new CommercialPi()
             .companyName(DEFAULT_COMPANY_NAME)
-            .companyDescription(DEFAULT_COMPANY_DESCRIPTION_OR_ADDRESS)
+            .companyDescription(DEFAULT_COMPANY_DESCRIPTION)
             .proformaNo(DEFAULT_PROFORMA_NO)
             .proformaDate(DEFAULT_PROFORMA_DATE)
             .harmonicCode(DEFAULT_HARMONIC_CODE)
@@ -200,7 +200,7 @@ public class CommercialPiExtendedResourceIntTest {
         assertThat(commercialPiList).hasSize(databaseSizeBeforeCreate + 1);
         CommercialPi testCommercialPi = commercialPiList.get(commercialPiList.size() - 1);
         assertThat(testCommercialPi.getCompanyName()).isEqualTo(DEFAULT_COMPANY_NAME);
-        assertThat(testCommercialPi.getCompanyDescription()).isEqualTo(DEFAULT_COMPANY_DESCRIPTION_OR_ADDRESS);
+        assertThat(testCommercialPi.getCompanyDescription()).isEqualTo(DEFAULT_COMPANY_DESCRIPTION);
         assertThat(testCommercialPi.getProformaNo()).isEqualTo(DEFAULT_PROFORMA_NO);
         assertThat(testCommercialPi.getProformaDate()).isEqualTo(DEFAULT_PROFORMA_DATE);
         assertThat(testCommercialPi.getHarmonicCode()).isEqualTo(DEFAULT_HARMONIC_CODE);
@@ -274,7 +274,7 @@ public class CommercialPiExtendedResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(commercialPi.getId().intValue())))
             .andExpect(jsonPath("$.[*].companyName").value(hasItem(DEFAULT_COMPANY_NAME.toString())))
-            .andExpect(jsonPath("$.[*].companyDescriptionOrAddress").value(hasItem(DEFAULT_COMPANY_DESCRIPTION_OR_ADDRESS.toString())))
+            .andExpect(jsonPath("$.[*].companyDescription").value(hasItem(DEFAULT_COMPANY_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].proformaNo").value(hasItem(DEFAULT_PROFORMA_NO.toString())))
             .andExpect(jsonPath("$.[*].proformaDate").value(hasItem(DEFAULT_PROFORMA_DATE.toString())))
             .andExpect(jsonPath("$.[*].harmonicCode").value(hasItem(DEFAULT_HARMONIC_CODE.toString())))
@@ -303,7 +303,7 @@ public class CommercialPiExtendedResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(commercialPi.getId().intValue()))
             .andExpect(jsonPath("$.companyName").value(DEFAULT_COMPANY_NAME.toString()))
-            .andExpect(jsonPath("$.companyDescriptionOrAddress").value(DEFAULT_COMPANY_DESCRIPTION_OR_ADDRESS.toString()))
+            .andExpect(jsonPath("$.companyDescription").value(DEFAULT_COMPANY_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.proformaNo").value(DEFAULT_PROFORMA_NO.toString()))
             .andExpect(jsonPath("$.proformaDate").value(DEFAULT_PROFORMA_DATE.toString()))
             .andExpect(jsonPath("$.harmonicCode").value(DEFAULT_HARMONIC_CODE.toString()))
@@ -361,41 +361,41 @@ public class CommercialPiExtendedResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllCommercialPisByCompanyDescriptionOrAddressIsEqualToSomething() throws Exception {
+    public void getAllCommercialPisByCompanyDescriptionIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialPiRepository.saveAndFlush(commercialPi);
 
-        // Get all the commercialPiList where companyDescriptionOrAddress equals to DEFAULT_COMPANY_DESCRIPTION_OR_ADDRESS
-        defaultCommercialPiShouldBeFound("companyDescriptionOrAddress.equals=" + DEFAULT_COMPANY_DESCRIPTION_OR_ADDRESS);
+        // Get all the commercialPiList where companyDescription equals to DEFAULT_COMPANY_DESCRIPTION
+        defaultCommercialPiShouldBeFound("companyDescription.equals=" + DEFAULT_COMPANY_DESCRIPTION);
 
-        // Get all the commercialPiList where companyDescriptionOrAddress equals to UPDATED_COMPANY_DESCRIPTION_OR_ADDRESS
-        defaultCommercialPiShouldNotBeFound("companyDescriptionOrAddress.equals=" + UPDATED_COMPANY_DESCRIPTION_OR_ADDRESS);
+        // Get all the commercialPiList where companyDescription equals to UPDATED_COMPANY_DESCRIPTION
+        defaultCommercialPiShouldNotBeFound("companyDescription.equals=" + UPDATED_COMPANY_DESCRIPTION);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPisByCompanyDescriptionOrAddressIsInShouldWork() throws Exception {
+    public void getAllCommercialPisByCompanyDescriptionIsInShouldWork() throws Exception {
         // Initialize the database
         commercialPiRepository.saveAndFlush(commercialPi);
 
-        // Get all the commercialPiList where companyDescriptionOrAddress in DEFAULT_COMPANY_DESCRIPTION_OR_ADDRESS or UPDATED_COMPANY_DESCRIPTION_OR_ADDRESS
-        defaultCommercialPiShouldBeFound("companyDescriptionOrAddress.in=" + DEFAULT_COMPANY_DESCRIPTION_OR_ADDRESS + "," + UPDATED_COMPANY_DESCRIPTION_OR_ADDRESS);
+        // Get all the commercialPiList where companyDescription in DEFAULT_COMPANY_DESCRIPTION or UPDATED_COMPANY_DESCRIPTION
+        defaultCommercialPiShouldBeFound("companyDescription.in=" + DEFAULT_COMPANY_DESCRIPTION + "," + UPDATED_COMPANY_DESCRIPTION);
 
-        // Get all the commercialPiList where companyDescriptionOrAddress equals to UPDATED_COMPANY_DESCRIPTION_OR_ADDRESS
-        defaultCommercialPiShouldNotBeFound("companyDescriptionOrAddress.in=" + UPDATED_COMPANY_DESCRIPTION_OR_ADDRESS);
+        // Get all the commercialPiList where companyDescription equals to UPDATED_COMPANY_DESCRIPTION
+        defaultCommercialPiShouldNotBeFound("companyDescription.in=" + UPDATED_COMPANY_DESCRIPTION);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialPisByCompanyDescriptionOrAddressIsNullOrNotNull() throws Exception {
+    public void getAllCommercialPisByCompanyDescriptionIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialPiRepository.saveAndFlush(commercialPi);
 
-        // Get all the commercialPiList where companyDescriptionOrAddress is not null
-        defaultCommercialPiShouldBeFound("companyDescriptionOrAddress.specified=true");
+        // Get all the commercialPiList where companyDescription is not null
+        defaultCommercialPiShouldBeFound("companyDescription.specified=true");
 
-        // Get all the commercialPiList where companyDescriptionOrAddress is null
-        defaultCommercialPiShouldNotBeFound("companyDescriptionOrAddress.specified=false");
+        // Get all the commercialPiList where companyDescription is null
+        defaultCommercialPiShouldNotBeFound("companyDescription.specified=false");
     }
 
     @Test
@@ -975,7 +975,7 @@ public class CommercialPiExtendedResourceIntTest {
     @Transactional
     public void getAllCommercialPisByCommercialBudgetIsEqualToSomething() throws Exception {
         // Initialize the database
-        CommercialBudget commercialBudget = CommercialBudgetExtendedResourceIntTest.createEntity(em);
+        CommercialBudget commercialBudget = CommercialBudgetResourceIntTest.createEntity(em);
         em.persist(commercialBudget);
         em.flush();
         commercialPi.setCommercialBudget(commercialBudget);
@@ -998,7 +998,7 @@ public class CommercialPiExtendedResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(commercialPi.getId().intValue())))
             .andExpect(jsonPath("$.[*].companyName").value(hasItem(DEFAULT_COMPANY_NAME)))
-            .andExpect(jsonPath("$.[*].companyDescriptionOrAddress").value(hasItem(DEFAULT_COMPANY_DESCRIPTION_OR_ADDRESS)))
+            .andExpect(jsonPath("$.[*].companyDescription").value(hasItem(DEFAULT_COMPANY_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].proformaNo").value(hasItem(DEFAULT_PROFORMA_NO)))
             .andExpect(jsonPath("$.[*].proformaDate").value(hasItem(DEFAULT_PROFORMA_DATE.toString())))
             .andExpect(jsonPath("$.[*].harmonicCode").value(hasItem(DEFAULT_HARMONIC_CODE)))
@@ -1061,7 +1061,7 @@ public class CommercialPiExtendedResourceIntTest {
         em.detach(updatedCommercialPi);
         updatedCommercialPi
             .companyName(UPDATED_COMPANY_NAME)
-            .companyDescription(UPDATED_COMPANY_DESCRIPTION_OR_ADDRESS)
+            .companyDescription(UPDATED_COMPANY_DESCRIPTION)
             .proformaNo(UPDATED_PROFORMA_NO)
             .proformaDate(UPDATED_PROFORMA_DATE)
             .harmonicCode(UPDATED_HARMONIC_CODE)
@@ -1088,7 +1088,7 @@ public class CommercialPiExtendedResourceIntTest {
         assertThat(commercialPiList).hasSize(databaseSizeBeforeUpdate);
         CommercialPi testCommercialPi = commercialPiList.get(commercialPiList.size() - 1);
         assertThat(testCommercialPi.getCompanyName()).isEqualTo(UPDATED_COMPANY_NAME);
-        assertThat(testCommercialPi.getCompanyDescription()).isEqualTo(UPDATED_COMPANY_DESCRIPTION_OR_ADDRESS);
+        assertThat(testCommercialPi.getCompanyDescription()).isEqualTo(UPDATED_COMPANY_DESCRIPTION);
         assertThat(testCommercialPi.getProformaNo()).isEqualTo(UPDATED_PROFORMA_NO);
         assertThat(testCommercialPi.getProformaDate()).isEqualTo(UPDATED_PROFORMA_DATE);
         assertThat(testCommercialPi.getHarmonicCode()).isEqualTo(UPDATED_HARMONIC_CODE);
@@ -1164,7 +1164,7 @@ public class CommercialPiExtendedResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(commercialPi.getId().intValue())))
             .andExpect(jsonPath("$.[*].companyName").value(hasItem(DEFAULT_COMPANY_NAME)))
-            .andExpect(jsonPath("$.[*].companyDescriptionOrAddress").value(hasItem(DEFAULT_COMPANY_DESCRIPTION_OR_ADDRESS)))
+            .andExpect(jsonPath("$.[*].companyDescription").value(hasItem(DEFAULT_COMPANY_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].proformaNo").value(hasItem(DEFAULT_PROFORMA_NO)))
             .andExpect(jsonPath("$.[*].proformaDate").value(hasItem(DEFAULT_PROFORMA_DATE.toString())))
             .andExpect(jsonPath("$.[*].harmonicCode").value(hasItem(DEFAULT_HARMONIC_CODE)))

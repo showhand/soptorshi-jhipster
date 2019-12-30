@@ -17,7 +17,7 @@ public class CommercialPiDTO implements Serializable {
 
     private String companyName;
 
-    private String companyDescriptionOrAddress;
+    private String companyDescription;
 
     @NotNull
     private String proformaNo;
@@ -69,12 +69,12 @@ public class CommercialPiDTO implements Serializable {
         this.companyName = companyName;
     }
 
-    public String getCompanyDescriptionOrAddress() {
-        return companyDescriptionOrAddress;
+    public String getCompanyDescription() {
+        return companyDescription;
     }
 
-    public void setCompanyDescriptionOrAddress(String companyDescriptionOrAddress) {
-        this.companyDescriptionOrAddress = companyDescriptionOrAddress;
+    public void setCompanyDescription(String companyDescription) {
+        this.companyDescription = companyDescription;
     }
 
     public String getProformaNo() {
@@ -231,7 +231,7 @@ public class CommercialPiDTO implements Serializable {
         return "CommercialPiDTO{" +
             "id=" + getId() +
             ", companyName='" + getCompanyName() + "'" +
-            ", companyDescriptionOrAddress='" + getCompanyDescriptionOrAddress() + "'" +
+            ", companyDescription='" + getCompanyDescription() + "'" +
             ", proformaNo='" + getProformaNo() + "'" +
             ", proformaDate='" + getProformaDate() + "'" +
             ", harmonicCode='" + getHarmonicCode() + "'" +

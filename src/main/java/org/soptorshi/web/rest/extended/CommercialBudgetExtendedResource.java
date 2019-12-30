@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialBudgetQueryService;
-import org.soptorshi.service.CommercialBudgetService;
 import org.soptorshi.service.dto.CommercialBudgetCriteria;
 import org.soptorshi.service.dto.CommercialBudgetDTO;
+import org.soptorshi.service.extended.CommercialBudgetExtendedService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
@@ -33,11 +33,11 @@ public class CommercialBudgetExtendedResource {
 
     private static final String ENTITY_NAME = "commercialBudget";
 
-    private final CommercialBudgetService commercialBudgetService;
+    private final CommercialBudgetExtendedService commercialBudgetService;
 
     private final CommercialBudgetQueryService commercialBudgetQueryService;
 
-    public CommercialBudgetExtendedResource(CommercialBudgetService commercialBudgetService, CommercialBudgetQueryService commercialBudgetQueryService) {
+    public CommercialBudgetExtendedResource(CommercialBudgetExtendedService commercialBudgetService, CommercialBudgetQueryService commercialBudgetQueryService) {
         this.commercialBudgetService = commercialBudgetService;
         this.commercialBudgetQueryService = commercialBudgetQueryService;
     }

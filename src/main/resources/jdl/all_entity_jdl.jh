@@ -628,8 +628,9 @@ entity CommercialBudget {
     type CommercialOrderCategory required,
     customer CommercialCustomerCategory required,
     budgetDate LocalDate required,
-    offeredPrice BigDecimal,
-    buyingPrice BigDecimal,
+    totalQuantity BigDecimal,
+    totalOfferedPrice BigDecimal,
+    totalBuyingPrice BigDecimal,
     profitAmount BigDecimal,
     profitPercentage BigDecimal,
     budgetStatus CommercialBudgetStatus,
@@ -640,13 +641,30 @@ entity CommercialBudget {
     updatedOn Instant
 }
 entity CommercialProductInfo {
-    serialNo Integer required,
-    packagingDescription String,
-    othersDescription String,
+    taskNo Integer required,
+    productSpecification ProductSpecification required,
+    spSize String,
     offeredQuantity BigDecimal required,
     offeredUnit UnitOfMeasurements required,
     offeredUnitPrice BigDecimal required,
     offeredTotalPrice BigDecimal required,
+    spSticker String,
+    spLabel String,
+    spQtyInPack BigDecimal,
+    spQtyInMc BigDecimal,
+    ipColor PackColor,
+    ipSize String,
+    ipSticker String,
+    ipLabel String,
+    ipQtyInMc BigDecimal,
+    mcColor PackColor,
+    mcPly String,
+    mcSize String,
+    mcSticker String,
+    mcLabel String,
+    cylColor String,
+    cylSize String,
+    cylQty BigDecimal,
     buyingQuantity BigDecimal required,
     buyingUnit UnitOfMeasurements required,
     buyingUnitPrice BigDecimal required,
@@ -658,7 +676,7 @@ entity CommercialProductInfo {
 }
 entity CommercialPi {
     companyName String,
-    companyDescriptionOrAddress String,
+    companyDescription String,
     proformaNo String required,
     proformaDate LocalDate,
     harmonicCode String,
@@ -680,8 +698,6 @@ entity CommercialPo {
     OriginOfGoods String,
     FinalDestination String,
     ShipmentDate LocalDate,
-    procurementId String,
-    inventoryId String,
     poStatus CommercialPoStatus,
     CreatedBy String,
     CreatedOn Instant,
@@ -1102,6 +1118,14 @@ enum CommercialPiStatus{
 
 enum CommercialPoStatus {
     PO_CREATED, PREPARING_ORDER, PRODUCT_DELIVERED, ORDER_CLOSED
+}
+
+enum ProductSpecification {
+    FILLET, STEAK, CUBE, BLOCK, BUTTERFLY
+}
+
+enum PackColor {
+   PLAIN, PRINT, BOTH, NONE
 }
 
 relationship OneToOne {

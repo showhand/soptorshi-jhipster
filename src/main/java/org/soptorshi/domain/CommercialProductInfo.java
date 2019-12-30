@@ -2,6 +2,8 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.soptorshi.domain.enumeration.PackColor;
+import org.soptorshi.domain.enumeration.ProductSpecification;
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -27,14 +29,16 @@ public class CommercialProductInfo implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "serial_no", nullable = false)
-    private Integer serialNo;
+    @Column(name = "task_no", nullable = false)
+    private Integer taskNo;
 
-    @Column(name = "packaging_description")
-    private String packagingDescription;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "product_specification", nullable = false)
+    private ProductSpecification productSpecification;
 
-    @Column(name = "others_description")
-    private String othersDescription;
+    @Column(name = "sp_size")
+    private String spSize;
 
     @NotNull
     @Column(name = "offered_quantity", precision = 10, scale = 2, nullable = false)
@@ -52,6 +56,59 @@ public class CommercialProductInfo implements Serializable {
     @NotNull
     @Column(name = "offered_total_price", precision = 10, scale = 2, nullable = false)
     private BigDecimal offeredTotalPrice;
+
+    @Column(name = "sp_sticker")
+    private String spSticker;
+
+    @Column(name = "sp_label")
+    private String spLabel;
+
+    @Column(name = "sp_qty_in_pack", precision = 10, scale = 2)
+    private BigDecimal spQtyInPack;
+
+    @Column(name = "sp_qty_in_mc", precision = 10, scale = 2)
+    private BigDecimal spQtyInMc;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ip_color")
+    private PackColor ipColor;
+
+    @Column(name = "ip_size")
+    private String ipSize;
+
+    @Column(name = "ip_sticker")
+    private String ipSticker;
+
+    @Column(name = "ip_label")
+    private String ipLabel;
+
+    @Column(name = "ip_qty_in_mc", precision = 10, scale = 2)
+    private BigDecimal ipQtyInMc;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "mc_color")
+    private PackColor mcColor;
+
+    @Column(name = "mc_ply")
+    private String mcPly;
+
+    @Column(name = "mc_size")
+    private String mcSize;
+
+    @Column(name = "mc_sticker")
+    private String mcSticker;
+
+    @Column(name = "mc_label")
+    private String mcLabel;
+
+    @Column(name = "cyl_color")
+    private String cylColor;
+
+    @Column(name = "cyl_size")
+    private String cylSize;
+
+    @Column(name = "cyl_qty", precision = 10, scale = 2)
+    private BigDecimal cylQty;
 
     @NotNull
     @Column(name = "buying_quantity", precision = 10, scale = 2, nullable = false)
@@ -103,43 +160,43 @@ public class CommercialProductInfo implements Serializable {
         this.id = id;
     }
 
-    public Integer getSerialNo() {
-        return serialNo;
+    public Integer getTaskNo() {
+        return taskNo;
     }
 
-    public CommercialProductInfo serialNo(Integer serialNo) {
-        this.serialNo = serialNo;
+    public CommercialProductInfo taskNo(Integer taskNo) {
+        this.taskNo = taskNo;
         return this;
     }
 
-    public void setSerialNo(Integer serialNo) {
-        this.serialNo = serialNo;
+    public void setTaskNo(Integer taskNo) {
+        this.taskNo = taskNo;
     }
 
-    public String getPackagingDescription() {
-        return packagingDescription;
+    public ProductSpecification getProductSpecification() {
+        return productSpecification;
     }
 
-    public CommercialProductInfo packagingDescription(String packagingDescription) {
-        this.packagingDescription = packagingDescription;
+    public CommercialProductInfo productSpecification(ProductSpecification productSpecification) {
+        this.productSpecification = productSpecification;
         return this;
     }
 
-    public void setPackagingDescription(String packagingDescription) {
-        this.packagingDescription = packagingDescription;
+    public void setProductSpecification(ProductSpecification productSpecification) {
+        this.productSpecification = productSpecification;
     }
 
-    public String getOthersDescription() {
-        return othersDescription;
+    public String getSpSize() {
+        return spSize;
     }
 
-    public CommercialProductInfo othersDescription(String othersDescription) {
-        this.othersDescription = othersDescription;
+    public CommercialProductInfo spSize(String spSize) {
+        this.spSize = spSize;
         return this;
     }
 
-    public void setOthersDescription(String othersDescription) {
-        this.othersDescription = othersDescription;
+    public void setSpSize(String spSize) {
+        this.spSize = spSize;
     }
 
     public BigDecimal getOfferedQuantity() {
@@ -192,6 +249,227 @@ public class CommercialProductInfo implements Serializable {
 
     public void setOfferedTotalPrice(BigDecimal offeredTotalPrice) {
         this.offeredTotalPrice = offeredTotalPrice;
+    }
+
+    public String getSpSticker() {
+        return spSticker;
+    }
+
+    public CommercialProductInfo spSticker(String spSticker) {
+        this.spSticker = spSticker;
+        return this;
+    }
+
+    public void setSpSticker(String spSticker) {
+        this.spSticker = spSticker;
+    }
+
+    public String getSpLabel() {
+        return spLabel;
+    }
+
+    public CommercialProductInfo spLabel(String spLabel) {
+        this.spLabel = spLabel;
+        return this;
+    }
+
+    public void setSpLabel(String spLabel) {
+        this.spLabel = spLabel;
+    }
+
+    public BigDecimal getSpQtyInPack() {
+        return spQtyInPack;
+    }
+
+    public CommercialProductInfo spQtyInPack(BigDecimal spQtyInPack) {
+        this.spQtyInPack = spQtyInPack;
+        return this;
+    }
+
+    public void setSpQtyInPack(BigDecimal spQtyInPack) {
+        this.spQtyInPack = spQtyInPack;
+    }
+
+    public BigDecimal getSpQtyInMc() {
+        return spQtyInMc;
+    }
+
+    public CommercialProductInfo spQtyInMc(BigDecimal spQtyInMc) {
+        this.spQtyInMc = spQtyInMc;
+        return this;
+    }
+
+    public void setSpQtyInMc(BigDecimal spQtyInMc) {
+        this.spQtyInMc = spQtyInMc;
+    }
+
+    public PackColor getIpColor() {
+        return ipColor;
+    }
+
+    public CommercialProductInfo ipColor(PackColor ipColor) {
+        this.ipColor = ipColor;
+        return this;
+    }
+
+    public void setIpColor(PackColor ipColor) {
+        this.ipColor = ipColor;
+    }
+
+    public String getIpSize() {
+        return ipSize;
+    }
+
+    public CommercialProductInfo ipSize(String ipSize) {
+        this.ipSize = ipSize;
+        return this;
+    }
+
+    public void setIpSize(String ipSize) {
+        this.ipSize = ipSize;
+    }
+
+    public String getIpSticker() {
+        return ipSticker;
+    }
+
+    public CommercialProductInfo ipSticker(String ipSticker) {
+        this.ipSticker = ipSticker;
+        return this;
+    }
+
+    public void setIpSticker(String ipSticker) {
+        this.ipSticker = ipSticker;
+    }
+
+    public String getIpLabel() {
+        return ipLabel;
+    }
+
+    public CommercialProductInfo ipLabel(String ipLabel) {
+        this.ipLabel = ipLabel;
+        return this;
+    }
+
+    public void setIpLabel(String ipLabel) {
+        this.ipLabel = ipLabel;
+    }
+
+    public BigDecimal getIpQtyInMc() {
+        return ipQtyInMc;
+    }
+
+    public CommercialProductInfo ipQtyInMc(BigDecimal ipQtyInMc) {
+        this.ipQtyInMc = ipQtyInMc;
+        return this;
+    }
+
+    public void setIpQtyInMc(BigDecimal ipQtyInMc) {
+        this.ipQtyInMc = ipQtyInMc;
+    }
+
+    public PackColor getMcColor() {
+        return mcColor;
+    }
+
+    public CommercialProductInfo mcColor(PackColor mcColor) {
+        this.mcColor = mcColor;
+        return this;
+    }
+
+    public void setMcColor(PackColor mcColor) {
+        this.mcColor = mcColor;
+    }
+
+    public String getMcPly() {
+        return mcPly;
+    }
+
+    public CommercialProductInfo mcPly(String mcPly) {
+        this.mcPly = mcPly;
+        return this;
+    }
+
+    public void setMcPly(String mcPly) {
+        this.mcPly = mcPly;
+    }
+
+    public String getMcSize() {
+        return mcSize;
+    }
+
+    public CommercialProductInfo mcSize(String mcSize) {
+        this.mcSize = mcSize;
+        return this;
+    }
+
+    public void setMcSize(String mcSize) {
+        this.mcSize = mcSize;
+    }
+
+    public String getMcSticker() {
+        return mcSticker;
+    }
+
+    public CommercialProductInfo mcSticker(String mcSticker) {
+        this.mcSticker = mcSticker;
+        return this;
+    }
+
+    public void setMcSticker(String mcSticker) {
+        this.mcSticker = mcSticker;
+    }
+
+    public String getMcLabel() {
+        return mcLabel;
+    }
+
+    public CommercialProductInfo mcLabel(String mcLabel) {
+        this.mcLabel = mcLabel;
+        return this;
+    }
+
+    public void setMcLabel(String mcLabel) {
+        this.mcLabel = mcLabel;
+    }
+
+    public String getCylColor() {
+        return cylColor;
+    }
+
+    public CommercialProductInfo cylColor(String cylColor) {
+        this.cylColor = cylColor;
+        return this;
+    }
+
+    public void setCylColor(String cylColor) {
+        this.cylColor = cylColor;
+    }
+
+    public String getCylSize() {
+        return cylSize;
+    }
+
+    public CommercialProductInfo cylSize(String cylSize) {
+        this.cylSize = cylSize;
+        return this;
+    }
+
+    public void setCylSize(String cylSize) {
+        this.cylSize = cylSize;
+    }
+
+    public BigDecimal getCylQty() {
+        return cylQty;
+    }
+
+    public CommercialProductInfo cylQty(BigDecimal cylQty) {
+        this.cylQty = cylQty;
+        return this;
+    }
+
+    public void setCylQty(BigDecimal cylQty) {
+        this.cylQty = cylQty;
     }
 
     public BigDecimal getBuyingQuantity() {
@@ -362,13 +640,30 @@ public class CommercialProductInfo implements Serializable {
     public String toString() {
         return "CommercialProductInfo{" +
             "id=" + getId() +
-            ", serialNo=" + getSerialNo() +
-            ", packagingDescription='" + getPackagingDescription() + "'" +
-            ", othersDescription='" + getOthersDescription() + "'" +
+            ", taskNo=" + getTaskNo() +
+            ", productSpecification='" + getProductSpecification() + "'" +
+            ", spSize='" + getSpSize() + "'" +
             ", offeredQuantity=" + getOfferedQuantity() +
             ", offeredUnit='" + getOfferedUnit() + "'" +
             ", offeredUnitPrice=" + getOfferedUnitPrice() +
             ", offeredTotalPrice=" + getOfferedTotalPrice() +
+            ", spSticker='" + getSpSticker() + "'" +
+            ", spLabel='" + getSpLabel() + "'" +
+            ", spQtyInPack=" + getSpQtyInPack() +
+            ", spQtyInMc=" + getSpQtyInMc() +
+            ", ipColor='" + getIpColor() + "'" +
+            ", ipSize='" + getIpSize() + "'" +
+            ", ipSticker='" + getIpSticker() + "'" +
+            ", ipLabel='" + getIpLabel() + "'" +
+            ", ipQtyInMc=" + getIpQtyInMc() +
+            ", mcColor='" + getMcColor() + "'" +
+            ", mcPly='" + getMcPly() + "'" +
+            ", mcSize='" + getMcSize() + "'" +
+            ", mcSticker='" + getMcSticker() + "'" +
+            ", mcLabel='" + getMcLabel() + "'" +
+            ", cylColor='" + getCylColor() + "'" +
+            ", cylSize='" + getCylSize() + "'" +
+            ", cylQty=" + getCylQty() +
             ", buyingQuantity=" + getBuyingQuantity() +
             ", buyingUnit='" + getBuyingUnit() + "'" +
             ", buyingUnitPrice=" + getBuyingUnitPrice() +

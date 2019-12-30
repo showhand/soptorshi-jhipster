@@ -9,6 +9,8 @@ import org.soptorshi.domain.CommercialBudget;
 import org.soptorshi.domain.CommercialProductInfo;
 import org.soptorshi.domain.Product;
 import org.soptorshi.domain.ProductCategory;
+import org.soptorshi.domain.enumeration.PackColor;
+import org.soptorshi.domain.enumeration.ProductSpecification;
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.repository.CommercialProductInfoRepository;
 import org.soptorshi.repository.search.CommercialProductInfoSearchRepository;
@@ -51,16 +53,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
-public class CommercialProductInfoExtendedResourceIntTest {
+public class CommercialProductInfoResourceIntTest {
 
-    private static final Integer DEFAULT_SERIAL_NO = 1;
-    private static final Integer UPDATED_SERIAL_NO = 2;
+    private static final Integer DEFAULT_TASK_NO = 1;
+    private static final Integer UPDATED_TASK_NO = 2;
 
-    private static final String DEFAULT_PACKAGING_DESCRIPTION = "AAAAAAAAAA";
-    private static final String UPDATED_PACKAGING_DESCRIPTION = "BBBBBBBBBB";
+    private static final ProductSpecification DEFAULT_PRODUCT_SPECIFICATION = ProductSpecification.FILLET;
+    private static final ProductSpecification UPDATED_PRODUCT_SPECIFICATION = ProductSpecification.STEAK;
 
-    private static final String DEFAULT_OTHERS_DESCRIPTION = "AAAAAAAAAA";
-    private static final String UPDATED_OTHERS_DESCRIPTION = "BBBBBBBBBB";
+    private static final String DEFAULT_SP_SIZE = "AAAAAAAAAA";
+    private static final String UPDATED_SP_SIZE = "BBBBBBBBBB";
 
     private static final BigDecimal DEFAULT_OFFERED_QUANTITY = new BigDecimal(1);
     private static final BigDecimal UPDATED_OFFERED_QUANTITY = new BigDecimal(2);
@@ -73,6 +75,57 @@ public class CommercialProductInfoExtendedResourceIntTest {
 
     private static final BigDecimal DEFAULT_OFFERED_TOTAL_PRICE = new BigDecimal(1);
     private static final BigDecimal UPDATED_OFFERED_TOTAL_PRICE = new BigDecimal(2);
+
+    private static final String DEFAULT_SP_STICKER = "AAAAAAAAAA";
+    private static final String UPDATED_SP_STICKER = "BBBBBBBBBB";
+
+    private static final String DEFAULT_SP_LABEL = "AAAAAAAAAA";
+    private static final String UPDATED_SP_LABEL = "BBBBBBBBBB";
+
+    private static final BigDecimal DEFAULT_SP_QTY_IN_PACK = new BigDecimal(1);
+    private static final BigDecimal UPDATED_SP_QTY_IN_PACK = new BigDecimal(2);
+
+    private static final BigDecimal DEFAULT_SP_QTY_IN_MC = new BigDecimal(1);
+    private static final BigDecimal UPDATED_SP_QTY_IN_MC = new BigDecimal(2);
+
+    private static final PackColor DEFAULT_IP_COLOR = PackColor.PLAIN;
+    private static final PackColor UPDATED_IP_COLOR = PackColor.PRINT;
+
+    private static final String DEFAULT_IP_SIZE = "AAAAAAAAAA";
+    private static final String UPDATED_IP_SIZE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_IP_STICKER = "AAAAAAAAAA";
+    private static final String UPDATED_IP_STICKER = "BBBBBBBBBB";
+
+    private static final String DEFAULT_IP_LABEL = "AAAAAAAAAA";
+    private static final String UPDATED_IP_LABEL = "BBBBBBBBBB";
+
+    private static final BigDecimal DEFAULT_IP_QTY_IN_MC = new BigDecimal(1);
+    private static final BigDecimal UPDATED_IP_QTY_IN_MC = new BigDecimal(2);
+
+    private static final PackColor DEFAULT_MC_COLOR = PackColor.PLAIN;
+    private static final PackColor UPDATED_MC_COLOR = PackColor.PRINT;
+
+    private static final String DEFAULT_MC_PLY = "AAAAAAAAAA";
+    private static final String UPDATED_MC_PLY = "BBBBBBBBBB";
+
+    private static final String DEFAULT_MC_SIZE = "AAAAAAAAAA";
+    private static final String UPDATED_MC_SIZE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_MC_STICKER = "AAAAAAAAAA";
+    private static final String UPDATED_MC_STICKER = "BBBBBBBBBB";
+
+    private static final String DEFAULT_MC_LABEL = "AAAAAAAAAA";
+    private static final String UPDATED_MC_LABEL = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CYL_COLOR = "AAAAAAAAAA";
+    private static final String UPDATED_CYL_COLOR = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CYL_SIZE = "AAAAAAAAAA";
+    private static final String UPDATED_CYL_SIZE = "BBBBBBBBBB";
+
+    private static final BigDecimal DEFAULT_CYL_QTY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_CYL_QTY = new BigDecimal(2);
 
     private static final BigDecimal DEFAULT_BUYING_QUANTITY = new BigDecimal(1);
     private static final BigDecimal UPDATED_BUYING_QUANTITY = new BigDecimal(2);
@@ -157,11 +210,30 @@ public class CommercialProductInfoExtendedResourceIntTest {
      */
     public static CommercialProductInfo createEntity(EntityManager em) {
         CommercialProductInfo commercialProductInfo = new CommercialProductInfo()
-            .taskNo(DEFAULT_SERIAL_NO)
+            .taskNo(DEFAULT_TASK_NO)
+            .productSpecification(DEFAULT_PRODUCT_SPECIFICATION)
+            .spSize(DEFAULT_SP_SIZE)
             .offeredQuantity(DEFAULT_OFFERED_QUANTITY)
             .offeredUnit(DEFAULT_OFFERED_UNIT)
             .offeredUnitPrice(DEFAULT_OFFERED_UNIT_PRICE)
             .offeredTotalPrice(DEFAULT_OFFERED_TOTAL_PRICE)
+            .spSticker(DEFAULT_SP_STICKER)
+            .spLabel(DEFAULT_SP_LABEL)
+            .spQtyInPack(DEFAULT_SP_QTY_IN_PACK)
+            .spQtyInMc(DEFAULT_SP_QTY_IN_MC)
+            .ipColor(DEFAULT_IP_COLOR)
+            .ipSize(DEFAULT_IP_SIZE)
+            .ipSticker(DEFAULT_IP_STICKER)
+            .ipLabel(DEFAULT_IP_LABEL)
+            .ipQtyInMc(DEFAULT_IP_QTY_IN_MC)
+            .mcColor(DEFAULT_MC_COLOR)
+            .mcPly(DEFAULT_MC_PLY)
+            .mcSize(DEFAULT_MC_SIZE)
+            .mcSticker(DEFAULT_MC_STICKER)
+            .mcLabel(DEFAULT_MC_LABEL)
+            .cylColor(DEFAULT_CYL_COLOR)
+            .cylSize(DEFAULT_CYL_SIZE)
+            .cylQty(DEFAULT_CYL_QTY)
             .buyingQuantity(DEFAULT_BUYING_QUANTITY)
             .buyingUnit(DEFAULT_BUYING_UNIT)
             .buyingUnitPrice(DEFAULT_BUYING_UNIT_PRICE)
@@ -194,11 +266,30 @@ public class CommercialProductInfoExtendedResourceIntTest {
         List<CommercialProductInfo> commercialProductInfoList = commercialProductInfoRepository.findAll();
         assertThat(commercialProductInfoList).hasSize(databaseSizeBeforeCreate + 1);
         CommercialProductInfo testCommercialProductInfo = commercialProductInfoList.get(commercialProductInfoList.size() - 1);
-        assertThat(testCommercialProductInfo.getTaskNo()).isEqualTo(DEFAULT_SERIAL_NO);
+        assertThat(testCommercialProductInfo.getTaskNo()).isEqualTo(DEFAULT_TASK_NO);
+        assertThat(testCommercialProductInfo.getProductSpecification()).isEqualTo(DEFAULT_PRODUCT_SPECIFICATION);
+        assertThat(testCommercialProductInfo.getSpSize()).isEqualTo(DEFAULT_SP_SIZE);
         assertThat(testCommercialProductInfo.getOfferedQuantity()).isEqualTo(DEFAULT_OFFERED_QUANTITY);
         assertThat(testCommercialProductInfo.getOfferedUnit()).isEqualTo(DEFAULT_OFFERED_UNIT);
         assertThat(testCommercialProductInfo.getOfferedUnitPrice()).isEqualTo(DEFAULT_OFFERED_UNIT_PRICE);
         assertThat(testCommercialProductInfo.getOfferedTotalPrice()).isEqualTo(DEFAULT_OFFERED_TOTAL_PRICE);
+        assertThat(testCommercialProductInfo.getSpSticker()).isEqualTo(DEFAULT_SP_STICKER);
+        assertThat(testCommercialProductInfo.getSpLabel()).isEqualTo(DEFAULT_SP_LABEL);
+        assertThat(testCommercialProductInfo.getSpQtyInPack()).isEqualTo(DEFAULT_SP_QTY_IN_PACK);
+        assertThat(testCommercialProductInfo.getSpQtyInMc()).isEqualTo(DEFAULT_SP_QTY_IN_MC);
+        assertThat(testCommercialProductInfo.getIpColor()).isEqualTo(DEFAULT_IP_COLOR);
+        assertThat(testCommercialProductInfo.getIpSize()).isEqualTo(DEFAULT_IP_SIZE);
+        assertThat(testCommercialProductInfo.getIpSticker()).isEqualTo(DEFAULT_IP_STICKER);
+        assertThat(testCommercialProductInfo.getIpLabel()).isEqualTo(DEFAULT_IP_LABEL);
+        assertThat(testCommercialProductInfo.getIpQtyInMc()).isEqualTo(DEFAULT_IP_QTY_IN_MC);
+        assertThat(testCommercialProductInfo.getMcColor()).isEqualTo(DEFAULT_MC_COLOR);
+        assertThat(testCommercialProductInfo.getMcPly()).isEqualTo(DEFAULT_MC_PLY);
+        assertThat(testCommercialProductInfo.getMcSize()).isEqualTo(DEFAULT_MC_SIZE);
+        assertThat(testCommercialProductInfo.getMcSticker()).isEqualTo(DEFAULT_MC_STICKER);
+        assertThat(testCommercialProductInfo.getMcLabel()).isEqualTo(DEFAULT_MC_LABEL);
+        assertThat(testCommercialProductInfo.getCylColor()).isEqualTo(DEFAULT_CYL_COLOR);
+        assertThat(testCommercialProductInfo.getCylSize()).isEqualTo(DEFAULT_CYL_SIZE);
+        assertThat(testCommercialProductInfo.getCylQty()).isEqualTo(DEFAULT_CYL_QTY);
         assertThat(testCommercialProductInfo.getBuyingQuantity()).isEqualTo(DEFAULT_BUYING_QUANTITY);
         assertThat(testCommercialProductInfo.getBuyingUnit()).isEqualTo(DEFAULT_BUYING_UNIT);
         assertThat(testCommercialProductInfo.getBuyingUnitPrice()).isEqualTo(DEFAULT_BUYING_UNIT_PRICE);
@@ -237,10 +328,29 @@ public class CommercialProductInfoExtendedResourceIntTest {
 
     @Test
     @Transactional
-    public void checkSerialNoIsRequired() throws Exception {
+    public void checkTaskNoIsRequired() throws Exception {
         int databaseSizeBeforeTest = commercialProductInfoRepository.findAll().size();
         // set the field null
         commercialProductInfo.setTaskNo(null);
+
+        // Create the CommercialProductInfo, which fails.
+        CommercialProductInfoDTO commercialProductInfoDTO = commercialProductInfoMapper.toDto(commercialProductInfo);
+
+        restCommercialProductInfoMockMvc.perform(post("/api/commercial-product-infos")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(commercialProductInfoDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<CommercialProductInfo> commercialProductInfoList = commercialProductInfoRepository.findAll();
+        assertThat(commercialProductInfoList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkProductSpecificationIsRequired() throws Exception {
+        int databaseSizeBeforeTest = commercialProductInfoRepository.findAll().size();
+        // set the field null
+        commercialProductInfo.setProductSpecification(null);
 
         // Create the CommercialProductInfo, which fails.
         CommercialProductInfoDTO commercialProductInfoDTO = commercialProductInfoMapper.toDto(commercialProductInfo);
@@ -417,13 +527,30 @@ public class CommercialProductInfoExtendedResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(commercialProductInfo.getId().intValue())))
-            .andExpect(jsonPath("$.[*].serialNo").value(hasItem(DEFAULT_SERIAL_NO)))
-            .andExpect(jsonPath("$.[*].packagingDescription").value(hasItem(DEFAULT_PACKAGING_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].othersDescription").value(hasItem(DEFAULT_OTHERS_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].taskNo").value(hasItem(DEFAULT_TASK_NO)))
+            .andExpect(jsonPath("$.[*].productSpecification").value(hasItem(DEFAULT_PRODUCT_SPECIFICATION.toString())))
+            .andExpect(jsonPath("$.[*].spSize").value(hasItem(DEFAULT_SP_SIZE.toString())))
             .andExpect(jsonPath("$.[*].offeredQuantity").value(hasItem(DEFAULT_OFFERED_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].offeredUnit").value(hasItem(DEFAULT_OFFERED_UNIT.toString())))
             .andExpect(jsonPath("$.[*].offeredUnitPrice").value(hasItem(DEFAULT_OFFERED_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].offeredTotalPrice").value(hasItem(DEFAULT_OFFERED_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].spSticker").value(hasItem(DEFAULT_SP_STICKER.toString())))
+            .andExpect(jsonPath("$.[*].spLabel").value(hasItem(DEFAULT_SP_LABEL.toString())))
+            .andExpect(jsonPath("$.[*].spQtyInPack").value(hasItem(DEFAULT_SP_QTY_IN_PACK.intValue())))
+            .andExpect(jsonPath("$.[*].spQtyInMc").value(hasItem(DEFAULT_SP_QTY_IN_MC.intValue())))
+            .andExpect(jsonPath("$.[*].ipColor").value(hasItem(DEFAULT_IP_COLOR.toString())))
+            .andExpect(jsonPath("$.[*].ipSize").value(hasItem(DEFAULT_IP_SIZE.toString())))
+            .andExpect(jsonPath("$.[*].ipSticker").value(hasItem(DEFAULT_IP_STICKER.toString())))
+            .andExpect(jsonPath("$.[*].ipLabel").value(hasItem(DEFAULT_IP_LABEL.toString())))
+            .andExpect(jsonPath("$.[*].ipQtyInMc").value(hasItem(DEFAULT_IP_QTY_IN_MC.intValue())))
+            .andExpect(jsonPath("$.[*].mcColor").value(hasItem(DEFAULT_MC_COLOR.toString())))
+            .andExpect(jsonPath("$.[*].mcPly").value(hasItem(DEFAULT_MC_PLY.toString())))
+            .andExpect(jsonPath("$.[*].mcSize").value(hasItem(DEFAULT_MC_SIZE.toString())))
+            .andExpect(jsonPath("$.[*].mcSticker").value(hasItem(DEFAULT_MC_STICKER.toString())))
+            .andExpect(jsonPath("$.[*].mcLabel").value(hasItem(DEFAULT_MC_LABEL.toString())))
+            .andExpect(jsonPath("$.[*].cylColor").value(hasItem(DEFAULT_CYL_COLOR.toString())))
+            .andExpect(jsonPath("$.[*].cylSize").value(hasItem(DEFAULT_CYL_SIZE.toString())))
+            .andExpect(jsonPath("$.[*].cylQty").value(hasItem(DEFAULT_CYL_QTY.intValue())))
             .andExpect(jsonPath("$.[*].buyingQuantity").value(hasItem(DEFAULT_BUYING_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].buyingUnit").value(hasItem(DEFAULT_BUYING_UNIT.toString())))
             .andExpect(jsonPath("$.[*].buyingUnitPrice").value(hasItem(DEFAULT_BUYING_UNIT_PRICE.intValue())))
@@ -445,13 +572,30 @@ public class CommercialProductInfoExtendedResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(commercialProductInfo.getId().intValue()))
-            .andExpect(jsonPath("$.serialNo").value(DEFAULT_SERIAL_NO))
-            .andExpect(jsonPath("$.packagingDescription").value(DEFAULT_PACKAGING_DESCRIPTION.toString()))
-            .andExpect(jsonPath("$.othersDescription").value(DEFAULT_OTHERS_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.taskNo").value(DEFAULT_TASK_NO))
+            .andExpect(jsonPath("$.productSpecification").value(DEFAULT_PRODUCT_SPECIFICATION.toString()))
+            .andExpect(jsonPath("$.spSize").value(DEFAULT_SP_SIZE.toString()))
             .andExpect(jsonPath("$.offeredQuantity").value(DEFAULT_OFFERED_QUANTITY.intValue()))
             .andExpect(jsonPath("$.offeredUnit").value(DEFAULT_OFFERED_UNIT.toString()))
             .andExpect(jsonPath("$.offeredUnitPrice").value(DEFAULT_OFFERED_UNIT_PRICE.intValue()))
             .andExpect(jsonPath("$.offeredTotalPrice").value(DEFAULT_OFFERED_TOTAL_PRICE.intValue()))
+            .andExpect(jsonPath("$.spSticker").value(DEFAULT_SP_STICKER.toString()))
+            .andExpect(jsonPath("$.spLabel").value(DEFAULT_SP_LABEL.toString()))
+            .andExpect(jsonPath("$.spQtyInPack").value(DEFAULT_SP_QTY_IN_PACK.intValue()))
+            .andExpect(jsonPath("$.spQtyInMc").value(DEFAULT_SP_QTY_IN_MC.intValue()))
+            .andExpect(jsonPath("$.ipColor").value(DEFAULT_IP_COLOR.toString()))
+            .andExpect(jsonPath("$.ipSize").value(DEFAULT_IP_SIZE.toString()))
+            .andExpect(jsonPath("$.ipSticker").value(DEFAULT_IP_STICKER.toString()))
+            .andExpect(jsonPath("$.ipLabel").value(DEFAULT_IP_LABEL.toString()))
+            .andExpect(jsonPath("$.ipQtyInMc").value(DEFAULT_IP_QTY_IN_MC.intValue()))
+            .andExpect(jsonPath("$.mcColor").value(DEFAULT_MC_COLOR.toString()))
+            .andExpect(jsonPath("$.mcPly").value(DEFAULT_MC_PLY.toString()))
+            .andExpect(jsonPath("$.mcSize").value(DEFAULT_MC_SIZE.toString()))
+            .andExpect(jsonPath("$.mcSticker").value(DEFAULT_MC_STICKER.toString()))
+            .andExpect(jsonPath("$.mcLabel").value(DEFAULT_MC_LABEL.toString()))
+            .andExpect(jsonPath("$.cylColor").value(DEFAULT_CYL_COLOR.toString()))
+            .andExpect(jsonPath("$.cylSize").value(DEFAULT_CYL_SIZE.toString()))
+            .andExpect(jsonPath("$.cylQty").value(DEFAULT_CYL_QTY.intValue()))
             .andExpect(jsonPath("$.buyingQuantity").value(DEFAULT_BUYING_QUANTITY.intValue()))
             .andExpect(jsonPath("$.buyingUnit").value(DEFAULT_BUYING_UNIT.toString()))
             .andExpect(jsonPath("$.buyingUnitPrice").value(DEFAULT_BUYING_UNIT_PRICE.intValue()))
@@ -464,146 +608,146 @@ public class CommercialProductInfoExtendedResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllCommercialProductInfosBySerialNoIsEqualToSomething() throws Exception {
+    public void getAllCommercialProductInfosByTaskNoIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
 
-        // Get all the commercialProductInfoList where serialNo equals to DEFAULT_SERIAL_NO
-        defaultCommercialProductInfoShouldBeFound("serialNo.equals=" + DEFAULT_SERIAL_NO);
+        // Get all the commercialProductInfoList where taskNo equals to DEFAULT_TASK_NO
+        defaultCommercialProductInfoShouldBeFound("taskNo.equals=" + DEFAULT_TASK_NO);
 
-        // Get all the commercialProductInfoList where serialNo equals to UPDATED_SERIAL_NO
-        defaultCommercialProductInfoShouldNotBeFound("serialNo.equals=" + UPDATED_SERIAL_NO);
+        // Get all the commercialProductInfoList where taskNo equals to UPDATED_TASK_NO
+        defaultCommercialProductInfoShouldNotBeFound("taskNo.equals=" + UPDATED_TASK_NO);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialProductInfosBySerialNoIsInShouldWork() throws Exception {
+    public void getAllCommercialProductInfosByTaskNoIsInShouldWork() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
 
-        // Get all the commercialProductInfoList where serialNo in DEFAULT_SERIAL_NO or UPDATED_SERIAL_NO
-        defaultCommercialProductInfoShouldBeFound("serialNo.in=" + DEFAULT_SERIAL_NO + "," + UPDATED_SERIAL_NO);
+        // Get all the commercialProductInfoList where taskNo in DEFAULT_TASK_NO or UPDATED_TASK_NO
+        defaultCommercialProductInfoShouldBeFound("taskNo.in=" + DEFAULT_TASK_NO + "," + UPDATED_TASK_NO);
 
-        // Get all the commercialProductInfoList where serialNo equals to UPDATED_SERIAL_NO
-        defaultCommercialProductInfoShouldNotBeFound("serialNo.in=" + UPDATED_SERIAL_NO);
+        // Get all the commercialProductInfoList where taskNo equals to UPDATED_TASK_NO
+        defaultCommercialProductInfoShouldNotBeFound("taskNo.in=" + UPDATED_TASK_NO);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialProductInfosBySerialNoIsNullOrNotNull() throws Exception {
+    public void getAllCommercialProductInfosByTaskNoIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
 
-        // Get all the commercialProductInfoList where serialNo is not null
-        defaultCommercialProductInfoShouldBeFound("serialNo.specified=true");
+        // Get all the commercialProductInfoList where taskNo is not null
+        defaultCommercialProductInfoShouldBeFound("taskNo.specified=true");
 
-        // Get all the commercialProductInfoList where serialNo is null
-        defaultCommercialProductInfoShouldNotBeFound("serialNo.specified=false");
+        // Get all the commercialProductInfoList where taskNo is null
+        defaultCommercialProductInfoShouldNotBeFound("taskNo.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllCommercialProductInfosBySerialNoIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllCommercialProductInfosByTaskNoIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
 
-        // Get all the commercialProductInfoList where serialNo greater than or equals to DEFAULT_SERIAL_NO
-        defaultCommercialProductInfoShouldBeFound("serialNo.greaterOrEqualThan=" + DEFAULT_SERIAL_NO);
+        // Get all the commercialProductInfoList where taskNo greater than or equals to DEFAULT_TASK_NO
+        defaultCommercialProductInfoShouldBeFound("taskNo.greaterOrEqualThan=" + DEFAULT_TASK_NO);
 
-        // Get all the commercialProductInfoList where serialNo greater than or equals to UPDATED_SERIAL_NO
-        defaultCommercialProductInfoShouldNotBeFound("serialNo.greaterOrEqualThan=" + UPDATED_SERIAL_NO);
+        // Get all the commercialProductInfoList where taskNo greater than or equals to UPDATED_TASK_NO
+        defaultCommercialProductInfoShouldNotBeFound("taskNo.greaterOrEqualThan=" + UPDATED_TASK_NO);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialProductInfosBySerialNoIsLessThanSomething() throws Exception {
+    public void getAllCommercialProductInfosByTaskNoIsLessThanSomething() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
 
-        // Get all the commercialProductInfoList where serialNo less than or equals to DEFAULT_SERIAL_NO
-        defaultCommercialProductInfoShouldNotBeFound("serialNo.lessThan=" + DEFAULT_SERIAL_NO);
+        // Get all the commercialProductInfoList where taskNo less than or equals to DEFAULT_TASK_NO
+        defaultCommercialProductInfoShouldNotBeFound("taskNo.lessThan=" + DEFAULT_TASK_NO);
 
-        // Get all the commercialProductInfoList where serialNo less than or equals to UPDATED_SERIAL_NO
-        defaultCommercialProductInfoShouldBeFound("serialNo.lessThan=" + UPDATED_SERIAL_NO);
+        // Get all the commercialProductInfoList where taskNo less than or equals to UPDATED_TASK_NO
+        defaultCommercialProductInfoShouldBeFound("taskNo.lessThan=" + UPDATED_TASK_NO);
     }
 
 
     @Test
     @Transactional
-    public void getAllCommercialProductInfosByPackagingDescriptionIsEqualToSomething() throws Exception {
+    public void getAllCommercialProductInfosByProductSpecificationIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
 
-        // Get all the commercialProductInfoList where packagingDescription equals to DEFAULT_PACKAGING_DESCRIPTION
-        defaultCommercialProductInfoShouldBeFound("packagingDescription.equals=" + DEFAULT_PACKAGING_DESCRIPTION);
+        // Get all the commercialProductInfoList where productSpecification equals to DEFAULT_PRODUCT_SPECIFICATION
+        defaultCommercialProductInfoShouldBeFound("productSpecification.equals=" + DEFAULT_PRODUCT_SPECIFICATION);
 
-        // Get all the commercialProductInfoList where packagingDescription equals to UPDATED_PACKAGING_DESCRIPTION
-        defaultCommercialProductInfoShouldNotBeFound("packagingDescription.equals=" + UPDATED_PACKAGING_DESCRIPTION);
+        // Get all the commercialProductInfoList where productSpecification equals to UPDATED_PRODUCT_SPECIFICATION
+        defaultCommercialProductInfoShouldNotBeFound("productSpecification.equals=" + UPDATED_PRODUCT_SPECIFICATION);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialProductInfosByPackagingDescriptionIsInShouldWork() throws Exception {
+    public void getAllCommercialProductInfosByProductSpecificationIsInShouldWork() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
 
-        // Get all the commercialProductInfoList where packagingDescription in DEFAULT_PACKAGING_DESCRIPTION or UPDATED_PACKAGING_DESCRIPTION
-        defaultCommercialProductInfoShouldBeFound("packagingDescription.in=" + DEFAULT_PACKAGING_DESCRIPTION + "," + UPDATED_PACKAGING_DESCRIPTION);
+        // Get all the commercialProductInfoList where productSpecification in DEFAULT_PRODUCT_SPECIFICATION or UPDATED_PRODUCT_SPECIFICATION
+        defaultCommercialProductInfoShouldBeFound("productSpecification.in=" + DEFAULT_PRODUCT_SPECIFICATION + "," + UPDATED_PRODUCT_SPECIFICATION);
 
-        // Get all the commercialProductInfoList where packagingDescription equals to UPDATED_PACKAGING_DESCRIPTION
-        defaultCommercialProductInfoShouldNotBeFound("packagingDescription.in=" + UPDATED_PACKAGING_DESCRIPTION);
+        // Get all the commercialProductInfoList where productSpecification equals to UPDATED_PRODUCT_SPECIFICATION
+        defaultCommercialProductInfoShouldNotBeFound("productSpecification.in=" + UPDATED_PRODUCT_SPECIFICATION);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialProductInfosByPackagingDescriptionIsNullOrNotNull() throws Exception {
+    public void getAllCommercialProductInfosByProductSpecificationIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
 
-        // Get all the commercialProductInfoList where packagingDescription is not null
-        defaultCommercialProductInfoShouldBeFound("packagingDescription.specified=true");
+        // Get all the commercialProductInfoList where productSpecification is not null
+        defaultCommercialProductInfoShouldBeFound("productSpecification.specified=true");
 
-        // Get all the commercialProductInfoList where packagingDescription is null
-        defaultCommercialProductInfoShouldNotBeFound("packagingDescription.specified=false");
+        // Get all the commercialProductInfoList where productSpecification is null
+        defaultCommercialProductInfoShouldNotBeFound("productSpecification.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllCommercialProductInfosByOthersDescriptionIsEqualToSomething() throws Exception {
+    public void getAllCommercialProductInfosBySpSizeIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
 
-        // Get all the commercialProductInfoList where othersDescription equals to DEFAULT_OTHERS_DESCRIPTION
-        defaultCommercialProductInfoShouldBeFound("othersDescription.equals=" + DEFAULT_OTHERS_DESCRIPTION);
+        // Get all the commercialProductInfoList where spSize equals to DEFAULT_SP_SIZE
+        defaultCommercialProductInfoShouldBeFound("spSize.equals=" + DEFAULT_SP_SIZE);
 
-        // Get all the commercialProductInfoList where othersDescription equals to UPDATED_OTHERS_DESCRIPTION
-        defaultCommercialProductInfoShouldNotBeFound("othersDescription.equals=" + UPDATED_OTHERS_DESCRIPTION);
+        // Get all the commercialProductInfoList where spSize equals to UPDATED_SP_SIZE
+        defaultCommercialProductInfoShouldNotBeFound("spSize.equals=" + UPDATED_SP_SIZE);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialProductInfosByOthersDescriptionIsInShouldWork() throws Exception {
+    public void getAllCommercialProductInfosBySpSizeIsInShouldWork() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
 
-        // Get all the commercialProductInfoList where othersDescription in DEFAULT_OTHERS_DESCRIPTION or UPDATED_OTHERS_DESCRIPTION
-        defaultCommercialProductInfoShouldBeFound("othersDescription.in=" + DEFAULT_OTHERS_DESCRIPTION + "," + UPDATED_OTHERS_DESCRIPTION);
+        // Get all the commercialProductInfoList where spSize in DEFAULT_SP_SIZE or UPDATED_SP_SIZE
+        defaultCommercialProductInfoShouldBeFound("spSize.in=" + DEFAULT_SP_SIZE + "," + UPDATED_SP_SIZE);
 
-        // Get all the commercialProductInfoList where othersDescription equals to UPDATED_OTHERS_DESCRIPTION
-        defaultCommercialProductInfoShouldNotBeFound("othersDescription.in=" + UPDATED_OTHERS_DESCRIPTION);
+        // Get all the commercialProductInfoList where spSize equals to UPDATED_SP_SIZE
+        defaultCommercialProductInfoShouldNotBeFound("spSize.in=" + UPDATED_SP_SIZE);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialProductInfosByOthersDescriptionIsNullOrNotNull() throws Exception {
+    public void getAllCommercialProductInfosBySpSizeIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
 
-        // Get all the commercialProductInfoList where othersDescription is not null
-        defaultCommercialProductInfoShouldBeFound("othersDescription.specified=true");
+        // Get all the commercialProductInfoList where spSize is not null
+        defaultCommercialProductInfoShouldBeFound("spSize.specified=true");
 
-        // Get all the commercialProductInfoList where othersDescription is null
-        defaultCommercialProductInfoShouldNotBeFound("othersDescription.specified=false");
+        // Get all the commercialProductInfoList where spSize is null
+        defaultCommercialProductInfoShouldNotBeFound("spSize.specified=false");
     }
 
     @Test
@@ -760,6 +904,669 @@ public class CommercialProductInfoExtendedResourceIntTest {
 
         // Get all the commercialProductInfoList where offeredTotalPrice is null
         defaultCommercialProductInfoShouldNotBeFound("offeredTotalPrice.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpStickerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spSticker equals to DEFAULT_SP_STICKER
+        defaultCommercialProductInfoShouldBeFound("spSticker.equals=" + DEFAULT_SP_STICKER);
+
+        // Get all the commercialProductInfoList where spSticker equals to UPDATED_SP_STICKER
+        defaultCommercialProductInfoShouldNotBeFound("spSticker.equals=" + UPDATED_SP_STICKER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpStickerIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spSticker in DEFAULT_SP_STICKER or UPDATED_SP_STICKER
+        defaultCommercialProductInfoShouldBeFound("spSticker.in=" + DEFAULT_SP_STICKER + "," + UPDATED_SP_STICKER);
+
+        // Get all the commercialProductInfoList where spSticker equals to UPDATED_SP_STICKER
+        defaultCommercialProductInfoShouldNotBeFound("spSticker.in=" + UPDATED_SP_STICKER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpStickerIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spSticker is not null
+        defaultCommercialProductInfoShouldBeFound("spSticker.specified=true");
+
+        // Get all the commercialProductInfoList where spSticker is null
+        defaultCommercialProductInfoShouldNotBeFound("spSticker.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpLabelIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spLabel equals to DEFAULT_SP_LABEL
+        defaultCommercialProductInfoShouldBeFound("spLabel.equals=" + DEFAULT_SP_LABEL);
+
+        // Get all the commercialProductInfoList where spLabel equals to UPDATED_SP_LABEL
+        defaultCommercialProductInfoShouldNotBeFound("spLabel.equals=" + UPDATED_SP_LABEL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpLabelIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spLabel in DEFAULT_SP_LABEL or UPDATED_SP_LABEL
+        defaultCommercialProductInfoShouldBeFound("spLabel.in=" + DEFAULT_SP_LABEL + "," + UPDATED_SP_LABEL);
+
+        // Get all the commercialProductInfoList where spLabel equals to UPDATED_SP_LABEL
+        defaultCommercialProductInfoShouldNotBeFound("spLabel.in=" + UPDATED_SP_LABEL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpLabelIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spLabel is not null
+        defaultCommercialProductInfoShouldBeFound("spLabel.specified=true");
+
+        // Get all the commercialProductInfoList where spLabel is null
+        defaultCommercialProductInfoShouldNotBeFound("spLabel.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpQtyInPackIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spQtyInPack equals to DEFAULT_SP_QTY_IN_PACK
+        defaultCommercialProductInfoShouldBeFound("spQtyInPack.equals=" + DEFAULT_SP_QTY_IN_PACK);
+
+        // Get all the commercialProductInfoList where spQtyInPack equals to UPDATED_SP_QTY_IN_PACK
+        defaultCommercialProductInfoShouldNotBeFound("spQtyInPack.equals=" + UPDATED_SP_QTY_IN_PACK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpQtyInPackIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spQtyInPack in DEFAULT_SP_QTY_IN_PACK or UPDATED_SP_QTY_IN_PACK
+        defaultCommercialProductInfoShouldBeFound("spQtyInPack.in=" + DEFAULT_SP_QTY_IN_PACK + "," + UPDATED_SP_QTY_IN_PACK);
+
+        // Get all the commercialProductInfoList where spQtyInPack equals to UPDATED_SP_QTY_IN_PACK
+        defaultCommercialProductInfoShouldNotBeFound("spQtyInPack.in=" + UPDATED_SP_QTY_IN_PACK);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpQtyInPackIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spQtyInPack is not null
+        defaultCommercialProductInfoShouldBeFound("spQtyInPack.specified=true");
+
+        // Get all the commercialProductInfoList where spQtyInPack is null
+        defaultCommercialProductInfoShouldNotBeFound("spQtyInPack.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpQtyInMcIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spQtyInMc equals to DEFAULT_SP_QTY_IN_MC
+        defaultCommercialProductInfoShouldBeFound("spQtyInMc.equals=" + DEFAULT_SP_QTY_IN_MC);
+
+        // Get all the commercialProductInfoList where spQtyInMc equals to UPDATED_SP_QTY_IN_MC
+        defaultCommercialProductInfoShouldNotBeFound("spQtyInMc.equals=" + UPDATED_SP_QTY_IN_MC);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpQtyInMcIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spQtyInMc in DEFAULT_SP_QTY_IN_MC or UPDATED_SP_QTY_IN_MC
+        defaultCommercialProductInfoShouldBeFound("spQtyInMc.in=" + DEFAULT_SP_QTY_IN_MC + "," + UPDATED_SP_QTY_IN_MC);
+
+        // Get all the commercialProductInfoList where spQtyInMc equals to UPDATED_SP_QTY_IN_MC
+        defaultCommercialProductInfoShouldNotBeFound("spQtyInMc.in=" + UPDATED_SP_QTY_IN_MC);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpQtyInMcIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spQtyInMc is not null
+        defaultCommercialProductInfoShouldBeFound("spQtyInMc.specified=true");
+
+        // Get all the commercialProductInfoList where spQtyInMc is null
+        defaultCommercialProductInfoShouldNotBeFound("spQtyInMc.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpColorIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipColor equals to DEFAULT_IP_COLOR
+        defaultCommercialProductInfoShouldBeFound("ipColor.equals=" + DEFAULT_IP_COLOR);
+
+        // Get all the commercialProductInfoList where ipColor equals to UPDATED_IP_COLOR
+        defaultCommercialProductInfoShouldNotBeFound("ipColor.equals=" + UPDATED_IP_COLOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpColorIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipColor in DEFAULT_IP_COLOR or UPDATED_IP_COLOR
+        defaultCommercialProductInfoShouldBeFound("ipColor.in=" + DEFAULT_IP_COLOR + "," + UPDATED_IP_COLOR);
+
+        // Get all the commercialProductInfoList where ipColor equals to UPDATED_IP_COLOR
+        defaultCommercialProductInfoShouldNotBeFound("ipColor.in=" + UPDATED_IP_COLOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpColorIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipColor is not null
+        defaultCommercialProductInfoShouldBeFound("ipColor.specified=true");
+
+        // Get all the commercialProductInfoList where ipColor is null
+        defaultCommercialProductInfoShouldNotBeFound("ipColor.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpSizeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipSize equals to DEFAULT_IP_SIZE
+        defaultCommercialProductInfoShouldBeFound("ipSize.equals=" + DEFAULT_IP_SIZE);
+
+        // Get all the commercialProductInfoList where ipSize equals to UPDATED_IP_SIZE
+        defaultCommercialProductInfoShouldNotBeFound("ipSize.equals=" + UPDATED_IP_SIZE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpSizeIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipSize in DEFAULT_IP_SIZE or UPDATED_IP_SIZE
+        defaultCommercialProductInfoShouldBeFound("ipSize.in=" + DEFAULT_IP_SIZE + "," + UPDATED_IP_SIZE);
+
+        // Get all the commercialProductInfoList where ipSize equals to UPDATED_IP_SIZE
+        defaultCommercialProductInfoShouldNotBeFound("ipSize.in=" + UPDATED_IP_SIZE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpSizeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipSize is not null
+        defaultCommercialProductInfoShouldBeFound("ipSize.specified=true");
+
+        // Get all the commercialProductInfoList where ipSize is null
+        defaultCommercialProductInfoShouldNotBeFound("ipSize.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpStickerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipSticker equals to DEFAULT_IP_STICKER
+        defaultCommercialProductInfoShouldBeFound("ipSticker.equals=" + DEFAULT_IP_STICKER);
+
+        // Get all the commercialProductInfoList where ipSticker equals to UPDATED_IP_STICKER
+        defaultCommercialProductInfoShouldNotBeFound("ipSticker.equals=" + UPDATED_IP_STICKER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpStickerIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipSticker in DEFAULT_IP_STICKER or UPDATED_IP_STICKER
+        defaultCommercialProductInfoShouldBeFound("ipSticker.in=" + DEFAULT_IP_STICKER + "," + UPDATED_IP_STICKER);
+
+        // Get all the commercialProductInfoList where ipSticker equals to UPDATED_IP_STICKER
+        defaultCommercialProductInfoShouldNotBeFound("ipSticker.in=" + UPDATED_IP_STICKER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpStickerIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipSticker is not null
+        defaultCommercialProductInfoShouldBeFound("ipSticker.specified=true");
+
+        // Get all the commercialProductInfoList where ipSticker is null
+        defaultCommercialProductInfoShouldNotBeFound("ipSticker.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpLabelIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipLabel equals to DEFAULT_IP_LABEL
+        defaultCommercialProductInfoShouldBeFound("ipLabel.equals=" + DEFAULT_IP_LABEL);
+
+        // Get all the commercialProductInfoList where ipLabel equals to UPDATED_IP_LABEL
+        defaultCommercialProductInfoShouldNotBeFound("ipLabel.equals=" + UPDATED_IP_LABEL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpLabelIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipLabel in DEFAULT_IP_LABEL or UPDATED_IP_LABEL
+        defaultCommercialProductInfoShouldBeFound("ipLabel.in=" + DEFAULT_IP_LABEL + "," + UPDATED_IP_LABEL);
+
+        // Get all the commercialProductInfoList where ipLabel equals to UPDATED_IP_LABEL
+        defaultCommercialProductInfoShouldNotBeFound("ipLabel.in=" + UPDATED_IP_LABEL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpLabelIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipLabel is not null
+        defaultCommercialProductInfoShouldBeFound("ipLabel.specified=true");
+
+        // Get all the commercialProductInfoList where ipLabel is null
+        defaultCommercialProductInfoShouldNotBeFound("ipLabel.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpQtyInMcIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipQtyInMc equals to DEFAULT_IP_QTY_IN_MC
+        defaultCommercialProductInfoShouldBeFound("ipQtyInMc.equals=" + DEFAULT_IP_QTY_IN_MC);
+
+        // Get all the commercialProductInfoList where ipQtyInMc equals to UPDATED_IP_QTY_IN_MC
+        defaultCommercialProductInfoShouldNotBeFound("ipQtyInMc.equals=" + UPDATED_IP_QTY_IN_MC);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpQtyInMcIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipQtyInMc in DEFAULT_IP_QTY_IN_MC or UPDATED_IP_QTY_IN_MC
+        defaultCommercialProductInfoShouldBeFound("ipQtyInMc.in=" + DEFAULT_IP_QTY_IN_MC + "," + UPDATED_IP_QTY_IN_MC);
+
+        // Get all the commercialProductInfoList where ipQtyInMc equals to UPDATED_IP_QTY_IN_MC
+        defaultCommercialProductInfoShouldNotBeFound("ipQtyInMc.in=" + UPDATED_IP_QTY_IN_MC);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpQtyInMcIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipQtyInMc is not null
+        defaultCommercialProductInfoShouldBeFound("ipQtyInMc.specified=true");
+
+        // Get all the commercialProductInfoList where ipQtyInMc is null
+        defaultCommercialProductInfoShouldNotBeFound("ipQtyInMc.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcColorIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcColor equals to DEFAULT_MC_COLOR
+        defaultCommercialProductInfoShouldBeFound("mcColor.equals=" + DEFAULT_MC_COLOR);
+
+        // Get all the commercialProductInfoList where mcColor equals to UPDATED_MC_COLOR
+        defaultCommercialProductInfoShouldNotBeFound("mcColor.equals=" + UPDATED_MC_COLOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcColorIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcColor in DEFAULT_MC_COLOR or UPDATED_MC_COLOR
+        defaultCommercialProductInfoShouldBeFound("mcColor.in=" + DEFAULT_MC_COLOR + "," + UPDATED_MC_COLOR);
+
+        // Get all the commercialProductInfoList where mcColor equals to UPDATED_MC_COLOR
+        defaultCommercialProductInfoShouldNotBeFound("mcColor.in=" + UPDATED_MC_COLOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcColorIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcColor is not null
+        defaultCommercialProductInfoShouldBeFound("mcColor.specified=true");
+
+        // Get all the commercialProductInfoList where mcColor is null
+        defaultCommercialProductInfoShouldNotBeFound("mcColor.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcPlyIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcPly equals to DEFAULT_MC_PLY
+        defaultCommercialProductInfoShouldBeFound("mcPly.equals=" + DEFAULT_MC_PLY);
+
+        // Get all the commercialProductInfoList where mcPly equals to UPDATED_MC_PLY
+        defaultCommercialProductInfoShouldNotBeFound("mcPly.equals=" + UPDATED_MC_PLY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcPlyIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcPly in DEFAULT_MC_PLY or UPDATED_MC_PLY
+        defaultCommercialProductInfoShouldBeFound("mcPly.in=" + DEFAULT_MC_PLY + "," + UPDATED_MC_PLY);
+
+        // Get all the commercialProductInfoList where mcPly equals to UPDATED_MC_PLY
+        defaultCommercialProductInfoShouldNotBeFound("mcPly.in=" + UPDATED_MC_PLY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcPlyIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcPly is not null
+        defaultCommercialProductInfoShouldBeFound("mcPly.specified=true");
+
+        // Get all the commercialProductInfoList where mcPly is null
+        defaultCommercialProductInfoShouldNotBeFound("mcPly.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcSizeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcSize equals to DEFAULT_MC_SIZE
+        defaultCommercialProductInfoShouldBeFound("mcSize.equals=" + DEFAULT_MC_SIZE);
+
+        // Get all the commercialProductInfoList where mcSize equals to UPDATED_MC_SIZE
+        defaultCommercialProductInfoShouldNotBeFound("mcSize.equals=" + UPDATED_MC_SIZE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcSizeIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcSize in DEFAULT_MC_SIZE or UPDATED_MC_SIZE
+        defaultCommercialProductInfoShouldBeFound("mcSize.in=" + DEFAULT_MC_SIZE + "," + UPDATED_MC_SIZE);
+
+        // Get all the commercialProductInfoList where mcSize equals to UPDATED_MC_SIZE
+        defaultCommercialProductInfoShouldNotBeFound("mcSize.in=" + UPDATED_MC_SIZE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcSizeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcSize is not null
+        defaultCommercialProductInfoShouldBeFound("mcSize.specified=true");
+
+        // Get all the commercialProductInfoList where mcSize is null
+        defaultCommercialProductInfoShouldNotBeFound("mcSize.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcStickerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcSticker equals to DEFAULT_MC_STICKER
+        defaultCommercialProductInfoShouldBeFound("mcSticker.equals=" + DEFAULT_MC_STICKER);
+
+        // Get all the commercialProductInfoList where mcSticker equals to UPDATED_MC_STICKER
+        defaultCommercialProductInfoShouldNotBeFound("mcSticker.equals=" + UPDATED_MC_STICKER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcStickerIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcSticker in DEFAULT_MC_STICKER or UPDATED_MC_STICKER
+        defaultCommercialProductInfoShouldBeFound("mcSticker.in=" + DEFAULT_MC_STICKER + "," + UPDATED_MC_STICKER);
+
+        // Get all the commercialProductInfoList where mcSticker equals to UPDATED_MC_STICKER
+        defaultCommercialProductInfoShouldNotBeFound("mcSticker.in=" + UPDATED_MC_STICKER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcStickerIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcSticker is not null
+        defaultCommercialProductInfoShouldBeFound("mcSticker.specified=true");
+
+        // Get all the commercialProductInfoList where mcSticker is null
+        defaultCommercialProductInfoShouldNotBeFound("mcSticker.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcLabelIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcLabel equals to DEFAULT_MC_LABEL
+        defaultCommercialProductInfoShouldBeFound("mcLabel.equals=" + DEFAULT_MC_LABEL);
+
+        // Get all the commercialProductInfoList where mcLabel equals to UPDATED_MC_LABEL
+        defaultCommercialProductInfoShouldNotBeFound("mcLabel.equals=" + UPDATED_MC_LABEL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcLabelIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcLabel in DEFAULT_MC_LABEL or UPDATED_MC_LABEL
+        defaultCommercialProductInfoShouldBeFound("mcLabel.in=" + DEFAULT_MC_LABEL + "," + UPDATED_MC_LABEL);
+
+        // Get all the commercialProductInfoList where mcLabel equals to UPDATED_MC_LABEL
+        defaultCommercialProductInfoShouldNotBeFound("mcLabel.in=" + UPDATED_MC_LABEL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcLabelIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcLabel is not null
+        defaultCommercialProductInfoShouldBeFound("mcLabel.specified=true");
+
+        // Get all the commercialProductInfoList where mcLabel is null
+        defaultCommercialProductInfoShouldNotBeFound("mcLabel.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByCylColorIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where cylColor equals to DEFAULT_CYL_COLOR
+        defaultCommercialProductInfoShouldBeFound("cylColor.equals=" + DEFAULT_CYL_COLOR);
+
+        // Get all the commercialProductInfoList where cylColor equals to UPDATED_CYL_COLOR
+        defaultCommercialProductInfoShouldNotBeFound("cylColor.equals=" + UPDATED_CYL_COLOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByCylColorIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where cylColor in DEFAULT_CYL_COLOR or UPDATED_CYL_COLOR
+        defaultCommercialProductInfoShouldBeFound("cylColor.in=" + DEFAULT_CYL_COLOR + "," + UPDATED_CYL_COLOR);
+
+        // Get all the commercialProductInfoList where cylColor equals to UPDATED_CYL_COLOR
+        defaultCommercialProductInfoShouldNotBeFound("cylColor.in=" + UPDATED_CYL_COLOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByCylColorIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where cylColor is not null
+        defaultCommercialProductInfoShouldBeFound("cylColor.specified=true");
+
+        // Get all the commercialProductInfoList where cylColor is null
+        defaultCommercialProductInfoShouldNotBeFound("cylColor.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByCylSizeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where cylSize equals to DEFAULT_CYL_SIZE
+        defaultCommercialProductInfoShouldBeFound("cylSize.equals=" + DEFAULT_CYL_SIZE);
+
+        // Get all the commercialProductInfoList where cylSize equals to UPDATED_CYL_SIZE
+        defaultCommercialProductInfoShouldNotBeFound("cylSize.equals=" + UPDATED_CYL_SIZE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByCylSizeIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where cylSize in DEFAULT_CYL_SIZE or UPDATED_CYL_SIZE
+        defaultCommercialProductInfoShouldBeFound("cylSize.in=" + DEFAULT_CYL_SIZE + "," + UPDATED_CYL_SIZE);
+
+        // Get all the commercialProductInfoList where cylSize equals to UPDATED_CYL_SIZE
+        defaultCommercialProductInfoShouldNotBeFound("cylSize.in=" + UPDATED_CYL_SIZE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByCylSizeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where cylSize is not null
+        defaultCommercialProductInfoShouldBeFound("cylSize.specified=true");
+
+        // Get all the commercialProductInfoList where cylSize is null
+        defaultCommercialProductInfoShouldNotBeFound("cylSize.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByCylQtyIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where cylQty equals to DEFAULT_CYL_QTY
+        defaultCommercialProductInfoShouldBeFound("cylQty.equals=" + DEFAULT_CYL_QTY);
+
+        // Get all the commercialProductInfoList where cylQty equals to UPDATED_CYL_QTY
+        defaultCommercialProductInfoShouldNotBeFound("cylQty.equals=" + UPDATED_CYL_QTY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByCylQtyIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where cylQty in DEFAULT_CYL_QTY or UPDATED_CYL_QTY
+        defaultCommercialProductInfoShouldBeFound("cylQty.in=" + DEFAULT_CYL_QTY + "," + UPDATED_CYL_QTY);
+
+        // Get all the commercialProductInfoList where cylQty equals to UPDATED_CYL_QTY
+        defaultCommercialProductInfoShouldNotBeFound("cylQty.in=" + UPDATED_CYL_QTY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByCylQtyIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where cylQty is not null
+        defaultCommercialProductInfoShouldBeFound("cylQty.specified=true");
+
+        // Get all the commercialProductInfoList where cylQty is null
+        defaultCommercialProductInfoShouldNotBeFound("cylQty.specified=false");
     }
 
     @Test
@@ -1078,7 +1885,7 @@ public class CommercialProductInfoExtendedResourceIntTest {
     @Transactional
     public void getAllCommercialProductInfosByCommercialBudgetIsEqualToSomething() throws Exception {
         // Initialize the database
-        CommercialBudget commercialBudget = CommercialBudgetExtendedResourceIntTest.createEntity(em);
+        CommercialBudget commercialBudget = CommercialBudgetResourceIntTest.createEntity(em);
         em.persist(commercialBudget);
         em.flush();
         commercialProductInfo.setCommercialBudget(commercialBudget);
@@ -1138,13 +1945,30 @@ public class CommercialProductInfoExtendedResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(commercialProductInfo.getId().intValue())))
-            .andExpect(jsonPath("$.[*].serialNo").value(hasItem(DEFAULT_SERIAL_NO)))
-            .andExpect(jsonPath("$.[*].packagingDescription").value(hasItem(DEFAULT_PACKAGING_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].othersDescription").value(hasItem(DEFAULT_OTHERS_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].taskNo").value(hasItem(DEFAULT_TASK_NO)))
+            .andExpect(jsonPath("$.[*].productSpecification").value(hasItem(DEFAULT_PRODUCT_SPECIFICATION.toString())))
+            .andExpect(jsonPath("$.[*].spSize").value(hasItem(DEFAULT_SP_SIZE)))
             .andExpect(jsonPath("$.[*].offeredQuantity").value(hasItem(DEFAULT_OFFERED_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].offeredUnit").value(hasItem(DEFAULT_OFFERED_UNIT.toString())))
             .andExpect(jsonPath("$.[*].offeredUnitPrice").value(hasItem(DEFAULT_OFFERED_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].offeredTotalPrice").value(hasItem(DEFAULT_OFFERED_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].spSticker").value(hasItem(DEFAULT_SP_STICKER)))
+            .andExpect(jsonPath("$.[*].spLabel").value(hasItem(DEFAULT_SP_LABEL)))
+            .andExpect(jsonPath("$.[*].spQtyInPack").value(hasItem(DEFAULT_SP_QTY_IN_PACK.intValue())))
+            .andExpect(jsonPath("$.[*].spQtyInMc").value(hasItem(DEFAULT_SP_QTY_IN_MC.intValue())))
+            .andExpect(jsonPath("$.[*].ipColor").value(hasItem(DEFAULT_IP_COLOR.toString())))
+            .andExpect(jsonPath("$.[*].ipSize").value(hasItem(DEFAULT_IP_SIZE)))
+            .andExpect(jsonPath("$.[*].ipSticker").value(hasItem(DEFAULT_IP_STICKER)))
+            .andExpect(jsonPath("$.[*].ipLabel").value(hasItem(DEFAULT_IP_LABEL)))
+            .andExpect(jsonPath("$.[*].ipQtyInMc").value(hasItem(DEFAULT_IP_QTY_IN_MC.intValue())))
+            .andExpect(jsonPath("$.[*].mcColor").value(hasItem(DEFAULT_MC_COLOR.toString())))
+            .andExpect(jsonPath("$.[*].mcPly").value(hasItem(DEFAULT_MC_PLY)))
+            .andExpect(jsonPath("$.[*].mcSize").value(hasItem(DEFAULT_MC_SIZE)))
+            .andExpect(jsonPath("$.[*].mcSticker").value(hasItem(DEFAULT_MC_STICKER)))
+            .andExpect(jsonPath("$.[*].mcLabel").value(hasItem(DEFAULT_MC_LABEL)))
+            .andExpect(jsonPath("$.[*].cylColor").value(hasItem(DEFAULT_CYL_COLOR)))
+            .andExpect(jsonPath("$.[*].cylSize").value(hasItem(DEFAULT_CYL_SIZE)))
+            .andExpect(jsonPath("$.[*].cylQty").value(hasItem(DEFAULT_CYL_QTY.intValue())))
             .andExpect(jsonPath("$.[*].buyingQuantity").value(hasItem(DEFAULT_BUYING_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].buyingUnit").value(hasItem(DEFAULT_BUYING_UNIT.toString())))
             .andExpect(jsonPath("$.[*].buyingUnitPrice").value(hasItem(DEFAULT_BUYING_UNIT_PRICE.intValue())))
@@ -1200,11 +2024,30 @@ public class CommercialProductInfoExtendedResourceIntTest {
         // Disconnect from session so that the updates on updatedCommercialProductInfo are not directly saved in db
         em.detach(updatedCommercialProductInfo);
         updatedCommercialProductInfo
-            .taskNo(UPDATED_SERIAL_NO)
+            .taskNo(UPDATED_TASK_NO)
+            .productSpecification(UPDATED_PRODUCT_SPECIFICATION)
+            .spSize(UPDATED_SP_SIZE)
             .offeredQuantity(UPDATED_OFFERED_QUANTITY)
             .offeredUnit(UPDATED_OFFERED_UNIT)
             .offeredUnitPrice(UPDATED_OFFERED_UNIT_PRICE)
             .offeredTotalPrice(UPDATED_OFFERED_TOTAL_PRICE)
+            .spSticker(UPDATED_SP_STICKER)
+            .spLabel(UPDATED_SP_LABEL)
+            .spQtyInPack(UPDATED_SP_QTY_IN_PACK)
+            .spQtyInMc(UPDATED_SP_QTY_IN_MC)
+            .ipColor(UPDATED_IP_COLOR)
+            .ipSize(UPDATED_IP_SIZE)
+            .ipSticker(UPDATED_IP_STICKER)
+            .ipLabel(UPDATED_IP_LABEL)
+            .ipQtyInMc(UPDATED_IP_QTY_IN_MC)
+            .mcColor(UPDATED_MC_COLOR)
+            .mcPly(UPDATED_MC_PLY)
+            .mcSize(UPDATED_MC_SIZE)
+            .mcSticker(UPDATED_MC_STICKER)
+            .mcLabel(UPDATED_MC_LABEL)
+            .cylColor(UPDATED_CYL_COLOR)
+            .cylSize(UPDATED_CYL_SIZE)
+            .cylQty(UPDATED_CYL_QTY)
             .buyingQuantity(UPDATED_BUYING_QUANTITY)
             .buyingUnit(UPDATED_BUYING_UNIT)
             .buyingUnitPrice(UPDATED_BUYING_UNIT_PRICE)
@@ -1224,11 +2067,30 @@ public class CommercialProductInfoExtendedResourceIntTest {
         List<CommercialProductInfo> commercialProductInfoList = commercialProductInfoRepository.findAll();
         assertThat(commercialProductInfoList).hasSize(databaseSizeBeforeUpdate);
         CommercialProductInfo testCommercialProductInfo = commercialProductInfoList.get(commercialProductInfoList.size() - 1);
-        assertThat(testCommercialProductInfo.getTaskNo()).isEqualTo(UPDATED_SERIAL_NO);
+        assertThat(testCommercialProductInfo.getTaskNo()).isEqualTo(UPDATED_TASK_NO);
+        assertThat(testCommercialProductInfo.getProductSpecification()).isEqualTo(UPDATED_PRODUCT_SPECIFICATION);
+        assertThat(testCommercialProductInfo.getSpSize()).isEqualTo(UPDATED_SP_SIZE);
         assertThat(testCommercialProductInfo.getOfferedQuantity()).isEqualTo(UPDATED_OFFERED_QUANTITY);
         assertThat(testCommercialProductInfo.getOfferedUnit()).isEqualTo(UPDATED_OFFERED_UNIT);
         assertThat(testCommercialProductInfo.getOfferedUnitPrice()).isEqualTo(UPDATED_OFFERED_UNIT_PRICE);
         assertThat(testCommercialProductInfo.getOfferedTotalPrice()).isEqualTo(UPDATED_OFFERED_TOTAL_PRICE);
+        assertThat(testCommercialProductInfo.getSpSticker()).isEqualTo(UPDATED_SP_STICKER);
+        assertThat(testCommercialProductInfo.getSpLabel()).isEqualTo(UPDATED_SP_LABEL);
+        assertThat(testCommercialProductInfo.getSpQtyInPack()).isEqualTo(UPDATED_SP_QTY_IN_PACK);
+        assertThat(testCommercialProductInfo.getSpQtyInMc()).isEqualTo(UPDATED_SP_QTY_IN_MC);
+        assertThat(testCommercialProductInfo.getIpColor()).isEqualTo(UPDATED_IP_COLOR);
+        assertThat(testCommercialProductInfo.getIpSize()).isEqualTo(UPDATED_IP_SIZE);
+        assertThat(testCommercialProductInfo.getIpSticker()).isEqualTo(UPDATED_IP_STICKER);
+        assertThat(testCommercialProductInfo.getIpLabel()).isEqualTo(UPDATED_IP_LABEL);
+        assertThat(testCommercialProductInfo.getIpQtyInMc()).isEqualTo(UPDATED_IP_QTY_IN_MC);
+        assertThat(testCommercialProductInfo.getMcColor()).isEqualTo(UPDATED_MC_COLOR);
+        assertThat(testCommercialProductInfo.getMcPly()).isEqualTo(UPDATED_MC_PLY);
+        assertThat(testCommercialProductInfo.getMcSize()).isEqualTo(UPDATED_MC_SIZE);
+        assertThat(testCommercialProductInfo.getMcSticker()).isEqualTo(UPDATED_MC_STICKER);
+        assertThat(testCommercialProductInfo.getMcLabel()).isEqualTo(UPDATED_MC_LABEL);
+        assertThat(testCommercialProductInfo.getCylColor()).isEqualTo(UPDATED_CYL_COLOR);
+        assertThat(testCommercialProductInfo.getCylSize()).isEqualTo(UPDATED_CYL_SIZE);
+        assertThat(testCommercialProductInfo.getCylQty()).isEqualTo(UPDATED_CYL_QTY);
         assertThat(testCommercialProductInfo.getBuyingQuantity()).isEqualTo(UPDATED_BUYING_QUANTITY);
         assertThat(testCommercialProductInfo.getBuyingUnit()).isEqualTo(UPDATED_BUYING_UNIT);
         assertThat(testCommercialProductInfo.getBuyingUnitPrice()).isEqualTo(UPDATED_BUYING_UNIT_PRICE);
@@ -1297,13 +2159,30 @@ public class CommercialProductInfoExtendedResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(commercialProductInfo.getId().intValue())))
-            .andExpect(jsonPath("$.[*].serialNo").value(hasItem(DEFAULT_SERIAL_NO)))
-            .andExpect(jsonPath("$.[*].packagingDescription").value(hasItem(DEFAULT_PACKAGING_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].othersDescription").value(hasItem(DEFAULT_OTHERS_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].taskNo").value(hasItem(DEFAULT_TASK_NO)))
+            .andExpect(jsonPath("$.[*].productSpecification").value(hasItem(DEFAULT_PRODUCT_SPECIFICATION.toString())))
+            .andExpect(jsonPath("$.[*].spSize").value(hasItem(DEFAULT_SP_SIZE)))
             .andExpect(jsonPath("$.[*].offeredQuantity").value(hasItem(DEFAULT_OFFERED_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].offeredUnit").value(hasItem(DEFAULT_OFFERED_UNIT.toString())))
             .andExpect(jsonPath("$.[*].offeredUnitPrice").value(hasItem(DEFAULT_OFFERED_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].offeredTotalPrice").value(hasItem(DEFAULT_OFFERED_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].spSticker").value(hasItem(DEFAULT_SP_STICKER)))
+            .andExpect(jsonPath("$.[*].spLabel").value(hasItem(DEFAULT_SP_LABEL)))
+            .andExpect(jsonPath("$.[*].spQtyInPack").value(hasItem(DEFAULT_SP_QTY_IN_PACK.intValue())))
+            .andExpect(jsonPath("$.[*].spQtyInMc").value(hasItem(DEFAULT_SP_QTY_IN_MC.intValue())))
+            .andExpect(jsonPath("$.[*].ipColor").value(hasItem(DEFAULT_IP_COLOR.toString())))
+            .andExpect(jsonPath("$.[*].ipSize").value(hasItem(DEFAULT_IP_SIZE)))
+            .andExpect(jsonPath("$.[*].ipSticker").value(hasItem(DEFAULT_IP_STICKER)))
+            .andExpect(jsonPath("$.[*].ipLabel").value(hasItem(DEFAULT_IP_LABEL)))
+            .andExpect(jsonPath("$.[*].ipQtyInMc").value(hasItem(DEFAULT_IP_QTY_IN_MC.intValue())))
+            .andExpect(jsonPath("$.[*].mcColor").value(hasItem(DEFAULT_MC_COLOR.toString())))
+            .andExpect(jsonPath("$.[*].mcPly").value(hasItem(DEFAULT_MC_PLY)))
+            .andExpect(jsonPath("$.[*].mcSize").value(hasItem(DEFAULT_MC_SIZE)))
+            .andExpect(jsonPath("$.[*].mcSticker").value(hasItem(DEFAULT_MC_STICKER)))
+            .andExpect(jsonPath("$.[*].mcLabel").value(hasItem(DEFAULT_MC_LABEL)))
+            .andExpect(jsonPath("$.[*].cylColor").value(hasItem(DEFAULT_CYL_COLOR)))
+            .andExpect(jsonPath("$.[*].cylSize").value(hasItem(DEFAULT_CYL_SIZE)))
+            .andExpect(jsonPath("$.[*].cylQty").value(hasItem(DEFAULT_CYL_QTY.intValue())))
             .andExpect(jsonPath("$.[*].buyingQuantity").value(hasItem(DEFAULT_BUYING_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].buyingUnit").value(hasItem(DEFAULT_BUYING_UNIT.toString())))
             .andExpect(jsonPath("$.[*].buyingUnitPrice").value(hasItem(DEFAULT_BUYING_UNIT_PRICE.intValue())))

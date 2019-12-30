@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialProductInfo;
 import org.soptorshi.repository.CommercialProductInfoRepository;
 import org.soptorshi.repository.search.CommercialProductInfoSearchRepository;
-import org.soptorshi.service.dto.CommercialBudgetDTO;
 import org.soptorshi.service.dto.CommercialProductInfoDTO;
 import org.soptorshi.service.mapper.CommercialProductInfoMapper;
 import org.springframework.data.domain.Page;
@@ -13,8 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -34,13 +31,10 @@ public class CommercialProductInfoService {
 
     private final CommercialProductInfoSearchRepository commercialProductInfoSearchRepository;
 
-    private final CommercialBudgetService commercialBudgetService;
-
-    public CommercialProductInfoService(CommercialProductInfoRepository commercialProductInfoRepository, CommercialProductInfoMapper commercialProductInfoMapper, CommercialProductInfoSearchRepository commercialProductInfoSearchRepository, CommercialBudgetService commercialBudgetService) {
+    public CommercialProductInfoService(CommercialProductInfoRepository commercialProductInfoRepository, CommercialProductInfoMapper commercialProductInfoMapper, CommercialProductInfoSearchRepository commercialProductInfoSearchRepository) {
         this.commercialProductInfoRepository = commercialProductInfoRepository;
         this.commercialProductInfoMapper = commercialProductInfoMapper;
         this.commercialProductInfoSearchRepository = commercialProductInfoSearchRepository;
-        this.commercialBudgetService = commercialBudgetService;
     }
 
     /**
@@ -49,23 +43,12 @@ public class CommercialProductInfoService {
      * @param commercialProductInfoDTO the entity to save
      * @return the persisted entity
      */
-
-    @Transactional
     public CommercialProductInfoDTO save(CommercialProductInfoDTO commercialProductInfoDTO) {
         log.debug("Request to save CommercialProductInfo : {}", commercialProductInfoDTO);
         CommercialProductInfo commercialProductInfo = commercialProductInfoMapper.toEntity(commercialProductInfoDTO);
         commercialProductInfo = commercialProductInfoRepository.save(commercialProductInfo);
         CommercialProductInfoDTO result = commercialProductInfoMapper.toDto(commercialProductInfo);
         commercialProductInfoSearchRepository.save(commercialProductInfo);
-        Optional<CommercialBudgetDTO> commercialBudgetDTO = commercialBudgetService.findOne(commercialProductInfo.getCommercialBudget().getId());
-        if(commercialBudgetDTO.isPresent()) {
-            commercialBudgetDTO.get().setOfferedPrice(commercialBudgetDTO.get().getOfferedPrice() == null ? commercialProductInfo.getOfferedTotalPrice() :
-                commercialBudgetDTO.get().getOfferedPrice().add(commercialProductInfo.getOfferedTotalPrice()));
-            commercialBudgetDTO.get().setBuyingPrice(commercialBudgetDTO.get().getBuyingPrice() == null ? commercialProductInfo.getBuyingTotalPrice() : commercialBudgetDTO.get().getBuyingPrice().add(commercialProductInfo.getBuyingTotalPrice()));
-            commercialBudgetDTO.get().setProfitAmount(commercialBudgetDTO.get().getOfferedPrice().subtract(commercialBudgetDTO.get().getBuyingPrice()));
-            commercialBudgetDTO.get().setProfitPercentage(commercialBudgetDTO.get().getBuyingPrice().divide(commercialBudgetDTO.get().getOfferedPrice().subtract(commercialBudgetDTO.get().getBuyingPrice()).multiply(BigDecimal.valueOf(100)), 4, RoundingMode.HALF_UP));
-            commercialBudgetService.save(commercialBudgetDTO.get());
-        }
         return result;
     }
 

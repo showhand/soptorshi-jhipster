@@ -14,8 +14,6 @@ export interface ICommercialPo {
     originOfGoods?: string;
     finalDestination?: string;
     shipmentDate?: Moment;
-    procurementId?: string;
-    inventoryId?: string;
     poStatus?: CommercialPoStatus;
     createdBy?: string;
     createdOn?: Moment;
@@ -33,8 +31,6 @@ export class CommercialPo implements ICommercialPo {
         public originOfGoods?: string,
         public finalDestination?: string,
         public shipmentDate?: Moment,
-        public procurementId?: string,
-        public inventoryId?: string,
         public poStatus?: CommercialPoStatus,
         public createdBy?: string,
         public createdOn?: Moment,

@@ -22,8 +22,9 @@ export interface ICommercialBudget {
     type?: CommercialOrderCategory;
     customer?: CommercialCustomerCategory;
     budgetDate?: Moment;
-    offeredPrice?: number;
-    buyingPrice?: number;
+    totalQuantity?: number;
+    totalOfferedPrice?: number;
+    totalBuyingPrice?: number;
     profitAmount?: number;
     profitPercentage?: number;
     budgetStatus?: CommercialBudgetStatus;
@@ -41,8 +42,9 @@ export class CommercialBudget implements ICommercialBudget {
         public type?: CommercialOrderCategory,
         public customer?: CommercialCustomerCategory,
         public budgetDate?: Moment,
-        public offeredPrice?: number,
-        public buyingPrice?: number,
+        public totalQuantity?: number,
+        public totalOfferedPrice?: number,
+        public totalBuyingPrice?: number,
         public profitAmount?: number,
         public profitPercentage?: number,
         public budgetStatus?: CommercialBudgetStatus,

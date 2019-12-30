@@ -46,11 +46,14 @@ public class CommercialBudget implements Serializable {
     @Column(name = "budget_date", nullable = false)
     private LocalDate budgetDate;
 
-    @Column(name = "offered_price", precision = 10, scale = 2)
-    private BigDecimal offeredPrice;
+    @Column(name = "total_quantity", precision = 10, scale = 2)
+    private BigDecimal totalQuantity;
 
-    @Column(name = "buying_price", precision = 10, scale = 2)
-    private BigDecimal buyingPrice;
+    @Column(name = "total_offered_price", precision = 10, scale = 2)
+    private BigDecimal totalOfferedPrice;
+
+    @Column(name = "total_buying_price", precision = 10, scale = 2)
+    private BigDecimal totalBuyingPrice;
 
     @Column(name = "profit_amount", precision = 10, scale = 2)
     private BigDecimal profitAmount;
@@ -138,30 +141,43 @@ public class CommercialBudget implements Serializable {
         this.budgetDate = budgetDate;
     }
 
-    public BigDecimal getOfferedPrice() {
-        return offeredPrice;
+    public BigDecimal getTotalQuantity() {
+        return totalQuantity;
     }
 
-    public CommercialBudget offeredPrice(BigDecimal offeredPrice) {
-        this.offeredPrice = offeredPrice;
+    public CommercialBudget totalQuantity(BigDecimal totalQuantity) {
+        this.totalQuantity = totalQuantity;
         return this;
     }
 
-    public void setOfferedPrice(BigDecimal offeredPrice) {
-        this.offeredPrice = offeredPrice;
+    public void setTotalQuantity(BigDecimal totalQuantity) {
+        this.totalQuantity = totalQuantity;
     }
 
-    public BigDecimal getBuyingPrice() {
-        return buyingPrice;
+    public BigDecimal getTotalOfferedPrice() {
+        return totalOfferedPrice;
     }
 
-    public CommercialBudget buyingPrice(BigDecimal buyingPrice) {
-        this.buyingPrice = buyingPrice;
+    public CommercialBudget totalOfferedPrice(BigDecimal totalOfferedPrice) {
+        this.totalOfferedPrice = totalOfferedPrice;
         return this;
     }
 
-    public void setBuyingPrice(BigDecimal buyingPrice) {
-        this.buyingPrice = buyingPrice;
+    public void setTotalOfferedPrice(BigDecimal totalOfferedPrice) {
+        this.totalOfferedPrice = totalOfferedPrice;
+    }
+
+    public BigDecimal getTotalBuyingPrice() {
+        return totalBuyingPrice;
+    }
+
+    public CommercialBudget totalBuyingPrice(BigDecimal totalBuyingPrice) {
+        this.totalBuyingPrice = totalBuyingPrice;
+        return this;
+    }
+
+    public void setTotalBuyingPrice(BigDecimal totalBuyingPrice) {
+        this.totalBuyingPrice = totalBuyingPrice;
     }
 
     public BigDecimal getProfitAmount() {
@@ -297,8 +313,9 @@ public class CommercialBudget implements Serializable {
             ", type='" + getType() + "'" +
             ", customer='" + getCustomer() + "'" +
             ", budgetDate='" + getBudgetDate() + "'" +
-            ", offeredPrice=" + getOfferedPrice() +
-            ", buyingPrice=" + getBuyingPrice() +
+            ", totalQuantity=" + getTotalQuantity() +
+            ", totalOfferedPrice=" + getTotalOfferedPrice() +
+            ", totalBuyingPrice=" + getTotalBuyingPrice() +
             ", profitAmount=" + getProfitAmount() +
             ", profitPercentage=" + getProfitPercentage() +
             ", budgetStatus='" + getBudgetStatus() + "'" +

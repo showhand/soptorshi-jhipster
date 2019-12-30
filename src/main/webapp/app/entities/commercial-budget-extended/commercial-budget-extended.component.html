@@ -1,93 +1,126 @@
-<div>
-    <h2 id="page-heading">
-        <span>Commercial Budgets</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-commercial-budget" [routerLink]="['/commercial-budget/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down" >
-            Create new Commercial Budget
-            </span>
-        </button>
-    </h2>
-    <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
+<div class="row justify-content-center">
+    <div class="col-12">
+        <jhi-alert></jhi-alert>
     </div>
-    <br/>
-    <div class="table-responsive" *ngIf="commercialBudgets">
-        <table class="table table-striped">
-            <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-                <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="budgetNo"><span>Budget No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="type"><span>Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="customer"><span>Customer</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="budgetDate"><span>Budget Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="offeredPrice"><span>Offered Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="buyingPrice"><span>Buying Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="profitAmount"><span>Profit Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="profitPercentage"><span>Profit Percentage</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="budgetStatus"><span>Budget Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <!--<th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-                <th></th>
-            </tr>
-            </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-            <tr *ngFor="let commercialBudget of commercialBudgets ;trackBy: trackId">
-                <td><a [routerLink]="['/commercial-budget', commercialBudget.id, 'view' ]">{{commercialBudget.id}}</a></td>
-                <td>{{commercialBudget.budgetNo}}</td>
-                <td>{{commercialBudget.type}}</td>
-                <td>{{commercialBudget.customer}}</td>
-                <td>{{commercialBudget.budgetDate | date:'mediumDate'}}</td>
-                <td>{{commercialBudget.offeredPrice}}</td>
-                <td>{{commercialBudget.buyingPrice}}</td>
-                <td>{{commercialBudget.profitAmount}}</td>
-                <td>{{commercialBudget.profitPercentage}}</td>
-                <td>{{commercialBudget.budgetStatus}}</td>
-                <!--<td>{{commercialBudget.createdBy}}</td>
-                <td>{{commercialBudget.createdOn | date:'medium'}}</td>
-                <td>{{commercialBudget.updatedBy}}</td>
-                <td>{{commercialBudget.updatedOn | date:'medium'}}</td>-->
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['/commercial-budget', commercialBudget.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/commercial-budget', commercialBudget.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <!--<button type="submit"
-                                [routerLink]="['/', 'commercial-budget', { outlets: { popup: commercialBudget.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>-->
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+</div>
+<div class="row justify-content-center">
+    <div class="col-6">
+        <h2 id="page-heading">Commercial Budgets</h2>
+    </div>
+    <div class="col-6">
+        <form name="searchForm" class="form-inline">
+            <div class="input-group w-100 mt-3">
+                <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                       name="currentSearch" placeholder="Search Commercial Budgets">
+                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+                <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                    <fa-icon [icon]="'trash-alt'"></fa-icon>
+                </button>
+                <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-holiday"
+                        [routerLink]="['/commercial-budget/new']">
+                    <fa-icon [icon]="'plus'"></fa-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-12 ">
+        <br/>
+        <div class="table-responsive" *ngIf="commercialBudgets">
+            <table class="table table-striped">
+                <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                    <th jhiSortBy="id"><span>ID</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="budgetNo"><span>Budget No</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="type"><span>Type</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="customer"><span>Customer</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="budgetDate"><span>Budget Date</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="totalQuantity"><span>Total Quantity</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="totalOfferedPrice"><span>Total Offered Price</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="totalBuyingPrice"><span>Total Buying Price</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="profitAmount"><span>Profit Amount</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="profitPercentage"><span>Profit Percentage</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="budgetStatus"><span>Budget Status</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <!--<th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                       [infiniteScrollDistance]="0">
+                <tr *ngFor="let commercialBudget of commercialBudgets ;trackBy: trackId">
+                    <td><a
+                        [routerLink]="['/commercial-budget', commercialBudget.id, 'view' ]">{{commercialBudget.id}}</a>
+                    </td>
+                    <td>{{commercialBudget.budgetNo}}</td>
+                    <td>{{commercialBudget.type}}</td>
+                    <td>{{commercialBudget.customer}}</td>
+                    <td>{{commercialBudget.budgetDate | date:'mediumDate'}}</td>
+                    <td>{{commercialBudget.totalQuantity}}</td>
+                    <td>{{commercialBudget.totalOfferedPrice}}</td>
+                    <td>{{commercialBudget.totalBuyingPrice}}</td>
+                    <td>{{commercialBudget.profitAmount}}</td>
+                    <td>{{commercialBudget.profitPercentage}}</td>
+                    <td>{{commercialBudget.budgetStatus}}</td>
+                    <!--<td>{{commercialBudget.createdBy}}</td>
+                    <td>{{commercialBudget.createdOn | date:'medium'}}</td>
+                    <td>{{commercialBudget.updatedBy}}</td>
+                    <td>{{commercialBudget.updatedOn | date:'medium'}}</td>-->
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    [routerLink]="['/commercial-budget', commercialBudget.id, 'view' ]"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/commercial-budget', commercialBudget.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+                            <!--<button type="submit"
+                                    [routerLink]="['/', 'commercial-budget', { outlets: { popup: commercialBudget.id + '/delete'} }]"
+                                    replaceUrl="true"
+                                    queryParamsHandling="merge"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>-->
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
