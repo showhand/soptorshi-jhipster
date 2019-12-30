@@ -32,11 +32,15 @@
             ]
         },
         {
-            "fieldName": "offeredPrice",
+            "fieldName": "totalQuantity",
             "fieldType": "BigDecimal"
         },
         {
-            "fieldName": "buyingPrice",
+            "fieldName": "totalOfferedPrice",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "totalBuyingPrice",
             "fieldType": "BigDecimal"
         },
         {

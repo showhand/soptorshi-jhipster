@@ -52,7 +52,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
-public class CommercialBudgetExtendedResourceIntTest {
+public class CommercialBudgetResourceIntTest {
 
     private static final String DEFAULT_BUDGET_NO = "AAAAAAAAAA";
     private static final String UPDATED_BUDGET_NO = "BBBBBBBBBB";
@@ -66,11 +66,14 @@ public class CommercialBudgetExtendedResourceIntTest {
     private static final LocalDate DEFAULT_BUDGET_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_BUDGET_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final BigDecimal DEFAULT_OFFERED_PRICE = new BigDecimal(1);
-    private static final BigDecimal UPDATED_OFFERED_PRICE = new BigDecimal(2);
+    private static final BigDecimal DEFAULT_TOTAL_QUANTITY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_QUANTITY = new BigDecimal(2);
 
-    private static final BigDecimal DEFAULT_BUYING_PRICE = new BigDecimal(1);
-    private static final BigDecimal UPDATED_BUYING_PRICE = new BigDecimal(2);
+    private static final BigDecimal DEFAULT_TOTAL_OFFERED_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_OFFERED_PRICE = new BigDecimal(2);
+
+    private static final BigDecimal DEFAULT_TOTAL_BUYING_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_BUYING_PRICE = new BigDecimal(2);
 
     private static final BigDecimal DEFAULT_PROFIT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_PROFIT_AMOUNT = new BigDecimal(2);
@@ -159,8 +162,9 @@ public class CommercialBudgetExtendedResourceIntTest {
             .type(DEFAULT_TYPE)
             .customer(DEFAULT_CUSTOMER)
             .budgetDate(DEFAULT_BUDGET_DATE)
-            .totalOfferedPrice(DEFAULT_OFFERED_PRICE)
-            .totalBuyingPrice(DEFAULT_BUYING_PRICE)
+            .totalQuantity(DEFAULT_TOTAL_QUANTITY)
+            .totalOfferedPrice(DEFAULT_TOTAL_OFFERED_PRICE)
+            .totalBuyingPrice(DEFAULT_TOTAL_BUYING_PRICE)
             .profitAmount(DEFAULT_PROFIT_AMOUNT)
             .profitPercentage(DEFAULT_PROFIT_PERCENTAGE)
             .budgetStatus(DEFAULT_BUDGET_STATUS)
@@ -197,8 +201,9 @@ public class CommercialBudgetExtendedResourceIntTest {
         assertThat(testCommercialBudget.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testCommercialBudget.getCustomer()).isEqualTo(DEFAULT_CUSTOMER);
         assertThat(testCommercialBudget.getBudgetDate()).isEqualTo(DEFAULT_BUDGET_DATE);
-        assertThat(testCommercialBudget.getTotalOfferedPrice()).isEqualTo(DEFAULT_OFFERED_PRICE);
-        assertThat(testCommercialBudget.getTotalBuyingPrice()).isEqualTo(DEFAULT_BUYING_PRICE);
+        assertThat(testCommercialBudget.getTotalQuantity()).isEqualTo(DEFAULT_TOTAL_QUANTITY);
+        assertThat(testCommercialBudget.getTotalOfferedPrice()).isEqualTo(DEFAULT_TOTAL_OFFERED_PRICE);
+        assertThat(testCommercialBudget.getTotalBuyingPrice()).isEqualTo(DEFAULT_TOTAL_BUYING_PRICE);
         assertThat(testCommercialBudget.getProfitAmount()).isEqualTo(DEFAULT_PROFIT_AMOUNT);
         assertThat(testCommercialBudget.getProfitPercentage()).isEqualTo(DEFAULT_PROFIT_PERCENTAGE);
         assertThat(testCommercialBudget.getBudgetStatus()).isEqualTo(DEFAULT_BUDGET_STATUS);
@@ -326,8 +331,9 @@ public class CommercialBudgetExtendedResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].customer").value(hasItem(DEFAULT_CUSTOMER.toString())))
             .andExpect(jsonPath("$.[*].budgetDate").value(hasItem(DEFAULT_BUDGET_DATE.toString())))
-            .andExpect(jsonPath("$.[*].offeredPrice").value(hasItem(DEFAULT_OFFERED_PRICE.intValue())))
-            .andExpect(jsonPath("$.[*].buyingPrice").value(hasItem(DEFAULT_BUYING_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
+            .andExpect(jsonPath("$.[*].totalOfferedPrice").value(hasItem(DEFAULT_TOTAL_OFFERED_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].totalBuyingPrice").value(hasItem(DEFAULT_TOTAL_BUYING_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].profitAmount").value(hasItem(DEFAULT_PROFIT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].profitPercentage").value(hasItem(DEFAULT_PROFIT_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].budgetStatus").value(hasItem(DEFAULT_BUDGET_STATUS.toString())))
@@ -353,8 +359,9 @@ public class CommercialBudgetExtendedResourceIntTest {
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.customer").value(DEFAULT_CUSTOMER.toString()))
             .andExpect(jsonPath("$.budgetDate").value(DEFAULT_BUDGET_DATE.toString()))
-            .andExpect(jsonPath("$.offeredPrice").value(DEFAULT_OFFERED_PRICE.intValue()))
-            .andExpect(jsonPath("$.buyingPrice").value(DEFAULT_BUYING_PRICE.intValue()))
+            .andExpect(jsonPath("$.totalQuantity").value(DEFAULT_TOTAL_QUANTITY.intValue()))
+            .andExpect(jsonPath("$.totalOfferedPrice").value(DEFAULT_TOTAL_OFFERED_PRICE.intValue()))
+            .andExpect(jsonPath("$.totalBuyingPrice").value(DEFAULT_TOTAL_BUYING_PRICE.intValue()))
             .andExpect(jsonPath("$.profitAmount").value(DEFAULT_PROFIT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.profitPercentage").value(DEFAULT_PROFIT_PERCENTAGE.intValue()))
             .andExpect(jsonPath("$.budgetStatus").value(DEFAULT_BUDGET_STATUS.toString()))
@@ -550,80 +557,119 @@ public class CommercialBudgetExtendedResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllCommercialBudgetsByOfferedPriceIsEqualToSomething() throws Exception {
+    public void getAllCommercialBudgetsByTotalQuantityIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialBudgetRepository.saveAndFlush(commercialBudget);
 
-        // Get all the commercialBudgetList where offeredPrice equals to DEFAULT_OFFERED_PRICE
-        defaultCommercialBudgetShouldBeFound("offeredPrice.equals=" + DEFAULT_OFFERED_PRICE);
+        // Get all the commercialBudgetList where totalQuantity equals to DEFAULT_TOTAL_QUANTITY
+        defaultCommercialBudgetShouldBeFound("totalQuantity.equals=" + DEFAULT_TOTAL_QUANTITY);
 
-        // Get all the commercialBudgetList where offeredPrice equals to UPDATED_OFFERED_PRICE
-        defaultCommercialBudgetShouldNotBeFound("offeredPrice.equals=" + UPDATED_OFFERED_PRICE);
+        // Get all the commercialBudgetList where totalQuantity equals to UPDATED_TOTAL_QUANTITY
+        defaultCommercialBudgetShouldNotBeFound("totalQuantity.equals=" + UPDATED_TOTAL_QUANTITY);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialBudgetsByOfferedPriceIsInShouldWork() throws Exception {
+    public void getAllCommercialBudgetsByTotalQuantityIsInShouldWork() throws Exception {
         // Initialize the database
         commercialBudgetRepository.saveAndFlush(commercialBudget);
 
-        // Get all the commercialBudgetList where offeredPrice in DEFAULT_OFFERED_PRICE or UPDATED_OFFERED_PRICE
-        defaultCommercialBudgetShouldBeFound("offeredPrice.in=" + DEFAULT_OFFERED_PRICE + "," + UPDATED_OFFERED_PRICE);
+        // Get all the commercialBudgetList where totalQuantity in DEFAULT_TOTAL_QUANTITY or UPDATED_TOTAL_QUANTITY
+        defaultCommercialBudgetShouldBeFound("totalQuantity.in=" + DEFAULT_TOTAL_QUANTITY + "," + UPDATED_TOTAL_QUANTITY);
 
-        // Get all the commercialBudgetList where offeredPrice equals to UPDATED_OFFERED_PRICE
-        defaultCommercialBudgetShouldNotBeFound("offeredPrice.in=" + UPDATED_OFFERED_PRICE);
+        // Get all the commercialBudgetList where totalQuantity equals to UPDATED_TOTAL_QUANTITY
+        defaultCommercialBudgetShouldNotBeFound("totalQuantity.in=" + UPDATED_TOTAL_QUANTITY);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialBudgetsByOfferedPriceIsNullOrNotNull() throws Exception {
+    public void getAllCommercialBudgetsByTotalQuantityIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialBudgetRepository.saveAndFlush(commercialBudget);
 
-        // Get all the commercialBudgetList where offeredPrice is not null
-        defaultCommercialBudgetShouldBeFound("offeredPrice.specified=true");
+        // Get all the commercialBudgetList where totalQuantity is not null
+        defaultCommercialBudgetShouldBeFound("totalQuantity.specified=true");
 
-        // Get all the commercialBudgetList where offeredPrice is null
-        defaultCommercialBudgetShouldNotBeFound("offeredPrice.specified=false");
+        // Get all the commercialBudgetList where totalQuantity is null
+        defaultCommercialBudgetShouldNotBeFound("totalQuantity.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllCommercialBudgetsByBuyingPriceIsEqualToSomething() throws Exception {
+    public void getAllCommercialBudgetsByTotalOfferedPriceIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialBudgetRepository.saveAndFlush(commercialBudget);
 
-        // Get all the commercialBudgetList where buyingPrice equals to DEFAULT_BUYING_PRICE
-        defaultCommercialBudgetShouldBeFound("buyingPrice.equals=" + DEFAULT_BUYING_PRICE);
+        // Get all the commercialBudgetList where totalOfferedPrice equals to DEFAULT_TOTAL_OFFERED_PRICE
+        defaultCommercialBudgetShouldBeFound("totalOfferedPrice.equals=" + DEFAULT_TOTAL_OFFERED_PRICE);
 
-        // Get all the commercialBudgetList where buyingPrice equals to UPDATED_BUYING_PRICE
-        defaultCommercialBudgetShouldNotBeFound("buyingPrice.equals=" + UPDATED_BUYING_PRICE);
+        // Get all the commercialBudgetList where totalOfferedPrice equals to UPDATED_TOTAL_OFFERED_PRICE
+        defaultCommercialBudgetShouldNotBeFound("totalOfferedPrice.equals=" + UPDATED_TOTAL_OFFERED_PRICE);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialBudgetsByBuyingPriceIsInShouldWork() throws Exception {
+    public void getAllCommercialBudgetsByTotalOfferedPriceIsInShouldWork() throws Exception {
         // Initialize the database
         commercialBudgetRepository.saveAndFlush(commercialBudget);
 
-        // Get all the commercialBudgetList where buyingPrice in DEFAULT_BUYING_PRICE or UPDATED_BUYING_PRICE
-        defaultCommercialBudgetShouldBeFound("buyingPrice.in=" + DEFAULT_BUYING_PRICE + "," + UPDATED_BUYING_PRICE);
+        // Get all the commercialBudgetList where totalOfferedPrice in DEFAULT_TOTAL_OFFERED_PRICE or UPDATED_TOTAL_OFFERED_PRICE
+        defaultCommercialBudgetShouldBeFound("totalOfferedPrice.in=" + DEFAULT_TOTAL_OFFERED_PRICE + "," + UPDATED_TOTAL_OFFERED_PRICE);
 
-        // Get all the commercialBudgetList where buyingPrice equals to UPDATED_BUYING_PRICE
-        defaultCommercialBudgetShouldNotBeFound("buyingPrice.in=" + UPDATED_BUYING_PRICE);
+        // Get all the commercialBudgetList where totalOfferedPrice equals to UPDATED_TOTAL_OFFERED_PRICE
+        defaultCommercialBudgetShouldNotBeFound("totalOfferedPrice.in=" + UPDATED_TOTAL_OFFERED_PRICE);
     }
 
     @Test
     @Transactional
-    public void getAllCommercialBudgetsByBuyingPriceIsNullOrNotNull() throws Exception {
+    public void getAllCommercialBudgetsByTotalOfferedPriceIsNullOrNotNull() throws Exception {
         // Initialize the database
         commercialBudgetRepository.saveAndFlush(commercialBudget);
 
-        // Get all the commercialBudgetList where buyingPrice is not null
-        defaultCommercialBudgetShouldBeFound("buyingPrice.specified=true");
+        // Get all the commercialBudgetList where totalOfferedPrice is not null
+        defaultCommercialBudgetShouldBeFound("totalOfferedPrice.specified=true");
 
-        // Get all the commercialBudgetList where buyingPrice is null
-        defaultCommercialBudgetShouldNotBeFound("buyingPrice.specified=false");
+        // Get all the commercialBudgetList where totalOfferedPrice is null
+        defaultCommercialBudgetShouldNotBeFound("totalOfferedPrice.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByTotalBuyingPriceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where totalBuyingPrice equals to DEFAULT_TOTAL_BUYING_PRICE
+        defaultCommercialBudgetShouldBeFound("totalBuyingPrice.equals=" + DEFAULT_TOTAL_BUYING_PRICE);
+
+        // Get all the commercialBudgetList where totalBuyingPrice equals to UPDATED_TOTAL_BUYING_PRICE
+        defaultCommercialBudgetShouldNotBeFound("totalBuyingPrice.equals=" + UPDATED_TOTAL_BUYING_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByTotalBuyingPriceIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where totalBuyingPrice in DEFAULT_TOTAL_BUYING_PRICE or UPDATED_TOTAL_BUYING_PRICE
+        defaultCommercialBudgetShouldBeFound("totalBuyingPrice.in=" + DEFAULT_TOTAL_BUYING_PRICE + "," + UPDATED_TOTAL_BUYING_PRICE);
+
+        // Get all the commercialBudgetList where totalBuyingPrice equals to UPDATED_TOTAL_BUYING_PRICE
+        defaultCommercialBudgetShouldNotBeFound("totalBuyingPrice.in=" + UPDATED_TOTAL_BUYING_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByTotalBuyingPriceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where totalBuyingPrice is not null
+        defaultCommercialBudgetShouldBeFound("totalBuyingPrice.specified=true");
+
+        // Get all the commercialBudgetList where totalBuyingPrice is null
+        defaultCommercialBudgetShouldNotBeFound("totalBuyingPrice.specified=false");
     }
 
     @Test
@@ -949,8 +995,9 @@ public class CommercialBudgetExtendedResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].customer").value(hasItem(DEFAULT_CUSTOMER.toString())))
             .andExpect(jsonPath("$.[*].budgetDate").value(hasItem(DEFAULT_BUDGET_DATE.toString())))
-            .andExpect(jsonPath("$.[*].offeredPrice").value(hasItem(DEFAULT_OFFERED_PRICE.intValue())))
-            .andExpect(jsonPath("$.[*].buyingPrice").value(hasItem(DEFAULT_BUYING_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
+            .andExpect(jsonPath("$.[*].totalOfferedPrice").value(hasItem(DEFAULT_TOTAL_OFFERED_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].totalBuyingPrice").value(hasItem(DEFAULT_TOTAL_BUYING_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].profitAmount").value(hasItem(DEFAULT_PROFIT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].profitPercentage").value(hasItem(DEFAULT_PROFIT_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].budgetStatus").value(hasItem(DEFAULT_BUDGET_STATUS.toString())))
@@ -1010,8 +1057,9 @@ public class CommercialBudgetExtendedResourceIntTest {
             .type(UPDATED_TYPE)
             .customer(UPDATED_CUSTOMER)
             .budgetDate(UPDATED_BUDGET_DATE)
-            .totalOfferedPrice(UPDATED_OFFERED_PRICE)
-            .totalBuyingPrice(UPDATED_BUYING_PRICE)
+            .totalQuantity(UPDATED_TOTAL_QUANTITY)
+            .totalOfferedPrice(UPDATED_TOTAL_OFFERED_PRICE)
+            .totalBuyingPrice(UPDATED_TOTAL_BUYING_PRICE)
             .profitAmount(UPDATED_PROFIT_AMOUNT)
             .profitPercentage(UPDATED_PROFIT_PERCENTAGE)
             .budgetStatus(UPDATED_BUDGET_STATUS)
@@ -1035,8 +1083,9 @@ public class CommercialBudgetExtendedResourceIntTest {
         assertThat(testCommercialBudget.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testCommercialBudget.getCustomer()).isEqualTo(UPDATED_CUSTOMER);
         assertThat(testCommercialBudget.getBudgetDate()).isEqualTo(UPDATED_BUDGET_DATE);
-        assertThat(testCommercialBudget.getTotalOfferedPrice()).isEqualTo(UPDATED_OFFERED_PRICE);
-        assertThat(testCommercialBudget.getTotalBuyingPrice()).isEqualTo(UPDATED_BUYING_PRICE);
+        assertThat(testCommercialBudget.getTotalQuantity()).isEqualTo(UPDATED_TOTAL_QUANTITY);
+        assertThat(testCommercialBudget.getTotalOfferedPrice()).isEqualTo(UPDATED_TOTAL_OFFERED_PRICE);
+        assertThat(testCommercialBudget.getTotalBuyingPrice()).isEqualTo(UPDATED_TOTAL_BUYING_PRICE);
         assertThat(testCommercialBudget.getProfitAmount()).isEqualTo(UPDATED_PROFIT_AMOUNT);
         assertThat(testCommercialBudget.getProfitPercentage()).isEqualTo(UPDATED_PROFIT_PERCENTAGE);
         assertThat(testCommercialBudget.getBudgetStatus()).isEqualTo(UPDATED_BUDGET_STATUS);
@@ -1109,8 +1158,9 @@ public class CommercialBudgetExtendedResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].customer").value(hasItem(DEFAULT_CUSTOMER.toString())))
             .andExpect(jsonPath("$.[*].budgetDate").value(hasItem(DEFAULT_BUDGET_DATE.toString())))
-            .andExpect(jsonPath("$.[*].offeredPrice").value(hasItem(DEFAULT_OFFERED_PRICE.intValue())))
-            .andExpect(jsonPath("$.[*].buyingPrice").value(hasItem(DEFAULT_BUYING_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
+            .andExpect(jsonPath("$.[*].totalOfferedPrice").value(hasItem(DEFAULT_TOTAL_OFFERED_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].totalBuyingPrice").value(hasItem(DEFAULT_TOTAL_BUYING_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].profitAmount").value(hasItem(DEFAULT_PROFIT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].profitPercentage").value(hasItem(DEFAULT_PROFIT_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].budgetStatus").value(hasItem(DEFAULT_BUDGET_STATUS.toString())))

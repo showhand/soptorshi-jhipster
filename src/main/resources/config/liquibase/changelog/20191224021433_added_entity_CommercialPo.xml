@@ -40,14 +40,6 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="procurement_id" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-
-            <column name="inventory_id" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-
             <column name="po_status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

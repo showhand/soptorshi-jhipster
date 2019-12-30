@@ -1,189 +1,139 @@
-<div class="row">
-    <div class="col-12">
+<div class="row justify-content-center">
+    <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-commercial-budget-heading">Create or edit a Commercial Budget</h2>
-            <div class="row">
+            <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="col-2" [hidden]="!commercialBudget.id">
+                <div class="form-group" [hidden]="!commercialBudget.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
-                           [(ngModel)]="commercialBudget.id" readonly/>
+                        [(ngModel)]="commercialBudget.id" readonly />
                 </div>
-                <div class="col-2">
+                <div class="form-group">
                     <label class="form-control-label" for="field_budgetNo">Budget No</label>
                     <input type="text" class="form-control" name="budgetNo" id="field_budgetNo"
-                           [(ngModel)]="commercialBudget.budgetNo" required/>
+                        [(ngModel)]="commercialBudget.budgetNo" required/>
                     <div [hidden]="!(editForm.controls.budgetNo?.dirty && editForm.controls.budgetNo?.invalid)">
                         <small class="form-text text-danger"
-                               [hidden]="!editForm.controls.budgetNo?.errors?.required">
-                            This field is required.
+                        [hidden]="!editForm.controls.budgetNo?.errors?.required">
+                        This field is required.
                         </small>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="form-group">
                     <label class="form-control-label" for="field_type">Type</label>
-                    <select class="form-control" name="type" [(ngModel)]="commercialBudget.type" id="field_type"
-                            required>
+                    <select class="form-control" name="type" [(ngModel)]="commercialBudget.type" id="field_type"  required>
                         <option value="LOCAL">LOCAL</option>
                         <option value="FOREIGN">FOREIGN</option>
                     </select>
                     <div [hidden]="!(editForm.controls.type?.dirty && editForm.controls.type?.invalid)">
                         <small class="form-text text-danger"
-                               [hidden]="!editForm.controls.type?.errors?.required">
-                            This field is required.
+                        [hidden]="!editForm.controls.type?.errors?.required">
+                        This field is required.
                         </small>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="form-group">
                     <label class="form-control-label" for="field_customer">Customer</label>
-                    <select class="form-control" name="customer" [(ngModel)]="commercialBudget.customer"
-                            id="field_customer" required>
+                    <select class="form-control" name="customer" [(ngModel)]="commercialBudget.customer" id="field_customer"  required>
                         <option value="ZONE">ZONE</option>
                         <option value="FOREIGN">FOREIGN</option>
                     </select>
                     <div [hidden]="!(editForm.controls.customer?.dirty && editForm.controls.customer?.invalid)">
                         <small class="form-text text-danger"
-                               [hidden]="!editForm.controls.customer?.errors?.required">
-                            This field is required.
+                        [hidden]="!editForm.controls.customer?.errors?.required">
+                        This field is required.
                         </small>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="form-group">
                     <label class="form-control-label" for="field_budgetDate">Budget Date</label>
                     <div class="input-group">
-                        <input id="field_budgetDate" type="text" class="form-control" name="budgetDate" ngbDatepicker
-                               #budgetDateDp="ngbDatepicker" [(ngModel)]="commercialBudget.budgetDate"
-                               required/>
+                        <input id="field_budgetDate" type="text" class="form-control" name="budgetDate" ngbDatepicker  #budgetDateDp="ngbDatepicker" [(ngModel)]="commercialBudget.budgetDate"
+                        required/>
                         <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="budgetDateDp.toggle()"><fa-icon
-                                [icon]="'calendar-alt'"></fa-icon></button>
+                            <button type="button" class="btn btn-secondary" (click)="budgetDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                     </div>
                     <div [hidden]="!(editForm.controls.budgetDate?.dirty && editForm.controls.budgetDate?.invalid)">
                         <small class="form-text text-danger"
-                               [hidden]="!editForm.controls.budgetDate?.errors?.required">
-                            This field is required.
+                        [hidden]="!editForm.controls.budgetDate?.errors?.required">
+                        This field is required.
                         </small>
                     </div>
                 </div>
-
-                <div class="col-2">
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totalQuantity">Total Quantity</label>
+                    <input type="number" class="form-control" name="totalQuantity" id="field_totalQuantity"
+                        [(ngModel)]="commercialBudget.totalQuantity" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totalOfferedPrice">Total Offered Price</label>
+                    <input type="number" class="form-control" name="totalOfferedPrice" id="field_totalOfferedPrice"
+                        [(ngModel)]="commercialBudget.totalOfferedPrice" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totalBuyingPrice">Total Buying Price</label>
+                    <input type="number" class="form-control" name="totalBuyingPrice" id="field_totalBuyingPrice"
+                        [(ngModel)]="commercialBudget.totalBuyingPrice" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_profitAmount">Profit Amount</label>
+                    <input type="number" class="form-control" name="profitAmount" id="field_profitAmount"
+                        [(ngModel)]="commercialBudget.profitAmount" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_profitPercentage">Profit Percentage</label>
+                    <input type="number" class="form-control" name="profitPercentage" id="field_profitPercentage"
+                        [(ngModel)]="commercialBudget.profitPercentage" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_budgetStatus">Budget Status</label>
+                    <select class="form-control" name="budgetStatus" [(ngModel)]="commercialBudget.budgetStatus" id="field_budgetStatus" >
+                        <option value="WAITING_FOR_APPROVAL">WAITING_FOR_APPROVAL</option>
+                        <option value="APPROVED">APPROVED</option>
+                        <option value="REJECTED">REJECTED</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_proformaNo">Proforma No</label>
                     <input type="text" class="form-control" name="proformaNo" id="field_proformaNo"
-                           [(ngModel)]="commercialBudget.proformaNo" />
+                        [(ngModel)]="commercialBudget.proformaNo" />
                 </div>
-            </div>
-            <br/>
-            <div class="row">
-                <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdBy">Created By</label>
+                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                        [(ngModel)]="commercialBudget.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdOn">Created On</label>
+                    <div class="d-flex">
+                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
+                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
+                        [(ngModel)]="commercialBudget.updatedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
+                    <div class="d-flex">
+                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
 
-                    <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
-                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
-                    </button>
-                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
             </div>
         </form>
-    </div>
-</div>
-
-<br />
-
-<div class="row">
-    <div class="col-12">
-        <div class="table-responsive" *ngIf="commercialProductInfos">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th><span>Serial No</span></th>
-                    <th><span>Products</span></th>
-                    <th><span>Product Categories</span></th>
-                    <th><span>Packaging Description</span></th>
-                    <th><span>Offered Quantity</span></th>
-                    <th><span>Offered Unit</span></th>
-                    <th><span>Offered Unit Price</span></th>
-                    <th><span>Offered Total Price</span></th>
-                    <th><span><b>||</b></span></th>
-                    <th><span>Buying Quantity</span></th>
-                    <th><span>Buying Unit</span></th>
-                    <th><span>Buying Unit Price</span></th>
-                    <th><span>Buying Total Price</span></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let commercialProductInfo of commercialProductInfos;">
-                    <td>{{commercialProductInfo.serialNo}}</td>
-                    <td>
-                        <div *ngIf="commercialProductInfo.productCategoriesId">{{commercialProductInfo.productCategoriesName}}
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="commercialProductInfo.productsId">{{commercialProductInfo.productsName}}
-                        </div>
-                    </td>
-                    <td>{{commercialProductInfo.packagingDescription}}</td>
-                    <td>{{commercialProductInfo.offeredQuantity}}</td>
-                    <td>{{commercialProductInfo.offeredUnit}}</td>
-                    <td>{{commercialProductInfo.offeredUnitPrice}}</td>
-                    <td>{{commercialProductInfo.offeredTotalPrice}}</td>
-                    <td><b>||</b></td>
-                    <td>{{commercialProductInfo.buyingQuantity}}</td>
-                    <td>{{commercialProductInfo.buyingUnit}}</td>
-                    <td>{{commercialProductInfo.buyingUnitPrice}}</td>
-                    <td>{{commercialProductInfo.buyingTotalPrice}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-12">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Total Offered Price</th>
-                <th>Total Buying Price</th>
-                <th>Profit Amount</th>
-                <th>Profit Percentage</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>{{commercialBudget.offeredPrice}}</td>
-                <td>{{commercialBudget.buyingPrice}}</td>
-                <td>{{commercialBudget.profitAmount}}</td>
-                <td>{{commercialBudget.profitPercentage}}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-12">
-        <button id="jh-create-entity"
-                class="btn btn-primary jh-create-entity create-commercial-product-info"
-                [routerLink]="['/commercial-product-info/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down">
-             Add Products
-            </span>
-        </button>
-
-        <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" *jhiHasAnyAuthority="['ROLE_ADMIN']"
-                class="btn btn-primary">
-            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-        </button>
-
-        <button type="button" id="approve-entity" *jhiHasAnyAuthority="['ROLE_CFO']"
-                class="btn btn-success" (click)="this.approved=true;save();">
-            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Approve</span>
-        </button>
-
-        <button type="button" id="reject-entity" *jhiHasAnyAuthority="['ROLE_CFO']"
-                class="btn btn-danger" (click)="this.rejected=true;save();">
-            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Reject</span>
-        </button>
     </div>
 </div>

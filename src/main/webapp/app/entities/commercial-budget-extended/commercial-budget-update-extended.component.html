@@ -2,14 +2,16 @@
     <div class="col-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-commercial-budget-heading">Create or edit a Commercial Budget</h2>
+            <jhi-alert-error></jhi-alert-error>
             <div class="row">
-                <jhi-alert-error></jhi-alert-error>
-                <div class="col-2" [hidden]="!commercialBudget.id">
+                <div class="form-group col-3" [hidden]="!commercialBudget.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
                            [(ngModel)]="commercialBudget.id" readonly/>
                 </div>
-                <div class="col-2">
+            </div>
+            <div class="row">
+                <div class="form-group col-3">
                     <label class="form-control-label" for="field_budgetNo">Budget No</label>
                     <input type="text" class="form-control" name="budgetNo" id="field_budgetNo"
                            [(ngModel)]="commercialBudget.budgetNo" required/>
@@ -20,7 +22,7 @@
                         </small>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="form-group col-3">
                     <label class="form-control-label" for="field_type">Type</label>
                     <select class="form-control" name="type" [(ngModel)]="commercialBudget.type" id="field_type"
                             required>
@@ -34,7 +36,7 @@
                         </small>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="form-group col-3">
                     <label class="form-control-label" for="field_customer">Customer</label>
                     <select class="form-control" name="customer" [(ngModel)]="commercialBudget.customer"
                             id="field_customer" required>
@@ -48,7 +50,7 @@
                         </small>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="form-group col-3">
                     <label class="form-control-label" for="field_budgetDate">Budget Date</label>
                     <div class="input-group">
                         <input id="field_budgetDate" type="text" class="form-control" name="budgetDate" ngbDatepicker
@@ -66,38 +68,79 @@
                         </small>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-2">
-                    <label class="form-control-label" for="field_proformaNo">Proforma No</label>
-                    <input type="text" class="form-control" name="proformaNo" id="field_proformaNo"
-                           [(ngModel)]="commercialBudget.proformaNo" />
+            <div class="row">
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_totalQuantity">Total Quantity</label>
+                    <input type="number" class="form-control" name="totalQuantity" id="field_totalQuantity"
+                           [(ngModel)]="commercialBudget.totalQuantity" readonly/>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_totalOfferedPrice">Total Offered Price</label>
+                    <input type="number" class="form-control" name="totalOfferedPrice" id="field_totalOfferedPrice"
+                           [(ngModel)]="commercialBudget.totalOfferedPrice" readonly/>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_totalBuyingPrice">Total Buying Price</label>
+                    <input type="number" class="form-control" name="totalBuyingPrice" id="field_totalBuyingPrice"
+                           [(ngModel)]="commercialBudget.totalBuyingPrice" readonly/>
                 </div>
             </div>
-            <br/>
             <div class="row">
-                <div class="col-12">
-
-                    <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
-                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
-                    </button>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_profitAmount">Profit Amount</label>
+                    <input type="number" class="form-control" name="profitAmount" id="field_profitAmount"
+                           [(ngModel)]="commercialBudget.profitAmount" readonly/>
                 </div>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_profitPercentage">Profit Percentage</label>
+                    <input type="number" class="form-control" name="profitPercentage" id="field_profitPercentage"
+                           [(ngModel)]="commercialBudget.profitPercentage" readonly/>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_budgetStatus">Budget Status</label>
+                    <select class="form-control" name="budgetStatus" [(ngModel)]="commercialBudget.budgetStatus"
+                            id="field_budgetStatus" readonly disabled>
+                        <option value="WAITING_FOR_APPROVAL">WAITING_FOR_APPROVAL</option>
+                        <option value="APPROVED">APPROVED</option>
+                        <option value="REJECTED">REJECTED</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_proformaNo">Proforma No</label>
+                    <input type="text" class="form-control" name="proformaNo" id="field_proformaNo"
+                           [(ngModel)]="commercialBudget.proformaNo" required/>
+                </div>
+            </div>
+
+            <div style="float: right">
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                        *jhiHasAnyAuthority="['ROLE_ADMIN']"
+                        class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
             </div>
         </form>
     </div>
 </div>
 
-<br />
+<br/>
 
-<div class="row">
+<div class="row" *ngIf="commercialProductInfos">
     <div class="col-12">
-        <div class="table-responsive" *ngIf="commercialProductInfos">
+        <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th><span>Serial No</span></th>
+                    <th><span>Task No</span></th>
                     <th><span>Products</span></th>
                     <th><span>Product Categories</span></th>
-                    <th><span>Packaging Description</span></th>
                     <th><span>Offered Quantity</span></th>
                     <th><span>Offered Unit</span></th>
                     <th><span>Offered Unit Price</span></th>
@@ -107,20 +150,21 @@
                     <th><span>Buying Unit</span></th>
                     <th><span>Buying Unit Price</span></th>
                     <th><span>Buying Total Price</span></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let commercialProductInfo of commercialProductInfos;">
-                    <td>{{commercialProductInfo.serialNo}}</td>
+                    <td>{{commercialProductInfo.taskNo}}</td>
                     <td>
-                        <div *ngIf="commercialProductInfo.productCategoriesId">{{commercialProductInfo.productCategoriesName}}
+                        <div
+                            *ngIf="commercialProductInfo.productCategoriesId">{{commercialProductInfo.productCategoriesName}}
                         </div>
                     </td>
                     <td>
                         <div *ngIf="commercialProductInfo.productsId">{{commercialProductInfo.productsName}}
                         </div>
                     </td>
-                    <td>{{commercialProductInfo.packagingDescription}}</td>
                     <td>{{commercialProductInfo.offeredQuantity}}</td>
                     <td>{{commercialProductInfo.offeredUnit}}</td>
                     <td>{{commercialProductInfo.offeredUnitPrice}}</td>
@@ -130,6 +174,14 @@
                     <td>{{commercialProductInfo.buyingUnit}}</td>
                     <td>{{commercialProductInfo.buyingUnitPrice}}</td>
                     <td>{{commercialProductInfo.buyingTotalPrice}}</td>
+                    <td>
+                        <button type="submit"
+                                [routerLink]="['/commercial-product-info', commercialProductInfo.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -138,52 +190,28 @@
 </div>
 
 <div class="row">
-    <div class="col-12">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Total Offered Price</th>
-                <th>Total Buying Price</th>
-                <th>Profit Amount</th>
-                <th>Profit Percentage</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>{{commercialBudget.offeredPrice}}</td>
-                <td>{{commercialBudget.buyingPrice}}</td>
-                <td>{{commercialBudget.profitAmount}}</td>
-                <td>{{commercialBudget.profitPercentage}}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-12">
-        <button id="jh-create-entity"
-                class="btn btn-primary jh-create-entity create-commercial-product-info"
-                [routerLink]="['/commercial-product-info/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span class="hidden-sm-down">
+    <div class="col-6">
+        <div>
+            <button id="jh-create-entity"
+                    class="btn btn-primary jh-create-entity create-commercial-product-info"
+                    [routerLink]="['/commercial-product-info/new']">
+                <fa-icon [icon]="'plus'"></fa-icon>
+                <span class="hidden-sm-down">
              Add Products
             </span>
-        </button>
-
-        <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" *jhiHasAnyAuthority="['ROLE_ADMIN']"
-                class="btn btn-primary">
-            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-        </button>
-
-        <button type="button" id="approve-entity" *jhiHasAnyAuthority="['ROLE_CFO']"
-                class="btn btn-success" (click)="this.approved=true;save();">
-            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Approve</span>
-        </button>
-
-        <button type="button" id="reject-entity" *jhiHasAnyAuthority="['ROLE_CFO']"
-                class="btn btn-danger" (click)="this.rejected=true;save();">
-            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Reject</span>
-        </button>
+            </button>
+        </div>
+    </div>
+    <div class="col-6">
+        <div style="float: right">
+            <button type="button" id="reject-entity"
+                    class="btn btn-danger" (click)="this.rejected=true;save();">
+                <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span>Reject</span>
+            </button>
+            <button type="button" id="approve-entity"
+                    class="btn btn-success" (click)="this.approved=true;save();">
+                <fa-icon [icon]="'check'"></fa-icon>&nbsp;<span>Approve</span>
+            </button>
+        </div>
     </div>
 </div>

@@ -94,8 +94,8 @@ public class CommercialPiQueryService extends QueryService<CommercialPi> {
             if (criteria.getCompanyName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCompanyName(), CommercialPi_.companyName));
             }
-            if (criteria.getCompanyDescriptionOrAddress() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCompanyDescriptionOrAddress(), CommercialPi_.companyDescriptionOrAddress));
+            if (criteria.getCompanyDescription() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCompanyDescription(), CommercialPi_.companyDescription));
             }
             if (criteria.getProformaNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getProformaNo(), CommercialPi_.proformaNo));

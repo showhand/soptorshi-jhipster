@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiAlertService } from 'ng-jhipster';
 import { CommercialProductInfoExtendedService } from './commercial-product-info-extended.service';
-import { CommercialBudgetService } from 'app/entities/commercial-budget';
 import { ProductCategoryService } from 'app/entities/product-category';
 import { ProductService } from 'app/entities/product';
 import { CommercialProductInfoUpdateComponent } from 'app/entities/commercial-product-info';
+import { CommercialBudgetExtendedService } from 'app/entities/commercial-budget-extended';
 
 @Component({
     selector: 'jhi-commercial-product-info-update-extended',
@@ -15,7 +15,7 @@ export class CommercialProductInfoUpdateExtendedComponent extends CommercialProd
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected commercialProductInfoService: CommercialProductInfoExtendedService,
-        protected commercialBudgetService: CommercialBudgetService,
+        protected commercialBudgetService: CommercialBudgetExtendedService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
         protected activatedRoute: ActivatedRoute

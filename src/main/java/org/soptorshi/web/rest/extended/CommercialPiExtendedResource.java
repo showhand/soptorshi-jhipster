@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialPiQueryService;
-import org.soptorshi.service.CommercialPiService;
 import org.soptorshi.service.dto.CommercialPiCriteria;
 import org.soptorshi.service.dto.CommercialPiDTO;
+import org.soptorshi.service.extended.CommercialPiExtendedService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
@@ -33,11 +33,11 @@ public class CommercialPiExtendedResource {
 
     private static final String ENTITY_NAME = "commercialPi";
 
-    private final CommercialPiService commercialPiService;
+    private final CommercialPiExtendedService commercialPiService;
 
     private final CommercialPiQueryService commercialPiQueryService;
 
-    public CommercialPiExtendedResource(CommercialPiService commercialPiService, CommercialPiQueryService commercialPiQueryService) {
+    public CommercialPiExtendedResource(CommercialPiExtendedService commercialPiService, CommercialPiQueryService commercialPiQueryService) {
         this.commercialPiService = commercialPiService;
         this.commercialPiQueryService = commercialPiQueryService;
     }

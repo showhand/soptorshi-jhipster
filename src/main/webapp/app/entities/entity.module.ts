@@ -651,6 +651,22 @@ import { MatTabsModule } from '@angular/material';
                 path: 'commercial-attachment',
                 loadChildren:
                     './commercial-attachment-extended/commercial-attachment-extended.module#SoptorshiCommercialAttachmentExtendedModule'
+            },
+            {
+                path: 'commercial-budget',
+                loadChildren: './commercial-budget/commercial-budget.module#SoptorshiCommercialBudgetModule'
+            },
+            {
+                path: 'commercial-product-info',
+                loadChildren: './commercial-product-info/commercial-product-info.module#SoptorshiCommercialProductInfoModule'
+            },
+            {
+                path: 'commercial-pi',
+                loadChildren: './commercial-pi/commercial-pi.module#SoptorshiCommercialPiModule'
+            },
+            {
+                path: 'commercial-po',
+                loadChildren: './commercial-po/commercial-po.module#SoptorshiCommercialPoModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

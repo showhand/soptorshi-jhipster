@@ -50,7 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
-public class CommercialPoExtendedResourceIntTest {
+public class CommercialPoResourceIntTest {
 
     private static final String DEFAULT_PURCHASE_ORDER_NO = "AAAAAAAAAA";
     private static final String UPDATED_PURCHASE_ORDER_NO = "BBBBBBBBBB";
@@ -66,12 +66,6 @@ public class CommercialPoExtendedResourceIntTest {
 
     private static final LocalDate DEFAULT_SHIPMENT_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_SHIPMENT_DATE = LocalDate.now(ZoneId.systemDefault());
-
-    private static final String DEFAULT_PROCUREMENT_ID = "AAAAAAAAAA";
-    private static final String UPDATED_PROCUREMENT_ID = "BBBBBBBBBB";
-
-    private static final String DEFAULT_INVENTORY_ID = "AAAAAAAAAA";
-    private static final String UPDATED_INVENTORY_ID = "BBBBBBBBBB";
 
     private static final CommercialPoStatus DEFAULT_PO_STATUS = CommercialPoStatus.PO_CREATED;
     private static final CommercialPoStatus UPDATED_PO_STATUS = CommercialPoStatus.PREPARING_ORDER;
@@ -254,8 +248,6 @@ public class CommercialPoExtendedResourceIntTest {
             .andExpect(jsonPath("$.[*].originOfGoods").value(hasItem(DEFAULT_ORIGIN_OF_GOODS.toString())))
             .andExpect(jsonPath("$.[*].finalDestination").value(hasItem(DEFAULT_FINAL_DESTINATION.toString())))
             .andExpect(jsonPath("$.[*].shipmentDate").value(hasItem(DEFAULT_SHIPMENT_DATE.toString())))
-            .andExpect(jsonPath("$.[*].procurementId").value(hasItem(DEFAULT_PROCUREMENT_ID.toString())))
-            .andExpect(jsonPath("$.[*].inventoryId").value(hasItem(DEFAULT_INVENTORY_ID.toString())))
             .andExpect(jsonPath("$.[*].poStatus").value(hasItem(DEFAULT_PO_STATUS.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
@@ -279,8 +271,6 @@ public class CommercialPoExtendedResourceIntTest {
             .andExpect(jsonPath("$.originOfGoods").value(DEFAULT_ORIGIN_OF_GOODS.toString()))
             .andExpect(jsonPath("$.finalDestination").value(DEFAULT_FINAL_DESTINATION.toString()))
             .andExpect(jsonPath("$.shipmentDate").value(DEFAULT_SHIPMENT_DATE.toString()))
-            .andExpect(jsonPath("$.procurementId").value(DEFAULT_PROCUREMENT_ID.toString()))
-            .andExpect(jsonPath("$.inventoryId").value(DEFAULT_INVENTORY_ID.toString()))
             .andExpect(jsonPath("$.poStatus").value(DEFAULT_PO_STATUS.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
@@ -539,84 +529,6 @@ public class CommercialPoExtendedResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllCommercialPosByProcurementIdIsEqualToSomething() throws Exception {
-        // Initialize the database
-        commercialPoRepository.saveAndFlush(commercialPo);
-
-        // Get all the commercialPoList where procurementId equals to DEFAULT_PROCUREMENT_ID
-        defaultCommercialPoShouldBeFound("procurementId.equals=" + DEFAULT_PROCUREMENT_ID);
-
-        // Get all the commercialPoList where procurementId equals to UPDATED_PROCUREMENT_ID
-        defaultCommercialPoShouldNotBeFound("procurementId.equals=" + UPDATED_PROCUREMENT_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllCommercialPosByProcurementIdIsInShouldWork() throws Exception {
-        // Initialize the database
-        commercialPoRepository.saveAndFlush(commercialPo);
-
-        // Get all the commercialPoList where procurementId in DEFAULT_PROCUREMENT_ID or UPDATED_PROCUREMENT_ID
-        defaultCommercialPoShouldBeFound("procurementId.in=" + DEFAULT_PROCUREMENT_ID + "," + UPDATED_PROCUREMENT_ID);
-
-        // Get all the commercialPoList where procurementId equals to UPDATED_PROCUREMENT_ID
-        defaultCommercialPoShouldNotBeFound("procurementId.in=" + UPDATED_PROCUREMENT_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllCommercialPosByProcurementIdIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        commercialPoRepository.saveAndFlush(commercialPo);
-
-        // Get all the commercialPoList where procurementId is not null
-        defaultCommercialPoShouldBeFound("procurementId.specified=true");
-
-        // Get all the commercialPoList where procurementId is null
-        defaultCommercialPoShouldNotBeFound("procurementId.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllCommercialPosByInventoryIdIsEqualToSomething() throws Exception {
-        // Initialize the database
-        commercialPoRepository.saveAndFlush(commercialPo);
-
-        // Get all the commercialPoList where inventoryId equals to DEFAULT_INVENTORY_ID
-        defaultCommercialPoShouldBeFound("inventoryId.equals=" + DEFAULT_INVENTORY_ID);
-
-        // Get all the commercialPoList where inventoryId equals to UPDATED_INVENTORY_ID
-        defaultCommercialPoShouldNotBeFound("inventoryId.equals=" + UPDATED_INVENTORY_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllCommercialPosByInventoryIdIsInShouldWork() throws Exception {
-        // Initialize the database
-        commercialPoRepository.saveAndFlush(commercialPo);
-
-        // Get all the commercialPoList where inventoryId in DEFAULT_INVENTORY_ID or UPDATED_INVENTORY_ID
-        defaultCommercialPoShouldBeFound("inventoryId.in=" + DEFAULT_INVENTORY_ID + "," + UPDATED_INVENTORY_ID);
-
-        // Get all the commercialPoList where inventoryId equals to UPDATED_INVENTORY_ID
-        defaultCommercialPoShouldNotBeFound("inventoryId.in=" + UPDATED_INVENTORY_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllCommercialPosByInventoryIdIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        commercialPoRepository.saveAndFlush(commercialPo);
-
-        // Get all the commercialPoList where inventoryId is not null
-        defaultCommercialPoShouldBeFound("inventoryId.specified=true");
-
-        // Get all the commercialPoList where inventoryId is null
-        defaultCommercialPoShouldNotBeFound("inventoryId.specified=false");
-    }
-
-    @Test
-    @Transactional
     public void getAllCommercialPosByPoStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialPoRepository.saveAndFlush(commercialPo);
@@ -814,7 +726,7 @@ public class CommercialPoExtendedResourceIntTest {
     @Transactional
     public void getAllCommercialPosByCommercialPiIsEqualToSomething() throws Exception {
         // Initialize the database
-        CommercialPi commercialPi = CommercialPiExtendedResourceIntTest.createEntity(em);
+        CommercialPi commercialPi = CommercialPiResourceIntTest.createEntity(em);
         em.persist(commercialPi);
         em.flush();
         commercialPo.setCommercialPi(commercialPi);
@@ -841,8 +753,6 @@ public class CommercialPoExtendedResourceIntTest {
             .andExpect(jsonPath("$.[*].originOfGoods").value(hasItem(DEFAULT_ORIGIN_OF_GOODS)))
             .andExpect(jsonPath("$.[*].finalDestination").value(hasItem(DEFAULT_FINAL_DESTINATION)))
             .andExpect(jsonPath("$.[*].shipmentDate").value(hasItem(DEFAULT_SHIPMENT_DATE.toString())))
-            .andExpect(jsonPath("$.[*].procurementId").value(hasItem(DEFAULT_PROCUREMENT_ID)))
-            .andExpect(jsonPath("$.[*].inventoryId").value(hasItem(DEFAULT_INVENTORY_ID)))
             .andExpect(jsonPath("$.[*].poStatus").value(hasItem(DEFAULT_PO_STATUS.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
@@ -991,8 +901,6 @@ public class CommercialPoExtendedResourceIntTest {
             .andExpect(jsonPath("$.[*].originOfGoods").value(hasItem(DEFAULT_ORIGIN_OF_GOODS)))
             .andExpect(jsonPath("$.[*].finalDestination").value(hasItem(DEFAULT_FINAL_DESTINATION)))
             .andExpect(jsonPath("$.[*].shipmentDate").value(hasItem(DEFAULT_SHIPMENT_DATE.toString())))
-            .andExpect(jsonPath("$.[*].procurementId").value(hasItem(DEFAULT_PROCUREMENT_ID)))
-            .andExpect(jsonPath("$.[*].inventoryId").value(hasItem(DEFAULT_INVENTORY_ID)))
             .andExpect(jsonPath("$.[*].poStatus").value(hasItem(DEFAULT_PO_STATUS.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))

@@ -28,8 +28,8 @@ public class CommercialPi implements Serializable {
     @Column(name = "company_name")
     private String companyName;
 
-    @Column(name = "company_description_or_address")
-    private String companyDescriptionOrAddress;
+    @Column(name = "company_description")
+    private String companyDescription;
 
     @NotNull
     @Column(name = "proforma_no", nullable = false)
@@ -101,17 +101,17 @@ public class CommercialPi implements Serializable {
         this.companyName = companyName;
     }
 
-    public String getCompanyDescriptionOrAddress() {
-        return companyDescriptionOrAddress;
+    public String getCompanyDescription() {
+        return companyDescription;
     }
 
-    public CommercialPi companyDescriptionOrAddress(String companyDescriptionOrAddress) {
-        this.companyDescriptionOrAddress = companyDescriptionOrAddress;
+    public CommercialPi companyDescription(String companyDescription) {
+        this.companyDescription = companyDescription;
         return this;
     }
 
-    public void setCompanyDescriptionOrAddress(String companyDescriptionOrAddress) {
-        this.companyDescriptionOrAddress = companyDescriptionOrAddress;
+    public void setCompanyDescription(String companyDescription) {
+        this.companyDescription = companyDescription;
     }
 
     public String getProformaNo() {
@@ -335,7 +335,7 @@ public class CommercialPi implements Serializable {
         return "CommercialPi{" +
             "id=" + getId() +
             ", companyName='" + getCompanyName() + "'" +
-            ", companyDescriptionOrAddress='" + getCompanyDescriptionOrAddress() + "'" +
+            ", companyDescription='" + getCompanyDescription() + "'" +
             ", proformaNo='" + getProformaNo() + "'" +
             ", proformaDate='" + getProformaDate() + "'" +
             ", harmonicCode='" + getHarmonicCode() + "'" +

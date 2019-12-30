@@ -35,10 +35,6 @@ public class CommercialPoCriteria implements Serializable {
 
     private LocalDateFilter shipmentDate;
 
-    private StringFilter procurementId;
-
-    private StringFilter inventoryId;
-
     private CommercialPoStatusFilter poStatus;
 
     private StringFilter createdBy;
@@ -97,22 +93,6 @@ public class CommercialPoCriteria implements Serializable {
 
     public void setShipmentDate(LocalDateFilter shipmentDate) {
         this.shipmentDate = shipmentDate;
-    }
-
-    public StringFilter getProcurementId() {
-        return procurementId;
-    }
-
-    public void setProcurementId(StringFilter procurementId) {
-        this.procurementId = procurementId;
-    }
-
-    public StringFilter getInventoryId() {
-        return inventoryId;
-    }
-
-    public void setInventoryId(StringFilter inventoryId) {
-        this.inventoryId = inventoryId;
     }
 
     public CommercialPoStatusFilter getPoStatus() {
@@ -180,8 +160,6 @@ public class CommercialPoCriteria implements Serializable {
             Objects.equals(originOfGoods, that.originOfGoods) &&
             Objects.equals(finalDestination, that.finalDestination) &&
             Objects.equals(shipmentDate, that.shipmentDate) &&
-            Objects.equals(procurementId, that.procurementId) &&
-            Objects.equals(inventoryId, that.inventoryId) &&
             Objects.equals(poStatus, that.poStatus) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdOn, that.createdOn) &&
@@ -199,8 +177,6 @@ public class CommercialPoCriteria implements Serializable {
         originOfGoods,
         finalDestination,
         shipmentDate,
-        procurementId,
-        inventoryId,
         poStatus,
         createdBy,
         createdOn,
@@ -219,8 +195,6 @@ public class CommercialPoCriteria implements Serializable {
                 (originOfGoods != null ? "originOfGoods=" + originOfGoods + ", " : "") +
                 (finalDestination != null ? "finalDestination=" + finalDestination + ", " : "") +
                 (shipmentDate != null ? "shipmentDate=" + shipmentDate + ", " : "") +
-                (procurementId != null ? "procurementId=" + procurementId + ", " : "") +
-                (inventoryId != null ? "inventoryId=" + inventoryId + ", " : "") +
                 (poStatus != null ? "poStatus=" + poStatus + ", " : "") +
                 (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +

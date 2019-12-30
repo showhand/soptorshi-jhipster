@@ -93,7 +93,7 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         companyName: 'BBBBBB',
-                        companyDescriptionOrAddress: 'BBBBBB',
+                        companyDescription: 'BBBBBB',
                         proformaNo: 'BBBBBB',
                         proformaDate: currentDate.format(DATE_FORMAT),
                         harmonicCode: 'BBBBBB',
@@ -132,7 +132,7 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         companyName: 'BBBBBB',
-                        companyDescriptionOrAddress: 'BBBBBB',
+                        companyDescription: 'BBBBBB',
                         proformaNo: 'BBBBBB',
                         proformaDate: currentDate.format(DATE_FORMAT),
                         harmonicCode: 'BBBBBB',

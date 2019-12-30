@@ -1,6 +1,8 @@
 package org.soptorshi.service.dto;
 
 import io.github.jhipster.service.filter.*;
+import org.soptorshi.domain.enumeration.PackColor;
+import org.soptorshi.domain.enumeration.ProductSpecification;
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 
 import java.io.Serializable;
@@ -16,20 +18,30 @@ import java.util.Objects;
  */
 public class CommercialProductInfoCriteria implements Serializable {
     /**
+     * Class for filtering ProductSpecification
+     */
+    public static class ProductSpecificationFilter extends Filter<ProductSpecification> {
+    }
+    /**
      * Class for filtering UnitOfMeasurements
      */
     public static class UnitOfMeasurementsFilter extends Filter<UnitOfMeasurements> {
+    }
+    /**
+     * Class for filtering PackColor
+     */
+    public static class PackColorFilter extends Filter<PackColor> {
     }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
-    private IntegerFilter serialNo;
+    private IntegerFilter taskNo;
 
-    private StringFilter packagingDescription;
+    private ProductSpecificationFilter productSpecification;
 
-    private StringFilter othersDescription;
+    private StringFilter spSize;
 
     private BigDecimalFilter offeredQuantity;
 
@@ -38,6 +50,40 @@ public class CommercialProductInfoCriteria implements Serializable {
     private BigDecimalFilter offeredUnitPrice;
 
     private BigDecimalFilter offeredTotalPrice;
+
+    private StringFilter spSticker;
+
+    private StringFilter spLabel;
+
+    private BigDecimalFilter spQtyInPack;
+
+    private BigDecimalFilter spQtyInMc;
+
+    private PackColorFilter ipColor;
+
+    private StringFilter ipSize;
+
+    private StringFilter ipSticker;
+
+    private StringFilter ipLabel;
+
+    private BigDecimalFilter ipQtyInMc;
+
+    private PackColorFilter mcColor;
+
+    private StringFilter mcPly;
+
+    private StringFilter mcSize;
+
+    private StringFilter mcSticker;
+
+    private StringFilter mcLabel;
+
+    private StringFilter cylColor;
+
+    private StringFilter cylSize;
+
+    private BigDecimalFilter cylQty;
 
     private BigDecimalFilter buyingQuantity;
 
@@ -69,28 +115,28 @@ public class CommercialProductInfoCriteria implements Serializable {
         this.id = id;
     }
 
-    public IntegerFilter getSerialNo() {
-        return serialNo;
+    public IntegerFilter getTaskNo() {
+        return taskNo;
     }
 
-    public void setSerialNo(IntegerFilter serialNo) {
-        this.serialNo = serialNo;
+    public void setTaskNo(IntegerFilter taskNo) {
+        this.taskNo = taskNo;
     }
 
-    public StringFilter getPackagingDescription() {
-        return packagingDescription;
+    public ProductSpecificationFilter getProductSpecification() {
+        return productSpecification;
     }
 
-    public void setPackagingDescription(StringFilter packagingDescription) {
-        this.packagingDescription = packagingDescription;
+    public void setProductSpecification(ProductSpecificationFilter productSpecification) {
+        this.productSpecification = productSpecification;
     }
 
-    public StringFilter getOthersDescription() {
-        return othersDescription;
+    public StringFilter getSpSize() {
+        return spSize;
     }
 
-    public void setOthersDescription(StringFilter othersDescription) {
-        this.othersDescription = othersDescription;
+    public void setSpSize(StringFilter spSize) {
+        this.spSize = spSize;
     }
 
     public BigDecimalFilter getOfferedQuantity() {
@@ -123,6 +169,142 @@ public class CommercialProductInfoCriteria implements Serializable {
 
     public void setOfferedTotalPrice(BigDecimalFilter offeredTotalPrice) {
         this.offeredTotalPrice = offeredTotalPrice;
+    }
+
+    public StringFilter getSpSticker() {
+        return spSticker;
+    }
+
+    public void setSpSticker(StringFilter spSticker) {
+        this.spSticker = spSticker;
+    }
+
+    public StringFilter getSpLabel() {
+        return spLabel;
+    }
+
+    public void setSpLabel(StringFilter spLabel) {
+        this.spLabel = spLabel;
+    }
+
+    public BigDecimalFilter getSpQtyInPack() {
+        return spQtyInPack;
+    }
+
+    public void setSpQtyInPack(BigDecimalFilter spQtyInPack) {
+        this.spQtyInPack = spQtyInPack;
+    }
+
+    public BigDecimalFilter getSpQtyInMc() {
+        return spQtyInMc;
+    }
+
+    public void setSpQtyInMc(BigDecimalFilter spQtyInMc) {
+        this.spQtyInMc = spQtyInMc;
+    }
+
+    public PackColorFilter getIpColor() {
+        return ipColor;
+    }
+
+    public void setIpColor(PackColorFilter ipColor) {
+        this.ipColor = ipColor;
+    }
+
+    public StringFilter getIpSize() {
+        return ipSize;
+    }
+
+    public void setIpSize(StringFilter ipSize) {
+        this.ipSize = ipSize;
+    }
+
+    public StringFilter getIpSticker() {
+        return ipSticker;
+    }
+
+    public void setIpSticker(StringFilter ipSticker) {
+        this.ipSticker = ipSticker;
+    }
+
+    public StringFilter getIpLabel() {
+        return ipLabel;
+    }
+
+    public void setIpLabel(StringFilter ipLabel) {
+        this.ipLabel = ipLabel;
+    }
+
+    public BigDecimalFilter getIpQtyInMc() {
+        return ipQtyInMc;
+    }
+
+    public void setIpQtyInMc(BigDecimalFilter ipQtyInMc) {
+        this.ipQtyInMc = ipQtyInMc;
+    }
+
+    public PackColorFilter getMcColor() {
+        return mcColor;
+    }
+
+    public void setMcColor(PackColorFilter mcColor) {
+        this.mcColor = mcColor;
+    }
+
+    public StringFilter getMcPly() {
+        return mcPly;
+    }
+
+    public void setMcPly(StringFilter mcPly) {
+        this.mcPly = mcPly;
+    }
+
+    public StringFilter getMcSize() {
+        return mcSize;
+    }
+
+    public void setMcSize(StringFilter mcSize) {
+        this.mcSize = mcSize;
+    }
+
+    public StringFilter getMcSticker() {
+        return mcSticker;
+    }
+
+    public void setMcSticker(StringFilter mcSticker) {
+        this.mcSticker = mcSticker;
+    }
+
+    public StringFilter getMcLabel() {
+        return mcLabel;
+    }
+
+    public void setMcLabel(StringFilter mcLabel) {
+        this.mcLabel = mcLabel;
+    }
+
+    public StringFilter getCylColor() {
+        return cylColor;
+    }
+
+    public void setCylColor(StringFilter cylColor) {
+        this.cylColor = cylColor;
+    }
+
+    public StringFilter getCylSize() {
+        return cylSize;
+    }
+
+    public void setCylSize(StringFilter cylSize) {
+        this.cylSize = cylSize;
+    }
+
+    public BigDecimalFilter getCylQty() {
+        return cylQty;
+    }
+
+    public void setCylQty(BigDecimalFilter cylQty) {
+        this.cylQty = cylQty;
     }
 
     public BigDecimalFilter getBuyingQuantity() {
@@ -225,13 +407,30 @@ public class CommercialProductInfoCriteria implements Serializable {
         final CommercialProductInfoCriteria that = (CommercialProductInfoCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(serialNo, that.serialNo) &&
-            Objects.equals(packagingDescription, that.packagingDescription) &&
-            Objects.equals(othersDescription, that.othersDescription) &&
+            Objects.equals(taskNo, that.taskNo) &&
+            Objects.equals(productSpecification, that.productSpecification) &&
+            Objects.equals(spSize, that.spSize) &&
             Objects.equals(offeredQuantity, that.offeredQuantity) &&
             Objects.equals(offeredUnit, that.offeredUnit) &&
             Objects.equals(offeredUnitPrice, that.offeredUnitPrice) &&
             Objects.equals(offeredTotalPrice, that.offeredTotalPrice) &&
+            Objects.equals(spSticker, that.spSticker) &&
+            Objects.equals(spLabel, that.spLabel) &&
+            Objects.equals(spQtyInPack, that.spQtyInPack) &&
+            Objects.equals(spQtyInMc, that.spQtyInMc) &&
+            Objects.equals(ipColor, that.ipColor) &&
+            Objects.equals(ipSize, that.ipSize) &&
+            Objects.equals(ipSticker, that.ipSticker) &&
+            Objects.equals(ipLabel, that.ipLabel) &&
+            Objects.equals(ipQtyInMc, that.ipQtyInMc) &&
+            Objects.equals(mcColor, that.mcColor) &&
+            Objects.equals(mcPly, that.mcPly) &&
+            Objects.equals(mcSize, that.mcSize) &&
+            Objects.equals(mcSticker, that.mcSticker) &&
+            Objects.equals(mcLabel, that.mcLabel) &&
+            Objects.equals(cylColor, that.cylColor) &&
+            Objects.equals(cylSize, that.cylSize) &&
+            Objects.equals(cylQty, that.cylQty) &&
             Objects.equals(buyingQuantity, that.buyingQuantity) &&
             Objects.equals(buyingUnit, that.buyingUnit) &&
             Objects.equals(buyingUnitPrice, that.buyingUnitPrice) &&
@@ -249,13 +448,30 @@ public class CommercialProductInfoCriteria implements Serializable {
     public int hashCode() {
         return Objects.hash(
         id,
-        serialNo,
-        packagingDescription,
-        othersDescription,
+        taskNo,
+        productSpecification,
+        spSize,
         offeredQuantity,
         offeredUnit,
         offeredUnitPrice,
         offeredTotalPrice,
+        spSticker,
+        spLabel,
+        spQtyInPack,
+        spQtyInMc,
+        ipColor,
+        ipSize,
+        ipSticker,
+        ipLabel,
+        ipQtyInMc,
+        mcColor,
+        mcPly,
+        mcSize,
+        mcSticker,
+        mcLabel,
+        cylColor,
+        cylSize,
+        cylQty,
         buyingQuantity,
         buyingUnit,
         buyingUnitPrice,
@@ -274,13 +490,30 @@ public class CommercialProductInfoCriteria implements Serializable {
     public String toString() {
         return "CommercialProductInfoCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (serialNo != null ? "serialNo=" + serialNo + ", " : "") +
-                (packagingDescription != null ? "packagingDescription=" + packagingDescription + ", " : "") +
-                (othersDescription != null ? "othersDescription=" + othersDescription + ", " : "") +
+                (taskNo != null ? "taskNo=" + taskNo + ", " : "") +
+                (productSpecification != null ? "productSpecification=" + productSpecification + ", " : "") +
+                (spSize != null ? "spSize=" + spSize + ", " : "") +
                 (offeredQuantity != null ? "offeredQuantity=" + offeredQuantity + ", " : "") +
                 (offeredUnit != null ? "offeredUnit=" + offeredUnit + ", " : "") +
                 (offeredUnitPrice != null ? "offeredUnitPrice=" + offeredUnitPrice + ", " : "") +
                 (offeredTotalPrice != null ? "offeredTotalPrice=" + offeredTotalPrice + ", " : "") +
+                (spSticker != null ? "spSticker=" + spSticker + ", " : "") +
+                (spLabel != null ? "spLabel=" + spLabel + ", " : "") +
+                (spQtyInPack != null ? "spQtyInPack=" + spQtyInPack + ", " : "") +
+                (spQtyInMc != null ? "spQtyInMc=" + spQtyInMc + ", " : "") +
+                (ipColor != null ? "ipColor=" + ipColor + ", " : "") +
+                (ipSize != null ? "ipSize=" + ipSize + ", " : "") +
+                (ipSticker != null ? "ipSticker=" + ipSticker + ", " : "") +
+                (ipLabel != null ? "ipLabel=" + ipLabel + ", " : "") +
+                (ipQtyInMc != null ? "ipQtyInMc=" + ipQtyInMc + ", " : "") +
+                (mcColor != null ? "mcColor=" + mcColor + ", " : "") +
+                (mcPly != null ? "mcPly=" + mcPly + ", " : "") +
+                (mcSize != null ? "mcSize=" + mcSize + ", " : "") +
+                (mcSticker != null ? "mcSticker=" + mcSticker + ", " : "") +
+                (mcLabel != null ? "mcLabel=" + mcLabel + ", " : "") +
+                (cylColor != null ? "cylColor=" + cylColor + ", " : "") +
+                (cylSize != null ? "cylSize=" + cylSize + ", " : "") +
+                (cylQty != null ? "cylQty=" + cylQty + ", " : "") +
                 (buyingQuantity != null ? "buyingQuantity=" + buyingQuantity + ", " : "") +
                 (buyingUnit != null ? "buyingUnit=" + buyingUnit + ", " : "") +
                 (buyingUnitPrice != null ? "buyingUnitPrice=" + buyingUnitPrice + ", " : "") +

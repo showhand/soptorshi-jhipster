@@ -26,10 +26,6 @@ public class CommercialPoDTO implements Serializable {
 
     private LocalDate shipmentDate;
 
-    private String procurementId;
-
-    private String inventoryId;
-
     private CommercialPoStatus poStatus;
 
     private String createdBy;
@@ -91,22 +87,6 @@ public class CommercialPoDTO implements Serializable {
 
     public void setShipmentDate(LocalDate shipmentDate) {
         this.shipmentDate = shipmentDate;
-    }
-
-    public String getProcurementId() {
-        return procurementId;
-    }
-
-    public void setProcurementId(String procurementId) {
-        this.procurementId = procurementId;
-    }
-
-    public String getInventoryId() {
-        return inventoryId;
-    }
-
-    public void setInventoryId(String inventoryId) {
-        this.inventoryId = inventoryId;
     }
 
     public CommercialPoStatus getPoStatus() {
@@ -195,8 +175,6 @@ public class CommercialPoDTO implements Serializable {
             ", originOfGoods='" + getOriginOfGoods() + "'" +
             ", finalDestination='" + getFinalDestination() + "'" +
             ", shipmentDate='" + getShipmentDate() + "'" +
-            ", procurementId='" + getProcurementId() + "'" +
-            ", inventoryId='" + getInventoryId() + "'" +
             ", poStatus='" + getPoStatus() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +

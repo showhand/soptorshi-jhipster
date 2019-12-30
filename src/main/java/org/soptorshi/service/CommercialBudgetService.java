@@ -3,20 +3,15 @@ package org.soptorshi.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialBudget;
-import org.soptorshi.domain.enumeration.CommercialBudgetStatus;
-import org.soptorshi.domain.enumeration.CommercialPiStatus;
 import org.soptorshi.repository.CommercialBudgetRepository;
 import org.soptorshi.repository.search.CommercialBudgetSearchRepository;
-import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.CommercialBudgetDTO;
-import org.soptorshi.service.dto.CommercialPiDTO;
 import org.soptorshi.service.mapper.CommercialBudgetMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -36,13 +31,10 @@ public class CommercialBudgetService {
 
     private final CommercialBudgetSearchRepository commercialBudgetSearchRepository;
 
-    private final CommercialPiService commercialPiService;
-
-    public CommercialBudgetService(CommercialBudgetRepository commercialBudgetRepository, CommercialBudgetMapper commercialBudgetMapper, CommercialBudgetSearchRepository commercialBudgetSearchRepository, CommercialPiService commercialPiService) {
+    public CommercialBudgetService(CommercialBudgetRepository commercialBudgetRepository, CommercialBudgetMapper commercialBudgetMapper, CommercialBudgetSearchRepository commercialBudgetSearchRepository) {
         this.commercialBudgetRepository = commercialBudgetRepository;
         this.commercialBudgetMapper = commercialBudgetMapper;
         this.commercialBudgetSearchRepository = commercialBudgetSearchRepository;
-        this.commercialPiService = commercialPiService;
     }
 
     /**
@@ -53,28 +45,6 @@ public class CommercialBudgetService {
      */
     public CommercialBudgetDTO save(CommercialBudgetDTO commercialBudgetDTO) {
         log.debug("Request to save CommercialBudget : {}", commercialBudgetDTO);
-
-        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
-        Instant currentDateTime = Instant.now();
-
-        if(commercialBudgetDTO.getId() == null) {
-            commercialBudgetDTO.setBudgetStatus(CommercialBudgetStatus.WAITING_FOR_APPROVAL);
-            commercialBudgetDTO.setCreatedBy(currentUser);
-            commercialBudgetDTO.setCreatedOn(currentDateTime);
-        }
-        else {
-            if(commercialBudgetDTO.getBudgetStatus().equals(CommercialBudgetStatus.APPROVED)) {
-                CommercialPiDTO commercialPiDTO = new CommercialPiDTO();
-                commercialPiDTO.setProformaNo(commercialBudgetDTO.getProformaNo());
-                commercialPiDTO.setCommercialBudgetId(commercialBudgetDTO.getId());
-                commercialPiDTO.setCommercialBudgetBudgetNo(commercialBudgetDTO.getBudgetNo());
-                commercialPiDTO.setPiStatus(CommercialPiStatus.WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER);
-
-                commercialPiService.save(commercialPiDTO);
-            }
-            commercialBudgetDTO.setUpdatedBy(currentUser);
-            commercialBudgetDTO.setUpdatedOn(currentDateTime);
-        }
         CommercialBudget commercialBudget = commercialBudgetMapper.toEntity(commercialBudgetDTO);
         commercialBudget = commercialBudgetRepository.save(commercialBudget);
         CommercialBudgetDTO result = commercialBudgetMapper.toDto(commercialBudget);

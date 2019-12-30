@@ -89,14 +89,14 @@ public class CommercialProductInfoQueryService extends QueryService<CommercialPr
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), CommercialProductInfo_.id));
             }
-            if (criteria.getSerialNo() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getSerialNo(), CommercialProductInfo_.serialNo));
+            if (criteria.getTaskNo() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTaskNo(), CommercialProductInfo_.taskNo));
             }
-            if (criteria.getPackagingDescription() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getPackagingDescription(), CommercialProductInfo_.packagingDescription));
+            if (criteria.getProductSpecification() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductSpecification(), CommercialProductInfo_.productSpecification));
             }
-            if (criteria.getOthersDescription() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getOthersDescription(), CommercialProductInfo_.othersDescription));
+            if (criteria.getSpSize() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSpSize(), CommercialProductInfo_.spSize));
             }
             if (criteria.getOfferedQuantity() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getOfferedQuantity(), CommercialProductInfo_.offeredQuantity));
@@ -109,6 +109,57 @@ public class CommercialProductInfoQueryService extends QueryService<CommercialPr
             }
             if (criteria.getOfferedTotalPrice() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getOfferedTotalPrice(), CommercialProductInfo_.offeredTotalPrice));
+            }
+            if (criteria.getSpSticker() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSpSticker(), CommercialProductInfo_.spSticker));
+            }
+            if (criteria.getSpLabel() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSpLabel(), CommercialProductInfo_.spLabel));
+            }
+            if (criteria.getSpQtyInPack() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSpQtyInPack(), CommercialProductInfo_.spQtyInPack));
+            }
+            if (criteria.getSpQtyInMc() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSpQtyInMc(), CommercialProductInfo_.spQtyInMc));
+            }
+            if (criteria.getIpColor() != null) {
+                specification = specification.and(buildSpecification(criteria.getIpColor(), CommercialProductInfo_.ipColor));
+            }
+            if (criteria.getIpSize() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getIpSize(), CommercialProductInfo_.ipSize));
+            }
+            if (criteria.getIpSticker() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getIpSticker(), CommercialProductInfo_.ipSticker));
+            }
+            if (criteria.getIpLabel() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getIpLabel(), CommercialProductInfo_.ipLabel));
+            }
+            if (criteria.getIpQtyInMc() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getIpQtyInMc(), CommercialProductInfo_.ipQtyInMc));
+            }
+            if (criteria.getMcColor() != null) {
+                specification = specification.and(buildSpecification(criteria.getMcColor(), CommercialProductInfo_.mcColor));
+            }
+            if (criteria.getMcPly() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMcPly(), CommercialProductInfo_.mcPly));
+            }
+            if (criteria.getMcSize() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMcSize(), CommercialProductInfo_.mcSize));
+            }
+            if (criteria.getMcSticker() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMcSticker(), CommercialProductInfo_.mcSticker));
+            }
+            if (criteria.getMcLabel() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMcLabel(), CommercialProductInfo_.mcLabel));
+            }
+            if (criteria.getCylColor() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCylColor(), CommercialProductInfo_.cylColor));
+            }
+            if (criteria.getCylSize() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCylSize(), CommercialProductInfo_.cylSize));
+            }
+            if (criteria.getCylQty() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCylQty(), CommercialProductInfo_.cylQty));
             }
             if (criteria.getBuyingQuantity() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getBuyingQuantity(), CommercialProductInfo_.buyingQuantity));

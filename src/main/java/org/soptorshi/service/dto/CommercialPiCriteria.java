@@ -27,7 +27,7 @@ public class CommercialPiCriteria implements Serializable {
 
     private StringFilter companyName;
 
-    private StringFilter companyDescriptionOrAddress;
+    private StringFilter companyDescription;
 
     private StringFilter proformaNo;
 
@@ -75,12 +75,12 @@ public class CommercialPiCriteria implements Serializable {
         this.companyName = companyName;
     }
 
-    public StringFilter getCompanyDescriptionOrAddress() {
-        return companyDescriptionOrAddress;
+    public StringFilter getCompanyDescription() {
+        return companyDescription;
     }
 
-    public void setCompanyDescriptionOrAddress(StringFilter companyDescriptionOrAddress) {
-        this.companyDescriptionOrAddress = companyDescriptionOrAddress;
+    public void setCompanyDescription(StringFilter companyDescription) {
+        this.companyDescription = companyDescription;
     }
 
     public StringFilter getProformaNo() {
@@ -216,7 +216,7 @@ public class CommercialPiCriteria implements Serializable {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(companyName, that.companyName) &&
-            Objects.equals(companyDescriptionOrAddress, that.companyDescriptionOrAddress) &&
+            Objects.equals(companyDescription, that.companyDescription) &&
             Objects.equals(proformaNo, that.proformaNo) &&
             Objects.equals(proformaDate, that.proformaDate) &&
             Objects.equals(harmonicCode, that.harmonicCode) &&
@@ -239,7 +239,7 @@ public class CommercialPiCriteria implements Serializable {
         return Objects.hash(
         id,
         companyName,
-        companyDescriptionOrAddress,
+        companyDescription,
         proformaNo,
         proformaDate,
         harmonicCode,
@@ -263,7 +263,7 @@ public class CommercialPiCriteria implements Serializable {
         return "CommercialPiCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (companyName != null ? "companyName=" + companyName + ", " : "") +
-                (companyDescriptionOrAddress != null ? "companyDescriptionOrAddress=" + companyDescriptionOrAddress + ", " : "") +
+                (companyDescription != null ? "companyDescription=" + companyDescription + ", " : "") +
                 (proformaNo != null ? "proformaNo=" + proformaNo + ", " : "") +
                 (proformaDate != null ? "proformaDate=" + proformaDate + ", " : "") +
                 (harmonicCode != null ? "harmonicCode=" + harmonicCode + ", " : "") +

@@ -4,9 +4,9 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.CommercialPoQueryService;
-import org.soptorshi.service.CommercialPoService;
 import org.soptorshi.service.dto.CommercialPoCriteria;
 import org.soptorshi.service.dto.CommercialPoDTO;
+import org.soptorshi.service.extended.CommercialPoExtendedService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
@@ -33,11 +33,11 @@ public class CommercialPoExtendedResource {
 
     private static final String ENTITY_NAME = "commercialPo";
 
-    private final CommercialPoService commercialPoService;
+    private final CommercialPoExtendedService commercialPoService;
 
     private final CommercialPoQueryService commercialPoQueryService;
 
-    public CommercialPoExtendedResource(CommercialPoService commercialPoService, CommercialPoQueryService commercialPoQueryService) {
+    public CommercialPoExtendedResource(CommercialPoExtendedService commercialPoService, CommercialPoQueryService commercialPoQueryService) {
         this.commercialPoService = commercialPoService;
         this.commercialPoQueryService = commercialPoQueryService;
     }

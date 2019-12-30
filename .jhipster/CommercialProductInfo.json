@@ -2,18 +2,22 @@
     "name": "CommercialProductInfo",
     "fields": [
         {
-            "fieldName": "serialNo",
+            "fieldName": "taskNo",
             "fieldType": "Integer",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "packagingDescription",
-            "fieldType": "String"
+            "fieldName": "productSpecification",
+            "fieldType": "ProductSpecification",
+            "fieldValues": "FILLET,STEAK,CUBE,BLOCK,BUTTERFLY",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
-            "fieldName": "othersDescription",
+            "fieldName": "spSize",
             "fieldType": "String"
         },
         {
@@ -44,6 +48,76 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "spSticker",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "spLabel",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "spQtyInPack",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "spQtyInMc",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "ipColor",
+            "fieldType": "PackColor",
+            "fieldValues": "PLAIN,PRINT,BOTH,NONE"
+        },
+        {
+            "fieldName": "ipSize",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ipSticker",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ipLabel",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ipQtyInMc",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "mcColor",
+            "fieldType": "PackColor",
+            "fieldValues": "PLAIN,PRINT,BOTH,NONE"
+        },
+        {
+            "fieldName": "mcPly",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "mcSize",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "mcSticker",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "mcLabel",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "cylColor",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "cylSize",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "cylQty",
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "buyingQuantity",

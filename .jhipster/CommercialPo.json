@@ -25,14 +25,6 @@
             "fieldType": "LocalDate"
         },
         {
-            "fieldName": "procurementId",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "inventoryId",
-            "fieldType": "String"
-        },
-        {
             "fieldName": "poStatus",
             "fieldType": "CommercialPoStatus",
             "fieldValues": "PO_CREATED,PREPARING_ORDER,PRODUCT_DELIVERED,ORDER_CLOSED"

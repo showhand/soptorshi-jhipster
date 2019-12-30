@@ -41,12 +41,6 @@ public class CommercialPo implements Serializable {
     @Column(name = "shipment_date")
     private LocalDate shipmentDate;
 
-    @Column(name = "procurement_id")
-    private String procurementId;
-
-    @Column(name = "inventory_id")
-    private String inventoryId;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "po_status")
     private CommercialPoStatus poStatus;
@@ -139,32 +133,6 @@ public class CommercialPo implements Serializable {
 
     public void setShipmentDate(LocalDate shipmentDate) {
         this.shipmentDate = shipmentDate;
-    }
-
-    public String getProcurementId() {
-        return procurementId;
-    }
-
-    public CommercialPo procurementId(String procurementId) {
-        this.procurementId = procurementId;
-        return this;
-    }
-
-    public void setProcurementId(String procurementId) {
-        this.procurementId = procurementId;
-    }
-
-    public String getInventoryId() {
-        return inventoryId;
-    }
-
-    public CommercialPo inventoryId(String inventoryId) {
-        this.inventoryId = inventoryId;
-        return this;
-    }
-
-    public void setInventoryId(String inventoryId) {
-        this.inventoryId = inventoryId;
     }
 
     public CommercialPoStatus getPoStatus() {
@@ -275,8 +243,6 @@ public class CommercialPo implements Serializable {
             ", originOfGoods='" + getOriginOfGoods() + "'" +
             ", finalDestination='" + getFinalDestination() + "'" +
             ", shipmentDate='" + getShipmentDate() + "'" +
-            ", procurementId='" + getProcurementId() + "'" +
-            ", inventoryId='" + getInventoryId() + "'" +
             ", poStatus='" + getPoStatus() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
