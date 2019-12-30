@@ -662,11 +662,8 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'requisition-voucher-relation',
-                loadChildren: './requisition-voucher-relation/requisition-voucher-relation.module#SoptorshiRequisitionVoucherRelationModule'
-            },
-            {
-                path: 'requisition',
-                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
+                loadChildren:
+                    './requisition-voucher-relation-extended/requisition-voucher-relation-extended.module#SoptorshiRequisitionVoucherRelationModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
