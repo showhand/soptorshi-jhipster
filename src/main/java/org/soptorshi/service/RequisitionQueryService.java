@@ -3,7 +3,7 @@ package org.soptorshi.service;
 import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.Requisition;
+import org.soptorshi.domain.*;
 import org.soptorshi.repository.RequisitionRepository;
 import org.soptorshi.repository.search.RequisitionSearchRepository;
 import org.soptorshi.service.dto.RequisitionCriteria;
