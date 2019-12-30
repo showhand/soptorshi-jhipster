@@ -26,6 +26,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="requisition_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="reason" type="clob">
                 <constraints nullable="true" />
             </column>

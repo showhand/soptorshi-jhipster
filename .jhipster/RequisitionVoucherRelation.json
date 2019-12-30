@@ -1,0 +1,44 @@
+{
+    "name": "RequisitionVoucherRelation",
+    "fields": [
+        {
+            "fieldName": "voucherType",
+            "fieldType": "VoucherType",
+            "fieldValues": "SELLING,BUYING"
+        },
+        {
+            "fieldName": "voucherNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "requisition",
+            "otherEntityRelationshipName": "requisitionVoucherRelation",
+            "relationshipName": "requisition",
+            "otherEntityField": "requisitionNo"
+        }
+    ],
+    "changelogDate": "20191230045455",
+    "entityTableName": "requisition_voucher_relation",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -6,6 +6,11 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "requisitionType",
+            "fieldType": "RequisitionType",
+            "fieldValues": "NORMAL,SUPPLY_CHAIN,COMMERCIAL"
+        },
+        {
             "fieldName": "reason",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text"

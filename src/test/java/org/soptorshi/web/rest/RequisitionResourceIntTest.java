@@ -51,6 +51,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.soptorshi.domain.enumeration.RequisitionType;
 import org.soptorshi.domain.enumeration.RequisitionStatus;
 /**
  * Test class for the RequisitionResource REST controller.
@@ -63,6 +64,9 @@ public class RequisitionResourceIntTest {
 
     private static final String DEFAULT_REQUISITION_NO = "AAAAAAAAAA";
     private static final String UPDATED_REQUISITION_NO = "BBBBBBBBBB";
+
+    private static final RequisitionType DEFAULT_REQUISITION_TYPE = RequisitionType.NORMAL;
+    private static final RequisitionType UPDATED_REQUISITION_TYPE = RequisitionType.SUPPLY_CHAIN;
 
     private static final String DEFAULT_REASON = "AAAAAAAAAA";
     private static final String UPDATED_REASON = "BBBBBBBBBB";
@@ -163,6 +167,7 @@ public class RequisitionResourceIntTest {
     public static Requisition createEntity(EntityManager em) {
         Requisition requisition = new Requisition()
             .requisitionNo(DEFAULT_REQUISITION_NO)
+            .requisitionType(DEFAULT_REQUISITION_TYPE)
             .reason(DEFAULT_REASON)
             .requisitionDate(DEFAULT_REQUISITION_DATE)
             .amount(DEFAULT_AMOUNT)
@@ -201,6 +206,7 @@ public class RequisitionResourceIntTest {
         assertThat(requisitionList).hasSize(databaseSizeBeforeCreate + 1);
         Requisition testRequisition = requisitionList.get(requisitionList.size() - 1);
         assertThat(testRequisition.getRequisitionNo()).isEqualTo(DEFAULT_REQUISITION_NO);
+        assertThat(testRequisition.getRequisitionType()).isEqualTo(DEFAULT_REQUISITION_TYPE);
         assertThat(testRequisition.getReason()).isEqualTo(DEFAULT_REASON);
         assertThat(testRequisition.getRequisitionDate()).isEqualTo(DEFAULT_REQUISITION_DATE);
         assertThat(testRequisition.getAmount()).isEqualTo(DEFAULT_AMOUNT);
@@ -254,6 +260,7 @@ public class RequisitionResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(requisition.getId().intValue())))
             .andExpect(jsonPath("$.[*].requisitionNo").value(hasItem(DEFAULT_REQUISITION_NO.toString())))
+            .andExpect(jsonPath("$.[*].requisitionType").value(hasItem(DEFAULT_REQUISITION_TYPE.toString())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].requisitionDate").value(hasItem(DEFAULT_REQUISITION_DATE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
@@ -281,6 +288,7 @@ public class RequisitionResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(requisition.getId().intValue()))
             .andExpect(jsonPath("$.requisitionNo").value(DEFAULT_REQUISITION_NO.toString()))
+            .andExpect(jsonPath("$.requisitionType").value(DEFAULT_REQUISITION_TYPE.toString()))
             .andExpect(jsonPath("$.reason").value(DEFAULT_REASON.toString()))
             .andExpect(jsonPath("$.requisitionDate").value(DEFAULT_REQUISITION_DATE.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
@@ -333,6 +341,45 @@ public class RequisitionResourceIntTest {
 
         // Get all the requisitionList where requisitionNo is null
         defaultRequisitionShouldNotBeFound("requisitionNo.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRequisitionTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where requisitionType equals to DEFAULT_REQUISITION_TYPE
+        defaultRequisitionShouldBeFound("requisitionType.equals=" + DEFAULT_REQUISITION_TYPE);
+
+        // Get all the requisitionList where requisitionType equals to UPDATED_REQUISITION_TYPE
+        defaultRequisitionShouldNotBeFound("requisitionType.equals=" + UPDATED_REQUISITION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRequisitionTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where requisitionType in DEFAULT_REQUISITION_TYPE or UPDATED_REQUISITION_TYPE
+        defaultRequisitionShouldBeFound("requisitionType.in=" + DEFAULT_REQUISITION_TYPE + "," + UPDATED_REQUISITION_TYPE);
+
+        // Get all the requisitionList where requisitionType equals to UPDATED_REQUISITION_TYPE
+        defaultRequisitionShouldNotBeFound("requisitionType.in=" + UPDATED_REQUISITION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByRequisitionTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where requisitionType is not null
+        defaultRequisitionShouldBeFound("requisitionType.specified=true");
+
+        // Get all the requisitionList where requisitionType is null
+        defaultRequisitionShouldNotBeFound("requisitionType.specified=false");
     }
 
     @Test
@@ -924,6 +971,7 @@ public class RequisitionResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(requisition.getId().intValue())))
             .andExpect(jsonPath("$.[*].requisitionNo").value(hasItem(DEFAULT_REQUISITION_NO)))
+            .andExpect(jsonPath("$.[*].requisitionType").value(hasItem(DEFAULT_REQUISITION_TYPE.toString())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].requisitionDate").value(hasItem(DEFAULT_REQUISITION_DATE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
@@ -985,6 +1033,7 @@ public class RequisitionResourceIntTest {
         em.detach(updatedRequisition);
         updatedRequisition
             .requisitionNo(UPDATED_REQUISITION_NO)
+            .requisitionType(UPDATED_REQUISITION_TYPE)
             .reason(UPDATED_REASON)
             .requisitionDate(UPDATED_REQUISITION_DATE)
             .amount(UPDATED_AMOUNT)
@@ -1010,6 +1059,7 @@ public class RequisitionResourceIntTest {
         assertThat(requisitionList).hasSize(databaseSizeBeforeUpdate);
         Requisition testRequisition = requisitionList.get(requisitionList.size() - 1);
         assertThat(testRequisition.getRequisitionNo()).isEqualTo(UPDATED_REQUISITION_NO);
+        assertThat(testRequisition.getRequisitionType()).isEqualTo(UPDATED_REQUISITION_TYPE);
         assertThat(testRequisition.getReason()).isEqualTo(UPDATED_REASON);
         assertThat(testRequisition.getRequisitionDate()).isEqualTo(UPDATED_REQUISITION_DATE);
         assertThat(testRequisition.getAmount()).isEqualTo(UPDATED_AMOUNT);
@@ -1084,6 +1134,7 @@ public class RequisitionResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(requisition.getId().intValue())))
             .andExpect(jsonPath("$.[*].requisitionNo").value(hasItem(DEFAULT_REQUISITION_NO)))
+            .andExpect(jsonPath("$.[*].requisitionType").value(hasItem(DEFAULT_REQUISITION_TYPE.toString())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].requisitionDate").value(hasItem(DEFAULT_REQUISITION_DATE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))

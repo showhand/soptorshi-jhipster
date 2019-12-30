@@ -6,50 +6,32 @@ import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { RequisitionService } from 'app/entities/requisition/requisition.service';
-import { IRequisition, Requisition, RequisitionType, RequisitionStatus } from 'app/shared/model/requisition.model';
+import { RequisitionVoucherRelationService } from 'app/entities/requisition-voucher-relation/requisition-voucher-relation.service';
+import { IRequisitionVoucherRelation, RequisitionVoucherRelation, VoucherType } from 'app/shared/model/requisition-voucher-relation.model';
 
 describe('Service Tests', () => {
-    describe('Requisition Service', () => {
+    describe('RequisitionVoucherRelation Service', () => {
         let injector: TestBed;
-        let service: RequisitionService;
+        let service: RequisitionVoucherRelationService;
         let httpMock: HttpTestingController;
-        let elemDefault: IRequisition;
+        let elemDefault: IRequisitionVoucherRelation;
         let currentDate: moment.Moment;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
             });
             injector = getTestBed();
-            service = injector.get(RequisitionService);
+            service = injector.get(RequisitionVoucherRelationService);
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Requisition(
-                0,
-                'AAAAAAA',
-                RequisitionType.NORMAL,
-                'AAAAAAA',
-                currentDate,
-                0,
-                RequisitionStatus.WAITING_FOR_HEADS_APPROVAL,
-                false,
-                'AAAAAAA',
-                0,
-                'AAAAAAA',
-                0,
-                'AAAAAAA',
-                0,
-                'AAAAAAA',
-                currentDate
-            );
+            elemDefault = new RequisitionVoucherRelation(0, VoucherType.SELLING, 'AAAAAAA', 0, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        requisitionDate: currentDate.format(DATE_FORMAT),
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
@@ -63,46 +45,34 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should create a Requisition', async () => {
+            it('should create a RequisitionVoucherRelation', async () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
-                        requisitionDate: currentDate.format(DATE_FORMAT),
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
-                        requisitionDate: currentDate,
                         modifiedOn: currentDate
                     },
                     returnedFromService
                 );
                 service
-                    .create(new Requisition(null))
+                    .create(new RequisitionVoucherRelation(null))
                     .pipe(take(1))
                     .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
                 const req = httpMock.expectOne({ method: 'POST' });
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should update a Requisition', async () => {
+            it('should update a RequisitionVoucherRelation', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        requisitionNo: 'BBBBBB',
-                        requisitionType: 'BBBBBB',
-                        reason: 'BBBBBB',
-                        requisitionDate: currentDate.format(DATE_FORMAT),
+                        voucherType: 'BBBBBB',
+                        voucherNo: 'BBBBBB',
                         amount: 1,
-                        status: 'BBBBBB',
-                        selected: true,
-                        headRemarks: 'BBBBBB',
-                        refToHead: 1,
-                        purchaseCommitteeRemarks: 'BBBBBB',
-                        refToPurchaseCommittee: 1,
-                        cfoRemarks: 'BBBBBB',
-                        refToCfo: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -111,7 +81,6 @@ describe('Service Tests', () => {
 
                 const expected = Object.assign(
                     {
-                        requisitionDate: currentDate,
                         modifiedOn: currentDate
                     },
                     returnedFromService
@@ -124,22 +93,12 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should return a list of Requisition', async () => {
+            it('should return a list of RequisitionVoucherRelation', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        requisitionNo: 'BBBBBB',
-                        requisitionType: 'BBBBBB',
-                        reason: 'BBBBBB',
-                        requisitionDate: currentDate.format(DATE_FORMAT),
+                        voucherType: 'BBBBBB',
+                        voucherNo: 'BBBBBB',
                         amount: 1,
-                        status: 'BBBBBB',
-                        selected: true,
-                        headRemarks: 'BBBBBB',
-                        refToHead: 1,
-                        purchaseCommitteeRemarks: 'BBBBBB',
-                        refToPurchaseCommittee: 1,
-                        cfoRemarks: 'BBBBBB',
-                        refToCfo: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -147,7 +106,6 @@ describe('Service Tests', () => {
                 );
                 const expected = Object.assign(
                     {
-                        requisitionDate: currentDate,
                         modifiedOn: currentDate
                     },
                     returnedFromService
@@ -164,7 +122,7 @@ describe('Service Tests', () => {
                 httpMock.verify();
             });
 
-            it('should delete a Requisition', async () => {
+            it('should delete a RequisitionVoucherRelation', async () => {
                 const rxPromise = service.delete(123).subscribe(resp => expect(resp.ok));
 
                 const req = httpMock.expectOne({ method: 'DELETE' });

@@ -96,6 +96,9 @@ public class RequisitionQueryService extends QueryService<Requisition> {
             if (criteria.getRequisitionNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getRequisitionNo(), Requisition_.requisitionNo));
             }
+            if (criteria.getRequisitionType() != null) {
+                specification = specification.and(buildSpecification(criteria.getRequisitionType(), Requisition_.requisitionType));
+            }
             if (criteria.getRequisitionDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRequisitionDate(), Requisition_.requisitionDate));
             }

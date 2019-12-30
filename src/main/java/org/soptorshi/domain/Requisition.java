@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
+import org.soptorshi.domain.enumeration.RequisitionType;
+
 import org.soptorshi.domain.enumeration.RequisitionStatus;
 
 /**
@@ -32,6 +34,10 @@ public class Requisition implements Serializable {
 
     @Column(name = "requisition_no")
     private String requisitionNo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "requisition_type")
+    private RequisitionType requisitionType;
 
     @Lob
     @Column(name = "reason")
@@ -115,6 +121,19 @@ public class Requisition implements Serializable {
 
     public void setRequisitionNo(String requisitionNo) {
         this.requisitionNo = requisitionNo;
+    }
+
+    public RequisitionType getRequisitionType() {
+        return requisitionType;
+    }
+
+    public Requisition requisitionType(RequisitionType requisitionType) {
+        this.requisitionType = requisitionType;
+        return this;
+    }
+
+    public void setRequisitionType(RequisitionType requisitionType) {
+        this.requisitionType = requisitionType;
     }
 
     public String getReason() {
@@ -389,6 +408,7 @@ public class Requisition implements Serializable {
         return "Requisition{" +
             "id=" + getId() +
             ", requisitionNo='" + getRequisitionNo() + "'" +
+            ", requisitionType='" + getRequisitionType() + "'" +
             ", reason='" + getReason() + "'" +
             ", requisitionDate='" + getRequisitionDate() + "'" +
             ", amount=" + getAmount() +
