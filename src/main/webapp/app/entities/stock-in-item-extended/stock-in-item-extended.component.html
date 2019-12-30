@@ -107,49 +107,72 @@
             <table class="table table-striped">
                 <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-                    <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="unit"><span>Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="price"><span>Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="containerCategory"><span>Container Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="containerTrackingId"><span>Container Tracking Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="id"><span>ID</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="productCategoriesName"><span>Product Categories</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="productsName"><span>Products</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="quantity"><span>Quantity</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="unit"><span>Unit</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="price"><span>Price</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="containerCategory"><span>Container Category</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="containerTrackingId"><span>Container Tracking Id</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
                     <!--<th jhiSortBy="mfgDate"><span>Mfg Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="expiryDate"><span>Expiry Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="typeOfProduct"><span>Type Of Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="stockInBy"><span>Stock In By</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-                    <th jhiSortBy="stockInDate"><span>Stock In Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="stockInDate"><span>Stock In Date</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
                     <!--<th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="vendorCompanyName"><span>Vendor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="stockInProcessesId"><span>Stock In Processes</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="purchaseOrdersPurchaseOrderNo"><span>Purchase Orders</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+                    <th jhiSortBy="requisitionsRequisitionNo"><span>Requisitions</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
                     <th></th>
                 </tr>
                 </thead>
-                <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+                <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                       [infiniteScrollDistance]="0">
                 <tr *ngFor="let stockInItem of stockInItems ;trackBy: trackId">
                     <td><a [routerLink]="['/stock-in-item', stockInItem.id, 'view' ]">{{stockInItem.id}}</a></td>
                     <td>
                         <div *ngIf="stockInItem.productCategoriesId">
-                            <a [routerLink]="['../product-category', stockInItem.productCategoriesId , 'view' ]" >{{stockInItem.productCategoriesName}}</a>
+                            <a [routerLink]="['../product-category', stockInItem.productCategoriesId , 'view' ]">{{stockInItem.productCategoriesName}}</a>
                         </div>
                     </td>
                     <td>
                         <div *ngIf="stockInItem.productsId">
-                            <a [routerLink]="['../product', stockInItem.productsId , 'view' ]" >{{stockInItem.productsName}}</a>
+                            <a [routerLink]="['../product', stockInItem.productsId , 'view' ]">{{stockInItem.productsName}}</a>
                         </div>
                     </td>
                     <td>
                         <div *ngIf="stockInItem.inventoryLocationsId">
-                            <a [routerLink]="['../inventory-location', stockInItem.inventoryLocationsId , 'view' ]" >{{stockInItem.inventoryLocationsName}}</a>
+                            <a [routerLink]="['../inventory-location', stockInItem.inventoryLocationsId , 'view' ]">{{stockInItem.inventoryLocationsName}}</a>
                         </div>
                     </td>
                     <td>
                         <div *ngIf="stockInItem.inventorySubLocationsId">
-                            <a [routerLink]="['../inventory-sub-location', stockInItem.inventorySubLocationsId , 'view' ]" >{{stockInItem.inventorySubLocationsName}}</a>
+                            <a [routerLink]="['../inventory-sub-location', stockInItem.inventorySubLocationsId , 'view' ]">{{stockInItem.inventorySubLocationsName}}</a>
                         </div>
                     </td>
                     <td>{{stockInItem.quantity}}</td>
@@ -174,8 +197,8 @@
                         </div>
                     </td>
                     <td>
-                        <div *ngIf="stockInItem.purchaseOrdersId">
-                            <a [routerLink]="['../purchase-order', stockInItem.purchaseOrdersId , 'view' ]" >{{stockInItem.purchaseOrdersPurchaseOrderNo}}</a>
+                        <div *ngIf="stockInItem.requisitionsId">
+                            <a [routerLink]="['../requisition', stockInItem.requisitionsId , 'view' ]" >{{stockInItem.requisitionsRequisitionNo}}</a>
                         </div>
                     </td>-->
                     <td class="text-right" width="20%">

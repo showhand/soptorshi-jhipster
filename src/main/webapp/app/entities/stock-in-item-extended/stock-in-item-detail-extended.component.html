@@ -85,10 +85,10 @@
                         <a [routerLink]="['/stock-in-process', stockInItem.stockInProcessesId, 'view']">{{stockInItem.stockInProcessesId}}</a>
                     </div>
                 </dd>
-                <dt><span>Purchase Orders</span></dt>
+                <dt><span>Requisitions</span></dt>
                 <dd>
-                    <div *ngIf="stockInItem.purchaseOrdersId">
-                        <a [routerLink]="['/purchase-order', stockInItem.purchaseOrdersId, 'view']">{{stockInItem.purchaseOrdersPurchaseOrderNo}}</a>
+                    <div *ngIf="stockInItem.requisitionsId">
+                        <a [routerLink]="['/requisition', stockInItem.requisitionsId, 'view']">{{stockInItem.requisitionsRequisitionNo}}</a>
                     </div>
                 </dd>
             </dl>
@@ -99,11 +99,11 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
 
-            <button type="button"
+            <!--<button type="button"
                     [routerLink]="['/stock-in-item', stockInItem.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>
+            </button>-->
         </div>
     </div>
 </div>
