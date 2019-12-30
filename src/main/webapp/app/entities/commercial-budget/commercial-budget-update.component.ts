@@ -50,7 +50,7 @@ export class CommercialBudgetUpdateComponent implements OnInit {
 
     protected onSaveSuccess() {
         this.isSaving = false;
-        /*this.previousState();*/
+        this.previousState();
     }
 
     protected onSaveError() {
