@@ -5,9 +5,8 @@ import { Observable, Subscription } from 'rxjs';
 import { LeaveApplicationService } from 'app/entities/leave-application/leave-application.service';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
-import { DATE_TIME_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
+import { ITEMS_PER_PAGE } from 'app/shared';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import * as moment from 'app/entities/leave-application/leave-application-update.component';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
 import { ManagerService } from 'app/entities/manager';
@@ -15,8 +14,7 @@ import { IManager } from 'app/shared/model/manager.model';
 
 @Component({
     selector: 'jhi-review-leave-application',
-    templateUrl: './review-leave-application.component.html',
-    styles: []
+    templateUrl: './review-leave-application.component.html'
 })
 export class ReviewLeaveApplicationComponent implements OnInit, OnDestroy {
     leaveApplications: ILeaveApplication[];

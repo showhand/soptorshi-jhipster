@@ -30,7 +30,7 @@ export class StockInProcessExtendedComponent extends StockInProcessComponent {
         this.reverse = false;
     }
 
-    protected hunt() {
+    hunt() {
         this.stockInProcesses = [];
         this.stockInProcessService
             .query({
