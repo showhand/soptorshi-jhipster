@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
@@ -14,6 +13,7 @@ import { EmployeeService } from 'app/entities/employee';
 import { AccountService } from 'app/core';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { PurchaseOrderService, PurchaseOrderUpdateComponent } from 'app/entities/purchase-order';
+import { NgForm } from '@angular/forms';
 
 @Component({
     selector: 'jhi-purchase-order-update',
@@ -22,6 +22,8 @@ import { PurchaseOrderService, PurchaseOrderUpdateComponent } from 'app/entities
 export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateComponent implements OnInit {
     currentAccount: any;
     currentEmployee: IEmployee;
+
+    @ViewChild('editForm') editForm: NgForm;
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -39,6 +41,8 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
     ngOnInit() {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
+            console.log('Current account --->');
+            console.log(this.currentAccount);
             this.employeeService
                 .query({
                     'employeeId.equals': this.currentAccount.login
@@ -49,12 +53,26 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
+
+            this.activatedRoute.data.subscribe(({ purchaseOrder }) => {
+                this.purchaseOrder = purchaseOrder;
+                if (
+                    (this.purchaseOrder.status == PurchaseOrderStatus.MODIFICATION_REQUEST_BY_CFO || this.purchaseOrder.status == null) &&
+                    this.currentAccount.attributes.includes('ROLE_REQUISITIONER')
+                ) {
+                    setTimeout(() => {
+                        this.editForm.form.enable();
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        this.editForm.form.disable();
+                    }, 500);
+                }
+            });
         });
 
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ purchaseOrder }) => {
-            this.purchaseOrder = purchaseOrder;
-        });
+
         this.requisitionService
             .query()
             .pipe(

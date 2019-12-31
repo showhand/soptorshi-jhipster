@@ -83,8 +83,8 @@ public class PurchaseOrderResourceIntTest {
     private static final Double DEFAULT_DISCOUNT = 1D;
     private static final Double UPDATED_DISCOUNT = 2D;
 
-    private static final PurchaseOrderStatus DEFAULT_STATUS = PurchaseOrderStatus.WAITING_FOR_CFO_APPROVAL;
-    private static final PurchaseOrderStatus UPDATED_STATUS = PurchaseOrderStatus.APPROVED_BY_CFO;
+    private static final PurchaseOrderStatus DEFAULT_STATUS = PurchaseOrderStatus.WAITING_FOR_ACCOUNTS_APPROVAL;
+    private static final PurchaseOrderStatus UPDATED_STATUS = PurchaseOrderStatus.APPROVED_BY_ACCOUNTS;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
