@@ -29,7 +29,6 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="purchaseOrderNo"><span>Purchase Order No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="issueDate"><span>Issue Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -40,7 +39,6 @@
             </thead>
             <tbody>
             <tr *ngFor="let purchaseOrder of purchaseOrders ;trackBy: trackId">
-                <td><a [routerLink]="['/purchase-order', purchaseOrder.id, 'view' ]">{{purchaseOrder.id}}</a></td>
                 <td>{{purchaseOrder.purchaseOrderNo}}</td>
                 <td>{{purchaseOrder.issueDate | date:'mediumDate'}}</td>
                 <td>{{purchaseOrder.status}}</td>
