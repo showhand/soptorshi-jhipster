@@ -4,6 +4,7 @@ import io.github.jhipster.service.filter.LongFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialProductInfo;
+import org.soptorshi.domain.enumeration.CommercialBudgetStatus;
 import org.soptorshi.repository.CommercialProductInfoRepository;
 import org.soptorshi.repository.search.CommercialProductInfoSearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -60,49 +61,52 @@ public class CommercialProductInfoExtendedService extends CommercialProductInfoS
     @Transactional
     public CommercialProductInfoDTO save(CommercialProductInfoDTO commercialProductInfoDTO) {
         log.debug("Request to save CommercialProductInfo : {}", commercialProductInfoDTO);
-        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
-        Instant currentDateTime = Instant.now();
-
-        if (commercialProductInfoDTO.getId() == null) {
-            commercialProductInfoDTO.setCreatedBy(currentUser);
-            commercialProductInfoDTO.setCreatedOn(currentDateTime);
-        } else {
-            commercialProductInfoDTO.setUpdatedBy(currentUser);
-            commercialProductInfoDTO.setUpdatedOn(currentDateTime);
-        }
-        CommercialProductInfo commercialProductInfo = commercialProductInfoMapper.toEntity(commercialProductInfoDTO);
-        commercialProductInfo = commercialProductInfoRepository.save(commercialProductInfo);
-        CommercialProductInfoDTO result = commercialProductInfoMapper.toDto(commercialProductInfo);
-
-        commercialProductInfoSearchRepository.save(commercialProductInfo);
-        Optional<CommercialBudgetDTO> commercialBudgetDTO = commercialBudgetExtendedService.findOne(commercialProductInfo.getCommercialBudget().getId());
+        Optional<CommercialBudgetDTO> commercialBudgetDTO = commercialBudgetExtendedService.findOne(commercialProductInfoDTO.getCommercialBudgetId());
         if (commercialBudgetDTO.isPresent()) {
+            if (!commercialBudgetDTO.get().getBudgetStatus().equals(CommercialBudgetStatus.APPROVED)) {
+                String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+                Instant currentDateTime = Instant.now();
 
-            List<CommercialProductInfoDTO> commercialProductInfoDTOS = getAllProductInfoByBudgetId(commercialBudgetDTO.get().getId());
+                if (commercialProductInfoDTO.getId() == null) {
+                    commercialProductInfoDTO.setCreatedBy(currentUser);
+                    commercialProductInfoDTO.setCreatedOn(currentDateTime);
+                } else {
+                    commercialProductInfoDTO.setUpdatedBy(currentUser);
+                    commercialProductInfoDTO.setUpdatedOn(currentDateTime);
+                }
+                CommercialProductInfo commercialProductInfo = commercialProductInfoMapper.toEntity(commercialProductInfoDTO);
+                commercialProductInfo = commercialProductInfoRepository.save(commercialProductInfo);
+                CommercialProductInfoDTO result = commercialProductInfoMapper.toDto(commercialProductInfo);
 
-            BigDecimal totalQuantity = BigDecimal.ZERO;
-            BigDecimal totalOfferedPrice = BigDecimal.ZERO;
-            BigDecimal totalBuyingPrice = BigDecimal.ZERO;
-            BigDecimal profitAmount = BigDecimal.ZERO;
-            BigDecimal profitPercentage = BigDecimal.ZERO;
+                commercialProductInfoSearchRepository.save(commercialProductInfo);
 
-            for(CommercialProductInfoDTO commercialProductInfoDTO1: commercialProductInfoDTOS) {
-                totalQuantity = commercialProductInfoDTO1.getOfferedQuantity().add(totalQuantity);
-                totalOfferedPrice = commercialProductInfoDTO1.getOfferedTotalPrice().add(totalOfferedPrice);
-                totalBuyingPrice = commercialProductInfoDTO1.getBuyingTotalPrice().add(totalBuyingPrice);
-                profitAmount = profitAmount.add(commercialProductInfoDTO1.getOfferedTotalPrice().subtract(commercialProductInfoDTO1.getBuyingTotalPrice()));
-                profitPercentage = ((totalOfferedPrice.subtract(totalBuyingPrice)).divide(totalBuyingPrice, 7, RoundingMode.CEILING)).multiply(BigDecimal.valueOf(100));
+                List<CommercialProductInfoDTO> commercialProductInfoDTOS = getAllProductInfoByBudgetId(commercialBudgetDTO.get().getId());
+
+                BigDecimal totalQuantity = BigDecimal.ZERO;
+                BigDecimal totalOfferedPrice = BigDecimal.ZERO;
+                BigDecimal totalBuyingPrice = BigDecimal.ZERO;
+                BigDecimal profitAmount = BigDecimal.ZERO;
+                BigDecimal profitPercentage = BigDecimal.ZERO;
+
+                for (CommercialProductInfoDTO commercialProductInfoDTO1 : commercialProductInfoDTOS) {
+                    totalQuantity = commercialProductInfoDTO1.getOfferedQuantity().add(totalQuantity);
+                    totalOfferedPrice = commercialProductInfoDTO1.getOfferedTotalPrice().add(totalOfferedPrice);
+                    totalBuyingPrice = commercialProductInfoDTO1.getBuyingTotalPrice().add(totalBuyingPrice);
+                    profitAmount = profitAmount.add(commercialProductInfoDTO1.getOfferedTotalPrice().subtract(commercialProductInfoDTO1.getBuyingTotalPrice()));
+                    profitPercentage = ((totalOfferedPrice.subtract(totalBuyingPrice)).divide(totalBuyingPrice, 7, RoundingMode.CEILING)).multiply(BigDecimal.valueOf(100));
+                }
+
+                commercialBudgetDTO.get().setTotalQuantity(totalQuantity);
+                commercialBudgetDTO.get().setTotalOfferedPrice(totalOfferedPrice);
+                commercialBudgetDTO.get().setTotalBuyingPrice(totalBuyingPrice);
+                commercialBudgetDTO.get().setProfitAmount(profitAmount);
+                commercialBudgetDTO.get().setProfitPercentage(profitPercentage);
+                commercialBudgetExtendedService.save(commercialBudgetDTO.get());
+
+                return result;
             }
-
-            commercialBudgetDTO.get().setTotalQuantity(totalQuantity);
-            commercialBudgetDTO.get().setTotalOfferedPrice(totalOfferedPrice);
-            commercialBudgetDTO.get().setTotalBuyingPrice(totalBuyingPrice);
-            commercialBudgetDTO.get().setProfitAmount(profitAmount);
-            commercialBudgetDTO.get().setProfitPercentage(profitPercentage);
-            commercialBudgetExtendedService.save(commercialBudgetDTO.get());
         }
-
-        return result;
+        return null;
     }
 
     public List<CommercialProductInfoDTO> getAllProductInfoByBudgetId(Long commercialBudgetId) {

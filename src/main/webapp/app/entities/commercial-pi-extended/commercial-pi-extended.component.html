@@ -41,16 +41,16 @@
                     <th jhiSortBy="companyName"><span>Company Name</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="companyDescriptionOrAddress"><span>Company Description</span>
+                    <!--<th jhiSortBy="companyDescriptionOrAddress"><span>Company Description</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
+                    </th>-->
                     <th jhiSortBy="proformaNo"><span>Proforma No</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="proformaDate"><span>Proforma Date</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="harmonicCode"><span>Harmonic Code</span>
+                    <!--<th jhiSortBy="harmonicCode"><span>Harmonic Code</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="paymentTerm"><span>Payment Term</span>
@@ -67,7 +67,7 @@
                     </th>
                     <th jhiSortBy="portOfDestination"><span>Port Of Destination</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
+                    </th>-->
                     <th jhiSortBy="purchaseOrderNo"><span>Purchase Order No</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -82,15 +82,15 @@
                 <tr *ngFor="let commercialPi of commercialPis ;trackBy: trackId">
                     <td><a [routerLink]="['/commercial-pi', commercialPi.id, 'view' ]">{{commercialPi.id}}</a></td>
                     <td>{{commercialPi.companyName}}</td>
-                    <td>{{commercialPi.companyDescription}}</td>
+                    <!--<td>{{commercialPi.companyDescription}}</td>-->
                     <td>{{commercialPi.proformaNo}}</td>
                     <td>{{commercialPi.proformaDate | date:'mediumDate'}}</td>
-                    <td>{{commercialPi.harmonicCode}}</td>
+                    <!--<td>{{commercialPi.harmonicCode}}</td>
                     <td>{{commercialPi.paymentTerm}}</td>
                     <td>{{commercialPi.termsOfDelivery}}</td>
                     <td>{{commercialPi.shipmentDate}}</td>
                     <td>{{commercialPi.portOfLoading}}</td>
-                    <td>{{commercialPi.portOfDestination}}</td>
+                    <td>{{commercialPi.portOfDestination}}</td>-->
                     <td>{{commercialPi.purchaseOrderNo}}</td>
                     <td>{{commercialPi.piStatus}}</td>
                     <td>
