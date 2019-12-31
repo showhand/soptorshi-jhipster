@@ -1,4 +1,11 @@
-import {Moment} from 'moment';
+import { Moment } from 'moment';
+import { IRequisitionMessages } from 'app/shared/model/requisition-messages.model';
+
+export const enum RequisitionType {
+    NORMAL = 'NORMAL',
+    SUPPLY_CHAIN = 'SUPPLY_CHAIN',
+    COMMERCIAL = 'COMMERCIAL'
+}
 
 export const enum RequisitionStatus {
     WAITING_FOR_HEADS_APPROVAL = 'WAITING_FOR_HEADS_APPROVAL',
@@ -18,6 +25,7 @@ export const enum RequisitionStatus {
 export interface IRequisition {
     id?: number;
     requisitionNo?: string;
+    requisitionType?: RequisitionType;
     reason?: any;
     requisitionDate?: Moment;
     amount?: number;
@@ -31,6 +39,7 @@ export interface IRequisition {
     refToCfo?: number;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    comments?: IRequisitionMessages[];
     employeeFullName?: string;
     employeeId?: number;
     officeName?: string;
@@ -45,6 +54,7 @@ export class Requisition implements IRequisition {
     constructor(
         public id?: number,
         public requisitionNo?: string,
+        public requisitionType?: RequisitionType,
         public reason?: any,
         public requisitionDate?: Moment,
         public amount?: number,
@@ -58,6 +68,7 @@ export class Requisition implements IRequisition {
         public refToCfo?: number,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
+        public comments?: IRequisitionMessages[],
         public employeeFullName?: string,
         public employeeId?: number,
         public officeName?: string,

@@ -22,7 +22,7 @@
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let requisitionVoucherRelation of requisitionVoucherRelations ;trackBy: trackId">
-                <td>{{requisitionVoucherRelation.voucherType}}</td>
+                <td>{{requisitionVoucherRelation.voucherName}}</td>
                 <td>{{requisitionVoucherRelation.voucherNo}}</td>
                 <td>{{requisitionVoucherRelation.amount}}</td>
                 <td class="text-right">

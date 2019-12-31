@@ -5,10 +5,6 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Voucher Type</span></dt>
-                <dd>
-                    <span>{{requisitionVoucherRelation.voucherType}}</span>
-                </dd>
                 <dt><span>Voucher No</span></dt>
                 <dd>
                     <span>{{requisitionVoucherRelation.voucherNo}}</span>
@@ -24,6 +20,12 @@
                 <dt><span>Modified On</span></dt>
                 <dd>
                     <span>{{requisitionVoucherRelation.modifiedOn}}</span>
+                </dd>
+                <dt><span>Voucher</span></dt>
+                <dd>
+                    <div *ngIf="requisitionVoucherRelation.voucherId">
+                        <a [routerLink]="['/voucher', requisitionVoucherRelation.voucherId, 'view']">{{requisitionVoucherRelation.voucherName}}</a>
+                    </div>
                 </dd>
                 <dt><span>Requisition</span></dt>
                 <dd>

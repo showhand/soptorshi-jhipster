@@ -1,14 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {JhiAlertService, JhiDataUtils, JhiEventManager, JhiParseLinks} from 'ng-jhipster';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
-import {IRequisition} from 'app/shared/model/requisition.model';
-import {AccountService} from 'app/core';
+import { IRequisition } from 'app/shared/model/requisition.model';
+import { AccountService } from 'app/core';
 
-import {ITEMS_PER_PAGE} from 'app/shared';
-import {RequisitionService} from './requisition.service';
+import { ITEMS_PER_PAGE } from 'app/shared';
+import { RequisitionService } from './requisition.service';
 
 @Component({
     selector: 'jhi-requisition',

@@ -3,7 +3,6 @@ import java.time.LocalDate;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.VoucherType;
 
 /**
  * A DTO for the RequisitionVoucherRelation entity.
@@ -11,8 +10,6 @@ import org.soptorshi.domain.enumeration.VoucherType;
 public class RequisitionVoucherRelationDTO implements Serializable {
 
     private Long id;
-
-    private VoucherType voucherType;
 
     private String voucherNo;
 
@@ -22,6 +19,10 @@ public class RequisitionVoucherRelationDTO implements Serializable {
 
     private LocalDate modifiedOn;
 
+
+    private Long voucherId;
+
+    private String voucherName;
 
     private Long requisitionId;
 
@@ -33,14 +34,6 @@ public class RequisitionVoucherRelationDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
-
-    public void setVoucherType(VoucherType voucherType) {
-        this.voucherType = voucherType;
     }
 
     public String getVoucherNo() {
@@ -73,6 +66,22 @@ public class RequisitionVoucherRelationDTO implements Serializable {
 
     public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public Long getVoucherId() {
+        return voucherId;
+    }
+
+    public void setVoucherId(Long voucherId) {
+        this.voucherId = voucherId;
+    }
+
+    public String getVoucherName() {
+        return voucherName;
+    }
+
+    public void setVoucherName(String voucherName) {
+        this.voucherName = voucherName;
     }
 
     public Long getRequisitionId() {
@@ -116,11 +125,12 @@ public class RequisitionVoucherRelationDTO implements Serializable {
     public String toString() {
         return "RequisitionVoucherRelationDTO{" +
             "id=" + getId() +
-            ", voucherType='" + getVoucherType() + "'" +
             ", voucherNo='" + getVoucherNo() + "'" +
             ", amount=" + getAmount() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
+            ", voucher=" + getVoucherId() +
+            ", voucher='" + getVoucherName() + "'" +
             ", requisition=" + getRequisitionId() +
             ", requisition='" + getRequisitionRequisitionNo() + "'" +
             "}";

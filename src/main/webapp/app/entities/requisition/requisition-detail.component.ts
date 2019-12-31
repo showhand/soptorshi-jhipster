@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {JhiDataUtils} from 'ng-jhipster';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { JhiDataUtils } from 'ng-jhipster';
 
-import {IRequisition} from 'app/shared/model/requisition.model';
+import { IRequisition } from 'app/shared/model/requisition.model';
 
 @Component({
     selector: 'jhi-requisition-detail',

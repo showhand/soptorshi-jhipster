@@ -16,7 +16,7 @@ const ENTITY_STATES = [...requisitionVoucherRelationRoute, ...requisitionVoucher
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /*declarations: [
+    declarations: [
         RequisitionVoucherRelationComponent,
         RequisitionVoucherRelationDetailComponent,
         RequisitionVoucherRelationUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...requisitionVoucherRelationRoute, ...requisitionVoucher
         RequisitionVoucherRelationUpdateComponent,
         RequisitionVoucherRelationDeleteDialogComponent,
         RequisitionVoucherRelationDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiRequisitionVoucherRelationModule {}

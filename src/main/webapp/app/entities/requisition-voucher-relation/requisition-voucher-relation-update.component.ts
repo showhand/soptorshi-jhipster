@@ -7,6 +7,8 @@ import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { IRequisitionVoucherRelation } from 'app/shared/model/requisition-voucher-relation.model';
 import { RequisitionVoucherRelationService } from './requisition-voucher-relation.service';
+import { IVoucher } from 'app/shared/model/voucher.model';
+import { VoucherService } from 'app/entities/voucher';
 import { IRequisition } from 'app/shared/model/requisition.model';
 import { RequisitionService } from 'app/entities/requisition';
 
@@ -18,12 +20,15 @@ export class RequisitionVoucherRelationUpdateComponent implements OnInit {
     requisitionVoucherRelation: IRequisitionVoucherRelation;
     isSaving: boolean;
 
+    vouchers: IVoucher[];
+
     requisitions: IRequisition[];
     modifiedOnDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected requisitionVoucherRelationService: RequisitionVoucherRelationService,
+        protected voucherService: VoucherService,
         protected requisitionService: RequisitionService,
         protected activatedRoute: ActivatedRoute
     ) {}
@@ -32,7 +37,16 @@ export class RequisitionVoucherRelationUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ requisitionVoucherRelation }) => {
             this.requisitionVoucherRelation = requisitionVoucherRelation;
+            console.log('------------>');
+            console.log(this.requisitionVoucherRelation);
         });
+        this.voucherService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IVoucher[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IVoucher[]>) => response.body)
+            )
+            .subscribe((res: IVoucher[]) => (this.vouchers = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.requisitionService
             .query()
             .pipe(
@@ -73,6 +87,10 @@ export class RequisitionVoucherRelationUpdateComponent implements OnInit {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackVoucherById(index: number, item: IVoucher) {
+        return item.id;
     }
 
     trackRequisitionById(index: number, item: IRequisition) {

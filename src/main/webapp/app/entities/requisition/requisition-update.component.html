@@ -15,6 +15,14 @@
                         [(ngModel)]="requisition.requisitionNo" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_requisitionType">Requisition Type</label>
+                    <select class="form-control" name="requisitionType" [(ngModel)]="requisition.requisitionType" id="field_requisitionType" >
+                        <option value="NORMAL">NORMAL</option>
+                        <option value="SUPPLY_CHAIN">SUPPLY_CHAIN</option>
+                        <option value="COMMERCIAL">COMMERCIAL</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_reason">Reason</label>
                     <textarea class="form-control" name="reason" id="field_reason"
                         [(ngModel)]="requisition.reason" ></textarea>

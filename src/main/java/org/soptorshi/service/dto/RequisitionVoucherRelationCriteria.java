@@ -2,7 +2,6 @@ package org.soptorshi.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.VoucherType;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -22,17 +21,10 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class RequisitionVoucherRelationCriteria implements Serializable {
-    /**
-     * Class for filtering VoucherType
-     */
-    public static class VoucherTypeFilter extends Filter<VoucherType> {
-    }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
-
-    private VoucherTypeFilter voucherType;
 
     private StringFilter voucherNo;
 
@@ -42,6 +34,8 @@ public class RequisitionVoucherRelationCriteria implements Serializable {
 
     private LocalDateFilter modifiedOn;
 
+    private LongFilter voucherId;
+
     private LongFilter requisitionId;
 
     public LongFilter getId() {
@@ -50,14 +44,6 @@ public class RequisitionVoucherRelationCriteria implements Serializable {
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public VoucherTypeFilter getVoucherType() {
-        return voucherType;
-    }
-
-    public void setVoucherType(VoucherTypeFilter voucherType) {
-        this.voucherType = voucherType;
     }
 
     public StringFilter getVoucherNo() {
@@ -92,6 +78,14 @@ public class RequisitionVoucherRelationCriteria implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public LongFilter getVoucherId() {
+        return voucherId;
+    }
+
+    public void setVoucherId(LongFilter voucherId) {
+        this.voucherId = voucherId;
+    }
+
     public LongFilter getRequisitionId() {
         return requisitionId;
     }
@@ -112,11 +106,11 @@ public class RequisitionVoucherRelationCriteria implements Serializable {
         final RequisitionVoucherRelationCriteria that = (RequisitionVoucherRelationCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(voucherType, that.voucherType) &&
             Objects.equals(voucherNo, that.voucherNo) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(voucherId, that.voucherId) &&
             Objects.equals(requisitionId, that.requisitionId);
     }
 
@@ -124,11 +118,11 @@ public class RequisitionVoucherRelationCriteria implements Serializable {
     public int hashCode() {
         return Objects.hash(
         id,
-        voucherType,
         voucherNo,
         amount,
         modifiedBy,
         modifiedOn,
+        voucherId,
         requisitionId
         );
     }
@@ -137,11 +131,11 @@ public class RequisitionVoucherRelationCriteria implements Serializable {
     public String toString() {
         return "RequisitionVoucherRelationCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (voucherType != null ? "voucherType=" + voucherType + ", " : "") +
                 (voucherNo != null ? "voucherNo=" + voucherNo + ", " : "") +
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
+                (voucherId != null ? "voucherId=" + voucherId + ", " : "") +
                 (requisitionId != null ? "requisitionId=" + requisitionId + ", " : "") +
             "}";
     }

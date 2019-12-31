@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { RequisitionVoucherRelationService } from 'app/entities/requisition-voucher-relation/requisition-voucher-relation.service';
-import { IRequisitionVoucherRelation, RequisitionVoucherRelation, VoucherType } from 'app/shared/model/requisition-voucher-relation.model';
+import { IRequisitionVoucherRelation, RequisitionVoucherRelation } from 'app/shared/model/requisition-voucher-relation.model';
 
 describe('Service Tests', () => {
     describe('RequisitionVoucherRelation Service', () => {
@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new RequisitionVoucherRelation(0, VoucherType.SELLING, 'AAAAAAA', 0, 'AAAAAAA', currentDate);
+            elemDefault = new RequisitionVoucherRelation(0, 'AAAAAAA', 0, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
@@ -70,7 +70,6 @@ describe('Service Tests', () => {
             it('should update a RequisitionVoucherRelation', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        voucherType: 'BBBBBB',
                         voucherNo: 'BBBBBB',
                         amount: 1,
                         modifiedBy: 'BBBBBB',
@@ -96,7 +95,6 @@ describe('Service Tests', () => {
             it('should return a list of RequisitionVoucherRelation', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        voucherType: 'BBBBBB',
                         voucherNo: 'BBBBBB',
                         amount: 1,
                         modifiedBy: 'BBBBBB',

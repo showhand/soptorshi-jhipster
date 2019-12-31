@@ -31,6 +31,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="requisitionNo"><span>Requisition No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="requisitionType"><span>Requisition Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="reason"><span>Reason</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="requisitionDate"><span>Requisition Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -55,6 +56,7 @@
             <tr *ngFor="let requisition of requisitions ;trackBy: trackId">
                 <td><a [routerLink]="['/requisition', requisition.id, 'view' ]">{{requisition.id}}</a></td>
                 <td>{{requisition.requisitionNo}}</td>
+                <td>{{requisition.requisitionType}}</td>
                 <td>{{requisition.reason}}</td>
                 <td>{{requisition.requisitionDate | date:'mediumDate'}}</td>
                 <td>{{requisition.amount}}</td>

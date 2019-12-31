@@ -26,8 +26,10 @@ export class RequisitionVoucherRelationExtendedResolve implements Resolve<IRequi
         } else if (requisitionId) {
             const requisitionVoucherRelation = new RequisitionVoucherRelation();
             requisitionVoucherRelation.requisitionId = requisitionId;
+            return of(requisitionVoucherRelation);
+        } else {
+            return of(new RequisitionVoucherRelation());
         }
-        return of(new RequisitionVoucherRelation());
     }
 }
 

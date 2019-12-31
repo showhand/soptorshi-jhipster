@@ -1,10 +1,18 @@
 package org.soptorshi.service.dto;
 
-import io.github.jhipster.service.filter.*;
-import org.soptorshi.domain.enumeration.RequisitionStatus;
-
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.RequisitionType;
+import org.soptorshi.domain.enumeration.RequisitionStatus;
+import io.github.jhipster.service.filter.BooleanFilter;
+import io.github.jhipster.service.filter.DoubleFilter;
+import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.FloatFilter;
+import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.LongFilter;
+import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the Requisition entity. This class is used in RequisitionResource to
@@ -16,6 +24,11 @@ import java.util.Objects;
  */
 public class RequisitionCriteria implements Serializable {
     /**
+     * Class for filtering RequisitionType
+     */
+    public static class RequisitionTypeFilter extends Filter<RequisitionType> {
+    }
+    /**
      * Class for filtering RequisitionStatus
      */
     public static class RequisitionStatusFilter extends Filter<RequisitionStatus> {
@@ -26,6 +39,8 @@ public class RequisitionCriteria implements Serializable {
     private LongFilter id;
 
     private StringFilter requisitionNo;
+
+    private RequisitionTypeFilter requisitionType;
 
     private LocalDateFilter requisitionDate;
 
@@ -44,6 +59,8 @@ public class RequisitionCriteria implements Serializable {
     private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedOn;
+
+    private LongFilter commentsId;
 
     private LongFilter employeeId;
 
@@ -67,6 +84,14 @@ public class RequisitionCriteria implements Serializable {
 
     public void setRequisitionNo(StringFilter requisitionNo) {
         this.requisitionNo = requisitionNo;
+    }
+
+    public RequisitionTypeFilter getRequisitionType() {
+        return requisitionType;
+    }
+
+    public void setRequisitionType(RequisitionTypeFilter requisitionType) {
+        this.requisitionType = requisitionType;
     }
 
     public LocalDateFilter getRequisitionDate() {
@@ -141,6 +166,14 @@ public class RequisitionCriteria implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public LongFilter getCommentsId() {
+        return commentsId;
+    }
+
+    public void setCommentsId(LongFilter commentsId) {
+        this.commentsId = commentsId;
+    }
+
     public LongFilter getEmployeeId() {
         return employeeId;
     }
@@ -186,6 +219,7 @@ public class RequisitionCriteria implements Serializable {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(requisitionNo, that.requisitionNo) &&
+            Objects.equals(requisitionType, that.requisitionType) &&
             Objects.equals(requisitionDate, that.requisitionDate) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(status, that.status) &&
@@ -195,6 +229,7 @@ public class RequisitionCriteria implements Serializable {
             Objects.equals(refToCfo, that.refToCfo) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(commentsId, that.commentsId) &&
             Objects.equals(employeeId, that.employeeId) &&
             Objects.equals(officeId, that.officeId) &&
             Objects.equals(productCategoryId, that.productCategoryId) &&
@@ -206,6 +241,7 @@ public class RequisitionCriteria implements Serializable {
         return Objects.hash(
         id,
         requisitionNo,
+        requisitionType,
         requisitionDate,
         amount,
         status,
@@ -215,6 +251,7 @@ public class RequisitionCriteria implements Serializable {
         refToCfo,
         modifiedBy,
         modifiedOn,
+        commentsId,
         employeeId,
         officeId,
         productCategoryId,
@@ -227,6 +264,7 @@ public class RequisitionCriteria implements Serializable {
         return "RequisitionCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (requisitionNo != null ? "requisitionNo=" + requisitionNo + ", " : "") +
+                (requisitionType != null ? "requisitionType=" + requisitionType + ", " : "") +
                 (requisitionDate != null ? "requisitionDate=" + requisitionDate + ", " : "") +
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
@@ -236,6 +274,7 @@ public class RequisitionCriteria implements Serializable {
                 (refToCfo != null ? "refToCfo=" + refToCfo + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
+                (commentsId != null ? "commentsId=" + commentsId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
                 (officeId != null ? "officeId=" + officeId + ", " : "") +
                 (productCategoryId != null ? "productCategoryId=" + productCategoryId + ", " : "") +

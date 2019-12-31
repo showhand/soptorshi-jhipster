@@ -30,11 +30,11 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="voucherType"><span>Voucher Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="voucherNo"><span>Voucher No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="voucherName"><span>Voucher</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="requisitionRequisitionNo"><span>Requisition</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -42,11 +42,15 @@
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let requisitionVoucherRelation of requisitionVoucherRelations ;trackBy: trackId">
                 <td><a [routerLink]="['/requisition-voucher-relation', requisitionVoucherRelation.id, 'view' ]">{{requisitionVoucherRelation.id}}</a></td>
-                <td>{{requisitionVoucherRelation.voucherType}}</td>
                 <td>{{requisitionVoucherRelation.voucherNo}}</td>
                 <td>{{requisitionVoucherRelation.amount}}</td>
                 <td>{{requisitionVoucherRelation.modifiedBy}}</td>
                 <td>{{requisitionVoucherRelation.modifiedOn | date:'mediumDate'}}</td>
+                <td>
+                    <div *ngIf="requisitionVoucherRelation.voucherId">
+                        <a [routerLink]="['../voucher', requisitionVoucherRelation.voucherId , 'view' ]" >{{requisitionVoucherRelation.voucherName}}</a>
+                    </div>
+                </td>
                 <td>
                     <div *ngIf="requisitionVoucherRelation.requisitionId">
                         <a [routerLink]="['../requisition', requisitionVoucherRelation.requisitionId , 'view' ]" >{{requisitionVoucherRelation.requisitionRequisitionNo}}</a>

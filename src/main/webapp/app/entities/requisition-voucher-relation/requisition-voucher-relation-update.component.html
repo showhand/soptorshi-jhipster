@@ -10,13 +10,6 @@
                         [(ngModel)]="requisitionVoucherRelation.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_voucherType">Voucher Type</label>
-                    <select class="form-control" name="voucherType" [(ngModel)]="requisitionVoucherRelation.voucherType" id="field_voucherType" >
-                        <option value="SELLING">SELLING</option>
-                        <option value="BUYING">BUYING</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_voucherNo">Voucher No</label>
                     <input type="text" class="form-control" name="voucherNo" id="field_voucherNo"
                         [(ngModel)]="requisitionVoucherRelation.voucherNo" />
@@ -42,6 +35,13 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-control-label" for="field_voucher">Voucher</label>
+                    <select class="form-control" id="field_voucher" name="voucher" [(ngModel)]="requisitionVoucherRelation.voucherId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="voucherOption.id" *ngFor="let voucherOption of vouchers; trackBy: trackVoucherById">{{voucherOption.name}}</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_requisition">Requisition</label>
                     <select class="form-control" id="field_requisition" name="requisition" [(ngModel)]="requisitionVoucherRelation.requisitionId" >

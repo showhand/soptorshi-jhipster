@@ -6,10 +6,10 @@
                 <jhi-alert-error></jhi-alert-error>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_voucherType">Voucher Type</label>
-                    <select class="form-control" name="voucherType" [(ngModel)]="requisitionVoucherRelation.voucherType" id="field_voucherType" >
-                        <option value="SELLING">SELLING</option>
-                        <option value="BUYING">BUYING</option>
+                    <label class="form-control-label" for="field_voucher">Voucher</label>
+                    <select class="form-control" id="field_voucher" name="voucher" [(ngModel)]="requisitionVoucherRelation.voucherId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="voucherOption.id" *ngFor="let voucherOption of vouchers; trackBy: trackVoucherById">{{voucherOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -22,13 +22,7 @@
                     <input type="number" class="form-control" name="amount" id="field_amount"
                         [(ngModel)]="requisitionVoucherRelation.amount" />
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_requisition">Requisition</label>
-                    <select class="form-control" id="field_requisition" name="requisition" [(ngModel)]="requisitionVoucherRelation.requisitionId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="requisitionOption.id" *ngFor="let requisitionOption of requisitions; trackBy: trackRequisitionById">{{requisitionOption.requisitionNo}}</option>
-                    </select>
-                </div>
+
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
@@ -39,5 +33,23 @@
                 </button>
             </div>
         </form>
+    </div>
+    <div class="col-4">
+        <ul>
+            <li><button type="button" id="journal_vouchers" class="btn btn-link" [routerLink]="['/journal-voucher']">Journal Vouchers</button><br/></li>
+            <li><button type="button" id="contra_vouchers" class="btn btn-link" [routerLink]="['/contra-voucher']">Contra  Vouchers</button><br/></li>
+            <li><button type="button" id="receipt_vouchers" class="btn btn-link" [routerLink]="['/receipt-voucher']">Receipt Vouchers</button><br/></li>
+            <li><button type="button" id="payment_vouchers" class="btn btn-link" [routerLink]="['/payment-voucher']">Payment Vouchers</button><br/></li>
+        </ul>
+
+        <hr/>
+        <hr/>
+
+        <ul>
+            <li><button type="button" id="new_journal_vouchers" class="btn btn-link" [routerLink]="['/journal-voucher/new']">Create Journal Voucher</button><br/></li>
+            <li><button type="button" id="new_contra_vouchers" class="btn btn-link" [routerLink]="['/contra-voucher/new']">Create Contra Voucher</button><br/></li>
+            <li><button type="button" id="new_receipt_vouchers" class="btn btn-link" [routerLink]="['/receipt-voucher/new']">Create Receipt Voucher</button><br/></li>
+            <li><button type="button" id="new_payment_vouchers" class="btn btn-link" [routerLink]="['/contra-voucher/new']">Create Contra Voucher</button><br/></li>
+        </ul>
     </div>
 </div>

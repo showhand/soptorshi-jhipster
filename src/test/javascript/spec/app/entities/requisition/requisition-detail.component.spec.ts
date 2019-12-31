@@ -1,11 +1,11 @@
 /* tslint:disable max-line-length */
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {ActivatedRoute} from '@angular/router';
-import {of} from 'rxjs';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
-import {SoptorshiTestModule} from '../../../test.module';
-import {RequisitionDetailComponent} from 'app/entities/requisition/requisition-detail.component';
-import {Requisition} from 'app/shared/model/requisition.model';
+import { SoptorshiTestModule } from '../../../test.module';
+import { RequisitionDetailComponent } from 'app/entities/requisition/requisition-detail.component';
+import { Requisition } from 'app/shared/model/requisition.model';
 
 describe('Component Tests', () => {
     describe('Requisition Management Detail Component', () => {

@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import {NgbActiveModal, NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {JhiEventManager} from 'ng-jhipster';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { JhiEventManager } from 'ng-jhipster';
 
-import {IPurchaseOrder} from 'app/shared/model/purchase-order.model';
-import {PurchaseOrderService} from './purchase-order.service';
+import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
+import { PurchaseOrderService } from './purchase-order.service';
 
 @Component({
     selector: 'jhi-purchase-order-delete-dialog',

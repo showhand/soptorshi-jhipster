@@ -1,25 +1,26 @@
 package org.soptorshi.service;
 
-import io.github.jhipster.service.QueryService;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.PurchaseOrder;
-import org.soptorshi.domain.PurchaseOrder_;
-import org.soptorshi.domain.Quotation_;
-import org.soptorshi.domain.Requisition_;
-import org.soptorshi.repository.PurchaseOrderRepository;
-import org.soptorshi.repository.search.PurchaseOrderSearchRepository;
-import org.soptorshi.service.dto.PurchaseOrderCriteria;
-import org.soptorshi.service.dto.PurchaseOrderDTO;
-import org.soptorshi.service.mapper.PurchaseOrderMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.JoinType;
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import org.soptorshi.domain.PurchaseOrder;
+import org.soptorshi.domain.*; // for static metamodels
+import org.soptorshi.repository.PurchaseOrderRepository;
+import org.soptorshi.repository.search.PurchaseOrderSearchRepository;
+import org.soptorshi.service.dto.PurchaseOrderCriteria;
+import org.soptorshi.service.dto.PurchaseOrderDTO;
+import org.soptorshi.service.mapper.PurchaseOrderMapper;
 
 /**
  * Service for executing complex queries for PurchaseOrder entities in the database.
@@ -121,6 +122,10 @@ public class PurchaseOrderQueryService extends QueryService<PurchaseOrder> {
             }
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), PurchaseOrder_.modifiedOn));
+            }
+            if (criteria.getCommentsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCommentsId(),
+                    root -> root.join(PurchaseOrder_.comments, JoinType.LEFT).get(PurchaseOrderMessages_.id)));
             }
             if (criteria.getRequisitionId() != null) {
                 specification = specification.and(buildSpecification(criteria.getRequisitionId(),
