@@ -178,7 +178,6 @@ entity SalaryVoucherRelation{
 }
 
 entity RequisitionVoucherRelation{
-    voucherType VoucherType,
     voucherNo String,
     amount BigDecimal,
     modifiedBy String,
@@ -882,6 +881,7 @@ relationship ManyToOne {
   Requisition{employee(fullName)} to Employee,
   Requisition{office(name)} to Office,
   SalaryVoucherRelation{office(name)} to Office,
+  RequisitionVoucherRelation{voucher(name)} to Voucher,
   RequisitionVoucherRelation{requisition(requisitionNo)} to Requisition,
   Requisition{productCategory(name)} to ProductCategory,
   Requisition{department(name)} to Department,

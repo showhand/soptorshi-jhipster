@@ -18,6 +18,7 @@ import {
 } from 'app/entities/purchase-order-extended/purchase-order-extended.route';
 import { TermsAndConditionsForPurchaseOrder } from 'app/entities/purchase-order-extended/terms-and-conditions-for-purchase-order';
 import { PurchaseOrderMessagesExtendedDirectiveComponent } from 'app/entities/purchase-order-extended/purchase-order-messages-extended-directive.component';
+import { PurchaseOrderRequisitionVoucherRelation } from 'app/entities/purchase-order-extended/purchase-order-requisition-voucher-relation.component';
 
 const ENTITY_STATES = [...purchaseOrderExtendedRoute, ...purchaseOrderExtendedPopupRoute];
 
@@ -33,13 +34,15 @@ const ENTITY_STATES = [...purchaseOrderExtendedRoute, ...purchaseOrderExtendedPo
         PurchaseOrderDeleteDialogComponent,
         PurchaseOrderDeletePopupComponent,
         TermsAndConditionsForPurchaseOrder,
-        PurchaseOrderMessagesExtendedDirectiveComponent
+        PurchaseOrderMessagesExtendedDirectiveComponent,
+        PurchaseOrderRequisitionVoucherRelation
     ],
     entryComponents: [
         PurchaseOrderExtendedComponent,
         PurchaseOrderExtendedUpdateComponent,
         PurchaseOrderDeleteDialogComponent,
-        PurchaseOrderDeletePopupComponent
+        PurchaseOrderDeletePopupComponent,
+        PurchaseOrderRequisitionVoucherRelation
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
