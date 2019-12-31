@@ -28,4 +28,7 @@ export class JournalVoucherExtendedComponent extends JournalVoucherComponent imp
     ) {
         super(journalVoucherService, parseLinks, jhiAlertService, accountService, activatedRoute, router, eventManager);
     }
+    back() {
+        window.history.back();
+    }
 }

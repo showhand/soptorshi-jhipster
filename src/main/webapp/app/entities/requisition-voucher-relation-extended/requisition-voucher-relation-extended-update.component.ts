@@ -10,6 +10,7 @@ import { RequisitionVoucherRelationExtendedService } from './requisition-voucher
 import { IRequisition } from 'app/shared/model/requisition.model';
 import { RequisitionService } from 'app/entities/requisition';
 import { RequisitionVoucherRelationUpdateComponent } from 'app/entities/requisition-voucher-relation';
+import { VoucherService } from 'app/entities/voucher';
 
 @Component({
     selector: 'jhi-requisition-voucher-relation-update',
@@ -19,9 +20,10 @@ export class RequisitionVoucherRelationExtendedUpdateComponent extends Requisiti
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected requisitionVoucherRelationService: RequisitionVoucherRelationExtendedService,
+        protected voucherService: VoucherService,
         protected requisitionService: RequisitionService,
         protected activatedRoute: ActivatedRoute
     ) {
-        super(jhiAlertService, requisitionVoucherRelationService, requisitionService, activatedRoute);
+        super(jhiAlertService, requisitionVoucherRelationService, voucherService, requisitionService, activatedRoute);
     }
 }

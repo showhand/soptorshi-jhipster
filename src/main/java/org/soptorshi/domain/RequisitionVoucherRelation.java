@@ -11,8 +11,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import org.soptorshi.domain.enumeration.VoucherType;
-
 /**
  * A RequisitionVoucherRelation.
  */
@@ -26,10 +24,6 @@ public class RequisitionVoucherRelation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "voucher_type")
-    private VoucherType voucherType;
 
     @Column(name = "voucher_no")
     private String voucherNo;
@@ -45,6 +39,10 @@ public class RequisitionVoucherRelation implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("requisitionVoucherRelations")
+    private Voucher voucher;
+
+    @ManyToOne
+    @JsonIgnoreProperties("requisitionVoucherRelations")
     private Requisition requisition;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -54,19 +52,6 @@ public class RequisitionVoucherRelation implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
-
-    public RequisitionVoucherRelation voucherType(VoucherType voucherType) {
-        this.voucherType = voucherType;
-        return this;
-    }
-
-    public void setVoucherType(VoucherType voucherType) {
-        this.voucherType = voucherType;
     }
 
     public String getVoucherNo() {
@@ -121,6 +106,19 @@ public class RequisitionVoucherRelation implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public Voucher getVoucher() {
+        return voucher;
+    }
+
+    public RequisitionVoucherRelation voucher(Voucher voucher) {
+        this.voucher = voucher;
+        return this;
+    }
+
+    public void setVoucher(Voucher voucher) {
+        this.voucher = voucher;
+    }
+
     public Requisition getRequisition() {
         return requisition;
     }
@@ -159,7 +157,6 @@ public class RequisitionVoucherRelation implements Serializable {
     public String toString() {
         return "RequisitionVoucherRelation{" +
             "id=" + getId() +
-            ", voucherType='" + getVoucherType() + "'" +
             ", voucherNo='" + getVoucherNo() + "'" +
             ", amount=" + getAmount() +
             ", modifiedBy='" + getModifiedBy() + "'" +

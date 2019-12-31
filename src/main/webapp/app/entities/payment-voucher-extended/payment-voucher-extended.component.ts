@@ -28,4 +28,8 @@ export class PaymentVoucherExtendedComponent extends PaymentVoucherComponent imp
     ) {
         super(paymentVoucherService, parseLinks, jhiAlertService, accountService, activatedRoute, router, eventManager);
     }
+
+    back() {
+        window.history.back();
+    }
 }

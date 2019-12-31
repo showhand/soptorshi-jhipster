@@ -103,14 +103,18 @@
                 </div>
 
                 <div class="row" *ngIf="purchaseOrder.id">
-                    <div class="col-12">
+                    <div class="col-6">
                         <jhi-terms-and-conditions-for-purchase-order [purchaseOrder]="purchaseOrder"></jhi-terms-and-conditions-for-purchase-order>
+                    </div>
+                    <div class="col-6" *ngIf="purchaseOrder.requisitionId">
+                        <jhi-purchase-order-requisition-voucher-relation [requisitionId]="purchaseOrder.requisitionId"></jhi-purchase-order-requisition-voucher-relation>
                     </div>
                 </div>
                 <div class="row" *ngIf="purchaseOrder.id">
                     <div class="col-12">
                         <jhi-purchase-order-messages-directive [purchaseOrderId]="purchaseOrder.id"></jhi-purchase-order-messages-directive>
                     </div>
+
                 </div>
 
             </div>

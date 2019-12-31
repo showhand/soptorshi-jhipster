@@ -1,22 +1,26 @@
 package org.soptorshi.service;
 
-import io.github.jhipster.service.QueryService;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.*;
-import org.soptorshi.repository.RequisitionRepository;
-import org.soptorshi.repository.search.RequisitionSearchRepository;
-import org.soptorshi.service.dto.RequisitionCriteria;
-import org.soptorshi.service.dto.RequisitionDTO;
-import org.soptorshi.service.mapper.RequisitionMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.JoinType;
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import org.soptorshi.domain.Requisition;
+import org.soptorshi.domain.*; // for static metamodels
+import org.soptorshi.repository.RequisitionRepository;
+import org.soptorshi.repository.search.RequisitionSearchRepository;
+import org.soptorshi.service.dto.RequisitionCriteria;
+import org.soptorshi.service.dto.RequisitionDTO;
+import org.soptorshi.service.mapper.RequisitionMapper;
 
 /**
  * Service for executing complex queries for Requisition entities in the database.
@@ -92,6 +96,9 @@ public class RequisitionQueryService extends QueryService<Requisition> {
             if (criteria.getRequisitionNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getRequisitionNo(), Requisition_.requisitionNo));
             }
+            if (criteria.getRequisitionType() != null) {
+                specification = specification.and(buildSpecification(criteria.getRequisitionType(), Requisition_.requisitionType));
+            }
             if (criteria.getRequisitionDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRequisitionDate(), Requisition_.requisitionDate));
             }
@@ -118,6 +125,10 @@ public class RequisitionQueryService extends QueryService<Requisition> {
             }
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), Requisition_.modifiedOn));
+            }
+            if (criteria.getCommentsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCommentsId(),
+                    root -> root.join(Requisition_.comments, JoinType.LEFT).get(RequisitionMessages_.id)));
             }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),

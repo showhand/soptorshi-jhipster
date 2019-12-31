@@ -1,4 +1,5 @@
-import {Moment} from 'moment';
+import { Moment } from 'moment';
+import { IPurchaseOrderMessages } from 'app/shared/model/purchase-order-messages.model';
 
 export const enum PurchaseOrderStatus {
     WAITING_FOR_CFO_APPROVAL = 'WAITING_FOR_CFO_APPROVAL',
@@ -21,6 +22,7 @@ export interface IPurchaseOrder {
     status?: PurchaseOrderStatus;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    comments?: IPurchaseOrderMessages[];
     requisitionRequisitionNo?: string;
     requisitionId?: number;
     quotationQuotationNo?: string;
@@ -41,6 +43,7 @@ export class PurchaseOrder implements IPurchaseOrder {
         public status?: PurchaseOrderStatus,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
+        public comments?: IPurchaseOrderMessages[],
         public requisitionRequisitionNo?: string,
         public requisitionId?: number,
         public quotationQuotationNo?: string,

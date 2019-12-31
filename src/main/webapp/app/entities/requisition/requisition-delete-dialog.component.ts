@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import {NgbActiveModal, NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {JhiEventManager} from 'ng-jhipster';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { JhiEventManager } from 'ng-jhipster';
 
-import {IRequisition} from 'app/shared/model/requisition.model';
-import {RequisitionService} from './requisition.service';
+import { IRequisition } from 'app/shared/model/requisition.model';
+import { RequisitionService } from './requisition.service';
 
 @Component({
     selector: 'jhi-requisition-delete-dialog',

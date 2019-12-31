@@ -28,4 +28,7 @@ export class ReceiptVoucherExtendedComponent extends ReceiptVoucherComponent imp
     ) {
         super(receiptVoucherService, parseLinks, jhiAlertService, accountService, activatedRoute, router, eventManager);
     }
+    back() {
+        window.history.back();
+    }
 }

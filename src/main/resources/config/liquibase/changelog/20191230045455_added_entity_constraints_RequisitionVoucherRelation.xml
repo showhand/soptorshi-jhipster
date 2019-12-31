@@ -8,6 +8,12 @@
     -->
     <changeSet id="20191230045455-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="voucher_id"
+                                 baseTableName="requisition_voucher_relation"
+                                 constraintName="fk_requisition_voucher_relation_voucher_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="voucher"/>
+
         <addForeignKeyConstraint baseColumnNames="requisition_id"
                                  baseTableName="requisition_voucher_relation"
                                  constraintName="fk_requisition_voucher_relation_requisition_id"

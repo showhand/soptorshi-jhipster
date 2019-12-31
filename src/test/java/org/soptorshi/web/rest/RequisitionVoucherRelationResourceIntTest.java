@@ -3,6 +3,7 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.RequisitionVoucherRelation;
+import org.soptorshi.domain.Voucher;
 import org.soptorshi.domain.Requisition;
 import org.soptorshi.repository.RequisitionVoucherRelationRepository;
 import org.soptorshi.repository.search.RequisitionVoucherRelationSearchRepository;
@@ -46,7 +47,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.soptorshi.domain.enumeration.VoucherType;
 /**
  * Test class for the RequisitionVoucherRelationResource REST controller.
  *
@@ -55,9 +55,6 @@ import org.soptorshi.domain.enumeration.VoucherType;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
 public class RequisitionVoucherRelationResourceIntTest {
-
-    private static final VoucherType DEFAULT_VOUCHER_TYPE = VoucherType.SELLING;
-    private static final VoucherType UPDATED_VOUCHER_TYPE = VoucherType.BUYING;
 
     private static final String DEFAULT_VOUCHER_NO = "AAAAAAAAAA";
     private static final String UPDATED_VOUCHER_NO = "BBBBBBBBBB";
@@ -130,7 +127,6 @@ public class RequisitionVoucherRelationResourceIntTest {
      */
     public static RequisitionVoucherRelation createEntity(EntityManager em) {
         RequisitionVoucherRelation requisitionVoucherRelation = new RequisitionVoucherRelation()
-            .voucherType(DEFAULT_VOUCHER_TYPE)
             .voucherNo(DEFAULT_VOUCHER_NO)
             .amount(DEFAULT_AMOUNT)
             .modifiedBy(DEFAULT_MODIFIED_BY)
@@ -159,7 +155,6 @@ public class RequisitionVoucherRelationResourceIntTest {
         List<RequisitionVoucherRelation> requisitionVoucherRelationList = requisitionVoucherRelationRepository.findAll();
         assertThat(requisitionVoucherRelationList).hasSize(databaseSizeBeforeCreate + 1);
         RequisitionVoucherRelation testRequisitionVoucherRelation = requisitionVoucherRelationList.get(requisitionVoucherRelationList.size() - 1);
-        assertThat(testRequisitionVoucherRelation.getVoucherType()).isEqualTo(DEFAULT_VOUCHER_TYPE);
         assertThat(testRequisitionVoucherRelation.getVoucherNo()).isEqualTo(DEFAULT_VOUCHER_NO);
         assertThat(testRequisitionVoucherRelation.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testRequisitionVoucherRelation.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
@@ -203,7 +198,6 @@ public class RequisitionVoucherRelationResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(requisitionVoucherRelation.getId().intValue())))
-            .andExpect(jsonPath("$.[*].voucherType").value(hasItem(DEFAULT_VOUCHER_TYPE.toString())))
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
@@ -221,50 +215,10 @@ public class RequisitionVoucherRelationResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(requisitionVoucherRelation.getId().intValue()))
-            .andExpect(jsonPath("$.voucherType").value(DEFAULT_VOUCHER_TYPE.toString()))
             .andExpect(jsonPath("$.voucherNo").value(DEFAULT_VOUCHER_NO.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
-    }
-
-    @Test
-    @Transactional
-    public void getAllRequisitionVoucherRelationsByVoucherTypeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        requisitionVoucherRelationRepository.saveAndFlush(requisitionVoucherRelation);
-
-        // Get all the requisitionVoucherRelationList where voucherType equals to DEFAULT_VOUCHER_TYPE
-        defaultRequisitionVoucherRelationShouldBeFound("voucherType.equals=" + DEFAULT_VOUCHER_TYPE);
-
-        // Get all the requisitionVoucherRelationList where voucherType equals to UPDATED_VOUCHER_TYPE
-        defaultRequisitionVoucherRelationShouldNotBeFound("voucherType.equals=" + UPDATED_VOUCHER_TYPE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllRequisitionVoucherRelationsByVoucherTypeIsInShouldWork() throws Exception {
-        // Initialize the database
-        requisitionVoucherRelationRepository.saveAndFlush(requisitionVoucherRelation);
-
-        // Get all the requisitionVoucherRelationList where voucherType in DEFAULT_VOUCHER_TYPE or UPDATED_VOUCHER_TYPE
-        defaultRequisitionVoucherRelationShouldBeFound("voucherType.in=" + DEFAULT_VOUCHER_TYPE + "," + UPDATED_VOUCHER_TYPE);
-
-        // Get all the requisitionVoucherRelationList where voucherType equals to UPDATED_VOUCHER_TYPE
-        defaultRequisitionVoucherRelationShouldNotBeFound("voucherType.in=" + UPDATED_VOUCHER_TYPE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllRequisitionVoucherRelationsByVoucherTypeIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        requisitionVoucherRelationRepository.saveAndFlush(requisitionVoucherRelation);
-
-        // Get all the requisitionVoucherRelationList where voucherType is not null
-        defaultRequisitionVoucherRelationShouldBeFound("voucherType.specified=true");
-
-        // Get all the requisitionVoucherRelationList where voucherType is null
-        defaultRequisitionVoucherRelationShouldNotBeFound("voucherType.specified=false");
     }
 
     @Test
@@ -452,6 +406,25 @@ public class RequisitionVoucherRelationResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllRequisitionVoucherRelationsByVoucherIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Voucher voucher = VoucherResourceIntTest.createEntity(em);
+        em.persist(voucher);
+        em.flush();
+        requisitionVoucherRelation.setVoucher(voucher);
+        requisitionVoucherRelationRepository.saveAndFlush(requisitionVoucherRelation);
+        Long voucherId = voucher.getId();
+
+        // Get all the requisitionVoucherRelationList where voucher equals to voucherId
+        defaultRequisitionVoucherRelationShouldBeFound("voucherId.equals=" + voucherId);
+
+        // Get all the requisitionVoucherRelationList where voucher equals to voucherId + 1
+        defaultRequisitionVoucherRelationShouldNotBeFound("voucherId.equals=" + (voucherId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllRequisitionVoucherRelationsByRequisitionIsEqualToSomething() throws Exception {
         // Initialize the database
         Requisition requisition = RequisitionResourceIntTest.createEntity(em);
@@ -476,7 +449,6 @@ public class RequisitionVoucherRelationResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(requisitionVoucherRelation.getId().intValue())))
-            .andExpect(jsonPath("$.[*].voucherType").value(hasItem(DEFAULT_VOUCHER_TYPE.toString())))
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
@@ -528,7 +500,6 @@ public class RequisitionVoucherRelationResourceIntTest {
         // Disconnect from session so that the updates on updatedRequisitionVoucherRelation are not directly saved in db
         em.detach(updatedRequisitionVoucherRelation);
         updatedRequisitionVoucherRelation
-            .voucherType(UPDATED_VOUCHER_TYPE)
             .voucherNo(UPDATED_VOUCHER_NO)
             .amount(UPDATED_AMOUNT)
             .modifiedBy(UPDATED_MODIFIED_BY)
@@ -544,7 +515,6 @@ public class RequisitionVoucherRelationResourceIntTest {
         List<RequisitionVoucherRelation> requisitionVoucherRelationList = requisitionVoucherRelationRepository.findAll();
         assertThat(requisitionVoucherRelationList).hasSize(databaseSizeBeforeUpdate);
         RequisitionVoucherRelation testRequisitionVoucherRelation = requisitionVoucherRelationList.get(requisitionVoucherRelationList.size() - 1);
-        assertThat(testRequisitionVoucherRelation.getVoucherType()).isEqualTo(UPDATED_VOUCHER_TYPE);
         assertThat(testRequisitionVoucherRelation.getVoucherNo()).isEqualTo(UPDATED_VOUCHER_NO);
         assertThat(testRequisitionVoucherRelation.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testRequisitionVoucherRelation.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
@@ -609,7 +579,6 @@ public class RequisitionVoucherRelationResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(requisitionVoucherRelation.getId().intValue())))
-            .andExpect(jsonPath("$.[*].voucherType").value(hasItem(DEFAULT_VOUCHER_TYPE.toString())))
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))

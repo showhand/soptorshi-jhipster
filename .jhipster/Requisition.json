@@ -6,6 +6,11 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "requisitionType",
+            "fieldType": "RequisitionType",
+            "fieldValues": "NORMAL,SUPPLY_CHAIN,COMMERCIAL"
+        },
+        {
             "fieldName": "reason",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text"
@@ -64,6 +69,12 @@
         }
     ],
     "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "requisitionMessages",
+            "otherEntityRelationshipName": "requisition",
+            "relationshipName": "comments"
+        },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "employee",

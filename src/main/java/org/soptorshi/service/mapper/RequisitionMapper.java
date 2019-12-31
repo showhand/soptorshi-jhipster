@@ -1,9 +1,9 @@
 package org.soptorshi.service.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.soptorshi.domain.Requisition;
+import org.soptorshi.domain.*;
 import org.soptorshi.service.dto.RequisitionDTO;
+
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity Requisition and its DTO RequisitionDTO.
@@ -21,6 +21,7 @@ public interface RequisitionMapper extends EntityMapper<RequisitionDTO, Requisit
     @Mapping(source = "department.name", target = "departmentName")
     RequisitionDTO toDto(Requisition requisition);
 
+    @Mapping(target = "comments", ignore = true)
     @Mapping(source = "employeeId", target = "employee")
     @Mapping(source = "officeId", target = "office")
     @Mapping(source = "productCategoryId", target = "productCategory")

@@ -93,9 +93,6 @@ public class RequisitionVoucherRelationQueryService extends QueryService<Requisi
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), RequisitionVoucherRelation_.id));
             }
-            if (criteria.getVoucherType() != null) {
-                specification = specification.and(buildSpecification(criteria.getVoucherType(), RequisitionVoucherRelation_.voucherType));
-            }
             if (criteria.getVoucherNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getVoucherNo(), RequisitionVoucherRelation_.voucherNo));
             }
@@ -107,6 +104,10 @@ public class RequisitionVoucherRelationQueryService extends QueryService<Requisi
             }
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), RequisitionVoucherRelation_.modifiedOn));
+            }
+            if (criteria.getVoucherId() != null) {
+                specification = specification.and(buildSpecification(criteria.getVoucherId(),
+                    root -> root.join(RequisitionVoucherRelation_.voucher, JoinType.LEFT).get(Voucher_.id)));
             }
             if (criteria.getRequisitionId() != null) {
                 specification = specification.and(buildSpecification(criteria.getRequisitionId(),

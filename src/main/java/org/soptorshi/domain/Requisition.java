@@ -1,15 +1,22 @@
 package org.soptorshi.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.soptorshi.domain.enumeration.RequisitionStatus;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
+
+import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
+
+import org.soptorshi.domain.enumeration.RequisitionType;
+
+import org.soptorshi.domain.enumeration.RequisitionStatus;
 
 /**
  * A Requisition.
@@ -20,13 +27,17 @@ import java.util.Objects;
 public class Requisition implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "requisition_no")
     private String requisitionNo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "requisition_type")
+    private RequisitionType requisitionType;
 
     @Lob
     @Column(name = "reason")
@@ -72,6 +83,8 @@ public class Requisition implements Serializable {
     @Column(name = "modified_on")
     private LocalDate modifiedOn;
 
+    @OneToMany(mappedBy = "requisition")
+    private Set<RequisitionMessages> comments = new HashSet<>();
     @ManyToOne
     @JsonIgnoreProperties("requisitions")
     private Employee employee;
@@ -108,6 +121,19 @@ public class Requisition implements Serializable {
 
     public void setRequisitionNo(String requisitionNo) {
         this.requisitionNo = requisitionNo;
+    }
+
+    public RequisitionType getRequisitionType() {
+        return requisitionType;
+    }
+
+    public Requisition requisitionType(RequisitionType requisitionType) {
+        this.requisitionType = requisitionType;
+        return this;
+    }
+
+    public void setRequisitionType(RequisitionType requisitionType) {
+        this.requisitionType = requisitionType;
     }
 
     public String getReason() {
@@ -279,6 +305,31 @@ public class Requisition implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public Set<RequisitionMessages> getComments() {
+        return comments;
+    }
+
+    public Requisition comments(Set<RequisitionMessages> requisitionMessages) {
+        this.comments = requisitionMessages;
+        return this;
+    }
+
+    public Requisition addComments(RequisitionMessages requisitionMessages) {
+        this.comments.add(requisitionMessages);
+        requisitionMessages.setRequisition(this);
+        return this;
+    }
+
+    public Requisition removeComments(RequisitionMessages requisitionMessages) {
+        this.comments.remove(requisitionMessages);
+        requisitionMessages.setRequisition(null);
+        return this;
+    }
+
+    public void setComments(Set<RequisitionMessages> requisitionMessages) {
+        this.comments = requisitionMessages;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -357,6 +408,7 @@ public class Requisition implements Serializable {
         return "Requisition{" +
             "id=" + getId() +
             ", requisitionNo='" + getRequisitionNo() + "'" +
+            ", requisitionType='" + getRequisitionType() + "'" +
             ", reason='" + getReason() + "'" +
             ", requisitionDate='" + getRequisitionDate() + "'" +
             ", amount=" + getAmount() +

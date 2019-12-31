@@ -1,12 +1,10 @@
 package org.soptorshi.service.dto;
-
-import org.soptorshi.domain.enumeration.PurchaseOrderStatus;
-
-import javax.persistence.Lob;
+import java.time.LocalDate;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Objects;
+import javax.persistence.Lob;
+import org.soptorshi.domain.enumeration.PurchaseOrderStatus;
 
 /**
  * A DTO for the PurchaseOrder entity.

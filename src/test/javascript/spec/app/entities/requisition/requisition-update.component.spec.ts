@@ -1,12 +1,12 @@
 /* tslint:disable max-line-length */
-import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {HttpResponse} from '@angular/common/http';
-import {of} from 'rxjs';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { HttpResponse } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 
-import {SoptorshiTestModule} from '../../../test.module';
-import {RequisitionUpdateComponent} from 'app/entities/requisition/requisition-update.component';
-import {RequisitionService} from 'app/entities/requisition/requisition.service';
-import {Requisition} from 'app/shared/model/requisition.model';
+import { SoptorshiTestModule } from '../../../test.module';
+import { RequisitionUpdateComponent } from 'app/entities/requisition/requisition-update.component';
+import { RequisitionService } from 'app/entities/requisition/requisition.service';
+import { Requisition } from 'app/shared/model/requisition.model';
 
 describe('Component Tests', () => {
     describe('Requisition Management Update Component', () => {
@@ -28,39 +28,33 @@ describe('Component Tests', () => {
         });
 
         describe('save', () => {
-            it(
-                'Should call update service on save for existing entity',
-                fakeAsync(() => {
-                    // GIVEN
-                    const entity = new Requisition(123);
-                    spyOn(service, 'update').and.returnValue(of(new HttpResponse({ body: entity })));
-                    comp.requisition = entity;
-                    // WHEN
-                    comp.save();
-                    tick(); // simulate async
+            it('Should call update service on save for existing entity', fakeAsync(() => {
+                // GIVEN
+                const entity = new Requisition(123);
+                spyOn(service, 'update').and.returnValue(of(new HttpResponse({ body: entity })));
+                comp.requisition = entity;
+                // WHEN
+                comp.save();
+                tick(); // simulate async
 
-                    // THEN
-                    expect(service.update).toHaveBeenCalledWith(entity);
-                    expect(comp.isSaving).toEqual(false);
-                })
-            );
+                // THEN
+                expect(service.update).toHaveBeenCalledWith(entity);
+                expect(comp.isSaving).toEqual(false);
+            }));
 
-            it(
-                'Should call create service on save for new entity',
-                fakeAsync(() => {
-                    // GIVEN
-                    const entity = new Requisition();
-                    spyOn(service, 'create').and.returnValue(of(new HttpResponse({ body: entity })));
-                    comp.requisition = entity;
-                    // WHEN
-                    comp.save();
-                    tick(); // simulate async
+            it('Should call create service on save for new entity', fakeAsync(() => {
+                // GIVEN
+                const entity = new Requisition();
+                spyOn(service, 'create').and.returnValue(of(new HttpResponse({ body: entity })));
+                comp.requisition = entity;
+                // WHEN
+                comp.save();
+                tick(); // simulate async
 
-                    // THEN
-                    expect(service.create).toHaveBeenCalledWith(entity);
-                    expect(comp.isSaving).toEqual(false);
-                })
-            );
+                // THEN
+                expect(service.create).toHaveBeenCalledWith(entity);
+                expect(comp.isSaving).toEqual(false);
+            }));
         });
     });
 });

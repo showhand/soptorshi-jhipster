@@ -17,13 +17,19 @@ export class RequisitionVoucherRelationExtendedResolve implements Resolve<IRequi
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IRequisitionVoucherRelation> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const requisitionId = route.params['requisitionId'] ? route.params['requisitionId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<RequisitionVoucherRelation>) => response.ok),
                 map((requisitionVoucherRelation: HttpResponse<RequisitionVoucherRelation>) => requisitionVoucherRelation.body)
             );
+        } else if (requisitionId) {
+            const requisitionVoucherRelation = new RequisitionVoucherRelation();
+            requisitionVoucherRelation.requisitionId = requisitionId;
+            return of(requisitionVoucherRelation);
+        } else {
+            return of(new RequisitionVoucherRelation());
         }
-        return of(new RequisitionVoucherRelation());
     }
 }
 
@@ -51,6 +57,18 @@ export const requisitionVoucherRelationExtendedRoute: Routes = [
     },
     {
         path: 'new',
+        component: RequisitionVoucherRelationExtendedUpdateComponent,
+        resolve: {
+            requisitionVoucherRelation: RequisitionVoucherRelationExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'RequisitionVoucherRelations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':requisitionId/new',
         component: RequisitionVoucherRelationExtendedUpdateComponent,
         resolve: {
             requisitionVoucherRelation: RequisitionVoucherRelationExtendedResolve

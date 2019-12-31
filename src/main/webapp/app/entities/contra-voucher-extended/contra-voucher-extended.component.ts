@@ -28,4 +28,8 @@ export class ContraVoucherExtendedComponent extends ContraVoucherComponent imple
     ) {
         super(contraVoucherService, parseLinks, jhiAlertService, accountService, activatedRoute, router, eventManager);
     }
+
+    back() {
+        window.history.back();
+    }
 }

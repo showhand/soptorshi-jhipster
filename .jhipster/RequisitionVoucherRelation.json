@@ -2,11 +2,6 @@
     "name": "RequisitionVoucherRelation",
     "fields": [
         {
-            "fieldName": "voucherType",
-            "fieldType": "VoucherType",
-            "fieldValues": "SELLING,BUYING"
-        },
-        {
             "fieldName": "voucherNo",
             "fieldType": "String"
         },
@@ -24,6 +19,13 @@
         }
     ],
     "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "voucher",
+            "otherEntityRelationshipName": "requisitionVoucherRelation",
+            "relationshipName": "voucher",
+            "otherEntityField": "name"
+        },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "requisition",
