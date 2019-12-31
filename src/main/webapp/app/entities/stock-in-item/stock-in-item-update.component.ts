@@ -1,27 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { JhiAlertService } from 'ng-jhipster';
-import { IStockInItem } from 'app/shared/model/stock-in-item.model';
-import { StockInItemService } from './stock-in-item.service';
-import { IProductCategory } from 'app/shared/model/product-category.model';
-import { ProductCategoryService } from 'app/entities/product-category';
-import { IProduct } from 'app/shared/model/product.model';
-import { ProductService } from 'app/entities/product';
-import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
-import { InventoryLocationService } from 'app/entities/inventory-location';
-import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
-import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
-import { IVendor } from 'app/shared/model/vendor.model';
-import { VendorService } from 'app/entities/vendor';
-import { IStockInProcess } from 'app/shared/model/stock-in-process.model';
-import { StockInProcessService } from 'app/entities/stock-in-process';
-import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
-import { PurchaseOrderService } from 'app/entities/purchase-order';
+import {DATE_TIME_FORMAT} from 'app/shared/constants/input.constants';
+import {JhiAlertService} from 'ng-jhipster';
+import {IStockInItem} from 'app/shared/model/stock-in-item.model';
+import {StockInItemService} from './stock-in-item.service';
+import {IProductCategory} from 'app/shared/model/product-category.model';
+import {ProductCategoryService} from 'app/entities/product-category';
+import {IProduct} from 'app/shared/model/product.model';
+import {ProductService} from 'app/entities/product';
+import {IInventoryLocation} from 'app/shared/model/inventory-location.model';
+import {InventoryLocationService} from 'app/entities/inventory-location';
+import {IInventorySubLocation} from 'app/shared/model/inventory-sub-location.model';
+import {InventorySubLocationService} from 'app/entities/inventory-sub-location';
+import {IVendor} from 'app/shared/model/vendor.model';
+import {VendorService} from 'app/entities/vendor';
+import {IStockInProcess} from 'app/shared/model/stock-in-process.model';
+import {StockInProcessService} from 'app/entities/stock-in-process';
+import {IRequisition} from 'app/shared/model/requisition.model';
+import {RequisitionService} from 'app/entities/requisition';
 
 @Component({
     selector: 'jhi-stock-in-item-update',
@@ -43,7 +43,7 @@ export class StockInItemUpdateComponent implements OnInit {
 
     stockinprocesses: IStockInProcess[];
 
-    purchaseorders: IPurchaseOrder[];
+    requisitions: IRequisition[];
     mfgDateDp: any;
     expiryDateDp: any;
     stockInDate: string;
@@ -57,7 +57,7 @@ export class StockInItemUpdateComponent implements OnInit {
         protected inventorySubLocationService: InventorySubLocationService,
         protected vendorService: VendorService,
         protected stockInProcessService: StockInProcessService,
-        protected purchaseOrderService: PurchaseOrderService,
+        protected requisitionService: RequisitionService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -115,13 +115,13 @@ export class StockInItemUpdateComponent implements OnInit {
                 map((response: HttpResponse<IStockInProcess[]>) => response.body)
             )
             .subscribe((res: IStockInProcess[]) => (this.stockinprocesses = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.purchaseOrderService
+        this.requisitionService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<IPurchaseOrder[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IPurchaseOrder[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IRequisition[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IRequisition[]>) => response.body)
             )
-            .subscribe((res: IPurchaseOrder[]) => (this.purchaseorders = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: IRequisition[]) => (this.requisitions = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -179,7 +179,7 @@ export class StockInItemUpdateComponent implements OnInit {
         return item.id;
     }
 
-    trackPurchaseOrderById(index: number, item: IPurchaseOrder) {
+    trackRequisitionById(index: number, item: IRequisition) {
         return item.id;
     }
 }

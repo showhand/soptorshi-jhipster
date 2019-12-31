@@ -137,9 +137,9 @@ public class StockInProcessQueryService extends QueryService<StockInProcess> {
             if (criteria.getRemarks() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getRemarks(), StockInProcess_.remarks));
             }
-            if (criteria.getPurchaseOrderId() != null) {
-                specification = specification.and(buildSpecification(criteria.getPurchaseOrderId(),
-                    root -> root.join(StockInProcess_.purchaseOrder, JoinType.LEFT).get(PurchaseOrder_.id)));
+            if (criteria.getRequisitionId() != null) {
+                specification = specification.and(buildSpecification(criteria.getRequisitionId(),
+                    root -> root.join(StockInProcess_.requisition, JoinType.LEFT).get(Requisition_.id)));
             }
             if (criteria.getProductCategoriesId() != null) {
                 specification = specification.and(buildSpecification(criteria.getProductCategoriesId(),

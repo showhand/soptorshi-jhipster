@@ -50,12 +50,6 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "purchaseOrderMessages",
-            "otherEntityRelationshipName": "purchaseOrder",
-            "relationshipName": "comments"
-        },
-        {
             "relationshipType": "many-to-one",
             "otherEntityName": "requisition",
             "otherEntityRelationshipName": "purchaseOrder",

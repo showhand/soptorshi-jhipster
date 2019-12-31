@@ -1068,20 +1068,20 @@ public class StockInProcessResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllStockInProcessesByPurchaseOrderIsEqualToSomething() throws Exception {
+    public void getAllStockInProcessesByRequisitionIsEqualToSomething() throws Exception {
         // Initialize the database
-        PurchaseOrder purchaseOrder = PurchaseOrderResourceIntTest.createEntity(em);
-        em.persist(purchaseOrder);
+        Requisition requisition = RequisitionResourceIntTest.createEntity(em);
+        em.persist(requisition);
         em.flush();
-        stockInProcess.setPurchaseOrder(purchaseOrder);
+        stockInProcess.setRequisition(requisition);
         stockInProcessRepository.saveAndFlush(stockInProcess);
-        Long purchaseOrderId = purchaseOrder.getId();
+        Long requisitionId = requisition.getId();
 
-        // Get all the stockInProcessList where purchaseOrder equals to purchaseOrderId
-        defaultStockInProcessShouldBeFound("purchaseOrderId.equals=" + purchaseOrderId);
+        // Get all the stockInProcessList where requisition equals to requisitionId
+        defaultStockInProcessShouldBeFound("requisitionId.equals=" + requisitionId);
 
-        // Get all the stockInProcessList where purchaseOrder equals to purchaseOrderId + 1
-        defaultStockInProcessShouldNotBeFound("purchaseOrderId.equals=" + (purchaseOrderId + 1));
+        // Get all the stockInProcessList where requisition equals to requisitionId + 1
+        defaultStockInProcessShouldNotBeFound("requisitionId.equals=" + (requisitionId + 1));
     }
 
 

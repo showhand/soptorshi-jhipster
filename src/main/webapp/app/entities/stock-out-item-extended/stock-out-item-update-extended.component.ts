@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { JhiAlertService } from 'ng-jhipster';
-import { StockOutItemExtendedService } from './stock-out-item-extended.service';
-import { InventoryLocationService } from 'app/entities/inventory-location';
-import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
-import { StockOutItemUpdateComponent } from 'app/entities/stock-out-item';
-import { ProductCategoryService } from 'app/entities/product-category';
-import { ProductService } from 'app/entities/product';
-import { filter, map } from 'rxjs/operators';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { IProduct } from 'app/shared/model/product.model';
-import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
-import { IStockStatus } from 'app/shared/model/stock-status.model';
-import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
-import { StockInItemExtendedService } from 'app/entities/stock-in-item-extended';
-import { StockStatusExtendedService } from 'app/entities/stock-status-extended';
+import {Component} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {JhiAlertService} from 'ng-jhipster';
+import {StockOutItemExtendedService} from './stock-out-item-extended.service';
+import {InventoryLocationService} from 'app/entities/inventory-location';
+import {InventorySubLocationService} from 'app/entities/inventory-sub-location';
+import {StockOutItemUpdateComponent} from 'app/entities/stock-out-item';
+import {ProductCategoryService} from 'app/entities/product-category';
+import {ProductService} from 'app/entities/product';
+import {filter, map} from 'rxjs/operators';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {IProduct} from 'app/shared/model/product.model';
+import {IInventorySubLocation} from 'app/shared/model/inventory-sub-location.model';
+import {IStockStatus} from 'app/shared/model/stock-status.model';
+import {IInventoryLocation} from 'app/shared/model/inventory-location.model';
+import {StockInItemExtendedService} from 'app/entities/stock-in-item-extended';
+import {StockStatusExtendedService} from 'app/entities/stock-status-extended';
 
 @Component({
     selector: 'jhi-stock-out-item-update-extended',
@@ -42,7 +42,6 @@ export class StockOutItemUpdateExtendedComponent extends StockOutItemUpdateCompo
             inventoryLocationService,
             inventorySubLocationService,
             stockInItemService,
-            stockStatusService,
             activatedRoute
         );
     }

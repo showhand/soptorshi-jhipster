@@ -55,9 +55,9 @@ public class StockInProcessDTO implements Serializable {
     private String remarks;
 
 
-    private Long purchaseOrderId;
+    private Long requisitionId;
 
-    private String purchaseOrderPurchaseOrderNo;
+    private String requisitionRequisitionNo;
 
     private Long productCategoriesId;
 
@@ -215,20 +215,20 @@ public class StockInProcessDTO implements Serializable {
         this.remarks = remarks;
     }
 
-    public Long getPurchaseOrderId() {
-        return purchaseOrderId;
+    public Long getRequisitionId() {
+        return requisitionId;
     }
 
-    public void setPurchaseOrderId(Long purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
+    public void setRequisitionId(Long requisitionId) {
+        this.requisitionId = requisitionId;
     }
 
-    public String getPurchaseOrderPurchaseOrderNo() {
-        return purchaseOrderPurchaseOrderNo;
+    public String getRequisitionRequisitionNo() {
+        return requisitionRequisitionNo;
     }
 
-    public void setPurchaseOrderPurchaseOrderNo(String purchaseOrderPurchaseOrderNo) {
-        this.purchaseOrderPurchaseOrderNo = purchaseOrderPurchaseOrderNo;
+    public void setRequisitionRequisitionNo(String requisitionRequisitionNo) {
+        this.requisitionRequisitionNo = requisitionRequisitionNo;
     }
 
     public Long getProductCategoriesId() {
@@ -352,8 +352,8 @@ public class StockInProcessDTO implements Serializable {
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
             ", remarks='" + getRemarks() + "'" +
-            ", purchaseOrder=" + getPurchaseOrderId() +
-            ", purchaseOrder='" + getPurchaseOrderPurchaseOrderNo() + "'" +
+            ", requisition=" + getRequisitionId() +
+            ", requisition='" + getRequisitionRequisitionNo() + "'" +
             ", productCategories=" + getProductCategoriesId() +
             ", productCategories='" + getProductCategoriesName() + "'" +
             ", products=" + getProductsId() +

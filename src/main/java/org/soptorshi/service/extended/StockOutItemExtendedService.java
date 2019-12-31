@@ -116,7 +116,6 @@ public class StockOutItemExtendedService extends StockOutItemService {
                 stockOutItemDTO.setStockOutBy(currentUser);
                 stockOutItemDTO.setStockOutDate(currentDateTime);
                 stockOutItemDTO.setStockInItemsId(stockInItem.getId());
-                stockOutItemDTO.setStockStatusesId(stockStatus.getId());
                 int response = updateStockStatus(stockOutItemDTO, stockStatus, currentUser, currentDateTime);
                 if (response == 1) {
                     StockOutItem stockOutItem = stockOutItemMapper.toEntity(stockOutItemDTO);

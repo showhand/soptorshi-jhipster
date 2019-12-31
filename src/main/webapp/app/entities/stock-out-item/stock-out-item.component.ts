@@ -1,15 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {JhiAlertService, JhiEventManager, JhiParseLinks} from 'ng-jhipster';
 
-import { IStockOutItem } from 'app/shared/model/stock-out-item.model';
-import { AccountService } from 'app/core';
+import {IStockOutItem} from 'app/shared/model/stock-out-item.model';
+import {AccountService} from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
-import { StockOutItemService } from './stock-out-item.service';
+import {ITEMS_PER_PAGE} from 'app/shared';
+import {StockOutItemService} from './stock-out-item.service';
 
 @Component({
     selector: 'jhi-stock-out-item',

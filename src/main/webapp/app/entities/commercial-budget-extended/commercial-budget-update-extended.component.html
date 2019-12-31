@@ -116,12 +116,11 @@
                 </div>
             </div>
 
-            <div style="float: right">
+            <div style="float: right" [hidden]="commercialBudget.id">
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
                 <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
-                        *jhiHasAnyAuthority="['ROLE_ADMIN']"
                         class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                 </button>
@@ -129,8 +128,6 @@
         </form>
     </div>
 </div>
-
-<br/>
 
 <div class="row" *ngIf="commercialProductInfos">
     <div class="col-12">
@@ -174,13 +171,21 @@
                     <td>{{commercialProductInfo.buyingUnit}}</td>
                     <td>{{commercialProductInfo.buyingUnitPrice}}</td>
                     <td>{{commercialProductInfo.buyingTotalPrice}}</td>
-                    <td>
-                        <button type="submit"
-                                [routerLink]="['/commercial-product-info', commercialProductInfo.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
+                    <td width="20%">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    [routerLink]="['/commercial-product-info', commercialProductInfo.id, 'view' ]"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+                            <button type="submit"
+                                    [routerLink]="['/commercial-product-info', commercialProductInfo.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+                        </div>
                     </td>
                 </tr>
                 </tbody>

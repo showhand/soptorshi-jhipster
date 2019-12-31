@@ -1,26 +1,22 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.*;
+import org.soptorshi.repository.StockOutItemRepository;
+import org.soptorshi.repository.search.StockOutItemSearchRepository;
+import org.soptorshi.service.dto.StockOutItemCriteria;
+import org.soptorshi.service.dto.StockOutItemDTO;
+import org.soptorshi.service.mapper.StockOutItemMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.StockOutItem;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.StockOutItemRepository;
-import org.soptorshi.repository.search.StockOutItemSearchRepository;
-import org.soptorshi.service.dto.StockOutItemCriteria;
-import org.soptorshi.service.dto.StockOutItemDTO;
-import org.soptorshi.service.mapper.StockOutItemMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for StockOutItem entities in the database.
@@ -133,10 +129,6 @@ public class StockOutItemQueryService extends QueryService<StockOutItem> {
             if (criteria.getStockInItemsId() != null) {
                 specification = specification.and(buildSpecification(criteria.getStockInItemsId(),
                     root -> root.join(StockOutItem_.stockInItems, JoinType.LEFT).get(StockInItem_.id)));
-            }
-            if (criteria.getStockStatusesId() != null) {
-                specification = specification.and(buildSpecification(criteria.getStockStatusesId(),
-                    root -> root.join(StockOutItem_.stockStatuses, JoinType.LEFT).get(StockStatus_.id)));
             }
         }
         return specification;

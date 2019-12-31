@@ -1,13 +1,11 @@
 /* tslint:disable max-line-length */
-import { TestBed, getTestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import {getTestBed, TestBed} from '@angular/core/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {map, take} from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { StockOutItemService } from 'app/entities/stock-out-item/stock-out-item.service';
-import { IStockOutItem, StockOutItem } from 'app/shared/model/stock-out-item.model';
+import {DATE_TIME_FORMAT} from 'app/shared/constants/input.constants';
+import {StockOutItemService} from 'app/entities/stock-out-item/stock-out-item.service';
+import {IStockOutItem, StockOutItem} from 'app/shared/model/stock-out-item.model';
 
 describe('Service Tests', () => {
     describe('StockOutItem Service', () => {

@@ -1,8 +1,9 @@
 package org.soptorshi.service.dto;
-import java.time.Instant;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -46,8 +47,6 @@ public class StockOutItemDTO implements Serializable {
     private String inventorySubLocationsName;
 
     private Long stockInItemsId;
-
-    private Long stockStatusesId;
 
     public Long getId() {
         return id;
@@ -185,14 +184,6 @@ public class StockOutItemDTO implements Serializable {
         this.stockInItemsId = stockInItemId;
     }
 
-    public Long getStockStatusesId() {
-        return stockStatusesId;
-    }
-
-    public void setStockStatusesId(Long stockStatusId) {
-        this.stockStatusesId = stockStatusId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -234,7 +225,6 @@ public class StockOutItemDTO implements Serializable {
             ", inventorySubLocations=" + getInventorySubLocationsId() +
             ", inventorySubLocations='" + getInventorySubLocationsName() + "'" +
             ", stockInItems=" + getStockInItemsId() +
-            ", stockStatuses=" + getStockStatusesId() +
             "}";
     }
 }

@@ -1,27 +1,18 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.StockOutItem;
-import org.soptorshi.domain.ProductCategory;
-import org.soptorshi.domain.Product;
-import org.soptorshi.domain.InventoryLocation;
-import org.soptorshi.domain.InventorySubLocation;
-import org.soptorshi.domain.StockInItem;
-import org.soptorshi.domain.StockStatus;
-import org.soptorshi.repository.StockOutItemRepository;
-import org.soptorshi.repository.search.StockOutItemSearchRepository;
-import org.soptorshi.service.StockOutItemService;
-import org.soptorshi.service.dto.StockOutItemDTO;
-import org.soptorshi.service.mapper.StockOutItemMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.StockOutItemCriteria;
-import org.soptorshi.service.StockOutItemQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.*;
+import org.soptorshi.repository.StockOutItemRepository;
+import org.soptorshi.repository.search.StockOutItemSearchRepository;
+import org.soptorshi.service.StockOutItemQueryService;
+import org.soptorshi.service.StockOutItemService;
+import org.soptorshi.service.dto.StockOutItemDTO;
+import org.soptorshi.service.mapper.StockOutItemMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -42,12 +33,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -263,7 +253,7 @@ public class StockOutItemResourceIntTest {
             .andExpect(jsonPath("$.[*].receivingPlace").value(hasItem(DEFAULT_RECEIVING_PLACE.toString())))
             .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getStockOutItem() throws Exception {
@@ -649,25 +639,6 @@ public class StockOutItemResourceIntTest {
 
         // Get all the stockOutItemList where stockInItems equals to stockInItemsId + 1
         defaultStockOutItemShouldNotBeFound("stockInItemsId.equals=" + (stockInItemsId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllStockOutItemsByStockStatusesIsEqualToSomething() throws Exception {
-        // Initialize the database
-        StockStatus stockStatuses = StockStatusResourceIntTest.createEntity(em);
-        em.persist(stockStatuses);
-        em.flush();
-        stockOutItem.setStockStatuses(stockStatuses);
-        stockOutItemRepository.saveAndFlush(stockOutItem);
-        Long stockStatusesId = stockStatuses.getId();
-
-        // Get all the stockOutItemList where stockStatuses equals to stockStatusesId
-        defaultStockOutItemShouldBeFound("stockStatusesId.equals=" + stockStatusesId);
-
-        // Get all the stockOutItemList where stockStatuses equals to stockStatusesId + 1
-        defaultStockOutItemShouldNotBeFound("stockStatusesId.equals=" + (stockStatusesId + 1));
     }
 
     /**

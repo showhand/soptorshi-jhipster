@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import {Moment} from 'moment';
 
 export const enum UnitOfMeasurements {
     PCS = 'PCS',
@@ -45,8 +45,8 @@ export interface IStockInItem {
     vendorCompanyName?: string;
     vendorId?: number;
     stockInProcessesId?: number;
-    purchaseOrdersPurchaseOrderNo?: string;
-    purchaseOrdersId?: number;
+    requisitionsRequisitionNo?: string;
+    requisitionsId?: number;
 }
 
 export class StockInItem implements IStockInItem {
@@ -74,7 +74,7 @@ export class StockInItem implements IStockInItem {
         public vendorCompanyName?: string,
         public vendorId?: number,
         public stockInProcessesId?: number,
-        public purchaseOrdersPurchaseOrderNo?: string,
-        public purchaseOrdersId?: number
+        public requisitionsRequisitionNo?: string,
+        public requisitionsId?: number
     ) {}
 }

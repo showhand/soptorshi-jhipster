@@ -16,8 +16,7 @@ import { LeaveBalanceService } from 'app/entities/leave-balance';
 
 @Component({
     selector: 'jhi-others-leave-application',
-    templateUrl: './others-leave-application.component.html',
-    styles: []
+    templateUrl: './others-leave-application.component.html'
 })
 export class OthersLeaveApplicationComponent implements OnInit {
     leaveApplication: ILeaveApplication;

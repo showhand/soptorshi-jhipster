@@ -63,12 +63,6 @@
                         <a [routerLink]="['/stock-in-item', stockOutItem.stockInItemsId, 'view']">{{stockOutItem.stockInItemsId}}</a>
                     </div>
                 </dd>
-                <dt><span>Stock Statuses</span></dt>
-                <dd>
-                    <div *ngIf="stockOutItem.stockStatusesId">
-                        <a [routerLink]="['/stock-status', stockOutItem.stockStatusesId, 'view']">{{stockOutItem.stockStatusesId}}</a>
-                    </div>
-                </dd>
             </dl>
 
             <button type="submit"
@@ -77,11 +71,11 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
 
-            <button type="button"
+            <!--<button type="button"
                     [routerLink]="['/stock-out-item', stockOutItem.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>
+            </button>-->
         </div>
     </div>
 </div>

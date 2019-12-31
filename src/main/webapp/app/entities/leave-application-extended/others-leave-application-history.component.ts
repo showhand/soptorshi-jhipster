@@ -7,15 +7,14 @@ import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Employee, IEmployee } from 'app/shared/model/employee.model';
+import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
 import { ManagerService } from 'app/entities/manager';
 import { IManager } from 'app/shared/model/manager.model';
 
 @Component({
     selector: 'jhi-others-leave-application-history',
-    templateUrl: './others-leave-application-history.component.html',
-    styles: []
+    templateUrl: './others-leave-application-history.component.html'
 })
 export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy {
     leaveApplications: ILeaveApplication[];

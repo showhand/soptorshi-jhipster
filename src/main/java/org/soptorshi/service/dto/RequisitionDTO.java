@@ -1,11 +1,12 @@
 package org.soptorshi.service.dto;
-import java.time.LocalDate;
+
+import org.soptorshi.domain.enumeration.RequisitionStatus;
+
+import javax.persistence.Lob;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
-import javax.persistence.Lob;
-import org.soptorshi.domain.enumeration.RequisitionType;
-import org.soptorshi.domain.enumeration.RequisitionStatus;
 
 /**
  * A DTO for the Requisition entity.
@@ -15,8 +16,6 @@ public class RequisitionDTO implements Serializable {
     private Long id;
 
     private String requisitionNo;
-
-    private RequisitionType requisitionType;
 
     @Lob
     private String reason;
@@ -79,14 +78,6 @@ public class RequisitionDTO implements Serializable {
 
     public void setRequisitionNo(String requisitionNo) {
         this.requisitionNo = requisitionNo;
-    }
-
-    public RequisitionType getRequisitionType() {
-        return requisitionType;
-    }
-
-    public void setRequisitionType(RequisitionType requisitionType) {
-        this.requisitionType = requisitionType;
     }
 
     public String getReason() {
@@ -283,7 +274,6 @@ public class RequisitionDTO implements Serializable {
         return "RequisitionDTO{" +
             "id=" + getId() +
             ", requisitionNo='" + getRequisitionNo() + "'" +
-            ", requisitionType='" + getRequisitionType() + "'" +
             ", reason='" + getReason() + "'" +
             ", requisitionDate='" + getRequisitionDate() + "'" +
             ", amount=" + getAmount() +

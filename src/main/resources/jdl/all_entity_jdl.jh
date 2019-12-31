@@ -1131,7 +1131,7 @@ enum PackColor {
 relationship OneToOne {
   PurchaseCommittee{employee(fullName)} to Employee,
   StockStatus{stockInItem} to StockInItem,
-  StockInProcess{PurchaseOrder(purchaseOrderNo)} to PurchaseOrder
+  StockInProcess{requisition(requisitionNo)} to Requisition
   CommercialPi{commercialBudget(budgetNo)} to CommercialBudget
   CommercialPo{commercialPi(proformaNo)} to CommercialPi
 }
@@ -1204,13 +1204,12 @@ relationship ManyToOne {
   StockInItem{inventorySubLocations(name)} to InventorySubLocation,
   StockInItem{vendor(companyName)} to Vendor,
   StockInItem{stockInProcesses} to StockInProcess,
-  StockInItem{PurchaseOrders(purchaseOrderNo)} to PurchaseOrder,
+  StockInItem{requisitions(requisitionNo)} to Requisition,
   StockOutItem{productCategories(name)} to ProductCategory,
   StockOutItem{products(name)} to Product,
   StockOutItem{inventoryLocations(name)} to InventoryLocation,
   StockOutItem{inventorySubLocations(name)} to InventorySubLocation,
   StockOutItem{stockInItems} to StockInItem,
-  StockOutItem{stockStatuses} to StockStatus,
   StockStatus{productCategories(name)} to ProductCategory,
   StockStatus{products(name)} to Product,
   StockStatus{inventoryLocations(name)} to InventoryLocation,

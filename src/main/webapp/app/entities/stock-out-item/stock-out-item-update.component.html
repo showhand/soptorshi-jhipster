@@ -98,13 +98,6 @@
                         <option [ngValue]="stockInItemOption.id" *ngFor="let stockInItemOption of stockinitems; trackBy: trackStockInItemById">{{stockInItemOption.id}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_stockStatuses">Stock Statuses</label>
-                    <select class="form-control" id="field_stockStatuses" name="stockStatuses" [(ngModel)]="stockOutItem.stockStatusesId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="stockStatusOption.id" *ngFor="let stockStatusOption of stockstatuses; trackBy: trackStockStatusById">{{stockStatusOption.id}}</option>
-                    </select>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

@@ -16,7 +16,7 @@ const ENTITY_STATES = [...purchaseOrderMessagesRoute, ...purchaseOrderMessagesPo
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /*declarations: [
         PurchaseOrderMessagesComponent,
         PurchaseOrderMessagesDetailComponent,
         PurchaseOrderMessagesUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...purchaseOrderMessagesRoute, ...purchaseOrderMessagesPo
         PurchaseOrderMessagesUpdateComponent,
         PurchaseOrderMessagesDeleteDialogComponent,
         PurchaseOrderMessagesDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiPurchaseOrderMessagesModule {}

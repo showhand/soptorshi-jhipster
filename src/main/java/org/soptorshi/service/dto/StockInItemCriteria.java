@@ -71,7 +71,7 @@ public class StockInItemCriteria implements Serializable {
 
     private LongFilter stockInProcessesId;
 
-    private LongFilter purchaseOrdersId;
+    private LongFilter requisitionsId;
 
     public LongFilter getId() {
         return id;
@@ -217,12 +217,12 @@ public class StockInItemCriteria implements Serializable {
         this.stockInProcessesId = stockInProcessesId;
     }
 
-    public LongFilter getPurchaseOrdersId() {
-        return purchaseOrdersId;
+    public LongFilter getRequisitionsId() {
+        return requisitionsId;
     }
 
-    public void setPurchaseOrdersId(LongFilter purchaseOrdersId) {
-        this.purchaseOrdersId = purchaseOrdersId;
+    public void setRequisitionsId(LongFilter requisitionsId) {
+        this.requisitionsId = requisitionsId;
     }
 
 
@@ -254,7 +254,7 @@ public class StockInItemCriteria implements Serializable {
             Objects.equals(inventorySubLocationsId, that.inventorySubLocationsId) &&
             Objects.equals(vendorId, that.vendorId) &&
             Objects.equals(stockInProcessesId, that.stockInProcessesId) &&
-            Objects.equals(purchaseOrdersId, that.purchaseOrdersId);
+            Objects.equals(requisitionsId, that.requisitionsId);
     }
 
     @Override
@@ -278,7 +278,7 @@ public class StockInItemCriteria implements Serializable {
         inventorySubLocationsId,
         vendorId,
         stockInProcessesId,
-        purchaseOrdersId
+        requisitionsId
         );
     }
 
@@ -303,7 +303,7 @@ public class StockInItemCriteria implements Serializable {
                 (inventorySubLocationsId != null ? "inventorySubLocationsId=" + inventorySubLocationsId + ", " : "") +
                 (vendorId != null ? "vendorId=" + vendorId + ", " : "") +
                 (stockInProcessesId != null ? "stockInProcessesId=" + stockInProcessesId + ", " : "") +
-                (purchaseOrdersId != null ? "purchaseOrdersId=" + purchaseOrdersId + ", " : "") +
+                (requisitionsId != null ? "requisitionsId=" + requisitionsId + ", " : "") +
             "}";
     }
 

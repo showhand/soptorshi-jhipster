@@ -46,7 +46,7 @@
             <th jhiSortBy="stockInBy"><span>Stock In By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInDate"><span>Stock In Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="purchaseOrderPurchaseOrderNo"><span>Purchase Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="requisitionRequisitionNo"><span>Requisition</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -75,8 +75,8 @@
                 <td>{{stockInProcess.stockInDate | date:'medium'}}</td>
                 <td>{{stockInProcess.remarks}}</td>
                 <td>
-                    <div *ngIf="stockInProcess.purchaseOrderId">
-                        <a [routerLink]="['../purchase-order', stockInProcess.purchaseOrderId , 'view' ]" >{{stockInProcess.purchaseOrderPurchaseOrderNo}}</a>
+                    <div *ngIf="stockInProcess.requisitionId">
+                        <a [routerLink]="['../requisition', stockInProcess.requisitionId , 'view' ]" >{{stockInProcess.requisitionRequisitionNo}}</a>
                     </div>
                 </td>
                 <td>

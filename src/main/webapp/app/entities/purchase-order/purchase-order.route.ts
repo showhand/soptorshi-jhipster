@@ -1,17 +1,16 @@
-import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
-import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
-import { UserRouteAccessService } from 'app/core';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { PurchaseOrder } from 'app/shared/model/purchase-order.model';
-import { PurchaseOrderService } from './purchase-order.service';
-import { PurchaseOrderComponent } from './purchase-order.component';
-import { PurchaseOrderDetailComponent } from './purchase-order-detail.component';
-import { PurchaseOrderUpdateComponent } from './purchase-order-update.component';
-import { PurchaseOrderDeletePopupComponent } from './purchase-order-delete-dialog.component';
-import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
+import {Injectable} from '@angular/core';
+import {HttpResponse} from '@angular/common/http';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes} from '@angular/router';
+import {JhiResolvePagingParams} from 'ng-jhipster';
+import {UserRouteAccessService} from 'app/core';
+import {Observable, of} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
+import {IPurchaseOrder, PurchaseOrder} from 'app/shared/model/purchase-order.model';
+import {PurchaseOrderService} from './purchase-order.service';
+import {PurchaseOrderComponent} from './purchase-order.component';
+import {PurchaseOrderDetailComponent} from './purchase-order-detail.component';
+import {PurchaseOrderUpdateComponent} from './purchase-order-update.component';
+import {PurchaseOrderDeletePopupComponent} from './purchase-order-delete-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class PurchaseOrderResolve implements Resolve<IPurchaseOrder> {

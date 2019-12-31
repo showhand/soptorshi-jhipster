@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {JhiAlertService, JhiEventManager, JhiParseLinks} from 'ng-jhipster';
 
-import { IStockInProcess } from 'app/shared/model/stock-in-process.model';
-import { AccountService } from 'app/core';
+import {IStockInProcess} from 'app/shared/model/stock-in-process.model';
+import {AccountService} from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
-import { StockInProcessService } from './stock-in-process.service';
+import {ITEMS_PER_PAGE} from 'app/shared';
+import {StockInProcessService} from './stock-in-process.service';
 
 @Component({
     selector: 'jhi-stock-in-process',

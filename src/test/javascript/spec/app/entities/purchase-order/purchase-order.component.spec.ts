@@ -1,13 +1,13 @@
 /* tslint:disable max-line-length */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Data } from '@angular/router';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {of} from 'rxjs';
+import {HttpHeaders, HttpResponse} from '@angular/common/http';
+import {ActivatedRoute, Data} from '@angular/router';
 
-import { SoptorshiTestModule } from '../../../test.module';
-import { PurchaseOrderComponent } from 'app/entities/purchase-order/purchase-order.component';
-import { PurchaseOrderService } from 'app/entities/purchase-order/purchase-order.service';
-import { PurchaseOrder } from 'app/shared/model/purchase-order.model';
+import {SoptorshiTestModule} from '../../../test.module';
+import {PurchaseOrderComponent} from 'app/entities/purchase-order/purchase-order.component';
+import {PurchaseOrderService} from 'app/entities/purchase-order/purchase-order.service';
+import {PurchaseOrder} from 'app/shared/model/purchase-order.model';
 
 describe('Component Tests', () => {
     describe('PurchaseOrder Management Component', () => {

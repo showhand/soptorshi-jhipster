@@ -30,7 +30,7 @@
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_commercialPo">Commercial Po</label>
-                    <select class="form-control" id="field_commercialPo" name="commercialPo" [(ngModel)]="commercialAttachment.commercialPoId" >
+                    <select class="form-control" id="field_commercialPo" name="commercialPo" [(ngModel)]="commercialAttachment.commercialPoId" required>
                         <option [ngValue]="null"></option>
                         <option [ngValue]="commercialPoOption.id" *ngFor="let commercialPoOption of commercialpos; trackBy: trackCommercialPoById">{{commercialPoOption.purchaseOrderNo}}</option>
                     </select>

@@ -1,83 +1,124 @@
 <div class="row justify-content-center">
-    <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="col-12">
+        <form name="editForm" role="form" novalidate  #editForm="ngForm">
             <h2 id="jhi-purchase-order-heading">Create or edit a Purchase Order</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!purchaseOrder.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="purchaseOrder.id" readonly />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_purchaseOrderNo">Purchase Order No</label>
-                    <input type="text" class="form-control" name="purchaseOrderNo" id="field_purchaseOrderNo"
-                        [(ngModel)]="purchaseOrder.purchaseOrderNo" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_workOrderNo">Work Order No</label>
-                    <input type="text" class="form-control" name="workOrderNo" id="field_workOrderNo"
-                        [(ngModel)]="purchaseOrder.workOrderNo" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_issueDate">Issue Date</label>
-                    <div class="input-group">
-                        <input id="field_issueDate" type="text" class="form-control" name="issueDate" ngbDatepicker  #issueDateDp="ngbDatepicker" [(ngModel)]="purchaseOrder.issueDate"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="issueDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
+                <div class="row">
+                    <div class="col-12">
+                        <h3><u>Requisition</u></h3>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_requisition">Requisition</label>
+                            <select class="form-control" id="field_requisition" name="requisition" [(ngModel)]="purchaseOrder.requisitionId" >
+                                <option [ngValue]="null"></option>
+                                <option [ngValue]="requisitionOption.id" *ngFor="let requisitionOption of requisitions; trackBy: trackRequisitionById">{{requisitionOption.requisitionNo}}</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_referredTo">Referred To</label>
-                    <input type="text" class="form-control" name="referredTo" id="field_referredTo"
-                        [(ngModel)]="purchaseOrder.referredTo" />
+
+                <div class="row ">
+                    <div class="col-12">
+                        <h3><u>Purchase Order And Work Order No</u></h3>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_purchaseOrderNo">Purchase Order No</label>
+                            <input type="text" class="form-control" name="purchaseOrderNo" id="field_purchaseOrderNo"
+                                   [(ngModel)]="purchaseOrder.purchaseOrderNo" />
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_workOrderNo">Work Order No</label>
+                            <input type="text" class="form-control" name="workOrderNo" id="field_workOrderNo"
+                                   [(ngModel)]="purchaseOrder.workOrderNo" />
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_subject">Subject</label>
-                    <input type="text" class="form-control" name="subject" id="field_subject"
-                        [(ngModel)]="purchaseOrder.subject" />
+                <div class="row">
+                    <div class="col-12">
+                        <h3><u>Header Components</u></h3>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_issueDate">Issue Date</label>
+                            <div class="input-group">
+                                <input id="field_issueDate" type="text" class="form-control" name="issueDate" ngbDatepicker  #issueDateDp="ngbDatepicker" [(ngModel)]="purchaseOrder.issueDate"
+                                />
+                                <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="issueDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_referredTo">Referred To</label>
+                            <input type="text" class="form-control" name="referredTo" id="field_referredTo"
+                                   [(ngModel)]="purchaseOrder.referredTo" />
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_note">Note</label>
-                    <textarea class="form-control" name="note" id="field_note"
-                        [(ngModel)]="purchaseOrder.note" ></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_laborOrOtherAmount">Labor Or Other Amount</label>
-                    <input type="number" class="form-control" name="laborOrOtherAmount" id="field_laborOrOtherAmount"
-                        [(ngModel)]="purchaseOrder.laborOrOtherAmount" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_discount">Discount</label>
-                    <input type="number" class="form-control" name="discount" id="field_discount"
-                        [(ngModel)]="purchaseOrder.discount" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_status">Status</label>
-                    <select class="form-control" name="status" [(ngModel)]="purchaseOrder.status" id="field_status" >
-                        <option value="WAITING_FOR_CFO_APPROVAL">WAITING_FOR_CFO_APPROVAL</option>
-                        <option value="APPROVED_BY_CFO">APPROVED_BY_CFO</option>
-                        <option value="REJECTED_BY_CFO">REJECTED_BY_CFO</option>
-                        <option value="MODIFICATION_REQUEST_BY_CFO">MODIFICATION_REQUEST_BY_CFO</option>
-                        <option value="CLOSED_BY_CFO">CLOSED_BY_CFO</option>
-                    </select>
+                <div class="row">
+                    <div class="col-12">
+                        <h3><u>Subject and Notes</u></h3>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_subject">Subject</label>
+                            <input type="text" class="form-control" name="subject" id="field_subject"
+                                   [(ngModel)]="purchaseOrder.subject" />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_note">Note</label>
+                            <textarea class="form-control" name="note" id="field_note"
+                                      [(ngModel)]="purchaseOrder.note" ></textarea>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_requisition">Requisition</label>
-                    <select class="form-control" id="field_requisition" name="requisition" [(ngModel)]="purchaseOrder.requisitionId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="requisitionOption.id" *ngFor="let requisitionOption of requisitions; trackBy: trackRequisitionById">{{requisitionOption.requisitionNo}}</option>
-                    </select>
+                <div class="row">
+                    <div class="col-12">
+                        <h3><u>Other Amounts and Discounts</u></h3>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_laborOrOtherAmount">Labor Or Other Amount</label>
+                            <input type="number" class="form-control" name="laborOrOtherAmount" id="field_laborOrOtherAmount"
+                                   [(ngModel)]="purchaseOrder.laborOrOtherAmount" />
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_discount">Discount</label>
+                            <input type="number" class="form-control" name="discount" id="field_discount"
+                                   [(ngModel)]="purchaseOrder.discount" />
+                        </div>
+                    </div>
                 </div>
+
+                <div class="row" *ngIf="purchaseOrder.id">
+                    <div class="col-12">
+                        <jhi-terms-and-conditions-for-purchase-order [purchaseOrder]="purchaseOrder"></jhi-terms-and-conditions-for-purchase-order>
+                    </div>
+                </div>
+                <div class="row" *ngIf="purchaseOrder.id">
+                    <div class="col-12">
+                        <jhi-purchase-order-messages-directive [purchaseOrderId]="purchaseOrder.id"></jhi-purchase-order-messages-directive>
+                    </div>
+                </div>
+
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                    <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span>Back</span>
                 </button>
-                <button *ngIf="purchaseOrder.status== null || purchaseOrder.status=='MODIFICATION_REQUEST_BY_CFO'" type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button *ngIf="purchaseOrder.status== null || purchaseOrder.status=='MODIFICATION_REQUEST_BY_CFO'" (click)="save()" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save & Send for CFO's approval</span>
                 </button>
                 <button type="button" id="approve-cfo" *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO']) && purchaseOrder.status==='WAITING_FOR_CFO_APPROVAL'" class="btn btn-secondary"  (click)="approveByCfo()">
@@ -92,4 +133,6 @@
             </div>
         </form>
     </div>
+
+
 </div>

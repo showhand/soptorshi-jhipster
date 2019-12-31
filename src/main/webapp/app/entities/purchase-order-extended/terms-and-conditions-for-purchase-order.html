@@ -60,9 +60,5 @@
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
     </div>
-    <div class="row" *ngIf="termsAndCondition.purchaseOrderId" align="right">
-        <div class="col-12">
-            <button class="btn btn-danger" (click)="back()">Back</button>
-        </div>
-    </div>
+
 </div>

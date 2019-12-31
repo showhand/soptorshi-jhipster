@@ -109,10 +109,10 @@
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "purchaseOrder",
+            "otherEntityName": "requisition",
             "otherEntityRelationshipName": "stockInItem",
-            "relationshipName": "purchaseOrders",
-            "otherEntityField": "purchaseOrderNo"
+            "relationshipName": "requisitions",
+            "otherEntityField": "requisitionNo"
         }
     ],
     "changelogDate": "20190802061702",

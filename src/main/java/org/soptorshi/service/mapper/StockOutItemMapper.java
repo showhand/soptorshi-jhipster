@@ -1,14 +1,14 @@
 package org.soptorshi.service.mapper;
 
-import org.soptorshi.domain.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.soptorshi.domain.StockOutItem;
 import org.soptorshi.service.dto.StockOutItemDTO;
-
-import org.mapstruct.*;
 
 /**
  * Mapper for the entity StockOutItem and its DTO StockOutItemDTO.
  */
-@Mapper(componentModel = "spring", uses = {ProductCategoryMapper.class, ProductMapper.class, InventoryLocationMapper.class, InventorySubLocationMapper.class, StockInItemMapper.class, StockStatusMapper.class})
+@Mapper(componentModel = "spring", uses = {ProductCategoryMapper.class, ProductMapper.class, InventoryLocationMapper.class, InventorySubLocationMapper.class, StockInItemMapper.class})
 public interface StockOutItemMapper extends EntityMapper<StockOutItemDTO, StockOutItem> {
 
     @Mapping(source = "productCategories.id", target = "productCategoriesId")
@@ -20,7 +20,6 @@ public interface StockOutItemMapper extends EntityMapper<StockOutItemDTO, StockO
     @Mapping(source = "inventorySubLocations.id", target = "inventorySubLocationsId")
     @Mapping(source = "inventorySubLocations.name", target = "inventorySubLocationsName")
     @Mapping(source = "stockInItems.id", target = "stockInItemsId")
-    @Mapping(source = "stockStatuses.id", target = "stockStatusesId")
     StockOutItemDTO toDto(StockOutItem stockOutItem);
 
     @Mapping(source = "productCategoriesId", target = "productCategories")
@@ -28,7 +27,6 @@ public interface StockOutItemMapper extends EntityMapper<StockOutItemDTO, StockO
     @Mapping(source = "inventoryLocationsId", target = "inventoryLocations")
     @Mapping(source = "inventorySubLocationsId", target = "inventorySubLocations")
     @Mapping(source = "stockInItemsId", target = "stockInItems")
-    @Mapping(source = "stockStatusesId", target = "stockStatuses")
     StockOutItem toEntity(StockOutItemDTO stockOutItemDTO);
 
     default StockOutItem fromId(Long id) {

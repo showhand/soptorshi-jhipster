@@ -1,25 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { JhiAlertService } from 'ng-jhipster';
-import { IStockInProcess } from 'app/shared/model/stock-in-process.model';
-import { StockInProcessService } from './stock-in-process.service';
-import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
-import { PurchaseOrderService } from 'app/entities/purchase-order';
-import { IProductCategory } from 'app/shared/model/product-category.model';
-import { ProductCategoryService } from 'app/entities/product-category';
-import { IProduct } from 'app/shared/model/product.model';
-import { ProductService } from 'app/entities/product';
-import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
-import { InventoryLocationService } from 'app/entities/inventory-location';
-import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
-import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
-import { IVendor } from 'app/shared/model/vendor.model';
-import { VendorService } from 'app/entities/vendor';
+import {DATE_TIME_FORMAT} from 'app/shared/constants/input.constants';
+import {JhiAlertService} from 'ng-jhipster';
+import {IStockInProcess} from 'app/shared/model/stock-in-process.model';
+import {StockInProcessService} from './stock-in-process.service';
+import {IRequisition} from 'app/shared/model/requisition.model';
+import {RequisitionService} from 'app/entities/requisition';
+import {IProductCategory} from 'app/shared/model/product-category.model';
+import {ProductCategoryService} from 'app/entities/product-category';
+import {IProduct} from 'app/shared/model/product.model';
+import {ProductService} from 'app/entities/product';
+import {IInventoryLocation} from 'app/shared/model/inventory-location.model';
+import {InventoryLocationService} from 'app/entities/inventory-location';
+import {IInventorySubLocation} from 'app/shared/model/inventory-sub-location.model';
+import {InventorySubLocationService} from 'app/entities/inventory-sub-location';
+import {IVendor} from 'app/shared/model/vendor.model';
+import {VendorService} from 'app/entities/vendor';
 
 @Component({
     selector: 'jhi-stock-in-process-update',
@@ -29,7 +29,7 @@ export class StockInProcessUpdateComponent implements OnInit {
     stockInProcess: IStockInProcess;
     isSaving: boolean;
 
-    purchaseorders: IPurchaseOrder[];
+    requisitions: IRequisition[];
 
     productcategories: IProductCategory[];
 
@@ -48,7 +48,7 @@ export class StockInProcessUpdateComponent implements OnInit {
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockInProcessService: StockInProcessService,
-        protected purchaseOrderService: PurchaseOrderService,
+        protected requisitionService: RequisitionService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
@@ -65,25 +65,25 @@ export class StockInProcessUpdateComponent implements OnInit {
                 this.stockInProcess.processStartedOn != null ? this.stockInProcess.processStartedOn.format(DATE_TIME_FORMAT) : null;
             this.stockInDate = this.stockInProcess.stockInDate != null ? this.stockInProcess.stockInDate.format(DATE_TIME_FORMAT) : null;
         });
-        this.purchaseOrderService
+        this.requisitionService
             .query({ 'stockInProcessId.specified': 'false' })
             .pipe(
-                filter((mayBeOk: HttpResponse<IPurchaseOrder[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IPurchaseOrder[]>) => response.body)
+                filter((mayBeOk: HttpResponse<IRequisition[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IRequisition[]>) => response.body)
             )
             .subscribe(
-                (res: IPurchaseOrder[]) => {
-                    if (!this.stockInProcess.purchaseOrderId) {
-                        this.purchaseorders = res;
+                (res: IRequisition[]) => {
+                    if (!this.stockInProcess.requisitionId) {
+                        this.requisitions = res;
                     } else {
-                        this.purchaseOrderService
-                            .find(this.stockInProcess.purchaseOrderId)
+                        this.requisitionService
+                            .find(this.stockInProcess.requisitionId)
                             .pipe(
-                                filter((subResMayBeOk: HttpResponse<IPurchaseOrder>) => subResMayBeOk.ok),
-                                map((subResponse: HttpResponse<IPurchaseOrder>) => subResponse.body)
+                                filter((subResMayBeOk: HttpResponse<IRequisition>) => subResMayBeOk.ok),
+                                map((subResponse: HttpResponse<IRequisition>) => subResponse.body)
                             )
                             .subscribe(
-                                (subRes: IPurchaseOrder) => (this.purchaseorders = [subRes].concat(res)),
+                                (subRes: IRequisition) => (this.requisitions = [subRes].concat(res)),
                                 (subRes: HttpErrorResponse) => this.onError(subRes.message)
                             );
                     }
@@ -165,7 +165,7 @@ export class StockInProcessUpdateComponent implements OnInit {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
-    trackPurchaseOrderById(index: number, item: IPurchaseOrder) {
+    trackRequisitionById(index: number, item: IRequisition) {
         return item.id;
     }
 

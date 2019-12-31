@@ -54,6 +54,13 @@ export class CommercialBudgetUpdateExtendedComponent extends CommercialBudgetUpd
         }
     }
 
+    protected onSaveSuccess() {
+        this.isSaving = false;
+        if (this.approved || this.rejected) {
+            this.previousState();
+        }
+    }
+
     getProductInfo() {
         this.commercialProductInfoService
             .query({

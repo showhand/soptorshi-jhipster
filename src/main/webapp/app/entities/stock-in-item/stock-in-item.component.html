@@ -47,7 +47,7 @@
             <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="vendorCompanyName"><span>Vendor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInProcessesId"><span>Stock In Processes</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="purchaseOrdersPurchaseOrderNo"><span>Purchase Orders</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="requisitionsRequisitionNo"><span>Requisitions</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -96,8 +96,8 @@
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="stockInItem.purchaseOrdersId">
-                        <a [routerLink]="['../purchase-order', stockInItem.purchaseOrdersId , 'view' ]" >{{stockInItem.purchaseOrdersPurchaseOrderNo}}</a>
+                    <div *ngIf="stockInItem.requisitionsId">
+                        <a [routerLink]="['../requisition', stockInItem.requisitionsId , 'view' ]" >{{stockInItem.requisitionsRequisitionNo}}</a>
                     </div>
                 </td>
                 <td class="text-right">

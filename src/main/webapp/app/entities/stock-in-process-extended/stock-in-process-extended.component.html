@@ -135,9 +135,7 @@
                     <th jhiSortBy="remarks"><span>Remarks</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="purchaseOrderPurchaseOrderNo"><span>Purchase Order</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
+                    <th jhiSortBy="requisitionRequisitionNo"><span>Requisition</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -182,10 +180,10 @@
                     <td>{{stockInProcess.stockInDate | date:'medium'}}</td>
                     <td>{{stockInProcess.remarks}}</td>
                     <td>
-                        <div *ngIf="stockInProcess.purchaseOrderId">
-                            <a [routerLink]="['../purchase-order', stockInProcess.purchaseOrderId , 'view' ]">{{stockInProcess.purchaseOrderPurchaseOrderNo}}</a>
-                        </div>
-                    </td>
+                    <div *ngIf="stockInProcess.requisitionId">
+                        <a [routerLink]="['../requisition', stockInProcess.requisitionId , 'view' ]" >{{stockInProcess.requisitionRequisitionNo}}</a>
+                    </div>
+                </td>
                     <td>
                         <div *ngIf="stockInProcess.inventoryLocationsId">
                             <a [routerLink]="['../inventory-location', stockInProcess.inventoryLocationsId , 'view' ]">{{stockInProcess.inventoryLocationsName}}</a>
