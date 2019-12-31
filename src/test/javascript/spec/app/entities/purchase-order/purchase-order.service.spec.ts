@@ -35,7 +35,7 @@ describe('Service Tests', () => {
                 'AAAAAAA',
                 0,
                 0,
-                PurchaseOrderStatus.WAITING_FOR_CFO_APPROVAL,
+                PurchaseOrderStatus.WAITING_FOR_ACCOUNTS_APPROVAL,
                 'AAAAAAA',
                 currentDate
             );

@@ -705,6 +705,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'purchase-order',
                 loadChildren: './purchase-order/purchase-order.module#SoptorshiPurchaseOrderModule'
+            },
+            {
+                path: 'purchase-order',
+                loadChildren: './purchase-order/purchase-order.module#SoptorshiPurchaseOrderModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

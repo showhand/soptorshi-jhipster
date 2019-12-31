@@ -37,7 +37,7 @@
         {
             "fieldName": "status",
             "fieldType": "PurchaseOrderStatus",
-            "fieldValues": "WAITING_FOR_CFO_APPROVAL,APPROVED_BY_CFO,REJECTED_BY_CFO,MODIFICATION_REQUEST_BY_CFO,CLOSED_BY_CFO"
+            "fieldValues": "WAITING_FOR_ACCOUNTS_APPROVAL,APPROVED_BY_ACCOUNTS,REJECTED_BY_ACCOUNTS,MODIFICATION_REQUEST_BY_ACCOUNTS,WAITING_FOR_CFO_APPROVAL,APPROVED_BY_CFO,REJECTED_BY_CFO,MODIFICATION_REQUEST_BY_CFO,CLOSED_BY_CFO"
         },
         {
             "fieldName": "modifiedBy",
