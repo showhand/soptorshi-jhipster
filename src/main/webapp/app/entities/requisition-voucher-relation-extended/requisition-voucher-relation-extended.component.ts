@@ -19,6 +19,8 @@ import { RequisitionVoucherRelationComponent } from 'app/entities/requisition-vo
 export class RequisitionVoucherRelationExtendedComponent extends RequisitionVoucherRelationComponent implements OnInit, OnDestroy {
     @Input()
     requisitionId: number;
+    @Input()
+    disableEdit: boolean;
     constructor(
         protected requisitionVoucherRelationService: RequisitionVoucherRelationExtendedService,
         protected jhiAlertService: JhiAlertService,

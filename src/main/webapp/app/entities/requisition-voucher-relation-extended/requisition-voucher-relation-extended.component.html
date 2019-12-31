@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Vouchers</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-requisition-voucher-relation" [routerLink]="['/requisition-voucher-relation', requisitionId,'new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-requisition-voucher-relation" [disabled]="disableEdit"  [routerLink]="['/requisition-voucher-relation', requisitionId,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Add
@@ -27,17 +27,17 @@
                 <td>{{requisitionVoucherRelation.amount}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
+                        <button type="submit" [disabled]="disableEdit"
                                 [routerLink]="['/requisition-voucher-relation', requisitionVoucherRelation.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                         </button>
-                        <button type="submit"
+                        <button type="submit" [disabled]="disableEdit"
                                 [routerLink]="['/requisition-voucher-relation', requisitionVoucherRelation.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                         </button>
-                        <button type="submit"
+                        <button type="submit" [disabled]="disableEdit"
                                 [routerLink]="['/', 'requisition-voucher-relation', { outlets: { popup: requisitionVoucherRelation.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

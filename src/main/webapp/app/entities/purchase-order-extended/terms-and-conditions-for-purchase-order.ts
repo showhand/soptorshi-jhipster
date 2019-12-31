@@ -15,6 +15,8 @@ import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
 export class TermsAndConditionsForPurchaseOrder extends TermsAndConditionsExtendedComponent implements OnInit, OnDestroy {
     @Input()
     purchaseOrder: IPurchaseOrder;
+    @Input()
+    disableEdit: boolean;
     constructor(
         protected termsAndConditionsService: TermsAndConditionsService,
         protected parseLinks: JhiParseLinks,
