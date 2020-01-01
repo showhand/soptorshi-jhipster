@@ -11,14 +11,14 @@
                     <div class="col-3">
                         <div class="form-group" >
                             <label class="form-control-label" for="field_requisitionNo">Requisition No</label>
-                            <input readonly="requisition.status==null" type="text" class="form-control" name="requisitionNo" id="field_requisitionNo"
+                            <input type="text" class="form-control" name="requisitionNo" id="field_requisitionNo"
                                    [(ngModel)]="requisition.requisitionNo" />
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label class="form-control-label" for="field_productCategory">Product Category</label>
-                            <input readonly="requisition.status==null" type="text" class="form-control" name="mainGroup" id="field_productCategory"
+                            <input  type="text" class="form-control" name="mainGroup" id="field_productCategory"
                                    [(ngModel)]="selectedProductCategory" [ngbTypeahead]="search"
                                    (focus)="focus$.next($event.target.value)"
                                    (click)="click$.next($event.target.value)"
@@ -30,7 +30,7 @@
                         <div class="form-group">
                             <label class="form-control-label" for="field_requisitionDate">Requisition Date</label>
                             <div class="input-group">
-                                <input readonly="requisition.status==null" id="field_requisitionDate" type="text" class="form-control" name="requisitionDate" ngbDatepicker  #requisitionDateDp="ngbDatepicker" [(ngModel)]="requisition.requisitionDate"
+                                <input  id="field_requisitionDate" type="text" class="form-control" name="requisitionDate" ngbDatepicker  #requisitionDateDp="ngbDatepicker" [(ngModel)]="requisition.requisitionDate"
                                 />
                                 <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="requisitionDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
@@ -54,7 +54,7 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label class="form-control-label" for="field_reason">Reason</label>
-                            <textarea readonly="requisition.status==null" class="form-control" name="reason" id="field_reason"
+                            <textarea  class="form-control" name="reason" id="field_reason"
                                       [(ngModel)]="requisition.reason" ></textarea>
                         </div>
                     </div>
