@@ -1,25 +1,25 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {filter, map} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import {DATE_TIME_FORMAT} from 'app/shared/constants/input.constants';
-import {JhiAlertService} from 'ng-jhipster';
-import {IStockInProcess} from 'app/shared/model/stock-in-process.model';
-import {StockInProcessService} from './stock-in-process.service';
-import {IRequisition} from 'app/shared/model/requisition.model';
-import {RequisitionService} from 'app/entities/requisition';
-import {IProductCategory} from 'app/shared/model/product-category.model';
-import {ProductCategoryService} from 'app/entities/product-category';
-import {IProduct} from 'app/shared/model/product.model';
-import {ProductService} from 'app/entities/product';
-import {IInventoryLocation} from 'app/shared/model/inventory-location.model';
-import {InventoryLocationService} from 'app/entities/inventory-location';
-import {IInventorySubLocation} from 'app/shared/model/inventory-sub-location.model';
-import {InventorySubLocationService} from 'app/entities/inventory-sub-location';
-import {IVendor} from 'app/shared/model/vendor.model';
-import {VendorService} from 'app/entities/vendor';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { JhiAlertService } from 'ng-jhipster';
+import { IStockInProcess } from 'app/shared/model/stock-in-process.model';
+import { StockInProcessService } from './stock-in-process.service';
+import { IProductCategory } from 'app/shared/model/product-category.model';
+import { ProductCategoryService } from 'app/entities/product-category';
+import { IProduct } from 'app/shared/model/product.model';
+import { ProductService } from 'app/entities/product';
+import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
+import { InventoryLocationService } from 'app/entities/inventory-location';
+import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
+import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
+import { IVendor } from 'app/shared/model/vendor.model';
+import { VendorService } from 'app/entities/vendor';
+import { IRequisition } from 'app/shared/model/requisition.model';
+import { RequisitionService } from 'app/entities/requisition';
 
 @Component({
     selector: 'jhi-stock-in-process-update',
@@ -28,8 +28,6 @@ import {VendorService} from 'app/entities/vendor';
 export class StockInProcessUpdateComponent implements OnInit {
     stockInProcess: IStockInProcess;
     isSaving: boolean;
-
-    requisitions: IRequisition[];
 
     productcategories: IProductCategory[];
 
@@ -40,6 +38,8 @@ export class StockInProcessUpdateComponent implements OnInit {
     inventorysublocations: IInventorySubLocation[];
 
     vendors: IVendor[];
+
+    requisitions: IRequisition[];
     mfgDateDp: any;
     expiryDateDp: any;
     processStartedOn: string;
@@ -48,12 +48,12 @@ export class StockInProcessUpdateComponent implements OnInit {
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockInProcessService: StockInProcessService,
-        protected requisitionService: RequisitionService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
         protected vendorService: VendorService,
+        protected requisitionService: RequisitionService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -65,31 +65,6 @@ export class StockInProcessUpdateComponent implements OnInit {
                 this.stockInProcess.processStartedOn != null ? this.stockInProcess.processStartedOn.format(DATE_TIME_FORMAT) : null;
             this.stockInDate = this.stockInProcess.stockInDate != null ? this.stockInProcess.stockInDate.format(DATE_TIME_FORMAT) : null;
         });
-        this.requisitionService
-            .query({ 'stockInProcessId.specified': 'false' })
-            .pipe(
-                filter((mayBeOk: HttpResponse<IRequisition[]>) => mayBeOk.ok),
-                map((response: HttpResponse<IRequisition[]>) => response.body)
-            )
-            .subscribe(
-                (res: IRequisition[]) => {
-                    if (!this.stockInProcess.requisitionId) {
-                        this.requisitions = res;
-                    } else {
-                        this.requisitionService
-                            .find(this.stockInProcess.requisitionId)
-                            .pipe(
-                                filter((subResMayBeOk: HttpResponse<IRequisition>) => subResMayBeOk.ok),
-                                map((subResponse: HttpResponse<IRequisition>) => subResponse.body)
-                            )
-                            .subscribe(
-                                (subRes: IRequisition) => (this.requisitions = [subRes].concat(res)),
-                                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-                            );
-                    }
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
         this.productCategoryService
             .query()
             .pipe(
@@ -131,6 +106,13 @@ export class StockInProcessUpdateComponent implements OnInit {
                 map((response: HttpResponse<IVendor[]>) => response.body)
             )
             .subscribe((res: IVendor[]) => (this.vendors = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.requisitionService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IRequisition[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IRequisition[]>) => response.body)
+            )
+            .subscribe((res: IRequisition[]) => (this.requisitions = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -165,10 +147,6 @@ export class StockInProcessUpdateComponent implements OnInit {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
-    trackRequisitionById(index: number, item: IRequisition) {
-        return item.id;
-    }
-
     trackProductCategoryById(index: number, item: IProductCategory) {
         return item.id;
     }
@@ -186,6 +164,10 @@ export class StockInProcessUpdateComponent implements OnInit {
     }
 
     trackVendorById(index: number, item: IVendor) {
+        return item.id;
+    }
+
+    trackRequisitionById(index: number, item: IRequisition) {
         return item.id;
     }
 }

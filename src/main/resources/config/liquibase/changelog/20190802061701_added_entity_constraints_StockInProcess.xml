@@ -8,12 +8,6 @@
     -->
     <changeSet id="20190802061701-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="requisition_id"
-                                 baseTableName="stock_in_process"
-                                 constraintName="fk_stock_in_process_requisition_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="requisition"/>
-
         <addForeignKeyConstraint baseColumnNames="product_categories_id"
                                  baseTableName="stock_in_process"
                                  constraintName="fk_stock_in_process_product_categories_id"
@@ -43,6 +37,12 @@
                                  constraintName="fk_stock_in_process_vendor_id"
                                  referencedColumnNames="id"
                                  referencedTableName="vendor"/>
+
+        <addForeignKeyConstraint baseColumnNames="requisitions_id"
+                                 baseTableName="stock_in_process"
+                                 constraintName="fk_stock_in_process_requisitions_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="requisition"/>
 
     </changeSet>
 </databaseChangeLog>

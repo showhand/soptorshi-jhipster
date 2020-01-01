@@ -69,12 +69,6 @@
                 <dd>
                     <span>{{stockInProcess.remarks}}</span>
                 </dd>
-                <dt><span>Requisition</span></dt>
-                <dd>
-                    <div *ngIf="stockInProcess.requisitionId">
-                        <a [routerLink]="['/requisition', stockInProcess.requisitionId, 'view']">{{stockInProcess.requisitionRequisitionNo}}</a>
-                    </div>
-                </dd>
                 <dt><span>Product Categories</span></dt>
                 <dd>
                     <div *ngIf="stockInProcess.productCategoriesId">
@@ -103,6 +97,12 @@
                 <dd>
                     <div *ngIf="stockInProcess.vendorId">
                         <a [routerLink]="['/vendor', stockInProcess.vendorId, 'view']">{{stockInProcess.vendorCompanyName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Requisitions</span></dt>
+                <dd>
+                    <div *ngIf="stockInProcess.requisitionsId">
+                        <a [routerLink]="['/requisition', stockInProcess.requisitionsId, 'view']">{{stockInProcess.requisitionsRequisitionNo}}</a>
                     </div>
                 </dd>
             </dl>

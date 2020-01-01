@@ -46,12 +46,12 @@
             <th jhiSortBy="stockInBy"><span>Stock In By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stockInDate"><span>Stock In Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="requisitionRequisitionNo"><span>Requisition</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="inventoryLocationsName"><span>Inventory Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="inventorySubLocationsName"><span>Inventory Sub Locations</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="vendorCompanyName"><span>Vendor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="requisitionsRequisitionNo"><span>Requisitions</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -75,11 +75,6 @@
                 <td>{{stockInProcess.stockInDate | date:'medium'}}</td>
                 <td>{{stockInProcess.remarks}}</td>
                 <td>
-                    <div *ngIf="stockInProcess.requisitionId">
-                        <a [routerLink]="['../requisition', stockInProcess.requisitionId , 'view' ]" >{{stockInProcess.requisitionRequisitionNo}}</a>
-                    </div>
-                </td>
-                <td>
                     <div *ngIf="stockInProcess.productCategoriesId">
                         <a [routerLink]="['../product-category', stockInProcess.productCategoriesId , 'view' ]" >{{stockInProcess.productCategoriesName}}</a>
                     </div>
@@ -102,6 +97,11 @@
                 <td>
                     <div *ngIf="stockInProcess.vendorId">
                         <a [routerLink]="['../vendor', stockInProcess.vendorId , 'view' ]" >{{stockInProcess.vendorCompanyName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="stockInProcess.requisitionsId">
+                        <a [routerLink]="['../requisition', stockInProcess.requisitionsId , 'view' ]" >{{stockInProcess.requisitionsRequisitionNo}}</a>
                     </div>
                 </td>
                 <td class="text-right">

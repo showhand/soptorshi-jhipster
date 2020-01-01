@@ -81,14 +81,6 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "otherEntityName": "requisition",
-            "otherEntityRelationshipName": "stockInProcess",
-            "relationshipName": "requisition",
-            "otherEntityField": "requisitionNo",
-            "ownerSide": true
-        },
-        {
             "relationshipType": "many-to-one",
             "otherEntityName": "productCategory",
             "otherEntityRelationshipName": "stockInProcess",
@@ -122,6 +114,13 @@
             "otherEntityRelationshipName": "stockInProcess",
             "relationshipName": "vendor",
             "otherEntityField": "companyName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "requisition",
+            "otherEntityRelationshipName": "stockInProcess",
+            "relationshipName": "requisitions",
+            "otherEntityField": "requisitionNo"
         }
     ],
     "changelogDate": "20190802061701",

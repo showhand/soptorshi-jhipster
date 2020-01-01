@@ -85,10 +85,6 @@ public class StockInProcess implements Serializable {
     @Column(name = "remarks")
     private String remarks;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Requisition requisition;
-
     @ManyToOne
     @JsonIgnoreProperties("stockInProcesses")
     private ProductCategory productCategories;
@@ -108,6 +104,10 @@ public class StockInProcess implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("stockInProcesses")
     private Vendor vendor;
+
+    @ManyToOne
+    @JsonIgnoreProperties("stockInProcesses")
+    private Requisition requisitions;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -326,19 +326,6 @@ public class StockInProcess implements Serializable {
         this.remarks = remarks;
     }
 
-    public Requisition getRequisition() {
-        return requisition;
-    }
-
-    public StockInProcess requisition(Requisition requisition) {
-        this.requisition = requisition;
-        return this;
-    }
-
-    public void setRequisition(Requisition requisition) {
-        this.requisition = requisition;
-    }
-
     public ProductCategory getProductCategories() {
         return productCategories;
     }
@@ -402,6 +389,19 @@ public class StockInProcess implements Serializable {
 
     public void setVendor(Vendor vendor) {
         this.vendor = vendor;
+    }
+
+    public Requisition getRequisitions() {
+        return requisitions;
+    }
+
+    public StockInProcess requisitions(Requisition requisition) {
+        this.requisitions = requisition;
+        return this;
+    }
+
+    public void setRequisitions(Requisition requisition) {
+        this.requisitions = requisition;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

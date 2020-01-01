@@ -137,10 +137,6 @@ public class StockInProcessQueryService extends QueryService<StockInProcess> {
             if (criteria.getRemarks() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getRemarks(), StockInProcess_.remarks));
             }
-            if (criteria.getRequisitionId() != null) {
-                specification = specification.and(buildSpecification(criteria.getRequisitionId(),
-                    root -> root.join(StockInProcess_.requisition, JoinType.LEFT).get(Requisition_.id)));
-            }
             if (criteria.getProductCategoriesId() != null) {
                 specification = specification.and(buildSpecification(criteria.getProductCategoriesId(),
                     root -> root.join(StockInProcess_.productCategories, JoinType.LEFT).get(ProductCategory_.id)));
@@ -160,6 +156,10 @@ public class StockInProcessQueryService extends QueryService<StockInProcess> {
             if (criteria.getVendorId() != null) {
                 specification = specification.and(buildSpecification(criteria.getVendorId(),
                     root -> root.join(StockInProcess_.vendor, JoinType.LEFT).get(Vendor_.id)));
+            }
+            if (criteria.getRequisitionsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getRequisitionsId(),
+                    root -> root.join(StockInProcess_.requisitions, JoinType.LEFT).get(Requisition_.id)));
             }
         }
         return specification;

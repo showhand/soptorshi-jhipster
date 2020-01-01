@@ -145,6 +145,7 @@
                     <th jhiSortBy="vendorCompanyName"><span>Vendor</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>-->
+                    <th jhiSortBy="requisitionsRequisitionNo"><span>Requisitions</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -199,6 +200,11 @@
                             <a [routerLink]="['../vendor', stockInProcess.vendorId , 'view' ]">{{stockInProcess.vendorCompanyName}}</a>
                         </div>
                     </td>-->
+                    <td>
+                        <div *ngIf="stockInProcess.requisitionsId">
+                            <a [routerLink]="['../requisition', stockInProcess.requisitionsId , 'view' ]" >{{stockInProcess.requisitionsRequisitionNo}}</a>
+                        </div>
+                    </td>
                     <td class="text-right" width="20%">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

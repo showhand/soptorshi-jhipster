@@ -75,8 +75,6 @@ public class StockInProcessCriteria implements Serializable {
 
     private StringFilter remarks;
 
-    private LongFilter requisitionId;
-
     private LongFilter productCategoriesId;
 
     private LongFilter productsId;
@@ -86,6 +84,8 @@ public class StockInProcessCriteria implements Serializable {
     private LongFilter inventorySubLocationsId;
 
     private LongFilter vendorId;
+
+    private LongFilter requisitionsId;
 
     public LongFilter getId() {
         return id;
@@ -223,14 +223,6 @@ public class StockInProcessCriteria implements Serializable {
         this.remarks = remarks;
     }
 
-    public LongFilter getRequisitionId() {
-        return requisitionId;
-    }
-
-    public void setRequisitionId(LongFilter requisitionId) {
-        this.requisitionId = requisitionId;
-    }
-
     public LongFilter getProductCategoriesId() {
         return productCategoriesId;
     }
@@ -271,6 +263,14 @@ public class StockInProcessCriteria implements Serializable {
         this.vendorId = vendorId;
     }
 
+    public LongFilter getRequisitionsId() {
+        return requisitionsId;
+    }
+
+    public void setRequisitionsId(LongFilter requisitionsId) {
+        this.requisitionsId = requisitionsId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -299,12 +299,12 @@ public class StockInProcessCriteria implements Serializable {
             Objects.equals(stockInBy, that.stockInBy) &&
             Objects.equals(stockInDate, that.stockInDate) &&
             Objects.equals(remarks, that.remarks) &&
-            Objects.equals(requisitionId, that.requisitionId) &&
             Objects.equals(productCategoriesId, that.productCategoriesId) &&
             Objects.equals(productsId, that.productsId) &&
             Objects.equals(inventoryLocationsId, that.inventoryLocationsId) &&
             Objects.equals(inventorySubLocationsId, that.inventorySubLocationsId) &&
-            Objects.equals(vendorId, that.vendorId);
+            Objects.equals(vendorId, that.vendorId) &&
+            Objects.equals(requisitionsId, that.requisitionsId);
     }
 
     @Override
@@ -327,12 +327,12 @@ public class StockInProcessCriteria implements Serializable {
         stockInBy,
         stockInDate,
         remarks,
-        requisitionId,
         productCategoriesId,
         productsId,
         inventoryLocationsId,
         inventorySubLocationsId,
-        vendorId
+        vendorId,
+        requisitionsId
         );
     }
 
@@ -356,12 +356,12 @@ public class StockInProcessCriteria implements Serializable {
                 (stockInBy != null ? "stockInBy=" + stockInBy + ", " : "") +
                 (stockInDate != null ? "stockInDate=" + stockInDate + ", " : "") +
                 (remarks != null ? "remarks=" + remarks + ", " : "") +
-                (requisitionId != null ? "requisitionId=" + requisitionId + ", " : "") +
                 (productCategoriesId != null ? "productCategoriesId=" + productCategoriesId + ", " : "") +
                 (productsId != null ? "productsId=" + productsId + ", " : "") +
                 (inventoryLocationsId != null ? "inventoryLocationsId=" + inventoryLocationsId + ", " : "") +
                 (inventorySubLocationsId != null ? "inventorySubLocationsId=" + inventorySubLocationsId + ", " : "") +
                 (vendorId != null ? "vendorId=" + vendorId + ", " : "") +
+                (requisitionsId != null ? "requisitionsId=" + requisitionsId + ", " : "") +
             "}";
     }
 

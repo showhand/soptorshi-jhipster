@@ -713,6 +713,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'quotation-details',
                 loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
+            },
+            {
+                path: 'stock-in-process',
+                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

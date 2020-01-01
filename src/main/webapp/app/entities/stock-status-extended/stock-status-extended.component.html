@@ -108,7 +108,7 @@
     </div>
 
     <div class="col-2">
-        <button class="btn btn-info" (click)="hunt();">
+        <button class="btn btn-info" (click)="hunt()">
             <fa-icon [icon]="'search'"></fa-icon>
         </button>
     </div>
@@ -226,6 +226,22 @@
                             </button>-->
                         </div>
                     </td>
+                </tr>
+                <tr *ngIf="this.totalQuantity > 0">
+                    <td><b>Total</b></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>{{this.totalQuantity}}</b></td>
+                    <td></td>
+                    <td><b>{{this.availableQuantity}}</b></td>
+                    <td><b>{{this.totalPrice}}</b></td>
+                    <td><b>{{this.availablePrice}}</b></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>

@@ -8,7 +8,7 @@ import { InventoryLocationService } from 'app/entities/inventory-location';
 import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
 import { StockStatusComponent } from 'app/entities/stock-status';
 import { filter, map } from 'rxjs/operators';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { IProductCategory } from 'app/shared/model/product-category.model';
 import { IProduct } from 'app/shared/model/product.model';
 import { IInventoryLocation } from 'app/shared/model/inventory-location.model';
@@ -32,6 +32,11 @@ export class StockStatusExtendedComponent extends StockStatusComponent implement
     products: IProduct[];
     inventorylocations: IInventoryLocation[];
     inventorysublocations: InventorySubLocation[];
+
+    totalQuantity: number = 0;
+    availableQuantity: number = 0;
+    totalPrice: number = 0;
+    availablePrice: number = 0;
 
     predicate: any;
     reverse: any;
@@ -99,6 +104,24 @@ export class StockStatusExtendedComponent extends StockStatusComponent implement
         }
     }
 
+    calculateTotal() {
+        this.totalQuantity = 0;
+        this.availableQuantity = 0;
+        this.availablePrice = 0;
+        this.totalPrice = 0;
+
+        if (this.stockStatuses) {
+            if (this.productCategoryId && this.productId) {
+                for (let i = 0; i < this.stockStatuses.length; i++) {
+                    this.totalQuantity += this.stockStatuses[i].totalQuantity;
+                    this.availableQuantity += this.stockStatuses[i].availableQuantity;
+                    this.totalPrice += this.stockStatuses[i].totalPrice;
+                    this.availablePrice += this.stockStatuses[i].availablePrice;
+                }
+            }
+        }
+    }
+
     getProductCategories() {
         this.productCategoryService
             .query()
@@ -147,6 +170,15 @@ export class StockStatusExtendedComponent extends StockStatusComponent implement
                 (res: IInventorySubLocation[]) => (this.inventorysublocations = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+    }
+
+    protected paginateStockStatuses(data: IStockStatus[], headers: HttpHeaders) {
+        this.links = this.parseLinks.parse(headers.get('link'));
+        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        for (let i = 0; i < data.length; i++) {
+            this.stockStatuses.push(data[i]);
+        }
+        this.calculateTotal();
     }
 
     trackProductCategoryById(index: number, item: IProductCategory) {
