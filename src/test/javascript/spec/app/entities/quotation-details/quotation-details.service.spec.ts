@@ -11,6 +11,7 @@ import {
     IQuotationDetails,
     QuotationDetails,
     Currency,
+    UnitOfMeasurements,
     PayType,
     VatStatus,
     AITStatus,
@@ -37,6 +38,7 @@ describe('Service Tests', () => {
                 0,
                 Currency.TAKA,
                 0,
+                UnitOfMeasurements.PCS,
                 0,
                 PayType.CASH,
                 0,
@@ -98,6 +100,7 @@ describe('Service Tests', () => {
                     {
                         currency: 'BBBBBB',
                         rate: 1,
+                        unitOfMeasurements: 'BBBBBB',
                         quantity: 1,
                         payType: 'BBBBBB',
                         creditLimit: 1,
@@ -133,6 +136,7 @@ describe('Service Tests', () => {
                     {
                         currency: 'BBBBBB',
                         rate: 1,
+                        unitOfMeasurements: 'BBBBBB',
                         quantity: 1,
                         payType: 'BBBBBB',
                         creditLimit: 1,

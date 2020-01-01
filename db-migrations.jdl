@@ -330,6 +330,7 @@ entity Quotation{
 entity QuotationDetails{
     currency Currency,
     rate BigDecimal,
+    unitOfMeasurements UnitOfMeasurements,
     quantity Integer,
     payType PayType,
     creditLimit BigDecimal,

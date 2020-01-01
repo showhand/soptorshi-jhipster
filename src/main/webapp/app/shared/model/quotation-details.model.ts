@@ -6,6 +6,13 @@ export const enum Currency {
     EURO = 'EURO'
 }
 
+export const enum UnitOfMeasurements {
+    PCS = 'PCS',
+    KG = 'KG',
+    TON = 'TON',
+    GRAM = 'GRAM'
+}
+
 export const enum PayType {
     CASH = 'CASH',
     PAY_ORDER = 'PAY_ORDER',
@@ -31,6 +38,7 @@ export interface IQuotationDetails {
     id?: number;
     currency?: Currency;
     rate?: number;
+    unitOfMeasurements?: UnitOfMeasurements;
     quantity?: number;
     payType?: PayType;
     creditLimit?: number;
@@ -54,6 +62,7 @@ export class QuotationDetails implements IQuotationDetails {
         public id?: number,
         public currency?: Currency,
         public rate?: number,
+        public unitOfMeasurements?: UnitOfMeasurements,
         public quantity?: number,
         public payType?: PayType,
         public creditLimit?: number,

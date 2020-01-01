@@ -50,6 +50,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.soptorshi.domain.enumeration.Currency;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.PayType;
 import org.soptorshi.domain.enumeration.VatStatus;
 import org.soptorshi.domain.enumeration.AITStatus;
@@ -68,6 +69,9 @@ public class QuotationDetailsResourceIntTest {
 
     private static final BigDecimal DEFAULT_RATE = new BigDecimal(1);
     private static final BigDecimal UPDATED_RATE = new BigDecimal(2);
+
+    private static final UnitOfMeasurements DEFAULT_UNIT_OF_MEASUREMENTS = UnitOfMeasurements.PCS;
+    private static final UnitOfMeasurements UPDATED_UNIT_OF_MEASUREMENTS = UnitOfMeasurements.KG;
 
     private static final Integer DEFAULT_QUANTITY = 1;
     private static final Integer UPDATED_QUANTITY = 2;
@@ -163,6 +167,7 @@ public class QuotationDetailsResourceIntTest {
         QuotationDetails quotationDetails = new QuotationDetails()
             .currency(DEFAULT_CURRENCY)
             .rate(DEFAULT_RATE)
+            .unitOfMeasurements(DEFAULT_UNIT_OF_MEASUREMENTS)
             .quantity(DEFAULT_QUANTITY)
             .payType(DEFAULT_PAY_TYPE)
             .creditLimit(DEFAULT_CREDIT_LIMIT)
@@ -200,6 +205,7 @@ public class QuotationDetailsResourceIntTest {
         QuotationDetails testQuotationDetails = quotationDetailsList.get(quotationDetailsList.size() - 1);
         assertThat(testQuotationDetails.getCurrency()).isEqualTo(DEFAULT_CURRENCY);
         assertThat(testQuotationDetails.getRate()).isEqualTo(DEFAULT_RATE);
+        assertThat(testQuotationDetails.getUnitOfMeasurements()).isEqualTo(DEFAULT_UNIT_OF_MEASUREMENTS);
         assertThat(testQuotationDetails.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
         assertThat(testQuotationDetails.getPayType()).isEqualTo(DEFAULT_PAY_TYPE);
         assertThat(testQuotationDetails.getCreditLimit()).isEqualTo(DEFAULT_CREDIT_LIMIT);
@@ -252,6 +258,7 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(quotationDetails.getId().intValue())))
             .andExpect(jsonPath("$.[*].currency").value(hasItem(DEFAULT_CURRENCY.toString())))
             .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.intValue())))
+            .andExpect(jsonPath("$.[*].unitOfMeasurements").value(hasItem(DEFAULT_UNIT_OF_MEASUREMENTS.toString())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].payType").value(hasItem(DEFAULT_PAY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
@@ -278,6 +285,7 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(jsonPath("$.id").value(quotationDetails.getId().intValue()))
             .andExpect(jsonPath("$.currency").value(DEFAULT_CURRENCY.toString()))
             .andExpect(jsonPath("$.rate").value(DEFAULT_RATE.intValue()))
+            .andExpect(jsonPath("$.unitOfMeasurements").value(DEFAULT_UNIT_OF_MEASUREMENTS.toString()))
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))
             .andExpect(jsonPath("$.payType").value(DEFAULT_PAY_TYPE.toString()))
             .andExpect(jsonPath("$.creditLimit").value(DEFAULT_CREDIT_LIMIT.intValue()))
@@ -367,6 +375,45 @@ public class QuotationDetailsResourceIntTest {
 
         // Get all the quotationDetailsList where rate is null
         defaultQuotationDetailsShouldNotBeFound("rate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByUnitOfMeasurementsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where unitOfMeasurements equals to DEFAULT_UNIT_OF_MEASUREMENTS
+        defaultQuotationDetailsShouldBeFound("unitOfMeasurements.equals=" + DEFAULT_UNIT_OF_MEASUREMENTS);
+
+        // Get all the quotationDetailsList where unitOfMeasurements equals to UPDATED_UNIT_OF_MEASUREMENTS
+        defaultQuotationDetailsShouldNotBeFound("unitOfMeasurements.equals=" + UPDATED_UNIT_OF_MEASUREMENTS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByUnitOfMeasurementsIsInShouldWork() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where unitOfMeasurements in DEFAULT_UNIT_OF_MEASUREMENTS or UPDATED_UNIT_OF_MEASUREMENTS
+        defaultQuotationDetailsShouldBeFound("unitOfMeasurements.in=" + DEFAULT_UNIT_OF_MEASUREMENTS + "," + UPDATED_UNIT_OF_MEASUREMENTS);
+
+        // Get all the quotationDetailsList where unitOfMeasurements equals to UPDATED_UNIT_OF_MEASUREMENTS
+        defaultQuotationDetailsShouldNotBeFound("unitOfMeasurements.in=" + UPDATED_UNIT_OF_MEASUREMENTS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByUnitOfMeasurementsIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where unitOfMeasurements is not null
+        defaultQuotationDetailsShouldBeFound("unitOfMeasurements.specified=true");
+
+        // Get all the quotationDetailsList where unitOfMeasurements is null
+        defaultQuotationDetailsShouldNotBeFound("unitOfMeasurements.specified=false");
     }
 
     @Test
@@ -906,6 +953,7 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(quotationDetails.getId().intValue())))
             .andExpect(jsonPath("$.[*].currency").value(hasItem(DEFAULT_CURRENCY.toString())))
             .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.intValue())))
+            .andExpect(jsonPath("$.[*].unitOfMeasurements").value(hasItem(DEFAULT_UNIT_OF_MEASUREMENTS.toString())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].payType").value(hasItem(DEFAULT_PAY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
@@ -966,6 +1014,7 @@ public class QuotationDetailsResourceIntTest {
         updatedQuotationDetails
             .currency(UPDATED_CURRENCY)
             .rate(UPDATED_RATE)
+            .unitOfMeasurements(UPDATED_UNIT_OF_MEASUREMENTS)
             .quantity(UPDATED_QUANTITY)
             .payType(UPDATED_PAY_TYPE)
             .creditLimit(UPDATED_CREDIT_LIMIT)
@@ -990,6 +1039,7 @@ public class QuotationDetailsResourceIntTest {
         QuotationDetails testQuotationDetails = quotationDetailsList.get(quotationDetailsList.size() - 1);
         assertThat(testQuotationDetails.getCurrency()).isEqualTo(UPDATED_CURRENCY);
         assertThat(testQuotationDetails.getRate()).isEqualTo(UPDATED_RATE);
+        assertThat(testQuotationDetails.getUnitOfMeasurements()).isEqualTo(UPDATED_UNIT_OF_MEASUREMENTS);
         assertThat(testQuotationDetails.getQuantity()).isEqualTo(UPDATED_QUANTITY);
         assertThat(testQuotationDetails.getPayType()).isEqualTo(UPDATED_PAY_TYPE);
         assertThat(testQuotationDetails.getCreditLimit()).isEqualTo(UPDATED_CREDIT_LIMIT);
@@ -1063,6 +1113,7 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(quotationDetails.getId().intValue())))
             .andExpect(jsonPath("$.[*].currency").value(hasItem(DEFAULT_CURRENCY.toString())))
             .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.intValue())))
+            .andExpect(jsonPath("$.[*].unitOfMeasurements").value(hasItem(DEFAULT_UNIT_OF_MEASUREMENTS.toString())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].payType").value(hasItem(DEFAULT_PAY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))

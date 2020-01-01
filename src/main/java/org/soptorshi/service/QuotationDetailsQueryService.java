@@ -99,6 +99,9 @@ public class QuotationDetailsQueryService extends QueryService<QuotationDetails>
             if (criteria.getRate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRate(), QuotationDetails_.rate));
             }
+            if (criteria.getUnitOfMeasurements() != null) {
+                specification = specification.and(buildSpecification(criteria.getUnitOfMeasurements(), QuotationDetails_.unitOfMeasurements));
+            }
             if (criteria.getQuantity() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getQuantity(), QuotationDetails_.quantity));
             }
