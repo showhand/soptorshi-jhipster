@@ -227,6 +227,7 @@ entity SpecialAllowanceTimeLine {
   modifiedBy String,
   modifiedOn LocalDate
 }
+entity PurchaseCommittee
 entity Vendor {
   companyName String,
   description TextBlob,
@@ -239,6 +240,7 @@ entity VendorContactPerson {
   designation String,
   contactNumber String
 }
+entity DepartmentHead
 entity Bill {
   amount BigDecimal required,
   billCategory BillCategory,
