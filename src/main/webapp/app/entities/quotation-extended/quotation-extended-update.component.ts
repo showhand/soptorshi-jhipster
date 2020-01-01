@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -31,12 +31,15 @@ export class QuotationExtendedUpdateComponent extends QuotationUpdateComponent i
         protected requisitionService: RequisitionService,
         protected vendorService: VendorService,
         protected activatedRoute: ActivatedRoute,
-        protected quotatinExtendedService: QuotationExtendedService
+        protected quotatinExtendedService: QuotationExtendedService,
+        protected router: Router
     ) {
         super(dataUtils, jhiAlertService, quotationService, requisitionService, vendorService, activatedRoute);
     }
 
     ngOnInit() {
+        console.log('window----------->');
+        console.log(window);
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ quotation }) => {
             this.quotation = quotation;
@@ -60,5 +63,12 @@ export class QuotationExtendedUpdateComponent extends QuotationUpdateComponent i
         } else {
             this.subscribeToSaveResponse(this.quotationService.create(this.quotation));
         }
+    }
+
+    protected onSaveSuccess() {
+        this.isSaving = false;
+
+        this.router.navigate(['/quotation', this.quotation.id, 'edit']);
+        //this.previousState();
     }
 }

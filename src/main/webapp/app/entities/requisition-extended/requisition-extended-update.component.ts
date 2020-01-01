@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -63,7 +63,8 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
         public modalService: NgbModal,
         protected requisitionDetailsService: RequisitionDetailsService,
         protected quotationService: QuotationService,
-        protected eventManager: JhiEventManager
+        protected eventManager: JhiEventManager,
+        protected router: Router
     ) {
         super(
             dataUtils,
@@ -218,7 +219,7 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
             (rZes: HttpResponse<IRequisition>) => {
                 this.requisition = rZes.body;
                 this.isSaving = false;
-                this.disableOrEnableComponents();
+                this.router.navigate(['/requisition', this.requisition.id, 'edit']);
             },
             (res: HttpErrorResponse) => this.onSaveError()
         );
