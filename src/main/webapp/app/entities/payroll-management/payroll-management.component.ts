@@ -145,6 +145,7 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         employees.forEach(e => {
             employeeIds.push(e.id);
         });
+        this.monthlySalaryMapWithEmployeeId = {};
 
         this.monthlySalaryService
             .query({
@@ -161,6 +162,8 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
                         this.monthlySalaryMapWithEmployeeId = {};
                         res.body.forEach(m => {
                             this.monthlySalaryMapWithEmployeeId[m.employeeId] = m;
+                            console.log('###########');
+                            console.log(m);
                         });
                     }
                 },
