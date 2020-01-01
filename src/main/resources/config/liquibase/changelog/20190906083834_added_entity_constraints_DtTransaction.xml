@@ -7,8 +7,7 @@
         Added the constraints for entity DtTransaction.
     -->
     <changeSet id="20190906083834-2" author="jhipster">
-        <validCheckSum>7:7dd910340cf95153f649bcf241afe2fb</validCheckSum>
-
+        
         <addForeignKeyConstraint baseColumnNames="account_id"
                                  baseTableName="dt_transaction"
                                  constraintName="fk_dt_transaction_account_id"

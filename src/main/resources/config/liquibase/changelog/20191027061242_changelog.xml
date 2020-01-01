@@ -1,8 +1,0 @@
-<?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-        <changeSet author="monju (generated)" id="20191027061242_1">
-            <dropForeignKeyConstraint baseTableName="dt_transaction" constraintName="fk_dt_transaction_creditor_ledger_id"/>
-            <dropForeignKeyConstraint baseTableName="dt_transaction" constraintName="fk_dt_transaction_debtor_ledger_id"/>
-            <dropForeignKeyConstraint baseTableName="dt_transaction" constraintName="fk_dt_transaction_cheque_register_id"/>
-        </changeSet>
-</databaseChangeLog>

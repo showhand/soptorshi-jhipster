@@ -1,0 +1,472 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1577867864092-1">
+        <addColumn tableName="commercial_attachment">
+            <column name="commercial_po_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-2">
+        <addColumn tableName="holiday">
+            <column name="created_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-3">
+        <addColumn tableName="holiday_type">
+            <column name="created_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-4">
+        <addColumn tableName="holiday">
+            <column name="created_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-5">
+        <addColumn tableName="holiday_type">
+            <column name="created_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-6">
+        <addColumn tableName="holiday">
+            <column name="holiday_declared_by" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-7">
+        <addColumn tableName="stock_in_item">
+            <column name="mfg_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-8">
+        <addColumn tableName="stock_in_process">
+            <column name="mfg_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-9">
+        <addColumn tableName="holiday">
+            <column name="moon_dependency" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-10">
+        <addColumn tableName="stock_in_process">
+            <column name="process_started_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-11">
+        <addColumn tableName="stock_in_process">
+            <column name="process_started_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-12">
+        <addColumn tableName="stock_in_item">
+            <column name="product_categories_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-13">
+        <addColumn tableName="stock_in_process">
+            <column name="product_categories_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-14">
+        <addColumn tableName="stock_out_item">
+            <column name="product_categories_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-15">
+        <addColumn tableName="stock_status">
+            <column name="product_categories_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-16">
+        <addColumn tableName="stock_in_item">
+            <column name="products_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-17">
+        <addColumn tableName="stock_in_process">
+            <column name="products_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-18">
+        <addColumn tableName="stock_out_item">
+            <column name="products_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-19">
+        <addColumn tableName="stock_status">
+            <column name="products_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-20">
+        <addColumn tableName="stock_out_item">
+            <column name="receiving_place" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-21">
+        <addColumn tableName="holiday">
+            <column name="remarks" type="longtext"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-22">
+        <addColumn tableName="stock_in_process">
+            <column name="requisition_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-23">
+        <addColumn tableName="stock_in_item">
+            <column name="requisitions_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-24">
+        <addColumn tableName="stock_in_process">
+            <column name="status" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-25">
+        <addColumn tableName="stock_status">
+            <column name="stock_in_item_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-26">
+        <addColumn tableName="stock_in_item">
+            <column name="type_of_product" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-27">
+        <addColumn tableName="stock_in_process">
+            <column name="type_of_product" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-28">
+        <addColumn tableName="holiday">
+            <column name="updated_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-29">
+        <addColumn tableName="holiday_type">
+            <column name="updated_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-30">
+        <addColumn tableName="holiday">
+            <column name="updated_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-31">
+        <addColumn tableName="holiday_type">
+            <column name="updated_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-32">
+        <addColumn tableName="stock_in_item">
+            <column name="vendor_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-33">
+        <addColumn tableName="stock_in_process">
+            <column name="vendor_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="kawsu (generated)" id="1577867864092-34">
+        <addUniqueConstraint columnNames="requisition_id" constraintName="UC_STOCK_IN_PROCESSREQUISITION_ID_COL" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-35">
+        <addUniqueConstraint columnNames="stock_in_item_id" constraintName="UC_STOCK_STATUSSTOCK_IN_ITEM_ID_COL" tableName="stock_status"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-36">
+        <addForeignKeyConstraint baseColumnNames="stock_in_item_id" baseTableName="stock_status" constraintName="FK4emc9x1ployenut3kt6p930ja" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="stock_in_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-37">
+        <addForeignKeyConstraint baseColumnNames="products_id" baseTableName="stock_status" constraintName="FK65pk6nesu5re8wxeqe8lgi21j" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-38">
+        <addForeignKeyConstraint baseColumnNames="products_id" baseTableName="stock_out_item" constraintName="FK8thoc97pbv0g22tyl60qflk87" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-39">
+        <addForeignKeyConstraint baseColumnNames="requisitions_id" baseTableName="stock_in_item" constraintName="FKeanp6p5njywysorj57rl01wkp" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="requisition"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-40">
+        <addForeignKeyConstraint baseColumnNames="product_categories_id" baseTableName="stock_in_process" constraintName="FKev9phkqx0ut4y0lybos8cm9m2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-41">
+        <addForeignKeyConstraint baseColumnNames="commercial_po_id" baseTableName="commercial_attachment" constraintName="FKft5ym2y5d0ocrexjl5u0rav8l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_po"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-42">
+        <addForeignKeyConstraint baseColumnNames="product_categories_id" baseTableName="stock_status" constraintName="FKkalktvldupd5qx79deqfiycng" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-43">
+        <addForeignKeyConstraint baseColumnNames="products_id" baseTableName="stock_in_process" constraintName="FKl4hwjowax8e6a647ao73b3rrf" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-44">
+        <addForeignKeyConstraint baseColumnNames="products_id" baseTableName="stock_in_item" constraintName="FKmihntsypeghaie6ss87299io0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-45">
+        <addForeignKeyConstraint baseColumnNames="product_categories_id" baseTableName="stock_out_item" constraintName="FKnb9g93dvuw695r3wphxud3emr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-46">
+        <addForeignKeyConstraint baseColumnNames="vendor_id" baseTableName="stock_in_process" constraintName="FKntvbrviug5awo8rg07uuh484" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vendor"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-47">
+        <addForeignKeyConstraint baseColumnNames="product_categories_id" baseTableName="stock_in_item" constraintName="FKpor99cd3u60v6wvaao9n8yov4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-48">
+        <addForeignKeyConstraint baseColumnNames="vendor_id" baseTableName="stock_in_item" constraintName="FKr2pm8hajj70ah5mjg6h2inoem" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vendor"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-49">
+        <addForeignKeyConstraint baseColumnNames="requisition_id" baseTableName="stock_in_process" constraintName="FKrnbelgwox0xshrr4l591qpkcc" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="requisition"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-50">
+        <dropForeignKeyConstraint baseTableName="commercial_invoice" constraintName="fk_commercial_invoice_commercial_packaging_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-51">
+        <dropForeignKeyConstraint baseTableName="commercial_invoice" constraintName="fk_commercial_invoice_commercial_proforma_invoice_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-52">
+        <dropForeignKeyConstraint baseTableName="commercial_invoice" constraintName="fk_commercial_invoice_commercial_purchase_order_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-53">
+        <dropForeignKeyConstraint baseTableName="commercial_packaging" constraintName="fk_commercial_packaging_commercial_purchase_order_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-54">
+        <dropForeignKeyConstraint baseTableName="commercial_packaging_details" constraintName="fk_commercial_packaging_details_commercial_packaging_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-55">
+        <dropForeignKeyConstraint baseTableName="commercial_payment_info" constraintName="fk_commercial_payment_info_commercial_purchase_order_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-56">
+        <dropForeignKeyConstraint baseTableName="commercial_po_status" constraintName="fk_commercial_po_status_commercial_purchase_order_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-57">
+        <dropForeignKeyConstraint baseTableName="commercial_proforma_invoice" constraintName="fk_commercial_proforma_invoice_commercial_purchase_order_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-58">
+        <dropForeignKeyConstraint baseTableName="commercial_purchase_order_item" constraintName="fk_commercial_purchase_order_item_commercial_purchase_order_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-59">
+        <dropForeignKeyConstraint baseTableName="commercial_work_order" constraintName="fk_commercial_work_order_commercial_purchase_order_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-60">
+        <dropForeignKeyConstraint baseTableName="commercial_work_order_details" constraintName="fk_commercial_work_order_details_commercial_work_order_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-61">
+        <dropForeignKeyConstraint baseTableName="department" constraintName="fk_department_employee_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-62">
+        <dropForeignKeyConstraint baseTableName="dt_transaction" constraintName="fk_dt_transaction_cheque_register_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-63">
+        <dropForeignKeyConstraint baseTableName="dt_transaction" constraintName="fk_dt_transaction_creditor_ledger_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-64">
+        <dropForeignKeyConstraint baseTableName="dt_transaction" constraintName="fk_dt_transaction_debtor_ledger_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-65">
+        <dropForeignKeyConstraint baseTableName="item_sub_category" constraintName="fk_item_sub_category_item_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-66">
+        <dropForeignKeyConstraint baseTableName="stock_in_item" constraintName="fk_stock_in_item_item_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-67">
+        <dropForeignKeyConstraint baseTableName="stock_in_item" constraintName="fk_stock_in_item_item_sub_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-68">
+        <dropForeignKeyConstraint baseTableName="stock_in_item" constraintName="fk_stock_in_item_manufacturers_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-69">
+        <dropForeignKeyConstraint baseTableName="stock_in_process" constraintName="fk_stock_in_process_item_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-70">
+        <dropForeignKeyConstraint baseTableName="stock_in_process" constraintName="fk_stock_in_process_item_sub_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-71">
+        <dropForeignKeyConstraint baseTableName="stock_in_process" constraintName="fk_stock_in_process_manufacturers_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-72">
+        <dropForeignKeyConstraint baseTableName="stock_out_item" constraintName="fk_stock_out_item_item_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-73">
+        <dropForeignKeyConstraint baseTableName="stock_out_item" constraintName="fk_stock_out_item_item_sub_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-74">
+        <dropForeignKeyConstraint baseTableName="stock_out_item" constraintName="fk_stock_out_item_stock_statuses_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-75">
+        <dropForeignKeyConstraint baseTableName="stock_status" constraintName="fk_stock_status_item_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-76">
+        <dropForeignKeyConstraint baseTableName="stock_status" constraintName="fk_stock_status_item_sub_categories_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-77">
+        <dropForeignKeyConstraint baseTableName="stock_status" constraintName="fk_stock_status_stock_in_items_id"/>
+    </changeSet>
+    <!--<changeSet author="kawsu (generated)" id="1577867864092-78">
+        <dropUniqueConstraint constraintName="UC_DEPARTMENTEMPLOYEE_ID_COL" tableName="department"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-79">
+        <dropUniqueConstraint constraintName="unique_financial_year_month_type" tableName="period_close"/>
+    </changeSet>-->
+    <changeSet author="kawsu (generated)" id="1577867864092-80">
+        <dropUniqueConstraint constraintName="ux_commercial_invoice_commercial_packaging_id" tableName="commercial_invoice"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-81">
+        <dropUniqueConstraint constraintName="ux_commercial_invoice_commercial_proforma_invoice_id" tableName="commercial_invoice"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-82">
+        <dropUniqueConstraint constraintName="ux_commercial_invoice_commercial_purchase_order_id" tableName="commercial_invoice"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-83">
+        <dropUniqueConstraint constraintName="ux_commercial_packaging_commercial_purchase_order_id" tableName="commercial_packaging"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-84">
+        <dropUniqueConstraint constraintName="ux_commercial_payment_info_commercial_purchase_order_id" tableName="commercial_payment_info"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-85">
+        <dropUniqueConstraint constraintName="ux_commercial_proforma_invoice_commercial_purchase_order_id" tableName="commercial_proforma_invoice"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-86">
+        <dropUniqueConstraint constraintName="ux_dt_transaction_creditor_ledger_id" tableName="dt_transaction"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-87">
+        <dropUniqueConstraint constraintName="ux_dt_transaction_debtor_ledger_id" tableName="dt_transaction"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-88">
+        <dropUniqueConstraint constraintName="ux_stock_status_stock_in_items_id" tableName="stock_status"/>
+    </changeSet>
+    <!--<changeSet author="kawsu (generated)" id="1577867864092-89">
+        <dropUniqueConstraint constraintName="voucher_id" tableName="predefined_narration"/>
+    </changeSet>-->
+    <changeSet author="kawsu (generated)" id="1577867864092-90">
+        <dropUniqueConstraint constraintName="voucher_type" tableName="voucher_number_generator"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-91">
+        <dropTable tableName="commercial_invoice"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-92">
+        <dropTable tableName="commercial_packaging"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-93">
+        <dropTable tableName="commercial_packaging_details"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-94">
+        <dropTable tableName="commercial_payment_info"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-95">
+        <dropTable tableName="commercial_po_status"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-96">
+        <dropTable tableName="commercial_proforma_invoice"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-97">
+        <dropTable tableName="commercial_purchase_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-98">
+        <dropTable tableName="commercial_purchase_order_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-99">
+        <dropTable tableName="commercial_work_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-100">
+        <dropTable tableName="commercial_work_order_details"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-101">
+        <dropTable tableName="item_category"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-102">
+        <dropTable tableName="item_sub_category"/>
+    </changeSet>
+    <!--<changeSet author="kawsu (generated)" id="1577867864092-103">
+        <dropTable tableName="jhi_date_time_wrapper"/>
+    </changeSet>-->
+    <changeSet author="kawsu (generated)" id="1577867864092-104">
+        <dropTable tableName="manufacturer"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-105">
+        <dropColumn columnName="cheque_register_id" tableName="dt_transaction"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-106">
+        <dropColumn columnName="commercial_po_status_id" tableName="commercial_attachment"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-107">
+        <dropColumn columnName="commercial_purchase_order_id" tableName="commercial_attachment"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-108">
+        <dropColumn columnName="creditor_ledger_id" tableName="dt_transaction"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-109">
+        <dropColumn columnName="debtor_ledger_id" tableName="dt_transaction"/>
+    </changeSet>
+    <!--<changeSet author="kawsu (generated)" id="1577867864092-110">
+        <dropColumn columnName="employee_id" tableName="department"/>
+    </changeSet>-->
+    <changeSet author="kawsu (generated)" id="1577867864092-111">
+        <dropColumn columnName="item_categories_id" tableName="stock_in_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-112">
+        <dropColumn columnName="item_categories_id" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-113">
+        <dropColumn columnName="item_categories_id" tableName="stock_out_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-114">
+        <dropColumn columnName="item_categories_id" tableName="stock_status"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-115">
+        <dropColumn columnName="item_sub_categories_id" tableName="stock_in_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-116">
+        <dropColumn columnName="item_sub_categories_id" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-117">
+        <dropColumn columnName="item_sub_categories_id" tableName="stock_out_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-118">
+        <dropColumn columnName="item_sub_categories_id" tableName="stock_status"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-119">
+        <dropColumn columnName="manufacturers_id" tableName="stock_in_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-120">
+        <dropColumn columnName="manufacturers_id" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-121">
+        <dropColumn columnName="moon_dependency" tableName="holiday_type"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-122">
+        <dropColumn columnName="purchase_order_id" tableName="stock_in_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-123">
+        <dropColumn columnName="purchase_order_id" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-124">
+        <dropColumn columnName="stock_in_items_id" tableName="stock_status"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-125">
+        <dropColumn columnName="stock_statuses_id" tableName="stock_out_item"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-126">
+        <addNotNullConstraint columnDataType="bigint" columnName="attendance_excel_upload_id" tableName="attendance"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-127">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="container_category" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-128">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="container_tracking_id" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-129">
+        <dropNotNullConstraint columnDataType="blob" columnName="jhi_file" tableName="commercial_attachment"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-130">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="jhi_file_content_type" tableName="commercial_attachment"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-131">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="quantity_per_container" tableName="stock_in_process"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577867864092-132">
+        <dropNotNullConstraint columnDataType="int" columnName="total_container" tableName="stock_in_process"/>
+    </changeSet>
+</databaseChangeLog>
