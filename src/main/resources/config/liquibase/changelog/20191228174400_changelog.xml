@@ -58,11 +58,11 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="kawsu (generated)" id="1577555105881-9">
+    <!--<changeSet author="kawsu (generated)" id="1577555105881-9">
         <addColumn tableName="commercial_attachment">
             <column name="commercial_po_id" type="bigint"/>
         </addColumn>
-    </changeSet>
+    </changeSet>-->
     <changeSet author="kawsu (generated)" id="1577555105881-10">
         <addColumn tableName="commercial_pi">
             <column name="company_description" type="varchar(255)"/>
@@ -343,9 +343,9 @@
     <changeSet author="kawsu (generated)" id="1577555105881-85">
         <addForeignKeyConstraint baseColumnNames="quotation_id" baseTableName="quotation_details" constraintName="FKfq8lnt2k5dj7u4ukbk9xfkhdb" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="quotation"/>
     </changeSet>
-    <changeSet author="kawsu (generated)" id="1577555105881-86">
+    <!--<changeSet author="kawsu (generated)" id="1577555105881-86">
         <addForeignKeyConstraint baseColumnNames="commercial_po_id" baseTableName="commercial_attachment" constraintName="FKft5ym2y5d0ocrexjl5u0rav8l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_po"/>
-    </changeSet>
+    </changeSet>-->
     <changeSet author="kawsu (generated)" id="1577555105881-87">
         <addForeignKeyConstraint baseColumnNames="supply_area_id" baseTableName="supply_money_collection" constraintName="FKge8nr7do47wyv4xe0o142egbw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area"/>
     </changeSet>
@@ -592,12 +592,12 @@
     <changeSet author="kawsu (generated)" id="1577555105881-168">
         <dropColumn columnName="buying_price" tableName="commercial_budget"/>
     </changeSet>
-    <changeSet author="kawsu (generated)" id="1577555105881-169">
+    <!--<changeSet author="kawsu (generated)" id="1577555105881-169">
         <dropColumn columnName="commercial_po_status_id" tableName="commercial_attachment"/>
     </changeSet>
     <changeSet author="kawsu (generated)" id="1577555105881-170">
         <dropColumn columnName="commercial_purchase_order_id" tableName="commercial_attachment"/>
-    </changeSet>
+    </changeSet>-->
     <changeSet author="kawsu (generated)" id="1577555105881-171">
         <dropColumn columnName="company_description_or_address" tableName="commercial_pi"/>
     </changeSet>
@@ -619,10 +619,10 @@
     <changeSet author="kawsu (generated)" id="1577555105881-177">
         <dropColumn columnName="serial_no" tableName="commercial_product_info"/>
     </changeSet>
-    <changeSet author="kawsu (generated)" id="1577555105881-178">
+    <!--<changeSet author="kawsu (generated)" id="1577555105881-178">
         <dropNotNullConstraint columnDataType="blob" columnName="jhi_file" tableName="commercial_attachment"/>
     </changeSet>
     <changeSet author="kawsu (generated)" id="1577555105881-179">
         <dropNotNullConstraint columnDataType="varchar(255)" columnName="jhi_file_content_type" tableName="commercial_attachment"/>
-    </changeSet>
+    </changeSet>-->
 </databaseChangeLog>
