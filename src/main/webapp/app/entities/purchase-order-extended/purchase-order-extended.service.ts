@@ -18,9 +18,24 @@ type EntityArrayResponseType = HttpResponse<IPurchaseOrder[]>;
 @Injectable({ providedIn: 'root' })
 export class PurchaseOrderExtendedService extends PurchaseOrderService {
     public reportResourceUrl = SERVER_API_URL + 'api/purchase-order-report';
+    public resourceUrlExtended = SERVER_API_URL + 'api/extended/purchase-orders';
 
     constructor(protected http: HttpClient) {
         super(http);
+    }
+
+    create(purchaseOrder: IPurchaseOrder): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(purchaseOrder);
+        return this.http
+            .post<IPurchaseOrder>(this.resourceUrlExtended, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    update(purchaseOrder: IPurchaseOrder): Observable<EntityResponseType> {
+        const copy = this.convertDateFromClient(purchaseOrder);
+        return this.http
+            .put<IPurchaseOrder>(this.resourceUrlExtended, copy, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
     find(id: number): Observable<EntityResponseType> {

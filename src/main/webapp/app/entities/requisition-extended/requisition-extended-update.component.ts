@@ -22,6 +22,7 @@ import { RequisitionDetailsService } from 'app/entities/requisition-details';
 import { QuotationService } from 'app/entities/quotation';
 import { merge, Observable, Subject } from 'rxjs';
 import { NgForm } from '@angular/forms';
+import { RequisitionExtendedService } from 'app/entities/requisition-extended/requisition-extended.service';
 
 @Component({
     selector: 'jhi-requisition-extended-update',
@@ -51,7 +52,7 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
     constructor(
         protected dataUtils: JhiDataUtils,
         protected jhiAlertService: JhiAlertService,
-        protected requisitionService: RequisitionService,
+        protected requisitionService: RequisitionExtendedService,
         protected employeeService: EmployeeService,
         protected officeService: OfficeService,
         protected productCategoryService: ProductCategoryService,
