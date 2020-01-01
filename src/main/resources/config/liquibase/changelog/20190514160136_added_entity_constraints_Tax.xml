@@ -7,7 +7,7 @@
         Added the constraints for entity Tax.
     -->
     <changeSet id="20190514160136-2" author="jhipster">
-        <validCheckSum>7:057cac117cd3b8f7cd48b7e0c82bec59</validCheckSum>
+        
         <addForeignKeyConstraint baseColumnNames="financial_account_year_id"
                                  baseTableName="tax"
                                  constraintName="fk_tax_financial_account_year_id"
