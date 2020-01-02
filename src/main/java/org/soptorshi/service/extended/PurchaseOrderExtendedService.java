@@ -72,7 +72,7 @@ public class PurchaseOrderExtendedService extends PurchaseOrderService {
         purchaseOrderDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
         purchaseOrderDTO.setModifiedOn(LocalDate.now());
 
-        if(purchaseOrderDTO.getStatus().equals(PurchaseOrderStatus.APPROVED_BY_CFO)) {
+        if(purchaseOrderDTO.getStatus() != null && purchaseOrderDTO.getStatus().equals(PurchaseOrderStatus.APPROVED_BY_CFO)) {
             Optional<RequisitionDTO> requisitionDTO = requisitionExtendedService.findOne(purchaseOrderDTO.getRequisitionId());
             if (requisitionDTO.isPresent()) {
                 Requisition requisition = requisitionMapper.toEntity(requisitionDTO.get());
