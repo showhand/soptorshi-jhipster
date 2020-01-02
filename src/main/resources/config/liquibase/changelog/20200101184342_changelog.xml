@@ -27,10 +27,10 @@
     </changeSet>
     <changeSet author="kawsu (generated)" id="1577904290486-8">
         <dropUniqueConstraint constraintName="voucher_id" tableName="predefined_narration"/>
-    </changeSet>-->
+    </changeSet>
     <changeSet author="kawsu (generated)" id="1577904290486-9">
         <dropTable tableName="jhi_date_time_wrapper"/>
-    </changeSet>
+    </changeSet>-->
     <changeSet author="kawsu (generated)" id="1577904290486-10">
         <dropColumn columnName="employee_id" tableName="department"/>
     </changeSet>
