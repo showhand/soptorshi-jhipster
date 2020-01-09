@@ -22,6 +22,7 @@ import { PurchaseOrderService, PurchaseOrderUpdateComponent } from 'app/entities
 export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateComponent implements OnInit {
     currentAccount: any;
     currentEmployee: IEmployee;
+    form: any;
 
     constructor(
         protected dataUtils: JhiDataUtils,
