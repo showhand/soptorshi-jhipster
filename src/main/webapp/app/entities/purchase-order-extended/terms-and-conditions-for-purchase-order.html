@@ -1,14 +1,13 @@
 <div>
     <h2 id="page-heading">
         <span>Terms And Conditions</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-terms-and-conditions" [routerLink]="['/terms-and-conditions', termsAndCondition.purchaseOrderId,'new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-terms-and-conditions" [disabled]="disableEdit" [routerLink]="['/terms-and-conditions', termsAndCondition.purchaseOrderId,'new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Terms And Conditions
             </span>
         </button>
     </h2>
-    <jhi-alert></jhi-alert>
 
     <br/>
     <div class="table-responsive" *ngIf="termsAndConditions">
@@ -25,25 +24,22 @@
 
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
+                        <button type="submit" [disabled]="disableEdit"
                                 [routerLink]="['/terms-and-conditions', termsAndConditions.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
                         </button>
-                        <button type="submit"
+                        <button type="submit" [disabled]="disableEdit"
                                 [routerLink]="['/terms-and-conditions', termsAndConditions.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button type="submit" [disabled]="disableEdit"
                                 [routerLink]="['/', 'terms-and-conditions', { outlets: { popup: termsAndConditions.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
                         </button>
                     </div>
                 </td>

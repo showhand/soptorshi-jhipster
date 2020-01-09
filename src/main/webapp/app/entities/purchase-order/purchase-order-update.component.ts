@@ -82,12 +82,17 @@ export class PurchaseOrderUpdateComponent implements OnInit {
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IPurchaseOrder>>) {
-        result.subscribe((res: HttpResponse<IPurchaseOrder>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe(
+            (res: HttpResponse<IPurchaseOrder>) => {
+                this.onSaveSuccess();
+                this.purchaseOrder = res.body;
+            },
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
     }
 
     protected onSaveSuccess() {
         this.isSaving = false;
-        this.previousState();
     }
 
     protected onSaveError() {

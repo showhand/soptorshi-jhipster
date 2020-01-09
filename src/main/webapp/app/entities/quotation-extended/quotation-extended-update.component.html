@@ -1,6 +1,6 @@
 <div class="row justify-content-center">
     <div class="col-12">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+        <form name="editForm" role="form" novalidate  #editForm="ngForm">
             <h2  *ngIf="quotation.id">Edit Quotation {{quotation.quotationNo}}</h2>
             <h2  *ngIf="!quotation.id">Create a Quotation</h2>
             <div>
@@ -67,9 +67,9 @@
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                    <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span>Back</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button type="submit" id="save-entity" (click)="save()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                 </button>
             </div>

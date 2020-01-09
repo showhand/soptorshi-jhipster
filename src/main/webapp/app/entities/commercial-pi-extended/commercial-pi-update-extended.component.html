@@ -91,16 +91,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
+                <div class="col-6">
                     <div class="form-group">
                         <label class="form-control-label" for="field_purchaseOrderNo">Purchase Order No</label>
                         <input type="text" class="form-control" name="purchaseOrderNo" id="field_purchaseOrderNo"
                                [(ngModel)]="commercialPi.purchaseOrderNo" required/>
                     </div>
+                </div>
+                <div class="col-6">
                     <div class="form-group">
                         <label class="form-control-label" for="field_piStatus">Pi Status</label>
                         <select class="form-control" name="piStatus" [(ngModel)]="commercialPi.piStatus"
-                                id="field_piStatus">
+                                id="field_piStatus" required>
                             <option value="WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER">
                                 WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER
                             </option>

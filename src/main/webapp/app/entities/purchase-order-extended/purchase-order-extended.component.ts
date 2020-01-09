@@ -18,7 +18,7 @@ import { PurchaseOrderExtendedService } from 'app/entities/purchase-order-extend
 })
 export class PurchaseOrderExtendedComponent extends PurchaseOrderComponent implements OnInit, OnDestroy {
     constructor(
-        protected purchaseOrderService: PurchaseOrderService,
+        protected purchaseOrderService: PurchaseOrderExtendedService,
         protected parseLinks: JhiParseLinks,
         protected jhiAlertService: JhiAlertService,
         protected accountService: AccountService,

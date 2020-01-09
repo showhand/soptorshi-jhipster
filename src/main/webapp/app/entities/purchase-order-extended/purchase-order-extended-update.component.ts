@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
@@ -14,6 +13,8 @@ import { EmployeeService } from 'app/entities/employee';
 import { AccountService } from 'app/core';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { PurchaseOrderService, PurchaseOrderUpdateComponent } from 'app/entities/purchase-order';
+import { NgForm } from '@angular/forms';
+import { PurchaseOrderExtendedService } from 'app/entities/purchase-order-extended/purchase-order-extended.service';
 
 @Component({
     selector: 'jhi-purchase-order-update',
@@ -24,10 +25,12 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
     currentEmployee: IEmployee;
     form: any;
 
+    @ViewChild('editForm') editForm: NgForm;
+
     constructor(
         protected dataUtils: JhiDataUtils,
         protected jhiAlertService: JhiAlertService,
-        protected purchaseOrderService: PurchaseOrderService,
+        protected purchaseOrderService: PurchaseOrderExtendedService,
         protected requisitionService: RequisitionService,
         protected quotationService: QuotationService,
         protected activatedRoute: ActivatedRoute,
@@ -40,6 +43,8 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
     ngOnInit() {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
+            console.log('Current account --->');
+            console.log(this.currentAccount);
             this.employeeService
                 .query({
                     'employeeId.equals': this.currentAccount.login
@@ -50,12 +55,16 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
+
+            this.activatedRoute.data.subscribe(({ purchaseOrder }) => {
+                this.purchaseOrder = purchaseOrder;
+                this.disableOrEnableComponents();
+                this.generatePurchaseOrderNo();
+            });
         });
 
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ purchaseOrder }) => {
-            this.purchaseOrder = purchaseOrder;
-        });
+
         this.requisitionService
             .query()
             .pipe(
@@ -70,11 +79,32 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
                 map((response: HttpResponse<IQuotation[]>) => response.body)
             )
             .subscribe((res: IQuotation[]) => (this.quotations = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
 
-        this.generatePurchaseOrderNo();
+    downloadReport() {
+        this.purchaseOrderService.downloadPurchaseOrderReport(this.purchaseOrder.id);
+    }
+
+    disableOrEnableComponents() {
+        if (
+            (this.purchaseOrder.status == PurchaseOrderStatus.MODIFICATION_REQUEST_BY_CFO ||
+                this.purchaseOrder.status == null ||
+                this.purchaseOrder.status == undefined) &&
+            this.currentAccount.authorities.includes('ROLE_REQUISITION')
+        ) {
+            setTimeout(() => {
+                this.editForm.form.enable();
+            }, 500);
+        } else {
+            setTimeout(() => {
+                this.editForm.form.disable();
+            }, 500);
+        }
     }
 
     generatePurchaseOrderNo() {
+        console.log('purchase order--->');
+        console.log(this.purchaseOrder);
         if (!this.purchaseOrder.purchaseOrderNo) {
             const dateStrFrom = new Date().getFullYear() + '-01-01';
             const dateStrTo = new Date().getFullYear() + '-12-31';
@@ -85,8 +115,9 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
                 })
                 .subscribe((res: HttpResponse<IPurchaseOrder[]>) => {
                     const dateStr = moment(new Date()).format('DD-MM-YYYY');
-                    this.purchaseOrder.purchaseOrderNo = 'PO-SOFPL-' + this.zeroPad(res.body.length + 1, 8);
-                    this.purchaseOrder.workOrderNo = 'WO-SOFPL-' + this.zeroPad(res.body.length + 1, 8);
+                    this.purchaseOrder.purchaseOrderNo =
+                        'PO-SOFPL-' + new Date().getFullYear() + '-' + this.zeroPad(res.body.length + 1, 8);
+                    this.purchaseOrder.workOrderNo = 'WO-SOFPL-' + new Date().getFullYear() + '-' + this.zeroPad(res.body.length + 1, 8);
                 });
         }
     }
@@ -101,13 +132,22 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
         if (this.purchaseOrder.id !== undefined) {
             this.subscribeToSaveResponse(this.purchaseOrderService.update(this.purchaseOrder));
         } else {
-            this.purchaseOrder.status = PurchaseOrderStatus.WAITING_FOR_CFO_APPROVAL;
             this.subscribeToSaveResponse(this.purchaseOrderService.create(this.purchaseOrder));
         }
     }
 
     saveAndSendForCFOApproval() {
         this.purchaseOrder.status = PurchaseOrderStatus.WAITING_FOR_CFO_APPROVAL;
+        this.save();
+    }
+
+    saveAndSendForAccountsApproval() {
+        this.purchaseOrder.status = PurchaseOrderStatus.WAITING_FOR_ACCOUNTS_APPROVAL;
+        this.save();
+    }
+
+    modificationRequestByAccounts() {
+        this.purchaseOrder.status = PurchaseOrderStatus.MODIFICATION_REQUEST_BY_ACCOUNTS;
         this.save();
     }
 

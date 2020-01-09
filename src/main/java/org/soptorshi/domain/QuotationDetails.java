@@ -13,6 +13,8 @@ import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.Currency;
 
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
+
 import org.soptorshi.domain.enumeration.PayType;
 
 import org.soptorshi.domain.enumeration.VatStatus;
@@ -41,6 +43,10 @@ public class QuotationDetails implements Serializable {
 
     @Column(name = "rate", precision = 10, scale = 2)
     private BigDecimal rate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "unit_of_measurements")
+    private UnitOfMeasurements unitOfMeasurements;
 
     @Column(name = "quantity")
     private Integer quantity;
@@ -125,6 +131,19 @@ public class QuotationDetails implements Serializable {
 
     public void setRate(BigDecimal rate) {
         this.rate = rate;
+    }
+
+    public UnitOfMeasurements getUnitOfMeasurements() {
+        return unitOfMeasurements;
+    }
+
+    public QuotationDetails unitOfMeasurements(UnitOfMeasurements unitOfMeasurements) {
+        this.unitOfMeasurements = unitOfMeasurements;
+        return this;
+    }
+
+    public void setUnitOfMeasurements(UnitOfMeasurements unitOfMeasurements) {
+        this.unitOfMeasurements = unitOfMeasurements;
     }
 
     public Integer getQuantity() {
@@ -336,6 +355,7 @@ public class QuotationDetails implements Serializable {
             "id=" + getId() +
             ", currency='" + getCurrency() + "'" +
             ", rate=" + getRate() +
+            ", unitOfMeasurements='" + getUnitOfMeasurements() + "'" +
             ", quantity=" + getQuantity() +
             ", payType='" + getPayType() + "'" +
             ", creditLimit=" + getCreditLimit() +

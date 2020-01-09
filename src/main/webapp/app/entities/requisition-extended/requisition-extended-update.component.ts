@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -21,6 +21,8 @@ import { NgbModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { RequisitionDetailsService } from 'app/entities/requisition-details';
 import { QuotationService } from 'app/entities/quotation';
 import { merge, Observable, Subject } from 'rxjs';
+import { NgForm } from '@angular/forms';
+import { RequisitionExtendedService } from 'app/entities/requisition-extended/requisition-extended.service';
 
 @Component({
     selector: 'jhi-requisition-extended-update',
@@ -42,13 +44,15 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
     productCategoryIdMapName: any;
 
     @ViewChild('instance') instance: NgbTypeahead;
+    @ViewChild('editForm') editForm: NgForm;
+
     focus$ = new Subject<string>();
     click$ = new Subject<string>();
 
     constructor(
         protected dataUtils: JhiDataUtils,
         protected jhiAlertService: JhiAlertService,
-        protected requisitionService: RequisitionService,
+        protected requisitionService: RequisitionExtendedService,
         protected employeeService: EmployeeService,
         protected officeService: OfficeService,
         protected productCategoryService: ProductCategoryService,
@@ -59,7 +63,8 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
         public modalService: NgbModal,
         protected requisitionDetailsService: RequisitionDetailsService,
         protected quotationService: QuotationService,
-        protected eventManager: JhiEventManager
+        protected eventManager: JhiEventManager,
+        protected router: Router
     ) {
         super(
             dataUtils,
@@ -158,6 +163,24 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
             });
     }
 
+    disableOrEnableComponents() {
+        if (
+            (this.requisition.status == RequisitionStatus.MODIFICATION_REQUEST_BY_CFO ||
+                this.requisition.status == RequisitionStatus.MODIFICATION_REQUEST_BY_PURCHASE_COMMITTEE ||
+                this.requisition.status == null ||
+                this.requisition.status == undefined) &&
+            this.currentAccount.authorities.includes('ROLE_REQUISITION')
+        ) {
+            setTimeout(() => {
+                this.editForm.form.enable();
+            }, 500);
+        } else {
+            setTimeout(() => {
+                this.editForm.form.disable();
+            }, 500);
+        }
+    }
+
     generateRequisitionNo() {
         if (!this.requisition.requisitionNo) {
             const dateStrFrom = new Date().getFullYear() + '-01-01';
@@ -189,6 +212,17 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
         } else {
             this.subscribeToSaveResponse(this.requisitionService.create(this.requisition));
         }
+    }
+
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IRequisition>>) {
+        result.subscribe(
+            (rZes: HttpResponse<IRequisition>) => {
+                this.requisition = rZes.body;
+                this.isSaving = false;
+                this.router.navigate(['/requisition', this.requisition.id, 'edit']);
+            },
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
     }
 
     forwardToHead() {

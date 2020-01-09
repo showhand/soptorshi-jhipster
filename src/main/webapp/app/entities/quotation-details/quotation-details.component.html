@@ -32,6 +32,7 @@
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="currency"><span>Currency</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="rate"><span>Rate</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="unitOfMeasurements"><span>Unit Of Measurements</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="payType"><span>Pay Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="creditLimit"><span>Credit Limit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -54,6 +55,7 @@
                 <td><a [routerLink]="['/quotation-details', quotationDetails.id, 'view' ]">{{quotationDetails.id}}</a></td>
                 <td>{{quotationDetails.currency}}</td>
                 <td>{{quotationDetails.rate}}</td>
+                <td>{{quotationDetails.unitOfMeasurements}}</td>
                 <td>{{quotationDetails.quantity}}</td>
                 <td>{{quotationDetails.payType}}</td>
                 <td>{{quotationDetails.creditLimit}}</td>

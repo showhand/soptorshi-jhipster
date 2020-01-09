@@ -81,7 +81,13 @@ export class QuotationUpdateComponent implements OnInit {
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IQuotation>>) {
-        result.subscribe((res: HttpResponse<IQuotation>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+        result.subscribe(
+            (res: HttpResponse<IQuotation>) => {
+                this.quotation = res.body;
+                this.onSaveSuccess();
+            },
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
     }
 
     protected onSaveSuccess() {

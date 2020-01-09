@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Requisitions</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-requisition" [routerLink]="['/requisition/new']">
+        <button id="jh-create-entity" *jhiHasAnyAuthority="['ROLE_REQUISITION']" class="btn btn-primary float-right jh-create-entity create-requisition" [routerLink]="['/requisition/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Requisition
@@ -11,7 +11,7 @@
     <jhi-alert></jhi-alert>
     <div class="row">
         <div class="col-sm-12">
-            <form name="searchForm" class="form-inline" *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO','ROLE_REQUISITION_COMMITTEE'])">
+            <form name="searchForm" class="form-inline" *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO','ROLE_REQUISITION_COMMITTEE','ROLE_REQUISITION'])">
                 <div class="input-group w-100 mt-3">
                     <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
                     <button class="input-group-append btn btn-info" (click)="search(currentSearch)">

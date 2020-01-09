@@ -11,6 +11,11 @@
             "fieldType": "BigDecimal"
         },
         {
+            "fieldName": "unitOfMeasurements",
+            "fieldType": "UnitOfMeasurements",
+            "fieldValues": "PCS,KG,TON,GRAM"
+        },
+        {
             "fieldName": "quantity",
             "fieldType": "Integer"
         },

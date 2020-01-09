@@ -1,21 +1,21 @@
-import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {JhiAlertService} from 'ng-jhipster';
-import {StockInProcessExtendedService} from './stock-in-process-extended.service';
-import {InventoryLocationService} from 'app/entities/inventory-location';
-import {InventorySubLocationService} from 'app/entities/inventory-sub-location';
-import {StockInProcessUpdateComponent} from 'app/entities/stock-in-process';
-import {VendorService} from 'app/entities/vendor';
-import {ProductCategoryService} from 'app/entities/product-category';
-import {ProductService} from 'app/entities/product';
-import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {IProduct} from 'app/shared/model/product.model';
-import {filter, map} from 'rxjs/operators';
-import {IInventorySubLocation} from 'app/shared/model/inventory-sub-location.model';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { JhiAlertService } from 'ng-jhipster';
+import { StockInProcessExtendedService } from './stock-in-process-extended.service';
+import { InventoryLocationService } from 'app/entities/inventory-location';
+import { InventorySubLocationService } from 'app/entities/inventory-sub-location';
+import { StockInProcessUpdateComponent } from 'app/entities/stock-in-process';
+import { VendorService } from 'app/entities/vendor';
+import { ProductCategoryService } from 'app/entities/product-category';
+import { ProductService } from 'app/entities/product';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { IProduct } from 'app/shared/model/product.model';
+import { filter, map } from 'rxjs/operators';
+import { IInventorySubLocation } from 'app/shared/model/inventory-sub-location.model';
 import * as moment from 'moment';
-import {DATE_TIME_FORMAT} from 'app/shared';
-import {StockInProcessStatus} from 'app/shared/model/stock-in-process.model';
-import {RequisitionService} from "app/entities/requisition";
+import { DATE_TIME_FORMAT } from 'app/shared';
+import { StockInProcessStatus } from 'app/shared/model/stock-in-process.model';
+import { RequisitionService } from 'app/entities/requisition';
 
 @Component({
     selector: 'jhi-stock-in-process-update-extended',
@@ -28,24 +28,24 @@ export class StockInProcessUpdateExtendedComponent extends StockInProcessUpdateC
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected stockInProcessService: StockInProcessExtendedService,
-        protected requisitionService: RequisitionService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
         protected inventoryLocationService: InventoryLocationService,
         protected inventorySubLocationService: InventorySubLocationService,
         protected vendorService: VendorService,
         protected activatedRoute: ActivatedRoute,
+        protected requisitionService: RequisitionService,
         protected router: Router
     ) {
         super(
             jhiAlertService,
             stockInProcessService,
-            requisitionService,
             productCategoryService,
             productService,
             inventoryLocationService,
             inventorySubLocationService,
             vendorService,
+            requisitionService,
             activatedRoute
         );
     }

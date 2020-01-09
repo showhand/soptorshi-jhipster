@@ -99,24 +99,25 @@
                                 <fa-icon [icon]="'eye'" ></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button></td>
-                            <th>{{monthlySalaryMapWithEmployeeId[employee.id].status}}</th>
+                            <th *ngIf="monthlySalaryMapWithEmployeeId[employee.id]!==undefined">{{monthlySalaryMapWithEmployeeId[employee.id].status}}</th>
+                            <th *ngIf="monthlySalaryMapWithEmployeeId[employee.id]===undefined"></th>
                             <th>
-                                <div *ngIf=" monthlySalaryMapWithEmployeeId[employee.id].status==undefined ||  !monthlySalaryMapWithEmployeeId[employee.id].status || monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_ACCOUNTS'|| monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_CFO' || monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_CFO'">
+                                <div *ngIf=" monthlySalaryMapWithEmployeeId[employee.id]===undefined ||  !monthlySalaryMapWithEmployeeId[employee.id].status || monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_ACCOUNTS'|| monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_CFO' || monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_CFO'">
                                     <button  class="btn btn-success" *jhiHasAnyAuthority="['ROLE_EMPLOYEE_MANAGEMENT']"  (click)="approvedByManager(monthlySalaryMapWithEmployeeId[employee.id])">Approve</button>
                                 </div>
-                                <div *ngIf="monthlySalaryMapWithEmployeeId[employee.id].status=='APPROVED_BY_MANAGER'">
+                                <div *ngIf="monthlySalaryMapWithEmployeeId[employee.id]!==undefined && monthlySalaryMapWithEmployeeId[employee.id].status=='APPROVED_BY_MANAGER'">
                                     <div class="btn-group flex-btn-group-container">
                                         <button  class="btn btn-success" *jhiHasAnyAuthority="['ROLE_ACCOUNTS']"  (click)="approvedByAccounts(monthlySalaryMapWithEmployeeId[employee.id])">Approve</button>
                                         <button  class="btn btn-primary" *jhiHasAnyAuthority="['ROLE_ACCOUNTS']"  (click)="modificationRequestByAccounts(monthlySalaryMapWithEmployeeId[employee.id])">Modification Request</button>
                                     </div>
                                 </div>
-                                <div *ngIf="monthlySalaryMapWithEmployeeId[employee.id].status=='APPROVED_BY_ACCOUNTS'">
+                                <div *ngIf="monthlySalaryMapWithEmployeeId[employee.id]!==undefined && monthlySalaryMapWithEmployeeId[employee.id].status=='APPROVED_BY_ACCOUNTS'">
                                     <div class="btn-group flex-btn-group-container">
                                         <button  class="btn btn-success" *jhiHasAnyAuthority="['ROLE_CFO']"  (click)="approvedByCFO(monthlySalaryMapWithEmployeeId[employee.id])">Approve</button>
                                         <button  class="btn btn-primary" *jhiHasAnyAuthority="['ROLE_CFO']"  (click)="modificationRequestByCFO(monthlySalaryMapWithEmployeeId[employee.id])">Modification Request</button>
                                     </div>
                                 </div>
-                                <div *ngIf="monthlySalaryMapWithEmployeeId[employee.id].status=='APPROVED_BY_CFO'">
+                                <div *ngIf="monthlySalaryMapWithEmployeeId[employee.id]!==undefined && monthlySalaryMapWithEmployeeId[employee.id].status=='APPROVED_BY_CFO'">
                                     <div class="btn-group flex-btn-group-container">
                                         <button  class="btn btn-success" *jhiHasAnyAuthority="['ROLE_MD']"  (click)="approvedByMD(monthlySalaryMapWithEmployeeId[employee.id])">Approve</button>
                                         <button  class="btn btn-primary" *jhiHasAnyAuthority="['ROLE_MD']"  (click)="modificationRequestByMD(monthlySalaryMapWithEmployeeId[employee.id])">Modification Request</button>

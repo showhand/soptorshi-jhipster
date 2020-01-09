@@ -3,6 +3,7 @@ package org.soptorshi.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.Currency;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.PayType;
 import org.soptorshi.domain.enumeration.VatStatus;
 import org.soptorshi.domain.enumeration.AITStatus;
@@ -32,6 +33,11 @@ public class QuotationDetailsCriteria implements Serializable {
     public static class CurrencyFilter extends Filter<Currency> {
     }
     /**
+     * Class for filtering UnitOfMeasurements
+     */
+    public static class UnitOfMeasurementsFilter extends Filter<UnitOfMeasurements> {
+    }
+    /**
      * Class for filtering PayType
      */
     public static class PayTypeFilter extends Filter<PayType> {
@@ -59,6 +65,8 @@ public class QuotationDetailsCriteria implements Serializable {
     private CurrencyFilter currency;
 
     private BigDecimalFilter rate;
+
+    private UnitOfMeasurementsFilter unitOfMeasurements;
 
     private IntegerFilter quantity;
 
@@ -108,6 +116,14 @@ public class QuotationDetailsCriteria implements Serializable {
 
     public void setRate(BigDecimalFilter rate) {
         this.rate = rate;
+    }
+
+    public UnitOfMeasurementsFilter getUnitOfMeasurements() {
+        return unitOfMeasurements;
+    }
+
+    public void setUnitOfMeasurements(UnitOfMeasurementsFilter unitOfMeasurements) {
+        this.unitOfMeasurements = unitOfMeasurements;
     }
 
     public IntegerFilter getQuantity() {
@@ -228,6 +244,7 @@ public class QuotationDetailsCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(currency, that.currency) &&
             Objects.equals(rate, that.rate) &&
+            Objects.equals(unitOfMeasurements, that.unitOfMeasurements) &&
             Objects.equals(quantity, that.quantity) &&
             Objects.equals(payType, that.payType) &&
             Objects.equals(creditLimit, that.creditLimit) &&
@@ -249,6 +266,7 @@ public class QuotationDetailsCriteria implements Serializable {
         id,
         currency,
         rate,
+        unitOfMeasurements,
         quantity,
         payType,
         creditLimit,
@@ -271,6 +289,7 @@ public class QuotationDetailsCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (currency != null ? "currency=" + currency + ", " : "") +
                 (rate != null ? "rate=" + rate + ", " : "") +
+                (unitOfMeasurements != null ? "unitOfMeasurements=" + unitOfMeasurements + ", " : "") +
                 (quantity != null ? "quantity=" + quantity + ", " : "") +
                 (payType != null ? "payType=" + payType + ", " : "") +
                 (creditLimit != null ? "creditLimit=" + creditLimit + ", " : "") +

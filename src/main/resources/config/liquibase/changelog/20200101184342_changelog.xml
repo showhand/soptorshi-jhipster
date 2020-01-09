@@ -1,0 +1,40 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1577904290486-1">
+        <addColumn tableName="stock_in_process">
+            <column name="requisitions_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577904290486-2">
+        <addForeignKeyConstraint baseColumnNames="requisitions_id" baseTableName="stock_in_process" constraintName="FKmer909wtanduxhqjbx60w3cw2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="requisition"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577904290486-3">
+        <dropForeignKeyConstraint baseTableName="department" constraintName="FKr45epddmrka0nkg3fkqcj28r4"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577904290486-4">
+        <dropForeignKeyConstraint baseTableName="stock_in_process" constraintName="FKrnbelgwox0xshrr4l591qpkcc"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577904290486-5">
+        <dropUniqueConstraint constraintName="UC_DEPARTMENTEMPLOYEE_ID_COL" tableName="department"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577904290486-6">
+        <dropUniqueConstraint constraintName="UC_STOCK_IN_PROCESSREQUISITION_ID_COL" tableName="stock_in_process"/>
+    </changeSet>
+    <!--<changeSet author="kawsu (generated)" id="1577904290486-7">
+        <dropUniqueConstraint constraintName="unique_financial_year_month_type" tableName="period_close"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577904290486-8">
+        <dropUniqueConstraint constraintName="voucher_id" tableName="predefined_narration"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577904290486-9">
+        <dropTable tableName="jhi_date_time_wrapper"/>
+    </changeSet>-->
+    <changeSet author="kawsu (generated)" id="1577904290486-10">
+        <dropColumn columnName="employee_id" tableName="department"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1577904290486-11">
+        <dropColumn columnName="requisition_id" tableName="stock_in_process"/>
+    </changeSet>
+</databaseChangeLog>

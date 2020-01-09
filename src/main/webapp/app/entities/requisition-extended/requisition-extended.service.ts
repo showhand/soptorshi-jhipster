@@ -15,8 +15,7 @@ type EntityArrayResponseType = HttpResponse<IRequisition[]>;
 
 @Injectable({ providedIn: 'root' })
 export class RequisitionExtendedService extends RequisitionService {
-    public resourceUrl = SERVER_API_URL + 'api/requisitions';
-    public resourceSearchUrl = SERVER_API_URL + 'api/_search/requisitions';
+    public resourceExtendedUrl = SERVER_API_URL + 'api/extended/requisitions';
 
     public requisitionDetailsPage = 1;
     public requisitionDetailsPreviousPage = 0;
@@ -31,18 +30,17 @@ export class RequisitionExtendedService extends RequisitionService {
     constructor(protected http: HttpClient) {
         super(http);
     }
-
     create(requisition: IRequisition): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(requisition);
         return this.http
-            .post<IRequisition>(this.resourceUrl, copy, { observe: 'response' })
+            .post<IRequisition>(this.resourceExtendedUrl, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
     update(requisition: IRequisition): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(requisition);
         return this.http
-            .put<IRequisition>(this.resourceUrl, copy, { observe: 'response' })
+            .put<IRequisition>(this.resourceExtendedUrl, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 }

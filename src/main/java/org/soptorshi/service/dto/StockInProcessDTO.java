@@ -55,10 +55,6 @@ public class StockInProcessDTO implements Serializable {
     private String remarks;
 
 
-    private Long requisitionId;
-
-    private String requisitionRequisitionNo;
-
     private Long productCategoriesId;
 
     private String productCategoriesName;
@@ -78,6 +74,10 @@ public class StockInProcessDTO implements Serializable {
     private Long vendorId;
 
     private String vendorCompanyName;
+
+    private Long requisitionsId;
+
+    private String requisitionsRequisitionNo;
 
     public Long getId() {
         return id;
@@ -215,22 +215,6 @@ public class StockInProcessDTO implements Serializable {
         this.remarks = remarks;
     }
 
-    public Long getRequisitionId() {
-        return requisitionId;
-    }
-
-    public void setRequisitionId(Long requisitionId) {
-        this.requisitionId = requisitionId;
-    }
-
-    public String getRequisitionRequisitionNo() {
-        return requisitionRequisitionNo;
-    }
-
-    public void setRequisitionRequisitionNo(String requisitionRequisitionNo) {
-        this.requisitionRequisitionNo = requisitionRequisitionNo;
-    }
-
     public Long getProductCategoriesId() {
         return productCategoriesId;
     }
@@ -311,6 +295,22 @@ public class StockInProcessDTO implements Serializable {
         this.vendorCompanyName = vendorCompanyName;
     }
 
+    public Long getRequisitionsId() {
+        return requisitionsId;
+    }
+
+    public void setRequisitionsId(Long requisitionId) {
+        this.requisitionsId = requisitionId;
+    }
+
+    public String getRequisitionsRequisitionNo() {
+        return requisitionsRequisitionNo;
+    }
+
+    public void setRequisitionsRequisitionNo(String requisitionRequisitionNo) {
+        this.requisitionsRequisitionNo = requisitionRequisitionNo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -352,8 +352,6 @@ public class StockInProcessDTO implements Serializable {
             ", stockInBy='" + getStockInBy() + "'" +
             ", stockInDate='" + getStockInDate() + "'" +
             ", remarks='" + getRemarks() + "'" +
-            ", requisition=" + getRequisitionId() +
-            ", requisition='" + getRequisitionRequisitionNo() + "'" +
             ", productCategories=" + getProductCategoriesId() +
             ", productCategories='" + getProductCategoriesName() + "'" +
             ", products=" + getProductsId() +
@@ -364,6 +362,8 @@ public class StockInProcessDTO implements Serializable {
             ", inventorySubLocations='" + getInventorySubLocationsName() + "'" +
             ", vendor=" + getVendorId() +
             ", vendor='" + getVendorCompanyName() + "'" +
+            ", requisitions=" + getRequisitionsId() +
+            ", requisitions='" + getRequisitionsRequisitionNo() + "'" +
             "}";
     }
 }

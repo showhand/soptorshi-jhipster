@@ -1068,25 +1068,6 @@ public class StockInProcessResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllStockInProcessesByRequisitionIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Requisition requisition = RequisitionResourceIntTest.createEntity(em);
-        em.persist(requisition);
-        em.flush();
-        stockInProcess.setRequisition(requisition);
-        stockInProcessRepository.saveAndFlush(stockInProcess);
-        Long requisitionId = requisition.getId();
-
-        // Get all the stockInProcessList where requisition equals to requisitionId
-        defaultStockInProcessShouldBeFound("requisitionId.equals=" + requisitionId);
-
-        // Get all the stockInProcessList where requisition equals to requisitionId + 1
-        defaultStockInProcessShouldNotBeFound("requisitionId.equals=" + (requisitionId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllStockInProcessesByProductCategoriesIsEqualToSomething() throws Exception {
         // Initialize the database
         ProductCategory productCategories = ProductCategoryResourceIntTest.createEntity(em);
@@ -1177,6 +1158,25 @@ public class StockInProcessResourceIntTest {
 
         // Get all the stockInProcessList where vendor equals to vendorId + 1
         defaultStockInProcessShouldNotBeFound("vendorId.equals=" + (vendorId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllStockInProcessesByRequisitionsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Requisition requisitions = RequisitionResourceIntTest.createEntity(em);
+        em.persist(requisitions);
+        em.flush();
+        stockInProcess.setRequisitions(requisitions);
+        stockInProcessRepository.saveAndFlush(stockInProcess);
+        Long requisitionsId = requisitions.getId();
+
+        // Get all the stockInProcessList where requisitions equals to requisitionsId
+        defaultStockInProcessShouldBeFound("requisitionsId.equals=" + requisitionsId);
+
+        // Get all the stockInProcessList where requisitions equals to requisitionsId + 1
+        defaultStockInProcessShouldNotBeFound("requisitionsId.equals=" + (requisitionsId + 1));
     }
 
     /**

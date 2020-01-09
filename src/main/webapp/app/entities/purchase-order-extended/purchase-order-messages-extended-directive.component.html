@@ -8,7 +8,6 @@
             </span>
         </button>
     </h2>
-    <jhi-alert></jhi-alert>
     <br/>
     <div class="table-responsive" *ngIf="purchaseOrderMessages">
         <table class="table table-striped">
@@ -19,7 +18,6 @@
                     <b>{{purchaseOrderMessages.comments}}</b><br/>
                     By {{purchaseOrderMessages.commenterFullName}} on {{purchaseOrderMessages.commentedOn| date:'dd-MM-yyyy'}}
                 </td>
-
             </tr>
             </tbody>
         </table>

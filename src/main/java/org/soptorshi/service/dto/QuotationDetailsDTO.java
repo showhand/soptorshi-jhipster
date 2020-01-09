@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Lob;
 import org.soptorshi.domain.enumeration.Currency;
+import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.domain.enumeration.PayType;
 import org.soptorshi.domain.enumeration.VatStatus;
 import org.soptorshi.domain.enumeration.AITStatus;
@@ -20,6 +21,8 @@ public class QuotationDetailsDTO implements Serializable {
     private Currency currency;
 
     private BigDecimal rate;
+
+    private UnitOfMeasurements unitOfMeasurements;
 
     private Integer quantity;
 
@@ -77,6 +80,14 @@ public class QuotationDetailsDTO implements Serializable {
 
     public void setRate(BigDecimal rate) {
         this.rate = rate;
+    }
+
+    public UnitOfMeasurements getUnitOfMeasurements() {
+        return unitOfMeasurements;
+    }
+
+    public void setUnitOfMeasurements(UnitOfMeasurements unitOfMeasurements) {
+        this.unitOfMeasurements = unitOfMeasurements;
     }
 
     public Integer getQuantity() {
@@ -234,6 +245,7 @@ public class QuotationDetailsDTO implements Serializable {
             "id=" + getId() +
             ", currency='" + getCurrency() + "'" +
             ", rate=" + getRate() +
+            ", unitOfMeasurements='" + getUnitOfMeasurements() + "'" +
             ", quantity=" + getQuantity() +
             ", payType='" + getPayType() + "'" +
             ", creditLimit=" + getCreditLimit() +

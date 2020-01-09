@@ -83,9 +83,7 @@
             <column name="remarks" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="requisition_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_stock_in_process_requisition_id" />
-            </column>
+
             <column name="product_categories_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -103,6 +101,10 @@
             </column>
 
             <column name="vendor_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="requisitions_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
