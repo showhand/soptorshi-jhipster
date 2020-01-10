@@ -35,6 +35,14 @@
                                 *ngFor="let commercialBudgetOption of commercialbudgets; trackBy: trackCommercialBudgetById">{{commercialBudgetOption.budgetNo}}</option>
                     </select>
                 </div>
+                <div class="col-8">
+                    <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-product" [routerLink]="['/product/new']">
+                        <fa-icon [icon]="'plus'"></fa-icon>
+                        <span class="hidden-sm-down" >
+            Create new Product
+            </span>
+                    </button>
+                </div>
             </div>
 
             <div class="row">
