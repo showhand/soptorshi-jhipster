@@ -1,0 +1,88 @@
+{
+    "name": "Production",
+    "fields": [
+        {
+            "fieldName": "weightStep",
+            "fieldType": "ProductionWeightStep",
+            "fieldValues": "RAW,FILLET,PROCESS_FILLET,FREEZING",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "unit",
+            "fieldType": "UnitOfMeasurements",
+            "fieldValues": "PCS,KG,TON,GRAM",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "quantity",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "byProductDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "byProductQuantity",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "remarks",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdOn",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updatedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedOn",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "productCategory",
+            "otherEntityRelationshipName": "production",
+            "relationshipName": "productCategories",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "product",
+            "otherEntityRelationshipName": "production",
+            "relationshipName": "products",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "requisition",
+            "otherEntityRelationshipName": "production",
+            "relationshipName": "requisitions",
+            "otherEntityField": "requisitionNo"
+        }
+    ],
+    "changelogDate": "20200110195953",
+    "entityTableName": "production",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

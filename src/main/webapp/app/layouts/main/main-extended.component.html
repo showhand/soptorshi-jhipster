@@ -435,6 +435,27 @@
 
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
                 *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
+                <a (click)="production=!production" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
+                     <span>
+                        <fa-icon icon="shopping-basket" fixedWidth="true"></fa-icon>
+                        <span>
+                            Production
+                        </span>
+                    </span>
+                </a>
+                <ul [ngbCollapse]="!production" class="list-unstyled" id="production-management">
+                    <li>
+                        <a class="dropdown-item" routerLink="production" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Production</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
                 <a (click)="inventoryManagement=!inventoryManagement" data-toggle="collapse" class="dropdown-toggle"
                    [attr.aria-expanded]="false">
                      <span>

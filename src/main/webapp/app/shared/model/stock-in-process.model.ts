@@ -16,7 +16,6 @@ export const enum ContainerCategory {
 }
 
 export const enum ProductType {
-    REGULAR_PRODUCT = 'REGULAR_PRODUCT',
     FINISHED_PRODUCT = 'FINISHED_PRODUCT',
     BY_PRODUCT = 'BY_PRODUCT'
 }

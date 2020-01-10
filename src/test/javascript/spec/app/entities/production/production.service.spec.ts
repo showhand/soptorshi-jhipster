@@ -3,39 +3,38 @@ import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { map, take } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { StockInItemService } from 'app/entities/stock-in-item/stock-in-item.service';
-import { ContainerCategory, IStockInItem, ProductType, StockInItem, UnitOfMeasurements } from 'app/shared/model/stock-in-item.model';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { ProductionService } from 'app/entities/production/production.service';
+import { IProduction, Production, ProductionWeightStep, UnitOfMeasurements } from 'app/shared/model/production.model';
 
 describe('Service Tests', () => {
-    describe('StockInItem Service', () => {
+    describe('Production Service', () => {
         let injector: TestBed;
-        let service: StockInItemService;
+        let service: ProductionService;
         let httpMock: HttpTestingController;
-        let elemDefault: IStockInItem;
+        let elemDefault: IProduction;
         let currentDate: moment.Moment;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
             });
             injector = getTestBed();
-            service = injector.get(StockInItemService);
+            service = injector.get(ProductionService);
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new StockInItem(
+            elemDefault = new Production(
                 0,
-                0,
+                ProductionWeightStep.RAW,
                 UnitOfMeasurements.PCS,
                 0,
-                ContainerCategory.BOTTLE,
+                'AAAAAAA',
+                0,
+                'AAAAAAA',
                 'AAAAAAA',
                 currentDate,
-                currentDate,
-                ProductType.FINISHED_PRODUCT,
                 'AAAAAAA',
-                currentDate,
-                'AAAAAAA'
+                currentDate
             );
         });
 
@@ -43,9 +42,8 @@ describe('Service Tests', () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        mfgDate: currentDate.format(DATE_FORMAT),
-                        expiryDate: currentDate.format(DATE_FORMAT),
-                        stockInDate: currentDate.format(DATE_TIME_FORMAT)
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
@@ -58,55 +56,51 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should create a StockInItem', async () => {
+            it('should create a Production', async () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
-                        mfgDate: currentDate.format(DATE_FORMAT),
-                        expiryDate: currentDate.format(DATE_FORMAT),
-                        stockInDate: currentDate.format(DATE_TIME_FORMAT)
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
-                        mfgDate: currentDate,
-                        expiryDate: currentDate,
-                        stockInDate: currentDate
+                        createdOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
                 service
-                    .create(new StockInItem(null))
+                    .create(new Production(null))
                     .pipe(take(1))
                     .subscribe(resp => expect(resp).toMatchObject({ body: expected }));
                 const req = httpMock.expectOne({ method: 'POST' });
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should update a StockInItem', async () => {
+            it('should update a Production', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        quantity: 1,
+                        weightStep: 'BBBBBB',
                         unit: 'BBBBBB',
-                        price: 1,
-                        containerCategory: 'BBBBBB',
-                        containerTrackingId: 'BBBBBB',
-                        mfgDate: currentDate.format(DATE_FORMAT),
-                        expiryDate: currentDate.format(DATE_FORMAT),
-                        typeOfProduct: 'BBBBBB',
-                        stockInBy: 'BBBBBB',
-                        stockInDate: currentDate.format(DATE_TIME_FORMAT),
-                        remarks: 'BBBBBB'
+                        quantity: 1,
+                        byProductDescription: 'BBBBBB',
+                        byProductQuantity: 1,
+                        remarks: 'BBBBBB',
+                        createdBy: 'BBBBBB',
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedBy: 'BBBBBB',
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
 
                 const expected = Object.assign(
                     {
-                        mfgDate: currentDate,
-                        expiryDate: currentDate,
-                        stockInDate: currentDate
+                        createdOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
@@ -118,28 +112,26 @@ describe('Service Tests', () => {
                 req.flush(JSON.stringify(returnedFromService));
             });
 
-            it('should return a list of StockInItem', async () => {
+            it('should return a list of Production', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        quantity: 1,
+                        weightStep: 'BBBBBB',
                         unit: 'BBBBBB',
-                        price: 1,
-                        containerCategory: 'BBBBBB',
-                        containerTrackingId: 'BBBBBB',
-                        mfgDate: currentDate.format(DATE_FORMAT),
-                        expiryDate: currentDate.format(DATE_FORMAT),
-                        typeOfProduct: 'BBBBBB',
-                        stockInBy: 'BBBBBB',
-                        stockInDate: currentDate.format(DATE_TIME_FORMAT),
-                        remarks: 'BBBBBB'
+                        quantity: 1,
+                        byProductDescription: 'BBBBBB',
+                        byProductQuantity: 1,
+                        remarks: 'BBBBBB',
+                        createdBy: 'BBBBBB',
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedBy: 'BBBBBB',
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
-                        mfgDate: currentDate,
-                        expiryDate: currentDate,
-                        stockInDate: currentDate
+                        createdOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
@@ -155,7 +147,7 @@ describe('Service Tests', () => {
                 httpMock.verify();
             });
 
-            it('should delete a StockInItem', async () => {
+            it('should delete a Production', async () => {
                 const rxPromise = service.delete(123).subscribe(resp => expect(resp.ok));
 
                 const req = httpMock.expectOne({ method: 'DELETE' });

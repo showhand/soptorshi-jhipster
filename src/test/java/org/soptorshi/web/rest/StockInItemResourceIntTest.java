@@ -75,8 +75,8 @@ public class StockInItemResourceIntTest {
     private static final LocalDate DEFAULT_EXPIRY_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_EXPIRY_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final ProductType DEFAULT_TYPE_OF_PRODUCT = ProductType.REGULAR_PRODUCT;
-    private static final ProductType UPDATED_TYPE_OF_PRODUCT = ProductType.FINISHED_PRODUCT;
+    private static final ProductType DEFAULT_TYPE_OF_PRODUCT = ProductType.FINISHED_PRODUCT;
+    private static final ProductType UPDATED_TYPE_OF_PRODUCT = ProductType.BY_PRODUCT;
 
     private static final String DEFAULT_STOCK_IN_BY = "AAAAAAAAAA";
     private static final String UPDATED_STOCK_IN_BY = "BBBBBBBBBB";

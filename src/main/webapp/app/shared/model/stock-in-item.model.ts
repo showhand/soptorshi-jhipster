@@ -1,4 +1,4 @@
-import {Moment} from 'moment';
+import { Moment } from 'moment';
 
 export const enum UnitOfMeasurements {
     PCS = 'PCS',
@@ -16,7 +16,6 @@ export const enum ContainerCategory {
 }
 
 export const enum ProductType {
-    REGULAR_PRODUCT = 'REGULAR_PRODUCT',
     FINISHED_PRODUCT = 'FINISHED_PRODUCT',
     BY_PRODUCT = 'BY_PRODUCT'
 }

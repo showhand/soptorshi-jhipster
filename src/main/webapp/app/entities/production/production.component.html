@@ -1,0 +1,105 @@
+<div>
+    <h2 id="page-heading">
+        <span>Productions</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-production" [routerLink]="['/production/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Create new Production
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="productions">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="weightStep"><span>Weight Step</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="unit"><span>Unit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="byProductDescription"><span>By Product Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="byProductQuantity"><span>By Product Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productCategoriesName"><span>Product Categories</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productsName"><span>Products</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="requisitionsRequisitionNo"><span>Requisitions</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let production of productions ;trackBy: trackId">
+                <td><a [routerLink]="['/production', production.id, 'view' ]">{{production.id}}</a></td>
+                <td>{{production.weightStep}}</td>
+                <td>{{production.unit}}</td>
+                <td>{{production.quantity}}</td>
+                <td>{{production.byProductDescription}}</td>
+                <td>{{production.byProductQuantity}}</td>
+                <td>{{production.remarks}}</td>
+                <td>{{production.createdBy}}</td>
+                <td>{{production.createdOn | date:'medium'}}</td>
+                <td>{{production.updatedBy}}</td>
+                <td>{{production.updatedOn | date:'medium'}}</td>
+                <td>
+                    <div *ngIf="production.productCategoriesId">
+                        <a [routerLink]="['../product-category', production.productCategoriesId , 'view' ]" >{{production.productCategoriesName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="production.productsId">
+                        <a [routerLink]="['../product', production.productsId , 'view' ]" >{{production.productsName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="production.requisitionsId">
+                        <a [routerLink]="['../requisition', production.requisitionsId , 'view' ]" >{{production.requisitionsRequisitionNo}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/production', production.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/production', production.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'production', { outlets: { popup: production.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
