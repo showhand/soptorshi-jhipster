@@ -39,6 +39,13 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
         protected accountService: AccountService
     ) {
         super(attendanceServiceExtended, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
+
+        this.attendanceServiceExtended
+            .getDistinctAttendanceDate()
+            .subscribe(
+                (res: HttpResponse<IAttendance[]>) => this.addDistinctAttendances(res.body),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     loadAll() {
