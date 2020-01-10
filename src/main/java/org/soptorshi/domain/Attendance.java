@@ -2,11 +2,9 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -21,13 +19,10 @@ import java.util.Objects;
 public class Attendance implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "employee_id")
-    private String employeeId;
 
     @Column(name = "attendance_date")
     private LocalDate attendanceDate;
@@ -38,10 +33,16 @@ public class Attendance implements Serializable {
     @Column(name = "out_time")
     private Instant outTime;
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @Column(name = "duration")
+    private String duration;
+
+    @ManyToOne
     @JsonIgnoreProperties("attendances")
     private AttendanceExcelUpload attendanceExcelUpload;
+
+    @ManyToOne
+    @JsonIgnoreProperties("attendances")
+    private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -50,19 +51,6 @@ public class Attendance implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmployeeId() {
-        return employeeId;
-    }
-
-    public Attendance employeeId(String employeeId) {
-        this.employeeId = employeeId;
-        return this;
-    }
-
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
     }
 
     public LocalDate getAttendanceDate() {
@@ -104,6 +92,19 @@ public class Attendance implements Serializable {
         this.outTime = outTime;
     }
 
+    public String getDuration() {
+        return duration;
+    }
+
+    public Attendance duration(String duration) {
+        this.duration = duration;
+        return this;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
     public AttendanceExcelUpload getAttendanceExcelUpload() {
         return attendanceExcelUpload;
     }
@@ -115,6 +116,19 @@ public class Attendance implements Serializable {
 
     public void setAttendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload) {
         this.attendanceExcelUpload = attendanceExcelUpload;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public Attendance employee(Employee employee) {
+        this.employee = employee;
+        return this;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -142,10 +156,10 @@ public class Attendance implements Serializable {
     public String toString() {
         return "Attendance{" +
             "id=" + getId() +
-            ", employeeId='" + getEmployeeId() + "'" +
             ", attendanceDate='" + getAttendanceDate() + "'" +
             ", inTime='" + getInTime() + "'" +
             ", outTime='" + getOutTime() + "'" +
+            ", duration='" + getDuration() + "'" +
             "}";
     }
 }

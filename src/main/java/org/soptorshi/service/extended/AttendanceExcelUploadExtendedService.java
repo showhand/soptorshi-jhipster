@@ -9,9 +9,10 @@ import org.soptorshi.domain.AttendanceExcelParser;
 import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.AttendanceExcelUploadRepository;
-import org.soptorshi.repository.EmployeeRepository;
+import org.soptorshi.repository.extended.EmployeeExtendedRepository;
 import org.soptorshi.repository.search.AttendanceExcelUploadSearchRepository;
 import org.soptorshi.service.AttendanceExcelUploadService;
+import org.soptorshi.service.EmployeeService;
 import org.soptorshi.service.dto.AttendanceDTO;
 import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
 import org.soptorshi.service.mapper.AttendanceExcelUploadMapper;
@@ -43,19 +44,23 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
 
     private final AttendanceMapper attendanceMapper;
 
-    private final EmployeeRepository employeeRepository;
-
     private final AttendanceExtendedService attendanceExtendedService;
 
+    private final EmployeeService employeeService;
+
+    private final EmployeeExtendedRepository employeeExtendedRepository;
+
     public AttendanceExcelUploadExtendedService(AttendanceExcelUploadRepository attendanceExcelUploadRepository, AttendanceExcelUploadMapper attendanceExcelUploadMapper, AttendanceExcelUploadSearchRepository attendanceExcelUploadSearchRepository, AttendanceMapper attendanceMapper,
-                                                EmployeeRepository employeeRepository, AttendanceExtendedService attendanceExtendedService) {
+                                                AttendanceExtendedService attendanceExtendedService, EmployeeService employeeService,
+                                                EmployeeExtendedRepository employeeExtendedRepository) {
         super(attendanceExcelUploadRepository, attendanceExcelUploadMapper, attendanceExcelUploadSearchRepository);
         this.attendanceExcelUploadRepository = attendanceExcelUploadRepository;
         this.attendanceExcelUploadMapper = attendanceExcelUploadMapper;
         this.attendanceExcelUploadSearchRepository = attendanceExcelUploadSearchRepository;
         this.attendanceMapper = attendanceMapper;
-        this.employeeRepository = employeeRepository;
         this.attendanceExtendedService = attendanceExtendedService;
+        this.employeeService = employeeService;
+        this.employeeExtendedRepository = employeeExtendedRepository;
     }
 
     /**
@@ -106,11 +111,11 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
             .withZone(ZoneId.systemDefault());
         List<Attendance> attendances = new ArrayList<>();
         for (AttendanceExcelParser attendanceExcelParser : attendanceExcelParsers) {
-            Optional<Employee> employee = employeeRepository.findByEmployeeId(attendanceExcelParser.getEmployeeId());
+            Optional<Employee> employee = employeeExtendedRepository.findByEmployeeId(attendanceExcelParser.getEmployeeId());
             if(employee.isPresent()) {
                 if (!attendanceExcelParser.getAttendanceDate().isEmpty()) {
                     Attendance attendance = new Attendance();
-                    attendance.setEmployeeId(attendanceExcelParser.getEmployeeId());
+                    attendance.setEmployee(employee.get());
                     attendance.setAttendanceDate(LocalDate.parse(attendanceExcelParser.getAttendanceDate()));
 
                     String[] inOut = attendanceExcelParser.getInOutTime().split(" ");

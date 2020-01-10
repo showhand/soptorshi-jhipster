@@ -718,6 +718,14 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'stock-in-process',
                 loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
+            },
+            {
+                path: 'attendance-excel-upload',
+                loadChildren: './attendance-excel-upload/attendance-excel-upload.module#SoptorshiAttendanceExcelUploadModule'
+            },
+            {
+                path: 'attendance',
+                loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

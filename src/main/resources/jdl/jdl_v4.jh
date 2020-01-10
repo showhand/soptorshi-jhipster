@@ -356,10 +356,10 @@ entity AttendanceExcelUpload {
   type AttendanceType
 }
 entity Attendance {
-  employeeId String,
   attendanceDate LocalDate,
   inTime Instant,
-  outTime Instant
+  outTime Instant,
+  duration String
 }
 entity InventoryLocation {
   name String required,
@@ -1226,7 +1226,8 @@ relationship ManyToOne {
   TermsAndConditions{purchaseOrder(purchaseOrderNo)} to PurchaseOrder,
   PurchaseOrder{requisition(requisitionNo)} to Requisition,
   PurchaseOrder{quotation(quotationNo)} to Quotation,
-  Attendance{attendanceExcelUpload required} to AttendanceExcelUpload,
+  Attendance to AttendanceExcelUpload,
+  Attendance{employee(fullName)} to Employee
   InventorySubLocation{inventoryLocations(name)} to InventoryLocation,
   StockInProcess{productCategories(name)} to ProductCategory,
   StockInProcess{products(name)} to Product,

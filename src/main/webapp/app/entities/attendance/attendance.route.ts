@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Attendance } from 'app/shared/model/attendance.model';
+import { Attendance, IAttendance } from 'app/shared/model/attendance.model';
 import { AttendanceService } from './attendance.service';
 import { AttendanceComponent } from './attendance.component';
 import { AttendanceDetailComponent } from './attendance-detail.component';
 import { AttendanceUpdateComponent } from './attendance-update.component';
 import { AttendanceDeletePopupComponent } from './attendance-delete-dialog.component';
-import { IAttendance } from 'app/shared/model/attendance.model';
 
 @Injectable({ providedIn: 'root' })
 export class AttendanceResolve implements Resolve<IAttendance> {

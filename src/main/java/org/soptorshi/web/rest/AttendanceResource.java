@@ -1,30 +1,25 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.AttendanceService;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.soptorshi.web.rest.util.HeaderUtil;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.AttendanceDTO;
-import org.soptorshi.service.dto.AttendanceCriteria;
-import org.soptorshi.service.AttendanceQueryService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.AttendanceQueryService;
+import org.soptorshi.service.AttendanceService;
+import org.soptorshi.service.dto.AttendanceCriteria;
+import org.soptorshi.service.dto.AttendanceDTO;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Attendance.
@@ -54,7 +49,7 @@ public class AttendanceResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/attendances")
-    public ResponseEntity<AttendanceDTO> createAttendance(@Valid @RequestBody AttendanceDTO attendanceDTO) throws URISyntaxException {
+    public ResponseEntity<AttendanceDTO> createAttendance(@RequestBody AttendanceDTO attendanceDTO) throws URISyntaxException {
         log.debug("REST request to save Attendance : {}", attendanceDTO);
         if (attendanceDTO.getId() != null) {
             throw new BadRequestAlertException("A new attendance cannot already have an ID", ENTITY_NAME, "idexists");
@@ -75,7 +70,7 @@ public class AttendanceResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/attendances")
-    public ResponseEntity<AttendanceDTO> updateAttendance(@Valid @RequestBody AttendanceDTO attendanceDTO) throws URISyntaxException {
+    public ResponseEntity<AttendanceDTO> updateAttendance(@RequestBody AttendanceDTO attendanceDTO) throws URISyntaxException {
         log.debug("REST request to update Attendance : {}", attendanceDTO);
         if (attendanceDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

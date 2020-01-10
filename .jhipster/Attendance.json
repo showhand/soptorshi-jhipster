@@ -2,10 +2,6 @@
     "name": "Attendance",
     "fields": [
         {
-            "fieldName": "employeeId",
-            "fieldType": "String"
-        },
-        {
             "fieldName": "attendanceDate",
             "fieldType": "LocalDate"
         },
@@ -16,6 +12,10 @@
         {
             "fieldName": "outTime",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "duration",
+            "fieldType": "String"
         }
     ],
     "relationships": [
@@ -23,9 +23,15 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "attendanceExcelUpload",
             "otherEntityRelationshipName": "attendance",
-            "relationshipValidateRules": "required",
             "relationshipName": "attendanceExcelUpload",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "attendance",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName"
         }
     ],
     "changelogDate": "20190702135954",

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -10,6 +10,8 @@ import { IAttendance } from 'app/shared/model/attendance.model';
 import { AttendanceService } from './attendance.service';
 import { IAttendanceExcelUpload } from 'app/shared/model/attendance-excel-upload.model';
 import { AttendanceExcelUploadService } from 'app/entities/attendance-excel-upload';
+import { IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeService } from 'app/entities/employee';
 
 @Component({
     selector: 'jhi-attendance-update',
@@ -20,6 +22,8 @@ export class AttendanceUpdateComponent implements OnInit {
     isSaving: boolean;
 
     attendanceexceluploads: IAttendanceExcelUpload[];
+
+    employees: IEmployee[];
     attendanceDateDp: any;
     inTime: string;
     outTime: string;
@@ -28,6 +32,7 @@ export class AttendanceUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected attendanceService: AttendanceService,
         protected attendanceExcelUploadService: AttendanceExcelUploadService,
+        protected employeeService: EmployeeService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -48,6 +53,13 @@ export class AttendanceUpdateComponent implements OnInit {
                 (res: IAttendanceExcelUpload[]) => (this.attendanceexceluploads = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.employeeService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IEmployee[]>) => response.body)
+            )
+            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -83,6 +95,10 @@ export class AttendanceUpdateComponent implements OnInit {
     }
 
     trackAttendanceExcelUploadById(index: number, item: IAttendanceExcelUpload) {
+        return item.id;
+    }
+
+    trackEmployeeById(index: number, item: IEmployee) {
         return item.id;
     }
 }

@@ -1,15 +1,11 @@
 package org.soptorshi.service.dto;
 
+import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.LongFilter;
+import org.soptorshi.domain.enumeration.AttendanceType;
+
 import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.AttendanceType;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
 
 /**
  * Criteria class for the AttendanceExcelUpload entity. This class is used in AttendanceExcelUploadResource to
@@ -32,6 +28,8 @@ public class AttendanceExcelUploadCriteria implements Serializable {
 
     private AttendanceTypeFilter type;
 
+    private LongFilter attendanceId;
+
     public LongFilter getId() {
         return id;
     }
@@ -48,6 +46,14 @@ public class AttendanceExcelUploadCriteria implements Serializable {
         this.type = type;
     }
 
+    public LongFilter getAttendanceId() {
+        return attendanceId;
+    }
+
+    public void setAttendanceId(LongFilter attendanceId) {
+        this.attendanceId = attendanceId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -60,14 +66,16 @@ public class AttendanceExcelUploadCriteria implements Serializable {
         final AttendanceExcelUploadCriteria that = (AttendanceExcelUploadCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(type, that.type);
+            Objects.equals(type, that.type) &&
+            Objects.equals(attendanceId, that.attendanceId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        type
+        type,
+        attendanceId
         );
     }
 
@@ -76,6 +84,7 @@ public class AttendanceExcelUploadCriteria implements Serializable {
         return "AttendanceExcelUploadCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (type != null ? "type=" + type + ", " : "") +
+                (attendanceId != null ? "attendanceId=" + attendanceId + ", " : "") +
             "}";
     }
 

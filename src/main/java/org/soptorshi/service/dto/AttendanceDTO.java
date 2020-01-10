@@ -1,8 +1,8 @@
 package org.soptorshi.service.dto;
+
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -12,16 +12,20 @@ public class AttendanceDTO implements Serializable {
 
     private Long id;
 
-    private String employeeId;
-
     private LocalDate attendanceDate;
 
     private Instant inTime;
 
     private Instant outTime;
 
+    private String duration;
+
 
     private Long attendanceExcelUploadId;
+
+    private Long employeeId;
+
+    private String employeeFullName;
 
     public Long getId() {
         return id;
@@ -29,14 +33,6 @@ public class AttendanceDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
     }
 
     public LocalDate getAttendanceDate() {
@@ -63,12 +59,36 @@ public class AttendanceDTO implements Serializable {
         this.outTime = outTime;
     }
 
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
     public Long getAttendanceExcelUploadId() {
         return attendanceExcelUploadId;
     }
 
     public void setAttendanceExcelUploadId(Long attendanceExcelUploadId) {
         this.attendanceExcelUploadId = attendanceExcelUploadId;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
     }
 
     @Override
@@ -96,11 +116,13 @@ public class AttendanceDTO implements Serializable {
     public String toString() {
         return "AttendanceDTO{" +
             "id=" + getId() +
-            ", employeeId='" + getEmployeeId() + "'" +
             ", attendanceDate='" + getAttendanceDate() + "'" +
             ", inTime='" + getInTime() + "'" +
             ", outTime='" + getOutTime() + "'" +
+            ", duration='" + getDuration() + "'" +
             ", attendanceExcelUpload=" + getAttendanceExcelUploadId() +
+            ", employee=" + getEmployeeId() +
+            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

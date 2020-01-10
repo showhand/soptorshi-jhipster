@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.Attendance;
 import org.soptorshi.domain.AttendanceExcelUpload;
-import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.EmployeeRepository;
 import org.soptorshi.repository.extended.AttendanceExtendedRepository;
 import org.soptorshi.repository.search.AttendanceSearchRepository;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -51,15 +49,11 @@ public class AttendanceExtendedService extends AttendanceService {
 
     public AttendanceDTO save(AttendanceDTO attendanceDTO) {
         log.debug("Request to save Attendance : {}", attendanceDTO);
-        Optional<Employee> employee = employeeRepository.findByEmployeeId(attendanceDTO.getEmployeeId());
-        if(employee.isPresent()) {
-            Attendance attendance = attendanceMapper.toEntity(attendanceDTO);
-            attendance = attendanceExtendedRepository.save(attendance);
-            AttendanceDTO result = attendanceMapper.toDto(attendance);
-            attendanceSearchRepository.save(attendance);
-            return result;
-        }
-        return null;
+        Attendance attendance = attendanceMapper.toEntity(attendanceDTO);
+        attendance = attendanceExtendedRepository.save(attendance);
+        AttendanceDTO result = attendanceMapper.toDto(attendance);
+        attendanceSearchRepository.save(attendance);
+        return result;
     }
 
 

@@ -1,9 +1,9 @@
 package org.soptorshi.service.mapper;
 
-import org.soptorshi.domain.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
-
-import org.mapstruct.*;
 
 /**
  * Mapper for the entity AttendanceExcelUpload and its DTO AttendanceExcelUploadDTO.
@@ -12,6 +12,8 @@ import org.mapstruct.*;
 public interface AttendanceExcelUploadMapper extends EntityMapper<AttendanceExcelUploadDTO, AttendanceExcelUpload> {
 
 
+    @Mapping(target = "attendances", ignore = true)
+    AttendanceExcelUpload toEntity(AttendanceExcelUploadDTO attendanceExcelUploadDTO);
 
     default AttendanceExcelUpload fromId(Long id) {
         if (id == null) {

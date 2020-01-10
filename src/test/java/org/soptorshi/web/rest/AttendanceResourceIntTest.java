@@ -1,22 +1,20 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.Attendance;
-import org.soptorshi.domain.AttendanceExcelUpload;
-import org.soptorshi.repository.AttendanceRepository;
-import org.soptorshi.repository.search.AttendanceSearchRepository;
-import org.soptorshi.service.AttendanceService;
-import org.soptorshi.service.dto.AttendanceDTO;
-import org.soptorshi.service.mapper.AttendanceMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.AttendanceCriteria;
-import org.soptorshi.service.AttendanceQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.Attendance;
+import org.soptorshi.domain.AttendanceExcelUpload;
+import org.soptorshi.domain.Employee;
+import org.soptorshi.repository.AttendanceRepository;
+import org.soptorshi.repository.search.AttendanceSearchRepository;
+import org.soptorshi.service.AttendanceQueryService;
+import org.soptorshi.service.AttendanceService;
+import org.soptorshi.service.dto.AttendanceDTO;
+import org.soptorshi.service.mapper.AttendanceMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -31,19 +29,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -56,9 +53,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = SoptorshiApp.class)
 public class AttendanceResourceIntTest {
 
-    private static final String DEFAULT_EMPLOYEE_ID = "AAAAAAAAAA";
-    private static final String UPDATED_EMPLOYEE_ID = "BBBBBBBBBB";
-
     private static final LocalDate DEFAULT_ATTENDANCE_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_ATTENDANCE_DATE = LocalDate.now(ZoneId.systemDefault());
 
@@ -67,6 +61,9 @@ public class AttendanceResourceIntTest {
 
     private static final Instant DEFAULT_OUT_TIME = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_OUT_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_DURATION = "AAAAAAAAAA";
+    private static final String UPDATED_DURATION = "BBBBBBBBBB";
 
     @Autowired
     private AttendanceRepository attendanceRepository;
@@ -127,15 +124,10 @@ public class AttendanceResourceIntTest {
      */
     public static Attendance createEntity(EntityManager em) {
         Attendance attendance = new Attendance()
-            .employeeId(DEFAULT_EMPLOYEE_ID)
             .attendanceDate(DEFAULT_ATTENDANCE_DATE)
             .inTime(DEFAULT_IN_TIME)
-            .outTime(DEFAULT_OUT_TIME);
-        // Add required entity
-        AttendanceExcelUpload attendanceExcelUpload = AttendanceExcelUploadResourceIntTest.createEntity(em);
-        em.persist(attendanceExcelUpload);
-        em.flush();
-        attendance.setAttendanceExcelUpload(attendanceExcelUpload);
+            .outTime(DEFAULT_OUT_TIME)
+            .duration(DEFAULT_DURATION);
         return attendance;
     }
 
@@ -160,10 +152,10 @@ public class AttendanceResourceIntTest {
         List<Attendance> attendanceList = attendanceRepository.findAll();
         assertThat(attendanceList).hasSize(databaseSizeBeforeCreate + 1);
         Attendance testAttendance = attendanceList.get(attendanceList.size() - 1);
-        assertThat(testAttendance.getEmployeeId()).isEqualTo(DEFAULT_EMPLOYEE_ID);
         assertThat(testAttendance.getAttendanceDate()).isEqualTo(DEFAULT_ATTENDANCE_DATE);
         assertThat(testAttendance.getInTime()).isEqualTo(DEFAULT_IN_TIME);
         assertThat(testAttendance.getOutTime()).isEqualTo(DEFAULT_OUT_TIME);
+        assertThat(testAttendance.getDuration()).isEqualTo(DEFAULT_DURATION);
 
         // Validate the Attendance in Elasticsearch
         verify(mockAttendanceSearchRepository, times(1)).save(testAttendance);
@@ -203,12 +195,12 @@ public class AttendanceResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
-            .andExpect(jsonPath("$.[*].employeeId").value(hasItem(DEFAULT_EMPLOYEE_ID.toString())))
             .andExpect(jsonPath("$.[*].attendanceDate").value(hasItem(DEFAULT_ATTENDANCE_DATE.toString())))
             .andExpect(jsonPath("$.[*].inTime").value(hasItem(DEFAULT_IN_TIME.toString())))
-            .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())));
+            .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())))
+            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getAttendance() throws Exception {
@@ -220,49 +212,10 @@ public class AttendanceResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(attendance.getId().intValue()))
-            .andExpect(jsonPath("$.employeeId").value(DEFAULT_EMPLOYEE_ID.toString()))
             .andExpect(jsonPath("$.attendanceDate").value(DEFAULT_ATTENDANCE_DATE.toString()))
             .andExpect(jsonPath("$.inTime").value(DEFAULT_IN_TIME.toString()))
-            .andExpect(jsonPath("$.outTime").value(DEFAULT_OUT_TIME.toString()));
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByEmployeeIdIsEqualToSomething() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where employeeId equals to DEFAULT_EMPLOYEE_ID
-        defaultAttendanceShouldBeFound("employeeId.equals=" + DEFAULT_EMPLOYEE_ID);
-
-        // Get all the attendanceList where employeeId equals to UPDATED_EMPLOYEE_ID
-        defaultAttendanceShouldNotBeFound("employeeId.equals=" + UPDATED_EMPLOYEE_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByEmployeeIdIsInShouldWork() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where employeeId in DEFAULT_EMPLOYEE_ID or UPDATED_EMPLOYEE_ID
-        defaultAttendanceShouldBeFound("employeeId.in=" + DEFAULT_EMPLOYEE_ID + "," + UPDATED_EMPLOYEE_ID);
-
-        // Get all the attendanceList where employeeId equals to UPDATED_EMPLOYEE_ID
-        defaultAttendanceShouldNotBeFound("employeeId.in=" + UPDATED_EMPLOYEE_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByEmployeeIdIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where employeeId is not null
-        defaultAttendanceShouldBeFound("employeeId.specified=true");
-
-        // Get all the attendanceList where employeeId is null
-        defaultAttendanceShouldNotBeFound("employeeId.specified=false");
+            .andExpect(jsonPath("$.outTime").value(DEFAULT_OUT_TIME.toString()))
+            .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION.toString()));
     }
 
     @Test
@@ -411,6 +364,45 @@ public class AttendanceResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllAttendancesByDurationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where duration equals to DEFAULT_DURATION
+        defaultAttendanceShouldBeFound("duration.equals=" + DEFAULT_DURATION);
+
+        // Get all the attendanceList where duration equals to UPDATED_DURATION
+        defaultAttendanceShouldNotBeFound("duration.equals=" + UPDATED_DURATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByDurationIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where duration in DEFAULT_DURATION or UPDATED_DURATION
+        defaultAttendanceShouldBeFound("duration.in=" + DEFAULT_DURATION + "," + UPDATED_DURATION);
+
+        // Get all the attendanceList where duration equals to UPDATED_DURATION
+        defaultAttendanceShouldNotBeFound("duration.in=" + UPDATED_DURATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByDurationIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where duration is not null
+        defaultAttendanceShouldBeFound("duration.specified=true");
+
+        // Get all the attendanceList where duration is null
+        defaultAttendanceShouldNotBeFound("duration.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllAttendancesByAttendanceExcelUploadIsEqualToSomething() throws Exception {
         // Initialize the database
         AttendanceExcelUpload attendanceExcelUpload = AttendanceExcelUploadResourceIntTest.createEntity(em);
@@ -427,6 +419,25 @@ public class AttendanceResourceIntTest {
         defaultAttendanceShouldNotBeFound("attendanceExcelUploadId.equals=" + (attendanceExcelUploadId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        attendance.setEmployee(employee);
+        attendanceRepository.saveAndFlush(attendance);
+        Long employeeId = employee.getId();
+
+        // Get all the attendanceList where employee equals to employeeId
+        defaultAttendanceShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the attendanceList where employee equals to employeeId + 1
+        defaultAttendanceShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -435,10 +446,10 @@ public class AttendanceResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
-            .andExpect(jsonPath("$.[*].employeeId").value(hasItem(DEFAULT_EMPLOYEE_ID)))
             .andExpect(jsonPath("$.[*].attendanceDate").value(hasItem(DEFAULT_ATTENDANCE_DATE.toString())))
             .andExpect(jsonPath("$.[*].inTime").value(hasItem(DEFAULT_IN_TIME.toString())))
-            .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())));
+            .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())))
+            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)));
 
         // Check, that the count call also returns 1
         restAttendanceMockMvc.perform(get("/api/attendances/count?sort=id,desc&" + filter))
@@ -486,10 +497,10 @@ public class AttendanceResourceIntTest {
         // Disconnect from session so that the updates on updatedAttendance are not directly saved in db
         em.detach(updatedAttendance);
         updatedAttendance
-            .employeeId(UPDATED_EMPLOYEE_ID)
             .attendanceDate(UPDATED_ATTENDANCE_DATE)
             .inTime(UPDATED_IN_TIME)
-            .outTime(UPDATED_OUT_TIME);
+            .outTime(UPDATED_OUT_TIME)
+            .duration(UPDATED_DURATION);
         AttendanceDTO attendanceDTO = attendanceMapper.toDto(updatedAttendance);
 
         restAttendanceMockMvc.perform(put("/api/attendances")
@@ -501,10 +512,10 @@ public class AttendanceResourceIntTest {
         List<Attendance> attendanceList = attendanceRepository.findAll();
         assertThat(attendanceList).hasSize(databaseSizeBeforeUpdate);
         Attendance testAttendance = attendanceList.get(attendanceList.size() - 1);
-        assertThat(testAttendance.getEmployeeId()).isEqualTo(UPDATED_EMPLOYEE_ID);
         assertThat(testAttendance.getAttendanceDate()).isEqualTo(UPDATED_ATTENDANCE_DATE);
         assertThat(testAttendance.getInTime()).isEqualTo(UPDATED_IN_TIME);
         assertThat(testAttendance.getOutTime()).isEqualTo(UPDATED_OUT_TIME);
+        assertThat(testAttendance.getDuration()).isEqualTo(UPDATED_DURATION);
 
         // Validate the Attendance in Elasticsearch
         verify(mockAttendanceSearchRepository, times(1)).save(testAttendance);
@@ -565,10 +576,10 @@ public class AttendanceResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
-            .andExpect(jsonPath("$.[*].employeeId").value(hasItem(DEFAULT_EMPLOYEE_ID)))
             .andExpect(jsonPath("$.[*].attendanceDate").value(hasItem(DEFAULT_ATTENDANCE_DATE.toString())))
             .andExpect(jsonPath("$.[*].inTime").value(hasItem(DEFAULT_IN_TIME.toString())))
-            .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())));
+            .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())))
+            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)));
     }
 
     @Test
