@@ -1,0 +1,112 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1578668112632-1">
+        <addColumn tableName="commercial_budget">
+            <column name="air_port_cost" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-2">
+        <addColumn tableName="commercial_budget">
+            <column name="air_port_name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-3">
+        <addColumn tableName="commercial_product_info">
+            <column name="buying_price" type="decimal(10, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-4">
+        <addColumn tableName="commercial_budget">
+            <column name="company_name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-5">
+        <addColumn tableName="commercial_product_info">
+            <column name="cyl_cost" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-6">
+        <addColumn tableName="commercial_budget">
+            <column name="insurance_price" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-7">
+        <addColumn tableName="commercial_product_info">
+            <column name="ip_cost" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-8">
+        <addColumn tableName="commercial_budget">
+            <column name="land_port_cost" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-9">
+        <addColumn tableName="commercial_budget">
+            <column name="land_port_name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-10">
+        <addColumn tableName="commercial_product_info">
+            <column name="mc_cost" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-11">
+        <addColumn tableName="commercial_budget">
+            <column name="payment_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-12">
+        <addColumn tableName="commercial_pi">
+            <column name="payment_type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-13">
+        <addColumn tableName="commercial_budget">
+            <column name="sea_port_cost" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-14">
+        <addColumn tableName="commercial_budget">
+            <column name="sea_port_name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-15">
+        <addColumn tableName="commercial_product_info">
+            <column name="sp_glazing" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-16">
+        <addColumn tableName="commercial_product_info">
+            <column name="sp_others_description" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-17">
+        <addColumn tableName="commercial_product_info">
+            <column name="sp_surface_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-18">
+        <addColumn tableName="commercial_budget">
+            <column name="total_transportation_cost" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-19">
+        <addColumn tableName="commercial_budget">
+            <column name="transportation_type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <!--<changeSet author="kawsu (generated)" id="1578668112632-20">
+        <dropUniqueConstraint constraintName="unique_financial_year_month_type" tableName="period_close"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578668112632-21">
+        <dropUniqueConstraint constraintName="voucher_id" tableName="predefined_narration"/>
+    </changeSet>-->
+</databaseChangeLog>

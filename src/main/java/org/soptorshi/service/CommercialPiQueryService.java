@@ -106,6 +106,9 @@ public class CommercialPiQueryService extends QueryService<CommercialPi> {
             if (criteria.getHarmonicCode() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getHarmonicCode(), CommercialPi_.harmonicCode));
             }
+            if (criteria.getPaymentType() != null) {
+                specification = specification.and(buildSpecification(criteria.getPaymentType(), CommercialPi_.paymentType));
+            }
             if (criteria.getPaymentTerm() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPaymentTerm(), CommercialPi_.paymentTerm));
             }

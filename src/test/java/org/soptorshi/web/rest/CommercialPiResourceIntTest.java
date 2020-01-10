@@ -8,6 +8,7 @@ import org.soptorshi.SoptorshiApp;
 import org.soptorshi.domain.CommercialBudget;
 import org.soptorshi.domain.CommercialPi;
 import org.soptorshi.domain.enumeration.CommercialPiStatus;
+import org.soptorshi.domain.enumeration.PaymentType;
 import org.soptorshi.repository.CommercialPiRepository;
 import org.soptorshi.repository.search.CommercialPiSearchRepository;
 import org.soptorshi.service.CommercialPiQueryService;
@@ -66,6 +67,9 @@ public class CommercialPiResourceIntTest {
 
     private static final String DEFAULT_HARMONIC_CODE = "AAAAAAAAAA";
     private static final String UPDATED_HARMONIC_CODE = "BBBBBBBBBB";
+
+    private static final PaymentType DEFAULT_PAYMENT_TYPE = PaymentType.LC;
+    private static final PaymentType UPDATED_PAYMENT_TYPE = PaymentType.TT;
 
     private static final String DEFAULT_PAYMENT_TERM = "AAAAAAAAAA";
     private static final String UPDATED_PAYMENT_TERM = "BBBBBBBBBB";
@@ -164,6 +168,7 @@ public class CommercialPiResourceIntTest {
             .proformaNo(DEFAULT_PROFORMA_NO)
             .proformaDate(DEFAULT_PROFORMA_DATE)
             .harmonicCode(DEFAULT_HARMONIC_CODE)
+            .paymentType(DEFAULT_PAYMENT_TYPE)
             .paymentTerm(DEFAULT_PAYMENT_TERM)
             .termsOfDelivery(DEFAULT_TERMS_OF_DELIVERY)
             .shipmentDate(DEFAULT_SHIPMENT_DATE)
@@ -204,6 +209,7 @@ public class CommercialPiResourceIntTest {
         assertThat(testCommercialPi.getProformaNo()).isEqualTo(DEFAULT_PROFORMA_NO);
         assertThat(testCommercialPi.getProformaDate()).isEqualTo(DEFAULT_PROFORMA_DATE);
         assertThat(testCommercialPi.getHarmonicCode()).isEqualTo(DEFAULT_HARMONIC_CODE);
+        assertThat(testCommercialPi.getPaymentType()).isEqualTo(DEFAULT_PAYMENT_TYPE);
         assertThat(testCommercialPi.getPaymentTerm()).isEqualTo(DEFAULT_PAYMENT_TERM);
         assertThat(testCommercialPi.getTermsOfDelivery()).isEqualTo(DEFAULT_TERMS_OF_DELIVERY);
         assertThat(testCommercialPi.getShipmentDate()).isEqualTo(DEFAULT_SHIPMENT_DATE);
@@ -264,6 +270,25 @@ public class CommercialPiResourceIntTest {
 
     @Test
     @Transactional
+    public void checkPaymentTypeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = commercialPiRepository.findAll().size();
+        // set the field null
+        commercialPi.setPaymentType(null);
+
+        // Create the CommercialPi, which fails.
+        CommercialPiDTO commercialPiDTO = commercialPiMapper.toDto(commercialPi);
+
+        restCommercialPiMockMvc.perform(post("/api/commercial-pis")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(commercialPiDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<CommercialPi> commercialPiList = commercialPiRepository.findAll();
+        assertThat(commercialPiList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCommercialPis() throws Exception {
         // Initialize the database
         commercialPiRepository.saveAndFlush(commercialPi);
@@ -278,6 +303,7 @@ public class CommercialPiResourceIntTest {
             .andExpect(jsonPath("$.[*].proformaNo").value(hasItem(DEFAULT_PROFORMA_NO.toString())))
             .andExpect(jsonPath("$.[*].proformaDate").value(hasItem(DEFAULT_PROFORMA_DATE.toString())))
             .andExpect(jsonPath("$.[*].harmonicCode").value(hasItem(DEFAULT_HARMONIC_CODE.toString())))
+            .andExpect(jsonPath("$.[*].paymentType").value(hasItem(DEFAULT_PAYMENT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].paymentTerm").value(hasItem(DEFAULT_PAYMENT_TERM.toString())))
             .andExpect(jsonPath("$.[*].termsOfDelivery").value(hasItem(DEFAULT_TERMS_OF_DELIVERY.toString())))
             .andExpect(jsonPath("$.[*].shipmentDate").value(hasItem(DEFAULT_SHIPMENT_DATE.toString())))
@@ -307,6 +333,7 @@ public class CommercialPiResourceIntTest {
             .andExpect(jsonPath("$.proformaNo").value(DEFAULT_PROFORMA_NO.toString()))
             .andExpect(jsonPath("$.proformaDate").value(DEFAULT_PROFORMA_DATE.toString()))
             .andExpect(jsonPath("$.harmonicCode").value(DEFAULT_HARMONIC_CODE.toString()))
+            .andExpect(jsonPath("$.paymentType").value(DEFAULT_PAYMENT_TYPE.toString()))
             .andExpect(jsonPath("$.paymentTerm").value(DEFAULT_PAYMENT_TERM.toString()))
             .andExpect(jsonPath("$.termsOfDelivery").value(DEFAULT_TERMS_OF_DELIVERY.toString()))
             .andExpect(jsonPath("$.shipmentDate").value(DEFAULT_SHIPMENT_DATE.toString()))
@@ -540,6 +567,45 @@ public class CommercialPiResourceIntTest {
 
         // Get all the commercialPiList where harmonicCode is null
         defaultCommercialPiShouldNotBeFound("harmonicCode.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPisByPaymentTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialPiRepository.saveAndFlush(commercialPi);
+
+        // Get all the commercialPiList where paymentType equals to DEFAULT_PAYMENT_TYPE
+        defaultCommercialPiShouldBeFound("paymentType.equals=" + DEFAULT_PAYMENT_TYPE);
+
+        // Get all the commercialPiList where paymentType equals to UPDATED_PAYMENT_TYPE
+        defaultCommercialPiShouldNotBeFound("paymentType.equals=" + UPDATED_PAYMENT_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPisByPaymentTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialPiRepository.saveAndFlush(commercialPi);
+
+        // Get all the commercialPiList where paymentType in DEFAULT_PAYMENT_TYPE or UPDATED_PAYMENT_TYPE
+        defaultCommercialPiShouldBeFound("paymentType.in=" + DEFAULT_PAYMENT_TYPE + "," + UPDATED_PAYMENT_TYPE);
+
+        // Get all the commercialPiList where paymentType equals to UPDATED_PAYMENT_TYPE
+        defaultCommercialPiShouldNotBeFound("paymentType.in=" + UPDATED_PAYMENT_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialPisByPaymentTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialPiRepository.saveAndFlush(commercialPi);
+
+        // Get all the commercialPiList where paymentType is not null
+        defaultCommercialPiShouldBeFound("paymentType.specified=true");
+
+        // Get all the commercialPiList where paymentType is null
+        defaultCommercialPiShouldNotBeFound("paymentType.specified=false");
     }
 
     @Test
@@ -1002,6 +1068,7 @@ public class CommercialPiResourceIntTest {
             .andExpect(jsonPath("$.[*].proformaNo").value(hasItem(DEFAULT_PROFORMA_NO)))
             .andExpect(jsonPath("$.[*].proformaDate").value(hasItem(DEFAULT_PROFORMA_DATE.toString())))
             .andExpect(jsonPath("$.[*].harmonicCode").value(hasItem(DEFAULT_HARMONIC_CODE)))
+            .andExpect(jsonPath("$.[*].paymentType").value(hasItem(DEFAULT_PAYMENT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].paymentTerm").value(hasItem(DEFAULT_PAYMENT_TERM)))
             .andExpect(jsonPath("$.[*].termsOfDelivery").value(hasItem(DEFAULT_TERMS_OF_DELIVERY)))
             .andExpect(jsonPath("$.[*].shipmentDate").value(hasItem(DEFAULT_SHIPMENT_DATE)))
@@ -1065,6 +1132,7 @@ public class CommercialPiResourceIntTest {
             .proformaNo(UPDATED_PROFORMA_NO)
             .proformaDate(UPDATED_PROFORMA_DATE)
             .harmonicCode(UPDATED_HARMONIC_CODE)
+            .paymentType(UPDATED_PAYMENT_TYPE)
             .paymentTerm(UPDATED_PAYMENT_TERM)
             .termsOfDelivery(UPDATED_TERMS_OF_DELIVERY)
             .shipmentDate(UPDATED_SHIPMENT_DATE)
@@ -1092,6 +1160,7 @@ public class CommercialPiResourceIntTest {
         assertThat(testCommercialPi.getProformaNo()).isEqualTo(UPDATED_PROFORMA_NO);
         assertThat(testCommercialPi.getProformaDate()).isEqualTo(UPDATED_PROFORMA_DATE);
         assertThat(testCommercialPi.getHarmonicCode()).isEqualTo(UPDATED_HARMONIC_CODE);
+        assertThat(testCommercialPi.getPaymentType()).isEqualTo(UPDATED_PAYMENT_TYPE);
         assertThat(testCommercialPi.getPaymentTerm()).isEqualTo(UPDATED_PAYMENT_TERM);
         assertThat(testCommercialPi.getTermsOfDelivery()).isEqualTo(UPDATED_TERMS_OF_DELIVERY);
         assertThat(testCommercialPi.getShipmentDate()).isEqualTo(UPDATED_SHIPMENT_DATE);
@@ -1168,6 +1237,7 @@ public class CommercialPiResourceIntTest {
             .andExpect(jsonPath("$.[*].proformaNo").value(hasItem(DEFAULT_PROFORMA_NO)))
             .andExpect(jsonPath("$.[*].proformaDate").value(hasItem(DEFAULT_PROFORMA_DATE.toString())))
             .andExpect(jsonPath("$.[*].harmonicCode").value(hasItem(DEFAULT_HARMONIC_CODE)))
+            .andExpect(jsonPath("$.[*].paymentType").value(hasItem(DEFAULT_PAYMENT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].paymentTerm").value(hasItem(DEFAULT_PAYMENT_TERM)))
             .andExpect(jsonPath("$.[*].termsOfDelivery").value(hasItem(DEFAULT_TERMS_OF_DELIVERY)))
             .andExpect(jsonPath("$.[*].shipmentDate").value(hasItem(DEFAULT_SHIPMENT_DATE)))

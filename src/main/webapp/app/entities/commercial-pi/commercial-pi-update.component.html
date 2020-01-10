@@ -46,6 +46,22 @@
                         [(ngModel)]="commercialPi.harmonicCode" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_paymentType">Payment Type</label>
+                    <select class="form-control" name="paymentType" [(ngModel)]="commercialPi.paymentType" id="field_paymentType"  required>
+                        <option value="LC">LC</option>
+                        <option value="TT">TT</option>
+                        <option value="CASH">CASH</option>
+                        <option value="CHEQUE">CHEQUE</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.paymentType?.dirty && editForm.controls.paymentType?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.paymentType?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_paymentTerm">Payment Term</label>
                     <input type="text" class="form-control" name="paymentTerm" id="field_paymentTerm"
                         [(ngModel)]="commercialPi.paymentTerm" />

@@ -710,6 +710,17 @@ entity CommercialBudget {
   type CommercialOrderCategory required,
   customer CommercialCustomerCategory required,
   budgetDate LocalDate required,
+  companyName String,
+  paymentType PaymentType,
+  transportationType TransportType required,
+  seaPortName String,
+  seaPortCost BigDecimal,
+  airPortName String,
+  airPortCost BigDecimal,
+  landPortName String,
+  landPortCost BigDecimal,
+  insurancePrice BigDecimal,
+  totalTransportationCost BigDecimal,
   totalQuantity BigDecimal,
   totalOfferedPrice BigDecimal,
   totalBuyingPrice BigDecimal,
@@ -730,6 +741,9 @@ entity CommercialProductInfo {
   offeredUnit UnitOfMeasurements required,
   offeredUnitPrice BigDecimal required,
   offeredTotalPrice BigDecimal required,
+  spGlazing Integer,
+  spSurfaceType SurfaceType,
+  spOthersDescription String,
   spSticker String,
   spLabel String,
   spQtyInPack BigDecimal,
@@ -739,17 +753,21 @@ entity CommercialProductInfo {
   ipSticker String,
   ipLabel String,
   ipQtyInMc BigDecimal,
+  ipCost BigDecimal,
   mcColor PackColor,
   mcPly String,
   mcSize String,
   mcSticker String,
   mcLabel String,
+  mcCost BigDecimal,
   cylColor String,
   cylSize String,
   cylQty BigDecimal,
+  cylCost BigDecimal,
   buyingQuantity BigDecimal required,
   buyingUnit UnitOfMeasurements required,
   buyingUnitPrice BigDecimal required,
+  buyingPrice BigDecimal required,
   buyingTotalPrice BigDecimal required,
   createdBy String,
   createdOn Instant,
@@ -762,6 +780,7 @@ entity CommercialPi {
   proformaNo String required,
   proformaDate LocalDate,
   harmonicCode String,
+  paymentType PaymentType required,
   paymentTerm String,
   termsOfDelivery String,
   shipmentDate String,
@@ -1160,6 +1179,18 @@ enum CommercialPoStatus {
   PREPARING_ORDER,
   PRODUCT_DELIVERED,
   ORDER_CLOSED
+}
+
+enum TransportType {
+    CFR, CIF, FOB
+}
+
+enum SurfaceType {
+    TRIMMED, UNTRIMMED
+}
+
+enum PaymentType {
+    LC, TT, CASH, CHEQUE, OTHERS
 }
 
 relationship OneToOne {

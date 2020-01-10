@@ -105,6 +105,7 @@
                         </small>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label class="form-control-label" for="field_spSticker">Sp Sticker</label>
                     <input type="text" class="form-control" name="spSticker" id="field_spSticker"
@@ -155,6 +156,11 @@
                         [(ngModel)]="commercialProductInfo.ipQtyInMc" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_ipCost">Ip Cost</label>
+                    <input type="number" class="form-control" name="ipCost" id="field_ipCost"
+                        [(ngModel)]="commercialProductInfo.ipCost" />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_mcColor">Mc Color</label>
                     <select class="form-control" name="mcColor" [(ngModel)]="commercialProductInfo.mcColor" id="field_mcColor" >
                         <option value="PLAIN">PLAIN</option>
@@ -184,6 +190,11 @@
                         [(ngModel)]="commercialProductInfo.mcLabel" />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_mcCost">Mc Cost</label>
+                    <input type="number" class="form-control" name="mcCost" id="field_mcCost"
+                        [(ngModel)]="commercialProductInfo.mcCost" />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_cylColor">Cyl Color</label>
                     <input type="text" class="form-control" name="cylColor" id="field_cylColor"
                         [(ngModel)]="commercialProductInfo.cylColor" />
@@ -197,6 +208,11 @@
                     <label class="form-control-label" for="field_cylQty">Cyl Qty</label>
                     <input type="number" class="form-control" name="cylQty" id="field_cylQty"
                         [(ngModel)]="commercialProductInfo.cylQty" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_cylCost">Cyl Cost</label>
+                    <input type="number" class="form-control" name="cylCost" id="field_cylCost"
+                        [(ngModel)]="commercialProductInfo.cylCost" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_buyingQuantity">Buying Quantity</label>
@@ -239,6 +255,21 @@
                         </small>
                         <small class="form-text text-danger"
                             [hidden]="!editForm.controls.buyingUnitPrice?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_buyingPrice">Buying Price</label>
+                    <input type="number" class="form-control" name="buyingPrice" id="field_buyingPrice"
+                        [(ngModel)]="commercialProductInfo.buyingPrice" required/>
+                    <div [hidden]="!(editForm.controls.buyingPrice?.dirty && editForm.controls.buyingPrice?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.buyingPrice?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.buyingPrice?.errors?.number">
                             This field should be a number.
                         </small>
                     </div>

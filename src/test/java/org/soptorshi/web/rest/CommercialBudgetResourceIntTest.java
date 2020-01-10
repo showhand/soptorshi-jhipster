@@ -6,9 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
 import org.soptorshi.domain.CommercialBudget;
-import org.soptorshi.domain.enumeration.CommercialBudgetStatus;
-import org.soptorshi.domain.enumeration.CommercialCustomerCategory;
-import org.soptorshi.domain.enumeration.CommercialOrderCategory;
+import org.soptorshi.domain.enumeration.*;
 import org.soptorshi.repository.CommercialBudgetRepository;
 import org.soptorshi.repository.search.CommercialBudgetSearchRepository;
 import org.soptorshi.service.CommercialBudgetQueryService;
@@ -65,6 +63,39 @@ public class CommercialBudgetResourceIntTest {
 
     private static final LocalDate DEFAULT_BUDGET_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_BUDGET_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final String DEFAULT_COMPANY_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_COMPANY_NAME = "BBBBBBBBBB";
+
+    private static final PaymentType DEFAULT_PAYMENT_TYPE = PaymentType.LC;
+    private static final PaymentType UPDATED_PAYMENT_TYPE = PaymentType.TT;
+
+    private static final TransportType DEFAULT_TRANSPORTATION_TYPE = TransportType.CFR;
+    private static final TransportType UPDATED_TRANSPORTATION_TYPE = TransportType.CIF;
+
+    private static final String DEFAULT_SEA_PORT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_SEA_PORT_NAME = "BBBBBBBBBB";
+
+    private static final BigDecimal DEFAULT_SEA_PORT_COST = new BigDecimal(1);
+    private static final BigDecimal UPDATED_SEA_PORT_COST = new BigDecimal(2);
+
+    private static final String DEFAULT_AIR_PORT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_AIR_PORT_NAME = "BBBBBBBBBB";
+
+    private static final BigDecimal DEFAULT_AIR_PORT_COST = new BigDecimal(1);
+    private static final BigDecimal UPDATED_AIR_PORT_COST = new BigDecimal(2);
+
+    private static final String DEFAULT_LAND_PORT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_LAND_PORT_NAME = "BBBBBBBBBB";
+
+    private static final BigDecimal DEFAULT_LAND_PORT_COST = new BigDecimal(1);
+    private static final BigDecimal UPDATED_LAND_PORT_COST = new BigDecimal(2);
+
+    private static final BigDecimal DEFAULT_INSURANCE_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_INSURANCE_PRICE = new BigDecimal(2);
+
+    private static final BigDecimal DEFAULT_TOTAL_TRANSPORTATION_COST = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_TRANSPORTATION_COST = new BigDecimal(2);
 
     private static final BigDecimal DEFAULT_TOTAL_QUANTITY = new BigDecimal(1);
     private static final BigDecimal UPDATED_TOTAL_QUANTITY = new BigDecimal(2);
@@ -162,6 +193,17 @@ public class CommercialBudgetResourceIntTest {
             .type(DEFAULT_TYPE)
             .customer(DEFAULT_CUSTOMER)
             .budgetDate(DEFAULT_BUDGET_DATE)
+            .companyName(DEFAULT_COMPANY_NAME)
+            .paymentType(DEFAULT_PAYMENT_TYPE)
+            .transportationType(DEFAULT_TRANSPORTATION_TYPE)
+            .seaPortName(DEFAULT_SEA_PORT_NAME)
+            .seaPortCost(DEFAULT_SEA_PORT_COST)
+            .airPortName(DEFAULT_AIR_PORT_NAME)
+            .airPortCost(DEFAULT_AIR_PORT_COST)
+            .landPortName(DEFAULT_LAND_PORT_NAME)
+            .landPortCost(DEFAULT_LAND_PORT_COST)
+            .insurancePrice(DEFAULT_INSURANCE_PRICE)
+            .totalTransportationCost(DEFAULT_TOTAL_TRANSPORTATION_COST)
             .totalQuantity(DEFAULT_TOTAL_QUANTITY)
             .totalOfferedPrice(DEFAULT_TOTAL_OFFERED_PRICE)
             .totalBuyingPrice(DEFAULT_TOTAL_BUYING_PRICE)
@@ -201,6 +243,17 @@ public class CommercialBudgetResourceIntTest {
         assertThat(testCommercialBudget.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testCommercialBudget.getCustomer()).isEqualTo(DEFAULT_CUSTOMER);
         assertThat(testCommercialBudget.getBudgetDate()).isEqualTo(DEFAULT_BUDGET_DATE);
+        assertThat(testCommercialBudget.getCompanyName()).isEqualTo(DEFAULT_COMPANY_NAME);
+        assertThat(testCommercialBudget.getPaymentType()).isEqualTo(DEFAULT_PAYMENT_TYPE);
+        assertThat(testCommercialBudget.getTransportationType()).isEqualTo(DEFAULT_TRANSPORTATION_TYPE);
+        assertThat(testCommercialBudget.getSeaPortName()).isEqualTo(DEFAULT_SEA_PORT_NAME);
+        assertThat(testCommercialBudget.getSeaPortCost()).isEqualTo(DEFAULT_SEA_PORT_COST);
+        assertThat(testCommercialBudget.getAirPortName()).isEqualTo(DEFAULT_AIR_PORT_NAME);
+        assertThat(testCommercialBudget.getAirPortCost()).isEqualTo(DEFAULT_AIR_PORT_COST);
+        assertThat(testCommercialBudget.getLandPortName()).isEqualTo(DEFAULT_LAND_PORT_NAME);
+        assertThat(testCommercialBudget.getLandPortCost()).isEqualTo(DEFAULT_LAND_PORT_COST);
+        assertThat(testCommercialBudget.getInsurancePrice()).isEqualTo(DEFAULT_INSURANCE_PRICE);
+        assertThat(testCommercialBudget.getTotalTransportationCost()).isEqualTo(DEFAULT_TOTAL_TRANSPORTATION_COST);
         assertThat(testCommercialBudget.getTotalQuantity()).isEqualTo(DEFAULT_TOTAL_QUANTITY);
         assertThat(testCommercialBudget.getTotalOfferedPrice()).isEqualTo(DEFAULT_TOTAL_OFFERED_PRICE);
         assertThat(testCommercialBudget.getTotalBuyingPrice()).isEqualTo(DEFAULT_TOTAL_BUYING_PRICE);
@@ -318,6 +371,25 @@ public class CommercialBudgetResourceIntTest {
 
     @Test
     @Transactional
+    public void checkTransportationTypeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = commercialBudgetRepository.findAll().size();
+        // set the field null
+        commercialBudget.setTransportationType(null);
+
+        // Create the CommercialBudget, which fails.
+        CommercialBudgetDTO commercialBudgetDTO = commercialBudgetMapper.toDto(commercialBudget);
+
+        restCommercialBudgetMockMvc.perform(post("/api/commercial-budgets")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(commercialBudgetDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<CommercialBudget> commercialBudgetList = commercialBudgetRepository.findAll();
+        assertThat(commercialBudgetList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCommercialBudgets() throws Exception {
         // Initialize the database
         commercialBudgetRepository.saveAndFlush(commercialBudget);
@@ -331,6 +403,17 @@ public class CommercialBudgetResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].customer").value(hasItem(DEFAULT_CUSTOMER.toString())))
             .andExpect(jsonPath("$.[*].budgetDate").value(hasItem(DEFAULT_BUDGET_DATE.toString())))
+            .andExpect(jsonPath("$.[*].companyName").value(hasItem(DEFAULT_COMPANY_NAME.toString())))
+            .andExpect(jsonPath("$.[*].paymentType").value(hasItem(DEFAULT_PAYMENT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].transportationType").value(hasItem(DEFAULT_TRANSPORTATION_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].seaPortName").value(hasItem(DEFAULT_SEA_PORT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].seaPortCost").value(hasItem(DEFAULT_SEA_PORT_COST.intValue())))
+            .andExpect(jsonPath("$.[*].airPortName").value(hasItem(DEFAULT_AIR_PORT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].airPortCost").value(hasItem(DEFAULT_AIR_PORT_COST.intValue())))
+            .andExpect(jsonPath("$.[*].landPortName").value(hasItem(DEFAULT_LAND_PORT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].landPortCost").value(hasItem(DEFAULT_LAND_PORT_COST.intValue())))
+            .andExpect(jsonPath("$.[*].insurancePrice").value(hasItem(DEFAULT_INSURANCE_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].totalTransportationCost").value(hasItem(DEFAULT_TOTAL_TRANSPORTATION_COST.intValue())))
             .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].totalOfferedPrice").value(hasItem(DEFAULT_TOTAL_OFFERED_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].totalBuyingPrice").value(hasItem(DEFAULT_TOTAL_BUYING_PRICE.intValue())))
@@ -359,6 +442,17 @@ public class CommercialBudgetResourceIntTest {
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.customer").value(DEFAULT_CUSTOMER.toString()))
             .andExpect(jsonPath("$.budgetDate").value(DEFAULT_BUDGET_DATE.toString()))
+            .andExpect(jsonPath("$.companyName").value(DEFAULT_COMPANY_NAME.toString()))
+            .andExpect(jsonPath("$.paymentType").value(DEFAULT_PAYMENT_TYPE.toString()))
+            .andExpect(jsonPath("$.transportationType").value(DEFAULT_TRANSPORTATION_TYPE.toString()))
+            .andExpect(jsonPath("$.seaPortName").value(DEFAULT_SEA_PORT_NAME.toString()))
+            .andExpect(jsonPath("$.seaPortCost").value(DEFAULT_SEA_PORT_COST.intValue()))
+            .andExpect(jsonPath("$.airPortName").value(DEFAULT_AIR_PORT_NAME.toString()))
+            .andExpect(jsonPath("$.airPortCost").value(DEFAULT_AIR_PORT_COST.intValue()))
+            .andExpect(jsonPath("$.landPortName").value(DEFAULT_LAND_PORT_NAME.toString()))
+            .andExpect(jsonPath("$.landPortCost").value(DEFAULT_LAND_PORT_COST.intValue()))
+            .andExpect(jsonPath("$.insurancePrice").value(DEFAULT_INSURANCE_PRICE.intValue()))
+            .andExpect(jsonPath("$.totalTransportationCost").value(DEFAULT_TOTAL_TRANSPORTATION_COST.intValue()))
             .andExpect(jsonPath("$.totalQuantity").value(DEFAULT_TOTAL_QUANTITY.intValue()))
             .andExpect(jsonPath("$.totalOfferedPrice").value(DEFAULT_TOTAL_OFFERED_PRICE.intValue()))
             .andExpect(jsonPath("$.totalBuyingPrice").value(DEFAULT_TOTAL_BUYING_PRICE.intValue()))
@@ -554,6 +648,435 @@ public class CommercialBudgetResourceIntTest {
         defaultCommercialBudgetShouldBeFound("budgetDate.lessThan=" + UPDATED_BUDGET_DATE);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByCompanyNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where companyName equals to DEFAULT_COMPANY_NAME
+        defaultCommercialBudgetShouldBeFound("companyName.equals=" + DEFAULT_COMPANY_NAME);
+
+        // Get all the commercialBudgetList where companyName equals to UPDATED_COMPANY_NAME
+        defaultCommercialBudgetShouldNotBeFound("companyName.equals=" + UPDATED_COMPANY_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByCompanyNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where companyName in DEFAULT_COMPANY_NAME or UPDATED_COMPANY_NAME
+        defaultCommercialBudgetShouldBeFound("companyName.in=" + DEFAULT_COMPANY_NAME + "," + UPDATED_COMPANY_NAME);
+
+        // Get all the commercialBudgetList where companyName equals to UPDATED_COMPANY_NAME
+        defaultCommercialBudgetShouldNotBeFound("companyName.in=" + UPDATED_COMPANY_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByCompanyNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where companyName is not null
+        defaultCommercialBudgetShouldBeFound("companyName.specified=true");
+
+        // Get all the commercialBudgetList where companyName is null
+        defaultCommercialBudgetShouldNotBeFound("companyName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByPaymentTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where paymentType equals to DEFAULT_PAYMENT_TYPE
+        defaultCommercialBudgetShouldBeFound("paymentType.equals=" + DEFAULT_PAYMENT_TYPE);
+
+        // Get all the commercialBudgetList where paymentType equals to UPDATED_PAYMENT_TYPE
+        defaultCommercialBudgetShouldNotBeFound("paymentType.equals=" + UPDATED_PAYMENT_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByPaymentTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where paymentType in DEFAULT_PAYMENT_TYPE or UPDATED_PAYMENT_TYPE
+        defaultCommercialBudgetShouldBeFound("paymentType.in=" + DEFAULT_PAYMENT_TYPE + "," + UPDATED_PAYMENT_TYPE);
+
+        // Get all the commercialBudgetList where paymentType equals to UPDATED_PAYMENT_TYPE
+        defaultCommercialBudgetShouldNotBeFound("paymentType.in=" + UPDATED_PAYMENT_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByPaymentTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where paymentType is not null
+        defaultCommercialBudgetShouldBeFound("paymentType.specified=true");
+
+        // Get all the commercialBudgetList where paymentType is null
+        defaultCommercialBudgetShouldNotBeFound("paymentType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByTransportationTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where transportationType equals to DEFAULT_TRANSPORTATION_TYPE
+        defaultCommercialBudgetShouldBeFound("transportationType.equals=" + DEFAULT_TRANSPORTATION_TYPE);
+
+        // Get all the commercialBudgetList where transportationType equals to UPDATED_TRANSPORTATION_TYPE
+        defaultCommercialBudgetShouldNotBeFound("transportationType.equals=" + UPDATED_TRANSPORTATION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByTransportationTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where transportationType in DEFAULT_TRANSPORTATION_TYPE or UPDATED_TRANSPORTATION_TYPE
+        defaultCommercialBudgetShouldBeFound("transportationType.in=" + DEFAULT_TRANSPORTATION_TYPE + "," + UPDATED_TRANSPORTATION_TYPE);
+
+        // Get all the commercialBudgetList where transportationType equals to UPDATED_TRANSPORTATION_TYPE
+        defaultCommercialBudgetShouldNotBeFound("transportationType.in=" + UPDATED_TRANSPORTATION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByTransportationTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where transportationType is not null
+        defaultCommercialBudgetShouldBeFound("transportationType.specified=true");
+
+        // Get all the commercialBudgetList where transportationType is null
+        defaultCommercialBudgetShouldNotBeFound("transportationType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsBySeaPortNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where seaPortName equals to DEFAULT_SEA_PORT_NAME
+        defaultCommercialBudgetShouldBeFound("seaPortName.equals=" + DEFAULT_SEA_PORT_NAME);
+
+        // Get all the commercialBudgetList where seaPortName equals to UPDATED_SEA_PORT_NAME
+        defaultCommercialBudgetShouldNotBeFound("seaPortName.equals=" + UPDATED_SEA_PORT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsBySeaPortNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where seaPortName in DEFAULT_SEA_PORT_NAME or UPDATED_SEA_PORT_NAME
+        defaultCommercialBudgetShouldBeFound("seaPortName.in=" + DEFAULT_SEA_PORT_NAME + "," + UPDATED_SEA_PORT_NAME);
+
+        // Get all the commercialBudgetList where seaPortName equals to UPDATED_SEA_PORT_NAME
+        defaultCommercialBudgetShouldNotBeFound("seaPortName.in=" + UPDATED_SEA_PORT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsBySeaPortNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where seaPortName is not null
+        defaultCommercialBudgetShouldBeFound("seaPortName.specified=true");
+
+        // Get all the commercialBudgetList where seaPortName is null
+        defaultCommercialBudgetShouldNotBeFound("seaPortName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsBySeaPortCostIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where seaPortCost equals to DEFAULT_SEA_PORT_COST
+        defaultCommercialBudgetShouldBeFound("seaPortCost.equals=" + DEFAULT_SEA_PORT_COST);
+
+        // Get all the commercialBudgetList where seaPortCost equals to UPDATED_SEA_PORT_COST
+        defaultCommercialBudgetShouldNotBeFound("seaPortCost.equals=" + UPDATED_SEA_PORT_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsBySeaPortCostIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where seaPortCost in DEFAULT_SEA_PORT_COST or UPDATED_SEA_PORT_COST
+        defaultCommercialBudgetShouldBeFound("seaPortCost.in=" + DEFAULT_SEA_PORT_COST + "," + UPDATED_SEA_PORT_COST);
+
+        // Get all the commercialBudgetList where seaPortCost equals to UPDATED_SEA_PORT_COST
+        defaultCommercialBudgetShouldNotBeFound("seaPortCost.in=" + UPDATED_SEA_PORT_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsBySeaPortCostIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where seaPortCost is not null
+        defaultCommercialBudgetShouldBeFound("seaPortCost.specified=true");
+
+        // Get all the commercialBudgetList where seaPortCost is null
+        defaultCommercialBudgetShouldNotBeFound("seaPortCost.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByAirPortNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where airPortName equals to DEFAULT_AIR_PORT_NAME
+        defaultCommercialBudgetShouldBeFound("airPortName.equals=" + DEFAULT_AIR_PORT_NAME);
+
+        // Get all the commercialBudgetList where airPortName equals to UPDATED_AIR_PORT_NAME
+        defaultCommercialBudgetShouldNotBeFound("airPortName.equals=" + UPDATED_AIR_PORT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByAirPortNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where airPortName in DEFAULT_AIR_PORT_NAME or UPDATED_AIR_PORT_NAME
+        defaultCommercialBudgetShouldBeFound("airPortName.in=" + DEFAULT_AIR_PORT_NAME + "," + UPDATED_AIR_PORT_NAME);
+
+        // Get all the commercialBudgetList where airPortName equals to UPDATED_AIR_PORT_NAME
+        defaultCommercialBudgetShouldNotBeFound("airPortName.in=" + UPDATED_AIR_PORT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByAirPortNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where airPortName is not null
+        defaultCommercialBudgetShouldBeFound("airPortName.specified=true");
+
+        // Get all the commercialBudgetList where airPortName is null
+        defaultCommercialBudgetShouldNotBeFound("airPortName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByAirPortCostIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where airPortCost equals to DEFAULT_AIR_PORT_COST
+        defaultCommercialBudgetShouldBeFound("airPortCost.equals=" + DEFAULT_AIR_PORT_COST);
+
+        // Get all the commercialBudgetList where airPortCost equals to UPDATED_AIR_PORT_COST
+        defaultCommercialBudgetShouldNotBeFound("airPortCost.equals=" + UPDATED_AIR_PORT_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByAirPortCostIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where airPortCost in DEFAULT_AIR_PORT_COST or UPDATED_AIR_PORT_COST
+        defaultCommercialBudgetShouldBeFound("airPortCost.in=" + DEFAULT_AIR_PORT_COST + "," + UPDATED_AIR_PORT_COST);
+
+        // Get all the commercialBudgetList where airPortCost equals to UPDATED_AIR_PORT_COST
+        defaultCommercialBudgetShouldNotBeFound("airPortCost.in=" + UPDATED_AIR_PORT_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByAirPortCostIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where airPortCost is not null
+        defaultCommercialBudgetShouldBeFound("airPortCost.specified=true");
+
+        // Get all the commercialBudgetList where airPortCost is null
+        defaultCommercialBudgetShouldNotBeFound("airPortCost.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByLandPortNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where landPortName equals to DEFAULT_LAND_PORT_NAME
+        defaultCommercialBudgetShouldBeFound("landPortName.equals=" + DEFAULT_LAND_PORT_NAME);
+
+        // Get all the commercialBudgetList where landPortName equals to UPDATED_LAND_PORT_NAME
+        defaultCommercialBudgetShouldNotBeFound("landPortName.equals=" + UPDATED_LAND_PORT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByLandPortNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where landPortName in DEFAULT_LAND_PORT_NAME or UPDATED_LAND_PORT_NAME
+        defaultCommercialBudgetShouldBeFound("landPortName.in=" + DEFAULT_LAND_PORT_NAME + "," + UPDATED_LAND_PORT_NAME);
+
+        // Get all the commercialBudgetList where landPortName equals to UPDATED_LAND_PORT_NAME
+        defaultCommercialBudgetShouldNotBeFound("landPortName.in=" + UPDATED_LAND_PORT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByLandPortNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where landPortName is not null
+        defaultCommercialBudgetShouldBeFound("landPortName.specified=true");
+
+        // Get all the commercialBudgetList where landPortName is null
+        defaultCommercialBudgetShouldNotBeFound("landPortName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByLandPortCostIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where landPortCost equals to DEFAULT_LAND_PORT_COST
+        defaultCommercialBudgetShouldBeFound("landPortCost.equals=" + DEFAULT_LAND_PORT_COST);
+
+        // Get all the commercialBudgetList where landPortCost equals to UPDATED_LAND_PORT_COST
+        defaultCommercialBudgetShouldNotBeFound("landPortCost.equals=" + UPDATED_LAND_PORT_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByLandPortCostIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where landPortCost in DEFAULT_LAND_PORT_COST or UPDATED_LAND_PORT_COST
+        defaultCommercialBudgetShouldBeFound("landPortCost.in=" + DEFAULT_LAND_PORT_COST + "," + UPDATED_LAND_PORT_COST);
+
+        // Get all the commercialBudgetList where landPortCost equals to UPDATED_LAND_PORT_COST
+        defaultCommercialBudgetShouldNotBeFound("landPortCost.in=" + UPDATED_LAND_PORT_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByLandPortCostIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where landPortCost is not null
+        defaultCommercialBudgetShouldBeFound("landPortCost.specified=true");
+
+        // Get all the commercialBudgetList where landPortCost is null
+        defaultCommercialBudgetShouldNotBeFound("landPortCost.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByInsurancePriceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where insurancePrice equals to DEFAULT_INSURANCE_PRICE
+        defaultCommercialBudgetShouldBeFound("insurancePrice.equals=" + DEFAULT_INSURANCE_PRICE);
+
+        // Get all the commercialBudgetList where insurancePrice equals to UPDATED_INSURANCE_PRICE
+        defaultCommercialBudgetShouldNotBeFound("insurancePrice.equals=" + UPDATED_INSURANCE_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByInsurancePriceIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where insurancePrice in DEFAULT_INSURANCE_PRICE or UPDATED_INSURANCE_PRICE
+        defaultCommercialBudgetShouldBeFound("insurancePrice.in=" + DEFAULT_INSURANCE_PRICE + "," + UPDATED_INSURANCE_PRICE);
+
+        // Get all the commercialBudgetList where insurancePrice equals to UPDATED_INSURANCE_PRICE
+        defaultCommercialBudgetShouldNotBeFound("insurancePrice.in=" + UPDATED_INSURANCE_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByInsurancePriceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where insurancePrice is not null
+        defaultCommercialBudgetShouldBeFound("insurancePrice.specified=true");
+
+        // Get all the commercialBudgetList where insurancePrice is null
+        defaultCommercialBudgetShouldNotBeFound("insurancePrice.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByTotalTransportationCostIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where totalTransportationCost equals to DEFAULT_TOTAL_TRANSPORTATION_COST
+        defaultCommercialBudgetShouldBeFound("totalTransportationCost.equals=" + DEFAULT_TOTAL_TRANSPORTATION_COST);
+
+        // Get all the commercialBudgetList where totalTransportationCost equals to UPDATED_TOTAL_TRANSPORTATION_COST
+        defaultCommercialBudgetShouldNotBeFound("totalTransportationCost.equals=" + UPDATED_TOTAL_TRANSPORTATION_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByTotalTransportationCostIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where totalTransportationCost in DEFAULT_TOTAL_TRANSPORTATION_COST or UPDATED_TOTAL_TRANSPORTATION_COST
+        defaultCommercialBudgetShouldBeFound("totalTransportationCost.in=" + DEFAULT_TOTAL_TRANSPORTATION_COST + "," + UPDATED_TOTAL_TRANSPORTATION_COST);
+
+        // Get all the commercialBudgetList where totalTransportationCost equals to UPDATED_TOTAL_TRANSPORTATION_COST
+        defaultCommercialBudgetShouldNotBeFound("totalTransportationCost.in=" + UPDATED_TOTAL_TRANSPORTATION_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialBudgetsByTotalTransportationCostIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialBudgetRepository.saveAndFlush(commercialBudget);
+
+        // Get all the commercialBudgetList where totalTransportationCost is not null
+        defaultCommercialBudgetShouldBeFound("totalTransportationCost.specified=true");
+
+        // Get all the commercialBudgetList where totalTransportationCost is null
+        defaultCommercialBudgetShouldNotBeFound("totalTransportationCost.specified=false");
+    }
 
     @Test
     @Transactional
@@ -995,6 +1518,17 @@ public class CommercialBudgetResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].customer").value(hasItem(DEFAULT_CUSTOMER.toString())))
             .andExpect(jsonPath("$.[*].budgetDate").value(hasItem(DEFAULT_BUDGET_DATE.toString())))
+            .andExpect(jsonPath("$.[*].companyName").value(hasItem(DEFAULT_COMPANY_NAME)))
+            .andExpect(jsonPath("$.[*].paymentType").value(hasItem(DEFAULT_PAYMENT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].transportationType").value(hasItem(DEFAULT_TRANSPORTATION_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].seaPortName").value(hasItem(DEFAULT_SEA_PORT_NAME)))
+            .andExpect(jsonPath("$.[*].seaPortCost").value(hasItem(DEFAULT_SEA_PORT_COST.intValue())))
+            .andExpect(jsonPath("$.[*].airPortName").value(hasItem(DEFAULT_AIR_PORT_NAME)))
+            .andExpect(jsonPath("$.[*].airPortCost").value(hasItem(DEFAULT_AIR_PORT_COST.intValue())))
+            .andExpect(jsonPath("$.[*].landPortName").value(hasItem(DEFAULT_LAND_PORT_NAME)))
+            .andExpect(jsonPath("$.[*].landPortCost").value(hasItem(DEFAULT_LAND_PORT_COST.intValue())))
+            .andExpect(jsonPath("$.[*].insurancePrice").value(hasItem(DEFAULT_INSURANCE_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].totalTransportationCost").value(hasItem(DEFAULT_TOTAL_TRANSPORTATION_COST.intValue())))
             .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].totalOfferedPrice").value(hasItem(DEFAULT_TOTAL_OFFERED_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].totalBuyingPrice").value(hasItem(DEFAULT_TOTAL_BUYING_PRICE.intValue())))
@@ -1057,6 +1591,17 @@ public class CommercialBudgetResourceIntTest {
             .type(UPDATED_TYPE)
             .customer(UPDATED_CUSTOMER)
             .budgetDate(UPDATED_BUDGET_DATE)
+            .companyName(UPDATED_COMPANY_NAME)
+            .paymentType(UPDATED_PAYMENT_TYPE)
+            .transportationType(UPDATED_TRANSPORTATION_TYPE)
+            .seaPortName(UPDATED_SEA_PORT_NAME)
+            .seaPortCost(UPDATED_SEA_PORT_COST)
+            .airPortName(UPDATED_AIR_PORT_NAME)
+            .airPortCost(UPDATED_AIR_PORT_COST)
+            .landPortName(UPDATED_LAND_PORT_NAME)
+            .landPortCost(UPDATED_LAND_PORT_COST)
+            .insurancePrice(UPDATED_INSURANCE_PRICE)
+            .totalTransportationCost(UPDATED_TOTAL_TRANSPORTATION_COST)
             .totalQuantity(UPDATED_TOTAL_QUANTITY)
             .totalOfferedPrice(UPDATED_TOTAL_OFFERED_PRICE)
             .totalBuyingPrice(UPDATED_TOTAL_BUYING_PRICE)
@@ -1083,6 +1628,17 @@ public class CommercialBudgetResourceIntTest {
         assertThat(testCommercialBudget.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testCommercialBudget.getCustomer()).isEqualTo(UPDATED_CUSTOMER);
         assertThat(testCommercialBudget.getBudgetDate()).isEqualTo(UPDATED_BUDGET_DATE);
+        assertThat(testCommercialBudget.getCompanyName()).isEqualTo(UPDATED_COMPANY_NAME);
+        assertThat(testCommercialBudget.getPaymentType()).isEqualTo(UPDATED_PAYMENT_TYPE);
+        assertThat(testCommercialBudget.getTransportationType()).isEqualTo(UPDATED_TRANSPORTATION_TYPE);
+        assertThat(testCommercialBudget.getSeaPortName()).isEqualTo(UPDATED_SEA_PORT_NAME);
+        assertThat(testCommercialBudget.getSeaPortCost()).isEqualTo(UPDATED_SEA_PORT_COST);
+        assertThat(testCommercialBudget.getAirPortName()).isEqualTo(UPDATED_AIR_PORT_NAME);
+        assertThat(testCommercialBudget.getAirPortCost()).isEqualTo(UPDATED_AIR_PORT_COST);
+        assertThat(testCommercialBudget.getLandPortName()).isEqualTo(UPDATED_LAND_PORT_NAME);
+        assertThat(testCommercialBudget.getLandPortCost()).isEqualTo(UPDATED_LAND_PORT_COST);
+        assertThat(testCommercialBudget.getInsurancePrice()).isEqualTo(UPDATED_INSURANCE_PRICE);
+        assertThat(testCommercialBudget.getTotalTransportationCost()).isEqualTo(UPDATED_TOTAL_TRANSPORTATION_COST);
         assertThat(testCommercialBudget.getTotalQuantity()).isEqualTo(UPDATED_TOTAL_QUANTITY);
         assertThat(testCommercialBudget.getTotalOfferedPrice()).isEqualTo(UPDATED_TOTAL_OFFERED_PRICE);
         assertThat(testCommercialBudget.getTotalBuyingPrice()).isEqualTo(UPDATED_TOTAL_BUYING_PRICE);
@@ -1158,6 +1714,17 @@ public class CommercialBudgetResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].customer").value(hasItem(DEFAULT_CUSTOMER.toString())))
             .andExpect(jsonPath("$.[*].budgetDate").value(hasItem(DEFAULT_BUDGET_DATE.toString())))
+            .andExpect(jsonPath("$.[*].companyName").value(hasItem(DEFAULT_COMPANY_NAME)))
+            .andExpect(jsonPath("$.[*].paymentType").value(hasItem(DEFAULT_PAYMENT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].transportationType").value(hasItem(DEFAULT_TRANSPORTATION_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].seaPortName").value(hasItem(DEFAULT_SEA_PORT_NAME)))
+            .andExpect(jsonPath("$.[*].seaPortCost").value(hasItem(DEFAULT_SEA_PORT_COST.intValue())))
+            .andExpect(jsonPath("$.[*].airPortName").value(hasItem(DEFAULT_AIR_PORT_NAME)))
+            .andExpect(jsonPath("$.[*].airPortCost").value(hasItem(DEFAULT_AIR_PORT_COST.intValue())))
+            .andExpect(jsonPath("$.[*].landPortName").value(hasItem(DEFAULT_LAND_PORT_NAME)))
+            .andExpect(jsonPath("$.[*].landPortCost").value(hasItem(DEFAULT_LAND_PORT_COST.intValue())))
+            .andExpect(jsonPath("$.[*].insurancePrice").value(hasItem(DEFAULT_INSURANCE_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].totalTransportationCost").value(hasItem(DEFAULT_TOTAL_TRANSPORTATION_COST.intValue())))
             .andExpect(jsonPath("$.[*].totalQuantity").value(hasItem(DEFAULT_TOTAL_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].totalOfferedPrice").value(hasItem(DEFAULT_TOTAL_OFFERED_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].totalBuyingPrice").value(hasItem(DEFAULT_TOTAL_BUYING_PRICE.intValue())))

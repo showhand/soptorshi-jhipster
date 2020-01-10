@@ -4,6 +4,7 @@ package org.soptorshi.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.soptorshi.domain.enumeration.PackColor;
 import org.soptorshi.domain.enumeration.ProductSpecification;
+import org.soptorshi.domain.enumeration.SurfaceType;
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -57,6 +58,16 @@ public class CommercialProductInfo implements Serializable {
     @Column(name = "offered_total_price", precision = 10, scale = 2, nullable = false)
     private BigDecimal offeredTotalPrice;
 
+    @Column(name = "sp_glazing")
+    private Integer spGlazing;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sp_surface_type")
+    private SurfaceType spSurfaceType;
+
+    @Column(name = "sp_others_description")
+    private String spOthersDescription;
+
     @Column(name = "sp_sticker")
     private String spSticker;
 
@@ -85,6 +96,9 @@ public class CommercialProductInfo implements Serializable {
     @Column(name = "ip_qty_in_mc", precision = 10, scale = 2)
     private BigDecimal ipQtyInMc;
 
+    @Column(name = "ip_cost", precision = 10, scale = 2)
+    private BigDecimal ipCost;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "mc_color")
     private PackColor mcColor;
@@ -101,6 +115,9 @@ public class CommercialProductInfo implements Serializable {
     @Column(name = "mc_label")
     private String mcLabel;
 
+    @Column(name = "mc_cost", precision = 10, scale = 2)
+    private BigDecimal mcCost;
+
     @Column(name = "cyl_color")
     private String cylColor;
 
@@ -109,6 +126,9 @@ public class CommercialProductInfo implements Serializable {
 
     @Column(name = "cyl_qty", precision = 10, scale = 2)
     private BigDecimal cylQty;
+
+    @Column(name = "cyl_cost", precision = 10, scale = 2)
+    private BigDecimal cylCost;
 
     @NotNull
     @Column(name = "buying_quantity", precision = 10, scale = 2, nullable = false)
@@ -122,6 +142,10 @@ public class CommercialProductInfo implements Serializable {
     @NotNull
     @Column(name = "buying_unit_price", precision = 10, scale = 2, nullable = false)
     private BigDecimal buyingUnitPrice;
+
+    @NotNull
+    @Column(name = "buying_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal buyingPrice;
 
     @NotNull
     @Column(name = "buying_total_price", precision = 10, scale = 2, nullable = false)
@@ -251,6 +275,45 @@ public class CommercialProductInfo implements Serializable {
         this.offeredTotalPrice = offeredTotalPrice;
     }
 
+    public Integer getSpGlazing() {
+        return spGlazing;
+    }
+
+    public CommercialProductInfo spGlazing(Integer spGlazing) {
+        this.spGlazing = spGlazing;
+        return this;
+    }
+
+    public void setSpGlazing(Integer spGlazing) {
+        this.spGlazing = spGlazing;
+    }
+
+    public SurfaceType getSpSurfaceType() {
+        return spSurfaceType;
+    }
+
+    public CommercialProductInfo spSurfaceType(SurfaceType spSurfaceType) {
+        this.spSurfaceType = spSurfaceType;
+        return this;
+    }
+
+    public void setSpSurfaceType(SurfaceType spSurfaceType) {
+        this.spSurfaceType = spSurfaceType;
+    }
+
+    public String getSpOthersDescription() {
+        return spOthersDescription;
+    }
+
+    public CommercialProductInfo spOthersDescription(String spOthersDescription) {
+        this.spOthersDescription = spOthersDescription;
+        return this;
+    }
+
+    public void setSpOthersDescription(String spOthersDescription) {
+        this.spOthersDescription = spOthersDescription;
+    }
+
     public String getSpSticker() {
         return spSticker;
     }
@@ -368,6 +431,19 @@ public class CommercialProductInfo implements Serializable {
         this.ipQtyInMc = ipQtyInMc;
     }
 
+    public BigDecimal getIpCost() {
+        return ipCost;
+    }
+
+    public CommercialProductInfo ipCost(BigDecimal ipCost) {
+        this.ipCost = ipCost;
+        return this;
+    }
+
+    public void setIpCost(BigDecimal ipCost) {
+        this.ipCost = ipCost;
+    }
+
     public PackColor getMcColor() {
         return mcColor;
     }
@@ -433,6 +509,19 @@ public class CommercialProductInfo implements Serializable {
         this.mcLabel = mcLabel;
     }
 
+    public BigDecimal getMcCost() {
+        return mcCost;
+    }
+
+    public CommercialProductInfo mcCost(BigDecimal mcCost) {
+        this.mcCost = mcCost;
+        return this;
+    }
+
+    public void setMcCost(BigDecimal mcCost) {
+        this.mcCost = mcCost;
+    }
+
     public String getCylColor() {
         return cylColor;
     }
@@ -472,6 +561,19 @@ public class CommercialProductInfo implements Serializable {
         this.cylQty = cylQty;
     }
 
+    public BigDecimal getCylCost() {
+        return cylCost;
+    }
+
+    public CommercialProductInfo cylCost(BigDecimal cylCost) {
+        this.cylCost = cylCost;
+        return this;
+    }
+
+    public void setCylCost(BigDecimal cylCost) {
+        this.cylCost = cylCost;
+    }
+
     public BigDecimal getBuyingQuantity() {
         return buyingQuantity;
     }
@@ -509,6 +611,19 @@ public class CommercialProductInfo implements Serializable {
 
     public void setBuyingUnitPrice(BigDecimal buyingUnitPrice) {
         this.buyingUnitPrice = buyingUnitPrice;
+    }
+
+    public BigDecimal getBuyingPrice() {
+        return buyingPrice;
+    }
+
+    public CommercialProductInfo buyingPrice(BigDecimal buyingPrice) {
+        this.buyingPrice = buyingPrice;
+        return this;
+    }
+
+    public void setBuyingPrice(BigDecimal buyingPrice) {
+        this.buyingPrice = buyingPrice;
     }
 
     public BigDecimal getBuyingTotalPrice() {
@@ -647,6 +762,9 @@ public class CommercialProductInfo implements Serializable {
             ", offeredUnit='" + getOfferedUnit() + "'" +
             ", offeredUnitPrice=" + getOfferedUnitPrice() +
             ", offeredTotalPrice=" + getOfferedTotalPrice() +
+            ", spGlazing=" + getSpGlazing() +
+            ", spSurfaceType='" + getSpSurfaceType() + "'" +
+            ", spOthersDescription='" + getSpOthersDescription() + "'" +
             ", spSticker='" + getSpSticker() + "'" +
             ", spLabel='" + getSpLabel() + "'" +
             ", spQtyInPack=" + getSpQtyInPack() +
@@ -656,17 +774,21 @@ public class CommercialProductInfo implements Serializable {
             ", ipSticker='" + getIpSticker() + "'" +
             ", ipLabel='" + getIpLabel() + "'" +
             ", ipQtyInMc=" + getIpQtyInMc() +
+            ", ipCost=" + getIpCost() +
             ", mcColor='" + getMcColor() + "'" +
             ", mcPly='" + getMcPly() + "'" +
             ", mcSize='" + getMcSize() + "'" +
             ", mcSticker='" + getMcSticker() + "'" +
             ", mcLabel='" + getMcLabel() + "'" +
+            ", mcCost=" + getMcCost() +
             ", cylColor='" + getCylColor() + "'" +
             ", cylSize='" + getCylSize() + "'" +
             ", cylQty=" + getCylQty() +
+            ", cylCost=" + getCylCost() +
             ", buyingQuantity=" + getBuyingQuantity() +
             ", buyingUnit='" + getBuyingUnit() + "'" +
             ", buyingUnitPrice=" + getBuyingUnitPrice() +
+            ", buyingPrice=" + getBuyingPrice() +
             ", buyingTotalPrice=" + getBuyingTotalPrice() +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +

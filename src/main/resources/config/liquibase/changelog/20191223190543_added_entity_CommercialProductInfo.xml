@@ -48,6 +48,18 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="sp_glazing" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="sp_surface_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="sp_others_description" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="sp_sticker" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -84,6 +96,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="ip_cost" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="mc_color" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -104,6 +120,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="mc_cost" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="cyl_color" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -116,6 +136,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="cyl_cost" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="buying_quantity" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
@@ -125,6 +149,10 @@
             </column>
 
             <column name="buying_unit_price" type="decimal(10,2)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="buying_price" type="decimal(10,2)">
                 <constraints nullable="false" />
             </column>
 

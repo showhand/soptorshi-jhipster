@@ -3,6 +3,7 @@ package org.soptorshi.service.dto;
 import io.github.jhipster.service.filter.*;
 import org.soptorshi.domain.enumeration.PackColor;
 import org.soptorshi.domain.enumeration.ProductSpecification;
+import org.soptorshi.domain.enumeration.SurfaceType;
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 
 import java.io.Serializable;
@@ -28,6 +29,11 @@ public class CommercialProductInfoCriteria implements Serializable {
     public static class UnitOfMeasurementsFilter extends Filter<UnitOfMeasurements> {
     }
     /**
+     * Class for filtering SurfaceType
+     */
+    public static class SurfaceTypeFilter extends Filter<SurfaceType> {
+    }
+    /**
      * Class for filtering PackColor
      */
     public static class PackColorFilter extends Filter<PackColor> {
@@ -51,6 +57,12 @@ public class CommercialProductInfoCriteria implements Serializable {
 
     private BigDecimalFilter offeredTotalPrice;
 
+    private IntegerFilter spGlazing;
+
+    private SurfaceTypeFilter spSurfaceType;
+
+    private StringFilter spOthersDescription;
+
     private StringFilter spSticker;
 
     private StringFilter spLabel;
@@ -69,6 +81,8 @@ public class CommercialProductInfoCriteria implements Serializable {
 
     private BigDecimalFilter ipQtyInMc;
 
+    private BigDecimalFilter ipCost;
+
     private PackColorFilter mcColor;
 
     private StringFilter mcPly;
@@ -79,17 +93,23 @@ public class CommercialProductInfoCriteria implements Serializable {
 
     private StringFilter mcLabel;
 
+    private BigDecimalFilter mcCost;
+
     private StringFilter cylColor;
 
     private StringFilter cylSize;
 
     private BigDecimalFilter cylQty;
 
+    private BigDecimalFilter cylCost;
+
     private BigDecimalFilter buyingQuantity;
 
     private UnitOfMeasurementsFilter buyingUnit;
 
     private BigDecimalFilter buyingUnitPrice;
+
+    private BigDecimalFilter buyingPrice;
 
     private BigDecimalFilter buyingTotalPrice;
 
@@ -171,6 +191,30 @@ public class CommercialProductInfoCriteria implements Serializable {
         this.offeredTotalPrice = offeredTotalPrice;
     }
 
+    public IntegerFilter getSpGlazing() {
+        return spGlazing;
+    }
+
+    public void setSpGlazing(IntegerFilter spGlazing) {
+        this.spGlazing = spGlazing;
+    }
+
+    public SurfaceTypeFilter getSpSurfaceType() {
+        return spSurfaceType;
+    }
+
+    public void setSpSurfaceType(SurfaceTypeFilter spSurfaceType) {
+        this.spSurfaceType = spSurfaceType;
+    }
+
+    public StringFilter getSpOthersDescription() {
+        return spOthersDescription;
+    }
+
+    public void setSpOthersDescription(StringFilter spOthersDescription) {
+        this.spOthersDescription = spOthersDescription;
+    }
+
     public StringFilter getSpSticker() {
         return spSticker;
     }
@@ -243,6 +287,14 @@ public class CommercialProductInfoCriteria implements Serializable {
         this.ipQtyInMc = ipQtyInMc;
     }
 
+    public BigDecimalFilter getIpCost() {
+        return ipCost;
+    }
+
+    public void setIpCost(BigDecimalFilter ipCost) {
+        this.ipCost = ipCost;
+    }
+
     public PackColorFilter getMcColor() {
         return mcColor;
     }
@@ -283,6 +335,14 @@ public class CommercialProductInfoCriteria implements Serializable {
         this.mcLabel = mcLabel;
     }
 
+    public BigDecimalFilter getMcCost() {
+        return mcCost;
+    }
+
+    public void setMcCost(BigDecimalFilter mcCost) {
+        this.mcCost = mcCost;
+    }
+
     public StringFilter getCylColor() {
         return cylColor;
     }
@@ -307,6 +367,14 @@ public class CommercialProductInfoCriteria implements Serializable {
         this.cylQty = cylQty;
     }
 
+    public BigDecimalFilter getCylCost() {
+        return cylCost;
+    }
+
+    public void setCylCost(BigDecimalFilter cylCost) {
+        this.cylCost = cylCost;
+    }
+
     public BigDecimalFilter getBuyingQuantity() {
         return buyingQuantity;
     }
@@ -329,6 +397,14 @@ public class CommercialProductInfoCriteria implements Serializable {
 
     public void setBuyingUnitPrice(BigDecimalFilter buyingUnitPrice) {
         this.buyingUnitPrice = buyingUnitPrice;
+    }
+
+    public BigDecimalFilter getBuyingPrice() {
+        return buyingPrice;
+    }
+
+    public void setBuyingPrice(BigDecimalFilter buyingPrice) {
+        this.buyingPrice = buyingPrice;
     }
 
     public BigDecimalFilter getBuyingTotalPrice() {
@@ -414,6 +490,9 @@ public class CommercialProductInfoCriteria implements Serializable {
             Objects.equals(offeredUnit, that.offeredUnit) &&
             Objects.equals(offeredUnitPrice, that.offeredUnitPrice) &&
             Objects.equals(offeredTotalPrice, that.offeredTotalPrice) &&
+            Objects.equals(spGlazing, that.spGlazing) &&
+            Objects.equals(spSurfaceType, that.spSurfaceType) &&
+            Objects.equals(spOthersDescription, that.spOthersDescription) &&
             Objects.equals(spSticker, that.spSticker) &&
             Objects.equals(spLabel, that.spLabel) &&
             Objects.equals(spQtyInPack, that.spQtyInPack) &&
@@ -423,17 +502,21 @@ public class CommercialProductInfoCriteria implements Serializable {
             Objects.equals(ipSticker, that.ipSticker) &&
             Objects.equals(ipLabel, that.ipLabel) &&
             Objects.equals(ipQtyInMc, that.ipQtyInMc) &&
+            Objects.equals(ipCost, that.ipCost) &&
             Objects.equals(mcColor, that.mcColor) &&
             Objects.equals(mcPly, that.mcPly) &&
             Objects.equals(mcSize, that.mcSize) &&
             Objects.equals(mcSticker, that.mcSticker) &&
             Objects.equals(mcLabel, that.mcLabel) &&
+            Objects.equals(mcCost, that.mcCost) &&
             Objects.equals(cylColor, that.cylColor) &&
             Objects.equals(cylSize, that.cylSize) &&
             Objects.equals(cylQty, that.cylQty) &&
+            Objects.equals(cylCost, that.cylCost) &&
             Objects.equals(buyingQuantity, that.buyingQuantity) &&
             Objects.equals(buyingUnit, that.buyingUnit) &&
             Objects.equals(buyingUnitPrice, that.buyingUnitPrice) &&
+            Objects.equals(buyingPrice, that.buyingPrice) &&
             Objects.equals(buyingTotalPrice, that.buyingTotalPrice) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdOn, that.createdOn) &&
@@ -455,6 +538,9 @@ public class CommercialProductInfoCriteria implements Serializable {
         offeredUnit,
         offeredUnitPrice,
         offeredTotalPrice,
+        spGlazing,
+        spSurfaceType,
+        spOthersDescription,
         spSticker,
         spLabel,
         spQtyInPack,
@@ -464,17 +550,21 @@ public class CommercialProductInfoCriteria implements Serializable {
         ipSticker,
         ipLabel,
         ipQtyInMc,
+        ipCost,
         mcColor,
         mcPly,
         mcSize,
         mcSticker,
         mcLabel,
+        mcCost,
         cylColor,
         cylSize,
         cylQty,
+        cylCost,
         buyingQuantity,
         buyingUnit,
         buyingUnitPrice,
+        buyingPrice,
         buyingTotalPrice,
         createdBy,
         createdOn,
@@ -497,6 +587,9 @@ public class CommercialProductInfoCriteria implements Serializable {
                 (offeredUnit != null ? "offeredUnit=" + offeredUnit + ", " : "") +
                 (offeredUnitPrice != null ? "offeredUnitPrice=" + offeredUnitPrice + ", " : "") +
                 (offeredTotalPrice != null ? "offeredTotalPrice=" + offeredTotalPrice + ", " : "") +
+                (spGlazing != null ? "spGlazing=" + spGlazing + ", " : "") +
+                (spSurfaceType != null ? "spSurfaceType=" + spSurfaceType + ", " : "") +
+                (spOthersDescription != null ? "spOthersDescription=" + spOthersDescription + ", " : "") +
                 (spSticker != null ? "spSticker=" + spSticker + ", " : "") +
                 (spLabel != null ? "spLabel=" + spLabel + ", " : "") +
                 (spQtyInPack != null ? "spQtyInPack=" + spQtyInPack + ", " : "") +
@@ -506,17 +599,21 @@ public class CommercialProductInfoCriteria implements Serializable {
                 (ipSticker != null ? "ipSticker=" + ipSticker + ", " : "") +
                 (ipLabel != null ? "ipLabel=" + ipLabel + ", " : "") +
                 (ipQtyInMc != null ? "ipQtyInMc=" + ipQtyInMc + ", " : "") +
+                (ipCost != null ? "ipCost=" + ipCost + ", " : "") +
                 (mcColor != null ? "mcColor=" + mcColor + ", " : "") +
                 (mcPly != null ? "mcPly=" + mcPly + ", " : "") +
                 (mcSize != null ? "mcSize=" + mcSize + ", " : "") +
                 (mcSticker != null ? "mcSticker=" + mcSticker + ", " : "") +
                 (mcLabel != null ? "mcLabel=" + mcLabel + ", " : "") +
+                (mcCost != null ? "mcCost=" + mcCost + ", " : "") +
                 (cylColor != null ? "cylColor=" + cylColor + ", " : "") +
                 (cylSize != null ? "cylSize=" + cylSize + ", " : "") +
                 (cylQty != null ? "cylQty=" + cylQty + ", " : "") +
+                (cylCost != null ? "cylCost=" + cylCost + ", " : "") +
                 (buyingQuantity != null ? "buyingQuantity=" + buyingQuantity + ", " : "") +
                 (buyingUnit != null ? "buyingUnit=" + buyingUnit + ", " : "") +
                 (buyingUnitPrice != null ? "buyingUnitPrice=" + buyingUnitPrice + ", " : "") +
+                (buyingPrice != null ? "buyingPrice=" + buyingPrice + ", " : "") +
                 (buyingTotalPrice != null ? "buyingTotalPrice=" + buyingTotalPrice + ", " : "") +
                 (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +

@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 
 import io.github.jhipster.service.filter.*;
 import org.soptorshi.domain.enumeration.CommercialPiStatus;
+import org.soptorshi.domain.enumeration.PaymentType;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,6 +16,11 @@ import java.util.Objects;
  * fix type specific filters.
  */
 public class CommercialPiCriteria implements Serializable {
+    /**
+     * Class for filtering PaymentType
+     */
+    public static class PaymentTypeFilter extends Filter<PaymentType> {
+    }
     /**
      * Class for filtering CommercialPiStatus
      */
@@ -34,6 +40,8 @@ public class CommercialPiCriteria implements Serializable {
     private LocalDateFilter proformaDate;
 
     private StringFilter harmonicCode;
+
+    private PaymentTypeFilter paymentType;
 
     private StringFilter paymentTerm;
 
@@ -105,6 +113,14 @@ public class CommercialPiCriteria implements Serializable {
 
     public void setHarmonicCode(StringFilter harmonicCode) {
         this.harmonicCode = harmonicCode;
+    }
+
+    public PaymentTypeFilter getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentTypeFilter paymentType) {
+        this.paymentType = paymentType;
     }
 
     public StringFilter getPaymentTerm() {
@@ -220,6 +236,7 @@ public class CommercialPiCriteria implements Serializable {
             Objects.equals(proformaNo, that.proformaNo) &&
             Objects.equals(proformaDate, that.proformaDate) &&
             Objects.equals(harmonicCode, that.harmonicCode) &&
+            Objects.equals(paymentType, that.paymentType) &&
             Objects.equals(paymentTerm, that.paymentTerm) &&
             Objects.equals(termsOfDelivery, that.termsOfDelivery) &&
             Objects.equals(shipmentDate, that.shipmentDate) &&
@@ -243,6 +260,7 @@ public class CommercialPiCriteria implements Serializable {
         proformaNo,
         proformaDate,
         harmonicCode,
+        paymentType,
         paymentTerm,
         termsOfDelivery,
         shipmentDate,
@@ -267,6 +285,7 @@ public class CommercialPiCriteria implements Serializable {
                 (proformaNo != null ? "proformaNo=" + proformaNo + ", " : "") +
                 (proformaDate != null ? "proformaDate=" + proformaDate + ", " : "") +
                 (harmonicCode != null ? "harmonicCode=" + harmonicCode + ", " : "") +
+                (paymentType != null ? "paymentType=" + paymentType + ", " : "") +
                 (paymentTerm != null ? "paymentTerm=" + paymentTerm + ", " : "") +
                 (termsOfDelivery != null ? "termsOfDelivery=" + termsOfDelivery + ", " : "") +
                 (shipmentDate != null ? "shipmentDate=" + shipmentDate + ", " : "") +

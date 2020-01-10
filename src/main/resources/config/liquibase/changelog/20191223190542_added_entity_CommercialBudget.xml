@@ -36,6 +36,50 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="company_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="payment_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="transportation_type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="sea_port_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="sea_port_cost" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="air_port_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="air_port_cost" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="land_port_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="land_port_cost" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="insurance_price" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="total_transportation_cost" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="total_quantity" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
