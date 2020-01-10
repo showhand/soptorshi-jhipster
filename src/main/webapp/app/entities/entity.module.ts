@@ -399,7 +399,8 @@ import { MatTabsModule } from '@angular/material';
 
             {
                 path: 'attendance-excel-upload',
-                loadChildren: './attendance-excel-upload/attendance-excel-upload.module#SoptorshiAttendanceExcelUploadModuleExtended'
+                loadChildren:
+                    './attendance-excel-upload-extended/attendance-excel-upload-extended.module#SoptorshiAttendanceExcelUploadExtendedModule'
             },
             {
                 path: 'attendance',

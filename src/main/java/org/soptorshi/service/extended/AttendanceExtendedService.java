@@ -11,8 +11,6 @@ import org.soptorshi.repository.search.AttendanceSearchRepository;
 import org.soptorshi.service.AttendanceService;
 import org.soptorshi.service.dto.AttendanceDTO;
 import org.soptorshi.service.mapper.AttendanceMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +18,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 @Service
 @Transactional
@@ -66,20 +62,6 @@ public class AttendanceExtendedService extends AttendanceService {
         return null;
     }
 
-    /**
-     * Get all the attendances.
-     *
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-
-    @Transactional(readOnly = true)
-    public Page<AttendanceDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all Attendances");
-        return attendanceExtendedRepository.findAll(pageable)
-            .map(attendanceMapper::toDto);
-    }
-
 
     public List<AttendanceDTO> getAllByDistinctAttendanceDate() {
         log.debug("Request to get all Distinct Attendances Date");
@@ -93,34 +75,6 @@ public class AttendanceExtendedService extends AttendanceService {
         return attendanceDTOS;
     }
 
-
-    /**
-     * Get one attendance by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-
-    @Transactional(readOnly = true)
-    public Optional<AttendanceDTO> findOne(Long id) {
-        log.debug("Request to get Attendance : {}", id);
-        return attendanceExtendedRepository.findById(id)
-            .map(attendanceMapper::toDto);
-    }
-
-    /**
-     * Delete the attendance by id.
-     *
-     * @param id the id of the entity
-     */
-
-    public void delete(Long id) {
-        log.debug("Request to delete Attendance : {}", id);
-        attendanceExtendedRepository.deleteById(id);
-        attendanceSearchRepository.deleteById(id);
-    }
-
-
     public void deleteByAttendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload) {
         log.debug("Request to delete Attendance : {}", attendanceExcelUpload);
         List<Attendance> attendances = attendanceExtendedRepository.getByAttendanceExcelUpload(attendanceExcelUpload);
@@ -128,20 +82,5 @@ public class AttendanceExtendedService extends AttendanceService {
             attendanceExtendedRepository.deleteById(attendance.getId());
             attendanceSearchRepository.deleteById(attendance.getId());
         }
-    }
-
-    /**
-     * Search for the attendance corresponding to the query.
-     *
-     * @param query the query of the search
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-
-    @Transactional(readOnly = true)
-    public Page<AttendanceDTO> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of Attendances for query {}", query);
-        return attendanceSearchRepository.search(queryStringQuery(query), pageable)
-            .map(attendanceMapper::toDto);
     }
 }

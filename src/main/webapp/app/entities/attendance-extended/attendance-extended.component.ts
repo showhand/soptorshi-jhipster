@@ -96,17 +96,6 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
         }
     }
 
-    reset() {
-        this.page = 0;
-        this.attendances = [];
-        this.loadAll();
-    }
-
-    loadPage(page) {
-        this.page = page;
-        this.loadAll();
-    }
-
     clear() {
         this.attendances = [];
         this.links = {
@@ -121,21 +110,6 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
         this.loadAll();
     }
 
-    search(query) {
-        if (!query) {
-            return this.clear();
-        }
-        this.attendances = [];
-        this.links = {
-            last: 0
-        };
-        this.page = 0;
-        this.predicate = '_score';
-        this.reverse = false;
-        this.currentSearch = query;
-        this.loadAll();
-    }
-
     ngOnInit() {
         this.loadAll();
         this.accountService.identity().then(account => {
@@ -146,22 +120,6 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
-    }
-
-    trackId(index: number, item: IAttendance) {
-        return item.id;
-    }
-
-    registerChangeInAttendances() {
-        this.eventSubscriber = this.eventManager.subscribe('attendanceListModification', response => this.reset());
-    }
-
-    sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== 'id') {
-            result.push('id');
-        }
-        return result;
     }
 
     protected paginateAttendances(data: IAttendance[], headers: HttpHeaders) {
@@ -192,9 +150,5 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
                 this.distinctAttendanceDate.push(data[i]);
             }
         }
-    }
-
-    protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
     }
 }

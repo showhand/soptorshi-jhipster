@@ -8,12 +8,12 @@ import {
     AttendanceDetailExtendedComponent,
     AttendanceExtendedComponent,
     attendanceExtendedRoute,
-    attendancePopupRouteExtended,
+    attendancePopupExtendedRoute,
     AttendanceUpdateExtendedComponent
 } from './';
 import { MyAttendanceComponent } from './my-attendance.component';
 
-const ENTITY_STATES = [...attendanceExtendedRoute, ...attendancePopupRouteExtended];
+const ENTITY_STATES = [...attendanceExtendedRoute, ...attendancePopupExtendedRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
