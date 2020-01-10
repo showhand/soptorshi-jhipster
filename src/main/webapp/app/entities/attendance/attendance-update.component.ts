@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -17,7 +17,7 @@ import { EmployeeService } from 'app/entities/employee';
     selector: 'jhi-attendance-update',
     templateUrl: './attendance-update.component.html'
 })
-export class AttendanceUpdateComponent implements OnInit {
+export class AttendanceUpdateComponent {
     attendance: IAttendance;
     isSaving: boolean;
 

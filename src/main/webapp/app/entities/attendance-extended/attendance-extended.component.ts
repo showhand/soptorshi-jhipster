@@ -28,7 +28,6 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
     totalItems: number;
     currentSearch: string;
     distinctAttendanceDate: IAttendance[];
-    employeeId: string;
 
     constructor(
         protected attendanceServiceExtended: AttendanceExtendedService,
@@ -49,20 +48,7 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
     }
 
     loadAll() {
-        if (this.currentSearch && this.employeeId) {
-            this.attendanceServiceExtended
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'attendanceDate.equals': moment(this.currentSearch).format(DATE_FORMAT),
-                    'employeeId.equals': this.employeeId
-                })
-                .subscribe(
-                    (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        } else if (this.currentSearch) {
+        if (this.currentSearch) {
             this.attendanceServiceExtended
                 .query({
                     page: this.page,
@@ -74,27 +60,12 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
                     (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
-        } else if (this.employeeId) {
-            this.attendanceServiceExtended
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'employeeId.equals': this.employeeId
-                })
-                .subscribe(
-                    (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
         } else {
             this.attendanceServiceExtended
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'attendanceDate.equals': moment(new Date())
-                        .add(0, 'days')
-                        .format(DATE_FORMAT)
+                    sort: this.sort()
                 })
                 .subscribe(
                     (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
@@ -111,9 +82,7 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
         this.page = 0;
         this.predicate = 'id';
         this.reverse = true;
-        this.currentSearch = moment(new Date())
-            .add(-1, 'days')
-            .toString();
+        this.currentSearch = '';
         this.loadAll();
     }
 
@@ -134,7 +103,7 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
-            /*data[i].diff = moment
+            /*data[i].duration = moment
                 .utc(moment(data[i].outTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(data[i].inTime, 'DD/MM/YYYY HH:mm:ss')))
                 .format('HH:mm:ss');*/
             this.attendances.push(data[i]);

@@ -24,6 +24,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -70,17 +71,19 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
      * @return the persisted entity
      */
 
+    @Transactional
     public AttendanceExcelUploadDTO save(AttendanceExcelUploadDTO attendanceExcelUploadDTO) {
         log.debug("Request to save AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
         AttendanceExcelUpload attendanceExcelUpload = attendanceExcelUploadMapper.toEntity(attendanceExcelUploadDTO);
-        attendanceExcelUpload = attendanceExcelUploadRepository.save(attendanceExcelUpload);
-        AttendanceExcelUploadDTO result = attendanceExcelUploadMapper.toDto(attendanceExcelUpload);
-        attendanceExcelUploadSearchRepository.save(attendanceExcelUpload);
+        AttendanceExcelUploadDTO result = null;
+        /*attendanceExcelUploadSearchRepository.save(attendanceExcelUpload);*/
 
         log.debug("Parsing excel before processing request to save AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
         List<AttendanceExcelParser> attendanceExcelParsers = parseExcel(attendanceExcelUploadDTO.getFile());
         if (attendanceExcelParsers == null) return null;
         else {
+            attendanceExcelUpload = attendanceExcelUploadRepository.save(attendanceExcelUpload);
+            result = attendanceExcelUploadMapper.toDto(attendanceExcelUpload);
             log.debug("Deleting previous data AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
             attendanceExtendedService.deleteByAttendanceExcelUpload(attendanceExcelUpload);
             log.debug("Saving new data AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
@@ -124,6 +127,11 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
                     }
                     if (inOut.length > 1) {
                         attendance.setOutTime(Instant.from(formatter.parse(attendanceExcelParser.getAttendanceDate() + " " + inOut[inOut.length - 1])));
+                    }
+
+                    if(attendance.getInTime() != null && attendance.getOutTime() != null) {
+                        Duration between = Duration.between(attendance.getOutTime(), attendance.getInTime());
+                        attendance.setDuration(between.toString());
                     }
                     attendance.setAttendanceExcelUpload(attendanceExcelUpload);
                     attendances.add(attendance);

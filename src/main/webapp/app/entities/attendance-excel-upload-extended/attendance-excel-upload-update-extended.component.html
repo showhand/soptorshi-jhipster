@@ -7,7 +7,7 @@
                 <div class="form-group" [hidden]="!attendanceExcelUpload.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="attendanceExcelUpload.id" readonly />
+                           [(ngModel)]="attendanceExcelUpload.id" readonly />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_file">File</label>
@@ -23,9 +23,9 @@
                         <input type="file" id="file_file" (change)="setFileData($event, attendanceExcelUpload, 'file', false)"/>
                     </div>
                     <input type="hidden" class="form-control" name="file" id="field_file"
-                        [(ngModel)]="attendanceExcelUpload.file" />
+                           [(ngModel)]="attendanceExcelUpload.file" />
                     <input type="hidden" class="form-control" name="fileContentType" id="field_fileContentType"
-                        [(ngModel)]="attendanceExcelUpload.fileContentType" />
+                           [(ngModel)]="attendanceExcelUpload.fileContentType" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_type">Type</label>

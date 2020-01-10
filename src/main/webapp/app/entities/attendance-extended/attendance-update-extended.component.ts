@@ -4,6 +4,7 @@ import { JhiAlertService } from 'ng-jhipster';
 import { AttendanceExtendedService } from './attendance-extended.service';
 import { AttendanceExcelUploadService } from 'app/entities/attendance-excel-upload';
 import { AttendanceUpdateComponent } from 'app/entities/attendance';
+import { EmployeeService } from 'app/entities/employee';
 
 @Component({
     selector: 'jhi-attendance-update-extended',
@@ -14,8 +15,9 @@ export class AttendanceUpdateExtendedComponent extends AttendanceUpdateComponent
         protected jhiAlertService: JhiAlertService,
         protected attendanceService: AttendanceExtendedService,
         protected attendanceExcelUploadService: AttendanceExcelUploadService,
+        protected employeeService: EmployeeService,
         protected activatedRoute: ActivatedRoute
     ) {
-        super(jhiAlertService, attendanceService, attendanceExcelUploadService, activatedRoute);
+        super(jhiAlertService, attendanceService, attendanceExcelUploadService, employeeService, activatedRoute);
     }
 }
