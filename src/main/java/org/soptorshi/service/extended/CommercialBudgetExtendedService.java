@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialBudget;
 import org.soptorshi.domain.enumeration.CommercialBudgetStatus;
+import org.soptorshi.domain.enumeration.PaymentType;
 import org.soptorshi.repository.CommercialBudgetRepository;
 import org.soptorshi.repository.search.CommercialBudgetSearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -70,6 +71,8 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
                     if (commercialBudgetDTO.getBudgetStatus().equals(CommercialBudgetStatus.APPROVED)) {
                         CommercialPiDTO commercialPiDTO = new CommercialPiDTO();
                         commercialPiDTO.setProformaNo(commercialBudgetDTO.getProformaNo());
+                        commercialPiDTO.setCompanyName(commercialBudgetDTO.getCompanyName().isEmpty() ? "" : commercialBudgetDTO.getCompanyName());
+                        commercialPiDTO.setPaymentType(commercialBudgetDTO.getPaymentType() == null ? PaymentType.OTHERS : commercialBudgetDTO.getPaymentType());
                         commercialPiDTO.setCommercialBudgetId(commercialBudgetDTO.getId());
                         commercialPiDTO.setCommercialBudgetBudgetNo(commercialBudgetDTO.getBudgetNo());
                         commercialPiExtendedService.save(commercialPiDTO);

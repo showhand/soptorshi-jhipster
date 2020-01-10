@@ -56,7 +56,7 @@ public class CommercialPiExtendedService extends CommercialPiService {
         String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
         Instant currentDateTime = Instant.now();
 
-        if(commercialPiDTO.getId() == null) {
+        if (commercialPiDTO.getId() == null) {
             commercialPiDTO.setPiStatus(CommercialPiStatus.WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER);
             commercialPiDTO.setCreatedBy(currentUser);
             commercialPiDTO.setCreatedOn(currentDateTime);
@@ -65,18 +65,21 @@ public class CommercialPiExtendedService extends CommercialPiService {
             CommercialPiDTO result = commercialPiMapper.toDto(commercialPi);
             commercialPiSearchRepository.save(commercialPi);
             return result;
-        }
-        else {
+        } else {
             Optional<CommercialPi> currentCommercialPi = commercialPiRepository.findById(commercialPiDTO.getId());
-            if(currentCommercialPi.isPresent()) {
-                if(currentCommercialPi.get().getPiStatus().equals(CommercialPiStatus.WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER)) {
+            if (currentCommercialPi.isPresent()) {
+                if (currentCommercialPi.get().getPiStatus().equals(CommercialPiStatus.WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER)) {
                     if (commercialPiDTO.getPiStatus().equals(CommercialPiStatus.PI_APPROVED_BY_THE_CUSTOMER)) {
-                        CommercialPoDTO commercialPoDTO = new CommercialPoDTO();
-                        commercialPoDTO.setCommercialPiId(commercialPiDTO.getId());
-                        commercialPoDTO.setCommercialPiProformaNo(commercialPiDTO.getProformaNo());
-                        commercialPoDTO.setPoStatus(CommercialPoStatus.PO_CREATED);
-                        commercialPoDTO.setPurchaseOrderNo(commercialPiDTO.getPurchaseOrderNo());
-                        commercialPoExtendedService.save(commercialPoDTO);
+                        if (commercialPiDTO.getPurchaseOrderNo().isEmpty()) {
+                            return null;
+                        } else {
+                            CommercialPoDTO commercialPoDTO = new CommercialPoDTO();
+                            commercialPoDTO.setCommercialPiId(commercialPiDTO.getId());
+                            commercialPoDTO.setCommercialPiProformaNo(commercialPiDTO.getProformaNo());
+                            commercialPoDTO.setPoStatus(CommercialPoStatus.PO_CREATED);
+                            commercialPoDTO.setPurchaseOrderNo(commercialPiDTO.getPurchaseOrderNo());
+                            commercialPoExtendedService.save(commercialPoDTO);
+                        }
                     }
                     commercialPiDTO.setUpdatedBy(currentUser);
                     commercialPiDTO.setUpdatedOn(currentDateTime);

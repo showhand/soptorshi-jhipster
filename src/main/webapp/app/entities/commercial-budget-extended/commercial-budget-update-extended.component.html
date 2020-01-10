@@ -75,12 +75,12 @@
                 <div class="form-group col-6">
                     <label class="form-control-label" for="field_companyName">Company Name</label>
                     <input type="text" class="form-control" name="companyName" id="field_companyName"
-                           [(ngModel)]="commercialBudget.companyName"/>
+                           [(ngModel)]="commercialBudget.companyName" required/>
                 </div>
                 <div class="form-group col-3">
                     <label class="form-control-label" for="field_paymentType">Payment Type</label>
                     <select class="form-control" name="paymentType" [(ngModel)]="commercialBudget.paymentType"
-                            id="field_paymentType">
+                            id="field_paymentType" required>
                         <option value="LC">LC</option>
                         <option value="TT">TT</option>
                         <option value="CASH">CASH</option>

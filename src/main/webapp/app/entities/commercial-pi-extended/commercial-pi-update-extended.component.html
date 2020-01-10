@@ -4,7 +4,7 @@
             <h2 id="jhi-commercial-pi-heading">Create or edit a Commercial Pi</h2>
             <jhi-alert-error></jhi-alert-error>
             <div class="row">
-                <div class="col-4">
+                <div class="col-3">
                     <div class="form-group" [hidden]="!commercialPi.id">
                         <label for="id">ID</label>
                         <input type="text" class="form-control" id="id" name="id"
@@ -32,7 +32,7 @@
                                [(ngModel)]="commercialPi.companyDescription"/>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                     <div class="form-group">
                         <label class="form-control-label" for="field_proformaNo">Proforma No</label>
                         <input type="text" class="form-control" name="proformaNo" id="field_proformaNo"
@@ -62,7 +62,23 @@
                                [(ngModel)]="commercialPi.harmonicCode"/>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_paymentType">Payment Type</label>
+                    <select class="form-control" name="paymentType" [(ngModel)]="commercialPi.paymentType" id="field_paymentType"  required>
+                        <option value="LC">LC</option>
+                        <option value="TT">TT</option>
+                        <option value="CASH">CASH</option>
+                        <option value="CHEQUE">CHEQUE</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.paymentType?.dirty && editForm.controls.paymentType?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.paymentType?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="col-3">
                     <div class="form-group">
                         <label class="form-control-label" for="field_paymentTerm">Payment Term</label>
                         <input type="text" class="form-control" name="paymentTerm" id="field_paymentTerm"
@@ -95,7 +111,7 @@
                     <div class="form-group">
                         <label class="form-control-label" for="field_purchaseOrderNo">Purchase Order No</label>
                         <input type="text" class="form-control" name="purchaseOrderNo" id="field_purchaseOrderNo"
-                               [(ngModel)]="commercialPi.purchaseOrderNo" required/>
+                               [(ngModel)]="commercialPi.purchaseOrderNo"/>
                     </div>
                 </div>
                 <div class="col-6">
