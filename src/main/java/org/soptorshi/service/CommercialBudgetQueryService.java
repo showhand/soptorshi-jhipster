@@ -101,6 +101,39 @@ public class CommercialBudgetQueryService extends QueryService<CommercialBudget>
             if (criteria.getBudgetDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getBudgetDate(), CommercialBudget_.budgetDate));
             }
+            if (criteria.getCompanyName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCompanyName(), CommercialBudget_.companyName));
+            }
+            if (criteria.getPaymentType() != null) {
+                specification = specification.and(buildSpecification(criteria.getPaymentType(), CommercialBudget_.paymentType));
+            }
+            if (criteria.getTransportationType() != null) {
+                specification = specification.and(buildSpecification(criteria.getTransportationType(), CommercialBudget_.transportationType));
+            }
+            if (criteria.getSeaPortName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSeaPortName(), CommercialBudget_.seaPortName));
+            }
+            if (criteria.getSeaPortCost() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSeaPortCost(), CommercialBudget_.seaPortCost));
+            }
+            if (criteria.getAirPortName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAirPortName(), CommercialBudget_.airPortName));
+            }
+            if (criteria.getAirPortCost() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getAirPortCost(), CommercialBudget_.airPortCost));
+            }
+            if (criteria.getLandPortName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLandPortName(), CommercialBudget_.landPortName));
+            }
+            if (criteria.getLandPortCost() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLandPortCost(), CommercialBudget_.landPortCost));
+            }
+            if (criteria.getInsurancePrice() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getInsurancePrice(), CommercialBudget_.insurancePrice));
+            }
+            if (criteria.getTotalTransportationCost() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalTransportationCost(), CommercialBudget_.totalTransportationCost));
+            }
             if (criteria.getTotalQuantity() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTotalQuantity(), CommercialBudget_.totalQuantity));
             }

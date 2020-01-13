@@ -2,6 +2,7 @@ package org.soptorshi.domain;
 
 
 import org.soptorshi.domain.enumeration.CommercialPiStatus;
+import org.soptorshi.domain.enumeration.PaymentType;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
@@ -40,6 +41,11 @@ public class CommercialPi implements Serializable {
 
     @Column(name = "harmonic_code")
     private String harmonicCode;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_type", nullable = false)
+    private PaymentType paymentType;
 
     @Column(name = "payment_term")
     private String paymentTerm;
@@ -151,6 +157,19 @@ public class CommercialPi implements Serializable {
 
     public void setHarmonicCode(String harmonicCode) {
         this.harmonicCode = harmonicCode;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+    public CommercialPi paymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
+        return this;
+    }
+
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
     }
 
     public String getPaymentTerm() {
@@ -339,6 +358,7 @@ public class CommercialPi implements Serializable {
             ", proformaNo='" + getProformaNo() + "'" +
             ", proformaDate='" + getProformaDate() + "'" +
             ", harmonicCode='" + getHarmonicCode() + "'" +
+            ", paymentType='" + getPaymentType() + "'" +
             ", paymentTerm='" + getPaymentTerm() + "'" +
             ", termsOfDelivery='" + getTermsOfDelivery() + "'" +
             ", shipmentDate='" + getShipmentDate() + "'" +

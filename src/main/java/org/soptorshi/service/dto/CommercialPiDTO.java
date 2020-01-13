@@ -1,6 +1,7 @@
 package org.soptorshi.service.dto;
 
 import org.soptorshi.domain.enumeration.CommercialPiStatus;
+import org.soptorshi.domain.enumeration.PaymentType;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -25,6 +26,9 @@ public class CommercialPiDTO implements Serializable {
     private LocalDate proformaDate;
 
     private String harmonicCode;
+
+    @NotNull
+    private PaymentType paymentType;
 
     private String paymentTerm;
 
@@ -99,6 +103,14 @@ public class CommercialPiDTO implements Serializable {
 
     public void setHarmonicCode(String harmonicCode) {
         this.harmonicCode = harmonicCode;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
     }
 
     public String getPaymentTerm() {
@@ -235,6 +247,7 @@ public class CommercialPiDTO implements Serializable {
             ", proformaNo='" + getProformaNo() + "'" +
             ", proformaDate='" + getProformaDate() + "'" +
             ", harmonicCode='" + getHarmonicCode() + "'" +
+            ", paymentType='" + getPaymentType() + "'" +
             ", paymentTerm='" + getPaymentTerm() + "'" +
             ", termsOfDelivery='" + getTermsOfDelivery() + "'" +
             ", shipmentDate='" + getShipmentDate() + "'" +

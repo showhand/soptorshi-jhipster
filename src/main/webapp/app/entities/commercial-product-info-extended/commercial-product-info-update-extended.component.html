@@ -29,11 +29,19 @@
                 <div class="form-group col-2">
                     <label class="form-control-label" for="field_commercialBudget">Commercial Budget</label>
                     <select class="form-control" id="field_commercialBudget" name="commercialBudget"
-                            [(ngModel)]="commercialProductInfo.commercialBudgetId" required>
+                            [(ngModel)]="commercialProductInfo.commercialBudgetId" (ngModelChange)="getTransportationCost();" required>
                         <option [ngValue]="null"></option>
                         <option [ngValue]="commercialBudgetOption.id"
                                 *ngFor="let commercialBudgetOption of commercialbudgets; trackBy: trackCommercialBudgetById">{{commercialBudgetOption.budgetNo}}</option>
                     </select>
+                </div>
+                <div class="col-8">
+                    <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-product" [routerLink]="['/product/new']">
+                        <fa-icon [icon]="'plus'"></fa-icon>
+                        <span class="hidden-sm-down" >
+            Create new Product
+            </span>
+                    </button>
                 </div>
             </div>
 
@@ -82,6 +90,25 @@
                             This field is required.
                         </small>
                     </div>
+                </div>
+
+                <div class="form-group col-2">
+                    <label class="form-control-label" for="field_spGlazing">Sp Glazing</label>
+                    <input type="number" class="form-control" name="spGlazing" id="field_spGlazing"
+                           [(ngModel)]="commercialProductInfo.spGlazing"/>
+                </div>
+                <div class="form-group col-2">
+                    <label class="form-control-label" for="field_spSurfaceType">Sp Surface Type</label>
+                    <select class="form-control" name="spSurfaceType" [(ngModel)]="commercialProductInfo.spSurfaceType"
+                            id="field_spSurfaceType">
+                        <option value="TRIMMED">TRIMMED</option>
+                        <option value="UNTRIMMED">UNTRIMMED</option>
+                    </select>
+                </div>
+                <div class="form-group col-2">
+                    <label class="form-control-label" for="field_spOthersDescription">Sp Others Description</label>
+                    <input type="text" class="form-control" name="spOthersDescription" id="field_spOthersDescription"
+                           [(ngModel)]="commercialProductInfo.spOthersDescription"/>
                 </div>
             </div>
 
@@ -156,6 +183,11 @@
                     <input type="number" class="form-control" name="ipQtyInMc" id="field_ipQtyInMc"
                            [(ngModel)]="commercialProductInfo.ipQtyInMc"/>
                 </div>
+                <div class="form-group col-2">
+                    <label class="form-control-label" for="field_ipCost">Cost</label>
+                    <input type="number" class="form-control" name="ipCost" id="field_ipCost" (ngModelChange)="calculateBuyingTotalPrice();"
+                           [(ngModel)]="commercialProductInfo.ipCost"/>
+                </div>
             </div>
 
             <div class="row">
@@ -194,6 +226,11 @@
                     <input type="text" class="form-control" name="mcLabel" id="field_mcLabel"
                            [(ngModel)]="commercialProductInfo.mcLabel"/>
                 </div>
+                <div class="form-group col-2">
+                    <label class="form-control-label" for="field_mcCost">Cost</label>
+                    <input type="number" class="form-control" name="mcCost" id="field_mcCost" (ngModelChange)="calculateBuyingTotalPrice();"
+                           [(ngModel)]="commercialProductInfo.mcCost"/>
+                </div>
             </div>
 
             <div class="row">
@@ -217,6 +254,11 @@
                     <input type="number" class="form-control" name="cylQty" id="field_cylQty"
                            [(ngModel)]="commercialProductInfo.cylQty"/>
                 </div>
+                <div class="form-group col-2">
+                    <label class="form-control-label" for="field_cylCost">Cost</label>
+                    <input type="number" class="form-control" name="cylCost" id="field_cylCost" (ngModelChange)="calculateBuyingTotalPrice();"
+                           [(ngModel)]="commercialProductInfo.cylCost"/>
+                </div>
             </div>
 
             <div class="row">
@@ -232,7 +274,8 @@
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_offeredQuantity">Offered Quantity</label>
                             <input type="number" class="form-control" name="offeredQuantity" id="field_offeredQuantity"
-                                   [(ngModel)]="commercialProductInfo.offeredQuantity" (ngModelChange)="calculateTotalOfferedPrice();" required/>
+                                   [(ngModel)]="commercialProductInfo.offeredQuantity"
+                                   (ngModelChange)="calculateTotalOfferedPrice();" required/>
                             <div
                                 [hidden]="!(editForm.controls.offeredQuantity?.dirty && editForm.controls.offeredQuantity?.invalid)">
                                 <small class="form-text text-danger"
@@ -249,7 +292,8 @@
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_buyingQuantity">Buying Quantity</label>
                             <input type="number" class="form-control" name="buyingQuantity" id="field_buyingQuantity"
-                                   [(ngModel)]="commercialProductInfo.buyingQuantity" (ngModelChange)="calculateTotalBuyingPrice();" required/>
+                                   [(ngModel)]="commercialProductInfo.buyingQuantity"
+                                   (ngModelChange)="calculateBuyingPrice();" required/>
                             <div
                                 [hidden]="!(editForm.controls.buyingQuantity?.dirty && editForm.controls.buyingQuantity?.invalid)">
                                 <small class="form-text text-danger"
@@ -293,7 +337,7 @@
                             <label class="form-control-label" for="field_buyingUnit">Buying Unit</label>
                             <select class="form-control" name="buyingUnit"
                                     [(ngModel)]="commercialProductInfo.buyingUnit"
-                                    id="field_buyingUnit" (ngModelChange)="calculateTotalBuyingPrice();" required>
+                                    id="field_buyingUnit" (ngModelChange)="calculateBuyingPrice();" required>
                                 <option value="PCS">PCS</option>
                                 <option value="KG">KG</option>
                                 <option value="TON">TON</option>
@@ -319,7 +363,8 @@
                             <label class="form-control-label" for="field_offeredUnitPrice">Offered Unit Price</label>
                             <input type="number" class="form-control" name="offeredUnitPrice"
                                    id="field_offeredUnitPrice"
-                                   [(ngModel)]="commercialProductInfo.offeredUnitPrice" (ngModelChange)="calculateTotalOfferedPrice();" required/>
+                                   [(ngModel)]="commercialProductInfo.offeredUnitPrice"
+                                   (ngModelChange)="calculateTotalOfferedPrice();" required/>
                             <div
                                 [hidden]="!(editForm.controls.offeredUnitPrice?.dirty && editForm.controls.offeredUnitPrice?.invalid)">
                                 <small class="form-text text-danger"
@@ -336,7 +381,8 @@
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_buyingUnitPrice">Buying Unit Price</label>
                             <input type="number" class="form-control" name="buyingUnitPrice" id="field_buyingUnitPrice"
-                                   [(ngModel)]="commercialProductInfo.buyingUnitPrice" (ngModelChange)="calculateTotalBuyingPrice();" required/>
+                                   [(ngModel)]="commercialProductInfo.buyingUnitPrice"
+                                   (ngModelChange)="calculateBuyingPrice();" required/>
                             <div
                                 [hidden]="!(editForm.controls.buyingUnitPrice?.dirty && editForm.controls.buyingUnitPrice?.invalid)">
                                 <small class="form-text text-danger"
@@ -353,7 +399,35 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6"></div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="form-group col-3">
+                            <label class="form-control-label" for="field_buyingTotalPrice">Buying Total
+                                Price</label>
+                            <input type="number" class="form-control" name="buyingTotalPrice"
+                                   id="field_buyingTotalPrice"
+                                   [(ngModel)]="commercialProductInfo.buyingTotalPrice"  readonly required/>
+                            <div
+                                [hidden]="!(editForm.controls.buyingTotalPrice?.dirty && editForm.controls.buyingTotalPrice?.invalid)">
+                                <small class="form-text text-danger"
+                                       [hidden]="!editForm.controls.buyingTotalPrice?.errors?.required">
+                                    This field is required.
+                                </small>
+                                <small class="form-text text-danger"
+                                       [hidden]="!editForm.controls.buyingTotalPrice?.errors?.number">
+                                    This field should be a number.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-3">
+                            <label class="form-control-label" for="field_buyingTotalPriceWithTransportationCost">With Transportation Cost</label>
+                            <input type="number" class="form-control" name="buyingTotalPriceWithTransportationCost"
+                                   id="field_buyingTotalPriceWithTransportationCost"
+                                   [(ngModel)]="priceWithTransportationCost" readonly required/>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-6">
                     <div class="row">
                         <div class="form-group col-6">
@@ -374,19 +448,19 @@
                             </div>
                         </div>
 
+
                         <div class="form-group col-6">
-                            <label class="form-control-label" for="field_buyingTotalPrice">Buying Total Price</label>
-                            <input type="number" class="form-control" name="buyingTotalPrice"
-                                   id="field_buyingTotalPrice"
-                                   [(ngModel)]="commercialProductInfo.buyingTotalPrice" readonly required/>
+                            <label class="form-control-label" for="field_buyingPrice">Buying Price</label>
+                            <input type="number" class="form-control" name="buyingPrice" id="field_buyingPrice"
+                                   [(ngModel)]="commercialProductInfo.buyingPrice" (ngModelChange)="calculateBuyingTotalPrice();" readonly required/>
                             <div
-                                [hidden]="!(editForm.controls.buyingTotalPrice?.dirty && editForm.controls.buyingTotalPrice?.invalid)">
+                                [hidden]="!(editForm.controls.buyingPrice?.dirty && editForm.controls.buyingPrice?.invalid)">
                                 <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.buyingTotalPrice?.errors?.required">
+                                       [hidden]="!editForm.controls.buyingPrice?.errors?.required">
                                     This field is required.
                                 </small>
                                 <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.buyingTotalPrice?.errors?.number">
+                                       [hidden]="!editForm.controls.buyingPrice?.errors?.number">
                                     This field should be a number.
                                 </small>
                             </div>
@@ -394,6 +468,7 @@
                     </div>
                 </div>
             </div>
+
 
             <!--<div class="form-group">
                 <label class="form-control-label" for="field_createdBy">Created By</label>

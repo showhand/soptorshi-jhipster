@@ -1,26 +1,24 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.AttendanceExcelUpload;
+import org.soptorshi.domain.AttendanceExcelUpload_;
+import org.soptorshi.domain.Attendance_;
+import org.soptorshi.repository.AttendanceExcelUploadRepository;
+import org.soptorshi.repository.search.AttendanceExcelUploadSearchRepository;
+import org.soptorshi.service.dto.AttendanceExcelUploadCriteria;
+import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
+import org.soptorshi.service.mapper.AttendanceExcelUploadMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.AttendanceExcelUpload;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.AttendanceExcelUploadRepository;
-import org.soptorshi.repository.search.AttendanceExcelUploadSearchRepository;
-import org.soptorshi.service.dto.AttendanceExcelUploadCriteria;
-import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
-import org.soptorshi.service.mapper.AttendanceExcelUploadMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for AttendanceExcelUpload entities in the database.
@@ -95,6 +93,10 @@ public class AttendanceExcelUploadQueryService extends QueryService<AttendanceEx
             }
             if (criteria.getType() != null) {
                 specification = specification.and(buildSpecification(criteria.getType(), AttendanceExcelUpload_.type));
+            }
+            if (criteria.getAttendanceId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAttendanceId(),
+                    root -> root.join(AttendanceExcelUpload_.attendances, JoinType.LEFT).get(Attendance_.id)));
             }
         }
         return specification;

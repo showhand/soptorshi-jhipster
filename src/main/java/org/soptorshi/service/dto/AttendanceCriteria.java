@@ -1,16 +1,9 @@
 package org.soptorshi.service.dto;
 
+import io.github.jhipster.service.filter.*;
+
 import java.io.Serializable;
 import java.util.Objects;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.InstantFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the Attendance entity. This class is used in AttendanceResource to
@@ -26,15 +19,17 @@ public class AttendanceCriteria implements Serializable {
 
     private LongFilter id;
 
-    private StringFilter employeeId;
-
     private LocalDateFilter attendanceDate;
 
     private InstantFilter inTime;
 
     private InstantFilter outTime;
 
+    private StringFilter duration;
+
     private LongFilter attendanceExcelUploadId;
+
+    private LongFilter employeeId;
 
     public LongFilter getId() {
         return id;
@@ -42,14 +37,6 @@ public class AttendanceCriteria implements Serializable {
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public StringFilter getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(StringFilter employeeId) {
-        this.employeeId = employeeId;
     }
 
     public LocalDateFilter getAttendanceDate() {
@@ -76,12 +63,28 @@ public class AttendanceCriteria implements Serializable {
         this.outTime = outTime;
     }
 
+    public StringFilter getDuration() {
+        return duration;
+    }
+
+    public void setDuration(StringFilter duration) {
+        this.duration = duration;
+    }
+
     public LongFilter getAttendanceExcelUploadId() {
         return attendanceExcelUploadId;
     }
 
     public void setAttendanceExcelUploadId(LongFilter attendanceExcelUploadId) {
         this.attendanceExcelUploadId = attendanceExcelUploadId;
+    }
+
+    public LongFilter getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(LongFilter employeeId) {
+        this.employeeId = employeeId;
     }
 
 
@@ -96,22 +99,24 @@ public class AttendanceCriteria implements Serializable {
         final AttendanceCriteria that = (AttendanceCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(employeeId, that.employeeId) &&
             Objects.equals(attendanceDate, that.attendanceDate) &&
             Objects.equals(inTime, that.inTime) &&
             Objects.equals(outTime, that.outTime) &&
-            Objects.equals(attendanceExcelUploadId, that.attendanceExcelUploadId);
+            Objects.equals(duration, that.duration) &&
+            Objects.equals(attendanceExcelUploadId, that.attendanceExcelUploadId) &&
+            Objects.equals(employeeId, that.employeeId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        employeeId,
         attendanceDate,
         inTime,
         outTime,
-        attendanceExcelUploadId
+        duration,
+        attendanceExcelUploadId,
+        employeeId
         );
     }
 
@@ -119,11 +124,12 @@ public class AttendanceCriteria implements Serializable {
     public String toString() {
         return "AttendanceCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
                 (attendanceDate != null ? "attendanceDate=" + attendanceDate + ", " : "") +
                 (inTime != null ? "inTime=" + inTime + ", " : "") +
                 (outTime != null ? "outTime=" + outTime + ", " : "") +
+                (duration != null ? "duration=" + duration + ", " : "") +
                 (attendanceExcelUploadId != null ? "attendanceExcelUploadId=" + attendanceExcelUploadId + ", " : "") +
+                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }
 

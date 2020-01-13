@@ -1,30 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { Attendance, IAttendance } from 'app/shared/model/attendance.model';
+import { Attendance } from 'app/shared/model/attendance.model';
 import { AttendanceExtendedService } from 'app/entities/attendance-extended/attendance-extended.service';
 import { AttendanceExtendedComponent } from 'app/entities/attendance-extended/attendance-extended.component';
 import { AttendanceDetailExtendedComponent } from 'app/entities/attendance-extended/attendance-detail-extended.component';
 import { AttendanceUpdateExtendedComponent } from 'app/entities/attendance-extended/attendance-update-extended.component';
 import { AttendanceDeletePopupExtendedComponent } from 'app/entities/attendance-extended/attendance-delete-dialog-extended.component';
 import { MyAttendanceComponent } from 'app/entities/attendance-extended/my-attendance.component';
+import { AttendanceResolve } from 'app/entities/attendance';
 
 @Injectable({ providedIn: 'root' })
-export class AttendanceExtendedResolve implements Resolve<IAttendance> {
-    constructor(private service: AttendanceExtendedService) {}
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAttendance> {
-        const id = route.params['id'] ? route.params['id'] : null;
-        if (id) {
-            return this.service.find(id).pipe(
-                filter((response: HttpResponse<Attendance>) => response.ok),
-                map((attendance: HttpResponse<Attendance>) => attendance.body)
-            );
-        }
-        return of(new Attendance());
+export class AttendanceExtendedResolve extends AttendanceResolve {
+    constructor(service: AttendanceExtendedService) {
+        super(service);
     }
 }
 
@@ -88,7 +77,7 @@ export const attendanceExtendedRoute: Routes = [
     }
 ];
 
-export const attendancePopupRouteExtended: Routes = [
+export const attendancePopupExtendedRoute: Routes = [
     {
         path: ':id/delete',
         component: AttendanceDeletePopupExtendedComponent,

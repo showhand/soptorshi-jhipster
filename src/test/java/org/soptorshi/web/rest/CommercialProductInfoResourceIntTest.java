@@ -11,6 +11,7 @@ import org.soptorshi.domain.Product;
 import org.soptorshi.domain.ProductCategory;
 import org.soptorshi.domain.enumeration.PackColor;
 import org.soptorshi.domain.enumeration.ProductSpecification;
+import org.soptorshi.domain.enumeration.SurfaceType;
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 import org.soptorshi.repository.CommercialProductInfoRepository;
 import org.soptorshi.repository.search.CommercialProductInfoSearchRepository;
@@ -76,6 +77,15 @@ public class CommercialProductInfoResourceIntTest {
     private static final BigDecimal DEFAULT_OFFERED_TOTAL_PRICE = new BigDecimal(1);
     private static final BigDecimal UPDATED_OFFERED_TOTAL_PRICE = new BigDecimal(2);
 
+    private static final Integer DEFAULT_SP_GLAZING = 1;
+    private static final Integer UPDATED_SP_GLAZING = 2;
+
+    private static final SurfaceType DEFAULT_SP_SURFACE_TYPE = SurfaceType.TRIMMED;
+    private static final SurfaceType UPDATED_SP_SURFACE_TYPE = SurfaceType.UNTRIMMED;
+
+    private static final String DEFAULT_SP_OTHERS_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_SP_OTHERS_DESCRIPTION = "BBBBBBBBBB";
+
     private static final String DEFAULT_SP_STICKER = "AAAAAAAAAA";
     private static final String UPDATED_SP_STICKER = "BBBBBBBBBB";
 
@@ -103,6 +113,9 @@ public class CommercialProductInfoResourceIntTest {
     private static final BigDecimal DEFAULT_IP_QTY_IN_MC = new BigDecimal(1);
     private static final BigDecimal UPDATED_IP_QTY_IN_MC = new BigDecimal(2);
 
+    private static final BigDecimal DEFAULT_IP_COST = new BigDecimal(1);
+    private static final BigDecimal UPDATED_IP_COST = new BigDecimal(2);
+
     private static final PackColor DEFAULT_MC_COLOR = PackColor.PLAIN;
     private static final PackColor UPDATED_MC_COLOR = PackColor.PRINT;
 
@@ -118,6 +131,9 @@ public class CommercialProductInfoResourceIntTest {
     private static final String DEFAULT_MC_LABEL = "AAAAAAAAAA";
     private static final String UPDATED_MC_LABEL = "BBBBBBBBBB";
 
+    private static final BigDecimal DEFAULT_MC_COST = new BigDecimal(1);
+    private static final BigDecimal UPDATED_MC_COST = new BigDecimal(2);
+
     private static final String DEFAULT_CYL_COLOR = "AAAAAAAAAA";
     private static final String UPDATED_CYL_COLOR = "BBBBBBBBBB";
 
@@ -127,6 +143,9 @@ public class CommercialProductInfoResourceIntTest {
     private static final BigDecimal DEFAULT_CYL_QTY = new BigDecimal(1);
     private static final BigDecimal UPDATED_CYL_QTY = new BigDecimal(2);
 
+    private static final BigDecimal DEFAULT_CYL_COST = new BigDecimal(1);
+    private static final BigDecimal UPDATED_CYL_COST = new BigDecimal(2);
+
     private static final BigDecimal DEFAULT_BUYING_QUANTITY = new BigDecimal(1);
     private static final BigDecimal UPDATED_BUYING_QUANTITY = new BigDecimal(2);
 
@@ -135,6 +154,9 @@ public class CommercialProductInfoResourceIntTest {
 
     private static final BigDecimal DEFAULT_BUYING_UNIT_PRICE = new BigDecimal(1);
     private static final BigDecimal UPDATED_BUYING_UNIT_PRICE = new BigDecimal(2);
+
+    private static final BigDecimal DEFAULT_BUYING_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_BUYING_PRICE = new BigDecimal(2);
 
     private static final BigDecimal DEFAULT_BUYING_TOTAL_PRICE = new BigDecimal(1);
     private static final BigDecimal UPDATED_BUYING_TOTAL_PRICE = new BigDecimal(2);
@@ -217,6 +239,9 @@ public class CommercialProductInfoResourceIntTest {
             .offeredUnit(DEFAULT_OFFERED_UNIT)
             .offeredUnitPrice(DEFAULT_OFFERED_UNIT_PRICE)
             .offeredTotalPrice(DEFAULT_OFFERED_TOTAL_PRICE)
+            .spGlazing(DEFAULT_SP_GLAZING)
+            .spSurfaceType(DEFAULT_SP_SURFACE_TYPE)
+            .spOthersDescription(DEFAULT_SP_OTHERS_DESCRIPTION)
             .spSticker(DEFAULT_SP_STICKER)
             .spLabel(DEFAULT_SP_LABEL)
             .spQtyInPack(DEFAULT_SP_QTY_IN_PACK)
@@ -226,17 +251,21 @@ public class CommercialProductInfoResourceIntTest {
             .ipSticker(DEFAULT_IP_STICKER)
             .ipLabel(DEFAULT_IP_LABEL)
             .ipQtyInMc(DEFAULT_IP_QTY_IN_MC)
+            .ipCost(DEFAULT_IP_COST)
             .mcColor(DEFAULT_MC_COLOR)
             .mcPly(DEFAULT_MC_PLY)
             .mcSize(DEFAULT_MC_SIZE)
             .mcSticker(DEFAULT_MC_STICKER)
             .mcLabel(DEFAULT_MC_LABEL)
+            .mcCost(DEFAULT_MC_COST)
             .cylColor(DEFAULT_CYL_COLOR)
             .cylSize(DEFAULT_CYL_SIZE)
             .cylQty(DEFAULT_CYL_QTY)
+            .cylCost(DEFAULT_CYL_COST)
             .buyingQuantity(DEFAULT_BUYING_QUANTITY)
             .buyingUnit(DEFAULT_BUYING_UNIT)
             .buyingUnitPrice(DEFAULT_BUYING_UNIT_PRICE)
+            .buyingPrice(DEFAULT_BUYING_PRICE)
             .buyingTotalPrice(DEFAULT_BUYING_TOTAL_PRICE)
             .createdBy(DEFAULT_CREATED_BY)
             .createdOn(DEFAULT_CREATED_ON)
@@ -273,6 +302,9 @@ public class CommercialProductInfoResourceIntTest {
         assertThat(testCommercialProductInfo.getOfferedUnit()).isEqualTo(DEFAULT_OFFERED_UNIT);
         assertThat(testCommercialProductInfo.getOfferedUnitPrice()).isEqualTo(DEFAULT_OFFERED_UNIT_PRICE);
         assertThat(testCommercialProductInfo.getOfferedTotalPrice()).isEqualTo(DEFAULT_OFFERED_TOTAL_PRICE);
+        assertThat(testCommercialProductInfo.getSpGlazing()).isEqualTo(DEFAULT_SP_GLAZING);
+        assertThat(testCommercialProductInfo.getSpSurfaceType()).isEqualTo(DEFAULT_SP_SURFACE_TYPE);
+        assertThat(testCommercialProductInfo.getSpOthersDescription()).isEqualTo(DEFAULT_SP_OTHERS_DESCRIPTION);
         assertThat(testCommercialProductInfo.getSpSticker()).isEqualTo(DEFAULT_SP_STICKER);
         assertThat(testCommercialProductInfo.getSpLabel()).isEqualTo(DEFAULT_SP_LABEL);
         assertThat(testCommercialProductInfo.getSpQtyInPack()).isEqualTo(DEFAULT_SP_QTY_IN_PACK);
@@ -282,17 +314,21 @@ public class CommercialProductInfoResourceIntTest {
         assertThat(testCommercialProductInfo.getIpSticker()).isEqualTo(DEFAULT_IP_STICKER);
         assertThat(testCommercialProductInfo.getIpLabel()).isEqualTo(DEFAULT_IP_LABEL);
         assertThat(testCommercialProductInfo.getIpQtyInMc()).isEqualTo(DEFAULT_IP_QTY_IN_MC);
+        assertThat(testCommercialProductInfo.getIpCost()).isEqualTo(DEFAULT_IP_COST);
         assertThat(testCommercialProductInfo.getMcColor()).isEqualTo(DEFAULT_MC_COLOR);
         assertThat(testCommercialProductInfo.getMcPly()).isEqualTo(DEFAULT_MC_PLY);
         assertThat(testCommercialProductInfo.getMcSize()).isEqualTo(DEFAULT_MC_SIZE);
         assertThat(testCommercialProductInfo.getMcSticker()).isEqualTo(DEFAULT_MC_STICKER);
         assertThat(testCommercialProductInfo.getMcLabel()).isEqualTo(DEFAULT_MC_LABEL);
+        assertThat(testCommercialProductInfo.getMcCost()).isEqualTo(DEFAULT_MC_COST);
         assertThat(testCommercialProductInfo.getCylColor()).isEqualTo(DEFAULT_CYL_COLOR);
         assertThat(testCommercialProductInfo.getCylSize()).isEqualTo(DEFAULT_CYL_SIZE);
         assertThat(testCommercialProductInfo.getCylQty()).isEqualTo(DEFAULT_CYL_QTY);
+        assertThat(testCommercialProductInfo.getCylCost()).isEqualTo(DEFAULT_CYL_COST);
         assertThat(testCommercialProductInfo.getBuyingQuantity()).isEqualTo(DEFAULT_BUYING_QUANTITY);
         assertThat(testCommercialProductInfo.getBuyingUnit()).isEqualTo(DEFAULT_BUYING_UNIT);
         assertThat(testCommercialProductInfo.getBuyingUnitPrice()).isEqualTo(DEFAULT_BUYING_UNIT_PRICE);
+        assertThat(testCommercialProductInfo.getBuyingPrice()).isEqualTo(DEFAULT_BUYING_PRICE);
         assertThat(testCommercialProductInfo.getBuyingTotalPrice()).isEqualTo(DEFAULT_BUYING_TOTAL_PRICE);
         assertThat(testCommercialProductInfo.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testCommercialProductInfo.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
@@ -499,6 +535,25 @@ public class CommercialProductInfoResourceIntTest {
 
     @Test
     @Transactional
+    public void checkBuyingPriceIsRequired() throws Exception {
+        int databaseSizeBeforeTest = commercialProductInfoRepository.findAll().size();
+        // set the field null
+        commercialProductInfo.setBuyingPrice(null);
+
+        // Create the CommercialProductInfo, which fails.
+        CommercialProductInfoDTO commercialProductInfoDTO = commercialProductInfoMapper.toDto(commercialProductInfo);
+
+        restCommercialProductInfoMockMvc.perform(post("/api/commercial-product-infos")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(commercialProductInfoDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<CommercialProductInfo> commercialProductInfoList = commercialProductInfoRepository.findAll();
+        assertThat(commercialProductInfoList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void checkBuyingTotalPriceIsRequired() throws Exception {
         int databaseSizeBeforeTest = commercialProductInfoRepository.findAll().size();
         // set the field null
@@ -534,6 +589,9 @@ public class CommercialProductInfoResourceIntTest {
             .andExpect(jsonPath("$.[*].offeredUnit").value(hasItem(DEFAULT_OFFERED_UNIT.toString())))
             .andExpect(jsonPath("$.[*].offeredUnitPrice").value(hasItem(DEFAULT_OFFERED_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].offeredTotalPrice").value(hasItem(DEFAULT_OFFERED_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].spGlazing").value(hasItem(DEFAULT_SP_GLAZING)))
+            .andExpect(jsonPath("$.[*].spSurfaceType").value(hasItem(DEFAULT_SP_SURFACE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].spOthersDescription").value(hasItem(DEFAULT_SP_OTHERS_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].spSticker").value(hasItem(DEFAULT_SP_STICKER.toString())))
             .andExpect(jsonPath("$.[*].spLabel").value(hasItem(DEFAULT_SP_LABEL.toString())))
             .andExpect(jsonPath("$.[*].spQtyInPack").value(hasItem(DEFAULT_SP_QTY_IN_PACK.intValue())))
@@ -543,17 +601,21 @@ public class CommercialProductInfoResourceIntTest {
             .andExpect(jsonPath("$.[*].ipSticker").value(hasItem(DEFAULT_IP_STICKER.toString())))
             .andExpect(jsonPath("$.[*].ipLabel").value(hasItem(DEFAULT_IP_LABEL.toString())))
             .andExpect(jsonPath("$.[*].ipQtyInMc").value(hasItem(DEFAULT_IP_QTY_IN_MC.intValue())))
+            .andExpect(jsonPath("$.[*].ipCost").value(hasItem(DEFAULT_IP_COST.intValue())))
             .andExpect(jsonPath("$.[*].mcColor").value(hasItem(DEFAULT_MC_COLOR.toString())))
             .andExpect(jsonPath("$.[*].mcPly").value(hasItem(DEFAULT_MC_PLY.toString())))
             .andExpect(jsonPath("$.[*].mcSize").value(hasItem(DEFAULT_MC_SIZE.toString())))
             .andExpect(jsonPath("$.[*].mcSticker").value(hasItem(DEFAULT_MC_STICKER.toString())))
             .andExpect(jsonPath("$.[*].mcLabel").value(hasItem(DEFAULT_MC_LABEL.toString())))
+            .andExpect(jsonPath("$.[*].mcCost").value(hasItem(DEFAULT_MC_COST.intValue())))
             .andExpect(jsonPath("$.[*].cylColor").value(hasItem(DEFAULT_CYL_COLOR.toString())))
             .andExpect(jsonPath("$.[*].cylSize").value(hasItem(DEFAULT_CYL_SIZE.toString())))
             .andExpect(jsonPath("$.[*].cylQty").value(hasItem(DEFAULT_CYL_QTY.intValue())))
+            .andExpect(jsonPath("$.[*].cylCost").value(hasItem(DEFAULT_CYL_COST.intValue())))
             .andExpect(jsonPath("$.[*].buyingQuantity").value(hasItem(DEFAULT_BUYING_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].buyingUnit").value(hasItem(DEFAULT_BUYING_UNIT.toString())))
             .andExpect(jsonPath("$.[*].buyingUnitPrice").value(hasItem(DEFAULT_BUYING_UNIT_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].buyingPrice").value(hasItem(DEFAULT_BUYING_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].buyingTotalPrice").value(hasItem(DEFAULT_BUYING_TOTAL_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
@@ -579,6 +641,9 @@ public class CommercialProductInfoResourceIntTest {
             .andExpect(jsonPath("$.offeredUnit").value(DEFAULT_OFFERED_UNIT.toString()))
             .andExpect(jsonPath("$.offeredUnitPrice").value(DEFAULT_OFFERED_UNIT_PRICE.intValue()))
             .andExpect(jsonPath("$.offeredTotalPrice").value(DEFAULT_OFFERED_TOTAL_PRICE.intValue()))
+            .andExpect(jsonPath("$.spGlazing").value(DEFAULT_SP_GLAZING))
+            .andExpect(jsonPath("$.spSurfaceType").value(DEFAULT_SP_SURFACE_TYPE.toString()))
+            .andExpect(jsonPath("$.spOthersDescription").value(DEFAULT_SP_OTHERS_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.spSticker").value(DEFAULT_SP_STICKER.toString()))
             .andExpect(jsonPath("$.spLabel").value(DEFAULT_SP_LABEL.toString()))
             .andExpect(jsonPath("$.spQtyInPack").value(DEFAULT_SP_QTY_IN_PACK.intValue()))
@@ -588,17 +653,21 @@ public class CommercialProductInfoResourceIntTest {
             .andExpect(jsonPath("$.ipSticker").value(DEFAULT_IP_STICKER.toString()))
             .andExpect(jsonPath("$.ipLabel").value(DEFAULT_IP_LABEL.toString()))
             .andExpect(jsonPath("$.ipQtyInMc").value(DEFAULT_IP_QTY_IN_MC.intValue()))
+            .andExpect(jsonPath("$.ipCost").value(DEFAULT_IP_COST.intValue()))
             .andExpect(jsonPath("$.mcColor").value(DEFAULT_MC_COLOR.toString()))
             .andExpect(jsonPath("$.mcPly").value(DEFAULT_MC_PLY.toString()))
             .andExpect(jsonPath("$.mcSize").value(DEFAULT_MC_SIZE.toString()))
             .andExpect(jsonPath("$.mcSticker").value(DEFAULT_MC_STICKER.toString()))
             .andExpect(jsonPath("$.mcLabel").value(DEFAULT_MC_LABEL.toString()))
+            .andExpect(jsonPath("$.mcCost").value(DEFAULT_MC_COST.intValue()))
             .andExpect(jsonPath("$.cylColor").value(DEFAULT_CYL_COLOR.toString()))
             .andExpect(jsonPath("$.cylSize").value(DEFAULT_CYL_SIZE.toString()))
             .andExpect(jsonPath("$.cylQty").value(DEFAULT_CYL_QTY.intValue()))
+            .andExpect(jsonPath("$.cylCost").value(DEFAULT_CYL_COST.intValue()))
             .andExpect(jsonPath("$.buyingQuantity").value(DEFAULT_BUYING_QUANTITY.intValue()))
             .andExpect(jsonPath("$.buyingUnit").value(DEFAULT_BUYING_UNIT.toString()))
             .andExpect(jsonPath("$.buyingUnitPrice").value(DEFAULT_BUYING_UNIT_PRICE.intValue()))
+            .andExpect(jsonPath("$.buyingPrice").value(DEFAULT_BUYING_PRICE.intValue()))
             .andExpect(jsonPath("$.buyingTotalPrice").value(DEFAULT_BUYING_TOTAL_PRICE.intValue()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
@@ -904,6 +973,150 @@ public class CommercialProductInfoResourceIntTest {
 
         // Get all the commercialProductInfoList where offeredTotalPrice is null
         defaultCommercialProductInfoShouldNotBeFound("offeredTotalPrice.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpGlazingIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spGlazing equals to DEFAULT_SP_GLAZING
+        defaultCommercialProductInfoShouldBeFound("spGlazing.equals=" + DEFAULT_SP_GLAZING);
+
+        // Get all the commercialProductInfoList where spGlazing equals to UPDATED_SP_GLAZING
+        defaultCommercialProductInfoShouldNotBeFound("spGlazing.equals=" + UPDATED_SP_GLAZING);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpGlazingIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spGlazing in DEFAULT_SP_GLAZING or UPDATED_SP_GLAZING
+        defaultCommercialProductInfoShouldBeFound("spGlazing.in=" + DEFAULT_SP_GLAZING + "," + UPDATED_SP_GLAZING);
+
+        // Get all the commercialProductInfoList where spGlazing equals to UPDATED_SP_GLAZING
+        defaultCommercialProductInfoShouldNotBeFound("spGlazing.in=" + UPDATED_SP_GLAZING);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpGlazingIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spGlazing is not null
+        defaultCommercialProductInfoShouldBeFound("spGlazing.specified=true");
+
+        // Get all the commercialProductInfoList where spGlazing is null
+        defaultCommercialProductInfoShouldNotBeFound("spGlazing.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpGlazingIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spGlazing greater than or equals to DEFAULT_SP_GLAZING
+        defaultCommercialProductInfoShouldBeFound("spGlazing.greaterOrEqualThan=" + DEFAULT_SP_GLAZING);
+
+        // Get all the commercialProductInfoList where spGlazing greater than or equals to UPDATED_SP_GLAZING
+        defaultCommercialProductInfoShouldNotBeFound("spGlazing.greaterOrEqualThan=" + UPDATED_SP_GLAZING);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpGlazingIsLessThanSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spGlazing less than or equals to DEFAULT_SP_GLAZING
+        defaultCommercialProductInfoShouldNotBeFound("spGlazing.lessThan=" + DEFAULT_SP_GLAZING);
+
+        // Get all the commercialProductInfoList where spGlazing less than or equals to UPDATED_SP_GLAZING
+        defaultCommercialProductInfoShouldBeFound("spGlazing.lessThan=" + UPDATED_SP_GLAZING);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpSurfaceTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spSurfaceType equals to DEFAULT_SP_SURFACE_TYPE
+        defaultCommercialProductInfoShouldBeFound("spSurfaceType.equals=" + DEFAULT_SP_SURFACE_TYPE);
+
+        // Get all the commercialProductInfoList where spSurfaceType equals to UPDATED_SP_SURFACE_TYPE
+        defaultCommercialProductInfoShouldNotBeFound("spSurfaceType.equals=" + UPDATED_SP_SURFACE_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpSurfaceTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spSurfaceType in DEFAULT_SP_SURFACE_TYPE or UPDATED_SP_SURFACE_TYPE
+        defaultCommercialProductInfoShouldBeFound("spSurfaceType.in=" + DEFAULT_SP_SURFACE_TYPE + "," + UPDATED_SP_SURFACE_TYPE);
+
+        // Get all the commercialProductInfoList where spSurfaceType equals to UPDATED_SP_SURFACE_TYPE
+        defaultCommercialProductInfoShouldNotBeFound("spSurfaceType.in=" + UPDATED_SP_SURFACE_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpSurfaceTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spSurfaceType is not null
+        defaultCommercialProductInfoShouldBeFound("spSurfaceType.specified=true");
+
+        // Get all the commercialProductInfoList where spSurfaceType is null
+        defaultCommercialProductInfoShouldNotBeFound("spSurfaceType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpOthersDescriptionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spOthersDescription equals to DEFAULT_SP_OTHERS_DESCRIPTION
+        defaultCommercialProductInfoShouldBeFound("spOthersDescription.equals=" + DEFAULT_SP_OTHERS_DESCRIPTION);
+
+        // Get all the commercialProductInfoList where spOthersDescription equals to UPDATED_SP_OTHERS_DESCRIPTION
+        defaultCommercialProductInfoShouldNotBeFound("spOthersDescription.equals=" + UPDATED_SP_OTHERS_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpOthersDescriptionIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spOthersDescription in DEFAULT_SP_OTHERS_DESCRIPTION or UPDATED_SP_OTHERS_DESCRIPTION
+        defaultCommercialProductInfoShouldBeFound("spOthersDescription.in=" + DEFAULT_SP_OTHERS_DESCRIPTION + "," + UPDATED_SP_OTHERS_DESCRIPTION);
+
+        // Get all the commercialProductInfoList where spOthersDescription equals to UPDATED_SP_OTHERS_DESCRIPTION
+        defaultCommercialProductInfoShouldNotBeFound("spOthersDescription.in=" + UPDATED_SP_OTHERS_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosBySpOthersDescriptionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where spOthersDescription is not null
+        defaultCommercialProductInfoShouldBeFound("spOthersDescription.specified=true");
+
+        // Get all the commercialProductInfoList where spOthersDescription is null
+        defaultCommercialProductInfoShouldNotBeFound("spOthersDescription.specified=false");
     }
 
     @Test
@@ -1259,6 +1472,45 @@ public class CommercialProductInfoResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllCommercialProductInfosByIpCostIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipCost equals to DEFAULT_IP_COST
+        defaultCommercialProductInfoShouldBeFound("ipCost.equals=" + DEFAULT_IP_COST);
+
+        // Get all the commercialProductInfoList where ipCost equals to UPDATED_IP_COST
+        defaultCommercialProductInfoShouldNotBeFound("ipCost.equals=" + UPDATED_IP_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpCostIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipCost in DEFAULT_IP_COST or UPDATED_IP_COST
+        defaultCommercialProductInfoShouldBeFound("ipCost.in=" + DEFAULT_IP_COST + "," + UPDATED_IP_COST);
+
+        // Get all the commercialProductInfoList where ipCost equals to UPDATED_IP_COST
+        defaultCommercialProductInfoShouldNotBeFound("ipCost.in=" + UPDATED_IP_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByIpCostIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where ipCost is not null
+        defaultCommercialProductInfoShouldBeFound("ipCost.specified=true");
+
+        // Get all the commercialProductInfoList where ipCost is null
+        defaultCommercialProductInfoShouldNotBeFound("ipCost.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllCommercialProductInfosByMcColorIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
@@ -1454,6 +1706,45 @@ public class CommercialProductInfoResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllCommercialProductInfosByMcCostIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcCost equals to DEFAULT_MC_COST
+        defaultCommercialProductInfoShouldBeFound("mcCost.equals=" + DEFAULT_MC_COST);
+
+        // Get all the commercialProductInfoList where mcCost equals to UPDATED_MC_COST
+        defaultCommercialProductInfoShouldNotBeFound("mcCost.equals=" + UPDATED_MC_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcCostIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcCost in DEFAULT_MC_COST or UPDATED_MC_COST
+        defaultCommercialProductInfoShouldBeFound("mcCost.in=" + DEFAULT_MC_COST + "," + UPDATED_MC_COST);
+
+        // Get all the commercialProductInfoList where mcCost equals to UPDATED_MC_COST
+        defaultCommercialProductInfoShouldNotBeFound("mcCost.in=" + UPDATED_MC_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByMcCostIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where mcCost is not null
+        defaultCommercialProductInfoShouldBeFound("mcCost.specified=true");
+
+        // Get all the commercialProductInfoList where mcCost is null
+        defaultCommercialProductInfoShouldNotBeFound("mcCost.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllCommercialProductInfosByCylColorIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
@@ -1571,6 +1862,45 @@ public class CommercialProductInfoResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllCommercialProductInfosByCylCostIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where cylCost equals to DEFAULT_CYL_COST
+        defaultCommercialProductInfoShouldBeFound("cylCost.equals=" + DEFAULT_CYL_COST);
+
+        // Get all the commercialProductInfoList where cylCost equals to UPDATED_CYL_COST
+        defaultCommercialProductInfoShouldNotBeFound("cylCost.equals=" + UPDATED_CYL_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByCylCostIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where cylCost in DEFAULT_CYL_COST or UPDATED_CYL_COST
+        defaultCommercialProductInfoShouldBeFound("cylCost.in=" + DEFAULT_CYL_COST + "," + UPDATED_CYL_COST);
+
+        // Get all the commercialProductInfoList where cylCost equals to UPDATED_CYL_COST
+        defaultCommercialProductInfoShouldNotBeFound("cylCost.in=" + UPDATED_CYL_COST);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByCylCostIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where cylCost is not null
+        defaultCommercialProductInfoShouldBeFound("cylCost.specified=true");
+
+        // Get all the commercialProductInfoList where cylCost is null
+        defaultCommercialProductInfoShouldNotBeFound("cylCost.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllCommercialProductInfosByBuyingQuantityIsEqualToSomething() throws Exception {
         // Initialize the database
         commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
@@ -1684,6 +2014,45 @@ public class CommercialProductInfoResourceIntTest {
 
         // Get all the commercialProductInfoList where buyingUnitPrice is null
         defaultCommercialProductInfoShouldNotBeFound("buyingUnitPrice.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByBuyingPriceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where buyingPrice equals to DEFAULT_BUYING_PRICE
+        defaultCommercialProductInfoShouldBeFound("buyingPrice.equals=" + DEFAULT_BUYING_PRICE);
+
+        // Get all the commercialProductInfoList where buyingPrice equals to UPDATED_BUYING_PRICE
+        defaultCommercialProductInfoShouldNotBeFound("buyingPrice.equals=" + UPDATED_BUYING_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByBuyingPriceIsInShouldWork() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where buyingPrice in DEFAULT_BUYING_PRICE or UPDATED_BUYING_PRICE
+        defaultCommercialProductInfoShouldBeFound("buyingPrice.in=" + DEFAULT_BUYING_PRICE + "," + UPDATED_BUYING_PRICE);
+
+        // Get all the commercialProductInfoList where buyingPrice equals to UPDATED_BUYING_PRICE
+        defaultCommercialProductInfoShouldNotBeFound("buyingPrice.in=" + UPDATED_BUYING_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCommercialProductInfosByBuyingPriceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        commercialProductInfoRepository.saveAndFlush(commercialProductInfo);
+
+        // Get all the commercialProductInfoList where buyingPrice is not null
+        defaultCommercialProductInfoShouldBeFound("buyingPrice.specified=true");
+
+        // Get all the commercialProductInfoList where buyingPrice is null
+        defaultCommercialProductInfoShouldNotBeFound("buyingPrice.specified=false");
     }
 
     @Test
@@ -1952,6 +2321,9 @@ public class CommercialProductInfoResourceIntTest {
             .andExpect(jsonPath("$.[*].offeredUnit").value(hasItem(DEFAULT_OFFERED_UNIT.toString())))
             .andExpect(jsonPath("$.[*].offeredUnitPrice").value(hasItem(DEFAULT_OFFERED_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].offeredTotalPrice").value(hasItem(DEFAULT_OFFERED_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].spGlazing").value(hasItem(DEFAULT_SP_GLAZING)))
+            .andExpect(jsonPath("$.[*].spSurfaceType").value(hasItem(DEFAULT_SP_SURFACE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].spOthersDescription").value(hasItem(DEFAULT_SP_OTHERS_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].spSticker").value(hasItem(DEFAULT_SP_STICKER)))
             .andExpect(jsonPath("$.[*].spLabel").value(hasItem(DEFAULT_SP_LABEL)))
             .andExpect(jsonPath("$.[*].spQtyInPack").value(hasItem(DEFAULT_SP_QTY_IN_PACK.intValue())))
@@ -1961,17 +2333,21 @@ public class CommercialProductInfoResourceIntTest {
             .andExpect(jsonPath("$.[*].ipSticker").value(hasItem(DEFAULT_IP_STICKER)))
             .andExpect(jsonPath("$.[*].ipLabel").value(hasItem(DEFAULT_IP_LABEL)))
             .andExpect(jsonPath("$.[*].ipQtyInMc").value(hasItem(DEFAULT_IP_QTY_IN_MC.intValue())))
+            .andExpect(jsonPath("$.[*].ipCost").value(hasItem(DEFAULT_IP_COST.intValue())))
             .andExpect(jsonPath("$.[*].mcColor").value(hasItem(DEFAULT_MC_COLOR.toString())))
             .andExpect(jsonPath("$.[*].mcPly").value(hasItem(DEFAULT_MC_PLY)))
             .andExpect(jsonPath("$.[*].mcSize").value(hasItem(DEFAULT_MC_SIZE)))
             .andExpect(jsonPath("$.[*].mcSticker").value(hasItem(DEFAULT_MC_STICKER)))
             .andExpect(jsonPath("$.[*].mcLabel").value(hasItem(DEFAULT_MC_LABEL)))
+            .andExpect(jsonPath("$.[*].mcCost").value(hasItem(DEFAULT_MC_COST.intValue())))
             .andExpect(jsonPath("$.[*].cylColor").value(hasItem(DEFAULT_CYL_COLOR)))
             .andExpect(jsonPath("$.[*].cylSize").value(hasItem(DEFAULT_CYL_SIZE)))
             .andExpect(jsonPath("$.[*].cylQty").value(hasItem(DEFAULT_CYL_QTY.intValue())))
+            .andExpect(jsonPath("$.[*].cylCost").value(hasItem(DEFAULT_CYL_COST.intValue())))
             .andExpect(jsonPath("$.[*].buyingQuantity").value(hasItem(DEFAULT_BUYING_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].buyingUnit").value(hasItem(DEFAULT_BUYING_UNIT.toString())))
             .andExpect(jsonPath("$.[*].buyingUnitPrice").value(hasItem(DEFAULT_BUYING_UNIT_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].buyingPrice").value(hasItem(DEFAULT_BUYING_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].buyingTotalPrice").value(hasItem(DEFAULT_BUYING_TOTAL_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
@@ -2031,6 +2407,9 @@ public class CommercialProductInfoResourceIntTest {
             .offeredUnit(UPDATED_OFFERED_UNIT)
             .offeredUnitPrice(UPDATED_OFFERED_UNIT_PRICE)
             .offeredTotalPrice(UPDATED_OFFERED_TOTAL_PRICE)
+            .spGlazing(UPDATED_SP_GLAZING)
+            .spSurfaceType(UPDATED_SP_SURFACE_TYPE)
+            .spOthersDescription(UPDATED_SP_OTHERS_DESCRIPTION)
             .spSticker(UPDATED_SP_STICKER)
             .spLabel(UPDATED_SP_LABEL)
             .spQtyInPack(UPDATED_SP_QTY_IN_PACK)
@@ -2040,17 +2419,21 @@ public class CommercialProductInfoResourceIntTest {
             .ipSticker(UPDATED_IP_STICKER)
             .ipLabel(UPDATED_IP_LABEL)
             .ipQtyInMc(UPDATED_IP_QTY_IN_MC)
+            .ipCost(UPDATED_IP_COST)
             .mcColor(UPDATED_MC_COLOR)
             .mcPly(UPDATED_MC_PLY)
             .mcSize(UPDATED_MC_SIZE)
             .mcSticker(UPDATED_MC_STICKER)
             .mcLabel(UPDATED_MC_LABEL)
+            .mcCost(UPDATED_MC_COST)
             .cylColor(UPDATED_CYL_COLOR)
             .cylSize(UPDATED_CYL_SIZE)
             .cylQty(UPDATED_CYL_QTY)
+            .cylCost(UPDATED_CYL_COST)
             .buyingQuantity(UPDATED_BUYING_QUANTITY)
             .buyingUnit(UPDATED_BUYING_UNIT)
             .buyingUnitPrice(UPDATED_BUYING_UNIT_PRICE)
+            .buyingPrice(UPDATED_BUYING_PRICE)
             .buyingTotalPrice(UPDATED_BUYING_TOTAL_PRICE)
             .createdBy(UPDATED_CREATED_BY)
             .createdOn(UPDATED_CREATED_ON)
@@ -2074,6 +2457,9 @@ public class CommercialProductInfoResourceIntTest {
         assertThat(testCommercialProductInfo.getOfferedUnit()).isEqualTo(UPDATED_OFFERED_UNIT);
         assertThat(testCommercialProductInfo.getOfferedUnitPrice()).isEqualTo(UPDATED_OFFERED_UNIT_PRICE);
         assertThat(testCommercialProductInfo.getOfferedTotalPrice()).isEqualTo(UPDATED_OFFERED_TOTAL_PRICE);
+        assertThat(testCommercialProductInfo.getSpGlazing()).isEqualTo(UPDATED_SP_GLAZING);
+        assertThat(testCommercialProductInfo.getSpSurfaceType()).isEqualTo(UPDATED_SP_SURFACE_TYPE);
+        assertThat(testCommercialProductInfo.getSpOthersDescription()).isEqualTo(UPDATED_SP_OTHERS_DESCRIPTION);
         assertThat(testCommercialProductInfo.getSpSticker()).isEqualTo(UPDATED_SP_STICKER);
         assertThat(testCommercialProductInfo.getSpLabel()).isEqualTo(UPDATED_SP_LABEL);
         assertThat(testCommercialProductInfo.getSpQtyInPack()).isEqualTo(UPDATED_SP_QTY_IN_PACK);
@@ -2083,17 +2469,21 @@ public class CommercialProductInfoResourceIntTest {
         assertThat(testCommercialProductInfo.getIpSticker()).isEqualTo(UPDATED_IP_STICKER);
         assertThat(testCommercialProductInfo.getIpLabel()).isEqualTo(UPDATED_IP_LABEL);
         assertThat(testCommercialProductInfo.getIpQtyInMc()).isEqualTo(UPDATED_IP_QTY_IN_MC);
+        assertThat(testCommercialProductInfo.getIpCost()).isEqualTo(UPDATED_IP_COST);
         assertThat(testCommercialProductInfo.getMcColor()).isEqualTo(UPDATED_MC_COLOR);
         assertThat(testCommercialProductInfo.getMcPly()).isEqualTo(UPDATED_MC_PLY);
         assertThat(testCommercialProductInfo.getMcSize()).isEqualTo(UPDATED_MC_SIZE);
         assertThat(testCommercialProductInfo.getMcSticker()).isEqualTo(UPDATED_MC_STICKER);
         assertThat(testCommercialProductInfo.getMcLabel()).isEqualTo(UPDATED_MC_LABEL);
+        assertThat(testCommercialProductInfo.getMcCost()).isEqualTo(UPDATED_MC_COST);
         assertThat(testCommercialProductInfo.getCylColor()).isEqualTo(UPDATED_CYL_COLOR);
         assertThat(testCommercialProductInfo.getCylSize()).isEqualTo(UPDATED_CYL_SIZE);
         assertThat(testCommercialProductInfo.getCylQty()).isEqualTo(UPDATED_CYL_QTY);
+        assertThat(testCommercialProductInfo.getCylCost()).isEqualTo(UPDATED_CYL_COST);
         assertThat(testCommercialProductInfo.getBuyingQuantity()).isEqualTo(UPDATED_BUYING_QUANTITY);
         assertThat(testCommercialProductInfo.getBuyingUnit()).isEqualTo(UPDATED_BUYING_UNIT);
         assertThat(testCommercialProductInfo.getBuyingUnitPrice()).isEqualTo(UPDATED_BUYING_UNIT_PRICE);
+        assertThat(testCommercialProductInfo.getBuyingPrice()).isEqualTo(UPDATED_BUYING_PRICE);
         assertThat(testCommercialProductInfo.getBuyingTotalPrice()).isEqualTo(UPDATED_BUYING_TOTAL_PRICE);
         assertThat(testCommercialProductInfo.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testCommercialProductInfo.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
@@ -2166,6 +2556,9 @@ public class CommercialProductInfoResourceIntTest {
             .andExpect(jsonPath("$.[*].offeredUnit").value(hasItem(DEFAULT_OFFERED_UNIT.toString())))
             .andExpect(jsonPath("$.[*].offeredUnitPrice").value(hasItem(DEFAULT_OFFERED_UNIT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].offeredTotalPrice").value(hasItem(DEFAULT_OFFERED_TOTAL_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].spGlazing").value(hasItem(DEFAULT_SP_GLAZING)))
+            .andExpect(jsonPath("$.[*].spSurfaceType").value(hasItem(DEFAULT_SP_SURFACE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].spOthersDescription").value(hasItem(DEFAULT_SP_OTHERS_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].spSticker").value(hasItem(DEFAULT_SP_STICKER)))
             .andExpect(jsonPath("$.[*].spLabel").value(hasItem(DEFAULT_SP_LABEL)))
             .andExpect(jsonPath("$.[*].spQtyInPack").value(hasItem(DEFAULT_SP_QTY_IN_PACK.intValue())))
@@ -2175,17 +2568,21 @@ public class CommercialProductInfoResourceIntTest {
             .andExpect(jsonPath("$.[*].ipSticker").value(hasItem(DEFAULT_IP_STICKER)))
             .andExpect(jsonPath("$.[*].ipLabel").value(hasItem(DEFAULT_IP_LABEL)))
             .andExpect(jsonPath("$.[*].ipQtyInMc").value(hasItem(DEFAULT_IP_QTY_IN_MC.intValue())))
+            .andExpect(jsonPath("$.[*].ipCost").value(hasItem(DEFAULT_IP_COST.intValue())))
             .andExpect(jsonPath("$.[*].mcColor").value(hasItem(DEFAULT_MC_COLOR.toString())))
             .andExpect(jsonPath("$.[*].mcPly").value(hasItem(DEFAULT_MC_PLY)))
             .andExpect(jsonPath("$.[*].mcSize").value(hasItem(DEFAULT_MC_SIZE)))
             .andExpect(jsonPath("$.[*].mcSticker").value(hasItem(DEFAULT_MC_STICKER)))
             .andExpect(jsonPath("$.[*].mcLabel").value(hasItem(DEFAULT_MC_LABEL)))
+            .andExpect(jsonPath("$.[*].mcCost").value(hasItem(DEFAULT_MC_COST.intValue())))
             .andExpect(jsonPath("$.[*].cylColor").value(hasItem(DEFAULT_CYL_COLOR)))
             .andExpect(jsonPath("$.[*].cylSize").value(hasItem(DEFAULT_CYL_SIZE)))
             .andExpect(jsonPath("$.[*].cylQty").value(hasItem(DEFAULT_CYL_QTY.intValue())))
+            .andExpect(jsonPath("$.[*].cylCost").value(hasItem(DEFAULT_CYL_COST.intValue())))
             .andExpect(jsonPath("$.[*].buyingQuantity").value(hasItem(DEFAULT_BUYING_QUANTITY.intValue())))
             .andExpect(jsonPath("$.[*].buyingUnit").value(hasItem(DEFAULT_BUYING_UNIT.toString())))
             .andExpect(jsonPath("$.[*].buyingUnitPrice").value(hasItem(DEFAULT_BUYING_UNIT_PRICE.intValue())))
+            .andExpect(jsonPath("$.[*].buyingPrice").value(hasItem(DEFAULT_BUYING_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].buyingTotalPrice").value(hasItem(DEFAULT_BUYING_TOTAL_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))

@@ -1,13 +1,12 @@
 package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.Attendance;
 import org.soptorshi.repository.AttendanceRepository;
 import org.soptorshi.repository.search.AttendanceSearchRepository;
 import org.soptorshi.service.dto.AttendanceDTO;
 import org.soptorshi.service.mapper.AttendanceMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing Attendance.

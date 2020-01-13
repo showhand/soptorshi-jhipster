@@ -1,13 +1,11 @@
 /* tslint:disable max-line-length */
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { AttendanceService } from 'app/entities/attendance/attendance.service';
-import { IAttendance, Attendance } from 'app/shared/model/attendance.model';
+import { Attendance, IAttendance } from 'app/shared/model/attendance.model';
 
 describe('Service Tests', () => {
     describe('Attendance Service', () => {
@@ -25,7 +23,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Attendance(0, 'AAAAAAA', currentDate, currentDate, currentDate);
+            elemDefault = new Attendance(0, currentDate, currentDate, currentDate, 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -76,10 +74,10 @@ describe('Service Tests', () => {
             it('should update a Attendance', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        employeeId: 'BBBBBB',
                         attendanceDate: currentDate.format(DATE_FORMAT),
                         inTime: currentDate.format(DATE_TIME_FORMAT),
-                        outTime: currentDate.format(DATE_TIME_FORMAT)
+                        outTime: currentDate.format(DATE_TIME_FORMAT),
+                        duration: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -103,10 +101,10 @@ describe('Service Tests', () => {
             it('should return a list of Attendance', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        employeeId: 'BBBBBB',
                         attendanceDate: currentDate.format(DATE_FORMAT),
                         inTime: currentDate.format(DATE_TIME_FORMAT),
-                        outTime: currentDate.format(DATE_TIME_FORMAT)
+                        outTime: currentDate.format(DATE_TIME_FORMAT),
+                        duration: 'BBBBBB'
                     },
                     elemDefault
                 );

@@ -399,7 +399,8 @@ import { MatTabsModule } from '@angular/material';
 
             {
                 path: 'attendance-excel-upload',
-                loadChildren: './attendance-excel-upload/attendance-excel-upload.module#SoptorshiAttendanceExcelUploadModuleExtended'
+                loadChildren:
+                    './attendance-excel-upload-extended/attendance-excel-upload-extended.module#SoptorshiAttendanceExcelUploadExtendedModule'
             },
             {
                 path: 'attendance',
@@ -653,10 +654,6 @@ import { MatTabsModule } from '@angular/material';
                     './commercial-attachment-extended/commercial-attachment-extended.module#SoptorshiCommercialAttachmentExtendedModule'
             },
             {
-                path: 'commercial-budget',
-                loadChildren: './commercial-budget/commercial-budget.module#SoptorshiCommercialBudgetModule'
-            },
-            {
                 path: 'commercial-product-info',
                 loadChildren: './commercial-product-info/commercial-product-info.module#SoptorshiCommercialProductInfoModule'
             },
@@ -717,6 +714,38 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'stock-in-process',
                 loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
+            },
+            {
+                path: 'attendance-excel-upload',
+                loadChildren: './attendance-excel-upload/attendance-excel-upload.module#SoptorshiAttendanceExcelUploadModule'
+            },
+            {
+                path: 'attendance',
+                loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
+            },
+            {
+                path: 'commercial-product-info',
+                loadChildren: './commercial-product-info/commercial-product-info.module#SoptorshiCommercialProductInfoModule'
+            },
+            {
+                path: 'commercial-pi',
+                loadChildren: './commercial-pi/commercial-pi.module#SoptorshiCommercialPiModule'
+            },
+            {
+                path: 'stock-in-process',
+                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
+            },
+            {
+                path: 'stock-in-item',
+                loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
+            },
+            {
+                path: 'production',
+                loadChildren: './production/production.module#SoptorshiProductionModule'
+            },
+            {
+                path: 'production',
+                loadChildren: './production/production.module#SoptorshiProductionModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

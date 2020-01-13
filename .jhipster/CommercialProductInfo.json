@@ -50,6 +50,19 @@
             ]
         },
         {
+            "fieldName": "spGlazing",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "spSurfaceType",
+            "fieldType": "SurfaceType",
+            "fieldValues": "TRIMMED,UNTRIMMED"
+        },
+        {
+            "fieldName": "spOthersDescription",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "spSticker",
             "fieldType": "String"
         },
@@ -87,6 +100,10 @@
             "fieldType": "BigDecimal"
         },
         {
+            "fieldName": "ipCost",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "mcColor",
             "fieldType": "PackColor",
             "fieldValues": "PLAIN,PRINT,BOTH,NONE"
@@ -108,6 +125,10 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "mcCost",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "cylColor",
             "fieldType": "String"
         },
@@ -117,6 +138,10 @@
         },
         {
             "fieldName": "cylQty",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "cylCost",
             "fieldType": "BigDecimal"
         },
         {
@@ -136,6 +161,13 @@
         },
         {
             "fieldName": "buyingUnitPrice",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "buyingPrice",
             "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"

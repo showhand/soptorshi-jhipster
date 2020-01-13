@@ -15,6 +15,11 @@ export const enum UnitOfMeasurements {
     GRAM = 'GRAM'
 }
 
+export const enum SurfaceType {
+    TRIMMED = 'TRIMMED',
+    UNTRIMMED = 'UNTRIMMED'
+}
+
 export const enum PackColor {
     PLAIN = 'PLAIN',
     PRINT = 'PRINT',
@@ -31,6 +36,9 @@ export interface ICommercialProductInfo {
     offeredUnit?: UnitOfMeasurements;
     offeredUnitPrice?: number;
     offeredTotalPrice?: number;
+    spGlazing?: number;
+    spSurfaceType?: SurfaceType;
+    spOthersDescription?: string;
     spSticker?: string;
     spLabel?: string;
     spQtyInPack?: number;
@@ -40,17 +48,21 @@ export interface ICommercialProductInfo {
     ipSticker?: string;
     ipLabel?: string;
     ipQtyInMc?: number;
+    ipCost?: number;
     mcColor?: PackColor;
     mcPly?: string;
     mcSize?: string;
     mcSticker?: string;
     mcLabel?: string;
+    mcCost?: number;
     cylColor?: string;
     cylSize?: string;
     cylQty?: number;
+    cylCost?: number;
     buyingQuantity?: number;
     buyingUnit?: UnitOfMeasurements;
     buyingUnitPrice?: number;
+    buyingPrice?: number;
     buyingTotalPrice?: number;
     createdBy?: string;
     createdOn?: Moment;
@@ -74,6 +86,9 @@ export class CommercialProductInfo implements ICommercialProductInfo {
         public offeredUnit?: UnitOfMeasurements,
         public offeredUnitPrice?: number,
         public offeredTotalPrice?: number,
+        public spGlazing?: number,
+        public spSurfaceType?: SurfaceType,
+        public spOthersDescription?: string,
         public spSticker?: string,
         public spLabel?: string,
         public spQtyInPack?: number,
@@ -83,17 +98,21 @@ export class CommercialProductInfo implements ICommercialProductInfo {
         public ipSticker?: string,
         public ipLabel?: string,
         public ipQtyInMc?: number,
+        public ipCost?: number,
         public mcColor?: PackColor,
         public mcPly?: string,
         public mcSize?: string,
         public mcSticker?: string,
         public mcLabel?: string,
+        public mcCost?: number,
         public cylColor?: string,
         public cylSize?: string,
         public cylQty?: number,
+        public cylCost?: number,
         public buyingQuantity?: number,
         public buyingUnit?: UnitOfMeasurements,
         public buyingUnitPrice?: number,
+        public buyingPrice?: number,
         public buyingTotalPrice?: number,
         public createdBy?: string,
         public createdOn?: Moment,

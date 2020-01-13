@@ -1,5 +1,6 @@
 <div class="row">
     <div class="col-12">
+        <jhi-alert></jhi-alert>
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-commercial-budget-heading">Create or edit a Commercial Budget</h2>
             <jhi-alert-error></jhi-alert-error>
@@ -14,7 +15,7 @@
                 <div class="form-group col-3">
                     <label class="form-control-label" for="field_budgetNo">Budget No</label>
                     <input type="text" class="form-control" name="budgetNo" id="field_budgetNo"
-                           [(ngModel)]="commercialBudget.budgetNo" required/>
+                           [(ngModel)]="commercialBudget.budgetNo" readonly required/>
                     <div [hidden]="!(editForm.controls.budgetNo?.dirty && editForm.controls.budgetNo?.invalid)">
                         <small class="form-text text-danger"
                                [hidden]="!editForm.controls.budgetNo?.errors?.required">
@@ -71,6 +72,91 @@
             </div>
 
             <div class="row">
+                <div class="form-group col-6">
+                    <label class="form-control-label" for="field_companyName">Company Name</label>
+                    <input type="text" class="form-control" name="companyName" id="field_companyName"
+                           [(ngModel)]="commercialBudget.companyName" required/>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_paymentType">Payment Type</label>
+                    <select class="form-control" name="paymentType" [(ngModel)]="commercialBudget.paymentType"
+                            id="field_paymentType" required>
+                        <option value="LC">LC</option>
+                        <option value="TT">TT</option>
+                        <option value="CASH">CASH</option>
+                        <option value="CHEQUE">CHEQUE</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_transportationType">Transportation Type</label>
+                    <select class="form-control" name="transportationType"
+                            [(ngModel)]="commercialBudget.transportationType" id="field_transportationType" required>
+                        <option value="CFR">CFR</option>
+                        <option value="CIF">CIF</option>
+                        <option value="FOB">FOB</option>
+                    </select>
+                    <div
+                        [hidden]="!(editForm.controls.transportationType?.dirty && editForm.controls.transportationType?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.transportationType?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_seaPortName">Sea Port Name</label>
+                    <input type="text" class="form-control" name="seaPortName" id="field_seaPortName"
+                           [(ngModel)]="commercialBudget.seaPortName"/>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_seaPortCost">Sea Port Cost</label>
+                    <input type="number" class="form-control" name="seaPortCost" id="field_seaPortCost"
+                           (ngModelChange)="calculateTotalTransportationCost();"
+                           [(ngModel)]="commercialBudget.seaPortCost"/>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_airPortName">Air Port Name</label>
+                    <input type="text" class="form-control" name="airPortName" id="field_airPortName"
+                           [(ngModel)]="commercialBudget.airPortName"/>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_airPortCost">Air Port Cost</label>
+                    <input type="number" class="form-control" name="airPortCost" id="field_airPortCost"
+                           (ngModelChange)="calculateTotalTransportationCost();"
+                           [(ngModel)]="commercialBudget.airPortCost"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_landPortName">Land Port Name</label>
+                    <input type="text" class="form-control" name="landPortName" id="field_landPortName"
+                           [(ngModel)]="commercialBudget.landPortName"/>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_landPortCost">Land Port Cost</label>
+                    <input type="number" class="form-control" name="landPortCost" id="field_landPortCost"
+                           (ngModelChange)="calculateTotalTransportationCost();"
+                           [(ngModel)]="commercialBudget.landPortCost"/>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_insurancePrice">Insurance Price</label>
+                    <input type="number" class="form-control" name="insurancePrice" id="field_insurancePrice"
+                           (ngModelChange)="calculateTotalTransportationCost();"
+                           [(ngModel)]="commercialBudget.insurancePrice"/>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-control-label" for="field_totalTransportationCost">Total Transportation
+                        Cost</label>
+                    <input type="number" class="form-control" name="totalTransportationCost"
+                           id="field_totalTransportationCost"
+                           [(ngModel)]="commercialBudget.totalTransportationCost"/>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="form-group col-3">
                     <label class="form-control-label" for="field_totalQuantity">Total Quantity</label>
                     <input type="number" class="form-control" name="totalQuantity" id="field_totalQuantity"
@@ -112,7 +198,7 @@
                 <div class="form-group col-3">
                     <label class="form-control-label" for="field_proformaNo">Proforma No</label>
                     <input type="text" class="form-control" name="proformaNo" id="field_proformaNo"
-                           [(ngModel)]="commercialBudget.proformaNo" required/>
+                           [(ngModel)]="commercialBudget.proformaNo" readonly required/>
                 </div>
             </div>
 

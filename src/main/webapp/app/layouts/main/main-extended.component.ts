@@ -20,6 +20,7 @@ export class JhiMainExtendedComponent extends JhiMainComponent implements OnInit
     procurementManagement: any;
     leaveManagement: any;
     attendanceManagement: any;
+    production: any;
     inventoryManagement: any;
     accountsConfig: any;
     vouchers: any;

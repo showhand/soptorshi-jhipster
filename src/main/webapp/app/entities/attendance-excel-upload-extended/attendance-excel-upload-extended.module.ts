@@ -8,11 +8,11 @@ import {
     AttendanceExcelUploadDetailExtendedComponent,
     AttendanceExcelUploadExtendedComponent,
     attendanceExcelUploadExtendedRoute,
-    attendanceExcelUploadPopupRouteExtended,
+    attendanceExcelUploadPopupExtendedRoute,
     AttendanceExcelUploadUpdateExtendedComponent
 } from './';
 
-const ENTITY_STATES = [...attendanceExcelUploadExtendedRoute, ...attendanceExcelUploadPopupRouteExtended];
+const ENTITY_STATES = [...attendanceExcelUploadExtendedRoute, ...attendanceExcelUploadPopupExtendedRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],

@@ -1,5 +1,13 @@
 import { Moment } from 'moment';
 
+export const enum PaymentType {
+    LC = 'LC',
+    TT = 'TT',
+    CASH = 'CASH',
+    CHEQUE = 'CHEQUE',
+    OTHERS = 'OTHERS'
+}
+
 export const enum CommercialPiStatus {
     WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER = 'WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER',
     PI_APPROVED_BY_THE_CUSTOMER = 'PI_APPROVED_BY_THE_CUSTOMER',
@@ -13,6 +21,7 @@ export interface ICommercialPi {
     proformaNo?: string;
     proformaDate?: Moment;
     harmonicCode?: string;
+    paymentType?: PaymentType;
     paymentTerm?: string;
     termsOfDelivery?: string;
     shipmentDate?: string;
@@ -36,6 +45,7 @@ export class CommercialPi implements ICommercialPi {
         public proformaNo?: string,
         public proformaDate?: Moment,
         public harmonicCode?: string,
+        public paymentType?: PaymentType,
         public paymentTerm?: string,
         public termsOfDelivery?: string,
         public shipmentDate?: string,

@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { AttendanceExcelUpload } from 'app/shared/model/attendance-excel-upload.model';
+import { AttendanceExcelUpload, IAttendanceExcelUpload } from 'app/shared/model/attendance-excel-upload.model';
 import { AttendanceExcelUploadService } from './attendance-excel-upload.service';
 import { AttendanceExcelUploadComponent } from './attendance-excel-upload.component';
 import { AttendanceExcelUploadDetailComponent } from './attendance-excel-upload-detail.component';
 import { AttendanceExcelUploadUpdateComponent } from './attendance-excel-upload-update.component';
 import { AttendanceExcelUploadDeletePopupComponent } from './attendance-excel-upload-delete-dialog.component';
-import { IAttendanceExcelUpload } from 'app/shared/model/attendance-excel-upload.model';
 
 @Injectable({ providedIn: 'root' })
 export class AttendanceExcelUploadResolve implements Resolve<IAttendanceExcelUpload> {

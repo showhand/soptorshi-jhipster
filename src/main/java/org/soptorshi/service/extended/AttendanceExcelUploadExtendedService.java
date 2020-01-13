@@ -9,15 +9,14 @@ import org.soptorshi.domain.AttendanceExcelParser;
 import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.AttendanceExcelUploadRepository;
-import org.soptorshi.repository.EmployeeRepository;
+import org.soptorshi.repository.extended.EmployeeExtendedRepository;
 import org.soptorshi.repository.search.AttendanceExcelUploadSearchRepository;
 import org.soptorshi.service.AttendanceExcelUploadService;
+import org.soptorshi.service.EmployeeService;
 import org.soptorshi.service.dto.AttendanceDTO;
 import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
 import org.soptorshi.service.mapper.AttendanceExcelUploadMapper;
 import org.soptorshi.service.mapper.AttendanceMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,13 +24,12 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 @Service
 @Transactional
@@ -47,19 +45,23 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
 
     private final AttendanceMapper attendanceMapper;
 
-    private final EmployeeRepository employeeRepository;
-
     private final AttendanceExtendedService attendanceExtendedService;
 
+    private final EmployeeService employeeService;
+
+    private final EmployeeExtendedRepository employeeExtendedRepository;
+
     public AttendanceExcelUploadExtendedService(AttendanceExcelUploadRepository attendanceExcelUploadRepository, AttendanceExcelUploadMapper attendanceExcelUploadMapper, AttendanceExcelUploadSearchRepository attendanceExcelUploadSearchRepository, AttendanceMapper attendanceMapper,
-                                                EmployeeRepository employeeRepository, AttendanceExtendedService attendanceExtendedService) {
+                                                AttendanceExtendedService attendanceExtendedService, EmployeeService employeeService,
+                                                EmployeeExtendedRepository employeeExtendedRepository) {
         super(attendanceExcelUploadRepository, attendanceExcelUploadMapper, attendanceExcelUploadSearchRepository);
         this.attendanceExcelUploadRepository = attendanceExcelUploadRepository;
         this.attendanceExcelUploadMapper = attendanceExcelUploadMapper;
         this.attendanceExcelUploadSearchRepository = attendanceExcelUploadSearchRepository;
         this.attendanceMapper = attendanceMapper;
-        this.employeeRepository = employeeRepository;
         this.attendanceExtendedService = attendanceExtendedService;
+        this.employeeService = employeeService;
+        this.employeeExtendedRepository = employeeExtendedRepository;
     }
 
     /**
@@ -69,79 +71,25 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
      * @return the persisted entity
      */
 
+    @Transactional
     public AttendanceExcelUploadDTO save(AttendanceExcelUploadDTO attendanceExcelUploadDTO) {
         log.debug("Request to save AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
         AttendanceExcelUpload attendanceExcelUpload = attendanceExcelUploadMapper.toEntity(attendanceExcelUploadDTO);
-        attendanceExcelUpload = attendanceExcelUploadRepository.save(attendanceExcelUpload);
-        AttendanceExcelUploadDTO result = attendanceExcelUploadMapper.toDto(attendanceExcelUpload);
-        attendanceExcelUploadSearchRepository.save(attendanceExcelUpload);
+        AttendanceExcelUploadDTO result = null;
+        /*attendanceExcelUploadSearchRepository.save(attendanceExcelUpload);*/
 
         log.debug("Parsing excel before processing request to save AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
         List<AttendanceExcelParser> attendanceExcelParsers = parseExcel(attendanceExcelUploadDTO.getFile());
         if (attendanceExcelParsers == null) return null;
         else {
+            attendanceExcelUpload = attendanceExcelUploadRepository.save(attendanceExcelUpload);
+            result = attendanceExcelUploadMapper.toDto(attendanceExcelUpload);
             log.debug("Deleting previous data AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
             attendanceExtendedService.deleteByAttendanceExcelUpload(attendanceExcelUpload);
             log.debug("Saving new data AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
             parseExcelValueToAttendanceObjectAndSave(attendanceExcelParsers, attendanceExcelUpload);
         }
         return result;
-    }
-
-    /**
-     * Get all the attendanceExcelUploads.
-     *
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-
-    @Transactional(readOnly = true)
-    public Page<AttendanceExcelUploadDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all AttendanceExcelUploads");
-        return attendanceExcelUploadRepository.findAll(pageable)
-            .map(attendanceExcelUploadMapper::toDto);
-    }
-
-
-    /**
-     * Get one attendanceExcelUpload by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-
-    @Transactional(readOnly = true)
-    public Optional<AttendanceExcelUploadDTO> findOne(Long id) {
-        log.debug("Request to get AttendanceExcelUpload : {}", id);
-        return attendanceExcelUploadRepository.findById(id)
-            .map(attendanceExcelUploadMapper::toDto);
-    }
-
-    /**
-     * Delete the attendanceExcelUpload by id.
-     *
-     * @param id the id of the entity
-     */
-
-    public void delete(Long id) {
-        log.debug("Request to delete AttendanceExcelUpload : {}", id);
-        attendanceExcelUploadRepository.deleteById(id);
-        attendanceExcelUploadSearchRepository.deleteById(id);
-    }
-
-    /**
-     * Search for the attendanceExcelUpload corresponding to the query.
-     *
-     * @param query    the query of the search
-     * @param pageable the pagination information
-     * @return the list of entities
-     */
-
-    @Transactional(readOnly = true)
-    public Page<AttendanceExcelUploadDTO> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of AttendanceExcelUploads for query {}", query);
-        return attendanceExcelUploadSearchRepository.search(queryStringQuery(query), pageable)
-            .map(attendanceExcelUploadMapper::toDto);
     }
 
     private List<AttendanceExcelParser> parseExcel(byte[] bytes) {
@@ -166,11 +114,11 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
             .withZone(ZoneId.systemDefault());
         List<Attendance> attendances = new ArrayList<>();
         for (AttendanceExcelParser attendanceExcelParser : attendanceExcelParsers) {
-            Optional<Employee> employee = employeeRepository.findByEmployeeId(attendanceExcelParser.getEmployeeId());
+            Optional<Employee> employee = employeeExtendedRepository.findByEmployeeId(attendanceExcelParser.getEmployeeId());
             if(employee.isPresent()) {
                 if (!attendanceExcelParser.getAttendanceDate().isEmpty()) {
                     Attendance attendance = new Attendance();
-                    attendance.setEmployeeId(attendanceExcelParser.getEmployeeId());
+                    attendance.setEmployee(employee.get());
                     attendance.setAttendanceDate(LocalDate.parse(attendanceExcelParser.getAttendanceDate()));
 
                     String[] inOut = attendanceExcelParser.getInOutTime().split(" ");
@@ -179,6 +127,11 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
                     }
                     if (inOut.length > 1) {
                         attendance.setOutTime(Instant.from(formatter.parse(attendanceExcelParser.getAttendanceDate() + " " + inOut[inOut.length - 1])));
+                    }
+
+                    if(attendance.getInTime() != null && attendance.getOutTime() != null) {
+                        Duration between = Duration.between(attendance.getOutTime(), attendance.getInTime());
+                        attendance.setDuration(between.toString());
                     }
                     attendance.setAttendanceExcelUpload(attendanceExcelUpload);
                     attendances.add(attendance);

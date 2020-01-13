@@ -4,6 +4,7 @@ import org.soptorshi.domain.Quotation;
 import org.soptorshi.domain.QuotationDetails;
 import org.soptorshi.domain.Requisition;
 import org.soptorshi.domain.enumeration.ProductType;
+import org.soptorshi.domain.enumeration.ProductionWeightStep;
 import org.soptorshi.domain.enumeration.PurchaseOrderStatus;
 import org.soptorshi.domain.enumeration.SelectionType;
 import org.soptorshi.repository.PurchaseOrderRepository;
@@ -12,7 +13,9 @@ import org.soptorshi.repository.extended.QuotationExtendedRepository;
 import org.soptorshi.repository.search.PurchaseOrderSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.ProductService;
+import org.soptorshi.service.ProductionService;
 import org.soptorshi.service.PurchaseOrderService;
+import org.soptorshi.service.dto.ProductionDTO;
 import org.soptorshi.service.dto.PurchaseOrderDTO;
 import org.soptorshi.service.dto.RequisitionDTO;
 import org.soptorshi.service.dto.StockInProcessDTO;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +51,8 @@ public class PurchaseOrderExtendedService extends PurchaseOrderService {
 
     private final ProductService productService;
 
+    private final ProductionService productionService;
+
     public PurchaseOrderExtendedService(PurchaseOrderRepository purchaseOrderRepository, PurchaseOrderMapper purchaseOrderMapper, PurchaseOrderSearchRepository purchaseOrderSearchRepository, RequisitionExtendedService requisitionExtendedService,
                                         RequisitionMapper requisitionMapper,
                                         QuotationExtendedService quotationExtendedService,
@@ -54,7 +60,8 @@ public class PurchaseOrderExtendedService extends PurchaseOrderService {
                                         QuotationDetailsExtendedService quotationDetailsExtendedService,
                                         QuotationDetailsExtendedRepository quotationDetailsExtendedRepository,
                                         StockInProcessExtendedService stockInProcessExtendedService,
-                                        ProductService productService) {
+                                        ProductService productService,
+                                        ProductionService productionService) {
         super(purchaseOrderRepository, purchaseOrderMapper, purchaseOrderSearchRepository);
         this.requisitionExtendedService = requisitionExtendedService;
         this.requisitionMapper = requisitionMapper;
@@ -64,6 +71,7 @@ public class PurchaseOrderExtendedService extends PurchaseOrderService {
         this.quotationDetailsExtendedRepository = quotationDetailsExtendedRepository;
         this.stockInProcessExtendedService = stockInProcessExtendedService;
         this.productService = productService;
+        this.productionService = productionService;
     }
 
     @Override
@@ -95,6 +103,13 @@ public class PurchaseOrderExtendedService extends PurchaseOrderService {
         }
     }
 
+    private void insertInProduction(Quotation quotation, List<QuotationDetails> quotationDetails) {
+        for(QuotationDetails quotationDetails1: quotationDetails) {
+            ProductionDTO productionDTO = getProduction(quotation, quotationDetails1);
+            productionService.save(productionDTO);
+        }
+    }
+
     private StockInProcessDTO getStockInProcess(Quotation quotation, QuotationDetails quotationDetails) {
         StockInProcessDTO stockInProcessDTO = new StockInProcessDTO();
         stockInProcessDTO.setProductCategoriesId(quotationDetails.getProduct().getProductCategory().getId());
@@ -102,8 +117,20 @@ public class PurchaseOrderExtendedService extends PurchaseOrderService {
         stockInProcessDTO.setTotalQuantity(BigDecimal.valueOf(quotationDetails.getQuantity()));
         stockInProcessDTO.setUnit(quotationDetails.getUnitOfMeasurements());
         stockInProcessDTO.setUnitPrice(quotationDetails.getRate());
-        stockInProcessDTO.setTypeOfProduct(ProductType.REGULAR_PRODUCT);
+        stockInProcessDTO.setTypeOfProduct(ProductType.FINISHED_PRODUCT);
         stockInProcessDTO.setRequisitionsId(quotation.getRequisition().getId());
         return stockInProcessDTO;
+    }
+
+    private ProductionDTO getProduction(Quotation quotation, QuotationDetails quotationDetails) {
+        ProductionDTO productionDTO = new ProductionDTO();
+        productionDTO.setProductCategoriesId(quotationDetails.getProduct().getProductCategory().getId());
+        productionDTO.setProductsId(quotationDetails.getProduct().getId());
+        productionDTO.setQuantity(BigDecimal.valueOf(quotationDetails.getQuantity()));
+        productionDTO.setUnit(quotationDetails.getUnitOfMeasurements());
+        productionDTO.setWeightStep(ProductionWeightStep.RAW);
+        productionDTO.setCreatedBy(SecurityUtils.getCurrentUserLogin().get());
+        productionDTO.setCreatedOn(Instant.now());
+        return productionDTO;
     }
 }

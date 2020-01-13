@@ -1,0 +1,27 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1578634512380-1">
+        <addColumn tableName="attendance">
+            <column name="duration" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578634512380-2">
+        <addColumn tableName="attendance">
+            <column name="employee_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578634512380-3">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="attendance" constraintName="FKr7q0h8jfngkyybll6o9r3h9ua" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="employee"/>
+    </changeSet>
+    <!--<changeSet author="kawsu (generated)" id="1578634512380-4">
+        <dropUniqueConstraint constraintName="unique_financial_year_month_type" tableName="period_close"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1578634512380-5">
+        <dropUniqueConstraint constraintName="voucher_id" tableName="predefined_narration"/>
+    </changeSet>-->
+    <changeSet author="kawsu (generated)" id="1578634512380-6">
+        <dropNotNullConstraint columnDataType="bigint" columnName="attendance_excel_upload_id" tableName="attendance"/>
+    </changeSet>
+</databaseChangeLog>

@@ -12,7 +12,14 @@
             "fieldValues": "FINGER,FACE"
         }
     ],
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "attendance",
+            "otherEntityRelationshipName": "attendanceExcelUpload",
+            "relationshipName": "attendance"
+        }
+    ],
     "changelogDate": "20190702135348",
     "entityTableName": "attendance_excel_upload",
     "dto": "mapstruct",

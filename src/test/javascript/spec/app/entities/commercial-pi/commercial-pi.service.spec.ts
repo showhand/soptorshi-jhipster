@@ -5,7 +5,7 @@ import { map, take } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { CommercialPiService } from 'app/entities/commercial-pi/commercial-pi.service';
-import { CommercialPi, CommercialPiStatus, ICommercialPi } from 'app/shared/model/commercial-pi.model';
+import { CommercialPi, CommercialPiStatus, ICommercialPi, PaymentType } from 'app/shared/model/commercial-pi.model';
 
 describe('Service Tests', () => {
     describe('CommercialPi Service', () => {
@@ -30,6 +30,7 @@ describe('Service Tests', () => {
                 'AAAAAAA',
                 currentDate,
                 'AAAAAAA',
+                PaymentType.LC,
                 'AAAAAAA',
                 'AAAAAAA',
                 'AAAAAAA',
@@ -97,6 +98,7 @@ describe('Service Tests', () => {
                         proformaNo: 'BBBBBB',
                         proformaDate: currentDate.format(DATE_FORMAT),
                         harmonicCode: 'BBBBBB',
+                        paymentType: 'BBBBBB',
                         paymentTerm: 'BBBBBB',
                         termsOfDelivery: 'BBBBBB',
                         shipmentDate: 'BBBBBB',
@@ -136,6 +138,7 @@ describe('Service Tests', () => {
                         proformaNo: 'BBBBBB',
                         proformaDate: currentDate.format(DATE_FORMAT),
                         harmonicCode: 'BBBBBB',
+                        paymentType: 'BBBBBB',
                         paymentTerm: 'BBBBBB',
                         termsOfDelivery: 'BBBBBB',
                         shipmentDate: 'BBBBBB',

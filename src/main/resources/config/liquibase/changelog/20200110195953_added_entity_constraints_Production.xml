@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Production.
+    -->
+    <changeSet id="20200110195953-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="product_categories_id"
+                                 baseTableName="production"
+                                 constraintName="fk_production_product_categories_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product_category"/>
+
+        <addForeignKeyConstraint baseColumnNames="products_id"
+                                 baseTableName="production"
+                                 constraintName="fk_production_products_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+
+        <addForeignKeyConstraint baseColumnNames="requisitions_id"
+                                 baseTableName="production"
+                                 constraintName="fk_production_requisitions_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="requisition"/>
+
+    </changeSet>
+</databaseChangeLog>

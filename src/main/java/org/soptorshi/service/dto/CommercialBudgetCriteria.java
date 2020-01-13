@@ -1,9 +1,7 @@
 package org.soptorshi.service.dto;
 
 import io.github.jhipster.service.filter.*;
-import org.soptorshi.domain.enumeration.CommercialBudgetStatus;
-import org.soptorshi.domain.enumeration.CommercialCustomerCategory;
-import org.soptorshi.domain.enumeration.CommercialOrderCategory;
+import org.soptorshi.domain.enumeration.*;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -28,6 +26,16 @@ public class CommercialBudgetCriteria implements Serializable {
     public static class CommercialCustomerCategoryFilter extends Filter<CommercialCustomerCategory> {
     }
     /**
+     * Class for filtering PaymentType
+     */
+    public static class PaymentTypeFilter extends Filter<PaymentType> {
+    }
+    /**
+     * Class for filtering TransportType
+     */
+    public static class TransportTypeFilter extends Filter<TransportType> {
+    }
+    /**
      * Class for filtering CommercialBudgetStatus
      */
     public static class CommercialBudgetStatusFilter extends Filter<CommercialBudgetStatus> {
@@ -44,6 +52,28 @@ public class CommercialBudgetCriteria implements Serializable {
     private CommercialCustomerCategoryFilter customer;
 
     private LocalDateFilter budgetDate;
+
+    private StringFilter companyName;
+
+    private PaymentTypeFilter paymentType;
+
+    private TransportTypeFilter transportationType;
+
+    private StringFilter seaPortName;
+
+    private BigDecimalFilter seaPortCost;
+
+    private StringFilter airPortName;
+
+    private BigDecimalFilter airPortCost;
+
+    private StringFilter landPortName;
+
+    private BigDecimalFilter landPortCost;
+
+    private BigDecimalFilter insurancePrice;
+
+    private BigDecimalFilter totalTransportationCost;
 
     private BigDecimalFilter totalQuantity;
 
@@ -105,6 +135,94 @@ public class CommercialBudgetCriteria implements Serializable {
 
     public void setBudgetDate(LocalDateFilter budgetDate) {
         this.budgetDate = budgetDate;
+    }
+
+    public StringFilter getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(StringFilter companyName) {
+        this.companyName = companyName;
+    }
+
+    public PaymentTypeFilter getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentTypeFilter paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public TransportTypeFilter getTransportationType() {
+        return transportationType;
+    }
+
+    public void setTransportationType(TransportTypeFilter transportationType) {
+        this.transportationType = transportationType;
+    }
+
+    public StringFilter getSeaPortName() {
+        return seaPortName;
+    }
+
+    public void setSeaPortName(StringFilter seaPortName) {
+        this.seaPortName = seaPortName;
+    }
+
+    public BigDecimalFilter getSeaPortCost() {
+        return seaPortCost;
+    }
+
+    public void setSeaPortCost(BigDecimalFilter seaPortCost) {
+        this.seaPortCost = seaPortCost;
+    }
+
+    public StringFilter getAirPortName() {
+        return airPortName;
+    }
+
+    public void setAirPortName(StringFilter airPortName) {
+        this.airPortName = airPortName;
+    }
+
+    public BigDecimalFilter getAirPortCost() {
+        return airPortCost;
+    }
+
+    public void setAirPortCost(BigDecimalFilter airPortCost) {
+        this.airPortCost = airPortCost;
+    }
+
+    public StringFilter getLandPortName() {
+        return landPortName;
+    }
+
+    public void setLandPortName(StringFilter landPortName) {
+        this.landPortName = landPortName;
+    }
+
+    public BigDecimalFilter getLandPortCost() {
+        return landPortCost;
+    }
+
+    public void setLandPortCost(BigDecimalFilter landPortCost) {
+        this.landPortCost = landPortCost;
+    }
+
+    public BigDecimalFilter getInsurancePrice() {
+        return insurancePrice;
+    }
+
+    public void setInsurancePrice(BigDecimalFilter insurancePrice) {
+        this.insurancePrice = insurancePrice;
+    }
+
+    public BigDecimalFilter getTotalTransportationCost() {
+        return totalTransportationCost;
+    }
+
+    public void setTotalTransportationCost(BigDecimalFilter totalTransportationCost) {
+        this.totalTransportationCost = totalTransportationCost;
     }
 
     public BigDecimalFilter getTotalQuantity() {
@@ -211,6 +329,17 @@ public class CommercialBudgetCriteria implements Serializable {
             Objects.equals(type, that.type) &&
             Objects.equals(customer, that.customer) &&
             Objects.equals(budgetDate, that.budgetDate) &&
+            Objects.equals(companyName, that.companyName) &&
+            Objects.equals(paymentType, that.paymentType) &&
+            Objects.equals(transportationType, that.transportationType) &&
+            Objects.equals(seaPortName, that.seaPortName) &&
+            Objects.equals(seaPortCost, that.seaPortCost) &&
+            Objects.equals(airPortName, that.airPortName) &&
+            Objects.equals(airPortCost, that.airPortCost) &&
+            Objects.equals(landPortName, that.landPortName) &&
+            Objects.equals(landPortCost, that.landPortCost) &&
+            Objects.equals(insurancePrice, that.insurancePrice) &&
+            Objects.equals(totalTransportationCost, that.totalTransportationCost) &&
             Objects.equals(totalQuantity, that.totalQuantity) &&
             Objects.equals(totalOfferedPrice, that.totalOfferedPrice) &&
             Objects.equals(totalBuyingPrice, that.totalBuyingPrice) &&
@@ -232,6 +361,17 @@ public class CommercialBudgetCriteria implements Serializable {
         type,
         customer,
         budgetDate,
+        companyName,
+        paymentType,
+        transportationType,
+        seaPortName,
+        seaPortCost,
+        airPortName,
+        airPortCost,
+        landPortName,
+        landPortCost,
+        insurancePrice,
+        totalTransportationCost,
         totalQuantity,
         totalOfferedPrice,
         totalBuyingPrice,
@@ -254,6 +394,17 @@ public class CommercialBudgetCriteria implements Serializable {
                 (type != null ? "type=" + type + ", " : "") +
                 (customer != null ? "customer=" + customer + ", " : "") +
                 (budgetDate != null ? "budgetDate=" + budgetDate + ", " : "") +
+                (companyName != null ? "companyName=" + companyName + ", " : "") +
+                (paymentType != null ? "paymentType=" + paymentType + ", " : "") +
+                (transportationType != null ? "transportationType=" + transportationType + ", " : "") +
+                (seaPortName != null ? "seaPortName=" + seaPortName + ", " : "") +
+                (seaPortCost != null ? "seaPortCost=" + seaPortCost + ", " : "") +
+                (airPortName != null ? "airPortName=" + airPortName + ", " : "") +
+                (airPortCost != null ? "airPortCost=" + airPortCost + ", " : "") +
+                (landPortName != null ? "landPortName=" + landPortName + ", " : "") +
+                (landPortCost != null ? "landPortCost=" + landPortCost + ", " : "") +
+                (insurancePrice != null ? "insurancePrice=" + insurancePrice + ", " : "") +
+                (totalTransportationCost != null ? "totalTransportationCost=" + totalTransportationCost + ", " : "") +
                 (totalQuantity != null ? "totalQuantity=" + totalQuantity + ", " : "") +
                 (totalOfferedPrice != null ? "totalOfferedPrice=" + totalOfferedPrice + ", " : "") +
                 (totalBuyingPrice != null ? "totalBuyingPrice=" + totalBuyingPrice + ", " : "") +

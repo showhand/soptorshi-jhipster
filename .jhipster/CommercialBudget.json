@@ -32,6 +32,55 @@
             ]
         },
         {
+            "fieldName": "companyName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "paymentType",
+            "fieldType": "PaymentType",
+            "fieldValues": "LC,TT,CASH,CHEQUE,OTHERS"
+        },
+        {
+            "fieldName": "transportationType",
+            "fieldType": "TransportType",
+            "fieldValues": "CFR,CIF,FOB",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "seaPortName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "seaPortCost",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "airPortName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "airPortCost",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "landPortName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "landPortCost",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "insurancePrice",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "totalTransportationCost",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "totalQuantity",
             "fieldType": "BigDecimal"
         },

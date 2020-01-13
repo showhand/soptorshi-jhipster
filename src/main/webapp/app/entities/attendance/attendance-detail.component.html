@@ -5,10 +5,6 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Employee Id</span></dt>
-                <dd>
-                    <span>{{attendance.employeeId}}</span>
-                </dd>
                 <dt><span>Attendance Date</span></dt>
                 <dd>
                     <span>{{attendance.attendanceDate}}</span>
@@ -21,10 +17,20 @@
                 <dd>
                     <span>{{attendance.outTime}}</span>
                 </dd>
+                <dt><span>Duration</span></dt>
+                <dd>
+                    <span>{{attendance.duration}}</span>
+                </dd>
                 <dt><span>Attendance Excel Upload</span></dt>
                 <dd>
                     <div *ngIf="attendance.attendanceExcelUploadId">
                         <a [routerLink]="['/attendance-excel-upload', attendance.attendanceExcelUploadId, 'view']">{{attendance.attendanceExcelUploadId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="attendance.employeeId">
+                        <a [routerLink]="['/employee', attendance.employeeId, 'view']">{{attendance.employeeFullName}}</a>
                     </div>
                 </dd>
             </dl>

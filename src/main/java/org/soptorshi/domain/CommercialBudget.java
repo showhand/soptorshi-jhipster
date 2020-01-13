@@ -1,9 +1,7 @@
 package org.soptorshi.domain;
 
 
-import org.soptorshi.domain.enumeration.CommercialBudgetStatus;
-import org.soptorshi.domain.enumeration.CommercialCustomerCategory;
-import org.soptorshi.domain.enumeration.CommercialOrderCategory;
+import org.soptorshi.domain.enumeration.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
@@ -45,6 +43,42 @@ public class CommercialBudget implements Serializable {
     @NotNull
     @Column(name = "budget_date", nullable = false)
     private LocalDate budgetDate;
+
+    @Column(name = "company_name")
+    private String companyName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_type")
+    private PaymentType paymentType;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "transportation_type", nullable = false)
+    private TransportType transportationType;
+
+    @Column(name = "sea_port_name")
+    private String seaPortName;
+
+    @Column(name = "sea_port_cost", precision = 10, scale = 2)
+    private BigDecimal seaPortCost;
+
+    @Column(name = "air_port_name")
+    private String airPortName;
+
+    @Column(name = "air_port_cost", precision = 10, scale = 2)
+    private BigDecimal airPortCost;
+
+    @Column(name = "land_port_name")
+    private String landPortName;
+
+    @Column(name = "land_port_cost", precision = 10, scale = 2)
+    private BigDecimal landPortCost;
+
+    @Column(name = "insurance_price", precision = 10, scale = 2)
+    private BigDecimal insurancePrice;
+
+    @Column(name = "total_transportation_cost", precision = 10, scale = 2)
+    private BigDecimal totalTransportationCost;
 
     @Column(name = "total_quantity", precision = 10, scale = 2)
     private BigDecimal totalQuantity;
@@ -139,6 +173,149 @@ public class CommercialBudget implements Serializable {
 
     public void setBudgetDate(LocalDate budgetDate) {
         this.budgetDate = budgetDate;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public CommercialBudget companyName(String companyName) {
+        this.companyName = companyName;
+        return this;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+    public CommercialBudget paymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
+        return this;
+    }
+
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public TransportType getTransportationType() {
+        return transportationType;
+    }
+
+    public CommercialBudget transportationType(TransportType transportationType) {
+        this.transportationType = transportationType;
+        return this;
+    }
+
+    public void setTransportationType(TransportType transportationType) {
+        this.transportationType = transportationType;
+    }
+
+    public String getSeaPortName() {
+        return seaPortName;
+    }
+
+    public CommercialBudget seaPortName(String seaPortName) {
+        this.seaPortName = seaPortName;
+        return this;
+    }
+
+    public void setSeaPortName(String seaPortName) {
+        this.seaPortName = seaPortName;
+    }
+
+    public BigDecimal getSeaPortCost() {
+        return seaPortCost;
+    }
+
+    public CommercialBudget seaPortCost(BigDecimal seaPortCost) {
+        this.seaPortCost = seaPortCost;
+        return this;
+    }
+
+    public void setSeaPortCost(BigDecimal seaPortCost) {
+        this.seaPortCost = seaPortCost;
+    }
+
+    public String getAirPortName() {
+        return airPortName;
+    }
+
+    public CommercialBudget airPortName(String airPortName) {
+        this.airPortName = airPortName;
+        return this;
+    }
+
+    public void setAirPortName(String airPortName) {
+        this.airPortName = airPortName;
+    }
+
+    public BigDecimal getAirPortCost() {
+        return airPortCost;
+    }
+
+    public CommercialBudget airPortCost(BigDecimal airPortCost) {
+        this.airPortCost = airPortCost;
+        return this;
+    }
+
+    public void setAirPortCost(BigDecimal airPortCost) {
+        this.airPortCost = airPortCost;
+    }
+
+    public String getLandPortName() {
+        return landPortName;
+    }
+
+    public CommercialBudget landPortName(String landPortName) {
+        this.landPortName = landPortName;
+        return this;
+    }
+
+    public void setLandPortName(String landPortName) {
+        this.landPortName = landPortName;
+    }
+
+    public BigDecimal getLandPortCost() {
+        return landPortCost;
+    }
+
+    public CommercialBudget landPortCost(BigDecimal landPortCost) {
+        this.landPortCost = landPortCost;
+        return this;
+    }
+
+    public void setLandPortCost(BigDecimal landPortCost) {
+        this.landPortCost = landPortCost;
+    }
+
+    public BigDecimal getInsurancePrice() {
+        return insurancePrice;
+    }
+
+    public CommercialBudget insurancePrice(BigDecimal insurancePrice) {
+        this.insurancePrice = insurancePrice;
+        return this;
+    }
+
+    public void setInsurancePrice(BigDecimal insurancePrice) {
+        this.insurancePrice = insurancePrice;
+    }
+
+    public BigDecimal getTotalTransportationCost() {
+        return totalTransportationCost;
+    }
+
+    public CommercialBudget totalTransportationCost(BigDecimal totalTransportationCost) {
+        this.totalTransportationCost = totalTransportationCost;
+        return this;
+    }
+
+    public void setTotalTransportationCost(BigDecimal totalTransportationCost) {
+        this.totalTransportationCost = totalTransportationCost;
     }
 
     public BigDecimal getTotalQuantity() {
@@ -313,6 +490,17 @@ public class CommercialBudget implements Serializable {
             ", type='" + getType() + "'" +
             ", customer='" + getCustomer() + "'" +
             ", budgetDate='" + getBudgetDate() + "'" +
+            ", companyName='" + getCompanyName() + "'" +
+            ", paymentType='" + getPaymentType() + "'" +
+            ", transportationType='" + getTransportationType() + "'" +
+            ", seaPortName='" + getSeaPortName() + "'" +
+            ", seaPortCost=" + getSeaPortCost() +
+            ", airPortName='" + getAirPortName() + "'" +
+            ", airPortCost=" + getAirPortCost() +
+            ", landPortName='" + getLandPortName() + "'" +
+            ", landPortCost=" + getLandPortCost() +
+            ", insurancePrice=" + getInsurancePrice() +
+            ", totalTransportationCost=" + getTotalTransportationCost() +
             ", totalQuantity=" + getTotalQuantity() +
             ", totalOfferedPrice=" + getTotalOfferedPrice() +
             ", totalBuyingPrice=" + getTotalBuyingPrice() +

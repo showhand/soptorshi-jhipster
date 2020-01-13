@@ -103,6 +103,7 @@
     <include file="config/liquibase/changelog/20191228175919_added_entity_RequisitionMessages.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191228175920_added_entity_PurchaseOrderMessages.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191230045455_added_entity_RequisitionVoucherRelation.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200110195953_added_entity_Production.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
 
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
@@ -181,10 +182,13 @@
     <include file="config/liquibase/changelog/20191228175919_added_entity_constraints_RequisitionMessages.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191228175920_added_entity_constraints_PurchaseOrderMessages.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191230045455_added_entity_constraints_RequisitionVoucherRelation.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200110195953_added_entity_constraints_Production.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 
     <include file="config/liquibase/changelog/20200101083646_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200101151640_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200101184342_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200110053441_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200110145436_changelog.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

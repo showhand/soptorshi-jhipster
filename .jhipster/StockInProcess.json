@@ -51,7 +51,7 @@
         {
             "fieldName": "typeOfProduct",
             "fieldType": "ProductType",
-            "fieldValues": "REGULAR_PRODUCT,FINISHED_PRODUCT,BY_PRODUCT"
+            "fieldValues": "FINISHED_PRODUCT,BY_PRODUCT"
         },
         {
             "fieldName": "status",

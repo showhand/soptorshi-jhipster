@@ -1,8 +1,6 @@
 package org.soptorshi.service.dto;
 
-import org.soptorshi.domain.enumeration.CommercialBudgetStatus;
-import org.soptorshi.domain.enumeration.CommercialCustomerCategory;
-import org.soptorshi.domain.enumeration.CommercialOrderCategory;
+import org.soptorshi.domain.enumeration.*;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -29,6 +27,29 @@ public class CommercialBudgetDTO implements Serializable {
 
     @NotNull
     private LocalDate budgetDate;
+
+    private String companyName;
+
+    private PaymentType paymentType;
+
+    @NotNull
+    private TransportType transportationType;
+
+    private String seaPortName;
+
+    private BigDecimal seaPortCost;
+
+    private String airPortName;
+
+    private BigDecimal airPortCost;
+
+    private String landPortName;
+
+    private BigDecimal landPortCost;
+
+    private BigDecimal insurancePrice;
+
+    private BigDecimal totalTransportationCost;
 
     private BigDecimal totalQuantity;
 
@@ -91,6 +112,94 @@ public class CommercialBudgetDTO implements Serializable {
 
     public void setBudgetDate(LocalDate budgetDate) {
         this.budgetDate = budgetDate;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public TransportType getTransportationType() {
+        return transportationType;
+    }
+
+    public void setTransportationType(TransportType transportationType) {
+        this.transportationType = transportationType;
+    }
+
+    public String getSeaPortName() {
+        return seaPortName;
+    }
+
+    public void setSeaPortName(String seaPortName) {
+        this.seaPortName = seaPortName;
+    }
+
+    public BigDecimal getSeaPortCost() {
+        return seaPortCost;
+    }
+
+    public void setSeaPortCost(BigDecimal seaPortCost) {
+        this.seaPortCost = seaPortCost;
+    }
+
+    public String getAirPortName() {
+        return airPortName;
+    }
+
+    public void setAirPortName(String airPortName) {
+        this.airPortName = airPortName;
+    }
+
+    public BigDecimal getAirPortCost() {
+        return airPortCost;
+    }
+
+    public void setAirPortCost(BigDecimal airPortCost) {
+        this.airPortCost = airPortCost;
+    }
+
+    public String getLandPortName() {
+        return landPortName;
+    }
+
+    public void setLandPortName(String landPortName) {
+        this.landPortName = landPortName;
+    }
+
+    public BigDecimal getLandPortCost() {
+        return landPortCost;
+    }
+
+    public void setLandPortCost(BigDecimal landPortCost) {
+        this.landPortCost = landPortCost;
+    }
+
+    public BigDecimal getInsurancePrice() {
+        return insurancePrice;
+    }
+
+    public void setInsurancePrice(BigDecimal insurancePrice) {
+        this.insurancePrice = insurancePrice;
+    }
+
+    public BigDecimal getTotalTransportationCost() {
+        return totalTransportationCost;
+    }
+
+    public void setTotalTransportationCost(BigDecimal totalTransportationCost) {
+        this.totalTransportationCost = totalTransportationCost;
     }
 
     public BigDecimal getTotalQuantity() {
@@ -210,6 +319,17 @@ public class CommercialBudgetDTO implements Serializable {
             ", type='" + getType() + "'" +
             ", customer='" + getCustomer() + "'" +
             ", budgetDate='" + getBudgetDate() + "'" +
+            ", companyName='" + getCompanyName() + "'" +
+            ", paymentType='" + getPaymentType() + "'" +
+            ", transportationType='" + getTransportationType() + "'" +
+            ", seaPortName='" + getSeaPortName() + "'" +
+            ", seaPortCost=" + getSeaPortCost() +
+            ", airPortName='" + getAirPortName() + "'" +
+            ", airPortCost=" + getAirPortCost() +
+            ", landPortName='" + getLandPortName() + "'" +
+            ", landPortCost=" + getLandPortCost() +
+            ", insurancePrice=" + getInsurancePrice() +
+            ", totalTransportationCost=" + getTotalTransportationCost() +
             ", totalQuantity=" + getTotalQuantity() +
             ", totalOfferedPrice=" + getTotalOfferedPrice() +
             ", totalBuyingPrice=" + getTotalBuyingPrice() +

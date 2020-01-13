@@ -1,14 +1,14 @@
 package org.soptorshi.domain;
 
 
+import org.soptorshi.domain.enumeration.AttendanceType;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
-
-import org.soptorshi.domain.enumeration.AttendanceType;
+import java.util.Set;
 
 /**
  * A AttendanceExcelUpload.
@@ -19,7 +19,7 @@ import org.soptorshi.domain.enumeration.AttendanceType;
 public class AttendanceExcelUpload implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +35,8 @@ public class AttendanceExcelUpload implements Serializable {
     @Column(name = "jhi_type")
     private AttendanceType type;
 
+    @OneToMany(mappedBy = "attendanceExcelUpload")
+    private Set<Attendance> attendances = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -81,6 +83,31 @@ public class AttendanceExcelUpload implements Serializable {
 
     public void setType(AttendanceType type) {
         this.type = type;
+    }
+
+    public Set<Attendance> getAttendances() {
+        return attendances;
+    }
+
+    public AttendanceExcelUpload attendances(Set<Attendance> attendances) {
+        this.attendances = attendances;
+        return this;
+    }
+
+    public AttendanceExcelUpload addAttendance(Attendance attendance) {
+        this.attendances.add(attendance);
+        attendance.setAttendanceExcelUpload(this);
+        return this;
+    }
+
+    public AttendanceExcelUpload removeAttendance(Attendance attendance) {
+        this.attendances.remove(attendance);
+        attendance.setAttendanceExcelUpload(null);
+        return this;
+    }
+
+    public void setAttendances(Set<Attendance> attendances) {
+        this.attendances = attendances;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

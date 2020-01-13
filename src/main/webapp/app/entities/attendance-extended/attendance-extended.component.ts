@@ -28,7 +28,6 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
     totalItems: number;
     currentSearch: string;
     distinctAttendanceDate: IAttendance[];
-    employeeId: string;
 
     constructor(
         protected attendanceServiceExtended: AttendanceExtendedService,
@@ -39,23 +38,17 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
         protected accountService: AccountService
     ) {
         super(attendanceServiceExtended, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
+
+        this.attendanceServiceExtended
+            .getDistinctAttendanceDate()
+            .subscribe(
+                (res: HttpResponse<IAttendance[]>) => this.addDistinctAttendances(res.body),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     loadAll() {
-        if (this.currentSearch && this.employeeId) {
-            this.attendanceServiceExtended
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'attendanceDate.equals': moment(this.currentSearch).format(DATE_FORMAT),
-                    'employeeId.equals': this.employeeId
-                })
-                .subscribe(
-                    (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        } else if (this.currentSearch) {
+        if (this.currentSearch) {
             this.attendanceServiceExtended
                 .query({
                     page: this.page,
@@ -67,44 +60,18 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
                     (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
-        } else if (this.employeeId) {
-            this.attendanceServiceExtended
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'employeeId.equals': this.employeeId
-                })
-                .subscribe(
-                    (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
         } else {
             this.attendanceServiceExtended
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'attendanceDate.equals': moment(new Date())
-                        .add(0, 'days')
-                        .format(DATE_FORMAT)
+                    sort: this.sort()
                 })
                 .subscribe(
                     (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
         }
-    }
-
-    reset() {
-        this.page = 0;
-        this.attendances = [];
-        this.loadAll();
-    }
-
-    loadPage(page) {
-        this.page = page;
-        this.loadAll();
     }
 
     clear() {
@@ -115,24 +82,7 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
         this.page = 0;
         this.predicate = 'id';
         this.reverse = true;
-        this.currentSearch = moment(new Date())
-            .add(-1, 'days')
-            .toString();
-        this.loadAll();
-    }
-
-    search(query) {
-        if (!query) {
-            return this.clear();
-        }
-        this.attendances = [];
-        this.links = {
-            last: 0
-        };
-        this.page = 0;
-        this.predicate = '_score';
-        this.reverse = false;
-        this.currentSearch = query;
+        this.currentSearch = '';
         this.loadAll();
     }
 
@@ -148,28 +98,12 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: IAttendance) {
-        return item.id;
-    }
-
-    registerChangeInAttendances() {
-        this.eventSubscriber = this.eventManager.subscribe('attendanceListModification', response => this.reset());
-    }
-
-    sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== 'id') {
-            result.push('id');
-        }
-        return result;
-    }
-
     protected paginateAttendances(data: IAttendance[], headers: HttpHeaders) {
         this.attendances = [];
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
-            /*data[i].diff = moment
+            /*data[i].duration = moment
                 .utc(moment(data[i].outTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(data[i].inTime, 'DD/MM/YYYY HH:mm:ss')))
                 .format('HH:mm:ss');*/
             this.attendances.push(data[i]);
@@ -192,9 +126,5 @@ export class AttendanceExtendedComponent extends AttendanceComponent implements 
                 this.distinctAttendanceDate.push(data[i]);
             }
         }
-    }
-
-    protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
     }
 }

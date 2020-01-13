@@ -40,6 +40,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="payment_type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
             <column name="payment_term" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

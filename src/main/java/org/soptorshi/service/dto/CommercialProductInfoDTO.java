@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 
 import org.soptorshi.domain.enumeration.PackColor;
 import org.soptorshi.domain.enumeration.ProductSpecification;
+import org.soptorshi.domain.enumeration.SurfaceType;
 import org.soptorshi.domain.enumeration.UnitOfMeasurements;
 
 import javax.validation.constraints.NotNull;
@@ -37,6 +38,12 @@ public class CommercialProductInfoDTO implements Serializable {
     @NotNull
     private BigDecimal offeredTotalPrice;
 
+    private Integer spGlazing;
+
+    private SurfaceType spSurfaceType;
+
+    private String spOthersDescription;
+
     private String spSticker;
 
     private String spLabel;
@@ -55,6 +62,8 @@ public class CommercialProductInfoDTO implements Serializable {
 
     private BigDecimal ipQtyInMc;
 
+    private BigDecimal ipCost;
+
     private PackColor mcColor;
 
     private String mcPly;
@@ -65,11 +74,15 @@ public class CommercialProductInfoDTO implements Serializable {
 
     private String mcLabel;
 
+    private BigDecimal mcCost;
+
     private String cylColor;
 
     private String cylSize;
 
     private BigDecimal cylQty;
+
+    private BigDecimal cylCost;
 
     @NotNull
     private BigDecimal buyingQuantity;
@@ -79,6 +92,9 @@ public class CommercialProductInfoDTO implements Serializable {
 
     @NotNull
     private BigDecimal buyingUnitPrice;
+
+    @NotNull
+    private BigDecimal buyingPrice;
 
     @NotNull
     private BigDecimal buyingTotalPrice;
@@ -168,6 +184,30 @@ public class CommercialProductInfoDTO implements Serializable {
         this.offeredTotalPrice = offeredTotalPrice;
     }
 
+    public Integer getSpGlazing() {
+        return spGlazing;
+    }
+
+    public void setSpGlazing(Integer spGlazing) {
+        this.spGlazing = spGlazing;
+    }
+
+    public SurfaceType getSpSurfaceType() {
+        return spSurfaceType;
+    }
+
+    public void setSpSurfaceType(SurfaceType spSurfaceType) {
+        this.spSurfaceType = spSurfaceType;
+    }
+
+    public String getSpOthersDescription() {
+        return spOthersDescription;
+    }
+
+    public void setSpOthersDescription(String spOthersDescription) {
+        this.spOthersDescription = spOthersDescription;
+    }
+
     public String getSpSticker() {
         return spSticker;
     }
@@ -240,6 +280,14 @@ public class CommercialProductInfoDTO implements Serializable {
         this.ipQtyInMc = ipQtyInMc;
     }
 
+    public BigDecimal getIpCost() {
+        return ipCost;
+    }
+
+    public void setIpCost(BigDecimal ipCost) {
+        this.ipCost = ipCost;
+    }
+
     public PackColor getMcColor() {
         return mcColor;
     }
@@ -280,6 +328,14 @@ public class CommercialProductInfoDTO implements Serializable {
         this.mcLabel = mcLabel;
     }
 
+    public BigDecimal getMcCost() {
+        return mcCost;
+    }
+
+    public void setMcCost(BigDecimal mcCost) {
+        this.mcCost = mcCost;
+    }
+
     public String getCylColor() {
         return cylColor;
     }
@@ -304,6 +360,14 @@ public class CommercialProductInfoDTO implements Serializable {
         this.cylQty = cylQty;
     }
 
+    public BigDecimal getCylCost() {
+        return cylCost;
+    }
+
+    public void setCylCost(BigDecimal cylCost) {
+        this.cylCost = cylCost;
+    }
+
     public BigDecimal getBuyingQuantity() {
         return buyingQuantity;
     }
@@ -326,6 +390,14 @@ public class CommercialProductInfoDTO implements Serializable {
 
     public void setBuyingUnitPrice(BigDecimal buyingUnitPrice) {
         this.buyingUnitPrice = buyingUnitPrice;
+    }
+
+    public BigDecimal getBuyingPrice() {
+        return buyingPrice;
+    }
+
+    public void setBuyingPrice(BigDecimal buyingPrice) {
+        this.buyingPrice = buyingPrice;
     }
 
     public BigDecimal getBuyingTotalPrice() {
@@ -448,6 +520,9 @@ public class CommercialProductInfoDTO implements Serializable {
             ", offeredUnit='" + getOfferedUnit() + "'" +
             ", offeredUnitPrice=" + getOfferedUnitPrice() +
             ", offeredTotalPrice=" + getOfferedTotalPrice() +
+            ", spGlazing=" + getSpGlazing() +
+            ", spSurfaceType='" + getSpSurfaceType() + "'" +
+            ", spOthersDescription='" + getSpOthersDescription() + "'" +
             ", spSticker='" + getSpSticker() + "'" +
             ", spLabel='" + getSpLabel() + "'" +
             ", spQtyInPack=" + getSpQtyInPack() +
@@ -457,17 +532,21 @@ public class CommercialProductInfoDTO implements Serializable {
             ", ipSticker='" + getIpSticker() + "'" +
             ", ipLabel='" + getIpLabel() + "'" +
             ", ipQtyInMc=" + getIpQtyInMc() +
+            ", ipCost=" + getIpCost() +
             ", mcColor='" + getMcColor() + "'" +
             ", mcPly='" + getMcPly() + "'" +
             ", mcSize='" + getMcSize() + "'" +
             ", mcSticker='" + getMcSticker() + "'" +
             ", mcLabel='" + getMcLabel() + "'" +
+            ", mcCost=" + getMcCost() +
             ", cylColor='" + getCylColor() + "'" +
             ", cylSize='" + getCylSize() + "'" +
             ", cylQty=" + getCylQty() +
+            ", cylCost=" + getCylCost() +
             ", buyingQuantity=" + getBuyingQuantity() +
             ", buyingUnit='" + getBuyingUnit() + "'" +
             ", buyingUnitPrice=" + getBuyingUnitPrice() +
+            ", buyingPrice=" + getBuyingPrice() +
             ", buyingTotalPrice=" + getBuyingTotalPrice() +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +

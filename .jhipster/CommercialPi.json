@@ -25,6 +25,14 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "paymentType",
+            "fieldType": "PaymentType",
+            "fieldValues": "LC,TT,CASH,CHEQUE,OTHERS",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
             "fieldName": "paymentTerm",
             "fieldType": "String"
         },

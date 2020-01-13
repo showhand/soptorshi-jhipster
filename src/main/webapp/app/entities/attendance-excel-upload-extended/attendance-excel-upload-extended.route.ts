@@ -1,29 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { AttendanceExcelUpload, IAttendanceExcelUpload } from 'app/shared/model/attendance-excel-upload.model';
 import { AttendanceExcelUploadExtendedComponent } from 'app/entities/attendance-excel-upload-extended/attendance-excel-upload-extended.component';
 import { AttendanceExcelUploadDetailExtendedComponent } from 'app/entities/attendance-excel-upload-extended/attendance-excel-upload-detail-extended.component';
 import { AttendanceExcelUploadUpdateExtendedComponent } from 'app/entities/attendance-excel-upload-extended/attendance-excel-upload-update-extended.component';
 import { AttendanceExcelUploadDeletePopupExtendedComponent } from 'app/entities/attendance-excel-upload-extended/attendance-excel-upload-delete-dialog-extended.component';
 import { AttendanceExcelUploadExtendedService } from 'app/entities/attendance-excel-upload-extended/attendance-excel-upload-extended.service';
+import { AttendanceExcelUploadResolve } from 'app/entities/attendance-excel-upload';
 
 @Injectable({ providedIn: 'root' })
-export class AttendanceExcelUploadExtendedResolve implements Resolve<IAttendanceExcelUpload> {
-    constructor(private service: AttendanceExcelUploadExtendedService) {}
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAttendanceExcelUpload> {
-        const id = route.params['id'] ? route.params['id'] : null;
-        if (id) {
-            return this.service.find(id).pipe(
-                filter((response: HttpResponse<AttendanceExcelUpload>) => response.ok),
-                map((attendanceExcelUpload: HttpResponse<AttendanceExcelUpload>) => attendanceExcelUpload.body)
-            );
-        }
-        return of(new AttendanceExcelUpload());
+export class AttendanceExcelUploadExtendedResolve extends AttendanceExcelUploadResolve {
+    constructor(service: AttendanceExcelUploadExtendedService) {
+        super(service);
     }
 }
 
@@ -75,7 +63,7 @@ export const attendanceExcelUploadExtendedRoute: Routes = [
     }
 ];
 
-export const attendanceExcelUploadPopupRouteExtended: Routes = [
+export const attendanceExcelUploadPopupExtendedRoute: Routes = [
     {
         path: ':id/delete',
         component: AttendanceExcelUploadDeletePopupExtendedComponent,

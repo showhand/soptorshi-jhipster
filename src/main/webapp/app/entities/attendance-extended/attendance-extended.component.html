@@ -3,31 +3,28 @@
         <jhi-alert></jhi-alert>
     </div>
 </div>
-
 <div class="row justify-content-center">
     <div class="col-6">
         <h2 id="page-heading">Attendances</h2>
     </div>
     <div class="col-6">
-        <div>
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <!-- <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
-                            ngbDatepicker
-                            #attendanceDateDp="ngbDatepicker"
-                            name="currentSearch" placeholder="Select a date">
-                     <span class="input-group-append">
-                             <button type="button" class="btn btn-secondary" (click)="attendanceDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                         </span>
-                     <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                         <fa-icon [icon]="'search'"></fa-icon>
-                     </button>
-                     <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                         <fa-icon [icon]="'trash-alt'"></fa-icon>
-                     </button>-->
-                </div>
-            </form>
-        </div>
+        <form name="searchForm" class="form-inline">
+            <div class="input-group w-100 mt-3">
+                <!--<input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                       name="currentSearch" placeholder="Search Attendances">
+                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                    <fa-icon [icon]="'search'"></fa-icon>
+                </button>
+                <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                    <fa-icon [icon]="'trash-alt'"></fa-icon>
+                </button>
+                <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-attendance"
+                        [routerLink]="['/attendance/new']"
+                        *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
+                    <fa-icon [icon]="'plus'"></fa-icon>
+                </button>-->
+            </div>
+        </form>
     </div>
 </div>
 
@@ -41,15 +38,20 @@
                     *ngFor="let attendanceDistinctDate of distinctAttendanceDate">{{attendanceDistinctDate.attendanceDate | date:'mediumDate'}}</option>
         </select>
     </div>
-    <div class="col-3">
-        <input type="text" class="form-control" [(ngModel)]="employeeId" id="employeeId"
-               name="employeeId" placeholder="Enter employee id ...">
-    </div>
+    <!--<div class="col-3">
+        <select class="form-control" id="field_EmployyeId" name="employeeId"
+                [(ngModel)]="currentSearch">
+            <option [ngValue]="null">Select a date</option>
+            <option [ngValue]="attendanceDistinctDate.attendanceDate"
+                    *ngFor="let attendanceDistinctDate of distinctAttendanceDate">{{attendanceDistinctDate.attendanceDate | date:'mediumDate'}}</option>
+        </select>
+    </div>-->
     <div class="col-2">
         <button class="input-group-append btn btn-info" (click)="loadAll()">
             <fa-icon [icon]="'search'"></fa-icon>
         </button>
     </div>
+    <div class="col-3"></div>
     <div class="col-4">
         <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']" id="jh-create-entity"
                 class="btn btn-primary float-right jh-create-entity create-attendance"
@@ -59,10 +61,10 @@
     </div>
 </div>
 
-
 <div class="row justify-content-center">
     <div class="col-12 ">
         <br/>
+
         <div class="table-responsive" *ngIf="attendances">
             <table class="table table-striped">
                 <thead>
@@ -70,7 +72,7 @@
                     <th jhiSortBy="id"><span>ID</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="employeeId"><span>Employee Id</span>
+                    <th jhiSortBy="employeeFullName"><span>Employee</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="attendanceDate"><span>Attendance Date</span>
@@ -82,7 +84,8 @@
                     <th jhiSortBy="outTime"><span>Out Time</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th><span>Duration</span>
+                    <th jhiSortBy="duration"><span>Duration</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="attendanceExcelUploadId"><span>Attendance Excel Upload</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
@@ -94,17 +97,21 @@
                        [infiniteScrollDistance]="0">
                 <tr *ngFor="let attendance of attendances ;trackBy: trackId">
                     <td><a [routerLink]="['/attendance', attendance.id, 'view' ]">{{attendance.id}}</a></td>
-                    <td>{{attendance.employeeId}}</td>
+                    <td>
+                        <div *ngIf="attendance.employeeId">
+                            <a [routerLink]="['../employee', attendance.employeeId , 'view' ]">{{attendance.employeeFullName}}</a>
+                        </div>
+                    </td>
                     <td>{{attendance.attendanceDate | date:'mediumDate'}}</td>
                     <td>{{attendance.inTime | date:'medium'}}</td>
                     <td>{{attendance.outTime | date:'medium'}}</td>
-                    <td>{{attendance.diff}}</td>
+                    <td>{{attendance.duration}}</td>
                     <td>
                         <div *ngIf="attendance.attendanceExcelUploadId">
                             <a [routerLink]="['../attendance-excel-upload', attendance.attendanceExcelUploadId , 'view' ]">{{attendance.attendanceExcelUploadId}}</a>
                         </div>
                     </td>
-                    <td class="text-right" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
+                    <td class="text-right" width="20%">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     [routerLink]="['/attendance', attendance.id, 'view' ]"
@@ -112,20 +119,20 @@
                                 <fa-icon [icon]="'eye'"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
-                            <button type="submit"
+                            <button type="submit" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']"
                                     [routerLink]="['/attendance', attendance.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
-                            <button type="submit" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN']"
+                            <!--<button type="submit"
                                     [routerLink]="['/', 'attendance', { outlets: { popup: attendance.id + '/delete'} }]"
                                     replaceUrl="true"
                                     queryParamsHandling="merge"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>
-                            </button>
+                            </button>-->
                         </div>
                     </td>
                 </tr>

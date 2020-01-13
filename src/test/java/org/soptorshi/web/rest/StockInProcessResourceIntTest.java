@@ -82,8 +82,8 @@ public class StockInProcessResourceIntTest {
     private static final LocalDate DEFAULT_EXPIRY_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_EXPIRY_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final ProductType DEFAULT_TYPE_OF_PRODUCT = ProductType.REGULAR_PRODUCT;
-    private static final ProductType UPDATED_TYPE_OF_PRODUCT = ProductType.FINISHED_PRODUCT;
+    private static final ProductType DEFAULT_TYPE_OF_PRODUCT = ProductType.FINISHED_PRODUCT;
+    private static final ProductType UPDATED_TYPE_OF_PRODUCT = ProductType.BY_PRODUCT;
 
     private static final StockInProcessStatus DEFAULT_STATUS = StockInProcessStatus.WAITING_FOR_STOCK_IN_PROCESS;
     private static final StockInProcessStatus UPDATED_STATUS = StockInProcessStatus.COMPLETED_STOCK_IN_PROCESS;
