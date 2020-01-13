@@ -160,10 +160,11 @@ public class PayrollService {
         List<DesignationWiseAllowance> designationWiseAllowances = designationWiseAllowanceService.get(monthlySalary.getEmployee().getDesignation().getId());
         monthlySalary.setOtherAllowance(new BigDecimal(0));
         for(DesignationWiseAllowance designationWiseAllowance: designationWiseAllowances){
-            if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.HOUSE_RENT) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
+            if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.HOUSE_RENT) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
                 monthlySalary.setHouseRent(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
             else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.MEDICAL_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
-                monthlySalary.setHouseRent(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+                monthlySalary.setMedicalAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
             else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.FESTIVAL_BONUS) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.SPECIFIC)){
                 if(specialAllowanceTimeLineMap.containsKey(monthlySalary.getEmployee().getReligion())){
                     monthlySalary.setFestivalAllowance( monthlySalary.getFestivalAllowance()==null? BigDecimal.ZERO: monthlySalary.getFestivalAllowance());
