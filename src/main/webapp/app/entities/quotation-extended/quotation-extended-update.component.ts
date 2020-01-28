@@ -69,6 +69,6 @@ export class QuotationExtendedUpdateComponent extends QuotationUpdateComponent i
         this.isSaving = false;
 
         this.router.navigate(['/quotation', this.quotation.id, 'edit']);
-        //this.previousState();
+        this.previousState();
     }
 }

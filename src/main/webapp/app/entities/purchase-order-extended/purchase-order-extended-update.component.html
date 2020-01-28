@@ -108,7 +108,7 @@
                         <jhi-terms-and-conditions-for-purchase-order [purchaseOrder]="purchaseOrder" [disableEdit]="editForm.form.disabled"></jhi-terms-and-conditions-for-purchase-order>
                     </div>
                     <div class="col-6" *ngIf="purchaseOrder.requisitionId">
-                        <jhi-purchase-order-requisition-voucher-relation [requisitionId]="purchaseOrder.requisitionId" [disableEdit]="editForm.form.disabled"></jhi-purchase-order-requisition-voucher-relation>
+                        <jhi-purchase-order-requisition-voucher-relation [requisitionId]="purchaseOrder.requisitionId" [disableEdit]="false"></jhi-purchase-order-requisition-voucher-relation>
                     </div>
                 </div>
                 <div class="row" *ngIf="purchaseOrder.id">
