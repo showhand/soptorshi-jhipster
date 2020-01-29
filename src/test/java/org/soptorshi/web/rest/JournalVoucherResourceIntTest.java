@@ -48,6 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.soptorshi.domain.enumeration.VoucherType;
 import org.soptorshi.domain.enumeration.VoucherReferenceType;
+import org.soptorshi.domain.enumeration.ApplicationType;
 /**
  * Test class for the JournalVoucherResource REST controller.
  *
@@ -74,6 +75,12 @@ public class JournalVoucherResourceIntTest {
 
     private static final VoucherReferenceType DEFAULT_REFERENCE = VoucherReferenceType.PAYROLL;
     private static final VoucherReferenceType UPDATED_REFERENCE = VoucherReferenceType.PURCHASE_ORDER;
+
+    private static final ApplicationType DEFAULT_APPLICATION_TYPE = ApplicationType.REQUISITION;
+    private static final ApplicationType UPDATED_APPLICATION_TYPE = ApplicationType.PAY_ROLL;
+
+    private static final Long DEFAULT_APPLICATION_ID = 1L;
+    private static final Long UPDATED_APPLICATION_ID = 2L;
 
     private static final Long DEFAULT_REFERENCE_ID = 1L;
     private static final Long UPDATED_REFERENCE_ID = 2L;
@@ -149,6 +156,8 @@ public class JournalVoucherResourceIntTest {
             .type(DEFAULT_TYPE)
             .conversionFactor(DEFAULT_CONVERSION_FACTOR)
             .reference(DEFAULT_REFERENCE)
+            .applicationType(DEFAULT_APPLICATION_TYPE)
+            .applicationId(DEFAULT_APPLICATION_ID)
             .referenceId(DEFAULT_REFERENCE_ID)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
@@ -182,6 +191,8 @@ public class JournalVoucherResourceIntTest {
         assertThat(testJournalVoucher.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testJournalVoucher.getConversionFactor()).isEqualTo(DEFAULT_CONVERSION_FACTOR);
         assertThat(testJournalVoucher.getReference()).isEqualTo(DEFAULT_REFERENCE);
+        assertThat(testJournalVoucher.getApplicationType()).isEqualTo(DEFAULT_APPLICATION_TYPE);
+        assertThat(testJournalVoucher.getApplicationId()).isEqualTo(DEFAULT_APPLICATION_ID);
         assertThat(testJournalVoucher.getReferenceId()).isEqualTo(DEFAULT_REFERENCE_ID);
         assertThat(testJournalVoucher.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testJournalVoucher.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
@@ -230,6 +241,8 @@ public class JournalVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].reference").value(hasItem(DEFAULT_REFERENCE.toString())))
+            .andExpect(jsonPath("$.[*].applicationType").value(hasItem(DEFAULT_APPLICATION_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].applicationId").value(hasItem(DEFAULT_APPLICATION_ID.intValue())))
             .andExpect(jsonPath("$.[*].referenceId").value(hasItem(DEFAULT_REFERENCE_ID.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
@@ -252,6 +265,8 @@ public class JournalVoucherResourceIntTest {
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.conversionFactor").value(DEFAULT_CONVERSION_FACTOR.intValue()))
             .andExpect(jsonPath("$.reference").value(DEFAULT_REFERENCE.toString()))
+            .andExpect(jsonPath("$.applicationType").value(DEFAULT_APPLICATION_TYPE.toString()))
+            .andExpect(jsonPath("$.applicationId").value(DEFAULT_APPLICATION_ID.intValue()))
             .andExpect(jsonPath("$.referenceId").value(DEFAULT_REFERENCE_ID.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
@@ -547,6 +562,111 @@ public class JournalVoucherResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllJournalVouchersByApplicationTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where applicationType equals to DEFAULT_APPLICATION_TYPE
+        defaultJournalVoucherShouldBeFound("applicationType.equals=" + DEFAULT_APPLICATION_TYPE);
+
+        // Get all the journalVoucherList where applicationType equals to UPDATED_APPLICATION_TYPE
+        defaultJournalVoucherShouldNotBeFound("applicationType.equals=" + UPDATED_APPLICATION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByApplicationTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where applicationType in DEFAULT_APPLICATION_TYPE or UPDATED_APPLICATION_TYPE
+        defaultJournalVoucherShouldBeFound("applicationType.in=" + DEFAULT_APPLICATION_TYPE + "," + UPDATED_APPLICATION_TYPE);
+
+        // Get all the journalVoucherList where applicationType equals to UPDATED_APPLICATION_TYPE
+        defaultJournalVoucherShouldNotBeFound("applicationType.in=" + UPDATED_APPLICATION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByApplicationTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where applicationType is not null
+        defaultJournalVoucherShouldBeFound("applicationType.specified=true");
+
+        // Get all the journalVoucherList where applicationType is null
+        defaultJournalVoucherShouldNotBeFound("applicationType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByApplicationIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where applicationId equals to DEFAULT_APPLICATION_ID
+        defaultJournalVoucherShouldBeFound("applicationId.equals=" + DEFAULT_APPLICATION_ID);
+
+        // Get all the journalVoucherList where applicationId equals to UPDATED_APPLICATION_ID
+        defaultJournalVoucherShouldNotBeFound("applicationId.equals=" + UPDATED_APPLICATION_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByApplicationIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where applicationId in DEFAULT_APPLICATION_ID or UPDATED_APPLICATION_ID
+        defaultJournalVoucherShouldBeFound("applicationId.in=" + DEFAULT_APPLICATION_ID + "," + UPDATED_APPLICATION_ID);
+
+        // Get all the journalVoucherList where applicationId equals to UPDATED_APPLICATION_ID
+        defaultJournalVoucherShouldNotBeFound("applicationId.in=" + UPDATED_APPLICATION_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByApplicationIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where applicationId is not null
+        defaultJournalVoucherShouldBeFound("applicationId.specified=true");
+
+        // Get all the journalVoucherList where applicationId is null
+        defaultJournalVoucherShouldNotBeFound("applicationId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByApplicationIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where applicationId greater than or equals to DEFAULT_APPLICATION_ID
+        defaultJournalVoucherShouldBeFound("applicationId.greaterOrEqualThan=" + DEFAULT_APPLICATION_ID);
+
+        // Get all the journalVoucherList where applicationId greater than or equals to UPDATED_APPLICATION_ID
+        defaultJournalVoucherShouldNotBeFound("applicationId.greaterOrEqualThan=" + UPDATED_APPLICATION_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJournalVouchersByApplicationIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        journalVoucherRepository.saveAndFlush(journalVoucher);
+
+        // Get all the journalVoucherList where applicationId less than or equals to DEFAULT_APPLICATION_ID
+        defaultJournalVoucherShouldNotBeFound("applicationId.lessThan=" + DEFAULT_APPLICATION_ID);
+
+        // Get all the journalVoucherList where applicationId less than or equals to UPDATED_APPLICATION_ID
+        defaultJournalVoucherShouldBeFound("applicationId.lessThan=" + UPDATED_APPLICATION_ID);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllJournalVouchersByReferenceIdIsEqualToSomething() throws Exception {
         // Initialize the database
         journalVoucherRepository.saveAndFlush(journalVoucher);
@@ -748,6 +868,8 @@ public class JournalVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].reference").value(hasItem(DEFAULT_REFERENCE.toString())))
+            .andExpect(jsonPath("$.[*].applicationType").value(hasItem(DEFAULT_APPLICATION_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].applicationId").value(hasItem(DEFAULT_APPLICATION_ID.intValue())))
             .andExpect(jsonPath("$.[*].referenceId").value(hasItem(DEFAULT_REFERENCE_ID.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
@@ -804,6 +926,8 @@ public class JournalVoucherResourceIntTest {
             .type(UPDATED_TYPE)
             .conversionFactor(UPDATED_CONVERSION_FACTOR)
             .reference(UPDATED_REFERENCE)
+            .applicationType(UPDATED_APPLICATION_TYPE)
+            .applicationId(UPDATED_APPLICATION_ID)
             .referenceId(UPDATED_REFERENCE_ID)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
@@ -824,6 +948,8 @@ public class JournalVoucherResourceIntTest {
         assertThat(testJournalVoucher.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testJournalVoucher.getConversionFactor()).isEqualTo(UPDATED_CONVERSION_FACTOR);
         assertThat(testJournalVoucher.getReference()).isEqualTo(UPDATED_REFERENCE);
+        assertThat(testJournalVoucher.getApplicationType()).isEqualTo(UPDATED_APPLICATION_TYPE);
+        assertThat(testJournalVoucher.getApplicationId()).isEqualTo(UPDATED_APPLICATION_ID);
         assertThat(testJournalVoucher.getReferenceId()).isEqualTo(UPDATED_REFERENCE_ID);
         assertThat(testJournalVoucher.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testJournalVoucher.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
@@ -893,6 +1019,8 @@ public class JournalVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].reference").value(hasItem(DEFAULT_REFERENCE.toString())))
+            .andExpect(jsonPath("$.[*].applicationType").value(hasItem(DEFAULT_APPLICATION_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].applicationId").value(hasItem(DEFAULT_APPLICATION_ID.intValue())))
             .andExpect(jsonPath("$.[*].referenceId").value(hasItem(DEFAULT_REFERENCE_ID.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));

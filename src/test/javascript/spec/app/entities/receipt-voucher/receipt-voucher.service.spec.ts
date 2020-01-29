@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { ReceiptVoucherService } from 'app/entities/receipt-voucher/receipt-voucher.service';
-import { IReceiptVoucher, ReceiptVoucher } from 'app/shared/model/receipt-voucher.model';
+import { IReceiptVoucher, ReceiptVoucher, ApplicationType } from 'app/shared/model/receipt-voucher.model';
 
 describe('Service Tests', () => {
     describe('ReceiptVoucher Service', () => {
@@ -25,7 +25,16 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new ReceiptVoucher(0, 'AAAAAAA', currentDate, currentDate, 'AAAAAAA', currentDate);
+            elemDefault = new ReceiptVoucher(
+                0,
+                'AAAAAAA',
+                currentDate,
+                currentDate,
+                ApplicationType.REQUISITION,
+                0,
+                'AAAAAAA',
+                currentDate
+            );
         });
 
         describe('Service methods', async () => {
@@ -79,6 +88,8 @@ describe('Service Tests', () => {
                         voucherNo: 'BBBBBB',
                         voucherDate: currentDate.format(DATE_FORMAT),
                         postDate: currentDate.format(DATE_FORMAT),
+                        applicationType: 'BBBBBB',
+                        applicationId: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -107,6 +118,8 @@ describe('Service Tests', () => {
                         voucherNo: 'BBBBBB',
                         voucherDate: currentDate.format(DATE_FORMAT),
                         postDate: currentDate.format(DATE_FORMAT),
+                        applicationType: 'BBBBBB',
+                        applicationId: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },

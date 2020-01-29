@@ -1,10 +1,17 @@
 import { Moment } from 'moment';
 
+export const enum ApplicationType {
+    REQUISITION = 'REQUISITION',
+    PAY_ROLL = 'PAY_ROLL'
+}
+
 export interface IPaymentVoucher {
     id?: number;
     voucherNo?: string;
     voucherDate?: Moment;
     postDate?: Moment;
+    applicationType?: ApplicationType;
+    applicationId?: number;
     modifiedBy?: string;
     modifiedOn?: Moment;
     accountName?: string;
@@ -17,6 +24,8 @@ export class PaymentVoucher implements IPaymentVoucher {
         public voucherNo?: string,
         public voucherDate?: Moment,
         public postDate?: Moment,
+        public applicationType?: ApplicationType,
+        public applicationId?: number,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
         public accountName?: string,

@@ -102,6 +102,12 @@ public class PaymentVoucherQueryService extends QueryService<PaymentVoucher> {
             if (criteria.getPostDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPostDate(), PaymentVoucher_.postDate));
             }
+            if (criteria.getApplicationType() != null) {
+                specification = specification.and(buildSpecification(criteria.getApplicationType(), PaymentVoucher_.applicationType));
+            }
+            if (criteria.getApplicationId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getApplicationId(), PaymentVoucher_.applicationId));
+            }
             if (criteria.getModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), PaymentVoucher_.modifiedBy));
             }

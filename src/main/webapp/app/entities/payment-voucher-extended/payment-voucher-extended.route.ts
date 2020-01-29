@@ -11,6 +11,7 @@ import { PaymentVoucherDeletePopupComponent, PaymentVoucherService } from 'app/e
 import { PaymentVoucherExtendedComponent } from 'app/entities/payment-voucher-extended/payment-voucher-extended.component';
 import { PaymentVoucherExtendedDetailComponent } from 'app/entities/payment-voucher-extended/payment-voucher-extended-detail.component';
 import { PaymentVoucherExtendedUpdateComponent } from 'app/entities/payment-voucher-extended/payment-voucher-extended-update.component';
+import { JournalVoucher } from 'app/shared/model/journal-voucher.model';
 
 @Injectable({ providedIn: 'root' })
 export class PaymentVoucherExtendedResolve implements Resolve<IPaymentVoucher> {
@@ -18,13 +19,21 @@ export class PaymentVoucherExtendedResolve implements Resolve<IPaymentVoucher> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IPaymentVoucher> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const applicationType = route.params['applicationType'] ? route.params['applicationType'] : null;
+        const applicationId = route.params['applicationId'] ? route.params['applicationId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<PaymentVoucher>) => response.ok),
                 map((paymentVoucher: HttpResponse<PaymentVoucher>) => paymentVoucher.body)
             );
+        } else if (applicationType && applicationId) {
+            const paymentVoucher = new PaymentVoucher();
+            paymentVoucher.applicationId = applicationId;
+            paymentVoucher.applicationType = applicationType;
+            return of(paymentVoucher);
+        } else {
+            return of(new PaymentVoucher());
         }
-        return of(new PaymentVoucher());
     }
 }
 
@@ -68,6 +77,18 @@ export const paymentVoucherExtendedRoute: Routes = [
     },
     {
         path: ':id/edit',
+        component: PaymentVoucherExtendedUpdateComponent,
+        resolve: {
+            paymentVoucher: PaymentVoucherExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'PaymentVouchers'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':applicationType/:applicationId/edit',
         component: PaymentVoucherExtendedUpdateComponent,
         resolve: {
             paymentVoucher: PaymentVoucherExtendedResolve

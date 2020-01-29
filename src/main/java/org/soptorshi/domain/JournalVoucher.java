@@ -15,6 +15,8 @@ import org.soptorshi.domain.enumeration.VoucherType;
 
 import org.soptorshi.domain.enumeration.VoucherReferenceType;
 
+import org.soptorshi.domain.enumeration.ApplicationType;
+
 /**
  * A JournalVoucher.
  */
@@ -48,6 +50,13 @@ public class JournalVoucher implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "reference")
     private VoucherReferenceType reference;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "application_type")
+    private ApplicationType applicationType;
+
+    @Column(name = "application_id")
+    private Long applicationId;
 
     @Column(name = "reference_id")
     private Long referenceId;
@@ -149,6 +158,32 @@ public class JournalVoucher implements Serializable {
         this.reference = reference;
     }
 
+    public ApplicationType getApplicationType() {
+        return applicationType;
+    }
+
+    public JournalVoucher applicationType(ApplicationType applicationType) {
+        this.applicationType = applicationType;
+        return this;
+    }
+
+    public void setApplicationType(ApplicationType applicationType) {
+        this.applicationType = applicationType;
+    }
+
+    public Long getApplicationId() {
+        return applicationId;
+    }
+
+    public JournalVoucher applicationId(Long applicationId) {
+        this.applicationId = applicationId;
+        return this;
+    }
+
+    public void setApplicationId(Long applicationId) {
+        this.applicationId = applicationId;
+    }
+
     public Long getReferenceId() {
         return referenceId;
     }
@@ -232,6 +267,8 @@ public class JournalVoucher implements Serializable {
             ", type='" + getType() + "'" +
             ", conversionFactor=" + getConversionFactor() +
             ", reference='" + getReference() + "'" +
+            ", applicationType='" + getApplicationType() + "'" +
+            ", applicationId=" + getApplicationId() +
             ", referenceId=" + getReferenceId() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +

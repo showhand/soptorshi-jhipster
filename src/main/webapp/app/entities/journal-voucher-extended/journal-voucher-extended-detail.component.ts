@@ -9,7 +9,7 @@ import { ConversionFactorExtendedService } from 'app/entities/conversion-factor-
 import { IConversionFactor } from 'app/shared/model/conversion-factor.model';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import * as moment from 'moment';
-import { VoucherType } from 'app/shared/model/dt-transaction.model';
+import { VoucherType } from 'app/shared/model/journal-voucher.model';
 
 @Component({
     selector: 'jhi-journal-voucher-detail',
@@ -44,7 +44,7 @@ export class JournalVoucherExtendedDetailComponent extends JournalVoucherDetailC
         this.activatedRoute.data.subscribe(({ journalVoucher }) => {
             this.journalVoucher = journalVoucher;
             this.loadAll();
-            this.journalVoucher.type = this.voucherType == null ? (this.voucherType = VoucherType.SELLING) : this.voucherType;
+            this.journalVoucher.type = this.voucherType === null ? VoucherType.SELLING : this.voucherType;
         });
     }
 

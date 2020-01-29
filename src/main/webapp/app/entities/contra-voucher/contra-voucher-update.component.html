@@ -35,6 +35,18 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_applicationType">Application Type</label>
+                    <select class="form-control" name="applicationType" [(ngModel)]="contraVoucher.applicationType" id="field_applicationType" >
+                        <option value="REQUISITION">REQUISITION</option>
+                        <option value="PAY_ROLL">PAY_ROLL</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_applicationId">Application Id</label>
+                    <input type="number" class="form-control" name="applicationId" id="field_applicationId"
+                        [(ngModel)]="contraVoucher.applicationId" />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_conversionFactor">Conversion Factor</label>
                     <input type="number" class="form-control" name="conversionFactor" id="field_conversionFactor"
                         [(ngModel)]="contraVoucher.conversionFactor" />

@@ -1,10 +1,19 @@
 import { Moment } from 'moment';
-import { VoucherType } from 'app/shared/model/dt-transaction.model';
+
+export const enum VoucherType {
+    SELLING = 'SELLING',
+    BUYING = 'BUYING'
+}
 
 export const enum VoucherReferenceType {
     PAYROLL = 'PAYROLL',
     PURCHASE_ORDER = 'PURCHASE_ORDER',
     PROCUREMENT = 'PROCUREMENT'
+}
+
+export const enum ApplicationType {
+    REQUISITION = 'REQUISITION',
+    PAY_ROLL = 'PAY_ROLL'
 }
 
 export interface IJournalVoucher {
@@ -15,6 +24,8 @@ export interface IJournalVoucher {
     type?: VoucherType;
     conversionFactor?: number;
     reference?: VoucherReferenceType;
+    applicationType?: ApplicationType;
+    applicationId?: number;
     referenceId?: number;
     modifiedBy?: string;
     modifiedOn?: Moment;
@@ -31,6 +42,8 @@ export class JournalVoucher implements IJournalVoucher {
         public type?: VoucherType,
         public conversionFactor?: number,
         public reference?: VoucherReferenceType,
+        public applicationType?: ApplicationType,
+        public applicationId?: number,
         public referenceId?: number,
         public modifiedBy?: string,
         public modifiedOn?: Moment,

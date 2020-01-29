@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.ApplicationType;
 
 /**
  * A DTO for the ContraVoucher entity.
@@ -16,6 +17,10 @@ public class ContraVoucherDTO implements Serializable {
     private LocalDate voucherDate;
 
     private LocalDate postDate;
+
+    private ApplicationType applicationType;
+
+    private Long applicationId;
 
     private BigDecimal conversionFactor;
 
@@ -58,6 +63,22 @@ public class ContraVoucherDTO implements Serializable {
 
     public void setPostDate(LocalDate postDate) {
         this.postDate = postDate;
+    }
+
+    public ApplicationType getApplicationType() {
+        return applicationType;
+    }
+
+    public void setApplicationType(ApplicationType applicationType) {
+        this.applicationType = applicationType;
+    }
+
+    public Long getApplicationId() {
+        return applicationId;
+    }
+
+    public void setApplicationId(Long applicationId) {
+        this.applicationId = applicationId;
     }
 
     public BigDecimal getConversionFactor() {
@@ -128,6 +149,8 @@ public class ContraVoucherDTO implements Serializable {
             ", voucherNo='" + getVoucherNo() + "'" +
             ", voucherDate='" + getVoucherDate() + "'" +
             ", postDate='" + getPostDate() + "'" +
+            ", applicationType='" + getApplicationType() + "'" +
+            ", applicationId=" + getApplicationId() +
             ", conversionFactor=" + getConversionFactor() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +

@@ -26,12 +26,19 @@ export class JournalVoucherExtendedResolve implements Resolve<IJournalVoucher> {
         const currencyId = route.params['currencyId'] ? route.params['currencyId'] : null;
         const balanceType = route.params['balanceType'] ? route.params['balanceType'] : null;
         const conversionFactor = route.params['conversionFactor'] ? route.params['conversionFactor'] : null;
-
+        const applicationType = route.params['applicationType'] ? route.params['applicationType'] : null;
+        const applicationId = route.params['applicationId'] ? route.params['applicationId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<JournalVoucher>) => response.ok),
                 map((journalVoucher: HttpResponse<JournalVoucher>) => journalVoucher.body)
             );
+        }
+        if (applicationType && applicationId) {
+            const journalVoucher = new JournalVoucher();
+            journalVoucher.applicationId = applicationId;
+            journalVoucher.applicationType = applicationType;
+            return of(journalVoucher);
         }
         return of(new JournalVoucher());
     }
@@ -77,6 +84,18 @@ export const journalVoucherExtendedRoute: Routes = [
     },
     {
         path: ':id/edit',
+        component: JournalVoucherExtendedUpdateComponent,
+        resolve: {
+            journalVoucher: JournalVoucherExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'JournalVouchers'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':applicationType/:applicationId/edit',
         component: JournalVoucherExtendedUpdateComponent,
         resolve: {
             journalVoucher: JournalVoucherExtendedResolve

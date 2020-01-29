@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.VoucherType;
 import org.soptorshi.domain.enumeration.VoucherReferenceType;
+import org.soptorshi.domain.enumeration.ApplicationType;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -33,6 +34,11 @@ public class JournalVoucherCriteria implements Serializable {
      */
     public static class VoucherReferenceTypeFilter extends Filter<VoucherReferenceType> {
     }
+    /**
+     * Class for filtering ApplicationType
+     */
+    public static class ApplicationTypeFilter extends Filter<ApplicationType> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -49,6 +55,10 @@ public class JournalVoucherCriteria implements Serializable {
     private BigDecimalFilter conversionFactor;
 
     private VoucherReferenceTypeFilter reference;
+
+    private ApplicationTypeFilter applicationType;
+
+    private LongFilter applicationId;
 
     private LongFilter referenceId;
 
@@ -114,6 +124,22 @@ public class JournalVoucherCriteria implements Serializable {
         this.reference = reference;
     }
 
+    public ApplicationTypeFilter getApplicationType() {
+        return applicationType;
+    }
+
+    public void setApplicationType(ApplicationTypeFilter applicationType) {
+        this.applicationType = applicationType;
+    }
+
+    public LongFilter getApplicationId() {
+        return applicationId;
+    }
+
+    public void setApplicationId(LongFilter applicationId) {
+        this.applicationId = applicationId;
+    }
+
     public LongFilter getReferenceId() {
         return referenceId;
     }
@@ -164,6 +190,8 @@ public class JournalVoucherCriteria implements Serializable {
             Objects.equals(type, that.type) &&
             Objects.equals(conversionFactor, that.conversionFactor) &&
             Objects.equals(reference, that.reference) &&
+            Objects.equals(applicationType, that.applicationType) &&
+            Objects.equals(applicationId, that.applicationId) &&
             Objects.equals(referenceId, that.referenceId) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
@@ -180,6 +208,8 @@ public class JournalVoucherCriteria implements Serializable {
         type,
         conversionFactor,
         reference,
+        applicationType,
+        applicationId,
         referenceId,
         modifiedBy,
         modifiedOn,
@@ -197,6 +227,8 @@ public class JournalVoucherCriteria implements Serializable {
                 (type != null ? "type=" + type + ", " : "") +
                 (conversionFactor != null ? "conversionFactor=" + conversionFactor + ", " : "") +
                 (reference != null ? "reference=" + reference + ", " : "") +
+                (applicationType != null ? "applicationType=" + applicationType + ", " : "") +
+                (applicationId != null ? "applicationId=" + applicationId + ", " : "") +
                 (referenceId != null ? "referenceId=" + referenceId + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +

@@ -11,7 +11,7 @@ import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/ht
 import { BalanceType, DtTransaction, IDtTransaction, VoucherType } from 'app/shared/model/dt-transaction.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JournalVoucherTransactionUpdateComponent } from 'app/entities/journal-voucher-extended/journal-voucher-transaction-update.component';
-import { observable, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
     selector: 'jhi-journal-voucher-transactions',
@@ -70,19 +70,20 @@ export class JournalVoucherTransactionsComponent extends DtTransactionComponent 
     }
 
     addTransaction() {
-        let transaction = new DtTransaction();
+        const transaction = new DtTransaction();
         transaction.voucherNo = this.journalVoucher.voucherNo;
         transaction.currencyId = this.journalVoucher.currencyId;
         transaction.convFactor = this.journalVoucher.conversionFactor;
         transaction.voucherDate = this.journalVoucher.voucherDate;
         transaction.fCurrency = this.journalVoucher.currencyId;
-        transaction.type = this.journalVoucher.type;
-        let modalRef = this.modalService.open(JournalVoucherTransactionUpdateComponent, { size: 'lg' });
+        transaction.type =
+            this.journalVoucher.type.toString() === VoucherType.SELLING.toString() ? VoucherType.SELLING : VoucherType.BUYING;
+        const modalRef = this.modalService.open(JournalVoucherTransactionUpdateComponent, { size: 'lg' });
         modalRef.componentInstance.dtTransaction = transaction;
     }
 
     editTransaction(transaction: DtTransaction) {
-        let modalRef = this.modalService.open(JournalVoucherTransactionUpdateComponent, { size: 'lg' });
+        const modalRef = this.modalService.open(JournalVoucherTransactionUpdateComponent, { size: 'lg' });
         modalRef.componentInstance.dtTransaction = transaction;
     }
 
@@ -114,8 +115,11 @@ export class JournalVoucherTransactionsComponent extends DtTransactionComponent 
         this.totalDebit = 0;
         this.totalCredit = 0;
         data.forEach((d: IDtTransaction) => {
-            if (d.balanceType == BalanceType.DEBIT) this.totalDebit = this.totalDebit + d.amount;
-            else if (d.balanceType == BalanceType.CREDIT) this.totalCredit = this.totalCredit + d.amount;
+            if (d.balanceType === BalanceType.DEBIT) {
+                this.totalDebit = this.totalDebit + d.amount;
+            } else if (d.balanceType === BalanceType.CREDIT) {
+                this.totalCredit = this.totalCredit + d.amount;
+            }
         });
         return of(this.totalCredit);
     }

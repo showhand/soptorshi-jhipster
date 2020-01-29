@@ -45,6 +45,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.soptorshi.domain.enumeration.ApplicationType;
 /**
  * Test class for the PaymentVoucherResource REST controller.
  *
@@ -62,6 +63,12 @@ public class PaymentVoucherResourceIntTest {
 
     private static final LocalDate DEFAULT_POST_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_POST_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final ApplicationType DEFAULT_APPLICATION_TYPE = ApplicationType.REQUISITION;
+    private static final ApplicationType UPDATED_APPLICATION_TYPE = ApplicationType.PAY_ROLL;
+
+    private static final Long DEFAULT_APPLICATION_ID = 1L;
+    private static final Long UPDATED_APPLICATION_ID = 2L;
 
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
@@ -131,6 +138,8 @@ public class PaymentVoucherResourceIntTest {
             .voucherNo(DEFAULT_VOUCHER_NO)
             .voucherDate(DEFAULT_VOUCHER_DATE)
             .postDate(DEFAULT_POST_DATE)
+            .applicationType(DEFAULT_APPLICATION_TYPE)
+            .applicationId(DEFAULT_APPLICATION_ID)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
         return paymentVoucher;
@@ -160,6 +169,8 @@ public class PaymentVoucherResourceIntTest {
         assertThat(testPaymentVoucher.getVoucherNo()).isEqualTo(DEFAULT_VOUCHER_NO);
         assertThat(testPaymentVoucher.getVoucherDate()).isEqualTo(DEFAULT_VOUCHER_DATE);
         assertThat(testPaymentVoucher.getPostDate()).isEqualTo(DEFAULT_POST_DATE);
+        assertThat(testPaymentVoucher.getApplicationType()).isEqualTo(DEFAULT_APPLICATION_TYPE);
+        assertThat(testPaymentVoucher.getApplicationId()).isEqualTo(DEFAULT_APPLICATION_ID);
         assertThat(testPaymentVoucher.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testPaymentVoucher.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
@@ -204,6 +215,8 @@ public class PaymentVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO.toString())))
             .andExpect(jsonPath("$.[*].voucherDate").value(hasItem(DEFAULT_VOUCHER_DATE.toString())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].applicationType").value(hasItem(DEFAULT_APPLICATION_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].applicationId").value(hasItem(DEFAULT_APPLICATION_ID.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
@@ -222,6 +235,8 @@ public class PaymentVoucherResourceIntTest {
             .andExpect(jsonPath("$.voucherNo").value(DEFAULT_VOUCHER_NO.toString()))
             .andExpect(jsonPath("$.voucherDate").value(DEFAULT_VOUCHER_DATE.toString()))
             .andExpect(jsonPath("$.postDate").value(DEFAULT_POST_DATE.toString()))
+            .andExpect(jsonPath("$.applicationType").value(DEFAULT_APPLICATION_TYPE.toString()))
+            .andExpect(jsonPath("$.applicationId").value(DEFAULT_APPLICATION_ID.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
@@ -399,6 +414,111 @@ public class PaymentVoucherResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllPaymentVouchersByApplicationTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        paymentVoucherRepository.saveAndFlush(paymentVoucher);
+
+        // Get all the paymentVoucherList where applicationType equals to DEFAULT_APPLICATION_TYPE
+        defaultPaymentVoucherShouldBeFound("applicationType.equals=" + DEFAULT_APPLICATION_TYPE);
+
+        // Get all the paymentVoucherList where applicationType equals to UPDATED_APPLICATION_TYPE
+        defaultPaymentVoucherShouldNotBeFound("applicationType.equals=" + UPDATED_APPLICATION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPaymentVouchersByApplicationTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        paymentVoucherRepository.saveAndFlush(paymentVoucher);
+
+        // Get all the paymentVoucherList where applicationType in DEFAULT_APPLICATION_TYPE or UPDATED_APPLICATION_TYPE
+        defaultPaymentVoucherShouldBeFound("applicationType.in=" + DEFAULT_APPLICATION_TYPE + "," + UPDATED_APPLICATION_TYPE);
+
+        // Get all the paymentVoucherList where applicationType equals to UPDATED_APPLICATION_TYPE
+        defaultPaymentVoucherShouldNotBeFound("applicationType.in=" + UPDATED_APPLICATION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPaymentVouchersByApplicationTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        paymentVoucherRepository.saveAndFlush(paymentVoucher);
+
+        // Get all the paymentVoucherList where applicationType is not null
+        defaultPaymentVoucherShouldBeFound("applicationType.specified=true");
+
+        // Get all the paymentVoucherList where applicationType is null
+        defaultPaymentVoucherShouldNotBeFound("applicationType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPaymentVouchersByApplicationIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        paymentVoucherRepository.saveAndFlush(paymentVoucher);
+
+        // Get all the paymentVoucherList where applicationId equals to DEFAULT_APPLICATION_ID
+        defaultPaymentVoucherShouldBeFound("applicationId.equals=" + DEFAULT_APPLICATION_ID);
+
+        // Get all the paymentVoucherList where applicationId equals to UPDATED_APPLICATION_ID
+        defaultPaymentVoucherShouldNotBeFound("applicationId.equals=" + UPDATED_APPLICATION_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPaymentVouchersByApplicationIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        paymentVoucherRepository.saveAndFlush(paymentVoucher);
+
+        // Get all the paymentVoucherList where applicationId in DEFAULT_APPLICATION_ID or UPDATED_APPLICATION_ID
+        defaultPaymentVoucherShouldBeFound("applicationId.in=" + DEFAULT_APPLICATION_ID + "," + UPDATED_APPLICATION_ID);
+
+        // Get all the paymentVoucherList where applicationId equals to UPDATED_APPLICATION_ID
+        defaultPaymentVoucherShouldNotBeFound("applicationId.in=" + UPDATED_APPLICATION_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPaymentVouchersByApplicationIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        paymentVoucherRepository.saveAndFlush(paymentVoucher);
+
+        // Get all the paymentVoucherList where applicationId is not null
+        defaultPaymentVoucherShouldBeFound("applicationId.specified=true");
+
+        // Get all the paymentVoucherList where applicationId is null
+        defaultPaymentVoucherShouldNotBeFound("applicationId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPaymentVouchersByApplicationIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        paymentVoucherRepository.saveAndFlush(paymentVoucher);
+
+        // Get all the paymentVoucherList where applicationId greater than or equals to DEFAULT_APPLICATION_ID
+        defaultPaymentVoucherShouldBeFound("applicationId.greaterOrEqualThan=" + DEFAULT_APPLICATION_ID);
+
+        // Get all the paymentVoucherList where applicationId greater than or equals to UPDATED_APPLICATION_ID
+        defaultPaymentVoucherShouldNotBeFound("applicationId.greaterOrEqualThan=" + UPDATED_APPLICATION_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPaymentVouchersByApplicationIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        paymentVoucherRepository.saveAndFlush(paymentVoucher);
+
+        // Get all the paymentVoucherList where applicationId less than or equals to DEFAULT_APPLICATION_ID
+        defaultPaymentVoucherShouldNotBeFound("applicationId.lessThan=" + DEFAULT_APPLICATION_ID);
+
+        // Get all the paymentVoucherList where applicationId less than or equals to UPDATED_APPLICATION_ID
+        defaultPaymentVoucherShouldBeFound("applicationId.lessThan=" + UPDATED_APPLICATION_ID);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllPaymentVouchersByModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         paymentVoucherRepository.saveAndFlush(paymentVoucher);
@@ -531,6 +651,8 @@ public class PaymentVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].voucherDate").value(hasItem(DEFAULT_VOUCHER_DATE.toString())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].applicationType").value(hasItem(DEFAULT_APPLICATION_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].applicationId").value(hasItem(DEFAULT_APPLICATION_ID.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
@@ -583,6 +705,8 @@ public class PaymentVoucherResourceIntTest {
             .voucherNo(UPDATED_VOUCHER_NO)
             .voucherDate(UPDATED_VOUCHER_DATE)
             .postDate(UPDATED_POST_DATE)
+            .applicationType(UPDATED_APPLICATION_TYPE)
+            .applicationId(UPDATED_APPLICATION_ID)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
         PaymentVoucherDTO paymentVoucherDTO = paymentVoucherMapper.toDto(updatedPaymentVoucher);
@@ -599,6 +723,8 @@ public class PaymentVoucherResourceIntTest {
         assertThat(testPaymentVoucher.getVoucherNo()).isEqualTo(UPDATED_VOUCHER_NO);
         assertThat(testPaymentVoucher.getVoucherDate()).isEqualTo(UPDATED_VOUCHER_DATE);
         assertThat(testPaymentVoucher.getPostDate()).isEqualTo(UPDATED_POST_DATE);
+        assertThat(testPaymentVoucher.getApplicationType()).isEqualTo(UPDATED_APPLICATION_TYPE);
+        assertThat(testPaymentVoucher.getApplicationId()).isEqualTo(UPDATED_APPLICATION_ID);
         assertThat(testPaymentVoucher.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testPaymentVoucher.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
@@ -664,6 +790,8 @@ public class PaymentVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].voucherDate").value(hasItem(DEFAULT_VOUCHER_DATE.toString())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].applicationType").value(hasItem(DEFAULT_APPLICATION_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].applicationId").value(hasItem(DEFAULT_APPLICATION_ID.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }

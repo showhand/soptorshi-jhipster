@@ -46,6 +46,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.soptorshi.domain.enumeration.ApplicationType;
 /**
  * Test class for the ContraVoucherResource REST controller.
  *
@@ -63,6 +64,12 @@ public class ContraVoucherResourceIntTest {
 
     private static final LocalDate DEFAULT_POST_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_POST_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final ApplicationType DEFAULT_APPLICATION_TYPE = ApplicationType.REQUISITION;
+    private static final ApplicationType UPDATED_APPLICATION_TYPE = ApplicationType.PAY_ROLL;
+
+    private static final Long DEFAULT_APPLICATION_ID = 1L;
+    private static final Long UPDATED_APPLICATION_ID = 2L;
 
     private static final BigDecimal DEFAULT_CONVERSION_FACTOR = new BigDecimal(1);
     private static final BigDecimal UPDATED_CONVERSION_FACTOR = new BigDecimal(2);
@@ -135,6 +142,8 @@ public class ContraVoucherResourceIntTest {
             .voucherNo(DEFAULT_VOUCHER_NO)
             .voucherDate(DEFAULT_VOUCHER_DATE)
             .postDate(DEFAULT_POST_DATE)
+            .applicationType(DEFAULT_APPLICATION_TYPE)
+            .applicationId(DEFAULT_APPLICATION_ID)
             .conversionFactor(DEFAULT_CONVERSION_FACTOR)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
@@ -165,6 +174,8 @@ public class ContraVoucherResourceIntTest {
         assertThat(testContraVoucher.getVoucherNo()).isEqualTo(DEFAULT_VOUCHER_NO);
         assertThat(testContraVoucher.getVoucherDate()).isEqualTo(DEFAULT_VOUCHER_DATE);
         assertThat(testContraVoucher.getPostDate()).isEqualTo(DEFAULT_POST_DATE);
+        assertThat(testContraVoucher.getApplicationType()).isEqualTo(DEFAULT_APPLICATION_TYPE);
+        assertThat(testContraVoucher.getApplicationId()).isEqualTo(DEFAULT_APPLICATION_ID);
         assertThat(testContraVoucher.getConversionFactor()).isEqualTo(DEFAULT_CONVERSION_FACTOR);
         assertThat(testContraVoucher.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testContraVoucher.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
@@ -210,6 +221,8 @@ public class ContraVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO.toString())))
             .andExpect(jsonPath("$.[*].voucherDate").value(hasItem(DEFAULT_VOUCHER_DATE.toString())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].applicationType").value(hasItem(DEFAULT_APPLICATION_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].applicationId").value(hasItem(DEFAULT_APPLICATION_ID.intValue())))
             .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
@@ -229,6 +242,8 @@ public class ContraVoucherResourceIntTest {
             .andExpect(jsonPath("$.voucherNo").value(DEFAULT_VOUCHER_NO.toString()))
             .andExpect(jsonPath("$.voucherDate").value(DEFAULT_VOUCHER_DATE.toString()))
             .andExpect(jsonPath("$.postDate").value(DEFAULT_POST_DATE.toString()))
+            .andExpect(jsonPath("$.applicationType").value(DEFAULT_APPLICATION_TYPE.toString()))
+            .andExpect(jsonPath("$.applicationId").value(DEFAULT_APPLICATION_ID.intValue()))
             .andExpect(jsonPath("$.conversionFactor").value(DEFAULT_CONVERSION_FACTOR.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
@@ -407,6 +422,111 @@ public class ContraVoucherResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllContraVouchersByApplicationTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        contraVoucherRepository.saveAndFlush(contraVoucher);
+
+        // Get all the contraVoucherList where applicationType equals to DEFAULT_APPLICATION_TYPE
+        defaultContraVoucherShouldBeFound("applicationType.equals=" + DEFAULT_APPLICATION_TYPE);
+
+        // Get all the contraVoucherList where applicationType equals to UPDATED_APPLICATION_TYPE
+        defaultContraVoucherShouldNotBeFound("applicationType.equals=" + UPDATED_APPLICATION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllContraVouchersByApplicationTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        contraVoucherRepository.saveAndFlush(contraVoucher);
+
+        // Get all the contraVoucherList where applicationType in DEFAULT_APPLICATION_TYPE or UPDATED_APPLICATION_TYPE
+        defaultContraVoucherShouldBeFound("applicationType.in=" + DEFAULT_APPLICATION_TYPE + "," + UPDATED_APPLICATION_TYPE);
+
+        // Get all the contraVoucherList where applicationType equals to UPDATED_APPLICATION_TYPE
+        defaultContraVoucherShouldNotBeFound("applicationType.in=" + UPDATED_APPLICATION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllContraVouchersByApplicationTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        contraVoucherRepository.saveAndFlush(contraVoucher);
+
+        // Get all the contraVoucherList where applicationType is not null
+        defaultContraVoucherShouldBeFound("applicationType.specified=true");
+
+        // Get all the contraVoucherList where applicationType is null
+        defaultContraVoucherShouldNotBeFound("applicationType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllContraVouchersByApplicationIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        contraVoucherRepository.saveAndFlush(contraVoucher);
+
+        // Get all the contraVoucherList where applicationId equals to DEFAULT_APPLICATION_ID
+        defaultContraVoucherShouldBeFound("applicationId.equals=" + DEFAULT_APPLICATION_ID);
+
+        // Get all the contraVoucherList where applicationId equals to UPDATED_APPLICATION_ID
+        defaultContraVoucherShouldNotBeFound("applicationId.equals=" + UPDATED_APPLICATION_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllContraVouchersByApplicationIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        contraVoucherRepository.saveAndFlush(contraVoucher);
+
+        // Get all the contraVoucherList where applicationId in DEFAULT_APPLICATION_ID or UPDATED_APPLICATION_ID
+        defaultContraVoucherShouldBeFound("applicationId.in=" + DEFAULT_APPLICATION_ID + "," + UPDATED_APPLICATION_ID);
+
+        // Get all the contraVoucherList where applicationId equals to UPDATED_APPLICATION_ID
+        defaultContraVoucherShouldNotBeFound("applicationId.in=" + UPDATED_APPLICATION_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllContraVouchersByApplicationIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        contraVoucherRepository.saveAndFlush(contraVoucher);
+
+        // Get all the contraVoucherList where applicationId is not null
+        defaultContraVoucherShouldBeFound("applicationId.specified=true");
+
+        // Get all the contraVoucherList where applicationId is null
+        defaultContraVoucherShouldNotBeFound("applicationId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllContraVouchersByApplicationIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        contraVoucherRepository.saveAndFlush(contraVoucher);
+
+        // Get all the contraVoucherList where applicationId greater than or equals to DEFAULT_APPLICATION_ID
+        defaultContraVoucherShouldBeFound("applicationId.greaterOrEqualThan=" + DEFAULT_APPLICATION_ID);
+
+        // Get all the contraVoucherList where applicationId greater than or equals to UPDATED_APPLICATION_ID
+        defaultContraVoucherShouldNotBeFound("applicationId.greaterOrEqualThan=" + UPDATED_APPLICATION_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllContraVouchersByApplicationIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        contraVoucherRepository.saveAndFlush(contraVoucher);
+
+        // Get all the contraVoucherList where applicationId less than or equals to DEFAULT_APPLICATION_ID
+        defaultContraVoucherShouldNotBeFound("applicationId.lessThan=" + DEFAULT_APPLICATION_ID);
+
+        // Get all the contraVoucherList where applicationId less than or equals to UPDATED_APPLICATION_ID
+        defaultContraVoucherShouldBeFound("applicationId.lessThan=" + UPDATED_APPLICATION_ID);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllContraVouchersByConversionFactorIsEqualToSomething() throws Exception {
         // Initialize the database
         contraVoucherRepository.saveAndFlush(contraVoucher);
@@ -578,6 +698,8 @@ public class ContraVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].voucherDate").value(hasItem(DEFAULT_VOUCHER_DATE.toString())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].applicationType").value(hasItem(DEFAULT_APPLICATION_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].applicationId").value(hasItem(DEFAULT_APPLICATION_ID.intValue())))
             .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
@@ -631,6 +753,8 @@ public class ContraVoucherResourceIntTest {
             .voucherNo(UPDATED_VOUCHER_NO)
             .voucherDate(UPDATED_VOUCHER_DATE)
             .postDate(UPDATED_POST_DATE)
+            .applicationType(UPDATED_APPLICATION_TYPE)
+            .applicationId(UPDATED_APPLICATION_ID)
             .conversionFactor(UPDATED_CONVERSION_FACTOR)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
@@ -648,6 +772,8 @@ public class ContraVoucherResourceIntTest {
         assertThat(testContraVoucher.getVoucherNo()).isEqualTo(UPDATED_VOUCHER_NO);
         assertThat(testContraVoucher.getVoucherDate()).isEqualTo(UPDATED_VOUCHER_DATE);
         assertThat(testContraVoucher.getPostDate()).isEqualTo(UPDATED_POST_DATE);
+        assertThat(testContraVoucher.getApplicationType()).isEqualTo(UPDATED_APPLICATION_TYPE);
+        assertThat(testContraVoucher.getApplicationId()).isEqualTo(UPDATED_APPLICATION_ID);
         assertThat(testContraVoucher.getConversionFactor()).isEqualTo(UPDATED_CONVERSION_FACTOR);
         assertThat(testContraVoucher.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testContraVoucher.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
@@ -714,6 +840,8 @@ public class ContraVoucherResourceIntTest {
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].voucherDate").value(hasItem(DEFAULT_VOUCHER_DATE.toString())))
             .andExpect(jsonPath("$.[*].postDate").value(hasItem(DEFAULT_POST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].applicationType").value(hasItem(DEFAULT_APPLICATION_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].applicationId").value(hasItem(DEFAULT_APPLICATION_ID.intValue())))
             .andExpect(jsonPath("$.[*].conversionFactor").value(hasItem(DEFAULT_CONVERSION_FACTOR.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));

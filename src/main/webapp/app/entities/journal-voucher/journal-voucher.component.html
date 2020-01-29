@@ -36,6 +36,8 @@
             <th jhiSortBy="type"><span>Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="conversionFactor"><span>Conversion Factor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="reference"><span>Reference</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="applicationType"><span>Application Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="applicationId"><span>Application Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="referenceId"><span>Reference Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -52,6 +54,8 @@
                 <td>{{journalVoucher.type}}</td>
                 <td>{{journalVoucher.conversionFactor}}</td>
                 <td>{{journalVoucher.reference}}</td>
+                <td>{{journalVoucher.applicationType}}</td>
+                <td>{{journalVoucher.applicationId}}</td>
                 <td>{{journalVoucher.referenceId}}</td>
                 <td>{{journalVoucher.modifiedBy}}</td>
                 <td>{{journalVoucher.modifiedOn | date:'mediumDate'}}</td>

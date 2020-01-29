@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.VoucherType;
 import org.soptorshi.domain.enumeration.VoucherReferenceType;
+import org.soptorshi.domain.enumeration.ApplicationType;
 
 /**
  * A DTO for the JournalVoucher entity.
@@ -24,6 +25,10 @@ public class JournalVoucherDTO implements Serializable {
     private BigDecimal conversionFactor;
 
     private VoucherReferenceType reference;
+
+    private ApplicationType applicationType;
+
+    private Long applicationId;
 
     private Long referenceId;
 
@@ -90,6 +95,22 @@ public class JournalVoucherDTO implements Serializable {
 
     public void setReference(VoucherReferenceType reference) {
         this.reference = reference;
+    }
+
+    public ApplicationType getApplicationType() {
+        return applicationType;
+    }
+
+    public void setApplicationType(ApplicationType applicationType) {
+        this.applicationType = applicationType;
+    }
+
+    public Long getApplicationId() {
+        return applicationId;
+    }
+
+    public void setApplicationId(Long applicationId) {
+        this.applicationId = applicationId;
     }
 
     public Long getReferenceId() {
@@ -163,6 +184,8 @@ public class JournalVoucherDTO implements Serializable {
             ", type='" + getType() + "'" +
             ", conversionFactor=" + getConversionFactor() +
             ", reference='" + getReference() + "'" +
+            ", applicationType='" + getApplicationType() + "'" +
+            ", applicationId=" + getApplicationId() +
             ", referenceId=" + getReferenceId() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +

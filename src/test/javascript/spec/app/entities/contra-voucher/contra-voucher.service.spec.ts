@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { ContraVoucherService } from 'app/entities/contra-voucher/contra-voucher.service';
-import { IContraVoucher, ContraVoucher } from 'app/shared/model/contra-voucher.model';
+import { IContraVoucher, ContraVoucher, ApplicationType } from 'app/shared/model/contra-voucher.model';
 
 describe('Service Tests', () => {
     describe('ContraVoucher Service', () => {
@@ -25,7 +25,17 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new ContraVoucher(0, 'AAAAAAA', currentDate, currentDate, 0, 'AAAAAAA', currentDate);
+            elemDefault = new ContraVoucher(
+                0,
+                'AAAAAAA',
+                currentDate,
+                currentDate,
+                ApplicationType.REQUISITION,
+                0,
+                0,
+                'AAAAAAA',
+                currentDate
+            );
         });
 
         describe('Service methods', async () => {
@@ -79,6 +89,8 @@ describe('Service Tests', () => {
                         voucherNo: 'BBBBBB',
                         voucherDate: currentDate.format(DATE_FORMAT),
                         postDate: currentDate.format(DATE_FORMAT),
+                        applicationType: 'BBBBBB',
+                        applicationId: 1,
                         conversionFactor: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
@@ -108,6 +120,8 @@ describe('Service Tests', () => {
                         voucherNo: 'BBBBBB',
                         voucherDate: currentDate.format(DATE_FORMAT),
                         postDate: currentDate.format(DATE_FORMAT),
+                        applicationType: 'BBBBBB',
+                        applicationId: 1,
                         conversionFactor: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)

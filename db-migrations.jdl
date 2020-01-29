@@ -514,6 +514,8 @@ entity JournalVoucher{
     type VoucherType,
     conversionFactor BigDecimal,
     reference VoucherReferenceType,
+    applicationType ApplicationType,
+    applicationId Long,
     referenceId Long,
     modifiedBy String,
     modifiedOn LocalDate
@@ -523,6 +525,8 @@ entity PaymentVoucher{
     voucherNo String,
     voucherDate LocalDate,
     postDate LocalDate,
+    applicationType ApplicationType,
+    applicationId Long,
     modifiedBy String,
     modifiedOn LocalDate
 }
@@ -532,6 +536,8 @@ entity ReceiptVoucher{
     voucherNo String,
     voucherDate LocalDate,
     postDate LocalDate,
+    applicationType ApplicationType,
+    applicationId Long,
     modifiedBy String,
     modifiedOn LocalDate
 }
@@ -540,6 +546,8 @@ entity ContraVoucher{
     voucherNo String,
     voucherDate LocalDate,
     postDate LocalDate,
+    applicationType ApplicationType,
+    applicationId Long,
     conversionFactor BigDecimal,
     modifiedBy String,
     modifiedOn LocalDate
@@ -597,6 +605,11 @@ entity SystemGroupMap{
     modifiedOn LocalDate
 }
 
+
+enum ApplicationType{
+    REQUISITION,
+    PAY_ROLL
+}
 
 enum AccountType{
     OPENING_BALANCE_ADJUSTMENT_ACCOUNT,

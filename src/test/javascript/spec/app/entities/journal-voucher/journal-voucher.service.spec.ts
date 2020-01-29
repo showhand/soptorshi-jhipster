@@ -7,8 +7,13 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { JournalVoucherService } from 'app/entities/journal-voucher/journal-voucher.service';
-import { IJournalVoucher, JournalVoucher, VoucherReferenceType } from 'app/shared/model/journal-voucher.model';
-import { VoucherType } from 'app/shared/model/dt-transaction.model';
+import {
+    IJournalVoucher,
+    JournalVoucher,
+    VoucherType,
+    VoucherReferenceType,
+    ApplicationType
+} from 'app/shared/model/journal-voucher.model';
 
 describe('Service Tests', () => {
     describe('JournalVoucher Service', () => {
@@ -34,6 +39,8 @@ describe('Service Tests', () => {
                 VoucherType.SELLING,
                 0,
                 VoucherReferenceType.PAYROLL,
+                ApplicationType.REQUISITION,
+                0,
                 0,
                 'AAAAAAA',
                 currentDate
@@ -94,6 +101,8 @@ describe('Service Tests', () => {
                         type: 'BBBBBB',
                         conversionFactor: 1,
                         reference: 'BBBBBB',
+                        applicationType: 'BBBBBB',
+                        applicationId: 1,
                         referenceId: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
@@ -126,6 +135,8 @@ describe('Service Tests', () => {
                         type: 'BBBBBB',
                         conversionFactor: 1,
                         reference: 'BBBBBB',
+                        applicationType: 'BBBBBB',
+                        applicationId: 1,
                         referenceId: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)

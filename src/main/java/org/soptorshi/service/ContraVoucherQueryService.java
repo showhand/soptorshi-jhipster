@@ -102,6 +102,12 @@ public class ContraVoucherQueryService extends QueryService<ContraVoucher> {
             if (criteria.getPostDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPostDate(), ContraVoucher_.postDate));
             }
+            if (criteria.getApplicationType() != null) {
+                specification = specification.and(buildSpecification(criteria.getApplicationType(), ContraVoucher_.applicationType));
+            }
+            if (criteria.getApplicationId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getApplicationId(), ContraVoucher_.applicationId));
+            }
             if (criteria.getConversionFactor() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getConversionFactor(), ContraVoucher_.conversionFactor));
             }

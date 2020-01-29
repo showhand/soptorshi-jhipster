@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 import java.time.LocalDate;
 import java.io.Serializable;
 import java.util.Objects;
+import org.soptorshi.domain.enumeration.ApplicationType;
 
 /**
  * A DTO for the PaymentVoucher entity.
@@ -15,6 +16,10 @@ public class PaymentVoucherDTO implements Serializable {
     private LocalDate voucherDate;
 
     private LocalDate postDate;
+
+    private ApplicationType applicationType;
+
+    private Long applicationId;
 
     private String modifiedBy;
 
@@ -55,6 +60,22 @@ public class PaymentVoucherDTO implements Serializable {
 
     public void setPostDate(LocalDate postDate) {
         this.postDate = postDate;
+    }
+
+    public ApplicationType getApplicationType() {
+        return applicationType;
+    }
+
+    public void setApplicationType(ApplicationType applicationType) {
+        this.applicationType = applicationType;
+    }
+
+    public Long getApplicationId() {
+        return applicationId;
+    }
+
+    public void setApplicationId(Long applicationId) {
+        this.applicationId = applicationId;
     }
 
     public String getModifiedBy() {
@@ -117,6 +138,8 @@ public class PaymentVoucherDTO implements Serializable {
             ", voucherNo='" + getVoucherNo() + "'" +
             ", voucherDate='" + getVoucherDate() + "'" +
             ", postDate='" + getPostDate() + "'" +
+            ", applicationType='" + getApplicationType() + "'" +
+            ", applicationId=" + getApplicationId() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", account=" + getAccountId() +

@@ -16,6 +16,7 @@ import {
 } from 'app/entities/contra-voucher';
 import { ContraVoucherExtendedComponent } from 'app/entities/contra-voucher-extended/contra-voucher-extended.component';
 import { ContraVoucherExtendedUpdateComponent } from 'app/entities/contra-voucher-extended/contra-voucher-extended-update.component';
+import { PaymentVoucher } from 'app/shared/model/payment-voucher.model';
 
 @Injectable({ providedIn: 'root' })
 export class ContraVoucherExtendedResolve implements Resolve<IContraVoucher> {
@@ -23,11 +24,18 @@ export class ContraVoucherExtendedResolve implements Resolve<IContraVoucher> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IContraVoucher> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const applicationType = route.params['applicationType'] ? route.params['applicationType'] : null;
+        const applicationId = route.params['applicationId'] ? route.params['applicationId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<ContraVoucher>) => response.ok),
                 map((contraVoucher: HttpResponse<ContraVoucher>) => contraVoucher.body)
             );
+        } else if (applicationType && applicationId) {
+            const contraVoucher = new ContraVoucher();
+            contraVoucher.applicationId = applicationId;
+            contraVoucher.applicationType = applicationType;
+            return of(contraVoucher);
         }
         return of(new ContraVoucher());
     }
@@ -73,6 +81,18 @@ export const contraVoucherExtendedRoute: Routes = [
     },
     {
         path: ':id/edit',
+        component: ContraVoucherExtendedUpdateComponent,
+        resolve: {
+            contraVoucher: ContraVoucherExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ContraVouchers'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':applicationTye/:applicationId/edit',
         component: ContraVoucherExtendedUpdateComponent,
         resolve: {
             contraVoucher: ContraVoucherExtendedResolve

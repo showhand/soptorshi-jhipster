@@ -55,6 +55,18 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_applicationType">Application Type</label>
+                    <select class="form-control" name="applicationType" [(ngModel)]="journalVoucher.applicationType" id="field_applicationType" >
+                        <option value="REQUISITION">REQUISITION</option>
+                        <option value="PAY_ROLL">PAY_ROLL</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_applicationId">Application Id</label>
+                    <input type="number" class="form-control" name="applicationId" id="field_applicationId"
+                        [(ngModel)]="journalVoucher.applicationId" />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_referenceId">Reference Id</label>
                     <input type="number" class="form-control" name="referenceId" id="field_referenceId"
                         [(ngModel)]="journalVoucher.referenceId" />

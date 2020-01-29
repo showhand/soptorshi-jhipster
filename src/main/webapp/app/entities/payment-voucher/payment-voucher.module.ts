@@ -16,7 +16,7 @@ const ENTITY_STATES = [...paymentVoucherRoute, ...paymentVoucherPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /*declarations: [
+    /* declarations: [
         PaymentVoucherComponent,
         PaymentVoucherDetailComponent,
         PaymentVoucherUpdateComponent,

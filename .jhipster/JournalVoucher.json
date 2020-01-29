@@ -28,6 +28,15 @@
             "fieldValues": "PAYROLL,PURCHASE_ORDER,PROCUREMENT"
         },
         {
+            "fieldName": "applicationType",
+            "fieldType": "ApplicationType",
+            "fieldValues": "REQUISITION,PAY_ROLL"
+        },
+        {
+            "fieldName": "applicationId",
+            "fieldType": "Long"
+        },
+        {
             "fieldName": "referenceId",
             "fieldType": "Long"
         },

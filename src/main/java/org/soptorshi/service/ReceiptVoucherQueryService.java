@@ -102,6 +102,12 @@ public class ReceiptVoucherQueryService extends QueryService<ReceiptVoucher> {
             if (criteria.getPostDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPostDate(), ReceiptVoucher_.postDate));
             }
+            if (criteria.getApplicationType() != null) {
+                specification = specification.and(buildSpecification(criteria.getApplicationType(), ReceiptVoucher_.applicationType));
+            }
+            if (criteria.getApplicationId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getApplicationId(), ReceiptVoucher_.applicationId));
+            }
             if (criteria.getModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), ReceiptVoucher_.modifiedBy));
             }

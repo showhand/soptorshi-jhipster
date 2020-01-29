@@ -33,6 +33,8 @@
             <th jhiSortBy="voucherNo"><span>Voucher No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="voucherDate"><span>Voucher Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="postDate"><span>Post Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="applicationType"><span>Application Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="applicationId"><span>Application Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="accountName"><span>Account</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -45,6 +47,8 @@
                 <td>{{receiptVoucher.voucherNo}}</td>
                 <td>{{receiptVoucher.voucherDate | date:'mediumDate'}}</td>
                 <td>{{receiptVoucher.postDate | date:'mediumDate'}}</td>
+                <td>{{receiptVoucher.applicationType}}</td>
+                <td>{{receiptVoucher.applicationId}}</td>
                 <td>{{receiptVoucher.modifiedBy}}</td>
                 <td>{{receiptVoucher.modifiedOn | date:'mediumDate'}}</td>
                 <td>

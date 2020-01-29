@@ -33,6 +33,8 @@
             <th jhiSortBy="voucherNo"><span>Voucher No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="voucherDate"><span>Voucher Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="postDate"><span>Post Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="applicationType"><span>Application Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="applicationId"><span>Application Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="conversionFactor"><span>Conversion Factor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -46,6 +48,8 @@
                 <td>{{contraVoucher.voucherNo}}</td>
                 <td>{{contraVoucher.voucherDate | date:'mediumDate'}}</td>
                 <td>{{contraVoucher.postDate | date:'mediumDate'}}</td>
+                <td>{{contraVoucher.applicationType}}</td>
+                <td>{{contraVoucher.applicationId}}</td>
                 <td>{{contraVoucher.conversionFactor}}</td>
                 <td>{{contraVoucher.modifiedBy}}</td>
                 <td>{{contraVoucher.modifiedOn | date:'mediumDate'}}</td>

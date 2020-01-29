@@ -111,6 +111,12 @@ public class JournalVoucherQueryService extends QueryService<JournalVoucher> {
             if (criteria.getReference() != null) {
                 specification = specification.and(buildSpecification(criteria.getReference(), JournalVoucher_.reference));
             }
+            if (criteria.getApplicationType() != null) {
+                specification = specification.and(buildSpecification(criteria.getApplicationType(), JournalVoucher_.applicationType));
+            }
+            if (criteria.getApplicationId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getApplicationId(), JournalVoucher_.applicationId));
+            }
             if (criteria.getReferenceId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getReferenceId(), JournalVoucher_.referenceId));
             }

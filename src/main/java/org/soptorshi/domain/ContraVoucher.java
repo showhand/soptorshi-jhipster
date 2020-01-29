@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.soptorshi.domain.enumeration.ApplicationType;
+
 /**
  * A ContraVoucher.
  */
@@ -33,6 +35,13 @@ public class ContraVoucher implements Serializable {
 
     @Column(name = "post_date")
     private LocalDate postDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "application_type")
+    private ApplicationType applicationType;
+
+    @Column(name = "application_id")
+    private Long applicationId;
 
     @Column(name = "conversion_factor", precision = 10, scale = 2)
     private BigDecimal conversionFactor;
@@ -93,6 +102,32 @@ public class ContraVoucher implements Serializable {
 
     public void setPostDate(LocalDate postDate) {
         this.postDate = postDate;
+    }
+
+    public ApplicationType getApplicationType() {
+        return applicationType;
+    }
+
+    public ContraVoucher applicationType(ApplicationType applicationType) {
+        this.applicationType = applicationType;
+        return this;
+    }
+
+    public void setApplicationType(ApplicationType applicationType) {
+        this.applicationType = applicationType;
+    }
+
+    public Long getApplicationId() {
+        return applicationId;
+    }
+
+    public ContraVoucher applicationId(Long applicationId) {
+        this.applicationId = applicationId;
+        return this;
+    }
+
+    public void setApplicationId(Long applicationId) {
+        this.applicationId = applicationId;
     }
 
     public BigDecimal getConversionFactor() {
@@ -175,6 +210,8 @@ public class ContraVoucher implements Serializable {
             ", voucherNo='" + getVoucherNo() + "'" +
             ", voucherDate='" + getVoucherDate() + "'" +
             ", postDate='" + getPostDate() + "'" +
+            ", applicationType='" + getApplicationType() + "'" +
+            ", applicationId=" + getApplicationId() +
             ", conversionFactor=" + getConversionFactor() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
