@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialBudget;
 import org.soptorshi.domain.enumeration.CommercialBudgetStatus;
 import org.soptorshi.domain.enumeration.PaymentType;
-import org.soptorshi.repository.CommercialBudgetRepository;
+import org.soptorshi.repository.extended.CommercialBudgetExtendedRepository;
 import org.soptorshi.repository.search.CommercialBudgetSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.CommercialBudgetService;
@@ -27,7 +27,7 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
 
     private final Logger log = LoggerFactory.getLogger(CommercialBudgetExtendedService.class);
 
-    private final CommercialBudgetRepository commercialBudgetRepository;
+    private final CommercialBudgetExtendedRepository commercialBudgetExtendedRepository;
 
     private final CommercialBudgetMapper commercialBudgetMapper;
 
@@ -35,9 +35,9 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
 
     private final CommercialPiExtendedService commercialPiExtendedService;
 
-    public CommercialBudgetExtendedService(CommercialBudgetRepository commercialBudgetRepository, CommercialBudgetMapper commercialBudgetMapper, CommercialBudgetSearchRepository commercialBudgetSearchRepository, CommercialPiExtendedService commercialPiExtendedService) {
-        super(commercialBudgetRepository, commercialBudgetMapper, commercialBudgetSearchRepository);
-        this.commercialBudgetRepository = commercialBudgetRepository;
+    public CommercialBudgetExtendedService(CommercialBudgetExtendedRepository commercialBudgetExtendedRepository, CommercialBudgetMapper commercialBudgetMapper, CommercialBudgetSearchRepository commercialBudgetSearchRepository, CommercialPiExtendedService commercialPiExtendedService) {
+        super(commercialBudgetExtendedRepository, commercialBudgetMapper, commercialBudgetSearchRepository);
+        this.commercialBudgetExtendedRepository = commercialBudgetExtendedRepository;
         this.commercialBudgetMapper = commercialBudgetMapper;
         this.commercialBudgetSearchRepository = commercialBudgetSearchRepository;
         this.commercialPiExtendedService = commercialPiExtendedService;
@@ -56,16 +56,18 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
         Instant currentDateTime = Instant.now();
 
         if (commercialBudgetDTO.getId() == null) {
-            commercialBudgetDTO.setBudgetStatus(CommercialBudgetStatus.WAITING_FOR_APPROVAL);
-            commercialBudgetDTO.setCreatedBy(currentUser);
-            commercialBudgetDTO.setCreatedOn(currentDateTime);
-            CommercialBudget commercialBudget = commercialBudgetMapper.toEntity(commercialBudgetDTO);
-            commercialBudget = commercialBudgetRepository.save(commercialBudget);
-            CommercialBudgetDTO result = commercialBudgetMapper.toDto(commercialBudget);
-            commercialBudgetSearchRepository.save(commercialBudget);
-            return result;
+            if(!exists(commercialBudgetDTO.getBudgetNo())) {
+                commercialBudgetDTO.setBudgetStatus(CommercialBudgetStatus.WAITING_FOR_APPROVAL);
+                commercialBudgetDTO.setCreatedBy(currentUser);
+                commercialBudgetDTO.setCreatedOn(currentDateTime);
+                CommercialBudget commercialBudget = commercialBudgetMapper.toEntity(commercialBudgetDTO);
+                commercialBudget = commercialBudgetExtendedRepository.save(commercialBudget);
+                CommercialBudgetDTO result = commercialBudgetMapper.toDto(commercialBudget);
+                commercialBudgetSearchRepository.save(commercialBudget);
+                return result;
+            }
         } else {
-            Optional<CommercialBudget> currentCommercialBudget = commercialBudgetRepository.findById(commercialBudgetDTO.getId());
+            Optional<CommercialBudget> currentCommercialBudget = commercialBudgetExtendedRepository.findById(commercialBudgetDTO.getId());
             if (currentCommercialBudget.isPresent()) {
                 if (!currentCommercialBudget.get().getBudgetStatus().equals(CommercialBudgetStatus.APPROVED)) {
                     if (commercialBudgetDTO.getBudgetStatus().equals(CommercialBudgetStatus.APPROVED)) {
@@ -80,7 +82,7 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
                     commercialBudgetDTO.setUpdatedBy(currentUser);
                     commercialBudgetDTO.setUpdatedOn(currentDateTime);
                     CommercialBudget commercialBudget = commercialBudgetMapper.toEntity(commercialBudgetDTO);
-                    commercialBudget = commercialBudgetRepository.save(commercialBudget);
+                    commercialBudget = commercialBudgetExtendedRepository.save(commercialBudget);
                     CommercialBudgetDTO result = commercialBudgetMapper.toDto(commercialBudget);
                     commercialBudgetSearchRepository.save(commercialBudget);
                     return result;
@@ -88,5 +90,9 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
             }
         }
         return null;
+    }
+
+    public boolean exists(String budgetNo) {
+        return commercialBudgetExtendedRepository.existsByBudgetNo(budgetNo);
     }
 }
