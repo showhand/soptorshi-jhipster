@@ -110,7 +110,7 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
     private List<AttendanceExcelParser> parseExcel(byte[] bytes) {
         try {
             XLSReader xlsReader = null;
-            xlsReader = ReaderBuilder.buildFromXML(new File("/home/soptorshi/Documents/attendance-reader.xml"));
+            xlsReader = ReaderBuilder.buildFromXML(new File("D:/attendance-reader.xml"));
             List<AttendanceExcelParser> result = new ArrayList<>();
             Map<String, Object> beans = new HashMap<>();
             beans.put("attendances", result);
