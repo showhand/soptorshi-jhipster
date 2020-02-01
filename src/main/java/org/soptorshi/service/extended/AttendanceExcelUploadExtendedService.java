@@ -11,6 +11,7 @@ import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.AttendanceExcelUploadRepository;
 import org.soptorshi.repository.extended.EmployeeExtendedRepository;
 import org.soptorshi.repository.search.AttendanceExcelUploadSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.AttendanceExcelUploadService;
 import org.soptorshi.service.EmployeeService;
 import org.soptorshi.service.dto.AttendanceDTO;
@@ -74,6 +75,20 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
     @Transactional
     public AttendanceExcelUploadDTO save(AttendanceExcelUploadDTO attendanceExcelUploadDTO) {
         log.debug("Request to save AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
+
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
+            SecurityUtils.getCurrentUserLogin().toString() : "";
+        Instant currentDateTime = Instant.now();
+
+        if(attendanceExcelUploadDTO.getId() == null) {
+            attendanceExcelUploadDTO.setCreatedBy(currentUser);
+            attendanceExcelUploadDTO.setCreatedOn(currentDateTime);
+        }
+        else {
+            attendanceExcelUploadDTO.setUpdatedBy(currentUser);
+            attendanceExcelUploadDTO.setUpdatedOn(currentDateTime);
+        }
+
         AttendanceExcelUpload attendanceExcelUpload = attendanceExcelUploadMapper.toEntity(attendanceExcelUploadDTO);
         AttendanceExcelUploadDTO result = null;
         /*attendanceExcelUploadSearchRepository.save(attendanceExcelUpload);*/
