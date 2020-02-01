@@ -32,6 +32,10 @@
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="file"><span>File</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="type"><span>Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -43,6 +47,10 @@
                     <span *ngIf="attendanceExcelUpload.file">{{attendanceExcelUpload.fileContentType}}, {{byteSize(attendanceExcelUpload.file)}}</span>
                 </td>
                 <td>{{attendanceExcelUpload.type}}</td>
+                <td>{{attendanceExcelUpload.createdBy}}</td>
+                <td>{{attendanceExcelUpload.createdOn | date:'medium'}}</td>
+                <td>{{attendanceExcelUpload.updatedBy}}</td>
+                <td>{{attendanceExcelUpload.updatedOn | date:'medium'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

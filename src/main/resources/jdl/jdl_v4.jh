@@ -365,14 +365,22 @@ entity PurchaseOrder {
   modifiedOn LocalDate
 }
 entity AttendanceExcelUpload {
-  file AnyBlob,
-  type AttendanceType
+  file AnyBlob required,
+  type AttendanceType,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
 }
 entity Attendance {
   attendanceDate LocalDate,
   inTime Instant,
   outTime Instant,
-  duration String
+  duration String,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
 }
 entity Production {
     weightStep ProductionWeightStep required,

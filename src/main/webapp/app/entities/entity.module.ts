@@ -716,14 +716,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
             },
             {
-                path: 'attendance-excel-upload',
-                loadChildren: './attendance-excel-upload/attendance-excel-upload.module#SoptorshiAttendanceExcelUploadModule'
-            },
-            {
-                path: 'attendance',
-                loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
-            },
-            {
                 path: 'commercial-product-info',
                 loadChildren: './commercial-product-info/commercial-product-info.module#SoptorshiCommercialProductInfoModule'
             },

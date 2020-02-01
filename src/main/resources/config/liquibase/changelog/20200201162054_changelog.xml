@@ -1,0 +1,54 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1580574086098-1">
+        <addColumn tableName="attendance">
+            <column name="created_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1580574086098-2">
+        <addColumn tableName="attendance_excel_upload">
+            <column name="created_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1580574086098-3">
+        <addColumn tableName="attendance">
+            <column name="created_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1580574086098-4">
+        <addColumn tableName="attendance_excel_upload">
+            <column name="created_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1580574086098-5">
+        <addColumn tableName="attendance">
+            <column name="updated_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1580574086098-6">
+        <addColumn tableName="attendance_excel_upload">
+            <column name="updated_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1580574086098-7">
+        <addColumn tableName="attendance">
+            <column name="updated_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1580574086098-8">
+        <addColumn tableName="attendance_excel_upload">
+            <column name="updated_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1580574086098-9">
+        <addForeignKeyConstraint baseColumnNames="holiday_type_id" baseTableName="holiday" constraintName="FKi05drkmr2h1kn8qbf3hthmd08" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="holiday_type"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1580574086098-12">
+        <addNotNullConstraint columnDataType="blob" columnName="jhi_file" tableName="attendance_excel_upload"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1580574086098-13">
+        <addNotNullConstraint columnDataType="varchar(255)" columnName="jhi_file_content_type" tableName="attendance_excel_upload"/>
+    </changeSet>
+</databaseChangeLog>
