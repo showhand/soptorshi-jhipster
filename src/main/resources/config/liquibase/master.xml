@@ -104,6 +104,7 @@
     <include file="config/liquibase/changelog/20191228175920_added_entity_PurchaseOrderMessages.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191230045455_added_entity_RequisitionVoucherRelation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200110195953_added_entity_Production.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200131175037_added_entity_Weekend.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
 
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>

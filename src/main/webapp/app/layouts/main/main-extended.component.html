@@ -4,6 +4,7 @@
         width: 100%;
         align-items: stretch;
     }
+
     #sidebar {
         min-width: 220px;
         max-width: 220px;
@@ -19,7 +20,7 @@
         padding-top: 50px;
     }
 
-    .main{
+    .main {
         margin-left: 220px;
     }
 
@@ -44,6 +45,7 @@
         #sidebar {
             margin-left: -250px;
         }
+
         #sidebar.active {
             margin-left: 0;
         }
@@ -99,6 +101,7 @@
         font-size: 1.1em;
         display: block;
     }
+
     #sidebar ul li a:hover {
         color: #7386D5;
         background: #fff;
@@ -108,6 +111,7 @@
         color: #fff;
         background: #444444;
     }
+
     ul ul a {
         font-size: 0.9em !important;
         padding-left: 30px !important;
@@ -115,15 +119,17 @@
     }
 
     ::-webkit-scrollbar {
-        width: 0px;  /* Remove scrollbar space */
-        background: transparent;  /* Optional: just make scrollbar invisible */
+        width: 0px; /* Remove scrollbar space */
+        background: transparent; /* Optional: just make scrollbar invisible */
     }
+
     /* Optional: show position indicator in red */
     ::-webkit-scrollbar-thumb {
         background: #FF0000;
     }
-    .jh-card{
-        height:200%;
+
+    .jh-card {
+        height: 200%;
     }
 </style>
 
@@ -131,13 +137,15 @@
 <div>
     <router-outlet name="navbar"></router-outlet>
 </div>
-<div class="wrapper" [ngSwitch]="isAuthenticated() && sidebarService.toggleSidenav" >
-    <nav id="sidebar" *ngSwitchCase="true"  style="overflow:hidden;">
+<div class="wrapper" [ngSwitch]="isAuthenticated() && sidebarService.toggleSidenav">
+    <nav id="sidebar" *ngSwitchCase="true" style="overflow:hidden;">
         <ul class="list-unstyled components" style="height:40rem;  overflow-y:scroll;">
 
             <!-- <p>Dummy Heading</p>-->
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
-                <a (click)="configuration=!configuration" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+                <a (click)="configuration=!configuration" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="cog"></fa-icon>
                         <span>
@@ -147,31 +155,36 @@
                 </a>
                 <ul [ngbCollapse]="!configuration" class="list-unstyled" id="homeSubmenu">
                     <li>
-                        <a class="dropdown-item" routerLink="department" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="department" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="id-card" fixedWidth="true"></fa-icon>
                             <span>Department</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="designation" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="designation" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="chess" fixedWidth="true"></fa-icon>
                             <span>Designation</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="office" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="office" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="building" fixedWidth="true"></fa-icon>
                             <span>Office</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="department-head" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="department-head" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Department Head</span>
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
-                        <a class="dropdown-item" routerLink="financial-account-year" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="financial-account-year" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="donate" fixedWidth="true"></fa-icon>
                             <span>Financial Account Year</span>
                         </a>
@@ -179,8 +192,10 @@
                 </ul>
             </li>
 
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN']">
-                <a (click)="employeeManagement=!employeeManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                *jhiHasAnyAuthority="['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN']">
+                <a (click)="employeeManagement=!employeeManagement" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="user-cog"></fa-icon>
                         <span>
@@ -190,7 +205,8 @@
                 </a>
                 <ul [ngbCollapse]="!employeeManagement" class="list-unstyled" id="employee-management">
                     <li>
-                        <a class="dropdown-item" routerLink="employee" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="employee" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="user-edit" fixedWidth="true"></fa-icon>
                             <span>Employee</span>
                         </a>
@@ -199,8 +215,10 @@
                 </ul>
             </li>
 
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER', 'ROLE_USER']">
-                <a (click)="holidayManagement=!holidayManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER', 'ROLE_USER']">
+                <a (click)="holidayManagement=!holidayManagement" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="calendar-alt" fixedWidth="true"></fa-icon>
                         <span>
@@ -210,15 +228,24 @@
                 </a>
                 <ul [ngbCollapse]="!holidayManagement" class="list-unstyled" id="holiday-management">
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER']">
-                        <a class="dropdown-item" routerLink="holiday-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="holiday-type" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="bars" fixedWidth="true"></fa-icon>
                             <span>Holiday Type</span>
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER', 'ROLE_USER']">
-                        <a class="dropdown-item" routerLink="holiday" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="holiday" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="plane" fixedWidth="true"></fa-icon>
                             <span>Holiday</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="weekend" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span>Weekend</span>
                         </a>
                     </li>
                 </ul>
@@ -238,7 +265,8 @@
                 <ul [ngbCollapse]="!attendanceManagement" class="list-unstyled" id="attendance-management">
                     <li>
                         <a class="dropdown-item" routerLink="attendance-excel-upload" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
                             <fa-icon icon="file-excel" fixedWidth="true"></fa-icon>
                             <span>Excel Upload</span>
                         </a>
@@ -264,7 +292,8 @@
 
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_LEAVE_MANAGER',
             'ROLE_USER']">
-                <a (click)="leaveManagement=!leaveManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
+                <a (click)="leaveManagement=!leaveManagement" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="star" fixedWidth="true"></fa-icon>
                         <span>
@@ -274,19 +303,22 @@
                 </a>
                 <ul [ngbCollapse]="!leaveManagement" class="list-unstyled" id="leave-management">
                     <li>
-                        <a class="dropdown-item" routerLink="leave-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                        <a class="dropdown-item" routerLink="leave-type" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN']">
                             <fa-icon icon="bars" fixedWidth="true"></fa-icon>
                             <span>Leave Type</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="leave-application/new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
+                        <a class="dropdown-item" routerLink="leave-application/new" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
                             <fa-icon icon="car" fixedWidth="true"></fa-icon>
                             <span>Leave Application</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="leave-application" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
+                        <a class="dropdown-item" routerLink="leave-application" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
                             <fa-icon icon="history" fixedWidth="true"></fa-icon>
                             <span>Leave History</span>
                         </a>
@@ -300,7 +332,8 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="leave-application/new/others" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                        <a class="dropdown-item" routerLink="leave-application/new/others" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }"
                            *jhiHasAnyAuthority="['ROLE_ADMIN',
             'ROLE_LEAVE_MANAGER']">
                             <fa-icon icon="car" fixedWidth="true"></fa-icon>
@@ -308,7 +341,9 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="leave-application/history/others" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_LEAVE_MANAGER']">
+                        <a class="dropdown-item" routerLink="leave-application/history/others" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_LEAVE_MANAGER']">
                             <fa-icon icon="history" fixedWidth="true"></fa-icon>
                             <span>Others Leave History</span>
                         </a>
@@ -334,7 +369,8 @@
             </li>
 
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_USER']">
-                <a (click)="payrollManagement=!payrollManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
+                <a (click)="payrollManagement=!payrollManagement" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="money-check"></fa-icon>
                         <span>
@@ -345,31 +381,36 @@
                 <ul [ngbCollapse]="!payrollManagement" class="list-unstyled" id="payrollManagement">
 
                     <li>
-                        <a class="dropdown-item" routerLink="designation-wise-allowance" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="designation-wise-allowance" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="hand-holding" fixedWidth="true"></fa-icon>
                             <span>Designation Wise Allowance</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="fine-advance-loan-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="fine-advance-loan-management" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="money-bill-wave" fixedWidth="true"></fa-icon>
                             <span style="font-size: smaller">Fine, Advance, Loan & Provident</span>
                         </a>
                     </li>
-                    <li  *jhiHasAnyAuthority="['ROLE_USER']">
-                        <a class="dropdown-item" routerLink="special-allowance-time-line" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <li *jhiHasAnyAuthority="['ROLE_USER']">
+                        <a class="dropdown-item" routerLink="special-allowance-time-line" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Special Allowance Time Line</span>
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="['ROLE_USER']">
-                        <a  routerLink="payroll-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a routerLink="payroll-management" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
                             <span>Payroll Management</span>
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="['ROLE_USER']">
-                        <a  routerLink="salary-messages" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a routerLink="salary-messages" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
                             <span>Salary Messages</span>
                         </a>
@@ -377,8 +418,10 @@
                 </ul>
             </li>
 
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD','ROLE_PURCHASE_COMMITTEE', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
-                <a (click)="procurementManagement=!procurementManagement" data-toggle="collapse"  class="dropdown-toggle" [attr.aria-expanded]="false">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD','ROLE_PURCHASE_COMMITTEE', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
+                <a (click)="procurementManagement=!procurementManagement" data-toggle="collapse" class="dropdown-toggle"
+                   [attr.aria-expanded]="false">
                      <span>
                         <fa-icon icon="tools"></fa-icon>
                         <span>
@@ -389,43 +432,50 @@
                 <ul [ngbCollapse]="!procurementManagement" class="list-unstyled" id="procurementManagement">
 
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
-                        <a class="dropdown-item" routerLink="purchase-committee" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="purchase-committee" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Purchase Committee</span>
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
-                        <a class="dropdown-item" routerLink="budget-allocation" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="budget-allocation" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Budget Allocation</span>
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
-                        <a class="dropdown-item" routerLink="vendor" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="vendor" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Vendor</span>
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
-                        <a class="dropdown-item" routerLink="product-category" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="product-category" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Product Category</span>
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
-                        <a class="dropdown-item" routerLink="product/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="product/home" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Product</span>
                         </a>
                     </li>
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
-                        <a class="dropdown-item" routerLink="requisition" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="requisition" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Requisition</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="purchase-order" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <a class="dropdown-item" routerLink="purchase-order" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Purchase Order</span>
                         </a>
@@ -446,7 +496,8 @@
                 </a>
                 <ul [ngbCollapse]="!production" class="list-unstyled" id="production-management">
                     <li>
-                        <a class="dropdown-item" routerLink="production" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="production" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Production</span>
                         </a>
@@ -541,7 +592,7 @@
 
 
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                >
+            >
                 <a (click)="accountsConfig=!accountsConfig" data-toggle="collapse" class="dropdown-toggle"
                    [attr.aria-expanded]="false">
                      <span>
@@ -554,78 +605,86 @@
                 <ul [ngbCollapse]="!accountsConfig" class="list-unstyled" id="accountsConfig">
                     <li>
                         <a class="dropdown-item" routerLink="mst-group" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
                             <span>Account Groups</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="mst-account" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
                             <span>Account</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="period-close" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
                             <span>Period-Close</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="voucher" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
                             <span>Voucher Configuration</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="predefined-narration" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
                             <span>Narration</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="voucher-number-control" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
                             <span>Voucher Number Control</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="system-group-map" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
                             <span>System Group map</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="system-account-map" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
                             <span>System Account map</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="currency" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
                             <span>Currency</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="conversion-factor" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
                             <span>Conversion Factor</span>
                         </a>
                     </li>
                 </ul>
             </li>
-
-
 
 
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
@@ -642,35 +701,40 @@
                 <ul [ngbCollapse]="!vouchers" class="list-unstyled" id="vouchers">
                     <li>
                         <a class="dropdown-item" routerLink="journal-voucher" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
                             <span>Journal Voucher</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="payment-voucher" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
                             <span>Payment Voucher</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="receipt-voucher" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
                             <span>Receipt Voucher</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="contra-voucher" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
                             <span>Contra Voucher</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" routerLink="dt-transaction" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
                             <span>DT Transaction</span>
                         </a>
@@ -693,7 +757,8 @@
                 <ul [ngbCollapse]="!reports" class="list-unstyled" id="reports">
                     <li>
                         <a class="dropdown-item" routerLink="account-balance/balance-sheet" routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                             <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
                             <span>Balance Sheet</span>
                         </a>
@@ -714,7 +779,8 @@
                 </a>
                 <ul [ngbCollapse]="!commercialManagement" class="list-unstyled" id="commercial-management">
                     <li>
-                        <a class="dropdown-item" routerLink="commercial-budget" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="commercial-budget" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Commercial Budget</span>
                         </a>
@@ -726,19 +792,22 @@
                         </a>
                     </li>-->
                     <li>
-                        <a class="dropdown-item" routerLink="commercial-pi" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="commercial-pi" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Commercial Pi</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="commercial-po" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="commercial-po" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Commercial Po</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="commercial-attachment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="commercial-attachment" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span>Commercial Attachment</span>
                         </a>
@@ -759,55 +828,64 @@
                 </a>
                 <ul [ngbCollapse]="!supplyChainManagement" class="list-unstyled" id="supply-chain-management">
                     <li>
-                        <a class="dropdown-item" routerLink="supply-zone" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="supply-zone" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="bars" fixedWidth="true"></fa-icon>
                             <span>Zone</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="supply-area" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="supply-area" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="sitemap" fixedWidth="true"></fa-icon>
                             <span>Area</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="supply-area-manager" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="supply-area-manager" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="cube" fixedWidth="true"></fa-icon>
                             <span>Area Manager</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="supply-sales-representative" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="supply-sales-representative" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="cubes" fixedWidth="true"></fa-icon>
                             <span>Sales Representative</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="supply-shop" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="supply-shop" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="building" fixedWidth="true"></fa-icon>
                             <span>Shop</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="supply-order" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="supply-order" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="plus" fixedWidth="true"></fa-icon>
                             <span>Supply Order</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="supply-order-details" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="supply-order-details" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="info-circle" fixedWidth="true"></fa-icon>
                             <span>Order Details</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="supply-challan" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="supply-challan" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="superscript" fixedWidth="true"></fa-icon>
                             <span>Challan</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="supply-money-collection" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="dropdown-item" routerLink="supply-money-collection" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }">
                             <fa-icon icon="money-bill" fixedWidth="true"></fa-icon>
                             <span>Money Collection</span>
                         </a>
@@ -818,8 +896,11 @@
     </nav>
 
     <!--[ngStyle]="{'mergin-left': isAuthenticated()?'250px':'0px'}"-->
-    <div class="container-fluid" style="height: 100%;" [ngClass]="isAuthenticated() && isDesktop && sidebarService.toggleSidenav?'main':''"  [ngStyle]="{'mergin-left': isAuthenticated() && sidebarService.toggleSidenav==true?'250px':'0px'}" style="padding-top:70px;padding-bottom:30px;height:100%;">
-        <div class="card jh-card" >
+    <div class="container-fluid" style="height: 100%;"
+         [ngClass]="isAuthenticated() && isDesktop && sidebarService.toggleSidenav?'main':''"
+         [ngStyle]="{'mergin-left': isAuthenticated() && sidebarService.toggleSidenav==true?'250px':'0px'}"
+         style="padding-top:70px;padding-bottom:30px;height:100%;">
+        <div class="card jh-card">
             <breadcrumb></breadcrumb>
             <router-outlet></router-outlet>
             <router-outlet name="popup"></router-outlet>

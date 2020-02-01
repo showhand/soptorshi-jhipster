@@ -1,29 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { HolidayType, IHolidayType } from 'app/shared/model/holiday-type.model';
 import { HolidayTypeExtendedService } from 'app/entities/holiday-type-extended/holiday-type-extended.service';
 import { HolidayTypeExtendedComponent } from 'app/entities/holiday-type-extended/holiday-type-extended.component';
 import { HolidayTypeDetailExtendedComponent } from 'app/entities/holiday-type-extended/holiday-type-detail-extended.component';
 import { HolidayTypeUpdateExtendedComponent } from 'app/entities/holiday-type-extended/holiday-type-update-extended.component';
 import { HolidayTypeDeletePopupExtendedComponent } from 'app/entities/holiday-type-extended/holiday-type-delete-dialog-extended.component';
+import { HolidayTypeResolve } from 'app/entities/holiday-type';
 
 @Injectable({ providedIn: 'root' })
-export class HolidayTypeExtendedResolve implements Resolve<IHolidayType> {
-    constructor(private service: HolidayTypeExtendedService) {}
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IHolidayType> {
-        const id = route.params['id'] ? route.params['id'] : null;
-        if (id) {
-            return this.service.find(id).pipe(
-                filter((response: HttpResponse<HolidayType>) => response.ok),
-                map((holidayType: HttpResponse<HolidayType>) => holidayType.body)
-            );
-        }
-        return of(new HolidayType());
+export class HolidayTypeExtendedResolve extends HolidayTypeResolve {
+    constructor(service: HolidayTypeExtendedService) {
+        super(service);
     }
 }
 
@@ -75,7 +63,7 @@ export const holidayTypeExtendedRoute: Routes = [
     }
 ];
 
-export const holidayTypePopupRouteExtended: Routes = [
+export const holidayTypePopupExtendedRoute: Routes = [
     {
         path: ':id/delete',
         component: HolidayTypeDeletePopupExtendedComponent,

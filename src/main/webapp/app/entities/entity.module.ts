@@ -746,6 +746,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'production',
                 loadChildren: './production/production.module#SoptorshiProductionModule'
+            },
+            {
+                path: 'weekend',
+                loadChildren: './weekend-extended/weekend-extended.module#SoptorshiWeekendExtendedModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

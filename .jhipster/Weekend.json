@@ -1,0 +1,76 @@
+{
+    "name": "Weekend",
+    "fields": [
+        {
+            "fieldName": "numberOfDays",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min",
+                "max",
+                "required"
+            ],
+            "fieldValidateRulesMin": 1,
+            "fieldValidateRulesMax": 3
+        },
+        {
+            "fieldName": "activeFrom",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "activeTo",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "day1",
+            "fieldType": "DayOfWeek",
+            "fieldValues": "SUNDAY,MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "day2",
+            "fieldType": "DayOfWeek",
+            "fieldValues": "SUNDAY,MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY"
+        },
+        {
+            "fieldName": "day3",
+            "fieldType": "DayOfWeek",
+            "fieldValues": "SUNDAY,MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "WeekendStatus",
+            "fieldValues": "ACTIVE,INACTIVE",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdOn",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updatedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updatedOn",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20200131175037",
+    "entityTableName": "weekend",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
