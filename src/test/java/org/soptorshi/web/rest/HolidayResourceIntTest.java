@@ -1,22 +1,21 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.Holiday;
-import org.soptorshi.domain.HolidayType;
-import org.soptorshi.repository.HolidayRepository;
-import org.soptorshi.repository.search.HolidaySearchRepository;
-import org.soptorshi.service.HolidayService;
-import org.soptorshi.service.dto.HolidayDTO;
-import org.soptorshi.service.mapper.HolidayMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.HolidayCriteria;
-import org.soptorshi.service.HolidayQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.Holiday;
+import org.soptorshi.domain.HolidayType;
+import org.soptorshi.domain.enumeration.HolidayImposedAuthority;
+import org.soptorshi.domain.enumeration.YesOrNo;
+import org.soptorshi.repository.HolidayRepository;
+import org.soptorshi.repository.search.HolidaySearchRepository;
+import org.soptorshi.service.HolidayQueryService;
+import org.soptorshi.service.HolidayService;
+import org.soptorshi.service.dto.HolidayDTO;
+import org.soptorshi.service.mapper.HolidayMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -28,28 +27,23 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.soptorshi.domain.enumeration.YesOrNo;
-import org.soptorshi.domain.enumeration.HolidayImposedAuthority;
 /**
  * Test class for the HolidayResource REST controller.
  *
@@ -337,7 +331,7 @@ public class HolidayResourceIntTest {
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getHoliday() throws Exception {

@@ -1,29 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { Holiday, IHoliday } from 'app/shared/model/holiday.model';
 import { HolidayExtendedService } from 'app/entities/holiday-extended/holiday-extended.service';
 import { HolidayExtendedComponent } from 'app/entities/holiday-extended/holiday-extended.component';
 import { HolidayDetailExtendedComponent } from 'app/entities/holiday-extended/holiday-detail-extended.component';
 import { HolidayUpdateExtendedComponent } from 'app/entities/holiday-extended/holiday-update-extended.component';
 import { HolidayDeletePopupExtendedComponent } from 'app/entities/holiday-extended/holiday-delete-dialog-extended.component';
+import { HolidayResolve } from 'app/entities/holiday';
 
 @Injectable({ providedIn: 'root' })
-export class HolidayExtendedResolve implements Resolve<IHoliday> {
-    constructor(private service: HolidayExtendedService) {}
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IHoliday> {
-        const id = route.params['id'] ? route.params['id'] : null;
-        if (id) {
-            return this.service.find(id).pipe(
-                filter((response: HttpResponse<Holiday>) => response.ok),
-                map((holiday: HttpResponse<Holiday>) => holiday.body)
-            );
-        }
-        return of(new Holiday());
+export class HolidayExtendedResolve extends HolidayResolve {
+    constructor(service: HolidayExtendedService) {
+        super(service);
     }
 }
 
@@ -75,7 +63,7 @@ export const holidayExtendedRoute: Routes = [
     }
 ];
 
-export const holidayPopupRouteExtended: Routes = [
+export const holidayPopupExtendedRoute: Routes = [
     {
         path: ':id/delete',
         component: HolidayDeletePopupExtendedComponent,

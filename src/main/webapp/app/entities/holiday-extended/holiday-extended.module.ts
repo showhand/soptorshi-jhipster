@@ -8,11 +8,11 @@ import {
     HolidayDetailExtendedComponent,
     HolidayExtendedComponent,
     holidayExtendedRoute,
-    holidayPopupRouteExtended,
+    holidayPopupExtendedRoute,
     HolidayUpdateExtendedComponent
 } from './';
 
-const ENTITY_STATES = [...holidayExtendedRoute, ...holidayPopupRouteExtended];
+const ENTITY_STATES = [...holidayExtendedRoute, ...holidayPopupExtendedRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
