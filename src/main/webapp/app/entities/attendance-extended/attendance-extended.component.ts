@@ -10,6 +10,7 @@ import { AccountService } from 'app/core';
 import { DATE_FORMAT } from 'app/shared';
 import { AttendanceExtendedService } from './attendance-extended.service';
 import * as moment from 'moment';
+import { Moment } from 'moment';
 import { AttendanceComponent } from 'app/entities/attendance';
 
 @Component({
@@ -27,7 +28,7 @@ export class AttendanceExtendedComponent extends AttendanceComponent {
     reverse: any;
     totalItems: number;
     currentSearch: string;
-    distinctAttendanceDate: IAttendance[];
+    distinctAttendanceDate: Moment[];
 
     constructor(
         protected attendanceServiceExtended: AttendanceExtendedService,
@@ -42,7 +43,7 @@ export class AttendanceExtendedComponent extends AttendanceComponent {
         this.attendanceServiceExtended
             .getDistinctAttendanceDate()
             .subscribe(
-                (res: HttpResponse<IAttendance[]>) => this.addDistinctAttendances(res.body),
+                (res: HttpResponse<Moment[]>) => this.addDistinctAttendances(res.body),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -74,21 +75,22 @@ export class AttendanceExtendedComponent extends AttendanceComponent {
         }
     }
 
-    protected addDistinctAttendances(data: IAttendance[]) {
-        let flag = 0;
-        this.distinctAttendanceDate = [];
-        for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < this.distinctAttendanceDate.length; j++) {
-                if (this.distinctAttendanceDate[j].attendanceDate.diff(data[i].attendanceDate) === 0) {
-                    flag = 1;
-                    break;
-                } else {
-                    flag = 0;
-                }
-            }
-            if (flag === 0) {
-                this.distinctAttendanceDate.push(data[i]);
-            }
+    search(query) {
+        if (!query) {
+            return this.clear();
         }
+        this.attendances = [];
+        this.links = {
+            last: 0
+        };
+        this.page = 0;
+        this.predicate = 'id';
+        this.reverse = false;
+        this.currentSearch = query;
+        this.loadAll();
+    }
+
+    protected addDistinctAttendances(data: Moment[]) {
+        this.distinctAttendanceDate = data;
     }
 }

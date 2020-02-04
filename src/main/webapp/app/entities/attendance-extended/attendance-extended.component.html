@@ -34,8 +34,8 @@
         <select class="form-control" id="field_DistinctAttendanceDate" name="distinctAttendanceDate"
                 [(ngModel)]="currentSearch">
             <option [ngValue]="null">Select a date</option>
-            <option [ngValue]="attendanceDistinctDate.attendanceDate"
-                    *ngFor="let attendanceDistinctDate of distinctAttendanceDate">{{attendanceDistinctDate.attendanceDate | date:'mediumDate'}}</option>
+            <option [ngValue]="attendanceDistinctDate"
+                    *ngFor="let attendanceDistinctDate of distinctAttendanceDate">{{attendanceDistinctDate | date:'mediumDate'}}</option>
         </select>
     </div>
     <!--<div class="col-3">
