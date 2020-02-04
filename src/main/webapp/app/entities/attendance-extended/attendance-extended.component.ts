@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ import { AttendanceComponent } from 'app/entities/attendance';
     selector: 'jhi-attendance-extended',
     templateUrl: './attendance-extended.component.html'
 })
-export class AttendanceExtendedComponent extends AttendanceComponent implements OnInit, OnDestroy {
+export class AttendanceExtendedComponent extends AttendanceComponent {
     attendances: IAttendance[];
     currentAccount: any;
     eventSubscriber: Subscription;
