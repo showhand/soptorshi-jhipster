@@ -64,12 +64,13 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
             journalVoucherDTO.setVoucherNo(currentDate.getYear()+ "JN"+voucherNo);
         }
         journalVoucherDTO.setPostDate(journalVoucherDTO.getPostDate()!=null? LocalDate.now(): journalVoucherDTO.getPostDate());
-        updateTransactions(journalVoucherDTO);
         journalVoucherDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
         journalVoucherDTO.setModifiedOn(LocalDate.now());
         journalVoucherDTO = super.save(journalVoucherDTO);
-        if(journalVoucherDTO.getApplicationType()!=null)
+        if(journalVoucherDTO.getApplicationType()!=null) {
             storeApplicationVoucherRelation(journalVoucherDTO);
+        }
+        updateTransactions(journalVoucherDTO);
         return journalVoucherDTO;
     }
 
@@ -115,7 +116,7 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
         }
     }
 
-    private void updateApplicationVoucherRelationAmount(ApplicationType applicationType, String voucherNo, List<DtTransactionDTO> transactionDTOS) {
+    public void updateApplicationVoucherRelationAmount(ApplicationType applicationType, String voucherNo, List<DtTransactionDTO> transactionDTOS) {
             BigDecimal totalAmount = transactionDTOS.stream()
                 .filter(t->t.getBalanceType().equals(BalanceType.DEBIT))
                 .map(t->t.getAmount())
@@ -123,6 +124,7 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
             if(applicationType.equals(ApplicationType.REQUISITION)){
                 RequisitionVoucherRelation requisitionVoucherRelation = requisitionVoucherRelationExtendedRepository.findByVoucherNo(voucherNo);
                 requisitionVoucherRelation.setAmount(totalAmount);
+                requisitionVoucherRelationExtendedRepository.save(requisitionVoucherRelation);
             }
     }
 

@@ -95,7 +95,7 @@ export const journalVoucherExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':applicationType/:applicationId/edit',
+        path: ':applicationType/:applicationId/new',
         component: JournalVoucherExtendedUpdateComponent,
         resolve: {
             journalVoucher: JournalVoucherExtendedResolve

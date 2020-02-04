@@ -4,6 +4,7 @@ import io.github.jhipster.service.filter.LocalDateFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import org.soptorshi.domain.*;
 import org.soptorshi.domain.enumeration.AccountType;
+import org.soptorshi.domain.enumeration.ApplicationType;
 import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.CurrencyFlag;
 import org.soptorshi.repository.DtTransactionRepository;
@@ -11,6 +12,7 @@ import org.soptorshi.repository.PaymentVoucherGeneratorRepository;
 import org.soptorshi.repository.PaymentVoucherRepository;
 import org.soptorshi.repository.SalaryVoucherRelationRepository;
 import org.soptorshi.repository.extended.CurrencyExtendedRepository;
+import org.soptorshi.repository.extended.RequisitionVoucherRelationExtendedRepository;
 import org.soptorshi.repository.extended.SystemAccountMapExtendedRepository;
 import org.soptorshi.repository.search.PaymentVoucherSearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -41,8 +43,12 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
     private CurrencyExtendedRepository currencyExtendedRepository;
     private SystemAccountMapExtendedRepository systemAccountMapExtendedRepository;
     private SalaryVoucherRelationRepository salaryVoucherRelationRepository;
+    private RequisitionVoucherRelationExtendedService requisitionVoucherRelationService;
+    private RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository;
+    private JournalVoucherExtendedService journalVoucherExtendedService;
 
-    public PaymentVoucherExtendedService(PaymentVoucherRepository paymentVoucherRepository, PaymentVoucherMapper paymentVoucherMapper, PaymentVoucherSearchRepository paymentVoucherSearchRepository, PaymentVoucherGeneratorRepository paymentVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, CurrencyQueryService currencyQueryService, DtTransactionMapper dtTransactionMapper, CurrencyExtendedRepository currencyExtendedRepository, SystemAccountMapExtendedRepository systemAccountMapExtendedRepository, SalaryVoucherRelationRepository salaryVoucherRelationRepository) {
+
+    public PaymentVoucherExtendedService(PaymentVoucherRepository paymentVoucherRepository, PaymentVoucherMapper paymentVoucherMapper, PaymentVoucherSearchRepository paymentVoucherSearchRepository, PaymentVoucherGeneratorRepository paymentVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, CurrencyQueryService currencyQueryService, DtTransactionMapper dtTransactionMapper, CurrencyExtendedRepository currencyExtendedRepository, SystemAccountMapExtendedRepository systemAccountMapExtendedRepository, SalaryVoucherRelationRepository salaryVoucherRelationRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, JournalVoucherExtendedService journalVoucherExtendedService) {
         super(paymentVoucherRepository, paymentVoucherMapper, paymentVoucherSearchRepository);
         this.paymentVoucherGeneratorRepository = paymentVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
@@ -53,6 +59,9 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
         this.currencyExtendedRepository = currencyExtendedRepository;
         this.systemAccountMapExtendedRepository = systemAccountMapExtendedRepository;
         this.salaryVoucherRelationRepository = salaryVoucherRelationRepository;
+        this.requisitionVoucherRelationService = requisitionVoucherRelationService;
+        this.requisitionVoucherRelationExtendedRepository = requisitionVoucherRelationExtendedRepository;
+        this.journalVoucherExtendedService = journalVoucherExtendedService;
     }
 
     @Override
@@ -68,7 +77,24 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
         paymentVoucherDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
         paymentVoucherDTO.setModifiedOn(LocalDate.now());
         updateTransactions(paymentVoucherDTO);
-        return super.save(paymentVoucherDTO);
+
+        paymentVoucherDTO = super.save(paymentVoucherDTO);
+        if(paymentVoucherDTO.getApplicationType()!=null)
+            storeApplicationVoucherRelation(paymentVoucherDTO);
+        return paymentVoucherDTO;
+    }
+
+
+    private void storeApplicationVoucherRelation(PaymentVoucherDTO paymentVoucherDTO) {
+        if(!requisitionVoucherRelationExtendedRepository.existsByVoucherNo(paymentVoucherDTO.getVoucherNo())){
+            if(paymentVoucherDTO.getApplicationType().equals(ApplicationType.REQUISITION)){
+                requisitionVoucherRelationService.storeRequisitionVoucherRelation(paymentVoucherDTO.getVoucherNo(),
+                    paymentVoucherDTO.getApplicationType(),
+                    paymentVoucherDTO.getApplicationId(),
+                    paymentVoucherDTO.getId(),
+                    "Payment Voucher");
+            }
+        }
     }
 
 
@@ -128,10 +154,14 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
         List<DtTransaction> dtTransactions = dtTransactionMapper.toEntity(combinedTransactions);
         dtTransactions = dtTransactionRepository.saveAll(dtTransactions);
 
+        if(paymentVoucherDTO.getApplicationType()!=null)
+            journalVoucherExtendedService.updateApplicationVoucherRelationAmount(paymentVoucherDTO.getApplicationType(),paymentVoucherDTO.getVoucherNo(), combinedTransactions);
+
         if(paymentVoucherDTO.getPostDate()!=null){
             dtTransactionExtendedService.updateAccountBalance(dtTransactionMapper.toDto(dtTransactions));
         }
     }
+
 
     private DtTransactionDTO createCreditTransaction(PaymentVoucherDTO paymentVoucherDTO){
         DtTransactionDTO debitTransaction = new DtTransactionDTO();

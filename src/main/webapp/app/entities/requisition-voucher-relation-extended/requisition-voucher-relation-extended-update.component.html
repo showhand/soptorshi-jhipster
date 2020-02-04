@@ -35,18 +35,9 @@
         </form>
     </div>
     <div class="col-4">
-        <ul>
-            <li><button type="button" id="journal_vouchers" class="btn btn-link" [routerLink]="['/journal-voucher']">Journal Vouchers</button><br/></li>
-            <li><button type="button" id="contra_vouchers" class="btn btn-link" [routerLink]="['/contra-voucher']">Contra  Vouchers</button><br/></li>
-            <li><button type="button" id="receipt_vouchers" class="btn btn-link" [routerLink]="['/receipt-voucher']">Receipt Vouchers</button><br/></li>
-            <li><button type="button" id="payment_vouchers" class="btn btn-link" [routerLink]="['/payment-voucher']">Payment Vouchers</button><br/></li>
-        </ul>
-
-        <hr/>
-        <hr/>
 
         <ul>
-            <li><button type="button" id="new_journal_vouchers" class="btn btn-link" [routerLink]="['/journal-voucher/new']">Create Journal Voucher</button><br/></li>
+            <li><button type="button" id="new_journal_vouchers" class="btn btn-link" (click)="createJournalVoucher()">Create Journal Voucher</button><br/></li>
             <li><button type="button" id="new_contra_vouchers" class="btn btn-link" [routerLink]="['/contra-voucher/new']">Create Contra Voucher</button><br/></li>
             <li><button type="button" id="new_receipt_vouchers" class="btn btn-link" [routerLink]="['/receipt-voucher/new']">Create Receipt Voucher</button><br/></li>
             <li><button type="button" id="new_payment_vouchers" class="btn btn-link" [routerLink]="['/payment-voucher/new']">Create Payment Voucher</button><br/></li>

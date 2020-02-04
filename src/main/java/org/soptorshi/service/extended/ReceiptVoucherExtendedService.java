@@ -6,11 +6,14 @@ import net.sf.cglib.core.Local;
 import org.soptorshi.domain.Currency;
 import org.soptorshi.domain.DtTransaction;
 import org.soptorshi.domain.ReceiptVoucherGenerator;
+import org.soptorshi.domain.RequisitionVoucherRelation;
+import org.soptorshi.domain.enumeration.ApplicationType;
 import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.CurrencyFlag;
 import org.soptorshi.repository.DtTransactionRepository;
 import org.soptorshi.repository.ReceiptVoucherGeneratorRepository;
 import org.soptorshi.repository.ReceiptVoucherRepository;
+import org.soptorshi.repository.extended.RequisitionVoucherRelationExtendedRepository;
 import org.soptorshi.repository.search.ReceiptVoucherSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.CurrencyQueryService;
@@ -36,8 +39,10 @@ public class ReceiptVoucherExtendedService extends ReceiptVoucherService {
     private DtTransactionExtendedService dtTransactionExtendedService;
     private CurrencyQueryService currencyQueryService;
     private DtTransactionMapper dtTransactionMapper;
+    private RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository;
+    private RequisitionVoucherRelationExtendedService requisitionVoucherRelationService;
 
-    public ReceiptVoucherExtendedService(ReceiptVoucherRepository receiptVoucherRepository, ReceiptVoucherMapper receiptVoucherMapper, ReceiptVoucherSearchRepository receiptVoucherSearchRepository, ReceiptVoucherGeneratorRepository receiptVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, CurrencyQueryService currencyQueryService, DtTransactionMapper dtTransactionMapper) {
+    public ReceiptVoucherExtendedService(ReceiptVoucherRepository receiptVoucherRepository, ReceiptVoucherMapper receiptVoucherMapper, ReceiptVoucherSearchRepository receiptVoucherSearchRepository, ReceiptVoucherGeneratorRepository receiptVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, CurrencyQueryService currencyQueryService, DtTransactionMapper dtTransactionMapper, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, DtTransactionMapper dtTransactionMapper1) {
         super(receiptVoucherRepository, receiptVoucherMapper, receiptVoucherSearchRepository);
         this.receiptVoucherGeneratorRepository = receiptVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
@@ -45,6 +50,8 @@ public class ReceiptVoucherExtendedService extends ReceiptVoucherService {
         this.dtTransactionExtendedService = dtTransactionExtendedService;
         this.currencyQueryService = currencyQueryService;
         this.dtTransactionMapper = dtTransactionMapper;
+        this.requisitionVoucherRelationExtendedRepository = requisitionVoucherRelationExtendedRepository;
+        this.requisitionVoucherRelationService = requisitionVoucherRelationService;
     }
 
     @Override
@@ -59,7 +66,23 @@ public class ReceiptVoucherExtendedService extends ReceiptVoucherService {
         receiptVoucherDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
         receiptVoucherDTO.setModifiedOn(LocalDate.now());
         updateTransactions(receiptVoucherDTO);
-        return super.save(receiptVoucherDTO);
+        receiptVoucherDTO = super.save(receiptVoucherDTO);
+        if(receiptVoucherDTO.getApplicationId()!=null)
+            storeApplicationVoucherRelation(receiptVoucherDTO);
+        return receiptVoucherDTO;
+    }
+
+
+    private void storeApplicationVoucherRelation(ReceiptVoucherDTO receiptVoucherDTO) {
+        if(!requisitionVoucherRelationExtendedRepository.existsByVoucherNo(receiptVoucherDTO.getVoucherNo())){
+            if(receiptVoucherDTO.getApplicationType().equals(ApplicationType.REQUISITION)){
+                requisitionVoucherRelationService.storeRequisitionVoucherRelation(receiptVoucherDTO.getVoucherNo(),
+                    receiptVoucherDTO.getApplicationType(),
+                    receiptVoucherDTO.getApplicationId(),
+                    receiptVoucherDTO.getId(),
+                    "Journal Voucher");
+            }
+        }
     }
 
     public void updateTransactions(ReceiptVoucherDTO receiptVoucherDTO){
@@ -118,8 +141,25 @@ public class ReceiptVoucherExtendedService extends ReceiptVoucherService {
         List<DtTransaction> dtTransactions = dtTransactionMapper.toEntity(combinedTransactions);
         dtTransactions = dtTransactionRepository.saveAll(dtTransactions);
 
+
+        if(receiptVoucherDTO.getApplicationId()!=null)
+            updateApplicationVoucherRelationAmount(receiptVoucherDTO.getApplicationType(), receiptVoucherDTO.getVoucherNo(), dtTransactionMapper.toDto(dtTransactions) );
+
         if(receiptVoucherDTO.getPostDate()!=null){
             dtTransactionExtendedService.updateAccountBalance(dtTransactionMapper.toDto(dtTransactions));
+        }
+    }
+
+
+    public void updateApplicationVoucherRelationAmount(ApplicationType applicationType, String voucherNo, List<DtTransactionDTO> transactionDTOS) {
+        BigDecimal totalAmount = transactionDTOS.stream()
+            .filter(t->t.getBalanceType().equals(BalanceType.DEBIT))
+            .map(t->t.getAmount())
+            .reduce(BigDecimal.ZERO, (t1,t2)->t1.add(t2));
+        if(applicationType.equals(ApplicationType.REQUISITION)){
+            RequisitionVoucherRelation requisitionVoucherRelation = requisitionVoucherRelationExtendedRepository.findByVoucherNo(voucherNo);
+            requisitionVoucherRelation.setAmount(totalAmount);
+            requisitionVoucherRelationExtendedRepository.save(requisitionVoucherRelation);
         }
     }
 

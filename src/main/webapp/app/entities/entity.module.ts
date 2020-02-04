@@ -746,22 +746,6 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'production',
                 loadChildren: './production/production.module#SoptorshiProductionModule'
-            },
-            {
-                path: 'journal-voucher',
-                loadChildren: './journal-voucher/journal-voucher.module#SoptorshiJournalVoucherModule'
-            },
-            {
-                path: 'payment-voucher',
-                loadChildren: './payment-voucher/payment-voucher.module#SoptorshiPaymentVoucherModule'
-            },
-            {
-                path: 'receipt-voucher',
-                loadChildren: './receipt-voucher/receipt-voucher.module#SoptorshiReceiptVoucherModule'
-            },
-            {
-                path: 'contra-voucher',
-                loadChildren: './contra-voucher/contra-voucher.module#SoptorshiContraVoucherModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

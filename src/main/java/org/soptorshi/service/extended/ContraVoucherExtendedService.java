@@ -4,21 +4,28 @@ import io.github.jhipster.service.filter.LocalDateFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import org.soptorshi.domain.DtTransaction;
 import org.soptorshi.domain.ContraVoucherGenerator;
+import org.soptorshi.domain.RequisitionVoucherRelation;
+import org.soptorshi.domain.enumeration.ApplicationType;
+import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.repository.ContraVoucherGeneratorRepository;
 import org.soptorshi.repository.ContraVoucherRepository;
 import org.soptorshi.repository.DtTransactionRepository;
+import org.soptorshi.repository.extended.RequisitionVoucherRelationExtendedRepository;
 import org.soptorshi.repository.search.ContraVoucherSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.ContraVoucherService;
 import org.soptorshi.service.DtTransactionQueryService;
+import org.soptorshi.service.RequisitionVoucherRelationService;
 import org.soptorshi.service.dto.ContraVoucherDTO;
 import org.soptorshi.service.dto.DtTransactionCriteria;
 import org.soptorshi.service.dto.DtTransactionDTO;
+import org.soptorshi.service.dto.JournalVoucherDTO;
 import org.soptorshi.service.mapper.ContraVoucherMapper;
 import org.soptorshi.service.mapper.DtTransactionMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,14 +37,18 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
     private DtTransactionMapper dtTransactionMapper;
     private DtTransactionRepository dtTransactionRepository;
     private DtTransactionExtendedService dtTransactionExtendedService;
+    private RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository;
+    private RequisitionVoucherRelationExtendedService requisitionVoucherRelationService;
 
-    public ContraVoucherExtendedService(ContraVoucherRepository contraVoucherRepository, ContraVoucherMapper contraVoucherMapper, ContraVoucherSearchRepository contraVoucherSearchRepository, ContraVoucherGeneratorRepository contraVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService) {
+    public ContraVoucherExtendedService(ContraVoucherRepository contraVoucherRepository, ContraVoucherMapper contraVoucherMapper, ContraVoucherSearchRepository contraVoucherSearchRepository, ContraVoucherGeneratorRepository contraVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService) {
         super(contraVoucherRepository, contraVoucherMapper, contraVoucherSearchRepository);
         this.contraVoucherGeneratorRepository = contraVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
         this.dtTransactionMapper = dtTransactionMapper;
         this.dtTransactionRepository = dtTransactionRepository;
         this.dtTransactionExtendedService = dtTransactionExtendedService;
+        this.requisitionVoucherRelationExtendedRepository = requisitionVoucherRelationExtendedRepository;
+        this.requisitionVoucherRelationService = requisitionVoucherRelationService;
     }
 
     @Override
@@ -52,8 +63,24 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
         updateTransactions(contraVoucherDTO);
         contraVoucherDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
         contraVoucherDTO.setModifiedOn(LocalDate.now());
-        return super.save(contraVoucherDTO);
+        contraVoucherDTO = super.save(contraVoucherDTO);
+        if(contraVoucherDTO.getApplicationId()!=null)
+            storeApplicationVoucherRelation(contraVoucherDTO);
+        return contraVoucherDTO;
     }
+
+    private void storeApplicationVoucherRelation(ContraVoucherDTO contraVOucherDTO) {
+        if(!requisitionVoucherRelationExtendedRepository.existsByVoucherNo(contraVOucherDTO.getVoucherNo())){
+            if(contraVOucherDTO.getApplicationType().equals(ApplicationType.REQUISITION)){
+                requisitionVoucherRelationService.storeRequisitionVoucherRelation(contraVOucherDTO.getVoucherNo(),
+                    contraVOucherDTO.getApplicationType(),
+                    contraVOucherDTO.getApplicationId(),
+                    contraVOucherDTO.getId(),
+                    "Journal Voucher");
+            }
+        }
+    }
+
 
     public void updateTransactions(ContraVoucherDTO contraVoucherDTO){
         DtTransactionCriteria criteria = new DtTransactionCriteria();
@@ -76,9 +103,21 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
 
         List<DtTransaction> dtTransactions = dtTransactionMapper.toEntity(transactionDTOS);
         dtTransactions = dtTransactionRepository.saveAll(dtTransactions);
-
+        updateApplicationVoucherRelationAmount(contraVoucherDTO.getApplicationType(), contraVoucherDTO.getVoucherNo(), transactionDTOS);
         if(contraVoucherDTO.getPostDate()!=null){
             dtTransactionExtendedService.updateAccountBalance(dtTransactionMapper.toDto(dtTransactions));
+        }
+    }
+
+    public void updateApplicationVoucherRelationAmount(ApplicationType applicationType, String voucherNo, List<DtTransactionDTO> transactionDTOS) {
+        BigDecimal totalAmount = transactionDTOS.stream()
+            .filter(t->t.getBalanceType().equals(BalanceType.DEBIT))
+            .map(t->t.getAmount())
+            .reduce(BigDecimal.ZERO, (t1,t2)->t1.add(t2));
+        if(applicationType.equals(ApplicationType.REQUISITION)){
+            RequisitionVoucherRelation requisitionVoucherRelation = requisitionVoucherRelationExtendedRepository.findByVoucherNo(voucherNo);
+            requisitionVoucherRelation.setAmount(totalAmount);
+            requisitionVoucherRelationExtendedRepository.save(requisitionVoucherRelation);
         }
     }
 }

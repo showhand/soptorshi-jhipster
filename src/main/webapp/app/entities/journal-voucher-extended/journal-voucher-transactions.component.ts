@@ -77,7 +77,11 @@ export class JournalVoucherTransactionsComponent extends DtTransactionComponent 
         transaction.voucherDate = this.journalVoucher.voucherDate;
         transaction.fCurrency = this.journalVoucher.currencyId;
         transaction.type =
-            this.journalVoucher.type.toString() === VoucherType.SELLING.toString() ? VoucherType.SELLING : VoucherType.BUYING;
+            this.journalVoucher.type != null
+                ? this.journalVoucher.type.toString() === VoucherType.SELLING.toString()
+                    ? VoucherType.SELLING
+                    : VoucherType.BUYING
+                : null;
         const modalRef = this.modalService.open(JournalVoucherTransactionUpdateComponent, { size: 'lg' });
         modalRef.componentInstance.dtTransaction = transaction;
     }

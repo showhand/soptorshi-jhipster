@@ -23,7 +23,7 @@ public class RequisitionVoucherRelationExtendedService extends RequisitionVouche
     public void storeRequisitionVoucherRelation(String voucherNo, ApplicationType applicationType, Long applicationId, Long id,  String voucherName) {
         RequisitionVoucherRelationDTO requisitionVoucherRelationDTO = new RequisitionVoucherRelationDTO();
         requisitionVoucherRelationDTO.setRequisitionId(applicationId);
-        requisitionVoucherRelationDTO.setVoucherId(id);
+        //requisitionVoucherRelationDTO.setVoucherId(id);
         requisitionVoucherRelationDTO.setVoucherName(voucherName);
         requisitionVoucherRelationDTO.setVoucherNo(voucherNo);
         super.save(requisitionVoucherRelationDTO);

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -11,6 +11,11 @@ import { IVoucher } from 'app/shared/model/voucher.model';
 import { VoucherService } from 'app/entities/voucher';
 import { IRequisition } from 'app/shared/model/requisition.model';
 import { RequisitionService } from 'app/entities/requisition';
+import { JournalVoucherService } from 'app/entities/journal-voucher';
+import { ContraVoucherService } from 'app/entities/contra-voucher';
+import { ReceiptVoucherService } from 'app/entities/receipt-voucher';
+import { PaymentVoucherService } from 'app/entities/payment-voucher';
+import { ApplicationType } from 'app/shared/model/journal-voucher.model';
 
 @Component({
     selector: 'jhi-requisition-voucher-relation-update',
