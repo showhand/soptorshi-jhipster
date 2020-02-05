@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { ILeaveApplication, LeaveApplication } from 'app/shared/model/leave-application.model';
 import { OthersLeaveApplicationComponent } from 'app/entities/leave-application-extended/others-leave-application.component';
 import { ReviewLeaveApplicationComponent } from 'app/entities/leave-application-extended/review-leave-application.component';
 import { OthersLeaveApplicationHistoryComponent } from 'app/entities/leave-application-extended/others-leave-application-history.component';
@@ -13,20 +9,12 @@ import { LeaveApplicationExtendedComponent } from 'app/entities/leave-applicatio
 import { LeaveApplicationDetailExtendedComponent } from 'app/entities/leave-application-extended/leave-application-detail-extended.component';
 import { LeaveApplicationUpdateExtendedComponent } from 'app/entities/leave-application-extended/leave-application-update-extended.component';
 import { LeaveApplicationDeletePopupExtendedComponent } from 'app/entities/leave-application-extended/leave-application-delete-dialog-extended.component';
+import { LeaveApplicationResolve } from 'app/entities/leave-application';
 
 @Injectable({ providedIn: 'root' })
-export class LeaveApplicationExtendedResolve implements Resolve<ILeaveApplication> {
-    constructor(private service: LeaveApplicationExtendedService) {}
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ILeaveApplication> {
-        const id = route.params['id'] ? route.params['id'] : null;
-        if (id) {
-            return this.service.find(id).pipe(
-                filter((response: HttpResponse<LeaveApplication>) => response.ok),
-                map((leaveApplication: HttpResponse<LeaveApplication>) => leaveApplication.body)
-            );
-        }
-        return of(new LeaveApplication());
+export class LeaveApplicationExtendedResolve extends LeaveApplicationResolve {
+    constructor(service: LeaveApplicationExtendedService) {
+        super(service);
     }
 }
 
@@ -114,7 +102,7 @@ export const leaveApplicationExtendedRoute: Routes = [
     }
 ];
 
-export const leaveApplicationPopupRouteExtended: Routes = [
+export const leaveApplicationPopupExtendedRoute: Routes = [
     {
         path: ':id/delete',
         component: LeaveApplicationDeletePopupExtendedComponent,

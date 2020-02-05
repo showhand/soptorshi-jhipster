@@ -8,11 +8,11 @@ import {
     LeaveAttachmentDetailExtendedComponent,
     LeaveAttachmentExtendedComponent,
     leaveAttachmentExtendedRoute,
-    leaveAttachmentPopupRouteExtended,
+    leaveAttachmentPopupExtendedRoute,
     LeaveAttachmentUpdateExtendedComponent
 } from './';
 
-const ENTITY_STATES = [...leaveAttachmentExtendedRoute, ...leaveAttachmentPopupRouteExtended];
+const ENTITY_STATES = [...leaveAttachmentExtendedRoute, ...leaveAttachmentPopupExtendedRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],

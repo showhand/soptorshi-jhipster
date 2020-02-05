@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -19,7 +19,7 @@ import { LeaveApplicationUpdateComponent } from 'app/entities/leave-application'
     selector: 'jhi-leave-application-update-extended',
     templateUrl: './leave-application-update-extended.component.html'
 })
-export class LeaveApplicationUpdateExtendedComponent extends LeaveApplicationUpdateComponent implements OnInit {
+export class LeaveApplicationUpdateExtendedComponent extends LeaveApplicationUpdateComponent {
     leaveApplication: ILeaveApplication;
     leaveBalance: ILeaveBalance;
     isSaving: boolean;
@@ -101,26 +101,9 @@ export class LeaveApplicationUpdateExtendedComponent extends LeaveApplicationUpd
         );
     }
 
-    protected onSaveSuccess() {
-        this.isSaving = false;
-        this.previousState();
-    }
-
     protected onSaveSuccessChangeState(res: HttpResponse<ILeaveApplication>) {
         this.isSaving = false;
         this.editState(res);
-    }
-
-    protected onSaveError() {
-        this.isSaving = false;
-    }
-
-    protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
-    }
-
-    trackLeaveTypeById(index: number, item: ILeaveType) {
-        return item.id;
     }
 
     fetchLeaveBalance() {
