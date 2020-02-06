@@ -1,5 +1,6 @@
 package org.soptorshi.web.rest.extended;
 
+import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.JournalVoucherQueryService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/extended")
@@ -54,6 +56,13 @@ public class JournalVoucherExtendedResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, journalVoucherDTO.getId().toString()))
             .body(result);
+    }
+
+    @GetMapping("/journal-vouchers/voucherNo/{voucherNo}")
+    public ResponseEntity<JournalVoucherDTO> getJournalVoucher(@PathVariable String voucherNo) {
+        log.debug("REST request to get JournalVoucher by voucher no: {}", voucherNo);
+        Optional<JournalVoucherDTO> journalVoucherDTO = journalVoucherService.getByVoucherNo(voucherNo);
+        return ResponseUtil.wrapOrNotFound(journalVoucherDTO);
     }
 
 }

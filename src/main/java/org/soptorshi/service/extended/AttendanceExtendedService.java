@@ -7,12 +7,14 @@ import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.repository.EmployeeRepository;
 import org.soptorshi.repository.extended.AttendanceExtendedRepository;
 import org.soptorshi.repository.search.AttendanceSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.AttendanceService;
 import org.soptorshi.service.dto.AttendanceDTO;
 import org.soptorshi.service.mapper.AttendanceMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,20 @@ public class AttendanceExtendedService extends AttendanceService {
 
     public AttendanceDTO save(AttendanceDTO attendanceDTO) {
         log.debug("Request to save Attendance : {}", attendanceDTO);
+
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
+            SecurityUtils.getCurrentUserLogin().toString() : "";
+        Instant currentDateTime = Instant.now();
+
+        if(attendanceDTO.getId() == null) {
+            attendanceDTO.setCreatedBy(currentUser);
+            attendanceDTO.setCreatedOn(currentDateTime);
+        }
+        else {
+            attendanceDTO.setUpdatedBy(currentUser);
+            attendanceDTO.setUpdatedOn(currentDateTime);
+        }
+
         Attendance attendance = attendanceMapper.toEntity(attendanceDTO);
         attendance = attendanceExtendedRepository.save(attendance);
         AttendanceDTO result = attendanceMapper.toDto(attendance);

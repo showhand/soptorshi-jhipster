@@ -1,26 +1,24 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.Holiday;
+import org.soptorshi.domain.HolidayType_;
+import org.soptorshi.domain.Holiday_;
+import org.soptorshi.repository.HolidayRepository;
+import org.soptorshi.repository.search.HolidaySearchRepository;
+import org.soptorshi.service.dto.HolidayCriteria;
+import org.soptorshi.service.dto.HolidayDTO;
+import org.soptorshi.service.mapper.HolidayMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.Holiday;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.HolidayRepository;
-import org.soptorshi.repository.search.HolidaySearchRepository;
-import org.soptorshi.service.dto.HolidayCriteria;
-import org.soptorshi.service.dto.HolidayDTO;
-import org.soptorshi.service.mapper.HolidayMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for Holiday entities in the database.

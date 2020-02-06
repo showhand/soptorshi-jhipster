@@ -1,0 +1,153 @@
+<div class="row">
+    <div class="col-12">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-weekend-heading">Create or edit a Weekend</h2>
+            <jhi-alert-error></jhi-alert-error>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group" [hidden]="!weekend.id">
+                        <label for="id">ID</label>
+                        <input type="text" class="form-control" id="id" name="id"
+                               [(ngModel)]="weekend.id" readonly/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_numberOfDays">Number Of Days</label>
+                        <input type="number" class="form-control" name="numberOfDays" id="field_numberOfDays"
+                               [(ngModel)]="weekend.numberOfDays" required min="1" jhiMin="1" max="3" jhiMax="3"/>
+                        <div
+                            [hidden]="!(editForm.controls.numberOfDays?.dirty && editForm.controls.numberOfDays?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.numberOfDays?.errors?.required">
+                                This field is required.
+                            </small>
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.numberOfDays?.errors?.min">
+                                This field should be at least 1.
+                            </small>
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.numberOfDays?.errors?.max">
+                                This field cannot be more than 3.
+                            </small>
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.numberOfDays?.errors?.number">
+                                This field should be a number.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_activeFrom">Active From</label>
+                        <div class="input-group">
+                            <input id="field_activeFrom" type="text" class="form-control" name="activeFrom"
+                                   ngbDatepicker
+                                   #activeFromDp="ngbDatepicker" [(ngModel)]="weekend.activeFrom"
+                            />
+                            <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="activeFromDp.toggle()"><fa-icon
+                                [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_activeTo">Active To</label>
+                        <div class="input-group">
+                            <input id="field_activeTo" type="text" class="form-control" name="activeTo"
+                                   ngbDatepicker
+                                   #activeToDp="ngbDatepicker" [(ngModel)]="weekend.activeTo"
+                            />
+                            <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="activeToDp.toggle()"><fa-icon
+                                [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_day1">Day 1</label>
+                        <select class="form-control" name="day1" [(ngModel)]="weekend.day1" id="field_day1"
+                                required>
+                            <option value="SUNDAY">SUNDAY</option>
+                            <option value="MONDAY">MONDAY</option>
+                            <option value="TUESDAY">TUESDAY</option>
+                            <option value="WEDNESDAY">WEDNESDAY</option>
+                            <option value="THURSDAY">THURSDAY</option>
+                            <option value="FRIDAY">FRIDAY</option>
+                            <option value="SATURDAY">SATURDAY</option>
+                        </select>
+                        <div [hidden]="!(editForm.controls.day1?.dirty && editForm.controls.day1?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.day1?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group" [hidden]="weekend.numberOfDays==1">
+                        <label class="form-control-label" for="field_day2">Day 2</label>
+                        <select class="form-control" name="day2" [(ngModel)]="weekend.day2" id="field_day2">
+                            <option value="SUNDAY">SUNDAY</option>
+                            <option value="MONDAY">MONDAY</option>
+                            <option value="TUESDAY">TUESDAY</option>
+                            <option value="WEDNESDAY">WEDNESDAY</option>
+                            <option value="THURSDAY">THURSDAY</option>
+                            <option value="FRIDAY">FRIDAY</option>
+                            <option value="SATURDAY">SATURDAY</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group" [hidden]="weekend.numberOfDays==1 || weekend.numberOfDays==2">
+                        <label class="form-control-label" for="field_day3">Day 3</label>
+                        <select class="form-control" name="day3" [(ngModel)]="weekend.day3" id="field_day3">
+                            <option value="SUNDAY">SUNDAY</option>
+                            <option value="MONDAY">MONDAY</option>
+                            <option value="TUESDAY">TUESDAY</option>
+                            <option value="WEDNESDAY">WEDNESDAY</option>
+                            <option value="THURSDAY">THURSDAY</option>
+                            <option value="FRIDAY">FRIDAY</option>
+                            <option value="SATURDAY">SATURDAY</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_status">Status</label>
+                        <select class="form-control" name="status" [(ngModel)]="weekend.status" id="field_status"
+                                required>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="INACTIVE">INACTIVE</option>
+                        </select>
+                        <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.status?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                        class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

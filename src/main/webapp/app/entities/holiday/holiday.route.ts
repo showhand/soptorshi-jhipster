@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Holiday } from 'app/shared/model/holiday.model';
+import { Holiday, IHoliday } from 'app/shared/model/holiday.model';
 import { HolidayService } from './holiday.service';
 import { HolidayComponent } from './holiday.component';
 import { HolidayDetailComponent } from './holiday-detail.component';
 import { HolidayUpdateComponent } from './holiday-update.component';
 import { HolidayDeletePopupComponent } from './holiday-delete-dialog.component';
-import { IHoliday } from 'app/shared/model/holiday.model';
 
 @Injectable({ providedIn: 'root' })
 export class HolidayResolve implements Resolve<IHoliday> {

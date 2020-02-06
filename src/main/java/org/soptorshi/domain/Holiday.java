@@ -2,19 +2,16 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.soptorshi.domain.enumeration.HolidayImposedAuthority;
+import org.soptorshi.domain.enumeration.YesOrNo;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
-
-import org.soptorshi.domain.enumeration.YesOrNo;
-
-import org.soptorshi.domain.enumeration.HolidayImposedAuthority;
 
 /**
  * A Holiday.
@@ -25,7 +22,7 @@ import org.soptorshi.domain.enumeration.HolidayImposedAuthority;
 public class Holiday implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

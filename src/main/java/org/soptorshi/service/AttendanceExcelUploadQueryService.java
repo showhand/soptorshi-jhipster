@@ -94,6 +94,18 @@ public class AttendanceExcelUploadQueryService extends QueryService<AttendanceEx
             if (criteria.getType() != null) {
                 specification = specification.and(buildSpecification(criteria.getType(), AttendanceExcelUpload_.type));
             }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), AttendanceExcelUpload_.createdBy));
+            }
+            if (criteria.getCreatedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedOn(), AttendanceExcelUpload_.createdOn));
+            }
+            if (criteria.getUpdatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), AttendanceExcelUpload_.updatedBy));
+            }
+            if (criteria.getUpdatedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), AttendanceExcelUpload_.updatedOn));
+            }
             if (criteria.getAttendanceId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAttendanceId(),
                     root -> root.join(AttendanceExcelUpload_.attendances, JoinType.LEFT).get(Attendance_.id)));

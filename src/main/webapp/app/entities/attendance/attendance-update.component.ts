@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -17,7 +17,7 @@ import { EmployeeService } from 'app/entities/employee';
     selector: 'jhi-attendance-update',
     templateUrl: './attendance-update.component.html'
 })
-export class AttendanceUpdateComponent {
+export class AttendanceUpdateComponent implements OnInit {
     attendance: IAttendance;
     isSaving: boolean;
 
@@ -27,6 +27,8 @@ export class AttendanceUpdateComponent {
     attendanceDateDp: any;
     inTime: string;
     outTime: string;
+    createdOn: string;
+    updatedOn: string;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -42,6 +44,8 @@ export class AttendanceUpdateComponent {
             this.attendance = attendance;
             this.inTime = this.attendance.inTime != null ? this.attendance.inTime.format(DATE_TIME_FORMAT) : null;
             this.outTime = this.attendance.outTime != null ? this.attendance.outTime.format(DATE_TIME_FORMAT) : null;
+            this.createdOn = this.attendance.createdOn != null ? this.attendance.createdOn.format(DATE_TIME_FORMAT) : null;
+            this.updatedOn = this.attendance.updatedOn != null ? this.attendance.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
         this.attendanceExcelUploadService
             .query()
@@ -70,6 +74,8 @@ export class AttendanceUpdateComponent {
         this.isSaving = true;
         this.attendance.inTime = this.inTime != null ? moment(this.inTime, DATE_TIME_FORMAT) : null;
         this.attendance.outTime = this.outTime != null ? moment(this.outTime, DATE_TIME_FORMAT) : null;
+        this.attendance.createdOn = this.createdOn != null ? moment(this.createdOn, DATE_TIME_FORMAT) : null;
+        this.attendance.updatedOn = this.updatedOn != null ? moment(this.updatedOn, DATE_TIME_FORMAT) : null;
         if (this.attendance.id !== undefined) {
             this.subscribeToSaveResponse(this.attendanceService.update(this.attendance));
         } else {

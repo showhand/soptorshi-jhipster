@@ -1,8 +1,11 @@
 package org.soptorshi.service.dto;
-import java.io.Serializable;
-import java.util.Objects;
-import javax.persistence.Lob;
+
 import org.soptorshi.domain.enumeration.AttendanceType;
+
+import javax.persistence.Lob;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.Objects;
 
 /**
  * A DTO for the AttendanceExcelUpload entity.
@@ -11,11 +14,20 @@ public class AttendanceExcelUploadDTO implements Serializable {
 
     private Long id;
 
+
     @Lob
     private byte[] file;
 
     private String fileContentType;
     private AttendanceType type;
+
+    private String createdBy;
+
+    private Instant createdOn;
+
+    private String updatedBy;
+
+    private Instant updatedOn;
 
 
     public Long getId() {
@@ -50,6 +62,38 @@ public class AttendanceExcelUploadDTO implements Serializable {
         this.type = type;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Instant createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Instant getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -77,6 +121,10 @@ public class AttendanceExcelUploadDTO implements Serializable {
             "id=" + getId() +
             ", file='" + getFile() + "'" +
             ", type='" + getType() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdOn='" + getCreatedOn() + "'" +
+            ", updatedBy='" + getUpdatedBy() + "'" +
+            ", updatedOn='" + getUpdatedOn() + "'" +
             "}";
     }
 }

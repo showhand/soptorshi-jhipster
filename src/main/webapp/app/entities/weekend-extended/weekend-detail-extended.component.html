@@ -1,0 +1,67 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="weekend">
+            <h2><span>Weekend</span> {{weekend.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Number Of Days</span></dt>
+                <dd>
+                    <span>{{weekend.numberOfDays}}</span>
+                </dd>
+                <dt><span>Active From</span></dt>
+                <dd>
+                    <span>{{weekend.activeFrom}}</span>
+                </dd>
+                <dt><span>Active To</span></dt>
+                <dd>
+                    <span>{{weekend.activeTo}}</span>
+                </dd>
+                <dt><span>Day 1</span></dt>
+                <dd>
+                    <span>{{weekend.day1}}</span>
+                </dd>
+                <dt><span>Day 2</span></dt>
+                <dd>
+                    <span>{{weekend.day2}}</span>
+                </dd>
+                <dt><span>Day 3</span></dt>
+                <dd>
+                    <span>{{weekend.day3}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{weekend.status}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{weekend.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{weekend.createdOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{weekend.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{weekend.updatedOn}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <!--<button type="button"
+                    [routerLink]="['/weekend', weekend.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>-->
+        </div>
+    </div>
+</div>

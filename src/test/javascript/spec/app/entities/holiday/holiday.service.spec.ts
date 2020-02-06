@@ -1,13 +1,11 @@
 /* tslint:disable max-line-length */
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { HolidayService } from 'app/entities/holiday/holiday.service';
-import { IHoliday, Holiday, YesOrNo, HolidayImposedAuthority } from 'app/shared/model/holiday.model';
+import { Holiday, HolidayImposedAuthority, IHoliday, YesOrNo } from 'app/shared/model/holiday.model';
 
 describe('Service Tests', () => {
     describe('Holiday Service', () => {

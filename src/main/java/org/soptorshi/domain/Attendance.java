@@ -36,6 +36,18 @@ public class Attendance implements Serializable {
     @Column(name = "duration")
     private String duration;
 
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "created_on")
+    private Instant createdOn;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+
+    @Column(name = "updated_on")
+    private Instant updatedOn;
+
     @ManyToOne
     @JsonIgnoreProperties("attendances")
     private AttendanceExcelUpload attendanceExcelUpload;
@@ -105,6 +117,58 @@ public class Attendance implements Serializable {
         this.duration = duration;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public Attendance createdBy(String createdBy) {
+        this.createdBy = createdBy;
+        return this;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedOn() {
+        return createdOn;
+    }
+
+    public Attendance createdOn(Instant createdOn) {
+        this.createdOn = createdOn;
+        return this;
+    }
+
+    public void setCreatedOn(Instant createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public Attendance updatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+        return this;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Instant getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public Attendance updatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
+        return this;
+    }
+
+    public void setUpdatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
     public AttendanceExcelUpload getAttendanceExcelUpload() {
         return attendanceExcelUpload;
     }
@@ -160,6 +224,10 @@ public class Attendance implements Serializable {
             ", inTime='" + getInTime() + "'" +
             ", outTime='" + getOutTime() + "'" +
             ", duration='" + getDuration() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdOn='" + getCreatedOn() + "'" +
+            ", updatedBy='" + getUpdatedBy() + "'" +
+            ", updatedOn='" + getUpdatedOn() + "'" +
             "}";
     }
 }

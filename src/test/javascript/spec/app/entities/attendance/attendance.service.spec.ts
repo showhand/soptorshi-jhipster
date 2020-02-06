@@ -23,7 +23,17 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Attendance(0, currentDate, currentDate, currentDate, 'AAAAAAA');
+            elemDefault = new Attendance(
+                0,
+                currentDate,
+                currentDate,
+                currentDate,
+                'AAAAAAA',
+                'AAAAAAA',
+                currentDate,
+                'AAAAAAA',
+                currentDate
+            );
         });
 
         describe('Service methods', async () => {
@@ -32,7 +42,9 @@ describe('Service Tests', () => {
                     {
                         attendanceDate: currentDate.format(DATE_FORMAT),
                         inTime: currentDate.format(DATE_TIME_FORMAT),
-                        outTime: currentDate.format(DATE_TIME_FORMAT)
+                        outTime: currentDate.format(DATE_TIME_FORMAT),
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
@@ -51,7 +63,9 @@ describe('Service Tests', () => {
                         id: 0,
                         attendanceDate: currentDate.format(DATE_FORMAT),
                         inTime: currentDate.format(DATE_TIME_FORMAT),
-                        outTime: currentDate.format(DATE_TIME_FORMAT)
+                        outTime: currentDate.format(DATE_TIME_FORMAT),
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
@@ -59,7 +73,9 @@ describe('Service Tests', () => {
                     {
                         attendanceDate: currentDate,
                         inTime: currentDate,
-                        outTime: currentDate
+                        outTime: currentDate,
+                        createdOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
@@ -77,7 +93,11 @@ describe('Service Tests', () => {
                         attendanceDate: currentDate.format(DATE_FORMAT),
                         inTime: currentDate.format(DATE_TIME_FORMAT),
                         outTime: currentDate.format(DATE_TIME_FORMAT),
-                        duration: 'BBBBBB'
+                        duration: 'BBBBBB',
+                        createdBy: 'BBBBBB',
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedBy: 'BBBBBB',
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
@@ -86,7 +106,9 @@ describe('Service Tests', () => {
                     {
                         attendanceDate: currentDate,
                         inTime: currentDate,
-                        outTime: currentDate
+                        outTime: currentDate,
+                        createdOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );
@@ -104,7 +126,11 @@ describe('Service Tests', () => {
                         attendanceDate: currentDate.format(DATE_FORMAT),
                         inTime: currentDate.format(DATE_TIME_FORMAT),
                         outTime: currentDate.format(DATE_TIME_FORMAT),
-                        duration: 'BBBBBB'
+                        duration: 'BBBBBB',
+                        createdBy: 'BBBBBB',
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedBy: 'BBBBBB',
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
@@ -112,7 +138,9 @@ describe('Service Tests', () => {
                     {
                         attendanceDate: currentDate,
                         inTime: currentDate,
-                        outTime: currentDate
+                        outTime: currentDate,
+                        createdOn: currentDate,
+                        updatedOn: currentDate
                     },
                     returnedFromService
                 );

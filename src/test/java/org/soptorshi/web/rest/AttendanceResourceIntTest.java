@@ -65,6 +65,18 @@ public class AttendanceResourceIntTest {
     private static final String DEFAULT_DURATION = "AAAAAAAAAA";
     private static final String UPDATED_DURATION = "BBBBBBBBBB";
 
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_UPDATED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_UPDATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     @Autowired
     private AttendanceRepository attendanceRepository;
 
@@ -127,7 +139,11 @@ public class AttendanceResourceIntTest {
             .attendanceDate(DEFAULT_ATTENDANCE_DATE)
             .inTime(DEFAULT_IN_TIME)
             .outTime(DEFAULT_OUT_TIME)
-            .duration(DEFAULT_DURATION);
+            .duration(DEFAULT_DURATION)
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdOn(DEFAULT_CREATED_ON)
+            .updatedBy(DEFAULT_UPDATED_BY)
+            .updatedOn(DEFAULT_UPDATED_ON);
         return attendance;
     }
 
@@ -156,6 +172,10 @@ public class AttendanceResourceIntTest {
         assertThat(testAttendance.getInTime()).isEqualTo(DEFAULT_IN_TIME);
         assertThat(testAttendance.getOutTime()).isEqualTo(DEFAULT_OUT_TIME);
         assertThat(testAttendance.getDuration()).isEqualTo(DEFAULT_DURATION);
+        assertThat(testAttendance.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testAttendance.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
+        assertThat(testAttendance.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
+        assertThat(testAttendance.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
         // Validate the Attendance in Elasticsearch
         verify(mockAttendanceSearchRepository, times(1)).save(testAttendance);
@@ -198,7 +218,11 @@ public class AttendanceResourceIntTest {
             .andExpect(jsonPath("$.[*].attendanceDate").value(hasItem(DEFAULT_ATTENDANCE_DATE.toString())))
             .andExpect(jsonPath("$.[*].inTime").value(hasItem(DEFAULT_IN_TIME.toString())))
             .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())))
-            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION.toString())));
+            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
 
     @Test
@@ -215,7 +239,11 @@ public class AttendanceResourceIntTest {
             .andExpect(jsonPath("$.attendanceDate").value(DEFAULT_ATTENDANCE_DATE.toString()))
             .andExpect(jsonPath("$.inTime").value(DEFAULT_IN_TIME.toString()))
             .andExpect(jsonPath("$.outTime").value(DEFAULT_OUT_TIME.toString()))
-            .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION.toString()));
+            .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION.toString()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
+            .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
+            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
     }
 
     @Test
@@ -403,6 +431,162 @@ public class AttendanceResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllAttendancesByCreatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where createdBy equals to DEFAULT_CREATED_BY
+        defaultAttendanceShouldBeFound("createdBy.equals=" + DEFAULT_CREATED_BY);
+
+        // Get all the attendanceList where createdBy equals to UPDATED_CREATED_BY
+        defaultAttendanceShouldNotBeFound("createdBy.equals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByCreatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where createdBy in DEFAULT_CREATED_BY or UPDATED_CREATED_BY
+        defaultAttendanceShouldBeFound("createdBy.in=" + DEFAULT_CREATED_BY + "," + UPDATED_CREATED_BY);
+
+        // Get all the attendanceList where createdBy equals to UPDATED_CREATED_BY
+        defaultAttendanceShouldNotBeFound("createdBy.in=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByCreatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where createdBy is not null
+        defaultAttendanceShouldBeFound("createdBy.specified=true");
+
+        // Get all the attendanceList where createdBy is null
+        defaultAttendanceShouldNotBeFound("createdBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByCreatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where createdOn equals to DEFAULT_CREATED_ON
+        defaultAttendanceShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
+
+        // Get all the attendanceList where createdOn equals to UPDATED_CREATED_ON
+        defaultAttendanceShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByCreatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultAttendanceShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
+
+        // Get all the attendanceList where createdOn equals to UPDATED_CREATED_ON
+        defaultAttendanceShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByCreatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where createdOn is not null
+        defaultAttendanceShouldBeFound("createdOn.specified=true");
+
+        // Get all the attendanceList where createdOn is null
+        defaultAttendanceShouldNotBeFound("createdOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByUpdatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where updatedBy equals to DEFAULT_UPDATED_BY
+        defaultAttendanceShouldBeFound("updatedBy.equals=" + DEFAULT_UPDATED_BY);
+
+        // Get all the attendanceList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultAttendanceShouldNotBeFound("updatedBy.equals=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByUpdatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where updatedBy in DEFAULT_UPDATED_BY or UPDATED_UPDATED_BY
+        defaultAttendanceShouldBeFound("updatedBy.in=" + DEFAULT_UPDATED_BY + "," + UPDATED_UPDATED_BY);
+
+        // Get all the attendanceList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultAttendanceShouldNotBeFound("updatedBy.in=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByUpdatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where updatedBy is not null
+        defaultAttendanceShouldBeFound("updatedBy.specified=true");
+
+        // Get all the attendanceList where updatedBy is null
+        defaultAttendanceShouldNotBeFound("updatedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByUpdatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where updatedOn equals to DEFAULT_UPDATED_ON
+        defaultAttendanceShouldBeFound("updatedOn.equals=" + DEFAULT_UPDATED_ON);
+
+        // Get all the attendanceList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultAttendanceShouldNotBeFound("updatedOn.equals=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByUpdatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where updatedOn in DEFAULT_UPDATED_ON or UPDATED_UPDATED_ON
+        defaultAttendanceShouldBeFound("updatedOn.in=" + DEFAULT_UPDATED_ON + "," + UPDATED_UPDATED_ON);
+
+        // Get all the attendanceList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultAttendanceShouldNotBeFound("updatedOn.in=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByUpdatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where updatedOn is not null
+        defaultAttendanceShouldBeFound("updatedOn.specified=true");
+
+        // Get all the attendanceList where updatedOn is null
+        defaultAttendanceShouldNotBeFound("updatedOn.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllAttendancesByAttendanceExcelUploadIsEqualToSomething() throws Exception {
         // Initialize the database
         AttendanceExcelUpload attendanceExcelUpload = AttendanceExcelUploadResourceIntTest.createEntity(em);
@@ -449,7 +633,11 @@ public class AttendanceResourceIntTest {
             .andExpect(jsonPath("$.[*].attendanceDate").value(hasItem(DEFAULT_ATTENDANCE_DATE.toString())))
             .andExpect(jsonPath("$.[*].inTime").value(hasItem(DEFAULT_IN_TIME.toString())))
             .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())))
-            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)));
+            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
         // Check, that the count call also returns 1
         restAttendanceMockMvc.perform(get("/api/attendances/count?sort=id,desc&" + filter))
@@ -500,7 +688,11 @@ public class AttendanceResourceIntTest {
             .attendanceDate(UPDATED_ATTENDANCE_DATE)
             .inTime(UPDATED_IN_TIME)
             .outTime(UPDATED_OUT_TIME)
-            .duration(UPDATED_DURATION);
+            .duration(UPDATED_DURATION)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdOn(UPDATED_CREATED_ON)
+            .updatedBy(UPDATED_UPDATED_BY)
+            .updatedOn(UPDATED_UPDATED_ON);
         AttendanceDTO attendanceDTO = attendanceMapper.toDto(updatedAttendance);
 
         restAttendanceMockMvc.perform(put("/api/attendances")
@@ -516,6 +708,10 @@ public class AttendanceResourceIntTest {
         assertThat(testAttendance.getInTime()).isEqualTo(UPDATED_IN_TIME);
         assertThat(testAttendance.getOutTime()).isEqualTo(UPDATED_OUT_TIME);
         assertThat(testAttendance.getDuration()).isEqualTo(UPDATED_DURATION);
+        assertThat(testAttendance.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testAttendance.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
+        assertThat(testAttendance.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
+        assertThat(testAttendance.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
         // Validate the Attendance in Elasticsearch
         verify(mockAttendanceSearchRepository, times(1)).save(testAttendance);
@@ -579,7 +775,11 @@ public class AttendanceResourceIntTest {
             .andExpect(jsonPath("$.[*].attendanceDate").value(hasItem(DEFAULT_ATTENDANCE_DATE.toString())))
             .andExpect(jsonPath("$.[*].inTime").value(hasItem(DEFAULT_IN_TIME.toString())))
             .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())))
-            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)));
+            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
 
     @Test

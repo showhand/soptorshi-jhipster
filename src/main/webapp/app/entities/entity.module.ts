@@ -716,14 +716,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
             },
             {
-                path: 'attendance-excel-upload',
-                loadChildren: './attendance-excel-upload/attendance-excel-upload.module#SoptorshiAttendanceExcelUploadModule'
-            },
-            {
-                path: 'attendance',
-                loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
-            },
-            {
                 path: 'commercial-product-info',
                 loadChildren: './commercial-product-info/commercial-product-info.module#SoptorshiCommercialProductInfoModule'
             },
@@ -746,6 +738,18 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'production',
                 loadChildren: './production/production.module#SoptorshiProductionModule'
+            },
+            {
+                path: 'weekend',
+                loadChildren: './weekend-extended/weekend-extended.module#SoptorshiWeekendExtendedModule'
+            },
+            {
+                path: 'holiday',
+                loadChildren: './holiday/holiday.module#SoptorshiHolidayModule'
+            },
+            {
+                path: 'holiday',
+                loadChildren: './holiday/holiday.module#SoptorshiHolidayModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

@@ -30,6 +30,8 @@ import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,6 +58,18 @@ public class AttendanceExcelUploadResourceIntTest {
 
     private static final AttendanceType DEFAULT_TYPE = AttendanceType.FINGER;
     private static final AttendanceType UPDATED_TYPE = AttendanceType.FACE;
+
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_UPDATED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_UPDATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private AttendanceExcelUploadRepository attendanceExcelUploadRepository;
@@ -118,7 +132,11 @@ public class AttendanceExcelUploadResourceIntTest {
         AttendanceExcelUpload attendanceExcelUpload = new AttendanceExcelUpload()
             .file(DEFAULT_FILE)
             .fileContentType(DEFAULT_FILE_CONTENT_TYPE)
-            .type(DEFAULT_TYPE);
+            .type(DEFAULT_TYPE)
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdOn(DEFAULT_CREATED_ON)
+            .updatedBy(DEFAULT_UPDATED_BY)
+            .updatedOn(DEFAULT_UPDATED_ON);
         return attendanceExcelUpload;
     }
 
@@ -146,6 +164,10 @@ public class AttendanceExcelUploadResourceIntTest {
         assertThat(testAttendanceExcelUpload.getFile()).isEqualTo(DEFAULT_FILE);
         assertThat(testAttendanceExcelUpload.getFileContentType()).isEqualTo(DEFAULT_FILE_CONTENT_TYPE);
         assertThat(testAttendanceExcelUpload.getType()).isEqualTo(DEFAULT_TYPE);
+        assertThat(testAttendanceExcelUpload.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testAttendanceExcelUpload.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
+        assertThat(testAttendanceExcelUpload.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
+        assertThat(testAttendanceExcelUpload.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
         // Validate the AttendanceExcelUpload in Elasticsearch
         verify(mockAttendanceExcelUploadSearchRepository, times(1)).save(testAttendanceExcelUpload);
@@ -187,7 +209,11 @@ public class AttendanceExcelUploadResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendanceExcelUpload.getId().intValue())))
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))))
-            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
 
     @Test
@@ -203,7 +229,11 @@ public class AttendanceExcelUploadResourceIntTest {
             .andExpect(jsonPath("$.id").value(attendanceExcelUpload.getId().intValue()))
             .andExpect(jsonPath("$.fileContentType").value(DEFAULT_FILE_CONTENT_TYPE))
             .andExpect(jsonPath("$.file").value(Base64Utils.encodeToString(DEFAULT_FILE)))
-            .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()));
+            .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
+            .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
+            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
     }
 
     @Test
@@ -247,6 +277,162 @@ public class AttendanceExcelUploadResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllAttendanceExcelUploadsByCreatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceExcelUploadRepository.saveAndFlush(attendanceExcelUpload);
+
+        // Get all the attendanceExcelUploadList where createdBy equals to DEFAULT_CREATED_BY
+        defaultAttendanceExcelUploadShouldBeFound("createdBy.equals=" + DEFAULT_CREATED_BY);
+
+        // Get all the attendanceExcelUploadList where createdBy equals to UPDATED_CREATED_BY
+        defaultAttendanceExcelUploadShouldNotBeFound("createdBy.equals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendanceExcelUploadsByCreatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceExcelUploadRepository.saveAndFlush(attendanceExcelUpload);
+
+        // Get all the attendanceExcelUploadList where createdBy in DEFAULT_CREATED_BY or UPDATED_CREATED_BY
+        defaultAttendanceExcelUploadShouldBeFound("createdBy.in=" + DEFAULT_CREATED_BY + "," + UPDATED_CREATED_BY);
+
+        // Get all the attendanceExcelUploadList where createdBy equals to UPDATED_CREATED_BY
+        defaultAttendanceExcelUploadShouldNotBeFound("createdBy.in=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendanceExcelUploadsByCreatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceExcelUploadRepository.saveAndFlush(attendanceExcelUpload);
+
+        // Get all the attendanceExcelUploadList where createdBy is not null
+        defaultAttendanceExcelUploadShouldBeFound("createdBy.specified=true");
+
+        // Get all the attendanceExcelUploadList where createdBy is null
+        defaultAttendanceExcelUploadShouldNotBeFound("createdBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendanceExcelUploadsByCreatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceExcelUploadRepository.saveAndFlush(attendanceExcelUpload);
+
+        // Get all the attendanceExcelUploadList where createdOn equals to DEFAULT_CREATED_ON
+        defaultAttendanceExcelUploadShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
+
+        // Get all the attendanceExcelUploadList where createdOn equals to UPDATED_CREATED_ON
+        defaultAttendanceExcelUploadShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendanceExcelUploadsByCreatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceExcelUploadRepository.saveAndFlush(attendanceExcelUpload);
+
+        // Get all the attendanceExcelUploadList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultAttendanceExcelUploadShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
+
+        // Get all the attendanceExcelUploadList where createdOn equals to UPDATED_CREATED_ON
+        defaultAttendanceExcelUploadShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendanceExcelUploadsByCreatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceExcelUploadRepository.saveAndFlush(attendanceExcelUpload);
+
+        // Get all the attendanceExcelUploadList where createdOn is not null
+        defaultAttendanceExcelUploadShouldBeFound("createdOn.specified=true");
+
+        // Get all the attendanceExcelUploadList where createdOn is null
+        defaultAttendanceExcelUploadShouldNotBeFound("createdOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendanceExcelUploadsByUpdatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceExcelUploadRepository.saveAndFlush(attendanceExcelUpload);
+
+        // Get all the attendanceExcelUploadList where updatedBy equals to DEFAULT_UPDATED_BY
+        defaultAttendanceExcelUploadShouldBeFound("updatedBy.equals=" + DEFAULT_UPDATED_BY);
+
+        // Get all the attendanceExcelUploadList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultAttendanceExcelUploadShouldNotBeFound("updatedBy.equals=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendanceExcelUploadsByUpdatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceExcelUploadRepository.saveAndFlush(attendanceExcelUpload);
+
+        // Get all the attendanceExcelUploadList where updatedBy in DEFAULT_UPDATED_BY or UPDATED_UPDATED_BY
+        defaultAttendanceExcelUploadShouldBeFound("updatedBy.in=" + DEFAULT_UPDATED_BY + "," + UPDATED_UPDATED_BY);
+
+        // Get all the attendanceExcelUploadList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultAttendanceExcelUploadShouldNotBeFound("updatedBy.in=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendanceExcelUploadsByUpdatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceExcelUploadRepository.saveAndFlush(attendanceExcelUpload);
+
+        // Get all the attendanceExcelUploadList where updatedBy is not null
+        defaultAttendanceExcelUploadShouldBeFound("updatedBy.specified=true");
+
+        // Get all the attendanceExcelUploadList where updatedBy is null
+        defaultAttendanceExcelUploadShouldNotBeFound("updatedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendanceExcelUploadsByUpdatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceExcelUploadRepository.saveAndFlush(attendanceExcelUpload);
+
+        // Get all the attendanceExcelUploadList where updatedOn equals to DEFAULT_UPDATED_ON
+        defaultAttendanceExcelUploadShouldBeFound("updatedOn.equals=" + DEFAULT_UPDATED_ON);
+
+        // Get all the attendanceExcelUploadList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultAttendanceExcelUploadShouldNotBeFound("updatedOn.equals=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendanceExcelUploadsByUpdatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceExcelUploadRepository.saveAndFlush(attendanceExcelUpload);
+
+        // Get all the attendanceExcelUploadList where updatedOn in DEFAULT_UPDATED_ON or UPDATED_UPDATED_ON
+        defaultAttendanceExcelUploadShouldBeFound("updatedOn.in=" + DEFAULT_UPDATED_ON + "," + UPDATED_UPDATED_ON);
+
+        // Get all the attendanceExcelUploadList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultAttendanceExcelUploadShouldNotBeFound("updatedOn.in=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendanceExcelUploadsByUpdatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceExcelUploadRepository.saveAndFlush(attendanceExcelUpload);
+
+        // Get all the attendanceExcelUploadList where updatedOn is not null
+        defaultAttendanceExcelUploadShouldBeFound("updatedOn.specified=true");
+
+        // Get all the attendanceExcelUploadList where updatedOn is null
+        defaultAttendanceExcelUploadShouldNotBeFound("updatedOn.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllAttendanceExcelUploadsByAttendanceIsEqualToSomething() throws Exception {
         // Initialize the database
         Attendance attendance = AttendanceResourceIntTest.createEntity(em);
@@ -273,7 +459,11 @@ public class AttendanceExcelUploadResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendanceExcelUpload.getId().intValue())))
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))))
-            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
         // Check, that the count call also returns 1
         restAttendanceExcelUploadMockMvc.perform(get("/api/attendance-excel-uploads/count?sort=id,desc&" + filter))
@@ -323,7 +513,11 @@ public class AttendanceExcelUploadResourceIntTest {
         updatedAttendanceExcelUpload
             .file(UPDATED_FILE)
             .fileContentType(UPDATED_FILE_CONTENT_TYPE)
-            .type(UPDATED_TYPE);
+            .type(UPDATED_TYPE)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdOn(UPDATED_CREATED_ON)
+            .updatedBy(UPDATED_UPDATED_BY)
+            .updatedOn(UPDATED_UPDATED_ON);
         AttendanceExcelUploadDTO attendanceExcelUploadDTO = attendanceExcelUploadMapper.toDto(updatedAttendanceExcelUpload);
 
         restAttendanceExcelUploadMockMvc.perform(put("/api/attendance-excel-uploads")
@@ -338,6 +532,10 @@ public class AttendanceExcelUploadResourceIntTest {
         assertThat(testAttendanceExcelUpload.getFile()).isEqualTo(UPDATED_FILE);
         assertThat(testAttendanceExcelUpload.getFileContentType()).isEqualTo(UPDATED_FILE_CONTENT_TYPE);
         assertThat(testAttendanceExcelUpload.getType()).isEqualTo(UPDATED_TYPE);
+        assertThat(testAttendanceExcelUpload.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testAttendanceExcelUpload.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
+        assertThat(testAttendanceExcelUpload.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
+        assertThat(testAttendanceExcelUpload.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
         // Validate the AttendanceExcelUpload in Elasticsearch
         verify(mockAttendanceExcelUploadSearchRepository, times(1)).save(testAttendanceExcelUpload);
@@ -400,7 +598,11 @@ public class AttendanceExcelUploadResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendanceExcelUpload.getId().intValue())))
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))))
-            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
 
     @Test

@@ -1,7 +1,9 @@
 package org.soptorshi.service.dto;
 
 import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.LongFilter;
+import io.github.jhipster.service.filter.StringFilter;
 import org.soptorshi.domain.enumeration.AttendanceType;
 
 import java.io.Serializable;
@@ -28,6 +30,14 @@ public class AttendanceExcelUploadCriteria implements Serializable {
 
     private AttendanceTypeFilter type;
 
+    private StringFilter createdBy;
+
+    private InstantFilter createdOn;
+
+    private StringFilter updatedBy;
+
+    private InstantFilter updatedOn;
+
     private LongFilter attendanceId;
 
     public LongFilter getId() {
@@ -44,6 +54,38 @@ public class AttendanceExcelUploadCriteria implements Serializable {
 
     public void setType(AttendanceTypeFilter type) {
         this.type = type;
+    }
+
+    public StringFilter getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(StringFilter createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public InstantFilter getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(InstantFilter createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public StringFilter getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(StringFilter updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public InstantFilter getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(InstantFilter updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
     public LongFilter getAttendanceId() {
@@ -67,6 +109,10 @@ public class AttendanceExcelUploadCriteria implements Serializable {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(type, that.type) &&
+            Objects.equals(createdBy, that.createdBy) &&
+            Objects.equals(createdOn, that.createdOn) &&
+            Objects.equals(updatedBy, that.updatedBy) &&
+            Objects.equals(updatedOn, that.updatedOn) &&
             Objects.equals(attendanceId, that.attendanceId);
     }
 
@@ -75,6 +121,10 @@ public class AttendanceExcelUploadCriteria implements Serializable {
         return Objects.hash(
         id,
         type,
+        createdBy,
+        createdOn,
+        updatedBy,
+        updatedOn,
         attendanceId
         );
     }
@@ -84,6 +134,10 @@ public class AttendanceExcelUploadCriteria implements Serializable {
         return "AttendanceExcelUploadCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (type != null ? "type=" + type + ", " : "") +
+                (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
+                (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
+                (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
+                (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
                 (attendanceId != null ? "attendanceId=" + attendanceId + ", " : "") +
             "}";
     }

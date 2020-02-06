@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiDataUtils } from 'ng-jhipster';
 import { IAttendanceExcelUpload } from 'app/shared/model/attendance-excel-upload.model';
 import { AttendanceExcelUploadService } from './attendance-excel-upload.service';
@@ -14,6 +15,8 @@ import { AttendanceExcelUploadService } from './attendance-excel-upload.service'
 export class AttendanceExcelUploadUpdateComponent implements OnInit {
     attendanceExcelUpload: IAttendanceExcelUpload;
     isSaving: boolean;
+    createdOn: string;
+    updatedOn: string;
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -25,6 +28,10 @@ export class AttendanceExcelUploadUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ attendanceExcelUpload }) => {
             this.attendanceExcelUpload = attendanceExcelUpload;
+            this.createdOn =
+                this.attendanceExcelUpload.createdOn != null ? this.attendanceExcelUpload.createdOn.format(DATE_TIME_FORMAT) : null;
+            this.updatedOn =
+                this.attendanceExcelUpload.updatedOn != null ? this.attendanceExcelUpload.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
     }
 
@@ -46,6 +53,8 @@ export class AttendanceExcelUploadUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.attendanceExcelUpload.createdOn = this.createdOn != null ? moment(this.createdOn, DATE_TIME_FORMAT) : null;
+        this.attendanceExcelUpload.updatedOn = this.updatedOn != null ? moment(this.updatedOn, DATE_TIME_FORMAT) : null;
         if (this.attendanceExcelUpload.id !== undefined) {
             this.subscribeToSaveResponse(this.attendanceExcelUploadService.update(this.attendanceExcelUpload));
         } else {

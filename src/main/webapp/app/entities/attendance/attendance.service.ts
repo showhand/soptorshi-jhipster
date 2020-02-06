@@ -64,7 +64,9 @@ export class AttendanceService {
                     ? attendance.attendanceDate.format(DATE_FORMAT)
                     : null,
             inTime: attendance.inTime != null && attendance.inTime.isValid() ? attendance.inTime.toJSON() : null,
-            outTime: attendance.outTime != null && attendance.outTime.isValid() ? attendance.outTime.toJSON() : null
+            outTime: attendance.outTime != null && attendance.outTime.isValid() ? attendance.outTime.toJSON() : null,
+            createdOn: attendance.createdOn != null && attendance.createdOn.isValid() ? attendance.createdOn.toJSON() : null,
+            updatedOn: attendance.updatedOn != null && attendance.updatedOn.isValid() ? attendance.updatedOn.toJSON() : null
         });
         return copy;
     }
@@ -74,6 +76,8 @@ export class AttendanceService {
             res.body.attendanceDate = res.body.attendanceDate != null ? moment(res.body.attendanceDate) : null;
             res.body.inTime = res.body.inTime != null ? moment(res.body.inTime) : null;
             res.body.outTime = res.body.outTime != null ? moment(res.body.outTime) : null;
+            res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
+            res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
         }
         return res;
     }
@@ -84,6 +88,8 @@ export class AttendanceService {
                 attendance.attendanceDate = attendance.attendanceDate != null ? moment(attendance.attendanceDate) : null;
                 attendance.inTime = attendance.inTime != null ? moment(attendance.inTime) : null;
                 attendance.outTime = attendance.outTime != null ? moment(attendance.outTime) : null;
+                attendance.createdOn = attendance.createdOn != null ? moment(attendance.createdOn) : null;
+                attendance.updatedOn = attendance.updatedOn != null ? moment(attendance.updatedOn) : null;
             });
         }
         return res;

@@ -1,75 +1,141 @@
-<div class="row justify-content-center">
-    <div class="col-8">
+<div class="row">
+    <div class="col-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-holiday-heading">Create or edit a Holiday</h2>
-            <div>
-                <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!holiday.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="holiday.id" readonly />
+            <jhi-alert-error></jhi-alert-error>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group" [hidden]="!holiday.id">
+                        <label for="id">ID</label>
+                        <input type="text" class="form-control" id="id" name="id"
+                               [(ngModel)]="holiday.id" readonly/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_holidayType">Holiday Type</label>
-                    <select class="form-control" id="field_holidayType" name="holidayType" [(ngModel)]="holiday.holidayTypeId" required >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="holidayTypeOption.id" *ngFor="let holidayTypeOption of holidaytypes; trackBy: trackHolidayTypeById">{{holidayTypeOption.name}}</option>
-                    </select>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_holidayType">Holiday Type</label>
+                        <select class="form-control" id="field_holidayType" name="holidayType"
+                                [(ngModel)]="holiday.holidayTypeId" required>
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="holidayTypeOption.id"
+                                    *ngFor="let holidayTypeOption of holidaytypes; trackBy: trackHolidayTypeById">{{holidayTypeOption.name}}</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_fromDate">From Date</label>
-                    <div class="input-group">
-                        <input id="field_fromDate" type="text" class="form-control" name="fromDate" ngbDatepicker  #fromDateDp="ngbDatepicker" [(ngModel)]="holiday.fromDate"
-                               (ngModelChange)="calculateDifference()" required/>
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="fromDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_fromDate">From Date</label>
+                        <div class="input-group">
+                            <input id="field_fromDate" type="text" class="form-control" name="fromDate" ngbDatepicker
+                                   #fromDateDp="ngbDatepicker" [(ngModel)]="holiday.fromDate"
+                                   (ngModelChange)="calculateDifference()" required/>
+                            <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="fromDateDp.toggle()"><fa-icon
+                                [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
-                    </div>
-                    <div [hidden]="!(editForm.controls.fromDate?.dirty && editForm.controls.fromDate?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.fromDate?.errors?.required">
-                        This field is required.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_toDate">To Date</label>
-                    <div class="input-group">
-                        <input id="field_toDate" type="text" class="form-control" name="toDate" ngbDatepicker  #toDateDp="ngbDatepicker" [(ngModel)]="holiday.toDate"
-                               (ngModelChange)="calculateDifference()" required/>
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="toDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                    </div>
-                    <div [hidden]="!(editForm.controls.toDate?.dirty && editForm.controls.toDate?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.toDate?.errors?.required">
-                        This field is required.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_numberOfDays">Number Of Days</label>
-                    <input type="number" class="form-control" name="numberOfDays" id="field_numberOfDays"
-                        [(ngModel)]="holiday.numberOfDays" required/>
-                    <div [hidden]="!(editForm.controls.numberOfDays?.dirty && editForm.controls.numberOfDays?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.numberOfDays?.errors?.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.numberOfDays?.errors?.number">
-                            This field should be a number.
-                        </small>
-                    </div>
-                </div>
+                        </div>
 
+                        <div [hidden]="!(editForm.controls.fromDate?.dirty && editForm.controls.fromDate?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.fromDate?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_toDate">To Date</label>
+                        <div class="input-group">
+                            <input id="field_toDate" type="text" class="form-control" name="toDate" ngbDatepicker
+                                   #toDateDp="ngbDatepicker" [(ngModel)]="holiday.toDate"
+                                   (ngModelChange)="calculateDifference()" required/>
+                            <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="toDateDp.toggle()"><fa-icon
+                                [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                        </div>
+                        <div [hidden]="!(editForm.controls.toDate?.dirty && editForm.controls.toDate?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.toDate?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_numberOfDays">Number Of Days</label>
+                        <input type="number" class="form-control" name="numberOfDays" id="field_numberOfDays"
+                               [(ngModel)]="holiday.numberOfDays" required/>
+                        <div
+                            [hidden]="!(editForm.controls.numberOfDays?.dirty && editForm.controls.numberOfDays?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.numberOfDays?.errors?.required">
+                                This field is required.
+                            </small>
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.numberOfDays?.errors?.number">
+                                This field should be a number.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_moonDependency">Moon Dependency</label>
+                        <select class="form-control" name="moonDependency" [(ngModel)]="holiday.moonDependency"
+                                id="field_moonDependency" required>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                        <div
+                            [hidden]="!(editForm.controls.moonDependency?.dirty && editForm.controls.moonDependency?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.moonDependency?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_holidayDeclaredBy">Holiday Declared By</label>
+                        <select class="form-control" name="holidayDeclaredBy" [(ngModel)]="holiday.holidayDeclaredBy"
+                                id="field_holidayDeclaredBy" required>
+                            <option value="GOVERNMENT">GOVERNMENT</option>
+                            <option value="ORGANIZATIONAL">ORGANIZATIONAL</option>
+                            <option value="COMBINED">COMBINED</option>
+                            <option value="OTHERS">OTHERS</option>
+                        </select>
+                        <div
+                            [hidden]="!(editForm.controls.holidayDeclaredBy?.dirty && editForm.controls.holidayDeclaredBy?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.holidayDeclaredBy?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_remarks">Remarks</label>
+                        <textarea class="form-control" name="remarks" id="field_remarks"
+                                  [(ngModel)]="holiday.remarks"></textarea>
+                    </div>
+                </div>
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                        class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                 </button>
             </div>

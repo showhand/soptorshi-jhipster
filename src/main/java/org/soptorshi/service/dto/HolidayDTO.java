@@ -1,12 +1,14 @@
 package org.soptorshi.service.dto;
+
+import org.soptorshi.domain.enumeration.HolidayImposedAuthority;
+import org.soptorshi.domain.enumeration.YesOrNo;
+
+import javax.persistence.Lob;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Lob;
-import org.soptorshi.domain.enumeration.YesOrNo;
-import org.soptorshi.domain.enumeration.HolidayImposedAuthority;
 
 /**
  * A DTO for the Holiday entity.

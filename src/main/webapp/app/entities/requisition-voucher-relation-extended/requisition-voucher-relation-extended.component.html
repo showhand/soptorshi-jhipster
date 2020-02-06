@@ -13,7 +13,6 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="voucherType"><span>Voucher Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="voucherNo"><span>Voucher No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
@@ -21,7 +20,6 @@
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let requisitionVoucherRelation of requisitionVoucherRelations ;trackBy: trackId">
-                <td>{{requisitionVoucherRelation.voucherName}}</td>
                 <td>{{requisitionVoucherRelation.voucherNo}}</td>
                 <td>{{requisitionVoucherRelation.amount}}</td>
                 <td class="text-right">

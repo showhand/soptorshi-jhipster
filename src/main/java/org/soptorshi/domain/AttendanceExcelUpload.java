@@ -6,6 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -24,16 +25,29 @@ public class AttendanceExcelUpload implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Lob
-    @Column(name = "jhi_file")
+    @Column(name = "jhi_file", nullable = false)
     private byte[] file;
 
-    @Column(name = "jhi_file_content_type")
+    @Column(name = "jhi_file_content_type", nullable = false)
     private String fileContentType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "jhi_type")
     private AttendanceType type;
+
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "created_on")
+    private Instant createdOn;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+
+    @Column(name = "updated_on")
+    private Instant updatedOn;
 
     @OneToMany(mappedBy = "attendanceExcelUpload")
     private Set<Attendance> attendances = new HashSet<>();
@@ -83,6 +97,58 @@ public class AttendanceExcelUpload implements Serializable {
 
     public void setType(AttendanceType type) {
         this.type = type;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public AttendanceExcelUpload createdBy(String createdBy) {
+        this.createdBy = createdBy;
+        return this;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedOn() {
+        return createdOn;
+    }
+
+    public AttendanceExcelUpload createdOn(Instant createdOn) {
+        this.createdOn = createdOn;
+        return this;
+    }
+
+    public void setCreatedOn(Instant createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public AttendanceExcelUpload updatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+        return this;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Instant getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public AttendanceExcelUpload updatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
+        return this;
+    }
+
+    public void setUpdatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
     public Set<Attendance> getAttendances() {
@@ -138,6 +204,10 @@ public class AttendanceExcelUpload implements Serializable {
             ", file='" + getFile() + "'" +
             ", fileContentType='" + getFileContentType() + "'" +
             ", type='" + getType() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdOn='" + getCreatedOn() + "'" +
+            ", updatedBy='" + getUpdatedBy() + "'" +
+            ", updatedOn='" + getUpdatedOn() + "'" +
             "}";
     }
 }

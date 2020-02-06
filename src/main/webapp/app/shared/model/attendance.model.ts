@@ -6,6 +6,10 @@ export interface IAttendance {
     inTime?: Moment;
     outTime?: Moment;
     duration?: string;
+    createdBy?: string;
+    createdOn?: Moment;
+    updatedBy?: string;
+    updatedOn?: Moment;
     attendanceExcelUploadId?: number;
     employeeFullName?: string;
     employeeId?: number;
@@ -18,6 +22,10 @@ export class Attendance implements IAttendance {
         public inTime?: Moment,
         public outTime?: Moment,
         public duration?: string,
+        public createdBy?: string,
+        public createdOn?: Moment,
+        public updatedBy?: string,
+        public updatedOn?: Moment,
         public attendanceExcelUploadId?: number,
         public employeeFullName?: string,
         public employeeId?: number

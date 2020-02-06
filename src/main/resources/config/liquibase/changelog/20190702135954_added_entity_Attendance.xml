@@ -36,6 +36,22 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="created_on" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="updated_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="updated_on" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
             <column name="attendance_excel_upload_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -48,6 +64,8 @@
         </createTable>
         <dropDefaultValue tableName="attendance" columnName="in_time" columnDataType="datetime"/>
         <dropDefaultValue tableName="attendance" columnName="out_time" columnDataType="datetime"/>
+        <dropDefaultValue tableName="attendance" columnName="created_on" columnDataType="datetime"/>
+        <dropDefaultValue tableName="attendance" columnName="updated_on" columnDataType="datetime"/>
 
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
