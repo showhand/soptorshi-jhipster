@@ -36,6 +36,8 @@ export class HolidayExtendedComponent extends HolidayComponent {
         protected accountService: AccountService
     ) {
         super(holidayService, jhiAlertService, dataUtils, eventManager, parseLinks, activatedRoute, accountService);
+
+        this.predicate = 'fromDate';
     }
 
     loadAll() {
@@ -76,7 +78,7 @@ export class HolidayExtendedComponent extends HolidayComponent {
             last: 0
         };
         this.page = 0;
-        this.predicate = 'id';
+        this.predicate = 'fromDate';
         this.reverse = false;
         this.currentSearch = query;
         this.loadAll();

@@ -9,6 +9,7 @@ import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.HolidayService;
 import org.soptorshi.service.dto.HolidayDTO;
 import org.soptorshi.service.mapper.HolidayMapper;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,7 +66,8 @@ public class HolidayExtendedService extends HolidayService {
                 holidaySearchRepository.save(holiday);
                 return result;
             }
+            throw new BadRequestAlertException("fromDate is greater than toDate year!!", "holiday", "idnull");
         }
-        return null;
+        throw new BadRequestAlertException("fromDate and toDate year should be same!!", "holiday", "idnull");
     }
 }
