@@ -24,6 +24,7 @@ export interface IHoliday {
     createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
+    holidayYear?: number;
     holidayTypeName?: string;
     holidayTypeId?: number;
 }
@@ -41,6 +42,7 @@ export class Holiday implements IHoliday {
         public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
+        public holidayYear?: number,
         public holidayTypeName?: string,
         public holidayTypeId?: number
     ) {}

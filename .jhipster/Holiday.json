@@ -1,5 +1,16 @@
 {
-    "name": "Holiday",
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "holidayType",
+            "otherEntityRelationshipName": "holiday",
+            "relationshipName": "holidayType",
+            "otherEntityField": "name",
+            "otherEntityRelationshipNameUndefined": false
+        }
+    ],
     "fields": [
         {
             "fieldName": "fromDate",
@@ -58,24 +69,18 @@
         {
             "fieldName": "updatedOn",
             "fieldType": "Instant"
-        }
-    ],
-    "relationships": [
+        },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "holidayType",
-            "otherEntityRelationshipName": "holiday",
-            "relationshipName": "holidayType",
-            "otherEntityField": "name"
+            "fieldName": "holidayYear",
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20190525155823",
-    "entityTableName": "holiday",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "searchEngine": "elasticsearch",
     "service": "serviceClass",
+    "entityTableName": "holiday",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*"
+    "pagination": "infinite-scroll"
 }

@@ -45,23 +45,26 @@ public class HolidayExtendedService extends HolidayService {
         log.debug("Request to save Holiday : {}", holidayDTO);
 
         if (holidayDTO.getFromDate().getYear() == holidayDTO.getToDate().getYear()) {
-            String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
-                SecurityUtils.getCurrentUserLogin().toString() : "";
-            Instant currentDateTime = Instant.now();
+            if(holidayDTO.getToDate().compareTo(holidayDTO.getFromDate()) >= 0) {
+                String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
+                    SecurityUtils.getCurrentUserLogin().toString() : "";
+                Instant currentDateTime = Instant.now();
 
-            if (holidayDTO.getId() == null) {
-                holidayDTO.setCreatedBy(currentUser);
-                holidayDTO.setCreatedOn(currentDateTime);
-            } else {
-                holidayDTO.setUpdatedBy(currentUser);
-                holidayDTO.setUpdatedOn(currentDateTime);
+                if (holidayDTO.getId() == null) {
+                    holidayDTO.setCreatedBy(currentUser);
+                    holidayDTO.setCreatedOn(currentDateTime);
+                } else {
+                    holidayDTO.setUpdatedBy(currentUser);
+                    holidayDTO.setUpdatedOn(currentDateTime);
+                }
+
+                holidayDTO.setHolidayYear(holidayDTO.getFromDate().getYear());
+                Holiday holiday = holidayMapper.toEntity(holidayDTO);
+                holiday = holidayExtendedRepository.save(holiday);
+                HolidayDTO result = holidayMapper.toDto(holiday);
+                holidaySearchRepository.save(holiday);
+                return result;
             }
-
-            Holiday holiday = holidayMapper.toEntity(holidayDTO);
-            holiday = holidayExtendedRepository.save(holiday);
-            HolidayDTO result = holidayMapper.toDto(holiday);
-            holidaySearchRepository.save(holiday);
-            return result;
         }
         return null;
     }

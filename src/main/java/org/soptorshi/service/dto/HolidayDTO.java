@@ -43,6 +43,8 @@ public class HolidayDTO implements Serializable {
 
     private Instant updatedOn;
 
+    private Integer holidayYear;
+
 
     private Long holidayTypeId;
 
@@ -136,6 +138,14 @@ public class HolidayDTO implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public Integer getHolidayYear() {
+        return holidayYear;
+    }
+
+    public void setHolidayYear(Integer holidayYear) {
+        this.holidayYear = holidayYear;
+    }
+
     public Long getHolidayTypeId() {
         return holidayTypeId;
     }
@@ -187,6 +197,7 @@ public class HolidayDTO implements Serializable {
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", holidayYear=" + getHolidayYear() +
             ", holidayType=" + getHolidayTypeId() +
             ", holidayType='" + getHolidayTypeName() + "'" +
             "}";

@@ -118,6 +118,9 @@ public class HolidayQueryService extends QueryService<Holiday> {
             if (criteria.getUpdatedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), Holiday_.updatedOn));
             }
+            if (criteria.getHolidayYear() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getHolidayYear(), Holiday_.holidayYear));
+            }
             if (criteria.getHolidayTypeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getHolidayTypeId(),
                     root -> root.join(Holiday_.holidayType, JoinType.LEFT).get(HolidayType_.id)));
