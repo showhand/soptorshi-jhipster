@@ -13,6 +13,7 @@ import org.soptorshi.domain.enumeration.CurrencyFlag;
 import org.soptorshi.repository.DtTransactionRepository;
 import org.soptorshi.repository.ReceiptVoucherGeneratorRepository;
 import org.soptorshi.repository.ReceiptVoucherRepository;
+import org.soptorshi.repository.extended.ReceiptVoucherExtendedRepository;
 import org.soptorshi.repository.extended.RequisitionVoucherRelationExtendedRepository;
 import org.soptorshi.repository.search.ReceiptVoucherSearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -29,6 +30,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -41,8 +43,10 @@ public class ReceiptVoucherExtendedService extends ReceiptVoucherService {
     private DtTransactionMapper dtTransactionMapper;
     private RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository;
     private RequisitionVoucherRelationExtendedService requisitionVoucherRelationService;
+    private ReceiptVoucherExtendedRepository receiptVoucherExtendedRepository;
+    private ReceiptVoucherMapper receiptVoucherMapper;
 
-    public ReceiptVoucherExtendedService(ReceiptVoucherRepository receiptVoucherRepository, ReceiptVoucherMapper receiptVoucherMapper, ReceiptVoucherSearchRepository receiptVoucherSearchRepository, ReceiptVoucherGeneratorRepository receiptVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, CurrencyQueryService currencyQueryService, DtTransactionMapper dtTransactionMapper, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, DtTransactionMapper dtTransactionMapper1) {
+    public ReceiptVoucherExtendedService(ReceiptVoucherRepository receiptVoucherRepository, ReceiptVoucherMapper receiptVoucherMapper, ReceiptVoucherSearchRepository receiptVoucherSearchRepository, ReceiptVoucherGeneratorRepository receiptVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, CurrencyQueryService currencyQueryService, DtTransactionMapper dtTransactionMapper, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, ReceiptVoucherExtendedRepository receiptVoucherExtendedRepository, ReceiptVoucherMapper receiptVoucherMapper1) {
         super(receiptVoucherRepository, receiptVoucherMapper, receiptVoucherSearchRepository);
         this.receiptVoucherGeneratorRepository = receiptVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
@@ -52,6 +56,8 @@ public class ReceiptVoucherExtendedService extends ReceiptVoucherService {
         this.dtTransactionMapper = dtTransactionMapper;
         this.requisitionVoucherRelationExtendedRepository = requisitionVoucherRelationExtendedRepository;
         this.requisitionVoucherRelationService = requisitionVoucherRelationService;
+        this.receiptVoucherExtendedRepository = receiptVoucherExtendedRepository;
+        this.receiptVoucherMapper = receiptVoucherMapper1;
     }
 
     @Override
@@ -171,5 +177,10 @@ public class ReceiptVoucherExtendedService extends ReceiptVoucherService {
         debitTransaction.setBalanceType(BalanceType.DEBIT);
         debitTransaction.setAccountId(receiptVoucherDTO.getAccountId());
         return debitTransaction;
+    }
+
+    public Optional<ReceiptVoucherDTO> findByVoucherNo(String voucherNo){
+        return receiptVoucherExtendedRepository.findByVoucherNo(voucherNo)
+            .map(receiptVoucherMapper::toDto);
     }
 }

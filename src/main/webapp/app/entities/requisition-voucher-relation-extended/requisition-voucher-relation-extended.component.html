@@ -20,7 +20,7 @@
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let requisitionVoucherRelation of requisitionVoucherRelations ;trackBy: trackId">
-                <td>{{requisitionVoucherRelation.voucherNo}}</td>
+                <td><a (click)="goToVoucher(requisitionVoucherRelation.voucherNo)">{{requisitionVoucherRelation.voucherNo}}</a></td>
                 <td>{{requisitionVoucherRelation.amount}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">

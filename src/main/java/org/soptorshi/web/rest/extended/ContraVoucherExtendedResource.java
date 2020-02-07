@@ -1,10 +1,12 @@
 package org.soptorshi.web.rest.extended;
 
+import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.ContraVoucherQueryService;
 import org.soptorshi.service.ContraVoucherService;
 import org.soptorshi.service.dto.ContraVoucherDTO;
+import org.soptorshi.service.dto.ReceiptVoucherDTO;
 import org.soptorshi.service.extended.ContraVoucherExtendedService;
 import org.soptorshi.web.rest.ContraVoucherResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/extended")
@@ -69,6 +72,13 @@ public class ContraVoucherExtendedResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, contraVoucherDTO.getId().toString()))
             .body(result);
+    }
+
+    @GetMapping("/contra-vouchers/voucherNo/{voucherNo}")
+    public ResponseEntity<ContraVoucherDTO> getReceiptVoucher(@PathVariable String voucherNo) {
+        log.debug("REST request to get ContraVoucher by voucher no: {}", voucherNo);
+        Optional<ContraVoucherDTO> contraVoucherDTO = contraVoucherService.findByVoucherNo(voucherNo);
+        return ResponseUtil.wrapOrNotFound(contraVoucherDTO);
     }
 
 }

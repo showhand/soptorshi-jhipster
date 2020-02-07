@@ -37,7 +37,7 @@ export class JournalVoucherExtendedService extends JournalVoucherService {
 
     findByVoucherNo(voucherNo: string): Observable<EntityResponseType> {
         return this.http
-            .get<IJournalVoucher>(`${this.resourceUrl}/voucherNo/${voucherNo}`, { observe: 'response' })
+            .get<IJournalVoucher>(`${this.resourceUrlExtended}/voucherNo/${voucherNo}`, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 }

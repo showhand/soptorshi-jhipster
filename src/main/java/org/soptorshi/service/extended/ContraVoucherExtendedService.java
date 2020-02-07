@@ -10,6 +10,8 @@ import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.repository.ContraVoucherGeneratorRepository;
 import org.soptorshi.repository.ContraVoucherRepository;
 import org.soptorshi.repository.DtTransactionRepository;
+import org.soptorshi.repository.extended.ContraVoucherExtendedRepository;
+import org.soptorshi.repository.extended.RequisitionExtendedRepository;
 import org.soptorshi.repository.extended.RequisitionVoucherRelationExtendedRepository;
 import org.soptorshi.repository.search.ContraVoucherSearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -28,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -39,8 +42,10 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
     private DtTransactionExtendedService dtTransactionExtendedService;
     private RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository;
     private RequisitionVoucherRelationExtendedService requisitionVoucherRelationService;
+    private ContraVoucherExtendedRepository contraVoucherExtendedRepository;
+    private ContraVoucherMapper contraVoucherMapper;
 
-    public ContraVoucherExtendedService(ContraVoucherRepository contraVoucherRepository, ContraVoucherMapper contraVoucherMapper, ContraVoucherSearchRepository contraVoucherSearchRepository, ContraVoucherGeneratorRepository contraVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService) {
+    public ContraVoucherExtendedService(ContraVoucherRepository contraVoucherRepository, ContraVoucherMapper contraVoucherMapper, ContraVoucherSearchRepository contraVoucherSearchRepository, ContraVoucherGeneratorRepository contraVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, ContraVoucherExtendedRepository contraVoucherExtendedRepository, ContraVoucherMapper contraVoucherMapper1) {
         super(contraVoucherRepository, contraVoucherMapper, contraVoucherSearchRepository);
         this.contraVoucherGeneratorRepository = contraVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
@@ -49,6 +54,8 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
         this.dtTransactionExtendedService = dtTransactionExtendedService;
         this.requisitionVoucherRelationExtendedRepository = requisitionVoucherRelationExtendedRepository;
         this.requisitionVoucherRelationService = requisitionVoucherRelationService;
+        this.contraVoucherExtendedRepository = contraVoucherExtendedRepository;
+        this.contraVoucherMapper = contraVoucherMapper1;
     }
 
     @Override
@@ -119,5 +126,10 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
             requisitionVoucherRelation.setAmount(totalAmount);
             requisitionVoucherRelationExtendedRepository.save(requisitionVoucherRelation);
         }
+    }
+
+    public Optional<ContraVoucherDTO> findByVoucherNo(String voucherNo){
+        return contraVoucherExtendedRepository.findByVoucherNo(voucherNo)
+            .map(contraVoucherMapper::toDto);
     }
 }

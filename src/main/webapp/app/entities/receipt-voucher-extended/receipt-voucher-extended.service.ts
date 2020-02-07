@@ -34,4 +34,10 @@ export class ReceiptVoucherExtendedService extends ReceiptVoucherService {
             .put<IReceiptVoucher>(this.resourceUrlExtended, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
+
+    findByVoucherNo(voucherNo: string): Observable<EntityResponseType> {
+        return this.http
+            .get<IReceiptVoucher>(`${this.resourceUrl}/voucherNo/${voucherNo}`, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
 }

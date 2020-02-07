@@ -34,4 +34,10 @@ export class ContraVoucherExtendedService extends ContraVoucherService {
             .put<IContraVoucher>(this.resourceUrlExtended, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
+
+    findByVoucherNo(voucherNo: string): Observable<EntityResponseType> {
+        return this.http
+            .get<IContraVoucher>(`${this.resourceUrl}/voucherNo/${voucherNo}`, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
 }

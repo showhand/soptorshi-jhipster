@@ -1,9 +1,11 @@
 package org.soptorshi.web.rest.extended;
 
+import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.ReceiptVoucherQueryService;
 import org.soptorshi.service.ReceiptVoucherService;
+import org.soptorshi.service.dto.PaymentVoucherDTO;
 import org.soptorshi.service.dto.ReceiptVoucherDTO;
 import org.soptorshi.service.extended.ReceiptVoucherExtendedService;
 import org.soptorshi.web.rest.ReceiptVoucherResource;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/extended")
@@ -69,6 +72,13 @@ public class ReceiptVoucherExtendedResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, receiptVoucherDTO.getId().toString()))
             .body(result);
+    }
+
+    @GetMapping("/receipt-vouchers/voucherNo/{voucherNo}")
+    public ResponseEntity<ReceiptVoucherDTO> getReceiptVoucher(@PathVariable String voucherNo) {
+        log.debug("REST request to get JournalVoucher by voucher no: {}", voucherNo);
+        Optional<ReceiptVoucherDTO> paymentVoucherDTO = receiptVoucherService.findByVoucherNo(voucherNo);
+        return ResponseUtil.wrapOrNotFound(paymentVoucherDTO);
     }
 
 }

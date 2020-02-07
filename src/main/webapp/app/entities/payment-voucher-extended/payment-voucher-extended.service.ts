@@ -34,4 +34,10 @@ export class PaymentVoucherExtendedService extends PaymentVoucherService {
             .put<IPaymentVoucher>(this.resourceUrlExtended, copy, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
+
+    findByVoucherNo(voucherNo: string): Observable<EntityResponseType> {
+        return this.http
+            .get<IPaymentVoucher>(`${this.resourceUrlExtended}/voucherNo/${voucherNo}`, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
 }

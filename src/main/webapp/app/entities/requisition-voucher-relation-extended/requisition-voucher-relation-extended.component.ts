@@ -15,6 +15,10 @@ import { JournalVoucherService } from 'app/entities/journal-voucher';
 import { ContraVoucherService } from 'app/entities/contra-voucher';
 import { PaymentVoucherService } from 'app/entities/payment-voucher';
 import { ReceiptVoucherService } from 'app/entities/receipt-voucher';
+import { JournalVoucherExtendedService } from 'app/entities/journal-voucher-extended';
+import { ContraVoucherExtendedService } from 'app/entities/contra-voucher-extended';
+import { PaymentVoucherExtendedService } from 'app/entities/payment-voucher-extended';
+import { ReceiptVoucherExtendedService } from 'app/entities/receipt-voucher-extended';
 
 @Component({
     selector: 'jhi-requisition-voucher-relation-extended',
@@ -33,10 +37,10 @@ export class RequisitionVoucherRelationExtendedComponent extends RequisitionVouc
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService,
         protected router: Router,
-        protected journalVoucherService: JournalVoucherService,
-        protected contraVoucherService: ContraVoucherService,
-        protected paymentVoucherService: PaymentVoucherService,
-        protected receiptVoucherService: ReceiptVoucherService
+        protected journalVoucherService: JournalVoucherExtendedService,
+        protected contraVoucherService: ContraVoucherExtendedService,
+        protected paymentVoucherService: PaymentVoucherExtendedService,
+        protected receiptVoucherService: ReceiptVoucherExtendedService
     ) {
         super(requisitionVoucherRelationService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
     }
@@ -54,9 +58,15 @@ export class RequisitionVoucherRelationExtendedComponent extends RequisitionVouc
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
-    viewVoucher(requisitionVoucherRelation: IRequisitionVoucherRelation) {
-        if (requisitionVoucherRelation.voucherNo.includes('JN')) {
-            this.router.navigate(['/journal-voucher', requisitionVoucherRelation.voucherNo]);
+    goToVoucher(voucherNo: string) {
+        if (voucherNo.includes('JN')) {
+            this.journalVoucherService.findByVoucherNo(voucherNo).subscribe(res => {
+                this.router.navigate(['/journal-voucher', res.body.id, 'edit']);
+            });
+        } else if (voucherNo.includes('BP')) {
+            this.paymentVoucherService.findByVoucherNo(voucherNo).subscribe(res => {
+                this.router.navigate(['/payment-voucher', res.body.id, 'edit']);
+            });
         }
     }
 }
