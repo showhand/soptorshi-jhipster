@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { StockStatusDetailComponent } from 'app/entities/stock-status';
@@ -7,7 +7,7 @@ import { StockStatusDetailComponent } from 'app/entities/stock-status';
     selector: 'jhi-stock-status-detail-extended',
     templateUrl: './stock-status-detail-extended.component.html'
 })
-export class StockStatusDetailExtendedComponent extends StockStatusDetailComponent implements OnInit {
+export class StockStatusDetailExtendedComponent extends StockStatusDetailComponent {
     constructor(protected activatedRoute: ActivatedRoute) {
         super(activatedRoute);
     }

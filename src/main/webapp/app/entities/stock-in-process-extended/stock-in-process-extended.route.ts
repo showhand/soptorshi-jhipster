@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Resolve, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { IStockInProcess } from 'app/shared/model/stock-in-process.model';
 import { StockInProcessExtendedService } from 'app/entities/stock-in-process-extended/stock-in-process-extended.service';
 import { StockInProcessExtendedComponent } from 'app/entities/stock-in-process-extended/stock-in-process-extended.component';
 import { StockInProcessDetailExtendedComponent } from 'app/entities/stock-in-process-extended/stock-in-process-detail-extended.component';
@@ -10,7 +9,7 @@ import { StockInProcessDeletePopupExtendedComponent } from 'app/entities/stock-i
 import { StockInProcessResolve } from 'app/entities/stock-in-process';
 
 @Injectable({ providedIn: 'root' })
-export class StockInProcessExtendedResolve extends StockInProcessResolve implements Resolve<IStockInProcess> {
+export class StockInProcessExtendedResolve extends StockInProcessResolve {
     constructor(service: StockInProcessExtendedService) {
         super(service);
     }
