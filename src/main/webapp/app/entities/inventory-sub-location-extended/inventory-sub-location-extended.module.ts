@@ -8,11 +8,11 @@ import {
     InventorySubLocationDetailExtendedComponent,
     InventorySubLocationExtendedComponent,
     inventorySubLocationExtendedRoute,
-    inventorySubLocationPopupRouteExtended,
+    inventorySubLocationPopupExtendedRoute,
     InventorySubLocationUpdateExtendedComponent
 } from './';
 
-const ENTITY_STATES = [...inventorySubLocationExtendedRoute, ...inventorySubLocationPopupRouteExtended];
+const ENTITY_STATES = [...inventorySubLocationExtendedRoute, ...inventorySubLocationPopupExtendedRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
