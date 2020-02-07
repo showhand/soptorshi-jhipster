@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiAlertService } from 'ng-jhipster';
 import { CommercialProductInfoExtendedService } from './commercial-product-info-extended.service';
@@ -14,7 +14,7 @@ import { ICommercialBudget } from 'app/shared/model/commercial-budget.model';
     selector: 'jhi-commercial-product-info-update-extended',
     templateUrl: './commercial-product-info-update-extended.component.html'
 })
-export class CommercialProductInfoUpdateExtendedComponent extends CommercialProductInfoUpdateComponent implements OnInit {
+export class CommercialProductInfoUpdateExtendedComponent extends CommercialProductInfoUpdateComponent {
     transportationCost: number;
     priceWithTransportationCost: number;
 
