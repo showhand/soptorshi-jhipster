@@ -8,7 +8,7 @@
         <h2 id="page-heading">Leave Types</h2>
     </div>
     <div class="col-6">
-        <form name="searchForm" class="form-inline">
+        <!--<form name="searchForm" class="form-inline">
             <div class="input-group w-100 mt-3">
                 <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
                        name="currentSearch" placeholder="Query">
@@ -23,7 +23,13 @@
                     <fa-icon [icon]="'plus'"></fa-icon>
                 </button>
             </div>
-        </form>
+        </form>-->
+        <div style="float:right">
+            <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-leave-type"
+                    [routerLink]="['/leave-type/new']">
+                <fa-icon [icon]="'plus'"></fa-icon>
+            </button>
+        </div>
     </div>
 </div>
 <div class="row justify-content-center">
@@ -73,14 +79,14 @@
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
-                            <button type="submit"
+                            <!--<button type="submit"
                                     [routerLink]="['/', 'leave-type', { outlets: { popup: leaveType.id + '/delete'} }]"
                                     replaceUrl="true"
                                     queryParamsHandling="merge"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>
-                            </button>
+                            </button>-->
                         </div>
                     </td>
                 </tr>

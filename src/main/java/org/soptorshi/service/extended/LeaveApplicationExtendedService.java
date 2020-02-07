@@ -15,6 +15,7 @@ import org.soptorshi.service.LeaveApplicationService;
 import org.soptorshi.service.dto.LeaveApplicationDTO;
 import org.soptorshi.service.dto.LeaveBalanceDTO;
 import org.soptorshi.service.mapper.LeaveApplicationMapper;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,7 +68,9 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
                 if (loggedInEmployee.isPresent()) {
                     Optional<Manager> manager = managerRepository.getByParentEmployeeIdAndEmployee(employee.get().getId(), loggedInEmployee.get());
                     if(manager.isPresent()) {
-                        if (!isValid(leaveApplicationDTO)) return null;
+                        if (!isValid(leaveApplicationDTO)) {
+                            throw new BadRequestAlertException("application not valid!!", "leaveApplication", "idnull");
+                        }
                         else {
                             log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
                             LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
@@ -79,7 +82,9 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
                     }
                     else{
                         if(loggedInEmployee.get().equals(employee.get())){
-                            if (!isValid(leaveApplicationDTO)) return null;
+                            if (!isValid(leaveApplicationDTO)) {
+                                throw new BadRequestAlertException("application not valid!!", "leaveApplication", "idnull");
+                            }
                             else {
                                 log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
                                 LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
@@ -91,17 +96,23 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
                         }
                     }
                 }
+                throw new BadRequestAlertException("error while getting logged in user's employee details!!", "leaveApplication", "idnull");
             }
+            throw new BadRequestAlertException("error while getting logged in user!!", "leaveApplication", "idnull");
         }
-        return null;
+        throw new BadRequestAlertException("no employee found!!", "leaveApplication", "idnull");
     }
 
     private boolean isValid(LeaveApplicationDTO leaveApplicationDTO) {
         log.debug("Validating LeaveApplication : {}", leaveApplicationDTO);
-        if (leaveApplicationDTO.getStatus().equals(LeaveStatus.REJECTED)) return true;
-        LeaveBalanceDTO leaveBalance = leaveBalanceService
-            .calculateLeaveBalance(leaveApplicationDTO.getEmployeeId(), leaveApplicationDTO.getFromDate().getYear(),
-                leaveApplicationDTO.getLeaveTypesId());
-        return leaveApplicationDTO.getNumberOfDays() <= leaveBalance.getRemainingDays();
+        if (leaveApplicationDTO.getStatus().equals(LeaveStatus.REJECTED)) {
+            throw new BadRequestAlertException("application already rejected!!", "leaveApplication", "idnull");
+        }
+        else {
+            LeaveBalanceDTO leaveBalance = leaveBalanceService
+                .calculateLeaveBalance(leaveApplicationDTO.getEmployeeId(), leaveApplicationDTO.getFromDate().getYear(),
+                    leaveApplicationDTO.getLeaveTypesId());
+            return leaveApplicationDTO.getNumberOfDays() <= leaveBalance.getRemainingDays();
+        }
     }
 }
