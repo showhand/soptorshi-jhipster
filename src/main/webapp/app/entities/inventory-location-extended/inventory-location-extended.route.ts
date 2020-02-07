@@ -1,29 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { IInventoryLocation, InventoryLocation } from 'app/shared/model/inventory-location.model';
 import { InventoryLocationExtendedService } from 'app/entities/inventory-location-extended/inventory-location-extended.service';
 import { InventoryLocationExtendedComponent } from 'app/entities/inventory-location-extended/inventory-location-extended.component';
 import { InventoryLocationDetailExtendedComponent } from 'app/entities/inventory-location-extended/inventory-location-detail-extended.component';
 import { InventoryLocationUpdateExtendedComponent } from 'app/entities/inventory-location-extended/inventory-location-update-extended.component';
 import { InventoryLocationDeletePopupExtendedComponent } from 'app/entities/inventory-location-extended/inventory-location-delete-dialog-extended.component';
+import { InventoryLocationResolve } from 'app/entities/inventory-location';
 
 @Injectable({ providedIn: 'root' })
-export class InventoryLocationExtendedResolve implements Resolve<IInventoryLocation> {
-    constructor(private service: InventoryLocationExtendedService) {}
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IInventoryLocation> {
-        const id = route.params['id'] ? route.params['id'] : null;
-        if (id) {
-            return this.service.find(id).pipe(
-                filter((response: HttpResponse<InventoryLocation>) => response.ok),
-                map((inventoryLocation: HttpResponse<InventoryLocation>) => inventoryLocation.body)
-            );
-        }
-        return of(new InventoryLocation());
+export class InventoryLocationExtendedResolve extends InventoryLocationResolve {
+    constructor(service: InventoryLocationExtendedService) {
+        super(service);
     }
 }
 
@@ -75,7 +63,7 @@ export const inventoryLocationExtendedRoute: Routes = [
     }
 ];
 
-export const inventoryLocationPopupRouteExtended: Routes = [
+export const inventoryLocationPopupExtendedRoute: Routes = [
     {
         path: ':id/delete',
         component: InventoryLocationDeletePopupExtendedComponent,
