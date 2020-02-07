@@ -66,7 +66,8 @@ export class AttendanceExtendedComponent extends AttendanceComponent {
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort()
+                    sort: this.sort(),
+                    'attendanceDate.equals': moment(new Date()).format(DATE_FORMAT)
                 })
                 .subscribe(
                     (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
