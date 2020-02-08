@@ -40,6 +40,7 @@
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="holidayYear"><span>Holiday Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="holidayTypeName"><span>Holiday Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -57,6 +58,7 @@
                 <td>{{holiday.createdOn | date:'medium'}}</td>
                 <td>{{holiday.updatedBy}}</td>
                 <td>{{holiday.updatedOn | date:'medium'}}</td>
+                <td>{{holiday.holidayYear}}</td>
                 <td>
                     <div *ngIf="holiday.holidayTypeId">
                         <a [routerLink]="['../holiday-type', holiday.holidayTypeId , 'view' ]" >{{holiday.holidayTypeName}}</a>

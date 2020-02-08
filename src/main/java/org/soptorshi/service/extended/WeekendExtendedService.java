@@ -10,10 +10,13 @@ import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.WeekendService;
 import org.soptorshi.service.dto.WeekendDTO;
 import org.soptorshi.service.mapper.WeekendMapper;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Implementation for managing Weekend.
@@ -50,23 +53,49 @@ public class WeekendExtendedService extends WeekendService {
             SecurityUtils.getCurrentUserLogin().toString() : "";
         Instant currentDateTime = Instant.now();
 
-        if(weekendDTO.getId() == null) {
-            weekendDTO.setCreatedBy(currentUser);
-            weekendDTO.setCreatedOn(currentDateTime);
-        }
-        else {
-            weekendDTO.setUpdatedBy(currentUser);
-            weekendDTO.setUpdatedOn(currentDateTime);
-        }
+        List<Weekend> weekends = weekendExtendedRepository.findAll();
 
-        Weekend weekend = weekendMapper.toEntity(weekendDTO);
-        weekend = weekendExtendedRepository.save(weekend);
-        WeekendDTO result = weekendMapper.toDto(weekend);
-        weekendSearchRepository.save(weekend);
-        return result;
+        if (weekendDTO.getId() == null) {
+            if (hasActiveWeekend(weekends)) {
+                throw new BadRequestAlertException("there is an active weekend!!", "weekend", "idnull");
+            } else {
+                weekendDTO.setCreatedBy(currentUser);
+                weekendDTO.setCreatedOn(currentDateTime);
+                Weekend weekend = weekendMapper.toEntity(weekendDTO);
+                weekend = weekendExtendedRepository.save(weekend);
+                WeekendDTO result = weekendMapper.toDto(weekend);
+                weekendSearchRepository.save(weekend);
+                return result;
+            }
+        } else {
+            weekends.removeIf(weekend -> weekend.getId().equals(weekendDTO.getId()));
+            if (hasActiveWeekend(weekends)) {
+                throw new BadRequestAlertException("there is an active weekend!!", "weekend", "idnull");
+            } else {
+                weekendDTO.setUpdatedBy(currentUser);
+                weekendDTO.setUpdatedOn(currentDateTime);
+                Weekend weekend = weekendMapper.toEntity(weekendDTO);
+                weekend = weekendExtendedRepository.save(weekend);
+                WeekendDTO result = weekendMapper.toDto(weekend);
+                weekendSearchRepository.save(weekend);
+                return result;
+            }
+        }
     }
 
-    public Weekend getWeekendByStatus(WeekendStatus weekendStatus) {
+
+    public Optional<Weekend> getWeekendByStatus(WeekendStatus weekendStatus) {
         return weekendExtendedRepository.getByStatus(weekendStatus);
+    }
+
+    private boolean hasActiveWeekend(List<Weekend> weekends) {
+        boolean hasActiveWeekendStatus = false;
+        for (Weekend weekend : weekends) {
+            if (weekend.getStatus().equals(WeekendStatus.ACTIVE)) {
+                hasActiveWeekendStatus = true;
+                break;
+            }
+        }
+        return hasActiveWeekendStatus;
     }
 }

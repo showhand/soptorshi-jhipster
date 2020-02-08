@@ -65,6 +65,9 @@ public class Holiday implements Serializable {
     @Column(name = "updated_on")
     private Instant updatedOn;
 
+    @Column(name = "holiday_year")
+    private Integer holidayYear;
+
     @ManyToOne
     @JsonIgnoreProperties("holidays")
     private HolidayType holidayType;
@@ -208,6 +211,19 @@ public class Holiday implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public Integer getHolidayYear() {
+        return holidayYear;
+    }
+
+    public Holiday holidayYear(Integer holidayYear) {
+        this.holidayYear = holidayYear;
+        return this;
+    }
+
+    public void setHolidayYear(Integer holidayYear) {
+        this.holidayYear = holidayYear;
+    }
+
     public HolidayType getHolidayType() {
         return holidayType;
     }
@@ -256,6 +272,7 @@ public class Holiday implements Serializable {
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", holidayYear=" + getHolidayYear() +
             "}";
     }
 }

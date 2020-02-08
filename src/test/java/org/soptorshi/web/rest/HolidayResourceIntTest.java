@@ -83,6 +83,9 @@ public class HolidayResourceIntTest {
     private static final Instant DEFAULT_UPDATED_ON = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_UPDATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final Integer DEFAULT_HOLIDAY_YEAR = 1;
+    private static final Integer UPDATED_HOLIDAY_YEAR = 2;
+
     @Autowired
     private HolidayRepository holidayRepository;
 
@@ -151,7 +154,8 @@ public class HolidayResourceIntTest {
             .createdBy(DEFAULT_CREATED_BY)
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
-            .updatedOn(DEFAULT_UPDATED_ON);
+            .updatedOn(DEFAULT_UPDATED_ON)
+            .holidayYear(DEFAULT_HOLIDAY_YEAR);
         return holiday;
     }
 
@@ -186,6 +190,7 @@ public class HolidayResourceIntTest {
         assertThat(testHoliday.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testHoliday.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testHoliday.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
+        assertThat(testHoliday.getHolidayYear()).isEqualTo(DEFAULT_HOLIDAY_YEAR);
 
         // Validate the Holiday in Elasticsearch
         verify(mockHolidaySearchRepository, times(1)).save(testHoliday);
@@ -329,7 +334,8 @@ public class HolidayResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].holidayYear").value(hasItem(DEFAULT_HOLIDAY_YEAR)));
     }
 
     @Test
@@ -352,7 +358,8 @@ public class HolidayResourceIntTest {
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
-            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
+            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()))
+            .andExpect(jsonPath("$.holidayYear").value(DEFAULT_HOLIDAY_YEAR));
     }
 
     @Test
@@ -789,6 +796,72 @@ public class HolidayResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllHolidaysByHolidayYearIsEqualToSomething() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where holidayYear equals to DEFAULT_HOLIDAY_YEAR
+        defaultHolidayShouldBeFound("holidayYear.equals=" + DEFAULT_HOLIDAY_YEAR);
+
+        // Get all the holidayList where holidayYear equals to UPDATED_HOLIDAY_YEAR
+        defaultHolidayShouldNotBeFound("holidayYear.equals=" + UPDATED_HOLIDAY_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByHolidayYearIsInShouldWork() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where holidayYear in DEFAULT_HOLIDAY_YEAR or UPDATED_HOLIDAY_YEAR
+        defaultHolidayShouldBeFound("holidayYear.in=" + DEFAULT_HOLIDAY_YEAR + "," + UPDATED_HOLIDAY_YEAR);
+
+        // Get all the holidayList where holidayYear equals to UPDATED_HOLIDAY_YEAR
+        defaultHolidayShouldNotBeFound("holidayYear.in=" + UPDATED_HOLIDAY_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByHolidayYearIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where holidayYear is not null
+        defaultHolidayShouldBeFound("holidayYear.specified=true");
+
+        // Get all the holidayList where holidayYear is null
+        defaultHolidayShouldNotBeFound("holidayYear.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByHolidayYearIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where holidayYear greater than or equals to DEFAULT_HOLIDAY_YEAR
+        defaultHolidayShouldBeFound("holidayYear.greaterOrEqualThan=" + DEFAULT_HOLIDAY_YEAR);
+
+        // Get all the holidayList where holidayYear greater than or equals to UPDATED_HOLIDAY_YEAR
+        defaultHolidayShouldNotBeFound("holidayYear.greaterOrEqualThan=" + UPDATED_HOLIDAY_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHolidaysByHolidayYearIsLessThanSomething() throws Exception {
+        // Initialize the database
+        holidayRepository.saveAndFlush(holiday);
+
+        // Get all the holidayList where holidayYear less than or equals to DEFAULT_HOLIDAY_YEAR
+        defaultHolidayShouldNotBeFound("holidayYear.lessThan=" + DEFAULT_HOLIDAY_YEAR);
+
+        // Get all the holidayList where holidayYear less than or equals to UPDATED_HOLIDAY_YEAR
+        defaultHolidayShouldBeFound("holidayYear.lessThan=" + UPDATED_HOLIDAY_YEAR);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllHolidaysByHolidayTypeIsEqualToSomething() throws Exception {
         // Initialize the database
         HolidayType holidayType = HolidayTypeResourceIntTest.createEntity(em);
@@ -822,7 +895,8 @@ public class HolidayResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].holidayYear").value(hasItem(DEFAULT_HOLIDAY_YEAR)));
 
         // Check, that the count call also returns 1
         restHolidayMockMvc.perform(get("/api/holidays/count?sort=id,desc&" + filter))
@@ -879,7 +953,8 @@ public class HolidayResourceIntTest {
             .createdBy(UPDATED_CREATED_BY)
             .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
-            .updatedOn(UPDATED_UPDATED_ON);
+            .updatedOn(UPDATED_UPDATED_ON)
+            .holidayYear(UPDATED_HOLIDAY_YEAR);
         HolidayDTO holidayDTO = holidayMapper.toDto(updatedHoliday);
 
         restHolidayMockMvc.perform(put("/api/holidays")
@@ -901,6 +976,7 @@ public class HolidayResourceIntTest {
         assertThat(testHoliday.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testHoliday.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testHoliday.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
+        assertThat(testHoliday.getHolidayYear()).isEqualTo(UPDATED_HOLIDAY_YEAR);
 
         // Validate the Holiday in Elasticsearch
         verify(mockHolidaySearchRepository, times(1)).save(testHoliday);
@@ -970,7 +1046,8 @@ public class HolidayResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].holidayYear").value(hasItem(DEFAULT_HOLIDAY_YEAR)));
     }
 
     @Test

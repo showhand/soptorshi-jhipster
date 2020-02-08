@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Resolve, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { IStockInItem } from 'app/shared/model/stock-in-item.model';
 import { StockInItemExtendedService } from 'app/entities/stock-in-item-extended/stock-in-item-extended.service';
 import { StockInItemExtendedComponent } from 'app/entities/stock-in-item-extended/stock-in-item-extended.component';
 import { StockInItemDetailExtendedComponent } from 'app/entities/stock-in-item-extended/stock-in-item-detail-extended.component';
@@ -10,7 +9,7 @@ import { StockInItemDeletePopupExtendedComponent } from 'app/entities/stock-in-i
 import { StockInItemResolve } from 'app/entities/stock-in-item';
 
 @Injectable({ providedIn: 'root' })
-export class StockInItemExtendedResolve extends StockInItemResolve implements Resolve<IStockInItem> {
+export class StockInItemExtendedResolve extends StockInItemResolve {
     constructor(service: StockInItemExtendedService) {
         super(service);
     }
@@ -64,7 +63,7 @@ export const stockInItemExtendedRoute: Routes = [
     }
 ];
 
-export const stockInItemPopupRouteExtended: Routes = [
+export const stockInItemPopupExtendedRoute: Routes = [
     {
         path: ':id/delete',
         component: StockInItemDeletePopupExtendedComponent,

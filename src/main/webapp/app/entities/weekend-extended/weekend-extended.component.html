@@ -8,7 +8,7 @@
         <h2 id="page-heading">Weekends</h2>
     </div>
     <div class="col-6">
-        <form name="searchForm" class="form-inline">
+        <!--<form name="searchForm" class="form-inline">
             <div class="input-group w-100 mt-3">
                 <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
                        name="currentSearch" placeholder="Search Holidays">
@@ -23,7 +23,13 @@
                     <fa-icon [icon]="'plus'"></fa-icon>
                 </button>
             </div>
-        </form>
+        </form>-->
+        <div style="float: right">
+            <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-weekend"
+                    [routerLink]="['/weekend/new']">
+                <fa-icon [icon]="'plus'"></fa-icon>
+            </button>
+        </div>
     </div>
 </div>
 

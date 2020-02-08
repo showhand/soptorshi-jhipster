@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { IAttendance } from 'app/shared/model/attendance.model';
 import { AttendanceService } from 'app/entities/attendance';
+import { Moment } from 'moment';
 
 type EntityResponseType = HttpResponse<IAttendance>;
 type EntityArrayResponseType = HttpResponse<IAttendance[]>;
@@ -19,9 +20,18 @@ export class AttendanceExtendedService extends AttendanceService {
         super(http);
     }
 
-    getDistinctAttendanceDate(): Observable<EntityArrayResponseType> {
+    getDistinctAttendanceDate(): Observable<HttpResponse<Moment[]>> {
         return this.http
-            .get<IAttendance[]>(`${this.resourceUrl}/distinct`, { observe: 'response' })
-            .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+            .get<Moment[]>(`${this.resourceUrl}/dates`, { observe: 'response' })
+            .pipe(map((res: HttpResponse<Moment[]>) => this.convertDateArrayFromServerResponse(res)));
+    }
+
+    protected convertDateArrayFromServerResponse(res: HttpResponse<Moment[]>): HttpResponse<Moment[]> {
+        if (res.body) {
+            res.body.forEach((m: Moment) => {
+                m = m != null ? m : null;
+            });
+        }
+        return res;
     }
 }

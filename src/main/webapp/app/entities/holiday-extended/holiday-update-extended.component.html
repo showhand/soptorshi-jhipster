@@ -69,7 +69,7 @@
                     <div class="form-group">
                         <label class="form-control-label" for="field_numberOfDays">Number Of Days</label>
                         <input type="number" class="form-control" name="numberOfDays" id="field_numberOfDays"
-                               [(ngModel)]="holiday.numberOfDays" required/>
+                               [(ngModel)]="holiday.numberOfDays" readOnly required/>
                         <div
                             [hidden]="!(editForm.controls.numberOfDays?.dirty && editForm.controls.numberOfDays?.invalid)">
                             <small class="form-text text-danger"

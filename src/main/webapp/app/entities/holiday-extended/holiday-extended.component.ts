@@ -36,16 +36,18 @@ export class HolidayExtendedComponent extends HolidayComponent {
         protected accountService: AccountService
     ) {
         super(holidayService, jhiAlertService, dataUtils, eventManager, parseLinks, activatedRoute, accountService);
+
+        this.predicate = 'fromDate';
     }
 
     loadAll() {
         if (this.currentSearch) {
             this.holidayService
-                .search({
-                    query: this.currentSearch,
+                .query({
                     page: this.page,
                     size: this.itemsPerPage,
-                    sort: this.sort()
+                    sort: this.sort(),
+                    'holidayYear.equals': this.currentSearch
                 })
                 .subscribe(
                     (res: HttpResponse<IHoliday[]>) => this.paginateHolidays(res.body, res.headers),
@@ -65,5 +67,20 @@ export class HolidayExtendedComponent extends HolidayComponent {
                 (res: HttpResponse<IHoliday[]>) => this.paginateHolidays(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+    }
+
+    search(query) {
+        if (!query) {
+            return this.clear();
+        }
+        this.holidays = [];
+        this.links = {
+            last: 0
+        };
+        this.page = 0;
+        this.predicate = 'fromDate';
+        this.reverse = false;
+        this.currentSearch = query;
+        this.loadAll();
     }
 }

@@ -178,6 +178,7 @@ entity Holiday {
   fromDate LocalDate required,
   toDate LocalDate required,
   numberOfDays Integer required,
+  holidayYear Integer,
   moonDependency YesOrNo required,
   holidayDeclaredBy HolidayImposedAuthority required,
   remarks TextBlob,

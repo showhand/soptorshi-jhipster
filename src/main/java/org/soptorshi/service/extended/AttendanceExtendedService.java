@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -72,17 +73,15 @@ public class AttendanceExtendedService extends AttendanceService {
         return result;
     }
 
-
-    public List<AttendanceDTO> getAllByDistinctAttendanceDate() {
+    public List<LocalDate> getAllDistinctAttendanceDate() {
         log.debug("Request to get all Distinct Attendances Date");
-        LocalDate localDate = LocalDate.now();
-        List<Attendance> attendances = attendanceExtendedRepository.getDistinctByAttendanceDateLessThanEqual(localDate);
-        List<AttendanceDTO> attendanceDTOS = new ArrayList<>();
+        List<LocalDate> dates = new ArrayList<>();
+        List<Attendance> attendances = attendanceExtendedRepository.findAll();
         for(Attendance attendance: attendances) {
-            AttendanceDTO attendanceDTO = attendanceMapper.toDto(attendance);
-            attendanceDTOS.add(attendanceDTO);
+            dates.add(attendance.getAttendanceDate());
         }
-        return attendanceDTOS;
+
+        return dates.stream().distinct().collect(Collectors.toList());
     }
 
     public void deleteByAttendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload) {

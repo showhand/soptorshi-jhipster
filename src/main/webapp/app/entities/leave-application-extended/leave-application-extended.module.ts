@@ -8,14 +8,14 @@ import {
     LeaveApplicationDetailExtendedComponent,
     LeaveApplicationExtendedComponent,
     leaveApplicationExtendedRoute,
-    leaveApplicationPopupRouteExtended,
+    leaveApplicationPopupExtendedRoute,
     LeaveApplicationUpdateExtendedComponent
 } from './';
 import { OthersLeaveApplicationComponent } from './others-leave-application.component';
 import { ReviewLeaveApplicationComponent } from './review-leave-application.component';
 import { OthersLeaveApplicationHistoryComponent } from './others-leave-application-history.component';
 
-const ENTITY_STATES = [...leaveApplicationExtendedRoute, ...leaveApplicationPopupRouteExtended];
+const ENTITY_STATES = [...leaveApplicationExtendedRoute, ...leaveApplicationPopupExtendedRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],

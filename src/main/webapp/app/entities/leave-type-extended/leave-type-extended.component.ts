@@ -1,10 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
-
-import { ILeaveType } from 'app/shared/model/leave-type.model';
 import { AccountService } from 'app/core';
 import { LeaveTypeExtendedService } from './leave-type-extended.service';
 import { LeaveTypeComponent } from 'app/entities/leave-type';
@@ -13,18 +9,7 @@ import { LeaveTypeComponent } from 'app/entities/leave-type';
     selector: 'jhi-leave-type-extended',
     templateUrl: './leave-type-extended.component.html'
 })
-export class LeaveTypeExtendedComponent extends LeaveTypeComponent implements OnInit, OnDestroy {
-    leaveTypes: ILeaveType[];
-    currentAccount: any;
-    eventSubscriber: Subscription;
-    itemsPerPage: number;
-    links: any;
-    page: any;
-    predicate: any;
-    reverse: any;
-    totalItems: number;
-    currentSearch: string;
-
+export class LeaveTypeExtendedComponent extends LeaveTypeComponent {
     constructor(
         protected leaveTypeService: LeaveTypeExtendedService,
         protected jhiAlertService: JhiAlertService,
@@ -34,110 +19,5 @@ export class LeaveTypeExtendedComponent extends LeaveTypeComponent implements On
         protected accountService: AccountService
     ) {
         super(leaveTypeService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
-    }
-
-    loadAll() {
-        if (this.currentSearch) {
-            this.leaveTypeService
-                .search({
-                    query: this.currentSearch,
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort()
-                })
-                .subscribe(
-                    (res: HttpResponse<ILeaveType[]>) => this.paginateLeaveTypes(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            return;
-        }
-        this.leaveTypeService
-            .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<ILeaveType[]>) => this.paginateLeaveTypes(res.body, res.headers),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-    }
-
-    reset() {
-        this.page = 0;
-        this.leaveTypes = [];
-        this.loadAll();
-    }
-
-    loadPage(page) {
-        this.page = page;
-        this.loadAll();
-    }
-
-    clear() {
-        this.leaveTypes = [];
-        this.links = {
-            last: 0
-        };
-        this.page = 0;
-        this.predicate = 'id';
-        this.reverse = true;
-        this.currentSearch = '';
-        this.loadAll();
-    }
-
-    search(query) {
-        if (!query) {
-            return this.clear();
-        }
-        this.leaveTypes = [];
-        this.links = {
-            last: 0
-        };
-        this.page = 0;
-        this.predicate = '_score';
-        this.reverse = false;
-        this.currentSearch = query;
-        this.loadAll();
-    }
-
-    ngOnInit() {
-        this.loadAll();
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
-        });
-        this.registerChangeInLeaveTypes();
-    }
-
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
-    }
-
-    trackId(index: number, item: ILeaveType) {
-        return item.id;
-    }
-
-    registerChangeInLeaveTypes() {
-        this.eventSubscriber = this.eventManager.subscribe('leaveTypeListModification', response => this.reset());
-    }
-
-    sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== 'id') {
-            result.push('id');
-        }
-        return result;
-    }
-
-    protected paginateLeaveTypes(data: ILeaveType[], headers: HttpHeaders) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-        for (let i = 0; i < data.length; i++) {
-            this.leaveTypes.push(data[i]);
-        }
-    }
-
-    protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
     }
 }

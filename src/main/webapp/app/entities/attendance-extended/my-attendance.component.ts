@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { IAttendance } from 'app/shared/model/attendance.model';
 import { Subscription } from 'rxjs';
-import { AttendanceService } from 'app/entities/attendance/attendance.service';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
 import { Account, AccountService } from 'app/core';
 import { DATE_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
+import { Moment } from 'moment';
 import { AttendanceExtendedService } from 'app/entities/attendance-extended/attendance-extended.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class MyAttendanceComponent implements OnInit {
     reverse: any;
     totalItems: number;
     currentSearch: string;
-    distinctAttendanceDate: IAttendance[];
+    distinctAttendanceDate: Moment[];
 
     constructor(
         protected attendanceService: AttendanceExtendedService,
@@ -52,7 +52,7 @@ export class MyAttendanceComponent implements OnInit {
         this.attendanceService
             .getDistinctAttendanceDate()
             .subscribe(
-                (res: HttpResponse<IAttendance[]>) => this.addDistinctAttendances(res.body),
+                (res: HttpResponse<Moment[]>) => this.addDistinctAttendances(res.body),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -152,23 +152,8 @@ export class MyAttendanceComponent implements OnInit {
         }
     }
 
-    protected addDistinctAttendances(data: IAttendance[]) {
-        let flag = 0;
-        this.distinctAttendanceDate = [];
-        for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < this.distinctAttendanceDate.length; j++) {
-                console.log(this.distinctAttendanceDate[j].attendanceDate);
-                if (this.distinctAttendanceDate[j].attendanceDate.diff(data[i].attendanceDate) === 0) {
-                    flag = 1;
-                    break;
-                } else {
-                    flag = 0;
-                }
-            }
-            if (flag === 0) {
-                this.distinctAttendanceDate.push(data[i]);
-            }
-        }
+    protected addDistinctAttendances(data: Moment[]) {
+        this.distinctAttendanceDate = data;
     }
 
     protected onError(errorMessage: string) {

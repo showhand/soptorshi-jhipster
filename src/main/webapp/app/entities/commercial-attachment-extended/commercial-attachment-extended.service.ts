@@ -11,7 +11,7 @@ type EntityArrayResponseType = HttpResponse<ICommercialAttachment[]>;
 @Injectable({ providedIn: 'root' })
 export class CommercialAttachmentExtendedService extends CommercialAttachmentService {
     public resourceUrl = SERVER_API_URL + 'api/extended/commercial-attachments';
-    public resourceSearchUrl = SERVER_API_URL + 'api/extended/_search/commercial-attachments';
+    public resourceSearchUrl = SERVER_API_URL + 'api/_search/commercial-attachments';
 
     constructor(protected http: HttpClient) {
         super(http);

@@ -49,6 +49,8 @@ public class HolidayCriteria implements Serializable {
 
     private InstantFilter updatedOn;
 
+    private IntegerFilter holidayYear;
+
     private LongFilter holidayTypeId;
 
     public LongFilter getId() {
@@ -131,6 +133,14 @@ public class HolidayCriteria implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public IntegerFilter getHolidayYear() {
+        return holidayYear;
+    }
+
+    public void setHolidayYear(IntegerFilter holidayYear) {
+        this.holidayYear = holidayYear;
+    }
+
     public LongFilter getHolidayTypeId() {
         return holidayTypeId;
     }
@@ -160,6 +170,7 @@ public class HolidayCriteria implements Serializable {
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
+            Objects.equals(holidayYear, that.holidayYear) &&
             Objects.equals(holidayTypeId, that.holidayTypeId);
     }
 
@@ -176,6 +187,7 @@ public class HolidayCriteria implements Serializable {
         createdOn,
         updatedBy,
         updatedOn,
+        holidayYear,
         holidayTypeId
         );
     }
@@ -193,6 +205,7 @@ public class HolidayCriteria implements Serializable {
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
+                (holidayYear != null ? "holidayYear=" + holidayYear + ", " : "") +
                 (holidayTypeId != null ? "holidayTypeId=" + holidayTypeId + ", " : "") +
             "}";
     }

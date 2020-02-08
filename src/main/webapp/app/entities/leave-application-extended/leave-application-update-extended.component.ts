@@ -101,59 +101,9 @@ export class LeaveApplicationUpdateExtendedComponent extends LeaveApplicationUpd
         );
     }
 
-    protected onSaveSuccess() {
-        this.isSaving = false;
-        this.previousState();
-    }
-
     protected onSaveSuccessChangeState(res: HttpResponse<ILeaveApplication>) {
         this.isSaving = false;
         this.editState(res);
-    }
-
-    protected onSaveError() {
-        this.isSaving = false;
-    }
-
-    protected onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
-    }
-
-    trackLeaveTypeById(index: number, item: ILeaveType) {
-        return item.id;
-    }
-
-    fetchLeaveBalance() {
-        if (this.leaveApplication.leaveTypesId && this.leaveApplication.fromDate && this.leaveApplication.toDate) {
-            this.message = '';
-            this.warning = '';
-
-            const fromYear: number = this.leaveApplication.fromDate.year();
-            const toYear: number = this.leaveApplication.toDate.year();
-
-            if (fromYear === toYear) {
-                this.leaveBalanceService.getOne(this.account.login, fromYear, this.leaveApplication.leaveTypesId).subscribe(
-                    (res: HttpResponse<ILeaveBalance>) => {
-                        this.leaveBalance = res.body;
-                        this.message =
-                            this.leaveBalance.leaveTypeName +
-                            ': Remaining leave ' +
-                            this.leaveBalance.remainingDays +
-                            ' out of ' +
-                            this.leaveBalance.totalLeaveApplicableDays +
-                            ' day(s)';
-
-                        if (this.leaveApplication.numberOfDays > this.leaveBalance.remainingDays) {
-                            this.warning =
-                                this.leaveBalance.leaveTypeName + ': Out of balance!! ' + 'Sorry, you can not apply for this leave.';
-                        }
-                    },
-                    (res: HttpErrorResponse) => (this.message = 'Error!! while fetching leave history.')
-                );
-            } else {
-                this.message = 'Dates should have the same year.';
-            }
-        }
     }
 
     calculateDifference() {

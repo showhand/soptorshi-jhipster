@@ -654,18 +654,6 @@ import { MatTabsModule } from '@angular/material';
                     './commercial-attachment-extended/commercial-attachment-extended.module#SoptorshiCommercialAttachmentExtendedModule'
             },
             {
-                path: 'commercial-product-info',
-                loadChildren: './commercial-product-info/commercial-product-info.module#SoptorshiCommercialProductInfoModule'
-            },
-            {
-                path: 'commercial-pi',
-                loadChildren: './commercial-pi/commercial-pi.module#SoptorshiCommercialPiModule'
-            },
-            {
-                path: 'commercial-po',
-                loadChildren: './commercial-po/commercial-po.module#SoptorshiCommercialPoModule'
-            },
-            {
                 path: 'requisition-messages',
                 loadChildren: './requisition-messages-extended/requisition-messages-extended.module#SoptorshiRequisitionMessagesModule'
             },
@@ -678,18 +666,6 @@ import { MatTabsModule } from '@angular/material';
                 path: 'requisition-voucher-relation',
                 loadChildren:
                     './requisition-voucher-relation-extended/requisition-voucher-relation-extended.module#SoptorshiRequisitionVoucherRelationModule'
-            },
-            {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
-            },
-            {
-                path: 'stock-in-item',
-                loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
-            },
-            {
-                path: 'stock-out-item',
-                loadChildren: './stock-out-item/stock-out-item.module#SoptorshiStockOutItemModule'
             },
             {
                 path: 'requisition-voucher-relation',
@@ -712,26 +688,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
             },
             {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
-            },
-            {
-                path: 'commercial-product-info',
-                loadChildren: './commercial-product-info/commercial-product-info.module#SoptorshiCommercialProductInfoModule'
-            },
-            {
-                path: 'commercial-pi',
-                loadChildren: './commercial-pi/commercial-pi.module#SoptorshiCommercialPiModule'
-            },
-            {
-                path: 'stock-in-process',
-                loadChildren: './stock-in-process/stock-in-process.module#SoptorshiStockInProcessModule'
-            },
-            {
-                path: 'stock-in-item',
-                loadChildren: './stock-in-item/stock-in-item.module#SoptorshiStockInItemModule'
-            },
-            {
                 path: 'production',
                 loadChildren: './production/production.module#SoptorshiProductionModule'
             },
@@ -742,10 +698,6 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'weekend',
                 loadChildren: './weekend-extended/weekend-extended.module#SoptorshiWeekendExtendedModule'
-            },
-            {
-                path: 'holiday',
-                loadChildren: './holiday/holiday.module#SoptorshiHolidayModule'
             },
             {
                 path: 'holiday',

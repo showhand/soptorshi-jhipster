@@ -9,6 +9,7 @@ import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.HolidayService;
 import org.soptorshi.service.dto.HolidayDTO;
 import org.soptorshi.service.mapper.HolidayMapper;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,24 +46,28 @@ public class HolidayExtendedService extends HolidayService {
         log.debug("Request to save Holiday : {}", holidayDTO);
 
         if (holidayDTO.getFromDate().getYear() == holidayDTO.getToDate().getYear()) {
-            String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
-                SecurityUtils.getCurrentUserLogin().toString() : "";
-            Instant currentDateTime = Instant.now();
+            if(holidayDTO.getToDate().compareTo(holidayDTO.getFromDate()) >= 0) {
+                String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
+                    SecurityUtils.getCurrentUserLogin().toString() : "";
+                Instant currentDateTime = Instant.now();
 
-            if (holidayDTO.getId() == null) {
-                holidayDTO.setCreatedBy(currentUser);
-                holidayDTO.setCreatedOn(currentDateTime);
-            } else {
-                holidayDTO.setUpdatedBy(currentUser);
-                holidayDTO.setUpdatedOn(currentDateTime);
+                if (holidayDTO.getId() == null) {
+                    holidayDTO.setCreatedBy(currentUser);
+                    holidayDTO.setCreatedOn(currentDateTime);
+                } else {
+                    holidayDTO.setUpdatedBy(currentUser);
+                    holidayDTO.setUpdatedOn(currentDateTime);
+                }
+
+                holidayDTO.setHolidayYear(holidayDTO.getFromDate().getYear());
+                Holiday holiday = holidayMapper.toEntity(holidayDTO);
+                holiday = holidayExtendedRepository.save(holiday);
+                HolidayDTO result = holidayMapper.toDto(holiday);
+                holidaySearchRepository.save(holiday);
+                return result;
             }
-
-            Holiday holiday = holidayMapper.toEntity(holidayDTO);
-            holiday = holidayExtendedRepository.save(holiday);
-            HolidayDTO result = holidayMapper.toDto(holiday);
-            holidaySearchRepository.save(holiday);
-            return result;
+            throw new BadRequestAlertException("fromDate is greater than toDate year!!", "holiday", "idnull");
         }
-        return null;
+        throw new BadRequestAlertException("fromDate and toDate year should be same!!", "holiday", "idnull");
     }
 }
