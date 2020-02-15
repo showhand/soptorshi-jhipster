@@ -8,7 +8,7 @@
         <h2 id="page-heading">Productions</h2>
     </div>
     <div class="col-6">
-        <form name="searchForm" class="form-inline">
+        <!--<form name="searchForm" class="form-inline">
             <div class="input-group w-100 mt-3">
                 <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
                        name="currentSearch" placeholder="Search Holidays">
@@ -23,7 +23,31 @@
                     <fa-icon [icon]="'plus'"></fa-icon>
                 </button>
             </div>
-        </form>
+        </form>-->
+        <div style="float: right">
+            <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-production"
+                    [routerLink]="['/production/new']">
+                <fa-icon [icon]="'plus'"></fa-icon>
+            </button>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-4">
+        <select class="form-control" id="field_requisition" name="requisition"
+                [(ngModel)]="currentSearch">
+            <option [ngValue]="null">Select a requisition</option>
+            <option [ngValue]="requisition.requisitionNo"
+                    *ngFor="let requisition of requisitions">{{requisition.requisitionNo}}</option>
+        </select>
+    </div>
+    <div class="col-1">
+        <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+            <fa-icon [icon]="'search'"></fa-icon>
+        </button>
     </div>
 </div>
 
@@ -38,13 +62,13 @@
                     <th jhiSortBy="id"><span>ID</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
+                    <th jhiSortBy="requisitionsRequisitionNo"><span>Requisitions</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
                     <th jhiSortBy="productCategoriesName"><span>Product Categories</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="productsName"><span>Products</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
-                    <th jhiSortBy="requisitionsRequisitionNo"><span>Requisitions</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="weightStep"><span>Weight Step</span>
@@ -85,6 +109,11 @@
                 <tr *ngFor="let production of productions ;trackBy: trackId">
                     <td><a [routerLink]="['/production', production.id, 'view' ]">{{production.id}}</a></td>
                     <td>
+                        <div *ngIf="production.requisitionsId">
+                            <a [routerLink]="['../requisition', production.requisitionsId , 'view' ]">{{production.requisitionsRequisitionNo}}</a>
+                        </div>
+                    </td>
+                    <td>
                         <div *ngIf="production.productCategoriesId">
                             <a [routerLink]="['../product-category', production.productCategoriesId , 'view' ]">{{production.productCategoriesName}}</a>
                         </div>
@@ -92,11 +121,6 @@
                     <td>
                         <div *ngIf="production.productsId">
                             <a [routerLink]="['../product', production.productsId , 'view' ]">{{production.productsName}}</a>
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="production.requisitionsId">
-                            <a [routerLink]="['../requisition', production.requisitionsId , 'view' ]">{{production.requisitionsRequisitionNo}}</a>
                         </div>
                     </td>
                     <td>{{production.weightStep}}</td>
