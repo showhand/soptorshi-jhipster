@@ -689,11 +689,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'production',
-                loadChildren: './production/production.module#SoptorshiProductionModule'
-            },
-            {
-                path: 'production',
-                loadChildren: './production/production.module#SoptorshiProductionModule'
+                loadChildren: './production-extended/production-extended.module#SoptorshiProductionExtendedModule'
             },
             {
                 path: 'weekend',
