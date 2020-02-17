@@ -35,7 +35,7 @@ export class ProductionExtendedComponent extends ProductionComponent implements 
                     page: this.page,
                     size: this.itemsPerPage,
                     sort: this.sort(),
-                    'requisitionsRequisitionNo.equals': this.currentSearch
+                    'requisitionsId.equals': this.currentSearch
                 })
                 .subscribe(
                     (res: HttpResponse<IProduction[]>) => this.paginateProductions(res.body, res.headers),

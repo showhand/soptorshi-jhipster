@@ -40,7 +40,7 @@
         <select class="form-control" id="field_requisition" name="requisition"
                 [(ngModel)]="currentSearch">
             <option [ngValue]="null">Select a requisition</option>
-            <option [ngValue]="requisition.requisitionNo"
+            <option [ngValue]="requisition.id"
                     *ngFor="let requisition of requisitions">{{requisition.requisitionNo}}</option>
         </select>
     </div>
