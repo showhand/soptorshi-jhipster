@@ -85,8 +85,14 @@ public class QuotationDetailsResourceIntTest {
     private static final VatStatus DEFAULT_VAT_STATUS = VatStatus.EXCLUDED;
     private static final VatStatus UPDATED_VAT_STATUS = VatStatus.INCLUDED;
 
+    private static final BigDecimal DEFAULT_VAT_PERCENTAGE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_VAT_PERCENTAGE = new BigDecimal(2);
+
     private static final AITStatus DEFAULT_AIT_STATUS = AITStatus.EXCLUDED;
     private static final AITStatus UPDATED_AIT_STATUS = AITStatus.INCLUDED;
+
+    private static final BigDecimal DEFAULT_AIT_PERCENTAGE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_AIT_PERCENTAGE = new BigDecimal(2);
 
     private static final LocalDate DEFAULT_ESTIMATED_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_ESTIMATED_DATE = LocalDate.now(ZoneId.systemDefault());
@@ -172,7 +178,9 @@ public class QuotationDetailsResourceIntTest {
             .payType(DEFAULT_PAY_TYPE)
             .creditLimit(DEFAULT_CREDIT_LIMIT)
             .vatStatus(DEFAULT_VAT_STATUS)
+            .vatPercentage(DEFAULT_VAT_PERCENTAGE)
             .aitStatus(DEFAULT_AIT_STATUS)
+            .aitPercentage(DEFAULT_AIT_PERCENTAGE)
             .estimatedDate(DEFAULT_ESTIMATED_DATE)
             .warrantyStatus(DEFAULT_WARRANTY_STATUS)
             .loadingPort(DEFAULT_LOADING_PORT)
@@ -210,7 +218,9 @@ public class QuotationDetailsResourceIntTest {
         assertThat(testQuotationDetails.getPayType()).isEqualTo(DEFAULT_PAY_TYPE);
         assertThat(testQuotationDetails.getCreditLimit()).isEqualTo(DEFAULT_CREDIT_LIMIT);
         assertThat(testQuotationDetails.getVatStatus()).isEqualTo(DEFAULT_VAT_STATUS);
+        assertThat(testQuotationDetails.getVatPercentage()).isEqualTo(DEFAULT_VAT_PERCENTAGE);
         assertThat(testQuotationDetails.getAitStatus()).isEqualTo(DEFAULT_AIT_STATUS);
+        assertThat(testQuotationDetails.getAitPercentage()).isEqualTo(DEFAULT_AIT_PERCENTAGE);
         assertThat(testQuotationDetails.getEstimatedDate()).isEqualTo(DEFAULT_ESTIMATED_DATE);
         assertThat(testQuotationDetails.getWarrantyStatus()).isEqualTo(DEFAULT_WARRANTY_STATUS);
         assertThat(testQuotationDetails.getLoadingPort()).isEqualTo(DEFAULT_LOADING_PORT);
@@ -263,7 +273,9 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].payType").value(hasItem(DEFAULT_PAY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
             .andExpect(jsonPath("$.[*].vatStatus").value(hasItem(DEFAULT_VAT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].vatPercentage").value(hasItem(DEFAULT_VAT_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].aitStatus").value(hasItem(DEFAULT_AIT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].aitPercentage").value(hasItem(DEFAULT_AIT_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].estimatedDate").value(hasItem(DEFAULT_ESTIMATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].warrantyStatus").value(hasItem(DEFAULT_WARRANTY_STATUS.toString())))
             .andExpect(jsonPath("$.[*].loadingPort").value(hasItem(DEFAULT_LOADING_PORT.toString())))
@@ -290,7 +302,9 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(jsonPath("$.payType").value(DEFAULT_PAY_TYPE.toString()))
             .andExpect(jsonPath("$.creditLimit").value(DEFAULT_CREDIT_LIMIT.intValue()))
             .andExpect(jsonPath("$.vatStatus").value(DEFAULT_VAT_STATUS.toString()))
+            .andExpect(jsonPath("$.vatPercentage").value(DEFAULT_VAT_PERCENTAGE.intValue()))
             .andExpect(jsonPath("$.aitStatus").value(DEFAULT_AIT_STATUS.toString()))
+            .andExpect(jsonPath("$.aitPercentage").value(DEFAULT_AIT_PERCENTAGE.intValue()))
             .andExpect(jsonPath("$.estimatedDate").value(DEFAULT_ESTIMATED_DATE.toString()))
             .andExpect(jsonPath("$.warrantyStatus").value(DEFAULT_WARRANTY_STATUS.toString()))
             .andExpect(jsonPath("$.loadingPort").value(DEFAULT_LOADING_PORT.toString()))
@@ -601,6 +615,45 @@ public class QuotationDetailsResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllQuotationDetailsByVatPercentageIsEqualToSomething() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where vatPercentage equals to DEFAULT_VAT_PERCENTAGE
+        defaultQuotationDetailsShouldBeFound("vatPercentage.equals=" + DEFAULT_VAT_PERCENTAGE);
+
+        // Get all the quotationDetailsList where vatPercentage equals to UPDATED_VAT_PERCENTAGE
+        defaultQuotationDetailsShouldNotBeFound("vatPercentage.equals=" + UPDATED_VAT_PERCENTAGE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByVatPercentageIsInShouldWork() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where vatPercentage in DEFAULT_VAT_PERCENTAGE or UPDATED_VAT_PERCENTAGE
+        defaultQuotationDetailsShouldBeFound("vatPercentage.in=" + DEFAULT_VAT_PERCENTAGE + "," + UPDATED_VAT_PERCENTAGE);
+
+        // Get all the quotationDetailsList where vatPercentage equals to UPDATED_VAT_PERCENTAGE
+        defaultQuotationDetailsShouldNotBeFound("vatPercentage.in=" + UPDATED_VAT_PERCENTAGE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByVatPercentageIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where vatPercentage is not null
+        defaultQuotationDetailsShouldBeFound("vatPercentage.specified=true");
+
+        // Get all the quotationDetailsList where vatPercentage is null
+        defaultQuotationDetailsShouldNotBeFound("vatPercentage.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllQuotationDetailsByAitStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         quotationDetailsRepository.saveAndFlush(quotationDetails);
@@ -636,6 +689,45 @@ public class QuotationDetailsResourceIntTest {
 
         // Get all the quotationDetailsList where aitStatus is null
         defaultQuotationDetailsShouldNotBeFound("aitStatus.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByAitPercentageIsEqualToSomething() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where aitPercentage equals to DEFAULT_AIT_PERCENTAGE
+        defaultQuotationDetailsShouldBeFound("aitPercentage.equals=" + DEFAULT_AIT_PERCENTAGE);
+
+        // Get all the quotationDetailsList where aitPercentage equals to UPDATED_AIT_PERCENTAGE
+        defaultQuotationDetailsShouldNotBeFound("aitPercentage.equals=" + UPDATED_AIT_PERCENTAGE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByAitPercentageIsInShouldWork() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where aitPercentage in DEFAULT_AIT_PERCENTAGE or UPDATED_AIT_PERCENTAGE
+        defaultQuotationDetailsShouldBeFound("aitPercentage.in=" + DEFAULT_AIT_PERCENTAGE + "," + UPDATED_AIT_PERCENTAGE);
+
+        // Get all the quotationDetailsList where aitPercentage equals to UPDATED_AIT_PERCENTAGE
+        defaultQuotationDetailsShouldNotBeFound("aitPercentage.in=" + UPDATED_AIT_PERCENTAGE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllQuotationDetailsByAitPercentageIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        quotationDetailsRepository.saveAndFlush(quotationDetails);
+
+        // Get all the quotationDetailsList where aitPercentage is not null
+        defaultQuotationDetailsShouldBeFound("aitPercentage.specified=true");
+
+        // Get all the quotationDetailsList where aitPercentage is null
+        defaultQuotationDetailsShouldNotBeFound("aitPercentage.specified=false");
     }
 
     @Test
@@ -958,7 +1050,9 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].payType").value(hasItem(DEFAULT_PAY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
             .andExpect(jsonPath("$.[*].vatStatus").value(hasItem(DEFAULT_VAT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].vatPercentage").value(hasItem(DEFAULT_VAT_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].aitStatus").value(hasItem(DEFAULT_AIT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].aitPercentage").value(hasItem(DEFAULT_AIT_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].estimatedDate").value(hasItem(DEFAULT_ESTIMATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].warrantyStatus").value(hasItem(DEFAULT_WARRANTY_STATUS.toString())))
             .andExpect(jsonPath("$.[*].loadingPort").value(hasItem(DEFAULT_LOADING_PORT)))
@@ -1019,7 +1113,9 @@ public class QuotationDetailsResourceIntTest {
             .payType(UPDATED_PAY_TYPE)
             .creditLimit(UPDATED_CREDIT_LIMIT)
             .vatStatus(UPDATED_VAT_STATUS)
+            .vatPercentage(UPDATED_VAT_PERCENTAGE)
             .aitStatus(UPDATED_AIT_STATUS)
+            .aitPercentage(UPDATED_AIT_PERCENTAGE)
             .estimatedDate(UPDATED_ESTIMATED_DATE)
             .warrantyStatus(UPDATED_WARRANTY_STATUS)
             .loadingPort(UPDATED_LOADING_PORT)
@@ -1044,7 +1140,9 @@ public class QuotationDetailsResourceIntTest {
         assertThat(testQuotationDetails.getPayType()).isEqualTo(UPDATED_PAY_TYPE);
         assertThat(testQuotationDetails.getCreditLimit()).isEqualTo(UPDATED_CREDIT_LIMIT);
         assertThat(testQuotationDetails.getVatStatus()).isEqualTo(UPDATED_VAT_STATUS);
+        assertThat(testQuotationDetails.getVatPercentage()).isEqualTo(UPDATED_VAT_PERCENTAGE);
         assertThat(testQuotationDetails.getAitStatus()).isEqualTo(UPDATED_AIT_STATUS);
+        assertThat(testQuotationDetails.getAitPercentage()).isEqualTo(UPDATED_AIT_PERCENTAGE);
         assertThat(testQuotationDetails.getEstimatedDate()).isEqualTo(UPDATED_ESTIMATED_DATE);
         assertThat(testQuotationDetails.getWarrantyStatus()).isEqualTo(UPDATED_WARRANTY_STATUS);
         assertThat(testQuotationDetails.getLoadingPort()).isEqualTo(UPDATED_LOADING_PORT);
@@ -1118,7 +1216,9 @@ public class QuotationDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].payType").value(hasItem(DEFAULT_PAY_TYPE.toString())))
             .andExpect(jsonPath("$.[*].creditLimit").value(hasItem(DEFAULT_CREDIT_LIMIT.intValue())))
             .andExpect(jsonPath("$.[*].vatStatus").value(hasItem(DEFAULT_VAT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].vatPercentage").value(hasItem(DEFAULT_VAT_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].aitStatus").value(hasItem(DEFAULT_AIT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].aitPercentage").value(hasItem(DEFAULT_AIT_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].estimatedDate").value(hasItem(DEFAULT_ESTIMATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].warrantyStatus").value(hasItem(DEFAULT_WARRANTY_STATUS.toString())))
             .andExpect(jsonPath("$.[*].loadingPort").value(hasItem(DEFAULT_LOADING_PORT)))

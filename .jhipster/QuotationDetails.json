@@ -34,9 +34,17 @@
             "fieldValues": "EXCLUDED,INCLUDED"
         },
         {
+            "fieldName": "vatPercentage",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "aitStatus",
             "fieldType": "AITStatus",
             "fieldValues": "EXCLUDED,INCLUDED"
+        },
+        {
+            "fieldName": "aitPercentage",
+            "fieldType": "BigDecimal"
         },
         {
             "fieldName": "estimatedDate",

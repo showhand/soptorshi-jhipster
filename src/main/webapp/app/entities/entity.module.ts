@@ -702,6 +702,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'holiday',
                 loadChildren: './holiday/holiday.module#SoptorshiHolidayModule'
+            },
+            {
+                path: 'quotation-details',
+                loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

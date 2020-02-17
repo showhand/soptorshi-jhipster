@@ -62,9 +62,15 @@ public class QuotationDetails implements Serializable {
     @Column(name = "vat_status")
     private VatStatus vatStatus;
 
+    @Column(name = "vat_percentage", precision = 10, scale = 2)
+    private BigDecimal vatPercentage;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "ait_status")
     private AITStatus aitStatus;
+
+    @Column(name = "ait_percentage", precision = 10, scale = 2)
+    private BigDecimal aitPercentage;
 
     @Column(name = "estimated_date")
     private LocalDate estimatedDate;
@@ -198,6 +204,19 @@ public class QuotationDetails implements Serializable {
         this.vatStatus = vatStatus;
     }
 
+    public BigDecimal getVatPercentage() {
+        return vatPercentage;
+    }
+
+    public QuotationDetails vatPercentage(BigDecimal vatPercentage) {
+        this.vatPercentage = vatPercentage;
+        return this;
+    }
+
+    public void setVatPercentage(BigDecimal vatPercentage) {
+        this.vatPercentage = vatPercentage;
+    }
+
     public AITStatus getAitStatus() {
         return aitStatus;
     }
@@ -209,6 +228,19 @@ public class QuotationDetails implements Serializable {
 
     public void setAitStatus(AITStatus aitStatus) {
         this.aitStatus = aitStatus;
+    }
+
+    public BigDecimal getAitPercentage() {
+        return aitPercentage;
+    }
+
+    public QuotationDetails aitPercentage(BigDecimal aitPercentage) {
+        this.aitPercentage = aitPercentage;
+        return this;
+    }
+
+    public void setAitPercentage(BigDecimal aitPercentage) {
+        this.aitPercentage = aitPercentage;
     }
 
     public LocalDate getEstimatedDate() {
@@ -360,7 +392,9 @@ public class QuotationDetails implements Serializable {
             ", payType='" + getPayType() + "'" +
             ", creditLimit=" + getCreditLimit() +
             ", vatStatus='" + getVatStatus() + "'" +
+            ", vatPercentage=" + getVatPercentage() +
             ", aitStatus='" + getAitStatus() + "'" +
+            ", aitPercentage=" + getAitPercentage() +
             ", estimatedDate='" + getEstimatedDate() + "'" +
             ", warrantyStatus='" + getWarrantyStatus() + "'" +
             ", loadingPort='" + getLoadingPort() + "'" +

@@ -57,11 +57,21 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_vatPercentage">Vat Percentage</label>
+                    <input type="number" class="form-control" name="vatPercentage" id="field_vatPercentage"
+                        [(ngModel)]="quotationDetails.vatPercentage" />
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_aitStatus">Ait Status</label>
                     <select class="form-control" name="aitStatus" [(ngModel)]="quotationDetails.aitStatus" id="field_aitStatus" >
                         <option value="EXCLUDED">EXCLUDED</option>
                         <option value="INCLUDED">INCLUDED</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_aitPercentage">Ait Percentage</label>
+                    <input type="number" class="form-control" name="aitPercentage" id="field_aitPercentage"
+                        [(ngModel)]="quotationDetails.aitPercentage" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_estimatedDate">Estimated Date</label>

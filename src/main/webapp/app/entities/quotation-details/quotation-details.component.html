@@ -37,7 +37,9 @@
             <th jhiSortBy="payType"><span>Pay Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="creditLimit"><span>Credit Limit</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="vatStatus"><span>Vat Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="vatPercentage"><span>Vat Percentage</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="aitStatus"><span>Ait Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="aitPercentage"><span>Ait Percentage</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="estimatedDate"><span>Estimated Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="warrantyStatus"><span>Warranty Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="loadingPort"><span>Loading Port</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -60,7 +62,9 @@
                 <td>{{quotationDetails.payType}}</td>
                 <td>{{quotationDetails.creditLimit}}</td>
                 <td>{{quotationDetails.vatStatus}}</td>
+                <td>{{quotationDetails.vatPercentage}}</td>
                 <td>{{quotationDetails.aitStatus}}</td>
+                <td>{{quotationDetails.aitPercentage}}</td>
                 <td>{{quotationDetails.estimatedDate | date:'mediumDate'}}</td>
                 <td>{{quotationDetails.warrantyStatus}}</td>
                 <td>{{quotationDetails.loadingPort}}</td>

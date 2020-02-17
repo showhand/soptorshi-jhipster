@@ -43,7 +43,9 @@ export interface IQuotationDetails {
     payType?: PayType;
     creditLimit?: number;
     vatStatus?: VatStatus;
+    vatPercentage?: number;
     aitStatus?: AITStatus;
+    aitPercentage?: number;
     estimatedDate?: Moment;
     warrantyStatus?: WarrantyStatus;
     loadingPort?: string;
@@ -67,7 +69,9 @@ export class QuotationDetails implements IQuotationDetails {
         public payType?: PayType,
         public creditLimit?: number,
         public vatStatus?: VatStatus,
+        public vatPercentage?: number,
         public aitStatus?: AITStatus,
+        public aitPercentage?: number,
         public estimatedDate?: Moment,
         public warrantyStatus?: WarrantyStatus,
         public loadingPort?: string,
