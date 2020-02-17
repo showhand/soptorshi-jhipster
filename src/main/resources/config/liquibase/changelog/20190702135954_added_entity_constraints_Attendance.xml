@@ -8,17 +8,17 @@
     -->
     <changeSet id="20190702135954-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="attendance_excel_upload_id"
-                                 baseTableName="attendance"
-                                 constraintName="fk_attendance_attendance_excel_upload_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="attendance_excel_upload"/>
-
         <addForeignKeyConstraint baseColumnNames="employee_id"
                                  baseTableName="attendance"
                                  constraintName="fk_attendance_employee_id"
                                  referencedColumnNames="id"
                                  referencedTableName="employee"/>
+
+        <addForeignKeyConstraint baseColumnNames="attendance_excel_upload_id"
+                                 baseTableName="attendance"
+                                 constraintName="fk_attendance_attendance_excel_upload_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="attendance_excel_upload"/>
 
     </changeSet>
 </databaseChangeLog>

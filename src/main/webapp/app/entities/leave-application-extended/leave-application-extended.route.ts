@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { OthersLeaveApplicationComponent } from 'app/entities/leave-application-extended/others-leave-application.component';
-import { ReviewLeaveApplicationComponent } from 'app/entities/leave-application-extended/review-leave-application.component';
-import { OthersLeaveApplicationHistoryComponent } from 'app/entities/leave-application-extended/others-leave-application-history.component';
-import { LeaveApplicationExtendedService } from 'app/entities/leave-application-extended/leave-application-extended.service';
-import { LeaveApplicationExtendedComponent } from 'app/entities/leave-application-extended/leave-application-extended.component';
-import { LeaveApplicationDetailExtendedComponent } from 'app/entities/leave-application-extended/leave-application-detail-extended.component';
-import { LeaveApplicationUpdateExtendedComponent } from 'app/entities/leave-application-extended/leave-application-update-extended.component';
-import { LeaveApplicationDeletePopupExtendedComponent } from 'app/entities/leave-application-extended/leave-application-delete-dialog-extended.component';
+import { LeaveApplicationExtendedService } from './leave-application-extended.service';
+import { LeaveApplicationExtendedComponent } from './leave-application-extended.component';
+import { LeaveApplicationDetailExtendedComponent } from './leave-application-detail-extended.component';
+import { LeaveApplicationUpdateExtendedComponent } from './leave-application-update-extended.component';
+import { LeaveApplicationDeletePopupExtendedComponent } from './leave-application-delete-dialog-extended.component';
 import { LeaveApplicationResolve } from 'app/entities/leave-application';
 
 @Injectable({ providedIn: 'root' })
@@ -23,7 +20,7 @@ export const leaveApplicationExtendedRoute: Routes = [
         path: '',
         component: LeaveApplicationExtendedComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'LeaveApplications'
         },
         canActivate: [UserRouteAccessService]
@@ -35,7 +32,7 @@ export const leaveApplicationExtendedRoute: Routes = [
             leaveApplication: LeaveApplicationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'LeaveApplications'
         },
         canActivate: [UserRouteAccessService]
@@ -47,19 +44,7 @@ export const leaveApplicationExtendedRoute: Routes = [
             leaveApplication: LeaveApplicationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
-            pageTitle: 'LeaveApplications'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'new/others',
-        component: OthersLeaveApplicationComponent,
-        resolve: {
-            leaveApplication: LeaveApplicationExtendedResolve
-        },
-        data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_MANAGER'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'LeaveApplications'
         },
         canActivate: [UserRouteAccessService]
@@ -71,32 +56,8 @@ export const leaveApplicationExtendedRoute: Routes = [
             leaveApplication: LeaveApplicationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'LeaveApplications'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'review',
-        component: ReviewLeaveApplicationComponent,
-        resolve: {
-            leaveApplication: LeaveApplicationExtendedResolve
-        },
-        data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_MANAGER'],
-            pageTitle: 'ReviewLeaveApplication'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'history/others',
-        component: OthersLeaveApplicationHistoryComponent,
-        resolve: {
-            leaveApplication: LeaveApplicationExtendedResolve
-        },
-        data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_LEAVE_MANAGER'],
-            pageTitle: 'LeaveHistory'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -110,7 +71,7 @@ export const leaveApplicationPopupExtendedRoute: Routes = [
             leaveApplication: LeaveApplicationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_USER'],
+            authorities: ['ROLE_USER'],
             pageTitle: 'LeaveApplications'
         },
         canActivate: [UserRouteAccessService],

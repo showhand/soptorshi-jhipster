@@ -116,13 +116,13 @@ public class AttendanceQueryService extends QueryService<Attendance> {
             if (criteria.getUpdatedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), Attendance_.updatedOn));
             }
-            if (criteria.getAttendanceExcelUploadId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAttendanceExcelUploadId(),
-                    root -> root.join(Attendance_.attendanceExcelUpload, JoinType.LEFT).get(AttendanceExcelUpload_.id)));
-            }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),
                     root -> root.join(Attendance_.employee, JoinType.LEFT).get(Employee_.id)));
+            }
+            if (criteria.getAttendanceExcelUploadId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAttendanceExcelUploadId(),
+                    root -> root.join(Attendance_.attendanceExcelUpload, JoinType.LEFT).get(AttendanceExcelUpload_.id)));
             }
         }
         return specification;

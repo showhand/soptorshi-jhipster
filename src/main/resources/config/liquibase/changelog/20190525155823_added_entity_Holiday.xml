@@ -75,10 +75,4 @@
 
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
-
-    <changeSet author="kawsu (generated)" id="1581052190406-1">
-        <addColumn tableName="holiday">
-            <column name="holiday_year" type="integer"/>
-        </addColumn>
-    </changeSet>
 </databaseChangeLog>

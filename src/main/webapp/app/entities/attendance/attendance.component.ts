@@ -107,7 +107,7 @@ export class AttendanceComponent implements OnInit, OnDestroy {
             last: 0
         };
         this.page = 0;
-        this.predicate = 'id';
+        this.predicate = '_score';
         this.reverse = false;
         this.currentSearch = query;
         this.loadAll();

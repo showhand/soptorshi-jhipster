@@ -52,11 +52,11 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="attendance_excel_upload_id" type="bigint">
+            <column name="employee_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
-            <column name="employee_id" type="bigint">
+            <column name="attendance_excel_upload_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

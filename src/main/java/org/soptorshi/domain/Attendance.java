@@ -50,11 +50,11 @@ public class Attendance implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("attendances")
-    private AttendanceExcelUpload attendanceExcelUpload;
+    private Employee employee;
 
     @ManyToOne
     @JsonIgnoreProperties("attendances")
-    private Employee employee;
+    private AttendanceExcelUpload attendanceExcelUpload;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -169,19 +169,6 @@ public class Attendance implements Serializable {
         this.updatedOn = updatedOn;
     }
 
-    public AttendanceExcelUpload getAttendanceExcelUpload() {
-        return attendanceExcelUpload;
-    }
-
-    public Attendance attendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload) {
-        this.attendanceExcelUpload = attendanceExcelUpload;
-        return this;
-    }
-
-    public void setAttendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload) {
-        this.attendanceExcelUpload = attendanceExcelUpload;
-    }
-
     public Employee getEmployee() {
         return employee;
     }
@@ -193,6 +180,19 @@ public class Attendance implements Serializable {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public AttendanceExcelUpload getAttendanceExcelUpload() {
+        return attendanceExcelUpload;
+    }
+
+    public Attendance attendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload) {
+        this.attendanceExcelUpload = attendanceExcelUpload;
+        return this;
+    }
+
+    public void setAttendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload) {
+        this.attendanceExcelUpload = attendanceExcelUpload;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
