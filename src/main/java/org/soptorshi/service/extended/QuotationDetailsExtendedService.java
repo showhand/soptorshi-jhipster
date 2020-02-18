@@ -51,7 +51,14 @@ public class QuotationDetailsExtendedService extends QuotationDetailsService {
         List<QuotationDetails> quotationDetailsList = quotationDetailsExtendedRepository.findByQuotationId(quotationDetails.getQuotationId());
         BigDecimal totalAmount = BigDecimal.ZERO;
         for(QuotationDetails q: quotationDetailsList){
-            totalAmount = totalAmount.add(q.getRate().multiply(new BigDecimal(q.getQuantity())));
+            BigDecimal productTotalAmount = BigDecimal.ZERO;
+            productTotalAmount = productTotalAmount.add(q.getRate().multiply(new BigDecimal(q.getQuantity())));
+            if(q.getVatPercentage()!=null)
+                productTotalAmount = productTotalAmount.add(productTotalAmount.multiply(q.getVatPercentage().divide(new BigDecimal(100))));
+            if(q.getAitPercentage()!=null)
+                productTotalAmount = productTotalAmount.subtract(productTotalAmount.multiply(q.getAitPercentage().divide(new BigDecimal(100))));
+            totalAmount = totalAmount.add(productTotalAmount);
+
         }
         Quotation quotation = quotationRepository.findById(quotationDetails.getQuotationId()).get();
         quotation.setTotalAmount(totalAmount);
