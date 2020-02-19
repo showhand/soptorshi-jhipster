@@ -2,13 +2,6 @@
     "name": "LeaveApplication",
     "fields": [
         {
-            "fieldName": "employeeId",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "fromDate",
             "fieldType": "LocalDate",
             "fieldValidateRules": [
@@ -39,22 +32,8 @@
             "fieldValidateRulesMaxlength": 250
         },
         {
-            "fieldName": "appliedBy",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "appliedOn",
             "fieldType": "Instant"
-        },
-        {
-            "fieldName": "actionTakenBy",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
         },
         {
             "fieldName": "actionTakenOn",
@@ -76,6 +55,27 @@
             "otherEntityRelationshipName": "leaveApplication",
             "relationshipName": "leaveTypes",
             "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "leaveApplication",
+            "relationshipName": "employees",
+            "otherEntityField": "fullName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "leaveApplication",
+            "relationshipName": "appliedById",
+            "otherEntityField": "fullName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "leaveApplication",
+            "relationshipName": "actionTakenById",
+            "otherEntityField": "fullName"
         }
     ],
     "changelogDate": "20190603104540",

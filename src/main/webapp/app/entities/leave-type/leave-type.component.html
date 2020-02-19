@@ -34,6 +34,10 @@
             <th jhiSortBy="paidLeave"><span>Paid Leave</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="maximumNumberOfDays"><span>Maximum Number Of Days</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -44,6 +48,10 @@
                 <td>{{leaveType.paidLeave}}</td>
                 <td>{{leaveType.maximumNumberOfDays}}</td>
                 <td>{{leaveType.description}}</td>
+                <td>{{leaveType.createdBy}}</td>
+                <td>{{leaveType.createdOn | date:'medium'}}</td>
+                <td>{{leaveType.updatedBy}}</td>
+                <td>{{leaveType.updatedOn | date:'medium'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

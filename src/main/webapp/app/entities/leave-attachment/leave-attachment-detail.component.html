@@ -12,6 +12,22 @@
                         {{leaveAttachment.fileContentType}}, {{byteSize(leaveAttachment.file)}}
                     </div>
                 </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{leaveAttachment.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{leaveAttachment.createdOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{leaveAttachment.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{leaveAttachment.updatedOn}}</span>
+                </dd>
                 <dt><span>Leave Application</span></dt>
                 <dd>
                     <div *ngIf="leaveAttachment.leaveApplicationId">

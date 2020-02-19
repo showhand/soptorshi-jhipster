@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export const enum PaidOrUnPaid {
     PAID = 'PAID',
     UNPAID = 'UNPAID',
@@ -10,6 +12,10 @@ export interface ILeaveType {
     paidLeave?: PaidOrUnPaid;
     maximumNumberOfDays?: number;
     description?: string;
+    createdBy?: string;
+    createdOn?: Moment;
+    updatedBy?: string;
+    updatedOn?: Moment;
 }
 
 export class LeaveType implements ILeaveType {
@@ -18,6 +24,10 @@ export class LeaveType implements ILeaveType {
         public name?: string,
         public paidLeave?: PaidOrUnPaid,
         public maximumNumberOfDays?: number,
-        public description?: string
+        public description?: string,
+        public createdBy?: string,
+        public createdOn?: Moment,
+        public updatedBy?: string,
+        public updatedOn?: Moment
     ) {}
 }

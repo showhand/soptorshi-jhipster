@@ -1,0 +1,27 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1582135561985-1">
+        <addColumn tableName="leave_application">
+            <column name="action_taken_by_id_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582135561985-2">
+        <addColumn tableName="leave_application">
+            <column name="applied_by_id_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582135561985-3">
+        <addForeignKeyConstraint baseColumnNames="action_taken_by_id_id" baseTableName="leave_application" constraintName="FKa39nbfj2rfh7sgix5q3m7hs4u" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="employee"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582135561985-4">
+        <addForeignKeyConstraint baseColumnNames="applied_by_id_id" baseTableName="leave_application" constraintName="FKr9vvwq7mxpulhyrqg9km2djnh" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="employee"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582135561985-7">
+        <dropColumn columnName="action_taken_by" tableName="leave_application"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582135561985-8">
+        <dropColumn columnName="applied_by" tableName="leave_application"/>
+    </changeSet>
+</databaseChangeLog>

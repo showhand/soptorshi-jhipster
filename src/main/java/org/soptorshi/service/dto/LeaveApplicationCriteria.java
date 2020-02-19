@@ -1,17 +1,10 @@
 package org.soptorshi.service.dto;
 
+import io.github.jhipster.service.filter.*;
+import org.soptorshi.domain.enumeration.LeaveStatus;
+
 import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.LeaveStatus;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.InstantFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the LeaveApplication entity. This class is used in LeaveApplicationResource to
@@ -32,8 +25,6 @@ public class LeaveApplicationCriteria implements Serializable {
 
     private LongFilter id;
 
-    private StringFilter employeeId;
-
     private LocalDateFilter fromDate;
 
     private LocalDateFilter toDate;
@@ -42,11 +33,7 @@ public class LeaveApplicationCriteria implements Serializable {
 
     private StringFilter reason;
 
-    private StringFilter appliedBy;
-
     private InstantFilter appliedOn;
-
-    private StringFilter actionTakenBy;
 
     private InstantFilter actionTakenOn;
 
@@ -54,20 +41,18 @@ public class LeaveApplicationCriteria implements Serializable {
 
     private LongFilter leaveTypesId;
 
+    private LongFilter employeesId;
+
+    private LongFilter appliedByIdId;
+
+    private LongFilter actionTakenByIdId;
+
     public LongFilter getId() {
         return id;
     }
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public StringFilter getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(StringFilter employeeId) {
-        this.employeeId = employeeId;
     }
 
     public LocalDateFilter getFromDate() {
@@ -102,28 +87,12 @@ public class LeaveApplicationCriteria implements Serializable {
         this.reason = reason;
     }
 
-    public StringFilter getAppliedBy() {
-        return appliedBy;
-    }
-
-    public void setAppliedBy(StringFilter appliedBy) {
-        this.appliedBy = appliedBy;
-    }
-
     public InstantFilter getAppliedOn() {
         return appliedOn;
     }
 
     public void setAppliedOn(InstantFilter appliedOn) {
         this.appliedOn = appliedOn;
-    }
-
-    public StringFilter getActionTakenBy() {
-        return actionTakenBy;
-    }
-
-    public void setActionTakenBy(StringFilter actionTakenBy) {
-        this.actionTakenBy = actionTakenBy;
     }
 
     public InstantFilter getActionTakenOn() {
@@ -150,6 +119,30 @@ public class LeaveApplicationCriteria implements Serializable {
         this.leaveTypesId = leaveTypesId;
     }
 
+    public LongFilter getEmployeesId() {
+        return employeesId;
+    }
+
+    public void setEmployeesId(LongFilter employeesId) {
+        this.employeesId = employeesId;
+    }
+
+    public LongFilter getAppliedByIdId() {
+        return appliedByIdId;
+    }
+
+    public void setAppliedByIdId(LongFilter appliedByIdId) {
+        this.appliedByIdId = appliedByIdId;
+    }
+
+    public LongFilter getActionTakenByIdId() {
+        return actionTakenByIdId;
+    }
+
+    public void setActionTakenByIdId(LongFilter actionTakenByIdId) {
+        this.actionTakenByIdId = actionTakenByIdId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -162,34 +155,34 @@ public class LeaveApplicationCriteria implements Serializable {
         final LeaveApplicationCriteria that = (LeaveApplicationCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(employeeId, that.employeeId) &&
             Objects.equals(fromDate, that.fromDate) &&
             Objects.equals(toDate, that.toDate) &&
             Objects.equals(numberOfDays, that.numberOfDays) &&
             Objects.equals(reason, that.reason) &&
-            Objects.equals(appliedBy, that.appliedBy) &&
             Objects.equals(appliedOn, that.appliedOn) &&
-            Objects.equals(actionTakenBy, that.actionTakenBy) &&
             Objects.equals(actionTakenOn, that.actionTakenOn) &&
             Objects.equals(status, that.status) &&
-            Objects.equals(leaveTypesId, that.leaveTypesId);
+            Objects.equals(leaveTypesId, that.leaveTypesId) &&
+            Objects.equals(employeesId, that.employeesId) &&
+            Objects.equals(appliedByIdId, that.appliedByIdId) &&
+            Objects.equals(actionTakenByIdId, that.actionTakenByIdId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        employeeId,
         fromDate,
         toDate,
         numberOfDays,
         reason,
-        appliedBy,
         appliedOn,
-        actionTakenBy,
         actionTakenOn,
         status,
-        leaveTypesId
+        leaveTypesId,
+        employeesId,
+        appliedByIdId,
+        actionTakenByIdId
         );
     }
 
@@ -197,17 +190,17 @@ public class LeaveApplicationCriteria implements Serializable {
     public String toString() {
         return "LeaveApplicationCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
                 (fromDate != null ? "fromDate=" + fromDate + ", " : "") +
                 (toDate != null ? "toDate=" + toDate + ", " : "") +
                 (numberOfDays != null ? "numberOfDays=" + numberOfDays + ", " : "") +
                 (reason != null ? "reason=" + reason + ", " : "") +
-                (appliedBy != null ? "appliedBy=" + appliedBy + ", " : "") +
                 (appliedOn != null ? "appliedOn=" + appliedOn + ", " : "") +
-                (actionTakenBy != null ? "actionTakenBy=" + actionTakenBy + ", " : "") +
                 (actionTakenOn != null ? "actionTakenOn=" + actionTakenOn + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (leaveTypesId != null ? "leaveTypesId=" + leaveTypesId + ", " : "") +
+                (employeesId != null ? "employeesId=" + employeesId + ", " : "") +
+                (appliedByIdId != null ? "appliedByIdId=" + appliedByIdId + ", " : "") +
+                (actionTakenByIdId != null ? "actionTakenByIdId=" + actionTakenByIdId + ", " : "") +
             "}";
     }
 

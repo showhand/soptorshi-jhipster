@@ -1,22 +1,21 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.LeaveApplication;
-import org.soptorshi.domain.LeaveType;
-import org.soptorshi.repository.LeaveApplicationRepository;
-import org.soptorshi.repository.search.LeaveApplicationSearchRepository;
-import org.soptorshi.service.LeaveApplicationService;
-import org.soptorshi.service.dto.LeaveApplicationDTO;
-import org.soptorshi.service.mapper.LeaveApplicationMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.LeaveApplicationCriteria;
-import org.soptorshi.service.LeaveApplicationQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.Employee;
+import org.soptorshi.domain.LeaveApplication;
+import org.soptorshi.domain.LeaveType;
+import org.soptorshi.domain.enumeration.LeaveStatus;
+import org.soptorshi.repository.LeaveApplicationRepository;
+import org.soptorshi.repository.search.LeaveApplicationSearchRepository;
+import org.soptorshi.service.LeaveApplicationQueryService;
+import org.soptorshi.service.LeaveApplicationService;
+import org.soptorshi.service.dto.LeaveApplicationDTO;
+import org.soptorshi.service.mapper.LeaveApplicationMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -31,23 +30,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.soptorshi.domain.enumeration.LeaveStatus;
 /**
  * Test class for the LeaveApplicationResource REST controller.
  *
@@ -56,9 +52,6 @@ import org.soptorshi.domain.enumeration.LeaveStatus;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
 public class LeaveApplicationResourceIntTest {
-
-    private static final String DEFAULT_EMPLOYEE_ID = "AAAAAAAAAA";
-    private static final String UPDATED_EMPLOYEE_ID = "BBBBBBBBBB";
 
     private static final LocalDate DEFAULT_FROM_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_FROM_DATE = LocalDate.now(ZoneId.systemDefault());
@@ -72,14 +65,8 @@ public class LeaveApplicationResourceIntTest {
     private static final String DEFAULT_REASON = "AAAAAAAAAA";
     private static final String UPDATED_REASON = "BBBBBBBBBB";
 
-    private static final String DEFAULT_APPLIED_BY = "AAAAAAAAAA";
-    private static final String UPDATED_APPLIED_BY = "BBBBBBBBBB";
-
     private static final Instant DEFAULT_APPLIED_ON = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_APPLIED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final String DEFAULT_ACTION_TAKEN_BY = "AAAAAAAAAA";
-    private static final String UPDATED_ACTION_TAKEN_BY = "BBBBBBBBBB";
 
     private static final Instant DEFAULT_ACTION_TAKEN_ON = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_ACTION_TAKEN_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -146,14 +133,11 @@ public class LeaveApplicationResourceIntTest {
      */
     public static LeaveApplication createEntity(EntityManager em) {
         LeaveApplication leaveApplication = new LeaveApplication()
-            .employeeId(DEFAULT_EMPLOYEE_ID)
             .fromDate(DEFAULT_FROM_DATE)
             .toDate(DEFAULT_TO_DATE)
             .numberOfDays(DEFAULT_NUMBER_OF_DAYS)
             .reason(DEFAULT_REASON)
-            .appliedBy(DEFAULT_APPLIED_BY)
             .appliedOn(DEFAULT_APPLIED_ON)
-            .actionTakenBy(DEFAULT_ACTION_TAKEN_BY)
             .actionTakenOn(DEFAULT_ACTION_TAKEN_ON)
             .status(DEFAULT_STATUS);
         return leaveApplication;
@@ -180,14 +164,11 @@ public class LeaveApplicationResourceIntTest {
         List<LeaveApplication> leaveApplicationList = leaveApplicationRepository.findAll();
         assertThat(leaveApplicationList).hasSize(databaseSizeBeforeCreate + 1);
         LeaveApplication testLeaveApplication = leaveApplicationList.get(leaveApplicationList.size() - 1);
-        assertThat(testLeaveApplication.getEmployeeId()).isEqualTo(DEFAULT_EMPLOYEE_ID);
         assertThat(testLeaveApplication.getFromDate()).isEqualTo(DEFAULT_FROM_DATE);
         assertThat(testLeaveApplication.getToDate()).isEqualTo(DEFAULT_TO_DATE);
         assertThat(testLeaveApplication.getNumberOfDays()).isEqualTo(DEFAULT_NUMBER_OF_DAYS);
         assertThat(testLeaveApplication.getReason()).isEqualTo(DEFAULT_REASON);
-        assertThat(testLeaveApplication.getAppliedBy()).isEqualTo(DEFAULT_APPLIED_BY);
         assertThat(testLeaveApplication.getAppliedOn()).isEqualTo(DEFAULT_APPLIED_ON);
-        assertThat(testLeaveApplication.getActionTakenBy()).isEqualTo(DEFAULT_ACTION_TAKEN_BY);
         assertThat(testLeaveApplication.getActionTakenOn()).isEqualTo(DEFAULT_ACTION_TAKEN_ON);
         assertThat(testLeaveApplication.getStatus()).isEqualTo(DEFAULT_STATUS);
 
@@ -216,25 +197,6 @@ public class LeaveApplicationResourceIntTest {
 
         // Validate the LeaveApplication in Elasticsearch
         verify(mockLeaveApplicationSearchRepository, times(0)).save(leaveApplication);
-    }
-
-    @Test
-    @Transactional
-    public void checkEmployeeIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = leaveApplicationRepository.findAll().size();
-        // set the field null
-        leaveApplication.setEmployeeId(null);
-
-        // Create the LeaveApplication, which fails.
-        LeaveApplicationDTO leaveApplicationDTO = leaveApplicationMapper.toDto(leaveApplication);
-
-        restLeaveApplicationMockMvc.perform(post("/api/leave-applications")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(leaveApplicationDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<LeaveApplication> leaveApplicationList = leaveApplicationRepository.findAll();
-        assertThat(leaveApplicationList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -315,44 +277,6 @@ public class LeaveApplicationResourceIntTest {
 
     @Test
     @Transactional
-    public void checkAppliedByIsRequired() throws Exception {
-        int databaseSizeBeforeTest = leaveApplicationRepository.findAll().size();
-        // set the field null
-        leaveApplication.setAppliedBy(null);
-
-        // Create the LeaveApplication, which fails.
-        LeaveApplicationDTO leaveApplicationDTO = leaveApplicationMapper.toDto(leaveApplication);
-
-        restLeaveApplicationMockMvc.perform(post("/api/leave-applications")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(leaveApplicationDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<LeaveApplication> leaveApplicationList = leaveApplicationRepository.findAll();
-        assertThat(leaveApplicationList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkActionTakenByIsRequired() throws Exception {
-        int databaseSizeBeforeTest = leaveApplicationRepository.findAll().size();
-        // set the field null
-        leaveApplication.setActionTakenBy(null);
-
-        // Create the LeaveApplication, which fails.
-        LeaveApplicationDTO leaveApplicationDTO = leaveApplicationMapper.toDto(leaveApplication);
-
-        restLeaveApplicationMockMvc.perform(post("/api/leave-applications")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(leaveApplicationDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<LeaveApplication> leaveApplicationList = leaveApplicationRepository.findAll();
-        assertThat(leaveApplicationList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void checkStatusIsRequired() throws Exception {
         int databaseSizeBeforeTest = leaveApplicationRepository.findAll().size();
         // set the field null
@@ -381,18 +305,15 @@ public class LeaveApplicationResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(leaveApplication.getId().intValue())))
-            .andExpect(jsonPath("$.[*].employeeId").value(hasItem(DEFAULT_EMPLOYEE_ID.toString())))
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
-            .andExpect(jsonPath("$.[*].appliedBy").value(hasItem(DEFAULT_APPLIED_BY.toString())))
             .andExpect(jsonPath("$.[*].appliedOn").value(hasItem(DEFAULT_APPLIED_ON.toString())))
-            .andExpect(jsonPath("$.[*].actionTakenBy").value(hasItem(DEFAULT_ACTION_TAKEN_BY.toString())))
             .andExpect(jsonPath("$.[*].actionTakenOn").value(hasItem(DEFAULT_ACTION_TAKEN_ON.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getLeaveApplication() throws Exception {
@@ -404,55 +325,13 @@ public class LeaveApplicationResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(leaveApplication.getId().intValue()))
-            .andExpect(jsonPath("$.employeeId").value(DEFAULT_EMPLOYEE_ID.toString()))
             .andExpect(jsonPath("$.fromDate").value(DEFAULT_FROM_DATE.toString()))
             .andExpect(jsonPath("$.toDate").value(DEFAULT_TO_DATE.toString()))
             .andExpect(jsonPath("$.numberOfDays").value(DEFAULT_NUMBER_OF_DAYS))
             .andExpect(jsonPath("$.reason").value(DEFAULT_REASON.toString()))
-            .andExpect(jsonPath("$.appliedBy").value(DEFAULT_APPLIED_BY.toString()))
             .andExpect(jsonPath("$.appliedOn").value(DEFAULT_APPLIED_ON.toString()))
-            .andExpect(jsonPath("$.actionTakenBy").value(DEFAULT_ACTION_TAKEN_BY.toString()))
             .andExpect(jsonPath("$.actionTakenOn").value(DEFAULT_ACTION_TAKEN_ON.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveApplicationsByEmployeeIdIsEqualToSomething() throws Exception {
-        // Initialize the database
-        leaveApplicationRepository.saveAndFlush(leaveApplication);
-
-        // Get all the leaveApplicationList where employeeId equals to DEFAULT_EMPLOYEE_ID
-        defaultLeaveApplicationShouldBeFound("employeeId.equals=" + DEFAULT_EMPLOYEE_ID);
-
-        // Get all the leaveApplicationList where employeeId equals to UPDATED_EMPLOYEE_ID
-        defaultLeaveApplicationShouldNotBeFound("employeeId.equals=" + UPDATED_EMPLOYEE_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveApplicationsByEmployeeIdIsInShouldWork() throws Exception {
-        // Initialize the database
-        leaveApplicationRepository.saveAndFlush(leaveApplication);
-
-        // Get all the leaveApplicationList where employeeId in DEFAULT_EMPLOYEE_ID or UPDATED_EMPLOYEE_ID
-        defaultLeaveApplicationShouldBeFound("employeeId.in=" + DEFAULT_EMPLOYEE_ID + "," + UPDATED_EMPLOYEE_ID);
-
-        // Get all the leaveApplicationList where employeeId equals to UPDATED_EMPLOYEE_ID
-        defaultLeaveApplicationShouldNotBeFound("employeeId.in=" + UPDATED_EMPLOYEE_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveApplicationsByEmployeeIdIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        leaveApplicationRepository.saveAndFlush(leaveApplication);
-
-        // Get all the leaveApplicationList where employeeId is not null
-        defaultLeaveApplicationShouldBeFound("employeeId.specified=true");
-
-        // Get all the leaveApplicationList where employeeId is null
-        defaultLeaveApplicationShouldNotBeFound("employeeId.specified=false");
     }
 
     @Test
@@ -694,45 +573,6 @@ public class LeaveApplicationResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllLeaveApplicationsByAppliedByIsEqualToSomething() throws Exception {
-        // Initialize the database
-        leaveApplicationRepository.saveAndFlush(leaveApplication);
-
-        // Get all the leaveApplicationList where appliedBy equals to DEFAULT_APPLIED_BY
-        defaultLeaveApplicationShouldBeFound("appliedBy.equals=" + DEFAULT_APPLIED_BY);
-
-        // Get all the leaveApplicationList where appliedBy equals to UPDATED_APPLIED_BY
-        defaultLeaveApplicationShouldNotBeFound("appliedBy.equals=" + UPDATED_APPLIED_BY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveApplicationsByAppliedByIsInShouldWork() throws Exception {
-        // Initialize the database
-        leaveApplicationRepository.saveAndFlush(leaveApplication);
-
-        // Get all the leaveApplicationList where appliedBy in DEFAULT_APPLIED_BY or UPDATED_APPLIED_BY
-        defaultLeaveApplicationShouldBeFound("appliedBy.in=" + DEFAULT_APPLIED_BY + "," + UPDATED_APPLIED_BY);
-
-        // Get all the leaveApplicationList where appliedBy equals to UPDATED_APPLIED_BY
-        defaultLeaveApplicationShouldNotBeFound("appliedBy.in=" + UPDATED_APPLIED_BY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveApplicationsByAppliedByIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        leaveApplicationRepository.saveAndFlush(leaveApplication);
-
-        // Get all the leaveApplicationList where appliedBy is not null
-        defaultLeaveApplicationShouldBeFound("appliedBy.specified=true");
-
-        // Get all the leaveApplicationList where appliedBy is null
-        defaultLeaveApplicationShouldNotBeFound("appliedBy.specified=false");
-    }
-
-    @Test
-    @Transactional
     public void getAllLeaveApplicationsByAppliedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         leaveApplicationRepository.saveAndFlush(leaveApplication);
@@ -768,45 +608,6 @@ public class LeaveApplicationResourceIntTest {
 
         // Get all the leaveApplicationList where appliedOn is null
         defaultLeaveApplicationShouldNotBeFound("appliedOn.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveApplicationsByActionTakenByIsEqualToSomething() throws Exception {
-        // Initialize the database
-        leaveApplicationRepository.saveAndFlush(leaveApplication);
-
-        // Get all the leaveApplicationList where actionTakenBy equals to DEFAULT_ACTION_TAKEN_BY
-        defaultLeaveApplicationShouldBeFound("actionTakenBy.equals=" + DEFAULT_ACTION_TAKEN_BY);
-
-        // Get all the leaveApplicationList where actionTakenBy equals to UPDATED_ACTION_TAKEN_BY
-        defaultLeaveApplicationShouldNotBeFound("actionTakenBy.equals=" + UPDATED_ACTION_TAKEN_BY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveApplicationsByActionTakenByIsInShouldWork() throws Exception {
-        // Initialize the database
-        leaveApplicationRepository.saveAndFlush(leaveApplication);
-
-        // Get all the leaveApplicationList where actionTakenBy in DEFAULT_ACTION_TAKEN_BY or UPDATED_ACTION_TAKEN_BY
-        defaultLeaveApplicationShouldBeFound("actionTakenBy.in=" + DEFAULT_ACTION_TAKEN_BY + "," + UPDATED_ACTION_TAKEN_BY);
-
-        // Get all the leaveApplicationList where actionTakenBy equals to UPDATED_ACTION_TAKEN_BY
-        defaultLeaveApplicationShouldNotBeFound("actionTakenBy.in=" + UPDATED_ACTION_TAKEN_BY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveApplicationsByActionTakenByIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        leaveApplicationRepository.saveAndFlush(leaveApplication);
-
-        // Get all the leaveApplicationList where actionTakenBy is not null
-        defaultLeaveApplicationShouldBeFound("actionTakenBy.specified=true");
-
-        // Get all the leaveApplicationList where actionTakenBy is null
-        defaultLeaveApplicationShouldNotBeFound("actionTakenBy.specified=false");
     }
 
     @Test
@@ -905,6 +706,63 @@ public class LeaveApplicationResourceIntTest {
         defaultLeaveApplicationShouldNotBeFound("leaveTypesId.equals=" + (leaveTypesId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllLeaveApplicationsByEmployeesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employees = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employees);
+        em.flush();
+        leaveApplication.setEmployees(employees);
+        leaveApplicationRepository.saveAndFlush(leaveApplication);
+        Long employeesId = employees.getId();
+
+        // Get all the leaveApplicationList where employees equals to employeesId
+        defaultLeaveApplicationShouldBeFound("employeesId.equals=" + employeesId);
+
+        // Get all the leaveApplicationList where employees equals to employeesId + 1
+        defaultLeaveApplicationShouldNotBeFound("employeesId.equals=" + (employeesId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllLeaveApplicationsByAppliedByIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee appliedById = EmployeeResourceIntTest.createEntity(em);
+        em.persist(appliedById);
+        em.flush();
+        leaveApplication.setAppliedById(appliedById);
+        leaveApplicationRepository.saveAndFlush(leaveApplication);
+        Long appliedByIdId = appliedById.getId();
+
+        // Get all the leaveApplicationList where appliedById equals to appliedByIdId
+        defaultLeaveApplicationShouldBeFound("appliedByIdId.equals=" + appliedByIdId);
+
+        // Get all the leaveApplicationList where appliedById equals to appliedByIdId + 1
+        defaultLeaveApplicationShouldNotBeFound("appliedByIdId.equals=" + (appliedByIdId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllLeaveApplicationsByActionTakenByIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee actionTakenById = EmployeeResourceIntTest.createEntity(em);
+        em.persist(actionTakenById);
+        em.flush();
+        leaveApplication.setActionTakenById(actionTakenById);
+        leaveApplicationRepository.saveAndFlush(leaveApplication);
+        Long actionTakenByIdId = actionTakenById.getId();
+
+        // Get all the leaveApplicationList where actionTakenById equals to actionTakenByIdId
+        defaultLeaveApplicationShouldBeFound("actionTakenByIdId.equals=" + actionTakenByIdId);
+
+        // Get all the leaveApplicationList where actionTakenById equals to actionTakenByIdId + 1
+        defaultLeaveApplicationShouldNotBeFound("actionTakenByIdId.equals=" + (actionTakenByIdId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -913,14 +771,11 @@ public class LeaveApplicationResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(leaveApplication.getId().intValue())))
-            .andExpect(jsonPath("$.[*].employeeId").value(hasItem(DEFAULT_EMPLOYEE_ID)))
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON)))
-            .andExpect(jsonPath("$.[*].appliedBy").value(hasItem(DEFAULT_APPLIED_BY)))
             .andExpect(jsonPath("$.[*].appliedOn").value(hasItem(DEFAULT_APPLIED_ON.toString())))
-            .andExpect(jsonPath("$.[*].actionTakenBy").value(hasItem(DEFAULT_ACTION_TAKEN_BY)))
             .andExpect(jsonPath("$.[*].actionTakenOn").value(hasItem(DEFAULT_ACTION_TAKEN_ON.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
@@ -970,14 +825,11 @@ public class LeaveApplicationResourceIntTest {
         // Disconnect from session so that the updates on updatedLeaveApplication are not directly saved in db
         em.detach(updatedLeaveApplication);
         updatedLeaveApplication
-            .employeeId(UPDATED_EMPLOYEE_ID)
             .fromDate(UPDATED_FROM_DATE)
             .toDate(UPDATED_TO_DATE)
             .numberOfDays(UPDATED_NUMBER_OF_DAYS)
             .reason(UPDATED_REASON)
-            .appliedBy(UPDATED_APPLIED_BY)
             .appliedOn(UPDATED_APPLIED_ON)
-            .actionTakenBy(UPDATED_ACTION_TAKEN_BY)
             .actionTakenOn(UPDATED_ACTION_TAKEN_ON)
             .status(UPDATED_STATUS);
         LeaveApplicationDTO leaveApplicationDTO = leaveApplicationMapper.toDto(updatedLeaveApplication);
@@ -991,14 +843,11 @@ public class LeaveApplicationResourceIntTest {
         List<LeaveApplication> leaveApplicationList = leaveApplicationRepository.findAll();
         assertThat(leaveApplicationList).hasSize(databaseSizeBeforeUpdate);
         LeaveApplication testLeaveApplication = leaveApplicationList.get(leaveApplicationList.size() - 1);
-        assertThat(testLeaveApplication.getEmployeeId()).isEqualTo(UPDATED_EMPLOYEE_ID);
         assertThat(testLeaveApplication.getFromDate()).isEqualTo(UPDATED_FROM_DATE);
         assertThat(testLeaveApplication.getToDate()).isEqualTo(UPDATED_TO_DATE);
         assertThat(testLeaveApplication.getNumberOfDays()).isEqualTo(UPDATED_NUMBER_OF_DAYS);
         assertThat(testLeaveApplication.getReason()).isEqualTo(UPDATED_REASON);
-        assertThat(testLeaveApplication.getAppliedBy()).isEqualTo(UPDATED_APPLIED_BY);
         assertThat(testLeaveApplication.getAppliedOn()).isEqualTo(UPDATED_APPLIED_ON);
-        assertThat(testLeaveApplication.getActionTakenBy()).isEqualTo(UPDATED_ACTION_TAKEN_BY);
         assertThat(testLeaveApplication.getActionTakenOn()).isEqualTo(UPDATED_ACTION_TAKEN_ON);
         assertThat(testLeaveApplication.getStatus()).isEqualTo(UPDATED_STATUS);
 
@@ -1061,14 +910,11 @@ public class LeaveApplicationResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(leaveApplication.getId().intValue())))
-            .andExpect(jsonPath("$.[*].employeeId").value(hasItem(DEFAULT_EMPLOYEE_ID)))
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].numberOfDays").value(hasItem(DEFAULT_NUMBER_OF_DAYS)))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON)))
-            .andExpect(jsonPath("$.[*].appliedBy").value(hasItem(DEFAULT_APPLIED_BY)))
             .andExpect(jsonPath("$.[*].appliedOn").value(hasItem(DEFAULT_APPLIED_ON.toString())))
-            .andExpect(jsonPath("$.[*].actionTakenBy").value(hasItem(DEFAULT_ACTION_TAKEN_BY)))
             .andExpect(jsonPath("$.[*].actionTakenOn").value(hasItem(DEFAULT_ACTION_TAKEN_ON.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }

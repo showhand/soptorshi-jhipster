@@ -192,22 +192,27 @@ entity LeaveType {
   name String maxlength(50) required,
   paidLeave PaidOrUnPaid,
   maximumNumberOfDays Integer,
-  description String maxlength(250)
+  description String maxlength(250),
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
 }
 entity LeaveApplication {
-  employeeId String required,
   fromDate LocalDate required,
   toDate LocalDate required,
   numberOfDays Integer required,
   reason String maxlength(250) required,
-  appliedBy String required,
   appliedOn Instant,
-  actionTakenBy String required,
   actionTakenOn Instant,
   status LeaveStatus required
 }
 entity LeaveAttachment {
-  file AnyBlob required
+  file AnyBlob required,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant
 }
 entity DesignationWiseAllowance {
   allowanceType AllowanceType,
@@ -1313,6 +1318,9 @@ relationship ManyToOne {
   Loan{employee(fullName)} to Employee,
   Holiday{holidayType(name)} to HolidayType,
   LeaveApplication{leaveTypes(name)} to LeaveType,
+  LeaveApplication{employees(fullName)} to Employee,
+  LeaveApplication{appliedById(fullName)} to Employee,
+  LeaveApplication{actionTakenById(fullName)} to Employee,
   LeaveAttachment{leaveApplication} to LeaveApplication,
   DesignationWiseAllowance{designation} to Designation,
   Manager{employee(fullName)} to Employee,

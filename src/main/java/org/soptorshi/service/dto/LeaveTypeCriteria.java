@@ -1,15 +1,10 @@
 package org.soptorshi.service.dto;
 
+import io.github.jhipster.service.filter.*;
+import org.soptorshi.domain.enumeration.PaidOrUnPaid;
+
 import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.PaidOrUnPaid;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
 
 /**
  * Criteria class for the LeaveType entity. This class is used in LeaveTypeResource to
@@ -37,6 +32,14 @@ public class LeaveTypeCriteria implements Serializable {
     private IntegerFilter maximumNumberOfDays;
 
     private StringFilter description;
+
+    private StringFilter createdBy;
+
+    private InstantFilter createdOn;
+
+    private StringFilter updatedBy;
+
+    private InstantFilter updatedOn;
 
     public LongFilter getId() {
         return id;
@@ -78,6 +81,38 @@ public class LeaveTypeCriteria implements Serializable {
         this.description = description;
     }
 
+    public StringFilter getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(StringFilter createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public InstantFilter getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(InstantFilter createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public StringFilter getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(StringFilter updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public InstantFilter getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(InstantFilter updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -93,7 +128,11 @@ public class LeaveTypeCriteria implements Serializable {
             Objects.equals(name, that.name) &&
             Objects.equals(paidLeave, that.paidLeave) &&
             Objects.equals(maximumNumberOfDays, that.maximumNumberOfDays) &&
-            Objects.equals(description, that.description);
+            Objects.equals(description, that.description) &&
+            Objects.equals(createdBy, that.createdBy) &&
+            Objects.equals(createdOn, that.createdOn) &&
+            Objects.equals(updatedBy, that.updatedBy) &&
+            Objects.equals(updatedOn, that.updatedOn);
     }
 
     @Override
@@ -103,7 +142,11 @@ public class LeaveTypeCriteria implements Serializable {
         name,
         paidLeave,
         maximumNumberOfDays,
-        description
+        description,
+        createdBy,
+        createdOn,
+        updatedBy,
+        updatedOn
         );
     }
 
@@ -115,6 +158,10 @@ public class LeaveTypeCriteria implements Serializable {
                 (paidLeave != null ? "paidLeave=" + paidLeave + ", " : "") +
                 (maximumNumberOfDays != null ? "maximumNumberOfDays=" + maximumNumberOfDays + ", " : "") +
                 (description != null ? "description=" + description + ", " : "") +
+                (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
+                (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
+                (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
+                (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
             "}";
     }
 

@@ -60,18 +60,29 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
     @Override
     public LeaveApplicationDTO save(LeaveApplicationDTO leaveApplicationDTO) {
         // need to check whether employee is the manager of the applicant
-        Optional<Employee> employee = employeeRepository.findByEmployeeId(leaveApplicationDTO.getEmployeeId());
-        if (employee.isPresent()) {
-            Optional<String> loggedInUserId = SecurityUtils.getCurrentUserLogin();
-            if(loggedInUserId.isPresent()) {
-                Optional<Employee> loggedInEmployee = employeeRepository.findByEmployeeId(loggedInUserId.get());
-                if (loggedInEmployee.isPresent()) {
-                    Optional<Manager> manager = managerRepository.getByParentEmployeeIdAndEmployee(employee.get().getId(), loggedInEmployee.get());
-                    if(manager.isPresent()) {
+        Employee employee = employeeRepository.getOne(leaveApplicationDTO.getEmployeesId());
+
+        Optional<String> loggedInUserId = SecurityUtils.getCurrentUserLogin();
+        if (loggedInUserId.isPresent()) {
+            Optional<Employee> loggedInEmployee = employeeRepository.findByEmployeeId(loggedInUserId.get());
+            if (loggedInEmployee.isPresent()) {
+                Optional<Manager> manager = managerRepository.getByParentEmployeeIdAndEmployee(employee.getId(), loggedInEmployee.get());
+                if (manager.isPresent()) {
+                    if (!isValid(leaveApplicationDTO)) {
+                        throw new BadRequestAlertException("application not valid!!", "leaveApplication", "idnull");
+                    } else {
+                        log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
+                        LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
+                        leaveApplication = leaveApplicationRepository.save(leaveApplication);
+                        LeaveApplicationDTO result = leaveApplicationMapper.toDto(leaveApplication);
+                        leaveApplicationSearchRepository.save(leaveApplication);
+                        return result;
+                    }
+                } else {
+                    if (loggedInEmployee.get().equals(employee)) {
                         if (!isValid(leaveApplicationDTO)) {
                             throw new BadRequestAlertException("application not valid!!", "leaveApplication", "idnull");
-                        }
-                        else {
+                        } else {
                             log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
                             LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
                             leaveApplication = leaveApplicationRepository.save(leaveApplication);
@@ -80,37 +91,21 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
                             return result;
                         }
                     }
-                    else{
-                        if(loggedInEmployee.get().equals(employee.get())){
-                            if (!isValid(leaveApplicationDTO)) {
-                                throw new BadRequestAlertException("application not valid!!", "leaveApplication", "idnull");
-                            }
-                            else {
-                                log.debug("Request to save LeaveApplication : {}", leaveApplicationDTO);
-                                LeaveApplication leaveApplication = leaveApplicationMapper.toEntity(leaveApplicationDTO);
-                                leaveApplication = leaveApplicationRepository.save(leaveApplication);
-                                LeaveApplicationDTO result = leaveApplicationMapper.toDto(leaveApplication);
-                                leaveApplicationSearchRepository.save(leaveApplication);
-                                return result;
-                            }
-                        }
-                    }
                 }
-                throw new BadRequestAlertException("error while getting logged in user's employee details!!", "leaveApplication", "idnull");
             }
-            throw new BadRequestAlertException("error while getting logged in user!!", "leaveApplication", "idnull");
+            throw new BadRequestAlertException("error while getting logged in user's employee details!!", "leaveApplication", "idnull");
         }
-        throw new BadRequestAlertException("no employee found!!", "leaveApplication", "idnull");
+        throw new BadRequestAlertException("error while getting logged in user!!", "leaveApplication", "idnull");
     }
 
     private boolean isValid(LeaveApplicationDTO leaveApplicationDTO) {
         log.debug("Validating LeaveApplication : {}", leaveApplicationDTO);
         if (leaveApplicationDTO.getStatus().equals(LeaveStatus.REJECTED)) {
             throw new BadRequestAlertException("application already rejected!!", "leaveApplication", "idnull");
-        }
-        else {
+        } else {
+            Employee employee = employeeRepository.getOne(leaveApplicationDTO.getEmployeesId());
             LeaveBalanceDTO leaveBalance = leaveBalanceService
-                .calculateLeaveBalance(leaveApplicationDTO.getEmployeeId(), leaveApplicationDTO.getFromDate().getYear(),
+                .calculateLeaveBalance(employee.getEmployeeId(), leaveApplicationDTO.getFromDate().getYear(),
                     leaveApplicationDTO.getLeaveTypesId());
             return leaveApplicationDTO.getNumberOfDays() <= leaveBalance.getRemainingDays();
         }

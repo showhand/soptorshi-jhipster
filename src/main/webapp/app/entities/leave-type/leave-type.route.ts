@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { LeaveType } from 'app/shared/model/leave-type.model';
+import { ILeaveType, LeaveType } from 'app/shared/model/leave-type.model';
 import { LeaveTypeService } from './leave-type.service';
 import { LeaveTypeComponent } from './leave-type.component';
 import { LeaveTypeDetailComponent } from './leave-type-detail.component';
 import { LeaveTypeUpdateComponent } from './leave-type-update.component';
 import { LeaveTypeDeletePopupComponent } from './leave-type-delete-dialog.component';
-import { ILeaveType } from 'app/shared/model/leave-type.model';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveTypeResolve implements Resolve<ILeaveType> {

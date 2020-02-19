@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { LeaveAttachment } from 'app/shared/model/leave-attachment.model';
+import { ILeaveAttachment, LeaveAttachment } from 'app/shared/model/leave-attachment.model';
 import { LeaveAttachmentService } from './leave-attachment.service';
 import { LeaveAttachmentComponent } from './leave-attachment.component';
 import { LeaveAttachmentDetailComponent } from './leave-attachment-detail.component';
 import { LeaveAttachmentUpdateComponent } from './leave-attachment-update.component';
 import { LeaveAttachmentDeletePopupComponent } from './leave-attachment-delete-dialog.component';
-import { ILeaveAttachment } from 'app/shared/model/leave-attachment.model';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveAttachmentResolve implements Resolve<ILeaveAttachment> {

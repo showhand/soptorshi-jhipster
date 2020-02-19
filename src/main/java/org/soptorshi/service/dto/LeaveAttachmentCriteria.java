@@ -1,14 +1,12 @@
 package org.soptorshi.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the LeaveAttachment entity. This class is used in LeaveAttachmentResource to
@@ -24,6 +22,14 @@ public class LeaveAttachmentCriteria implements Serializable {
 
     private LongFilter id;
 
+    private StringFilter createdBy;
+
+    private InstantFilter createdOn;
+
+    private StringFilter updatedBy;
+
+    private InstantFilter updatedOn;
+
     private LongFilter leaveApplicationId;
 
     public LongFilter getId() {
@@ -32,6 +38,38 @@ public class LeaveAttachmentCriteria implements Serializable {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public StringFilter getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(StringFilter createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public InstantFilter getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(InstantFilter createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public StringFilter getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(StringFilter updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public InstantFilter getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(InstantFilter updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
     public LongFilter getLeaveApplicationId() {
@@ -54,6 +92,10 @@ public class LeaveAttachmentCriteria implements Serializable {
         final LeaveAttachmentCriteria that = (LeaveAttachmentCriteria) o;
         return
             Objects.equals(id, that.id) &&
+            Objects.equals(createdBy, that.createdBy) &&
+            Objects.equals(createdOn, that.createdOn) &&
+            Objects.equals(updatedBy, that.updatedBy) &&
+            Objects.equals(updatedOn, that.updatedOn) &&
             Objects.equals(leaveApplicationId, that.leaveApplicationId);
     }
 
@@ -61,6 +103,10 @@ public class LeaveAttachmentCriteria implements Serializable {
     public int hashCode() {
         return Objects.hash(
         id,
+        createdBy,
+        createdOn,
+        updatedBy,
+        updatedOn,
         leaveApplicationId
         );
     }
@@ -69,6 +115,10 @@ public class LeaveAttachmentCriteria implements Serializable {
     public String toString() {
         return "LeaveAttachmentCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
+                (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
+                (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
+                (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
                 (leaveApplicationId != null ? "leaveApplicationId=" + leaveApplicationId + ", " : "") +
             "}";
     }

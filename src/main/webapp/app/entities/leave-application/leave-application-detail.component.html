@@ -5,10 +5,6 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Employee Id</span></dt>
-                <dd>
-                    <span>{{leaveApplication.employeeId}}</span>
-                </dd>
                 <dt><span>From Date</span></dt>
                 <dd>
                     <span>{{leaveApplication.fromDate}}</span>
@@ -25,17 +21,9 @@
                 <dd>
                     <span>{{leaveApplication.reason}}</span>
                 </dd>
-                <dt><span>Applied By</span></dt>
-                <dd>
-                    <span>{{leaveApplication.appliedBy}}</span>
-                </dd>
                 <dt><span>Applied On</span></dt>
                 <dd>
                     <span>{{leaveApplication.appliedOn}}</span>
-                </dd>
-                <dt><span>Action Taken By</span></dt>
-                <dd>
-                    <span>{{leaveApplication.actionTakenBy}}</span>
                 </dd>
                 <dt><span>Action Taken On</span></dt>
                 <dd>
@@ -49,6 +37,24 @@
                 <dd>
                     <div *ngIf="leaveApplication.leaveTypesId">
                         <a [routerLink]="['/leave-type', leaveApplication.leaveTypesId, 'view']">{{leaveApplication.leaveTypesName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Employees</span></dt>
+                <dd>
+                    <div *ngIf="leaveApplication.employeesId">
+                        <a [routerLink]="['/employee', leaveApplication.employeesId, 'view']">{{leaveApplication.employeesFullName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Applied By Id</span></dt>
+                <dd>
+                    <div *ngIf="leaveApplication.appliedByIdId">
+                        <a [routerLink]="['/employee', leaveApplication.appliedByIdId, 'view']">{{leaveApplication.appliedByIdFullName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Action Taken By Id</span></dt>
+                <dd>
+                    <div *ngIf="leaveApplication.actionTakenByIdId">
+                        <a [routerLink]="['/employee', leaveApplication.actionTakenByIdId, 'view']">{{leaveApplication.actionTakenByIdFullName}}</a>
                     </div>
                 </dd>
             </dl>

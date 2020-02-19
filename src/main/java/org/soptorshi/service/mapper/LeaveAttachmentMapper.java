@@ -1,9 +1,9 @@
 package org.soptorshi.service.mapper;
 
-import org.soptorshi.domain.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.soptorshi.domain.LeaveAttachment;
 import org.soptorshi.service.dto.LeaveAttachmentDTO;
-
-import org.mapstruct.*;
 
 /**
  * Mapper for the entity LeaveAttachment and its DTO LeaveAttachmentDTO.

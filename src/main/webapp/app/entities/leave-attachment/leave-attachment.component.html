@@ -31,6 +31,10 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="file"><span>File</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="leaveApplicationId"><span>Leave Application</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -42,6 +46,10 @@
                     <a *ngIf="leaveAttachment.file" (click)="openFile(leaveAttachment.fileContentType, leaveAttachment.file)">open</a>
                     <span *ngIf="leaveAttachment.file">{{leaveAttachment.fileContentType}}, {{byteSize(leaveAttachment.file)}}</span>
                 </td>
+                <td>{{leaveAttachment.createdBy}}</td>
+                <td>{{leaveAttachment.createdOn | date:'medium'}}</td>
+                <td>{{leaveAttachment.updatedBy}}</td>
+                <td>{{leaveAttachment.updatedOn | date:'medium'}}</td>
                 <td>
                     <div *ngIf="leaveAttachment.leaveApplicationId">
                         <a [routerLink]="['../leave-application', leaveAttachment.leaveApplicationId , 'view' ]" >{{leaveAttachment.leaveApplicationId}}</a>

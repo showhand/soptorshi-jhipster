@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -10,6 +10,8 @@ import { ILeaveApplication } from 'app/shared/model/leave-application.model';
 import { LeaveApplicationService } from './leave-application.service';
 import { ILeaveType } from 'app/shared/model/leave-type.model';
 import { LeaveTypeService } from 'app/entities/leave-type';
+import { IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeService } from 'app/entities/employee';
 
 @Component({
     selector: 'jhi-leave-application-update',
@@ -20,6 +22,8 @@ export class LeaveApplicationUpdateComponent implements OnInit {
     isSaving: boolean;
 
     leavetypes: ILeaveType[];
+
+    employees: IEmployee[];
     fromDateDp: any;
     toDateDp: any;
     appliedOn: string;
@@ -29,6 +33,7 @@ export class LeaveApplicationUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected leaveApplicationService: LeaveApplicationService,
         protected leaveTypeService: LeaveTypeService,
+        protected employeeService: EmployeeService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -47,6 +52,13 @@ export class LeaveApplicationUpdateComponent implements OnInit {
                 map((response: HttpResponse<ILeaveType[]>) => response.body)
             )
             .subscribe((res: ILeaveType[]) => (this.leavetypes = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.employeeService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IEmployee[]>) => response.body)
+            )
+            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -82,6 +94,10 @@ export class LeaveApplicationUpdateComponent implements OnInit {
     }
 
     trackLeaveTypeById(index: number, item: ILeaveType) {
+        return item.id;
+    }
+
+    trackEmployeeById(index: number, item: IEmployee) {
         return item.id;
     }
 }

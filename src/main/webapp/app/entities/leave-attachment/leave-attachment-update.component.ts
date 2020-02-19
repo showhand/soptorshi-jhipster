@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { ILeaveAttachment } from 'app/shared/model/leave-attachment.model';
 import { LeaveAttachmentService } from './leave-attachment.service';
@@ -18,6 +20,8 @@ export class LeaveAttachmentUpdateComponent implements OnInit {
     isSaving: boolean;
 
     leaveapplications: ILeaveApplication[];
+    createdOn: string;
+    updatedOn: string;
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -31,6 +35,8 @@ export class LeaveAttachmentUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ leaveAttachment }) => {
             this.leaveAttachment = leaveAttachment;
+            this.createdOn = this.leaveAttachment.createdOn != null ? this.leaveAttachment.createdOn.format(DATE_TIME_FORMAT) : null;
+            this.updatedOn = this.leaveAttachment.updatedOn != null ? this.leaveAttachment.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
         this.leaveApplicationService
             .query()
@@ -59,6 +65,8 @@ export class LeaveAttachmentUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.leaveAttachment.createdOn = this.createdOn != null ? moment(this.createdOn, DATE_TIME_FORMAT) : null;
+        this.leaveAttachment.updatedOn = this.updatedOn != null ? moment(this.updatedOn, DATE_TIME_FORMAT) : null;
         if (this.leaveAttachment.id !== undefined) {
             this.subscribeToSaveResponse(this.leaveAttachmentService.update(this.leaveAttachment));
         } else {

@@ -8,34 +8,40 @@ export const enum LeaveStatus {
 
 export interface ILeaveApplication {
     id?: number;
-    employeeId?: string;
     fromDate?: Moment;
     toDate?: Moment;
     numberOfDays?: number;
     reason?: string;
-    appliedBy?: string;
     appliedOn?: Moment;
-    actionTakenBy?: string;
     actionTakenOn?: Moment;
     status?: LeaveStatus;
     leaveTypesName?: string;
     leaveTypesId?: number;
+    employeesFullName?: string;
+    employeesId?: number;
+    appliedByIdFullName?: string;
+    appliedByIdId?: number;
+    actionTakenByIdFullName?: string;
+    actionTakenByIdId?: number;
 }
 
 export class LeaveApplication implements ILeaveApplication {
     constructor(
         public id?: number,
-        public employeeId?: string,
         public fromDate?: Moment,
         public toDate?: Moment,
         public numberOfDays?: number,
         public reason?: string,
-        public appliedBy?: string,
         public appliedOn?: Moment,
-        public actionTakenBy?: string,
         public actionTakenOn?: Moment,
         public status?: LeaveStatus,
         public leaveTypesName?: string,
-        public leaveTypesId?: number
+        public leaveTypesId?: number,
+        public employeesFullName?: string,
+        public employeesId?: number,
+        public appliedByIdFullName?: string,
+        public appliedByIdId?: number,
+        public actionTakenByIdFullName?: string,
+        public actionTakenByIdId?: number
     ) {}
 }

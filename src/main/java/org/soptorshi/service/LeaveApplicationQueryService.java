@@ -1,26 +1,25 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.Employee_;
+import org.soptorshi.domain.LeaveApplication;
+import org.soptorshi.domain.LeaveApplication_;
+import org.soptorshi.domain.LeaveType_;
+import org.soptorshi.repository.LeaveApplicationRepository;
+import org.soptorshi.repository.search.LeaveApplicationSearchRepository;
+import org.soptorshi.service.dto.LeaveApplicationCriteria;
+import org.soptorshi.service.dto.LeaveApplicationDTO;
+import org.soptorshi.service.mapper.LeaveApplicationMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.LeaveApplication;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.LeaveApplicationRepository;
-import org.soptorshi.repository.search.LeaveApplicationSearchRepository;
-import org.soptorshi.service.dto.LeaveApplicationCriteria;
-import org.soptorshi.service.dto.LeaveApplicationDTO;
-import org.soptorshi.service.mapper.LeaveApplicationMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for LeaveApplication entities in the database.
@@ -93,9 +92,6 @@ public class LeaveApplicationQueryService extends QueryService<LeaveApplication>
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), LeaveApplication_.id));
             }
-            if (criteria.getEmployeeId() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmployeeId(), LeaveApplication_.employeeId));
-            }
             if (criteria.getFromDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFromDate(), LeaveApplication_.fromDate));
             }
@@ -108,14 +104,8 @@ public class LeaveApplicationQueryService extends QueryService<LeaveApplication>
             if (criteria.getReason() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getReason(), LeaveApplication_.reason));
             }
-            if (criteria.getAppliedBy() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAppliedBy(), LeaveApplication_.appliedBy));
-            }
             if (criteria.getAppliedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAppliedOn(), LeaveApplication_.appliedOn));
-            }
-            if (criteria.getActionTakenBy() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getActionTakenBy(), LeaveApplication_.actionTakenBy));
             }
             if (criteria.getActionTakenOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getActionTakenOn(), LeaveApplication_.actionTakenOn));
@@ -126,6 +116,18 @@ public class LeaveApplicationQueryService extends QueryService<LeaveApplication>
             if (criteria.getLeaveTypesId() != null) {
                 specification = specification.and(buildSpecification(criteria.getLeaveTypesId(),
                     root -> root.join(LeaveApplication_.leaveTypes, JoinType.LEFT).get(LeaveType_.id)));
+            }
+            if (criteria.getEmployeesId() != null) {
+                specification = specification.and(buildSpecification(criteria.getEmployeesId(),
+                    root -> root.join(LeaveApplication_.employees, JoinType.LEFT).get(Employee_.id)));
+            }
+            if (criteria.getAppliedByIdId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAppliedByIdId(),
+                    root -> root.join(LeaveApplication_.appliedById, JoinType.LEFT).get(Employee_.id)));
+            }
+            if (criteria.getActionTakenByIdId() != null) {
+                specification = specification.and(buildSpecification(criteria.getActionTakenByIdId(),
+                    root -> root.join(LeaveApplication_.actionTakenById, JoinType.LEFT).get(Employee_.id)));
             }
         }
         return specification;

@@ -1,21 +1,19 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.LeaveType;
-import org.soptorshi.repository.LeaveTypeRepository;
-import org.soptorshi.repository.search.LeaveTypeSearchRepository;
-import org.soptorshi.service.LeaveTypeService;
-import org.soptorshi.service.dto.LeaveTypeDTO;
-import org.soptorshi.service.mapper.LeaveTypeMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.LeaveTypeCriteria;
-import org.soptorshi.service.LeaveTypeQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.LeaveType;
+import org.soptorshi.domain.enumeration.PaidOrUnPaid;
+import org.soptorshi.repository.LeaveTypeRepository;
+import org.soptorshi.repository.search.LeaveTypeSearchRepository;
+import org.soptorshi.service.LeaveTypeQueryService;
+import org.soptorshi.service.LeaveTypeService;
+import org.soptorshi.service.dto.LeaveTypeDTO;
+import org.soptorshi.service.mapper.LeaveTypeMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -30,19 +28,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.soptorshi.domain.enumeration.PaidOrUnPaid;
 /**
  * Test class for the LeaveTypeResource REST controller.
  *
@@ -63,6 +60,18 @@ public class LeaveTypeResourceIntTest {
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_UPDATED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_UPDATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private LeaveTypeRepository leaveTypeRepository;
@@ -126,7 +135,11 @@ public class LeaveTypeResourceIntTest {
             .name(DEFAULT_NAME)
             .paidLeave(DEFAULT_PAID_LEAVE)
             .maximumNumberOfDays(DEFAULT_MAXIMUM_NUMBER_OF_DAYS)
-            .description(DEFAULT_DESCRIPTION);
+            .description(DEFAULT_DESCRIPTION)
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdOn(DEFAULT_CREATED_ON)
+            .updatedBy(DEFAULT_UPDATED_BY)
+            .updatedOn(DEFAULT_UPDATED_ON);
         return leaveType;
     }
 
@@ -155,6 +168,10 @@ public class LeaveTypeResourceIntTest {
         assertThat(testLeaveType.getPaidLeave()).isEqualTo(DEFAULT_PAID_LEAVE);
         assertThat(testLeaveType.getMaximumNumberOfDays()).isEqualTo(DEFAULT_MAXIMUM_NUMBER_OF_DAYS);
         assertThat(testLeaveType.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testLeaveType.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testLeaveType.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
+        assertThat(testLeaveType.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
+        assertThat(testLeaveType.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
         // Validate the LeaveType in Elasticsearch
         verify(mockLeaveTypeSearchRepository, times(1)).save(testLeaveType);
@@ -216,9 +233,13 @@ public class LeaveTypeResourceIntTest {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].paidLeave").value(hasItem(DEFAULT_PAID_LEAVE.toString())))
             .andExpect(jsonPath("$.[*].maximumNumberOfDays").value(hasItem(DEFAULT_MAXIMUM_NUMBER_OF_DAYS)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getLeaveType() throws Exception {
@@ -233,7 +254,11 @@ public class LeaveTypeResourceIntTest {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.paidLeave").value(DEFAULT_PAID_LEAVE.toString()))
             .andExpect(jsonPath("$.maximumNumberOfDays").value(DEFAULT_MAXIMUM_NUMBER_OF_DAYS))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
+            .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
+            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
     }
 
     @Test
@@ -418,6 +443,162 @@ public class LeaveTypeResourceIntTest {
         // Get all the leaveTypeList where description is null
         defaultLeaveTypeShouldNotBeFound("description.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllLeaveTypesByCreatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        leaveTypeRepository.saveAndFlush(leaveType);
+
+        // Get all the leaveTypeList where createdBy equals to DEFAULT_CREATED_BY
+        defaultLeaveTypeShouldBeFound("createdBy.equals=" + DEFAULT_CREATED_BY);
+
+        // Get all the leaveTypeList where createdBy equals to UPDATED_CREATED_BY
+        defaultLeaveTypeShouldNotBeFound("createdBy.equals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveTypesByCreatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        leaveTypeRepository.saveAndFlush(leaveType);
+
+        // Get all the leaveTypeList where createdBy in DEFAULT_CREATED_BY or UPDATED_CREATED_BY
+        defaultLeaveTypeShouldBeFound("createdBy.in=" + DEFAULT_CREATED_BY + "," + UPDATED_CREATED_BY);
+
+        // Get all the leaveTypeList where createdBy equals to UPDATED_CREATED_BY
+        defaultLeaveTypeShouldNotBeFound("createdBy.in=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveTypesByCreatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        leaveTypeRepository.saveAndFlush(leaveType);
+
+        // Get all the leaveTypeList where createdBy is not null
+        defaultLeaveTypeShouldBeFound("createdBy.specified=true");
+
+        // Get all the leaveTypeList where createdBy is null
+        defaultLeaveTypeShouldNotBeFound("createdBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveTypesByCreatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        leaveTypeRepository.saveAndFlush(leaveType);
+
+        // Get all the leaveTypeList where createdOn equals to DEFAULT_CREATED_ON
+        defaultLeaveTypeShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
+
+        // Get all the leaveTypeList where createdOn equals to UPDATED_CREATED_ON
+        defaultLeaveTypeShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveTypesByCreatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        leaveTypeRepository.saveAndFlush(leaveType);
+
+        // Get all the leaveTypeList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultLeaveTypeShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
+
+        // Get all the leaveTypeList where createdOn equals to UPDATED_CREATED_ON
+        defaultLeaveTypeShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveTypesByCreatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        leaveTypeRepository.saveAndFlush(leaveType);
+
+        // Get all the leaveTypeList where createdOn is not null
+        defaultLeaveTypeShouldBeFound("createdOn.specified=true");
+
+        // Get all the leaveTypeList where createdOn is null
+        defaultLeaveTypeShouldNotBeFound("createdOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveTypesByUpdatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        leaveTypeRepository.saveAndFlush(leaveType);
+
+        // Get all the leaveTypeList where updatedBy equals to DEFAULT_UPDATED_BY
+        defaultLeaveTypeShouldBeFound("updatedBy.equals=" + DEFAULT_UPDATED_BY);
+
+        // Get all the leaveTypeList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultLeaveTypeShouldNotBeFound("updatedBy.equals=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveTypesByUpdatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        leaveTypeRepository.saveAndFlush(leaveType);
+
+        // Get all the leaveTypeList where updatedBy in DEFAULT_UPDATED_BY or UPDATED_UPDATED_BY
+        defaultLeaveTypeShouldBeFound("updatedBy.in=" + DEFAULT_UPDATED_BY + "," + UPDATED_UPDATED_BY);
+
+        // Get all the leaveTypeList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultLeaveTypeShouldNotBeFound("updatedBy.in=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveTypesByUpdatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        leaveTypeRepository.saveAndFlush(leaveType);
+
+        // Get all the leaveTypeList where updatedBy is not null
+        defaultLeaveTypeShouldBeFound("updatedBy.specified=true");
+
+        // Get all the leaveTypeList where updatedBy is null
+        defaultLeaveTypeShouldNotBeFound("updatedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveTypesByUpdatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        leaveTypeRepository.saveAndFlush(leaveType);
+
+        // Get all the leaveTypeList where updatedOn equals to DEFAULT_UPDATED_ON
+        defaultLeaveTypeShouldBeFound("updatedOn.equals=" + DEFAULT_UPDATED_ON);
+
+        // Get all the leaveTypeList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultLeaveTypeShouldNotBeFound("updatedOn.equals=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveTypesByUpdatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        leaveTypeRepository.saveAndFlush(leaveType);
+
+        // Get all the leaveTypeList where updatedOn in DEFAULT_UPDATED_ON or UPDATED_UPDATED_ON
+        defaultLeaveTypeShouldBeFound("updatedOn.in=" + DEFAULT_UPDATED_ON + "," + UPDATED_UPDATED_ON);
+
+        // Get all the leaveTypeList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultLeaveTypeShouldNotBeFound("updatedOn.in=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveTypesByUpdatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        leaveTypeRepository.saveAndFlush(leaveType);
+
+        // Get all the leaveTypeList where updatedOn is not null
+        defaultLeaveTypeShouldBeFound("updatedOn.specified=true");
+
+        // Get all the leaveTypeList where updatedOn is null
+        defaultLeaveTypeShouldNotBeFound("updatedOn.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -429,7 +610,11 @@ public class LeaveTypeResourceIntTest {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].paidLeave").value(hasItem(DEFAULT_PAID_LEAVE.toString())))
             .andExpect(jsonPath("$.[*].maximumNumberOfDays").value(hasItem(DEFAULT_MAXIMUM_NUMBER_OF_DAYS)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
         // Check, that the count call also returns 1
         restLeaveTypeMockMvc.perform(get("/api/leave-types/count?sort=id,desc&" + filter))
@@ -480,7 +665,11 @@ public class LeaveTypeResourceIntTest {
             .name(UPDATED_NAME)
             .paidLeave(UPDATED_PAID_LEAVE)
             .maximumNumberOfDays(UPDATED_MAXIMUM_NUMBER_OF_DAYS)
-            .description(UPDATED_DESCRIPTION);
+            .description(UPDATED_DESCRIPTION)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdOn(UPDATED_CREATED_ON)
+            .updatedBy(UPDATED_UPDATED_BY)
+            .updatedOn(UPDATED_UPDATED_ON);
         LeaveTypeDTO leaveTypeDTO = leaveTypeMapper.toDto(updatedLeaveType);
 
         restLeaveTypeMockMvc.perform(put("/api/leave-types")
@@ -496,6 +685,10 @@ public class LeaveTypeResourceIntTest {
         assertThat(testLeaveType.getPaidLeave()).isEqualTo(UPDATED_PAID_LEAVE);
         assertThat(testLeaveType.getMaximumNumberOfDays()).isEqualTo(UPDATED_MAXIMUM_NUMBER_OF_DAYS);
         assertThat(testLeaveType.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testLeaveType.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testLeaveType.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
+        assertThat(testLeaveType.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
+        assertThat(testLeaveType.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
         // Validate the LeaveType in Elasticsearch
         verify(mockLeaveTypeSearchRepository, times(1)).save(testLeaveType);
@@ -559,7 +752,11 @@ public class LeaveTypeResourceIntTest {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].paidLeave").value(hasItem(DEFAULT_PAID_LEAVE.toString())))
             .andExpect(jsonPath("$.[*].maximumNumberOfDays").value(hasItem(DEFAULT_MAXIMUM_NUMBER_OF_DAYS)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
 
     @Test

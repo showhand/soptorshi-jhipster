@@ -1,0 +1,56 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1582132346323-1">
+        <addColumn tableName="leave_attachment">
+            <column name="created_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582132346323-2">
+        <addColumn tableName="leave_type">
+            <column name="created_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582132346323-3">
+        <addColumn tableName="leave_attachment">
+            <column name="created_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582132346323-4">
+        <addColumn tableName="leave_type">
+            <column name="created_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582132346323-5">
+        <addColumn tableName="leave_application">
+            <column name="employees_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582132346323-6">
+        <addColumn tableName="leave_attachment">
+            <column name="updated_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582132346323-7">
+        <addColumn tableName="leave_type">
+            <column name="updated_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582132346323-8">
+        <addColumn tableName="leave_attachment">
+            <column name="updated_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582132346323-9">
+        <addColumn tableName="leave_type">
+            <column name="updated_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582132346323-10">
+        <addForeignKeyConstraint baseColumnNames="employees_id" baseTableName="leave_application" constraintName="FKrydjfxi22rqshdyegefjmhpob" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="employee"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1582132346323-13">
+        <dropColumn columnName="employee_id" tableName="leave_application"/>
+    </changeSet>
+</databaseChangeLog>

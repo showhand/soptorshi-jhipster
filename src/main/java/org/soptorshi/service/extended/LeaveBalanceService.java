@@ -89,7 +89,7 @@ public class LeaveBalanceService {
             } else {
                 LeaveBalanceDTO leaveBalanceDto = new LeaveBalanceDTO();
                 leaveBalanceDto.setEmployeeId(employeeId);
-                List<LeaveApplication> leaveApplications = getAppliedLeave(employeeId, leaveType, queryDateFromQueryYear, lastDayOfQueryDateFromQueryYear);
+                List<LeaveApplication> leaveApplications = getAppliedLeave(employee.get(), leaveType, queryDateFromQueryYear, lastDayOfQueryDateFromQueryYear);
 
                 if (leaveType.getMaximumNumberOfDays() == null) { // Considering Special Leave
                     leaveBalanceDto.setTotalLeaveApplicableDays(0);
@@ -136,9 +136,9 @@ public class LeaveBalanceService {
         return leaveTypeRepository.findAll();
     }
 
-    private List<LeaveApplication> getAppliedLeave(final String employeeId, final LeaveType leaveType,
+    private List<LeaveApplication> getAppliedLeave(final Employee employee, final LeaveType leaveType,
                                                    final LocalDate fromDate, final LocalDate toDate) {
         return leaveApplicationExtendedRepository.
-            findByEmployeeIdAndLeaveTypesAndStatusAndFromDateGreaterThanAndToDateLessThan(employeeId, leaveType, LeaveStatus.ACCEPTED, fromDate, toDate);
+            findByEmployeesAndLeaveTypesAndStatusAndFromDateGreaterThanAndToDateLessThan(employee, leaveType, LeaveStatus.ACCEPTED, fromDate, toDate);
     }
 }

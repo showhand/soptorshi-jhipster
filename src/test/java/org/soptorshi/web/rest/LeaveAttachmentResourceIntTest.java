@@ -1,22 +1,19 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.LeaveAttachment;
-import org.soptorshi.domain.LeaveApplication;
-import org.soptorshi.repository.LeaveAttachmentRepository;
-import org.soptorshi.repository.search.LeaveAttachmentSearchRepository;
-import org.soptorshi.service.LeaveAttachmentService;
-import org.soptorshi.service.dto.LeaveAttachmentDTO;
-import org.soptorshi.service.mapper.LeaveAttachmentMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.LeaveAttachmentCriteria;
-import org.soptorshi.service.LeaveAttachmentQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.LeaveApplication;
+import org.soptorshi.domain.LeaveAttachment;
+import org.soptorshi.repository.LeaveAttachmentRepository;
+import org.soptorshi.repository.search.LeaveAttachmentSearchRepository;
+import org.soptorshi.service.LeaveAttachmentQueryService;
+import org.soptorshi.service.LeaveAttachmentService;
+import org.soptorshi.service.dto.LeaveAttachmentDTO;
+import org.soptorshi.service.mapper.LeaveAttachmentMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -32,15 +29,16 @@ import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -57,6 +55,18 @@ public class LeaveAttachmentResourceIntTest {
     private static final byte[] UPDATED_FILE = TestUtil.createByteArray(1, "1");
     private static final String DEFAULT_FILE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_FILE_CONTENT_TYPE = "image/png";
+
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_UPDATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_UPDATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_UPDATED_ON = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_UPDATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private LeaveAttachmentRepository leaveAttachmentRepository;
@@ -118,7 +128,11 @@ public class LeaveAttachmentResourceIntTest {
     public static LeaveAttachment createEntity(EntityManager em) {
         LeaveAttachment leaveAttachment = new LeaveAttachment()
             .file(DEFAULT_FILE)
-            .fileContentType(DEFAULT_FILE_CONTENT_TYPE);
+            .fileContentType(DEFAULT_FILE_CONTENT_TYPE)
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdOn(DEFAULT_CREATED_ON)
+            .updatedBy(DEFAULT_UPDATED_BY)
+            .updatedOn(DEFAULT_UPDATED_ON);
         return leaveAttachment;
     }
 
@@ -145,6 +159,10 @@ public class LeaveAttachmentResourceIntTest {
         LeaveAttachment testLeaveAttachment = leaveAttachmentList.get(leaveAttachmentList.size() - 1);
         assertThat(testLeaveAttachment.getFile()).isEqualTo(DEFAULT_FILE);
         assertThat(testLeaveAttachment.getFileContentType()).isEqualTo(DEFAULT_FILE_CONTENT_TYPE);
+        assertThat(testLeaveAttachment.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testLeaveAttachment.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
+        assertThat(testLeaveAttachment.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
+        assertThat(testLeaveAttachment.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
 
         // Validate the LeaveAttachment in Elasticsearch
         verify(mockLeaveAttachmentSearchRepository, times(1)).save(testLeaveAttachment);
@@ -185,9 +203,13 @@ public class LeaveAttachmentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(leaveAttachment.getId().intValue())))
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
+            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getLeaveAttachment() throws Exception {
@@ -200,7 +222,167 @@ public class LeaveAttachmentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(leaveAttachment.getId().intValue()))
             .andExpect(jsonPath("$.fileContentType").value(DEFAULT_FILE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.file").value(Base64Utils.encodeToString(DEFAULT_FILE)));
+            .andExpect(jsonPath("$.file").value(Base64Utils.encodeToString(DEFAULT_FILE)))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
+            .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
+            .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
+            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveAttachmentsByCreatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        leaveAttachmentRepository.saveAndFlush(leaveAttachment);
+
+        // Get all the leaveAttachmentList where createdBy equals to DEFAULT_CREATED_BY
+        defaultLeaveAttachmentShouldBeFound("createdBy.equals=" + DEFAULT_CREATED_BY);
+
+        // Get all the leaveAttachmentList where createdBy equals to UPDATED_CREATED_BY
+        defaultLeaveAttachmentShouldNotBeFound("createdBy.equals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveAttachmentsByCreatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        leaveAttachmentRepository.saveAndFlush(leaveAttachment);
+
+        // Get all the leaveAttachmentList where createdBy in DEFAULT_CREATED_BY or UPDATED_CREATED_BY
+        defaultLeaveAttachmentShouldBeFound("createdBy.in=" + DEFAULT_CREATED_BY + "," + UPDATED_CREATED_BY);
+
+        // Get all the leaveAttachmentList where createdBy equals to UPDATED_CREATED_BY
+        defaultLeaveAttachmentShouldNotBeFound("createdBy.in=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveAttachmentsByCreatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        leaveAttachmentRepository.saveAndFlush(leaveAttachment);
+
+        // Get all the leaveAttachmentList where createdBy is not null
+        defaultLeaveAttachmentShouldBeFound("createdBy.specified=true");
+
+        // Get all the leaveAttachmentList where createdBy is null
+        defaultLeaveAttachmentShouldNotBeFound("createdBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveAttachmentsByCreatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        leaveAttachmentRepository.saveAndFlush(leaveAttachment);
+
+        // Get all the leaveAttachmentList where createdOn equals to DEFAULT_CREATED_ON
+        defaultLeaveAttachmentShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
+
+        // Get all the leaveAttachmentList where createdOn equals to UPDATED_CREATED_ON
+        defaultLeaveAttachmentShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveAttachmentsByCreatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        leaveAttachmentRepository.saveAndFlush(leaveAttachment);
+
+        // Get all the leaveAttachmentList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultLeaveAttachmentShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
+
+        // Get all the leaveAttachmentList where createdOn equals to UPDATED_CREATED_ON
+        defaultLeaveAttachmentShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveAttachmentsByCreatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        leaveAttachmentRepository.saveAndFlush(leaveAttachment);
+
+        // Get all the leaveAttachmentList where createdOn is not null
+        defaultLeaveAttachmentShouldBeFound("createdOn.specified=true");
+
+        // Get all the leaveAttachmentList where createdOn is null
+        defaultLeaveAttachmentShouldNotBeFound("createdOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveAttachmentsByUpdatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        leaveAttachmentRepository.saveAndFlush(leaveAttachment);
+
+        // Get all the leaveAttachmentList where updatedBy equals to DEFAULT_UPDATED_BY
+        defaultLeaveAttachmentShouldBeFound("updatedBy.equals=" + DEFAULT_UPDATED_BY);
+
+        // Get all the leaveAttachmentList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultLeaveAttachmentShouldNotBeFound("updatedBy.equals=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveAttachmentsByUpdatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        leaveAttachmentRepository.saveAndFlush(leaveAttachment);
+
+        // Get all the leaveAttachmentList where updatedBy in DEFAULT_UPDATED_BY or UPDATED_UPDATED_BY
+        defaultLeaveAttachmentShouldBeFound("updatedBy.in=" + DEFAULT_UPDATED_BY + "," + UPDATED_UPDATED_BY);
+
+        // Get all the leaveAttachmentList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultLeaveAttachmentShouldNotBeFound("updatedBy.in=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveAttachmentsByUpdatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        leaveAttachmentRepository.saveAndFlush(leaveAttachment);
+
+        // Get all the leaveAttachmentList where updatedBy is not null
+        defaultLeaveAttachmentShouldBeFound("updatedBy.specified=true");
+
+        // Get all the leaveAttachmentList where updatedBy is null
+        defaultLeaveAttachmentShouldNotBeFound("updatedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveAttachmentsByUpdatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        leaveAttachmentRepository.saveAndFlush(leaveAttachment);
+
+        // Get all the leaveAttachmentList where updatedOn equals to DEFAULT_UPDATED_ON
+        defaultLeaveAttachmentShouldBeFound("updatedOn.equals=" + DEFAULT_UPDATED_ON);
+
+        // Get all the leaveAttachmentList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultLeaveAttachmentShouldNotBeFound("updatedOn.equals=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveAttachmentsByUpdatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        leaveAttachmentRepository.saveAndFlush(leaveAttachment);
+
+        // Get all the leaveAttachmentList where updatedOn in DEFAULT_UPDATED_ON or UPDATED_UPDATED_ON
+        defaultLeaveAttachmentShouldBeFound("updatedOn.in=" + DEFAULT_UPDATED_ON + "," + UPDATED_UPDATED_ON);
+
+        // Get all the leaveAttachmentList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultLeaveAttachmentShouldNotBeFound("updatedOn.in=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllLeaveAttachmentsByUpdatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        leaveAttachmentRepository.saveAndFlush(leaveAttachment);
+
+        // Get all the leaveAttachmentList where updatedOn is not null
+        defaultLeaveAttachmentShouldBeFound("updatedOn.specified=true");
+
+        // Get all the leaveAttachmentList where updatedOn is null
+        defaultLeaveAttachmentShouldNotBeFound("updatedOn.specified=false");
     }
 
     @Test
@@ -230,7 +412,11 @@ public class LeaveAttachmentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(leaveAttachment.getId().intValue())))
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
+            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
 
         // Check, that the count call also returns 1
         restLeaveAttachmentMockMvc.perform(get("/api/leave-attachments/count?sort=id,desc&" + filter))
@@ -279,7 +465,11 @@ public class LeaveAttachmentResourceIntTest {
         em.detach(updatedLeaveAttachment);
         updatedLeaveAttachment
             .file(UPDATED_FILE)
-            .fileContentType(UPDATED_FILE_CONTENT_TYPE);
+            .fileContentType(UPDATED_FILE_CONTENT_TYPE)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdOn(UPDATED_CREATED_ON)
+            .updatedBy(UPDATED_UPDATED_BY)
+            .updatedOn(UPDATED_UPDATED_ON);
         LeaveAttachmentDTO leaveAttachmentDTO = leaveAttachmentMapper.toDto(updatedLeaveAttachment);
 
         restLeaveAttachmentMockMvc.perform(put("/api/leave-attachments")
@@ -293,6 +483,10 @@ public class LeaveAttachmentResourceIntTest {
         LeaveAttachment testLeaveAttachment = leaveAttachmentList.get(leaveAttachmentList.size() - 1);
         assertThat(testLeaveAttachment.getFile()).isEqualTo(UPDATED_FILE);
         assertThat(testLeaveAttachment.getFileContentType()).isEqualTo(UPDATED_FILE_CONTENT_TYPE);
+        assertThat(testLeaveAttachment.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testLeaveAttachment.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
+        assertThat(testLeaveAttachment.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
+        assertThat(testLeaveAttachment.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
 
         // Validate the LeaveAttachment in Elasticsearch
         verify(mockLeaveAttachmentSearchRepository, times(1)).save(testLeaveAttachment);
@@ -354,7 +548,11 @@ public class LeaveAttachmentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(leaveAttachment.getId().intValue())))
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
+            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
 
     @Test

@@ -1,10 +1,13 @@
 package org.soptorshi.service.dto;
+
+import org.soptorshi.domain.enumeration.LeaveStatus;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.util.Objects;
-import org.soptorshi.domain.enumeration.LeaveStatus;
 
 /**
  * A DTO for the LeaveApplication entity.
@@ -12,9 +15,6 @@ import org.soptorshi.domain.enumeration.LeaveStatus;
 public class LeaveApplicationDTO implements Serializable {
 
     private Long id;
-
-    @NotNull
-    private String employeeId;
 
     @NotNull
     private LocalDate fromDate;
@@ -29,13 +29,7 @@ public class LeaveApplicationDTO implements Serializable {
     @Size(max = 250)
     private String reason;
 
-    @NotNull
-    private String appliedBy;
-
     private Instant appliedOn;
-
-    @NotNull
-    private String actionTakenBy;
 
     private Instant actionTakenOn;
 
@@ -47,20 +41,24 @@ public class LeaveApplicationDTO implements Serializable {
 
     private String leaveTypesName;
 
+    private Long employeesId;
+
+    private String employeesFullName;
+
+    private Long appliedByIdId;
+
+    private String appliedByIdFullName;
+
+    private Long actionTakenByIdId;
+
+    private String actionTakenByIdFullName;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
     }
 
     public LocalDate getFromDate() {
@@ -95,28 +93,12 @@ public class LeaveApplicationDTO implements Serializable {
         this.reason = reason;
     }
 
-    public String getAppliedBy() {
-        return appliedBy;
-    }
-
-    public void setAppliedBy(String appliedBy) {
-        this.appliedBy = appliedBy;
-    }
-
     public Instant getAppliedOn() {
         return appliedOn;
     }
 
     public void setAppliedOn(Instant appliedOn) {
         this.appliedOn = appliedOn;
-    }
-
-    public String getActionTakenBy() {
-        return actionTakenBy;
-    }
-
-    public void setActionTakenBy(String actionTakenBy) {
-        this.actionTakenBy = actionTakenBy;
     }
 
     public Instant getActionTakenOn() {
@@ -151,6 +133,54 @@ public class LeaveApplicationDTO implements Serializable {
         this.leaveTypesName = leaveTypeName;
     }
 
+    public Long getEmployeesId() {
+        return employeesId;
+    }
+
+    public void setEmployeesId(Long employeeId) {
+        this.employeesId = employeeId;
+    }
+
+    public String getEmployeesFullName() {
+        return employeesFullName;
+    }
+
+    public void setEmployeesFullName(String employeeFullName) {
+        this.employeesFullName = employeeFullName;
+    }
+
+    public Long getAppliedByIdId() {
+        return appliedByIdId;
+    }
+
+    public void setAppliedByIdId(Long employeeId) {
+        this.appliedByIdId = employeeId;
+    }
+
+    public String getAppliedByIdFullName() {
+        return appliedByIdFullName;
+    }
+
+    public void setAppliedByIdFullName(String employeeFullName) {
+        this.appliedByIdFullName = employeeFullName;
+    }
+
+    public Long getActionTakenByIdId() {
+        return actionTakenByIdId;
+    }
+
+    public void setActionTakenByIdId(Long employeeId) {
+        this.actionTakenByIdId = employeeId;
+    }
+
+    public String getActionTakenByIdFullName() {
+        return actionTakenByIdFullName;
+    }
+
+    public void setActionTakenByIdFullName(String employeeFullName) {
+        this.actionTakenByIdFullName = employeeFullName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -176,18 +206,21 @@ public class LeaveApplicationDTO implements Serializable {
     public String toString() {
         return "LeaveApplicationDTO{" +
             "id=" + getId() +
-            ", employeeId='" + getEmployeeId() + "'" +
             ", fromDate='" + getFromDate() + "'" +
             ", toDate='" + getToDate() + "'" +
             ", numberOfDays=" + getNumberOfDays() +
             ", reason='" + getReason() + "'" +
-            ", appliedBy='" + getAppliedBy() + "'" +
             ", appliedOn='" + getAppliedOn() + "'" +
-            ", actionTakenBy='" + getActionTakenBy() + "'" +
             ", actionTakenOn='" + getActionTakenOn() + "'" +
             ", status='" + getStatus() + "'" +
             ", leaveTypes=" + getLeaveTypesId() +
             ", leaveTypes='" + getLeaveTypesName() + "'" +
+            ", employees=" + getEmployeesId() +
+            ", employees='" + getEmployeesFullName() + "'" +
+            ", appliedById=" + getAppliedByIdId() +
+            ", appliedById='" + getAppliedByIdFullName() + "'" +
+            ", actionTakenById=" + getActionTakenByIdId() +
+            ", actionTakenById='" + getActionTakenByIdFullName() + "'" +
             "}";
     }
 }

@@ -1,26 +1,24 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.LeaveApplication_;
+import org.soptorshi.domain.LeaveAttachment;
+import org.soptorshi.domain.LeaveAttachment_;
+import org.soptorshi.repository.LeaveAttachmentRepository;
+import org.soptorshi.repository.search.LeaveAttachmentSearchRepository;
+import org.soptorshi.service.dto.LeaveAttachmentCriteria;
+import org.soptorshi.service.dto.LeaveAttachmentDTO;
+import org.soptorshi.service.mapper.LeaveAttachmentMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.LeaveAttachment;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.LeaveAttachmentRepository;
-import org.soptorshi.repository.search.LeaveAttachmentSearchRepository;
-import org.soptorshi.service.dto.LeaveAttachmentCriteria;
-import org.soptorshi.service.dto.LeaveAttachmentDTO;
-import org.soptorshi.service.mapper.LeaveAttachmentMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for LeaveAttachment entities in the database.
@@ -92,6 +90,18 @@ public class LeaveAttachmentQueryService extends QueryService<LeaveAttachment> {
         if (criteria != null) {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), LeaveAttachment_.id));
+            }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), LeaveAttachment_.createdBy));
+            }
+            if (criteria.getCreatedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedOn(), LeaveAttachment_.createdOn));
+            }
+            if (criteria.getUpdatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), LeaveAttachment_.updatedBy));
+            }
+            if (criteria.getUpdatedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), LeaveAttachment_.updatedOn));
             }
             if (criteria.getLeaveApplicationId() != null) {
                 specification = specification.and(buildSpecification(criteria.getLeaveApplicationId(),

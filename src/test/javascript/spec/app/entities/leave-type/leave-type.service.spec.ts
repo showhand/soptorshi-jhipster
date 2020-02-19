@@ -1,9 +1,9 @@
 /* tslint:disable max-line-length */
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { LeaveTypeService } from 'app/entities/leave-type/leave-type.service';
 import { ILeaveType, LeaveType, PaidOrUnPaid } from 'app/shared/model/leave-type.model';
 
@@ -13,6 +13,7 @@ describe('Service Tests', () => {
         let service: LeaveTypeService;
         let httpMock: HttpTestingController;
         let elemDefault: ILeaveType;
+        let currentDate: moment.Moment;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
@@ -20,13 +21,20 @@ describe('Service Tests', () => {
             injector = getTestBed();
             service = injector.get(LeaveTypeService);
             httpMock = injector.get(HttpTestingController);
+            currentDate = moment();
 
-            elemDefault = new LeaveType(0, 'AAAAAAA', PaidOrUnPaid.PAID, 0, 'AAAAAAA');
+            elemDefault = new LeaveType(0, 'AAAAAAA', PaidOrUnPaid.PAID, 0, 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
-                const returnedFromService = Object.assign({}, elemDefault);
+                const returnedFromService = Object.assign(
+                    {
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
+                    },
+                    elemDefault
+                );
                 service
                     .find(123)
                     .pipe(take(1))
@@ -39,11 +47,19 @@ describe('Service Tests', () => {
             it('should create a LeaveType', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        id: 0
+                        id: 0,
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
-                const expected = Object.assign({}, returnedFromService);
+                const expected = Object.assign(
+                    {
+                        createdOn: currentDate,
+                        updatedOn: currentDate
+                    },
+                    returnedFromService
+                );
                 service
                     .create(new LeaveType(null))
                     .pipe(take(1))
@@ -58,12 +74,22 @@ describe('Service Tests', () => {
                         name: 'BBBBBB',
                         paidLeave: 'BBBBBB',
                         maximumNumberOfDays: 1,
-                        description: 'BBBBBB'
+                        description: 'BBBBBB',
+                        createdBy: 'BBBBBB',
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedBy: 'BBBBBB',
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
 
-                const expected = Object.assign({}, returnedFromService);
+                const expected = Object.assign(
+                    {
+                        createdOn: currentDate,
+                        updatedOn: currentDate
+                    },
+                    returnedFromService
+                );
                 service
                     .update(expected)
                     .pipe(take(1))
@@ -78,11 +104,21 @@ describe('Service Tests', () => {
                         name: 'BBBBBB',
                         paidLeave: 'BBBBBB',
                         maximumNumberOfDays: 1,
-                        description: 'BBBBBB'
+                        description: 'BBBBBB',
+                        createdBy: 'BBBBBB',
+                        createdOn: currentDate.format(DATE_TIME_FORMAT),
+                        updatedBy: 'BBBBBB',
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
-                const expected = Object.assign({}, returnedFromService);
+                const expected = Object.assign(
+                    {
+                        createdOn: currentDate,
+                        updatedOn: currentDate
+                    },
+                    returnedFromService
+                );
                 service
                     .query(expected)
                     .pipe(

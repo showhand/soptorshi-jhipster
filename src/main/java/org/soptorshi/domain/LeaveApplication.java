@@ -2,17 +2,16 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.soptorshi.domain.enumeration.LeaveStatus;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
-
-import org.soptorshi.domain.enumeration.LeaveStatus;
 
 /**
  * A LeaveApplication.
@@ -23,14 +22,10 @@ import org.soptorshi.domain.enumeration.LeaveStatus;
 public class LeaveApplication implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @Column(name = "employee_id", nullable = false)
-    private String employeeId;
 
     @NotNull
     @Column(name = "from_date", nullable = false)
@@ -49,16 +44,8 @@ public class LeaveApplication implements Serializable {
     @Column(name = "reason", length = 250, nullable = false)
     private String reason;
 
-    @NotNull
-    @Column(name = "applied_by", nullable = false)
-    private String appliedBy;
-
     @Column(name = "applied_on")
     private Instant appliedOn;
-
-    @NotNull
-    @Column(name = "action_taken_by", nullable = false)
-    private String actionTakenBy;
 
     @Column(name = "action_taken_on")
     private Instant actionTakenOn;
@@ -72,6 +59,18 @@ public class LeaveApplication implements Serializable {
     @JsonIgnoreProperties("leaveApplications")
     private LeaveType leaveTypes;
 
+    @ManyToOne
+    @JsonIgnoreProperties("leaveApplications")
+    private Employee employees;
+
+    @ManyToOne
+    @JsonIgnoreProperties("leaveApplications")
+    private Employee appliedById;
+
+    @ManyToOne
+    @JsonIgnoreProperties("leaveApplications")
+    private Employee actionTakenById;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -79,19 +78,6 @@ public class LeaveApplication implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmployeeId() {
-        return employeeId;
-    }
-
-    public LeaveApplication employeeId(String employeeId) {
-        this.employeeId = employeeId;
-        return this;
-    }
-
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
     }
 
     public LocalDate getFromDate() {
@@ -146,19 +132,6 @@ public class LeaveApplication implements Serializable {
         this.reason = reason;
     }
 
-    public String getAppliedBy() {
-        return appliedBy;
-    }
-
-    public LeaveApplication appliedBy(String appliedBy) {
-        this.appliedBy = appliedBy;
-        return this;
-    }
-
-    public void setAppliedBy(String appliedBy) {
-        this.appliedBy = appliedBy;
-    }
-
     public Instant getAppliedOn() {
         return appliedOn;
     }
@@ -170,19 +143,6 @@ public class LeaveApplication implements Serializable {
 
     public void setAppliedOn(Instant appliedOn) {
         this.appliedOn = appliedOn;
-    }
-
-    public String getActionTakenBy() {
-        return actionTakenBy;
-    }
-
-    public LeaveApplication actionTakenBy(String actionTakenBy) {
-        this.actionTakenBy = actionTakenBy;
-        return this;
-    }
-
-    public void setActionTakenBy(String actionTakenBy) {
-        this.actionTakenBy = actionTakenBy;
     }
 
     public Instant getActionTakenOn() {
@@ -223,6 +183,45 @@ public class LeaveApplication implements Serializable {
     public void setLeaveTypes(LeaveType leaveType) {
         this.leaveTypes = leaveType;
     }
+
+    public Employee getEmployees() {
+        return employees;
+    }
+
+    public LeaveApplication employees(Employee employee) {
+        this.employees = employee;
+        return this;
+    }
+
+    public void setEmployees(Employee employee) {
+        this.employees = employee;
+    }
+
+    public Employee getAppliedById() {
+        return appliedById;
+    }
+
+    public LeaveApplication appliedById(Employee employee) {
+        this.appliedById = employee;
+        return this;
+    }
+
+    public void setAppliedById(Employee employee) {
+        this.appliedById = employee;
+    }
+
+    public Employee getActionTakenById() {
+        return actionTakenById;
+    }
+
+    public LeaveApplication actionTakenById(Employee employee) {
+        this.actionTakenById = employee;
+        return this;
+    }
+
+    public void setActionTakenById(Employee employee) {
+        this.actionTakenById = employee;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -249,14 +248,11 @@ public class LeaveApplication implements Serializable {
     public String toString() {
         return "LeaveApplication{" +
             "id=" + getId() +
-            ", employeeId='" + getEmployeeId() + "'" +
             ", fromDate='" + getFromDate() + "'" +
             ", toDate='" + getToDate() + "'" +
             ", numberOfDays=" + getNumberOfDays() +
             ", reason='" + getReason() + "'" +
-            ", appliedBy='" + getAppliedBy() + "'" +
             ", appliedOn='" + getAppliedOn() + "'" +
-            ", actionTakenBy='" + getActionTakenBy() + "'" +
             ", actionTakenOn='" + getActionTakenOn() + "'" +
             ", status='" + getStatus() + "'" +
             "}";

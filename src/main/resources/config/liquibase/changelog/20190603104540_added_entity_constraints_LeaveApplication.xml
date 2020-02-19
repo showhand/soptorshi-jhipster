@@ -14,5 +14,23 @@
                                  referencedColumnNames="id"
                                  referencedTableName="leave_type"/>
 
+        <addForeignKeyConstraint baseColumnNames="employees_id"
+                                 baseTableName="leave_application"
+                                 constraintName="fk_leave_application_employees_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee"/>
+
+        <addForeignKeyConstraint baseColumnNames="applied_by_id_id"
+                                 baseTableName="leave_application"
+                                 constraintName="fk_leave_application_applied_by_id_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee"/>
+
+        <addForeignKeyConstraint baseColumnNames="action_taken_by_id_id"
+                                 baseTableName="leave_application"
+                                 constraintName="fk_leave_application_action_taken_by_id_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee"/>
+
     </changeSet>
 </databaseChangeLog>

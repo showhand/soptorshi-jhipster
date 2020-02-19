@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { ILeaveType } from 'app/shared/model/leave-type.model';
 import { LeaveTypeService } from './leave-type.service';
 
@@ -13,6 +14,8 @@ import { LeaveTypeService } from './leave-type.service';
 export class LeaveTypeUpdateComponent implements OnInit {
     leaveType: ILeaveType;
     isSaving: boolean;
+    createdOn: string;
+    updatedOn: string;
 
     constructor(protected leaveTypeService: LeaveTypeService, protected activatedRoute: ActivatedRoute) {}
 
@@ -20,6 +23,8 @@ export class LeaveTypeUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ leaveType }) => {
             this.leaveType = leaveType;
+            this.createdOn = this.leaveType.createdOn != null ? this.leaveType.createdOn.format(DATE_TIME_FORMAT) : null;
+            this.updatedOn = this.leaveType.updatedOn != null ? this.leaveType.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
     }
 
@@ -29,6 +34,8 @@ export class LeaveTypeUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.leaveType.createdOn = this.createdOn != null ? moment(this.createdOn, DATE_TIME_FORMAT) : null;
+        this.leaveType.updatedOn = this.updatedOn != null ? moment(this.updatedOn, DATE_TIME_FORMAT) : null;
         if (this.leaveType.id !== undefined) {
             this.subscribeToSaveResponse(this.leaveTypeService.update(this.leaveType));
         } else {

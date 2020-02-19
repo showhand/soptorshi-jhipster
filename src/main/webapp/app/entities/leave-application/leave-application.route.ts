@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { LeaveApplication } from 'app/shared/model/leave-application.model';
+import { ILeaveApplication, LeaveApplication } from 'app/shared/model/leave-application.model';
 import { LeaveApplicationService } from './leave-application.service';
 import { LeaveApplicationComponent } from './leave-application.component';
 import { LeaveApplicationDetailComponent } from './leave-application-detail.component';
 import { LeaveApplicationUpdateComponent } from './leave-application-update.component';
 import { LeaveApplicationDeletePopupComponent } from './leave-application-delete-dialog.component';
-import { ILeaveApplication } from 'app/shared/model/leave-application.model';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveApplicationResolve implements Resolve<ILeaveApplication> {

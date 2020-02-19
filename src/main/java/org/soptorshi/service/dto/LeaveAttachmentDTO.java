@@ -1,8 +1,9 @@
 package org.soptorshi.service.dto;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.Objects;
+
 import javax.persistence.Lob;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.Objects;
 
 /**
  * A DTO for the LeaveAttachment entity.
@@ -11,11 +12,19 @@ public class LeaveAttachmentDTO implements Serializable {
 
     private Long id;
 
-    
+
     @Lob
     private byte[] file;
 
     private String fileContentType;
+    private String createdBy;
+
+    private Instant createdOn;
+
+    private String updatedBy;
+
+    private Instant updatedOn;
+
 
     private Long leaveApplicationId;
 
@@ -41,6 +50,38 @@ public class LeaveAttachmentDTO implements Serializable {
 
     public void setFileContentType(String fileContentType) {
         this.fileContentType = fileContentType;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Instant createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Instant getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(Instant updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
     public Long getLeaveApplicationId() {
@@ -77,6 +118,10 @@ public class LeaveAttachmentDTO implements Serializable {
         return "LeaveAttachmentDTO{" +
             "id=" + getId() +
             ", file='" + getFile() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdOn='" + getCreatedOn() + "'" +
+            ", updatedBy='" + getUpdatedBy() + "'" +
+            ", updatedOn='" + getUpdatedOn() + "'" +
             ", leaveApplication=" + getLeaveApplicationId() +
             "}";
     }

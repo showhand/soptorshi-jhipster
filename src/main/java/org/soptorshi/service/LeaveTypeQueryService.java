@@ -1,26 +1,22 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.LeaveType;
+import org.soptorshi.domain.LeaveType_;
+import org.soptorshi.repository.LeaveTypeRepository;
+import org.soptorshi.repository.search.LeaveTypeSearchRepository;
+import org.soptorshi.service.dto.LeaveTypeCriteria;
+import org.soptorshi.service.dto.LeaveTypeDTO;
+import org.soptorshi.service.mapper.LeaveTypeMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.LeaveType;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.LeaveTypeRepository;
-import org.soptorshi.repository.search.LeaveTypeSearchRepository;
-import org.soptorshi.service.dto.LeaveTypeCriteria;
-import org.soptorshi.service.dto.LeaveTypeDTO;
-import org.soptorshi.service.mapper.LeaveTypeMapper;
+import java.util.List;
 
 /**
  * Service for executing complex queries for LeaveType entities in the database.
@@ -104,6 +100,18 @@ public class LeaveTypeQueryService extends QueryService<LeaveType> {
             }
             if (criteria.getDescription() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescription(), LeaveType_.description));
+            }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), LeaveType_.createdBy));
+            }
+            if (criteria.getCreatedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedOn(), LeaveType_.createdOn));
+            }
+            if (criteria.getUpdatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getUpdatedBy(), LeaveType_.updatedBy));
+            }
+            if (criteria.getUpdatedOn() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), LeaveType_.updatedOn));
             }
         }
         return specification;
