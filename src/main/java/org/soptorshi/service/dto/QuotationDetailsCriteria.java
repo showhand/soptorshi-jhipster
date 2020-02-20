@@ -76,7 +76,11 @@ public class QuotationDetailsCriteria implements Serializable {
 
     private VatStatusFilter vatStatus;
 
+    private BigDecimalFilter vatPercentage;
+
     private AITStatusFilter aitStatus;
+
+    private BigDecimalFilter aitPercentage;
 
     private LocalDateFilter estimatedDate;
 
@@ -158,12 +162,28 @@ public class QuotationDetailsCriteria implements Serializable {
         this.vatStatus = vatStatus;
     }
 
+    public BigDecimalFilter getVatPercentage() {
+        return vatPercentage;
+    }
+
+    public void setVatPercentage(BigDecimalFilter vatPercentage) {
+        this.vatPercentage = vatPercentage;
+    }
+
     public AITStatusFilter getAitStatus() {
         return aitStatus;
     }
 
     public void setAitStatus(AITStatusFilter aitStatus) {
         this.aitStatus = aitStatus;
+    }
+
+    public BigDecimalFilter getAitPercentage() {
+        return aitPercentage;
+    }
+
+    public void setAitPercentage(BigDecimalFilter aitPercentage) {
+        this.aitPercentage = aitPercentage;
     }
 
     public LocalDateFilter getEstimatedDate() {
@@ -249,7 +269,9 @@ public class QuotationDetailsCriteria implements Serializable {
             Objects.equals(payType, that.payType) &&
             Objects.equals(creditLimit, that.creditLimit) &&
             Objects.equals(vatStatus, that.vatStatus) &&
+            Objects.equals(vatPercentage, that.vatPercentage) &&
             Objects.equals(aitStatus, that.aitStatus) &&
+            Objects.equals(aitPercentage, that.aitPercentage) &&
             Objects.equals(estimatedDate, that.estimatedDate) &&
             Objects.equals(warrantyStatus, that.warrantyStatus) &&
             Objects.equals(loadingPort, that.loadingPort) &&
@@ -271,7 +293,9 @@ public class QuotationDetailsCriteria implements Serializable {
         payType,
         creditLimit,
         vatStatus,
+        vatPercentage,
         aitStatus,
+        aitPercentage,
         estimatedDate,
         warrantyStatus,
         loadingPort,
@@ -294,7 +318,9 @@ public class QuotationDetailsCriteria implements Serializable {
                 (payType != null ? "payType=" + payType + ", " : "") +
                 (creditLimit != null ? "creditLimit=" + creditLimit + ", " : "") +
                 (vatStatus != null ? "vatStatus=" + vatStatus + ", " : "") +
+                (vatPercentage != null ? "vatPercentage=" + vatPercentage + ", " : "") +
                 (aitStatus != null ? "aitStatus=" + aitStatus + ", " : "") +
+                (aitPercentage != null ? "aitPercentage=" + aitPercentage + ", " : "") +
                 (estimatedDate != null ? "estimatedDate=" + estimatedDate + ", " : "") +
                 (warrantyStatus != null ? "warrantyStatus=" + warrantyStatus + ", " : "") +
                 (loadingPort != null ? "loadingPort=" + loadingPort + ", " : "") +

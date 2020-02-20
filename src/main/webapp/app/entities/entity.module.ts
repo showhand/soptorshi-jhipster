@@ -700,6 +700,10 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './holiday/holiday.module#SoptorshiHolidayModule'
             },
             {
+                path: 'quotation-details',
+                loadChildren: './quotation-details/quotation-details.module#SoptorshiQuotationDetailsModule'
+            },
+            {
                 path: 'holiday',
                 loadChildren: './holiday/holiday.module#SoptorshiHolidayModule'
             },

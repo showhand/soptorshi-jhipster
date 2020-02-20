@@ -32,7 +32,11 @@ public class QuotationDetailsDTO implements Serializable {
 
     private VatStatus vatStatus;
 
+    private BigDecimal vatPercentage;
+
     private AITStatus aitStatus;
+
+    private BigDecimal aitPercentage;
 
     private LocalDate estimatedDate;
 
@@ -122,12 +126,28 @@ public class QuotationDetailsDTO implements Serializable {
         this.vatStatus = vatStatus;
     }
 
+    public BigDecimal getVatPercentage() {
+        return vatPercentage;
+    }
+
+    public void setVatPercentage(BigDecimal vatPercentage) {
+        this.vatPercentage = vatPercentage;
+    }
+
     public AITStatus getAitStatus() {
         return aitStatus;
     }
 
     public void setAitStatus(AITStatus aitStatus) {
         this.aitStatus = aitStatus;
+    }
+
+    public BigDecimal getAitPercentage() {
+        return aitPercentage;
+    }
+
+    public void setAitPercentage(BigDecimal aitPercentage) {
+        this.aitPercentage = aitPercentage;
     }
 
     public LocalDate getEstimatedDate() {
@@ -250,7 +270,9 @@ public class QuotationDetailsDTO implements Serializable {
             ", payType='" + getPayType() + "'" +
             ", creditLimit=" + getCreditLimit() +
             ", vatStatus='" + getVatStatus() + "'" +
+            ", vatPercentage=" + getVatPercentage() +
             ", aitStatus='" + getAitStatus() + "'" +
+            ", aitPercentage=" + getAitPercentage() +
             ", estimatedDate='" + getEstimatedDate() + "'" +
             ", warrantyStatus='" + getWarrantyStatus() + "'" +
             ", loadingPort='" + getLoadingPort() + "'" +

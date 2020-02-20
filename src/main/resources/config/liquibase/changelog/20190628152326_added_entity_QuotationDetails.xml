@@ -50,7 +50,15 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="vat_percentage" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="ait_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="ait_percentage" type="decimal(10,2)">
                 <constraints nullable="true" />
             </column>
 

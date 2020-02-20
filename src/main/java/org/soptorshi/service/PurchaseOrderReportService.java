@@ -156,11 +156,11 @@ public class PurchaseOrderReportService {
             paragraph.setAlignment(Element.ALIGN_LEFT);
             table.addCell(new PdfPCell(paragraph));
 
-            paragraph = new Paragraph(quotationDetailsList.get(i).getVatStatus().toString(), FontFactory.getFont(FontFactory.TIMES,9f));
+            paragraph = new Paragraph(quotationDetailsList.get(i).getVatPercentage()==null?"":quotationDetailsList.get(i).getVatPercentage().toString(), FontFactory.getFont(FontFactory.TIMES,9f));
             paragraph.setAlignment(Element.ALIGN_LEFT);
             table.addCell(new PdfPCell(paragraph));
 
-            paragraph = new Paragraph(quotationDetailsList.get(i).getAitStatus().toString(), FontFactory.getFont(FontFactory.TIMES,9f));
+            paragraph = new Paragraph(quotationDetailsList.get(i).getAitPercentage()==null?"": quotationDetailsList.get(i).getAitPercentage().toString(), FontFactory.getFont(FontFactory.TIMES,9f));
             paragraph.setAlignment(Element.ALIGN_LEFT);
             table.addCell(new PdfPCell(paragraph));
 
@@ -179,8 +179,18 @@ public class PurchaseOrderReportService {
             paragraph = new Paragraph(quotationDetailsList.get(i).getRate().multiply( new BigDecimal( quotationDetailsList.get(i).getQuantity())).toString(), FontFactory.getFont(FontFactory.TIMES, 9f));
             paragraph.setAlignment(Element.ALIGN_LEFT);
             table.addCell(new PdfPCell(paragraph));
-
-            totalAmount = totalAmount.add(quotationDetailsList.get(i).getRate().multiply( new BigDecimal( quotationDetailsList.get(i).getQuantity())));
+            BigDecimal productTotalAmount = BigDecimal.ZERO;
+            productTotalAmount = quotationDetailsList.get(i).getRate().multiply( new BigDecimal( quotationDetailsList.get(i).getQuantity()));
+            BigDecimal vat = BigDecimal.ZERO;
+            BigDecimal ait = BigDecimal.ZERO;
+            if(quotationDetailsList.get(i).getVatPercentage()!=null){
+                vat = productTotalAmount.add(quotationDetailsList.get(i).getVatPercentage().divide(new BigDecimal(100)));
+            }
+            if(quotationDetailsList.get(i).getAitPercentage()!=null){
+                ait = productTotalAmount.add(quotationDetailsList.get(i).getAitPercentage().divide(new BigDecimal(100)));
+            }
+            productTotalAmount = productTotalAmount.add(vat).subtract(ait);
+            totalAmount = totalAmount.add(productTotalAmount);
         }
 
         paragraph = new Paragraph("Total", FontFactory.getFont(FontFactory.TIMES,9f));

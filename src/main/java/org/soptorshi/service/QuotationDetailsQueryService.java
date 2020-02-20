@@ -114,8 +114,14 @@ public class QuotationDetailsQueryService extends QueryService<QuotationDetails>
             if (criteria.getVatStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getVatStatus(), QuotationDetails_.vatStatus));
             }
+            if (criteria.getVatPercentage() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getVatPercentage(), QuotationDetails_.vatPercentage));
+            }
             if (criteria.getAitStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getAitStatus(), QuotationDetails_.aitStatus));
+            }
+            if (criteria.getAitPercentage() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getAitPercentage(), QuotationDetails_.aitPercentage));
             }
             if (criteria.getEstimatedDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getEstimatedDate(), QuotationDetails_.estimatedDate));

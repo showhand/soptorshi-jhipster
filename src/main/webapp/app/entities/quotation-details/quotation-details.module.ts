@@ -16,7 +16,7 @@ const ENTITY_STATES = [...quotationDetailsRoute, ...quotationDetailsPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /*declarations: [
+    declarations: [
         QuotationDetailsComponent,
         QuotationDetailsDetailComponent,
         QuotationDetailsUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...quotationDetailsRoute, ...quotationDetailsPopupRoute];
         QuotationDetailsUpdateComponent,
         QuotationDetailsDeleteDialogComponent,
         QuotationDetailsDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiQuotationDetailsModule {}
