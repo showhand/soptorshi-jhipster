@@ -7,10 +7,9 @@ import org.soptorshi.service.extended.LeaveApplicationExtendedService;
 import org.soptorshi.web.rest.LeaveApplicationResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 /**
  * REST controller for managing LeaveApplication.
@@ -23,8 +22,17 @@ public class LeaveApplicationExtendedResource extends LeaveApplicationResource {
 
     private static final String ENTITY_NAME = "leaveApplication";
 
+    private LeaveApplicationExtendedService leaveApplicationExtendedService;
+
     public LeaveApplicationExtendedResource(LeaveApplicationExtendedService leaveApplicationExtendedService, LeaveApplicationQueryService leaveApplicationQueryService) {
         super(leaveApplicationExtendedService, leaveApplicationQueryService);
+        this.leaveApplicationExtendedService = leaveApplicationExtendedService;
+    }
+
+    @GetMapping("/leave-applications/calculateDiff/fromDate/{fromDate}/toDate/{toDate}")
+    public ResponseEntity<Integer> calculateDifference(@PathVariable String fromDate, @PathVariable String toDate) {
+        log.debug("REST request to calculate differences between two dates: {}");
+        return ResponseEntity.ok().body(leaveApplicationExtendedService.calcDiff(LocalDate.parse(fromDate), LocalDate.parse(toDate)));
     }
 
     /**

@@ -5,11 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.LeaveType;
 import org.soptorshi.repository.LeaveTypeRepository;
 import org.soptorshi.repository.search.LeaveTypeSearchRepository;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.LeaveTypeService;
 import org.soptorshi.service.dto.LeaveTypeDTO;
 import org.soptorshi.service.mapper.LeaveTypeMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
 
 /**
  * Service Implementation for managing LeaveType.
@@ -41,6 +44,17 @@ public class LeaveTypeExtendedService extends LeaveTypeService {
      */
     public LeaveTypeDTO save(LeaveTypeDTO leaveTypeDTO) {
         log.debug("Request to save LeaveType : {}", leaveTypeDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
+            SecurityUtils.getCurrentUserLogin().toString() : "";
+        Instant currentDateTime = Instant.now();
+
+        if (leaveTypeDTO.getId() == null) {
+            leaveTypeDTO.setCreatedBy(currentUser);
+            leaveTypeDTO.setCreatedOn(currentDateTime);
+        } else {
+            leaveTypeDTO.setUpdatedBy(currentUser);
+            leaveTypeDTO.setUpdatedOn(currentDateTime);
+        }
         LeaveType leaveType = leaveTypeMapper.toEntity(leaveTypeDTO);
         leaveType = leaveTypeRepository.save(leaveType);
         LeaveTypeDTO result = leaveTypeMapper.toDto(leaveType);

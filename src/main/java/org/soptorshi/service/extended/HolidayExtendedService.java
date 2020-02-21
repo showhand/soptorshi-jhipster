@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -69,5 +72,19 @@ public class HolidayExtendedService extends HolidayService {
             throw new BadRequestAlertException("fromDate is greater than toDate year!!", "holiday", "idnull");
         }
         throw new BadRequestAlertException("fromDate and toDate year should be same!!", "holiday", "idnull");
+    }
+
+    public ArrayList<LocalDate> getAllHolidayDates(int holidayYear) {
+        List<Holiday> holidays = holidayExtendedRepository.getHolidaysByHolidayYear(holidayYear);
+        ArrayList<LocalDate> holidayArrayListOfLocalDates = new ArrayList<>();
+        for(int i = 0; i < holidays.size(); i++) {
+            LocalDate fromDate = holidays.get(i).getFromDate();
+            LocalDate toDate = holidays.get(i).getToDate();
+            while(fromDate.compareTo(toDate) <= 0) {
+                holidayArrayListOfLocalDates.add(fromDate);
+                fromDate = fromDate.plusDays(1);
+            }
+        }
+        return holidayArrayListOfLocalDates;
     }
 }
