@@ -8,7 +8,7 @@
         <h2 id="page-heading">Leave Applications</h2>
     </div>
     <div class="col-6">
-        <!--<form name="searchForm" class="form-inline">
+        <form name="searchForm" class="form-inline">
             <div class="input-group w-100 mt-3">
                 <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
                        name="currentSearch" placeholder="Query">
@@ -18,20 +18,8 @@
                 <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
                     <fa-icon [icon]="'trash-alt'"></fa-icon>
                 </button>
-                <button id="jh-create-entity"
-                        class="btn btn-primary float-right jh-create-entity create-leave-application"
-                        [routerLink]="['/leave-application/new']">
-                    <fa-icon [icon]="'plus'"></fa-icon>
-                </button>
             </div>
-        </form>-->
-        <div style="float: right">
-            <button id="jh-create-entity"
-                    class="btn btn-primary float-right jh-create-entity create-leave-application"
-                    [routerLink]="['/leave-application/new']">
-                <fa-icon [icon]="'plus'"></fa-icon>
-            </button>
-        </div>
+        </form>
     </div>
 </div>
 <div class="row justify-content-center">
@@ -44,10 +32,10 @@
                     <th jhiSortBy="id"><span>ID</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="leaveTypesName"><span>Leave Types</span>
+                    <th jhiSortBy="employeeId"><span>Employee Id</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="employeesFullName"><span>Employees</span>
+                    <th jhiSortBy="leaveTypesName"><span>Leave Types</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="fromDate"><span>From Date</span>
@@ -59,8 +47,16 @@
                     <th jhiSortBy="numberOfDays"><span>Number Of Days</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <!--<th jhiSortBy="reason"><span>Reason</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+                    <th jhiSortBy="reason"><span>Reason</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="appliedBy"><span>Applied By</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
                     <th jhiSortBy="appliedOn"><span>Applied On</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="actionTakenBy"><span>Action Taken By</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="actionTakenOn"><span>Action Taken On</span>
@@ -69,67 +65,45 @@
                     <th jhiSortBy="status"><span>Status</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <!--<th jhiSortBy="appliedByIdFullName"><span>Applied By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th jhiSortBy="actionTakenByIdFullName"><span>Action Taken By</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
                     <th></th>
                 </tr>
                 </thead>
                 <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
                        [infiniteScrollDistance]="0">
                 <tr *ngFor="let leaveApplication of leaveApplications ;trackBy: trackId">
-                    <td><a
-                        [routerLink]="['/leave-application', leaveApplication.id, 'view' ]">{{leaveApplication.id}}</a>
+                    <td><!--<a
+                        [routerLink]="['/leave-application', leaveApplication.id, 'view' ]">{{leaveApplication.id}}</a>-->
+                        {{leaveApplication.id}}
                     </td>
+                    <td>{{leaveApplication.employeesId}}</td>
                     <td>
                         <div *ngIf="leaveApplication.leaveTypesId">
-                            <a [routerLink]="['../leave-type', leaveApplication.leaveTypesId , 'view' ]">{{leaveApplication.leaveTypesName}}</a>
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="leaveApplication.employeesId">
-                            <a [routerLink]="['../employee', leaveApplication.employeesId , 'view' ]">{{leaveApplication.employeesFullName}}</a>
+                            <!--<a [routerLink]="['../leave-type', leaveApplication.leaveTypesId , 'view' ]">{{leaveApplication.leaveTypesName}}</a>--> {{leaveApplication.leaveTypesName}}
                         </div>
                     </td>
                     <td>{{leaveApplication.fromDate | date:'mediumDate'}}</td>
                     <td>{{leaveApplication.toDate | date:'mediumDate'}}</td>
                     <td>{{leaveApplication.numberOfDays}}</td>
-                    <!--<td>{{leaveApplication.reason}}</td>-->
+                    <td>{{leaveApplication.reason}}</td>
+                    <td>{{leaveApplication.appliedByIdId}}</td>
                     <td>{{leaveApplication.appliedOn | date:'medium'}}</td>
+                    <td>{{leaveApplication.actionTakenByIdId}}</td>
                     <td>{{leaveApplication.actionTakenOn | date:'medium'}}</td>
                     <td>{{leaveApplication.status}}</td>
-
-                    <!--<td>
-                        <div *ngIf="leaveApplication.appliedByIdId">
-                            <a [routerLink]="['../employee', leaveApplication.appliedByIdId , 'view' ]" >{{leaveApplication.appliedByIdFullName}}</a>
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="leaveApplication.actionTakenByIdId">
-                            <a [routerLink]="['../employee', leaveApplication.actionTakenByIdId , 'view' ]" >{{leaveApplication.actionTakenByIdFullName}}</a>
-                        </div>
-                    </td>-->
                     <td class="text-right" width="20%">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
-                                    [routerLink]="['/leave-application', leaveApplication.id, 'view' ]"
-                                    class="btn btn-info btn-sm">
-                                <fa-icon [icon]="'eye'"></fa-icon>
-                                <span class="d-none d-md-inline">View</span>
-                            </button>
-                            <!--<button type="submit"
-                                    [routerLink]="['/leave-application', leaveApplication.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
-                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                                <span class="d-none d-md-inline">Edit</span>
+                                    class="btn btn-danger btn-sm"
+                             (click)="save(false, leaveApplication)" >
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline">Reject</span>
                             </button>
                             <button type="submit"
-                                    [routerLink]="['/', 'leave-application', { outlets: { popup: leaveApplication.id + '/delete'} }]"
-                                    replaceUrl="true"
-                                    queryParamsHandling="merge"
-                                    class="btn btn-danger btn-sm">
-                                <fa-icon [icon]="'times'"></fa-icon>
-                                <span class="d-none d-md-inline">Delete</span>
-                            </button>-->
+                                    class="btn btn-success btn-sm"
+                                    (click)="save(true, leaveApplication)">
+                                <fa-icon [icon]="'check'"></fa-icon>
+                                <span class="d-none d-md-inline">Accept</span>
+                            </button>
                         </div>
                     </td>
                 </tr>

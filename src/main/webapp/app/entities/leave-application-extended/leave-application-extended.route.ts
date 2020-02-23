@@ -7,6 +7,8 @@ import { LeaveApplicationDetailExtendedComponent } from './leave-application-det
 import { LeaveApplicationUpdateExtendedComponent } from './leave-application-update-extended.component';
 import { LeaveApplicationDeletePopupExtendedComponent } from './leave-application-delete-dialog-extended.component';
 import { LeaveApplicationResolve } from 'app/entities/leave-application';
+import { OthersLeaveApplicationComponent } from 'app/entities/leave-application-extended/others-leave-application.component';
+import { OthersLeaveApplicationHistoryComponent } from 'app/entities/leave-application-extended/others-leave-application-history.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveApplicationExtendedResolve extends LeaveApplicationResolve {
@@ -40,6 +42,42 @@ export const leaveApplicationExtendedRoute: Routes = [
     {
         path: 'new',
         component: LeaveApplicationUpdateExtendedComponent,
+        resolve: {
+            leaveApplication: LeaveApplicationExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'LeaveApplications'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'new/others',
+        component: OthersLeaveApplicationComponent,
+        resolve: {
+            leaveApplication: LeaveApplicationExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'LeaveApplications'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'history/others',
+        component: OthersLeaveApplicationHistoryComponent,
+        resolve: {
+            leaveApplication: LeaveApplicationExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'LeaveApplications'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'review',
+        component: OthersLeaveApplicationHistoryComponent,
         resolve: {
             leaveApplication: LeaveApplicationExtendedResolve
         },

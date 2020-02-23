@@ -343,7 +343,7 @@
                     <li>
                         <a class="dropdown-item" routerLink="leave-application/history/others" routerLinkActive="active"
                            [routerLinkActiveOptions]="{ exact: true }"
-                           *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_LEAVE_MANAGER']">
+                           *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_LEAVE_MANAGER', 'ROLE_USER']">
                             <fa-icon icon="history" fixedWidth="true"></fa-icon>
                             <span>Others Leave History</span>
                         </a>

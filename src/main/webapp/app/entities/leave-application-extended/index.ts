@@ -4,3 +4,6 @@ export * from './leave-application-delete-dialog-extended.component';
 export * from './leave-application-detail-extended.component';
 export * from './leave-application-extended.component';
 export * from './leave-application-extended.route';
+export * from './others-leave-application.component';
+export * from './others-leave-application-history.component';
+export * from './review-leave-application.component';

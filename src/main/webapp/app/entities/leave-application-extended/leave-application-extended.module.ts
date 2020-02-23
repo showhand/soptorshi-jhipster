@@ -9,8 +9,11 @@ import {
     LeaveApplicationExtendedComponent,
     leaveApplicationExtendedRoute,
     leaveApplicationPopupExtendedRoute,
-    LeaveApplicationUpdateExtendedComponent
+    LeaveApplicationUpdateExtendedComponent,
+    ReviewLeaveApplicationComponent
 } from './';
+import { OthersLeaveApplicationComponent } from 'app/entities/leave-application-extended/others-leave-application.component';
+import { OthersLeaveApplicationHistoryComponent } from 'app/entities/leave-application-extended/others-leave-application-history.component';
 
 const ENTITY_STATES = [...leaveApplicationExtendedRoute, ...leaveApplicationPopupExtendedRoute];
 
@@ -21,13 +24,19 @@ const ENTITY_STATES = [...leaveApplicationExtendedRoute, ...leaveApplicationPopu
         LeaveApplicationDetailExtendedComponent,
         LeaveApplicationUpdateExtendedComponent,
         LeaveApplicationDeleteDialogExtendedComponent,
-        LeaveApplicationDeletePopupExtendedComponent
+        LeaveApplicationDeletePopupExtendedComponent,
+        OthersLeaveApplicationComponent,
+        OthersLeaveApplicationHistoryComponent,
+        ReviewLeaveApplicationComponent
     ],
     entryComponents: [
         LeaveApplicationExtendedComponent,
         LeaveApplicationUpdateExtendedComponent,
         LeaveApplicationDeleteDialogExtendedComponent,
-        LeaveApplicationDeletePopupExtendedComponent
+        LeaveApplicationDeletePopupExtendedComponent,
+        OthersLeaveApplicationComponent,
+        OthersLeaveApplicationHistoryComponent,
+        ReviewLeaveApplicationComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
