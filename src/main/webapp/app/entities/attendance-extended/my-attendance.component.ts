@@ -9,6 +9,8 @@ import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/ht
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { AttendanceExtendedService } from 'app/entities/attendance-extended/attendance-extended.service';
+import { EmployeeService } from 'app/entities/employee';
+import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-my-attendance',
@@ -27,6 +29,7 @@ export class MyAttendanceComponent implements OnInit {
     totalItems: number;
     currentSearch: string;
     distinctAttendanceDate: Moment[];
+    currentEmployee: IEmployee;
 
     constructor(
         protected attendanceService: AttendanceExtendedService,
@@ -34,7 +37,8 @@ export class MyAttendanceComponent implements OnInit {
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected employeeService: EmployeeService
     ) {
         this.attendances = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -58,20 +62,30 @@ export class MyAttendanceComponent implements OnInit {
     }
 
     loadAll() {
-        this.attendanceService
+        this.employeeService
             .query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort(),
-                'attendanceDate.equals': this.currentSearch
-                    ? moment(this.currentSearch).format(DATE_FORMAT)
-                    : moment(new Date())
-                          .add(0, 'days')
-                          .format(DATE_FORMAT),
                 'employeeId.equals': this.currentAccount.login
             })
             .subscribe(
-                (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
+                (res: HttpResponse<IEmployee[]>) => {
+                    this.currentEmployee = res.body[0];
+                    this.attendanceService
+                        .query({
+                            page: this.page,
+                            size: this.itemsPerPage,
+                            sort: this.sort(),
+                            'attendanceDate.equals': this.currentSearch
+                                ? moment(this.currentSearch).format(DATE_FORMAT)
+                                : moment(new Date())
+                                      .add(0, 'days')
+                                      .format(DATE_FORMAT),
+                            'employeeId.equals': this.currentEmployee.id
+                        })
+                        .subscribe(
+                            (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
+                            (res: HttpErrorResponse) => this.onError(res.message)
+                        );
+                },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
