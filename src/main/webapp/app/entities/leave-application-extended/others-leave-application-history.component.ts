@@ -27,6 +27,7 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
     reverse: any;
     totalItems: number;
     currentSearch: string;
+    currentSearchAsEmployee: IEmployee;
     currentEmployee: IEmployee;
     employees: IEmployee[];
     employeesUnderSupervisor: IManager[];
@@ -62,21 +63,21 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
             })
             .subscribe(
                 (res: HttpResponse<IEmployee[]>) => {
+                    this.currentSearchAsEmployee = res.body[0];
                     this.managerService
                         .query({
                             'parentEmployeeId.equals': res.body[0].id
                         })
                         .subscribe(
                             (response: HttpResponse<IManager[]>) => {
-                                if (response.body[0].employeeId === this.currentEmployee[0].id) {
+                                if (response.body[1].employeeId === this.currentEmployee.id) {
                                     if (this.currentSearch) {
                                         this.leaveApplicationService
-                                            .search({
-                                                query: this.currentSearch,
+                                            .query({
                                                 page: this.page,
                                                 size: this.itemsPerPage,
                                                 sort: this.sort(),
-                                                'employeeId.equals': this.currentAccount.login
+                                                'employeesId.equals': this.currentSearchAsEmployee.id
                                             })
                                             .subscribe(
                                                 (ress: HttpResponse<ILeaveApplication[]>) =>
@@ -85,18 +86,6 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
                                             );
                                         return;
                                     }
-                                    this.leaveApplicationService
-                                        .query({
-                                            page: this.page,
-                                            size: this.itemsPerPage,
-                                            sort: this.sort(),
-                                            'employeeId.equals': this.currentAccount.login
-                                        })
-                                        .subscribe(
-                                            (ress: HttpResponse<ILeaveApplication[]>) =>
-                                                this.paginateLeaveApplications(ress.body, ress.headers),
-                                            (ress: HttpErrorResponse) => this.onError(ress.message)
-                                        );
                                 }
                             },
                             (response: HttpErrorResponse) => this.onError(response.message)
@@ -138,7 +127,7 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
             last: 0
         };
         this.page = 0;
-        this.predicate = '_score';
+        this.predicate = 'id';
         this.reverse = false;
         this.currentSearch = query;
         this.loadAll();

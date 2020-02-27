@@ -2,7 +2,7 @@
     <div class="col-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-leave-application-heading">Create or edit a Other's Leave Application</h2>
-            <jhi-alert-error></jhi-alert-error>
+            <jhi-alert></jhi-alert>
             <div class="row">
                 <div class="col-4">
                     <div class="form-group" [hidden]="!leaveApplication.id">
@@ -46,6 +46,7 @@
                         <div class="input-group">
                             <input id="field_fromDate" type="text" class="form-control" name="fromDate" ngbDatepicker
                                    #fromDateDp="ngbDatepicker" [(ngModel)]="leaveApplication.fromDate"
+                                   (ngModelChange)="calculateDiff()"
                                    required/>
                             <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="fromDateDp.toggle()"><fa-icon
@@ -66,6 +67,7 @@
                         <div class="input-group">
                             <input id="field_toDate" type="text" class="form-control" name="toDate" ngbDatepicker
                                    #toDateDp="ngbDatepicker" [(ngModel)]="leaveApplication.toDate"
+                                   (ngModelChange)="calculateDiff()"
                                    required/>
                             <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="toDateDp.toggle()"><fa-icon
@@ -85,7 +87,7 @@
                     <div class="form-group">
                         <label class="form-control-label" for="field_numberOfDays">Number Of Days</label>
                         <input type="number" class="form-control" name="numberOfDays" id="field_numberOfDays"
-                               [(ngModel)]="leaveApplication.numberOfDays" required/>
+                               [(ngModel)]="leaveApplication.numberOfDays" readOnly required/>
                         <div
                             [hidden]="!(editForm.controls.numberOfDays?.dirty && editForm.controls.numberOfDays?.invalid)">
                             <small class="form-text text-danger"

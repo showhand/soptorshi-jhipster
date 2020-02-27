@@ -5,7 +5,7 @@ import { Account, AccountService } from 'app/core';
 import { JhiAlertService } from 'ng-jhipster';
 import { LeaveTypeService } from 'app/entities/leave-type';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DATE_TIME_FORMAT } from 'app/shared';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared';
 import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -136,6 +136,14 @@ export class OthersLeaveApplicationComponent implements OnInit {
         this.isSaving = false;
         this.editState(res);
         // this.previousState();
+    }
+
+    calculateDiff() {
+        if (this.leaveApplication.fromDate && this.leaveApplication.toDate) {
+            this.leaveApplicationService
+                .calculateDifference(this.leaveApplication.fromDate.format(DATE_FORMAT), this.leaveApplication.toDate.format(DATE_FORMAT))
+                .subscribe(res => (this.leaveApplication.numberOfDays = res.body), (res: HttpErrorResponse) => this.onError(res.message));
+        }
     }
 
     protected onSaveError() {

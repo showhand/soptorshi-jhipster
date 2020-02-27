@@ -91,29 +91,34 @@ public class LeaveBalanceService {
                 leaveBalanceDto.setEmployeeId(employeeId);
                 List<LeaveApplication> leaveApplications = getAppliedLeave(employee.get(), leaveType, queryDateFromQueryYear, lastDayOfQueryDateFromQueryYear);
 
+                int numberOfDaysOfAlreadyTakenLeave = 0;
+                for(LeaveApplication leaveApplication: leaveApplications) {
+                    numberOfDaysOfAlreadyTakenLeave += leaveApplication.getNumberOfDays();
+                }
+
                 if (leaveType.getMaximumNumberOfDays() == null) { // Considering Special Leave
                     leaveBalanceDto.setTotalLeaveApplicableDays(0);
-                    leaveBalanceDto.setRemainingDays(0 - leaveApplications.size());
+                    leaveBalanceDto.setRemainingDays(0 - numberOfDaysOfAlreadyTakenLeave);
                 } else {
                     if (queryYear == joiningYear) { // joiningYear = 2017 and queryYear 2017, means he can join at any time of the year, as a result he will not get full leave
                         leaveBalanceDto.setTotalLeaveApplicableDays((remainingDaysOfTheJoiningYear * leaveType.getMaximumNumberOfDays()) / lengthOfTheJoiningYear);
                         leaveBalanceDto.setRemainingDays(
-                            ((remainingDaysOfTheJoiningYear * leaveType.getMaximumNumberOfDays()) / lengthOfTheJoiningYear) - leaveApplications.size());
+                            ((remainingDaysOfTheJoiningYear * leaveType.getMaximumNumberOfDays()) / lengthOfTheJoiningYear) - numberOfDaysOfAlreadyTakenLeave);
                     } else {
                         if (leaveType.getName().toLowerCase().contains("earned")) {
                             int averageLengthOfAYear = 365;
                             if (diffBetweenLocalDateAndJoiningDate > averageLengthOfAYear) {
                                 leaveBalanceDto.setTotalLeaveApplicableDays(leaveType.getMaximumNumberOfDays());
                                 leaveBalanceDto.setRemainingDays(
-                                    leaveType.getMaximumNumberOfDays() - leaveApplications.size());
+                                    leaveType.getMaximumNumberOfDays() - numberOfDaysOfAlreadyTakenLeave);
                             } else {
                                 leaveBalanceDto.setTotalLeaveApplicableDays(0);
-                                leaveBalanceDto.setRemainingDays(0 - leaveApplications.size());
+                                leaveBalanceDto.setRemainingDays(0 - numberOfDaysOfAlreadyTakenLeave);
                             }
                         } else {
                             leaveBalanceDto.setTotalLeaveApplicableDays(leaveType.getMaximumNumberOfDays());
                             leaveBalanceDto.setRemainingDays(
-                                leaveType.getMaximumNumberOfDays() - leaveApplications.size());
+                                leaveType.getMaximumNumberOfDays() - numberOfDaysOfAlreadyTakenLeave);
                         }
                     }
                 }

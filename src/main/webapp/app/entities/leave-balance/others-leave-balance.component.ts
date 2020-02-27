@@ -84,15 +84,14 @@ export class OthersLeaveBalanceComponent implements OnInit {
             })
             .subscribe(
                 (res: HttpResponse<IEmployee[]>) => {
-                    this.employees = [];
-                    this.employees = res.body;
+                    this.currentEmployee = res.body[0];
                     this.managerService
                         .query({
-                            'parentEmployeeId.equals': this.employees[0].id
+                            'parentEmployeeId.equals': this.currentEmployee.id
                         })
                         .subscribe(
                             (response: HttpResponse<IManager[]>) => {
-                                this.getLeaveBalance(this.employees[0].employeeId);
+                                this.getLeaveBalance(this.currentEmployee.employeeId);
                             },
                             (response: HttpErrorResponse) => this.onError(response.message)
                         );

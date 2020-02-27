@@ -7,9 +7,8 @@ import { Subscription } from 'rxjs';
 import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { LeaveBalanceService } from 'app/entities/leave-balance/leave-balance.service';
-import { Employee, IEmployee } from 'app/shared/model/employee.model';
+import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
-import { IHoliday } from 'app/shared/model/holiday.model';
 
 @Component({
     selector: 'jhi-leave-balance',
@@ -49,7 +48,7 @@ export class LeaveBalanceComponent implements OnInit {
 
     getLeaveBalance(employeeId: string) {
         this.leaveBalanceService
-            .find(employeeId, 2019)
+            .find(employeeId, 2020)
             .subscribe(
                 (res: HttpResponse<ILeaveBalance[]>) => this.constructLeaveBalance(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
