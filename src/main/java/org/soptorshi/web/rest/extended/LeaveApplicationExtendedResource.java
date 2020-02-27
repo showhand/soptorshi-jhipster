@@ -31,7 +31,7 @@ public class LeaveApplicationExtendedResource extends LeaveApplicationResource {
 
     @GetMapping("/leave-applications/calculateDiff/fromDate/{fromDate}/toDate/{toDate}")
     public ResponseEntity<Integer> calculateDifference(@PathVariable String fromDate, @PathVariable String toDate) {
-        log.debug("REST request to calculate differences between two dates: {}");
+        log.debug("REST request to calculate differences between two dates");
         return ResponseEntity.ok().body(leaveApplicationExtendedService.calcDiff(LocalDate.parse(fromDate), LocalDate.parse(toDate)));
     }
 

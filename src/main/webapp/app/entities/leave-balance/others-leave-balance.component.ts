@@ -25,7 +25,8 @@ export class OthersLeaveBalanceComponent implements OnInit {
     eventSubscriber: Subscription;
     currentSearch: string;
     account: Account;
-    currentEmployee: IEmployee[];
+    currentEmployee: IEmployee;
+    employeesUnderSupervisor: IManager[];
 
     constructor(
         protected leaveBalanceService: LeaveBalanceService,
@@ -43,14 +44,33 @@ export class OthersLeaveBalanceComponent implements OnInit {
     ngOnInit() {
         this.leaveBalances = [];
         this.accountService.identity().then(account => {
-            this.account = account;
+            this.currentAccount = account;
             this.employeeService
                 .query({
-                    'employeeId.equals': this.account.login
+                    'employeeId.equals': this.currentAccount.login
                 })
                 .subscribe(
                     (res: HttpResponse<IEmployee[]>) => {
-                        this.currentEmployee = res.body;
+                        this.currentEmployee = res.body[0];
+                        this.managerService
+                            .query({
+                                'employeeId.equals': this.currentEmployee.id
+                            })
+                            .subscribe(
+                                (res: HttpResponse<IManager[]>) => {
+                                    this.employeesUnderSupervisor = res.body;
+                                    const map: string = this.employeesUnderSupervisor.map(val => val.parentEmployeeId).join(',');
+                                    this.employeeService
+                                        .query({
+                                            'id.in': [map]
+                                        })
+                                        .subscribe(
+                                            (res: HttpResponse<IEmployee[]>) => (this.employees = res.body),
+                                            (res: HttpErrorResponse) => this.onError(res.message)
+                                        );
+                                },
+                                (res: HttpErrorResponse) => this.onError(res.message)
+                            );
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
@@ -72,9 +92,7 @@ export class OthersLeaveBalanceComponent implements OnInit {
                         })
                         .subscribe(
                             (response: HttpResponse<IManager[]>) => {
-                                if (response.body[0].employeeId === this.currentEmployee[0].id) {
-                                    this.getLeaveBalance(this.employees[0].employeeId);
-                                }
+                                this.getLeaveBalance(this.employees[0].employeeId);
                             },
                             (response: HttpErrorResponse) => this.onError(response.message)
                         );
@@ -109,5 +127,9 @@ export class OthersLeaveBalanceComponent implements OnInit {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackEmployeeById(index: number, item: IEmployee) {
+        return item.id;
     }
 }

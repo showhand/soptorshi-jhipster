@@ -56,28 +56,12 @@ export class ReviewLeaveApplicationComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        if (this.currentSearch) {
-            this.leaveApplicationService
-                .search({
-                    query: this.currentSearch,
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'employeeId.equals': this.child.map(val => val.employeeId).join(','),
-                    'status.equals': LeaveStatus.WAITING
-                })
-                .subscribe(
-                    (res: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            return;
-        }
         this.leaveApplicationService
             .query({
                 page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort(),
-                'employeeId.in': this.child.map(val => val.employeeId).join(','),
+                'employeesId.in': this.child.map(val => val.id).join(','),
                 'status.equals': LeaveStatus.WAITING
             })
             .subscribe(

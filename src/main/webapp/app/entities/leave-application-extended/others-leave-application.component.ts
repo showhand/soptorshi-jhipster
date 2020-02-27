@@ -15,6 +15,8 @@ import { LeaveBalanceService } from 'app/entities/leave-balance';
 import { LeaveApplicationExtendedService } from 'app/entities/leave-application-extended/leave-application-extended.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
+import { ManagerService } from 'app/entities/manager';
+import { IManager } from 'app/shared/model/manager.model';
 
 @Component({
     selector: 'jhi-others-leave-application',
@@ -37,6 +39,8 @@ export class OthersLeaveApplicationComponent implements OnInit {
     account: Account;
     employees: IEmployee[];
     candidate: IEmployee;
+    currentEmployee: IEmployee;
+    employeesUnderSupervisor: IManager[];
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -46,7 +50,8 @@ export class OthersLeaveApplicationComponent implements OnInit {
         protected accountService: AccountService,
         protected leaveBalanceService: LeaveBalanceService,
         protected router: Router,
-        protected employeeService: EmployeeService
+        protected employeeService: EmployeeService,
+        protected managerService: ManagerService
     ) {}
 
     ngOnInit() {
@@ -66,13 +71,36 @@ export class OthersLeaveApplicationComponent implements OnInit {
                     map((response: HttpResponse<ILeaveType[]>) => response.body)
                 )
                 .subscribe((res: ILeaveType[]) => (this.leavetypes = res), (res: HttpErrorResponse) => this.onError(res.message));
+
             this.employeeService
-                .query()
-                .pipe(
-                    filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
-                    map((response: HttpResponse<IEmployee[]>) => response.body)
-                )
-                .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
+                .query({
+                    'employeeId.equals': this.account.login
+                })
+                .subscribe(
+                    (res: HttpResponse<IEmployee[]>) => {
+                        this.currentEmployee = res.body[0];
+                        this.managerService
+                            .query({
+                                'employeeId.equals': this.currentEmployee.id
+                            })
+                            .subscribe(
+                                (res: HttpResponse<IManager[]>) => {
+                                    this.employeesUnderSupervisor = res.body;
+                                    const map: string = this.employeesUnderSupervisor.map(val => val.parentEmployeeId).join(',');
+                                    this.employeeService
+                                        .query({
+                                            'id.in': [map]
+                                        })
+                                        .subscribe(
+                                            (res: HttpResponse<IEmployee[]>) => (this.employees = res.body),
+                                            (res: HttpErrorResponse) => this.onError(res.message)
+                                        );
+                                },
+                                (res: HttpErrorResponse) => this.onError(res.message)
+                            );
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         });
     }
 

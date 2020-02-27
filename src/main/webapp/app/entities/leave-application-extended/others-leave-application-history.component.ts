@@ -27,7 +27,9 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
     reverse: any;
     totalItems: number;
     currentSearch: string;
-    currentEmployee: IEmployee[];
+    currentEmployee: IEmployee;
+    employees: IEmployee[];
+    employeesUnderSupervisor: IManager[];
 
     constructor(
         protected leaveApplicationService: LeaveApplicationService,
@@ -142,6 +144,10 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
         this.loadAll();
     }
 
+    trackEmployeeById(index: number, item: IEmployee) {
+        return item.id;
+    }
+
     ngOnInit() {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
@@ -151,8 +157,26 @@ export class OthersLeaveApplicationHistoryComponent implements OnInit, OnDestroy
                 })
                 .subscribe(
                     (res: HttpResponse<IEmployee[]>) => {
-                        this.currentEmployee = res.body;
-                        this.loadAll();
+                        this.currentEmployee = res.body[0];
+                        this.managerService
+                            .query({
+                                'employeeId.equals': this.currentEmployee.id
+                            })
+                            .subscribe(
+                                (res: HttpResponse<IManager[]>) => {
+                                    this.employeesUnderSupervisor = res.body;
+                                    const map: string = this.employeesUnderSupervisor.map(val => val.parentEmployeeId).join(',');
+                                    this.employeeService
+                                        .query({
+                                            'id.in': [map]
+                                        })
+                                        .subscribe(
+                                            (res: HttpResponse<IEmployee[]>) => (this.employees = res.body),
+                                            (res: HttpErrorResponse) => this.onError(res.message)
+                                        );
+                                },
+                                (res: HttpErrorResponse) => this.onError(res.message)
+                            );
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );

@@ -80,7 +80,7 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
      */
     @Override
     public LeaveApplicationDTO save(LeaveApplicationDTO leaveApplicationDTO) {
-        // need to check whether employee is the manager of the applicant
+
         Employee employee = employeeRepository.getOne(leaveApplicationDTO.getEmployeesId());
 
         Optional<String> loggedInUserId = SecurityUtils.getCurrentUserLogin();
@@ -100,7 +100,7 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
                         return result;
                     }
                 } else {
-                    if (loggedInEmployee.get().equals(employee)) {
+                    if (employee.getId().equals(loggedInEmployee.get().getId())) {
                         if (!isValid(leaveApplicationDTO)) {
                             throw new BadRequestAlertException("application not valid!!", "leaveApplication", "idnull");
                         } else {

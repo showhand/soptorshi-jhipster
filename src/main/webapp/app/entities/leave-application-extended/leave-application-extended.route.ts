@@ -9,6 +9,7 @@ import { LeaveApplicationDeletePopupExtendedComponent } from './leave-applicatio
 import { LeaveApplicationResolve } from 'app/entities/leave-application';
 import { OthersLeaveApplicationComponent } from 'app/entities/leave-application-extended/others-leave-application.component';
 import { OthersLeaveApplicationHistoryComponent } from 'app/entities/leave-application-extended/others-leave-application-history.component';
+import { ReviewLeaveApplicationComponent } from 'app/entities/leave-application-extended/review-leave-application.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveApplicationExtendedResolve extends LeaveApplicationResolve {
@@ -77,7 +78,7 @@ export const leaveApplicationExtendedRoute: Routes = [
     },
     {
         path: 'review',
-        component: OthersLeaveApplicationHistoryComponent,
+        component: ReviewLeaveApplicationComponent,
         resolve: {
             leaveApplication: LeaveApplicationExtendedResolve
         },

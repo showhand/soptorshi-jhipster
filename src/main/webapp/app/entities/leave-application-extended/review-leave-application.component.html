@@ -5,19 +5,19 @@
 </div>
 <div class="row justify-content-center">
     <div class="col-6">
-        <h2 id="page-heading">Leave Applications</h2>
+        <h2 id="page-heading">Review Leave Applications</h2>
     </div>
     <div class="col-6">
         <form name="searchForm" class="form-inline">
             <div class="input-group w-100 mt-3">
-                <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                <!--input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
                        name="currentSearch" placeholder="Query">
                 <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
                     <fa-icon [icon]="'search'"></fa-icon>
                 </button>
                 <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
                     <fa-icon [icon]="'trash-alt'"></fa-icon>
-                </button>
+                </button>-->
             </div>
         </form>
     </div>
@@ -32,7 +32,7 @@
                     <th jhiSortBy="id"><span>ID</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="employeeId"><span>Employee Id</span>
+                    <th jhiSortBy="employeeId"><span>Employee</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="leaveTypesName"><span>Leave Types</span>
@@ -75,7 +75,7 @@
                         [routerLink]="['/leave-application', leaveApplication.id, 'view' ]">{{leaveApplication.id}}</a>-->
                         {{leaveApplication.id}}
                     </td>
-                    <td>{{leaveApplication.employeesId}}</td>
+                    <td>{{leaveApplication.employeesFullName}}</td>
                     <td>
                         <div *ngIf="leaveApplication.leaveTypesId">
                             <!--<a [routerLink]="['../leave-type', leaveApplication.leaveTypesId , 'view' ]">{{leaveApplication.leaveTypesName}}</a>--> {{leaveApplication.leaveTypesName}}
