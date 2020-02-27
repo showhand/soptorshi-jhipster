@@ -1,15 +1,7 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
-import {
-    ReceiptVoucherComponent,
-    ReceiptVoucherDeleteDialogComponent,
-    ReceiptVoucherDeletePopupComponent,
-    ReceiptVoucherDetailComponent,
-    receiptVoucherPopupRoute,
-    ReceiptVoucherUpdateComponent
-} from 'app/entities/receipt-voucher';
 import {
     receiptVoucherExtendedPopupRoute,
     receiptVoucherExtendedRoute
@@ -25,11 +17,11 @@ const ENTITY_STATES = [...receiptVoucherExtendedRoute, ...receiptVoucherExtended
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
-        ReceiptVoucherComponent,
-        ReceiptVoucherDetailComponent,
-        ReceiptVoucherUpdateComponent,
-        ReceiptVoucherDeleteDialogComponent,
-        ReceiptVoucherDeletePopupComponent,
+        //ReceiptVoucherComponent,
+        //ReceiptVoucherDetailComponent,
+        //ReceiptVoucherUpdateComponent,
+        //ReceiptVoucherDeleteDialogComponent,
+        //ReceiptVoucherDeletePopupComponent,
         ReceiptVoucherExtendedComponent,
         ReceiptVoucherExtendedDetailComponent,
         ReceiptVoucherExtendedUpdateComponent,
@@ -37,10 +29,10 @@ const ENTITY_STATES = [...receiptVoucherExtendedRoute, ...receiptVoucherExtended
         ReceiptVoucherTransactionUpdateComponent
     ],
     entryComponents: [
-        ReceiptVoucherComponent,
-        ReceiptVoucherUpdateComponent,
-        ReceiptVoucherDeleteDialogComponent,
-        ReceiptVoucherDeletePopupComponent,
+        //ReceiptVoucherComponent,
+        //ReceiptVoucherUpdateComponent,
+        //ReceiptVoucherDeleteDialogComponent,
+        //ReceiptVoucherDeletePopupComponent,
         ReceiptVoucherTransactionUpdateComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
