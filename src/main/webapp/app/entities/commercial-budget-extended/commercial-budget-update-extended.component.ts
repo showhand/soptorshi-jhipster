@@ -112,7 +112,7 @@ export class CommercialBudgetUpdateExtendedComponent extends CommercialBudgetUpd
     }
 
     protected onSaveSuccess() {
-        this.isSaving = false;
+        this.isSaving = true;
         if (this.approved || this.rejected) {
             this.previousState();
         }
