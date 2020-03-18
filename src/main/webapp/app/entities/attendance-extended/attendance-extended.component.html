@@ -38,26 +38,30 @@
                     *ngFor="let attendanceDistinctDate of distinctAttendanceDate">{{attendanceDistinctDate | date:'mediumDate'}}</option>
         </select>
     </div>
-    <!--<div class="col-3">
-        <select class="form-control" id="field_EmployyeId" name="employeeId"
-                [(ngModel)]="currentSearch">
-            <option [ngValue]="null">Select a date</option>
-            <option [ngValue]="attendanceDistinctDate.attendanceDate"
-                    *ngFor="let attendanceDistinctDate of distinctAttendanceDate">{{attendanceDistinctDate.attendanceDate | date:'mediumDate'}}</option>
+    <div class="col-3">
+        <select class="form-control" id="field_EmployeeId" name="employeeId"
+                [(ngModel)]="employee">
+            <option [ngValue]="null">Select an Employee</option>
+            <option [ngValue]="emp"
+                    *ngFor="let emp of employees">{{emp.fullName + " [" + emp.departmentName + "] "}}</option>
         </select>
-    </div>-->
+    </div>
     <div class="col-2">
         <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
             <fa-icon [icon]="'search'"></fa-icon>
         </button>
     </div>
-    <div class="col-3"></div>
-    <div class="col-4">
-        <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']" id="jh-create-entity"
-                class="btn btn-primary float-right jh-create-entity create-attendance"
-                [routerLink]="['/attendance/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-        </button>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div style="float: right">
+            <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']" id="jh-create-entity"
+                    class="btn btn-primary float-right jh-create-entity create-attendance"
+                    [routerLink]="['/attendance/new']">
+                <fa-icon [icon]="'plus'"></fa-icon>
+            </button>
+        </div>
     </div>
 </div>
 

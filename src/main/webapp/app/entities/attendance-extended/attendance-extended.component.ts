@@ -12,6 +12,8 @@ import { AttendanceExtendedService } from './attendance-extended.service';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { AttendanceComponent } from 'app/entities/attendance';
+import { EmployeeService } from 'app/entities/employee';
+import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
     selector: 'jhi-attendance-extended',
@@ -29,6 +31,8 @@ export class AttendanceExtendedComponent extends AttendanceComponent {
     totalItems: number;
     currentSearch: string;
     distinctAttendanceDate: Moment[];
+    employees: IEmployee[];
+    employee: IEmployee;
 
     constructor(
         protected attendanceServiceExtended: AttendanceExtendedService,
@@ -36,9 +40,17 @@ export class AttendanceExtendedComponent extends AttendanceComponent {
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        protected employeeService: EmployeeService
     ) {
         super(attendanceServiceExtended, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
+
+        this.employeeService
+            .query()
+            .subscribe(
+                (res: HttpResponse<IEmployee[]>) => this.addEmployees(res.body),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
 
         this.attendanceServiceExtended
             .getDistinctAttendanceDate()
@@ -49,7 +61,32 @@ export class AttendanceExtendedComponent extends AttendanceComponent {
     }
 
     loadAll() {
-        if (this.currentSearch) {
+        if (this.currentSearch && this.employee) {
+            this.attendanceServiceExtended
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'attendanceDate.equals': moment(this.currentSearch).format(DATE_FORMAT),
+                    'employeeId.equals': this.employee.id
+                })
+                .subscribe(
+                    (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else if (this.employee) {
+            this.attendanceServiceExtended
+                .query({
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.sort(),
+                    'employeeId.equals': this.employee.id
+                })
+                .subscribe(
+                    (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else if (this.currentSearch) {
             this.attendanceServiceExtended
                 .query({
                     page: this.page,
@@ -93,5 +130,10 @@ export class AttendanceExtendedComponent extends AttendanceComponent {
 
     protected addDistinctAttendances(data: Moment[]) {
         this.distinctAttendanceDate = data;
+    }
+
+    protected addEmployees(data: IEmployee[]) {
+        this.employees = [];
+        this.employees = data;
     }
 }
