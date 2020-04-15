@@ -84,8 +84,8 @@ public class CommercialProductInfoExtendedService extends CommercialProductInfoS
 
                 BigDecimal totalQuantity = BigDecimal.ZERO;
                 BigDecimal totalOfferedPrice = BigDecimal.ZERO;
-                BigDecimal totalBuyingPrice = BigDecimal.ZERO;
-                BigDecimal profitAmount = BigDecimal.ZERO;
+                BigDecimal totalBuyingPrice = BigDecimal.ZERO.add(commercialBudgetDTO.get().getTotalTransportationCost());
+                BigDecimal profitAmount = BigDecimal.ZERO.subtract(commercialBudgetDTO.get().getTotalTransportationCost());
                 BigDecimal profitPercentage = BigDecimal.ZERO;
 
                 for (CommercialProductInfoDTO commercialProductInfoDTO1 : commercialProductInfoDTOS) {

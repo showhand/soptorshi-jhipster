@@ -12,6 +12,7 @@ import org.soptorshi.service.CommercialPiService;
 import org.soptorshi.service.dto.CommercialPiDTO;
 import org.soptorshi.service.dto.CommercialPoDTO;
 import org.soptorshi.service.mapper.CommercialPiMapper;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,7 +72,7 @@ public class CommercialPiExtendedService extends CommercialPiService {
                 if (currentCommercialPi.get().getPiStatus().equals(CommercialPiStatus.WAITING_FOR_PI_APPROVAL_BY_THE_CUSTOMER)) {
                     if (commercialPiDTO.getPiStatus().equals(CommercialPiStatus.PI_APPROVED_BY_THE_CUSTOMER)) {
                         if (commercialPiDTO.getPurchaseOrderNo().isEmpty()) {
-                            return null;
+                            throw new BadRequestAlertException("Purchase order number is empty", "commercialPi", "idnull");
                         } else {
                             CommercialPoDTO commercialPoDTO = new CommercialPoDTO();
                             commercialPoDTO.setCommercialPiId(commercialPiDTO.getId());
@@ -89,6 +90,7 @@ public class CommercialPiExtendedService extends CommercialPiService {
                     commercialPiSearchRepository.save(commercialPi);
                     return result;
                 }
+                throw new BadRequestAlertException("PI already accepted/rejected by the customer", "commercialPi", "idnull");
             }
         }
         return null;
