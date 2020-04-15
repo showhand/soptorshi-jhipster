@@ -3,10 +3,7 @@
         <div *ngIf="monthlySalary">
             <h2><span>Pay roll</span> of <b>{{monthlySalary.employeeFullName}}</b>, of year {{monthlySalary.year}}-{{monthlySalary.month}}</h2>
             <hr>
-            <jhi-alert-error></jhi-alert-error>
-
-
-
+            <jhi-alert></jhi-alert>
         </div>
 
     </div>
@@ -109,6 +106,25 @@
             </div>
         </div>
 
+    </div>
+
+    <div class="col-12">
+        <div class="alert alert-info">
+            <div class="row">
+                <div class="col-md-4">
+                    <p>Salary Payable</p>
+                </div>
+                <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="monthlySalary.payable"/>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-secondary" (click)="update()">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <jhi-alert></jhi-alert>
     </div>
 
     <div class="col-12" style="padding-top:2em;">

@@ -194,7 +194,7 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
 
         BigDecimal totalAmount = monthlySalaries
             .stream()
-            .map(s->s.getGross())
+            .map(s->s.getPayable())
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
 

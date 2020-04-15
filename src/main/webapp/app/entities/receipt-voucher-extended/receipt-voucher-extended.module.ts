@@ -11,17 +11,24 @@ import { ReceiptVoucherExtendedDetailComponent } from 'app/entities/receipt-vouc
 import { ReceiptVoucherExtendedUpdateComponent } from 'app/entities/receipt-voucher-extended/receipt-voucher-extended-update.component';
 import { ReceiptVoucherTransactionComponent } from 'app/entities/receipt-voucher-extended/receipt-voucher-transaction.component';
 import { ReceiptVoucherTransactionUpdateComponent } from 'app/entities/receipt-voucher-extended/receipt-voucher-transaction-update.component';
+import {
+    ReceiptVoucherComponent,
+    ReceiptVoucherDeleteDialogComponent,
+    ReceiptVoucherDeletePopupComponent,
+    ReceiptVoucherDetailComponent,
+    ReceiptVoucherUpdateComponent
+} from 'app/entities/receipt-voucher';
 
 const ENTITY_STATES = [...receiptVoucherExtendedRoute, ...receiptVoucherExtendedPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
-        //ReceiptVoucherComponent,
-        //ReceiptVoucherDetailComponent,
-        //ReceiptVoucherUpdateComponent,
-        //ReceiptVoucherDeleteDialogComponent,
-        //ReceiptVoucherDeletePopupComponent,
+        ReceiptVoucherComponent,
+        ReceiptVoucherDetailComponent,
+        ReceiptVoucherUpdateComponent,
+        ReceiptVoucherDeleteDialogComponent,
+        ReceiptVoucherDeletePopupComponent,
         ReceiptVoucherExtendedComponent,
         ReceiptVoucherExtendedDetailComponent,
         ReceiptVoucherExtendedUpdateComponent,
