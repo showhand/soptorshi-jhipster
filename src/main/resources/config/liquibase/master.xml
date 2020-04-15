@@ -105,6 +105,7 @@
     <include file="config/liquibase/changelog/20191230045455_added_entity_RequisitionVoucherRelation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200110195953_added_entity_Production.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200131175037_added_entity_Weekend.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200415111602_added_entity_CommercialPaymentInfo.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
 
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
@@ -184,6 +185,7 @@
     <include file="config/liquibase/changelog/20191228175920_added_entity_constraints_PurchaseOrderMessages.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191230045455_added_entity_constraints_RequisitionVoucherRelation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200110195953_added_entity_constraints_Production.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200415111602_added_entity_constraints_CommercialPaymentInfo.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 
     <include file="config/liquibase/changelog/20200101083646_changelog.xml" relativeToChangelogFile="false"/>
@@ -197,6 +199,6 @@
     <include file="config/liquibase/changelog/20200219180531_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200217184209_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200219053923_changelog.xml" relativeToChangelogFile="false"/>
-
+    <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

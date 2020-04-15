@@ -1,0 +1,43 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1586960349146-1">
+        <addColumn tableName="commercial_payment_info">
+            <column name="created_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1586960349146-2">
+        <addColumn tableName="commercial_payment_info">
+            <column name="created_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1586960349146-3">
+        <addColumn tableName="commercial_payment_info">
+            <column name="updated_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1586960349146-4">
+        <addColumn tableName="commercial_payment_info">
+            <column name="updated_on" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet author="kawsu (generated)" id="1586967242025-1">
+        <addColumn tableName="commercial_attachment">
+            <column name="commercial_pi_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1586967242025-2">
+        <addForeignKeyConstraint baseColumnNames="commercial_pi_id" baseTableName="commercial_attachment" constraintName="FKq5yx2q4bs8x9t52c5hjlpg1h9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_pi"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1586967242025-3">
+        <dropForeignKeyConstraint baseTableName="commercial_attachment" constraintName="FKft5ym2y5d0ocrexjl5u0rav8l"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1586967242025-6">
+        <dropColumn columnName="commercial_po_id" tableName="commercial_attachment"/>
+    </changeSet>
+</databaseChangeLog>

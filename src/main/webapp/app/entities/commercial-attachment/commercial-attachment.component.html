@@ -31,7 +31,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="file"><span>File</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="commercialPoPurchaseOrderNo"><span>Commercial Po</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="commercialPiProformaNo"><span>Commercial Pi</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -43,8 +43,8 @@
                     <span *ngIf="commercialAttachment.file">{{commercialAttachment.fileContentType}}, {{byteSize(commercialAttachment.file)}}</span>
                 </td>
                 <td>
-                    <div *ngIf="commercialAttachment.commercialPoId">
-                        <a [routerLink]="['../commercial-po', commercialAttachment.commercialPoId , 'view' ]" >{{commercialAttachment.commercialPoPurchaseOrderNo}}</a>
+                    <div *ngIf="commercialAttachment.commercialPiId">
+                        <a [routerLink]="['../commercial-pi', commercialAttachment.commercialPiId , 'view' ]" >{{commercialAttachment.commercialPiProformaNo}}</a>
                     </div>
                 </td>
                 <td class="text-right">

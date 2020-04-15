@@ -6,8 +6,8 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { ICommercialAttachment } from 'app/shared/model/commercial-attachment.model';
 import { CommercialAttachmentService } from './commercial-attachment.service';
-import { ICommercialPo } from 'app/shared/model/commercial-po.model';
-import { CommercialPoService } from 'app/entities/commercial-po';
+import { ICommercialPi } from 'app/shared/model/commercial-pi.model';
+import { CommercialPiService } from 'app/entities/commercial-pi';
 
 @Component({
     selector: 'jhi-commercial-attachment-update',
@@ -17,13 +17,13 @@ export class CommercialAttachmentUpdateComponent implements OnInit {
     commercialAttachment: ICommercialAttachment;
     isSaving: boolean;
 
-    commercialpos: ICommercialPo[];
+    commercialpis: ICommercialPi[];
 
     constructor(
         protected dataUtils: JhiDataUtils,
         protected jhiAlertService: JhiAlertService,
         protected commercialAttachmentService: CommercialAttachmentService,
-        protected commercialPoService: CommercialPoService,
+        protected commercialPiService: CommercialPiService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -32,13 +32,13 @@ export class CommercialAttachmentUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ commercialAttachment }) => {
             this.commercialAttachment = commercialAttachment;
         });
-        this.commercialPoService
+        this.commercialPiService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<ICommercialPo[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ICommercialPo[]>) => response.body)
+                filter((mayBeOk: HttpResponse<ICommercialPi[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ICommercialPi[]>) => response.body)
             )
-            .subscribe((res: ICommercialPo[]) => (this.commercialpos = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe((res: ICommercialPi[]) => (this.commercialpis = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -86,7 +86,7 @@ export class CommercialAttachmentUpdateComponent implements OnInit {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
-    trackCommercialPoById(index: number, item: ICommercialPo) {
+    trackCommercialPiById(index: number, item: ICommercialPi) {
         return item.id;
     }
 }

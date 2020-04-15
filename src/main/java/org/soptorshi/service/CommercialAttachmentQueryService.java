@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialAttachment;
 import org.soptorshi.domain.CommercialAttachment_;
-import org.soptorshi.domain.CommercialPo_;
+import org.soptorshi.domain.CommercialPi_;
 import org.soptorshi.repository.CommercialAttachmentRepository;
 import org.soptorshi.repository.search.CommercialAttachmentSearchRepository;
 import org.soptorshi.service.dto.CommercialAttachmentCriteria;
@@ -91,9 +91,9 @@ public class CommercialAttachmentQueryService extends QueryService<CommercialAtt
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), CommercialAttachment_.id));
             }
-            if (criteria.getCommercialPoId() != null) {
-                specification = specification.and(buildSpecification(criteria.getCommercialPoId(),
-                    root -> root.join(CommercialAttachment_.commercialPo, JoinType.LEFT).get(CommercialPo_.id)));
+            if (criteria.getCommercialPiId() != null) {
+                specification = specification.and(buildSpecification(criteria.getCommercialPiId(),
+                    root -> root.join(CommercialAttachment_.commercialPi, JoinType.LEFT).get(CommercialPi_.id)));
             }
         }
         return specification;

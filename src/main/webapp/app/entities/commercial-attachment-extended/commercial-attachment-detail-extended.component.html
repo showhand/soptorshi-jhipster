@@ -12,10 +12,10 @@
                         {{commercialAttachment.fileContentType}}, {{byteSize(commercialAttachment.file)}}
                     </div>
                 </dd>
-                <dt><span>Commercial Po</span></dt>
+                <dt><span>Commercial Pi</span></dt>
                 <dd>
-                    <div *ngIf="commercialAttachment.commercialPoId">
-                        <a [routerLink]="['/commercial-po', commercialAttachment.commercialPoId, 'view']">{{commercialAttachment.commercialPoPurchaseOrderNo}}</a>
+                    <div *ngIf="commercialAttachment.commercialPiId">
+                        <a [routerLink]="['/commercial-pi', commercialAttachment.commercialPiId, 'view']">{{commercialAttachment.commercialPiProformaNo}}</a>
                     </div>
                 </dd>
             </dl>

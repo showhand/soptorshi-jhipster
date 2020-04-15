@@ -3,19 +3,20 @@ package org.soptorshi.service.extended;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.CommercialPi;
+import org.soptorshi.domain.enumeration.CommercialPaymentStatus;
 import org.soptorshi.domain.enumeration.CommercialPiStatus;
-import org.soptorshi.domain.enumeration.CommercialPoStatus;
 import org.soptorshi.repository.CommercialPiRepository;
 import org.soptorshi.repository.search.CommercialPiSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.CommercialPiService;
+import org.soptorshi.service.dto.CommercialPaymentInfoDTO;
 import org.soptorshi.service.dto.CommercialPiDTO;
-import org.soptorshi.service.dto.CommercialPoDTO;
 import org.soptorshi.service.mapper.CommercialPiMapper;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -34,15 +35,14 @@ public class CommercialPiExtendedService extends CommercialPiService {
 
     private final CommercialPiSearchRepository commercialPiSearchRepository;
 
-    private final CommercialPoExtendedService commercialPoExtendedService;
+    private final CommercialPaymentInfoExtendedService commercialPaymentInfoExtendedService;
 
-    public CommercialPiExtendedService(CommercialPiRepository commercialPiRepository, CommercialPiMapper commercialPiMapper, CommercialPiSearchRepository commercialPiSearchRepository,
-                                       CommercialPoExtendedService commercialPoExtendedService) {
+    public CommercialPiExtendedService(CommercialPiRepository commercialPiRepository, CommercialPiMapper commercialPiMapper, CommercialPiSearchRepository commercialPiSearchRepository, CommercialPaymentInfoExtendedService commercialPaymentInfoExtendedService) {
         super(commercialPiRepository, commercialPiMapper, commercialPiSearchRepository);
         this.commercialPiRepository = commercialPiRepository;
         this.commercialPiMapper = commercialPiMapper;
         this.commercialPiSearchRepository = commercialPiSearchRepository;
-        this.commercialPoExtendedService = commercialPoExtendedService;
+        this.commercialPaymentInfoExtendedService = commercialPaymentInfoExtendedService;
     }
 
     /**
@@ -73,14 +73,17 @@ public class CommercialPiExtendedService extends CommercialPiService {
                     if (commercialPiDTO.getPiStatus().equals(CommercialPiStatus.PI_APPROVED_BY_THE_CUSTOMER)) {
                         if (commercialPiDTO.getPurchaseOrderNo().isEmpty()) {
                             throw new BadRequestAlertException("Purchase order number is empty", "commercialPi", "idnull");
-                        } else {
-                            CommercialPoDTO commercialPoDTO = new CommercialPoDTO();
-                            commercialPoDTO.setCommercialPiId(commercialPiDTO.getId());
-                            commercialPoDTO.setCommercialPiProformaNo(commercialPiDTO.getProformaNo());
-                            commercialPoDTO.setPoStatus(CommercialPoStatus.PO_CREATED);
-                            commercialPoDTO.setPurchaseOrderNo(commercialPiDTO.getPurchaseOrderNo());
-                            commercialPoExtendedService.save(commercialPoDTO);
                         }
+
+                        CommercialPaymentInfoDTO commercialPaymentInfoDTO = new CommercialPaymentInfoDTO();
+                        commercialPaymentInfoDTO.setCommercialPiId(commercialPiDTO.getId());
+                        commercialPaymentInfoDTO.setCommercialPiProformaNo(commercialPiDTO.getProformaNo());
+                        commercialPaymentInfoDTO.setPaymentStatus(CommercialPaymentStatus.WAITING_FOR_PAYMENT_CONFIRMATION);
+                        commercialPaymentInfoDTO.setPaymentType(commercialPiDTO.getPaymentType());
+                        commercialPaymentInfoDTO.setTotalAmountPaid(BigDecimal.ZERO);
+                        commercialPaymentInfoDTO.setRemainingAmountToPay(BigDecimal.ZERO);
+                        commercialPaymentInfoDTO.setTotalAmountToPay(BigDecimal.ZERO);
+                        commercialPaymentInfoExtendedService.save(commercialPaymentInfoDTO);
                     }
                     commercialPiDTO.setUpdatedBy(currentUser);
                     commercialPiDTO.setUpdatedOn(currentDateTime);

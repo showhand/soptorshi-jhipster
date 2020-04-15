@@ -20,7 +20,7 @@ public class CommercialAttachmentCriteria implements Serializable {
 
     private LongFilter id;
 
-    private LongFilter commercialPoId;
+    private LongFilter commercialPiId;
 
     public LongFilter getId() {
         return id;
@@ -30,12 +30,12 @@ public class CommercialAttachmentCriteria implements Serializable {
         this.id = id;
     }
 
-    public LongFilter getCommercialPoId() {
-        return commercialPoId;
+    public LongFilter getCommercialPiId() {
+        return commercialPiId;
     }
 
-    public void setCommercialPoId(LongFilter commercialPoId) {
-        this.commercialPoId = commercialPoId;
+    public void setCommercialPiId(LongFilter commercialPiId) {
+        this.commercialPiId = commercialPiId;
     }
 
 
@@ -50,14 +50,14 @@ public class CommercialAttachmentCriteria implements Serializable {
         final CommercialAttachmentCriteria that = (CommercialAttachmentCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(commercialPoId, that.commercialPoId);
+            Objects.equals(commercialPiId, that.commercialPiId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        commercialPoId
+        commercialPiId
         );
     }
 
@@ -65,7 +65,7 @@ public class CommercialAttachmentCriteria implements Serializable {
     public String toString() {
         return "CommercialAttachmentCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (commercialPoId != null ? "commercialPoId=" + commercialPoId + ", " : "") +
+                (commercialPiId != null ? "commercialPiId=" + commercialPiId + ", " : "") +
             "}";
     }
 

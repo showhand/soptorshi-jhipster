@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -49,7 +50,7 @@ public class CommercialAttachmentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/commercial-attachments")
-    public ResponseEntity<CommercialAttachmentDTO> createCommercialAttachment(@RequestBody CommercialAttachmentDTO commercialAttachmentDTO) throws URISyntaxException {
+    public ResponseEntity<CommercialAttachmentDTO> createCommercialAttachment(@Valid @RequestBody CommercialAttachmentDTO commercialAttachmentDTO) throws URISyntaxException {
         log.debug("REST request to save CommercialAttachment : {}", commercialAttachmentDTO);
         if (commercialAttachmentDTO.getId() != null) {
             throw new BadRequestAlertException("A new commercialAttachment cannot already have an ID", ENTITY_NAME, "idexists");
@@ -70,7 +71,7 @@ public class CommercialAttachmentResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/commercial-attachments")
-    public ResponseEntity<CommercialAttachmentDTO> updateCommercialAttachment(@RequestBody CommercialAttachmentDTO commercialAttachmentDTO) throws URISyntaxException {
+    public ResponseEntity<CommercialAttachmentDTO> updateCommercialAttachment(@Valid @RequestBody CommercialAttachmentDTO commercialAttachmentDTO) throws URISyntaxException {
         log.debug("REST request to update CommercialAttachment : {}", commercialAttachmentDTO);
         if (commercialAttachmentDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

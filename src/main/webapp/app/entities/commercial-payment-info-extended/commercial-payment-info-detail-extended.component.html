@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="commercialPaymentInfo">
+            <h2><span>Commercial Payment Info</span> {{commercialPaymentInfo.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Payment Type</span></dt>
+                <dd>
+                    <span>{{commercialPaymentInfo.paymentType}}</span>
+                </dd>
+                <dt><span>Total Amount To Pay</span></dt>
+                <dd>
+                    <span>{{commercialPaymentInfo.totalAmountToPay}}</span>
+                </dd>
+                <dt><span>Total Amount Paid</span></dt>
+                <dd>
+                    <span>{{commercialPaymentInfo.totalAmountPaid}}</span>
+                </dd>
+                <dt><span>Remaining Amount To Pay</span></dt>
+                <dd>
+                    <span>{{commercialPaymentInfo.remainingAmountToPay}}</span>
+                </dd>
+                <dt><span>Payment Status</span></dt>
+                <dd>
+                    <span>{{commercialPaymentInfo.paymentStatus}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{commercialPaymentInfo.createdOn}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{commercialPaymentInfo.createdBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{commercialPaymentInfo.updatedOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{commercialPaymentInfo.updatedBy}}</span>
+                </dd>
+                <dt><span>Commercial Pi</span></dt>
+                <dd>
+                    <div *ngIf="commercialPaymentInfo.commercialPiId">
+                        <a [routerLink]="['/commercial-pi', commercialPaymentInfo.commercialPiId, 'view']">{{commercialPaymentInfo.commercialPiProformaNo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <!--<button type="button"
+                    [routerLink]="['/commercial-payment-info', commercialPaymentInfo.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>-->
+        </div>
+    </div>
+</div>

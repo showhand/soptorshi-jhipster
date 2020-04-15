@@ -1,0 +1,123 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-commercial-payment-info-heading">Create or edit a Commercial Payment Info</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!commercialPaymentInfo.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="commercialPaymentInfo.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_paymentType">Payment Type</label>
+                    <select class="form-control" name="paymentType" [(ngModel)]="commercialPaymentInfo.paymentType" id="field_paymentType" >
+                        <option value="LC">LC</option>
+                        <option value="TT">TT</option>
+                        <option value="CASH">CASH</option>
+                        <option value="CHEQUE">CHEQUE</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totalAmountToPay">Total Amount To Pay</label>
+                    <input type="number" class="form-control" name="totalAmountToPay" id="field_totalAmountToPay"
+                        [(ngModel)]="commercialPaymentInfo.totalAmountToPay" required/>
+                    <div [hidden]="!(editForm.controls.totalAmountToPay?.dirty && editForm.controls.totalAmountToPay?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.totalAmountToPay?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.totalAmountToPay?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totalAmountPaid">Total Amount Paid</label>
+                    <input type="number" class="form-control" name="totalAmountPaid" id="field_totalAmountPaid"
+                        [(ngModel)]="commercialPaymentInfo.totalAmountPaid" required/>
+                    <div [hidden]="!(editForm.controls.totalAmountPaid?.dirty && editForm.controls.totalAmountPaid?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.totalAmountPaid?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.totalAmountPaid?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_remainingAmountToPay">Remaining Amount To Pay</label>
+                    <input type="number" class="form-control" name="remainingAmountToPay" id="field_remainingAmountToPay"
+                        [(ngModel)]="commercialPaymentInfo.remainingAmountToPay" required/>
+                    <div [hidden]="!(editForm.controls.remainingAmountToPay?.dirty && editForm.controls.remainingAmountToPay?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.remainingAmountToPay?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.remainingAmountToPay?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_paymentStatus">Payment Status</label>
+                    <select class="form-control" name="paymentStatus" [(ngModel)]="commercialPaymentInfo.paymentStatus" id="field_paymentStatus" >
+                        <option value="WAITING_FOR_PAYMENT_CONFIRMATION">WAITING_FOR_PAYMENT_CONFIRMATION</option>
+                        <option value="PAYMENT_CONFIRMED">PAYMENT_CONFIRMED</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdOn">Created On</label>
+                    <div class="d-flex">
+                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdBy">Created By</label>
+                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                        [(ngModel)]="commercialPaymentInfo.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
+                    <div class="d-flex">
+                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
+                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
+                        [(ngModel)]="commercialPaymentInfo.updatedBy" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_commercialPi">Commercial Pi</label>
+                    <select class="form-control" id="field_commercialPi" name="commercialPi" [(ngModel)]="commercialPaymentInfo.commercialPiId" required>
+                        <option *ngIf="!editForm.value.commercialPi" [ngValue]="null" selected></option>
+                        <option [ngValue]="commercialPiOption.id" *ngFor="let commercialPiOption of commercialpis; trackBy: trackCommercialPiById">{{commercialPiOption.proformaNo}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.commercialPi?.dirty && editForm.controls.commercialPi?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.commercialPi?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
