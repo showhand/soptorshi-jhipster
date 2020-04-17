@@ -9,7 +9,7 @@ import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/ht
 import { LeaveBalanceService } from 'app/entities/leave-balance/leave-balance.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
     selector: 'jhi-leave-balance',
