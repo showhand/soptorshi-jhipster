@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { SupplyOrder } from 'app/shared/model/supply-order.model';
+import { ISupplyOrder, SupplyOrder } from 'app/shared/model/supply-order.model';
 import { SupplyOrderService } from './supply-order.service';
 import { SupplyOrderComponent } from './supply-order.component';
 import { SupplyOrderDetailComponent } from './supply-order-detail.component';
 import { SupplyOrderUpdateComponent } from './supply-order-update.component';
 import { SupplyOrderDeletePopupComponent } from './supply-order-delete-dialog.component';
-import { ISupplyOrder } from 'app/shared/model/supply-order.model';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyOrderResolve implements Resolve<ISupplyOrder> {

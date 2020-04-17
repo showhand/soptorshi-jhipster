@@ -1,15 +1,10 @@
 package org.soptorshi.service.dto;
 
+import io.github.jhipster.service.filter.*;
+import org.soptorshi.domain.enumeration.SupplyAreaManagerStatus;
+
 import java.io.Serializable;
 import java.util.Objects;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.InstantFilter;
 
 /**
  * Criteria class for the SupplyAreaManager entity. This class is used in SupplyAreaManagerResource to
@@ -20,14 +15,15 @@ import io.github.jhipster.service.filter.InstantFilter;
  * fix type specific filters.
  */
 public class SupplyAreaManagerCriteria implements Serializable {
+    /**
+     * Class for filtering SupplyAreaManagerStatus
+     */
+    public static class SupplyAreaManagerStatusFilter extends Filter<SupplyAreaManagerStatus> {
+    }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
-
-    private StringFilter managerName;
-
-    private StringFilter additionalInformation;
 
     private StringFilter createdBy;
 
@@ -37,9 +33,15 @@ public class SupplyAreaManagerCriteria implements Serializable {
 
     private InstantFilter updatedOn;
 
+    private LocalDateFilter endDate;
+
+    private SupplyAreaManagerStatusFilter status;
+
     private LongFilter supplyZoneId;
 
     private LongFilter supplyAreaId;
+
+    private LongFilter employeeId;
 
     public LongFilter getId() {
         return id;
@@ -47,22 +49,6 @@ public class SupplyAreaManagerCriteria implements Serializable {
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public StringFilter getManagerName() {
-        return managerName;
-    }
-
-    public void setManagerName(StringFilter managerName) {
-        this.managerName = managerName;
-    }
-
-    public StringFilter getAdditionalInformation() {
-        return additionalInformation;
-    }
-
-    public void setAdditionalInformation(StringFilter additionalInformation) {
-        this.additionalInformation = additionalInformation;
     }
 
     public StringFilter getCreatedBy() {
@@ -97,6 +83,22 @@ public class SupplyAreaManagerCriteria implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public LocalDateFilter getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateFilter endDate) {
+        this.endDate = endDate;
+    }
+
+    public SupplyAreaManagerStatusFilter getStatus() {
+        return status;
+    }
+
+    public void setStatus(SupplyAreaManagerStatusFilter status) {
+        this.status = status;
+    }
+
     public LongFilter getSupplyZoneId() {
         return supplyZoneId;
     }
@@ -113,6 +115,14 @@ public class SupplyAreaManagerCriteria implements Serializable {
         this.supplyAreaId = supplyAreaId;
     }
 
+    public LongFilter getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(LongFilter employeeId) {
+        this.employeeId = employeeId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -125,28 +135,30 @@ public class SupplyAreaManagerCriteria implements Serializable {
         final SupplyAreaManagerCriteria that = (SupplyAreaManagerCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(managerName, that.managerName) &&
-            Objects.equals(additionalInformation, that.additionalInformation) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
+            Objects.equals(endDate, that.endDate) &&
+            Objects.equals(status, that.status) &&
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
-            Objects.equals(supplyAreaId, that.supplyAreaId);
+            Objects.equals(supplyAreaId, that.supplyAreaId) &&
+            Objects.equals(employeeId, that.employeeId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        managerName,
-        additionalInformation,
         createdBy,
         createdOn,
         updatedBy,
         updatedOn,
+        endDate,
+        status,
         supplyZoneId,
-        supplyAreaId
+        supplyAreaId,
+        employeeId
         );
     }
 
@@ -154,14 +166,15 @@ public class SupplyAreaManagerCriteria implements Serializable {
     public String toString() {
         return "SupplyAreaManagerCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (managerName != null ? "managerName=" + managerName + ", " : "") +
-                (additionalInformation != null ? "additionalInformation=" + additionalInformation + ", " : "") +
                 (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
+                (endDate != null ? "endDate=" + endDate + ", " : "") +
+                (status != null ? "status=" + status + ", " : "") +
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
+                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }
 

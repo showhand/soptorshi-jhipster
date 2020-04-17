@@ -1,9 +1,9 @@
 package org.soptorshi.service.mapper;
 
-import org.soptorshi.domain.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.soptorshi.domain.SupplySalesRepresentative;
 import org.soptorshi.service.dto.SupplySalesRepresentativeDTO;
-
-import org.mapstruct.*;
 
 /**
  * Mapper for the entity SupplySalesRepresentative and its DTO SupplySalesRepresentativeDTO.
@@ -16,7 +16,6 @@ public interface SupplySalesRepresentativeMapper extends EntityMapper<SupplySale
     @Mapping(source = "supplyArea.id", target = "supplyAreaId")
     @Mapping(source = "supplyArea.areaName", target = "supplyAreaAreaName")
     @Mapping(source = "supplyAreaManager.id", target = "supplyAreaManagerId")
-    @Mapping(source = "supplyAreaManager.managerName", target = "supplyAreaManagerManagerName")
     SupplySalesRepresentativeDTO toDto(SupplySalesRepresentative supplySalesRepresentative);
 
     @Mapping(source = "supplyZoneId", target = "supplyZone")

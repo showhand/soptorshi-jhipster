@@ -1,26 +1,22 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.*;
+import org.soptorshi.repository.SupplyAreaManagerRepository;
+import org.soptorshi.repository.search.SupplyAreaManagerSearchRepository;
+import org.soptorshi.service.dto.SupplyAreaManagerCriteria;
+import org.soptorshi.service.dto.SupplyAreaManagerDTO;
+import org.soptorshi.service.mapper.SupplyAreaManagerMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.SupplyAreaManager;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.SupplyAreaManagerRepository;
-import org.soptorshi.repository.search.SupplyAreaManagerSearchRepository;
-import org.soptorshi.service.dto.SupplyAreaManagerCriteria;
-import org.soptorshi.service.dto.SupplyAreaManagerDTO;
-import org.soptorshi.service.mapper.SupplyAreaManagerMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for SupplyAreaManager entities in the database.
@@ -93,12 +89,6 @@ public class SupplyAreaManagerQueryService extends QueryService<SupplyAreaManage
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), SupplyAreaManager_.id));
             }
-            if (criteria.getManagerName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getManagerName(), SupplyAreaManager_.managerName));
-            }
-            if (criteria.getAdditionalInformation() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAdditionalInformation(), SupplyAreaManager_.additionalInformation));
-            }
             if (criteria.getCreatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), SupplyAreaManager_.createdBy));
             }
@@ -111,6 +101,12 @@ public class SupplyAreaManagerQueryService extends QueryService<SupplyAreaManage
             if (criteria.getUpdatedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), SupplyAreaManager_.updatedOn));
             }
+            if (criteria.getEndDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getEndDate(), SupplyAreaManager_.endDate));
+            }
+            if (criteria.getStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getStatus(), SupplyAreaManager_.status));
+            }
             if (criteria.getSupplyZoneId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyZoneId(),
                     root -> root.join(SupplyAreaManager_.supplyZone, JoinType.LEFT).get(SupplyZone_.id)));
@@ -118,6 +114,10 @@ public class SupplyAreaManagerQueryService extends QueryService<SupplyAreaManage
             if (criteria.getSupplyAreaId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyAreaId(),
                     root -> root.join(SupplyAreaManager_.supplyArea, JoinType.LEFT).get(SupplyArea_.id)));
+            }
+            if (criteria.getEmployeeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getEmployeeId(),
+                    root -> root.join(SupplyAreaManager_.employee, JoinType.LEFT).get(Employee_.id)));
             }
         }
         return specification;

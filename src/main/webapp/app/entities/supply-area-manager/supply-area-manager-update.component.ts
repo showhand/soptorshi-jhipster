@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -12,6 +12,8 @@ import { ISupplyZone } from 'app/shared/model/supply-zone.model';
 import { SupplyZoneService } from 'app/entities/supply-zone';
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
 import { SupplyAreaService } from 'app/entities/supply-area';
+import { IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeService } from 'app/entities/employee';
 
 @Component({
     selector: 'jhi-supply-area-manager-update',
@@ -24,14 +26,18 @@ export class SupplyAreaManagerUpdateComponent implements OnInit {
     supplyzones: ISupplyZone[];
 
     supplyareas: ISupplyArea[];
+
+    employees: IEmployee[];
     createdOn: string;
     updatedOn: string;
+    endDateDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected supplyAreaManagerService: SupplyAreaManagerService,
         protected supplyZoneService: SupplyZoneService,
         protected supplyAreaService: SupplyAreaService,
+        protected employeeService: EmployeeService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -56,6 +62,13 @@ export class SupplyAreaManagerUpdateComponent implements OnInit {
                 map((response: HttpResponse<ISupplyArea[]>) => response.body)
             )
             .subscribe((res: ISupplyArea[]) => (this.supplyareas = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.employeeService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IEmployee[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IEmployee[]>) => response.body)
+            )
+            .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -95,6 +108,10 @@ export class SupplyAreaManagerUpdateComponent implements OnInit {
     }
 
     trackSupplyAreaById(index: number, item: ISupplyArea) {
+        return item.id;
+    }
+
+    trackEmployeeById(index: number, item: IEmployee) {
         return item.id;
     }
 }

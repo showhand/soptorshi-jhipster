@@ -1,26 +1,22 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.*;
+import org.soptorshi.repository.SupplyOrderRepository;
+import org.soptorshi.repository.search.SupplyOrderSearchRepository;
+import org.soptorshi.service.dto.SupplyOrderCriteria;
+import org.soptorshi.service.dto.SupplyOrderDTO;
+import org.soptorshi.service.mapper.SupplyOrderMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.SupplyOrder;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.SupplyOrderRepository;
-import org.soptorshi.repository.search.SupplyOrderSearchRepository;
-import org.soptorshi.service.dto.SupplyOrderCriteria;
-import org.soptorshi.service.dto.SupplyOrderDTO;
-import org.soptorshi.service.mapper.SupplyOrderMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for SupplyOrder entities in the database.
@@ -113,6 +109,15 @@ public class SupplyOrderQueryService extends QueryService<SupplyOrder> {
             }
             if (criteria.getUpdatedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), SupplyOrder_.updatedOn));
+            }
+            if (criteria.getOfferAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getOfferAmount(), SupplyOrder_.offerAmount));
+            }
+            if (criteria.getDeliveryDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDeliveryDate(), SupplyOrder_.deliveryDate));
+            }
+            if (criteria.getSupplyOrderStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyOrderStatus(), SupplyOrder_.supplyOrderStatus));
             }
             if (criteria.getSupplyZoneId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyZoneId(),

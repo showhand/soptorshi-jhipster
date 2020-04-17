@@ -1,7 +1,9 @@
 package org.soptorshi.service.dto;
-import java.time.Instant;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -11,15 +13,6 @@ public class SupplyOrderDetailsDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
-    private String productName;
-
-    @NotNull
-    private Double productVolume;
-
-    @NotNull
-    private Double totalPrice;
-
     private String createdBy;
 
     private Instant createdOn;
@@ -28,10 +21,24 @@ public class SupplyOrderDetailsDTO implements Serializable {
 
     private Instant updatedOn;
 
+    @NotNull
+    private BigDecimal quantity;
+
+    @NotNull
+    private BigDecimal offeredPrice;
+
 
     private Long supplyOrderId;
 
     private String supplyOrderOrderNo;
+
+    private Long productCategoryId;
+
+    private String productCategoryName;
+
+    private Long productId;
+
+    private String productName;
 
     public Long getId() {
         return id;
@@ -39,30 +46,6 @@ public class SupplyOrderDetailsDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public Double getProductVolume() {
-        return productVolume;
-    }
-
-    public void setProductVolume(Double productVolume) {
-        this.productVolume = productVolume;
-    }
-
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public String getCreatedBy() {
@@ -97,6 +80,22 @@ public class SupplyOrderDetailsDTO implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public BigDecimal getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(BigDecimal quantity) {
+        this.quantity = quantity;
+    }
+
+    public BigDecimal getOfferedPrice() {
+        return offeredPrice;
+    }
+
+    public void setOfferedPrice(BigDecimal offeredPrice) {
+        this.offeredPrice = offeredPrice;
+    }
+
     public Long getSupplyOrderId() {
         return supplyOrderId;
     }
@@ -111,6 +110,38 @@ public class SupplyOrderDetailsDTO implements Serializable {
 
     public void setSupplyOrderOrderNo(String supplyOrderOrderNo) {
         this.supplyOrderOrderNo = supplyOrderOrderNo;
+    }
+
+    public Long getProductCategoryId() {
+        return productCategoryId;
+    }
+
+    public void setProductCategoryId(Long productCategoryId) {
+        this.productCategoryId = productCategoryId;
+    }
+
+    public String getProductCategoryName() {
+        return productCategoryName;
+    }
+
+    public void setProductCategoryName(String productCategoryName) {
+        this.productCategoryName = productCategoryName;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     @Override
@@ -138,15 +169,18 @@ public class SupplyOrderDetailsDTO implements Serializable {
     public String toString() {
         return "SupplyOrderDetailsDTO{" +
             "id=" + getId() +
-            ", productName='" + getProductName() + "'" +
-            ", productVolume=" + getProductVolume() +
-            ", totalPrice=" + getTotalPrice() +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", quantity=" + getQuantity() +
+            ", offeredPrice=" + getOfferedPrice() +
             ", supplyOrder=" + getSupplyOrderId() +
             ", supplyOrder='" + getSupplyOrderOrderNo() + "'" +
+            ", productCategory=" + getProductCategoryId() +
+            ", productCategory='" + getProductCategoryName() + "'" +
+            ", product=" + getProductId() +
+            ", product='" + getProductName() + "'" +
             "}";
     }
 }

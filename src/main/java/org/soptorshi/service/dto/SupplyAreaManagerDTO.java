@@ -1,7 +1,11 @@
 package org.soptorshi.service.dto;
-import java.time.Instant;
-import javax.validation.constraints.*;
+
+import org.soptorshi.domain.enumeration.SupplyAreaManagerStatus;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -11,11 +15,6 @@ public class SupplyAreaManagerDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
-    private String managerName;
-
-    private String additionalInformation;
-
     private String createdBy;
 
     private Instant createdOn;
@@ -23,6 +22,11 @@ public class SupplyAreaManagerDTO implements Serializable {
     private String updatedBy;
 
     private Instant updatedOn;
+
+    private LocalDate endDate;
+
+    @NotNull
+    private SupplyAreaManagerStatus status;
 
 
     private Long supplyZoneId;
@@ -33,28 +37,16 @@ public class SupplyAreaManagerDTO implements Serializable {
 
     private String supplyAreaAreaName;
 
+    private Long employeeId;
+
+    private String employeeFullName;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getManagerName() {
-        return managerName;
-    }
-
-    public void setManagerName(String managerName) {
-        this.managerName = managerName;
-    }
-
-    public String getAdditionalInformation() {
-        return additionalInformation;
-    }
-
-    public void setAdditionalInformation(String additionalInformation) {
-        this.additionalInformation = additionalInformation;
     }
 
     public String getCreatedBy() {
@@ -89,6 +81,22 @@ public class SupplyAreaManagerDTO implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public SupplyAreaManagerStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SupplyAreaManagerStatus status) {
+        this.status = status;
+    }
+
     public Long getSupplyZoneId() {
         return supplyZoneId;
     }
@@ -121,6 +129,22 @@ public class SupplyAreaManagerDTO implements Serializable {
         this.supplyAreaAreaName = supplyAreaAreaName;
     }
 
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeFullName() {
+        return employeeFullName;
+    }
+
+    public void setEmployeeFullName(String employeeFullName) {
+        this.employeeFullName = employeeFullName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -146,16 +170,18 @@ public class SupplyAreaManagerDTO implements Serializable {
     public String toString() {
         return "SupplyAreaManagerDTO{" +
             "id=" + getId() +
-            ", managerName='" + getManagerName() + "'" +
-            ", additionalInformation='" + getAdditionalInformation() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", endDate='" + getEndDate() + "'" +
+            ", status='" + getStatus() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
             ", supplyZone='" + getSupplyZoneZoneName() + "'" +
             ", supplyArea=" + getSupplyAreaId() +
             ", supplyArea='" + getSupplyAreaAreaName() + "'" +
+            ", employee=" + getEmployeeId() +
+            ", employee='" + getEmployeeFullName() + "'" +
             "}";
     }
 }

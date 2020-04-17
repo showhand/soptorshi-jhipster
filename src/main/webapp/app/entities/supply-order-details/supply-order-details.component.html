@@ -30,30 +30,40 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="productName"><span>Product Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="productVolume"><span>Product Volume</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="totalPrice"><span>Total Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="offeredPrice"><span>Offered Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyOrderOrderNo"><span>Supply Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productCategoryName"><span>Product Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productName"><span>Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let supplyOrderDetails of supplyOrderDetails ;trackBy: trackId">
                 <td><a [routerLink]="['/supply-order-details', supplyOrderDetails.id, 'view' ]">{{supplyOrderDetails.id}}</a></td>
-                <td>{{supplyOrderDetails.productName}}</td>
-                <td>{{supplyOrderDetails.productVolume}}</td>
-                <td>{{supplyOrderDetails.totalPrice}}</td>
                 <td>{{supplyOrderDetails.createdBy}}</td>
                 <td>{{supplyOrderDetails.createdOn | date:'medium'}}</td>
                 <td>{{supplyOrderDetails.updatedBy}}</td>
                 <td>{{supplyOrderDetails.updatedOn | date:'medium'}}</td>
+                <td>{{supplyOrderDetails.quantity}}</td>
+                <td>{{supplyOrderDetails.offeredPrice}}</td>
                 <td>
                     <div *ngIf="supplyOrderDetails.supplyOrderId">
                         <a [routerLink]="['../supply-order', supplyOrderDetails.supplyOrderId , 'view' ]" >{{supplyOrderDetails.supplyOrderOrderNo}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyOrderDetails.productCategoryId">
+                        <a [routerLink]="['../product-category', supplyOrderDetails.productCategoryId , 'view' ]" >{{supplyOrderDetails.productCategoryName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyOrderDetails.productId">
+                        <a [routerLink]="['../product', supplyOrderDetails.productId , 'view' ]" >{{supplyOrderDetails.productName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

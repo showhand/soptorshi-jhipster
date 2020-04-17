@@ -1,16 +1,10 @@
 package org.soptorshi.service.dto;
 
+import io.github.jhipster.service.filter.*;
+import org.soptorshi.domain.enumeration.SupplyOrderStatus;
+
 import java.io.Serializable;
 import java.util.Objects;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.InstantFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the SupplyOrder entity. This class is used in SupplyOrderResource to
@@ -21,6 +15,11 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class SupplyOrderCriteria implements Serializable {
+    /**
+     * Class for filtering SupplyOrderStatus
+     */
+    public static class SupplyOrderStatusFilter extends Filter<SupplyOrderStatus> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -39,6 +38,12 @@ public class SupplyOrderCriteria implements Serializable {
     private StringFilter updatedBy;
 
     private InstantFilter updatedOn;
+
+    private BigDecimalFilter offerAmount;
+
+    private LocalDateFilter deliveryDate;
+
+    private SupplyOrderStatusFilter supplyOrderStatus;
 
     private LongFilter supplyZoneId;
 
@@ -112,6 +117,30 @@ public class SupplyOrderCriteria implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public BigDecimalFilter getOfferAmount() {
+        return offerAmount;
+    }
+
+    public void setOfferAmount(BigDecimalFilter offerAmount) {
+        this.offerAmount = offerAmount;
+    }
+
+    public LocalDateFilter getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(LocalDateFilter deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public SupplyOrderStatusFilter getSupplyOrderStatus() {
+        return supplyOrderStatus;
+    }
+
+    public void setSupplyOrderStatus(SupplyOrderStatusFilter supplyOrderStatus) {
+        this.supplyOrderStatus = supplyOrderStatus;
+    }
+
     public LongFilter getSupplyZoneId() {
         return supplyZoneId;
     }
@@ -163,6 +192,9 @@ public class SupplyOrderCriteria implements Serializable {
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
+            Objects.equals(offerAmount, that.offerAmount) &&
+            Objects.equals(deliveryDate, that.deliveryDate) &&
+            Objects.equals(supplyOrderStatus, that.supplyOrderStatus) &&
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
             Objects.equals(supplyAreaId, that.supplyAreaId) &&
             Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId) &&
@@ -180,6 +212,9 @@ public class SupplyOrderCriteria implements Serializable {
         createdOn,
         updatedBy,
         updatedOn,
+        offerAmount,
+        deliveryDate,
+        supplyOrderStatus,
         supplyZoneId,
         supplyAreaId,
         supplyAreaManagerId,
@@ -198,6 +233,9 @@ public class SupplyOrderCriteria implements Serializable {
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
+                (offerAmount != null ? "offerAmount=" + offerAmount + ", " : "") +
+                (deliveryDate != null ? "deliveryDate=" + deliveryDate + ", " : "") +
+                (supplyOrderStatus != null ? "supplyOrderStatus=" + supplyOrderStatus + ", " : "") +
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
                 (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +

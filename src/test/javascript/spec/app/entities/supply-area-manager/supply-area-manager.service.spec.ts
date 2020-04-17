@@ -1,13 +1,11 @@
 /* tslint:disable max-line-length */
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { SupplyAreaManagerService } from 'app/entities/supply-area-manager/supply-area-manager.service';
-import { ISupplyAreaManager, SupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
+import { ISupplyAreaManager, SupplyAreaManager, SupplyAreaManagerStatus } from 'app/shared/model/supply-area-manager.model';
 
 describe('Service Tests', () => {
     describe('SupplyAreaManager Service', () => {
@@ -25,7 +23,15 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new SupplyAreaManager(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', currentDate);
+            elemDefault = new SupplyAreaManager(
+                0,
+                'AAAAAAA',
+                currentDate,
+                'AAAAAAA',
+                currentDate,
+                currentDate,
+                SupplyAreaManagerStatus.ACTIVE
+            );
         });
 
         describe('Service methods', async () => {
@@ -33,7 +39,8 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
-                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT),
+                        endDate: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -51,14 +58,16 @@ describe('Service Tests', () => {
                     {
                         id: 0,
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
-                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT),
+                        endDate: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
                         createdOn: currentDate,
-                        updatedOn: currentDate
+                        updatedOn: currentDate,
+                        endDate: currentDate
                     },
                     returnedFromService
                 );
@@ -73,12 +82,12 @@ describe('Service Tests', () => {
             it('should update a SupplyAreaManager', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        managerName: 'BBBBBB',
-                        additionalInformation: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',
-                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT),
+                        endDate: currentDate.format(DATE_FORMAT),
+                        status: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -86,7 +95,8 @@ describe('Service Tests', () => {
                 const expected = Object.assign(
                     {
                         createdOn: currentDate,
-                        updatedOn: currentDate
+                        updatedOn: currentDate,
+                        endDate: currentDate
                     },
                     returnedFromService
                 );
@@ -101,19 +111,20 @@ describe('Service Tests', () => {
             it('should return a list of SupplyAreaManager', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        managerName: 'BBBBBB',
-                        additionalInformation: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',
-                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT),
+                        endDate: currentDate.format(DATE_FORMAT),
+                        status: 'BBBBBB'
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
                         createdOn: currentDate,
-                        updatedOn: currentDate
+                        updatedOn: currentDate,
+                        endDate: currentDate
                     },
                     returnedFromService
                 );

@@ -1,8 +1,12 @@
 package org.soptorshi.service.dto;
+
+import org.soptorshi.domain.enumeration.SupplyOrderStatus;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -27,6 +31,13 @@ public class SupplyOrderDTO implements Serializable {
     private String updatedBy;
 
     private Instant updatedOn;
+
+    private BigDecimal offerAmount;
+
+    private LocalDate deliveryDate;
+
+    @NotNull
+    private SupplyOrderStatus supplyOrderStatus;
 
 
     private Long supplyZoneId;
@@ -107,6 +118,30 @@ public class SupplyOrderDTO implements Serializable {
 
     public void setUpdatedOn(Instant updatedOn) {
         this.updatedOn = updatedOn;
+    }
+
+    public BigDecimal getOfferAmount() {
+        return offerAmount;
+    }
+
+    public void setOfferAmount(BigDecimal offerAmount) {
+        this.offerAmount = offerAmount;
+    }
+
+    public LocalDate getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public SupplyOrderStatus getSupplyOrderStatus() {
+        return supplyOrderStatus;
+    }
+
+    public void setSupplyOrderStatus(SupplyOrderStatus supplyOrderStatus) {
+        this.supplyOrderStatus = supplyOrderStatus;
     }
 
     public Long getSupplyZoneId() {
@@ -205,6 +240,9 @@ public class SupplyOrderDTO implements Serializable {
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", offerAmount=" + getOfferAmount() +
+            ", deliveryDate='" + getDeliveryDate() + "'" +
+            ", supplyOrderStatus='" + getSupplyOrderStatus() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
             ", supplyZone='" + getSupplyZoneZoneName() + "'" +
             ", supplyArea=" + getSupplyAreaId() +

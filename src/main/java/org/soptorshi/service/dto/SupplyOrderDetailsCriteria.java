@@ -1,15 +1,9 @@
 package org.soptorshi.service.dto;
 
+import io.github.jhipster.service.filter.*;
+
 import java.io.Serializable;
 import java.util.Objects;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.InstantFilter;
 
 /**
  * Criteria class for the SupplyOrderDetails entity. This class is used in SupplyOrderDetailsResource to
@@ -25,12 +19,6 @@ public class SupplyOrderDetailsCriteria implements Serializable {
 
     private LongFilter id;
 
-    private StringFilter productName;
-
-    private DoubleFilter productVolume;
-
-    private DoubleFilter totalPrice;
-
     private StringFilter createdBy;
 
     private InstantFilter createdOn;
@@ -39,7 +27,15 @@ public class SupplyOrderDetailsCriteria implements Serializable {
 
     private InstantFilter updatedOn;
 
+    private BigDecimalFilter quantity;
+
+    private BigDecimalFilter offeredPrice;
+
     private LongFilter supplyOrderId;
+
+    private LongFilter productCategoryId;
+
+    private LongFilter productId;
 
     public LongFilter getId() {
         return id;
@@ -47,30 +43,6 @@ public class SupplyOrderDetailsCriteria implements Serializable {
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public StringFilter getProductName() {
-        return productName;
-    }
-
-    public void setProductName(StringFilter productName) {
-        this.productName = productName;
-    }
-
-    public DoubleFilter getProductVolume() {
-        return productVolume;
-    }
-
-    public void setProductVolume(DoubleFilter productVolume) {
-        this.productVolume = productVolume;
-    }
-
-    public DoubleFilter getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(DoubleFilter totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public StringFilter getCreatedBy() {
@@ -105,12 +77,44 @@ public class SupplyOrderDetailsCriteria implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public BigDecimalFilter getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(BigDecimalFilter quantity) {
+        this.quantity = quantity;
+    }
+
+    public BigDecimalFilter getOfferedPrice() {
+        return offeredPrice;
+    }
+
+    public void setOfferedPrice(BigDecimalFilter offeredPrice) {
+        this.offeredPrice = offeredPrice;
+    }
+
     public LongFilter getSupplyOrderId() {
         return supplyOrderId;
     }
 
     public void setSupplyOrderId(LongFilter supplyOrderId) {
         this.supplyOrderId = supplyOrderId;
+    }
+
+    public LongFilter getProductCategoryId() {
+        return productCategoryId;
+    }
+
+    public void setProductCategoryId(LongFilter productCategoryId) {
+        this.productCategoryId = productCategoryId;
+    }
+
+    public LongFilter getProductId() {
+        return productId;
+    }
+
+    public void setProductId(LongFilter productId) {
+        this.productId = productId;
     }
 
 
@@ -125,28 +129,30 @@ public class SupplyOrderDetailsCriteria implements Serializable {
         final SupplyOrderDetailsCriteria that = (SupplyOrderDetailsCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(productName, that.productName) &&
-            Objects.equals(productVolume, that.productVolume) &&
-            Objects.equals(totalPrice, that.totalPrice) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
-            Objects.equals(supplyOrderId, that.supplyOrderId);
+            Objects.equals(quantity, that.quantity) &&
+            Objects.equals(offeredPrice, that.offeredPrice) &&
+            Objects.equals(supplyOrderId, that.supplyOrderId) &&
+            Objects.equals(productCategoryId, that.productCategoryId) &&
+            Objects.equals(productId, that.productId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        productName,
-        productVolume,
-        totalPrice,
         createdBy,
         createdOn,
         updatedBy,
         updatedOn,
-        supplyOrderId
+        quantity,
+        offeredPrice,
+        supplyOrderId,
+        productCategoryId,
+        productId
         );
     }
 
@@ -154,14 +160,15 @@ public class SupplyOrderDetailsCriteria implements Serializable {
     public String toString() {
         return "SupplyOrderDetailsCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (productName != null ? "productName=" + productName + ", " : "") +
-                (productVolume != null ? "productVolume=" + productVolume + ", " : "") +
-                (totalPrice != null ? "totalPrice=" + totalPrice + ", " : "") +
                 (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
+                (quantity != null ? "quantity=" + quantity + ", " : "") +
+                (offeredPrice != null ? "offeredPrice=" + offeredPrice + ", " : "") +
                 (supplyOrderId != null ? "supplyOrderId=" + supplyOrderId + ", " : "") +
+                (productCategoryId != null ? "productCategoryId=" + productCategoryId + ", " : "") +
+                (productId != null ? "productId=" + productId + ", " : "") +
             "}";
     }
 

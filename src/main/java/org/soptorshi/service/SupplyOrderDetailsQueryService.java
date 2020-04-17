@@ -1,26 +1,22 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.*;
+import org.soptorshi.repository.SupplyOrderDetailsRepository;
+import org.soptorshi.repository.search.SupplyOrderDetailsSearchRepository;
+import org.soptorshi.service.dto.SupplyOrderDetailsCriteria;
+import org.soptorshi.service.dto.SupplyOrderDetailsDTO;
+import org.soptorshi.service.mapper.SupplyOrderDetailsMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.SupplyOrderDetails;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.SupplyOrderDetailsRepository;
-import org.soptorshi.repository.search.SupplyOrderDetailsSearchRepository;
-import org.soptorshi.service.dto.SupplyOrderDetailsCriteria;
-import org.soptorshi.service.dto.SupplyOrderDetailsDTO;
-import org.soptorshi.service.mapper.SupplyOrderDetailsMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for SupplyOrderDetails entities in the database.
@@ -93,15 +89,6 @@ public class SupplyOrderDetailsQueryService extends QueryService<SupplyOrderDeta
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), SupplyOrderDetails_.id));
             }
-            if (criteria.getProductName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getProductName(), SupplyOrderDetails_.productName));
-            }
-            if (criteria.getProductVolume() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getProductVolume(), SupplyOrderDetails_.productVolume));
-            }
-            if (criteria.getTotalPrice() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTotalPrice(), SupplyOrderDetails_.totalPrice));
-            }
             if (criteria.getCreatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), SupplyOrderDetails_.createdBy));
             }
@@ -114,9 +101,23 @@ public class SupplyOrderDetailsQueryService extends QueryService<SupplyOrderDeta
             if (criteria.getUpdatedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), SupplyOrderDetails_.updatedOn));
             }
+            if (criteria.getQuantity() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getQuantity(), SupplyOrderDetails_.quantity));
+            }
+            if (criteria.getOfferedPrice() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getOfferedPrice(), SupplyOrderDetails_.offeredPrice));
+            }
             if (criteria.getSupplyOrderId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyOrderId(),
                     root -> root.join(SupplyOrderDetails_.supplyOrder, JoinType.LEFT).get(SupplyOrder_.id)));
+            }
+            if (criteria.getProductCategoryId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductCategoryId(),
+                    root -> root.join(SupplyOrderDetails_.productCategory, JoinType.LEFT).get(ProductCategory_.id)));
+            }
+            if (criteria.getProductId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductId(),
+                    root -> root.join(SupplyOrderDetails_.product, JoinType.LEFT).get(Product_.id)));
             }
         }
         return specification;

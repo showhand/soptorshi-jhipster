@@ -743,6 +743,46 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'commercial-attachment',
                 loadChildren: './commercial-attachment/commercial-attachment.module#SoptorshiCommercialAttachmentModule'
+            },
+            {
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+            },
+            {
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+            },
+            {
+                path: 'supply-order-details',
+                loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
+            },
+            {
+                path: 'supply-order-details',
+                loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
+            },
+            {
+                path: 'supply-area-manager',
+                loadChildren: './supply-area-manager/supply-area-manager.module#SoptorshiSupplyAreaManagerModule'
+            },
+            {
+                path: 'supply-area-manager',
+                loadChildren: './supply-area-manager/supply-area-manager.module#SoptorshiSupplyAreaManagerModule'
+            },
+            {
+                path: 'supply-zone-manager',
+                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
+            },
+            {
+                path: 'supply-zone-manager',
+                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
+            },
+            {
+                path: 'supply-zone-manager',
+                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
+            },
+            {
+                path: 'supply-zone-manager',
+                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

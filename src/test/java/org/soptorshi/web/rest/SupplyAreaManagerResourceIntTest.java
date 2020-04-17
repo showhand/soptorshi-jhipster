@@ -1,23 +1,22 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.SupplyAreaManager;
-import org.soptorshi.domain.SupplyZone;
-import org.soptorshi.domain.SupplyArea;
-import org.soptorshi.repository.SupplyAreaManagerRepository;
-import org.soptorshi.repository.search.SupplyAreaManagerSearchRepository;
-import org.soptorshi.service.SupplyAreaManagerService;
-import org.soptorshi.service.dto.SupplyAreaManagerDTO;
-import org.soptorshi.service.mapper.SupplyAreaManagerMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.SupplyAreaManagerCriteria;
-import org.soptorshi.service.SupplyAreaManagerQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.Employee;
+import org.soptorshi.domain.SupplyArea;
+import org.soptorshi.domain.SupplyAreaManager;
+import org.soptorshi.domain.SupplyZone;
+import org.soptorshi.domain.enumeration.SupplyAreaManagerStatus;
+import org.soptorshi.repository.SupplyAreaManagerRepository;
+import org.soptorshi.repository.search.SupplyAreaManagerSearchRepository;
+import org.soptorshi.service.SupplyAreaManagerQueryService;
+import org.soptorshi.service.SupplyAreaManagerService;
+import org.soptorshi.service.dto.SupplyAreaManagerDTO;
+import org.soptorshi.service.mapper.SupplyAreaManagerMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -33,19 +32,19 @@ import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 /**
  * Test class for the SupplyAreaManagerResource REST controller.
  *
@@ -54,12 +53,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SoptorshiApp.class)
 public class SupplyAreaManagerResourceIntTest {
-
-    private static final String DEFAULT_MANAGER_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_MANAGER_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_ADDITIONAL_INFORMATION = "AAAAAAAAAA";
-    private static final String UPDATED_ADDITIONAL_INFORMATION = "BBBBBBBBBB";
 
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
@@ -72,6 +65,12 @@ public class SupplyAreaManagerResourceIntTest {
 
     private static final Instant DEFAULT_UPDATED_ON = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_UPDATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final LocalDate DEFAULT_END_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_END_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final SupplyAreaManagerStatus DEFAULT_STATUS = SupplyAreaManagerStatus.ACTIVE;
+    private static final SupplyAreaManagerStatus UPDATED_STATUS = SupplyAreaManagerStatus.INACTIVE;
 
     @Autowired
     private SupplyAreaManagerRepository supplyAreaManagerRepository;
@@ -132,12 +131,17 @@ public class SupplyAreaManagerResourceIntTest {
      */
     public static SupplyAreaManager createEntity(EntityManager em) {
         SupplyAreaManager supplyAreaManager = new SupplyAreaManager()
-            .managerName(DEFAULT_MANAGER_NAME)
-            .additionalInformation(DEFAULT_ADDITIONAL_INFORMATION)
             .createdBy(DEFAULT_CREATED_BY)
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
-            .updatedOn(DEFAULT_UPDATED_ON);
+            .updatedOn(DEFAULT_UPDATED_ON)
+            .endDate(DEFAULT_END_DATE)
+            .status(DEFAULT_STATUS);
+        // Add required entity
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        supplyAreaManager.setEmployee(employee);
         return supplyAreaManager;
     }
 
@@ -162,12 +166,12 @@ public class SupplyAreaManagerResourceIntTest {
         List<SupplyAreaManager> supplyAreaManagerList = supplyAreaManagerRepository.findAll();
         assertThat(supplyAreaManagerList).hasSize(databaseSizeBeforeCreate + 1);
         SupplyAreaManager testSupplyAreaManager = supplyAreaManagerList.get(supplyAreaManagerList.size() - 1);
-        assertThat(testSupplyAreaManager.getManagerName()).isEqualTo(DEFAULT_MANAGER_NAME);
-        assertThat(testSupplyAreaManager.getAdditionalInformation()).isEqualTo(DEFAULT_ADDITIONAL_INFORMATION);
         assertThat(testSupplyAreaManager.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testSupplyAreaManager.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testSupplyAreaManager.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testSupplyAreaManager.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
+        assertThat(testSupplyAreaManager.getEndDate()).isEqualTo(DEFAULT_END_DATE);
+        assertThat(testSupplyAreaManager.getStatus()).isEqualTo(DEFAULT_STATUS);
 
         // Validate the SupplyAreaManager in Elasticsearch
         verify(mockSupplyAreaManagerSearchRepository, times(1)).save(testSupplyAreaManager);
@@ -198,10 +202,10 @@ public class SupplyAreaManagerResourceIntTest {
 
     @Test
     @Transactional
-    public void checkManagerNameIsRequired() throws Exception {
+    public void checkStatusIsRequired() throws Exception {
         int databaseSizeBeforeTest = supplyAreaManagerRepository.findAll().size();
         // set the field null
-        supplyAreaManager.setManagerName(null);
+        supplyAreaManager.setStatus(null);
 
         // Create the SupplyAreaManager, which fails.
         SupplyAreaManagerDTO supplyAreaManagerDTO = supplyAreaManagerMapper.toDto(supplyAreaManager);
@@ -226,14 +230,14 @@ public class SupplyAreaManagerResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyAreaManager.getId().intValue())))
-            .andExpect(jsonPath("$.[*].managerName").value(hasItem(DEFAULT_MANAGER_NAME.toString())))
-            .andExpect(jsonPath("$.[*].additionalInformation").value(hasItem(DEFAULT_ADDITIONAL_INFORMATION.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getSupplyAreaManager() throws Exception {
@@ -245,90 +249,12 @@ public class SupplyAreaManagerResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(supplyAreaManager.getId().intValue()))
-            .andExpect(jsonPath("$.managerName").value(DEFAULT_MANAGER_NAME.toString()))
-            .andExpect(jsonPath("$.additionalInformation").value(DEFAULT_ADDITIONAL_INFORMATION.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
-            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyAreaManagersByManagerNameIsEqualToSomething() throws Exception {
-        // Initialize the database
-        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
-
-        // Get all the supplyAreaManagerList where managerName equals to DEFAULT_MANAGER_NAME
-        defaultSupplyAreaManagerShouldBeFound("managerName.equals=" + DEFAULT_MANAGER_NAME);
-
-        // Get all the supplyAreaManagerList where managerName equals to UPDATED_MANAGER_NAME
-        defaultSupplyAreaManagerShouldNotBeFound("managerName.equals=" + UPDATED_MANAGER_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyAreaManagersByManagerNameIsInShouldWork() throws Exception {
-        // Initialize the database
-        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
-
-        // Get all the supplyAreaManagerList where managerName in DEFAULT_MANAGER_NAME or UPDATED_MANAGER_NAME
-        defaultSupplyAreaManagerShouldBeFound("managerName.in=" + DEFAULT_MANAGER_NAME + "," + UPDATED_MANAGER_NAME);
-
-        // Get all the supplyAreaManagerList where managerName equals to UPDATED_MANAGER_NAME
-        defaultSupplyAreaManagerShouldNotBeFound("managerName.in=" + UPDATED_MANAGER_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyAreaManagersByManagerNameIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
-
-        // Get all the supplyAreaManagerList where managerName is not null
-        defaultSupplyAreaManagerShouldBeFound("managerName.specified=true");
-
-        // Get all the supplyAreaManagerList where managerName is null
-        defaultSupplyAreaManagerShouldNotBeFound("managerName.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyAreaManagersByAdditionalInformationIsEqualToSomething() throws Exception {
-        // Initialize the database
-        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
-
-        // Get all the supplyAreaManagerList where additionalInformation equals to DEFAULT_ADDITIONAL_INFORMATION
-        defaultSupplyAreaManagerShouldBeFound("additionalInformation.equals=" + DEFAULT_ADDITIONAL_INFORMATION);
-
-        // Get all the supplyAreaManagerList where additionalInformation equals to UPDATED_ADDITIONAL_INFORMATION
-        defaultSupplyAreaManagerShouldNotBeFound("additionalInformation.equals=" + UPDATED_ADDITIONAL_INFORMATION);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyAreaManagersByAdditionalInformationIsInShouldWork() throws Exception {
-        // Initialize the database
-        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
-
-        // Get all the supplyAreaManagerList where additionalInformation in DEFAULT_ADDITIONAL_INFORMATION or UPDATED_ADDITIONAL_INFORMATION
-        defaultSupplyAreaManagerShouldBeFound("additionalInformation.in=" + DEFAULT_ADDITIONAL_INFORMATION + "," + UPDATED_ADDITIONAL_INFORMATION);
-
-        // Get all the supplyAreaManagerList where additionalInformation equals to UPDATED_ADDITIONAL_INFORMATION
-        defaultSupplyAreaManagerShouldNotBeFound("additionalInformation.in=" + UPDATED_ADDITIONAL_INFORMATION);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyAreaManagersByAdditionalInformationIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
-
-        // Get all the supplyAreaManagerList where additionalInformation is not null
-        defaultSupplyAreaManagerShouldBeFound("additionalInformation.specified=true");
-
-        // Get all the supplyAreaManagerList where additionalInformation is null
-        defaultSupplyAreaManagerShouldNotBeFound("additionalInformation.specified=false");
+            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()))
+            .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
     @Test
@@ -489,6 +415,111 @@ public class SupplyAreaManagerResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSupplyAreaManagersByEndDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
+
+        // Get all the supplyAreaManagerList where endDate equals to DEFAULT_END_DATE
+        defaultSupplyAreaManagerShouldBeFound("endDate.equals=" + DEFAULT_END_DATE);
+
+        // Get all the supplyAreaManagerList where endDate equals to UPDATED_END_DATE
+        defaultSupplyAreaManagerShouldNotBeFound("endDate.equals=" + UPDATED_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyAreaManagersByEndDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
+
+        // Get all the supplyAreaManagerList where endDate in DEFAULT_END_DATE or UPDATED_END_DATE
+        defaultSupplyAreaManagerShouldBeFound("endDate.in=" + DEFAULT_END_DATE + "," + UPDATED_END_DATE);
+
+        // Get all the supplyAreaManagerList where endDate equals to UPDATED_END_DATE
+        defaultSupplyAreaManagerShouldNotBeFound("endDate.in=" + UPDATED_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyAreaManagersByEndDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
+
+        // Get all the supplyAreaManagerList where endDate is not null
+        defaultSupplyAreaManagerShouldBeFound("endDate.specified=true");
+
+        // Get all the supplyAreaManagerList where endDate is null
+        defaultSupplyAreaManagerShouldNotBeFound("endDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyAreaManagersByEndDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
+
+        // Get all the supplyAreaManagerList where endDate greater than or equals to DEFAULT_END_DATE
+        defaultSupplyAreaManagerShouldBeFound("endDate.greaterOrEqualThan=" + DEFAULT_END_DATE);
+
+        // Get all the supplyAreaManagerList where endDate greater than or equals to UPDATED_END_DATE
+        defaultSupplyAreaManagerShouldNotBeFound("endDate.greaterOrEqualThan=" + UPDATED_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyAreaManagersByEndDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
+
+        // Get all the supplyAreaManagerList where endDate less than or equals to DEFAULT_END_DATE
+        defaultSupplyAreaManagerShouldNotBeFound("endDate.lessThan=" + DEFAULT_END_DATE);
+
+        // Get all the supplyAreaManagerList where endDate less than or equals to UPDATED_END_DATE
+        defaultSupplyAreaManagerShouldBeFound("endDate.lessThan=" + UPDATED_END_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyAreaManagersByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
+
+        // Get all the supplyAreaManagerList where status equals to DEFAULT_STATUS
+        defaultSupplyAreaManagerShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the supplyAreaManagerList where status equals to UPDATED_STATUS
+        defaultSupplyAreaManagerShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyAreaManagersByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
+
+        // Get all the supplyAreaManagerList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultSupplyAreaManagerShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the supplyAreaManagerList where status equals to UPDATED_STATUS
+        defaultSupplyAreaManagerShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyAreaManagersByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
+
+        // Get all the supplyAreaManagerList where status is not null
+        defaultSupplyAreaManagerShouldBeFound("status.specified=true");
+
+        // Get all the supplyAreaManagerList where status is null
+        defaultSupplyAreaManagerShouldNotBeFound("status.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllSupplyAreaManagersBySupplyZoneIsEqualToSomething() throws Exception {
         // Initialize the database
         SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
@@ -524,6 +555,25 @@ public class SupplyAreaManagerResourceIntTest {
         defaultSupplyAreaManagerShouldNotBeFound("supplyAreaId.equals=" + (supplyAreaId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllSupplyAreaManagersByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        supplyAreaManager.setEmployee(employee);
+        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
+        Long employeeId = employee.getId();
+
+        // Get all the supplyAreaManagerList where employee equals to employeeId
+        defaultSupplyAreaManagerShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the supplyAreaManagerList where employee equals to employeeId + 1
+        defaultSupplyAreaManagerShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -532,12 +582,12 @@ public class SupplyAreaManagerResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyAreaManager.getId().intValue())))
-            .andExpect(jsonPath("$.[*].managerName").value(hasItem(DEFAULT_MANAGER_NAME)))
-            .andExpect(jsonPath("$.[*].additionalInformation").value(hasItem(DEFAULT_ADDITIONAL_INFORMATION)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
         // Check, that the count call also returns 1
         restSupplyAreaManagerMockMvc.perform(get("/api/supply-area-managers/count?sort=id,desc&" + filter))
@@ -585,12 +635,12 @@ public class SupplyAreaManagerResourceIntTest {
         // Disconnect from session so that the updates on updatedSupplyAreaManager are not directly saved in db
         em.detach(updatedSupplyAreaManager);
         updatedSupplyAreaManager
-            .managerName(UPDATED_MANAGER_NAME)
-            .additionalInformation(UPDATED_ADDITIONAL_INFORMATION)
             .createdBy(UPDATED_CREATED_BY)
             .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
-            .updatedOn(UPDATED_UPDATED_ON);
+            .updatedOn(UPDATED_UPDATED_ON)
+            .endDate(UPDATED_END_DATE)
+            .status(UPDATED_STATUS);
         SupplyAreaManagerDTO supplyAreaManagerDTO = supplyAreaManagerMapper.toDto(updatedSupplyAreaManager);
 
         restSupplyAreaManagerMockMvc.perform(put("/api/supply-area-managers")
@@ -602,12 +652,12 @@ public class SupplyAreaManagerResourceIntTest {
         List<SupplyAreaManager> supplyAreaManagerList = supplyAreaManagerRepository.findAll();
         assertThat(supplyAreaManagerList).hasSize(databaseSizeBeforeUpdate);
         SupplyAreaManager testSupplyAreaManager = supplyAreaManagerList.get(supplyAreaManagerList.size() - 1);
-        assertThat(testSupplyAreaManager.getManagerName()).isEqualTo(UPDATED_MANAGER_NAME);
-        assertThat(testSupplyAreaManager.getAdditionalInformation()).isEqualTo(UPDATED_ADDITIONAL_INFORMATION);
         assertThat(testSupplyAreaManager.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testSupplyAreaManager.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testSupplyAreaManager.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testSupplyAreaManager.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
+        assertThat(testSupplyAreaManager.getEndDate()).isEqualTo(UPDATED_END_DATE);
+        assertThat(testSupplyAreaManager.getStatus()).isEqualTo(UPDATED_STATUS);
 
         // Validate the SupplyAreaManager in Elasticsearch
         verify(mockSupplyAreaManagerSearchRepository, times(1)).save(testSupplyAreaManager);
@@ -668,12 +718,12 @@ public class SupplyAreaManagerResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyAreaManager.getId().intValue())))
-            .andExpect(jsonPath("$.[*].managerName").value(hasItem(DEFAULT_MANAGER_NAME)))
-            .andExpect(jsonPath("$.[*].additionalInformation").value(hasItem(DEFAULT_ADDITIONAL_INFORMATION)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
 
     @Test

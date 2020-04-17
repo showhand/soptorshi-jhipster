@@ -1,13 +1,12 @@
 package org.soptorshi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.SupplyOrder;
 import org.soptorshi.repository.SupplyOrderRepository;
 import org.soptorshi.repository.search.SupplyOrderSearchRepository;
 import org.soptorshi.service.dto.SupplyOrderDTO;
 import org.soptorshi.service.mapper.SupplyOrderMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
  * Service Implementation for managing SupplyOrder.

@@ -5,14 +5,6 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Manager Name</span></dt>
-                <dd>
-                    <span>{{supplyAreaManager.managerName}}</span>
-                </dd>
-                <dt><span>Additional Information</span></dt>
-                <dd>
-                    <span>{{supplyAreaManager.additionalInformation}}</span>
-                </dd>
                 <dt><span>Created By</span></dt>
                 <dd>
                     <span>{{supplyAreaManager.createdBy}}</span>
@@ -29,6 +21,14 @@
                 <dd>
                     <span>{{supplyAreaManager.updatedOn}}</span>
                 </dd>
+                <dt><span>End Date</span></dt>
+                <dd>
+                    <span>{{supplyAreaManager.endDate}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{supplyAreaManager.status}}</span>
+                </dd>
                 <dt><span>Supply Zone</span></dt>
                 <dd>
                     <div *ngIf="supplyAreaManager.supplyZoneId">
@@ -39,6 +39,12 @@
                 <dd>
                     <div *ngIf="supplyAreaManager.supplyAreaId">
                         <a [routerLink]="['/supply-area', supplyAreaManager.supplyAreaId, 'view']">{{supplyAreaManager.supplyAreaAreaName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="supplyAreaManager.employeeId">
+                        <a [routerLink]="['/employee', supplyAreaManager.employeeId, 'view']">{{supplyAreaManager.employeeFullName}}</a>
                     </div>
                 </dd>
             </dl>

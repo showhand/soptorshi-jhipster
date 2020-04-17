@@ -1,5 +1,40 @@
 {
-    "name": "SupplyOrder",
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZone",
+            "otherEntityRelationshipName": "supplyOrder",
+            "relationshipName": "supplyZone",
+            "otherEntityField": "zoneName",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyArea",
+            "otherEntityRelationshipName": "supplyOrder",
+            "relationshipName": "supplyArea",
+            "otherEntityField": "areaName",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyAreaManager",
+            "otherEntityRelationshipName": "supplyOrder",
+            "relationshipName": "supplyAreaManager",
+            "otherEntityField": "managerName",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplySalesRepresentative",
+            "otherEntityRelationshipName": "supplyOrder",
+            "relationshipName": "supplySalesRepresentative",
+            "otherEntityField": "salesRepresentativeName",
+            "otherEntityRelationshipNameUndefined": false
+        }
+    ],
     "fields": [
         {
             "fieldName": "orderNo",
@@ -34,45 +69,30 @@
         {
             "fieldName": "updatedOn",
             "fieldType": "Instant"
-        }
-    ],
-    "relationships": [
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyZone",
-            "otherEntityRelationshipName": "supplyOrder",
-            "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
         },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyArea",
-            "otherEntityRelationshipName": "supplyOrder",
-            "relationshipName": "supplyArea",
-            "otherEntityField": "areaName"
+            "fieldName": "offerAmount",
+            "fieldType": "BigDecimal"
         },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyAreaManager",
-            "otherEntityRelationshipName": "supplyOrder",
-            "relationshipName": "supplyAreaManager",
-            "otherEntityField": "managerName"
+            "fieldName": "deliveryDate",
+            "fieldType": "LocalDate"
         },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplySalesRepresentative",
-            "otherEntityRelationshipName": "supplyOrder",
-            "relationshipName": "supplySalesRepresentative",
-            "otherEntityField": "salesRepresentativeName"
+            "fieldName": "supplyOrderStatus",
+            "fieldType": "SupplyOrderStatus",
+            "fieldValues": "ORDER_RECEIVED,PROCESSING_ORDER,ORDER_DELIVERED_AND_WAITING_FOR_MONEY_COLLECTION,ORDER_CLOSE",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20191106144404",
-    "entityTableName": "supply_order",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "searchEngine": "elasticsearch",
     "service": "serviceClass",
+    "entityTableName": "supply_order",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*"
+    "pagination": "infinite-scroll"
 }

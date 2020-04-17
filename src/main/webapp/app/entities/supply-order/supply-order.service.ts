@@ -62,7 +62,9 @@ export class SupplyOrderService {
             dateOfOrder:
                 supplyOrder.dateOfOrder != null && supplyOrder.dateOfOrder.isValid() ? supplyOrder.dateOfOrder.format(DATE_FORMAT) : null,
             createdOn: supplyOrder.createdOn != null && supplyOrder.createdOn.isValid() ? supplyOrder.createdOn.toJSON() : null,
-            updatedOn: supplyOrder.updatedOn != null && supplyOrder.updatedOn.isValid() ? supplyOrder.updatedOn.toJSON() : null
+            updatedOn: supplyOrder.updatedOn != null && supplyOrder.updatedOn.isValid() ? supplyOrder.updatedOn.toJSON() : null,
+            deliveryDate:
+                supplyOrder.deliveryDate != null && supplyOrder.deliveryDate.isValid() ? supplyOrder.deliveryDate.format(DATE_FORMAT) : null
         });
         return copy;
     }
@@ -72,6 +74,7 @@ export class SupplyOrderService {
             res.body.dateOfOrder = res.body.dateOfOrder != null ? moment(res.body.dateOfOrder) : null;
             res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
             res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
+            res.body.deliveryDate = res.body.deliveryDate != null ? moment(res.body.deliveryDate) : null;
         }
         return res;
     }
@@ -82,6 +85,7 @@ export class SupplyOrderService {
                 supplyOrder.dateOfOrder = supplyOrder.dateOfOrder != null ? moment(supplyOrder.dateOfOrder) : null;
                 supplyOrder.createdOn = supplyOrder.createdOn != null ? moment(supplyOrder.createdOn) : null;
                 supplyOrder.updatedOn = supplyOrder.updatedOn != null ? moment(supplyOrder.updatedOn) : null;
+                supplyOrder.deliveryDate = supplyOrder.deliveryDate != null ? moment(supplyOrder.deliveryDate) : null;
             });
         }
         return res;

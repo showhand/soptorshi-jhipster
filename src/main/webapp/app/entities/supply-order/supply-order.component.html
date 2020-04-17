@@ -37,6 +37,9 @@
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="offerAmount"><span>Offer Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="deliveryDate"><span>Delivery Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyOrderStatus"><span>Supply Order Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyZoneZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyAreaAreaName"><span>Supply Area</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyAreaManagerManagerName"><span>Supply Area Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -54,6 +57,9 @@
                 <td>{{supplyOrder.createdOn | date:'medium'}}</td>
                 <td>{{supplyOrder.updatedBy}}</td>
                 <td>{{supplyOrder.updatedOn | date:'medium'}}</td>
+                <td>{{supplyOrder.offerAmount}}</td>
+                <td>{{supplyOrder.deliveryDate | date:'mediumDate'}}</td>
+                <td>{{supplyOrder.supplyOrderStatus}}</td>
                 <td>
                     <div *ngIf="supplyOrder.supplyZoneId">
                         <a [routerLink]="['../supply-zone', supplyOrder.supplyZoneId , 'view' ]" >{{supplyOrder.supplyZoneZoneName}}</a>

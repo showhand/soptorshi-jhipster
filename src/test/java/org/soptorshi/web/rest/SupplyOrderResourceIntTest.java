@@ -1,25 +1,19 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.SupplyOrder;
-import org.soptorshi.domain.SupplyZone;
-import org.soptorshi.domain.SupplyArea;
-import org.soptorshi.domain.SupplyAreaManager;
-import org.soptorshi.domain.SupplySalesRepresentative;
-import org.soptorshi.repository.SupplyOrderRepository;
-import org.soptorshi.repository.search.SupplyOrderSearchRepository;
-import org.soptorshi.service.SupplyOrderService;
-import org.soptorshi.service.dto.SupplyOrderDTO;
-import org.soptorshi.service.mapper.SupplyOrderMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.SupplyOrderCriteria;
-import org.soptorshi.service.SupplyOrderQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.*;
+import org.soptorshi.domain.enumeration.SupplyOrderStatus;
+import org.soptorshi.repository.SupplyOrderRepository;
+import org.soptorshi.repository.search.SupplyOrderSearchRepository;
+import org.soptorshi.service.SupplyOrderQueryService;
+import org.soptorshi.service.SupplyOrderService;
+import org.soptorshi.service.dto.SupplyOrderDTO;
+import org.soptorshi.service.mapper.SupplyOrderMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -34,22 +28,21 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 /**
  * Test class for the SupplyOrderResource REST controller.
  *
@@ -79,6 +72,15 @@ public class SupplyOrderResourceIntTest {
 
     private static final Instant DEFAULT_UPDATED_ON = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_UPDATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final BigDecimal DEFAULT_OFFER_AMOUNT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_OFFER_AMOUNT = new BigDecimal(2);
+
+    private static final LocalDate DEFAULT_DELIVERY_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DELIVERY_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final SupplyOrderStatus DEFAULT_SUPPLY_ORDER_STATUS = SupplyOrderStatus.ORDER_RECEIVED;
+    private static final SupplyOrderStatus UPDATED_SUPPLY_ORDER_STATUS = SupplyOrderStatus.PROCESSING_ORDER;
 
     @Autowired
     private SupplyOrderRepository supplyOrderRepository;
@@ -145,7 +147,10 @@ public class SupplyOrderResourceIntTest {
             .createdBy(DEFAULT_CREATED_BY)
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
-            .updatedOn(DEFAULT_UPDATED_ON);
+            .updatedOn(DEFAULT_UPDATED_ON)
+            .offerAmount(DEFAULT_OFFER_AMOUNT)
+            .deliveryDate(DEFAULT_DELIVERY_DATE)
+            .supplyOrderStatus(DEFAULT_SUPPLY_ORDER_STATUS);
         return supplyOrder;
     }
 
@@ -177,6 +182,9 @@ public class SupplyOrderResourceIntTest {
         assertThat(testSupplyOrder.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testSupplyOrder.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testSupplyOrder.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
+        assertThat(testSupplyOrder.getOfferAmount()).isEqualTo(DEFAULT_OFFER_AMOUNT);
+        assertThat(testSupplyOrder.getDeliveryDate()).isEqualTo(DEFAULT_DELIVERY_DATE);
+        assertThat(testSupplyOrder.getSupplyOrderStatus()).isEqualTo(DEFAULT_SUPPLY_ORDER_STATUS);
 
         // Validate the SupplyOrder in Elasticsearch
         verify(mockSupplyOrderSearchRepository, times(1)).save(testSupplyOrder);
@@ -245,6 +253,25 @@ public class SupplyOrderResourceIntTest {
 
     @Test
     @Transactional
+    public void checkSupplyOrderStatusIsRequired() throws Exception {
+        int databaseSizeBeforeTest = supplyOrderRepository.findAll().size();
+        // set the field null
+        supplyOrder.setSupplyOrderStatus(null);
+
+        // Create the SupplyOrder, which fails.
+        SupplyOrderDTO supplyOrderDTO = supplyOrderMapper.toDto(supplyOrder);
+
+        restSupplyOrderMockMvc.perform(post("/api/supply-orders")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(supplyOrderDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<SupplyOrder> supplyOrderList = supplyOrderRepository.findAll();
+        assertThat(supplyOrderList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllSupplyOrders() throws Exception {
         // Initialize the database
         supplyOrderRepository.saveAndFlush(supplyOrder);
@@ -260,9 +287,12 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].offerAmount").value(hasItem(DEFAULT_OFFER_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].supplyOrderStatus").value(hasItem(DEFAULT_SUPPLY_ORDER_STATUS.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getSupplyOrder() throws Exception {
@@ -280,7 +310,10 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
-            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
+            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()))
+            .andExpect(jsonPath("$.offerAmount").value(DEFAULT_OFFER_AMOUNT.intValue()))
+            .andExpect(jsonPath("$.deliveryDate").value(DEFAULT_DELIVERY_DATE.toString()))
+            .andExpect(jsonPath("$.supplyOrderStatus").value(DEFAULT_SUPPLY_ORDER_STATUS.toString()));
     }
 
     @Test
@@ -585,6 +618,150 @@ public class SupplyOrderResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSupplyOrdersByOfferAmountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where offerAmount equals to DEFAULT_OFFER_AMOUNT
+        defaultSupplyOrderShouldBeFound("offerAmount.equals=" + DEFAULT_OFFER_AMOUNT);
+
+        // Get all the supplyOrderList where offerAmount equals to UPDATED_OFFER_AMOUNT
+        defaultSupplyOrderShouldNotBeFound("offerAmount.equals=" + UPDATED_OFFER_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersByOfferAmountIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where offerAmount in DEFAULT_OFFER_AMOUNT or UPDATED_OFFER_AMOUNT
+        defaultSupplyOrderShouldBeFound("offerAmount.in=" + DEFAULT_OFFER_AMOUNT + "," + UPDATED_OFFER_AMOUNT);
+
+        // Get all the supplyOrderList where offerAmount equals to UPDATED_OFFER_AMOUNT
+        defaultSupplyOrderShouldNotBeFound("offerAmount.in=" + UPDATED_OFFER_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersByOfferAmountIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where offerAmount is not null
+        defaultSupplyOrderShouldBeFound("offerAmount.specified=true");
+
+        // Get all the supplyOrderList where offerAmount is null
+        defaultSupplyOrderShouldNotBeFound("offerAmount.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersByDeliveryDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where deliveryDate equals to DEFAULT_DELIVERY_DATE
+        defaultSupplyOrderShouldBeFound("deliveryDate.equals=" + DEFAULT_DELIVERY_DATE);
+
+        // Get all the supplyOrderList where deliveryDate equals to UPDATED_DELIVERY_DATE
+        defaultSupplyOrderShouldNotBeFound("deliveryDate.equals=" + UPDATED_DELIVERY_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersByDeliveryDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where deliveryDate in DEFAULT_DELIVERY_DATE or UPDATED_DELIVERY_DATE
+        defaultSupplyOrderShouldBeFound("deliveryDate.in=" + DEFAULT_DELIVERY_DATE + "," + UPDATED_DELIVERY_DATE);
+
+        // Get all the supplyOrderList where deliveryDate equals to UPDATED_DELIVERY_DATE
+        defaultSupplyOrderShouldNotBeFound("deliveryDate.in=" + UPDATED_DELIVERY_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersByDeliveryDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where deliveryDate is not null
+        defaultSupplyOrderShouldBeFound("deliveryDate.specified=true");
+
+        // Get all the supplyOrderList where deliveryDate is null
+        defaultSupplyOrderShouldNotBeFound("deliveryDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersByDeliveryDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where deliveryDate greater than or equals to DEFAULT_DELIVERY_DATE
+        defaultSupplyOrderShouldBeFound("deliveryDate.greaterOrEqualThan=" + DEFAULT_DELIVERY_DATE);
+
+        // Get all the supplyOrderList where deliveryDate greater than or equals to UPDATED_DELIVERY_DATE
+        defaultSupplyOrderShouldNotBeFound("deliveryDate.greaterOrEqualThan=" + UPDATED_DELIVERY_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersByDeliveryDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where deliveryDate less than or equals to DEFAULT_DELIVERY_DATE
+        defaultSupplyOrderShouldNotBeFound("deliveryDate.lessThan=" + DEFAULT_DELIVERY_DATE);
+
+        // Get all the supplyOrderList where deliveryDate less than or equals to UPDATED_DELIVERY_DATE
+        defaultSupplyOrderShouldBeFound("deliveryDate.lessThan=" + UPDATED_DELIVERY_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersBySupplyOrderStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where supplyOrderStatus equals to DEFAULT_SUPPLY_ORDER_STATUS
+        defaultSupplyOrderShouldBeFound("supplyOrderStatus.equals=" + DEFAULT_SUPPLY_ORDER_STATUS);
+
+        // Get all the supplyOrderList where supplyOrderStatus equals to UPDATED_SUPPLY_ORDER_STATUS
+        defaultSupplyOrderShouldNotBeFound("supplyOrderStatus.equals=" + UPDATED_SUPPLY_ORDER_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersBySupplyOrderStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where supplyOrderStatus in DEFAULT_SUPPLY_ORDER_STATUS or UPDATED_SUPPLY_ORDER_STATUS
+        defaultSupplyOrderShouldBeFound("supplyOrderStatus.in=" + DEFAULT_SUPPLY_ORDER_STATUS + "," + UPDATED_SUPPLY_ORDER_STATUS);
+
+        // Get all the supplyOrderList where supplyOrderStatus equals to UPDATED_SUPPLY_ORDER_STATUS
+        defaultSupplyOrderShouldNotBeFound("supplyOrderStatus.in=" + UPDATED_SUPPLY_ORDER_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersBySupplyOrderStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where supplyOrderStatus is not null
+        defaultSupplyOrderShouldBeFound("supplyOrderStatus.specified=true");
+
+        // Get all the supplyOrderList where supplyOrderStatus is null
+        defaultSupplyOrderShouldNotBeFound("supplyOrderStatus.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllSupplyOrdersBySupplyZoneIsEqualToSomething() throws Exception {
         // Initialize the database
         SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
@@ -672,7 +849,10 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].offerAmount").value(hasItem(DEFAULT_OFFER_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].supplyOrderStatus").value(hasItem(DEFAULT_SUPPLY_ORDER_STATUS.toString())));
 
         // Check, that the count call also returns 1
         restSupplyOrderMockMvc.perform(get("/api/supply-orders/count?sort=id,desc&" + filter))
@@ -726,7 +906,10 @@ public class SupplyOrderResourceIntTest {
             .createdBy(UPDATED_CREATED_BY)
             .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
-            .updatedOn(UPDATED_UPDATED_ON);
+            .updatedOn(UPDATED_UPDATED_ON)
+            .offerAmount(UPDATED_OFFER_AMOUNT)
+            .deliveryDate(UPDATED_DELIVERY_DATE)
+            .supplyOrderStatus(UPDATED_SUPPLY_ORDER_STATUS);
         SupplyOrderDTO supplyOrderDTO = supplyOrderMapper.toDto(updatedSupplyOrder);
 
         restSupplyOrderMockMvc.perform(put("/api/supply-orders")
@@ -745,6 +928,9 @@ public class SupplyOrderResourceIntTest {
         assertThat(testSupplyOrder.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testSupplyOrder.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testSupplyOrder.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
+        assertThat(testSupplyOrder.getOfferAmount()).isEqualTo(UPDATED_OFFER_AMOUNT);
+        assertThat(testSupplyOrder.getDeliveryDate()).isEqualTo(UPDATED_DELIVERY_DATE);
+        assertThat(testSupplyOrder.getSupplyOrderStatus()).isEqualTo(UPDATED_SUPPLY_ORDER_STATUS);
 
         // Validate the SupplyOrder in Elasticsearch
         verify(mockSupplyOrderSearchRepository, times(1)).save(testSupplyOrder);
@@ -811,7 +997,10 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].offerAmount").value(hasItem(DEFAULT_OFFER_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
+            .andExpect(jsonPath("$.[*].supplyOrderStatus").value(hasItem(DEFAULT_SUPPLY_ORDER_STATUS.toString())));
     }
 
     @Test

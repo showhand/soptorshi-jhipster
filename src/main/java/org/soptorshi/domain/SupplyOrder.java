@@ -2,12 +2,13 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.soptorshi.domain.enumeration.SupplyOrderStatus;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -21,7 +22,7 @@ import java.util.Objects;
 public class SupplyOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,6 +49,17 @@ public class SupplyOrder implements Serializable {
 
     @Column(name = "updated_on")
     private Instant updatedOn;
+
+    @Column(name = "offer_amount", precision = 10, scale = 2)
+    private BigDecimal offerAmount;
+
+    @Column(name = "delivery_date")
+    private LocalDate deliveryDate;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "supply_order_status", nullable = false)
+    private SupplyOrderStatus supplyOrderStatus;
 
     @ManyToOne
     @JsonIgnoreProperties("supplyOrders")
@@ -165,6 +177,45 @@ public class SupplyOrder implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public BigDecimal getOfferAmount() {
+        return offerAmount;
+    }
+
+    public SupplyOrder offerAmount(BigDecimal offerAmount) {
+        this.offerAmount = offerAmount;
+        return this;
+    }
+
+    public void setOfferAmount(BigDecimal offerAmount) {
+        this.offerAmount = offerAmount;
+    }
+
+    public LocalDate getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public SupplyOrder deliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
+        return this;
+    }
+
+    public void setDeliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public SupplyOrderStatus getSupplyOrderStatus() {
+        return supplyOrderStatus;
+    }
+
+    public SupplyOrder supplyOrderStatus(SupplyOrderStatus supplyOrderStatus) {
+        this.supplyOrderStatus = supplyOrderStatus;
+        return this;
+    }
+
+    public void setSupplyOrderStatus(SupplyOrderStatus supplyOrderStatus) {
+        this.supplyOrderStatus = supplyOrderStatus;
+    }
+
     public SupplyZone getSupplyZone() {
         return supplyZone;
     }
@@ -249,6 +300,9 @@ public class SupplyOrder implements Serializable {
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", offerAmount=" + getOfferAmount() +
+            ", deliveryDate='" + getDeliveryDate() + "'" +
+            ", supplyOrderStatus='" + getSupplyOrderStatus() + "'" +
             "}";
     }
 }

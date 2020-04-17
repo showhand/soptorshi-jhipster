@@ -5,18 +5,6 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Product Name</span></dt>
-                <dd>
-                    <span>{{supplyOrderDetails.productName}}</span>
-                </dd>
-                <dt><span>Product Volume</span></dt>
-                <dd>
-                    <span>{{supplyOrderDetails.productVolume}}</span>
-                </dd>
-                <dt><span>Total Price</span></dt>
-                <dd>
-                    <span>{{supplyOrderDetails.totalPrice}}</span>
-                </dd>
                 <dt><span>Created By</span></dt>
                 <dd>
                     <span>{{supplyOrderDetails.createdBy}}</span>
@@ -33,10 +21,30 @@
                 <dd>
                     <span>{{supplyOrderDetails.updatedOn}}</span>
                 </dd>
+                <dt><span>Quantity</span></dt>
+                <dd>
+                    <span>{{supplyOrderDetails.quantity}}</span>
+                </dd>
+                <dt><span>Offered Price</span></dt>
+                <dd>
+                    <span>{{supplyOrderDetails.offeredPrice}}</span>
+                </dd>
                 <dt><span>Supply Order</span></dt>
                 <dd>
                     <div *ngIf="supplyOrderDetails.supplyOrderId">
                         <a [routerLink]="['/supply-order', supplyOrderDetails.supplyOrderId, 'view']">{{supplyOrderDetails.supplyOrderOrderNo}}</a>
+                    </div>
+                </dd>
+                <dt><span>Product Category</span></dt>
+                <dd>
+                    <div *ngIf="supplyOrderDetails.productCategoryId">
+                        <a [routerLink]="['/product-category', supplyOrderDetails.productCategoryId, 'view']">{{supplyOrderDetails.productCategoryName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Product</span></dt>
+                <dd>
+                    <div *ngIf="supplyOrderDetails.productId">
+                        <a [routerLink]="['/product', supplyOrderDetails.productId, 'view']">{{supplyOrderDetails.productName}}</a>
                     </div>
                 </dd>
             </dl>

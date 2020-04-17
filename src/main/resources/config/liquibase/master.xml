@@ -106,6 +106,7 @@
     <include file="config/liquibase/changelog/20200110195953_added_entity_Production.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200131175037_added_entity_Weekend.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200415111602_added_entity_CommercialPaymentInfo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200417153632_added_entity_SupplyZoneManager.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
 
     <include file="config/liquibase/changelog/20190405124354_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
@@ -186,6 +187,7 @@
     <include file="config/liquibase/changelog/20191230045455_added_entity_constraints_RequisitionVoucherRelation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200110195953_added_entity_constraints_Production.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200415111602_added_entity_constraints_CommercialPaymentInfo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200417153632_added_entity_constraints_SupplyZoneManager.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 
     <include file="config/liquibase/changelog/20200101083646_changelog.xml" relativeToChangelogFile="false"/>
