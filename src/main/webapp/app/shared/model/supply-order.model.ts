@@ -23,10 +23,9 @@ export interface ISupplyOrder {
     supplyZoneId?: number;
     supplyAreaAreaName?: string;
     supplyAreaId?: number;
-    supplyAreaManagerManagerName?: string;
-    supplyAreaManagerId?: number;
     supplySalesRepresentativeSalesRepresentativeName?: string;
     supplySalesRepresentativeId?: number;
+    supplyAreaManagerId?: number;
 }
 
 export class SupplyOrder implements ISupplyOrder {
@@ -46,9 +45,8 @@ export class SupplyOrder implements ISupplyOrder {
         public supplyZoneId?: number,
         public supplyAreaAreaName?: string,
         public supplyAreaId?: number,
-        public supplyAreaManagerManagerName?: string,
-        public supplyAreaManagerId?: number,
         public supplySalesRepresentativeSalesRepresentativeName?: string,
-        public supplySalesRepresentativeId?: number
+        public supplySalesRepresentativeId?: number,
+        public supplyAreaManagerId?: number
     ) {}
 }

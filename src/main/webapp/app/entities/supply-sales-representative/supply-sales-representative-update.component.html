@@ -66,10 +66,16 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyAreaManager">Supply Area Manager</label>
-                    <select class="form-control" id="field_supplyAreaManager" name="supplyAreaManager" [(ngModel)]="supplySalesRepresentative.supplyAreaManagerId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="supplyAreaManagerOption.id" *ngFor="let supplyAreaManagerOption of supplyareamanagers; trackBy: trackSupplyAreaManagerById">{{supplyAreaManagerOption.managerName}}</option>
+                    <select class="form-control" id="field_supplyAreaManager" name="supplyAreaManager" [(ngModel)]="supplySalesRepresentative.supplyAreaManagerId"  required>
+                        <option *ngIf="!editForm.value.supplyAreaManager" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyAreaManagerOption.id" *ngFor="let supplyAreaManagerOption of supplyareamanagers; trackBy: trackSupplyAreaManagerById">{{supplyAreaManagerOption.id}}</option>
                     </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyAreaManager?.dirty && editForm.controls.supplyAreaManager?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.supplyAreaManager?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
             </div>
             <div>

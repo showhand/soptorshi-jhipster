@@ -57,16 +57,16 @@
                         <a [routerLink]="['/supply-area', supplyOrder.supplyAreaId, 'view']">{{supplyOrder.supplyAreaAreaName}}</a>
                     </div>
                 </dd>
-                <dt><span>Supply Area Manager</span></dt>
-                <dd>
-                    <div *ngIf="supplyOrder.supplyAreaManagerId">
-                        <a [routerLink]="['/supply-area-manager', supplyOrder.supplyAreaManagerId, 'view']">{{supplyOrder.supplyAreaManagerManagerName}}</a>
-                    </div>
-                </dd>
                 <dt><span>Supply Sales Representative</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplySalesRepresentativeId">
                         <a [routerLink]="['/supply-sales-representative', supplyOrder.supplySalesRepresentativeId, 'view']">{{supplyOrder.supplySalesRepresentativeSalesRepresentativeName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Area Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplyOrder.supplyAreaManagerId">
+                        <a [routerLink]="['/supply-area-manager', supplyOrder.supplyAreaManagerId, 'view']">{{supplyOrder.supplyAreaManagerId}}</a>
                     </div>
                 </dd>
             </dl>

@@ -137,4 +137,58 @@
     <changeSet author="kawsu (generated)" id="1587141723751-11">
         <dropColumn columnName="manager_name" tableName="supply_area_manager"/>
     </changeSet>
+
+
+    <changeSet author="kawsu (generated)" id="1587152425683-1">
+        <dropForeignKeyConstraint baseTableName="supply_order" constraintName="fk_supply_order_supply_area_manager_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1587152425683-2">
+        <dropForeignKeyConstraint baseTableName="supply_sales_representative" constraintName="fk_supply_sales_representative_supply_area_manager_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1587152425683-3">
+        <dropForeignKeyConstraint baseTableName="supply_shop" constraintName="fk_supply_shop_supply_area_manager_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1587152425683-6">
+        <dropColumn columnName="supply_area_manager_id" tableName="supply_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1587152425683-7">
+        <dropColumn columnName="supply_area_manager_id" tableName="supply_sales_representative"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1587152425683-8">
+        <dropColumn columnName="supply_area_manager_id" tableName="supply_shop"/>
+    </changeSet>
+
+
+
+    <changeSet author="kawsu (generated)" id="1587153913750-1">
+        <addColumn tableName="supply_order">
+            <column name="supply_area_manager_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1587153913750-2">
+        <addColumn tableName="supply_sales_representative">
+            <column name="supply_area_manager_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1587153913750-3">
+        <addColumn tableName="supply_shop">
+            <column name="supply_area_manager_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1587153913750-4">
+        <addForeignKeyConstraint baseColumnNames="supply_area_manager_id" baseTableName="supply_shop" constraintName="FK2q0vvp20gedff57gctme3fk1l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1587153913750-5">
+        <addForeignKeyConstraint baseColumnNames="supply_area_manager_id" baseTableName="supply_order" constraintName="FK5tejthj0j5llgc3guhkq8em8a" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1587153913750-6">
+        <addForeignKeyConstraint baseColumnNames="supply_area_manager_id" baseTableName="supply_sales_representative" constraintName="FKcypglmm6fqqkmelm74gna5sir" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area_manager"/>
+    </changeSet>
+
 </databaseChangeLog>

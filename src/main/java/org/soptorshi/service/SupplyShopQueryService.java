@@ -1,26 +1,22 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.*;
+import org.soptorshi.repository.SupplyShopRepository;
+import org.soptorshi.repository.search.SupplyShopSearchRepository;
+import org.soptorshi.service.dto.SupplyShopCriteria;
+import org.soptorshi.service.dto.SupplyShopDTO;
+import org.soptorshi.service.mapper.SupplyShopMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.SupplyShop;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.SupplyShopRepository;
-import org.soptorshi.repository.search.SupplyShopSearchRepository;
-import org.soptorshi.service.dto.SupplyShopCriteria;
-import org.soptorshi.service.dto.SupplyShopDTO;
-import org.soptorshi.service.mapper.SupplyShopMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for SupplyShop entities in the database.
@@ -119,13 +115,13 @@ public class SupplyShopQueryService extends QueryService<SupplyShop> {
                 specification = specification.and(buildSpecification(criteria.getSupplyAreaId(),
                     root -> root.join(SupplyShop_.supplyArea, JoinType.LEFT).get(SupplyArea_.id)));
             }
-            if (criteria.getSupplyAreaManagerId() != null) {
-                specification = specification.and(buildSpecification(criteria.getSupplyAreaManagerId(),
-                    root -> root.join(SupplyShop_.supplyAreaManager, JoinType.LEFT).get(SupplyAreaManager_.id)));
-            }
             if (criteria.getSupplySalesRepresentativeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplySalesRepresentativeId(),
                     root -> root.join(SupplyShop_.supplySalesRepresentative, JoinType.LEFT).get(SupplySalesRepresentative_.id)));
+            }
+            if (criteria.getSupplyAreaManagerId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyAreaManagerId(),
+                    root -> root.join(SupplyShop_.supplyAreaManager, JoinType.LEFT).get(SupplyAreaManager_.id)));
             }
         }
         return specification;

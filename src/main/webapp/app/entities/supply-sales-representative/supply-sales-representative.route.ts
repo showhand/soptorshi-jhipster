@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { SupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
+import { ISupplySalesRepresentative, SupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
 import { SupplySalesRepresentativeService } from './supply-sales-representative.service';
 import { SupplySalesRepresentativeComponent } from './supply-sales-representative.component';
 import { SupplySalesRepresentativeDetailComponent } from './supply-sales-representative-detail.component';
 import { SupplySalesRepresentativeUpdateComponent } from './supply-sales-representative-update.component';
 import { SupplySalesRepresentativeDeletePopupComponent } from './supply-sales-representative-delete-dialog.component';
-import { ISupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
 
 @Injectable({ providedIn: 'root' })
 export class SupplySalesRepresentativeResolve implements Resolve<ISupplySalesRepresentative> {

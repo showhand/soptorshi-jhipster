@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -12,10 +12,10 @@ import { ISupplyZone } from 'app/shared/model/supply-zone.model';
 import { SupplyZoneService } from 'app/entities/supply-zone';
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
 import { SupplyAreaService } from 'app/entities/supply-area';
-import { ISupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
-import { SupplyAreaManagerService } from 'app/entities/supply-area-manager';
 import { ISupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
 import { SupplySalesRepresentativeService } from 'app/entities/supply-sales-representative';
+import { ISupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
+import { SupplyAreaManagerService } from 'app/entities/supply-area-manager';
 
 @Component({
     selector: 'jhi-supply-shop-update',
@@ -29,9 +29,9 @@ export class SupplyShopUpdateComponent implements OnInit {
 
     supplyareas: ISupplyArea[];
 
-    supplyareamanagers: ISupplyAreaManager[];
-
     supplysalesrepresentatives: ISupplySalesRepresentative[];
+
+    supplyareamanagers: ISupplyAreaManager[];
     createdOn: string;
     updatedOn: string;
 
@@ -40,8 +40,8 @@ export class SupplyShopUpdateComponent implements OnInit {
         protected supplyShopService: SupplyShopService,
         protected supplyZoneService: SupplyZoneService,
         protected supplyAreaService: SupplyAreaService,
-        protected supplyAreaManagerService: SupplyAreaManagerService,
         protected supplySalesRepresentativeService: SupplySalesRepresentativeService,
+        protected supplyAreaManagerService: SupplyAreaManagerService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -66,16 +66,6 @@ export class SupplyShopUpdateComponent implements OnInit {
                 map((response: HttpResponse<ISupplyArea[]>) => response.body)
             )
             .subscribe((res: ISupplyArea[]) => (this.supplyareas = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.supplyAreaManagerService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<ISupplyAreaManager[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ISupplyAreaManager[]>) => response.body)
-            )
-            .subscribe(
-                (res: ISupplyAreaManager[]) => (this.supplyareamanagers = res),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
         this.supplySalesRepresentativeService
             .query()
             .pipe(
@@ -84,6 +74,16 @@ export class SupplyShopUpdateComponent implements OnInit {
             )
             .subscribe(
                 (res: ISupplySalesRepresentative[]) => (this.supplysalesrepresentatives = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        this.supplyAreaManagerService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyAreaManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyAreaManager[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplyAreaManager[]) => (this.supplyareamanagers = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -128,11 +128,11 @@ export class SupplyShopUpdateComponent implements OnInit {
         return item.id;
     }
 
-    trackSupplyAreaManagerById(index: number, item: ISupplyAreaManager) {
+    trackSupplySalesRepresentativeById(index: number, item: ISupplySalesRepresentative) {
         return item.id;
     }
 
-    trackSupplySalesRepresentativeById(index: number, item: ISupplySalesRepresentative) {
+    trackSupplyAreaManagerById(index: number, item: ISupplyAreaManager) {
         return item.id;
     }
 }

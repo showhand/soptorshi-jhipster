@@ -20,19 +20,22 @@
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "supplyAreaManager",
-            "otherEntityRelationshipName": "supplyOrder",
-            "relationshipName": "supplyAreaManager",
-            "otherEntityField": "managerName",
-            "otherEntityRelationshipNameUndefined": false
-        },
-        {
-            "relationshipType": "many-to-one",
             "otherEntityName": "supplySalesRepresentative",
             "otherEntityRelationshipName": "supplyOrder",
             "relationshipName": "supplySalesRepresentative",
             "otherEntityField": "salesRepresentativeName",
             "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "supplyAreaManager",
+            "otherEntityName": "supplyAreaManager",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "supplyOrder",
+            "otherEntityRelationshipNameUndefined": true
         }
     ],
     "fields": [

@@ -71,11 +71,12 @@ public class SupplyOrder implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("supplyOrders")
-    private SupplyAreaManager supplyAreaManager;
-
-    @ManyToOne
-    @JsonIgnoreProperties("supplyOrders")
     private SupplySalesRepresentative supplySalesRepresentative;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyOrders")
+    private SupplyAreaManager supplyAreaManager;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -242,19 +243,6 @@ public class SupplyOrder implements Serializable {
         this.supplyArea = supplyArea;
     }
 
-    public SupplyAreaManager getSupplyAreaManager() {
-        return supplyAreaManager;
-    }
-
-    public SupplyOrder supplyAreaManager(SupplyAreaManager supplyAreaManager) {
-        this.supplyAreaManager = supplyAreaManager;
-        return this;
-    }
-
-    public void setSupplyAreaManager(SupplyAreaManager supplyAreaManager) {
-        this.supplyAreaManager = supplyAreaManager;
-    }
-
     public SupplySalesRepresentative getSupplySalesRepresentative() {
         return supplySalesRepresentative;
     }
@@ -266,6 +254,19 @@ public class SupplyOrder implements Serializable {
 
     public void setSupplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
         this.supplySalesRepresentative = supplySalesRepresentative;
+    }
+
+    public SupplyAreaManager getSupplyAreaManager() {
+        return supplyAreaManager;
+    }
+
+    public SupplyOrder supplyAreaManager(SupplyAreaManager supplyAreaManager) {
+        this.supplyAreaManager = supplyAreaManager;
+        return this;
+    }
+
+    public void setSupplyAreaManager(SupplyAreaManager supplyAreaManager) {
+        this.supplyAreaManager = supplyAreaManager;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

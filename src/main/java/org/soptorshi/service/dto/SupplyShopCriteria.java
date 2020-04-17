@@ -1,15 +1,12 @@
 package org.soptorshi.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.InstantFilter;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the SupplyShop entity. This class is used in SupplyShopResource to
@@ -41,9 +38,9 @@ public class SupplyShopCriteria implements Serializable {
 
     private LongFilter supplyAreaId;
 
-    private LongFilter supplyAreaManagerId;
-
     private LongFilter supplySalesRepresentativeId;
+
+    private LongFilter supplyAreaManagerId;
 
     public LongFilter getId() {
         return id;
@@ -117,20 +114,20 @@ public class SupplyShopCriteria implements Serializable {
         this.supplyAreaId = supplyAreaId;
     }
 
-    public LongFilter getSupplyAreaManagerId() {
-        return supplyAreaManagerId;
-    }
-
-    public void setSupplyAreaManagerId(LongFilter supplyAreaManagerId) {
-        this.supplyAreaManagerId = supplyAreaManagerId;
-    }
-
     public LongFilter getSupplySalesRepresentativeId() {
         return supplySalesRepresentativeId;
     }
 
     public void setSupplySalesRepresentativeId(LongFilter supplySalesRepresentativeId) {
         this.supplySalesRepresentativeId = supplySalesRepresentativeId;
+    }
+
+    public LongFilter getSupplyAreaManagerId() {
+        return supplyAreaManagerId;
+    }
+
+    public void setSupplyAreaManagerId(LongFilter supplyAreaManagerId) {
+        this.supplyAreaManagerId = supplyAreaManagerId;
     }
 
 
@@ -153,8 +150,8 @@ public class SupplyShopCriteria implements Serializable {
             Objects.equals(updatedOn, that.updatedOn) &&
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
             Objects.equals(supplyAreaId, that.supplyAreaId) &&
-            Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId) &&
-            Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId);
+            Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId) &&
+            Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId);
     }
 
     @Override
@@ -169,8 +166,8 @@ public class SupplyShopCriteria implements Serializable {
         updatedOn,
         supplyZoneId,
         supplyAreaId,
-        supplyAreaManagerId,
-        supplySalesRepresentativeId
+        supplySalesRepresentativeId,
+        supplyAreaManagerId
         );
     }
 
@@ -186,8 +183,8 @@ public class SupplyShopCriteria implements Serializable {
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
-                (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +
                 (supplySalesRepresentativeId != null ? "supplySalesRepresentativeId=" + supplySalesRepresentativeId + ", " : "") +
+                (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +
             "}";
     }
 

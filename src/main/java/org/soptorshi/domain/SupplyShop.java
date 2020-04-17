@@ -2,11 +2,10 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -20,7 +19,7 @@ import java.util.Objects;
 public class SupplyShop implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -54,11 +53,12 @@ public class SupplyShop implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("supplyShops")
-    private SupplyAreaManager supplyAreaManager;
-
-    @ManyToOne
-    @JsonIgnoreProperties("supplyShops")
     private SupplySalesRepresentative supplySalesRepresentative;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyShops")
+    private SupplyAreaManager supplyAreaManager;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -173,19 +173,6 @@ public class SupplyShop implements Serializable {
         this.supplyArea = supplyArea;
     }
 
-    public SupplyAreaManager getSupplyAreaManager() {
-        return supplyAreaManager;
-    }
-
-    public SupplyShop supplyAreaManager(SupplyAreaManager supplyAreaManager) {
-        this.supplyAreaManager = supplyAreaManager;
-        return this;
-    }
-
-    public void setSupplyAreaManager(SupplyAreaManager supplyAreaManager) {
-        this.supplyAreaManager = supplyAreaManager;
-    }
-
     public SupplySalesRepresentative getSupplySalesRepresentative() {
         return supplySalesRepresentative;
     }
@@ -197,6 +184,19 @@ public class SupplyShop implements Serializable {
 
     public void setSupplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
         this.supplySalesRepresentative = supplySalesRepresentative;
+    }
+
+    public SupplyAreaManager getSupplyAreaManager() {
+        return supplyAreaManager;
+    }
+
+    public SupplyShop supplyAreaManager(SupplyAreaManager supplyAreaManager) {
+        this.supplyAreaManager = supplyAreaManager;
+        return this;
+    }
+
+    public void setSupplyAreaManager(SupplyAreaManager supplyAreaManager) {
+        this.supplyAreaManager = supplyAreaManager;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

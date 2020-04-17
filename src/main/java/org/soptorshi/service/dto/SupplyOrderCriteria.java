@@ -49,9 +49,9 @@ public class SupplyOrderCriteria implements Serializable {
 
     private LongFilter supplyAreaId;
 
-    private LongFilter supplyAreaManagerId;
-
     private LongFilter supplySalesRepresentativeId;
+
+    private LongFilter supplyAreaManagerId;
 
     public LongFilter getId() {
         return id;
@@ -157,20 +157,20 @@ public class SupplyOrderCriteria implements Serializable {
         this.supplyAreaId = supplyAreaId;
     }
 
-    public LongFilter getSupplyAreaManagerId() {
-        return supplyAreaManagerId;
-    }
-
-    public void setSupplyAreaManagerId(LongFilter supplyAreaManagerId) {
-        this.supplyAreaManagerId = supplyAreaManagerId;
-    }
-
     public LongFilter getSupplySalesRepresentativeId() {
         return supplySalesRepresentativeId;
     }
 
     public void setSupplySalesRepresentativeId(LongFilter supplySalesRepresentativeId) {
         this.supplySalesRepresentativeId = supplySalesRepresentativeId;
+    }
+
+    public LongFilter getSupplyAreaManagerId() {
+        return supplyAreaManagerId;
+    }
+
+    public void setSupplyAreaManagerId(LongFilter supplyAreaManagerId) {
+        this.supplyAreaManagerId = supplyAreaManagerId;
     }
 
 
@@ -197,8 +197,8 @@ public class SupplyOrderCriteria implements Serializable {
             Objects.equals(supplyOrderStatus, that.supplyOrderStatus) &&
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
             Objects.equals(supplyAreaId, that.supplyAreaId) &&
-            Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId) &&
-            Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId);
+            Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId) &&
+            Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId);
     }
 
     @Override
@@ -217,8 +217,8 @@ public class SupplyOrderCriteria implements Serializable {
         supplyOrderStatus,
         supplyZoneId,
         supplyAreaId,
-        supplyAreaManagerId,
-        supplySalesRepresentativeId
+        supplySalesRepresentativeId,
+        supplyAreaManagerId
         );
     }
 
@@ -238,8 +238,8 @@ public class SupplyOrderCriteria implements Serializable {
                 (supplyOrderStatus != null ? "supplyOrderStatus=" + supplyOrderStatus + ", " : "") +
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
-                (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +
                 (supplySalesRepresentativeId != null ? "supplySalesRepresentativeId=" + supplySalesRepresentativeId + ", " : "") +
+                (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +
             "}";
     }
 

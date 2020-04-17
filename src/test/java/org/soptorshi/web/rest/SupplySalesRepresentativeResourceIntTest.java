@@ -1,24 +1,21 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.SupplySalesRepresentative;
-import org.soptorshi.domain.SupplyZone;
-import org.soptorshi.domain.SupplyArea;
-import org.soptorshi.domain.SupplyAreaManager;
-import org.soptorshi.repository.SupplySalesRepresentativeRepository;
-import org.soptorshi.repository.search.SupplySalesRepresentativeSearchRepository;
-import org.soptorshi.service.SupplySalesRepresentativeService;
-import org.soptorshi.service.dto.SupplySalesRepresentativeDTO;
-import org.soptorshi.service.mapper.SupplySalesRepresentativeMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.SupplySalesRepresentativeCriteria;
-import org.soptorshi.service.SupplySalesRepresentativeQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.SupplyArea;
+import org.soptorshi.domain.SupplyAreaManager;
+import org.soptorshi.domain.SupplySalesRepresentative;
+import org.soptorshi.domain.SupplyZone;
+import org.soptorshi.repository.SupplySalesRepresentativeRepository;
+import org.soptorshi.repository.search.SupplySalesRepresentativeSearchRepository;
+import org.soptorshi.service.SupplySalesRepresentativeQueryService;
+import org.soptorshi.service.SupplySalesRepresentativeService;
+import org.soptorshi.service.dto.SupplySalesRepresentativeDTO;
+import org.soptorshi.service.mapper.SupplySalesRepresentativeMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -38,12 +35,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -139,6 +135,11 @@ public class SupplySalesRepresentativeResourceIntTest {
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
+        // Add required entity
+        SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
+        em.persist(supplyAreaManager);
+        em.flush();
+        supplySalesRepresentative.setSupplyAreaManager(supplyAreaManager);
         return supplySalesRepresentative;
     }
 
@@ -234,7 +235,7 @@ public class SupplySalesRepresentativeResourceIntTest {
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getSupplySalesRepresentative() throws Exception {

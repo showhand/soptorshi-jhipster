@@ -1,25 +1,18 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.SupplyShop;
-import org.soptorshi.domain.SupplyZone;
-import org.soptorshi.domain.SupplyArea;
-import org.soptorshi.domain.SupplyAreaManager;
-import org.soptorshi.domain.SupplySalesRepresentative;
-import org.soptorshi.repository.SupplyShopRepository;
-import org.soptorshi.repository.search.SupplyShopSearchRepository;
-import org.soptorshi.service.SupplyShopService;
-import org.soptorshi.service.dto.SupplyShopDTO;
-import org.soptorshi.service.mapper.SupplyShopMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.SupplyShopCriteria;
-import org.soptorshi.service.SupplyShopQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.*;
+import org.soptorshi.repository.SupplyShopRepository;
+import org.soptorshi.repository.search.SupplyShopSearchRepository;
+import org.soptorshi.service.SupplyShopQueryService;
+import org.soptorshi.service.SupplyShopService;
+import org.soptorshi.service.dto.SupplyShopDTO;
+import org.soptorshi.service.mapper.SupplyShopMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -39,12 +32,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -140,6 +132,11 @@ public class SupplyShopResourceIntTest {
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
+        // Add required entity
+        SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
+        em.persist(supplyAreaManager);
+        em.flush();
+        supplyShop.setSupplyAreaManager(supplyAreaManager);
         return supplyShop;
     }
 
@@ -235,7 +232,7 @@ public class SupplyShopResourceIntTest {
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getSupplyShop() throws Exception {
@@ -529,25 +526,6 @@ public class SupplyShopResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSupplyShopsBySupplyAreaManagerIsEqualToSomething() throws Exception {
-        // Initialize the database
-        SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
-        em.persist(supplyAreaManager);
-        em.flush();
-        supplyShop.setSupplyAreaManager(supplyAreaManager);
-        supplyShopRepository.saveAndFlush(supplyShop);
-        Long supplyAreaManagerId = supplyAreaManager.getId();
-
-        // Get all the supplyShopList where supplyAreaManager equals to supplyAreaManagerId
-        defaultSupplyShopShouldBeFound("supplyAreaManagerId.equals=" + supplyAreaManagerId);
-
-        // Get all the supplyShopList where supplyAreaManager equals to supplyAreaManagerId + 1
-        defaultSupplyShopShouldNotBeFound("supplyAreaManagerId.equals=" + (supplyAreaManagerId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllSupplyShopsBySupplySalesRepresentativeIsEqualToSomething() throws Exception {
         // Initialize the database
         SupplySalesRepresentative supplySalesRepresentative = SupplySalesRepresentativeResourceIntTest.createEntity(em);
@@ -562,6 +540,25 @@ public class SupplyShopResourceIntTest {
 
         // Get all the supplyShopList where supplySalesRepresentative equals to supplySalesRepresentativeId + 1
         defaultSupplyShopShouldNotBeFound("supplySalesRepresentativeId.equals=" + (supplySalesRepresentativeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyShopsBySupplyAreaManagerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
+        em.persist(supplyAreaManager);
+        em.flush();
+        supplyShop.setSupplyAreaManager(supplyAreaManager);
+        supplyShopRepository.saveAndFlush(supplyShop);
+        Long supplyAreaManagerId = supplyAreaManager.getId();
+
+        // Get all the supplyShopList where supplyAreaManager equals to supplyAreaManagerId
+        defaultSupplyShopShouldBeFound("supplyAreaManagerId.equals=" + supplyAreaManagerId);
+
+        // Get all the supplyShopList where supplyAreaManager equals to supplyAreaManagerId + 1
+        defaultSupplyShopShouldNotBeFound("supplyAreaManagerId.equals=" + (supplyAreaManagerId + 1));
     }
 
     /**

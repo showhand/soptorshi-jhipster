@@ -151,6 +151,11 @@ public class SupplyOrderResourceIntTest {
             .offerAmount(DEFAULT_OFFER_AMOUNT)
             .deliveryDate(DEFAULT_DELIVERY_DATE)
             .supplyOrderStatus(DEFAULT_SUPPLY_ORDER_STATUS);
+        // Add required entity
+        SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
+        em.persist(supplyAreaManager);
+        em.flush();
+        supplyOrder.setSupplyAreaManager(supplyAreaManager);
         return supplyOrder;
     }
 
@@ -800,25 +805,6 @@ public class SupplyOrderResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSupplyOrdersBySupplyAreaManagerIsEqualToSomething() throws Exception {
-        // Initialize the database
-        SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
-        em.persist(supplyAreaManager);
-        em.flush();
-        supplyOrder.setSupplyAreaManager(supplyAreaManager);
-        supplyOrderRepository.saveAndFlush(supplyOrder);
-        Long supplyAreaManagerId = supplyAreaManager.getId();
-
-        // Get all the supplyOrderList where supplyAreaManager equals to supplyAreaManagerId
-        defaultSupplyOrderShouldBeFound("supplyAreaManagerId.equals=" + supplyAreaManagerId);
-
-        // Get all the supplyOrderList where supplyAreaManager equals to supplyAreaManagerId + 1
-        defaultSupplyOrderShouldNotBeFound("supplyAreaManagerId.equals=" + (supplyAreaManagerId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllSupplyOrdersBySupplySalesRepresentativeIsEqualToSomething() throws Exception {
         // Initialize the database
         SupplySalesRepresentative supplySalesRepresentative = SupplySalesRepresentativeResourceIntTest.createEntity(em);
@@ -833,6 +819,25 @@ public class SupplyOrderResourceIntTest {
 
         // Get all the supplyOrderList where supplySalesRepresentative equals to supplySalesRepresentativeId + 1
         defaultSupplyOrderShouldNotBeFound("supplySalesRepresentativeId.equals=" + (supplySalesRepresentativeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersBySupplyAreaManagerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
+        em.persist(supplyAreaManager);
+        em.flush();
+        supplyOrder.setSupplyAreaManager(supplyAreaManager);
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+        Long supplyAreaManagerId = supplyAreaManager.getId();
+
+        // Get all the supplyOrderList where supplyAreaManager equals to supplyAreaManagerId
+        defaultSupplyOrderShouldBeFound("supplyAreaManagerId.equals=" + supplyAreaManagerId);
+
+        // Get all the supplyOrderList where supplyAreaManager equals to supplyAreaManagerId + 1
+        defaultSupplyOrderShouldNotBeFound("supplyAreaManagerId.equals=" + (supplyAreaManagerId + 1));
     }
 
     /**

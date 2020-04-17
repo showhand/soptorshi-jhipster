@@ -597,31 +597,20 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'supply-zone',
-                loadChildren: './supply-zone/supply-zone.module#SoptorshiSupplyZoneModule'
+                loadChildren: './supply-zone-extended/supply-zone-extended.module#SoptorshiSupplyZoneExtendedModule'
             },
             {
                 path: 'supply-area',
-                loadChildren: './supply-area/supply-area.module#SoptorshiSupplyAreaModule'
-            },
-            {
-                path: 'supply-area-manager',
-                loadChildren: './supply-area-manager/supply-area-manager.module#SoptorshiSupplyAreaManagerModule'
+                loadChildren: './supply-area-extended/supply-area-extended.module#SoptorshiSupplyAreaExtendedModule'
             },
             {
                 path: 'supply-sales-representative',
-                loadChildren: './supply-sales-representative/supply-sales-representative.module#SoptorshiSupplySalesRepresentativeModule'
+                loadChildren:
+                    './supply-sales-representative-extended/supply-sales-representative-extended.module#SoptorshiSupplySalesRepresentativeExtendedModule'
             },
             {
                 path: 'supply-shop',
-                loadChildren: './supply-shop/supply-shop.module#SoptorshiSupplyShopModule'
-            },
-            {
-                path: 'supply-order',
-                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
-            },
-            {
-                path: 'supply-order-details',
-                loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
+                loadChildren: './supply-shop-extended/supply-shop-extended.module#SoptorshiSupplyShopExtendedModule'
             },
             {
                 path: 'supply-challan',
@@ -746,43 +735,44 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'supply-order',
-                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+                loadChildren: './supply-order-extended/supply-order-extended.module#SoptorshiSupplyOrderExtendedModule'
+            },
+            {
+                path: 'supply-order-details',
+                loadChildren:
+                    './supply-order-details-extended/supply-order-details-extended.module#SoptorshiSupplyOrderDetailsExtendedModule'
+            },
+            {
+                path: 'supply-area-manager',
+                loadChildren: './supply-area-manager-extended/supply-area-manager-extended.module#SoptorshiSupplyAreaManagerExtendedModule'
+            },
+            {
+                path: 'supply-zone-manager',
+                loadChildren: './supply-zone-manager-extended/supply-zone-manager-extended.module#SoptorshiSupplyZoneManagerExtendedModule'
+            },
+            {
+                path: 'supply-sales-representative',
+                loadChildren: './supply-sales-representative/supply-sales-representative.module#SoptorshiSupplySalesRepresentativeModule'
+            },
+            {
+                path: 'supply-shop',
+                loadChildren: './supply-shop/supply-shop.module#SoptorshiSupplyShopModule'
             },
             {
                 path: 'supply-order',
                 loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
             },
             {
-                path: 'supply-order-details',
-                loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
+                path: 'supply-sales-representative',
+                loadChildren: './supply-sales-representative/supply-sales-representative.module#SoptorshiSupplySalesRepresentativeModule'
             },
             {
-                path: 'supply-order-details',
-                loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
+                path: 'supply-shop',
+                loadChildren: './supply-shop/supply-shop.module#SoptorshiSupplyShopModule'
             },
             {
-                path: 'supply-area-manager',
-                loadChildren: './supply-area-manager/supply-area-manager.module#SoptorshiSupplyAreaManagerModule'
-            },
-            {
-                path: 'supply-area-manager',
-                loadChildren: './supply-area-manager/supply-area-manager.module#SoptorshiSupplyAreaManagerModule'
-            },
-            {
-                path: 'supply-zone-manager',
-                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
-            },
-            {
-                path: 'supply-zone-manager',
-                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
-            },
-            {
-                path: 'supply-zone-manager',
-                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
-            },
-            {
-                path: 'supply-zone-manager',
-                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

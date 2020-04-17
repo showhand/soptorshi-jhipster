@@ -1,7 +1,8 @@
 package org.soptorshi.service.dto;
-import java.time.Instant;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -34,8 +35,6 @@ public class SupplySalesRepresentativeDTO implements Serializable {
     private String supplyAreaAreaName;
 
     private Long supplyAreaManagerId;
-
-    private String supplyAreaManagerManagerName;
 
     public Long getId() {
         return id;
@@ -133,14 +132,6 @@ public class SupplySalesRepresentativeDTO implements Serializable {
         this.supplyAreaManagerId = supplyAreaManagerId;
     }
 
-    public String getSupplyAreaManagerManagerName() {
-        return supplyAreaManagerManagerName;
-    }
-
-    public void setSupplyAreaManagerManagerName(String supplyAreaManagerManagerName) {
-        this.supplyAreaManagerManagerName = supplyAreaManagerManagerName;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -177,7 +168,6 @@ public class SupplySalesRepresentativeDTO implements Serializable {
             ", supplyArea=" + getSupplyAreaId() +
             ", supplyArea='" + getSupplyAreaAreaName() + "'" +
             ", supplyAreaManager=" + getSupplyAreaManagerId() +
-            ", supplyAreaManager='" + getSupplyAreaManagerManagerName() + "'" +
             "}";
     }
 }
