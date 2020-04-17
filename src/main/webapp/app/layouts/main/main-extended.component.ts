@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRouteSnapshot, NavigationEnd, NavigationError, Router } from '@angular/router';
 import { AccountService } from 'app/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { SidebarService } from 'app/layouts/sidebar/sidebar.service';
+/*import { SidebarService } from 'app/layouts/sidebar/sidebar.service';*/
 import { Breadcrumb, BreadcrumbService } from 'angular-crumbs';
 
 @Component({
@@ -13,7 +13,7 @@ import { Breadcrumb, BreadcrumbService } from 'angular-crumbs';
     templateUrl: './main-extended.component.html'
 })
 export class JhiMainExtendedComponent extends JhiMainComponent implements OnInit {
-    configuration: any;
+    /*configuration: any;
     employeeManagement: any;
     holidayManagement: any;
     payrollManagement: any;
@@ -26,19 +26,21 @@ export class JhiMainExtendedComponent extends JhiMainComponent implements OnInit
     vouchers: any;
     reports: any;
     commercialManagement: any;
-    supplyChainManagement: any;
+    supplyChainManagement: any;*/
     isDesktop: boolean;
     breadcrumbs: MenuItem[];
+
+    leftMenuHidden: boolean;
 
     constructor(
         public titleService: Title,
         public router: Router,
         public accountService: AccountService,
         public deviceDetectorService: DeviceDetectorService,
-        public sidebarService: SidebarService,
+        /*public sidebarService: SidebarService,*/
         public breadCrumService: BreadcrumbService
     ) {
-        super(titleService, router, accountService, deviceDetectorService, sidebarService, breadCrumService);
+        super(titleService, router, accountService, deviceDetectorService, /*sidebarService,*/ breadCrumService);
     }
 
     public getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
@@ -47,6 +49,10 @@ export class JhiMainExtendedComponent extends JhiMainComponent implements OnInit
             title = this.getPageTitle(routeSnapshot.firstChild) || title;
         }
         return title;
+    }
+
+    toggleBtnLeftMenuEvent(event) {
+        this.leftMenuHidden = event;
     }
 
     ngOnInit() {

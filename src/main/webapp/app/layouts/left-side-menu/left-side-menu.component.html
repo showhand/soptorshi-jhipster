@@ -1,0 +1,765 @@
+<nav id="sidebar" [class.active]="leftMenuHidden">
+    <ul class="list-unstyled components">
+
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+            <a (click)="configuration=!configuration" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="cog"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Configurations
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!configuration" class="list-unstyled" id="homeSubmenu">
+                <li>
+                    <a class="dropdown-item" routerLink="department" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="id-card" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Department</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="designation" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="chess" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Designation</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="office" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="building" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Office</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="department-head" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Department Head</span>
+                    </a>
+                </li>
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+                    <a class="dropdown-item" routerLink="financial-account-year" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="donate" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Financial Account Year</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            *jhiHasAnyAuthority="['ROLE_EMPLOYEE_MANAGEMENT', 'ROLE_ADMIN']">
+            <a (click)="employeeManagement=!employeeManagement" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="user-cog"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Employee Manag.
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!employeeManagement" class="list-unstyled" id="employee-management">
+                <li>
+                    <a class="dropdown-item" routerLink="employee" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="user-edit" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Employee</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER', 'ROLE_USER']">
+            <a (click)="holidayManagement=!holidayManagement" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="calendar-alt" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Holiday Manag.
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!holidayManagement" class="list-unstyled" id="holiday-management">
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER']">
+                    <a class="dropdown-item" routerLink="holiday-type" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="bars" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Holiday Type</span>
+                    </a>
+                </li>
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER', 'ROLE_USER']">
+                    <a class="dropdown-item" routerLink="holiday" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="plane" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Holiday</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="weekend" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Weekend</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER', 'ROLE_USER']">
+            <a (click)="attendanceManagement=!attendanceManagement" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="user-clock" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Attendance Manag.
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!attendanceManagement" class="list-unstyled" id="attendance-management">
+                <li>
+                    <a class="dropdown-item" routerLink="attendance-excel-upload" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
+                        <fa-icon icon="file-excel" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Excel Upload</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="attendance" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
+                        <fa-icon icon="clock" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Employee Attendance</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="attendance/my-attendance" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER', 'ROLE_USER']">
+                        <fa-icon icon="clock" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Attendance</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_LEAVE_MANAGER',
+            'ROLE_USER']">
+            <a (click)="leaveManagement=!leaveManagement" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="star" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Leave Manag.
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!leaveManagement" class="list-unstyled" id="leave-management">
+                <li>
+                    <a class="dropdown-item" routerLink="leave-type" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                        <fa-icon icon="bars" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Leave Type</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="leave-application" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
+                        <fa-icon icon="car" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Leave Application</span>
+                    </a>
+                </li>
+                <li>
+                <a class="dropdown-item" routerLink="leave-application" routerLinkActive="active"
+                   [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
+                    <fa-icon icon="history" fixedWidth="true"></fa-icon>
+                    <span *ngIf="!leftMenuHidden">Leave History</span>
+                </a>
+            </li>
+                <li>
+                    <a class="dropdown-item" routerLink="leave-balance"
+                       routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
+                        <fa-icon icon="calculator" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Leave Balance</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="leave-application/new/others" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN',
+            'ROLE_LEAVE_MANAGER']">
+                        <fa-icon icon="car" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Others Leave Application</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="leave-application/history/others" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_LEAVE_MANAGER']">
+                        <fa-icon icon="history" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Others Leave History</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="leave-balance/balance/others"
+                       routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN',
+            'ROLE_LEAVE_MANAGER']">
+                        <fa-icon icon="calculator" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Others Leave Balance</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="leave-application/review"
+                       routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_LEAVE_MANAGER']">
+                        <fa-icon icon="superscript" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Review Application</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *jhiHasAnyAuthority="['ROLE_USER']">
+            <a (click)="payrollManagement=!payrollManagement" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="money-check"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Payroll Management
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!payrollManagement" class="list-unstyled" id="payrollManagement">
+
+                <li>
+                    <a class="dropdown-item" routerLink="designation-wise-allowance" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="hand-holding" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Designation Wise Allowance</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="fine-advance-loan-management" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="money-bill-wave" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden" style="font-size: smaller">Fine, Advance, Loan & Provident</span>
+                    </a>
+                </li>
+                <li *jhiHasAnyAuthority="['ROLE_USER']">
+                    <a class="dropdown-item" routerLink="special-allowance-time-line" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Special Allowance Time Line</span>
+                    </a>
+                </li>
+                <li *jhiHasAnyAuthority="['ROLE_USER']">
+                    <a routerLink="payroll-management" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Payroll Management</span>
+                    </a>
+                </li>
+                <li *jhiHasAnyAuthority="['ROLE_USER']">
+                    <a routerLink="salary-messages" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="dollar-sign" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Salary Messages</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD','ROLE_PURCHASE_COMMITTEE', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
+            <a (click)="procurementManagement=!procurementManagement" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="tools"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Procurement
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!procurementManagement" class="list-unstyled" id="procurementManagement">
+
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+                    <a class="dropdown-item" routerLink="purchase-committee" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Purchase Committee</span>
+                    </a>
+                </li>
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HR_ADMIN_EXECUTIVE']">
+                    <a class="dropdown-item" routerLink="budget-allocation" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Budget Allocation</span>
+                    </a>
+                </li>
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
+                    <a class="dropdown-item" routerLink="vendor" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Vendor</span>
+                    </a>
+                </li>
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
+                    <a class="dropdown-item" routerLink="product-category" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Product Category</span>
+                    </a>
+                </li>
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
+                    <a class="dropdown-item" routerLink="product/home" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Product</span>
+                    </a>
+                </li>
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_DEPARTMENT_HEAD', 'ROLE_HR_ADMIN_EXECUTIVE','ROLE_REQUISITION','ROLE_PURCHASE_COMMITTEE','ROLE_CFO']">
+                    <a class="dropdown-item" routerLink="requisition" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Requisition</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="purchase-order" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Purchase Order</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
+            <a (click)="production=!production" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="shopping-basket" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Production
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!production" class="list-unstyled" id="production-management">
+                <li>
+                    <a class="dropdown-item" routerLink="production" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Production</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
+            <a (click)="inventoryManagement=!inventoryManagement" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="shopping-basket" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Inventory Manag.
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!inventoryManagement" class="list-unstyled" id="inventory-management">
+                <li>
+                <a class="dropdown-item" routerLink="manufacturer" routerLinkActive="active"
+                   [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                    <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                    <span *ngIf="!leftMenuHidden">Manufacture</span>
+                </a>
+            </li>
+                <li>
+                    <a class="dropdown-item" routerLink="item-category" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="cube" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Item Category</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="dropdown-item" routerLink="item-sub-category" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="cubes" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Item Sub Category</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="inventory-location" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="building" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Inventory Location</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="inventory-sub-location" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="sitemap" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Inventory Sub Location</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="stock-in-process" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="tasks" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Stock in Process</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="stock-in-item" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="database" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Stock Item</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="stock-status" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="bars" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Stock Status</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="stock-out-item" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="superscript" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Stock Out Item</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        >
+            <a (click)="accountsConfig=!accountsConfig" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="money-check-alt" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Acc. Definitions
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!accountsConfig" class="list-unstyled" id="accountsConfig">
+                <li>
+                    <a class="dropdown-item" routerLink="mst-group" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Account Groups</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="mst-account" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Account</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="period-close" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Period-Close</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="voucher" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Voucher Configuration</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="predefined-narration" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Narration</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="voucher-number-control" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Voucher Number Control</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="system-group-map" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">System Group map</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="system-account-map" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">System Account map</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="currency" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Currency</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="conversion-factor" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Conversion Factor</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        >
+            <a (click)="vouchers=!vouchers" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="money-check-alt" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Vouchers
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!vouchers" class="list-unstyled" id="vouchers">
+                <li>
+                    <a class="dropdown-item" routerLink="journal-voucher" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Journal Voucher</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="payment-voucher" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Payment Voucher</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="receipt-voucher" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Receipt Voucher</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="contra-voucher" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Contra Voucher</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="dt-transaction" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">DT Transaction</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        >
+            <a (click)="reports=!reports" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="money-check-alt" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Acc Reports
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!reports" class="list-unstyled" id="reports">
+                <li>
+                    <a class="dropdown-item" routerLink="account-balance/balance-sheet" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Balance Sheet</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            *jhiHasAnyAuthority="['ROLE_ADMIN']">
+            <a (click)="commercialManagement=!commercialManagement" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="link" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Commercial Manag.
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!commercialManagement" class="list-unstyled" id="commercial-management">
+                <li>
+                    <a class="dropdown-item" routerLink="commercial-budget" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Commercial Budget</span>
+                    </a>
+                </li>
+                <li>
+                <a class="dropdown-item" routerLink="commercial-product-info" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                    <span *ngIf="!leftMenuHidden">Commercial Product Info</span>
+                </a>
+            </li>
+                <li>
+                    <a class="dropdown-item" routerLink="commercial-pi" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Commercial Pi</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="commercial-payment-info" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Commercial Payment Info</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="commercial-po" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Commercial Po</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="commercial-attachment" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Commercial Attachment</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            *jhiHasAnyAuthority="['ROLE_ADMIN']">
+            <a (click)="supplyChainManagement=!supplyChainManagement" data-toggle="collapse" class="dropdown-toggle"
+               [attr.aria-expanded]="false">
+
+                        <fa-icon icon="link" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">
+                            Supply Chain Manag.
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!supplyChainManagement" class="list-unstyled" id="supply-chain-management">
+                <li>
+                    <a class="dropdown-item" routerLink="supply-zone" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="bars" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Zone</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="supply-area" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="sitemap" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Area</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="supply-area-manager" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="cube" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Area Manager</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="supply-sales-representative" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="cubes" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Sales Representative</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="supply-shop" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="building" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Shop</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="supply-order" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="plus" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Supply Order</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="supply-order-details" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="info-circle" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Order Details</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="supply-challan" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="superscript" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Challan</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="supply-money-collection" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="money-bill" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Money Collection</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
+
+    </ul>
+</nav>

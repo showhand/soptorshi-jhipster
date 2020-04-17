@@ -87,3 +87,9 @@ Logo styles
     vertical-align: middle;
     width: 70px;
 }
+
+.btn-left-menu-toggle {
+    color: #ccc;
+    font-size: 1.5em;
+    padding: 10px;
+}

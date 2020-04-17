@@ -26,7 +26,7 @@
         <div class="col-4" *ngIf="employee!==undefined && employee.photo=== undefined">
             <span class="user img-fluid rounded"></span>
         </div>
-        <div class="col-4">
+        <div class="col-4" *ngIf="employee!==undefined">
             <table class="table">
                 <tbody>
                 <tr>

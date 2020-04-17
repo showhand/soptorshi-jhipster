@@ -19,14 +19,14 @@ import { SoptorshiEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import {
+    ErrorComponent,
+    FooterComponent,
     JhiMainComponent,
     NavbarComponent,
     NavbarExtendedComponent,
-    FooterComponent,
-    PageRibbonComponent,
-    ErrorComponent
+    PageRibbonComponent
 } from './layouts';
-import { MatButton, MatButtonModule, MatCheckbox, MatTab, MatTableModule, MatTabsModule } from '@angular/material';
+import { MatButtonModule, MatTableModule, MatTabsModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { DeviceDetectorModule } from 'ngx-device-detector';
@@ -39,7 +39,9 @@ import { SoptorshiExtendedHomeModule } from 'app/home-extended';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { LeftSideMenuComponent } from 'app/layouts/left-side-menu/left-side-menu.component';
+
 // import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
@@ -81,7 +83,8 @@ import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autoco
         NavbarComponent,
         ErrorComponent,
         PageRibbonComponent,
-        FooterComponent
+        FooterComponent,
+        LeftSideMenuComponent
     ],
     providers: [
         {
