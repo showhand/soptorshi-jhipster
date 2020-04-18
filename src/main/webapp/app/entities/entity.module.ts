@@ -543,10 +543,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './system-group-map/system-group-map.module#SoptorshiSystemGroupMapExtendedModule'
             },
             {
-                path: 'supply-challan',
-                loadChildren: './supply-challan/supply-challan.module#SoptorshiSupplyChallanModule'
-            },
-            {
                 path: 'supply-money-collection',
                 loadChildren: './supply-money-collection/supply-money-collection.module#SoptorshiSupplyMoneyCollectionModule'
             },
@@ -586,7 +582,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'supply-challan',
-                loadChildren: './supply-challan/supply-challan.module#SoptorshiSupplyChallanModule'
+                loadChildren: './supply-challan-extended/supply-challan-extended.module#SoptorshiSupplyChallanExtendedModule'
             },
             {
                 path: 'supply-money-collection',

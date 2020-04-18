@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { SupplyChallan } from 'app/shared/model/supply-challan.model';
+import { ISupplyChallan, SupplyChallan } from 'app/shared/model/supply-challan.model';
 import { SupplyChallanService } from './supply-challan.service';
 import { SupplyChallanComponent } from './supply-challan.component';
 import { SupplyChallanDetailComponent } from './supply-challan-detail.component';
 import { SupplyChallanUpdateComponent } from './supply-challan-update.component';
 import { SupplyChallanDeletePopupComponent } from './supply-challan-delete-dialog.component';
-import { ISupplyChallan } from 'app/shared/model/supply-challan.model';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyChallanResolve implements Resolve<ISupplyChallan> {

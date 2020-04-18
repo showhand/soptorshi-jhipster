@@ -1,12 +1,13 @@
-package org.soptorshi.web.rest;
+package org.soptorshi.web.rest.extended;
 
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.service.SupplyChallanQueryService;
-import org.soptorshi.service.SupplyChallanService;
 import org.soptorshi.service.dto.SupplyChallanCriteria;
 import org.soptorshi.service.dto.SupplyChallanDTO;
+import org.soptorshi.service.extended.SupplyChallanExtendedService;
+import org.soptorshi.web.rest.SupplyChallanResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
 import org.soptorshi.web.rest.util.PaginationUtil;
@@ -26,18 +27,19 @@ import java.util.Optional;
  * REST controller for managing SupplyChallan.
  */
 @RestController
-@RequestMapping("/api")
-public class SupplyChallanResource {
+@RequestMapping("/api/extended")
+public class SupplyChallanExtendedResource extends SupplyChallanResource {
 
-    private final Logger log = LoggerFactory.getLogger(SupplyChallanResource.class);
+    private final Logger log = LoggerFactory.getLogger(SupplyChallanExtendedResource.class);
 
     private static final String ENTITY_NAME = "supplyChallan";
 
-    private final SupplyChallanService supplyChallanService;
+    private final SupplyChallanExtendedService supplyChallanService;
 
     private final SupplyChallanQueryService supplyChallanQueryService;
 
-    public SupplyChallanResource(SupplyChallanService supplyChallanService, SupplyChallanQueryService supplyChallanQueryService) {
+    public SupplyChallanExtendedResource(SupplyChallanExtendedService supplyChallanService, SupplyChallanQueryService supplyChallanQueryService) {
+        super(supplyChallanService, supplyChallanQueryService);
         this.supplyChallanService = supplyChallanService;
         this.supplyChallanQueryService = supplyChallanQueryService;
     }

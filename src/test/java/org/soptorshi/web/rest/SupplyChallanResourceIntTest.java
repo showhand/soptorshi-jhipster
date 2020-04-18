@@ -1,22 +1,19 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.SupplyChallan;
-import org.soptorshi.domain.SupplyOrder;
-import org.soptorshi.repository.SupplyChallanRepository;
-import org.soptorshi.repository.search.SupplyChallanSearchRepository;
-import org.soptorshi.service.SupplyChallanService;
-import org.soptorshi.service.dto.SupplyChallanDTO;
-import org.soptorshi.service.mapper.SupplyChallanMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.SupplyChallanCriteria;
-import org.soptorshi.service.SupplyChallanQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.SupplyChallan;
+import org.soptorshi.domain.SupplyOrder;
+import org.soptorshi.repository.SupplyChallanRepository;
+import org.soptorshi.repository.search.SupplyChallanSearchRepository;
+import org.soptorshi.service.SupplyChallanQueryService;
+import org.soptorshi.service.SupplyChallanService;
+import org.soptorshi.service.dto.SupplyChallanDTO;
+import org.soptorshi.service.mapper.SupplyChallanMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -31,19 +28,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -240,7 +236,7 @@ public class SupplyChallanResourceIntTest {
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getSupplyChallan() throws Exception {
