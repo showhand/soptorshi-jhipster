@@ -13,10 +13,6 @@
                 <dd>
                     <span>{{supplyOrder.dateOfOrder}}</span>
                 </dd>
-                <dt><span>Offer</span></dt>
-                <dd>
-                    <span>{{supplyOrder.offer}}</span>
-                </dd>
                 <dt><span>Created By</span></dt>
                 <dd>
                     <span>{{supplyOrder.createdBy}}</span>
@@ -69,6 +65,12 @@
                         <a [routerLink]="['/supply-sales-representative', supplyOrder.supplySalesRepresentativeId, 'view']">{{supplyOrder.supplySalesRepresentativeSalesRepresentativeName}}</a>
                     </div>
                 </dd>
+                <dt><span>Supply Shop</span></dt>
+                <dd>
+                    <div *ngIf="supplyOrder.supplyShopId">
+                        <a [routerLink]="['/supply-shop', supplyOrder.supplyShopId, 'view']">{{supplyOrder.supplyShopShopName}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"
@@ -77,11 +79,11 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
 
-            <button type="button"
+            <!--<button type="button"
                     [routerLink]="['/supply-order', supplyOrder.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>
+            </button>-->
         </div>
     </div>
 </div>

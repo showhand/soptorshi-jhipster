@@ -28,7 +28,6 @@ describe('Service Tests', () => {
                 'AAAAAAA',
                 currentDate,
                 'AAAAAAA',
-                'AAAAAAA',
                 currentDate,
                 'AAAAAAA',
                 currentDate,
@@ -91,7 +90,6 @@ describe('Service Tests', () => {
                     {
                         orderNo: 'BBBBBB',
                         dateOfOrder: currentDate.format(DATE_FORMAT),
-                        offer: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',
@@ -125,7 +123,6 @@ describe('Service Tests', () => {
                     {
                         orderNo: 'BBBBBB',
                         dateOfOrder: currentDate.format(DATE_FORMAT),
-                        offer: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',

@@ -191,4 +191,20 @@
         <addForeignKeyConstraint baseColumnNames="supply_area_manager_id" baseTableName="supply_sales_representative" constraintName="FKcypglmm6fqqkmelm74gna5sir" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area_manager"/>
     </changeSet>
 
+
+    <changeSet author="kawsu (generated)" id="1587175344868-3">
+        <dropColumn columnName="offer" tableName="supply_order"/>
+    </changeSet>
+
+
+    <changeSet author="kawsu (generated)" id="1587177618538-1">
+        <addColumn tableName="supply_order">
+            <column name="supply_shop_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1587177618538-2">
+        <addForeignKeyConstraint baseColumnNames="supply_shop_id" baseTableName="supply_order" constraintName="FKkiuyxlixfyw148t9i70ib00e2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_shop"/>
+    </changeSet>
 </databaseChangeLog>

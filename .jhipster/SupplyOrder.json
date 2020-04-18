@@ -35,6 +35,17 @@
             ],
             "otherEntityField": "id",
             "otherEntityRelationshipName": "supplyOrder",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "supplyShop",
+            "otherEntityName": "supplyShop",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "shopName",
+            "otherEntityRelationshipName": "supplyOrder",
             "otherEntityRelationshipNameUndefined": true
         }
     ],
@@ -49,13 +60,6 @@
         {
             "fieldName": "dateOfOrder",
             "fieldType": "LocalDate"
-        },
-        {
-            "fieldName": "offer",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
         },
         {
             "fieldName": "createdBy",

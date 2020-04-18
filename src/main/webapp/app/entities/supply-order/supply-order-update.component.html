@@ -31,17 +31,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_offer">Offer</label>
-                    <input type="text" class="form-control" name="offer" id="field_offer"
-                        [(ngModel)]="supplyOrder.offer" required/>
-                    <div [hidden]="!(editForm.controls.offer?.dirty && editForm.controls.offer?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.offer?.errors?.required">
-                        This field is required.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_createdBy">Created By</label>
                     <input type="text" class="form-control" name="createdBy" id="field_createdBy"
                         [(ngModel)]="supplyOrder.createdBy" />
@@ -127,6 +116,19 @@
                 <div [hidden]="!(editForm.controls.supplyAreaManager?.dirty && editForm.controls.supplyAreaManager?.invalid)">
                     <small class="form-text text-danger"
                         [hidden]="!editForm.controls.supplyAreaManager?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyShop">Supply Shop</label>
+                    <select class="form-control" id="field_supplyShop" name="supplyShop" [(ngModel)]="supplyOrder.supplyShopId"  required>
+                        <option *ngIf="!editForm.value.supplyShop" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyShopOption.id" *ngFor="let supplyShopOption of supplyshops; trackBy: trackSupplyShopById">{{supplyShopOption.shopName}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyShop?.dirty && editForm.controls.supplyShop?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.supplyShop?.errors?.required">
                         This field is required.
                     </small>
                 </div>

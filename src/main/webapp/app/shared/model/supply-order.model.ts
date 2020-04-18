@@ -11,7 +11,6 @@ export interface ISupplyOrder {
     id?: number;
     orderNo?: string;
     dateOfOrder?: Moment;
-    offer?: string;
     createdBy?: string;
     createdOn?: Moment;
     updatedBy?: string;
@@ -26,6 +25,8 @@ export interface ISupplyOrder {
     supplySalesRepresentativeSalesRepresentativeName?: string;
     supplySalesRepresentativeId?: number;
     supplyAreaManagerId?: number;
+    supplyShopShopName?: string;
+    supplyShopId?: number;
 }
 
 export class SupplyOrder implements ISupplyOrder {
@@ -33,7 +34,6 @@ export class SupplyOrder implements ISupplyOrder {
         public id?: number,
         public orderNo?: string,
         public dateOfOrder?: Moment,
-        public offer?: string,
         public createdBy?: string,
         public createdOn?: Moment,
         public updatedBy?: string,
@@ -47,6 +47,8 @@ export class SupplyOrder implements ISupplyOrder {
         public supplyAreaId?: number,
         public supplySalesRepresentativeSalesRepresentativeName?: string,
         public supplySalesRepresentativeId?: number,
-        public supplyAreaManagerId?: number
+        public supplyAreaManagerId?: number,
+        public supplyShopShopName?: string,
+        public supplyShopId?: number
     ) {}
 }

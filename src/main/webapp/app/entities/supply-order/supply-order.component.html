@@ -32,7 +32,6 @@
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="orderNo"><span>Order No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="dateOfOrder"><span>Date Of Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="offer"><span>Offer</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -44,6 +43,7 @@
             <th jhiSortBy="supplyAreaAreaName"><span>Supply Area</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplySalesRepresentativeSalesRepresentativeName"><span>Supply Sales Representative</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyAreaManagerId"><span>Supply Area Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyShopShopName"><span>Supply Shop</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -52,7 +52,6 @@
                 <td><a [routerLink]="['/supply-order', supplyOrder.id, 'view' ]">{{supplyOrder.id}}</a></td>
                 <td>{{supplyOrder.orderNo}}</td>
                 <td>{{supplyOrder.dateOfOrder | date:'mediumDate'}}</td>
-                <td>{{supplyOrder.offer}}</td>
                 <td>{{supplyOrder.createdBy}}</td>
                 <td>{{supplyOrder.createdOn | date:'medium'}}</td>
                 <td>{{supplyOrder.updatedBy}}</td>
@@ -78,6 +77,11 @@
                 <td>
                     <div *ngIf="supplyOrder.supplyAreaManagerId">
                         <a [routerLink]="['../supply-area-manager', supplyOrder.supplyAreaManagerId , 'view' ]" >{{supplyOrder.supplyAreaManagerId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyOrder.supplyShopId">
+                        <a [routerLink]="['../supply-shop', supplyOrder.supplyShopId , 'view' ]" >{{supplyOrder.supplyShopShopName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

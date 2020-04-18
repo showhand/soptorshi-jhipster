@@ -95,9 +95,6 @@ public class SupplyOrderQueryService extends QueryService<SupplyOrder> {
             if (criteria.getDateOfOrder() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDateOfOrder(), SupplyOrder_.dateOfOrder));
             }
-            if (criteria.getOffer() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getOffer(), SupplyOrder_.offer));
-            }
             if (criteria.getCreatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), SupplyOrder_.createdBy));
             }
@@ -134,6 +131,10 @@ public class SupplyOrderQueryService extends QueryService<SupplyOrder> {
             if (criteria.getSupplyAreaManagerId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyAreaManagerId(),
                     root -> root.join(SupplyOrder_.supplyAreaManager, JoinType.LEFT).get(SupplyAreaManager_.id)));
+            }
+            if (criteria.getSupplyShopId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyShopId(),
+                    root -> root.join(SupplyOrder_.supplyShop, JoinType.LEFT).get(SupplyShop_.id)));
             }
         }
         return specification;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { JhiAlertService } from 'ng-jhipster';
 import { SupplyOrderDetailsExtendedService } from './supply-order-details-extended.service';
 import { SupplyOrderService } from 'app/entities/supply-order';
@@ -18,8 +18,17 @@ export class SupplyOrderDetailsUpdateExtendedComponent extends SupplyOrderDetail
         protected supplyOrderService: SupplyOrderService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        protected router: Router
     ) {
         super(jhiAlertService, supplyOrderDetailsService, supplyOrderService, productCategoryService, productService, activatedRoute);
+    }
+
+    previousState() {
+        if (this.supplyOrderDetails && this.supplyOrderDetails.supplyOrderId) {
+            this.router.navigate(['/supply-order', this.supplyOrderDetails.supplyOrderId, 'edit']);
+        } else {
+            window.history.back();
+        }
     }
 }

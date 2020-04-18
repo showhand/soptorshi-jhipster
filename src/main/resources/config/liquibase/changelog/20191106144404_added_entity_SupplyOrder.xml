@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <property name="now" value="now()" dbms="h2"/>
 
@@ -26,10 +26,6 @@
 
             <column name="date_of_order" type="date">
                 <constraints nullable="true" />
-            </column>
-
-            <column name="offer" type="varchar(255)">
-                <constraints nullable="false" />
             </column>
 
             <column name="created_by" type="varchar(255)">
@@ -73,6 +69,10 @@
             </column>
 
             <column name="supply_area_manager_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="supply_shop_id" type="bigint">
                 <constraints nullable="false" />
             </column>
 

@@ -16,6 +16,8 @@ import { ISupplySalesRepresentative } from 'app/shared/model/supply-sales-repres
 import { SupplySalesRepresentativeService } from 'app/entities/supply-sales-representative';
 import { ISupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
 import { SupplyAreaManagerService } from 'app/entities/supply-area-manager';
+import { ISupplyShop } from 'app/shared/model/supply-shop.model';
+import { SupplyShopService } from 'app/entities/supply-shop';
 
 @Component({
     selector: 'jhi-supply-order-update',
@@ -32,6 +34,8 @@ export class SupplyOrderUpdateComponent implements OnInit {
     supplysalesrepresentatives: ISupplySalesRepresentative[];
 
     supplyareamanagers: ISupplyAreaManager[];
+
+    supplyshops: ISupplyShop[];
     dateOfOrderDp: any;
     createdOn: string;
     updatedOn: string;
@@ -44,6 +48,7 @@ export class SupplyOrderUpdateComponent implements OnInit {
         protected supplyAreaService: SupplyAreaService,
         protected supplySalesRepresentativeService: SupplySalesRepresentativeService,
         protected supplyAreaManagerService: SupplyAreaManagerService,
+        protected supplyShopService: SupplyShopService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -88,6 +93,13 @@ export class SupplyOrderUpdateComponent implements OnInit {
                 (res: ISupplyAreaManager[]) => (this.supplyareamanagers = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.supplyShopService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyShop[]>) => response.body)
+            )
+            .subscribe((res: ISupplyShop[]) => (this.supplyshops = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -135,6 +147,10 @@ export class SupplyOrderUpdateComponent implements OnInit {
     }
 
     trackSupplyAreaManagerById(index: number, item: ISupplyAreaManager) {
+        return item.id;
+    }
+
+    trackSupplyShopById(index: number, item: ISupplyShop) {
         return item.id;
     }
 }

@@ -29,8 +29,6 @@ public class SupplyOrderCriteria implements Serializable {
 
     private LocalDateFilter dateOfOrder;
 
-    private StringFilter offer;
-
     private StringFilter createdBy;
 
     private InstantFilter createdOn;
@@ -52,6 +50,8 @@ public class SupplyOrderCriteria implements Serializable {
     private LongFilter supplySalesRepresentativeId;
 
     private LongFilter supplyAreaManagerId;
+
+    private LongFilter supplyShopId;
 
     public LongFilter getId() {
         return id;
@@ -75,14 +75,6 @@ public class SupplyOrderCriteria implements Serializable {
 
     public void setDateOfOrder(LocalDateFilter dateOfOrder) {
         this.dateOfOrder = dateOfOrder;
-    }
-
-    public StringFilter getOffer() {
-        return offer;
-    }
-
-    public void setOffer(StringFilter offer) {
-        this.offer = offer;
     }
 
     public StringFilter getCreatedBy() {
@@ -173,6 +165,14 @@ public class SupplyOrderCriteria implements Serializable {
         this.supplyAreaManagerId = supplyAreaManagerId;
     }
 
+    public LongFilter getSupplyShopId() {
+        return supplyShopId;
+    }
+
+    public void setSupplyShopId(LongFilter supplyShopId) {
+        this.supplyShopId = supplyShopId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -187,7 +187,6 @@ public class SupplyOrderCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(orderNo, that.orderNo) &&
             Objects.equals(dateOfOrder, that.dateOfOrder) &&
-            Objects.equals(offer, that.offer) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
@@ -198,7 +197,8 @@ public class SupplyOrderCriteria implements Serializable {
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
             Objects.equals(supplyAreaId, that.supplyAreaId) &&
             Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId) &&
-            Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId);
+            Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId) &&
+            Objects.equals(supplyShopId, that.supplyShopId);
     }
 
     @Override
@@ -207,7 +207,6 @@ public class SupplyOrderCriteria implements Serializable {
         id,
         orderNo,
         dateOfOrder,
-        offer,
         createdBy,
         createdOn,
         updatedBy,
@@ -218,7 +217,8 @@ public class SupplyOrderCriteria implements Serializable {
         supplyZoneId,
         supplyAreaId,
         supplySalesRepresentativeId,
-        supplyAreaManagerId
+        supplyAreaManagerId,
+        supplyShopId
         );
     }
 
@@ -228,7 +228,6 @@ public class SupplyOrderCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (orderNo != null ? "orderNo=" + orderNo + ", " : "") +
                 (dateOfOrder != null ? "dateOfOrder=" + dateOfOrder + ", " : "") +
-                (offer != null ? "offer=" + offer + ", " : "") +
                 (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
@@ -240,6 +239,7 @@ public class SupplyOrderCriteria implements Serializable {
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
                 (supplySalesRepresentativeId != null ? "supplySalesRepresentativeId=" + supplySalesRepresentativeId + ", " : "") +
                 (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +
+                (supplyShopId != null ? "supplyShopId=" + supplyShopId + ", " : "") +
             "}";
     }
 

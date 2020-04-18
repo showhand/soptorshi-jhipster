@@ -21,9 +21,6 @@ public class SupplyOrderDTO implements Serializable {
 
     private LocalDate dateOfOrder;
 
-    @NotNull
-    private String offer;
-
     private String createdBy;
 
     private Instant createdOn;
@@ -54,6 +51,10 @@ public class SupplyOrderDTO implements Serializable {
 
     private Long supplyAreaManagerId;
 
+    private Long supplyShopId;
+
+    private String supplyShopShopName;
+
     public Long getId() {
         return id;
     }
@@ -76,14 +77,6 @@ public class SupplyOrderDTO implements Serializable {
 
     public void setDateOfOrder(LocalDate dateOfOrder) {
         this.dateOfOrder = dateOfOrder;
-    }
-
-    public String getOffer() {
-        return offer;
-    }
-
-    public void setOffer(String offer) {
-        this.offer = offer;
     }
 
     public String getCreatedBy() {
@@ -198,6 +191,22 @@ public class SupplyOrderDTO implements Serializable {
         this.supplyAreaManagerId = supplyAreaManagerId;
     }
 
+    public Long getSupplyShopId() {
+        return supplyShopId;
+    }
+
+    public void setSupplyShopId(Long supplyShopId) {
+        this.supplyShopId = supplyShopId;
+    }
+
+    public String getSupplyShopShopName() {
+        return supplyShopShopName;
+    }
+
+    public void setSupplyShopShopName(String supplyShopShopName) {
+        this.supplyShopShopName = supplyShopShopName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -225,7 +234,6 @@ public class SupplyOrderDTO implements Serializable {
             "id=" + getId() +
             ", orderNo='" + getOrderNo() + "'" +
             ", dateOfOrder='" + getDateOfOrder() + "'" +
-            ", offer='" + getOffer() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
@@ -240,6 +248,8 @@ public class SupplyOrderDTO implements Serializable {
             ", supplySalesRepresentative=" + getSupplySalesRepresentativeId() +
             ", supplySalesRepresentative='" + getSupplySalesRepresentativeSalesRepresentativeName() + "'" +
             ", supplyAreaManager=" + getSupplyAreaManagerId() +
+            ", supplyShop=" + getSupplyShopId() +
+            ", supplyShop='" + getSupplyShopShopName() + "'" +
             "}";
     }
 }

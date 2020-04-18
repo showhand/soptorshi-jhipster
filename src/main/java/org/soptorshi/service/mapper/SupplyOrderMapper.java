@@ -8,7 +8,7 @@ import org.soptorshi.service.dto.SupplyOrderDTO;
 /**
  * Mapper for the entity SupplyOrder and its DTO SupplyOrderDTO.
  */
-@Mapper(componentModel = "spring", uses = {SupplyZoneMapper.class, SupplyAreaMapper.class, SupplySalesRepresentativeMapper.class, SupplyAreaManagerMapper.class})
+@Mapper(componentModel = "spring", uses = {SupplyZoneMapper.class, SupplyAreaMapper.class, SupplySalesRepresentativeMapper.class, SupplyAreaManagerMapper.class, SupplyShopMapper.class})
 public interface SupplyOrderMapper extends EntityMapper<SupplyOrderDTO, SupplyOrder> {
 
     @Mapping(source = "supplyZone.id", target = "supplyZoneId")
@@ -18,12 +18,15 @@ public interface SupplyOrderMapper extends EntityMapper<SupplyOrderDTO, SupplyOr
     @Mapping(source = "supplySalesRepresentative.id", target = "supplySalesRepresentativeId")
     @Mapping(source = "supplySalesRepresentative.salesRepresentativeName", target = "supplySalesRepresentativeSalesRepresentativeName")
     @Mapping(source = "supplyAreaManager.id", target = "supplyAreaManagerId")
+    @Mapping(source = "supplyShop.id", target = "supplyShopId")
+    @Mapping(source = "supplyShop.shopName", target = "supplyShopShopName")
     SupplyOrderDTO toDto(SupplyOrder supplyOrder);
 
     @Mapping(source = "supplyZoneId", target = "supplyZone")
     @Mapping(source = "supplyAreaId", target = "supplyArea")
     @Mapping(source = "supplySalesRepresentativeId", target = "supplySalesRepresentative")
     @Mapping(source = "supplyAreaManagerId", target = "supplyAreaManager")
+    @Mapping(source = "supplyShopId", target = "supplyShop")
     SupplyOrder toEntity(SupplyOrderDTO supplyOrderDTO);
 
     default SupplyOrder fromId(Long id) {

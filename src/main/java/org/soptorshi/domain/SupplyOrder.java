@@ -34,10 +34,6 @@ public class SupplyOrder implements Serializable {
     @Column(name = "date_of_order")
     private LocalDate dateOfOrder;
 
-    @NotNull
-    @Column(name = "offer", nullable = false)
-    private String offer;
-
     @Column(name = "created_by")
     private String createdBy;
 
@@ -78,6 +74,11 @@ public class SupplyOrder implements Serializable {
     @JsonIgnoreProperties("supplyOrders")
     private SupplyAreaManager supplyAreaManager;
 
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyOrders")
+    private SupplyShop supplyShop;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -111,19 +112,6 @@ public class SupplyOrder implements Serializable {
 
     public void setDateOfOrder(LocalDate dateOfOrder) {
         this.dateOfOrder = dateOfOrder;
-    }
-
-    public String getOffer() {
-        return offer;
-    }
-
-    public SupplyOrder offer(String offer) {
-        this.offer = offer;
-        return this;
-    }
-
-    public void setOffer(String offer) {
-        this.offer = offer;
     }
 
     public String getCreatedBy() {
@@ -268,6 +256,19 @@ public class SupplyOrder implements Serializable {
     public void setSupplyAreaManager(SupplyAreaManager supplyAreaManager) {
         this.supplyAreaManager = supplyAreaManager;
     }
+
+    public SupplyShop getSupplyShop() {
+        return supplyShop;
+    }
+
+    public SupplyOrder supplyShop(SupplyShop supplyShop) {
+        this.supplyShop = supplyShop;
+        return this;
+    }
+
+    public void setSupplyShop(SupplyShop supplyShop) {
+        this.supplyShop = supplyShop;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -296,7 +297,6 @@ public class SupplyOrder implements Serializable {
             "id=" + getId() +
             ", orderNo='" + getOrderNo() + "'" +
             ", dateOfOrder='" + getDateOfOrder() + "'" +
-            ", offer='" + getOffer() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +

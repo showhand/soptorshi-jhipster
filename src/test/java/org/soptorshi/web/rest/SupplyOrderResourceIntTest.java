@@ -58,9 +58,6 @@ public class SupplyOrderResourceIntTest {
     private static final LocalDate DEFAULT_DATE_OF_ORDER = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATE_OF_ORDER = LocalDate.now(ZoneId.systemDefault());
 
-    private static final String DEFAULT_OFFER = "AAAAAAAAAA";
-    private static final String UPDATED_OFFER = "BBBBBBBBBB";
-
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
@@ -143,7 +140,6 @@ public class SupplyOrderResourceIntTest {
         SupplyOrder supplyOrder = new SupplyOrder()
             .orderNo(DEFAULT_ORDER_NO)
             .dateOfOrder(DEFAULT_DATE_OF_ORDER)
-            .offer(DEFAULT_OFFER)
             .createdBy(DEFAULT_CREATED_BY)
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
@@ -156,6 +152,11 @@ public class SupplyOrderResourceIntTest {
         em.persist(supplyAreaManager);
         em.flush();
         supplyOrder.setSupplyAreaManager(supplyAreaManager);
+        // Add required entity
+        SupplyShop supplyShop = SupplyShopResourceIntTest.createEntity(em);
+        em.persist(supplyShop);
+        em.flush();
+        supplyOrder.setSupplyShop(supplyShop);
         return supplyOrder;
     }
 
@@ -182,7 +183,6 @@ public class SupplyOrderResourceIntTest {
         SupplyOrder testSupplyOrder = supplyOrderList.get(supplyOrderList.size() - 1);
         assertThat(testSupplyOrder.getOrderNo()).isEqualTo(DEFAULT_ORDER_NO);
         assertThat(testSupplyOrder.getDateOfOrder()).isEqualTo(DEFAULT_DATE_OF_ORDER);
-        assertThat(testSupplyOrder.getOffer()).isEqualTo(DEFAULT_OFFER);
         assertThat(testSupplyOrder.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testSupplyOrder.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testSupplyOrder.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
@@ -239,25 +239,6 @@ public class SupplyOrderResourceIntTest {
 
     @Test
     @Transactional
-    public void checkOfferIsRequired() throws Exception {
-        int databaseSizeBeforeTest = supplyOrderRepository.findAll().size();
-        // set the field null
-        supplyOrder.setOffer(null);
-
-        // Create the SupplyOrder, which fails.
-        SupplyOrderDTO supplyOrderDTO = supplyOrderMapper.toDto(supplyOrder);
-
-        restSupplyOrderMockMvc.perform(post("/api/supply-orders")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(supplyOrderDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<SupplyOrder> supplyOrderList = supplyOrderRepository.findAll();
-        assertThat(supplyOrderList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void checkSupplyOrderStatusIsRequired() throws Exception {
         int databaseSizeBeforeTest = supplyOrderRepository.findAll().size();
         // set the field null
@@ -288,7 +269,6 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyOrder.getId().intValue())))
             .andExpect(jsonPath("$.[*].orderNo").value(hasItem(DEFAULT_ORDER_NO.toString())))
             .andExpect(jsonPath("$.[*].dateOfOrder").value(hasItem(DEFAULT_DATE_OF_ORDER.toString())))
-            .andExpect(jsonPath("$.[*].offer").value(hasItem(DEFAULT_OFFER.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
@@ -311,7 +291,6 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.id").value(supplyOrder.getId().intValue()))
             .andExpect(jsonPath("$.orderNo").value(DEFAULT_ORDER_NO.toString()))
             .andExpect(jsonPath("$.dateOfOrder").value(DEFAULT_DATE_OF_ORDER.toString()))
-            .andExpect(jsonPath("$.offer").value(DEFAULT_OFFER.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
@@ -425,45 +404,6 @@ public class SupplyOrderResourceIntTest {
         defaultSupplyOrderShouldBeFound("dateOfOrder.lessThan=" + UPDATED_DATE_OF_ORDER);
     }
 
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrdersByOfferIsEqualToSomething() throws Exception {
-        // Initialize the database
-        supplyOrderRepository.saveAndFlush(supplyOrder);
-
-        // Get all the supplyOrderList where offer equals to DEFAULT_OFFER
-        defaultSupplyOrderShouldBeFound("offer.equals=" + DEFAULT_OFFER);
-
-        // Get all the supplyOrderList where offer equals to UPDATED_OFFER
-        defaultSupplyOrderShouldNotBeFound("offer.equals=" + UPDATED_OFFER);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrdersByOfferIsInShouldWork() throws Exception {
-        // Initialize the database
-        supplyOrderRepository.saveAndFlush(supplyOrder);
-
-        // Get all the supplyOrderList where offer in DEFAULT_OFFER or UPDATED_OFFER
-        defaultSupplyOrderShouldBeFound("offer.in=" + DEFAULT_OFFER + "," + UPDATED_OFFER);
-
-        // Get all the supplyOrderList where offer equals to UPDATED_OFFER
-        defaultSupplyOrderShouldNotBeFound("offer.in=" + UPDATED_OFFER);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrdersByOfferIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        supplyOrderRepository.saveAndFlush(supplyOrder);
-
-        // Get all the supplyOrderList where offer is not null
-        defaultSupplyOrderShouldBeFound("offer.specified=true");
-
-        // Get all the supplyOrderList where offer is null
-        defaultSupplyOrderShouldNotBeFound("offer.specified=false");
-    }
 
     @Test
     @Transactional
@@ -840,6 +780,25 @@ public class SupplyOrderResourceIntTest {
         defaultSupplyOrderShouldNotBeFound("supplyAreaManagerId.equals=" + (supplyAreaManagerId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersBySupplyShopIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyShop supplyShop = SupplyShopResourceIntTest.createEntity(em);
+        em.persist(supplyShop);
+        em.flush();
+        supplyOrder.setSupplyShop(supplyShop);
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+        Long supplyShopId = supplyShop.getId();
+
+        // Get all the supplyOrderList where supplyShop equals to supplyShopId
+        defaultSupplyOrderShouldBeFound("supplyShopId.equals=" + supplyShopId);
+
+        // Get all the supplyOrderList where supplyShop equals to supplyShopId + 1
+        defaultSupplyOrderShouldNotBeFound("supplyShopId.equals=" + (supplyShopId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -850,7 +809,6 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyOrder.getId().intValue())))
             .andExpect(jsonPath("$.[*].orderNo").value(hasItem(DEFAULT_ORDER_NO)))
             .andExpect(jsonPath("$.[*].dateOfOrder").value(hasItem(DEFAULT_DATE_OF_ORDER.toString())))
-            .andExpect(jsonPath("$.[*].offer").value(hasItem(DEFAULT_OFFER)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
@@ -907,7 +865,6 @@ public class SupplyOrderResourceIntTest {
         updatedSupplyOrder
             .orderNo(UPDATED_ORDER_NO)
             .dateOfOrder(UPDATED_DATE_OF_ORDER)
-            .offer(UPDATED_OFFER)
             .createdBy(UPDATED_CREATED_BY)
             .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
@@ -928,7 +885,6 @@ public class SupplyOrderResourceIntTest {
         SupplyOrder testSupplyOrder = supplyOrderList.get(supplyOrderList.size() - 1);
         assertThat(testSupplyOrder.getOrderNo()).isEqualTo(UPDATED_ORDER_NO);
         assertThat(testSupplyOrder.getDateOfOrder()).isEqualTo(UPDATED_DATE_OF_ORDER);
-        assertThat(testSupplyOrder.getOffer()).isEqualTo(UPDATED_OFFER);
         assertThat(testSupplyOrder.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testSupplyOrder.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testSupplyOrder.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
@@ -998,7 +954,6 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyOrder.getId().intValue())))
             .andExpect(jsonPath("$.[*].orderNo").value(hasItem(DEFAULT_ORDER_NO)))
             .andExpect(jsonPath("$.[*].dateOfOrder").value(hasItem(DEFAULT_DATE_OF_ORDER.toString())))
-            .andExpect(jsonPath("$.[*].offer").value(hasItem(DEFAULT_OFFER)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
