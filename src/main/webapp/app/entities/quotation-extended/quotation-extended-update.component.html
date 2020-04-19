@@ -1,5 +1,30 @@
 <div class="row justify-content-center">
-    <div class="col-12">
+    <div class="col-4">
+        <h2>Requisition</h2>
+        <div class="row">
+            <div class="col-md-12">
+                <dl class="row-md jh-entity-details">
+                    <dt><span>Requisition No</span></dt>
+                    <dd><span>{{requisition.requisitionNo}}</span></dd>
+
+                    <dt><span>Requisition Date</span></dt>
+                    <dd><span>{{requisition.requisitionDate | date: 'mediumDate'}}</span></dd>
+
+                    <dt><span>Department</span></dt>
+                    <dd>
+                        <span>{{requisition.departmentName}}</span>
+                    </dd>
+
+                    <dt><span>Office</span></dt>
+                    <dd>
+                        <span>{{requisition.officeName}}</span>
+                    </dd>
+                </dl>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-8">
         <form name="editForm" role="form" novalidate  #editForm="ngForm">
             <h2  *ngIf="quotation.id">Edit Quotation {{quotation.quotationNo}}</h2>
             <h2  *ngIf="!quotation.id">Create a Quotation</h2>
@@ -63,16 +88,21 @@
             </div>
             <div class="col-12" *ngIf="quotation.id">
                 <br/>
-                <jhi-quotation-details-extended-directive-for-quotation [quotation]="quotation"></jhi-quotation-details-extended-directive-for-quotation>
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span>Back</span>
-                </button>
-                <button type="submit" id="save-entity" (click)="save()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-                </button>
+
             </div>
         </form>
+    </div>
+    <div class="col-md-12">
+        <jhi-quotation-details-extended-directive-for-quotation [quotation]="quotation"></jhi-quotation-details-extended-directive-for-quotation>
+    </div>
+    <div class="col-md-12">
+        <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+            <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span>Back</span>
+        </button>
+        <button type="submit" id="save-entity" (click)="save()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+        </button>
     </div>
 </div>

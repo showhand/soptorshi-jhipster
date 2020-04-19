@@ -15,7 +15,7 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
                 },
                 ...LAYOUT_ROUTES
             ],
-            { useHash: true, scrollPositionRestoration: 'enabled' }
+            { useHash: false, scrollPositionRestoration: 'enabled' }
         )
     ],
     exports: [RouterModule]

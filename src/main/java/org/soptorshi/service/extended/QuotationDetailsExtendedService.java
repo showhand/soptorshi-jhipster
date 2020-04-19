@@ -59,7 +59,7 @@ public class QuotationDetailsExtendedService extends QuotationDetailsService {
                 vat = productTotalAmount.add(productTotalAmount.multiply(q.getVatPercentage().divide(new BigDecimal(100))));
             if(q.getAitPercentage()!=null)
                 ait = productTotalAmount.subtract(productTotalAmount.multiply(q.getAitPercentage().divide(new BigDecimal(100))));
-            totalAmount = totalAmount.add(vat).subtract(ait);
+            totalAmount = productTotalAmount.add(vat).subtract(ait);
 
         }
         Quotation quotation = quotationRepository.findById(quotationDetails.getQuotationId()).get();
