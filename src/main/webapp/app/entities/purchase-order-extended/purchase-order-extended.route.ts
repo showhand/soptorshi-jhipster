@@ -4,7 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@a
 import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { PurchaseOrder } from 'app/shared/model/purchase-order.model';
 
 import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
@@ -20,11 +20,29 @@ export class PurchaseOrderExtendedResolve implements Resolve<IPurchaseOrder> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IPurchaseOrder> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const requisitionId = route.params['requisitionId'] ? route.params['requisitionId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<PurchaseOrder>) => response.ok),
                 map((purchaseOrder: HttpResponse<PurchaseOrder>) => purchaseOrder.body)
             );
+        }
+        if (requisitionId) {
+            return this.service
+                .query({
+                    requisitionId: requisitionId
+                })
+                .pipe(
+                    switchMap(response => {
+                        if (response.body.length > 0) {
+                            return of(response.body[0]);
+                        } else {
+                            const purchaseOrder = new PurchaseOrder();
+                            purchaseOrder.requisitionId = requisitionId;
+                            return of(purchaseOrder);
+                        }
+                    })
+                );
         }
         return of(new PurchaseOrder());
     }
@@ -70,6 +88,18 @@ export const purchaseOrderExtendedRoute: Routes = [
     },
     {
         path: ':id/edit',
+        component: PurchaseOrderExtendedUpdateComponent,
+        resolve: {
+            purchaseOrder: PurchaseOrderExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'PurchaseOrders'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':requisitionId/edit',
         component: PurchaseOrderExtendedUpdateComponent,
         resolve: {
             purchaseOrder: PurchaseOrderExtendedResolve

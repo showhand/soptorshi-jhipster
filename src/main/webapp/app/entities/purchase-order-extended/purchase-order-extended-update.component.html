@@ -1,5 +1,47 @@
 <div class="row justify-content-center">
-    <div class="col-12">
+    <div class="col-md-4" >
+        <div class="row" *ngIf="requisition">
+            <div class="col-md-12"><h2>Requisition</h2></div>
+            <div class="col-md-12">
+                <dl class="row-md jh-entity-details">
+                    <dt><span>Requisition No</span></dt>
+                    <dd><span>{{requisition.requisitionNo}}</span></dd>
+
+                    <dt><span>Date</span></dt>
+                    <dd><span>{{requisition.requisitionDate | date: 'mediumDate'}}</span></dd>
+
+                    <dt><span>Amount</span></dt>
+                    <dd><span>{{requisition.amount}}</span></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="row" *ngIf="quotation">
+            <div class="col-md-12"><h2>Quotation</h2></div>
+            <div class="col-md-12">
+                <dl class="row-md jh-entity-details">
+                    <dt><span>Quotation No</span></dt>
+                    <dd><span>{{quotation.quotationNo}}</span></dd>
+
+                    <dt><span>Vendor</span></dt>
+                    <dd><span>{{quotation.vendorCompanyName}}</span></dd>
+
+                    <dt><span>Amount</span></dt>
+                    <dd><span>{{quotation.totalAmount}}</span></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="row" *ngIf="quotationDetails">
+            <div class="col-md-12"><h2>Quotation Details</h2></div>
+            <div class="col-md-12">
+                <ul>
+                    <li *ngFor="let d of quotationDetails">
+                        {{d.productName}} - {{d.quantity * d.rate}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
         <form name="editForm" role="form" novalidate  #editForm="ngForm" >
             <h2 id="jhi-purchase-order-heading">Create or edit a Purchase Order</h2>
             <div>
@@ -12,7 +54,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-control-label" for="field_requisition">Requisition</label>
-                            <select class="form-control" id="field_requisition" name="requisition" [(ngModel)]="purchaseOrder.requisitionId"  ngControl="field_requisition">
+                            <select (change)="fetchRequisitionAndQuotationWithDetails()" class="form-control" id="field_requisition" name="requisition" [(ngModel)]="purchaseOrder.requisitionId"  ngControl="field_requisition">
                                 <option [ngValue]="null"></option>
                                 <option [ngValue]="requisitionOption.id" *ngFor="let requisitionOption of requisitions; trackBy: trackRequisitionById">{{requisitionOption.requisitionNo}}</option>
                             </select>
@@ -103,39 +145,41 @@
                     </div>
                 </div>
 
-                <div class="row" *ngIf="purchaseOrder.id" >
-                    <div class="col-6">
-                        <jhi-terms-and-conditions-for-purchase-order [purchaseOrder]="purchaseOrder" [disableEdit]="editForm.form.disabled"></jhi-terms-and-conditions-for-purchase-order>
-                    </div>
-                    <div class="col-6" *ngIf="purchaseOrder.requisitionId">
-                        <jhi-purchase-order-requisition-voucher-relation [requisitionId]="purchaseOrder.requisitionId" [disableEdit]="false"></jhi-purchase-order-requisition-voucher-relation>
-                    </div>
-                </div>
-                <div class="row" *ngIf="purchaseOrder.id">
-                    <div class="col-12">
-                        <jhi-purchase-order-messages-directive [purchaseOrderId]="purchaseOrder.id"></jhi-purchase-order-messages-directive>
-                    </div>
 
-                </div>
 
             </div>
-            <div style="display: inline-block;float:left;">
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span>Back</span>
-                </button>
 
-                <span *jhiHasAnyAuthority="['ROLE_REQUISITION']">
+        </form>
+    </div>
+
+
+    <div class="col-6" *ngIf="purchaseOrder.id" >
+        <jhi-terms-and-conditions-for-purchase-order [purchaseOrder]="purchaseOrder" [disableEdit]="editForm.form.disabled"></jhi-terms-and-conditions-for-purchase-order>
+    </div>
+    <div class="col-6" *ngIf="purchaseOrder.requisitionId">
+        <jhi-purchase-order-requisition-voucher-relation [requisitionId]="purchaseOrder.requisitionId" [disableEdit]="false"></jhi-purchase-order-requisition-voucher-relation>
+    </div>
+
+    <div class="col-12" *ngIf= "purchaseOrder.id && purchaseOrder.id">
+        <jhi-purchase-order-messages-directive [purchaseOrderId]="purchaseOrder.id"></jhi-purchase-order-messages-directive>
+    </div>
+    <div style="display: inline-block;float:left;" class="col-md-12">
+        <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+            <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span>Back</span>
+        </button>
+
+        <span *jhiHasAnyAuthority="['ROLE_REQUISITION']">
                     <button *ngIf="!purchaseOrder.status || purchaseOrder.status=='MODIFICATION_REQUEST_BY_CFO' || purchaseOrder.status=='MODIFICATION_REQUEST_BY_ACCOUNTS'" class="btn btn-secondary" (click)="save()">Save</button>
                     <button class="btn btn-secondary" *ngIf="purchaseOrder.status==null && purchaseOrder.id!=null"   (click)="saveAndSendForAccountsApproval()">Send for Accounts Approval</button>
                 </span>
-                <span *jhiHasAnyAuthority="['ROLE_ACCOUNTS']">
+        <span *jhiHasAnyAuthority="['ROLE_ACCOUNTS']">
                 <button class="btn btn-secodary" *ngIf="purchaseOrder.status=='WAITING_FOR_ACCOUNTS_APPROVAL'" (click)="modificationRequestByAccounts()">Send Recheck Request</button>
                 <button *ngIf="purchaseOrder.status=='WAITING_FOR_ACCOUNTS_APPROVAL'" (click)="saveAndSendForCFOApproval()" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save & Send for CFO's approval</span>
                 </button>
                 </span>
 
-                <span *jhiHasAnyAuthority="['ROLE_CFO']">
+        <span *jhiHasAnyAuthority="['ROLE_CFO']">
                 <button type="button" id="approve-cfo" *ngIf=" purchaseOrder.status==='WAITING_FOR_CFO_APPROVAL'" class="btn btn-secondary"  (click)="approveByCfo()">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Approve</span>
                 </button>
@@ -147,13 +191,10 @@
                 </button>
                 </span>
 
-                <button *ngIf="purchaseOrder.id" type="button" (click)="downloadReport()"
-                        class="btn btn-primary">
-                    &nbsp;<span> Download Report</span>
-                </button>
-            </div>
-        </form>
+        <button *ngIf="purchaseOrder.id" type="button" (click)="downloadReport()"
+                class="btn btn-primary">
+            &nbsp;<span> Download Report</span>
+        </button>
     </div>
-
 
 </div>
