@@ -4,6 +4,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { SERVER_API_URL } from 'app/app.constants';
 import { ISupplyChallan } from 'app/shared/model/supply-challan.model';
 import { SupplyChallanService } from 'app/entities/supply-challan/supply-challan.service';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 
 type EntityResponseType = HttpResponse<ISupplyChallan>;
 type EntityArrayResponseType = HttpResponse<ISupplyChallan[]>;
@@ -15,5 +16,15 @@ export class SupplyChallanExtendedService extends SupplyChallanService {
 
     constructor(protected http: HttpClient) {
         super(http);
+    }
+
+    downloadChallan(supplyChallan: ISupplyChallan) {
+        return this.http
+            .get(`${this.resourceUrl}/download/${supplyChallan.id}`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Challan');
+            });
     }
 }

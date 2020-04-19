@@ -73,6 +73,7 @@ public class CommercialPaymentInfoExtendedService extends CommercialPaymentInfoS
                 if (currentCommercialPaymentInfoDTO.get().getPaymentStatus().equals(CommercialPaymentStatus.WAITING_FOR_PAYMENT_CONFIRMATION)) {
                     if (commercialPaymentInfoDTO.getPaymentStatus().equals(CommercialPaymentStatus.PAYMENT_CONFIRMED)) {
                         CommercialPoDTO commercialPoDTO = new CommercialPoDTO();
+                        commercialPoDTO.setPurchaseOrderNo(currentCommercialPaymentInfoDTO.get().getCommercialPiProformaNo());
                         commercialPoDTO.setCommercialPiId(currentCommercialPaymentInfoDTO.get().getCommercialPiId());
                         commercialPoDTO.setCommercialPiProformaNo(currentCommercialPaymentInfoDTO.get().getCommercialPiProformaNo());
                         commercialPoDTO.setPoStatus(CommercialPoStatus.PO_CREATED);

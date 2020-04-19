@@ -72,6 +72,12 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
+                        <button type="button"
+                                class="btn btn-success btn-sm"
+                        (click)="download(supplyChallan)">
+                            <fa-icon [icon]="'book'"></fa-icon>
+                            <span class="d-none d-md-inline">Download</span>
+                        </button>
                         <!--<button type="submit"
                                 [routerLink]="['/', 'supply-challan', { outlets: { popup: supplyChallan.id + '/delete'} }]"
                                 replaceUrl="true"

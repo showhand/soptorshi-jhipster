@@ -4,6 +4,7 @@ import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { AccountService } from 'app/core';
 import { SupplyChallanExtendedService } from './supply-challan-extended.service';
 import { SupplyChallanComponent } from 'app/entities/supply-challan';
+import { ISupplyChallan } from 'app/shared/model/supply-challan.model';
 
 @Component({
     selector: 'jhi-supply-challan-extended',
@@ -19,5 +20,9 @@ export class SupplyChallanExtendedComponent extends SupplyChallanComponent {
         protected accountService: AccountService
     ) {
         super(supplyChallanService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
+    }
+
+    download(supplyChallan: ISupplyChallan) {
+        this.supplyChallanService.downloadChallan(supplyChallan);
     }
 }
