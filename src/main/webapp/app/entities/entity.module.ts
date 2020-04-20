@@ -721,6 +721,30 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'supply-sales-representative',
                 loadChildren: './supply-sales-representative/supply-sales-representative.module#SoptorshiSupplySalesRepresentativeModule'
+            },
+            {
+                path: 'requisition',
+                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
+            },
+            {
+                path: 'requisition-details',
+                loadChildren: './requisition-details/requisition-details.module#SoptorshiRequisitionDetailsModule'
+            },
+            {
+                path: 'journal-voucher',
+                loadChildren: './journal-voucher/journal-voucher.module#SoptorshiJournalVoucherModule'
+            },
+            {
+                path: 'payment-voucher',
+                loadChildren: './payment-voucher/payment-voucher.module#SoptorshiPaymentVoucherModule'
+            },
+            {
+                path: 'receipt-voucher',
+                loadChildren: './receipt-voucher/receipt-voucher.module#SoptorshiReceiptVoucherModule'
+            },
+            {
+                path: 'contra-voucher',
+                loadChildren: './contra-voucher/contra-voucher.module#SoptorshiContraVoucherModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

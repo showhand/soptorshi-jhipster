@@ -66,7 +66,7 @@ public class ContraVoucherResourceIntTest {
     private static final LocalDate UPDATED_POST_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final ApplicationType DEFAULT_APPLICATION_TYPE = ApplicationType.REQUISITION;
-    private static final ApplicationType UPDATED_APPLICATION_TYPE = ApplicationType.PAY_ROLL;
+    private static final ApplicationType UPDATED_APPLICATION_TYPE = ApplicationType.PURCHASE_ORDER;
 
     private static final Long DEFAULT_APPLICATION_ID = 1L;
     private static final Long UPDATED_APPLICATION_ID = 2L;

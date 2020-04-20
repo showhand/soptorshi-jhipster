@@ -54,6 +54,10 @@ public class RequisitionDetails implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("requisitionDetails")
+    private ProductCategory productCategory;
+
+    @ManyToOne
+    @JsonIgnoreProperties("requisitionDetails")
     private Requisition requisition;
 
     @ManyToOne
@@ -171,6 +175,19 @@ public class RequisitionDetails implements Serializable {
 
     public void setModifiedOn(LocalDate modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public RequisitionDetails productCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
+        return this;
+    }
+
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
     }
 
     public Requisition getRequisition() {

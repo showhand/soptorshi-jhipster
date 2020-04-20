@@ -77,6 +77,9 @@ public class Requisition implements Serializable {
     @Column(name = "ref_to_cfo")
     private Long refToCfo;
 
+    @Column(name = "commercial_id")
+    private Long commercialId;
+
     @Column(name = "modified_by")
     private String modifiedBy;
 
@@ -279,6 +282,19 @@ public class Requisition implements Serializable {
         this.refToCfo = refToCfo;
     }
 
+    public Long getCommercialId() {
+        return commercialId;
+    }
+
+    public Requisition commercialId(Long commercialId) {
+        this.commercialId = commercialId;
+        return this;
+    }
+
+    public void setCommercialId(Long commercialId) {
+        this.commercialId = commercialId;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -420,6 +436,7 @@ public class Requisition implements Serializable {
             ", refToPurchaseCommittee=" + getRefToPurchaseCommittee() +
             ", cfoRemarks='" + getCfoRemarks() + "'" +
             ", refToCfo=" + getRefToCfo() +
+            ", commercialId=" + getCommercialId() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";

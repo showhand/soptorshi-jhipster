@@ -13,6 +13,7 @@ import { ProductService } from 'app/entities/product';
 import { ProductPriceService } from 'app/entities/product-price';
 import { IProductPrice } from 'app/shared/model/product-price.model';
 import { RequisitionDetailsService, RequisitionDetailsUpdateComponent } from 'app/entities/requisition-details';
+import { ProductCategoryService } from 'app/entities/product-category';
 
 @Component({
     selector: 'jhi-requisition-details-extended-update',
@@ -25,12 +26,13 @@ export class RequisitionDetailsExtendedUpdateComponent extends RequisitionDetail
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected requisitionDetailsService: RequisitionDetailsService,
+        protected productCategoryService: ProductCategoryService,
         protected requisitionService: RequisitionService,
         protected productService: ProductService,
         protected activatedRoute: ActivatedRoute,
         protected productPriceService: ProductPriceService
     ) {
-        super(jhiAlertService, requisitionDetailsService, requisitionService, productService, activatedRoute, productPriceService);
+        super(jhiAlertService, requisitionDetailsService, productCategoryService, requisitionService, productService, activatedRoute);
     }
 
     ngOnInit() {

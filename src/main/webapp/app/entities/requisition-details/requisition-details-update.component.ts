@@ -7,12 +7,12 @@ import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { IRequisitionDetails } from 'app/shared/model/requisition-details.model';
 import { RequisitionDetailsService } from './requisition-details.service';
+import { IProductCategory } from 'app/shared/model/product-category.model';
+import { ProductCategoryService } from 'app/entities/product-category';
 import { IRequisition } from 'app/shared/model/requisition.model';
 import { RequisitionService } from 'app/entities/requisition';
 import { IProduct } from 'app/shared/model/product.model';
 import { ProductService } from 'app/entities/product';
-import { ProductPriceService } from 'app/entities/product-price';
-import { IProductPrice } from 'app/shared/model/product-price.model';
 
 @Component({
     selector: 'jhi-requisition-details-update',
@@ -22,7 +22,8 @@ export class RequisitionDetailsUpdateComponent implements OnInit {
     requisitionDetails: IRequisitionDetails;
     isSaving: boolean;
 
-    productPrice: IProductPrice;
+    productcategories: IProductCategory[];
+
     requisitions: IRequisition[];
 
     products: IProduct[];
@@ -33,10 +34,10 @@ export class RequisitionDetailsUpdateComponent implements OnInit {
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected requisitionDetailsService: RequisitionDetailsService,
+        protected productCategoryService: ProductCategoryService,
         protected requisitionService: RequisitionService,
         protected productService: ProductService,
-        protected activatedRoute: ActivatedRoute,
-        protected productPriceService: ProductPriceService
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -44,6 +45,13 @@ export class RequisitionDetailsUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ requisitionDetails }) => {
             this.requisitionDetails = requisitionDetails;
         });
+        this.productCategoryService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IProductCategory[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProductCategory[]>) => response.body)
+            )
+            .subscribe((res: IProductCategory[]) => (this.productcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.requisitionService
             .query()
             .pipe(
@@ -58,24 +66,6 @@ export class RequisitionDetailsUpdateComponent implements OnInit {
                 map((response: HttpResponse<IProduct[]>) => response.body)
             )
             .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
-    }
-
-    productSelected(productId: number) {
-        this.productPriceService
-            .query({
-                'productId.equals': productId
-            })
-            .subscribe((res: HttpResponse<IProduct[]>) => {
-                this.productPrice = res.body[res.body.length - 1];
-                const amount = this.productPrice.price;
-            });
-    }
-
-    calculateQuantity() {
-        if (this.requisitionDetails.unitPrice && this.requisitionDetails.unit) {
-            const quantity = this.requisitionDetails.unitPrice * this.requisitionDetails.unit;
-            this.requisitionDetails.quantity = quantity;
-        }
     }
 
     previousState() {
@@ -106,6 +96,10 @@ export class RequisitionDetailsUpdateComponent implements OnInit {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackProductCategoryById(index: number, item: IProductCategory) {
+        return item.id;
     }
 
     trackRequisitionById(index: number, item: IRequisition) {

@@ -117,6 +117,10 @@ public class RequisitionDetailsQueryService extends QueryService<RequisitionDeta
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), RequisitionDetails_.modifiedOn));
             }
+            if (criteria.getProductCategoryId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProductCategoryId(),
+                    root -> root.join(RequisitionDetails_.productCategory, JoinType.LEFT).get(ProductCategory_.id)));
+            }
             if (criteria.getRequisitionId() != null) {
                 specification = specification.and(buildSpecification(criteria.getRequisitionId(),
                     root -> root.join(RequisitionDetails_.requisition, JoinType.LEFT).get(Requisition_.id)));

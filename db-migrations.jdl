@@ -310,6 +310,7 @@ entity Requisition{
    refToPurchaseCommittee Long,
    cfoRemarks TextBlob,
    refToCfo Long,
+   commercialId Long,
    modifiedBy String,
    modifiedOn LocalDate
 }

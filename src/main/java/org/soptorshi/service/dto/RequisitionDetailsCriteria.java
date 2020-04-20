@@ -48,6 +48,8 @@ public class RequisitionDetailsCriteria implements Serializable {
 
     private LocalDateFilter modifiedOn;
 
+    private LongFilter productCategoryId;
+
     private LongFilter requisitionId;
 
     private LongFilter productId;
@@ -124,6 +126,14 @@ public class RequisitionDetailsCriteria implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public LongFilter getProductCategoryId() {
+        return productCategoryId;
+    }
+
+    public void setProductCategoryId(LongFilter productCategoryId) {
+        this.productCategoryId = productCategoryId;
+    }
+
     public LongFilter getRequisitionId() {
         return requisitionId;
     }
@@ -160,6 +170,7 @@ public class RequisitionDetailsCriteria implements Serializable {
             Objects.equals(quantity, that.quantity) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(productCategoryId, that.productCategoryId) &&
             Objects.equals(requisitionId, that.requisitionId) &&
             Objects.equals(productId, that.productId);
     }
@@ -176,6 +187,7 @@ public class RequisitionDetailsCriteria implements Serializable {
         quantity,
         modifiedBy,
         modifiedOn,
+        productCategoryId,
         requisitionId,
         productId
         );
@@ -193,6 +205,7 @@ public class RequisitionDetailsCriteria implements Serializable {
                 (quantity != null ? "quantity=" + quantity + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
+                (productCategoryId != null ? "productCategoryId=" + productCategoryId + ", " : "") +
                 (requisitionId != null ? "requisitionId=" + requisitionId + ", " : "") +
                 (productId != null ? "productId=" + productId + ", " : "") +
             "}";

@@ -38,6 +38,13 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
+            "otherEntityName": "productCategory",
+            "otherEntityRelationshipName": "requisitionDetails",
+            "relationshipName": "productCategory",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
             "otherEntityName": "requisition",
             "otherEntityRelationshipName": "requisitionDetails",
             "relationshipName": "requisition",
