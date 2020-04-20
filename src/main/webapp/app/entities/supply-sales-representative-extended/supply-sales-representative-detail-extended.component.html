@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="supplySalesRepresentative">
+            <h2><span>Supply Sales Representative</span> {{supplySalesRepresentative.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Sales Representative Name</span></dt>
+                <dd>
+                    <span>{{supplySalesRepresentative.salesRepresentativeName}}</span>
+                </dd>
+                <dt><span>Additional Information</span></dt>
+                <dd>
+                    <span>{{supplySalesRepresentative.additionalInformation}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{supplySalesRepresentative.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{supplySalesRepresentative.createdOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{supplySalesRepresentative.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{supplySalesRepresentative.updatedOn}}</span>
+                </dd>
+                <dt><span>Supply Zone</span></dt>
+                <dd>
+                    <div *ngIf="supplySalesRepresentative.supplyZoneId">
+                        <a [routerLink]="['/supply-zone', supplySalesRepresentative.supplyZoneId, 'view']">{{supplySalesRepresentative.supplyZoneZoneName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Area</span></dt>
+                <dd>
+                    <div *ngIf="supplySalesRepresentative.supplyAreaId">
+                        <a [routerLink]="['/supply-area', supplySalesRepresentative.supplyAreaId, 'view']">{{supplySalesRepresentative.supplyAreaAreaName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Area Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplySalesRepresentative.supplyAreaManagerId">
+                        <a [routerLink]="['/supply-area-manager', supplySalesRepresentative.supplyAreaManagerId, 'view']">{{supplySalesRepresentative.supplyAreaManagerId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <!--<button type="button"
+                    [routerLink]="['/supply-sales-representative', supplySalesRepresentative.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>-->
+        </div>
+    </div>
+</div>

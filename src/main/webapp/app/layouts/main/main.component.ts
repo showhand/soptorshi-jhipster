@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, NavigationEnd, NavigationError } from '@angular/router';
+import { ActivatedRouteSnapshot, NavigationEnd, NavigationError, Router } from '@angular/router';
 
 import { Title } from '@angular/platform-browser';
 import { AccountService } from 'app/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { SidebarService } from 'app/layouts/sidebar/sidebar.service';
+/*import { SidebarService } from 'app/layouts/sidebar/sidebar.service';*/
 import { Breadcrumb, BreadcrumbService } from 'angular-crumbs';
 import { MenuItem } from 'primeng/api';
 
@@ -29,7 +29,7 @@ export class JhiMainComponent implements OnInit {
         public router: Router,
         public accountService: AccountService,
         public deviceDetectorService: DeviceDetectorService,
-        public sidebarService: SidebarService,
+        /*public sidebarService: SidebarService,*/
         public breadCrumService: BreadcrumbService
     ) {}
 

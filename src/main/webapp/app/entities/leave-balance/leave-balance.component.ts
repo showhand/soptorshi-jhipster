@@ -9,6 +9,7 @@ import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/ht
 import { LeaveBalanceService } from 'app/entities/leave-balance/leave-balance.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
+import * as moment from 'moment';
 
 @Component({
     selector: 'jhi-leave-balance',
@@ -36,19 +37,23 @@ export class LeaveBalanceComponent implements OnInit {
     ngOnInit() {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
-            /*     this.employeeService.query({
-                'employeeId.equals': this.currentAccount.login
-            }).subscribe(
-                    (res: HttpResponse<IEmployee[]>) => this.paginateHolidays(res.body, res.headers),
+            this.employeeService
+                .query({
+                    'employeeId.equals': this.currentAccount.login
+                })
+                .subscribe(
+                    (res: HttpResponse<IEmployee[]>) => {
+                        this.employee = res.body[0];
+                        this.getLeaveBalance(this.employee.employeeId);
+                    },
                     (res: HttpErrorResponse) => this.onError(res.message)
-                );*/
-            this.getLeaveBalance(this.currentAccount.login);
+                );
         });
     }
 
     getLeaveBalance(employeeId: string) {
         this.leaveBalanceService
-            .find(employeeId, 2020)
+            .find(employeeId, moment().year())
             .subscribe(
                 (res: HttpResponse<ILeaveBalance[]>) => this.constructLeaveBalance(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
@@ -56,6 +61,7 @@ export class LeaveBalanceComponent implements OnInit {
     }
 
     protected constructLeaveBalance(data: ILeaveBalance[], headers: HttpHeaders) {
+        this.leaveBalances = [];
         for (let i = 0; i < data.length; i++) {
             this.leaveBalances.push(data[i]);
         }

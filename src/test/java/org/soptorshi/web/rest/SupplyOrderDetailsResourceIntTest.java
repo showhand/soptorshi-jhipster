@@ -1,22 +1,21 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.SupplyOrderDetails;
-import org.soptorshi.domain.SupplyOrder;
-import org.soptorshi.repository.SupplyOrderDetailsRepository;
-import org.soptorshi.repository.search.SupplyOrderDetailsSearchRepository;
-import org.soptorshi.service.SupplyOrderDetailsService;
-import org.soptorshi.service.dto.SupplyOrderDetailsDTO;
-import org.soptorshi.service.mapper.SupplyOrderDetailsMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.SupplyOrderDetailsCriteria;
-import org.soptorshi.service.SupplyOrderDetailsQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.Product;
+import org.soptorshi.domain.ProductCategory;
+import org.soptorshi.domain.SupplyOrder;
+import org.soptorshi.domain.SupplyOrderDetails;
+import org.soptorshi.repository.SupplyOrderDetailsRepository;
+import org.soptorshi.repository.search.SupplyOrderDetailsSearchRepository;
+import org.soptorshi.service.SupplyOrderDetailsQueryService;
+import org.soptorshi.service.SupplyOrderDetailsService;
+import org.soptorshi.service.dto.SupplyOrderDetailsDTO;
+import org.soptorshi.service.mapper.SupplyOrderDetailsMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -31,17 +30,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -54,15 +53,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = SoptorshiApp.class)
 public class SupplyOrderDetailsResourceIntTest {
 
-    private static final String DEFAULT_PRODUCT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_PRODUCT_NAME = "BBBBBBBBBB";
-
-    private static final Double DEFAULT_PRODUCT_VOLUME = 1D;
-    private static final Double UPDATED_PRODUCT_VOLUME = 2D;
-
-    private static final Double DEFAULT_TOTAL_PRICE = 1D;
-    private static final Double UPDATED_TOTAL_PRICE = 2D;
-
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
@@ -74,6 +64,12 @@ public class SupplyOrderDetailsResourceIntTest {
 
     private static final Instant DEFAULT_UPDATED_ON = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_UPDATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final BigDecimal DEFAULT_QUANTITY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_QUANTITY = new BigDecimal(2);
+
+    private static final BigDecimal DEFAULT_OFFERED_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_OFFERED_PRICE = new BigDecimal(2);
 
     @Autowired
     private SupplyOrderDetailsRepository supplyOrderDetailsRepository;
@@ -134,13 +130,22 @@ public class SupplyOrderDetailsResourceIntTest {
      */
     public static SupplyOrderDetails createEntity(EntityManager em) {
         SupplyOrderDetails supplyOrderDetails = new SupplyOrderDetails()
-            .productName(DEFAULT_PRODUCT_NAME)
-            .productVolume(DEFAULT_PRODUCT_VOLUME)
-            .totalPrice(DEFAULT_TOTAL_PRICE)
             .createdBy(DEFAULT_CREATED_BY)
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
-            .updatedOn(DEFAULT_UPDATED_ON);
+            .updatedOn(DEFAULT_UPDATED_ON)
+            .quantity(DEFAULT_QUANTITY)
+            .offeredPrice(DEFAULT_OFFERED_PRICE);
+        // Add required entity
+        ProductCategory productCategory = ProductCategoryResourceIntTest.createEntity(em);
+        em.persist(productCategory);
+        em.flush();
+        supplyOrderDetails.setProductCategory(productCategory);
+        // Add required entity
+        Product product = ProductResourceIntTest.createEntity(em);
+        em.persist(product);
+        em.flush();
+        supplyOrderDetails.setProduct(product);
         return supplyOrderDetails;
     }
 
@@ -165,13 +170,12 @@ public class SupplyOrderDetailsResourceIntTest {
         List<SupplyOrderDetails> supplyOrderDetailsList = supplyOrderDetailsRepository.findAll();
         assertThat(supplyOrderDetailsList).hasSize(databaseSizeBeforeCreate + 1);
         SupplyOrderDetails testSupplyOrderDetails = supplyOrderDetailsList.get(supplyOrderDetailsList.size() - 1);
-        assertThat(testSupplyOrderDetails.getProductName()).isEqualTo(DEFAULT_PRODUCT_NAME);
-        assertThat(testSupplyOrderDetails.getProductVolume()).isEqualTo(DEFAULT_PRODUCT_VOLUME);
-        assertThat(testSupplyOrderDetails.getTotalPrice()).isEqualTo(DEFAULT_TOTAL_PRICE);
         assertThat(testSupplyOrderDetails.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testSupplyOrderDetails.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testSupplyOrderDetails.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testSupplyOrderDetails.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
+        assertThat(testSupplyOrderDetails.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
+        assertThat(testSupplyOrderDetails.getOfferedPrice()).isEqualTo(DEFAULT_OFFERED_PRICE);
 
         // Validate the SupplyOrderDetails in Elasticsearch
         verify(mockSupplyOrderDetailsSearchRepository, times(1)).save(testSupplyOrderDetails);
@@ -202,10 +206,10 @@ public class SupplyOrderDetailsResourceIntTest {
 
     @Test
     @Transactional
-    public void checkProductNameIsRequired() throws Exception {
+    public void checkQuantityIsRequired() throws Exception {
         int databaseSizeBeforeTest = supplyOrderDetailsRepository.findAll().size();
         // set the field null
-        supplyOrderDetails.setProductName(null);
+        supplyOrderDetails.setQuantity(null);
 
         // Create the SupplyOrderDetails, which fails.
         SupplyOrderDetailsDTO supplyOrderDetailsDTO = supplyOrderDetailsMapper.toDto(supplyOrderDetails);
@@ -221,29 +225,10 @@ public class SupplyOrderDetailsResourceIntTest {
 
     @Test
     @Transactional
-    public void checkProductVolumeIsRequired() throws Exception {
+    public void checkOfferedPriceIsRequired() throws Exception {
         int databaseSizeBeforeTest = supplyOrderDetailsRepository.findAll().size();
         // set the field null
-        supplyOrderDetails.setProductVolume(null);
-
-        // Create the SupplyOrderDetails, which fails.
-        SupplyOrderDetailsDTO supplyOrderDetailsDTO = supplyOrderDetailsMapper.toDto(supplyOrderDetails);
-
-        restSupplyOrderDetailsMockMvc.perform(post("/api/supply-order-details")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(supplyOrderDetailsDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<SupplyOrderDetails> supplyOrderDetailsList = supplyOrderDetailsRepository.findAll();
-        assertThat(supplyOrderDetailsList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkTotalPriceIsRequired() throws Exception {
-        int databaseSizeBeforeTest = supplyOrderDetailsRepository.findAll().size();
-        // set the field null
-        supplyOrderDetails.setTotalPrice(null);
+        supplyOrderDetails.setOfferedPrice(null);
 
         // Create the SupplyOrderDetails, which fails.
         SupplyOrderDetailsDTO supplyOrderDetailsDTO = supplyOrderDetailsMapper.toDto(supplyOrderDetails);
@@ -268,15 +253,14 @@ public class SupplyOrderDetailsResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyOrderDetails.getId().intValue())))
-            .andExpect(jsonPath("$.[*].productName").value(hasItem(DEFAULT_PRODUCT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].productVolume").value(hasItem(DEFAULT_PRODUCT_VOLUME.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
+            .andExpect(jsonPath("$.[*].offeredPrice").value(hasItem(DEFAULT_OFFERED_PRICE.intValue())));
     }
-    
+
     @Test
     @Transactional
     public void getSupplyOrderDetails() throws Exception {
@@ -288,130 +272,12 @@ public class SupplyOrderDetailsResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(supplyOrderDetails.getId().intValue()))
-            .andExpect(jsonPath("$.productName").value(DEFAULT_PRODUCT_NAME.toString()))
-            .andExpect(jsonPath("$.productVolume").value(DEFAULT_PRODUCT_VOLUME.doubleValue()))
-            .andExpect(jsonPath("$.totalPrice").value(DEFAULT_TOTAL_PRICE.doubleValue()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
-            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrderDetailsByProductNameIsEqualToSomething() throws Exception {
-        // Initialize the database
-        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
-
-        // Get all the supplyOrderDetailsList where productName equals to DEFAULT_PRODUCT_NAME
-        defaultSupplyOrderDetailsShouldBeFound("productName.equals=" + DEFAULT_PRODUCT_NAME);
-
-        // Get all the supplyOrderDetailsList where productName equals to UPDATED_PRODUCT_NAME
-        defaultSupplyOrderDetailsShouldNotBeFound("productName.equals=" + UPDATED_PRODUCT_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrderDetailsByProductNameIsInShouldWork() throws Exception {
-        // Initialize the database
-        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
-
-        // Get all the supplyOrderDetailsList where productName in DEFAULT_PRODUCT_NAME or UPDATED_PRODUCT_NAME
-        defaultSupplyOrderDetailsShouldBeFound("productName.in=" + DEFAULT_PRODUCT_NAME + "," + UPDATED_PRODUCT_NAME);
-
-        // Get all the supplyOrderDetailsList where productName equals to UPDATED_PRODUCT_NAME
-        defaultSupplyOrderDetailsShouldNotBeFound("productName.in=" + UPDATED_PRODUCT_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrderDetailsByProductNameIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
-
-        // Get all the supplyOrderDetailsList where productName is not null
-        defaultSupplyOrderDetailsShouldBeFound("productName.specified=true");
-
-        // Get all the supplyOrderDetailsList where productName is null
-        defaultSupplyOrderDetailsShouldNotBeFound("productName.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrderDetailsByProductVolumeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
-
-        // Get all the supplyOrderDetailsList where productVolume equals to DEFAULT_PRODUCT_VOLUME
-        defaultSupplyOrderDetailsShouldBeFound("productVolume.equals=" + DEFAULT_PRODUCT_VOLUME);
-
-        // Get all the supplyOrderDetailsList where productVolume equals to UPDATED_PRODUCT_VOLUME
-        defaultSupplyOrderDetailsShouldNotBeFound("productVolume.equals=" + UPDATED_PRODUCT_VOLUME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrderDetailsByProductVolumeIsInShouldWork() throws Exception {
-        // Initialize the database
-        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
-
-        // Get all the supplyOrderDetailsList where productVolume in DEFAULT_PRODUCT_VOLUME or UPDATED_PRODUCT_VOLUME
-        defaultSupplyOrderDetailsShouldBeFound("productVolume.in=" + DEFAULT_PRODUCT_VOLUME + "," + UPDATED_PRODUCT_VOLUME);
-
-        // Get all the supplyOrderDetailsList where productVolume equals to UPDATED_PRODUCT_VOLUME
-        defaultSupplyOrderDetailsShouldNotBeFound("productVolume.in=" + UPDATED_PRODUCT_VOLUME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrderDetailsByProductVolumeIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
-
-        // Get all the supplyOrderDetailsList where productVolume is not null
-        defaultSupplyOrderDetailsShouldBeFound("productVolume.specified=true");
-
-        // Get all the supplyOrderDetailsList where productVolume is null
-        defaultSupplyOrderDetailsShouldNotBeFound("productVolume.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrderDetailsByTotalPriceIsEqualToSomething() throws Exception {
-        // Initialize the database
-        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
-
-        // Get all the supplyOrderDetailsList where totalPrice equals to DEFAULT_TOTAL_PRICE
-        defaultSupplyOrderDetailsShouldBeFound("totalPrice.equals=" + DEFAULT_TOTAL_PRICE);
-
-        // Get all the supplyOrderDetailsList where totalPrice equals to UPDATED_TOTAL_PRICE
-        defaultSupplyOrderDetailsShouldNotBeFound("totalPrice.equals=" + UPDATED_TOTAL_PRICE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrderDetailsByTotalPriceIsInShouldWork() throws Exception {
-        // Initialize the database
-        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
-
-        // Get all the supplyOrderDetailsList where totalPrice in DEFAULT_TOTAL_PRICE or UPDATED_TOTAL_PRICE
-        defaultSupplyOrderDetailsShouldBeFound("totalPrice.in=" + DEFAULT_TOTAL_PRICE + "," + UPDATED_TOTAL_PRICE);
-
-        // Get all the supplyOrderDetailsList where totalPrice equals to UPDATED_TOTAL_PRICE
-        defaultSupplyOrderDetailsShouldNotBeFound("totalPrice.in=" + UPDATED_TOTAL_PRICE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrderDetailsByTotalPriceIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
-
-        // Get all the supplyOrderDetailsList where totalPrice is not null
-        defaultSupplyOrderDetailsShouldBeFound("totalPrice.specified=true");
-
-        // Get all the supplyOrderDetailsList where totalPrice is null
-        defaultSupplyOrderDetailsShouldNotBeFound("totalPrice.specified=false");
+            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()))
+            .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY.intValue()))
+            .andExpect(jsonPath("$.offeredPrice").value(DEFAULT_OFFERED_PRICE.intValue()));
     }
 
     @Test
@@ -572,6 +438,84 @@ public class SupplyOrderDetailsResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSupplyOrderDetailsByQuantityIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
+
+        // Get all the supplyOrderDetailsList where quantity equals to DEFAULT_QUANTITY
+        defaultSupplyOrderDetailsShouldBeFound("quantity.equals=" + DEFAULT_QUANTITY);
+
+        // Get all the supplyOrderDetailsList where quantity equals to UPDATED_QUANTITY
+        defaultSupplyOrderDetailsShouldNotBeFound("quantity.equals=" + UPDATED_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrderDetailsByQuantityIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
+
+        // Get all the supplyOrderDetailsList where quantity in DEFAULT_QUANTITY or UPDATED_QUANTITY
+        defaultSupplyOrderDetailsShouldBeFound("quantity.in=" + DEFAULT_QUANTITY + "," + UPDATED_QUANTITY);
+
+        // Get all the supplyOrderDetailsList where quantity equals to UPDATED_QUANTITY
+        defaultSupplyOrderDetailsShouldNotBeFound("quantity.in=" + UPDATED_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrderDetailsByQuantityIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
+
+        // Get all the supplyOrderDetailsList where quantity is not null
+        defaultSupplyOrderDetailsShouldBeFound("quantity.specified=true");
+
+        // Get all the supplyOrderDetailsList where quantity is null
+        defaultSupplyOrderDetailsShouldNotBeFound("quantity.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrderDetailsByOfferedPriceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
+
+        // Get all the supplyOrderDetailsList where offeredPrice equals to DEFAULT_OFFERED_PRICE
+        defaultSupplyOrderDetailsShouldBeFound("offeredPrice.equals=" + DEFAULT_OFFERED_PRICE);
+
+        // Get all the supplyOrderDetailsList where offeredPrice equals to UPDATED_OFFERED_PRICE
+        defaultSupplyOrderDetailsShouldNotBeFound("offeredPrice.equals=" + UPDATED_OFFERED_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrderDetailsByOfferedPriceIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
+
+        // Get all the supplyOrderDetailsList where offeredPrice in DEFAULT_OFFERED_PRICE or UPDATED_OFFERED_PRICE
+        defaultSupplyOrderDetailsShouldBeFound("offeredPrice.in=" + DEFAULT_OFFERED_PRICE + "," + UPDATED_OFFERED_PRICE);
+
+        // Get all the supplyOrderDetailsList where offeredPrice equals to UPDATED_OFFERED_PRICE
+        defaultSupplyOrderDetailsShouldNotBeFound("offeredPrice.in=" + UPDATED_OFFERED_PRICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrderDetailsByOfferedPriceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
+
+        // Get all the supplyOrderDetailsList where offeredPrice is not null
+        defaultSupplyOrderDetailsShouldBeFound("offeredPrice.specified=true");
+
+        // Get all the supplyOrderDetailsList where offeredPrice is null
+        defaultSupplyOrderDetailsShouldNotBeFound("offeredPrice.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllSupplyOrderDetailsBySupplyOrderIsEqualToSomething() throws Exception {
         // Initialize the database
         SupplyOrder supplyOrder = SupplyOrderResourceIntTest.createEntity(em);
@@ -588,6 +532,44 @@ public class SupplyOrderDetailsResourceIntTest {
         defaultSupplyOrderDetailsShouldNotBeFound("supplyOrderId.equals=" + (supplyOrderId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrderDetailsByProductCategoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        ProductCategory productCategory = ProductCategoryResourceIntTest.createEntity(em);
+        em.persist(productCategory);
+        em.flush();
+        supplyOrderDetails.setProductCategory(productCategory);
+        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
+        Long productCategoryId = productCategory.getId();
+
+        // Get all the supplyOrderDetailsList where productCategory equals to productCategoryId
+        defaultSupplyOrderDetailsShouldBeFound("productCategoryId.equals=" + productCategoryId);
+
+        // Get all the supplyOrderDetailsList where productCategory equals to productCategoryId + 1
+        defaultSupplyOrderDetailsShouldNotBeFound("productCategoryId.equals=" + (productCategoryId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrderDetailsByProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Product product = ProductResourceIntTest.createEntity(em);
+        em.persist(product);
+        em.flush();
+        supplyOrderDetails.setProduct(product);
+        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
+        Long productId = product.getId();
+
+        // Get all the supplyOrderDetailsList where product equals to productId
+        defaultSupplyOrderDetailsShouldBeFound("productId.equals=" + productId);
+
+        // Get all the supplyOrderDetailsList where product equals to productId + 1
+        defaultSupplyOrderDetailsShouldNotBeFound("productId.equals=" + (productId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -596,13 +578,12 @@ public class SupplyOrderDetailsResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyOrderDetails.getId().intValue())))
-            .andExpect(jsonPath("$.[*].productName").value(hasItem(DEFAULT_PRODUCT_NAME)))
-            .andExpect(jsonPath("$.[*].productVolume").value(hasItem(DEFAULT_PRODUCT_VOLUME.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
+            .andExpect(jsonPath("$.[*].offeredPrice").value(hasItem(DEFAULT_OFFERED_PRICE.intValue())));
 
         // Check, that the count call also returns 1
         restSupplyOrderDetailsMockMvc.perform(get("/api/supply-order-details/count?sort=id,desc&" + filter))
@@ -650,13 +631,12 @@ public class SupplyOrderDetailsResourceIntTest {
         // Disconnect from session so that the updates on updatedSupplyOrderDetails are not directly saved in db
         em.detach(updatedSupplyOrderDetails);
         updatedSupplyOrderDetails
-            .productName(UPDATED_PRODUCT_NAME)
-            .productVolume(UPDATED_PRODUCT_VOLUME)
-            .totalPrice(UPDATED_TOTAL_PRICE)
             .createdBy(UPDATED_CREATED_BY)
             .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
-            .updatedOn(UPDATED_UPDATED_ON);
+            .updatedOn(UPDATED_UPDATED_ON)
+            .quantity(UPDATED_QUANTITY)
+            .offeredPrice(UPDATED_OFFERED_PRICE);
         SupplyOrderDetailsDTO supplyOrderDetailsDTO = supplyOrderDetailsMapper.toDto(updatedSupplyOrderDetails);
 
         restSupplyOrderDetailsMockMvc.perform(put("/api/supply-order-details")
@@ -668,13 +648,12 @@ public class SupplyOrderDetailsResourceIntTest {
         List<SupplyOrderDetails> supplyOrderDetailsList = supplyOrderDetailsRepository.findAll();
         assertThat(supplyOrderDetailsList).hasSize(databaseSizeBeforeUpdate);
         SupplyOrderDetails testSupplyOrderDetails = supplyOrderDetailsList.get(supplyOrderDetailsList.size() - 1);
-        assertThat(testSupplyOrderDetails.getProductName()).isEqualTo(UPDATED_PRODUCT_NAME);
-        assertThat(testSupplyOrderDetails.getProductVolume()).isEqualTo(UPDATED_PRODUCT_VOLUME);
-        assertThat(testSupplyOrderDetails.getTotalPrice()).isEqualTo(UPDATED_TOTAL_PRICE);
         assertThat(testSupplyOrderDetails.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testSupplyOrderDetails.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testSupplyOrderDetails.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testSupplyOrderDetails.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
+        assertThat(testSupplyOrderDetails.getQuantity()).isEqualTo(UPDATED_QUANTITY);
+        assertThat(testSupplyOrderDetails.getOfferedPrice()).isEqualTo(UPDATED_OFFERED_PRICE);
 
         // Validate the SupplyOrderDetails in Elasticsearch
         verify(mockSupplyOrderDetailsSearchRepository, times(1)).save(testSupplyOrderDetails);
@@ -735,13 +714,12 @@ public class SupplyOrderDetailsResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyOrderDetails.getId().intValue())))
-            .andExpect(jsonPath("$.[*].productName").value(hasItem(DEFAULT_PRODUCT_NAME)))
-            .andExpect(jsonPath("$.[*].productVolume").value(hasItem(DEFAULT_PRODUCT_VOLUME.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
+            .andExpect(jsonPath("$.[*].offeredPrice").value(hasItem(DEFAULT_OFFERED_PRICE.intValue())));
     }
 
     @Test

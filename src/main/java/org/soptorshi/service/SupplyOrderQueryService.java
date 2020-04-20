@@ -1,26 +1,22 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.*;
+import org.soptorshi.repository.SupplyOrderRepository;
+import org.soptorshi.repository.search.SupplyOrderSearchRepository;
+import org.soptorshi.service.dto.SupplyOrderCriteria;
+import org.soptorshi.service.dto.SupplyOrderDTO;
+import org.soptorshi.service.mapper.SupplyOrderMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.SupplyOrder;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.SupplyOrderRepository;
-import org.soptorshi.repository.search.SupplyOrderSearchRepository;
-import org.soptorshi.service.dto.SupplyOrderCriteria;
-import org.soptorshi.service.dto.SupplyOrderDTO;
-import org.soptorshi.service.mapper.SupplyOrderMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for SupplyOrder entities in the database.
@@ -99,9 +95,6 @@ public class SupplyOrderQueryService extends QueryService<SupplyOrder> {
             if (criteria.getDateOfOrder() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDateOfOrder(), SupplyOrder_.dateOfOrder));
             }
-            if (criteria.getOffer() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getOffer(), SupplyOrder_.offer));
-            }
             if (criteria.getCreatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), SupplyOrder_.createdBy));
             }
@@ -114,6 +107,15 @@ public class SupplyOrderQueryService extends QueryService<SupplyOrder> {
             if (criteria.getUpdatedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), SupplyOrder_.updatedOn));
             }
+            if (criteria.getOfferAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getOfferAmount(), SupplyOrder_.offerAmount));
+            }
+            if (criteria.getDeliveryDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDeliveryDate(), SupplyOrder_.deliveryDate));
+            }
+            if (criteria.getSupplyOrderStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyOrderStatus(), SupplyOrder_.supplyOrderStatus));
+            }
             if (criteria.getSupplyZoneId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyZoneId(),
                     root -> root.join(SupplyOrder_.supplyZone, JoinType.LEFT).get(SupplyZone_.id)));
@@ -122,13 +124,17 @@ public class SupplyOrderQueryService extends QueryService<SupplyOrder> {
                 specification = specification.and(buildSpecification(criteria.getSupplyAreaId(),
                     root -> root.join(SupplyOrder_.supplyArea, JoinType.LEFT).get(SupplyArea_.id)));
             }
+            if (criteria.getSupplySalesRepresentativeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplySalesRepresentativeId(),
+                    root -> root.join(SupplyOrder_.supplySalesRepresentative, JoinType.LEFT).get(SupplySalesRepresentative_.id)));
+            }
             if (criteria.getSupplyAreaManagerId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyAreaManagerId(),
                     root -> root.join(SupplyOrder_.supplyAreaManager, JoinType.LEFT).get(SupplyAreaManager_.id)));
             }
-            if (criteria.getSupplySalesRepresentativeId() != null) {
-                specification = specification.and(buildSpecification(criteria.getSupplySalesRepresentativeId(),
-                    root -> root.join(SupplyOrder_.supplySalesRepresentative, JoinType.LEFT).get(SupplySalesRepresentative_.id)));
+            if (criteria.getSupplyShopId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyShopId(),
+                    root -> root.join(SupplyOrder_.supplyShop, JoinType.LEFT).get(SupplyShop_.id)));
             }
         }
         return specification;

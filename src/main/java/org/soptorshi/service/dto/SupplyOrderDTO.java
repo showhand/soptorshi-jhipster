@@ -1,8 +1,12 @@
 package org.soptorshi.service.dto;
+
+import org.soptorshi.domain.enumeration.SupplyOrderStatus;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
-import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -17,9 +21,6 @@ public class SupplyOrderDTO implements Serializable {
 
     private LocalDate dateOfOrder;
 
-    @NotNull
-    private String offer;
-
     private String createdBy;
 
     private Instant createdOn;
@@ -27,6 +28,13 @@ public class SupplyOrderDTO implements Serializable {
     private String updatedBy;
 
     private Instant updatedOn;
+
+    private BigDecimal offerAmount;
+
+    private LocalDate deliveryDate;
+
+    @NotNull
+    private SupplyOrderStatus supplyOrderStatus;
 
 
     private Long supplyZoneId;
@@ -37,13 +45,15 @@ public class SupplyOrderDTO implements Serializable {
 
     private String supplyAreaAreaName;
 
-    private Long supplyAreaManagerId;
-
-    private String supplyAreaManagerManagerName;
-
     private Long supplySalesRepresentativeId;
 
     private String supplySalesRepresentativeSalesRepresentativeName;
+
+    private Long supplyAreaManagerId;
+
+    private Long supplyShopId;
+
+    private String supplyShopShopName;
 
     public Long getId() {
         return id;
@@ -67,14 +77,6 @@ public class SupplyOrderDTO implements Serializable {
 
     public void setDateOfOrder(LocalDate dateOfOrder) {
         this.dateOfOrder = dateOfOrder;
-    }
-
-    public String getOffer() {
-        return offer;
-    }
-
-    public void setOffer(String offer) {
-        this.offer = offer;
     }
 
     public String getCreatedBy() {
@@ -109,6 +111,30 @@ public class SupplyOrderDTO implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public BigDecimal getOfferAmount() {
+        return offerAmount;
+    }
+
+    public void setOfferAmount(BigDecimal offerAmount) {
+        this.offerAmount = offerAmount;
+    }
+
+    public LocalDate getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public SupplyOrderStatus getSupplyOrderStatus() {
+        return supplyOrderStatus;
+    }
+
+    public void setSupplyOrderStatus(SupplyOrderStatus supplyOrderStatus) {
+        this.supplyOrderStatus = supplyOrderStatus;
+    }
+
     public Long getSupplyZoneId() {
         return supplyZoneId;
     }
@@ -141,22 +167,6 @@ public class SupplyOrderDTO implements Serializable {
         this.supplyAreaAreaName = supplyAreaAreaName;
     }
 
-    public Long getSupplyAreaManagerId() {
-        return supplyAreaManagerId;
-    }
-
-    public void setSupplyAreaManagerId(Long supplyAreaManagerId) {
-        this.supplyAreaManagerId = supplyAreaManagerId;
-    }
-
-    public String getSupplyAreaManagerManagerName() {
-        return supplyAreaManagerManagerName;
-    }
-
-    public void setSupplyAreaManagerManagerName(String supplyAreaManagerManagerName) {
-        this.supplyAreaManagerManagerName = supplyAreaManagerManagerName;
-    }
-
     public Long getSupplySalesRepresentativeId() {
         return supplySalesRepresentativeId;
     }
@@ -171,6 +181,30 @@ public class SupplyOrderDTO implements Serializable {
 
     public void setSupplySalesRepresentativeSalesRepresentativeName(String supplySalesRepresentativeSalesRepresentativeName) {
         this.supplySalesRepresentativeSalesRepresentativeName = supplySalesRepresentativeSalesRepresentativeName;
+    }
+
+    public Long getSupplyAreaManagerId() {
+        return supplyAreaManagerId;
+    }
+
+    public void setSupplyAreaManagerId(Long supplyAreaManagerId) {
+        this.supplyAreaManagerId = supplyAreaManagerId;
+    }
+
+    public Long getSupplyShopId() {
+        return supplyShopId;
+    }
+
+    public void setSupplyShopId(Long supplyShopId) {
+        this.supplyShopId = supplyShopId;
+    }
+
+    public String getSupplyShopShopName() {
+        return supplyShopShopName;
+    }
+
+    public void setSupplyShopShopName(String supplyShopShopName) {
+        this.supplyShopShopName = supplyShopShopName;
     }
 
     @Override
@@ -200,19 +234,22 @@ public class SupplyOrderDTO implements Serializable {
             "id=" + getId() +
             ", orderNo='" + getOrderNo() + "'" +
             ", dateOfOrder='" + getDateOfOrder() + "'" +
-            ", offer='" + getOffer() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", offerAmount=" + getOfferAmount() +
+            ", deliveryDate='" + getDeliveryDate() + "'" +
+            ", supplyOrderStatus='" + getSupplyOrderStatus() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
             ", supplyZone='" + getSupplyZoneZoneName() + "'" +
             ", supplyArea=" + getSupplyAreaId() +
             ", supplyArea='" + getSupplyAreaAreaName() + "'" +
-            ", supplyAreaManager=" + getSupplyAreaManagerId() +
-            ", supplyAreaManager='" + getSupplyAreaManagerManagerName() + "'" +
             ", supplySalesRepresentative=" + getSupplySalesRepresentativeId() +
             ", supplySalesRepresentative='" + getSupplySalesRepresentativeSalesRepresentativeName() + "'" +
+            ", supplyAreaManager=" + getSupplyAreaManagerId() +
+            ", supplyShop=" + getSupplyShopId() +
+            ", supplyShop='" + getSupplyShopShopName() + "'" +
             "}";
     }
 }

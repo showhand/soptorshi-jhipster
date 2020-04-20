@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -29,9 +30,10 @@ public class CommercialAttachment implements Serializable {
     @Column(name = "jhi_file_content_type")
     private String fileContentType;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("commercialAttachments")
-    private CommercialPo commercialPo;
+    private CommercialPi commercialPi;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -68,17 +70,17 @@ public class CommercialAttachment implements Serializable {
         this.fileContentType = fileContentType;
     }
 
-    public CommercialPo getCommercialPo() {
-        return commercialPo;
+    public CommercialPi getCommercialPi() {
+        return commercialPi;
     }
 
-    public CommercialAttachment commercialPo(CommercialPo commercialPo) {
-        this.commercialPo = commercialPo;
+    public CommercialAttachment commercialPi(CommercialPi commercialPi) {
+        this.commercialPi = commercialPi;
         return this;
     }
 
-    public void setCommercialPo(CommercialPo commercialPo) {
-        this.commercialPo = commercialPo;
+    public void setCommercialPi(CommercialPi commercialPi) {
+        this.commercialPi = commercialPi;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

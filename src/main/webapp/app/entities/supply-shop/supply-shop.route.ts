@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { SupplyShop } from 'app/shared/model/supply-shop.model';
+import { ISupplyShop, SupplyShop } from 'app/shared/model/supply-shop.model';
 import { SupplyShopService } from './supply-shop.service';
 import { SupplyShopComponent } from './supply-shop.component';
 import { SupplyShopDetailComponent } from './supply-shop-detail.component';
 import { SupplyShopUpdateComponent } from './supply-shop-update.component';
 import { SupplyShopDeletePopupComponent } from './supply-shop-delete-dialog.component';
-import { ISupplyShop } from 'app/shared/model/supply-shop.model';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyShopResolve implements Resolve<ISupplyShop> {

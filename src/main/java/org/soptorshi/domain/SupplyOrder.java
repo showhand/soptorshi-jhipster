@@ -2,12 +2,13 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.soptorshi.domain.enumeration.SupplyOrderStatus;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -21,7 +22,7 @@ import java.util.Objects;
 public class SupplyOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,10 +33,6 @@ public class SupplyOrder implements Serializable {
 
     @Column(name = "date_of_order")
     private LocalDate dateOfOrder;
-
-    @NotNull
-    @Column(name = "offer", nullable = false)
-    private String offer;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -49,6 +46,17 @@ public class SupplyOrder implements Serializable {
     @Column(name = "updated_on")
     private Instant updatedOn;
 
+    @Column(name = "offer_amount", precision = 10, scale = 2)
+    private BigDecimal offerAmount;
+
+    @Column(name = "delivery_date")
+    private LocalDate deliveryDate;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "supply_order_status", nullable = false)
+    private SupplyOrderStatus supplyOrderStatus;
+
     @ManyToOne
     @JsonIgnoreProperties("supplyOrders")
     private SupplyZone supplyZone;
@@ -59,11 +67,17 @@ public class SupplyOrder implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("supplyOrders")
+    private SupplySalesRepresentative supplySalesRepresentative;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyOrders")
     private SupplyAreaManager supplyAreaManager;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyOrders")
-    private SupplySalesRepresentative supplySalesRepresentative;
+    private SupplyShop supplyShop;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -98,19 +112,6 @@ public class SupplyOrder implements Serializable {
 
     public void setDateOfOrder(LocalDate dateOfOrder) {
         this.dateOfOrder = dateOfOrder;
-    }
-
-    public String getOffer() {
-        return offer;
-    }
-
-    public SupplyOrder offer(String offer) {
-        this.offer = offer;
-        return this;
-    }
-
-    public void setOffer(String offer) {
-        this.offer = offer;
     }
 
     public String getCreatedBy() {
@@ -165,6 +166,45 @@ public class SupplyOrder implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public BigDecimal getOfferAmount() {
+        return offerAmount;
+    }
+
+    public SupplyOrder offerAmount(BigDecimal offerAmount) {
+        this.offerAmount = offerAmount;
+        return this;
+    }
+
+    public void setOfferAmount(BigDecimal offerAmount) {
+        this.offerAmount = offerAmount;
+    }
+
+    public LocalDate getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public SupplyOrder deliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
+        return this;
+    }
+
+    public void setDeliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public SupplyOrderStatus getSupplyOrderStatus() {
+        return supplyOrderStatus;
+    }
+
+    public SupplyOrder supplyOrderStatus(SupplyOrderStatus supplyOrderStatus) {
+        this.supplyOrderStatus = supplyOrderStatus;
+        return this;
+    }
+
+    public void setSupplyOrderStatus(SupplyOrderStatus supplyOrderStatus) {
+        this.supplyOrderStatus = supplyOrderStatus;
+    }
+
     public SupplyZone getSupplyZone() {
         return supplyZone;
     }
@@ -191,6 +231,19 @@ public class SupplyOrder implements Serializable {
         this.supplyArea = supplyArea;
     }
 
+    public SupplySalesRepresentative getSupplySalesRepresentative() {
+        return supplySalesRepresentative;
+    }
+
+    public SupplyOrder supplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
+        this.supplySalesRepresentative = supplySalesRepresentative;
+        return this;
+    }
+
+    public void setSupplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
+        this.supplySalesRepresentative = supplySalesRepresentative;
+    }
+
     public SupplyAreaManager getSupplyAreaManager() {
         return supplyAreaManager;
     }
@@ -204,17 +257,17 @@ public class SupplyOrder implements Serializable {
         this.supplyAreaManager = supplyAreaManager;
     }
 
-    public SupplySalesRepresentative getSupplySalesRepresentative() {
-        return supplySalesRepresentative;
+    public SupplyShop getSupplyShop() {
+        return supplyShop;
     }
 
-    public SupplyOrder supplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
-        this.supplySalesRepresentative = supplySalesRepresentative;
+    public SupplyOrder supplyShop(SupplyShop supplyShop) {
+        this.supplyShop = supplyShop;
         return this;
     }
 
-    public void setSupplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
-        this.supplySalesRepresentative = supplySalesRepresentative;
+    public void setSupplyShop(SupplyShop supplyShop) {
+        this.supplyShop = supplyShop;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -244,11 +297,13 @@ public class SupplyOrder implements Serializable {
             "id=" + getId() +
             ", orderNo='" + getOrderNo() + "'" +
             ", dateOfOrder='" + getDateOfOrder() + "'" +
-            ", offer='" + getOffer() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", offerAmount=" + getOfferAmount() +
+            ", deliveryDate='" + getDeliveryDate() + "'" +
+            ", supplyOrderStatus='" + getSupplyOrderStatus() + "'" +
             "}";
     }
 }

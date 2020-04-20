@@ -27,8 +27,8 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="commercial_po_id" type="bigint">
-                <constraints nullable="true" />
+            <column name="commercial_pi_id" type="bigint">
+                <constraints nullable="false" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->

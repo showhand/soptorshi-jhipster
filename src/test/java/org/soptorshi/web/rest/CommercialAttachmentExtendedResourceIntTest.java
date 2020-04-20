@@ -206,7 +206,6 @@ public class CommercialAttachmentExtendedResourceIntTest {
         CommercialPo commercialPo = CommercialPoExtendedResourceIntTest.createEntity(em);
         em.persist(commercialPo);
         em.flush();
-        commercialAttachment.setCommercialPo(commercialPo);
         commercialAttachmentRepository.saveAndFlush(commercialAttachment);
         Long commercialPoId = commercialPo.getId();
 

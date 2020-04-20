@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -12,10 +12,12 @@ import { ISupplyZone } from 'app/shared/model/supply-zone.model';
 import { SupplyZoneService } from 'app/entities/supply-zone';
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
 import { SupplyAreaService } from 'app/entities/supply-area';
-import { ISupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
-import { SupplyAreaManagerService } from 'app/entities/supply-area-manager';
 import { ISupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
 import { SupplySalesRepresentativeService } from 'app/entities/supply-sales-representative';
+import { ISupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
+import { SupplyAreaManagerService } from 'app/entities/supply-area-manager';
+import { ISupplyShop } from 'app/shared/model/supply-shop.model';
+import { SupplyShopService } from 'app/entities/supply-shop';
 
 @Component({
     selector: 'jhi-supply-order-update',
@@ -29,20 +31,24 @@ export class SupplyOrderUpdateComponent implements OnInit {
 
     supplyareas: ISupplyArea[];
 
+    supplysalesrepresentatives: ISupplySalesRepresentative[];
+
     supplyareamanagers: ISupplyAreaManager[];
 
-    supplysalesrepresentatives: ISupplySalesRepresentative[];
+    supplyshops: ISupplyShop[];
     dateOfOrderDp: any;
     createdOn: string;
     updatedOn: string;
+    deliveryDateDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected supplyOrderService: SupplyOrderService,
         protected supplyZoneService: SupplyZoneService,
         protected supplyAreaService: SupplyAreaService,
-        protected supplyAreaManagerService: SupplyAreaManagerService,
         protected supplySalesRepresentativeService: SupplySalesRepresentativeService,
+        protected supplyAreaManagerService: SupplyAreaManagerService,
+        protected supplyShopService: SupplyShopService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -67,16 +73,6 @@ export class SupplyOrderUpdateComponent implements OnInit {
                 map((response: HttpResponse<ISupplyArea[]>) => response.body)
             )
             .subscribe((res: ISupplyArea[]) => (this.supplyareas = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.supplyAreaManagerService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<ISupplyAreaManager[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ISupplyAreaManager[]>) => response.body)
-            )
-            .subscribe(
-                (res: ISupplyAreaManager[]) => (this.supplyareamanagers = res),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
         this.supplySalesRepresentativeService
             .query()
             .pipe(
@@ -87,6 +83,23 @@ export class SupplyOrderUpdateComponent implements OnInit {
                 (res: ISupplySalesRepresentative[]) => (this.supplysalesrepresentatives = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.supplyAreaManagerService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyAreaManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyAreaManager[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplyAreaManager[]) => (this.supplyareamanagers = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        this.supplyShopService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyShop[]>) => response.body)
+            )
+            .subscribe((res: ISupplyShop[]) => (this.supplyshops = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -129,11 +142,15 @@ export class SupplyOrderUpdateComponent implements OnInit {
         return item.id;
     }
 
+    trackSupplySalesRepresentativeById(index: number, item: ISupplySalesRepresentative) {
+        return item.id;
+    }
+
     trackSupplyAreaManagerById(index: number, item: ISupplyAreaManager) {
         return item.id;
     }
 
-    trackSupplySalesRepresentativeById(index: number, item: ISupplySalesRepresentative) {
+    trackSupplyShopById(index: number, item: ISupplyShop) {
         return item.id;
     }
 }

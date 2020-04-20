@@ -1,5 +1,54 @@
 {
-    "name": "SupplyOrder",
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZone",
+            "otherEntityRelationshipName": "supplyOrder",
+            "relationshipName": "supplyZone",
+            "otherEntityField": "zoneName",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyArea",
+            "otherEntityRelationshipName": "supplyOrder",
+            "relationshipName": "supplyArea",
+            "otherEntityField": "areaName",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplySalesRepresentative",
+            "otherEntityRelationshipName": "supplyOrder",
+            "relationshipName": "supplySalesRepresentative",
+            "otherEntityField": "salesRepresentativeName",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "supplyAreaManager",
+            "otherEntityName": "supplyAreaManager",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "supplyOrder",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "supplyShop",
+            "otherEntityName": "supplyShop",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "shopName",
+            "otherEntityRelationshipName": "supplyOrder",
+            "otherEntityRelationshipNameUndefined": true
+        }
+    ],
     "fields": [
         {
             "fieldName": "orderNo",
@@ -11,13 +60,6 @@
         {
             "fieldName": "dateOfOrder",
             "fieldType": "LocalDate"
-        },
-        {
-            "fieldName": "offer",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
         },
         {
             "fieldName": "createdBy",
@@ -34,45 +76,30 @@
         {
             "fieldName": "updatedOn",
             "fieldType": "Instant"
-        }
-    ],
-    "relationships": [
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyZone",
-            "otherEntityRelationshipName": "supplyOrder",
-            "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
         },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyArea",
-            "otherEntityRelationshipName": "supplyOrder",
-            "relationshipName": "supplyArea",
-            "otherEntityField": "areaName"
+            "fieldName": "offerAmount",
+            "fieldType": "BigDecimal"
         },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyAreaManager",
-            "otherEntityRelationshipName": "supplyOrder",
-            "relationshipName": "supplyAreaManager",
-            "otherEntityField": "managerName"
+            "fieldName": "deliveryDate",
+            "fieldType": "LocalDate"
         },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplySalesRepresentative",
-            "otherEntityRelationshipName": "supplyOrder",
-            "relationshipName": "supplySalesRepresentative",
-            "otherEntityField": "salesRepresentativeName"
+            "fieldName": "supplyOrderStatus",
+            "fieldType": "SupplyOrderStatus",
+            "fieldValues": "ORDER_RECEIVED,PROCESSING_ORDER,ORDER_DELIVERED_AND_WAITING_FOR_MONEY_COLLECTION,ORDER_CLOSE",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20191106144404",
-    "entityTableName": "supply_order",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "searchEngine": "elasticsearch",
     "service": "serviceClass",
+    "entityTableName": "supply_order",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*"
+    "pagination": "infinite-scroll"
 }

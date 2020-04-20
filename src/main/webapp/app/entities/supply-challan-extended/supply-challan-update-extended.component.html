@@ -1,0 +1,84 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-supply-challan-heading">Create or edit a Supply Challan</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!supplyChallan.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="supplyChallan.id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyOrder">Supply Order</label>
+                    <select class="form-control" id="field_supplyOrder" name="supplyOrder" [(ngModel)]="supplyChallan.supplyOrderId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="supplyOrderOption.id" *ngFor="let supplyOrderOption of supplyorders; trackBy: trackSupplyOrderById">{{supplyOrderOption.orderNo}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_challanNo">Challan No</label>
+                    <input type="text" class="form-control" name="challanNo" id="field_challanNo"
+                        [(ngModel)]="supplyChallan.challanNo" required/>
+                    <div [hidden]="!(editForm.controls.challanNo?.dirty && editForm.controls.challanNo?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.challanNo?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dateOfChallan">Date Of Challan</label>
+                    <div class="input-group">
+                        <input id="field_dateOfChallan" type="text" class="form-control" name="dateOfChallan" ngbDatepicker  #dateOfChallanDp="ngbDatepicker" [(ngModel)]="supplyChallan.dateOfChallan"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateOfChallanDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_remarks">Remarks</label>
+                    <input type="text" class="form-control" name="remarks" id="field_remarks"
+                        [(ngModel)]="supplyChallan.remarks" />
+                </div>
+                <!--<div class="form-group">
+                    <label class="form-control-label" for="field_createdBy">Created By</label>
+                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                        [(ngModel)]="supplyChallan.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdOn">Created On</label>
+                    <div class="d-flex">
+                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
+                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
+                        [(ngModel)]="supplyChallan.updatedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
+                    <div class="d-flex">
+                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>-->
+
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

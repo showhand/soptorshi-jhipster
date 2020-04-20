@@ -10,22 +10,6 @@
                         [(ngModel)]="supplyAreaManager.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_managerName">Manager Name</label>
-                    <input type="text" class="form-control" name="managerName" id="field_managerName"
-                        [(ngModel)]="supplyAreaManager.managerName" required/>
-                    <div [hidden]="!(editForm.controls.managerName?.dirty && editForm.controls.managerName?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.managerName?.errors?.required">
-                        This field is required.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_additionalInformation">Additional Information</label>
-                    <input type="text" class="form-control" name="additionalInformation" id="field_additionalInformation"
-                        [(ngModel)]="supplyAreaManager.additionalInformation" />
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_createdBy">Created By</label>
                     <input type="text" class="form-control" name="createdBy" id="field_createdBy"
                         [(ngModel)]="supplyAreaManager.createdBy" />
@@ -49,6 +33,29 @@
                         />
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_endDate">End Date</label>
+                    <div class="input-group">
+                        <input id="field_endDate" type="text" class="form-control" name="endDate" ngbDatepicker  #endDateDp="ngbDatepicker" [(ngModel)]="supplyAreaManager.endDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="endDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" [(ngModel)]="supplyAreaManager.status" id="field_status"  required>
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="INACTIVE">INACTIVE</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.status?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
@@ -63,6 +70,19 @@
                         <option [ngValue]="null"></option>
                         <option [ngValue]="supplyAreaOption.id" *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.areaName}}</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" [(ngModel)]="supplyAreaManager.employeeId"  required>
+                        <option *ngIf="!editForm.value.employee" [ngValue]="null" selected></option>
+                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.employee?.dirty && editForm.controls.employee?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.employee?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
             </div>
             <div>

@@ -12,10 +12,9 @@ export interface ISupplyShop {
     supplyZoneId?: number;
     supplyAreaAreaName?: string;
     supplyAreaId?: number;
-    supplyAreaManagerManagerName?: string;
-    supplyAreaManagerId?: number;
     supplySalesRepresentativeSalesRepresentativeName?: string;
     supplySalesRepresentativeId?: number;
+    supplyAreaManagerId?: number;
 }
 
 export class SupplyShop implements ISupplyShop {
@@ -31,9 +30,8 @@ export class SupplyShop implements ISupplyShop {
         public supplyZoneId?: number,
         public supplyAreaAreaName?: string,
         public supplyAreaId?: number,
-        public supplyAreaManagerManagerName?: string,
-        public supplyAreaManagerId?: number,
         public supplySalesRepresentativeSalesRepresentativeName?: string,
-        public supplySalesRepresentativeId?: number
+        public supplySalesRepresentativeId?: number,
+        public supplyAreaManagerId?: number
     ) {}
 }

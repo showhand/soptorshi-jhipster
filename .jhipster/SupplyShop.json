@@ -1,5 +1,43 @@
 {
-    "name": "SupplyShop",
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZone",
+            "otherEntityRelationshipName": "supplyShop",
+            "relationshipName": "supplyZone",
+            "otherEntityField": "zoneName",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyArea",
+            "otherEntityRelationshipName": "supplyShop",
+            "relationshipName": "supplyArea",
+            "otherEntityField": "areaName",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplySalesRepresentative",
+            "otherEntityRelationshipName": "supplyShop",
+            "relationshipName": "supplySalesRepresentative",
+            "otherEntityField": "salesRepresentativeName",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "supplyAreaManager",
+            "otherEntityName": "supplyAreaManager",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "supplyShop",
+            "otherEntityRelationshipNameUndefined": true
+        }
+    ],
     "fields": [
         {
             "fieldName": "shopName",
@@ -29,43 +67,12 @@
             "fieldType": "Instant"
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyZone",
-            "otherEntityRelationshipName": "supplyShop",
-            "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyArea",
-            "otherEntityRelationshipName": "supplyShop",
-            "relationshipName": "supplyArea",
-            "otherEntityField": "areaName"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyAreaManager",
-            "otherEntityRelationshipName": "supplyShop",
-            "relationshipName": "supplyAreaManager",
-            "otherEntityField": "managerName"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplySalesRepresentative",
-            "otherEntityRelationshipName": "supplyShop",
-            "relationshipName": "supplySalesRepresentative",
-            "otherEntityField": "salesRepresentativeName"
-        }
-    ],
     "changelogDate": "20191106144403",
-    "entityTableName": "supply_shop",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "searchEngine": "elasticsearch",
     "service": "serviceClass",
+    "entityTableName": "supply_shop",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*"
+    "pagination": "infinite-scroll"
 }

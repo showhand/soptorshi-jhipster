@@ -62,7 +62,11 @@ export class SupplyAreaManagerService {
             createdOn:
                 supplyAreaManager.createdOn != null && supplyAreaManager.createdOn.isValid() ? supplyAreaManager.createdOn.toJSON() : null,
             updatedOn:
-                supplyAreaManager.updatedOn != null && supplyAreaManager.updatedOn.isValid() ? supplyAreaManager.updatedOn.toJSON() : null
+                supplyAreaManager.updatedOn != null && supplyAreaManager.updatedOn.isValid() ? supplyAreaManager.updatedOn.toJSON() : null,
+            endDate:
+                supplyAreaManager.endDate != null && supplyAreaManager.endDate.isValid()
+                    ? supplyAreaManager.endDate.format(DATE_FORMAT)
+                    : null
         });
         return copy;
     }
@@ -71,6 +75,7 @@ export class SupplyAreaManagerService {
         if (res.body) {
             res.body.createdOn = res.body.createdOn != null ? moment(res.body.createdOn) : null;
             res.body.updatedOn = res.body.updatedOn != null ? moment(res.body.updatedOn) : null;
+            res.body.endDate = res.body.endDate != null ? moment(res.body.endDate) : null;
         }
         return res;
     }
@@ -80,6 +85,7 @@ export class SupplyAreaManagerService {
             res.body.forEach((supplyAreaManager: ISupplyAreaManager) => {
                 supplyAreaManager.createdOn = supplyAreaManager.createdOn != null ? moment(supplyAreaManager.createdOn) : null;
                 supplyAreaManager.updatedOn = supplyAreaManager.updatedOn != null ? moment(supplyAreaManager.updatedOn) : null;
+                supplyAreaManager.endDate = supplyAreaManager.endDate != null ? moment(supplyAreaManager.endDate) : null;
             });
         }
         return res;

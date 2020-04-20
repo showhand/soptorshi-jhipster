@@ -49,6 +49,7 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
      * @param commercialBudgetDTO the entity to save
      * @return the persisted entity
      */
+    @Transactional
     public CommercialBudgetDTO save(CommercialBudgetDTO commercialBudgetDTO) {
         log.debug("Request to save CommercialBudget : {}", commercialBudgetDTO);
 

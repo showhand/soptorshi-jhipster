@@ -7,7 +7,7 @@
                 <div class="form-group" [hidden]="!commercialAttachment.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="commercialAttachment.id" readonly />
+                           [(ngModel)]="commercialAttachment.id" readonly />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_file">File</label>
@@ -23,17 +23,23 @@
                         <input type="file" id="file_file" (change)="setFileData($event, commercialAttachment, 'file', false)"/>
                     </div>
                     <input type="hidden" class="form-control" name="file" id="field_file"
-                        [(ngModel)]="commercialAttachment.file" />
+                           [(ngModel)]="commercialAttachment.file" />
                     <input type="hidden" class="form-control" name="fileContentType" id="field_fileContentType"
-                        [(ngModel)]="commercialAttachment.fileContentType" />
+                           [(ngModel)]="commercialAttachment.fileContentType" />
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_commercialPo">Commercial Po</label>
-                    <select class="form-control" id="field_commercialPo" name="commercialPo" [(ngModel)]="commercialAttachment.commercialPoId" required>
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="commercialPoOption.id" *ngFor="let commercialPoOption of commercialpos; trackBy: trackCommercialPoById">{{commercialPoOption.purchaseOrderNo}}</option>
+                    <label class="form-control-label" for="field_commercialPi">Commercial Pi</label>
+                    <select class="form-control" id="field_commercialPi" name="commercialPi" [(ngModel)]="commercialAttachment.commercialPiId"  required>
+                        <option *ngIf="!editForm.value.commercialPi" [ngValue]="null" selected></option>
+                        <option [ngValue]="commercialPiOption.id" *ngFor="let commercialPiOption of commercialpis; trackBy: trackCommercialPiById">{{commercialPiOption.proformaNo}}</option>
                     </select>
+                </div>
+                <div [hidden]="!(editForm.controls.commercialPi?.dirty && editForm.controls.commercialPi?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.commercialPi?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
             </div>
             <div>

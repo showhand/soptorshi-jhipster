@@ -38,7 +38,7 @@
             <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyZoneZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyAreaAreaName"><span>Supply Area</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="supplyAreaManagerManagerName"><span>Supply Area Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyAreaManagerId"><span>Supply Area Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -63,7 +63,7 @@
                 </td>
                 <td>
                     <div *ngIf="supplySalesRepresentative.supplyAreaManagerId">
-                        <a [routerLink]="['../supply-area-manager', supplySalesRepresentative.supplyAreaManagerId , 'view' ]" >{{supplySalesRepresentative.supplyAreaManagerManagerName}}</a>
+                        <a [routerLink]="['../supply-area-manager', supplySalesRepresentative.supplyAreaManagerId , 'view' ]" >{{supplySalesRepresentative.supplyAreaManagerId}}</a>
                     </div>
                 </td>
                 <td class="text-right">

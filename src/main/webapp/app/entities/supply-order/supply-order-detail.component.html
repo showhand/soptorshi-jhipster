@@ -13,10 +13,6 @@
                 <dd>
                     <span>{{supplyOrder.dateOfOrder}}</span>
                 </dd>
-                <dt><span>Offer</span></dt>
-                <dd>
-                    <span>{{supplyOrder.offer}}</span>
-                </dd>
                 <dt><span>Created By</span></dt>
                 <dd>
                     <span>{{supplyOrder.createdBy}}</span>
@@ -33,6 +29,18 @@
                 <dd>
                     <span>{{supplyOrder.updatedOn}}</span>
                 </dd>
+                <dt><span>Offer Amount</span></dt>
+                <dd>
+                    <span>{{supplyOrder.offerAmount}}</span>
+                </dd>
+                <dt><span>Delivery Date</span></dt>
+                <dd>
+                    <span>{{supplyOrder.deliveryDate}}</span>
+                </dd>
+                <dt><span>Supply Order Status</span></dt>
+                <dd>
+                    <span>{{supplyOrder.supplyOrderStatus}}</span>
+                </dd>
                 <dt><span>Supply Zone</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplyZoneId">
@@ -45,16 +53,22 @@
                         <a [routerLink]="['/supply-area', supplyOrder.supplyAreaId, 'view']">{{supplyOrder.supplyAreaAreaName}}</a>
                     </div>
                 </dd>
-                <dt><span>Supply Area Manager</span></dt>
-                <dd>
-                    <div *ngIf="supplyOrder.supplyAreaManagerId">
-                        <a [routerLink]="['/supply-area-manager', supplyOrder.supplyAreaManagerId, 'view']">{{supplyOrder.supplyAreaManagerManagerName}}</a>
-                    </div>
-                </dd>
                 <dt><span>Supply Sales Representative</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplySalesRepresentativeId">
                         <a [routerLink]="['/supply-sales-representative', supplyOrder.supplySalesRepresentativeId, 'view']">{{supplyOrder.supplySalesRepresentativeSalesRepresentativeName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Area Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplyOrder.supplyAreaManagerId">
+                        <a [routerLink]="['/supply-area-manager', supplyOrder.supplyAreaManagerId, 'view']">{{supplyOrder.supplyAreaManagerId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Shop</span></dt>
+                <dd>
+                    <div *ngIf="supplyOrder.supplyShopId">
+                        <a [routerLink]="['/supply-shop', supplyOrder.supplyShopId, 'view']">{{supplyOrder.supplyShopShopName}}</a>
                     </div>
                 </dd>
             </dl>

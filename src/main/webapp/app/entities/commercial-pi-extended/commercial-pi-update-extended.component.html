@@ -1,5 +1,5 @@
-<div class="row justify-content-center">
-    <div class="col-8">
+<div class="row">
+    <div class="col-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-commercial-pi-heading">Create or edit a Commercial Pi</h2>
             <jhi-alert-error></jhi-alert-error>
@@ -62,28 +62,33 @@
                                [(ngModel)]="commercialPi.harmonicCode"/>
                     </div>
                 </div>
-                <div class="form-group col-3">
-                    <label class="form-control-label" for="field_paymentType">Payment Type</label>
-                    <select class="form-control" name="paymentType" [(ngModel)]="commercialPi.paymentType" id="field_paymentType"  required>
-                        <option value="LC">LC</option>
-                        <option value="TT">TT</option>
-                        <option value="CASH">CASH</option>
-                        <option value="CHEQUE">CHEQUE</option>
-                        <option value="OTHERS">OTHERS</option>
-                    </select>
-                    <div [hidden]="!(editForm.controls.paymentType?.dirty && editForm.controls.paymentType?.invalid)">
-                        <small class="form-text text-danger"
-                               [hidden]="!editForm.controls.paymentType?.errors?.required">
-                            This field is required.
-                        </small>
-                    </div>
-                </div>
                 <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_paymentType">Payment Type</label>
+                        <select class="form-control" name="paymentType" [(ngModel)]="commercialPi.paymentType"
+                                id="field_paymentType" required>
+                            <option value="LC">LC</option>
+                            <option value="TT">TT</option>
+                            <option value="CASH">CASH</option>
+                            <option value="CHEQUE">CHEQUE</option>
+                            <option value="OTHERS">OTHERS</option>
+                        </select>
+                        <div
+                            [hidden]="!(editForm.controls.paymentType?.dirty && editForm.controls.paymentType?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.paymentType?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="form-control-label" for="field_paymentTerm">Payment Term</label>
                         <input type="text" class="form-control" name="paymentTerm" id="field_paymentTerm"
                                [(ngModel)]="commercialPi.paymentTerm"/>
                     </div>
+                </div>
+
+                <div class="col-3">
                     <div class="form-group">
                         <label class="form-control-label" for="field_termsOfDelivery">Terms Of Delivery</label>
                         <input type="text" class="form-control" name="termsOfDelivery" id="field_termsOfDelivery"
@@ -125,6 +130,43 @@
                             <option value="PI_APPROVED_BY_THE_CUSTOMER">PI_APPROVED_BY_THE_CUSTOMER</option>
                             <option value="PI_REJECTED_BY_THE_CUSTOMER">PI_REJECTED_BY_THE_CUSTOMER</option>
                         </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="commercialProductInfos">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th><span>Task No</span></th>
+                                <th><span>Products</span></th>
+                                <th><span>Product Categories</span></th>
+                                <th><span>Offered Quantity</span></th>
+                                <th><span>Offered Unit</span></th>
+                                <th><span>Offered Unit Price</span></th>
+                                <th><span>Offered Total Price</span></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let commercialProductInfo of commercialProductInfos;">
+                                <td>{{commercialProductInfo.taskNo}}</td>
+                                <td>
+                                    <div
+                                        *ngIf="commercialProductInfo.productCategoriesId">{{commercialProductInfo.productCategoriesName}}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div *ngIf="commercialProductInfo.productsId">{{commercialProductInfo.productsName}}
+                                    </div>
+                                </td>
+                                <td>{{commercialProductInfo.offeredQuantity}}</td>
+                                <td>{{commercialProductInfo.offeredUnit}}</td>
+                                <td>{{commercialProductInfo.offeredUnitPrice}}</td>
+                                <td>{{commercialProductInfo.offeredTotalPrice}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

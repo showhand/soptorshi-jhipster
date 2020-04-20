@@ -2,8 +2,8 @@ export interface ICommercialAttachment {
     id?: number;
     fileContentType?: string;
     file?: any;
-    commercialPoPurchaseOrderNo?: string;
-    commercialPoId?: number;
+    commercialPiProformaNo?: string;
+    commercialPiId?: number;
 }
 
 export class CommercialAttachment implements ICommercialAttachment {
@@ -11,7 +11,7 @@ export class CommercialAttachment implements ICommercialAttachment {
         public id?: number,
         public fileContentType?: string,
         public file?: any,
-        public commercialPoPurchaseOrderNo?: string,
-        public commercialPoId?: number
+        public commercialPiProformaNo?: string,
+        public commercialPiId?: number
     ) {}
 }

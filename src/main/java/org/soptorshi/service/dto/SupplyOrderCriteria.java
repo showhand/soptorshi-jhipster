@@ -1,16 +1,10 @@
 package org.soptorshi.service.dto;
 
+import io.github.jhipster.service.filter.*;
+import org.soptorshi.domain.enumeration.SupplyOrderStatus;
+
 import java.io.Serializable;
 import java.util.Objects;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.InstantFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the SupplyOrder entity. This class is used in SupplyOrderResource to
@@ -21,6 +15,11 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class SupplyOrderCriteria implements Serializable {
+    /**
+     * Class for filtering SupplyOrderStatus
+     */
+    public static class SupplyOrderStatusFilter extends Filter<SupplyOrderStatus> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -30,8 +29,6 @@ public class SupplyOrderCriteria implements Serializable {
 
     private LocalDateFilter dateOfOrder;
 
-    private StringFilter offer;
-
     private StringFilter createdBy;
 
     private InstantFilter createdOn;
@@ -40,13 +37,21 @@ public class SupplyOrderCriteria implements Serializable {
 
     private InstantFilter updatedOn;
 
+    private BigDecimalFilter offerAmount;
+
+    private LocalDateFilter deliveryDate;
+
+    private SupplyOrderStatusFilter supplyOrderStatus;
+
     private LongFilter supplyZoneId;
 
     private LongFilter supplyAreaId;
 
+    private LongFilter supplySalesRepresentativeId;
+
     private LongFilter supplyAreaManagerId;
 
-    private LongFilter supplySalesRepresentativeId;
+    private LongFilter supplyShopId;
 
     public LongFilter getId() {
         return id;
@@ -70,14 +75,6 @@ public class SupplyOrderCriteria implements Serializable {
 
     public void setDateOfOrder(LocalDateFilter dateOfOrder) {
         this.dateOfOrder = dateOfOrder;
-    }
-
-    public StringFilter getOffer() {
-        return offer;
-    }
-
-    public void setOffer(StringFilter offer) {
-        this.offer = offer;
     }
 
     public StringFilter getCreatedBy() {
@@ -112,6 +109,30 @@ public class SupplyOrderCriteria implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public BigDecimalFilter getOfferAmount() {
+        return offerAmount;
+    }
+
+    public void setOfferAmount(BigDecimalFilter offerAmount) {
+        this.offerAmount = offerAmount;
+    }
+
+    public LocalDateFilter getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(LocalDateFilter deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public SupplyOrderStatusFilter getSupplyOrderStatus() {
+        return supplyOrderStatus;
+    }
+
+    public void setSupplyOrderStatus(SupplyOrderStatusFilter supplyOrderStatus) {
+        this.supplyOrderStatus = supplyOrderStatus;
+    }
+
     public LongFilter getSupplyZoneId() {
         return supplyZoneId;
     }
@@ -128,6 +149,14 @@ public class SupplyOrderCriteria implements Serializable {
         this.supplyAreaId = supplyAreaId;
     }
 
+    public LongFilter getSupplySalesRepresentativeId() {
+        return supplySalesRepresentativeId;
+    }
+
+    public void setSupplySalesRepresentativeId(LongFilter supplySalesRepresentativeId) {
+        this.supplySalesRepresentativeId = supplySalesRepresentativeId;
+    }
+
     public LongFilter getSupplyAreaManagerId() {
         return supplyAreaManagerId;
     }
@@ -136,12 +165,12 @@ public class SupplyOrderCriteria implements Serializable {
         this.supplyAreaManagerId = supplyAreaManagerId;
     }
 
-    public LongFilter getSupplySalesRepresentativeId() {
-        return supplySalesRepresentativeId;
+    public LongFilter getSupplyShopId() {
+        return supplyShopId;
     }
 
-    public void setSupplySalesRepresentativeId(LongFilter supplySalesRepresentativeId) {
-        this.supplySalesRepresentativeId = supplySalesRepresentativeId;
+    public void setSupplyShopId(LongFilter supplyShopId) {
+        this.supplyShopId = supplyShopId;
     }
 
 
@@ -158,15 +187,18 @@ public class SupplyOrderCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(orderNo, that.orderNo) &&
             Objects.equals(dateOfOrder, that.dateOfOrder) &&
-            Objects.equals(offer, that.offer) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
+            Objects.equals(offerAmount, that.offerAmount) &&
+            Objects.equals(deliveryDate, that.deliveryDate) &&
+            Objects.equals(supplyOrderStatus, that.supplyOrderStatus) &&
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
             Objects.equals(supplyAreaId, that.supplyAreaId) &&
+            Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId) &&
             Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId) &&
-            Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId);
+            Objects.equals(supplyShopId, that.supplyShopId);
     }
 
     @Override
@@ -175,15 +207,18 @@ public class SupplyOrderCriteria implements Serializable {
         id,
         orderNo,
         dateOfOrder,
-        offer,
         createdBy,
         createdOn,
         updatedBy,
         updatedOn,
+        offerAmount,
+        deliveryDate,
+        supplyOrderStatus,
         supplyZoneId,
         supplyAreaId,
+        supplySalesRepresentativeId,
         supplyAreaManagerId,
-        supplySalesRepresentativeId
+        supplyShopId
         );
     }
 
@@ -193,15 +228,18 @@ public class SupplyOrderCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (orderNo != null ? "orderNo=" + orderNo + ", " : "") +
                 (dateOfOrder != null ? "dateOfOrder=" + dateOfOrder + ", " : "") +
-                (offer != null ? "offer=" + offer + ", " : "") +
                 (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
+                (offerAmount != null ? "offerAmount=" + offerAmount + ", " : "") +
+                (deliveryDate != null ? "deliveryDate=" + deliveryDate + ", " : "") +
+                (supplyOrderStatus != null ? "supplyOrderStatus=" + supplyOrderStatus + ", " : "") +
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
-                (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +
                 (supplySalesRepresentativeId != null ? "supplySalesRepresentativeId=" + supplySalesRepresentativeId + ", " : "") +
+                (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +
+                (supplyShopId != null ? "supplyShopId=" + supplyShopId + ", " : "") +
             "}";
     }
 

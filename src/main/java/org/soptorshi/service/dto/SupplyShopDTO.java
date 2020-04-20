@@ -1,7 +1,8 @@
 package org.soptorshi.service.dto;
-import java.time.Instant;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -33,13 +34,11 @@ public class SupplyShopDTO implements Serializable {
 
     private String supplyAreaAreaName;
 
-    private Long supplyAreaManagerId;
-
-    private String supplyAreaManagerManagerName;
-
     private Long supplySalesRepresentativeId;
 
     private String supplySalesRepresentativeSalesRepresentativeName;
+
+    private Long supplyAreaManagerId;
 
     public Long getId() {
         return id;
@@ -129,22 +128,6 @@ public class SupplyShopDTO implements Serializable {
         this.supplyAreaAreaName = supplyAreaAreaName;
     }
 
-    public Long getSupplyAreaManagerId() {
-        return supplyAreaManagerId;
-    }
-
-    public void setSupplyAreaManagerId(Long supplyAreaManagerId) {
-        this.supplyAreaManagerId = supplyAreaManagerId;
-    }
-
-    public String getSupplyAreaManagerManagerName() {
-        return supplyAreaManagerManagerName;
-    }
-
-    public void setSupplyAreaManagerManagerName(String supplyAreaManagerManagerName) {
-        this.supplyAreaManagerManagerName = supplyAreaManagerManagerName;
-    }
-
     public Long getSupplySalesRepresentativeId() {
         return supplySalesRepresentativeId;
     }
@@ -159,6 +142,14 @@ public class SupplyShopDTO implements Serializable {
 
     public void setSupplySalesRepresentativeSalesRepresentativeName(String supplySalesRepresentativeSalesRepresentativeName) {
         this.supplySalesRepresentativeSalesRepresentativeName = supplySalesRepresentativeSalesRepresentativeName;
+    }
+
+    public Long getSupplyAreaManagerId() {
+        return supplyAreaManagerId;
+    }
+
+    public void setSupplyAreaManagerId(Long supplyAreaManagerId) {
+        this.supplyAreaManagerId = supplyAreaManagerId;
     }
 
     @Override
@@ -196,10 +187,9 @@ public class SupplyShopDTO implements Serializable {
             ", supplyZone='" + getSupplyZoneZoneName() + "'" +
             ", supplyArea=" + getSupplyAreaId() +
             ", supplyArea='" + getSupplyAreaAreaName() + "'" +
-            ", supplyAreaManager=" + getSupplyAreaManagerId() +
-            ", supplyAreaManager='" + getSupplyAreaManagerManagerName() + "'" +
             ", supplySalesRepresentative=" + getSupplySalesRepresentativeId() +
             ", supplySalesRepresentative='" + getSupplySalesRepresentativeSalesRepresentativeName() + "'" +
+            ", supplyAreaManager=" + getSupplyAreaManagerId() +
             "}";
     }
 }

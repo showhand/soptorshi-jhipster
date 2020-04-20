@@ -1,0 +1,57 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="supplyChallan">
+            <h2><span>Supply Challan</span> {{supplyChallan.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Challan No</span></dt>
+                <dd>
+                    <span>{{supplyChallan.challanNo}}</span>
+                </dd>
+                <dt><span>Date Of Challan</span></dt>
+                <dd>
+                    <span>{{supplyChallan.dateOfChallan}}</span>
+                </dd>
+                <dt><span>Remarks</span></dt>
+                <dd>
+                    <span>{{supplyChallan.remarks}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{supplyChallan.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{supplyChallan.createdOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{supplyChallan.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{supplyChallan.updatedOn}}</span>
+                </dd>
+                <dt><span>Supply Order</span></dt>
+                <dd>
+                    <div *ngIf="supplyChallan.supplyOrderId">
+                        <a [routerLink]="['/supply-order', supplyChallan.supplyOrderId, 'view']">{{supplyChallan.supplyOrderOrderNo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <!--<button type="button"
+                    [routerLink]="['/supply-challan', supplyChallan.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>-->
+        </div>
+    </div>
+</div>

@@ -8,14 +8,14 @@ import org.soptorshi.service.dto.CommercialAttachmentDTO;
 /**
  * Mapper for the entity CommercialAttachment and its DTO CommercialAttachmentDTO.
  */
-@Mapper(componentModel = "spring", uses = {CommercialPoMapper.class})
+@Mapper(componentModel = "spring", uses = {CommercialPiMapper.class})
 public interface CommercialAttachmentMapper extends EntityMapper<CommercialAttachmentDTO, CommercialAttachment> {
 
-    @Mapping(source = "commercialPo.id", target = "commercialPoId")
-    @Mapping(source = "commercialPo.purchaseOrderNo", target = "commercialPoPurchaseOrderNo")
+    @Mapping(source = "commercialPi.id", target = "commercialPiId")
+    @Mapping(source = "commercialPi.proformaNo", target = "commercialPiProformaNo")
     CommercialAttachmentDTO toDto(CommercialAttachment commercialAttachment);
 
-    @Mapping(source = "commercialPoId", target = "commercialPo")
+    @Mapping(source = "commercialPiId", target = "commercialPi")
     CommercialAttachment toEntity(CommercialAttachmentDTO commercialAttachmentDTO);
 
     default CommercialAttachment fromId(Long id) {

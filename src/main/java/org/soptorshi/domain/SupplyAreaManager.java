@@ -2,13 +2,14 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.soptorshi.domain.enumeration.SupplyAreaManagerStatus;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -20,17 +21,10 @@ import java.util.Objects;
 public class SupplyAreaManager implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @Column(name = "manager_name", nullable = false)
-    private String managerName;
-
-    @Column(name = "additional_information")
-    private String additionalInformation;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -44,6 +38,14 @@ public class SupplyAreaManager implements Serializable {
     @Column(name = "updated_on")
     private Instant updatedOn;
 
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private SupplyAreaManagerStatus status;
+
     @ManyToOne
     @JsonIgnoreProperties("supplyAreaManagers")
     private SupplyZone supplyZone;
@@ -52,6 +54,11 @@ public class SupplyAreaManager implements Serializable {
     @JsonIgnoreProperties("supplyAreaManagers")
     private SupplyArea supplyArea;
 
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyAreaManagers")
+    private Employee employee;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -59,32 +66,6 @@ public class SupplyAreaManager implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getManagerName() {
-        return managerName;
-    }
-
-    public SupplyAreaManager managerName(String managerName) {
-        this.managerName = managerName;
-        return this;
-    }
-
-    public void setManagerName(String managerName) {
-        this.managerName = managerName;
-    }
-
-    public String getAdditionalInformation() {
-        return additionalInformation;
-    }
-
-    public SupplyAreaManager additionalInformation(String additionalInformation) {
-        this.additionalInformation = additionalInformation;
-        return this;
-    }
-
-    public void setAdditionalInformation(String additionalInformation) {
-        this.additionalInformation = additionalInformation;
     }
 
     public String getCreatedBy() {
@@ -139,6 +120,32 @@ public class SupplyAreaManager implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public SupplyAreaManager endDate(LocalDate endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public SupplyAreaManagerStatus getStatus() {
+        return status;
+    }
+
+    public SupplyAreaManager status(SupplyAreaManagerStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(SupplyAreaManagerStatus status) {
+        this.status = status;
+    }
+
     public SupplyZone getSupplyZone() {
         return supplyZone;
     }
@@ -163,6 +170,19 @@ public class SupplyAreaManager implements Serializable {
 
     public void setSupplyArea(SupplyArea supplyArea) {
         this.supplyArea = supplyArea;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public SupplyAreaManager employee(Employee employee) {
+        this.employee = employee;
+        return this;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -190,12 +210,12 @@ public class SupplyAreaManager implements Serializable {
     public String toString() {
         return "SupplyAreaManager{" +
             "id=" + getId() +
-            ", managerName='" + getManagerName() + "'" +
-            ", additionalInformation='" + getAdditionalInformation() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", endDate='" + getEndDate() + "'" +
+            ", status='" + getStatus() + "'" +
             "}";
     }
 }

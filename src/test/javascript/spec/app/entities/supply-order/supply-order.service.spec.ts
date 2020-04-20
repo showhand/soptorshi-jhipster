@@ -1,13 +1,11 @@
 /* tslint:disable max-line-length */
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { SupplyOrderService } from 'app/entities/supply-order/supply-order.service';
-import { ISupplyOrder, SupplyOrder } from 'app/shared/model/supply-order.model';
+import { ISupplyOrder, SupplyOrder, SupplyOrderStatus } from 'app/shared/model/supply-order.model';
 
 describe('Service Tests', () => {
     describe('SupplyOrder Service', () => {
@@ -25,7 +23,18 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new SupplyOrder(0, 'AAAAAAA', currentDate, 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', currentDate);
+            elemDefault = new SupplyOrder(
+                0,
+                'AAAAAAA',
+                currentDate,
+                'AAAAAAA',
+                currentDate,
+                'AAAAAAA',
+                currentDate,
+                0,
+                currentDate,
+                SupplyOrderStatus.ORDER_RECEIVED
+            );
         });
 
         describe('Service methods', async () => {
@@ -34,7 +43,8 @@ describe('Service Tests', () => {
                     {
                         dateOfOrder: currentDate.format(DATE_FORMAT),
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
-                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT),
+                        deliveryDate: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -53,7 +63,8 @@ describe('Service Tests', () => {
                         id: 0,
                         dateOfOrder: currentDate.format(DATE_FORMAT),
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
-                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT),
+                        deliveryDate: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -61,7 +72,8 @@ describe('Service Tests', () => {
                     {
                         dateOfOrder: currentDate,
                         createdOn: currentDate,
-                        updatedOn: currentDate
+                        updatedOn: currentDate,
+                        deliveryDate: currentDate
                     },
                     returnedFromService
                 );
@@ -78,11 +90,13 @@ describe('Service Tests', () => {
                     {
                         orderNo: 'BBBBBB',
                         dateOfOrder: currentDate.format(DATE_FORMAT),
-                        offer: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',
-                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT),
+                        offerAmount: 1,
+                        deliveryDate: currentDate.format(DATE_FORMAT),
+                        supplyOrderStatus: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -91,7 +105,8 @@ describe('Service Tests', () => {
                     {
                         dateOfOrder: currentDate,
                         createdOn: currentDate,
-                        updatedOn: currentDate
+                        updatedOn: currentDate,
+                        deliveryDate: currentDate
                     },
                     returnedFromService
                 );
@@ -108,11 +123,13 @@ describe('Service Tests', () => {
                     {
                         orderNo: 'BBBBBB',
                         dateOfOrder: currentDate.format(DATE_FORMAT),
-                        offer: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',
-                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT),
+                        offerAmount: 1,
+                        deliveryDate: currentDate.format(DATE_FORMAT),
+                        supplyOrderStatus: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -120,7 +137,8 @@ describe('Service Tests', () => {
                     {
                         dateOfOrder: currentDate,
                         createdOn: currentDate,
-                        updatedOn: currentDate
+                        updatedOn: currentDate,
+                        deliveryDate: currentDate
                     },
                     returnedFromService
                 );

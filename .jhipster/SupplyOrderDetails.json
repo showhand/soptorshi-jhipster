@@ -1,27 +1,39 @@
 {
-    "name": "SupplyOrderDetails",
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyOrder",
+            "otherEntityRelationshipName": "supplyOrderDetails",
+            "relationshipName": "supplyOrder",
+            "otherEntityField": "orderNo",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "productCategory",
+            "otherEntityName": "productCategory",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "supplyOrderDetails",
+            "otherEntityRelationshipNameUndefined": true
+        },
+        {
+            "relationshipName": "product",
+            "otherEntityName": "product",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "name",
+            "otherEntityRelationshipName": "supplyOrderDetails",
+            "otherEntityRelationshipNameUndefined": true
+        }
+    ],
     "fields": [
-        {
-            "fieldName": "productName",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "productVolume",
-            "fieldType": "Double",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "totalPrice",
-            "fieldType": "Double",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
         {
             "fieldName": "createdBy",
             "fieldType": "String"
@@ -37,24 +49,28 @@
         {
             "fieldName": "updatedOn",
             "fieldType": "Instant"
-        }
-    ],
-    "relationships": [
+        },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyOrder",
-            "otherEntityRelationshipName": "supplyOrderDetails",
-            "relationshipName": "supplyOrder",
-            "otherEntityField": "orderNo"
+            "fieldName": "quantity",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "offeredPrice",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20191106144405",
-    "entityTableName": "supply_order_details",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "searchEngine": "elasticsearch",
     "service": "serviceClass",
+    "entityTableName": "supply_order_details",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*"
+    "pagination": "infinite-scroll"
 }

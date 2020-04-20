@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -10,6 +10,10 @@ import { ISupplyOrderDetails } from 'app/shared/model/supply-order-details.model
 import { SupplyOrderDetailsService } from './supply-order-details.service';
 import { ISupplyOrder } from 'app/shared/model/supply-order.model';
 import { SupplyOrderService } from 'app/entities/supply-order';
+import { IProductCategory } from 'app/shared/model/product-category.model';
+import { ProductCategoryService } from 'app/entities/product-category';
+import { IProduct } from 'app/shared/model/product.model';
+import { ProductService } from 'app/entities/product';
 
 @Component({
     selector: 'jhi-supply-order-details-update',
@@ -20,6 +24,10 @@ export class SupplyOrderDetailsUpdateComponent implements OnInit {
     isSaving: boolean;
 
     supplyorders: ISupplyOrder[];
+
+    productcategories: IProductCategory[];
+
+    products: IProduct[];
     createdOn: string;
     updatedOn: string;
 
@@ -27,6 +35,8 @@ export class SupplyOrderDetailsUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected supplyOrderDetailsService: SupplyOrderDetailsService,
         protected supplyOrderService: SupplyOrderService,
+        protected productCategoryService: ProductCategoryService,
+        protected productService: ProductService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -44,6 +54,20 @@ export class SupplyOrderDetailsUpdateComponent implements OnInit {
                 map((response: HttpResponse<ISupplyOrder[]>) => response.body)
             )
             .subscribe((res: ISupplyOrder[]) => (this.supplyorders = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.productCategoryService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IProductCategory[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProductCategory[]>) => response.body)
+            )
+            .subscribe((res: IProductCategory[]) => (this.productcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.productService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProduct[]>) => response.body)
+            )
+            .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -79,6 +103,14 @@ export class SupplyOrderDetailsUpdateComponent implements OnInit {
     }
 
     trackSupplyOrderById(index: number, item: ISupplyOrder) {
+        return item.id;
+    }
+
+    trackProductCategoryById(index: number, item: IProductCategory) {
+        return item.id;
+    }
+
+    trackProductById(index: number, item: IProduct) {
         return item.id;
     }
 }

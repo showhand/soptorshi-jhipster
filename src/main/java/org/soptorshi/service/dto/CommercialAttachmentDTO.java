@@ -16,9 +16,9 @@ public class CommercialAttachmentDTO implements Serializable {
 
     private String fileContentType;
 
-    private Long commercialPoId;
+    private Long commercialPiId;
 
-    private String commercialPoPurchaseOrderNo;
+    private String commercialPiProformaNo;
 
     public Long getId() {
         return id;
@@ -44,20 +44,20 @@ public class CommercialAttachmentDTO implements Serializable {
         this.fileContentType = fileContentType;
     }
 
-    public Long getCommercialPoId() {
-        return commercialPoId;
+    public Long getCommercialPiId() {
+        return commercialPiId;
     }
 
-    public void setCommercialPoId(Long commercialPoId) {
-        this.commercialPoId = commercialPoId;
+    public void setCommercialPiId(Long commercialPiId) {
+        this.commercialPiId = commercialPiId;
     }
 
-    public String getCommercialPoPurchaseOrderNo() {
-        return commercialPoPurchaseOrderNo;
+    public String getCommercialPiProformaNo() {
+        return commercialPiProformaNo;
     }
 
-    public void setCommercialPoPurchaseOrderNo(String commercialPoPurchaseOrderNo) {
-        this.commercialPoPurchaseOrderNo = commercialPoPurchaseOrderNo;
+    public void setCommercialPiProformaNo(String commercialPiProformaNo) {
+        this.commercialPiProformaNo = commercialPiProformaNo;
     }
 
     @Override
@@ -86,8 +86,8 @@ public class CommercialAttachmentDTO implements Serializable {
         return "CommercialAttachmentDTO{" +
             "id=" + getId() +
             ", file='" + getFile() + "'" +
-            ", commercialPo=" + getCommercialPoId() +
-            ", commercialPo='" + getCommercialPoPurchaseOrderNo() + "'" +
+            ", commercialPi=" + getCommercialPiId() +
+            ", commercialPi='" + getCommercialPiProformaNo() + "'" +
             "}";
     }
 }
