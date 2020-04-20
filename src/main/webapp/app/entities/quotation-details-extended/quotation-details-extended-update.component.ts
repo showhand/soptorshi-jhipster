@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
@@ -14,6 +14,8 @@ import { QuotationDetailsService, QuotationDetailsUpdateComponent } from 'app/en
 import { ProductService } from 'app/entities/product';
 import { IProduct } from 'app/shared/model/product.model';
 import { QuotationDetailsExtendedService } from 'app/entities/quotation-details-extended/quotation-details-extended.service';
+import { IRequisition } from 'app/shared/model/requisition.model';
+import { RequisitionService } from 'app/entities/requisition';
 
 @Component({
     selector: 'jhi-quotation-details-extended-update',
@@ -21,6 +23,8 @@ import { QuotationDetailsExtendedService } from 'app/entities/quotation-details-
 })
 export class QuotationDetailsExtendedUpdateComponent extends QuotationDetailsUpdateComponent implements OnInit {
     quotation: IQuotation;
+    requisition: IRequisition;
+    existingQuotationDetails: IQuotationDetails[];
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -30,7 +34,8 @@ export class QuotationDetailsExtendedUpdateComponent extends QuotationDetailsUpd
         protected requisitionDetailsService: RequisitionDetailsService,
         protected productService: ProductService,
         protected activatedRoute: ActivatedRoute,
-        protected quotatinoDetailsExtendedService: QuotationDetailsExtendedService
+        protected quotatinoDetailsExtendedService: QuotationDetailsExtendedService,
+        protected requisitionService: RequisitionService
     ) {
         super(
             dataUtils,
@@ -50,9 +55,28 @@ export class QuotationDetailsExtendedUpdateComponent extends QuotationDetailsUpd
 
             this.quotationService.find(this.quotationDetails.quotationId).subscribe((res: HttpResponse<IQuotation>) => {
                 this.quotation = res.body;
+                this.fetchRequisitionAndExistingQuotationDetails();
                 this.fetchProducts();
             });
         });
+    }
+
+    fetchRequisitionAndExistingQuotationDetails(): void {
+        forkJoin(
+            this.requisitionService.find(this.quotation.requisitionId),
+            this.quotationDetailsService.query({
+                'quotationId.equals': this.quotation.id,
+                size: 100
+            })
+        ).subscribe(
+            res => {
+                this.requisition = res[0].body;
+                this.existingQuotationDetails = res[1].body;
+            },
+            error => {
+                this.jhiAlertService.error('Error in fetching requisition and existing quotation details data');
+            }
+        );
     }
 
     save() {

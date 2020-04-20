@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IPurchaseOrder, PurchaseOrderStatus } from 'app/shared/model/purchase-order.model';
 import { IRequisition } from 'app/shared/model/requisition.model';
 import { RequisitionService } from 'app/entities/requisition';
-import { IQuotation } from 'app/shared/model/quotation.model';
+import { IQuotation, SelectionType } from 'app/shared/model/quotation.model';
 import { QuotationService } from 'app/entities/quotation';
 import { EmployeeService } from 'app/entities/employee';
 import { AccountService } from 'app/core';
@@ -15,6 +15,9 @@ import { IEmployee } from 'app/shared/model/employee.model';
 import { PurchaseOrderService, PurchaseOrderUpdateComponent } from 'app/entities/purchase-order';
 import { NgForm } from '@angular/forms';
 import { PurchaseOrderExtendedService } from 'app/entities/purchase-order-extended/purchase-order-extended.service';
+import { IQuotationDetails } from 'app/shared/model/quotation-details.model';
+import { QuotationDetailsService } from 'app/entities/quotation-details';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'jhi-purchase-order-update',
@@ -24,6 +27,9 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
     currentAccount: any;
     currentEmployee: IEmployee;
     form: any;
+    requisition: IRequisition;
+    quotation: IQuotation;
+    quotationDetails: IQuotationDetails[];
 
     @ViewChild('editForm') editForm: NgForm;
 
@@ -35,7 +41,8 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
         protected quotationService: QuotationService,
         protected activatedRoute: ActivatedRoute,
         protected employeeService: EmployeeService,
-        public accountService: AccountService
+        public accountService: AccountService,
+        private quotationDetailsService: QuotationDetailsService
     ) {
         super(dataUtils, jhiAlertService, purchaseOrderService, requisitionService, quotationService, activatedRoute);
     }
@@ -57,7 +64,21 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
                 );
 
             this.activatedRoute.data.subscribe(({ purchaseOrder }) => {
-                this.purchaseOrder = purchaseOrder;
+                of(purchaseOrder)
+                    .pipe(
+                        switchMap(res => {
+                            this.purchaseOrder = purchaseOrder;
+                            return of(this.purchaseOrder);
+                        })
+                    )
+                    .pipe(
+                        filter(res => {
+                            if (res.requisitionId) return true;
+                            else return false;
+                        })
+                    )
+                    .subscribe(() => this.fetchRequisitionAndQuotationWithDetails());
+
                 this.disableOrEnableComponents();
                 this.generatePurchaseOrderNo();
             });
@@ -83,6 +104,37 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
 
     downloadReport() {
         this.purchaseOrderService.downloadPurchaseOrderReport(this.purchaseOrder.id);
+    }
+
+    fetchRequisitionAndQuotationWithDetails(): void {
+        this.requisitionService
+            .find(this.purchaseOrder.requisitionId)
+            .pipe(map(res => (this.requisition = res.body)))
+            .pipe(
+                switchMap(() =>
+                    this.quotationService.query({
+                        'requisitionId.equals': this.requisition.id,
+                        'selectionStatus.equals': SelectionType.SELECTED
+                    })
+                )
+            )
+            .pipe(
+                map(res => {
+                    this.quotation = res.body[0];
+                    this.purchaseOrder.quotationId = this.quotation.id;
+                    return this.quotation;
+                })
+            )
+            .pipe(
+                switchMap(res => {
+                    return this.quotationDetailsService.query({
+                        'quotationId.equals': res.id
+                    });
+                })
+            )
+            .subscribe(res => {
+                this.quotationDetails = res.body;
+            });
     }
 
     disableOrEnableComponents() {

@@ -66,4 +66,18 @@ export class RequisitionDetailsExtendedDirectiveComponent extends RequisitionDet
     }
 
     add() {}
+
+    delete(id: number): void {
+        this.requisitionDetailsService.delete(id).subscribe(
+            res => {
+                this.jhiAlertService.success('Delete is successful');
+            },
+            error => {
+                this.jhiAlertService.error(error);
+            },
+            () => {
+                this.loadAll();
+            }
+        );
+    }
 }
