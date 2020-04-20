@@ -121,6 +121,9 @@
                 <button type="button" id="receive_heads"  *ngIf="this.accountService.hasAnyAuthority(['ROLE_CFO']) && requisition.status=== 'RECEIVED_VERIFIED_BY_HEAD'" (click)="closedByCFO()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-secondary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Receive</span>
                 </button>
+                <button type="button" class="btn btn-primary" (click)="createPurchaseOrder()" *ngIf="requisition.status==='APPROVED_BY_CFO'">
+                    Create Purchase Order
+                </button>
             </div>
         </form>
     </div>

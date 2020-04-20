@@ -28,21 +28,9 @@ export class PurchaseOrderExtendedResolve implements Resolve<IPurchaseOrder> {
             );
         }
         if (requisitionId) {
-            return this.service
-                .query({
-                    requisitionId: requisitionId
-                })
-                .pipe(
-                    switchMap(response => {
-                        if (response.body.length > 0) {
-                            return of(response.body[0]);
-                        } else {
-                            const purchaseOrder = new PurchaseOrder();
-                            purchaseOrder.requisitionId = requisitionId;
-                            return of(purchaseOrder);
-                        }
-                    })
-                );
+            const purchaseOrder = new PurchaseOrder();
+            purchaseOrder.requisitionId = requisitionId;
+            return of(purchaseOrder);
         }
         return of(new PurchaseOrder());
     }
@@ -99,7 +87,7 @@ export const purchaseOrderExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':requisitionId/edit',
+        path: ':requisitionId/create',
         component: PurchaseOrderExtendedUpdateComponent,
         resolve: {
             purchaseOrder: PurchaseOrderExtendedResolve
