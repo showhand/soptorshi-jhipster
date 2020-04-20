@@ -11,10 +11,7 @@ import org.soptorshi.repository.DtTransactionRepository;
 import org.soptorshi.repository.PaymentVoucherGeneratorRepository;
 import org.soptorshi.repository.PaymentVoucherRepository;
 import org.soptorshi.repository.SalaryVoucherRelationRepository;
-import org.soptorshi.repository.extended.CurrencyExtendedRepository;
-import org.soptorshi.repository.extended.PaymentVoucherExtendedRepository;
-import org.soptorshi.repository.extended.RequisitionVoucherRelationExtendedRepository;
-import org.soptorshi.repository.extended.SystemAccountMapExtendedRepository;
+import org.soptorshi.repository.extended.*;
 import org.soptorshi.repository.search.PaymentVoucherSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.CurrencyQueryService;
@@ -36,22 +33,24 @@ import java.util.Optional;
 @Transactional
 public class PaymentVoucherExtendedService extends PaymentVoucherService {
 
-    private PaymentVoucherGeneratorRepository paymentVoucherGeneratorRepository;
-    private DtTransactionQueryService dtTransactionQueryService;
-    private DtTransactionRepository dtTransactionRepository;
-    private DtTransactionExtendedService dtTransactionExtendedService;
-    private CurrencyQueryService currencyQueryService;
-    private DtTransactionMapper dtTransactionMapper;
-    private CurrencyExtendedRepository currencyExtendedRepository;
-    private SystemAccountMapExtendedRepository systemAccountMapExtendedRepository;
-    private SalaryVoucherRelationRepository salaryVoucherRelationRepository;
-    private RequisitionVoucherRelationExtendedService requisitionVoucherRelationService;
-    private RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository;
-    private JournalVoucherExtendedService journalVoucherExtendedService;
-    private PaymentVoucherExtendedRepository paymentVoucherExtendedRepository;
-    private PaymentVoucherMapper paymentVoucherMapper;
+    private final PaymentVoucherGeneratorRepository paymentVoucherGeneratorRepository;
+    private final DtTransactionQueryService dtTransactionQueryService;
+    private final DtTransactionRepository dtTransactionRepository;
+    private final DtTransactionExtendedService dtTransactionExtendedService;
+    private final CurrencyQueryService currencyQueryService;
+    private final DtTransactionMapper dtTransactionMapper;
+    private final CurrencyExtendedRepository currencyExtendedRepository;
+    private final SystemAccountMapExtendedRepository systemAccountMapExtendedRepository;
+    private final SalaryVoucherRelationRepository salaryVoucherRelationRepository;
+    private final RequisitionVoucherRelationExtendedService requisitionVoucherRelationService;
+    private final RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository;
+    private final JournalVoucherExtendedService journalVoucherExtendedService;
+    private final PaymentVoucherExtendedRepository paymentVoucherExtendedRepository;
+    private final PaymentVoucherMapper paymentVoucherMapper;
+    private final PurchaseOrderVoucherRelationExtendedService purchaseOrderVoucherRelationExtendedService;
+    private final PurchaseOrderVoucherRelationExtendedRepository purchaseOrderVoucherRelationExtendedRepository;
 
-    public PaymentVoucherExtendedService(PaymentVoucherRepository paymentVoucherRepository, PaymentVoucherMapper paymentVoucherMapper, PaymentVoucherSearchRepository paymentVoucherSearchRepository, PaymentVoucherGeneratorRepository paymentVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, CurrencyQueryService currencyQueryService, DtTransactionMapper dtTransactionMapper, CurrencyExtendedRepository currencyExtendedRepository, SystemAccountMapExtendedRepository systemAccountMapExtendedRepository, SalaryVoucherRelationRepository salaryVoucherRelationRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, JournalVoucherExtendedService journalVoucherExtendedService, PaymentVoucherExtendedRepository paymentVoucherExtendedRepository, PaymentVoucherMapper paymentVoucherMapper1) {
+    public PaymentVoucherExtendedService(PaymentVoucherRepository paymentVoucherRepository, PaymentVoucherMapper paymentVoucherMapper, PaymentVoucherSearchRepository paymentVoucherSearchRepository, PaymentVoucherGeneratorRepository paymentVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, CurrencyQueryService currencyQueryService, DtTransactionMapper dtTransactionMapper, CurrencyExtendedRepository currencyExtendedRepository, SystemAccountMapExtendedRepository systemAccountMapExtendedRepository, SalaryVoucherRelationRepository salaryVoucherRelationRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, JournalVoucherExtendedService journalVoucherExtendedService, PaymentVoucherExtendedRepository paymentVoucherExtendedRepository, PaymentVoucherMapper paymentVoucherMapper1, PurchaseOrderVoucherRelationExtendedService purchaseOrderVoucherRelationExtendedService, PurchaseOrderVoucherRelationExtendedRepository purchaseOrderVoucherRelationExtendedRepository) {
         super(paymentVoucherRepository, paymentVoucherMapper, paymentVoucherSearchRepository);
         this.paymentVoucherGeneratorRepository = paymentVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
@@ -67,6 +66,8 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
         this.journalVoucherExtendedService = journalVoucherExtendedService;
         this.paymentVoucherExtendedRepository = paymentVoucherExtendedRepository;
         this.paymentVoucherMapper = paymentVoucherMapper1;
+        this.purchaseOrderVoucherRelationExtendedService = purchaseOrderVoucherRelationExtendedService;
+        this.purchaseOrderVoucherRelationExtendedRepository = purchaseOrderVoucherRelationExtendedRepository;
     }
 
     @Override
@@ -95,6 +96,12 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
             if(paymentVoucherDTO.getApplicationType().equals(ApplicationType.REQUISITION)){
                 requisitionVoucherRelationService.storeRequisitionVoucherRelation(paymentVoucherDTO.getVoucherNo(),
                     paymentVoucherDTO.getApplicationType(),
+                    paymentVoucherDTO.getApplicationId(),
+                    paymentVoucherDTO.getId(),
+                    "Payment Voucher");
+            }
+            else if(paymentVoucherDTO.getApplicationType().equals(ApplicationType.PURCHASE_ORDER)){
+                purchaseOrderVoucherRelationExtendedService.storePurchaseOrderVoucherRelation(paymentVoucherDTO.getVoucherNo(),
                     paymentVoucherDTO.getApplicationId(),
                     paymentVoucherDTO.getId(),
                     "Payment Voucher");
@@ -166,6 +173,8 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
             dtTransactionExtendedService.updateAccountBalance(dtTransactionMapper.toDto(dtTransactions));
         }
     }
+
+
 
 
     private DtTransactionDTO createCreditTransaction(PaymentVoucherDTO paymentVoucherDTO){
