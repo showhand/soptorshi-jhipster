@@ -18,7 +18,6 @@ import {
     PurchaseOrderVoucherRelationExtendedUpdateComponent
 } from 'app/entities/purchase-order-voucher-relation-extended';
 import { RouterModule } from '@angular/router';
-import { PURCHASE_ORDER_VOUCHER_RELATION_ENTITY_STATES } from 'app/entities/purchase-order-voucher-relation-extended/purchase-order-voucher-relation-extended.module';
 
 import {
     // @ts-ignore
@@ -33,13 +32,20 @@ import {
     PurchaseOrderUpdateComponent
 } from 'app/entities/purchase-order';
 import {
+    // @ts-ignore
     PurchaseOrderExtendedComponent,
+    // @ts-ignore
     PurchaseOrderExtendedDetailComponent,
+    // @ts-ignore
     PurchaseOrderExtendedUpdateComponent
 } from 'app/entities/purchase-order-extended';
+// @ts-ignore
 import { TermsAndConditionsForPurchaseOrder } from 'app/entities/purchase-order-extended/terms-and-conditions-for-purchase-order';
+// @ts-ignore
 import { PurchaseOrderMessagesExtendedDirectiveComponent } from 'app/entities/purchase-order-extended/purchase-order-messages-extended-directive.component';
+// @ts-ignore
 import { PurchaseOrderRequisitionVoucherRelation } from 'app/entities/purchase-order-extended/purchase-order-requisition-voucher-relation.component';
+// @ts-ignore
 import { PurchaseOrderExtendedRequisitionDirectiveComponent } from 'app/entities/purchase-order-extended/purchase-order-extended-requisition-directive.component';
 import { RequisitionComponent, RequisitionDetailComponent, RequisitionUpdateComponent } from 'app/entities/requisition';
 import {
@@ -132,6 +138,7 @@ import { RequisitionInfoCommercialDirComponent } from 'app/entities/requisition-
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
+// @ts-ignore
 export class SoptorshiSharedModule {
     static forRoot() {
         return {
