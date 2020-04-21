@@ -170,7 +170,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" routerLink="leave-application" routerLinkActive="active"
+                    <a class="dropdown-item" routerLink="leave-application/new" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
                         <fa-icon icon="car" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">Leave Application</span>

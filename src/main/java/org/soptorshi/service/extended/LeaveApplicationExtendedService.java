@@ -124,6 +124,10 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
         if (leaveApplicationDTO.getStatus().equals(LeaveStatus.REJECTED)) {
             throw new BadRequestAlertException("application already rejected!!", "leaveApplication", "idnull");
         } else {
+            if(calcDiff(leaveApplicationDTO.getFromDate(), leaveApplicationDTO.getToDate()) <= 0) {
+                throw new BadRequestAlertException("from date to to date difference is zero!", "leaveApplication", "idnull");
+            }
+
             Employee employee = employeeRepository.getOne(leaveApplicationDTO.getEmployeesId());
             LeaveBalanceDTO leaveBalance = leaveBalanceService
                 .calculateLeaveBalance(employee.getEmployeeId(), leaveApplicationDTO.getFromDate().getYear(),
