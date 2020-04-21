@@ -50,7 +50,8 @@ entity Employee {
   userAccount Boolean,
   photo ImageBlob,
   hourlySalary BigDecimal,
-  bankAccountNo String
+  bankAccountNo String,
+  bankType String
 }
 entity Attachment {
   file AnyBlob
