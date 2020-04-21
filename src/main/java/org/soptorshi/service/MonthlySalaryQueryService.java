@@ -111,6 +111,9 @@ public class MonthlySalaryQueryService extends QueryService<MonthlySalary> {
             if (criteria.getMedicalAllowance() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getMedicalAllowance(), MonthlySalary_.medicalAllowance));
             }
+            if (criteria.getOverTimeAllowance() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getOverTimeAllowance(), MonthlySalary_.overTimeAllowance));
+            }
             if (criteria.getFoodAllowance() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFoodAllowance(), MonthlySalary_.foodAllowance));
             }

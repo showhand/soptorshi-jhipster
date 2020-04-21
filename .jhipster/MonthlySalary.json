@@ -39,6 +39,10 @@
             "fieldType": "BigDecimal"
         },
         {
+            "fieldName": "overTimeAllowance",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "foodAllowance",
             "fieldType": "BigDecimal"
         },

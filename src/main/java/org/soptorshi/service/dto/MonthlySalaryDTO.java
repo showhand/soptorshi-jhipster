@@ -30,6 +30,8 @@ public class MonthlySalaryDTO implements Serializable {
 
     private BigDecimal medicalAllowance;
 
+    private BigDecimal overTimeAllowance;
+
     private BigDecimal foodAllowance;
 
     private BigDecimal arrearAllowance;
@@ -137,6 +139,14 @@ public class MonthlySalaryDTO implements Serializable {
 
     public void setMedicalAllowance(BigDecimal medicalAllowance) {
         this.medicalAllowance = medicalAllowance;
+    }
+
+    public BigDecimal getOverTimeAllowance() {
+        return overTimeAllowance;
+    }
+
+    public void setOverTimeAllowance(BigDecimal overTimeAllowance) {
+        this.overTimeAllowance = overTimeAllowance;
     }
 
     public BigDecimal getFoodAllowance() {
@@ -378,6 +388,7 @@ public class MonthlySalaryDTO implements Serializable {
             ", gross=" + getGross() +
             ", houseRent=" + getHouseRent() +
             ", medicalAllowance=" + getMedicalAllowance() +
+            ", overTimeAllowance=" + getOverTimeAllowance() +
             ", foodAllowance=" + getFoodAllowance() +
             ", arrearAllowance=" + getArrearAllowance() +
             ", driverAllowance=" + getDriverAllowance() +

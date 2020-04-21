@@ -76,6 +76,9 @@ public class MonthlySalaryResourceIntTest {
     private static final BigDecimal DEFAULT_MEDICAL_ALLOWANCE = new BigDecimal(1);
     private static final BigDecimal UPDATED_MEDICAL_ALLOWANCE = new BigDecimal(2);
 
+    private static final BigDecimal DEFAULT_OVER_TIME_ALLOWANCE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_OVER_TIME_ALLOWANCE = new BigDecimal(2);
+
     private static final BigDecimal DEFAULT_FOOD_ALLOWANCE = new BigDecimal(1);
     private static final BigDecimal UPDATED_FOOD_ALLOWANCE = new BigDecimal(2);
 
@@ -213,6 +216,7 @@ public class MonthlySalaryResourceIntTest {
             .gross(DEFAULT_GROSS)
             .houseRent(DEFAULT_HOUSE_RENT)
             .medicalAllowance(DEFAULT_MEDICAL_ALLOWANCE)
+            .overTimeAllowance(DEFAULT_OVER_TIME_ALLOWANCE)
             .foodAllowance(DEFAULT_FOOD_ALLOWANCE)
             .arrearAllowance(DEFAULT_ARREAR_ALLOWANCE)
             .driverAllowance(DEFAULT_DRIVER_ALLOWANCE)
@@ -267,6 +271,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getGross()).isEqualTo(DEFAULT_GROSS);
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(DEFAULT_HOUSE_RENT);
         assertThat(testMonthlySalary.getMedicalAllowance()).isEqualTo(DEFAULT_MEDICAL_ALLOWANCE);
+        assertThat(testMonthlySalary.getOverTimeAllowance()).isEqualTo(DEFAULT_OVER_TIME_ALLOWANCE);
         assertThat(testMonthlySalary.getFoodAllowance()).isEqualTo(DEFAULT_FOOD_ALLOWANCE);
         assertThat(testMonthlySalary.getArrearAllowance()).isEqualTo(DEFAULT_ARREAR_ALLOWANCE);
         assertThat(testMonthlySalary.getDriverAllowance()).isEqualTo(DEFAULT_DRIVER_ALLOWANCE);
@@ -412,6 +417,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].overTimeAllowance").value(hasItem(DEFAULT_OVER_TIME_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].foodAllowance").value(hasItem(DEFAULT_FOOD_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].arrearAllowance").value(hasItem(DEFAULT_ARREAR_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].driverAllowance").value(hasItem(DEFAULT_DRIVER_ALLOWANCE.intValue())))
@@ -455,6 +461,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.gross").value(DEFAULT_GROSS.intValue()))
             .andExpect(jsonPath("$.houseRent").value(DEFAULT_HOUSE_RENT.intValue()))
             .andExpect(jsonPath("$.medicalAllowance").value(DEFAULT_MEDICAL_ALLOWANCE.intValue()))
+            .andExpect(jsonPath("$.overTimeAllowance").value(DEFAULT_OVER_TIME_ALLOWANCE.intValue()))
             .andExpect(jsonPath("$.foodAllowance").value(DEFAULT_FOOD_ALLOWANCE.intValue()))
             .andExpect(jsonPath("$.arrearAllowance").value(DEFAULT_ARREAR_ALLOWANCE.intValue()))
             .andExpect(jsonPath("$.driverAllowance").value(DEFAULT_DRIVER_ALLOWANCE.intValue()))
@@ -740,6 +747,45 @@ public class MonthlySalaryResourceIntTest {
 
         // Get all the monthlySalaryList where medicalAllowance is null
         defaultMonthlySalaryShouldNotBeFound("medicalAllowance.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByOverTimeAllowanceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where overTimeAllowance equals to DEFAULT_OVER_TIME_ALLOWANCE
+        defaultMonthlySalaryShouldBeFound("overTimeAllowance.equals=" + DEFAULT_OVER_TIME_ALLOWANCE);
+
+        // Get all the monthlySalaryList where overTimeAllowance equals to UPDATED_OVER_TIME_ALLOWANCE
+        defaultMonthlySalaryShouldNotBeFound("overTimeAllowance.equals=" + UPDATED_OVER_TIME_ALLOWANCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByOverTimeAllowanceIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where overTimeAllowance in DEFAULT_OVER_TIME_ALLOWANCE or UPDATED_OVER_TIME_ALLOWANCE
+        defaultMonthlySalaryShouldBeFound("overTimeAllowance.in=" + DEFAULT_OVER_TIME_ALLOWANCE + "," + UPDATED_OVER_TIME_ALLOWANCE);
+
+        // Get all the monthlySalaryList where overTimeAllowance equals to UPDATED_OVER_TIME_ALLOWANCE
+        defaultMonthlySalaryShouldNotBeFound("overTimeAllowance.in=" + UPDATED_OVER_TIME_ALLOWANCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByOverTimeAllowanceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where overTimeAllowance is not null
+        defaultMonthlySalaryShouldBeFound("overTimeAllowance.specified=true");
+
+        // Get all the monthlySalaryList where overTimeAllowance is null
+        defaultMonthlySalaryShouldNotBeFound("overTimeAllowance.specified=false");
     }
 
     @Test
@@ -1783,6 +1829,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].overTimeAllowance").value(hasItem(DEFAULT_OVER_TIME_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].foodAllowance").value(hasItem(DEFAULT_FOOD_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].arrearAllowance").value(hasItem(DEFAULT_ARREAR_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].driverAllowance").value(hasItem(DEFAULT_DRIVER_ALLOWANCE.intValue())))
@@ -1860,6 +1907,7 @@ public class MonthlySalaryResourceIntTest {
             .gross(UPDATED_GROSS)
             .houseRent(UPDATED_HOUSE_RENT)
             .medicalAllowance(UPDATED_MEDICAL_ALLOWANCE)
+            .overTimeAllowance(UPDATED_OVER_TIME_ALLOWANCE)
             .foodAllowance(UPDATED_FOOD_ALLOWANCE)
             .arrearAllowance(UPDATED_ARREAR_ALLOWANCE)
             .driverAllowance(UPDATED_DRIVER_ALLOWANCE)
@@ -1901,6 +1949,7 @@ public class MonthlySalaryResourceIntTest {
         assertThat(testMonthlySalary.getGross()).isEqualTo(UPDATED_GROSS);
         assertThat(testMonthlySalary.getHouseRent()).isEqualTo(UPDATED_HOUSE_RENT);
         assertThat(testMonthlySalary.getMedicalAllowance()).isEqualTo(UPDATED_MEDICAL_ALLOWANCE);
+        assertThat(testMonthlySalary.getOverTimeAllowance()).isEqualTo(UPDATED_OVER_TIME_ALLOWANCE);
         assertThat(testMonthlySalary.getFoodAllowance()).isEqualTo(UPDATED_FOOD_ALLOWANCE);
         assertThat(testMonthlySalary.getArrearAllowance()).isEqualTo(UPDATED_ARREAR_ALLOWANCE);
         assertThat(testMonthlySalary.getDriverAllowance()).isEqualTo(UPDATED_DRIVER_ALLOWANCE);
@@ -1991,6 +2040,7 @@ public class MonthlySalaryResourceIntTest {
             .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
             .andExpect(jsonPath("$.[*].houseRent").value(hasItem(DEFAULT_HOUSE_RENT.intValue())))
             .andExpect(jsonPath("$.[*].medicalAllowance").value(hasItem(DEFAULT_MEDICAL_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].overTimeAllowance").value(hasItem(DEFAULT_OVER_TIME_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].foodAllowance").value(hasItem(DEFAULT_FOOD_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].arrearAllowance").value(hasItem(DEFAULT_ARREAR_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].driverAllowance").value(hasItem(DEFAULT_DRIVER_ALLOWANCE.intValue())))

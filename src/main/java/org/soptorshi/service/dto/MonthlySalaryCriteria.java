@@ -50,6 +50,8 @@ public class MonthlySalaryCriteria implements Serializable {
 
     private BigDecimalFilter medicalAllowance;
 
+    private BigDecimalFilter overTimeAllowance;
+
     private BigDecimalFilter foodAllowance;
 
     private BigDecimalFilter arrearAllowance;
@@ -156,6 +158,14 @@ public class MonthlySalaryCriteria implements Serializable {
 
     public void setMedicalAllowance(BigDecimalFilter medicalAllowance) {
         this.medicalAllowance = medicalAllowance;
+    }
+
+    public BigDecimalFilter getOverTimeAllowance() {
+        return overTimeAllowance;
+    }
+
+    public void setOverTimeAllowance(BigDecimalFilter overTimeAllowance) {
+        this.overTimeAllowance = overTimeAllowance;
     }
 
     public BigDecimalFilter getFoodAllowance() {
@@ -384,6 +394,7 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(gross, that.gross) &&
             Objects.equals(houseRent, that.houseRent) &&
             Objects.equals(medicalAllowance, that.medicalAllowance) &&
+            Objects.equals(overTimeAllowance, that.overTimeAllowance) &&
             Objects.equals(foodAllowance, that.foodAllowance) &&
             Objects.equals(arrearAllowance, that.arrearAllowance) &&
             Objects.equals(driverAllowance, that.driverAllowance) &&
@@ -422,6 +433,7 @@ public class MonthlySalaryCriteria implements Serializable {
         gross,
         houseRent,
         medicalAllowance,
+        overTimeAllowance,
         foodAllowance,
         arrearAllowance,
         driverAllowance,
@@ -461,6 +473,7 @@ public class MonthlySalaryCriteria implements Serializable {
                 (gross != null ? "gross=" + gross + ", " : "") +
                 (houseRent != null ? "houseRent=" + houseRent + ", " : "") +
                 (medicalAllowance != null ? "medicalAllowance=" + medicalAllowance + ", " : "") +
+                (overTimeAllowance != null ? "overTimeAllowance=" + overTimeAllowance + ", " : "") +
                 (foodAllowance != null ? "foodAllowance=" + foodAllowance + ", " : "") +
                 (arrearAllowance != null ? "arrearAllowance=" + arrearAllowance + ", " : "") +
                 (driverAllowance != null ? "driverAllowance=" + driverAllowance + ", " : "") +

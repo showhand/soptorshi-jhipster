@@ -56,6 +56,9 @@ public class MonthlySalary implements Serializable {
     @Column(name = "medical_allowance", precision = 10, scale = 2)
     private BigDecimal medicalAllowance;
 
+    @Column(name = "over_time_allowance", precision = 10, scale = 2)
+    private BigDecimal overTimeAllowance;
+
     @Column(name = "food_allowance", precision = 10, scale = 2)
     private BigDecimal foodAllowance;
 
@@ -220,6 +223,19 @@ public class MonthlySalary implements Serializable {
 
     public void setMedicalAllowance(BigDecimal medicalAllowance) {
         this.medicalAllowance = medicalAllowance;
+    }
+
+    public BigDecimal getOverTimeAllowance() {
+        return overTimeAllowance;
+    }
+
+    public MonthlySalary overTimeAllowance(BigDecimal overTimeAllowance) {
+        this.overTimeAllowance = overTimeAllowance;
+        return this;
+    }
+
+    public void setOverTimeAllowance(BigDecimal overTimeAllowance) {
+        this.overTimeAllowance = overTimeAllowance;
     }
 
     public BigDecimal getFoodAllowance() {
@@ -603,6 +619,7 @@ public class MonthlySalary implements Serializable {
             ", gross=" + getGross() +
             ", houseRent=" + getHouseRent() +
             ", medicalAllowance=" + getMedicalAllowance() +
+            ", overTimeAllowance=" + getOverTimeAllowance() +
             ", foodAllowance=" + getFoodAllowance() +
             ", arrearAllowance=" + getArrearAllowance() +
             ", driverAllowance=" + getDriverAllowance() +
