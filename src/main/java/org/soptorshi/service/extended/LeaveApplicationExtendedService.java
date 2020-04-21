@@ -7,10 +7,12 @@ import org.soptorshi.domain.LeaveApplication;
 import org.soptorshi.domain.Manager;
 import org.soptorshi.domain.Weekend;
 import org.soptorshi.domain.enumeration.LeaveStatus;
+import org.soptorshi.domain.enumeration.MonthType;
+import org.soptorshi.domain.enumeration.PaidOrUnPaid;
 import org.soptorshi.domain.enumeration.WeekendStatus;
 import org.soptorshi.repository.EmployeeRepository;
-import org.soptorshi.repository.LeaveApplicationRepository;
 import org.soptorshi.repository.ManagerRepository;
+import org.soptorshi.repository.extended.LeaveApplicationExtendedRepository;
 import org.soptorshi.repository.search.LeaveApplicationSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.LeaveApplicationService;
@@ -23,8 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -36,7 +40,7 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
 
     private final Logger log = LoggerFactory.getLogger(LeaveApplicationExtendedService.class);
 
-    private final LeaveApplicationRepository leaveApplicationRepository;
+    private final LeaveApplicationExtendedRepository leaveApplicationRepository;
 
     private final LeaveApplicationMapper leaveApplicationMapper;
 
@@ -54,7 +58,7 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
 
     private final WeekendExtendedService weekendExtendedService;
 
-    public LeaveApplicationExtendedService(LeaveApplicationRepository leaveApplicationRepository, LeaveApplicationMapper leaveApplicationMapper, LeaveApplicationSearchRepository leaveApplicationSearchRepository,
+    public LeaveApplicationExtendedService(LeaveApplicationExtendedRepository leaveApplicationRepository, LeaveApplicationMapper leaveApplicationMapper, LeaveApplicationSearchRepository leaveApplicationSearchRepository,
                                            LeaveBalanceService leaveBalanceService, EmployeeRepository employeeRepository,
                                            ManagerRepository managerRepository,
                                            HolidayTypeExtendedService holidayTypeExtendedService,
@@ -124,7 +128,7 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
         if (leaveApplicationDTO.getStatus().equals(LeaveStatus.REJECTED)) {
             throw new BadRequestAlertException("application already rejected!!", "leaveApplication", "idnull");
         } else {
-            if(calcDiff(leaveApplicationDTO.getFromDate(), leaveApplicationDTO.getToDate()) <= 0) {
+            if (calcDiff(leaveApplicationDTO.getFromDate(), leaveApplicationDTO.getToDate()) <= 0) {
                 throw new BadRequestAlertException("from date to to date difference is zero!", "leaveApplication", "idnull");
             }
 
@@ -137,7 +141,7 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
     }
 
     public Integer calcDiff(LocalDate fromDate, LocalDate toDate) {
-        if(toDate.compareTo(fromDate) >= 0) {
+        if (toDate.compareTo(fromDate) >= 0) {
             long daysBetween = DAYS.between(fromDate, toDate) + 1;
             ArrayList<LocalDate> localDates = new ArrayList<LocalDate>();
             LocalDate temp = fromDate;
@@ -147,7 +151,7 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
             }
             Optional<Weekend> weekend = weekendExtendedService.getWeekendByStatus(WeekendStatus.ACTIVE);
             ArrayList<LocalDate> matchedDates = new ArrayList<>();
-            if(weekend.isPresent()) {
+            if (weekend.isPresent()) {
                 for (LocalDate localDate : localDates) {
                     DayOfWeek dayOfWeek = localDate.getDayOfWeek();
                     String day = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ENGLISH).trim().toUpperCase();
@@ -167,7 +171,7 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
                 }
             }
 
-            for(LocalDate localDate: matchedDates) {
+            for (LocalDate localDate : matchedDates) {
                 localDates.remove(localDate);
             }
             ArrayList<LocalDate> holidays = holidayExtendedService.getAllHolidayDates(fromDate.getYear());
@@ -181,5 +185,64 @@ public class LeaveApplicationExtendedService extends LeaveApplicationService {
             return (int) daysBetween;
         }
         return -1;
+    }
+
+    public List<LocalDate> extract(Long employeeId, int year, boolean paidLeave) {
+        List<LocalDate> localDates = new ArrayList<>();
+        Employee employee = employeeRepository.getOne(employeeId);
+        List<LeaveApplication> leaveApplications = leaveApplicationRepository.getByEmployees(employee);
+        for (LeaveApplication leaveApplication : leaveApplications) {
+            if (paidLeave) {
+                if (leaveApplication.getLeaveTypes().getPaidLeave().equals(PaidOrUnPaid.PAID)) {
+
+                    LocalDate fromDate = leaveApplication.getFromDate();
+                    LocalDate toDate = leaveApplication.getToDate();
+                    if (fromDate.getYear() == year && toDate.getYear() == year) {
+                        while (fromDate.compareTo(toDate) <= 0) {
+                            localDates.add(fromDate);
+                            fromDate = fromDate.plusDays(1);
+                        }
+                    }
+                } else {
+                    if (leaveApplication.getLeaveTypes().getPaidLeave().equals(PaidOrUnPaid.PAID) || leaveApplication.getLeaveTypes().getPaidLeave().equals(PaidOrUnPaid.UNDECLARED)) {
+                        LocalDate fromDate = leaveApplication.getFromDate();
+                        LocalDate toDate = leaveApplication.getToDate();
+                        if (fromDate.getYear() == year && toDate.getYear() == year) {
+                            while (fromDate.compareTo(toDate) <= 0) {
+                                localDates.add(fromDate);
+                                fromDate = fromDate.plusDays(1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return localDates;
+    }
+
+    public List<LocalDate> getWithoutPayLeaveDates(Long employeeId, MonthType monthType, int year) {
+        List<LocalDate> dates = new ArrayList<>();
+        List<LocalDate> localDates = extract(employeeId, year, false);
+
+        for (LocalDate localDate : localDates) {
+            Month month = localDate.getMonth();
+            if (month.getValue() == (monthType.ordinal() + 1)) {
+                dates.add(localDate);
+            }
+        }
+        return dates;
+    }
+
+    public List<LocalDate> getWithPayLeaveDates(Long employeeId, MonthType monthType, int year) {
+        List<LocalDate> dates = new ArrayList<>();
+        List<LocalDate> localDates = extract(employeeId, year, true);
+
+        for (LocalDate localDate : localDates) {
+            Month month = localDate.getMonth();
+            if (month.getValue() == (monthType.ordinal() + 1)) {
+                dates.add(localDate);
+            }
+        }
+        return dates;
     }
 }
