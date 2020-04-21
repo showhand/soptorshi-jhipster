@@ -24,19 +24,19 @@ const ENTITY_STATES = [...requisitionExtendedRoute, ...requisitionExtendedPopupR
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
-        RequisitionComponent,
+        /*     RequisitionComponent,
         RequisitionDetailComponent,
         RequisitionUpdateComponent,
         RequisitionExtendedComponent,
         RequisitionExtendedUpdateComponent,
-        RequisitionExtendedDetailComponent,
+        RequisitionExtendedDetailComponent,*/
         RequisitionDeleteDialogComponent,
-        RequisitionDeletePopupComponent,
+        RequisitionDeletePopupComponent /*,
         RequisitionDetailsExtendedDirectiveComponent,
         QuotationForRequisitionComponent,
         RequisitionMessagesDirectiveComponent,
         CommercialInfoDirComponent,
-        RequisitionInfoCommercialDirComponent
+        RequisitionInfoCommercialDirComponent*/
     ],
     entryComponents: [
         RequisitionExtendedComponent,
