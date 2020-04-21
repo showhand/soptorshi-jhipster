@@ -16,7 +16,7 @@ const ENTITY_STATES = [...journalVoucherRoute, ...journalVoucherPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /* declarations: [
         JournalVoucherComponent,
         JournalVoucherDetailComponent,
         JournalVoucherUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...journalVoucherRoute, ...journalVoucherPopupRoute];
         JournalVoucherUpdateComponent,
         JournalVoucherDeleteDialogComponent,
         JournalVoucherDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiJournalVoucherModule {}

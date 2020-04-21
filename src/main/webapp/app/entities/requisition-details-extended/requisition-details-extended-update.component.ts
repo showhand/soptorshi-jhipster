@@ -23,13 +23,12 @@ export class RequisitionDetailsExtendedUpdateComponent extends RequisitionDetail
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected requisitionDetailsService: RequisitionDetailsService,
-        protected productCategoryService: ProductCategoryService,
         protected requisitionService: RequisitionService,
         protected productService: ProductService,
         protected activatedRoute: ActivatedRoute,
         protected productPriceService: ProductPriceService
     ) {
-        super(jhiAlertService, requisitionDetailsService, productCategoryService, requisitionService, productService, activatedRoute);
+        super(jhiAlertService, requisitionDetailsService, requisitionService, productService, activatedRoute);
     }
 
     ngOnInit() {
