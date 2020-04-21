@@ -1,0 +1,630 @@
+<style>
+    .vl {
+        border-left: 6px solid green;
+        height: auto;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <h2>Additional Information</h2>
+    </div>
+    <div class="col-6" align="right">
+        <img [src]="'data:' + employee.photoContentType + ';base64,' + employee.photo" width="70" height="75" alt="employee image"/>
+    </div>
+    <hr/>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">User Information</div>
+            <div class="card-body">
+                <div class="row justify-content-center" *ngIf="!user">
+                    <button class="btn btn-secondary" queryParamsHandling="merge" [routerLink]="['/admin',employee.employeeId,'user-management','new']">Create User</button>
+                </div>
+                <div class="row justify-content-center" *ngIf="user">
+                    <div class="col-12">
+                        <dl class="row-md jh-entity-details" >
+                            <dt><span>Login</span></dt>
+                            <dd>
+                                <span>{{user.login}}</span>
+                                <jhi-boolean
+                                    [value]="user.activated"
+                                    textTrue="Activated"
+                                    textFalse="Deactivated">
+                                </jhi-boolean>
+                            </dd>
+                            <dt><span>Roles</span></dt>
+                            <dd>
+                                <ul class="list-unstyled">
+                                    <li *ngFor="let authority of user.authorities">
+                                        <span class="badge badge-info">{{authority}}</span>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit"
+                                [routerLink]="['/admin/user-management', user.login, 'edit']"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline"></span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header text-white bg-secondary">Managers</div>
+            <div class="card-body">
+                <div>
+                    <h2 id="page-heading">
+                        <button id="jh-create-entity" class="btn btn-secondary float-right jh-create-entity create-manager" [routerLink]="['/manager',employee.employeeLongId,'new']">
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                            <span class="hidden-sm-down" >
+                         </span>
+                        </button>
+                    </h2>
+
+                    <br/>
+                    <div class="table-responsive" *ngIf="managers">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr >
+
+                                <th ><span>Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody >
+                            <tr *ngFor="let manager of managers ">
+                                <td>
+                                    <div *ngIf="manager.employeeId">
+                                        {{manager.employeeFullName}}
+                                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <div class="btn-group flex-btn-group-container">
+
+                                        <button type="submit"
+                                                [routerLink]="['/manager', manager.id, 'edit']"
+                                                class="btn btn-primary btn-sm">
+                                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                        <button type="submit"
+                                                (click)="deleteManager(manager.id)"
+                                                replaceUrl="true"
+                                                queryParamsHandling="merge"
+                                                class="btn btn-danger btn-sm">
+                                            <fa-icon [icon]="'times'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">Family Information</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <button class="btn btn-secondary float-right jh-create-entity create-family-information" [routerLink]="['/family-information', employee.id,'new']">
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <div class="table-responsive" *ngIf="familyInformations">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr >
+                                    <th ><span>ID</span> </th>
+                                    <th ><span>Name</span> </th>
+                                    <th ><span>Relation</span> </th>
+                                    <th ><span>Contact Number</span> </th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let familyInformation of familyInformations">
+                                    <td><a [routerLink]="['/family-information', familyInformation.id, 'view' ]">{{familyInformation.id}}</a></td>
+                                    <td>{{familyInformation.name}}</td>
+                                    <td>{{familyInformation.relation}}</td>
+                                    <td>{{familyInformation.contactNumber}}</td>
+                                    <td class="text-right">
+                                        <div class="btn-group flex-btn-group-container">
+                                            <button type="submit"
+                                                    [routerLink]="['/family-information', familyInformation.id, 'view' ]"
+                                                    class="btn btn-info btn-sm">
+                                                <fa-icon [icon]="'eye'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                            <button type="submit"
+                                                    [routerLink]="['/family-information', familyInformation.id, 'edit']"
+                                                    class="btn btn-secondary btn-sm">
+                                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                            <button type="submit"
+                                                    (click)="deleteFamilyInformation(familyInformation.id)"
+                                                    queryParamsHandling="merge"
+                                                    class="btn btn-danger btn-sm">
+                                                <fa-icon [icon]="'times'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">Reference Information</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <button  class="btn btn-secondary float-right jh-create-entity create-reference-information" [routerLink]="['/reference-information', employee.id,'new']">
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <div class="table-responsive" *ngIf="referenceInformations">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr >
+                                    <th ><span>ID</span> </th>
+                                    <th><span>Name</span> </th>
+                                    <th ><span>Designation</span> </th>
+                                    <th ><span>Organization</span> </th>
+                                    <th ><span>Contact Number</span> </th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let referenceInformation of referenceInformations ">
+                                    <td><a [routerLink]="['/reference-information', referenceInformation.id, 'view' ]">{{referenceInformation.id}}</a></td>
+                                    <td>{{referenceInformation.name}}</td>
+                                    <td>{{referenceInformation.designation}}</td>
+                                    <td>{{referenceInformation.organization}}</td>
+                                    <td>{{referenceInformation.contactNumber}}</td>
+                                    <td class="text-right">
+                                        <div class="btn-group flex-btn-group-container">
+                                            <button type="submit"
+                                                    [routerLink]="['/reference-information', referenceInformation.id, 'view' ]"
+                                                    class="btn btn-info btn-sm">
+                                                <fa-icon [icon]="'eye'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                            <button type="submit"
+                                                    [routerLink]="['/reference-information', referenceInformation.id, 'edit']"
+                                                    class="btn btn-secondary btn-sm">
+                                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                            <button type="submit"
+                                                    (click)="deleteReferenceInformation(referenceInformation.id)"
+                                                    replaceUrl="true"
+                                                    queryParamsHandling="merge"
+                                                    class="btn btn-danger btn-sm">
+                                                <fa-icon [icon]="'times'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/>
+
+<div class="card">
+    <div class="card-header bg-secondary text-white">Academic Information</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-8">
+                <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <h3>Academic Information</h3>
+                            <button [routerLink]="['/academic-information',employee.id,'new-for-employee']" class="btn btn-secondary float-right" ><fa-icon [icon]="'plus'"></fa-icon></button>
+                        </div>
+                </div>
+                <div class="row justify-content-center">
+
+                    <div class="col-md-12">
+                        <div class="table-responsive" *ngIf="academicInformationList">
+                            <table class="table table-stripped">
+                                <thead>
+                                <th>Degree</th>
+                                <th>Board or University</th>
+                                <th>Passing year</th>
+                                <th>Group/Subject</th>
+                                <th></th>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let academicInformation of academicInformationList">
+                                    <td>{{academicInformation.degree}}</td>
+                                    <td>{{academicInformation.boardOrUniversity}}</td>
+                                    <td>{{academicInformation.passingYear}}</td>
+                                    <td>{{academicInformation.group}}</td>
+                                    <td>
+                                        <div class="btn-group flex-btn-group-container">
+                                            <button type="submit"
+                                                    [routerLink]="['/academic-information', academicInformation.id, 'view' ]"
+                                                    class="btn btn-info btn-sm">
+                                                <fa-icon [icon]="'eye'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                            <button type="submit"
+                                                    [routerLink]="['/academic-information', academicInformation.id, 'edit']"
+                                                    class="btn btn-secondary btn-sm">
+                                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                            <button type="submit"
+                                                    (click)="deleteAcademicInformation(academicInformation.id)"
+                                                    replaceUrl="true"
+                                                    queryParamsHandling="merge"
+                                                    class="btn btn-danger btn-sm">
+                                                <fa-icon [icon]="'times'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-md-12"><h3>Attachments</h3></div>
+                    <div class="col-md-12">
+                        <button id="jh-create-entity" class="btn btn-secondary float-right jh-create-entity create-academic-information-attachment"
+                                [routerLink]="['/academic-information-attachment', employee.id, 'new-for-employee' ]"
+                        >
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="col-md-12">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th><span>ID</span></th>
+                                <th><span>File</span></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let academicInformationAttachment of academicInformationAttachmentList ">
+                                <td><a [routerLink]="['/academic-information-attachment', academicInformationAttachment.id, 'view' ]">{{academicInformationAttachment.id}}</a></td>
+                                <td>
+                                    <a *ngIf="academicInformationAttachment.file" (click)="openFile(academicInformationAttachment.fileContentType, academicInformationAttachment.file)">open</a>
+                                    <span *ngIf="academicInformationAttachment.file">{{academicInformationAttachment.fileContentType}}, {{byteSize(academicInformationAttachment.file)}}</span>
+                                </td>
+
+                                <td class="text-right">
+                                    <div class="btn-group flex-btn-group-container">
+                                        <button type="submit"
+                                                [routerLink]="['/academic-information-attachment',academicInformationAttachment.id,'view']"
+                                                class="btn btn-info btn-sm">
+                                            <fa-icon [icon]="'eye'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                        <button type="submit"
+                                                [routerLink]="['/academic-information-attachment', academicInformationAttachment.id,'edit']"
+                                                class="btn btn-secondary btn-sm">
+                                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                        <button type="submit"
+                                                (click)="deleteAcademicInformationAttachment(academicInformationAttachment.id)"
+                                                replaceUrl="true"
+                                                queryParamsHandling="merge"
+                                                class="btn btn-danger btn-sm">
+                                            <fa-icon [icon]="'times'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="card">
+    <div class="card-header bg-secondary text-white">Experience Information</div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-12"><h3>Experience Information</h3></div>
+                    <div class="col-12">
+                        <button  class="btn btn-secondary float-right jh-create-entity create-experience-information" [routerLink]="['/experience-information',employee.id,'new']">
+                            <fa-icon [icon]="'plus'"></fa-icon></button>
+                    </div>
+                    <div class="col-12">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr >
+                                <th ><span>ID</span>  </th>
+                                <th ><span>Organization</span>  </th>
+                                <th ><span>Designation</span>  </th>
+                                <th ><span>Start Date</span>  </th>
+                                <th><span>End Date</span>  </th>
+                                <th ><span>Employment Type</span>  </th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let experienceInformation of experienceInformations ">
+                                <td><a [routerLink]="['/experience-information', experienceInformation.id, 'view' ]">{{experienceInformation.id}}</a></td>
+                                <td>{{experienceInformation.organization}}</td>
+                                <td>{{experienceInformation.designation}}</td>
+                                <td>{{experienceInformation.startDate | date:'mediumDate'}}</td>
+                                <td>{{experienceInformation.endDate | date:'mediumDate'}}</td>
+                                <td>{{experienceInformation.employmentType}}</td>
+
+                                <td class="text-right">
+                                    <div class="btn-group flex-btn-group-container">
+                                        <button type="submit"
+                                                [routerLink]="['/experience-information', experienceInformation.id, 'view' ]"
+                                                class="btn btn-info btn-sm">
+                                            <fa-icon [icon]="'eye'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                        <button type="submit"
+                                                [routerLink]="['/experience-information', experienceInformation.id, 'edit']"
+                                                class="btn btn-secondary btn-sm">
+                                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                        <button type="submit"
+                                                (click)="deleteExperienceInformation(experienceInformation.id)"
+                                                replaceUrl="true"
+                                                queryParamsHandling="merge"
+                                                class="btn btn-danger btn-sm">
+                                            <fa-icon [icon]="'times'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-12"><h3>Attachments</h3></div>
+                    <div class="col-12">
+                        <button  class="btn btn-secondary float-right jh-create-entity create-experience-information-attachment" [routerLink]="['/experience-information-attachment',employee.id,'new']">
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th><span>ID</span></th>
+                                <th><span>File</span></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let experienceInformationAttachment of experienceInformationAttachments ">
+                                <td><a [routerLink]="['/experience-information-attachment', experienceInformationAttachment.id, 'view' ]">{{experienceInformationAttachment.id}}</a></td>
+                                <td>
+                                    <a *ngIf="experienceInformationAttachment.file" (click)="openFile(experienceInformationAttachment.fileContentType, experienceInformationAttachment.file)">open</a>
+                                    <span *ngIf="experienceInformationAttachment.file">{{experienceInformationAttachment.fileContentType}}, {{byteSize(experienceInformationAttachment.file)}}</span>
+                                </td>
+                                <td class="text-right">
+                                    <div class="btn-group flex-btn-group-container">
+                                        <button type="submit"
+                                                [routerLink]="['/experience-information-attachment', experienceInformationAttachment.id, 'view' ]"
+                                                class="btn btn-info btn-sm">
+                                            <fa-icon [icon]="'eye'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                        <button type="submit"
+                                                [routerLink]="['/experience-information-attachment', experienceInformationAttachment.id, 'edit']"
+                                                class="btn btn-secondary btn-sm">
+                                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                        <button type="submit"
+                                                (click)="deleteAcademicInformationAttachment(experienceInformationAttachment.id)"
+                                                replaceUrl="true"
+                                                queryParamsHandling="merge"
+                                                class="btn btn-danger btn-sm">
+                                            <fa-icon [icon]="'times'"></fa-icon>
+                                            <span class="d-none d-md-inline"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="card">
+    <div class="card-header bg-secondary text-white">Training Information</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-12"><h3>Training Information</h3></div>
+                    <div class="col-12">
+                        <button  class="btn btn-secondary float-right jh-create-entity create-training-information" [routerLink]="['/training-information',employee.id,'new']">
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <div class="table-responsive" *ngIf="trainingInformations">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr >
+                                    <th ><span>ID</span> </th>
+                                    <th ><span>Name</span> </th>
+                                    <th ><span>Subject</span> </th>
+                                    <th ><span>Organization</span> </th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let trainingInformation of trainingInformations">
+                                    <td><a [routerLink]="['/training-information', trainingInformation.id, 'view' ]">{{trainingInformation.id}}</a></td>
+                                    <td>{{trainingInformation.name}}</td>
+                                    <td>{{trainingInformation.subject}}</td>
+                                    <td>{{trainingInformation.organization}}</td>
+                                    <td class="text-right">
+                                        <div class="btn-group flex-btn-group-container">
+                                            <button type="submit"
+                                                    [routerLink]="['/training-information', trainingInformation.id, 'view' ]"
+                                                    class="btn btn-info btn-sm">
+                                                <fa-icon [icon]="'eye'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                            <button type="submit"
+                                                    [routerLink]="['/training-information', trainingInformation.id, 'edit']"
+                                                    class="btn btn-secondary btn-sm">
+                                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                            <button type="submit"
+                                                    (click)="deleteTrainingInformation(trainingInformation.id)"
+                                                    replaceUrl="true"
+                                                    queryParamsHandling="merge"
+                                                    class="btn btn-danger btn-sm">
+                                                <fa-icon [icon]="'times'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Attachments</h3>
+                    </div>
+                    <div class="col-12">
+                        <button  class="btn btn-secondary float-right jh-create-entity create-training-information-attachment" [routerLink]="['/training-information-attachment', employee.id,'new']">
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <div class="table-responsive" *ngIf="trainingInformationAttachments">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th><span>ID</span></th>
+                                    <th><span>File</span></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let trainingInformationAttachment of trainingInformationAttachments">
+                                    <td><a [routerLink]="['/training-information-attachment', trainingInformationAttachment.id, 'view' ]">{{trainingInformationAttachment.id}}</a></td>
+                                    <td>
+                                        <a *ngIf="trainingInformationAttachment.file" (click)="openFile(trainingInformationAttachment.fileContentType, trainingInformationAttachment.file)">open</a>
+                                        <span *ngIf="trainingInformationAttachment.file">{{trainingInformationAttachment.fileContentType}}, {{byteSize(trainingInformationAttachment.file)}}</span>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <div class="btn-group flex-btn-group-container">
+                                            <button type="submit"
+                                                    [routerLink]="['/training-information-attachment', trainingInformationAttachment.id, 'view' ]"
+                                                    class="btn btn-info btn-sm">
+                                                <fa-icon [icon]="'eye'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                            <button type="submit"
+                                                    [routerLink]="['/training-information-attachment', trainingInformationAttachment.id, 'edit']"
+                                                    class="btn btn-secondary btn-sm">
+                                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                            <button type="submit"
+                                                    (click)="deleteTrainingInformationAttachment(trainingInformationAttachment.id)"
+                                                    replaceUrl="true"
+                                                    queryParamsHandling="merge"
+                                                    class="btn btn-danger btn-sm">
+                                                <fa-icon [icon]="'times'"></fa-icon>
+                                                <span class="d-none d-md-inline"></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="row justify-content-end">
+    <div class="col-12" align="right">
+        <button class="btn btn-secondary" (click)="previousState()">Back</button>
+    </div>
+</div>
+
+
+

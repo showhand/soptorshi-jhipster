@@ -16,7 +16,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'employee',
-                loadChildren: './employee/employee.module#SoptorshiEmployeeModule'
+                loadChildren: './employee-extended/employee-extended.module#SoptorshiEmployeeModule'
             },
             {
                 path: 'attachment',
