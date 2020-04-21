@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,15 +10,12 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { DesignationWiseAllowanceService } from './designation-wise-allowance.service';
-import { Designation } from 'app/shared/model/designation.model';
-import { DesignationService } from 'app/entities/designation';
 
 @Component({
     selector: 'jhi-designation-wise-allowance',
     templateUrl: './designation-wise-allowance.component.html'
 })
 export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
-    designations: Designation[];
     designationWiseAllowances: IDesignationWiseAllowance[];
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -31,13 +28,12 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
     currentSearch: string;
 
     constructor(
-        public designationWiseAllowanceService: DesignationWiseAllowanceService,
+        protected designationWiseAllowanceService: DesignationWiseAllowanceService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService,
-        public designationService: DesignationService
+        protected accountService: AccountService
     ) {
         this.designationWiseAllowances = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -54,8 +50,6 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.designationWiseAllowances = [];
-
         if (this.currentSearch) {
             this.designationWiseAllowanceService
                 .search({
@@ -70,19 +64,16 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
                 );
             return;
         }
-        if (this.designationWiseAllowanceService.designationId) {
-            this.designationWiseAllowanceService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    'designationId.equals': this.designationWiseAllowanceService.designationId,
-                    sort: this.sort()
-                })
-                .subscribe(
-                    (res: HttpResponse<IDesignationWiseAllowance[]>) => this.paginateDesignationWiseAllowances(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        }
+        this.designationWiseAllowanceService
+            .query({
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            })
+            .subscribe(
+                (res: HttpResponse<IDesignationWiseAllowance[]>) => this.paginateDesignationWiseAllowances(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     reset() {
@@ -123,27 +114,8 @@ export class DesignationWiseAllowanceComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    fetch() {
-        this.loadAll();
-    }
-
     ngOnInit() {
-        this.designationService
-            .query({
-                page: 0,
-                size: 200,
-                sort: this.sort()
-            })
-            .subscribe(
-                (res: HttpResponse<Designation[]>) => {
-                    this.designations = res.body;
-                    this.designationWiseAllowanceService.designationId = this.designations[0].id;
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-        if (this.designationWiseAllowanceService.designationId !== undefined) {
-            this.loadAll();
-        }
+        this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
         });

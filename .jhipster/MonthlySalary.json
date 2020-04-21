@@ -39,6 +39,30 @@
             "fieldType": "BigDecimal"
         },
         {
+            "fieldName": "foodAllowance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "arrearAllowance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "driverAllowance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "fuelLubAllowance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "mobileAllowance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "travelAllowance",
+            "fieldType": "BigDecimal"
+        },
+        {
             "fieldName": "otherAllowance",
             "fieldType": "BigDecimal"
         },

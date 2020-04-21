@@ -750,6 +750,18 @@ import { MatTabsModule } from '@angular/material';
                 path: 'purchase-order-voucher-relation',
                 loadChildren:
                     './purchase-order-voucher-relation-extended/purchase-order-voucher-relation-extended.module#SoptorshiPurchaseOrderVoucherRelationExtendedModule'
+            },
+            {
+                path: 'monthly-salary',
+                loadChildren: './monthly-salary/monthly-salary.module#SoptorshiMonthlySalaryModule'
+            },
+            {
+                path: 'designation-wise-allowance',
+                loadChildren: './designation-wise-allowance/designation-wise-allowance.module#SoptorshiDesignationWiseAllowanceModule'
+            },
+            {
+                path: 'special-allowance-time-line',
+                loadChildren: './special-allowance-time-line/special-allowance-time-line.module#SoptorshiSpecialAllowanceTimeLineModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

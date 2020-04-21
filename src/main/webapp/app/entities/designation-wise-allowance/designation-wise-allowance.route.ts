@@ -14,20 +14,15 @@ import { IDesignationWiseAllowance } from 'app/shared/model/designation-wise-all
 
 @Injectable({ providedIn: 'root' })
 export class DesignationWiseAllowanceResolve implements Resolve<IDesignationWiseAllowance> {
-    constructor(public service: DesignationWiseAllowanceService) {}
+    constructor(private service: DesignationWiseAllowanceService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IDesignationWiseAllowance> {
         const id = route.params['id'] ? route.params['id'] : null;
-        const designation = route.params['designation'] ? route.params['designation'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<DesignationWiseAllowance>) => response.ok),
                 map((designationWiseAllowance: HttpResponse<DesignationWiseAllowance>) => designationWiseAllowance.body)
             );
-        } else if (designation) {
-            const designationWiseAllowance = new DesignationWiseAllowance();
-            designationWiseAllowance.designationId = designation;
-            return of(designationWiseAllowance);
         }
         return of(new DesignationWiseAllowance());
     }
@@ -57,18 +52,6 @@ export const designationWiseAllowanceRoute: Routes = [
     },
     {
         path: 'new',
-        component: DesignationWiseAllowanceUpdateComponent,
-        resolve: {
-            designationWiseAllowance: DesignationWiseAllowanceResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'DesignationWiseAllowances'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: ':designation/new',
         component: DesignationWiseAllowanceUpdateComponent,
         resolve: {
             designationWiseAllowance: DesignationWiseAllowanceResolve

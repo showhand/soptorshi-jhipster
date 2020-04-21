@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -9,7 +9,6 @@ import { IDesignationWiseAllowance } from 'app/shared/model/designation-wise-all
 import { DesignationWiseAllowanceService } from './designation-wise-allowance.service';
 import { IDesignation } from 'app/shared/model/designation.model';
 import { DesignationService } from 'app/entities/designation';
-import { AccountService } from 'app/core';
 
 @Component({
     selector: 'jhi-designation-wise-allowance-update',
@@ -21,28 +20,18 @@ export class DesignationWiseAllowanceUpdateComponent implements OnInit {
 
     designations: IDesignation[];
     modifiedOnDp: any;
-    currentAccount: Account;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected designationWiseAllowanceService: DesignationWiseAllowanceService,
         protected designationService: DesignationService,
-        protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService,
-        protected router: Router
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
-        });
-
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ designationWiseAllowance }) => {
             this.designationWiseAllowance = designationWiseAllowance;
-            this.accountService.identity().then(account => {
-                this.designationWiseAllowance.modifiedBy = account.toString();
-            });
         });
         this.designationService
             .query()

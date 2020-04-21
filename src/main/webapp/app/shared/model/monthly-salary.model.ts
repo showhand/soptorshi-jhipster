@@ -34,6 +34,12 @@ export interface IMonthlySalary {
     gross?: number;
     houseRent?: number;
     medicalAllowance?: number;
+    foodAllowance?: number;
+    arrearAllowance?: number;
+    driverAllowance?: number;
+    fuelLubAllowance?: number;
+    mobileAllowance?: number;
+    travelAllowance?: number;
     otherAllowance?: number;
     festivalAllowance?: number;
     absent?: number;
@@ -66,6 +72,12 @@ export class MonthlySalary implements IMonthlySalary {
         public gross?: number,
         public houseRent?: number,
         public medicalAllowance?: number,
+        public foodAllowance?: number,
+        public arrearAllowance?: number,
+        public driverAllowance?: number,
+        public fuelLubAllowance?: number,
+        public mobileAllowance?: number,
+        public travelAllowance?: number,
         public otherAllowance?: number,
         public festivalAllowance?: number,
         public absent?: number,
