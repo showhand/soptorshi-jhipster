@@ -16,7 +16,7 @@ const ENTITY_STATES = [...purchaseOrderVoucherRelationRoute, ...purchaseOrderVou
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /* declarations: [
         PurchaseOrderVoucherRelationComponent,
         PurchaseOrderVoucherRelationDetailComponent,
         PurchaseOrderVoucherRelationUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...purchaseOrderVoucherRelationRoute, ...purchaseOrderVou
         PurchaseOrderVoucherRelationUpdateComponent,
         PurchaseOrderVoucherRelationDeleteDialogComponent,
         PurchaseOrderVoucherRelationDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiPurchaseOrderVoucherRelationModule {}

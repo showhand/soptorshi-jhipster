@@ -19,7 +19,7 @@ import { RequisitionDetailsExtendedDetailComponent } from 'app/entities/requisit
 import { RequisitionDetailsExtendedUpdateComponent } from 'app/entities/requisition-details-extended/requisition-details-extended-update.component';
 
 @Injectable({ providedIn: 'root' })
-export class RequisitionDetailsExtendedResolve extends RequisitionDetailsResolv {
+export class RequisitionDetailsExtendedResolve {
     constructor(public service: RequisitionDetailsService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IRequisitionDetails> {

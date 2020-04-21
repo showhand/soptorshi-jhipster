@@ -4,31 +4,44 @@ import { RouterModule } from '@angular/router';
 import { SoptorshiSharedModule } from 'app/shared';
 import {
     PurchaseOrderVoucherRelationExtendedComponent,
-    PurchaseOrderVoucherRelationDetailComponent,
-    PurchaseOrderVoucherRelationUpdateComponent,
-    PurchaseOrderVoucherRelationDeletePopupComponent,
-    PurchaseOrderVoucherRelationDeleteDialogComponent,
+    PurchaseOrderVoucherRelationExtendedDetailComponent,
+    PurchaseOrderVoucherRelationExtendedUpdateComponent,
+    PurchaseOrderVoucherRelationExtendedDeleteDialogComponent,
     purchaseOrderVoucherRelationExtendedRoute,
-    purchaseOrderVoucherRelationPopupRoute
+    purchaseOrderVoucherRelationPopupRoute,
+    PurchaseOrderVoucherRelationExtendedDeletePopUpComponent
 } from './';
+import {
+    PurchaseOrderVoucherRelationComponent,
+    PurchaseOrderVoucherRelationDeleteDialogComponent,
+    PurchaseOrderVoucherRelationDeletePopupComponent,
+    PurchaseOrderVoucherRelationDetailComponent,
+    PurchaseOrderVoucherRelationUpdateComponent
+} from 'app/entities/purchase-order-voucher-relation';
 
 const ENTITY_STATES = [...purchaseOrderVoucherRelationExtendedRoute, ...purchaseOrderVoucherRelationPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
-        PurchaseOrderVoucherRelationExtendedComponent,
+        PurchaseOrderVoucherRelationComponent,
         PurchaseOrderVoucherRelationDetailComponent,
         PurchaseOrderVoucherRelationUpdateComponent,
         PurchaseOrderVoucherRelationDeleteDialogComponent,
-        PurchaseOrderVoucherRelationDeletePopupComponent
+        PurchaseOrderVoucherRelationDeletePopupComponent,
+        PurchaseOrderVoucherRelationExtendedComponent,
+        PurchaseOrderVoucherRelationExtendedDetailComponent,
+        PurchaseOrderVoucherRelationExtendedUpdateComponent,
+        PurchaseOrderVoucherRelationExtendedDeleteDialogComponent,
+        PurchaseOrderVoucherRelationExtendedDeletePopUpComponent
     ],
     entryComponents: [
         PurchaseOrderVoucherRelationExtendedComponent,
-        PurchaseOrderVoucherRelationUpdateComponent,
-        PurchaseOrderVoucherRelationDeleteDialogComponent,
+        PurchaseOrderVoucherRelationExtendedUpdateComponent,
+        PurchaseOrderVoucherRelationExtendedDeleteDialogComponent,
         PurchaseOrderVoucherRelationDeletePopupComponent
     ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    exports: []
 })
-export class SoptorshiPurchaseOrderVoucherRelationModule {}
+export class SoptorshiPurchaseOrderVoucherRelationExtendedModule {}

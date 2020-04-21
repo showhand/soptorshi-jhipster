@@ -6,32 +6,19 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { IPurchaseOrderVoucherRelation } from 'app/shared/model/purchase-order-voucher-relation.model';
 import { PurchaseOrderVoucherRelationExtendedService } from './purchase-order-voucher-relation-extended.service';
+import { PurchaseOrderVoucherRelationDeleteDialogComponent } from 'app/entities/purchase-order-voucher-relation';
 
 @Component({
     selector: 'jhi-purchase-order-voucher-relation-delete-dialog',
-    templateUrl: './purchase-order-voucher-relation-delete-dialog.component.html'
+    templateUrl: './purchase-order-voucher-relation-extended-delete-dialog.component.html'
 })
-export class PurchaseOrderVoucherRelationDeleteDialogComponent {
-    purchaseOrderVoucherRelation: IPurchaseOrderVoucherRelation;
-
+export class PurchaseOrderVoucherRelationExtendedDeleteDialogComponent extends PurchaseOrderVoucherRelationDeleteDialogComponent {
     constructor(
         protected purchaseOrderVoucherRelationService: PurchaseOrderVoucherRelationExtendedService,
         public activeModal: NgbActiveModal,
         protected eventManager: JhiEventManager
-    ) {}
-
-    clear() {
-        this.activeModal.dismiss('cancel');
-    }
-
-    confirmDelete(id: number) {
-        this.purchaseOrderVoucherRelationService.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'purchaseOrderVoucherRelationListModification',
-                content: 'Deleted an purchaseOrderVoucherRelation'
-            });
-            this.activeModal.dismiss(true);
-        });
+    ) {
+        super(purchaseOrderVoucherRelationService, activeModal, eventManager);
     }
 }
 
@@ -39,7 +26,7 @@ export class PurchaseOrderVoucherRelationDeleteDialogComponent {
     selector: 'jhi-purchase-order-voucher-relation-delete-popup',
     template: ''
 })
-export class PurchaseOrderVoucherRelationDeletePopupComponent implements OnInit, OnDestroy {
+export class PurchaseOrderVoucherRelationExtendedDeletePopUpComponent implements OnInit, OnDestroy {
     protected ngbModalRef: NgbModalRef;
 
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
@@ -47,7 +34,7 @@ export class PurchaseOrderVoucherRelationDeletePopupComponent implements OnInit,
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ purchaseOrderVoucherRelation }) => {
             setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(PurchaseOrderVoucherRelationDeleteDialogComponent as Component, {
+                this.ngbModalRef = this.modalService.open(PurchaseOrderVoucherRelationExtendedDeleteDialogComponent as Component, {
                     size: 'lg',
                     backdrop: 'static'
                 });
