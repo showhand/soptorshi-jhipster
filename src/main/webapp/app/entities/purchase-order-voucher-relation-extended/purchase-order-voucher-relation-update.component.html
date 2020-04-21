@@ -1,0 +1,68 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-purchase-order-voucher-relation-heading">Create or edit a Purchase Order Voucher Relation</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!purchaseOrderVoucherRelation.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="purchaseOrderVoucherRelation.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_voucherNo">Voucher No</label>
+                    <input type="text" class="form-control" name="voucherNo" id="field_voucherNo"
+                        [(ngModel)]="purchaseOrderVoucherRelation.voucherNo" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amount">Amount</label>
+                    <input type="number" class="form-control" name="amount" id="field_amount"
+                        [(ngModel)]="purchaseOrderVoucherRelation.amount" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createBy">Create By</label>
+                    <input type="text" class="form-control" name="createBy" id="field_createBy"
+                        [(ngModel)]="purchaseOrderVoucherRelation.createBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
+                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
+                        [(ngModel)]="purchaseOrderVoucherRelation.modifiedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
+                    <div class="input-group">
+                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="purchaseOrderVoucherRelation.modifiedOn"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_voucher">Voucher</label>
+                    <select class="form-control" id="field_voucher" name="voucher" [(ngModel)]="purchaseOrderVoucherRelation.voucherId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="voucherOption.id" *ngFor="let voucherOption of vouchers; trackBy: trackVoucherById">{{voucherOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_purchaseOrder">Purchase Order</label>
+                    <select class="form-control" id="field_purchaseOrder" name="purchaseOrder" [(ngModel)]="purchaseOrderVoucherRelation.purchaseOrderId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="purchaseOrderOption.id" *ngFor="let purchaseOrderOption of purchaseorders; trackBy: trackPurchaseOrderById">{{purchaseOrderOption.purchaseOrderNo}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
