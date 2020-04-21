@@ -708,7 +708,8 @@ entity SupplyOrder {
   updatedOn Instant,
   offerAmount BigDecimal,
   deliveryDate LocalDate,
-  supplyOrderStatus SupplyOrderStatus required
+  supplyOrderStatus SupplyOrderStatus required,
+  accumulationReferenceNo String
 }
 entity SupplyOrderDetails {
   createdBy String,

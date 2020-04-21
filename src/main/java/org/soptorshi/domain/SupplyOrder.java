@@ -57,6 +57,9 @@ public class SupplyOrder implements Serializable {
     @Column(name = "supply_order_status", nullable = false)
     private SupplyOrderStatus supplyOrderStatus;
 
+    @Column(name = "accumulation_reference_no")
+    private String accumulationReferenceNo;
+
     @ManyToOne
     @JsonIgnoreProperties("supplyOrders")
     private SupplyZone supplyZone;
@@ -205,6 +208,19 @@ public class SupplyOrder implements Serializable {
         this.supplyOrderStatus = supplyOrderStatus;
     }
 
+    public String getAccumulationReferenceNo() {
+        return accumulationReferenceNo;
+    }
+
+    public SupplyOrder accumulationReferenceNo(String accumulationReferenceNo) {
+        this.accumulationReferenceNo = accumulationReferenceNo;
+        return this;
+    }
+
+    public void setAccumulationReferenceNo(String accumulationReferenceNo) {
+        this.accumulationReferenceNo = accumulationReferenceNo;
+    }
+
     public SupplyZone getSupplyZone() {
         return supplyZone;
     }
@@ -304,6 +320,7 @@ public class SupplyOrder implements Serializable {
             ", offerAmount=" + getOfferAmount() +
             ", deliveryDate='" + getDeliveryDate() + "'" +
             ", supplyOrderStatus='" + getSupplyOrderStatus() + "'" +
+            ", accumulationReferenceNo='" + getAccumulationReferenceNo() + "'" +
             "}";
     }
 }

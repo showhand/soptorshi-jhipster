@@ -7,6 +7,7 @@ import { SupplyOrderDetailExtendedComponent } from './supply-order-detail-extend
 import { SupplyOrderUpdateExtendedComponent } from './supply-order-update-extended.component';
 import { SupplyOrderDeletePopupExtendedComponent } from './supply-order-delete-dialog-extended.component';
 import { SupplyOrderResolve } from 'app/entities/supply-order';
+import { AccumulateOrderComponent } from 'app/entities/supply-order-extended/accumulate-order.component';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyOrderExtendedResolve extends SupplyOrderResolve {
@@ -58,6 +59,15 @@ export const supplyOrderExtendedRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'SupplyOrders'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'accumulate',
+        component: AccumulateOrderComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'AccumulateSupplyOrders'
         },
         canActivate: [UserRouteAccessService]
     }

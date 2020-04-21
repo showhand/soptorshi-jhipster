@@ -43,6 +43,10 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "accumulationReferenceNo",
+            "fieldType": "String"
         }
     ],
     "relationships": [

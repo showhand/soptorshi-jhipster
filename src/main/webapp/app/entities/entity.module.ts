@@ -757,6 +757,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'over-time',
                 loadChildren: './over-time-extended/over-time-extended.module#SoptorshiOverTimeExtendedModule'
+            },
+            {
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
