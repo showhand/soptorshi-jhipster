@@ -1,20 +1,5 @@
 {
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "relationships": [
-        {
-            "relationshipName": "commercialPi",
-            "otherEntityName": "commercialPi",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "proformaNo",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "commercialAttachment",
-            "otherEntityRelationshipNameUndefined": true
-        }
-    ],
+    "name": "CommercialAttachment",
     "fields": [
         {
             "fieldName": "file",
@@ -22,12 +7,24 @@
             "fieldTypeBlobContent": "any"
         }
     ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "commercialPi",
+            "otherEntityRelationshipName": "commercialAttachment",
+            "relationshipValidateRules": "required",
+            "relationshipName": "commercialPi",
+            "otherEntityField": "proformaNo"
+        }
+    ],
     "changelogDate": "20191224021434",
-    "dto": "mapstruct",
-    "searchEngine": "elasticsearch",
-    "service": "serviceClass",
     "entityTableName": "commercial_attachment",
-    "databaseType": "sql",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
-    "pagination": "infinite-scroll"
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
 }

@@ -1,27 +1,10 @@
 {
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "relationships": [
-        {
-            "relationshipName": "commercialPi",
-            "otherEntityName": "commercialPi",
-            "relationshipType": "one-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "proformaNo",
-            "ownerSide": true,
-            "useJPADerivedIdentifier": false,
-            "otherEntityRelationshipName": "commercialPaymentInfo",
-            "otherEntityRelationshipNameUndefined": false
-        }
-    ],
+    "name": "CommercialPaymentInfo",
     "fields": [
         {
             "fieldName": "paymentType",
             "fieldType": "PaymentType",
-            "fieldValues": "LC,TT,CASH,CHEQUE,OTHERS",
-            "fieldValidateRules": []
+            "fieldValues": "LC,TT,CASH,CHEQUE,OTHERS"
         },
         {
             "fieldName": "totalAmountToPay",
@@ -66,12 +49,25 @@
             "fieldType": "String"
         }
     ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "commercialPi",
+            "otherEntityRelationshipName": "commercialPaymentInfo",
+            "relationshipValidateRules": "required",
+            "relationshipName": "commercialPi",
+            "otherEntityField": "proformaNo",
+            "ownerSide": true
+        }
+    ],
     "changelogDate": "20200415111602",
-    "dto": "mapstruct",
-    "searchEngine": "elasticsearch",
-    "service": "serviceClass",
     "entityTableName": "commercial_payment_info",
-    "databaseType": "sql",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": false,
-    "pagination": "infinite-scroll"
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
 }

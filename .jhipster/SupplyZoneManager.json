@@ -1,30 +1,5 @@
 {
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "relationships": [
-        {
-            "relationshipName": "supplyZone",
-            "otherEntityName": "supplyZone",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "zoneName",
-            "otherEntityRelationshipNameUndefined": false,
-            "otherEntityRelationshipName": "supplyZoneManager"
-        },
-        {
-            "relationshipName": "employee",
-            "otherEntityName": "employee",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "fullName",
-            "otherEntityRelationshipNameUndefined": false,
-            "otherEntityRelationshipName": "supplyZoneManager"
-        }
-    ],
+    "name": "SupplyZoneManager",
     "fields": [
         {
             "fieldName": "endDate",
@@ -55,12 +30,32 @@
             ]
         }
     ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZone",
+            "otherEntityRelationshipName": "supplyZoneManager",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyZone",
+            "otherEntityField": "zoneName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "supplyZoneManager",
+            "relationshipValidateRules": "required",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName"
+        }
+    ],
     "changelogDate": "20200417153632",
-    "dto": "mapstruct",
-    "searchEngine": "elasticsearch",
-    "service": "serviceClass",
     "entityTableName": "supply_zone_manager",
-    "databaseType": "sql",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": false,
-    "pagination": "no"
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
 }

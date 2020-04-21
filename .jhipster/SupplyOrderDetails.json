@@ -1,38 +1,5 @@
 {
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "relationships": [
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyOrder",
-            "otherEntityRelationshipName": "supplyOrderDetails",
-            "relationshipName": "supplyOrder",
-            "otherEntityField": "orderNo",
-            "otherEntityRelationshipNameUndefined": false
-        },
-        {
-            "relationshipName": "productCategory",
-            "otherEntityName": "productCategory",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "name",
-            "otherEntityRelationshipName": "supplyOrderDetails",
-            "otherEntityRelationshipNameUndefined": true
-        },
-        {
-            "relationshipName": "product",
-            "otherEntityName": "product",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "name",
-            "otherEntityRelationshipName": "supplyOrderDetails",
-            "otherEntityRelationshipNameUndefined": true
-        }
-    ],
+    "name": "SupplyOrderDetails",
     "fields": [
         {
             "fieldName": "createdBy",
@@ -65,12 +32,39 @@
             ]
         }
     ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyOrder",
+            "otherEntityRelationshipName": "supplyOrderDetails",
+            "relationshipName": "supplyOrder",
+            "otherEntityField": "orderNo"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "productCategory",
+            "otherEntityRelationshipName": "supplyOrderDetails",
+            "relationshipValidateRules": "required",
+            "relationshipName": "productCategory",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "product",
+            "otherEntityRelationshipName": "supplyOrderDetails",
+            "relationshipValidateRules": "required",
+            "relationshipName": "product",
+            "otherEntityField": "name"
+        }
+    ],
     "changelogDate": "20191106144405",
-    "dto": "mapstruct",
-    "searchEngine": "elasticsearch",
-    "service": "serviceClass",
     "entityTableName": "supply_order_details",
-    "databaseType": "sql",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
-    "pagination": "infinite-scroll"
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
 }

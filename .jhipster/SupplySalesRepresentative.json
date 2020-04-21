@@ -1,35 +1,5 @@
 {
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "relationships": [
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyZone",
-            "otherEntityRelationshipName": "supplySalesRepresentative",
-            "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName",
-            "otherEntityRelationshipNameUndefined": false
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyArea",
-            "otherEntityRelationshipName": "supplySalesRepresentative",
-            "relationshipName": "supplyArea",
-            "otherEntityField": "areaName",
-            "otherEntityRelationshipNameUndefined": false
-        },
-        {
-            "relationshipName": "supplyAreaManager",
-            "otherEntityName": "supplyAreaManager",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "supplySalesRepresentative",
-            "otherEntityRelationshipNameUndefined": true
-        }
-    ],
+    "name": "SupplySalesRepresentative",
     "fields": [
         {
             "fieldName": "salesRepresentativeName",
@@ -59,12 +29,38 @@
             "fieldType": "Instant"
         }
     ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZone",
+            "otherEntityRelationshipName": "supplySalesRepresentative",
+            "relationshipName": "supplyZone",
+            "otherEntityField": "zoneName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyArea",
+            "otherEntityRelationshipName": "supplySalesRepresentative",
+            "relationshipName": "supplyArea",
+            "otherEntityField": "areaName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyAreaManager",
+            "otherEntityRelationshipName": "supplySalesRepresentative",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyAreaManager",
+            "otherEntityField": "id"
+        }
+    ],
     "changelogDate": "20191106144402",
-    "dto": "mapstruct",
-    "searchEngine": "elasticsearch",
-    "service": "serviceClass",
     "entityTableName": "supply_sales_representative",
-    "databaseType": "sql",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
     "jpaMetamodelFiltering": true,
-    "pagination": "infinite-scroll"
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
 }
