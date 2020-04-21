@@ -4,6 +4,7 @@ export interface IPurchaseOrderVoucherRelation {
     id?: number;
     voucherNo?: string;
     amount?: number;
+    createBy?: string;
     modifiedBy?: string;
     modifiedOn?: Moment;
     voucherName?: string;
@@ -17,6 +18,7 @@ export class PurchaseOrderVoucherRelation implements IPurchaseOrderVoucherRelati
         public id?: number,
         public voucherNo?: string,
         public amount?: number,
+        public createBy?: string,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
         public voucherName?: string,

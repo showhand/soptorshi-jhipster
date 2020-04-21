@@ -745,6 +745,11 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'contra-voucher',
                 loadChildren: './contra-voucher/contra-voucher.module#SoptorshiContraVoucherModule'
+            },
+            {
+                path: 'purchase-order-voucher-relation',
+                loadChildren:
+                    './purchase-order-voucher-relation/purchase-order-voucher-relation.module#SoptorshiPurchaseOrderVoucherRelationModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

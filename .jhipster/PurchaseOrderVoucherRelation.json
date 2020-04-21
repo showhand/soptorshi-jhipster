@@ -10,6 +10,10 @@
             "fieldType": "BigDecimal"
         },
         {
+            "fieldName": "createBy",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "modifiedBy",
             "fieldType": "String"
         },

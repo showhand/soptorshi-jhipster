@@ -15,6 +15,8 @@ public class PurchaseOrderVoucherRelationDTO implements Serializable {
 
     private BigDecimal amount;
 
+    private String createBy;
+
     private String modifiedBy;
 
     private LocalDate modifiedOn;
@@ -50,6 +52,14 @@ public class PurchaseOrderVoucherRelationDTO implements Serializable {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
     }
 
     public String getModifiedBy() {
@@ -127,6 +137,7 @@ public class PurchaseOrderVoucherRelationDTO implements Serializable {
             "id=" + getId() +
             ", voucherNo='" + getVoucherNo() + "'" +
             ", amount=" + getAmount() +
+            ", createBy='" + getCreateBy() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", voucher=" + getVoucherId() +

@@ -32,6 +32,7 @@
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="voucherNo"><span>Voucher No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="amount"><span>Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createBy"><span>Create By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="voucherName"><span>Voucher</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -44,6 +45,7 @@
                 <td><a [routerLink]="['/purchase-order-voucher-relation', purchaseOrderVoucherRelation.id, 'view' ]">{{purchaseOrderVoucherRelation.id}}</a></td>
                 <td>{{purchaseOrderVoucherRelation.voucherNo}}</td>
                 <td>{{purchaseOrderVoucherRelation.amount}}</td>
+                <td>{{purchaseOrderVoucherRelation.createBy}}</td>
                 <td>{{purchaseOrderVoucherRelation.modifiedBy}}</td>
                 <td>{{purchaseOrderVoucherRelation.modifiedOn | date:'mediumDate'}}</td>
                 <td>

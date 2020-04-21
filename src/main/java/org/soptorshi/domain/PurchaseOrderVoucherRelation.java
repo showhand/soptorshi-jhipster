@@ -31,6 +31,9 @@ public class PurchaseOrderVoucherRelation implements Serializable {
     @Column(name = "amount", precision = 10, scale = 2)
     private BigDecimal amount;
 
+    @Column(name = "create_by")
+    private String createBy;
+
     @Column(name = "modified_by")
     private String modifiedBy;
 
@@ -78,6 +81,19 @@ public class PurchaseOrderVoucherRelation implements Serializable {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public PurchaseOrderVoucherRelation createBy(String createBy) {
+        this.createBy = createBy;
+        return this;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
     }
 
     public String getModifiedBy() {
@@ -159,6 +175,7 @@ public class PurchaseOrderVoucherRelation implements Serializable {
             "id=" + getId() +
             ", voucherNo='" + getVoucherNo() + "'" +
             ", amount=" + getAmount() +
+            ", createBy='" + getCreateBy() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             "}";

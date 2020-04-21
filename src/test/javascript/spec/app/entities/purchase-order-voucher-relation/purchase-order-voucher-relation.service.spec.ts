@@ -25,7 +25,7 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new PurchaseOrderVoucherRelation(0, 'AAAAAAA', 0, 'AAAAAAA', currentDate);
+            elemDefault = new PurchaseOrderVoucherRelation(0, 'AAAAAAA', 0, 'AAAAAAA', 'AAAAAAA', currentDate);
         });
 
         describe('Service methods', async () => {
@@ -72,6 +72,7 @@ describe('Service Tests', () => {
                     {
                         voucherNo: 'BBBBBB',
                         amount: 1,
+                        createBy: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -97,6 +98,7 @@ describe('Service Tests', () => {
                     {
                         voucherNo: 'BBBBBB',
                         amount: 1,
+                        createBy: 'BBBBBB',
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },

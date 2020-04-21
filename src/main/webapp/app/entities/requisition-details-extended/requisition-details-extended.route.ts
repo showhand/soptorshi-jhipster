@@ -19,10 +19,8 @@ import { RequisitionDetailsExtendedDetailComponent } from 'app/entities/requisit
 import { RequisitionDetailsExtendedUpdateComponent } from 'app/entities/requisition-details-extended/requisition-details-extended-update.component';
 
 @Injectable({ providedIn: 'root' })
-export class RequisitionDetailsExtendedResolve extends RequisitionDetailsResolve {
-    constructor(public service: RequisitionDetailsService) {
-        super(service);
-    }
+export class RequisitionDetailsExtendedResolve extends RequisitionDetailsResolv {
+    constructor(public service: RequisitionDetailsService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IRequisitionDetails> {
         const id = route.params['id'] ? route.params['id'] : null;

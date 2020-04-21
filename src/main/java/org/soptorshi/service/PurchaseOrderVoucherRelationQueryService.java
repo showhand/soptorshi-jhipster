@@ -99,6 +99,9 @@ public class PurchaseOrderVoucherRelationQueryService extends QueryService<Purch
             if (criteria.getAmount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAmount(), PurchaseOrderVoucherRelation_.amount));
             }
+            if (criteria.getCreateBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreateBy(), PurchaseOrderVoucherRelation_.createBy));
+            }
             if (criteria.getModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getModifiedBy(), PurchaseOrderVoucherRelation_.modifiedBy));
             }

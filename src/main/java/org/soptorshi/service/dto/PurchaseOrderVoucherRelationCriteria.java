@@ -30,6 +30,8 @@ public class PurchaseOrderVoucherRelationCriteria implements Serializable {
 
     private BigDecimalFilter amount;
 
+    private StringFilter createBy;
+
     private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedOn;
@@ -60,6 +62,14 @@ public class PurchaseOrderVoucherRelationCriteria implements Serializable {
 
     public void setAmount(BigDecimalFilter amount) {
         this.amount = amount;
+    }
+
+    public StringFilter getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(StringFilter createBy) {
+        this.createBy = createBy;
     }
 
     public StringFilter getModifiedBy() {
@@ -108,6 +118,7 @@ public class PurchaseOrderVoucherRelationCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(voucherNo, that.voucherNo) &&
             Objects.equals(amount, that.amount) &&
+            Objects.equals(createBy, that.createBy) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(voucherId, that.voucherId) &&
@@ -120,6 +131,7 @@ public class PurchaseOrderVoucherRelationCriteria implements Serializable {
         id,
         voucherNo,
         amount,
+        createBy,
         modifiedBy,
         modifiedOn,
         voucherId,
@@ -133,6 +145,7 @@ public class PurchaseOrderVoucherRelationCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (voucherNo != null ? "voucherNo=" + voucherNo + ", " : "") +
                 (amount != null ? "amount=" + amount + ", " : "") +
+                (createBy != null ? "createBy=" + createBy + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (voucherId != null ? "voucherId=" + voucherId + ", " : "") +

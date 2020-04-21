@@ -62,6 +62,9 @@ public class PurchaseOrderVoucherRelationResourceIntTest {
     private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
 
+    private static final String DEFAULT_CREATE_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATE_BY = "BBBBBBBBBB";
+
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
@@ -129,6 +132,7 @@ public class PurchaseOrderVoucherRelationResourceIntTest {
         PurchaseOrderVoucherRelation purchaseOrderVoucherRelation = new PurchaseOrderVoucherRelation()
             .voucherNo(DEFAULT_VOUCHER_NO)
             .amount(DEFAULT_AMOUNT)
+            .createBy(DEFAULT_CREATE_BY)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
         return purchaseOrderVoucherRelation;
@@ -157,6 +161,7 @@ public class PurchaseOrderVoucherRelationResourceIntTest {
         PurchaseOrderVoucherRelation testPurchaseOrderVoucherRelation = purchaseOrderVoucherRelationList.get(purchaseOrderVoucherRelationList.size() - 1);
         assertThat(testPurchaseOrderVoucherRelation.getVoucherNo()).isEqualTo(DEFAULT_VOUCHER_NO);
         assertThat(testPurchaseOrderVoucherRelation.getAmount()).isEqualTo(DEFAULT_AMOUNT);
+        assertThat(testPurchaseOrderVoucherRelation.getCreateBy()).isEqualTo(DEFAULT_CREATE_BY);
         assertThat(testPurchaseOrderVoucherRelation.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testPurchaseOrderVoucherRelation.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
@@ -200,6 +205,7 @@ public class PurchaseOrderVoucherRelationResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(purchaseOrderVoucherRelation.getId().intValue())))
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].createBy").value(hasItem(DEFAULT_CREATE_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
@@ -217,6 +223,7 @@ public class PurchaseOrderVoucherRelationResourceIntTest {
             .andExpect(jsonPath("$.id").value(purchaseOrderVoucherRelation.getId().intValue()))
             .andExpect(jsonPath("$.voucherNo").value(DEFAULT_VOUCHER_NO.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
+            .andExpect(jsonPath("$.createBy").value(DEFAULT_CREATE_BY.toString()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
@@ -297,6 +304,45 @@ public class PurchaseOrderVoucherRelationResourceIntTest {
 
         // Get all the purchaseOrderVoucherRelationList where amount is null
         defaultPurchaseOrderVoucherRelationShouldNotBeFound("amount.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPurchaseOrderVoucherRelationsByCreateByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        purchaseOrderVoucherRelationRepository.saveAndFlush(purchaseOrderVoucherRelation);
+
+        // Get all the purchaseOrderVoucherRelationList where createBy equals to DEFAULT_CREATE_BY
+        defaultPurchaseOrderVoucherRelationShouldBeFound("createBy.equals=" + DEFAULT_CREATE_BY);
+
+        // Get all the purchaseOrderVoucherRelationList where createBy equals to UPDATED_CREATE_BY
+        defaultPurchaseOrderVoucherRelationShouldNotBeFound("createBy.equals=" + UPDATED_CREATE_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPurchaseOrderVoucherRelationsByCreateByIsInShouldWork() throws Exception {
+        // Initialize the database
+        purchaseOrderVoucherRelationRepository.saveAndFlush(purchaseOrderVoucherRelation);
+
+        // Get all the purchaseOrderVoucherRelationList where createBy in DEFAULT_CREATE_BY or UPDATED_CREATE_BY
+        defaultPurchaseOrderVoucherRelationShouldBeFound("createBy.in=" + DEFAULT_CREATE_BY + "," + UPDATED_CREATE_BY);
+
+        // Get all the purchaseOrderVoucherRelationList where createBy equals to UPDATED_CREATE_BY
+        defaultPurchaseOrderVoucherRelationShouldNotBeFound("createBy.in=" + UPDATED_CREATE_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPurchaseOrderVoucherRelationsByCreateByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        purchaseOrderVoucherRelationRepository.saveAndFlush(purchaseOrderVoucherRelation);
+
+        // Get all the purchaseOrderVoucherRelationList where createBy is not null
+        defaultPurchaseOrderVoucherRelationShouldBeFound("createBy.specified=true");
+
+        // Get all the purchaseOrderVoucherRelationList where createBy is null
+        defaultPurchaseOrderVoucherRelationShouldNotBeFound("createBy.specified=false");
     }
 
     @Test
@@ -451,6 +497,7 @@ public class PurchaseOrderVoucherRelationResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(purchaseOrderVoucherRelation.getId().intValue())))
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].createBy").value(hasItem(DEFAULT_CREATE_BY)))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
@@ -502,6 +549,7 @@ public class PurchaseOrderVoucherRelationResourceIntTest {
         updatedPurchaseOrderVoucherRelation
             .voucherNo(UPDATED_VOUCHER_NO)
             .amount(UPDATED_AMOUNT)
+            .createBy(UPDATED_CREATE_BY)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
         PurchaseOrderVoucherRelationDTO purchaseOrderVoucherRelationDTO = purchaseOrderVoucherRelationMapper.toDto(updatedPurchaseOrderVoucherRelation);
@@ -517,6 +565,7 @@ public class PurchaseOrderVoucherRelationResourceIntTest {
         PurchaseOrderVoucherRelation testPurchaseOrderVoucherRelation = purchaseOrderVoucherRelationList.get(purchaseOrderVoucherRelationList.size() - 1);
         assertThat(testPurchaseOrderVoucherRelation.getVoucherNo()).isEqualTo(UPDATED_VOUCHER_NO);
         assertThat(testPurchaseOrderVoucherRelation.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testPurchaseOrderVoucherRelation.getCreateBy()).isEqualTo(UPDATED_CREATE_BY);
         assertThat(testPurchaseOrderVoucherRelation.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testPurchaseOrderVoucherRelation.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
@@ -581,6 +630,7 @@ public class PurchaseOrderVoucherRelationResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(purchaseOrderVoucherRelation.getId().intValue())))
             .andExpect(jsonPath("$.[*].voucherNo").value(hasItem(DEFAULT_VOUCHER_NO)))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].createBy").value(hasItem(DEFAULT_CREATE_BY)))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }

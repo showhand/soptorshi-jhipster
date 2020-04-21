@@ -187,6 +187,7 @@ entity RequisitionVoucherRelation{
 entity PurchaseOrderVoucherRelation{
     voucherNo String,
     amount BigDecimal,
+    createBy String,
     modifiedBy String,
     modifiedOn LocalDate
 }
