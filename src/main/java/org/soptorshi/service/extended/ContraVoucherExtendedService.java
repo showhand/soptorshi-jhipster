@@ -47,8 +47,9 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
     private final ContraVoucherMapper contraVoucherMapper;
     private final PurchaseOrderVoucherRelationExtendedService purchaseOrderVoucherRelationExtendedService;
     private final PurchaseOrderVoucherRelationExtendedRepository purchaseOrderVoucherRelationExtendedRepository;
+    private final JournalVoucherExtendedService journalVoucherExtendedService;
 
-    public ContraVoucherExtendedService(ContraVoucherRepository contraVoucherRepository, ContraVoucherMapper contraVoucherMapper, ContraVoucherSearchRepository contraVoucherSearchRepository, ContraVoucherGeneratorRepository contraVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, ContraVoucherExtendedRepository contraVoucherExtendedRepository, ContraVoucherMapper contraVoucherMapper1, PurchaseOrderVoucherRelationExtendedService purchaseOrderVoucherRelationExtendedService, PurchaseOrderVoucherRelationExtendedRepository purchaseOrderVoucherRelationExtendedRepository) {
+    public ContraVoucherExtendedService(ContraVoucherRepository contraVoucherRepository, ContraVoucherMapper contraVoucherMapper, ContraVoucherSearchRepository contraVoucherSearchRepository, ContraVoucherGeneratorRepository contraVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, ContraVoucherExtendedRepository contraVoucherExtendedRepository, ContraVoucherMapper contraVoucherMapper1, PurchaseOrderVoucherRelationExtendedService purchaseOrderVoucherRelationExtendedService, PurchaseOrderVoucherRelationExtendedRepository purchaseOrderVoucherRelationExtendedRepository, JournalVoucherExtendedService journalVoucherExtendedService) {
         super(contraVoucherRepository, contraVoucherMapper, contraVoucherSearchRepository);
         this.contraVoucherGeneratorRepository = contraVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
@@ -61,6 +62,7 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
         this.contraVoucherMapper = contraVoucherMapper1;
         this.purchaseOrderVoucherRelationExtendedService = purchaseOrderVoucherRelationExtendedService;
         this.purchaseOrderVoucherRelationExtendedRepository = purchaseOrderVoucherRelationExtendedRepository;
+        this.journalVoucherExtendedService = journalVoucherExtendedService;
     }
 
     @Override
@@ -69,7 +71,8 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
             ContraVoucherGenerator contraVoucherGenerator = new ContraVoucherGenerator();
             contraVoucherGeneratorRepository.save(contraVoucherGenerator);
             String voucherNo = String.format("%06d", contraVoucherGenerator.getId());
-            contraVoucherDTO.setVoucherNo("CV"+voucherNo);
+
+            contraVoucherDTO.setVoucherNo(LocalDate.now().getYear()+ "CV"+voucherNo);
         }
         contraVoucherDTO.setPostDate(contraVoucherDTO.getPostDate()!=null? LocalDate.now(): contraVoucherDTO.getPostDate());
         updateTransactions(contraVoucherDTO);
@@ -130,6 +133,8 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
             t.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
             t.setModifiedOn(LocalDate.now());
         });
+        if(contraVoucherDTO.getApplicationType()!=null)
+            this.journalVoucherExtendedService.updateApplicationVoucherRelationAmount(contraVoucherDTO.getApplicationType(), contraVoucherDTO.getVoucherNo(), transactionDTOS);
 
         List<DtTransaction> dtTransactions = dtTransactionMapper.toEntity(transactionDTOS);
         dtTransactions = dtTransactionRepository.saveAll(dtTransactions);

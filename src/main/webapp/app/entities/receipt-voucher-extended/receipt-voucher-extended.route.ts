@@ -4,7 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@a
 import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { ReceiptVoucher } from 'app/shared/model/receipt-voucher.model';
 
 import { IReceiptVoucher } from 'app/shared/model/receipt-voucher.model';
@@ -20,11 +20,26 @@ export class ReceiptVoucherExtendedResolve implements Resolve<IReceiptVoucher> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IReceiptVoucher> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const voucherNo = route.params['voucherNo'] ? route.params['voucherNo'] : null;
+        const applicationType = route.params['applicationType'] ? route.params['applicationType'] : null;
+        const applicationId = route.params['applicationId'] ? route.params['applicationId'] : null;
+
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<ReceiptVoucher>) => response.ok),
                 map((receiptVoucher: HttpResponse<ReceiptVoucher>) => receiptVoucher.body)
             );
+        } else if (applicationType && applicationId) {
+            const receiptVoucher = new ReceiptVoucher();
+            receiptVoucher.applicationId = applicationId;
+            receiptVoucher.applicationType = applicationType;
+            return of(receiptVoucher);
+        } else if (voucherNo) {
+            return this.service
+                .query({
+                    'voucherNo.equals': voucherNo
+                })
+                .pipe(switchMap(res => res.body));
         }
         return of(new ReceiptVoucher());
     }
@@ -69,7 +84,31 @@ export const receiptVoucherExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
+        path: ':applicationType/:applicationId/new',
+        component: ReceiptVoucherExtendedUpdateComponent,
+        resolve: {
+            receiptVoucher: ReceiptVoucherExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ReceiptVouchers'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
         path: ':id/edit',
+        component: ReceiptVoucherExtendedUpdateComponent,
+        resolve: {
+            receiptVoucher: ReceiptVoucherExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ReceiptVouchers'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'voucher-no/:voucherNo/edit',
         component: ReceiptVoucherExtendedUpdateComponent,
         resolve: {
             receiptVoucher: ReceiptVoucherExtendedResolve

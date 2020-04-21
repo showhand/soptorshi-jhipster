@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <jhi-alert></jhi-alert>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" *ngIf="journalVoucher.applicationType">
         <div class="row" *ngIf="requisition">
             <div class="col-md-12">
                 <h2>Requisition</h2>

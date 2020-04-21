@@ -59,6 +59,9 @@ export class PurchaseOrderVoucherRelationExtendedComponent extends PurchaseOrder
     }
 
     gotoVoucher(purchaseOrderVoucherRelation: IPurchaseOrderVoucherRelation) {
-        this.router.navigate(['/journal-voucher/voucher-no', purchaseOrderVoucherRelation.voucherNo, 'edit']);
+        if (purchaseOrderVoucherRelation.voucherNo.includes('JN'))
+            this.router.navigate(['/journal-voucher/voucher-no', purchaseOrderVoucherRelation.voucherNo, 'edit']);
+        else if (purchaseOrderVoucherRelation.voucherNo.includes('CV'))
+            this.router.navigate(['/contra-voucher/voucher-no', purchaseOrderVoucherRelation.voucherNo, 'edit']);
     }
 }
