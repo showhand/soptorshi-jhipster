@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IDesignationWiseAllowance } from 'app/shared/model/designation-wise-allowance.model';
+import { Designation } from 'app/shared/model/designation.model';
 
 type EntityResponseType = HttpResponse<IDesignationWiseAllowance>;
 type EntityArrayResponseType = HttpResponse<IDesignationWiseAllowance[]>;
