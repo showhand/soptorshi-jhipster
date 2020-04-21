@@ -285,6 +285,11 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
             });
     }
 
+    private createPurchaseOrder(): void {
+        const requisitionId = this.requisition.id;
+        this.router.navigate(['/purchase-order', requisitionId, 'create']);
+    }
+
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }

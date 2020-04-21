@@ -120,6 +120,7 @@ export class PurchaseOrderExtendedUpdateComponent extends PurchaseOrderUpdateCom
             )
             .pipe(
                 map(res => {
+                    this.purchaseOrder.requisitionId = this.requisition.id;
                     this.quotation = res.body[0];
                     this.purchaseOrder.quotationId = this.quotation.id;
                     return this.quotation;

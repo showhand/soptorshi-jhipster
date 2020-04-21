@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { IJournalVoucher } from 'app/shared/model/journal-voucher.model';
-import { JournalVoucherDetailComponent, JournalVoucherUpdateComponent } from 'app/entities/journal-voucher';
+import { ApplicationType, IJournalVoucher } from 'app/shared/model/journal-voucher.model';
+import { JournalVoucherUpdateComponent } from 'app/entities/journal-voucher';
 import { CurrencyFlag, ICurrency } from 'app/shared/model/currency.model';
 import { JournalVoucherExtendedService } from 'app/entities/journal-voucher-extended/journal-voucher-extended.service';
-import { Observable } from 'rxjs';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 import { CurrencyExtendedService } from 'app/entities/currency-extended';
 import { ConversionFactorExtendedService } from 'app/entities/conversion-factor-extended';
 import { IConversionFactor } from 'app/shared/model/conversion-factor.model';
@@ -14,6 +13,11 @@ import { VoucherType } from 'app/shared/model/dt-transaction.model';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import * as moment from 'moment';
 import { DtTransactionExtendedService } from 'app/entities/dt-transaction-extended';
+import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
+import { PurchaseOrderService } from 'app/entities/purchase-order';
+import { IRequisition } from 'app/shared/model/requisition.model';
+import { RequisitionService } from 'app/entities/requisition';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'jhi-journal-voucher-extended-update',
@@ -28,6 +32,9 @@ export class JournalVoucherExtendedUpdateComponent extends JournalVoucherUpdateC
     isSaving: boolean;
     voucherType: VoucherType;
     journalVoucherId: number;
+    purchaseOrder: IPurchaseOrder;
+    purchaseOrders: IPurchaseOrder[];
+    requisition: IRequisition;
 
     constructor(
         protected activatedRoute: ActivatedRoute,
@@ -37,7 +44,9 @@ export class JournalVoucherExtendedUpdateComponent extends JournalVoucherUpdateC
         protected eventManager: JhiEventManager,
         protected jhiAlertService: JhiAlertService,
         protected router: Router,
-        protected dtTransactionService: DtTransactionExtendedService
+        protected dtTransactionService: DtTransactionExtendedService,
+        protected purchaseOrderService: PurchaseOrderService,
+        protected requisitionService: RequisitionService
     ) {
         super(jhiAlertService, journalVoucherService, currencyService, activatedRoute);
         this.totalCredit = 0;
@@ -48,6 +57,17 @@ export class JournalVoucherExtendedUpdateComponent extends JournalVoucherUpdateC
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ journalVoucher }) => {
             this.journalVoucher = journalVoucher;
+            if (this.journalVoucher.applicationType === ApplicationType.REQUISITION) {
+                forkJoin(
+                    this.requisitionService.find(this.journalVoucher.applicationId),
+                    this.purchaseOrderService.query({
+                        'requisitionId.equals': this.journalVoucher.applicationId
+                    })
+                ).subscribe(res => {
+                    this.requisition = res[0].body;
+                    this.purchaseOrders = res[1].body;
+                });
+            }
             this.loadAll();
             //this.journalVoucher.type = this.voucherType == null ? (this.voucherType = VoucherType.BUYING) : this.voucherType;
         });
@@ -61,7 +81,7 @@ export class JournalVoucherExtendedUpdateComponent extends JournalVoucherUpdateC
             })
             .subscribe((response: HttpResponse<ICurrency[]>) => {
                 this.currencies = response.body;
-                if (!this.journalVoucher.currencyId == undefined) {
+                if (this.journalVoucher.currencyId === undefined) {
                     this.currencies.forEach((c: ICurrency) => {
                         if (c.flag == CurrencyFlag.BASE) {
                             this.journalVoucher.currencyId = c.id;

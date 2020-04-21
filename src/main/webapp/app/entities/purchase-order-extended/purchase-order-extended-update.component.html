@@ -7,6 +7,9 @@
                     <dt><span>Requisition No</span></dt>
                     <dd><span>{{requisition.requisitionNo}}</span></dd>
 
+                    <dt><span>Status</span></dt>
+                    <dd><span>{{requisition.status}}</span></dd>
+
                     <dt><span>Date</span></dt>
                     <dd><span>{{requisition.requisitionDate | date: 'mediumDate'}}</span></dd>
 
@@ -51,7 +54,7 @@
                     <div class="col-12">
                         <h3><u>Requisition</u></h3>
                     </div>
-                    <div class="col-4">
+                    <div class="col-12">
                         <div class="form-group">
                             <label class="form-control-label" for="field_requisition">Requisition</label>
                             <select (change)="fetchRequisitionAndQuotationWithDetails()" class="form-control" id="field_requisition" name="requisition" [(ngModel)]="purchaseOrder.requisitionId"  ngControl="field_requisition">

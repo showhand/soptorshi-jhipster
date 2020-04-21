@@ -1,6 +1,37 @@
-<div class="justify-content-center">
-    <jhi-alert-error></jhi-alert-error>
-    <div class="col-12">
+<div class="row justify-content-center">
+    <div class="col-md-12">
+        <jhi-alert></jhi-alert>
+    </div>
+    <div class="col-md-4">
+        <div class="row" *ngIf="requisition">
+            <div class="col-md-12">
+                <h2>Requisition</h2>
+            </div>
+            <div class="col-md-12">
+                <dl class="row-md jh-entity-details">
+                    <dt><span>Requisition No</span></dt>
+                    <dd><span>{{requisition.requisitionNo}}</span></dd>
+
+                    <dt><span>Date</span></dt>
+                    <dd><span>{{requisition.requisitionDate | date: 'mediumDate'}}</span></dd>
+
+                    <dt><span>Product Category</span></dt>
+                    <dd><span>{{requisition.productCategoryName}}</span></dd>
+                </dl>
+            </div>
+            <div class="col-md-12">
+                <h2>Purchase Orders</h2>
+            </div>
+            <div class="col-md-12">
+                <ul>
+                    <li *ngFor="let p of purchaseOrders">
+                        {{p.purchaseOrderNo}} - {{p.issueDate | date: 'mediumDate'}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
         <form name="editForm" role="form" novalidate  #editForm="ngForm">
             <h2 id="jhi-journal-voucher-heading" *ngIf="!journalVoucher.id">Create a Journal Voucher</h2>
             <h2 id="jhi-journal-voucher-heading-update" *ngIf="journalVoucher.id">Edit Voucher <b>{{journalVoucher.voucherNo}}</b></h2>
@@ -44,14 +75,14 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label class="form-control-label" for="field_applicationType">Application Type</label>
-                            <select class="form-control" name="applicationType" [(ngModel)]="journalVoucher.applicationType" id="field_applicationType" >
+                            <select disabled class="form-control" name="applicationType" [(ngModel)]="journalVoucher.applicationType" id="field_applicationType" >
                                 <option value="REQUISITION">REQUISITION</option>
                                 <option value="PAY_ROLL">PAY_ROLL</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label class="form-control-label" for="field_applicationId">Application Id</label>
-                            <input type="number" class="form-control" name="applicationId" id="field_applicationId"
+                            <input disabled type="number" class="form-control" name="applicationId" id="field_applicationId"
                                    [(ngModel)]="journalVoucher.applicationId" />
                         </div>
                         <div class="form-group">
