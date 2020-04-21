@@ -6,11 +6,12 @@ import org.soptorshi.service.OverTimeQueryService;
 import org.soptorshi.service.extended.OverTimeExtendedService;
 import org.soptorshi.web.rest.OverTimeResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * REST controller for managing OverTime.
@@ -31,6 +32,13 @@ public class OverTimeExtendedResource extends OverTimeResource {
         super(overTimeExtendedService, overTimeQueryService);
         this.overTimeExtendedService = overTimeExtendedService;
         this.overTimeQueryService = overTimeQueryService;
+    }
+
+    @GetMapping("/over-times/dates")
+    public ResponseEntity<List<LocalDate>> getAttendanceDates() {
+        log.debug("REST request to get distinct Attendances:");
+        List<LocalDate> overTimeDTOS = overTimeExtendedService.getAllDistinctOverTimeDate();
+        return ResponseEntity.ok().headers(HttpHeaders.EMPTY).body(overTimeDTOS);
     }
 
     /**

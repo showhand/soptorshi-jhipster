@@ -29,6 +29,32 @@
     </div>
 </div>
 
+<br />
+
+<div class="row">
+    <div class="col-3">
+        <select class="form-control" id="field_DistinctOverTimeDate" name="distinctOverTimeDate"
+                [(ngModel)]="currentSearch">
+            <option [ngValue]="null">Select a date</option>
+            <option [ngValue]="distinctDate"
+                    *ngFor="let distinctDate of distinctDates">{{distinctDate | date:'mediumDate'}}</option>
+        </select>
+    </div>
+    <div class="col-3">
+        <select class="form-control" id="field_EmployeeId" name="employeeId"
+                [(ngModel)]="employee">
+            <option [ngValue]="null">Select an Employee</option>
+            <option [ngValue]="emp"
+                    *ngFor="let emp of employees">{{emp.fullName + " [" + emp.departmentName + "] "}}</option>
+        </select>
+    </div>
+    <div class="col-2">
+        <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+            <fa-icon [icon]="'search'"></fa-icon>
+        </button>
+    </div>
+</div>
+
 <div class="row justify-content-center">
     <div class="col-12 ">
         <br/>

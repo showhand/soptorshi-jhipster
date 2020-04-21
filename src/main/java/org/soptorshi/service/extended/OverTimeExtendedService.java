@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing OverTime.
@@ -79,5 +82,15 @@ public class OverTimeExtendedService extends OverTimeService {
 
     public Duration getDiff(Instant from, Instant to) {
         return Duration.between(from, to);
+    }
+
+    public List<LocalDate> getAllDistinctOverTimeDate() {
+        log.debug("Request to get all Distinct OverTime Date");
+        List<LocalDate> dates = new ArrayList<>();
+        List<OverTime> overTimes = overTimeExtendedRepository.findAll();
+        for(OverTime overTime: overTimes) {
+            dates.add(overTime.getOverTimeDate());
+        }
+        return dates.stream().distinct().collect(Collectors.toList());
     }
 }
