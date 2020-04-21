@@ -13,16 +13,21 @@ import { IPurchaseOrderVoucherRelation } from 'app/shared/model/purchase-order-v
 import { PurchaseOrderVoucherRelationExtendedDeletePopUpComponent } from 'app/entities/purchase-order-voucher-relation-extended/purchase-order-voucher-relation-extended-delete-dialog.component';
 
 @Injectable({ providedIn: 'root' })
-export class PurchaseOrderVoucherRelationResolve implements Resolve<IPurchaseOrderVoucherRelation> {
+export class PurchaseOrderVoucherRelationExtendedResolve implements Resolve<IPurchaseOrderVoucherRelation> {
     constructor(private service: PurchaseOrderVoucherRelationExtendedService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IPurchaseOrderVoucherRelation> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const purchaseOrderId = route.params['purchaseOrderId'] ? route.params['purchaseOrderId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<PurchaseOrderVoucherRelation>) => response.ok),
                 map((purchaseOrderVoucherRelation: HttpResponse<PurchaseOrderVoucherRelation>) => purchaseOrderVoucherRelation.body)
             );
+        } else if (purchaseOrderId) {
+            const purchaseOrderVoucherRelation = new PurchaseOrderVoucherRelation();
+            purchaseOrderVoucherRelation.purchaseOrderId = purchaseOrderId;
+            return of(purchaseOrderVoucherRelation);
         }
         return of(new PurchaseOrderVoucherRelation());
     }
@@ -30,7 +35,7 @@ export class PurchaseOrderVoucherRelationResolve implements Resolve<IPurchaseOrd
 
 export const purchaseOrderVoucherRelationExtendedRoute: Routes = [
     {
-        path: 'extended/root',
+        path: '',
         component: PurchaseOrderVoucherRelationExtendedComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -39,10 +44,10 @@ export const purchaseOrderVoucherRelationExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'extended/:id/view',
+        path: ':id/view',
         component: PurchaseOrderVoucherRelationExtendedDetailComponent,
         resolve: {
-            purchaseOrderVoucherRelation: PurchaseOrderVoucherRelationResolve
+            purchaseOrderVoucherRelation: PurchaseOrderVoucherRelationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -51,10 +56,10 @@ export const purchaseOrderVoucherRelationExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'extended/new',
+        path: 'new',
         component: PurchaseOrderVoucherRelationExtendedUpdateComponent,
         resolve: {
-            purchaseOrderVoucherRelation: PurchaseOrderVoucherRelationResolve
+            purchaseOrderVoucherRelation: PurchaseOrderVoucherRelationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -63,10 +68,22 @@ export const purchaseOrderVoucherRelationExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'extended/:id/edit',
+        path: ':purchaseOrderId/new',
         component: PurchaseOrderVoucherRelationExtendedUpdateComponent,
         resolve: {
-            purchaseOrderVoucherRelation: PurchaseOrderVoucherRelationResolve
+            purchaseOrderVoucherRelation: PurchaseOrderVoucherRelationExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'PurchaseOrderVoucherRelations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':id/edit',
+        component: PurchaseOrderVoucherRelationExtendedUpdateComponent,
+        resolve: {
+            purchaseOrderVoucherRelation: PurchaseOrderVoucherRelationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],
@@ -78,10 +95,10 @@ export const purchaseOrderVoucherRelationExtendedRoute: Routes = [
 
 export const purchaseOrderVoucherRelationPopupRoute: Routes = [
     {
-        path: 'extended/:id/delete',
+        path: ':id/delete',
         component: PurchaseOrderVoucherRelationExtendedDeletePopUpComponent,
         resolve: {
-            purchaseOrderVoucherRelation: PurchaseOrderVoucherRelationResolve
+            purchaseOrderVoucherRelation: PurchaseOrderVoucherRelationExtendedResolve
         },
         data: {
             authorities: ['ROLE_USER'],

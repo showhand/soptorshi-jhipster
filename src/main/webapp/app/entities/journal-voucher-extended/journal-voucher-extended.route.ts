@@ -4,7 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@a
 import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { JournalVoucher } from 'app/shared/model/journal-voucher.model';
 import { JournalVoucherExtendedService } from './journal-voucher-extended.service';
 import { JournalVoucherExtendedComponent } from './journal-voucher-extended.component';
@@ -26,6 +26,7 @@ export class JournalVoucherExtendedResolve implements Resolve<IJournalVoucher> {
         const currencyId = route.params['currencyId'] ? route.params['currencyId'] : null;
         const balanceType = route.params['balanceType'] ? route.params['balanceType'] : null;
         const conversionFactor = route.params['conversionFactor'] ? route.params['conversionFactor'] : null;
+        const voucherNo = route.params['voucherNo'] ? route.params['voucherNo'] : null;
         const applicationType = route.params['applicationType'] ? route.params['applicationType'] : null;
         const applicationId = route.params['applicationId'] ? route.params['applicationId'] : null;
         if (id) {
@@ -33,12 +34,17 @@ export class JournalVoucherExtendedResolve implements Resolve<IJournalVoucher> {
                 filter((response: HttpResponse<JournalVoucher>) => response.ok),
                 map((journalVoucher: HttpResponse<JournalVoucher>) => journalVoucher.body)
             );
-        }
-        if (applicationType && applicationId) {
+        } else if (applicationType && applicationId) {
             const journalVoucher = new JournalVoucher();
             journalVoucher.applicationId = applicationId;
             journalVoucher.applicationType = applicationType;
             return of(journalVoucher);
+        } else if (voucherNo) {
+            return this.service
+                .query({
+                    'voucherNo.equals': voucherNo
+                })
+                .pipe(switchMap(res => res.body));
         }
         return of(new JournalVoucher());
     }
@@ -84,6 +90,18 @@ export const journalVoucherExtendedRoute: Routes = [
     },
     {
         path: ':id/edit',
+        component: JournalVoucherExtendedUpdateComponent,
+        resolve: {
+            journalVoucher: JournalVoucherExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'JournalVouchers'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'voucher-no/:voucherNo/edit',
         component: JournalVoucherExtendedUpdateComponent,
         resolve: {
             journalVoucher: JournalVoucherExtendedResolve

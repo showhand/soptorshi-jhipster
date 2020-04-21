@@ -34,9 +34,8 @@ const ENTITY_STATES = [...contraVoucherExtendedRoute, ...contraVoucherExtendedPo
         ContraVoucherTransactionUpdateComponent
     ],
     entryComponents: [
-        ContraVoucherComponent,
-        ContraVoucherUpdateComponent,
-        ContraVoucherDeleteDialogComponent,
+        ContraVoucherExtendedComponent,
+        ContraVoucherExtendedUpdateComponent,
         ContraVoucherDeletePopupComponent,
         ContraVoucherTransactionsComponent,
         ContraVoucherTransactionUpdateComponent

@@ -1,5 +1,8 @@
 <div class="row justify-content-center">
-    <div class="col-12">
+    <div class="col-md-4" *ngIf="contraVoucher.applicationType==='PURCHASE_ORDER'">
+        <jhi-purchase-order-extended-detail  [purchaseOrderId]="contraVoucher.applicationId"></jhi-purchase-order-extended-detail>
+    </div>
+    <div class="col-md-8">
         <form name="editForm" role="form" novalidate  #editForm="ngForm">
             <h2 *ngIf="!contraVoucher.id" id="jhi-contra-voucher-heading">Create a Contra Voucher</h2>
             <h2 *ngIf="contraVoucher.id" id="jhi-contra-voucher-update">Contra Voucher <b>{{contraVoucher.voucherNo}}</b></h2>
@@ -35,11 +38,12 @@
                     <div class="col-6">
                         <div class="row">
                             <div class="col-8">
-                                <div class="form-group">
+                                <div class="form-group" [attr.contenteditable]="false">
                                     <label class="form-control-label" for="field_applicationType">Application Type</label>
                                     <select class="form-control" name="applicationType" [(ngModel)]="contraVoucher.applicationType" id="field_applicationType" >
-                                        <option value="REQUISITION">REQUISITION</option>
-                                        <option value="PAY_ROLL">PAY_ROLL</option>
+                                        <option value="PAYROLL">PAYROLL</option>
+                                        <option value="PURCHASE_ORDER">PURCHASE_ORDER</option>
+                                        <option value="PROCUREMENT">PROCUREMENT</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -77,27 +81,27 @@
                 </div>
 
             </div>
-            <div>
-                <div class="row" *ngIf="contraVoucher.voucherNo">
-                    <div class="col-12">
-                        <jhi-contra-voucher-transactions [contraVoucher]="contraVoucher"  (totalCreditChanged)="totalCreditChanged($event)" (totalDebitChanged)="totalDebitChanged($event)" ></jhi-contra-voucher-transactions>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
-                </button>
-                <button (click)="save()" type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-                </button>
-                <button *ngIf="contraVoucher.voucherNo && totalDebit>0 && totalCredit==totalCredit" (click)="post()" type="submit" id="post-entity" [disabled]="editForm.form.invalid || isSaving || contraVoucher.postDate" class="btn btn-secondary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Post</span>
-                </button>
-                <button  type="submit" *ngIf="contraVoucher.postDate" id="report"  class="btn btn-secondary" (click)="downloadVoucherReport()">
-                    <fa-icon [icon]="'file-pdf'"></fa-icon>&nbsp;<span>Download Report</span>
-                </button>
-            </div>
+
+
         </form>
+    </div>
+    <div class="col-md-12" *ngIf="contraVoucher.voucherNo">
+        <jhi-contra-voucher-transactions [contraVoucher]="contraVoucher"  (totalCreditChanged)="totalCreditChanged($event)" (totalDebitChanged)="totalDebitChanged($event)" ></jhi-contra-voucher-transactions>
+    </div>
+    <div class="col-md-12">
+        <div>
+            <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+            <button (click)="save()" type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+            </button>
+            <button *ngIf="contraVoucher.voucherNo && totalDebit>0 && totalCredit==totalCredit" (click)="post()" type="submit" id="post-entity" [disabled]="editForm.form.invalid || isSaving || contraVoucher.postDate" class="btn btn-secondary">
+                <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Post</span>
+            </button>
+            <button  type="submit" *ngIf="contraVoucher.postDate" id="report"  class="btn btn-secondary" (click)="downloadVoucherReport()">
+                <fa-icon [icon]="'file-pdf'"></fa-icon>&nbsp;<span>Download Report</span>
+            </button>
+        </div>
     </div>
 </div>

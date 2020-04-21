@@ -19,21 +19,24 @@ import {
     PurchaseOrderVoucherRelationUpdateComponent
 } from 'app/entities/purchase-order-voucher-relation';
 
-const ENTITY_STATES = [...purchaseOrderVoucherRelationExtendedRoute, ...purchaseOrderVoucherRelationPopupRoute];
+export const PURCHASE_ORDER_VOUCHER_RELATION_ENTITY_STATES = [
+    ...purchaseOrderVoucherRelationExtendedRoute,
+    ...purchaseOrderVoucherRelationPopupRoute
+];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [SoptorshiSharedModule, RouterModule.forChild(PURCHASE_ORDER_VOUCHER_RELATION_ENTITY_STATES)],
     declarations: [
-        PurchaseOrderVoucherRelationComponent,
+        /* PurchaseOrderVoucherRelationComponent,
         PurchaseOrderVoucherRelationDetailComponent,
         PurchaseOrderVoucherRelationUpdateComponent,
         PurchaseOrderVoucherRelationDeleteDialogComponent,
         PurchaseOrderVoucherRelationDeletePopupComponent,
         PurchaseOrderVoucherRelationExtendedComponent,
         PurchaseOrderVoucherRelationExtendedDetailComponent,
-        PurchaseOrderVoucherRelationExtendedUpdateComponent,
-        PurchaseOrderVoucherRelationExtendedDeleteDialogComponent,
-        PurchaseOrderVoucherRelationExtendedDeletePopUpComponent
+        PurchaseOrderVoucherRelationExtendedUpdateComponent,*/
+        /* PurchaseOrderVoucherRelationExtendedDeleteDialogComponent,
+        PurchaseOrderVoucherRelationExtendedDeletePopUpComponent*/
     ],
     entryComponents: [
         PurchaseOrderVoucherRelationExtendedComponent,

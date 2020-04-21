@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiDataUtils } from 'ng-jhipster';
 
@@ -12,6 +12,8 @@ import { PurchaseOrderExtendedService } from 'app/entities/purchase-order-extend
 })
 export class PurchaseOrderExtendedDetailComponent extends PurchaseOrderDetailComponent implements OnInit {
     purchaseOrder: IPurchaseOrder;
+    @Input()
+    purchaseOrderId: number;
 
     constructor(
         protected dataUtils: JhiDataUtils,
@@ -24,6 +26,9 @@ export class PurchaseOrderExtendedDetailComponent extends PurchaseOrderDetailCom
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ purchaseOrder }) => {
             this.purchaseOrder = purchaseOrder;
+            if (!this.purchaseOrder) {
+                this.purchaseOrderExtendedService.find(this.purchaseOrderId).subscribe(res => (this.purchaseOrder = res.body));
+            }
         });
     }
 

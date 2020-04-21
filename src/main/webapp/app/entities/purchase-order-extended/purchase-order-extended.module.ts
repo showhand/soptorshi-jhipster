@@ -21,12 +21,12 @@ import { PurchaseOrderMessagesExtendedDirectiveComponent } from 'app/entities/pu
 import { PurchaseOrderRequisitionVoucherRelation } from 'app/entities/purchase-order-extended/purchase-order-requisition-voucher-relation.component';
 import { SoptorshiPurchaseOrderVoucherRelationExtendedModule } from 'app/entities/purchase-order-voucher-relation-extended/purchase-order-voucher-relation-extended.module';
 
-const ENTITY_STATES = [...purchaseOrderExtendedRoute, ...purchaseOrderExtendedPopupRoute];
+const PURCHASE_ORDER_ENTITY_STATES = [...purchaseOrderExtendedRoute, ...purchaseOrderExtendedPopupRoute];
 
 @NgModule({
-    imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES), SoptorshiPurchaseOrderVoucherRelationExtendedModule],
+    imports: [SoptorshiSharedModule, RouterModule.forChild(PURCHASE_ORDER_ENTITY_STATES)],
     declarations: [
-        PurchaseOrderComponent,
+        /* PurchaseOrderComponent,
         PurchaseOrderDetailComponent,
         PurchaseOrderUpdateComponent,
         PurchaseOrderExtendedComponent,
@@ -36,7 +36,7 @@ const ENTITY_STATES = [...purchaseOrderExtendedRoute, ...purchaseOrderExtendedPo
         PurchaseOrderDeletePopupComponent,
         TermsAndConditionsForPurchaseOrder,
         PurchaseOrderMessagesExtendedDirectiveComponent,
-        PurchaseOrderRequisitionVoucherRelation
+        PurchaseOrderRequisitionVoucherRelation*/
     ],
     entryComponents: [
         PurchaseOrderExtendedComponent,

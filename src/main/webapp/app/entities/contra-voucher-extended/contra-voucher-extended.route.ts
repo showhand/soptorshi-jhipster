@@ -92,7 +92,7 @@ export const contraVoucherExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':applicationTye/:applicationId/edit',
+        path: ':applicationType/:applicationId/new',
         component: ContraVoucherExtendedUpdateComponent,
         resolve: {
             contraVoucher: ContraVoucherExtendedResolve

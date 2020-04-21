@@ -159,8 +159,9 @@
     <div class="col-6" *ngIf="purchaseOrder.id" >
         <jhi-terms-and-conditions-for-purchase-order [purchaseOrder]="purchaseOrder" [disableEdit]="editForm.form.disabled"></jhi-terms-and-conditions-for-purchase-order>
     </div>
-    <div class="col-6" *ngIf="purchaseOrder.requisitionId">
-        <jhi-purchase-order-requisition-voucher-relation [requisitionId]="purchaseOrder.requisitionId" [disableEdit]="false"></jhi-purchase-order-requisition-voucher-relation>
+    <div class="col-6" *ngIf="purchaseOrder.id">
+        <jhi-purchase-order-voucher-relation-extended [purchaseOrder]="purchaseOrder"></jhi-purchase-order-voucher-relation-extended>
+        <!--<jhi-purchase-order-requisition-voucher-relation [requisitionId]="purchaseOrder.requisitionId" [disableEdit]="false"></jhi-purchase-order-requisition-voucher-relation>-->
     </div>
 
     <div class="col-12" *ngIf= "purchaseOrder.id && purchaseOrder.id">

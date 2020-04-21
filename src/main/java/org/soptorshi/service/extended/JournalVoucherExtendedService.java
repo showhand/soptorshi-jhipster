@@ -92,10 +92,10 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
                     "Journal Voucher");
             }
             else if(journalVoucherDTO.getApplicationType().equals(ApplicationType.PURCHASE_ORDER)){
-                purchaseOrderVoucherRelationExtendedService.storePurchaseOrderVoucherRelation(journalVoucherDTO.getVoucherNo(),
-                    journalVoucherDTO.getApplicationId(),
-                    journalVoucherDTO.getId(),
-                    "Journal Voucher");
+                    purchaseOrderVoucherRelationExtendedService.storePurchaseOrderVoucherRelation(journalVoucherDTO.getVoucherNo(),
+                        journalVoucherDTO.getApplicationId(),
+                        journalVoucherDTO.getId(),
+                        "Journal Voucher");
             }
         }
     }
@@ -141,9 +141,12 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
                 requisitionVoucherRelationExtendedRepository.save(requisitionVoucherRelation);
             }
             else if(applicationType.equals(ApplicationType.PURCHASE_ORDER)){
-                PurchaseOrderVoucherRelation purchaseOrderVoucherRelation = purchaseOrderVoucherRelationExtendedRepository.findByVoucherNo(voucherNo);
-                purchaseOrderVoucherRelation.setAmount(totalAmount);
-                purchaseOrderVoucherRelationExtendedRepository.save(purchaseOrderVoucherRelation);
+                if(purchaseOrderVoucherRelationExtendedRepository.existsByVoucherNo(voucherNo)){
+                    List<PurchaseOrderVoucherRelation> purchaseOrderVoucherRelations = purchaseOrderVoucherRelationExtendedRepository.findByVoucherNo(voucherNo);
+                    PurchaseOrderVoucherRelation purchaseOrderVoucherRelation = purchaseOrderVoucherRelations.get(0);
+                    purchaseOrderVoucherRelation.setAmount(totalAmount);
+                    purchaseOrderVoucherRelationExtendedRepository.save(purchaseOrderVoucherRelation);
+                }
             }
     }
 

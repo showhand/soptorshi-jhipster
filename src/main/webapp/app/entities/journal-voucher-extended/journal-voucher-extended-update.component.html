@@ -30,6 +30,7 @@
                 </ul>
             </div>
         </div>
+        <jhi-purchase-order-extended-detail *ngIf="journalVoucher.applicationType === 'PURCHASE_ORDER'" [purchaseOrderId]="journalVoucher.applicationId"></jhi-purchase-order-extended-detail>
     </div>
     <div class="col-md-8">
         <form name="editForm" role="form" novalidate  #editForm="ngForm">
@@ -76,8 +77,9 @@
                         <div class="form-group">
                             <label class="form-control-label" for="field_applicationType">Application Type</label>
                             <select disabled class="form-control" name="applicationType" [(ngModel)]="journalVoucher.applicationType" id="field_applicationType" >
-                                <option value="REQUISITION">REQUISITION</option>
-                                <option value="PAY_ROLL">PAY_ROLL</option>
+                                <option value="PAYROLL">PAYROLL</option>
+                                <option value="PURCHASE_ORDER">PURCHASE_ORDER</option>
+                                <option value="PROCUREMENT">PROCUREMENT</option>
                             </select>
                         </div>
                         <div class="form-group">

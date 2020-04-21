@@ -744,7 +744,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'contra-voucher',
-                loadChildren: './contra-voucher/contra-voucher.module#SoptorshiContraVoucherModule'
+                loadChildren: './contra-voucher-extended/contra-voucher-extended.module#SoptorshiContraVoucherModule'
             },
             {
                 path: 'purchase-order-voucher-relation',
