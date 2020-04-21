@@ -147,6 +147,12 @@
                         <span *ngIf="!leftMenuHidden">Attendance</span>
                     </a>
                 </li>
+                <li>
+                    <a class="dropdown-item" routerLink="over-time" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span>Over Time</span>
+                    </a>
+                </li>
             </ul>
         </li>
 

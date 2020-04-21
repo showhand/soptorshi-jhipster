@@ -753,6 +753,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'supply-zone-manager',
                 loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
+            },
+            {
+                path: 'over-time',
+                loadChildren: './over-time-extended/over-time-extended.module#SoptorshiOverTimeExtendedModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="overTime">
+            <h2><span>Over Time</span> {{overTime.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Over Time Date</span></dt>
+                <dd>
+                    <span>{{overTime.overTimeDate}}</span>
+                </dd>
+                <dt><span>From Time</span></dt>
+                <dd>
+                    <span>{{overTime.fromTime}}</span>
+                </dd>
+                <dt><span>To Time</span></dt>
+                <dd>
+                    <span>{{overTime.toTime}}</span>
+                </dd>
+                <dt><span>Duration</span></dt>
+                <dd>
+                    <span>{{overTime.duration}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{overTime.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{overTime.createdOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{overTime.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{overTime.updatedOn}}</span>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="overTime.employeeId">
+                        <a [routerLink]="['/employee', overTime.employeeId, 'view']">{{overTime.employeeFullName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <!--<button type="button"
+                    [routerLink]="['/over-time', overTime.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>-->
+        </div>
+    </div>
+</div>
