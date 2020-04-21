@@ -136,6 +136,9 @@ public class Employee implements Serializable {
     @Column(name = "bank_account_no")
     private String bankAccountNo;
 
+    @Column(name = "bank_name")
+    private String bankName;
+
     @ManyToOne
     @JsonIgnoreProperties("employees")
     private Department department;
@@ -508,6 +511,19 @@ public class Employee implements Serializable {
         this.bankAccountNo = bankAccountNo;
     }
 
+    public String getBankName() {
+        return bankName;
+    }
+
+    public Employee bankName(String bankName) {
+        this.bankName = bankName;
+        return this;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
     public Department getDepartment() {
         return department;
     }
@@ -599,6 +615,7 @@ public class Employee implements Serializable {
             ", photoContentType='" + getPhotoContentType() + "'" +
             ", hourlySalary=" + getHourlySalary() +
             ", bankAccountNo='" + getBankAccountNo() + "'" +
+            ", bankName='" + getBankName() + "'" +
             "}";
     }
 }

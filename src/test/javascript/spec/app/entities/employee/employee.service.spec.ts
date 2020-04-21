@@ -53,6 +53,7 @@ describe('Service Tests', () => {
                 'image/png',
                 'AAAAAAA',
                 0,
+                'AAAAAAA',
                 'AAAAAAA'
             );
         });
@@ -130,7 +131,8 @@ describe('Service Tests', () => {
                         userAccount: true,
                         photo: 'BBBBBB',
                         hourlySalary: 1,
-                        bankAccountNo: 'BBBBBB'
+                        bankAccountNo: 'BBBBBB',
+                        bankName: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -179,7 +181,8 @@ describe('Service Tests', () => {
                         userAccount: true,
                         photo: 'BBBBBB',
                         hourlySalary: 1,
-                        bankAccountNo: 'BBBBBB'
+                        bankAccountNo: 'BBBBBB',
+                        bankName: 'BBBBBB'
                     },
                     elemDefault
                 );

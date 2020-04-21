@@ -106,6 +106,8 @@ public class EmployeeCriteria implements Serializable {
 
     private StringFilter bankAccountNo;
 
+    private StringFilter bankName;
+
     private LongFilter departmentId;
 
     private LongFilter officeId;
@@ -320,6 +322,14 @@ public class EmployeeCriteria implements Serializable {
         this.bankAccountNo = bankAccountNo;
     }
 
+    public StringFilter getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(StringFilter bankName) {
+        this.bankName = bankName;
+    }
+
     public LongFilter getDepartmentId() {
         return departmentId;
     }
@@ -381,6 +391,7 @@ public class EmployeeCriteria implements Serializable {
             Objects.equals(userAccount, that.userAccount) &&
             Objects.equals(hourlySalary, that.hourlySalary) &&
             Objects.equals(bankAccountNo, that.bankAccountNo) &&
+            Objects.equals(bankName, that.bankName) &&
             Objects.equals(departmentId, that.departmentId) &&
             Objects.equals(officeId, that.officeId) &&
             Objects.equals(designationId, that.designationId);
@@ -415,6 +426,7 @@ public class EmployeeCriteria implements Serializable {
         userAccount,
         hourlySalary,
         bankAccountNo,
+        bankName,
         departmentId,
         officeId,
         designationId
@@ -450,6 +462,7 @@ public class EmployeeCriteria implements Serializable {
                 (userAccount != null ? "userAccount=" + userAccount + ", " : "") +
                 (hourlySalary != null ? "hourlySalary=" + hourlySalary + ", " : "") +
                 (bankAccountNo != null ? "bankAccountNo=" + bankAccountNo + ", " : "") +
+                (bankName != null ? "bankName=" + bankName + ", " : "") +
                 (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
                 (officeId != null ? "officeId=" + officeId + ", " : "") +
                 (designationId != null ? "designationId=" + designationId + ", " : "") +

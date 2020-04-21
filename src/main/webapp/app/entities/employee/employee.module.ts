@@ -16,14 +16,14 @@ const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /* declarations: [
+    declarations: [
         EmployeeComponent,
         EmployeeDetailComponent,
         EmployeeUpdateComponent,
         EmployeeDeleteDialogComponent,
         EmployeeDeletePopupComponent
     ],
-    entryComponents: [EmployeeComponent, EmployeeUpdateComponent, EmployeeDeleteDialogComponent, EmployeeDeletePopupComponent],*/
+    entryComponents: [EmployeeComponent, EmployeeUpdateComponent, EmployeeDeleteDialogComponent, EmployeeDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiEmployeeModule {}

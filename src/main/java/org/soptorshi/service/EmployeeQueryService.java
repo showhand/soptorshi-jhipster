@@ -168,6 +168,9 @@ public class EmployeeQueryService extends QueryService<Employee> {
             if (criteria.getBankAccountNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBankAccountNo(), Employee_.bankAccountNo));
             }
+            if (criteria.getBankName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBankName(), Employee_.bankName));
+            }
             if (criteria.getDepartmentId() != null) {
                 specification = specification.and(buildSpecification(criteria.getDepartmentId(),
                     root -> root.join(Employee_.department, JoinType.LEFT).get(Department_.id)));

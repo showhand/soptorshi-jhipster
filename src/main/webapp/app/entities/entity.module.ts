@@ -750,6 +750,10 @@ import { MatTabsModule } from '@angular/material';
                 path: 'purchase-order-voucher-relation',
                 loadChildren:
                     './purchase-order-voucher-relation-extended/purchase-order-voucher-relation-extended.module#SoptorshiPurchaseOrderVoucherRelationExtendedModule'
+            },
+            {
+                path: 'employee',
+                loadChildren: './employee/employee.module#SoptorshiEmployeeModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

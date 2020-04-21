@@ -56,6 +56,7 @@
             <th jhiSortBy="photo"><span>Photo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="hourlySalary"><span>Hourly Salary</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="bankAccountNo"><span>Bank Account No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="bankName"><span>Bank Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="departmentName"><span>Department</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="officeName"><span>Office</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="designationName"><span>Designation</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -96,6 +97,7 @@
                 </td>
                 <td>{{employee.hourlySalary}}</td>
                 <td>{{employee.bankAccountNo}}</td>
+                <td>{{employee.bankName}}</td>
                 <td>
                     <div *ngIf="employee.departmentId">
                         <a [routerLink]="['../department', employee.departmentId , 'view' ]" >{{employee.departmentName}}</a>

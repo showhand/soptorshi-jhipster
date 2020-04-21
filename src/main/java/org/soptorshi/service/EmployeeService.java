@@ -1,9 +1,6 @@
 package org.soptorshi.service;
 
-import org.soptorshi.domain.Designation;
 import org.soptorshi.domain.Employee;
-import org.soptorshi.domain.Office;
-import org.soptorshi.domain.enumeration.EmployeeStatus;
 import org.soptorshi.repository.EmployeeRepository;
 import org.soptorshi.repository.search.EmployeeSearchRepository;
 import org.soptorshi.service.dto.EmployeeDTO;
@@ -16,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -84,10 +80,6 @@ public class EmployeeService {
             .map(employeeMapper::toDto);
     }
 
-    @Transactional(readOnly = true)
-    public List<Employee> get(Long officeId, Long designationId, EmployeeStatus employeeStatus){
-        return employeeRepository.getByOffice_IdAndDesignation_IdAndEmployeeStatus(officeId, designationId, employeeStatus);
-    }
     /**
      * Delete the employee by id.
      *

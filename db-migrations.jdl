@@ -51,7 +51,7 @@ entity Employee {
   photo ImageBlob,
   hourlySalary BigDecimal,
   bankAccountNo String,
-  bankType String
+  bankName String
 }
 entity Attachment {
   file AnyBlob

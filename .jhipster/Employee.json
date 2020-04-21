@@ -149,6 +149,10 @@
         {
             "fieldName": "bankAccountNo",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "bankName",
+            "fieldType": "String"
         }
     ],
     "relationships": [

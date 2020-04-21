@@ -85,6 +85,8 @@ public class EmployeeDTO implements Serializable {
 
     private String bankAccountNo;
 
+    private String bankName;
+
 
     private Long departmentId;
 
@@ -322,6 +324,14 @@ public class EmployeeDTO implements Serializable {
         this.bankAccountNo = bankAccountNo;
     }
 
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
     public Long getDepartmentId() {
         return departmentId;
     }
@@ -421,6 +431,7 @@ public class EmployeeDTO implements Serializable {
             ", photo='" + getPhoto() + "'" +
             ", hourlySalary=" + getHourlySalary() +
             ", bankAccountNo='" + getBankAccountNo() + "'" +
+            ", bankName='" + getBankName() + "'" +
             ", department=" + getDepartmentId() +
             ", department='" + getDepartmentName() + "'" +
             ", office=" + getOfficeId() +
