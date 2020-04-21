@@ -37,6 +37,7 @@ export interface IRequisition {
     refToPurchaseCommittee?: number;
     cfoRemarks?: any;
     refToCfo?: number;
+    commercialId?: number;
     modifiedBy?: string;
     modifiedOn?: Moment;
     comments?: IRequisitionMessages[];
@@ -66,6 +67,7 @@ export class Requisition implements IRequisition {
         public refToPurchaseCommittee?: number,
         public cfoRemarks?: any,
         public refToCfo?: number,
+        public commercialId?: number,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
         public comments?: IRequisitionMessages[],

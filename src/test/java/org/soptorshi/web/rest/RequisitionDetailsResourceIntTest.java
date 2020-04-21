@@ -3,6 +3,7 @@ package org.soptorshi.web.rest;
 import org.soptorshi.SoptorshiApp;
 
 import org.soptorshi.domain.RequisitionDetails;
+import org.soptorshi.domain.ProductCategory;
 import org.soptorshi.domain.Requisition;
 import org.soptorshi.domain.Product;
 import org.soptorshi.repository.RequisitionDetailsRepository;
@@ -667,6 +668,25 @@ public class RequisitionDetailsResourceIntTest {
 
         // Get all the requisitionDetailsList where modifiedOn less than or equals to UPDATED_MODIFIED_ON
         defaultRequisitionDetailsShouldBeFound("modifiedOn.lessThan=" + UPDATED_MODIFIED_ON);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllRequisitionDetailsByProductCategoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        ProductCategory productCategory = ProductCategoryResourceIntTest.createEntity(em);
+        em.persist(productCategory);
+        em.flush();
+        requisitionDetails.setProductCategory(productCategory);
+        requisitionDetailsRepository.saveAndFlush(requisitionDetails);
+        Long productCategoryId = productCategory.getId();
+
+        // Get all the requisitionDetailsList where productCategory equals to productCategoryId
+        defaultRequisitionDetailsShouldBeFound("productCategoryId.equals=" + productCategoryId);
+
+        // Get all the requisitionDetailsList where productCategory equals to productCategoryId + 1
+        defaultRequisitionDetailsShouldNotBeFound("productCategoryId.equals=" + (productCategoryId + 1));
     }
 
 

@@ -50,7 +50,7 @@ export class ContraVoucherExtendedUpdateComponent extends ContraVoucherUpdateCom
             })
             .subscribe((response: HttpResponse<ICurrency[]>) => {
                 this.currencies = response.body;
-                if (!this.contraVoucher.currencyId == undefined) {
+                if (this.contraVoucher.currencyId === undefined) {
                     this.currencies.forEach((c: ICurrency) => {
                         if (c.flag == CurrencyFlag.BASE) {
                             this.contraVoucher.currencyId = c.id;

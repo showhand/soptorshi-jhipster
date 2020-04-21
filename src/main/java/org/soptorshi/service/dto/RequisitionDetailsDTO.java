@@ -29,6 +29,10 @@ public class RequisitionDetailsDTO implements Serializable {
     private LocalDate modifiedOn;
 
 
+    private Long productCategoryId;
+
+    private String productCategoryName;
+
     private Long requisitionId;
 
     private String requisitionRequisitionNo;
@@ -109,6 +113,22 @@ public class RequisitionDetailsDTO implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public Long getProductCategoryId() {
+        return productCategoryId;
+    }
+
+    public void setProductCategoryId(Long productCategoryId) {
+        this.productCategoryId = productCategoryId;
+    }
+
+    public String getProductCategoryName() {
+        return productCategoryName;
+    }
+
+    public void setProductCategoryName(String productCategoryName) {
+        this.productCategoryName = productCategoryName;
+    }
+
     public Long getRequisitionId() {
         return requisitionId;
     }
@@ -174,6 +194,8 @@ public class RequisitionDetailsDTO implements Serializable {
             ", quantity=" + getQuantity() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
+            ", productCategory=" + getProductCategoryId() +
+            ", productCategory='" + getProductCategoryName() + "'" +
             ", requisition=" + getRequisitionId() +
             ", requisition='" + getRequisitionRequisitionNo() + "'" +
             ", product=" + getProductId() +

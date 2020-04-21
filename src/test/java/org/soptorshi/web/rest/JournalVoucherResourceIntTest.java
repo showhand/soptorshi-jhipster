@@ -77,7 +77,7 @@ public class JournalVoucherResourceIntTest {
     private static final VoucherReferenceType UPDATED_REFERENCE = VoucherReferenceType.PURCHASE_ORDER;
 
     private static final ApplicationType DEFAULT_APPLICATION_TYPE = ApplicationType.REQUISITION;
-    private static final ApplicationType UPDATED_APPLICATION_TYPE = ApplicationType.PAY_ROLL;
+    private static final ApplicationType UPDATED_APPLICATION_TYPE = ApplicationType.PURCHASE_ORDER;
 
     private static final Long DEFAULT_APPLICATION_ID = 1L;
     private static final Long UPDATED_APPLICATION_ID = 2L;

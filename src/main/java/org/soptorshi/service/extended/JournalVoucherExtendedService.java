@@ -6,10 +6,7 @@ import org.soptorshi.domain.*;
 import org.soptorshi.domain.Currency;
 import org.soptorshi.domain.enumeration.*;
 import org.soptorshi.repository.*;
-import org.soptorshi.repository.extended.CurrencyExtendedRepository;
-import org.soptorshi.repository.extended.JournalVoucherExtendedRepository;
-import org.soptorshi.repository.extended.RequisitionVoucherRelationExtendedRepository;
-import org.soptorshi.repository.extended.SystemAccountMapExtendedRepository;
+import org.soptorshi.repository.extended.*;
 import org.soptorshi.repository.search.JournalVoucherSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.*;
@@ -31,20 +28,23 @@ import java.util.Optional;
 @Service
 @Transactional
 public class JournalVoucherExtendedService extends JournalVoucherService {
-    private JournalVoucherGeneratorRepository journalVoucherGeneratorRepository;
-    private DtTransactionQueryService dtTransactionQueryService;
-    private DtTransactionMapper dtTransactionMapper;
-    private DtTransactionRepository dtTransactionRepository;
-    private DtTransactionExtendedService dtTransactionService;
-    private CurrencyExtendedRepository currencyExtendedRepository;
-    private SalaryVoucherRelationRepository salaryVoucherRelationRepository;
-    private SystemAccountMapExtendedRepository systemAccountMapExtendedRepository;
-    private RequisitionVoucherRelationExtendedService requisitionVoucherRelationService;
-    private RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository;
-    private JournalVoucherExtendedRepository journalVoucherExtendedRepository;
-    private JournalVoucherMapper journalVoucherMapper;
 
-    public JournalVoucherExtendedService(JournalVoucherRepository journalVoucherRepository, JournalVoucherMapper journalVoucherMapper, JournalVoucherSearchRepository journalVoucherSearchRepository, JournalVoucherGeneratorRepository journalVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionService, CurrencyExtendedRepository currencyExtendedRepository, SalaryVoucherRelationRepository salaryVoucherRelationRepository, SystemAccountMapExtendedRepository systemAccountMapExtendedRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, JournalVoucherExtendedRepository journalVoucherExtendedRepository, JournalVoucherMapper journalVoucherMapper1) {
+    private final JournalVoucherGeneratorRepository journalVoucherGeneratorRepository;
+    private final DtTransactionQueryService dtTransactionQueryService;
+    private final DtTransactionMapper dtTransactionMapper;
+    private final DtTransactionRepository dtTransactionRepository;
+    private final DtTransactionExtendedService dtTransactionService;
+    private final CurrencyExtendedRepository currencyExtendedRepository;
+    private final SalaryVoucherRelationRepository salaryVoucherRelationRepository;
+    private final SystemAccountMapExtendedRepository systemAccountMapExtendedRepository;
+    private final RequisitionVoucherRelationExtendedService requisitionVoucherRelationService;
+    private final RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository;
+    private final JournalVoucherExtendedRepository journalVoucherExtendedRepository;
+    private final JournalVoucherMapper journalVoucherMapper;
+    private final PurchaseOrderVoucherRelationExtendedService purchaseOrderVoucherRelationExtendedService;
+    private final PurchaseOrderVoucherRelationExtendedRepository purchaseOrderVoucherRelationExtendedRepository;
+
+    public JournalVoucherExtendedService(JournalVoucherRepository journalVoucherRepository, JournalVoucherMapper journalVoucherMapper, JournalVoucherSearchRepository journalVoucherSearchRepository, JournalVoucherGeneratorRepository journalVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionService, CurrencyExtendedRepository currencyExtendedRepository, SalaryVoucherRelationRepository salaryVoucherRelationRepository, SystemAccountMapExtendedRepository systemAccountMapExtendedRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, JournalVoucherExtendedRepository journalVoucherExtendedRepository, JournalVoucherMapper journalVoucherMapper1, PurchaseOrderVoucherRelationExtendedService purchaseOrderVoucherRelationExtendedService, PurchaseOrderVoucherRelationExtendedRepository purchaseOrderVoucherRelationExtendedRepository) {
         super(journalVoucherRepository, journalVoucherMapper, journalVoucherSearchRepository);
         this.journalVoucherGeneratorRepository = journalVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
@@ -58,6 +58,8 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
         this.requisitionVoucherRelationExtendedRepository = requisitionVoucherRelationExtendedRepository;
         this.journalVoucherExtendedRepository = journalVoucherExtendedRepository;
         this.journalVoucherMapper = journalVoucherMapper1;
+        this.purchaseOrderVoucherRelationExtendedService = purchaseOrderVoucherRelationExtendedService;
+        this.purchaseOrderVoucherRelationExtendedRepository = purchaseOrderVoucherRelationExtendedRepository;
     }
 
     @Override
@@ -70,7 +72,7 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
             journalVoucherDTO.setVoucherNo(currentDate.getYear()+ "JN"+voucherNo);
         }
         journalVoucherDTO.setPostDate(journalVoucherDTO.getPostDate()!=null? LocalDate.now(): journalVoucherDTO.getPostDate());
-        journalVoucherDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
+        journalVoucherDTO.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
         journalVoucherDTO.setModifiedOn(LocalDate.now());
         journalVoucherDTO = super.save(journalVoucherDTO);
         if(journalVoucherDTO.getApplicationType()!=null) {
@@ -88,6 +90,12 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
                     journalVoucherDTO.getApplicationId(),
                     journalVoucherDTO.getId(),
                     "Journal Voucher");
+            }
+            else if(journalVoucherDTO.getApplicationType().equals(ApplicationType.PURCHASE_ORDER)){
+                    purchaseOrderVoucherRelationExtendedService.storePurchaseOrderVoucherRelation(journalVoucherDTO.getVoucherNo(),
+                        journalVoucherDTO.getApplicationId(),
+                        journalVoucherDTO.getId(),
+                        "Journal Voucher");
             }
         }
     }
@@ -107,7 +115,7 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
             t.setCurrencyId(journalVoucherDTO.getCurrencyId());
             t.setConvFactor(journalVoucherDTO.getConversionFactor());
             t.setPostDate(journalVoucherDTO.getPostDate());
-            t.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
+            t.setModifiedBy(SecurityUtils.getCurrentUserLogin().get());
             t.setModifiedOn(LocalDate.now());
         });
 
@@ -125,12 +133,20 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
     public void updateApplicationVoucherRelationAmount(ApplicationType applicationType, String voucherNo, List<DtTransactionDTO> transactionDTOS) {
             BigDecimal totalAmount = transactionDTOS.stream()
                 .filter(t->t.getBalanceType().equals(BalanceType.DEBIT))
-                .map(t->t.getAmount())
-                .reduce(BigDecimal.ZERO, (t1,t2)->t1.add(t2));
+                .map(DtTransactionDTO::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
             if(applicationType.equals(ApplicationType.REQUISITION)){
                 RequisitionVoucherRelation requisitionVoucherRelation = requisitionVoucherRelationExtendedRepository.findByVoucherNo(voucherNo);
                 requisitionVoucherRelation.setAmount(totalAmount);
                 requisitionVoucherRelationExtendedRepository.save(requisitionVoucherRelation);
+            }
+            else if(applicationType.equals(ApplicationType.PURCHASE_ORDER)){
+                if(purchaseOrderVoucherRelationExtendedRepository.existsByVoucherNo(voucherNo)){
+                    List<PurchaseOrderVoucherRelation> purchaseOrderVoucherRelations = purchaseOrderVoucherRelationExtendedRepository.findByVoucherNo(voucherNo);
+                    PurchaseOrderVoucherRelation purchaseOrderVoucherRelation = purchaseOrderVoucherRelations.get(0);
+                    purchaseOrderVoucherRelation.setAmount(totalAmount);
+                    purchaseOrderVoucherRelationExtendedRepository.save(purchaseOrderVoucherRelation);
+                }
             }
     }
 
@@ -151,7 +167,7 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
 
         BigDecimal totalAmount = monthlySalaries
             .stream()
-            .map(s->s.getGross())
+            .map(MonthlySalary::getGross)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         List<DtTransaction> voucherTransactions = new ArrayList<>();

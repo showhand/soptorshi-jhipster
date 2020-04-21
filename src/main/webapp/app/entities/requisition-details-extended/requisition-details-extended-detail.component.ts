@@ -8,4 +8,8 @@ import { RequisitionDetailsComponent, RequisitionDetailsDetailComponent } from '
     selector: 'jhi-requisition-details-extended-detail',
     templateUrl: './requisition-details-extended-detail.component.html'
 })
-export class RequisitionDetailsExtendedDetailComponent extends RequisitionDetailsDetailComponent {}
+export class RequisitionDetailsExtendedDetailComponent extends RequisitionDetailsDetailComponent {
+    constructor(protected activatedRoute: ActivatedRoute) {
+        super(activatedRoute);
+    }
+}

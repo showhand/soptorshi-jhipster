@@ -1,0 +1,50 @@
+{
+    "name": "PurchaseOrderVoucherRelation",
+    "fields": [
+        {
+            "fieldName": "voucherNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "createBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "voucher",
+            "otherEntityRelationshipName": "purchaseOrderVoucherRelation",
+            "relationshipName": "voucher",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "purchaseOrder",
+            "otherEntityRelationshipName": "purchaseOrderVoucherRelation",
+            "relationshipName": "purchaseOrder",
+            "otherEntityField": "purchaseOrderNo"
+        }
+    ],
+    "changelogDate": "20200420172325",
+    "entityTableName": "purchase_order_voucher_relation",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

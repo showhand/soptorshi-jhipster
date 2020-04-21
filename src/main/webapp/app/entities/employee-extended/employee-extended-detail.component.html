@@ -1,0 +1,149 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="employee">
+            <h2><span>Employee</span> {{employee.fullName}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <div class="row">
+                    <div class="col-6">
+                        <dt><span>Employee Id</span></dt>
+                        <dd>
+                            <span>{{employee.employeeId}}</span>
+                        </dd>
+                        <dt><span>Fathers Name</span></dt>
+                        <dd>
+                            <span>{{employee.fathersName}}</span>
+                        </dd>
+                        <dt><span>Mothers Name</span></dt>
+                        <dd>
+                            <span>{{employee.mothersName}}</span>
+                        </dd>
+                        <dt><span>Birth Date</span></dt>
+                        <dd>
+                            <span>{{employee.birthDate}}</span>
+                        </dd>
+                        <dt><span>Marital Status</span></dt>
+                        <dd>
+                            <span>{{employee.maritalStatus}}</span>
+                        </dd>
+                        <dt><span>Gender</span></dt>
+                        <dd>
+                            <span>{{employee.gender}}</span>
+                        </dd>
+                        <dt><span>Religion</span></dt>
+                        <dd>
+                            <span>{{employee.religion}}</span>
+                        </dd>
+                        <dt><span>Permanent Address</span></dt>
+                        <dd>
+                            <span>{{employee.permanentAddress}}</span>
+                        </dd>
+                        <dt><span>Present Address</span></dt>
+                        <dd>
+                            <span>{{employee.presentAddress}}</span>
+                        </dd>
+                        <dt><span>N Id</span></dt>
+                        <dd>
+                            <span>{{employee.nId}}</span>
+                        </dd>
+                        <dt><span>Tin</span></dt>
+                        <dd>
+                            <span>{{employee.tin}}</span>
+                        </dd>
+                        <dt><span>Contact Number</span></dt>
+                        <dd>
+                            <span>{{employee.contactNumber}}</span>
+                        </dd>
+                        <dt><span>Email</span></dt>
+                        <dd>
+                            <span>{{employee.email}}</span>
+                        </dd>
+                        <dt><span>Blood Group</span></dt>
+                        <dd>
+                            <span>{{employee.bloodGroup}}</span>
+                        </dd>
+                    </div>
+                    <div class="col-6">
+                        <dt><span>Emergency Contact</span></dt>
+                        <dd>
+                            <span>{{employee.emergencyContact}}</span>
+                        </dd>
+                        <dt><span>Joining Date</span></dt>
+                        <dd>
+                            <span>{{employee.joiningDate}}</span>
+                        </dd>
+                        <dt><span>Manager</span></dt>
+                        <dd>
+                            <span>{{employee.manager}}</span>
+                        </dd>
+                        <dt><span>Employee Status</span></dt>
+                        <dd>
+                            <span>{{employee.employeeStatus}}</span>
+                        </dd>
+                        <dt><span>Employment Type</span></dt>
+                        <dd>
+                            <span>{{employee.employmentType}}</span>
+                        </dd>
+                        <dt><span>Termination Date</span></dt>
+                        <dd>
+                            <span>{{employee.terminationDate}}</span>
+                        </dd>
+                        <dt><span>Reason Of Termination</span></dt>
+                        <dd>
+                            <span>{{employee.reasonOfTermination}}</span>
+                        </dd>
+                        <dt><span>User Account</span></dt>
+                        <dd>
+                            <span>{{employee.userAccount}}</span>
+                        </dd>
+                        <dt><span>Photo</span></dt>
+                        <dd>
+                            <div *ngIf="employee.photo">
+                                <a (click)="openFile(employee.photoContentType, employee.photo)">
+                                    <img [src]="'data:' + employee.photoContentType + ';base64,' + employee.photo" style="max-width: 100%;" alt="employee image" width="165" height="170"/>
+                                </a>
+                                {{employee.photoContentType}}, {{byteSize(employee.photo)}}
+                            </div>
+                        </dd>
+                        <dt><span>Department</span></dt>
+                        <dd>
+                            <div *ngIf="employee.departmentId">
+                                <span>{{employee.departmentName}}</span>
+                            </div>
+                        </dd>
+                        <dt><span>Office</span></dt>
+                        <dd>
+                            <div *ngIf="employee.officeId">
+                                <span>{{employee.officeName}}</span>
+                            </div>
+                        </dd>
+                        <dt><span>Designation</span></dt>
+                        <dd>
+                            <div *ngIf="employee.designationId">
+                                <span>{{employee.designationName}}</span>
+                            </div>
+                        </dd>
+                    </div>
+                </div>
+
+            </dl>
+            <div class="row">
+                <div class="col-12" align="right">
+                    <button type="submit"
+                            (click)="previousState()"
+                            class="btn btn-info">
+                        <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                    </button>
+
+                    <button type="button"
+                            [routerLink]="['/employee', employee.id, 'edit']"
+                            class="btn btn-primary">
+                        <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

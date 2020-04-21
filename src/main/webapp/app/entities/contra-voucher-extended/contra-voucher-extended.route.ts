@@ -4,7 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@a
 import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { ContraVoucher } from 'app/shared/model/contra-voucher.model';
 import { IContraVoucher } from 'app/shared/model/contra-voucher.model';
 import { ContraVoucherExtendedService } from 'app/entities/contra-voucher-extended/contra-voucher-extended.service';
@@ -26,6 +26,8 @@ export class ContraVoucherExtendedResolve implements Resolve<IContraVoucher> {
         const id = route.params['id'] ? route.params['id'] : null;
         const applicationType = route.params['applicationType'] ? route.params['applicationType'] : null;
         const applicationId = route.params['applicationId'] ? route.params['applicationId'] : null;
+        const voucherNo = route.params['voucherNo'] ? route.params['voucherNo'] : null;
+
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<ContraVoucher>) => response.ok),
@@ -36,6 +38,12 @@ export class ContraVoucherExtendedResolve implements Resolve<IContraVoucher> {
             contraVoucher.applicationId = applicationId;
             contraVoucher.applicationType = applicationType;
             return of(contraVoucher);
+        } else if (voucherNo) {
+            return this.service
+                .query({
+                    'voucherNo.equals': voucherNo
+                })
+                .pipe(switchMap(res => res.body));
         }
         return of(new ContraVoucher());
     }
@@ -92,7 +100,19 @@ export const contraVoucherExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':applicationTye/:applicationId/edit',
+        path: 'voucher-no/:voucherNo/edit',
+        component: ContraVoucherExtendedUpdateComponent,
+        resolve: {
+            contraVoucher: ContraVoucherExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'ContraVouchers'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':applicationType/:applicationId/new',
         component: ContraVoucherExtendedUpdateComponent,
         resolve: {
             contraVoucher: ContraVoucherExtendedResolve

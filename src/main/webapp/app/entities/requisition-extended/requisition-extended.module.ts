@@ -16,23 +16,27 @@ import {
 import { RequisitionDetailsExtendedDirectiveComponent } from 'app/entities/requisition-extended/requisition-details-extended-directive.component';
 import { QuotationForRequisitionComponent } from 'app/entities/requisition-extended/quotation-for-requisition.component';
 import { RequisitionMessagesDirectiveComponent } from 'app/entities/requisition-extended/requisition-messages-directive.component';
+import { CommercialInfoDirComponent } from './commercial-info-dir/commercial-info-dir.component';
+import { RequisitionInfoCommercialDirComponent } from './requisition-info-commercial-dir/requisition-info-commercial-dir.component';
 
 const ENTITY_STATES = [...requisitionExtendedRoute, ...requisitionExtendedPopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
-        RequisitionComponent,
+        /*     RequisitionComponent,
         RequisitionDetailComponent,
         RequisitionUpdateComponent,
         RequisitionExtendedComponent,
         RequisitionExtendedUpdateComponent,
-        RequisitionExtendedDetailComponent,
+        RequisitionExtendedDetailComponent,*/
         RequisitionDeleteDialogComponent,
-        RequisitionDeletePopupComponent,
+        RequisitionDeletePopupComponent /*,
         RequisitionDetailsExtendedDirectiveComponent,
         QuotationForRequisitionComponent,
-        RequisitionMessagesDirectiveComponent
+        RequisitionMessagesDirectiveComponent,
+        CommercialInfoDirComponent,
+        RequisitionInfoCommercialDirComponent*/
     ],
     entryComponents: [
         RequisitionExtendedComponent,

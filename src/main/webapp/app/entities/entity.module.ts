@@ -16,7 +16,7 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'employee',
-                loadChildren: './employee/employee.module#SoptorshiEmployeeModule'
+                loadChildren: './employee-extended/employee-extended.module#SoptorshiEmployeeModule'
             },
             {
                 path: 'attachment',
@@ -721,6 +721,35 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'supply-sales-representative',
                 loadChildren: './supply-sales-representative/supply-sales-representative.module#SoptorshiSupplySalesRepresentativeModule'
+            },
+            {
+                path: 'requisition',
+                loadChildren: './requisition/requisition.module#SoptorshiRequisitionModule'
+            },
+            {
+                path: 'requisition-details',
+                loadChildren: './requisition-details/requisition-details.module#SoptorshiRequisitionDetailsModule'
+            },
+            {
+                path: 'journal-voucher',
+                loadChildren: './journal-voucher/journal-voucher.module#SoptorshiJournalVoucherModule'
+            },
+            {
+                path: 'payment-voucher',
+                loadChildren: './payment-voucher/payment-voucher.module#SoptorshiPaymentVoucherModule'
+            },
+            {
+                path: 'receipt-voucher',
+                loadChildren: './receipt-voucher/receipt-voucher.module#SoptorshiReceiptVoucherModule'
+            },
+            {
+                path: 'contra-voucher',
+                loadChildren: './contra-voucher-extended/contra-voucher-extended.module#SoptorshiContraVoucherModule'
+            },
+            {
+                path: 'purchase-order-voucher-relation',
+                loadChildren:
+                    './purchase-order-voucher-relation-extended/purchase-order-voucher-relation-extended.module#SoptorshiPurchaseOrderVoucherRelationExtendedModule'
             },
             {
                 path: 'supply-area-manager',

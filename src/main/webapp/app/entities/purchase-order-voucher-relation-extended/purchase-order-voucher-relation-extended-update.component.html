@@ -1,0 +1,20 @@
+<div class="row justify-content-center">
+   <div class="col-md-4">
+       <jhi-purchase-order-extended-detail [purchaseOrderId]="purchaseOrderVoucherRelation.purchaseOrderId"></jhi-purchase-order-extended-detail>
+   </div>
+    <div class="col-md-4">
+        <h2>Voucher</h2>
+        <br/>
+        <ul>
+            <li><button type="button" id="new_journal_vouchers" class="btn btn-link" (click)="createJournalVoucher()">Create Journal Voucher</button><br/></li>
+            <li><button type="button" id="new_contra_vouchers" class="btn btn-link"  (click)="createContraVoucher()">Create Contra Voucher</button><br/></li>
+            <li><button type="button" id="new_receipt_vouchers" class="btn btn-link" (click)="createReceiptVoucher()">Create Receipt Voucher</button><br/></li>
+            <li><button type="button" id="new_payment_vouchers" class="btn btn-link" (click)="createPaymentVoucher()">Create Payment Voucher</button><br/></li>
+        </ul>
+    </div>
+</div>
+<div class="row justify-content-around">
+    <div class="col-md-8">
+        <button class="btn btn-danger" (click)="previousState()">Back</button>
+    </div>
+</div>

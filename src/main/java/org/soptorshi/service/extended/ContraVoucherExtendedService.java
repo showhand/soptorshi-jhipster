@@ -11,6 +11,7 @@ import org.soptorshi.repository.ContraVoucherGeneratorRepository;
 import org.soptorshi.repository.ContraVoucherRepository;
 import org.soptorshi.repository.DtTransactionRepository;
 import org.soptorshi.repository.extended.ContraVoucherExtendedRepository;
+import org.soptorshi.repository.extended.PurchaseOrderVoucherRelationExtendedRepository;
 import org.soptorshi.repository.extended.RequisitionExtendedRepository;
 import org.soptorshi.repository.extended.RequisitionVoucherRelationExtendedRepository;
 import org.soptorshi.repository.search.ContraVoucherSearchRepository;
@@ -35,17 +36,20 @@ import java.util.Optional;
 @Service
 @Transactional
 public class ContraVoucherExtendedService extends ContraVoucherService {
-    private ContraVoucherGeneratorRepository contraVoucherGeneratorRepository;
-    private DtTransactionQueryService dtTransactionQueryService;
-    private DtTransactionMapper dtTransactionMapper;
-    private DtTransactionRepository dtTransactionRepository;
-    private DtTransactionExtendedService dtTransactionExtendedService;
-    private RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository;
-    private RequisitionVoucherRelationExtendedService requisitionVoucherRelationService;
-    private ContraVoucherExtendedRepository contraVoucherExtendedRepository;
-    private ContraVoucherMapper contraVoucherMapper;
+    private final ContraVoucherGeneratorRepository contraVoucherGeneratorRepository;
+    private final DtTransactionQueryService dtTransactionQueryService;
+    private final DtTransactionMapper dtTransactionMapper;
+    private final DtTransactionRepository dtTransactionRepository;
+    private final DtTransactionExtendedService dtTransactionExtendedService;
+    private final RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository;
+    private final RequisitionVoucherRelationExtendedService requisitionVoucherRelationService;
+    private final ContraVoucherExtendedRepository contraVoucherExtendedRepository;
+    private final ContraVoucherMapper contraVoucherMapper;
+    private final PurchaseOrderVoucherRelationExtendedService purchaseOrderVoucherRelationExtendedService;
+    private final PurchaseOrderVoucherRelationExtendedRepository purchaseOrderVoucherRelationExtendedRepository;
+    private final JournalVoucherExtendedService journalVoucherExtendedService;
 
-    public ContraVoucherExtendedService(ContraVoucherRepository contraVoucherRepository, ContraVoucherMapper contraVoucherMapper, ContraVoucherSearchRepository contraVoucherSearchRepository, ContraVoucherGeneratorRepository contraVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, ContraVoucherExtendedRepository contraVoucherExtendedRepository, ContraVoucherMapper contraVoucherMapper1) {
+    public ContraVoucherExtendedService(ContraVoucherRepository contraVoucherRepository, ContraVoucherMapper contraVoucherMapper, ContraVoucherSearchRepository contraVoucherSearchRepository, ContraVoucherGeneratorRepository contraVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionMapper dtTransactionMapper, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, ContraVoucherExtendedRepository contraVoucherExtendedRepository, ContraVoucherMapper contraVoucherMapper1, PurchaseOrderVoucherRelationExtendedService purchaseOrderVoucherRelationExtendedService, PurchaseOrderVoucherRelationExtendedRepository purchaseOrderVoucherRelationExtendedRepository, JournalVoucherExtendedService journalVoucherExtendedService) {
         super(contraVoucherRepository, contraVoucherMapper, contraVoucherSearchRepository);
         this.contraVoucherGeneratorRepository = contraVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
@@ -56,6 +60,9 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
         this.requisitionVoucherRelationService = requisitionVoucherRelationService;
         this.contraVoucherExtendedRepository = contraVoucherExtendedRepository;
         this.contraVoucherMapper = contraVoucherMapper1;
+        this.purchaseOrderVoucherRelationExtendedService = purchaseOrderVoucherRelationExtendedService;
+        this.purchaseOrderVoucherRelationExtendedRepository = purchaseOrderVoucherRelationExtendedRepository;
+        this.journalVoucherExtendedService = journalVoucherExtendedService;
     }
 
     @Override
@@ -64,7 +71,8 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
             ContraVoucherGenerator contraVoucherGenerator = new ContraVoucherGenerator();
             contraVoucherGeneratorRepository.save(contraVoucherGenerator);
             String voucherNo = String.format("%06d", contraVoucherGenerator.getId());
-            contraVoucherDTO.setVoucherNo("CV"+voucherNo);
+
+            contraVoucherDTO.setVoucherNo(LocalDate.now().getYear()+ "CV"+voucherNo);
         }
         contraVoucherDTO.setPostDate(contraVoucherDTO.getPostDate()!=null? LocalDate.now(): contraVoucherDTO.getPostDate());
         updateTransactions(contraVoucherDTO);
@@ -84,6 +92,24 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
                     contraVOucherDTO.getApplicationId(),
                     contraVOucherDTO.getId(),
                     "Journal Voucher");
+            }
+
+            switch (contraVOucherDTO.getApplicationType()){
+                case REQUISITION:
+                    requisitionVoucherRelationService.storeRequisitionVoucherRelation(contraVOucherDTO.getVoucherNo(),
+                        contraVOucherDTO.getApplicationType(),
+                        contraVOucherDTO.getApplicationId(),
+                        contraVOucherDTO.getId(),
+                        "Contra Voucher");
+                    break;
+                case PURCHASE_ORDER:
+                    purchaseOrderVoucherRelationExtendedService.storePurchaseOrderVoucherRelation(
+                        contraVOucherDTO.getVoucherNo(),
+                        contraVOucherDTO.getApplicationId(),
+                        contraVOucherDTO.getId(),
+                        "Countra Voucher"
+                    );
+                    break;
             }
         }
     }
@@ -107,6 +133,8 @@ public class ContraVoucherExtendedService extends ContraVoucherService {
             t.setModifiedBy(SecurityUtils.getCurrentUserLogin().get().toString());
             t.setModifiedOn(LocalDate.now());
         });
+        if(contraVoucherDTO.getApplicationType()!=null)
+            this.journalVoucherExtendedService.updateApplicationVoucherRelationAmount(contraVoucherDTO.getApplicationType(), contraVoucherDTO.getVoucherNo(), transactionDTOS);
 
         List<DtTransaction> dtTransactions = dtTransactionMapper.toEntity(transactionDTOS);
         dtTransactions = dtTransactionRepository.saveAll(dtTransactions);

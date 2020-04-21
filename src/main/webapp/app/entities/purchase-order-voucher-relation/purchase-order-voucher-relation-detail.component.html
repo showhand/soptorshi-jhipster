@@ -1,0 +1,55 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="purchaseOrderVoucherRelation">
+            <h2><span>Purchase Order Voucher Relation</span> {{purchaseOrderVoucherRelation.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Voucher No</span></dt>
+                <dd>
+                    <span>{{purchaseOrderVoucherRelation.voucherNo}}</span>
+                </dd>
+                <dt><span>Amount</span></dt>
+                <dd>
+                    <span>{{purchaseOrderVoucherRelation.amount}}</span>
+                </dd>
+                <dt><span>Create By</span></dt>
+                <dd>
+                    <span>{{purchaseOrderVoucherRelation.createBy}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{purchaseOrderVoucherRelation.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{purchaseOrderVoucherRelation.modifiedOn}}</span>
+                </dd>
+                <dt><span>Voucher</span></dt>
+                <dd>
+                    <div *ngIf="purchaseOrderVoucherRelation.voucherId">
+                        <a [routerLink]="['/voucher', purchaseOrderVoucherRelation.voucherId, 'view']">{{purchaseOrderVoucherRelation.voucherName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Purchase Order</span></dt>
+                <dd>
+                    <div *ngIf="purchaseOrderVoucherRelation.purchaseOrderId">
+                        <a [routerLink]="['/purchase-order', purchaseOrderVoucherRelation.purchaseOrderId, 'view']">{{purchaseOrderVoucherRelation.purchaseOrderPurchaseOrderNo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/purchase-order-voucher-relation', purchaseOrderVoucherRelation.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

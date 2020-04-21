@@ -2,22 +2,14 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
-import {
-    EmployeeComponent,
-    EmployeeDetailComponent,
-    EmployeeUpdateComponent,
-    EmployeeDeletePopupComponent,
-    EmployeeDeleteDialogComponent,
-    employeeRoute,
-    employeePopupRoute
-} from './';
+import { EmployeeComponent, EmployeeDetailComponent, EmployeeUpdateComponent, employeeRoute, employeePopupRoute } from './';
 import { EmployeeManagementComponent } from 'app/entities/employee/employee-management.component';
 
 const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /* declarations: [
         EmployeeComponent,
         EmployeeDetailComponent,
         EmployeeUpdateComponent,
@@ -38,7 +30,7 @@ const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
         EmployeeDeleteDialogComponent,
         EmployeeDeletePopupComponent,
         EmployeeManagementComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiEmployeeModule {}

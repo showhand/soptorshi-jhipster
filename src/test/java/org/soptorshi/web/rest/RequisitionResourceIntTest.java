@@ -101,6 +101,9 @@ public class RequisitionResourceIntTest {
     private static final Long DEFAULT_REF_TO_CFO = 1L;
     private static final Long UPDATED_REF_TO_CFO = 2L;
 
+    private static final Long DEFAULT_COMMERCIAL_ID = 1L;
+    private static final Long UPDATED_COMMERCIAL_ID = 2L;
+
     private static final String DEFAULT_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_MODIFIED_BY = "BBBBBBBBBB";
 
@@ -179,6 +182,7 @@ public class RequisitionResourceIntTest {
             .refToPurchaseCommittee(DEFAULT_REF_TO_PURCHASE_COMMITTEE)
             .cfoRemarks(DEFAULT_CFO_REMARKS)
             .refToCfo(DEFAULT_REF_TO_CFO)
+            .commercialId(DEFAULT_COMMERCIAL_ID)
             .modifiedBy(DEFAULT_MODIFIED_BY)
             .modifiedOn(DEFAULT_MODIFIED_ON);
         return requisition;
@@ -218,6 +222,7 @@ public class RequisitionResourceIntTest {
         assertThat(testRequisition.getRefToPurchaseCommittee()).isEqualTo(DEFAULT_REF_TO_PURCHASE_COMMITTEE);
         assertThat(testRequisition.getCfoRemarks()).isEqualTo(DEFAULT_CFO_REMARKS);
         assertThat(testRequisition.getRefToCfo()).isEqualTo(DEFAULT_REF_TO_CFO);
+        assertThat(testRequisition.getCommercialId()).isEqualTo(DEFAULT_COMMERCIAL_ID);
         assertThat(testRequisition.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testRequisition.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
 
@@ -272,6 +277,7 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.[*].refToPurchaseCommittee").value(hasItem(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue())))
             .andExpect(jsonPath("$.[*].cfoRemarks").value(hasItem(DEFAULT_CFO_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].refToCfo").value(hasItem(DEFAULT_REF_TO_CFO.intValue())))
+            .andExpect(jsonPath("$.[*].commercialId").value(hasItem(DEFAULT_COMMERCIAL_ID.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }
@@ -300,6 +306,7 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.refToPurchaseCommittee").value(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue()))
             .andExpect(jsonPath("$.cfoRemarks").value(DEFAULT_CFO_REMARKS.toString()))
             .andExpect(jsonPath("$.refToCfo").value(DEFAULT_REF_TO_CFO.intValue()))
+            .andExpect(jsonPath("$.commercialId").value(DEFAULT_COMMERCIAL_ID.intValue()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
             .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
     }
@@ -765,6 +772,72 @@ public class RequisitionResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllRequisitionsByCommercialIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where commercialId equals to DEFAULT_COMMERCIAL_ID
+        defaultRequisitionShouldBeFound("commercialId.equals=" + DEFAULT_COMMERCIAL_ID);
+
+        // Get all the requisitionList where commercialId equals to UPDATED_COMMERCIAL_ID
+        defaultRequisitionShouldNotBeFound("commercialId.equals=" + UPDATED_COMMERCIAL_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByCommercialIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where commercialId in DEFAULT_COMMERCIAL_ID or UPDATED_COMMERCIAL_ID
+        defaultRequisitionShouldBeFound("commercialId.in=" + DEFAULT_COMMERCIAL_ID + "," + UPDATED_COMMERCIAL_ID);
+
+        // Get all the requisitionList where commercialId equals to UPDATED_COMMERCIAL_ID
+        defaultRequisitionShouldNotBeFound("commercialId.in=" + UPDATED_COMMERCIAL_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByCommercialIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where commercialId is not null
+        defaultRequisitionShouldBeFound("commercialId.specified=true");
+
+        // Get all the requisitionList where commercialId is null
+        defaultRequisitionShouldNotBeFound("commercialId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByCommercialIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where commercialId greater than or equals to DEFAULT_COMMERCIAL_ID
+        defaultRequisitionShouldBeFound("commercialId.greaterOrEqualThan=" + DEFAULT_COMMERCIAL_ID);
+
+        // Get all the requisitionList where commercialId greater than or equals to UPDATED_COMMERCIAL_ID
+        defaultRequisitionShouldNotBeFound("commercialId.greaterOrEqualThan=" + UPDATED_COMMERCIAL_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllRequisitionsByCommercialIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        requisitionRepository.saveAndFlush(requisition);
+
+        // Get all the requisitionList where commercialId less than or equals to DEFAULT_COMMERCIAL_ID
+        defaultRequisitionShouldNotBeFound("commercialId.lessThan=" + DEFAULT_COMMERCIAL_ID);
+
+        // Get all the requisitionList where commercialId less than or equals to UPDATED_COMMERCIAL_ID
+        defaultRequisitionShouldBeFound("commercialId.lessThan=" + UPDATED_COMMERCIAL_ID);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllRequisitionsByModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         requisitionRepository.saveAndFlush(requisition);
@@ -983,6 +1056,7 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.[*].refToPurchaseCommittee").value(hasItem(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue())))
             .andExpect(jsonPath("$.[*].cfoRemarks").value(hasItem(DEFAULT_CFO_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].refToCfo").value(hasItem(DEFAULT_REF_TO_CFO.intValue())))
+            .andExpect(jsonPath("$.[*].commercialId").value(hasItem(DEFAULT_COMMERCIAL_ID.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
 
@@ -1045,6 +1119,7 @@ public class RequisitionResourceIntTest {
             .refToPurchaseCommittee(UPDATED_REF_TO_PURCHASE_COMMITTEE)
             .cfoRemarks(UPDATED_CFO_REMARKS)
             .refToCfo(UPDATED_REF_TO_CFO)
+            .commercialId(UPDATED_COMMERCIAL_ID)
             .modifiedBy(UPDATED_MODIFIED_BY)
             .modifiedOn(UPDATED_MODIFIED_ON);
         RequisitionDTO requisitionDTO = requisitionMapper.toDto(updatedRequisition);
@@ -1071,6 +1146,7 @@ public class RequisitionResourceIntTest {
         assertThat(testRequisition.getRefToPurchaseCommittee()).isEqualTo(UPDATED_REF_TO_PURCHASE_COMMITTEE);
         assertThat(testRequisition.getCfoRemarks()).isEqualTo(UPDATED_CFO_REMARKS);
         assertThat(testRequisition.getRefToCfo()).isEqualTo(UPDATED_REF_TO_CFO);
+        assertThat(testRequisition.getCommercialId()).isEqualTo(UPDATED_COMMERCIAL_ID);
         assertThat(testRequisition.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testRequisition.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
 
@@ -1146,6 +1222,7 @@ public class RequisitionResourceIntTest {
             .andExpect(jsonPath("$.[*].refToPurchaseCommittee").value(hasItem(DEFAULT_REF_TO_PURCHASE_COMMITTEE.intValue())))
             .andExpect(jsonPath("$.[*].cfoRemarks").value(hasItem(DEFAULT_CFO_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].refToCfo").value(hasItem(DEFAULT_REF_TO_CFO.intValue())))
+            .andExpect(jsonPath("$.[*].commercialId").value(hasItem(DEFAULT_COMMERCIAL_ID.intValue())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
     }

@@ -18,11 +18,16 @@ export class RequisitionExtendedResolve {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IRequisition> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const commercialId = route.params['commercialId'] ? route.params['commercialId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<Requisition>) => response.ok),
                 map((requisition: HttpResponse<Requisition>) => requisition.body)
             );
+        } else if (commercialId) {
+            const requisition = new Requisition();
+            requisition.commercialId = commercialId;
+            return of(requisition);
         }
         return of(new Requisition());
     }
@@ -57,6 +62,18 @@ export const requisitionExtendedRoute: Routes = [
     },
     {
         path: 'new',
+        component: RequisitionExtendedUpdateComponent,
+        resolve: {
+            requisition: RequisitionExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Requisitions'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'commercial/:commercialId/new',
         component: RequisitionExtendedUpdateComponent,
         resolve: {
             requisition: RequisitionExtendedResolve

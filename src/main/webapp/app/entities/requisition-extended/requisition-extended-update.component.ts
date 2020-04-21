@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
 import { IRequisition, RequisitionStatus } from 'app/shared/model/requisition.model';
@@ -23,6 +23,10 @@ import { QuotationService } from 'app/entities/quotation';
 import { merge, Observable, Subject } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { RequisitionExtendedService } from 'app/entities/requisition-extended/requisition-extended.service';
+import { CommercialBudgetService } from 'app/entities/commercial-budget';
+import { CommercialProductInfoService } from 'app/entities/commercial-product-info';
+import { ICommercialBudget } from 'app/shared/model/commercial-budget.model';
+import { ICommercialProductInfo } from 'app/shared/model/commercial-product-info.model';
 
 @Component({
     selector: 'jhi-requisition-extended-update',
@@ -35,6 +39,9 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
     employees: IEmployee[];
 
     offices: IOffice[];
+
+    commercialBudget: ICommercialBudget;
+    commercialProductInfos: ICommercialProductInfo[];
 
     productcategories: IProductCategory[];
     productCategory: IProductCategory;
@@ -64,7 +71,9 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
         protected requisitionDetailsService: RequisitionDetailsService,
         protected quotationService: QuotationService,
         protected eventManager: JhiEventManager,
-        protected router: Router
+        protected router: Router,
+        private commercialBudgetService: CommercialBudgetService,
+        private commercialProductInfoService: CommercialProductInfoService
     ) {
         super(
             dataUtils,

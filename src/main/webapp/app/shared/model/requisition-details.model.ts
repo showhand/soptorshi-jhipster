@@ -17,6 +17,8 @@ export interface IRequisitionDetails {
     quantity?: number;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    productCategoryName?: string;
+    productCategoryId?: number;
     requisitionRequisitionNo?: string;
     requisitionId?: number;
     productName?: string;
@@ -34,6 +36,8 @@ export class RequisitionDetails implements IRequisitionDetails {
         public quantity?: number,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
+        public productCategoryName?: string,
+        public productCategoryId?: number,
         public requisitionRequisitionNo?: string,
         public requisitionId?: number,
         public productName?: string,

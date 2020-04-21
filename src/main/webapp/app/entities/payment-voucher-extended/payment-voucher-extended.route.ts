@@ -88,7 +88,7 @@ export const paymentVoucherExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':applicationType/:applicationId/edit',
+        path: ':applicationType/:applicationId/new',
         component: PaymentVoucherExtendedUpdateComponent,
         resolve: {
             paymentVoucher: PaymentVoucherExtendedResolve

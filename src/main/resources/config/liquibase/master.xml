@@ -107,6 +107,8 @@
     <include file="config/liquibase/changelog/20200131175037_added_entity_Weekend.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200415111602_added_entity_CommercialPaymentInfo.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200417153632_added_entity_SupplyZoneManager.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200420172325_added_entity_PurchaseOrderVoucherRelation.xml" relativeToChangelogFile="false"/>
+
     <include file="config/liquibase/changelog/20200421042444_added_entity_OverTime.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
 
@@ -189,6 +191,7 @@
     <include file="config/liquibase/changelog/20200110195953_added_entity_constraints_Production.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200415111602_added_entity_constraints_CommercialPaymentInfo.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200417153632_added_entity_constraints_SupplyZoneManager.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200420172325_added_entity_constraints_PurchaseOrderVoucherRelation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200421042444_added_entity_constraints_OverTime.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 
@@ -203,6 +206,11 @@
     <include file="config/liquibase/changelog/20200219180531_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200217184209_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200219053923_changelog.xml" relativeToChangelogFile="false"/>
+   <!-- <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>-->
+    <include file="config/liquibase/changelog/20200421024419_entity_requisitionCommercialIdAdded.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200421124231_changelog_product_category_added_requisition_details.xml" relativeToChangelogFile="false"/>
+
+
     <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

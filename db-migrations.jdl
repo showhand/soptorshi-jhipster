@@ -187,6 +187,7 @@ entity RequisitionVoucherRelation{
 entity PurchaseOrderVoucherRelation{
     voucherNo String,
     amount BigDecimal,
+    createBy String,
     modifiedBy String,
     modifiedOn LocalDate
 }
@@ -310,6 +311,7 @@ entity Requisition{
    refToPurchaseCommittee Long,
    cfoRemarks TextBlob,
    refToCfo Long,
+   commercialId Long,
    modifiedBy String,
    modifiedOn LocalDate
 }

@@ -119,7 +119,10 @@ jhipster:
             host: localhost
             port: 5000
             queue-size: 512
-
+        level:
+            .org:
+                hibernate:
+                    type=trace: true
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

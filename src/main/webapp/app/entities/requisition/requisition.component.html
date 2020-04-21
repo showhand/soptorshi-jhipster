@@ -43,6 +43,7 @@
             <th jhiSortBy="refToPurchaseCommittee"><span>Ref To Purchase Committee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="cfoRemarks"><span>Cfo Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="refToCfo"><span>Ref To Cfo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="commercialId"><span>Commercial Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -68,6 +69,7 @@
                 <td>{{requisition.refToPurchaseCommittee}}</td>
                 <td>{{requisition.cfoRemarks}}</td>
                 <td>{{requisition.refToCfo}}</td>
+                <td>{{requisition.commercialId}}</td>
                 <td>{{requisition.modifiedBy}}</td>
                 <td>{{requisition.modifiedOn | date:'mediumDate'}}</td>
                 <td>

@@ -110,6 +110,7 @@ export class RequisitionUpdateComponent implements OnInit {
     }
 
     protected onSaveSuccess() {
+        this.isSaving = false;
         this.previousState();
     }
 
