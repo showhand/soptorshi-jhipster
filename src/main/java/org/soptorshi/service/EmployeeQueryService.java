@@ -162,6 +162,12 @@ public class EmployeeQueryService extends QueryService<Employee> {
             if (criteria.getUserAccount() != null) {
                 specification = specification.and(buildSpecification(criteria.getUserAccount(), Employee_.userAccount));
             }
+            if (criteria.getHourlySalary() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getHourlySalary(), Employee_.hourlySalary));
+            }
+            if (criteria.getBankAccountNo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBankAccountNo(), Employee_.bankAccountNo));
+            }
             if (criteria.getDepartmentId() != null) {
                 specification = specification.and(buildSpecification(criteria.getDepartmentId(),
                     root -> root.join(Employee_.department, JoinType.LEFT).get(Department_.id)));

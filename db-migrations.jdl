@@ -48,7 +48,9 @@ entity Employee {
   terminationDate LocalDate,
   reasonOfTermination String,
   userAccount Boolean,
-  photo ImageBlob
+  photo ImageBlob,
+  hourlySalary BigDecimal,
+  bankAccountNo String
 }
 entity Attachment {
   file AnyBlob

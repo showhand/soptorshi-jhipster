@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -128,6 +129,12 @@ public class Employee implements Serializable {
 
     @Column(name = "photo_content_type")
     private String photoContentType;
+
+    @Column(name = "hourly_salary", precision = 10, scale = 2)
+    private BigDecimal hourlySalary;
+
+    @Column(name = "bank_account_no")
+    private String bankAccountNo;
 
     @ManyToOne
     @JsonIgnoreProperties("employees")
@@ -475,6 +482,32 @@ public class Employee implements Serializable {
         this.photoContentType = photoContentType;
     }
 
+    public BigDecimal getHourlySalary() {
+        return hourlySalary;
+    }
+
+    public Employee hourlySalary(BigDecimal hourlySalary) {
+        this.hourlySalary = hourlySalary;
+        return this;
+    }
+
+    public void setHourlySalary(BigDecimal hourlySalary) {
+        this.hourlySalary = hourlySalary;
+    }
+
+    public String getBankAccountNo() {
+        return bankAccountNo;
+    }
+
+    public Employee bankAccountNo(String bankAccountNo) {
+        this.bankAccountNo = bankAccountNo;
+        return this;
+    }
+
+    public void setBankAccountNo(String bankAccountNo) {
+        this.bankAccountNo = bankAccountNo;
+    }
+
     public Department getDepartment() {
         return department;
     }
@@ -564,6 +597,8 @@ public class Employee implements Serializable {
             ", userAccount='" + isUserAccount() + "'" +
             ", photo='" + getPhoto() + "'" +
             ", photoContentType='" + getPhotoContentType() + "'" +
+            ", hourlySalary=" + getHourlySalary() +
+            ", bankAccountNo='" + getBankAccountNo() + "'" +
             "}";
     }
 }

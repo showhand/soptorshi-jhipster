@@ -2,6 +2,7 @@ package org.soptorshi.service.dto;
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Lob;
 import org.soptorshi.domain.enumeration.MaritalStatus;
@@ -80,6 +81,10 @@ public class EmployeeDTO implements Serializable {
     private byte[] photo;
 
     private String photoContentType;
+    private BigDecimal hourlySalary;
+
+    private String bankAccountNo;
+
 
     private Long departmentId;
 
@@ -301,6 +306,22 @@ public class EmployeeDTO implements Serializable {
         this.photoContentType = photoContentType;
     }
 
+    public BigDecimal getHourlySalary() {
+        return hourlySalary;
+    }
+
+    public void setHourlySalary(BigDecimal hourlySalary) {
+        this.hourlySalary = hourlySalary;
+    }
+
+    public String getBankAccountNo() {
+        return bankAccountNo;
+    }
+
+    public void setBankAccountNo(String bankAccountNo) {
+        this.bankAccountNo = bankAccountNo;
+    }
+
     public Long getDepartmentId() {
         return departmentId;
     }
@@ -398,6 +419,8 @@ public class EmployeeDTO implements Serializable {
             ", reasonOfTermination='" + getReasonOfTermination() + "'" +
             ", userAccount='" + isUserAccount() + "'" +
             ", photo='" + getPhoto() + "'" +
+            ", hourlySalary=" + getHourlySalary() +
+            ", bankAccountNo='" + getBankAccountNo() + "'" +
             ", department=" + getDepartmentId() +
             ", department='" + getDepartmentName() + "'" +
             ", office=" + getOfficeId() +

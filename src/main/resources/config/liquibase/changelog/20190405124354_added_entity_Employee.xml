@@ -121,6 +121,14 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="hourly_salary" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="bank_account_no" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="department_id" type="bigint">
                 <constraints nullable="true" />
             </column>

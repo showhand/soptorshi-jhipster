@@ -141,6 +141,14 @@
             "fieldName": "photo",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "hourlySalary",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "bankAccountNo",
+            "fieldType": "String"
         }
     ],
     "relationships": [
