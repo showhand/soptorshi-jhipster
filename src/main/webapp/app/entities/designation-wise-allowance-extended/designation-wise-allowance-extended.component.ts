@@ -23,15 +23,7 @@ export class DesignationWiseAllowanceExtendedComponent extends DesignationWiseAl
         protected accountService: AccountService,
         public designationService: DesignationService
     ) {
-        super(
-            designationWiseAllowanceService,
-            jhiAlertService,
-            eventManager,
-            parseLinks,
-            activatedRoute,
-            accountService,
-            designationService
-        );
+        super(designationWiseAllowanceService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
     }
 
     loadAll() {

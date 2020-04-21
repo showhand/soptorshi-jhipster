@@ -16,7 +16,7 @@ const ENTITY_STATES = [...designationWiseAllowanceRoute, ...designationWiseAllow
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
+    /*declarations: [
         DesignationWiseAllowanceComponent,
         DesignationWiseAllowanceDetailComponent,
         DesignationWiseAllowanceUpdateComponent,
@@ -29,6 +29,7 @@ const ENTITY_STATES = [...designationWiseAllowanceRoute, ...designationWiseAllow
         DesignationWiseAllowanceDeleteDialogComponent,
         DesignationWiseAllowanceDeletePopupComponent
     ],
+    exports: [DesignationWiseAllowanceComponent],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiDesignationWiseAllowanceModule {}

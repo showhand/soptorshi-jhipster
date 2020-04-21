@@ -136,6 +136,7 @@ entity MonthlySalary {
   gross BigDecimal required,
   houseRent BigDecimal,
   medicalAllowance BigDecimal,
+  overTimeAllowance BigDecimal,
   foodAllowance BigDecimal,
   arrearAllowance BigDecimal,
   driverAllowance BigDecimal,

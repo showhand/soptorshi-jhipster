@@ -18,11 +18,8 @@ import { DesignationWiseAllowanceExtendedDetailsComponent } from 'app/entities/d
 import { DesignationWiseAllowanceExtendedUpdateComponent } from 'app/entities/designation-wise-allowance-extended/designation-wise-allowance-extended-update.component';
 
 @Injectable({ providedIn: 'root' })
-export class DesignationWiseAllowanceExtendedResolve extends DesignationWiseAllowanceResolve {
-    constructor(public service: DesignationWiseAllowanceService) {
-        super(service);
-    }
-
+export class DesignationWiseAllowanceExtendedResolve {
+    constructor(public service: DesignationWiseAllowanceService) {}
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IDesignationWiseAllowance> {
         const id = route.params['id'] ? route.params['id'] : null;
         const designation = route.params['designation'] ? route.params['designation'] : null;

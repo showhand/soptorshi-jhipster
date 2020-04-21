@@ -23,7 +23,7 @@ export class DesignationWiseAllowanceExtendedUpdateComponent extends Designation
         protected accountService: AccountService,
         protected router: Router
     ) {
-        super(jhiAlertService, designationWiseAllowanceService, designationService, activatedRoute, accountService, router);
+        super(jhiAlertService, designationWiseAllowanceService, designationService, activatedRoute);
     }
 
     ngOnInit() {

@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -49,6 +51,7 @@ public class DesignationWiseAllowanceService {
         DesignationWiseAllowance designationWiseAllowance = designationWiseAllowanceMapper.toEntity(designationWiseAllowanceDTO);
         designationWiseAllowance = designationWiseAllowanceRepository.save(designationWiseAllowance);
         DesignationWiseAllowanceDTO result = designationWiseAllowanceMapper.toDto(designationWiseAllowance);
+        designationWiseAllowance.setModifiedOn(LocalDate.now());
         designationWiseAllowanceSearchRepository.save(designationWiseAllowance);
         return result;
     }
@@ -78,6 +81,10 @@ public class DesignationWiseAllowanceService {
         log.debug("Request to get DesignationWiseAllowance : {}", id);
         return designationWiseAllowanceRepository.findById(id)
             .map(designationWiseAllowanceMapper::toDto);
+    }
+
+    public List<DesignationWiseAllowance> get(Long designationId){
+        return designationWiseAllowanceRepository.getByDesignation_Id(designationId);
     }
 
     /**
