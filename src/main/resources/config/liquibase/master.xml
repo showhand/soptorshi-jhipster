@@ -207,6 +207,8 @@
    <!-- <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>-->
     <include file="config/liquibase/changelog/20200421024419_entity_requisitionCommercialIdAdded.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200421124231_changelog_product_category_added_requisition_details.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200421182929_employee_refactored.xml" relativeToChangelogFile="false"/>
+
 
 
 

@@ -13,4 +13,9 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="monju (generated)" id="1587494398499-2">
+        <addColumn tableName="employee">
+            <column name="bank_name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

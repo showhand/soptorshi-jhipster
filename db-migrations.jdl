@@ -136,6 +136,12 @@ entity MonthlySalary {
   gross BigDecimal required,
   houseRent BigDecimal,
   medicalAllowance BigDecimal,
+  foodAllowance BigDecimal,
+  arrearAllowance BigDecimal,
+  driverAllowance BigDecimal,
+  fuelLubAllowance BigDecimal,
+  mobileAllowance BigDecimal,
+  travelAllowance BigDecimal,
   otherAllowance BigDecimal,
   festivalAllowance BigDecimal,
   absent Integer,
@@ -886,6 +892,13 @@ enum AllowanceType {
   MEDICAL_ALLOWANCE,
   FESTIVAL_BONUS,
   OVERTIME_ALLOWANCE,
+  FOOD_ALLOWANCE,
+  DRIVER_ALLOWANCE,
+  FUEL_LUB_ALLOWANCE,
+  TRAVEL_ALLOWANCE,
+  CONV_ALLOWANCE,
+  MOBILE_ALLOWANCE,
+  ARREAR_ALLOWANCE,
   OTHER_ALLOWANCE
 }
 

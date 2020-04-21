@@ -58,10 +58,7 @@ export class EmployeeExtendedUpdateComponent extends EmployeeUpdateComponent imp
             officeService,
             designationService,
             elementRef,
-            activatedRoute,
-            userService,
-            modalService,
-            router
+            activatedRoute
         );
     }
 

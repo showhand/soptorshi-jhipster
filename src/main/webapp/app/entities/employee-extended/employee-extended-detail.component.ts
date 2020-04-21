@@ -29,7 +29,7 @@ export class EmployeeExtendedDetailComponent extends EmployeeDetailComponent imp
         protected designationService: DesignationService,
         protected officeService: OfficeService
     ) {
-        super(dataUtils, activatedRoute, departmentService, designationService, officeService);
+        super(dataUtils, activatedRoute);
     }
 
     ngOnInit() {
