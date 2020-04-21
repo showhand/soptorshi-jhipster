@@ -34,6 +34,7 @@ import {
 import { TermsAndConditionsForPurchaseOrder } from 'app/entities/purchase-order-extended/terms-and-conditions-for-purchase-order';
 import { PurchaseOrderMessagesExtendedDirectiveComponent } from 'app/entities/purchase-order-extended/purchase-order-messages-extended-directive.component';
 import { PurchaseOrderRequisitionVoucherRelation } from 'app/entities/purchase-order-extended/purchase-order-requisition-voucher-relation.component';
+import { PurchaseOrderExtendedRequisitionDirectiveComponent } from 'app/entities/purchase-order-extended/purchase-order-extended-requisition-directive.component';
 
 @NgModule({
     imports: [SoptorshiSharedLibsModule, SoptorshiSharedCommonModule, RouterModule],
@@ -60,7 +61,8 @@ import { PurchaseOrderRequisitionVoucherRelation } from 'app/entities/purchase-o
         PurchaseOrderDeletePopupComponent,
         TermsAndConditionsForPurchaseOrder,
         PurchaseOrderMessagesExtendedDirectiveComponent,
-        PurchaseOrderRequisitionVoucherRelation
+        PurchaseOrderRequisitionVoucherRelation,
+        PurchaseOrderExtendedRequisitionDirectiveComponent
     ],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
@@ -86,7 +88,8 @@ import { PurchaseOrderRequisitionVoucherRelation } from 'app/entities/purchase-o
         PurchaseOrderDeletePopupComponent,
         TermsAndConditionsForPurchaseOrder,
         PurchaseOrderMessagesExtendedDirectiveComponent,
-        PurchaseOrderRequisitionVoucherRelation
+        PurchaseOrderRequisitionVoucherRelation,
+        PurchaseOrderExtendedRequisitionDirectiveComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

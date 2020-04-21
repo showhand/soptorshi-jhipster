@@ -1,0 +1,38 @@
+<div class="row justify-content-center">
+    <div class="col-md-12"><h2>Commercial Budget</h2></div>
+    <div class="col-md-12">
+        <dl class="row-md jh-entity-details">
+            <dt><span>Budget No</span></dt>
+            <dd><span>{{commercialBudget.budgetNo}}</span></dd>
+
+            <dt><span>Commercial Order Category</span></dt>
+            <dd><span>{{commercialBudget.type}}</span></dd>
+
+            <dt><span>Customer Category</span></dt>
+            <dd><span>{{commercialBudget.customer}}</span></dd>
+
+            <dt><span>Company Name</span></dt>
+            <dd><span>{{commercialBudget.companyName}}</span></dd>
+
+            <dt><span>Budget Date</span></dt>
+            <dd><span>{{commercialBudget.budgetDate | date: 'mediumDate'}}</span></dd>
+
+            <dt><span>Quantity</span></dt>
+            <dd><span>{{commercialBudget.totalQuantity}}</span></dd>
+
+            <dt><span>Offered Price</span></dt>
+            <dd><span>{{commercialBudget.totalOfferedPrice | currency: ' '}}</span></dd>
+
+            <dt><span>Total Buying Price</span></dt>
+            <dd><span>{{commercialBudget.totalBuyingPrice | currency: ' '}}</span></dd>
+        </dl>
+    </div>
+    <div class="col-md-12">Products</div>
+    <div class="col-md-12">
+        <ul>
+            <li *ngFor="let p of commercialProductInfos">
+                {{p.taskNo}} - {{p.productCategoriesName}} - {{p.productCategoriesName}} - {{p.offeredUnit}} x {{p.offeredUnitPrice}} = {{p.offeredTotalPrice}}
+            </li>
+        </ul>
+    </div>
+</div>

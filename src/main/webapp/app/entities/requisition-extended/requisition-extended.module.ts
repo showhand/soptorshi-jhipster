@@ -16,6 +16,8 @@ import {
 import { RequisitionDetailsExtendedDirectiveComponent } from 'app/entities/requisition-extended/requisition-details-extended-directive.component';
 import { QuotationForRequisitionComponent } from 'app/entities/requisition-extended/quotation-for-requisition.component';
 import { RequisitionMessagesDirectiveComponent } from 'app/entities/requisition-extended/requisition-messages-directive.component';
+import { CommercialInfoDirComponent } from './commercial-info-dir/commercial-info-dir.component';
+import { RequisitionInfoCommercialDirComponent } from './requisition-info-commercial-dir/requisition-info-commercial-dir.component';
 
 const ENTITY_STATES = [...requisitionExtendedRoute, ...requisitionExtendedPopupRoute];
 
@@ -32,7 +34,9 @@ const ENTITY_STATES = [...requisitionExtendedRoute, ...requisitionExtendedPopupR
         RequisitionDeletePopupComponent,
         RequisitionDetailsExtendedDirectiveComponent,
         QuotationForRequisitionComponent,
-        RequisitionMessagesDirectiveComponent
+        RequisitionMessagesDirectiveComponent,
+        CommercialInfoDirComponent,
+        RequisitionInfoCommercialDirComponent
     ],
     entryComponents: [
         RequisitionExtendedComponent,
