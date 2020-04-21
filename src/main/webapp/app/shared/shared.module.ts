@@ -19,11 +19,17 @@ import {
 } from 'app/entities/purchase-order-voucher-relation-extended';
 import { RouterModule } from '@angular/router';
 import { PURCHASE_ORDER_VOUCHER_RELATION_ENTITY_STATES } from 'app/entities/purchase-order-voucher-relation-extended/purchase-order-voucher-relation-extended.module';
+
 import {
+    // @ts-ignore
     PurchaseOrderComponent,
+    // @ts-ignore
     PurchaseOrderDeleteDialogComponent,
+    // @ts-ignore
     PurchaseOrderDeletePopupComponent,
+    // @ts-ignore
     PurchaseOrderDetailComponent,
+    // @ts-ignore
     PurchaseOrderUpdateComponent
 } from 'app/entities/purchase-order';
 import {
@@ -35,6 +41,17 @@ import { TermsAndConditionsForPurchaseOrder } from 'app/entities/purchase-order-
 import { PurchaseOrderMessagesExtendedDirectiveComponent } from 'app/entities/purchase-order-extended/purchase-order-messages-extended-directive.component';
 import { PurchaseOrderRequisitionVoucherRelation } from 'app/entities/purchase-order-extended/purchase-order-requisition-voucher-relation.component';
 import { PurchaseOrderExtendedRequisitionDirectiveComponent } from 'app/entities/purchase-order-extended/purchase-order-extended-requisition-directive.component';
+import { RequisitionComponent, RequisitionDetailComponent, RequisitionUpdateComponent } from 'app/entities/requisition';
+import {
+    RequisitionExtendedComponent,
+    RequisitionExtendedDetailComponent,
+    RequisitionExtendedUpdateComponent
+} from 'app/entities/requisition-extended';
+import { RequisitionDetailsExtendedDirectiveComponent } from 'app/entities/requisition-extended/requisition-details-extended-directive.component';
+import { QuotationForRequisitionComponent } from 'app/entities/requisition-extended/quotation-for-requisition.component';
+import { RequisitionMessagesDirectiveComponent } from 'app/entities/requisition-extended/requisition-messages-directive.component';
+import { CommercialInfoDirComponent } from 'app/entities/requisition-extended/commercial-info-dir/commercial-info-dir.component';
+import { RequisitionInfoCommercialDirComponent } from 'app/entities/requisition-extended/requisition-info-commercial-dir/requisition-info-commercial-dir.component';
 
 @NgModule({
     imports: [SoptorshiSharedLibsModule, SoptorshiSharedCommonModule, RouterModule],
@@ -62,7 +79,18 @@ import { PurchaseOrderExtendedRequisitionDirectiveComponent } from 'app/entities
         TermsAndConditionsForPurchaseOrder,
         PurchaseOrderMessagesExtendedDirectiveComponent,
         PurchaseOrderRequisitionVoucherRelation,
-        PurchaseOrderExtendedRequisitionDirectiveComponent
+        PurchaseOrderExtendedRequisitionDirectiveComponent,
+        RequisitionComponent,
+        RequisitionDetailComponent,
+        RequisitionUpdateComponent,
+        RequisitionExtendedComponent,
+        RequisitionExtendedUpdateComponent,
+        RequisitionExtendedDetailComponent,
+        RequisitionDetailsExtendedDirectiveComponent,
+        QuotationForRequisitionComponent,
+        RequisitionMessagesDirectiveComponent,
+        CommercialInfoDirComponent,
+        RequisitionInfoCommercialDirComponent
     ],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
@@ -89,7 +117,18 @@ import { PurchaseOrderExtendedRequisitionDirectiveComponent } from 'app/entities
         TermsAndConditionsForPurchaseOrder,
         PurchaseOrderMessagesExtendedDirectiveComponent,
         PurchaseOrderRequisitionVoucherRelation,
-        PurchaseOrderExtendedRequisitionDirectiveComponent
+        PurchaseOrderExtendedRequisitionDirectiveComponent,
+        RequisitionComponent,
+        RequisitionDetailComponent,
+        RequisitionUpdateComponent,
+        RequisitionExtendedComponent,
+        RequisitionExtendedUpdateComponent,
+        RequisitionExtendedDetailComponent,
+        RequisitionDetailsExtendedDirectiveComponent,
+        QuotationForRequisitionComponent,
+        RequisitionMessagesDirectiveComponent,
+        CommercialInfoDirComponent,
+        RequisitionInfoCommercialDirComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
