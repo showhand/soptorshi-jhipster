@@ -44,6 +44,8 @@ public class RequisitionDTO implements Serializable {
 
     private Long refToCfo;
 
+    private Long commercialId;
+
     private String modifiedBy;
 
     private LocalDate modifiedOn;
@@ -177,6 +179,14 @@ public class RequisitionDTO implements Serializable {
         this.refToCfo = refToCfo;
     }
 
+    public Long getCommercialId() {
+        return commercialId;
+    }
+
+    public void setCommercialId(Long commercialId) {
+        this.commercialId = commercialId;
+    }
+
     public String getModifiedBy() {
         return modifiedBy;
     }
@@ -295,6 +305,7 @@ public class RequisitionDTO implements Serializable {
             ", refToPurchaseCommittee=" + getRefToPurchaseCommittee() +
             ", cfoRemarks='" + getCfoRemarks() + "'" +
             ", refToCfo=" + getRefToCfo() +
+            ", commercialId=" + getCommercialId() +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
             ", employee=" + getEmployeeId() +

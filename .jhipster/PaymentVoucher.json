@@ -16,7 +16,7 @@
         {
             "fieldName": "applicationType",
             "fieldType": "ApplicationType",
-            "fieldValues": "REQUISITION,PAY_ROLL"
+            "fieldValues": "REQUISITION,PURCHASE_ORDER,PAY_ROLL"
         },
         {
             "fieldName": "applicationId",

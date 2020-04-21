@@ -16,7 +16,7 @@ const ENTITY_STATES = [...requisitionDetailsRoute, ...requisitionDetailsPopupRou
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    /*   declarations: [
+    declarations: [
         RequisitionDetailsComponent,
         RequisitionDetailsDetailComponent,
         RequisitionDetailsUpdateComponent,
@@ -28,7 +28,7 @@ const ENTITY_STATES = [...requisitionDetailsRoute, ...requisitionDetailsPopupRou
         RequisitionDetailsUpdateComponent,
         RequisitionDetailsDeleteDialogComponent,
         RequisitionDetailsDeletePopupComponent
-    ],*/
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiRequisitionDetailsModule {}

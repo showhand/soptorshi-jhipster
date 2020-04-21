@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="requisitionDetails">
-            <h2><span>Requisition Details</span> {{requisitionDetails.requisitionRequisitionNo}}</h2>
+            <h2><span>Requisition Details</span> {{requisitionDetails.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -29,14 +29,14 @@
                 <dd>
                     <span>{{requisitionDetails.quantity}}</span>
                 </dd>
-                <!--<dt><span>Modified By</span></dt>
+                <dt><span>Modified By</span></dt>
                 <dd>
                     <span>{{requisitionDetails.modifiedBy}}</span>
                 </dd>
                 <dt><span>Modified On</span></dt>
                 <dd>
                     <span>{{requisitionDetails.modifiedOn}}</span>
-                </dd>-->
+                </dd>
                 <dt><span>Requisition</span></dt>
                 <dd>
                     <div *ngIf="requisitionDetails.requisitionId">

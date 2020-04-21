@@ -40,6 +40,7 @@ describe('Service Tests', () => {
                 0,
                 'AAAAAAA',
                 0,
+                0,
                 'AAAAAAA',
                 currentDate
             );
@@ -103,6 +104,7 @@ describe('Service Tests', () => {
                         refToPurchaseCommittee: 1,
                         cfoRemarks: 'BBBBBB',
                         refToCfo: 1,
+                        commercialId: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },
@@ -140,6 +142,7 @@ describe('Service Tests', () => {
                         refToPurchaseCommittee: 1,
                         cfoRemarks: 'BBBBBB',
                         refToCfo: 1,
+                        commercialId: 1,
                         modifiedBy: 'BBBBBB',
                         modifiedOn: currentDate.format(DATE_FORMAT)
                     },

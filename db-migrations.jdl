@@ -310,6 +310,7 @@ entity Requisition{
    refToPurchaseCommittee Long,
    cfoRemarks TextBlob,
    refToCfo Long,
+   commercialId Long,
    modifiedBy String,
    modifiedOn LocalDate
 }
@@ -914,7 +915,6 @@ relationship ManyToOne {
   PurchaseOrderVoucherRelation{voucher(name)} to Voucher,
   PurchaseOrderVoucherRelation{purchaseOrder(purchaseOrderNo)} to PurchaseOrder,
   Requisition{productCategory(name)} to ProductCategory,
-  RequisitionDetails{productCategory(name)} to ProductCategory,
   Requisition{department(name)} to Department,
   Quotation{requisition(requisitionNo)} to Requisition,
   QuotationDetails{quotation(quotationNo)} to Quotation,

@@ -30,16 +30,7 @@ export class RequisitionDetailsExtendedComponent extends RequisitionDetailsCompo
         protected eventManager: JhiEventManager,
         protected requisitionService: RequisitionService
     ) {
-        super(
-            requisitionDetailsService,
-            parseLinks,
-            jhiAlertService,
-            accountService,
-            activatedRoute,
-            router,
-            eventManager,
-            requisitionService
-        );
+        super(requisitionDetailsService, parseLinks, jhiAlertService, accountService, activatedRoute, router, eventManager);
     }
 
     loadAll() {

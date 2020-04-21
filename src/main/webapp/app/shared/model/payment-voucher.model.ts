@@ -2,6 +2,7 @@ import { Moment } from 'moment';
 
 export const enum ApplicationType {
     REQUISITION = 'REQUISITION',
+    PURCHASE_ORDER = 'PURCHASE_ORDER',
     PAY_ROLL = 'PAY_ROLL'
 }
 

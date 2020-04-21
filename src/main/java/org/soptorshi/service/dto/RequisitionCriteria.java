@@ -56,6 +56,8 @@ public class RequisitionCriteria implements Serializable {
 
     private LongFilter refToCfo;
 
+    private LongFilter commercialId;
+
     private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedOn;
@@ -150,6 +152,14 @@ public class RequisitionCriteria implements Serializable {
         this.refToCfo = refToCfo;
     }
 
+    public LongFilter getCommercialId() {
+        return commercialId;
+    }
+
+    public void setCommercialId(LongFilter commercialId) {
+        this.commercialId = commercialId;
+    }
+
     public StringFilter getModifiedBy() {
         return modifiedBy;
     }
@@ -227,6 +237,7 @@ public class RequisitionCriteria implements Serializable {
             Objects.equals(refToHead, that.refToHead) &&
             Objects.equals(refToPurchaseCommittee, that.refToPurchaseCommittee) &&
             Objects.equals(refToCfo, that.refToCfo) &&
+            Objects.equals(commercialId, that.commercialId) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
             Objects.equals(commentsId, that.commentsId) &&
@@ -249,6 +260,7 @@ public class RequisitionCriteria implements Serializable {
         refToHead,
         refToPurchaseCommittee,
         refToCfo,
+        commercialId,
         modifiedBy,
         modifiedOn,
         commentsId,
@@ -272,6 +284,7 @@ public class RequisitionCriteria implements Serializable {
                 (refToHead != null ? "refToHead=" + refToHead + ", " : "") +
                 (refToPurchaseCommittee != null ? "refToPurchaseCommittee=" + refToPurchaseCommittee + ", " : "") +
                 (refToCfo != null ? "refToCfo=" + refToCfo + ", " : "") +
+                (commercialId != null ? "commercialId=" + commercialId + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
                 (commentsId != null ? "commentsId=" + commentsId + ", " : "") +

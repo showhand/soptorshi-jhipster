@@ -60,6 +60,10 @@
             "fieldType": "Long"
         },
         {
+            "fieldName": "commercialId",
+            "fieldType": "Long"
+        },
+        {
             "fieldName": "modifiedBy",
             "fieldType": "String"
         },
