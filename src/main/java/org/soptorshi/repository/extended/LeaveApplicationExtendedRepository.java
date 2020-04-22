@@ -14,4 +14,6 @@ import java.util.List;
 public interface LeaveApplicationExtendedRepository extends LeaveApplicationRepository {
 
     List<LeaveApplication> findByEmployeesAndLeaveTypesAndStatusAndFromDateGreaterThanAndToDateLessThan(Employee employee, LeaveType leaveTypes, LeaveStatus status, LocalDate fromDate, LocalDate toDate);
+
+    List<LeaveApplication> getByEmployees(Employee employee);
 }

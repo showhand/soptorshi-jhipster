@@ -56,6 +56,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="accumulation_reference_no" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="supply_zone_id" type="bigint">
                 <constraints nullable="true" />
             </column>

@@ -116,6 +116,9 @@ public class SupplyOrderQueryService extends QueryService<SupplyOrder> {
             if (criteria.getSupplyOrderStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyOrderStatus(), SupplyOrder_.supplyOrderStatus));
             }
+            if (criteria.getAccumulationReferenceNo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAccumulationReferenceNo(), SupplyOrder_.accumulationReferenceNo));
+            }
             if (criteria.getSupplyZoneId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyZoneId(),
                     root -> root.join(SupplyOrder_.supplyZone, JoinType.LEFT).get(SupplyZone_.id)));

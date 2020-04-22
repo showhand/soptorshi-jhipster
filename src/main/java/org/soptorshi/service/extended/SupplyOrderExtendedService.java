@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.SupplyOrder;
 import org.soptorshi.domain.SupplyOrderDetails;
+import org.soptorshi.domain.enumeration.SupplyOrderStatus;
 import org.soptorshi.repository.extended.SupplyOrderExtendedRepository;
 import org.soptorshi.repository.search.SupplyOrderSearchRepository;
 import org.soptorshi.service.SupplyOrderService;
@@ -13,8 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing SupplyOrder.
@@ -75,5 +79,34 @@ public class SupplyOrderExtendedService extends SupplyOrderService {
         supplyOrderSearchRepository.save(supplyOrder);
 
         return result;
+    }
+
+    public List<LocalDate> getAllDistinctSupplyOrderDate() {
+        log.debug("Request to get all Distinct Supply Order Date");
+        List<LocalDate> dates = new ArrayList<>();
+        List<SupplyOrder> supplyOrders = supplyOrderExtendedRepository.findAll();
+        for(SupplyOrder supplyOrder: supplyOrders) {
+            dates.add(supplyOrder.getDateOfOrder());
+        }
+        return dates.stream().distinct().collect(Collectors.toList());
+    }
+
+    public Long updateReferenceNoAfterFilterByDate(String referenceNo, LocalDate fromDate, LocalDate toDate,
+                                                   SupplyOrderStatus status) {
+        Optional<List<SupplyOrder>> supplyOrders = supplyOrderExtendedRepository.getByDateOfOrderGreaterThanEqualAndDateOfOrderLessThanEqualAndSupplyOrderStatus(fromDate, toDate,
+            status);
+
+        if(supplyOrders.isPresent()) {
+            for(SupplyOrder supplyOrder: supplyOrders.get()) {
+                supplyOrder.setAccumulationReferenceNo(referenceNo);
+                supplyOrder.setSupplyOrderStatus(SupplyOrderStatus.PROCESSING_ORDER);
+                SupplyOrderDTO supplyOrderDTO = supplyOrderMapper.toDto(supplyOrder);
+                save(supplyOrderDTO);
+            }
+            return 1L;
+        }
+        else {
+            return 0L;
+        }
     }
 }

@@ -18,6 +18,7 @@ export interface ISupplyOrder {
     offerAmount?: number;
     deliveryDate?: Moment;
     supplyOrderStatus?: SupplyOrderStatus;
+    accumulationReferenceNo?: string;
     supplyZoneZoneName?: string;
     supplyZoneId?: number;
     supplyAreaAreaName?: string;
@@ -41,6 +42,7 @@ export class SupplyOrder implements ISupplyOrder {
         public offerAmount?: number,
         public deliveryDate?: Moment,
         public supplyOrderStatus?: SupplyOrderStatus,
+        public accumulationReferenceNo?: string,
         public supplyZoneZoneName?: string,
         public supplyZoneId?: number,
         public supplyAreaAreaName?: string,

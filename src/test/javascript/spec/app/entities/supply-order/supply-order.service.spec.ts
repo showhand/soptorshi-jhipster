@@ -33,7 +33,8 @@ describe('Service Tests', () => {
                 currentDate,
                 0,
                 currentDate,
-                SupplyOrderStatus.ORDER_RECEIVED
+                SupplyOrderStatus.ORDER_RECEIVED,
+                'AAAAAAA'
             );
         });
 
@@ -96,7 +97,8 @@ describe('Service Tests', () => {
                         updatedOn: currentDate.format(DATE_TIME_FORMAT),
                         offerAmount: 1,
                         deliveryDate: currentDate.format(DATE_FORMAT),
-                        supplyOrderStatus: 'BBBBBB'
+                        supplyOrderStatus: 'BBBBBB',
+                        accumulationReferenceNo: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -129,7 +131,8 @@ describe('Service Tests', () => {
                         updatedOn: currentDate.format(DATE_TIME_FORMAT),
                         offerAmount: 1,
                         deliveryDate: currentDate.format(DATE_FORMAT),
-                        supplyOrderStatus: 'BBBBBB'
+                        supplyOrderStatus: 'BBBBBB',
+                        accumulationReferenceNo: 'BBBBBB'
                     },
                     elemDefault
                 );

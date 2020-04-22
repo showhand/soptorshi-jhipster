@@ -147,6 +147,12 @@
                         <span *ngIf="!leftMenuHidden">Attendance</span>
                     </a>
                 </li>
+                <li>
+                    <a class="dropdown-item" routerLink="over-time" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span>Over Time</span>
+                    </a>
+                </li>
             </ul>
         </li>
 
@@ -170,7 +176,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" routerLink="leave-application" routerLinkActive="active"
+                    <a class="dropdown-item" routerLink="leave-application/new" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
                         <fa-icon icon="car" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">Leave Application</span>
@@ -742,6 +748,13 @@
                         <span *ngIf="!leftMenuHidden">Supply Order</span>
                     </a>
                 </li>
+                <li>
+                    <a class="dropdown-item" routerLink="supply-order/accumulate" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="superscript" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Accumulate Order</span>
+                    </a>
+                </li>
                 <!--<li>
                     <a class="dropdown-item" routerLink="supply-order-details" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
@@ -756,6 +769,7 @@
                         <span *ngIf="!leftMenuHidden">Challan</span>
                     </a>
                 </li>
+
                 <!--<li>
                     <a class="dropdown-item" routerLink="supply-money-collection" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">

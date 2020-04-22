@@ -3,6 +3,7 @@ package org.soptorshi.service.extended;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.Weekend;
+import org.soptorshi.domain.enumeration.MonthType;
 import org.soptorshi.domain.enumeration.WeekendStatus;
 import org.soptorshi.repository.extended.WeekendExtendedRepository;
 import org.soptorshi.repository.search.WeekendSearchRepository;
@@ -14,8 +15,14 @@ import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -97,5 +104,36 @@ public class WeekendExtendedService extends WeekendService {
             }
         }
         return hasActiveWeekendStatus;
+    }
+
+    public List<LocalDate> getAllWeekendDates(MonthType monthType, int year) {
+
+        List<LocalDate> localDates = new ArrayList<>();
+
+        YearMonth yearMonth = YearMonth.of(year, monthType.ordinal() + 1);
+        LocalDate firstOfMonth = yearMonth.atDay(1);
+        LocalDate lastOfMonth = yearMonth.atEndOfMonth();
+
+        Optional<Weekend> weekend = getWeekendByStatus(WeekendStatus.ACTIVE);
+        if(weekend.isPresent()) {
+
+            while (firstOfMonth.isBefore(lastOfMonth)) {
+                DayOfWeek dayOfWeek = firstOfMonth.getDayOfWeek();
+                String day = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ENGLISH).trim().toUpperCase();
+
+                if (weekend.get().getDay1() != null && day.equalsIgnoreCase(weekend.get().getDay1().toString().trim().toUpperCase())) {
+                    localDates.add(firstOfMonth);
+                }
+                if (weekend.get().getDay2() != null && day.equalsIgnoreCase(weekend.get().getDay2().toString().trim().toUpperCase())) {
+                    localDates.add(firstOfMonth);
+                }
+                if (weekend.get().getDay3() != null && day.equalsIgnoreCase(weekend.get().getDay3().toString().trim().toUpperCase())) {
+                    localDates.add(firstOfMonth);
+                }
+                firstOfMonth = firstOfMonth.plusDays(1);
+            }
+
+        }
+        return localDates;
     }
 }

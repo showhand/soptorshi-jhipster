@@ -3,6 +3,7 @@ package org.soptorshi.service.extended;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.Holiday;
+import org.soptorshi.domain.enumeration.MonthType;
 import org.soptorshi.repository.extended.HolidayExtendedRepository;
 import org.soptorshi.repository.search.HolidaySearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,5 +88,19 @@ public class HolidayExtendedService extends HolidayService {
             }
         }
         return holidayArrayListOfLocalDates;
+    }
+
+    public ArrayList<LocalDate> getAllHolidayDates(MonthType monthType, int year) {
+        ArrayList<LocalDate> holidayDates = new ArrayList<>();
+        ArrayList<LocalDate> holidayArrayListOfLocalDates = new ArrayList<>();
+        holidayArrayListOfLocalDates = getAllHolidayDates(year);
+
+        for(LocalDate localDate: holidayArrayListOfLocalDates) {
+            Month month = localDate.getMonth();
+            if(month.getValue() == (monthType.ordinal() + 1)) {
+                holidayDates.add(localDate);
+            }
+        }
+        return holidayDates;
     }
 }

@@ -43,6 +43,8 @@ public class SupplyOrderCriteria implements Serializable {
 
     private SupplyOrderStatusFilter supplyOrderStatus;
 
+    private StringFilter accumulationReferenceNo;
+
     private LongFilter supplyZoneId;
 
     private LongFilter supplyAreaId;
@@ -133,6 +135,14 @@ public class SupplyOrderCriteria implements Serializable {
         this.supplyOrderStatus = supplyOrderStatus;
     }
 
+    public StringFilter getAccumulationReferenceNo() {
+        return accumulationReferenceNo;
+    }
+
+    public void setAccumulationReferenceNo(StringFilter accumulationReferenceNo) {
+        this.accumulationReferenceNo = accumulationReferenceNo;
+    }
+
     public LongFilter getSupplyZoneId() {
         return supplyZoneId;
     }
@@ -194,6 +204,7 @@ public class SupplyOrderCriteria implements Serializable {
             Objects.equals(offerAmount, that.offerAmount) &&
             Objects.equals(deliveryDate, that.deliveryDate) &&
             Objects.equals(supplyOrderStatus, that.supplyOrderStatus) &&
+            Objects.equals(accumulationReferenceNo, that.accumulationReferenceNo) &&
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
             Objects.equals(supplyAreaId, that.supplyAreaId) &&
             Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId) &&
@@ -214,6 +225,7 @@ public class SupplyOrderCriteria implements Serializable {
         offerAmount,
         deliveryDate,
         supplyOrderStatus,
+        accumulationReferenceNo,
         supplyZoneId,
         supplyAreaId,
         supplySalesRepresentativeId,
@@ -235,6 +247,7 @@ public class SupplyOrderCriteria implements Serializable {
                 (offerAmount != null ? "offerAmount=" + offerAmount + ", " : "") +
                 (deliveryDate != null ? "deliveryDate=" + deliveryDate + ", " : "") +
                 (supplyOrderStatus != null ? "supplyOrderStatus=" + supplyOrderStatus + ", " : "") +
+                (accumulationReferenceNo != null ? "accumulationReferenceNo=" + accumulationReferenceNo + ", " : "") +
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
                 (supplySalesRepresentativeId != null ? "supplySalesRepresentativeId=" + supplySalesRepresentativeId + ", " : "") +

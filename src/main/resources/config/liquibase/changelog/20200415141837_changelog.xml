@@ -207,4 +207,10 @@
     <changeSet author="kawsu (generated)" id="1587177618538-2">
         <addForeignKeyConstraint baseColumnNames="supply_shop_id" baseTableName="supply_order" constraintName="FKkiuyxlixfyw148t9i70ib00e2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_shop"/>
     </changeSet>
+
+    <changeSet author="kawsu (generated)" id="1587494436462-1">
+        <addColumn tableName="supply_order">
+            <column name="accumulation_reference_no" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

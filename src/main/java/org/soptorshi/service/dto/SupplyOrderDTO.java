@@ -36,6 +36,8 @@ public class SupplyOrderDTO implements Serializable {
     @NotNull
     private SupplyOrderStatus supplyOrderStatus;
 
+    private String accumulationReferenceNo;
+
 
     private Long supplyZoneId;
 
@@ -133,6 +135,14 @@ public class SupplyOrderDTO implements Serializable {
 
     public void setSupplyOrderStatus(SupplyOrderStatus supplyOrderStatus) {
         this.supplyOrderStatus = supplyOrderStatus;
+    }
+
+    public String getAccumulationReferenceNo() {
+        return accumulationReferenceNo;
+    }
+
+    public void setAccumulationReferenceNo(String accumulationReferenceNo) {
+        this.accumulationReferenceNo = accumulationReferenceNo;
     }
 
     public Long getSupplyZoneId() {
@@ -241,6 +251,7 @@ public class SupplyOrderDTO implements Serializable {
             ", offerAmount=" + getOfferAmount() +
             ", deliveryDate='" + getDeliveryDate() + "'" +
             ", supplyOrderStatus='" + getSupplyOrderStatus() + "'" +
+            ", accumulationReferenceNo='" + getAccumulationReferenceNo() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
             ", supplyZone='" + getSupplyZoneZoneName() + "'" +
             ", supplyArea=" + getSupplyAreaId() +

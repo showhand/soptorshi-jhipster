@@ -79,6 +79,9 @@ public class SupplyOrderResourceIntTest {
     private static final SupplyOrderStatus DEFAULT_SUPPLY_ORDER_STATUS = SupplyOrderStatus.ORDER_RECEIVED;
     private static final SupplyOrderStatus UPDATED_SUPPLY_ORDER_STATUS = SupplyOrderStatus.PROCESSING_ORDER;
 
+    private static final String DEFAULT_ACCUMULATION_REFERENCE_NO = "AAAAAAAAAA";
+    private static final String UPDATED_ACCUMULATION_REFERENCE_NO = "BBBBBBBBBB";
+
     @Autowired
     private SupplyOrderRepository supplyOrderRepository;
 
@@ -146,7 +149,8 @@ public class SupplyOrderResourceIntTest {
             .updatedOn(DEFAULT_UPDATED_ON)
             .offerAmount(DEFAULT_OFFER_AMOUNT)
             .deliveryDate(DEFAULT_DELIVERY_DATE)
-            .supplyOrderStatus(DEFAULT_SUPPLY_ORDER_STATUS);
+            .supplyOrderStatus(DEFAULT_SUPPLY_ORDER_STATUS)
+            .accumulationReferenceNo(DEFAULT_ACCUMULATION_REFERENCE_NO);
         // Add required entity
         SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
         em.persist(supplyAreaManager);
@@ -190,6 +194,7 @@ public class SupplyOrderResourceIntTest {
         assertThat(testSupplyOrder.getOfferAmount()).isEqualTo(DEFAULT_OFFER_AMOUNT);
         assertThat(testSupplyOrder.getDeliveryDate()).isEqualTo(DEFAULT_DELIVERY_DATE);
         assertThat(testSupplyOrder.getSupplyOrderStatus()).isEqualTo(DEFAULT_SUPPLY_ORDER_STATUS);
+        assertThat(testSupplyOrder.getAccumulationReferenceNo()).isEqualTo(DEFAULT_ACCUMULATION_REFERENCE_NO);
 
         // Validate the SupplyOrder in Elasticsearch
         verify(mockSupplyOrderSearchRepository, times(1)).save(testSupplyOrder);
@@ -275,7 +280,8 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
             .andExpect(jsonPath("$.[*].offerAmount").value(hasItem(DEFAULT_OFFER_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
-            .andExpect(jsonPath("$.[*].supplyOrderStatus").value(hasItem(DEFAULT_SUPPLY_ORDER_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].supplyOrderStatus").value(hasItem(DEFAULT_SUPPLY_ORDER_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].accumulationReferenceNo").value(hasItem(DEFAULT_ACCUMULATION_REFERENCE_NO.toString())));
     }
 
     @Test
@@ -297,7 +303,8 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()))
             .andExpect(jsonPath("$.offerAmount").value(DEFAULT_OFFER_AMOUNT.intValue()))
             .andExpect(jsonPath("$.deliveryDate").value(DEFAULT_DELIVERY_DATE.toString()))
-            .andExpect(jsonPath("$.supplyOrderStatus").value(DEFAULT_SUPPLY_ORDER_STATUS.toString()));
+            .andExpect(jsonPath("$.supplyOrderStatus").value(DEFAULT_SUPPLY_ORDER_STATUS.toString()))
+            .andExpect(jsonPath("$.accumulationReferenceNo").value(DEFAULT_ACCUMULATION_REFERENCE_NO.toString()));
     }
 
     @Test
@@ -707,6 +714,45 @@ public class SupplyOrderResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSupplyOrdersByAccumulationReferenceNoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where accumulationReferenceNo equals to DEFAULT_ACCUMULATION_REFERENCE_NO
+        defaultSupplyOrderShouldBeFound("accumulationReferenceNo.equals=" + DEFAULT_ACCUMULATION_REFERENCE_NO);
+
+        // Get all the supplyOrderList where accumulationReferenceNo equals to UPDATED_ACCUMULATION_REFERENCE_NO
+        defaultSupplyOrderShouldNotBeFound("accumulationReferenceNo.equals=" + UPDATED_ACCUMULATION_REFERENCE_NO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersByAccumulationReferenceNoIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where accumulationReferenceNo in DEFAULT_ACCUMULATION_REFERENCE_NO or UPDATED_ACCUMULATION_REFERENCE_NO
+        defaultSupplyOrderShouldBeFound("accumulationReferenceNo.in=" + DEFAULT_ACCUMULATION_REFERENCE_NO + "," + UPDATED_ACCUMULATION_REFERENCE_NO);
+
+        // Get all the supplyOrderList where accumulationReferenceNo equals to UPDATED_ACCUMULATION_REFERENCE_NO
+        defaultSupplyOrderShouldNotBeFound("accumulationReferenceNo.in=" + UPDATED_ACCUMULATION_REFERENCE_NO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersByAccumulationReferenceNoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where accumulationReferenceNo is not null
+        defaultSupplyOrderShouldBeFound("accumulationReferenceNo.specified=true");
+
+        // Get all the supplyOrderList where accumulationReferenceNo is null
+        defaultSupplyOrderShouldNotBeFound("accumulationReferenceNo.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllSupplyOrdersBySupplyZoneIsEqualToSomething() throws Exception {
         // Initialize the database
         SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
@@ -815,7 +861,8 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
             .andExpect(jsonPath("$.[*].offerAmount").value(hasItem(DEFAULT_OFFER_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
-            .andExpect(jsonPath("$.[*].supplyOrderStatus").value(hasItem(DEFAULT_SUPPLY_ORDER_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].supplyOrderStatus").value(hasItem(DEFAULT_SUPPLY_ORDER_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].accumulationReferenceNo").value(hasItem(DEFAULT_ACCUMULATION_REFERENCE_NO)));
 
         // Check, that the count call also returns 1
         restSupplyOrderMockMvc.perform(get("/api/supply-orders/count?sort=id,desc&" + filter))
@@ -871,7 +918,8 @@ public class SupplyOrderResourceIntTest {
             .updatedOn(UPDATED_UPDATED_ON)
             .offerAmount(UPDATED_OFFER_AMOUNT)
             .deliveryDate(UPDATED_DELIVERY_DATE)
-            .supplyOrderStatus(UPDATED_SUPPLY_ORDER_STATUS);
+            .supplyOrderStatus(UPDATED_SUPPLY_ORDER_STATUS)
+            .accumulationReferenceNo(UPDATED_ACCUMULATION_REFERENCE_NO);
         SupplyOrderDTO supplyOrderDTO = supplyOrderMapper.toDto(updatedSupplyOrder);
 
         restSupplyOrderMockMvc.perform(put("/api/supply-orders")
@@ -892,6 +940,7 @@ public class SupplyOrderResourceIntTest {
         assertThat(testSupplyOrder.getOfferAmount()).isEqualTo(UPDATED_OFFER_AMOUNT);
         assertThat(testSupplyOrder.getDeliveryDate()).isEqualTo(UPDATED_DELIVERY_DATE);
         assertThat(testSupplyOrder.getSupplyOrderStatus()).isEqualTo(UPDATED_SUPPLY_ORDER_STATUS);
+        assertThat(testSupplyOrder.getAccumulationReferenceNo()).isEqualTo(UPDATED_ACCUMULATION_REFERENCE_NO);
 
         // Validate the SupplyOrder in Elasticsearch
         verify(mockSupplyOrderSearchRepository, times(1)).save(testSupplyOrder);
@@ -960,7 +1009,8 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
             .andExpect(jsonPath("$.[*].offerAmount").value(hasItem(DEFAULT_OFFER_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
-            .andExpect(jsonPath("$.[*].supplyOrderStatus").value(hasItem(DEFAULT_SUPPLY_ORDER_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].supplyOrderStatus").value(hasItem(DEFAULT_SUPPLY_ORDER_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].accumulationReferenceNo").value(hasItem(DEFAULT_ACCUMULATION_REFERENCE_NO)));
     }
 
     @Test
