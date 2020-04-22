@@ -30,6 +30,20 @@ public class MonthlySalaryDTO implements Serializable {
 
     private BigDecimal medicalAllowance;
 
+    private BigDecimal overTimeAllowance;
+
+    private BigDecimal foodAllowance;
+
+    private BigDecimal arrearAllowance;
+
+    private BigDecimal driverAllowance;
+
+    private BigDecimal fuelLubAllowance;
+
+    private BigDecimal mobileAllowance;
+
+    private BigDecimal travelAllowance;
+
     private BigDecimal otherAllowance;
 
     private BigDecimal festivalAllowance;
@@ -125,6 +139,62 @@ public class MonthlySalaryDTO implements Serializable {
 
     public void setMedicalAllowance(BigDecimal medicalAllowance) {
         this.medicalAllowance = medicalAllowance;
+    }
+
+    public BigDecimal getOverTimeAllowance() {
+        return overTimeAllowance;
+    }
+
+    public void setOverTimeAllowance(BigDecimal overTimeAllowance) {
+        this.overTimeAllowance = overTimeAllowance;
+    }
+
+    public BigDecimal getFoodAllowance() {
+        return foodAllowance;
+    }
+
+    public void setFoodAllowance(BigDecimal foodAllowance) {
+        this.foodAllowance = foodAllowance;
+    }
+
+    public BigDecimal getArrearAllowance() {
+        return arrearAllowance;
+    }
+
+    public void setArrearAllowance(BigDecimal arrearAllowance) {
+        this.arrearAllowance = arrearAllowance;
+    }
+
+    public BigDecimal getDriverAllowance() {
+        return driverAllowance;
+    }
+
+    public void setDriverAllowance(BigDecimal driverAllowance) {
+        this.driverAllowance = driverAllowance;
+    }
+
+    public BigDecimal getFuelLubAllowance() {
+        return fuelLubAllowance;
+    }
+
+    public void setFuelLubAllowance(BigDecimal fuelLubAllowance) {
+        this.fuelLubAllowance = fuelLubAllowance;
+    }
+
+    public BigDecimal getMobileAllowance() {
+        return mobileAllowance;
+    }
+
+    public void setMobileAllowance(BigDecimal mobileAllowance) {
+        this.mobileAllowance = mobileAllowance;
+    }
+
+    public BigDecimal getTravelAllowance() {
+        return travelAllowance;
+    }
+
+    public void setTravelAllowance(BigDecimal travelAllowance) {
+        this.travelAllowance = travelAllowance;
     }
 
     public BigDecimal getOtherAllowance() {
@@ -318,6 +388,13 @@ public class MonthlySalaryDTO implements Serializable {
             ", gross=" + getGross() +
             ", houseRent=" + getHouseRent() +
             ", medicalAllowance=" + getMedicalAllowance() +
+            ", overTimeAllowance=" + getOverTimeAllowance() +
+            ", foodAllowance=" + getFoodAllowance() +
+            ", arrearAllowance=" + getArrearAllowance() +
+            ", driverAllowance=" + getDriverAllowance() +
+            ", fuelLubAllowance=" + getFuelLubAllowance() +
+            ", mobileAllowance=" + getMobileAllowance() +
+            ", travelAllowance=" + getTravelAllowance() +
             ", otherAllowance=" + getOtherAllowance() +
             ", festivalAllowance=" + getFestivalAllowance() +
             ", absent=" + getAbsent() +

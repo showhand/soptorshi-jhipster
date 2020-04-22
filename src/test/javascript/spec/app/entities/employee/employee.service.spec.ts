@@ -51,6 +51,9 @@ describe('Service Tests', () => {
                 'AAAAAAA',
                 false,
                 'image/png',
+                'AAAAAAA',
+                0,
+                'AAAAAAA',
                 'AAAAAAA'
             );
         });
@@ -126,7 +129,10 @@ describe('Service Tests', () => {
                         terminationDate: currentDate.format(DATE_FORMAT),
                         reasonOfTermination: 'BBBBBB',
                         userAccount: true,
-                        photo: 'BBBBBB'
+                        photo: 'BBBBBB',
+                        hourlySalary: 1,
+                        bankAccountNo: 'BBBBBB',
+                        bankName: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -173,7 +179,10 @@ describe('Service Tests', () => {
                         terminationDate: currentDate.format(DATE_FORMAT),
                         reasonOfTermination: 'BBBBBB',
                         userAccount: true,
-                        photo: 'BBBBBB'
+                        photo: 'BBBBBB',
+                        hourlySalary: 1,
+                        bankAccountNo: 'BBBBBB',
+                        bankName: 'BBBBBB'
                     },
                     elemDefault
                 );

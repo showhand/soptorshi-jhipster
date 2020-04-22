@@ -4,7 +4,7 @@
         {
             "fieldName": "allowanceType",
             "fieldType": "AllowanceType",
-            "fieldValues": "HOUSE_RENT,MEDICAL_ALLOWANCE,FESTIVAL_BONUS,OVERTIME_ALLOWANCE,OTHER_ALLOWANCE"
+            "fieldValues": "HOUSE_RENT,MEDICAL_ALLOWANCE,FESTIVAL_BONUS,OVERTIME_ALLOWANCE,FOOD_ALLOWANCE,DRIVER_ALLOWANCE,FUEL_LUB_ALLOWANCE,TRAVEL_ALLOWANCE,CONV_ALLOWANCE,MOBILE_ALLOWANCE,ARREAR_ALLOWANCE,OTHER_ALLOWANCE"
         },
         {
             "fieldName": "religion",

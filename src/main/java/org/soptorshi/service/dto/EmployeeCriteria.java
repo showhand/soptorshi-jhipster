@@ -14,6 +14,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
@@ -100,6 +101,12 @@ public class EmployeeCriteria implements Serializable {
     private StringFilter reasonOfTermination;
 
     private BooleanFilter userAccount;
+
+    private BigDecimalFilter hourlySalary;
+
+    private StringFilter bankAccountNo;
+
+    private StringFilter bankName;
 
     private LongFilter departmentId;
 
@@ -299,6 +306,30 @@ public class EmployeeCriteria implements Serializable {
         this.userAccount = userAccount;
     }
 
+    public BigDecimalFilter getHourlySalary() {
+        return hourlySalary;
+    }
+
+    public void setHourlySalary(BigDecimalFilter hourlySalary) {
+        this.hourlySalary = hourlySalary;
+    }
+
+    public StringFilter getBankAccountNo() {
+        return bankAccountNo;
+    }
+
+    public void setBankAccountNo(StringFilter bankAccountNo) {
+        this.bankAccountNo = bankAccountNo;
+    }
+
+    public StringFilter getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(StringFilter bankName) {
+        this.bankName = bankName;
+    }
+
     public LongFilter getDepartmentId() {
         return departmentId;
     }
@@ -358,6 +389,9 @@ public class EmployeeCriteria implements Serializable {
             Objects.equals(terminationDate, that.terminationDate) &&
             Objects.equals(reasonOfTermination, that.reasonOfTermination) &&
             Objects.equals(userAccount, that.userAccount) &&
+            Objects.equals(hourlySalary, that.hourlySalary) &&
+            Objects.equals(bankAccountNo, that.bankAccountNo) &&
+            Objects.equals(bankName, that.bankName) &&
             Objects.equals(departmentId, that.departmentId) &&
             Objects.equals(officeId, that.officeId) &&
             Objects.equals(designationId, that.designationId);
@@ -390,6 +424,9 @@ public class EmployeeCriteria implements Serializable {
         terminationDate,
         reasonOfTermination,
         userAccount,
+        hourlySalary,
+        bankAccountNo,
+        bankName,
         departmentId,
         officeId,
         designationId
@@ -423,6 +460,9 @@ public class EmployeeCriteria implements Serializable {
                 (terminationDate != null ? "terminationDate=" + terminationDate + ", " : "") +
                 (reasonOfTermination != null ? "reasonOfTermination=" + reasonOfTermination + ", " : "") +
                 (userAccount != null ? "userAccount=" + userAccount + ", " : "") +
+                (hourlySalary != null ? "hourlySalary=" + hourlySalary + ", " : "") +
+                (bankAccountNo != null ? "bankAccountNo=" + bankAccountNo + ", " : "") +
+                (bankName != null ? "bankName=" + bankName + ", " : "") +
                 (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
                 (officeId != null ? "officeId=" + officeId + ", " : "") +
                 (designationId != null ? "designationId=" + designationId + ", " : "") +

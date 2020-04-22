@@ -34,6 +34,7 @@ import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collections;
@@ -136,6 +137,15 @@ public class EmployeeResourceIntTest {
     private static final String DEFAULT_PHOTO_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_PHOTO_CONTENT_TYPE = "image/png";
 
+    private static final BigDecimal DEFAULT_HOURLY_SALARY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_HOURLY_SALARY = new BigDecimal(2);
+
+    private static final String DEFAULT_BANK_ACCOUNT_NO = "AAAAAAAAAA";
+    private static final String UPDATED_BANK_ACCOUNT_NO = "BBBBBBBBBB";
+
+    private static final String DEFAULT_BANK_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_BANK_NAME = "BBBBBBBBBB";
+
     @Autowired
     private EmployeeRepository employeeRepository;
 
@@ -219,7 +229,10 @@ public class EmployeeResourceIntTest {
             .reasonOfTermination(DEFAULT_REASON_OF_TERMINATION)
             .userAccount(DEFAULT_USER_ACCOUNT)
             .photo(DEFAULT_PHOTO)
-            .photoContentType(DEFAULT_PHOTO_CONTENT_TYPE);
+            .photoContentType(DEFAULT_PHOTO_CONTENT_TYPE)
+            .hourlySalary(DEFAULT_HOURLY_SALARY)
+            .bankAccountNo(DEFAULT_BANK_ACCOUNT_NO)
+            .bankName(DEFAULT_BANK_NAME);
         return employee;
     }
 
@@ -269,6 +282,9 @@ public class EmployeeResourceIntTest {
         assertThat(testEmployee.isUserAccount()).isEqualTo(DEFAULT_USER_ACCOUNT);
         assertThat(testEmployee.getPhoto()).isEqualTo(DEFAULT_PHOTO);
         assertThat(testEmployee.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
+        assertThat(testEmployee.getHourlySalary()).isEqualTo(DEFAULT_HOURLY_SALARY);
+        assertThat(testEmployee.getBankAccountNo()).isEqualTo(DEFAULT_BANK_ACCOUNT_NO);
+        assertThat(testEmployee.getBankName()).isEqualTo(DEFAULT_BANK_NAME);
 
         // Validate the Employee in Elasticsearch
         verify(mockEmployeeSearchRepository, times(1)).save(testEmployee);
@@ -579,7 +595,10 @@ public class EmployeeResourceIntTest {
             .andExpect(jsonPath("$.[*].reasonOfTermination").value(hasItem(DEFAULT_REASON_OF_TERMINATION.toString())))
             .andExpect(jsonPath("$.[*].userAccount").value(hasItem(DEFAULT_USER_ACCOUNT.booleanValue())))
             .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))));
+            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))))
+            .andExpect(jsonPath("$.[*].hourlySalary").value(hasItem(DEFAULT_HOURLY_SALARY.intValue())))
+            .andExpect(jsonPath("$.[*].bankAccountNo").value(hasItem(DEFAULT_BANK_ACCOUNT_NO.toString())))
+            .andExpect(jsonPath("$.[*].bankName").value(hasItem(DEFAULT_BANK_NAME.toString())));
     }
     
     @Test
@@ -617,7 +636,10 @@ public class EmployeeResourceIntTest {
             .andExpect(jsonPath("$.reasonOfTermination").value(DEFAULT_REASON_OF_TERMINATION.toString()))
             .andExpect(jsonPath("$.userAccount").value(DEFAULT_USER_ACCOUNT.booleanValue()))
             .andExpect(jsonPath("$.photoContentType").value(DEFAULT_PHOTO_CONTENT_TYPE))
-            .andExpect(jsonPath("$.photo").value(Base64Utils.encodeToString(DEFAULT_PHOTO)));
+            .andExpect(jsonPath("$.photo").value(Base64Utils.encodeToString(DEFAULT_PHOTO)))
+            .andExpect(jsonPath("$.hourlySalary").value(DEFAULT_HOURLY_SALARY.intValue()))
+            .andExpect(jsonPath("$.bankAccountNo").value(DEFAULT_BANK_ACCOUNT_NO.toString()))
+            .andExpect(jsonPath("$.bankName").value(DEFAULT_BANK_NAME.toString()));
     }
 
     @Test
@@ -1627,6 +1649,123 @@ public class EmployeeResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllEmployeesByHourlySalaryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where hourlySalary equals to DEFAULT_HOURLY_SALARY
+        defaultEmployeeShouldBeFound("hourlySalary.equals=" + DEFAULT_HOURLY_SALARY);
+
+        // Get all the employeeList where hourlySalary equals to UPDATED_HOURLY_SALARY
+        defaultEmployeeShouldNotBeFound("hourlySalary.equals=" + UPDATED_HOURLY_SALARY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByHourlySalaryIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where hourlySalary in DEFAULT_HOURLY_SALARY or UPDATED_HOURLY_SALARY
+        defaultEmployeeShouldBeFound("hourlySalary.in=" + DEFAULT_HOURLY_SALARY + "," + UPDATED_HOURLY_SALARY);
+
+        // Get all the employeeList where hourlySalary equals to UPDATED_HOURLY_SALARY
+        defaultEmployeeShouldNotBeFound("hourlySalary.in=" + UPDATED_HOURLY_SALARY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByHourlySalaryIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where hourlySalary is not null
+        defaultEmployeeShouldBeFound("hourlySalary.specified=true");
+
+        // Get all the employeeList where hourlySalary is null
+        defaultEmployeeShouldNotBeFound("hourlySalary.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByBankAccountNoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where bankAccountNo equals to DEFAULT_BANK_ACCOUNT_NO
+        defaultEmployeeShouldBeFound("bankAccountNo.equals=" + DEFAULT_BANK_ACCOUNT_NO);
+
+        // Get all the employeeList where bankAccountNo equals to UPDATED_BANK_ACCOUNT_NO
+        defaultEmployeeShouldNotBeFound("bankAccountNo.equals=" + UPDATED_BANK_ACCOUNT_NO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByBankAccountNoIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where bankAccountNo in DEFAULT_BANK_ACCOUNT_NO or UPDATED_BANK_ACCOUNT_NO
+        defaultEmployeeShouldBeFound("bankAccountNo.in=" + DEFAULT_BANK_ACCOUNT_NO + "," + UPDATED_BANK_ACCOUNT_NO);
+
+        // Get all the employeeList where bankAccountNo equals to UPDATED_BANK_ACCOUNT_NO
+        defaultEmployeeShouldNotBeFound("bankAccountNo.in=" + UPDATED_BANK_ACCOUNT_NO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByBankAccountNoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where bankAccountNo is not null
+        defaultEmployeeShouldBeFound("bankAccountNo.specified=true");
+
+        // Get all the employeeList where bankAccountNo is null
+        defaultEmployeeShouldNotBeFound("bankAccountNo.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByBankNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where bankName equals to DEFAULT_BANK_NAME
+        defaultEmployeeShouldBeFound("bankName.equals=" + DEFAULT_BANK_NAME);
+
+        // Get all the employeeList where bankName equals to UPDATED_BANK_NAME
+        defaultEmployeeShouldNotBeFound("bankName.equals=" + UPDATED_BANK_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByBankNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where bankName in DEFAULT_BANK_NAME or UPDATED_BANK_NAME
+        defaultEmployeeShouldBeFound("bankName.in=" + DEFAULT_BANK_NAME + "," + UPDATED_BANK_NAME);
+
+        // Get all the employeeList where bankName equals to UPDATED_BANK_NAME
+        defaultEmployeeShouldNotBeFound("bankName.in=" + UPDATED_BANK_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByBankNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where bankName is not null
+        defaultEmployeeShouldBeFound("bankName.specified=true");
+
+        // Get all the employeeList where bankName is null
+        defaultEmployeeShouldNotBeFound("bankName.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllEmployeesByDepartmentIsEqualToSomething() throws Exception {
         // Initialize the database
         Department department = DepartmentResourceIntTest.createEntity(em);
@@ -1713,7 +1852,10 @@ public class EmployeeResourceIntTest {
             .andExpect(jsonPath("$.[*].reasonOfTermination").value(hasItem(DEFAULT_REASON_OF_TERMINATION)))
             .andExpect(jsonPath("$.[*].userAccount").value(hasItem(DEFAULT_USER_ACCOUNT.booleanValue())))
             .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))));
+            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))))
+            .andExpect(jsonPath("$.[*].hourlySalary").value(hasItem(DEFAULT_HOURLY_SALARY.intValue())))
+            .andExpect(jsonPath("$.[*].bankAccountNo").value(hasItem(DEFAULT_BANK_ACCOUNT_NO)))
+            .andExpect(jsonPath("$.[*].bankName").value(hasItem(DEFAULT_BANK_NAME)));
 
         // Check, that the count call also returns 1
         restEmployeeMockMvc.perform(get("/api/employees/count?sort=id,desc&" + filter))
@@ -1785,7 +1927,10 @@ public class EmployeeResourceIntTest {
             .reasonOfTermination(UPDATED_REASON_OF_TERMINATION)
             .userAccount(UPDATED_USER_ACCOUNT)
             .photo(UPDATED_PHOTO)
-            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE)
+            .hourlySalary(UPDATED_HOURLY_SALARY)
+            .bankAccountNo(UPDATED_BANK_ACCOUNT_NO)
+            .bankName(UPDATED_BANK_NAME);
         EmployeeDTO employeeDTO = employeeMapper.toDto(updatedEmployee);
 
         restEmployeeMockMvc.perform(put("/api/employees")
@@ -1822,6 +1967,9 @@ public class EmployeeResourceIntTest {
         assertThat(testEmployee.isUserAccount()).isEqualTo(UPDATED_USER_ACCOUNT);
         assertThat(testEmployee.getPhoto()).isEqualTo(UPDATED_PHOTO);
         assertThat(testEmployee.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
+        assertThat(testEmployee.getHourlySalary()).isEqualTo(UPDATED_HOURLY_SALARY);
+        assertThat(testEmployee.getBankAccountNo()).isEqualTo(UPDATED_BANK_ACCOUNT_NO);
+        assertThat(testEmployee.getBankName()).isEqualTo(UPDATED_BANK_NAME);
 
         // Validate the Employee in Elasticsearch
         verify(mockEmployeeSearchRepository, times(1)).save(testEmployee);
@@ -1906,7 +2054,10 @@ public class EmployeeResourceIntTest {
             .andExpect(jsonPath("$.[*].reasonOfTermination").value(hasItem(DEFAULT_REASON_OF_TERMINATION)))
             .andExpect(jsonPath("$.[*].userAccount").value(hasItem(DEFAULT_USER_ACCOUNT.booleanValue())))
             .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))));
+            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))))
+            .andExpect(jsonPath("$.[*].hourlySalary").value(hasItem(DEFAULT_HOURLY_SALARY.intValue())))
+            .andExpect(jsonPath("$.[*].bankAccountNo").value(hasItem(DEFAULT_BANK_ACCOUNT_NO)))
+            .andExpect(jsonPath("$.[*].bankName").value(hasItem(DEFAULT_BANK_NAME)));
     }
 
     @Test

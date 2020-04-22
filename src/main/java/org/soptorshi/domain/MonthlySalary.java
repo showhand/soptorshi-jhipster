@@ -56,6 +56,27 @@ public class MonthlySalary implements Serializable {
     @Column(name = "medical_allowance", precision = 10, scale = 2)
     private BigDecimal medicalAllowance;
 
+    @Column(name = "over_time_allowance", precision = 10, scale = 2)
+    private BigDecimal overTimeAllowance;
+
+    @Column(name = "food_allowance", precision = 10, scale = 2)
+    private BigDecimal foodAllowance;
+
+    @Column(name = "arrear_allowance", precision = 10, scale = 2)
+    private BigDecimal arrearAllowance;
+
+    @Column(name = "driver_allowance", precision = 10, scale = 2)
+    private BigDecimal driverAllowance;
+
+    @Column(name = "fuel_lub_allowance", precision = 10, scale = 2)
+    private BigDecimal fuelLubAllowance;
+
+    @Column(name = "mobile_allowance", precision = 10, scale = 2)
+    private BigDecimal mobileAllowance;
+
+    @Column(name = "travel_allowance", precision = 10, scale = 2)
+    private BigDecimal travelAllowance;
+
     @Column(name = "other_allowance", precision = 10, scale = 2)
     private BigDecimal otherAllowance;
 
@@ -202,6 +223,97 @@ public class MonthlySalary implements Serializable {
 
     public void setMedicalAllowance(BigDecimal medicalAllowance) {
         this.medicalAllowance = medicalAllowance;
+    }
+
+    public BigDecimal getOverTimeAllowance() {
+        return overTimeAllowance;
+    }
+
+    public MonthlySalary overTimeAllowance(BigDecimal overTimeAllowance) {
+        this.overTimeAllowance = overTimeAllowance;
+        return this;
+    }
+
+    public void setOverTimeAllowance(BigDecimal overTimeAllowance) {
+        this.overTimeAllowance = overTimeAllowance;
+    }
+
+    public BigDecimal getFoodAllowance() {
+        return foodAllowance;
+    }
+
+    public MonthlySalary foodAllowance(BigDecimal foodAllowance) {
+        this.foodAllowance = foodAllowance;
+        return this;
+    }
+
+    public void setFoodAllowance(BigDecimal foodAllowance) {
+        this.foodAllowance = foodAllowance;
+    }
+
+    public BigDecimal getArrearAllowance() {
+        return arrearAllowance;
+    }
+
+    public MonthlySalary arrearAllowance(BigDecimal arrearAllowance) {
+        this.arrearAllowance = arrearAllowance;
+        return this;
+    }
+
+    public void setArrearAllowance(BigDecimal arrearAllowance) {
+        this.arrearAllowance = arrearAllowance;
+    }
+
+    public BigDecimal getDriverAllowance() {
+        return driverAllowance;
+    }
+
+    public MonthlySalary driverAllowance(BigDecimal driverAllowance) {
+        this.driverAllowance = driverAllowance;
+        return this;
+    }
+
+    public void setDriverAllowance(BigDecimal driverAllowance) {
+        this.driverAllowance = driverAllowance;
+    }
+
+    public BigDecimal getFuelLubAllowance() {
+        return fuelLubAllowance;
+    }
+
+    public MonthlySalary fuelLubAllowance(BigDecimal fuelLubAllowance) {
+        this.fuelLubAllowance = fuelLubAllowance;
+        return this;
+    }
+
+    public void setFuelLubAllowance(BigDecimal fuelLubAllowance) {
+        this.fuelLubAllowance = fuelLubAllowance;
+    }
+
+    public BigDecimal getMobileAllowance() {
+        return mobileAllowance;
+    }
+
+    public MonthlySalary mobileAllowance(BigDecimal mobileAllowance) {
+        this.mobileAllowance = mobileAllowance;
+        return this;
+    }
+
+    public void setMobileAllowance(BigDecimal mobileAllowance) {
+        this.mobileAllowance = mobileAllowance;
+    }
+
+    public BigDecimal getTravelAllowance() {
+        return travelAllowance;
+    }
+
+    public MonthlySalary travelAllowance(BigDecimal travelAllowance) {
+        this.travelAllowance = travelAllowance;
+        return this;
+    }
+
+    public void setTravelAllowance(BigDecimal travelAllowance) {
+        this.travelAllowance = travelAllowance;
     }
 
     public BigDecimal getOtherAllowance() {
@@ -507,6 +619,13 @@ public class MonthlySalary implements Serializable {
             ", gross=" + getGross() +
             ", houseRent=" + getHouseRent() +
             ", medicalAllowance=" + getMedicalAllowance() +
+            ", overTimeAllowance=" + getOverTimeAllowance() +
+            ", foodAllowance=" + getFoodAllowance() +
+            ", arrearAllowance=" + getArrearAllowance() +
+            ", driverAllowance=" + getDriverAllowance() +
+            ", fuelLubAllowance=" + getFuelLubAllowance() +
+            ", mobileAllowance=" + getMobileAllowance() +
+            ", travelAllowance=" + getTravelAllowance() +
             ", otherAllowance=" + getOtherAllowance() +
             ", festivalAllowance=" + getFestivalAllowance() +
             ", absent=" + getAbsent() +

@@ -1,0 +1,38 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="monju (generated)" id="1587500707908-1">
+        <addColumn tableName="monthly_salary">
+            <column name="arrear_allowance" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="monju (generated)" id="1587500707908-4">
+        <addColumn tableName="monthly_salary">
+            <column name="driver_allowance" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="monju (generated)" id="1587500707908-7">
+        <addColumn tableName="monthly_salary">
+            <column name="food_allowance" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587500707908-8">
+        <addColumn tableName="monthly_salary">
+            <column name="fuel_lub_allowance" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="monju (generated)" id="1587500707908-10">
+        <addColumn tableName="monthly_salary">
+            <column name="mobile_allowance" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="monju (generated)" id="1587500707908-19">
+        <addColumn tableName="monthly_salary">
+            <column name="travel_allowance" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

@@ -163,6 +163,27 @@ public class PayrollService {
             if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.HOUSE_RENT) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
                 monthlySalary.setHouseRent(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
             }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.OVERTIME_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.SPECIFIC)){
+                monthlySalary.setOverTimeAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.FOOD_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
+                monthlySalary.setFoodAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.DRIVER_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
+                monthlySalary.setDriverAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.FUEL_LUB_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
+                monthlySalary.setFuelLubAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.TRAVEL_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
+                monthlySalary.setTravelAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.MOBILE_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
+                monthlySalary.setMobileAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.ARREAR_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
+                monthlySalary.setArrearAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
             else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.MEDICAL_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
                 monthlySalary.setMedicalAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
             else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.FESTIVAL_BONUS) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.SPECIFIC)){
