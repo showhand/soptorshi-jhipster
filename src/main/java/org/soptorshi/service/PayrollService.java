@@ -1,6 +1,7 @@
 package org.soptorshi.service;
 
 import io.github.jhipster.service.filter.LongFilter;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.*;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Month;
@@ -95,9 +97,9 @@ public class PayrollService {
             monthlySalary = calculateBill(monthlySalary);
             monthlySalary = assignAllowances(monthlySalary);
 
-            Long totalDayInAMonth = totalDays(monthType, year);
+//            Long totalDayInAMonth = totalDays(monthType, year);
             //for test purpose
-            totalDayInAMonth = 26L;
+            Long totalDayInAMonth = 26L;
             // todo remove the bellow code fragments for calculation.
 /*            List<LocalDate> holidayDates = holidayExtendedService.getAllHolidayDates(monthType, year);
             List<LocalDate> weekendDates = weekendExtendedService.getAllWeekendDates(monthType, year);
@@ -106,19 +108,22 @@ public class PayrollService {
             Long totalPresent = totalDayInAMonth - (holidayDates.size() + weekendDates.size() + withoutPayLeaveDates.size() + withPayLeaveDates.size());*/
             // for test purpose
             Long totalPresent = 26L;
-            BigDecimal perDaySalary = monthlySalary.getGross().divide(BigDecimal.valueOf(totalDayInAMonth));
+            monthlySalary.setAbsent( Integer.parseInt ((totalDayInAMonth-totalPresent)+""));
+            BigDecimal perDaySalary = monthlySalary.getGross().divide(BigDecimal.valueOf(totalDayInAMonth), RoundingMode.CEILING);
             BigDecimal grossSalaryBasedOnPresense = perDaySalary.multiply(BigDecimal.valueOf(totalPresent));
-            monthlySalary.setGross(grossSalaryBasedOnPresense);
+            BigDecimal totalPayableSalary = grossSalaryBasedOnPresense.compareTo(monthlySalary.getGross())<0? grossSalaryBasedOnPresense: monthlySalary.getGross();
+            monthlySalary.setGross(totalPayableSalary);
 
             BigDecimal totalPayable = new BigDecimal(0);
             totalPayable = totalPayable
                 .add(monthlySalary.getGross())
-                .add(monthlySalary.getFestivalAllowance()==null? BigDecimal.ZERO: monthlySalary.getFestivalAllowance());
+                .add(ObjectUtils.defaultIfNull( monthlySalary.getOverTimeAllowance(), BigDecimal.ZERO))
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getFestivalAllowance(), BigDecimal.ZERO));
             BigDecimal totalDeduction = new BigDecimal(0);
             totalDeduction = totalDeduction
-                .add(monthlySalary.getAdvanceFactory()==null? BigDecimal.ZERO: monthlySalary.getAdvanceFactory())
-                .add(monthlySalary.getFine()==null? BigDecimal.ZERO: monthlySalary.getFine())
-                .add(monthlySalary.getLoanAmount()==null? BigDecimal.ZERO: monthlySalary.getLoanAmount());
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getAdvanceFactory(), BigDecimal.ZERO))
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getFine(), BigDecimal.ZERO))
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getLoanAmount(), BigDecimal.ZERO));
 
 
 
@@ -168,15 +173,33 @@ public class PayrollService {
             monthlySalary = calculateBill(monthlySalary);
             monthlySalary = assignAllowances(monthlySalary);
 
+//            Long totalDayInAMonth = totalDays(monthType, year);
+            //for test purpose
+            Long totalDayInAMonth = 26L;
+            // todo remove the bellow code fragments for calculation.
+/*            List<LocalDate> holidayDates = holidayExtendedService.getAllHolidayDates(monthType, year);
+            List<LocalDate> weekendDates = weekendExtendedService.getAllWeekendDates(monthType, year);
+            List<LocalDate> withoutPayLeaveDates = leaveApplicationExtendedService.getWithoutPayLeaveDates(employeeId, monthType, year);
+            List<LocalDate> withPayLeaveDates = leaveApplicationExtendedService.getWithPayLeaveDates(employeeId, monthType, year);
+            Long totalPresent = totalDayInAMonth - (holidayDates.size() + weekendDates.size() + withoutPayLeaveDates.size() + withPayLeaveDates.size());*/
+            // for test purpose
+            Long totalPresent = 26L;
+            monthlySalary.setAbsent( Integer.parseInt ((totalDayInAMonth-totalPresent)+""));
+            BigDecimal totalPayableGross = monthlySalary.getGross().divide(BigDecimal.valueOf(totalDayInAMonth), RoundingMode.CEILING);
+            BigDecimal perDaySalary =  totalPayableGross.compareTo(monthlySalary.getGross())<0? totalPayableGross: monthlySalary.getGross();
+            BigDecimal grossSalaryBasedOnPresense = perDaySalary.multiply(BigDecimal.valueOf(totalPresent));
+            monthlySalary.setGross(grossSalaryBasedOnPresense.compareTo(monthlySalary.getGross())<0? grossSalaryBasedOnPresense: monthlySalary.getGross());
+
             BigDecimal totalPayable = new BigDecimal(0);
             totalPayable = totalPayable
                 .add(monthlySalary.getGross())
-                .add(monthlySalary.getFestivalAllowance()==null? BigDecimal.ZERO: monthlySalary.getFestivalAllowance());
+                .add(ObjectUtils.defaultIfNull( monthlySalary.getOverTimeAllowance(), BigDecimal.ZERO))
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getFestivalAllowance(), BigDecimal.ZERO));
             BigDecimal totalDeduction = new BigDecimal(0);
             totalDeduction = totalDeduction
-                .add(monthlySalary.getAdvanceFactory()==null? BigDecimal.ZERO: monthlySalary.getAdvanceFactory())
-                .add(monthlySalary.getFine()==null? BigDecimal.ZERO: monthlySalary.getFine())
-                .add(monthlySalary.getLoanAmount()==null? BigDecimal.ZERO: monthlySalary.getLoanAmount());
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getAdvanceFactory(), BigDecimal.ZERO))
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getFine(), BigDecimal.ZERO))
+                .add(ObjectUtils.defaultIfNull(monthlySalary.getLoanAmount(), BigDecimal.ZERO));
 
             monthlySalary.setPayable(totalPayable.subtract(totalDeduction));
 

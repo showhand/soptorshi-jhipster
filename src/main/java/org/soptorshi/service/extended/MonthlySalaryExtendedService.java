@@ -7,8 +7,10 @@ import org.soptorshi.domain.enumeration.MonthlySalaryStatus;
 import org.soptorshi.repository.MonthlySalaryRepository;
 import org.soptorshi.repository.OfficeRepository;
 import org.soptorshi.repository.extended.MonthlySalaryExtendedRepository;
+import org.soptorshi.repository.extended.SalaryExtendedRepository;
 import org.soptorshi.repository.search.MonthlySalarySearchRepository;
 import org.soptorshi.service.MonthlySalaryService;
+import org.soptorshi.service.dto.MonthlySalaryDTO;
 import org.soptorshi.service.mapper.MonthlySalaryMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,17 +27,25 @@ public class MonthlySalaryExtendedService extends MonthlySalaryService {
     private OfficeRepository officeRepository;
     private JournalVoucherExtendedService journalVoucherExtendedService;
     private PaymentVoucherExtendedService paymentVoucherExtendedService;
+    private SalaryExtendedRepository salaryExtendedRepository;
 
-    public MonthlySalaryExtendedService(MonthlySalaryRepository monthlySalaryRepository, MonthlySalaryMapper monthlySalaryMapper, MonthlySalarySearchRepository monthlySalarySearchRepository, MonthlySalaryExtendedRepository monthlySalaryExtendedRepository, OfficeRepository officeRepository, JournalVoucherExtendedService journalVoucherExtendedService, PaymentVoucherExtendedService paymentVoucherExtendedService) {
+
+    public MonthlySalaryExtendedService(MonthlySalaryRepository monthlySalaryRepository, MonthlySalaryMapper monthlySalaryMapper, MonthlySalarySearchRepository monthlySalarySearchRepository, MonthlySalaryExtendedRepository monthlySalaryExtendedRepository, OfficeRepository officeRepository, JournalVoucherExtendedService journalVoucherExtendedService, PaymentVoucherExtendedService paymentVoucherExtendedService, SalaryExtendedRepository salaryExtendedRepository) {
         super(monthlySalaryRepository, monthlySalaryMapper, monthlySalarySearchRepository);
         this.monthlySalaryExtendedRepository = monthlySalaryExtendedRepository;
         this.officeRepository = officeRepository;
         this.journalVoucherExtendedService = journalVoucherExtendedService;
         this.paymentVoucherExtendedService = paymentVoucherExtendedService;
+        this.salaryExtendedRepository = salaryExtendedRepository;
     }
 
     public void saveAll(List<MonthlySalary> monthlySalaryList){
         monthlySalaryExtendedRepository.saveAll(monthlySalaryList);
+    }
+
+    @Override
+    public MonthlySalaryDTO save(MonthlySalaryDTO monthlySalaryDTO) {
+        return super.save(monthlySalaryDTO);
     }
 
     public void delete(Integer year, MonthType monthType, Long officeId, Long designationId){
