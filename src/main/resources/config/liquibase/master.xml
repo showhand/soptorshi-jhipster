@@ -213,6 +213,6 @@
     <include file="config/liquibase/changelog/20200421202452_monthly_salary_refactored.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200421204907_changelog.xml" relativeToChangelogFile="false"/>
 
-    <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>
+   <!-- <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>-->
 
 </databaseChangeLog>
