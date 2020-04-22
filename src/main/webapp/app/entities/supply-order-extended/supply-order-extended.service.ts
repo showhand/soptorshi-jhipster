@@ -7,6 +7,7 @@ import { SupplyOrderService } from 'app/entities/supply-order';
 import { Observable } from 'rxjs';
 import { Moment } from 'moment';
 import { map } from 'rxjs/operators';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 
 type EntityResponseType = HttpResponse<ISupplyOrder>;
 type EntityArrayResponseType = HttpResponse<ISupplyOrder[]>;
@@ -45,5 +46,15 @@ export class SupplyOrderExtendedService extends SupplyOrderService {
             });
         }
         return res;
+    }
+
+    downloadAccumulatedOrders(refNo: String) {
+        return this.http
+            .get(`${this.resourceUrl}/download/referenceNo/${refNo}`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Accumulated Orders');
+            });
     }
 }

@@ -163,7 +163,7 @@
         </div>
     </div>
 
-    <br />
+    <br/>
 
     <div class="row">
         <div class="col-3">
@@ -177,10 +177,16 @@
 
     <div class="row">
         <div class="col-12">
-            <button type="button" (click)="proceed()"
-                    class="btn btn-success btn-sm" style="float: right">
-                <span class="d-none d-md-inline">Proceed</span>
-            </button>
+            <div class="btn btn-group">
+                <button type="button" (click)="proceed()"
+                        class="btn btn-success btn-sm" style="float: right">
+                    <span class="d-none d-md-inline">Proceed</span>
+                </button>
+                <button type="button" (click)="download()"
+                        class="btn btn-info btn-sm" style="float: right">
+                    <span class="d-none d-md-inline">Download</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

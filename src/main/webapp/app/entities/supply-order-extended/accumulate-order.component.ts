@@ -256,4 +256,10 @@ export class AccumulateOrderComponent {
             );
         }
     }
+
+    download() {
+        if (this.refNo) {
+            this.supplyOrderService.downloadAccumulatedOrders(this.refNo);
+        }
+    }
 }
