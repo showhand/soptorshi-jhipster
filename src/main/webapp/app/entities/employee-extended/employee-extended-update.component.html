@@ -1,296 +1,292 @@
-<style>
-    select.form-control[multiple], select.form-control[size] {
-        height: 200px;
-    }
-</style>
-<div class="row justify-content-end">
+<div class="row justify-content-center">
     <div class="col-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-employee-heading">Create or edit a Employee</h2>
-            <div>
-                <jhi-alert-error></jhi-alert-error>
-               <!-- <div class="form-group" [hidden]="!employee.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="employee.id" readonly />
-                </div>-->
+            <div class="row">
+                <jhi-alert-error class="col-md-12"></jhi-alert-error>
 
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_employeeId">Employee Id</label>
-                            <input type="text" class="form-control" name="employeeId" id="field_employeeId"
-                                   [(ngModel)]="employee.employeeId" required/>
-                            <div [hidden]="!(editForm.controls.employeeId?.dirty && editForm.controls.employeeId?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.employeeId?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_fullName">Full Name</label>
-                            <input type="text" class="form-control" name="fullName" id="field_fullName"
-                                   [(ngModel)]="employee.fullName" required/>
-                            <div [hidden]="!(editForm.controls.fullName?.dirty && editForm.controls.fullName?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.fullName?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_fathersName">Fathers Name</label>
-                            <input type="text" class="form-control" name="fathersName" id="field_fathersName"
-                                   [(ngModel)]="employee.fathersName" required/>
-                            <div [hidden]="!(editForm.controls.fathersName?.dirty && editForm.controls.fathersName?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.fathersName?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_mothersName">Mothers Name</label>
-                            <input type="text" class="form-control" name="mothersName" id="field_mothersName"
-                                   [(ngModel)]="employee.mothersName" required/>
-                            <div [hidden]="!(editForm.controls.mothersName?.dirty && editForm.controls.mothersName?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.mothersName?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_birthDate">Birth Date</label>
-                            <div class="input-group">
-                                <input id="field_birthDate" type="text" class="form-control" name="birthDate" ngbDatepicker  #birthDateDp="ngbDatepicker" [(ngModel)]="employee.birthDate"
-                                       required/>
-                                <span class="input-group-append">
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_employeeId">Employee Id</label>
+                    <input type="text" class="form-control" name="employeeId" id="field_employeeId"
+                           [(ngModel)]="employee.employeeId" required/>
+                    <div [hidden]="!(editForm.controls.employeeId?.dirty && editForm.controls.employeeId?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.employeeId?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_fullName">Full Name</label>
+                    <input type="text" class="form-control" name="fullName" id="field_fullName"
+                           [(ngModel)]="employee.fullName" required/>
+                    <div [hidden]="!(editForm.controls.fullName?.dirty && editForm.controls.fullName?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.fullName?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_fathersName">Fathers Name</label>
+                    <input type="text" class="form-control" name="fathersName" id="field_fathersName"
+                           [(ngModel)]="employee.fathersName" required/>
+                    <div [hidden]="!(editForm.controls.fathersName?.dirty && editForm.controls.fathersName?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.fathersName?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_mothersName">Mothers Name</label>
+                    <input type="text" class="form-control" name="mothersName" id="field_mothersName"
+                           [(ngModel)]="employee.mothersName" required/>
+                    <div [hidden]="!(editForm.controls.mothersName?.dirty && editForm.controls.mothersName?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.mothersName?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_birthDate">Birth Date</label>
+                    <div class="input-group">
+                        <input id="field_birthDate" type="text" class="form-control" name="birthDate" ngbDatepicker  #birthDateDp="ngbDatepicker" [(ngModel)]="employee.birthDate"
+                               required/>
+                        <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="birthDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
-                            </div>
-                            <div [hidden]="!(editForm.controls.birthDate?.dirty && editForm.controls.birthDate?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.birthDate?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_maritalStatus">Marital Status</label>
-                            <select class="form-control" name="maritalStatus" [(ngModel)]="employee.maritalStatus" id="field_maritalStatus"  required>
-                                <option value="MARRIED">MARRIED</option>
-                                <option value="UNMARRIED">UNMARRIED</option>
-                                <option value="SEPARATED">SEPARATED</option>
-                            </select>
-                            <div [hidden]="!(editForm.controls.maritalStatus?.dirty && editForm.controls.maritalStatus?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.maritalStatus?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_gender">Gender</label>
-                            <select class="form-control" name="gender" [(ngModel)]="employee.gender" id="field_gender"  required>
-                                <option value="MALE">MALE</option>
-                                <option value="FEMALE">FEMALE</option>
-                                <option value="OTHERS">OTHERS</option>
-                            </select>
-                            <div [hidden]="!(editForm.controls.gender?.dirty && editForm.controls.gender?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.gender?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_religion">Religion</label>
-                            <select class="form-control" name="religion" [(ngModel)]="employee.religion" id="field_religion"  required>
-                                <option value="ISLAM">ISLAM</option>
-                                <option value="HINDU">HINDU</option>
-                                <option value="BUDDHIST">BUDDHIST</option>
-                                <option value="CHRISTIANS">CHRISTIANS</option>
-                                <option value="OTHERS">OTHERS</option>
-                            </select>
-                            <div [hidden]="!(editForm.controls.religion?.dirty && editForm.controls.religion?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.religion?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_permanentAddress">Permanent Address</label>
-                            <input type="text" class="form-control" name="permanentAddress" id="field_permanentAddress"
-                                   [(ngModel)]="employee.permanentAddress" required/>
-                            <div [hidden]="!(editForm.controls.permanentAddress?.dirty && editForm.controls.permanentAddress?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.permanentAddress?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_presentAddress">Present Address</label>
-                            <input type="text" class="form-control" name="presentAddress" id="field_presentAddress"
-                                   [(ngModel)]="employee.presentAddress" required/>
-                            <div [hidden]="!(editForm.controls.presentAddress?.dirty && editForm.controls.presentAddress?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.presentAddress?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_nId">NId</label>
-                            <input type="text" class="form-control" name="nId" id="field_nId"
-                                   [(ngModel)]="employee.nId" required/>
-                            <div [hidden]="!(editForm.controls.nId?.dirty && editForm.controls.nId?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.nId?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_tin">Tin</label>
-                            <input type="text" class="form-control" name="tin" id="field_tin"
-                                   [(ngModel)]="employee.tin" />
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_contactNumber">Contact Number</label>
-                            <input type="text" class="form-control" name="contactNumber" id="field_contactNumber"
-                                   [(ngModel)]="employee.contactNumber" required/>
-                            <div [hidden]="!(editForm.controls.contactNumber?.dirty && editForm.controls.contactNumber?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.contactNumber?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_email">Email</label>
-                            <input type="text" class="form-control" name="email" id="field_email"
-                                   [(ngModel)]="employee.email" />
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_bloodGroup">Blood Group</label>
-                            <input type="text" class="form-control" name="bloodGroup" id="field_bloodGroup"
-                                   [(ngModel)]="employee.bloodGroup" />
-                        </div>
                     </div>
-                    <div class="col-6">
-
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_emergencyContact">Emergency Contact</label>
-                            <input type="text" class="form-control" name="emergencyContact" id="field_emergencyContact"
-                                   [(ngModel)]="employee.emergencyContact" required/>
-                            <div [hidden]="!(editForm.controls.emergencyContact?.dirty && editForm.controls.emergencyContact?.invalid)">
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.emergencyContact?.errors?.required">
-                                    This field is required.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_joiningDate">Joining Date</label>
-                            <div class="input-group">
-                                <input id="field_joiningDate" type="text" class="form-control" name="joiningDate" ngbDatepicker  #joiningDateDp="ngbDatepicker" [(ngModel)]="employee.joiningDate"
-                                />
-                                <span class="input-group-append">
+                    <div [hidden]="!(editForm.controls.birthDate?.dirty && editForm.controls.birthDate?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.birthDate?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_maritalStatus">Marital Status</label>
+                    <select class="form-control" name="maritalStatus" [(ngModel)]="employee.maritalStatus" id="field_maritalStatus"  required>
+                        <option value="MARRIED">MARRIED</option>
+                        <option value="UNMARRIED">UNMARRIED</option>
+                        <option value="SEPARATED">SEPARATED</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.maritalStatus?.dirty && editForm.controls.maritalStatus?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.maritalStatus?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_gender">Gender</label>
+                    <select class="form-control" name="gender" [(ngModel)]="employee.gender" id="field_gender"  required>
+                        <option value="MALE">MALE</option>
+                        <option value="FEMALE">FEMALE</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.gender?.dirty && editForm.controls.gender?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.gender?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_religion">Religion</label>
+                    <select class="form-control" name="religion" [(ngModel)]="employee.religion" id="field_religion"  required>
+                        <option value="ISLAM">ISLAM</option>
+                        <option value="HINDU">HINDU</option>
+                        <option value="BUDDHIST">BUDDHIST</option>
+                        <option value="CHRISTIANS">CHRISTIANS</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.religion?.dirty && editForm.controls.religion?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.religion?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_permanentAddress">Permanent Address</label>
+                    <input type="text" class="form-control" name="permanentAddress" id="field_permanentAddress"
+                           [(ngModel)]="employee.permanentAddress" required/>
+                    <div [hidden]="!(editForm.controls.permanentAddress?.dirty && editForm.controls.permanentAddress?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.permanentAddress?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_presentAddress">Present Address</label>
+                    <input type="text" class="form-control" name="presentAddress" id="field_presentAddress"
+                           [(ngModel)]="employee.presentAddress" required/>
+                    <div [hidden]="!(editForm.controls.presentAddress?.dirty && editForm.controls.presentAddress?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.presentAddress?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_nId">N Id</label>
+                    <input type="text" class="form-control" name="nId" id="field_nId"
+                           [(ngModel)]="employee.nId" required/>
+                    <div [hidden]="!(editForm.controls.nId?.dirty && editForm.controls.nId?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.nId?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_tin">Tin</label>
+                    <input type="text" class="form-control" name="tin" id="field_tin"
+                           [(ngModel)]="employee.tin" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_contactNumber">Contact Number</label>
+                    <input type="text" class="form-control" name="contactNumber" id="field_contactNumber"
+                           [(ngModel)]="employee.contactNumber" required/>
+                    <div [hidden]="!(editForm.controls.contactNumber?.dirty && editForm.controls.contactNumber?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.contactNumber?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_email">Email</label>
+                    <input type="text" class="form-control" name="email" id="field_email"
+                           [(ngModel)]="employee.email" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_bloodGroup">Blood Group</label>
+                    <input type="text" class="form-control" name="bloodGroup" id="field_bloodGroup"
+                           [(ngModel)]="employee.bloodGroup" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_emergencyContact">Emergency Contact</label>
+                    <input type="text" class="form-control" name="emergencyContact" id="field_emergencyContact"
+                           [(ngModel)]="employee.emergencyContact" required/>
+                    <div [hidden]="!(editForm.controls.emergencyContact?.dirty && editForm.controls.emergencyContact?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.emergencyContact?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_department">Department</label>
+                    <select class="form-control" id="field_department" name="department" [(ngModel)]="employee.departmentId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_office">Office</label>
+                    <select class="form-control" id="field_office" name="office" [(ngModel)]="employee.officeId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="officeOption.id" *ngFor="let officeOption of offices; trackBy: trackOfficeById">{{officeOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_designation">Designation</label>
+                    <select class="form-control" id="field_designation" name="designation" [(ngModel)]="employee.designationId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_joiningDate">Joining Date</label>
+                    <div class="input-group">
+                        <input id="field_joiningDate" type="text" class="form-control" name="joiningDate" ngbDatepicker  #joiningDateDp="ngbDatepicker" [(ngModel)]="employee.joiningDate"
+                        />
+                        <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="joiningDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_employeeStatus">Employee Status</label>
-                            <select class="form-control" name="employeeStatus" [(ngModel)]="employee.employeeStatus" id="field_employeeStatus" >
-                                <option value="IN_PROBATION">IN_PROBATION</option>
-                                <option value="ACTIVE">ACTIVE</option>
-                                <option value="RESIGNED">RESIGNED</option>
-                                <option value="TERMINATED">TERMINATED</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_employmentType">Employment Type</label>
-                            <select class="form-control" name="employmentType" [(ngModel)]="employee.employmentType" id="field_employmentType" >
-                                <option value="PERMANENT">PERMANENT</option>
-                                <option value="TEMPORARY">TEMPORARY</option>
-                                <option value="ADHOC">ADHOC</option>
-                                <option value="PART_TIME">PART_TIME</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_terminationDate">Termination Date</label>
-                            <div class="input-group">
-                                <input id="field_terminationDate" type="text" class="form-control" name="terminationDate" ngbDatepicker  #terminationDateDp="ngbDatepicker" [(ngModel)]="employee.terminationDate"
-                                />
-                                <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="terminationDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_reasonOfTermination">Reason Of Termination</label>
-                            <input type="text" class="form-control" name="reasonOfTermination" id="field_reasonOfTermination"
-                                   [(ngModel)]="employee.reasonOfTermination" />
-                        </div>
-                       <!-- <div class="form-group inline" *ngIf="employee.id">
-                            <div class="row">
-                                <div class="col-12"><input  type="checkbox"  name="userAccount" id="field_userAccount"
-                                                            [(ngModel)]="employee.userAccount"  (ngModelChange)="activationCheckboxChanged(content)" /> <label class="form-control-label" for="field_userAccount">User Account</label></div>
-                            </div>
-
-                        </div>-->
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_photo">Photo</label>
-                            <div>
-                                <img [src]="'data:' + employee.photoContentType + ';base64,' + employee.photo" style="max-height: 100px;" *ngIf="employee.photo" alt="employee image" width="165" height="170"/>
-                                <div *ngIf="employee.photo" class="form-text text-danger clearfix">
-                                    <span class="pull-left">{{employee.photoContentType}}, {{byteSize(employee.photo)}}</span>
-                                    <button type="button" (click)="clearInputImage('photo', 'photoContentType', 'fileImage')" class="btn btn-secondary btn-xs pull-right">
-                                        <fa-icon [icon]="'times'"></fa-icon>
-                                    </button>
-                                </div>
-                                <input type="file" id="file_photo" (change)="setFileData($event, employee, 'photo', true)" accept="image/*"/>
-                            </div>
-                            <input type="hidden" class="form-control" name="photo" id="field_photo"
-                                   [(ngModel)]="employee.photo" />
-                            <input type="hidden" class="form-control" name="photoContentType" id="field_photoContentType"
-                                   [(ngModel)]="employee.photoContentType" />
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_department">Department</label>
-                            <select class="form-control" id="field_department" name="department" [(ngModel)]="employee.departmentId">
-                                <option [ngValue]="null"></option>
-                                <option [ngValue]="departmentOption.id" *ngFor="let departmentOption of departments; trackBy: trackDepartmentById">{{departmentOption.name}}</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_office">Office</label>
-                            <select class="form-control" id="field_office" name="office" [(ngModel)]="employee.officeId">
-                                <option [ngValue]="null"></option>
-                                <option [ngValue]="officeOption.id" *ngFor="let officeOption of offices; trackBy: trackOfficeById">{{officeOption.name}}</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-control-label" for="field_designation">Designation</label>
-
-                            <select class="form-control" id="field_designation" name="designation" [(ngModel)]="employee.designationId" >
-                                <option [ngValue]="null"></option>
-                                <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations; trackBy: trackDesignationById">{{designationOption.name}}</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
 
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_employeeStatus">Employee Status</label>
+                    <select class="form-control" name="employeeStatus" [(ngModel)]="employee.employeeStatus" id="field_employeeStatus" >
+                        <option value="IN_PROBATION">IN_PROBATION</option>
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="RESIGNED">RESIGNED</option>
+                        <option value="TERMINATED">TERMINATED</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_employmentType">Employment Type</label>
+                    <select class="form-control" name="employmentType" [(ngModel)]="employee.employmentType" id="field_employmentType" >
+                        <option value="PERMANENT">PERMANENT</option>
+                        <option value="TEMPORARY">TEMPORARY</option>
+                        <option value="ADHOC">ADHOC</option>
+                        <option value="PART_TIME">PART_TIME</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_terminationDate">Termination Date</label>
+                    <div class="input-group">
+                        <input id="field_terminationDate" type="text" class="form-control" name="terminationDate" ngbDatepicker  #terminationDateDp="ngbDatepicker" [(ngModel)]="employee.terminationDate"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="terminationDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_reasonOfTermination">Reason Of Termination</label>
+                    <input type="text" class="form-control" name="reasonOfTermination" id="field_reasonOfTermination"
+                           [(ngModel)]="employee.reasonOfTermination" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_photo">Photo</label>
+                    <div>
+                        <img [src]="'data:' + employee.photoContentType + ';base64,' + employee.photo" style="max-height: 100px;" *ngIf="employee.photo" alt="employee image"/>
+                        <div *ngIf="employee.photo" class="form-text text-danger clearfix">
+                            <span class="pull-left">{{employee.photoContentType}}, {{byteSize(employee.photo)}}</span>
+                            <button type="button" (click)="clearInputImage('photo', 'photoContentType', 'fileImage')" class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_photo" (change)="setFileData($event, employee, 'photo', true)" accept="image/*"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="photo" id="field_photo"
+                           [(ngModel)]="employee.photo" />
+                    <input type="hidden" class="form-control" name="photoContentType" id="field_photoContentType"
+                           [(ngModel)]="employee.photoContentType" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_hourlySalary">Hourly Salary</label>
+                    <input type="number" class="form-control" name="hourlySalary" id="field_hourlySalary"
+                           [(ngModel)]="employee.hourlySalary" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_bankName">Bank Name</label>
+                    <input type="text" class="form-control" name="bankName" id="field_bankName"
+                           [(ngModel)]="employee.bankName" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_bankAccountNo">Bank Account No</label>
+                    <input type="text" class="form-control" name="bankAccountNo" id="field_bankAccountNo"
+                           [(ngModel)]="employee.bankAccountNo" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_hourlySalary">Hourly Salary</label>
+                    <input type="number" class="form-control" name="hourlySalary" id="field_hourlySalary"
+                           [(ngModel)]="employee.hourlySalary" />
+                </div>
+
+
 
             </div>
-            <div align="right">
+            <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
@@ -301,90 +297,3 @@
         </form>
     </div>
 </div>
-
-<ng-template #content let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Create User</h4>
-    </div>
-    <div class="modal-body">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="myUserLabel">
-                Create or edit a User
-            </h2>
-            <div>
-
-
-                <div class="form-group">
-                    <label class="form-control-label">Login</label>
-                    <input readonly type="text" class="form-control" name="login" #loginInput="ngModel"
-                           [(ngModel)]="user.login" required minlength="1" maxlength="50" pattern="^[_.@A-Za-z0-9-]*$">
-
-                    <div *ngIf="loginInput.dirty && loginInput.invalid">
-                        <small class="form-text text-danger"
-                               *ngIf="loginInput.errors.required">
-                            This field is required.
-                        </small>
-
-                        <small class="form-text text-danger"
-                               *ngIf="loginInput.errors.maxlength"
-                        >
-                            This field cannot be longer than 50 characters.
-                        </small>
-
-                        <small class="form-text text-danger"
-                               *ngIf="loginInput.errors.pattern">
-                            This field can only contain letters, digits and e-mail addresses.
-                        </small>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label">Email</label>
-                    <input type="email" readonly class="form-control" name="email" #emailInput="ngModel"
-                           [(ngModel)]="user.email" minlength="5" required maxlength="254" email>
-
-                    <div *ngIf="emailInput.dirty && emailInput.invalid">
-                        <small class="form-text text-danger"
-                               *ngIf="emailInput.errors.required">
-                            This field is required.
-                        </small>
-
-                        <small class="form-text text-danger"
-                               *ngIf="emailInput.errors.maxlength"
-                        >
-                            This field cannot be longer than 100 characters.
-                        </small>
-
-                        <small class="form-text text-danger"
-                               *ngIf="emailInput.errors.minlength"
-                        >
-                            This field is required to be at least 5 characters.
-                        </small>
-
-                        <small class="form-text text-danger"
-                               *ngIf="emailInput.errors.email">
-                            Your email is invalid.
-                        </small>
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    <label>Profiles</label>
-                    <select class="form-control" multiple name="authority" [(ngModel)]="user.authorities">
-                        <option *ngFor="let authority of authorities" [value]="authority">{{authority}}</option>
-                    </select>
-                </div>
-            </div>
-            <div>
-                <button type="button" class="btn btn-secondary" (click)="cancelUserCreation()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span
-                >Cancel</span>
-                </button>
-                <button type="button"  class="btn btn-primary" (click)="saveUser()" >
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-                </button>
-            </div>
-        </form>
-    </div>
-</ng-template>

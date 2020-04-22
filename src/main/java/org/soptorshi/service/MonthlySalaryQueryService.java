@@ -111,6 +111,27 @@ public class MonthlySalaryQueryService extends QueryService<MonthlySalary> {
             if (criteria.getMedicalAllowance() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getMedicalAllowance(), MonthlySalary_.medicalAllowance));
             }
+            if (criteria.getOverTimeAllowance() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getOverTimeAllowance(), MonthlySalary_.overTimeAllowance));
+            }
+            if (criteria.getFoodAllowance() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getFoodAllowance(), MonthlySalary_.foodAllowance));
+            }
+            if (criteria.getArrearAllowance() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getArrearAllowance(), MonthlySalary_.arrearAllowance));
+            }
+            if (criteria.getDriverAllowance() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDriverAllowance(), MonthlySalary_.driverAllowance));
+            }
+            if (criteria.getFuelLubAllowance() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getFuelLubAllowance(), MonthlySalary_.fuelLubAllowance));
+            }
+            if (criteria.getMobileAllowance() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMobileAllowance(), MonthlySalary_.mobileAllowance));
+            }
+            if (criteria.getTravelAllowance() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTravelAllowance(), MonthlySalary_.travelAllowance));
+            }
             if (criteria.getOtherAllowance() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getOtherAllowance(), MonthlySalary_.otherAllowance));
             }

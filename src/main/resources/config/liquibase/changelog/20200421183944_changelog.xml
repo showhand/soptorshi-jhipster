@@ -1,0 +1,163 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="monju (generated)" id="1587494398499-1">
+        <addColumn tableName="employee">
+            <column name="bank_account_no" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-2">
+        <addColumn tableName="employee">
+            <column name="bank_name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-3">
+        <addColumn tableName="commercial_attachment">
+            <column name="commercial_pi_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-4">
+        <addColumn tableName="supply_order">
+            <column name="delivery_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-5">
+        <addColumn tableName="supply_area_manager">
+            <column name="employee_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-6">
+        <addColumn tableName="supply_area_manager">
+            <column name="end_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-7">
+        <addColumn tableName="holiday">
+            <column name="holiday_year" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-8">
+        <addColumn tableName="employee">
+            <column name="hourly_salary" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-9">
+        <addColumn tableName="supply_order">
+            <column name="offer_amount" type="decimal(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-10">
+        <addColumn tableName="supply_order_details">
+            <column name="offered_price" type="decimal(10, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-11">
+        <addColumn tableName="requisition_details">
+            <column name="product_category_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-12">
+        <addColumn tableName="supply_order_details">
+            <column name="product_category_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-13">
+        <addColumn tableName="supply_order_details">
+            <column name="product_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-14">
+        <addColumn tableName="supply_order_details">
+            <column name="quantity" type="decimal(10, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-15">
+        <addColumn tableName="supply_area_manager">
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-16">
+        <addColumn tableName="supply_order">
+            <column name="supply_order_status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-17">
+        <addColumn tableName="supply_order">
+            <column name="supply_shop_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-18">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="supply_area_manager" constraintName="FK82a43m6lc8skg8ahnd88p6s8e" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="employee"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-19">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="supply_order_details" constraintName="FKchfulmlkpvfq7lrd75gqdcg01" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-20">
+        <addForeignKeyConstraint baseColumnNames="supply_shop_id" baseTableName="supply_order" constraintName="FKkiuyxlixfyw148t9i70ib00e2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_shop"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-21">
+        <addForeignKeyConstraint baseColumnNames="product_category_id" baseTableName="supply_order_details" constraintName="FKm1obvg2rpk51moyyche418ib4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-22">
+        <addForeignKeyConstraint baseColumnNames="commercial_pi_id" baseTableName="commercial_attachment" constraintName="FKq5yx2q4bs8x9t52c5hjlpg1h9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="commercial_pi"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-23">
+        <addForeignKeyConstraint baseColumnNames="product_category_id" baseTableName="requisition_details" constraintName="FKrjl1usc4p3l2qcnfpfhyvirmn" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-24">
+        <dropForeignKeyConstraint baseTableName="commercial_attachment" constraintName="FKft5ym2y5d0ocrexjl5u0rav8l"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-25">
+        <dropUniqueConstraint constraintName="unique_financial_year_month_type" tableName="period_close"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-26">
+        <dropUniqueConstraint constraintName="voucher_id" tableName="predefined_narration"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-27">
+        <dropColumn columnName="additional_information" tableName="supply_area_manager"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-28">
+        <dropColumn columnName="commercial_po_id" tableName="commercial_attachment"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-29">
+        <dropColumn columnName="manager_name" tableName="supply_area_manager"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-30">
+        <dropColumn columnName="offer" tableName="supply_order"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-31">
+        <dropColumn columnName="product_name" tableName="supply_order_details"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-32">
+        <dropColumn columnName="product_volume" tableName="supply_order_details"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-33">
+        <dropColumn columnName="total_price" tableName="supply_order_details"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-34">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_area_manager_id" tableName="supply_order"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-35">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_area_manager_id" tableName="supply_sales_representative"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1587494398499-36">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_area_manager_id" tableName="supply_shop"/>
+    </changeSet>
+</databaseChangeLog>

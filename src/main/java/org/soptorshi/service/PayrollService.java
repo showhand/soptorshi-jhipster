@@ -9,14 +9,15 @@ import org.soptorshi.repository.EmployeeRepository;
 import org.soptorshi.repository.MonthlySalaryRepository;
 import org.soptorshi.service.dto.EmployeeCriteria;
 import org.soptorshi.service.dto.EmployeeDTO;
-import org.soptorshi.service.extended.MonthlySalaryExtendedService;
-import org.soptorshi.service.extended.SalaryExtendedService;
-import org.soptorshi.service.extended.SpecialAllowanceTimeLineExtendedService;
+import org.soptorshi.service.extended.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.Month;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,21 +34,24 @@ public class PayrollService {
     private List<Loan> updatableLoans;
     private Map<Religion, SpecialAllowanceTimeLine> specialAllowanceTimeLineMap;
 
-    private LoanService loanService;
-    private FineService fineService;
-    private AdvanceService advanceService;
-    private SalaryExtendedService salaryService;
-    private EmployeeService employeeService;
-    private MonthlySalaryExtendedService monthlySalaryService;
-    private SpecialAllowanceTimeLineExtendedService specialAllowanceTimeLineService;
-    private DesignationWiseAllowanceService designationWiseAllowanceService;
-    private ProvidentFundService providentFundService;
-    private BillService billService;
-    private TaxService taxService;
-    private EmployeeRepository employeeRepository;
+    private final LoanService loanService;
+    private final FineService fineService;
+    private final AdvanceService advanceService;
+    private final SalaryExtendedService salaryService;
+    private final EmployeeService employeeService;
+    private final MonthlySalaryExtendedService monthlySalaryService;
+    private final SpecialAllowanceTimeLineExtendedService specialAllowanceTimeLineService;
+    private final DesignationWiseAllowanceService designationWiseAllowanceService;
+    private final ProvidentFundService providentFundService;
+    private final BillService billService;
+    private final TaxService taxService;
+    private final EmployeeRepository employeeRepository;
+    private final HolidayExtendedService holidayExtendedService;
+    private final WeekendExtendedService weekendExtendedService;
+    private final LeaveApplicationExtendedService leaveApplicationExtendedService;
 
 
-    public PayrollService(LoanService loanService, FineService fineService, AdvanceService advanceService, SalaryExtendedService salaryService, EmployeeService employeeService, MonthlySalaryExtendedService monthlySalaryService, SpecialAllowanceTimeLineExtendedService specialAllowanceTimeLineService, DesignationWiseAllowanceService designationWiseAllowanceService, ProvidentFundService providentFundService, BillService billService, TaxService taxService, EmployeeRepository employeeRepository) {
+    public PayrollService(LoanService loanService, FineService fineService, AdvanceService advanceService, SalaryExtendedService salaryService, EmployeeService employeeService, MonthlySalaryExtendedService monthlySalaryService, SpecialAllowanceTimeLineExtendedService specialAllowanceTimeLineService, DesignationWiseAllowanceService designationWiseAllowanceService, ProvidentFundService providentFundService, BillService billService, TaxService taxService, EmployeeRepository employeeRepository, HolidayExtendedService holidayExtendedService, WeekendExtendedService weekendExtendedService, LeaveApplicationExtendedService leaveApplicationExtendedService) {
         this.loanService = loanService;
         this.fineService = fineService;
         this.advanceService = advanceService;
@@ -60,6 +64,9 @@ public class PayrollService {
         this.billService = billService;
         this.taxService = taxService;
         this.employeeRepository = employeeRepository;
+        this.holidayExtendedService = holidayExtendedService;
+        this.weekendExtendedService = weekendExtendedService;
+        this.leaveApplicationExtendedService = leaveApplicationExtendedService;
     }
 
     @Transactional
@@ -88,6 +95,21 @@ public class PayrollService {
             monthlySalary = calculateBill(monthlySalary);
             monthlySalary = assignAllowances(monthlySalary);
 
+            Long totalDayInAMonth = totalDays(monthType, year);
+            //for test purpose
+            totalDayInAMonth = 26L;
+            // todo remove the bellow code fragments for calculation.
+/*            List<LocalDate> holidayDates = holidayExtendedService.getAllHolidayDates(monthType, year);
+            List<LocalDate> weekendDates = weekendExtendedService.getAllWeekendDates(monthType, year);
+            List<LocalDate> withoutPayLeaveDates = leaveApplicationExtendedService.getWithoutPayLeaveDates(employeeId, monthType, year);
+            List<LocalDate> withPayLeaveDates = leaveApplicationExtendedService.getWithPayLeaveDates(employeeId, monthType, year);
+            Long totalPresent = totalDayInAMonth - (holidayDates.size() + weekendDates.size() + withoutPayLeaveDates.size() + withPayLeaveDates.size());*/
+            // for test purpose
+            Long totalPresent = 26L;
+            BigDecimal perDaySalary = monthlySalary.getGross().divide(BigDecimal.valueOf(totalDayInAMonth));
+            BigDecimal grossSalaryBasedOnPresense = perDaySalary.multiply(BigDecimal.valueOf(totalPresent));
+            monthlySalary.setGross(grossSalaryBasedOnPresense);
+
             BigDecimal totalPayable = new BigDecimal(0);
             totalPayable = totalPayable
                 .add(monthlySalary.getGross())
@@ -98,6 +120,10 @@ public class PayrollService {
                 .add(monthlySalary.getFine()==null? BigDecimal.ZERO: monthlySalary.getFine())
                 .add(monthlySalary.getLoanAmount()==null? BigDecimal.ZERO: monthlySalary.getLoanAmount());
 
+
+
+
+
             monthlySalary.setPayable(totalPayable.subtract(totalDeduction));
 
             monthlySalaries.add(monthlySalary);
@@ -107,6 +133,14 @@ public class PayrollService {
         loanService.saveAll(updatableLoans);
         advanceService.saveAll(updatableAdvances);
         monthlySalaryService.saveAll(monthlySalaries);
+    }
+
+    private Long totalDays(MonthType monthType, int year) {
+        YearMonth yearMonth = YearMonth.of(year, monthType.ordinal() + 1);
+        LocalDate firstOfMonth = yearMonth.atDay(1);
+        LocalDate lastOfMonth = yearMonth.atEndOfMonth();
+
+        return Duration.between(firstOfMonth, lastOfMonth).toDays();
     }
 
     @Transactional
@@ -162,6 +196,27 @@ public class PayrollService {
         for(DesignationWiseAllowance designationWiseAllowance: designationWiseAllowances){
             if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.HOUSE_RENT) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
                 monthlySalary.setHouseRent(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.OVERTIME_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.SPECIFIC)){
+                monthlySalary.setOverTimeAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.FOOD_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
+                monthlySalary.setFoodAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.DRIVER_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
+                monthlySalary.setDriverAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.FUEL_LUB_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
+                monthlySalary.setFuelLubAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.TRAVEL_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
+                monthlySalary.setTravelAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.MOBILE_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
+                monthlySalary.setMobileAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
+            }
+            else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.ARREAR_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY)){
+                monthlySalary.setArrearAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));
             }
             else if(designationWiseAllowance.getAllowanceType().equals(AllowanceType.MEDICAL_ALLOWANCE) && designationWiseAllowance.getAllowanceCategory().equals(AllowanceCategory.MONTHLY))
                 monthlySalary.setMedicalAllowance(monthlySalary.getGross().multiply (designationWiseAllowance.getAmount().divide(new BigDecimal(100))));

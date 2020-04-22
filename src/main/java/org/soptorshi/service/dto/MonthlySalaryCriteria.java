@@ -50,6 +50,20 @@ public class MonthlySalaryCriteria implements Serializable {
 
     private BigDecimalFilter medicalAllowance;
 
+    private BigDecimalFilter overTimeAllowance;
+
+    private BigDecimalFilter foodAllowance;
+
+    private BigDecimalFilter arrearAllowance;
+
+    private BigDecimalFilter driverAllowance;
+
+    private BigDecimalFilter fuelLubAllowance;
+
+    private BigDecimalFilter mobileAllowance;
+
+    private BigDecimalFilter travelAllowance;
+
     private BigDecimalFilter otherAllowance;
 
     private BigDecimalFilter festivalAllowance;
@@ -144,6 +158,62 @@ public class MonthlySalaryCriteria implements Serializable {
 
     public void setMedicalAllowance(BigDecimalFilter medicalAllowance) {
         this.medicalAllowance = medicalAllowance;
+    }
+
+    public BigDecimalFilter getOverTimeAllowance() {
+        return overTimeAllowance;
+    }
+
+    public void setOverTimeAllowance(BigDecimalFilter overTimeAllowance) {
+        this.overTimeAllowance = overTimeAllowance;
+    }
+
+    public BigDecimalFilter getFoodAllowance() {
+        return foodAllowance;
+    }
+
+    public void setFoodAllowance(BigDecimalFilter foodAllowance) {
+        this.foodAllowance = foodAllowance;
+    }
+
+    public BigDecimalFilter getArrearAllowance() {
+        return arrearAllowance;
+    }
+
+    public void setArrearAllowance(BigDecimalFilter arrearAllowance) {
+        this.arrearAllowance = arrearAllowance;
+    }
+
+    public BigDecimalFilter getDriverAllowance() {
+        return driverAllowance;
+    }
+
+    public void setDriverAllowance(BigDecimalFilter driverAllowance) {
+        this.driverAllowance = driverAllowance;
+    }
+
+    public BigDecimalFilter getFuelLubAllowance() {
+        return fuelLubAllowance;
+    }
+
+    public void setFuelLubAllowance(BigDecimalFilter fuelLubAllowance) {
+        this.fuelLubAllowance = fuelLubAllowance;
+    }
+
+    public BigDecimalFilter getMobileAllowance() {
+        return mobileAllowance;
+    }
+
+    public void setMobileAllowance(BigDecimalFilter mobileAllowance) {
+        this.mobileAllowance = mobileAllowance;
+    }
+
+    public BigDecimalFilter getTravelAllowance() {
+        return travelAllowance;
+    }
+
+    public void setTravelAllowance(BigDecimalFilter travelAllowance) {
+        this.travelAllowance = travelAllowance;
     }
 
     public BigDecimalFilter getOtherAllowance() {
@@ -324,6 +394,13 @@ public class MonthlySalaryCriteria implements Serializable {
             Objects.equals(gross, that.gross) &&
             Objects.equals(houseRent, that.houseRent) &&
             Objects.equals(medicalAllowance, that.medicalAllowance) &&
+            Objects.equals(overTimeAllowance, that.overTimeAllowance) &&
+            Objects.equals(foodAllowance, that.foodAllowance) &&
+            Objects.equals(arrearAllowance, that.arrearAllowance) &&
+            Objects.equals(driverAllowance, that.driverAllowance) &&
+            Objects.equals(fuelLubAllowance, that.fuelLubAllowance) &&
+            Objects.equals(mobileAllowance, that.mobileAllowance) &&
+            Objects.equals(travelAllowance, that.travelAllowance) &&
             Objects.equals(otherAllowance, that.otherAllowance) &&
             Objects.equals(festivalAllowance, that.festivalAllowance) &&
             Objects.equals(absent, that.absent) &&
@@ -356,6 +433,13 @@ public class MonthlySalaryCriteria implements Serializable {
         gross,
         houseRent,
         medicalAllowance,
+        overTimeAllowance,
+        foodAllowance,
+        arrearAllowance,
+        driverAllowance,
+        fuelLubAllowance,
+        mobileAllowance,
+        travelAllowance,
         otherAllowance,
         festivalAllowance,
         absent,
@@ -389,6 +473,13 @@ public class MonthlySalaryCriteria implements Serializable {
                 (gross != null ? "gross=" + gross + ", " : "") +
                 (houseRent != null ? "houseRent=" + houseRent + ", " : "") +
                 (medicalAllowance != null ? "medicalAllowance=" + medicalAllowance + ", " : "") +
+                (overTimeAllowance != null ? "overTimeAllowance=" + overTimeAllowance + ", " : "") +
+                (foodAllowance != null ? "foodAllowance=" + foodAllowance + ", " : "") +
+                (arrearAllowance != null ? "arrearAllowance=" + arrearAllowance + ", " : "") +
+                (driverAllowance != null ? "driverAllowance=" + driverAllowance + ", " : "") +
+                (fuelLubAllowance != null ? "fuelLubAllowance=" + fuelLubAllowance + ", " : "") +
+                (mobileAllowance != null ? "mobileAllowance=" + mobileAllowance + ", " : "") +
+                (travelAllowance != null ? "travelAllowance=" + travelAllowance + ", " : "") +
                 (otherAllowance != null ? "otherAllowance=" + otherAllowance + ", " : "") +
                 (festivalAllowance != null ? "festivalAllowance=" + festivalAllowance + ", " : "") +
                 (absent != null ? "absent=" + absent + ", " : "") +

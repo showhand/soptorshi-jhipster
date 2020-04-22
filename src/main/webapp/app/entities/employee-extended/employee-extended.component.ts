@@ -53,20 +53,7 @@ export class EmployeeExtendedComponent extends EmployeeComponent implements OnIn
         protected userService: UserService,
         protected managerService: ManagerService
     ) {
-        super(
-            employeeService,
-            parseLinks,
-            jhiAlertService,
-            accountService,
-            activatedRoute,
-            dataUtils,
-            router,
-            eventManager,
-            departmentService,
-            designationService,
-            userService,
-            managerService
-        );
+        super(employeeService, parseLinks, jhiAlertService, accountService, activatedRoute, dataUtils, router, eventManager);
     }
 
     loadAll() {
