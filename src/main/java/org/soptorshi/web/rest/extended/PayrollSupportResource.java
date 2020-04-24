@@ -42,40 +42,45 @@ public class PayrollSupportResource {
     @GetMapping("/payroll-support/totalWorkDays/month/{month}/year/{year}")
     public ResponseEntity<Long> getTotalWorkingDays(@PathVariable MonthType month, @PathVariable int year) {
         log.debug("REST request to get total working days");
-
-        Long totalDayInAMonth = totalDays(month, year);
+        return ResponseEntity.ok().body(new Long(26));
+       /* Long totalDayInAMonth = totalDays(month, year);
         List<LocalDate> holidayDates = holidayExtendedService.getAllHolidayDates(month, year);
         List<LocalDate> weekendDates = weekendExtendedService.getAllWeekendDates(month, year);
         Long totalWorkday = totalDayInAMonth - (holidayDates.size() + weekendDates.size());
 
-        return ResponseEntity.ok().body(totalWorkday);
+        return ResponseEntity.ok().body(totalWorkday);*/
     }
 
     @GetMapping("/payroll-support/totalPresent/employeeId/{employeeId}/month/{month}/year/{year}")
     public ResponseEntity<Long> getTotalPresent(@PathVariable Long employeeId, @PathVariable MonthType month, @PathVariable int year) {
         log.debug("REST request to get total working days");
 
-        Long totalDayInAMonth = totalDays(month, year);
+        return ResponseEntity.ok().body(new Long(28));
+
+        /*Long totalDayInAMonth = totalDays(month, year);
         List<LocalDate> holidayDates = holidayExtendedService.getAllHolidayDates(month, year);
         List<LocalDate> weekendDates = weekendExtendedService.getAllWeekendDates(month, year);
         List<LocalDate> withoutPayLeaveDates = leaveApplicationExtendedService.getWithoutPayLeaveDates(employeeId, month, year);
         List<LocalDate> withPayLeaveDates = leaveApplicationExtendedService.getWithPayLeaveDates(employeeId, month, year);
         Long totalPresent = totalDayInAMonth - (holidayDates.size() + weekendDates.size() + withoutPayLeaveDates.size() + withPayLeaveDates.size());
 
-        return ResponseEntity.ok().body(totalPresent);
+        return ResponseEntity.ok().body(totalPresent);*/
     }
 
     @GetMapping("/payroll-support/totalPresentWithoutPay/employeeId/{employeeId}/month/{month}/year/{year}")
     public ResponseEntity<Long> getTotalPresentWithoutPay(@PathVariable Long employeeId, @PathVariable MonthType month, @PathVariable int year) {
         log.debug("REST request to get total working days");
 
-        Long totalDayInAMonth = totalDays(month, year);
+        return ResponseEntity.ok().body(new Long(26));
+
+
+        /*Long totalDayInAMonth = totalDays(month, year);
         List<LocalDate> holidayDates = holidayExtendedService.getAllHolidayDates(month, year);
         List<LocalDate> weekendDates = weekendExtendedService.getAllWeekendDates(month, year);
         List<LocalDate> withPayLeaveDates = leaveApplicationExtendedService.getWithPayLeaveDates(employeeId, month, year);
         Long totalPresent = totalDayInAMonth - (holidayDates.size() + weekendDates.size() + withPayLeaveDates.size());
 
-        return ResponseEntity.ok().body(totalPresent);
+        return ResponseEntity.ok().body(totalPresent);*/
     }
 
     private Long totalDays(MonthType monthType, int year) {

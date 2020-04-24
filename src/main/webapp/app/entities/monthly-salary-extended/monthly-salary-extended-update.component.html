@@ -1,168 +1,176 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
             <h2 id="jhi-monthly-salary-heading">Create or edit a Monthly Salary</h2>
-            <div>
-                <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!monthlySalary.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="monthlySalary.id" readonly />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_year">Year</label>
-                    <input type="number" class="form-control" name="year" id="field_year"
-                        [(ngModel)]="monthlySalary.year" required/>
-                    <div [hidden]="!(editForm.controls.year?.dirty && editForm.controls.year?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.year?.errors?.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.year?.errors?.number">
-                            This field should be a number.
-                        </small>
+            <div class="row">
+                <jhi-alert-error class="col-md-12"></jhi-alert-error>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">Earnings</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_basic">Basic</label>
+                                <input type="number" class="form-control" name="basic" id="field_basic"
+                                       [(ngModel)]="monthlySalary.basic" required/>
+                                <div [hidden]="!(editForm.controls.basic?.dirty && editForm.controls.basic?.invalid)">
+                                    <small class="form-text text-danger"
+                                           [hidden]="!editForm.controls.basic?.errors?.required">
+                                        This field is required.
+                                    </small>
+                                    <small class="form-text text-danger"
+                                           [hidden]="!editForm.controls.basic?.errors?.number">
+                                        This field should be a number.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_houseRent">House Rent</label>
+                                <input type="number" class="form-control" name="houseRent" id="field_houseRent"
+                                       [(ngModel)]="monthlySalary.houseRent" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_medicalAllowance">Medical Allowance</label>
+                                <input type="number" class="form-control" name="medicalAllowance" id="field_medicalAllowance"
+                                       [(ngModel)]="monthlySalary.medicalAllowance" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_festivalAllowance">Festival Allowance</label>
+                                <input type="number" class="form-control" name="festivalAllowance" id="field_festivalAllowance"
+                                       [(ngModel)]="monthlySalary.festivalAllowance" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_overTimeAllowance">Over Time Allowance</label>
+                                <input type="number" class="form-control" name="overTimeAllowance" id="field_overTimeAllowance"
+                                       [(ngModel)]="monthlySalary.overTimeAllowance" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_foodAllowance">Food Allowance</label>
+                                <input type="number" class="form-control" name="foodAllowance" id="field_foodAllowance"
+                                       [(ngModel)]="monthlySalary.foodAllowance" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_arrearAllowance">Arrear Allowance</label>
+                                <input type="number" class="form-control" name="arrearAllowance" id="field_arrearAllowance"
+                                       [(ngModel)]="monthlySalary.arrearAllowance" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_driverAllowance">Driver Allowance</label>
+                                <input type="number" class="form-control" name="driverAllowance" id="field_driverAllowance"
+                                       [(ngModel)]="monthlySalary.driverAllowance" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_fuelLubAllowance">Fuel Lub Allowance</label>
+                                <input type="number" class="form-control" name="fuelLubAllowance" id="field_fuelLubAllowance"
+                                       [(ngModel)]="monthlySalary.fuelLubAllowance" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_mobileAllowance">Mobile Allowance</label>
+                                <input type="number" class="form-control" name="mobileAllowance" id="field_mobileAllowance"
+                                       [(ngModel)]="monthlySalary.mobileAllowance" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_travelAllowance">Travel Allowance</label>
+                                <input type="number" class="form-control" name="travelAllowance" id="field_travelAllowance"
+                                       [(ngModel)]="monthlySalary.travelAllowance" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_otherAllowance">Other Allowance</label>
+                                <input type="number" class="form-control" name="otherAllowance" id="field_otherAllowance"
+                                       [(ngModel)]="monthlySalary.otherAllowance" />
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_month">Month</label>
-                    <select class="form-control" name="month" [(ngModel)]="monthlySalary.month" id="field_month"  required>
-                        <option value="JANUARY">JANUARY</option>
-                        <option value="FEBRUARY">FEBRUARY</option>
-                        <option value="MARCH">MARCH</option>
-                        <option value="APRIL">APRIL</option>
-                        <option value="MAY">MAY</option>
-                        <option value="JUNE">JUNE</option>
-                        <option value="JULY">JULY</option>
-                        <option value="AUGUST">AUGUST</option>
-                        <option value="SEPTEMBER">SEPTEMBER</option>
-                        <option value="OCTOBER">OCTOBER</option>
-                        <option value="NOVEMBER">NOVEMBER</option>
-                        <option value="DECEMBER">DECEMBER</option>
-                    </select>
-                    <div [hidden]="!(editForm.controls.month?.dirty && editForm.controls.month?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.month?.errors?.required">
-                        This field is required.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_basic">Basic</label>
-                    <input type="number" class="form-control" name="basic" id="field_basic"
-                        [(ngModel)]="monthlySalary.basic" required/>
-                    <div [hidden]="!(editForm.controls.basic?.dirty && editForm.controls.basic?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.basic?.errors?.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.basic?.errors?.number">
-                            This field should be a number.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_houseRent">House Rent</label>
-                    <input type="number" class="form-control" name="houseRent" id="field_houseRent"
-                        [(ngModel)]="monthlySalary.houseRent" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_medicalAllowance">Medical Allowance</label>
-                    <input type="number" class="form-control" name="medicalAllowance" id="field_medicalAllowance"
-                        [(ngModel)]="monthlySalary.medicalAllowance" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_otherAllowance">Other Allowance</label>
-                    <input type="number" class="form-control" name="otherAllowance" id="field_otherAllowance"
-                        [(ngModel)]="monthlySalary.otherAllowance" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_festivalAllowance">Festival Allowance</label>
-                    <input type="number" class="form-control" name="festivalAllowance" id="field_festivalAllowance"
-                        [(ngModel)]="monthlySalary.festivalAllowance" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_absent">Absent</label>
-                    <input type="number" class="form-control" name="absent" id="field_absent"
-                        [(ngModel)]="monthlySalary.absent" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_fine">Fine</label>
-                    <input type="number" class="form-control" name="fine" id="field_fine"
-                        [(ngModel)]="monthlySalary.fine" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_advanceHO">Advance HO</label>
-                    <input type="number" class="form-control" name="advanceHO" id="field_advanceHO"
-                        [(ngModel)]="monthlySalary.advanceHO" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_advanceFactory">Advance Factory</label>
-                    <input type="number" class="form-control" name="advanceFactory" id="field_advanceFactory"
-                        [(ngModel)]="monthlySalary.advanceFactory" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_providentFund">Provident Fund</label>
-                    <input type="number" class="form-control" name="providentFund" id="field_providentFund"
-                        [(ngModel)]="monthlySalary.providentFund" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_tax">Tax</label>
-                    <input type="number" class="form-control" name="tax" id="field_tax"
-                        [(ngModel)]="monthlySalary.tax" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_loanAmount">Loan Amount</label>
-                    <input type="number" class="form-control" name="loanAmount" id="field_loanAmount"
-                        [(ngModel)]="monthlySalary.loanAmount" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_billPayable">Bill Payable</label>
-                    <input type="number" class="form-control" name="billPayable" id="field_billPayable"
-                        [(ngModel)]="monthlySalary.billPayable" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_billReceivable">Bill Receivable</label>
-                    <input type="number" class="form-control" name="billReceivable" id="field_billReceivable"
-                        [(ngModel)]="monthlySalary.billReceivable" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_payable">Payable</label>
-                    <input type="number" class="form-control" name="payable" id="field_payable"
-                        [(ngModel)]="monthlySalary.payable" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedBy">Modified By</label>
-                    <input type="text" class="form-control" name="modifiedBy" id="field_modifiedBy"
-                        [(ngModel)]="monthlySalary.modifiedBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_modifiedOn">Modified On</label>
-                    <div class="input-group">
-                        <input id="field_modifiedOn" type="text" class="form-control" name="modifiedOn" ngbDatepicker  #modifiedOnDp="ngbDatepicker" [(ngModel)]="monthlySalary.modifiedOn"
-                        />
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="modifiedOnDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
-                        </span>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-danger text-white">Deductions</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_absent">Absent</label>
+                                <input type="number" class="form-control" name="absent" id="field_absent"
+                                       [(ngModel)]="monthlySalary.absent" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_fine">Fine</label>
+                                <input type="number" class="form-control" name="fine" id="field_fine"
+                                       [(ngModel)]="monthlySalary.fine" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_advanceHO">Advance HO</label>
+                                <input type="number" class="form-control" name="advanceHO" id="field_advanceHO"
+                                       [(ngModel)]="monthlySalary.advanceHO" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_advanceFactory">Advance Factory</label>
+                                <input type="number" class="form-control" name="advanceFactory" id="field_advanceFactory"
+                                       [(ngModel)]="monthlySalary.advanceFactory" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_providentFund">Provident Fund</label>
+                                <input type="number" class="form-control" name="providentFund" id="field_providentFund"
+                                       [(ngModel)]="monthlySalary.providentFund" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_tax">Tax</label>
+                                <input type="number" class="form-control" name="tax" id="field_tax"
+                                       [(ngModel)]="monthlySalary.tax" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_loanAmount">Loan Amount</label>
+                                <input type="number" class="form-control" name="loanAmount" id="field_loanAmount"
+                                       [(ngModel)]="monthlySalary.loanAmount" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_billPayable">Bill Payable</label>
+                                <input type="number" class="form-control" name="billPayable" id="field_billPayable"
+                                       [(ngModel)]="monthlySalary.billPayable" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_billReceivable">Bill Receivable</label>
+                                <input type="number" class="form-control" name="billReceivable" id="field_billReceivable"
+                                       [(ngModel)]="monthlySalary.billReceivable" />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_employee">Employee</label>
-                    <select class="form-control" id="field_employee" name="employee" [(ngModel)]="monthlySalary.employeeId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
-                    </select>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_gross">Gross</label>
+                        <input type="number" class="form-control" name="gross" id="field_gross"
+                               [(ngModel)]="monthlySalary.gross" required/>
+                        <div [hidden]="!(editForm.controls.gross?.dirty && editForm.controls.gross?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.gross?.errors?.required">
+                                This field is required.
+                            </small>
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.gross?.errors?.number">
+                                This field should be a number.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_payable">Payable</label>
+                        <input type="number" class="form-control" name="payable" id="field_payable"
+                               [(ngModel)]="monthlySalary.payable" />
+                    </div>
                 </div>
             </div>
-            <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
-                </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-                </button>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                    </button>
+                    <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                        <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                    </button>
+                </div>
+
             </div>
         </form>
     </div>

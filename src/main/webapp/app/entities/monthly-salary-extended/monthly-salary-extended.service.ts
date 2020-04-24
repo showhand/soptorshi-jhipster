@@ -26,4 +26,34 @@ export class MonthlySalaryExtendedService extends MonthlySalaryService {
             .get<IMonthlySalary>(`${this.resourceUrlExtended}/${officeId}/${year}/${monthType}`, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => res));
     }
+
+    getTotalWorkingDays(month: MonthType, year: number): Observable<HttpResponse<number>> {
+        return this.http
+            .get(SERVER_API_URL + 'api/extended/payroll-support/totalWorkDays/month/' + month + '/year/' + year, { observe: 'response' })
+            .pipe(map((res: HttpResponse<number>) => res));
+    }
+
+    getTotalPresent(employeeId: number, month: MonthType, year: number): Observable<HttpResponse<number>> {
+        return this.http
+            .get(
+                SERVER_API_URL + 'api/extended/payroll-support/totalPresent/employeeId/' + employeeId + '/month/' + month + '/year/' + year,
+                { observe: 'response' }
+            )
+            .pipe(map((res: HttpResponse<number>) => res));
+    }
+
+    getTotalPresentWithoutPay(employeeId: number, month: MonthType, year: number): Observable<HttpResponse<number>> {
+        return this.http
+            .get(
+                SERVER_API_URL +
+                    'api/extended/payroll-support/totalPresentWithoutPay/employeeId/' +
+                    employeeId +
+                    '/month/' +
+                    month +
+                    '/year/' +
+                    year,
+                { observe: 'response' }
+            )
+            .pipe(map((res: HttpResponse<number>) => res));
+    }
 }
