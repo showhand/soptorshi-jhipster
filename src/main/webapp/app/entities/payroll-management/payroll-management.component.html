@@ -1,5 +1,57 @@
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header text-white bg-secondary">Select</div>
+            <div class="card-body">
+                <form name="selectForm" role="form" novalidate>
+                    <div class="row">
+                        <div class="form-group col-md-3 form-inline">
+                            <label  for="office" class="col-4 form-control-label" align="left">Office</label>
+                            <select class="col-8 form-control" name="office" id="office" [(ngModel)]="payrollManagementService.payrollManagement.officeId" required>
+                                <option [ngValue]="officeOption.id" *ngFor="let officeOption of officeList">{{officeOption.name}}</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group col-md-3 form-inline">
+                            <label for="designation" class="col-4 form-control-label" align="left">Designation</label>
+                            <select class="col-8 form-control" name="designation" id="designation" [(ngModel)]="payrollManagementService.payrollManagement.designationId" required>
+                                <option [ngValue]="undefined">All</option>
+                                <option [ngValue]="designationOption.id" *ngFor="let designationOption of designationList">{{designationOption.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2 form-inline">
+                            <label for="year" class="col-4 form-control-label" align="left">Year</label>
+                            <input class="col-8 form-control" id="year" type="number" [ngModel]="year" value="{{year}}" required/>
+                        </div>
+                        <div class="form-group col-md-3 form-inline">
+                            <label class="form-control-label" class="col-4" for="monthType">Month</label>
+                            <select  class="col-8 form-control" name="month" [(ngModel)]="payrollManagementService.payrollManagement.monthType" id="monthType"  required>
+                                <option value="JANUARY">JANUARY</option>
+                                <option value="FEBRUARY">FEBRUARY</option>
+                                <option value="MARCH">MARCH</option>
+                                <option value="APRIL">APRIL</option>
+                                <option value="MAY">MAY</option>
+                                <option value="JUNE">JUNE</option>
+                                <option value="JULY">JULY</option>
+                                <option value="AUGUST">AUGUST</option>
+                                <option value="SEPTEMBER">SEPTEMBER</option>
+                                <option value="OCTOBER">OCTOBER</option>
+                                <option value="NOVEMBER">NOVEMBER</option>
+                                <option value="DECEMBER">DECEMBER</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <div class="btn btn-secondary" (click)="fetch()">Fetch</div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+    <br/>
+<!--    <div class="col-md-3">
         <div class="card ">
             <div class="card-header text-white bg-secondary">Select</div>
             <div class="card-body">
@@ -14,6 +66,7 @@
                     <div class="form-group form-inline">
                         <label for="designation" class="col-4 form-control-label" align="left">Designation</label>
                         <select class="col-8 form-control" name="designation" id="designation" [(ngModel)]="payrollManagementService.payrollManagement.designationId" required>
+                            <option [ngValue]="undefined">All</option>
                             <option [ngValue]="designationOption.id" *ngFor="let designationOption of designationList">{{designationOption.name}}</option>
                         </select>
                     </div>
@@ -46,8 +99,8 @@
             -secondary" (click)="fetch()">Fetch</button>
             </div>
         </div>
-    </div>
-    <div class="col-md-9">
+    </div>-->
+    <div class="col-md-12">
         <div class="card" style="min-height: 350px;">
             <div class="card-header text-white bg-secondary">Employee List</div>
             <div class="card-body">
@@ -96,8 +149,8 @@
                         <tr *ngFor="let employee of employees">
                             <td>{{employee.employeeId}}</td>
                             <td>{{employee.fullName}}</td>
-                            <td>{{monthlySalaryMapWithEmployeeId[employee.id].basic}}</td>
-                            <td>{{monthlySalaryMapWithEmployeeId[employee.id].payable}}</td>
+                            <td>{{ monthlySalaryMapWithEmployeeId[employee.id]? monthlySalaryMapWithEmployeeId[employee.id].basic : ''}}</td>
+                            <td>{{monthlySalaryMapWithEmployeeId[employee.id]? monthlySalaryMapWithEmployeeId[employee.id].payable : ''}}</td>
 
                             <td><button class="btn btn-secondary" (click)="generatePayrollEmployeeSpecific(employee.id, employee.fullName)">Generate</button></td>
                             <td> <button type="submit"

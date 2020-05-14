@@ -21,4 +21,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
     List<Employee> getByOffice_IdAndDesignation_IdAndEmployeeStatus(Long officeId, Long designationId, EmployeeStatus employeeStatus);
 
     Optional<Employee> findByEmployeeId(String employeeId);
+
+    List<Employee> getByOffice_IdAndEmployeeStatus(Long officeId, EmployeeStatus status);
 }

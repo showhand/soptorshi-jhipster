@@ -72,8 +72,8 @@ public class PayrollService {
     }
 
     @Transactional
-    public void generatePayroll(Long officeId, Long designationId, Integer year, MonthType monthType, Long employeeId){
-        monthlySalaryService.delete(year, monthType, officeId, designationId, employeeId);
+    public void generatePayroll(Long officeId, Integer year, MonthType monthType, Long employeeId){
+        monthlySalaryService.delete(year, monthType, officeId, employeeId);
         updatableFines = new ArrayList<>();
         updatableAdvances = new ArrayList<>();
         updatableLoans = new ArrayList<>();
@@ -154,8 +154,11 @@ public class PayrollService {
         updatableFines = new ArrayList<>();
         updatableAdvances = new ArrayList<>();
         updatableLoans = new ArrayList<>();
-
-        List<Employee> employees = employeeService.get(officeId, designationId, EmployeeStatus.ACTIVE);
+        List<Employee> employees = new ArrayList<>();
+        if(designationId!= 9999)
+            employees = employeeService.get(officeId, designationId, EmployeeStatus.ACTIVE);
+        else
+            employees = employeeService.get(officeId, EmployeeStatus.ACTIVE);
         List<MonthlySalary> monthlySalaries = new ArrayList<>();
         specialAllowanceTimeLineMap = specialAllowanceTimeLineService.get(year, monthType).stream()
             .collect(Collectors.toMap(s->s.getReligion(), s->s));

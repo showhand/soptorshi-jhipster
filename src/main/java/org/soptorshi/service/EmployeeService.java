@@ -1,8 +1,6 @@
 package org.soptorshi.service;
 
-import org.soptorshi.domain.Designation;
 import org.soptorshi.domain.Employee;
-import org.soptorshi.domain.Office;
 import org.soptorshi.domain.enumeration.EmployeeStatus;
 import org.soptorshi.repository.EmployeeRepository;
 import org.soptorshi.repository.search.EmployeeSearchRepository;
@@ -111,5 +109,10 @@ public class EmployeeService {
         log.debug("Request to search for a page of Employees for query {}", query);
         return employeeSearchRepository.search(queryStringQuery(query), pageable)
             .map(employeeMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Employee> get(Long officeId, EmployeeStatus status) {
+        return employeeRepository.getByOffice_IdAndEmployeeStatus(officeId, status);
     }
 }

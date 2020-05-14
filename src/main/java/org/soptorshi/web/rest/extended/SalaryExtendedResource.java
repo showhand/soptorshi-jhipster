@@ -81,15 +81,15 @@ public class SalaryExtendedResource {
 
 
 
-    @GetMapping("/salaries/generatePayRoll/{officeId}/{designationId}/{year}/{monthType}")
+    @GetMapping("/salaries/generatePayRoll-all/{officeId}/{designationId}/{year}/{monthType}")
     public ResponseEntity<Void> generatePayroll(@PathVariable("officeId") Long officeId,@PathVariable("designationId") Long designationId,@PathVariable("year") Integer year,@PathVariable("monthType") MonthType monthType){
         payrollService.generatePayroll(officeId, designationId, year, monthType);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/salaries/generatePayRoll/{officeId}/{designationId}/{year}/{monthType}/{employeeId}")
-    public ResponseEntity<Void> generatePayroll(@PathVariable("officeId") Long officeId,@PathVariable("designationId") Long designationId,@PathVariable("year") Integer year,@PathVariable("monthType") MonthType monthType, @PathVariable("employeeId") Long employeeId){
-        payrollService.generatePayroll(officeId, designationId, year, monthType, employeeId);
+    @GetMapping("/salaries/generatePayRoll-employee/{officeId}/{year}/{monthType}/{employeeId}")
+    public ResponseEntity<Void> generatePayroll(@PathVariable("officeId") Long officeId,@PathVariable("year") Integer year,@PathVariable("monthType") MonthType monthType, @PathVariable("employeeId") Long employeeId){
+        payrollService.generatePayroll(officeId, year, monthType, employeeId);
         return ResponseEntity.ok().build();
     }
 }

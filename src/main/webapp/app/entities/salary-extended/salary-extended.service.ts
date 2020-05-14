@@ -38,8 +38,9 @@ export class SalaryExtendedService extends SalaryService {
     }
 
     generatePayroll(officeId: number, designationId: number, year: number, monthType: MonthType): Observable<EntityResponseType> {
+        designationId = designationId === undefined ? 9999 : designationId;
         return this.http
-            .get<any>(`${this.resourceUrlExtended}/generatePayRoll/${officeId}/${designationId}/${year}/${monthType.toString()}`, {
+            .get<any>(`${this.resourceUrlExtended}/generatePayRoll-all/${officeId}/${designationId}/${year}/${monthType.toString()}`, {
                 observe: 'response'
             })
             .pipe(map((res: any) => res));
@@ -47,18 +48,14 @@ export class SalaryExtendedService extends SalaryService {
 
     generatePayrollEmployeeSpecific(
         officeId: number,
-        designationId: number,
         year: number,
         monthType: MonthType,
         employeeId: number
     ): Observable<EntityResponseType> {
         return this.http
-            .get<any>(
-                `${this.resourceUrlExtended}/generatePayRoll/${officeId}/${designationId}/${year}/${monthType.toString()}/${employeeId}`,
-                {
-                    observe: 'response'
-                }
-            )
+            .get<any>(`${this.resourceUrlExtended}/generatePayRoll-employee/${officeId}/${year}/${monthType.toString()}/${employeeId}`, {
+                observe: 'response'
+            })
             .pipe(map((res: any) => res));
     }
 }

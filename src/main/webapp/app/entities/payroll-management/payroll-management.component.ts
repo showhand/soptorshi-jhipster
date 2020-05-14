@@ -71,21 +71,39 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
 
     fetch() {
         this.monthlySalaryMapWithEmployeeId = {};
-        this.employeeService
-            .query({
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                'designationId.equals': this.payrollManagementService.payrollManagement.designationId,
-                'officeId.equals': this.payrollManagementService.payrollManagement.officeId,
-                'employeeStatus.equals': 'ACTIVE'
-            })
-            .subscribe(
-                (res: HttpResponse<IEmployee[]>) => {
-                    this.paginateEmployees(res.body, res.headers);
-                    this.getMonthlySalaries(res.body);
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        if (this.payrollManagementService.payrollManagement.designationId) {
+            this.employeeService
+                .query({
+                    page: this.page - 1,
+                    size: this.itemsPerPage,
+                    'designationId.equals': this.payrollManagementService.payrollManagement.designationId!,
+                    'officeId.equals': this.payrollManagementService.payrollManagement.officeId,
+                    'employeeStatus.equals': 'ACTIVE'
+                })
+                .subscribe(
+                    (res: HttpResponse<IEmployee[]>) => {
+                        this.paginateEmployees(res.body, res.headers);
+                        this.getMonthlySalaries(res.body);
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        } else {
+            this.employeeService
+                .query({
+                    page: this.page - 1,
+                    size: this.itemsPerPage,
+                    // 'designationId.equals': this.payrollManagementService.payrollManagement.designationId!,
+                    'officeId.equals': this.payrollManagementService.payrollManagement.officeId,
+                    'employeeStatus.equals': 'ACTIVE'
+                })
+                .subscribe(
+                    (res: HttpResponse<IEmployee[]>) => {
+                        this.paginateEmployees(res.body, res.headers);
+                        this.getMonthlySalaries(res.body);
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
     }
 
     public generateVouchers() {
@@ -129,7 +147,6 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         this.salaryService
             .generatePayrollEmployeeSpecific(
                 this.payrollManagementService.payrollManagement.officeId,
-                this.payrollManagementService.payrollManagement.designationId,
                 this.year,
                 this.payrollManagementService.payrollManagement.monthType,
                 employeeId
@@ -222,8 +239,6 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
             .subscribe(
                 (res: HttpResponse<Designation[]>) => {
                     this.designationList = res.body;
-                    if (!this.payrollManagementService.payrollManagement.designationId)
-                        this.payrollManagementService.payrollManagement.designationId = this.designationList[0].id;
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
