@@ -58,4 +58,22 @@ export class SalaryExtendedService extends SalaryService {
             })
             .pipe(map((res: any) => res));
     }
+
+    approveAll(officeId: number, designationId: number, year: number, month: MonthType): Observable<EntityResponseType> {
+        designationId = designationId === undefined ? 9999 : designationId;
+        return this.http.put(
+            `${this.resourceUrlExtended}/approveAll/office/${officeId}/designation/${designationId}/year/${year}/month/${month}`,
+            {},
+            { observe: 'response' }
+        );
+    }
+
+    rejectAll(officeId: number, designationId: number, year: number, month: MonthType): Observable<EntityResponseType> {
+        designationId = designationId === undefined ? 9999 : designationId;
+        return this.http.put(
+            `${this.resourceUrlExtended}/rejectAll/office/${officeId}/designation/${designationId}/year/${year}/month/${month}`,
+            {},
+            { observe: 'response' }
+        );
+    }
 }

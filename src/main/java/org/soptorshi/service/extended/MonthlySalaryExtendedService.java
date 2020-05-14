@@ -28,15 +28,17 @@ public class MonthlySalaryExtendedService extends MonthlySalaryService {
     private JournalVoucherExtendedService journalVoucherExtendedService;
     private PaymentVoucherExtendedService paymentVoucherExtendedService;
     private SalaryExtendedRepository salaryExtendedRepository;
+    private MonthlySalaryMapper monthlySalaryExtendedMapper;
 
 
-    public MonthlySalaryExtendedService(MonthlySalaryRepository monthlySalaryRepository, MonthlySalaryMapper monthlySalaryMapper, MonthlySalarySearchRepository monthlySalarySearchRepository, MonthlySalaryExtendedRepository monthlySalaryExtendedRepository, OfficeRepository officeRepository, JournalVoucherExtendedService journalVoucherExtendedService, PaymentVoucherExtendedService paymentVoucherExtendedService, SalaryExtendedRepository salaryExtendedRepository) {
+    public MonthlySalaryExtendedService(MonthlySalaryRepository monthlySalaryRepository, MonthlySalaryMapper monthlySalaryMapper, MonthlySalarySearchRepository monthlySalarySearchRepository, MonthlySalaryExtendedRepository monthlySalaryExtendedRepository, OfficeRepository officeRepository, JournalVoucherExtendedService journalVoucherExtendedService, PaymentVoucherExtendedService paymentVoucherExtendedService, SalaryExtendedRepository salaryExtendedRepository, MonthlySalaryMapper monthlySalaryExtendedMapper) {
         super(monthlySalaryRepository, monthlySalaryMapper, monthlySalarySearchRepository);
         this.monthlySalaryExtendedRepository = monthlySalaryExtendedRepository;
         this.officeRepository = officeRepository;
         this.journalVoucherExtendedService = journalVoucherExtendedService;
         this.paymentVoucherExtendedService = paymentVoucherExtendedService;
         this.salaryExtendedRepository = salaryExtendedRepository;
+        this.monthlySalaryExtendedMapper = monthlySalaryExtendedMapper;
     }
 
     public void saveAll(List<MonthlySalary> monthlySalaryList){
@@ -89,4 +91,17 @@ public class MonthlySalaryExtendedService extends MonthlySalaryService {
 
     }
 
+    public List<MonthlySalaryDTO> get(Long officeId, Long designationId, Integer year, MonthType monthType) {
+        List<MonthlySalary> monthlySalaries = new ArrayList<>();
+        if(designationId== 9999)
+            monthlySalaries = monthlySalaryExtendedRepository.getByEmployee_Office_IdAndYearAndMonth(officeId, year, monthType);
+        else
+            monthlySalaries = monthlySalaryExtendedRepository.getByEmployee_Office_IdAndEmployee_Designation_IdAndYearAndMonth(officeId, designationId, year, monthType);
+        return monthlySalaryExtendedMapper.toDto(monthlySalaries);
+    }
+
+    public List<MonthlySalaryDTO> updateAll(List<MonthlySalaryDTO> existingSalaries) {
+        List<MonthlySalary> updatedMonthlySalaries = monthlySalaryExtendedRepository.saveAll(monthlySalaryExtendedMapper.toEntity(existingSalaries));
+        return monthlySalaryExtendedMapper.toDto(updatedMonthlySalaries);
+    }
 }

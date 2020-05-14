@@ -17,6 +17,7 @@ import { MonthlySalaryService } from 'app/entities/monthly-salary';
 import { IMonthlySalary, MonthlySalary, MonthlySalaryStatus, MonthType } from 'app/shared/model/monthly-salary.model';
 import { SalaryExtendedService } from 'app/entities/salary-extended';
 import { MonthlySalaryExtendedService } from 'app/entities/monthly-salary-extended/monthly-salary-extended.service';
+import { ITEMS_PER_PAGE } from 'app/shared';
 
 @Component({
     selector: 'jhi-payroll-management',
@@ -40,6 +41,7 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     totalItems: any;
     payrollGenerated: boolean;
     previousPage: any;
+    routeData: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -57,6 +59,13 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
     ) {
         this.predicate = 'id';
         this.reverse = false;
+        this.itemsPerPage = 5000;
+        this.routeData = this.activatedRoute.data.subscribe(data => {
+            this.page = data.pagingParams.page;
+            this.previousPage = data.pagingParams.page;
+            this.reverse = data.pagingParams.ascending;
+            this.predicate = data.pagingParams.predicate;
+        });
         /*this.activatedRoute.data.subscribe(({ payrollManagement }) => {
             this.payrollManagementService.payrollManagement = payrollManagement;
         });*/
@@ -65,8 +74,8 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         } else {
             this.fetch();
         }
-        this.page = 1;
-        this.itemsPerPage = 15;
+        /*       this.page = 1;
+        this.itemsPerPage = 15;*/
     }
 
     fetch() {
@@ -323,5 +332,31 @@ export class PayrollManagementComponent implements OnInit, OnDestroy {
         this.monthlySalaryService.update(monthlySalary).subscribe((res: HttpResponse<IMonthlySalary>) => {
             monthlySalary = res.body;
         });
+    }
+
+    approveAll(): void {
+        this.salaryService
+            .approveAll(
+                this.payrollManagementService.payrollManagement.officeId,
+                this.payrollManagementService.payrollManagement.designationId,
+                this.year,
+                this.payrollManagementService.payrollManagement.monthType
+            )
+            .subscribe(res => {
+                this.fetch();
+            });
+    }
+
+    rejectAll(): void {
+        this.salaryService
+            .rejectAll(
+                this.payrollManagementService.payrollManagement.officeId,
+                this.payrollManagementService.payrollManagement.designationId,
+                this.year,
+                this.payrollManagementService.payrollManagement.monthType
+            )
+            .subscribe(res => {
+                this.fetch();
+            });
     }
 }

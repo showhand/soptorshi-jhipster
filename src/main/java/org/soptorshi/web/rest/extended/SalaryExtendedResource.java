@@ -2,10 +2,13 @@ package org.soptorshi.web.rest.extended;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.MonthlySalary;
 import org.soptorshi.domain.enumeration.MonthType;
+import org.soptorshi.domain.enumeration.SalaryApprovalType;
 import org.soptorshi.service.PayrollService;
 import org.soptorshi.service.SalaryQueryService;
 import org.soptorshi.service.SalaryService;
+import org.soptorshi.service.dto.MonthlySalaryDTO;
 import org.soptorshi.service.dto.SalaryDTO;
 import org.soptorshi.service.extended.SalaryExtendedService;
 import org.soptorshi.web.rest.SalaryResource;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/extended")
@@ -90,6 +94,24 @@ public class SalaryExtendedResource {
     @GetMapping("/salaries/generatePayRoll-employee/{officeId}/{year}/{monthType}/{employeeId}")
     public ResponseEntity<Void> generatePayroll(@PathVariable("officeId") Long officeId,@PathVariable("year") Integer year,@PathVariable("monthType") MonthType monthType, @PathVariable("employeeId") Long employeeId){
         payrollService.generatePayroll(officeId, year, monthType, employeeId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/salaries/approveAll/office/{officeId}/designation/{designationId}/year/{year}/month/{month}")
+    public ResponseEntity<Void> approveAll(@PathVariable("officeId") Long officeId,
+                                                             @PathVariable("designationId") Long designationId,
+                                                             @PathVariable("year") Integer year,
+                                                             @PathVariable("month") MonthType monthType){
+        List<MonthlySalaryDTO> updatedMonthlySalaries = payrollService.approveAll(officeId, designationId, year, monthType, SalaryApprovalType.APPROVE);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/salaries/rejectAll/office/{officeId}/designation/{designationId}/year/{year}/month/{month}")
+    public ResponseEntity<Void> rejectAll(@PathVariable("officeId") Long officeId,
+                                                             @PathVariable("designationId") Long designationId,
+                                                             @PathVariable("year") Integer year,
+                                                             @PathVariable("month") MonthType monthType){
+        List<MonthlySalaryDTO> updatedMonthlySalaries = payrollService.approveAll(officeId, designationId, year, monthType, SalaryApprovalType.REJECT);
         return ResponseEntity.ok().build();
     }
 }

@@ -18,4 +18,6 @@ public interface MonthlySalaryExtendedRepository extends MonthlySalaryRepository
     void deleteByYearAndMonthAndEmployee_Office_IdAndStatusIsNot(Integer year, MonthType monthType, Long officeId, MonthlySalaryStatus status);
 
     List<MonthlySalary> getByEmployee_Office_IdAndYearAndMonth(long officeId, int year, MonthType monthType);
+
+    List<MonthlySalary> getByEmployee_Office_IdAndEmployee_Designation_IdAndYearAndMonth(Long officeId, Long designationId, Integer year, MonthType monthType);
 }

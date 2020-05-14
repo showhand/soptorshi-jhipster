@@ -8,8 +8,11 @@ import org.soptorshi.domain.*;
 import org.soptorshi.domain.enumeration.*;
 import org.soptorshi.repository.EmployeeRepository;
 import org.soptorshi.repository.MonthlySalaryRepository;
+import org.soptorshi.security.AuthoritiesConstants;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.dto.EmployeeCriteria;
 import org.soptorshi.service.dto.EmployeeDTO;
+import org.soptorshi.service.dto.MonthlySalaryDTO;
 import org.soptorshi.service.extended.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,9 +54,10 @@ public class PayrollService {
     private final HolidayExtendedService holidayExtendedService;
     private final WeekendExtendedService weekendExtendedService;
     private final LeaveApplicationExtendedService leaveApplicationExtendedService;
+    private final UserService userService;
 
 
-    public PayrollService(LoanService loanService, FineService fineService, AdvanceService advanceService, SalaryExtendedService salaryService, EmployeeService employeeService, MonthlySalaryExtendedService monthlySalaryService, SpecialAllowanceTimeLineExtendedService specialAllowanceTimeLineService, DesignationWiseAllowanceService designationWiseAllowanceService, ProvidentFundService providentFundService, BillService billService, TaxService taxService, EmployeeRepository employeeRepository, HolidayExtendedService holidayExtendedService, WeekendExtendedService weekendExtendedService, LeaveApplicationExtendedService leaveApplicationExtendedService) {
+    public PayrollService(LoanService loanService, FineService fineService, AdvanceService advanceService, SalaryExtendedService salaryService, EmployeeService employeeService, MonthlySalaryExtendedService monthlySalaryService, SpecialAllowanceTimeLineExtendedService specialAllowanceTimeLineService, DesignationWiseAllowanceService designationWiseAllowanceService, ProvidentFundService providentFundService, BillService billService, TaxService taxService, EmployeeRepository employeeRepository, HolidayExtendedService holidayExtendedService, WeekendExtendedService weekendExtendedService, LeaveApplicationExtendedService leaveApplicationExtendedService, UserService userService) {
         this.loanService = loanService;
         this.fineService = fineService;
         this.advanceService = advanceService;
@@ -69,6 +73,7 @@ public class PayrollService {
         this.holidayExtendedService = holidayExtendedService;
         this.weekendExtendedService = weekendExtendedService;
         this.leaveApplicationExtendedService = leaveApplicationExtendedService;
+        this.userService = userService;
     }
 
     @Transactional
@@ -373,4 +378,28 @@ public class PayrollService {
             monthlySalary.setGross(BigDecimal.ZERO);
         }
     }
+
+    public List<MonthlySalaryDTO> approveAll(Long officeId, Long designationId, Integer year, MonthType monthType, SalaryApprovalType salaryApprovalType) {
+        List<MonthlySalaryDTO> existingSalaries = monthlySalaryService.get(officeId, designationId, year, monthType);
+        List<MonthlySalaryDTO> updatedSalaries = new ArrayList<>();
+
+
+        for(MonthlySalaryDTO s: existingSalaries){
+            MonthlySalaryStatus monthlySalaryStatus = null;
+            if(s.getStatus()==null && SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.EMPLOYEE_MANAGEMENT) )
+                monthlySalaryStatus = salaryApprovalType.equals(SalaryApprovalType.APPROVE)? MonthlySalaryStatus.APPROVED_BY_MANAGER: null;
+            else if(s.getStatus().equals(MonthlySalaryStatus.APPROVED_BY_MANAGER) && SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ACCOUNTS))
+                monthlySalaryStatus = salaryApprovalType.equals(SalaryApprovalType.APPROVE)?  MonthlySalaryStatus.APPROVED_BY_ACCOUNTS: MonthlySalaryStatus.MODIFICATION_REQUEST_BY_ACCOUNTS;
+            else if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.CFO) && s.getStatus().equals(MonthlySalaryStatus.APPROVED_BY_ACCOUNTS))
+                monthlySalaryStatus = salaryApprovalType.equals(SalaryApprovalType.APPROVE)? MonthlySalaryStatus.APPROVED_BY_CFO: MonthlySalaryStatus.MODIFICATION_REQUEST_BY_CFO;
+            else
+                monthlySalaryStatus = salaryApprovalType.equals(SalaryApprovalType.APPROVE)? MonthlySalaryStatus.APPROVED_BY_MD: MonthlySalaryStatus.MODIFICATION_REQUEST_BY_MD;
+
+            s.setStatus(monthlySalaryStatus);
+        }
+        updatedSalaries = monthlySalaryService.updateAll(existingSalaries);
+        return updatedSalaries;
+    }
+
+
 }
