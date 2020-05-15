@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SoptorshiSharedModule } from 'app/shared';
@@ -12,6 +12,11 @@ import {
     accountBalancePopupRoute,
     AccountBalanceUpdateComponent
 } from 'app/entities/account-balance';
+import { ProfitAndLossComponent } from './profit-and-loss/profit-and-loss.component';
+import { FixedAssetComponent } from './fixed-asset/fixed-asset.component';
+import { ChangesInEquityComponent } from './changes-in-equity/changes-in-equity.component';
+import { OverviewOfDebtComponent } from './overview-of-debt/overview-of-debt.component';
+import { CapexDetailsComponent } from './capex-details/capex-details.component';
 
 const ENTITY_STATES = [...accountBalanceExtendedRoute, ...accountBalancePopupRoute];
 
@@ -23,7 +28,12 @@ const ENTITY_STATES = [...accountBalanceExtendedRoute, ...accountBalancePopupRou
         AccountBalanceUpdateComponent,
         AccountBalanceDeleteDialogComponent,
         AccountBalanceDeletePopupComponent,
-        BalanceSheetComponent
+        BalanceSheetComponent,
+        ProfitAndLossComponent,
+        FixedAssetComponent,
+        ChangesInEquityComponent,
+        OverviewOfDebtComponent,
+        CapexDetailsComponent
     ],
     entryComponents: [
         AccountBalanceComponent,
