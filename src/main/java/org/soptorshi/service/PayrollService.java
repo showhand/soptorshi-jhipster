@@ -1,17 +1,13 @@
 package org.soptorshi.service;
 
-import io.github.jhipster.service.filter.LongFilter;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.*;
 import org.soptorshi.domain.enumeration.*;
 import org.soptorshi.repository.EmployeeRepository;
-import org.soptorshi.repository.MonthlySalaryRepository;
 import org.soptorshi.security.AuthoritiesConstants;
 import org.soptorshi.security.SecurityUtils;
-import org.soptorshi.service.dto.EmployeeCriteria;
-import org.soptorshi.service.dto.EmployeeDTO;
 import org.soptorshi.service.dto.MonthlySalaryDTO;
 import org.soptorshi.service.extended.*;
 import org.springframework.stereotype.Service;
@@ -21,7 +17,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
@@ -379,10 +374,10 @@ public class PayrollService {
         }
     }
 
+
     public List<MonthlySalaryDTO> approveAll(Long officeId, Long designationId, Integer year, MonthType monthType, SalaryApprovalType salaryApprovalType) {
         List<MonthlySalaryDTO> existingSalaries = monthlySalaryService.get(officeId, designationId, year, monthType);
         List<MonthlySalaryDTO> updatedSalaries = new ArrayList<>();
-
 
         for(MonthlySalaryDTO s: existingSalaries){
             MonthlySalaryStatus monthlySalaryStatus = null;

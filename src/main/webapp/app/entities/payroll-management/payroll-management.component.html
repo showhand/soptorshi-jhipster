@@ -123,16 +123,16 @@
                         <jhi-alert></jhi-alert>
                     </div>
 
-                    <div class="col-9" align="right" *ngIf="!payrollGenerated">
+                    <div class="col-8" align="right" *ngIf="!payrollGenerated">
                         <button class="btn btn-secondary" (click)="generatePayroll()">Generate Payroll</button>
                     </div>
-                    <div class="col-9" align="right" *ngIf="payrollGenerated">
+                    <div class="col-8" align="right" *ngIf="payrollGenerated">
                         <button class="btn btn-secondary" (click)="generatePayroll()">Generate Payroll Again!</button>
                     </div>
                     <div class="col-md-2" *ngIf="payrollGenerated">
                         <button class="btn btn-primary" (click)="approveAll()">Approve All</button>
                     </div>
-                    <div class="col-md-1" *ngIf="payrollGenerated">
+                    <div class="col-md-2" *ngIf="payrollGenerated">
                         <button class="btn btn-danger" (click)="rejectAll()">Reject All</button>
                     </div>
                     <br/>
@@ -165,10 +165,10 @@
                                 <fa-icon [icon]="'eye'" ></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button></td>
-                            <th *ngIf="monthlySalaryMapWithEmployeeId[employee.id]!==undefined">{{monthlySalaryMapWithEmployeeId[employee.id].status}}</th>
+                            <th *ngIf="monthlySalaryMapWithEmployeeId[employee.id]!==undefined">{{monthlySalaryMapWithEmployeeId[employee.id].status?monthlySalaryMapWithEmployeeId[employee.id].status:''}}</th>
                             <th *ngIf="monthlySalaryMapWithEmployeeId[employee.id]===undefined"></th>
                             <th>
-                                <div *ngIf="( monthlySalaryMapWithEmployeeId[employee.id]===undefined ||  !monthlySalaryMapWithEmployeeId[employee.id].status || monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_ACCOUNTS'|| monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_CFO' || monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_CFO') && monthlySalaryMapWithEmployeeId[employee.id].status !=='APPROVED_BY_MD'">
+                                <div *ngIf="( monthlySalaryMapWithEmployeeId[employee.id]===undefined ||  !monthlySalaryMapWithEmployeeId[employee.id].status || monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_ACCOUNTS'|| monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_CFO' || monthlySalaryMapWithEmployeeId[employee.id].status=='MODIFICATION_REQUEST_BY_CFO') ">
                                     <button  class="btn btn-success" *jhiHasAnyAuthority="['ROLE_EMPLOYEE_MANAGEMENT']"  (click)="approvedByManager(monthlySalaryMapWithEmployeeId[employee.id])">Approve</button>
                                 </div>
                                 <div *ngIf="monthlySalaryMapWithEmployeeId[employee.id]!==undefined && monthlySalaryMapWithEmployeeId[employee.id].status=='APPROVED_BY_MANAGER'">

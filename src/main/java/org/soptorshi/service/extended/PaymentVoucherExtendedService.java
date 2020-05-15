@@ -49,8 +49,9 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
     private final PaymentVoucherMapper paymentVoucherMapper;
     private final PurchaseOrderVoucherRelationExtendedService purchaseOrderVoucherRelationExtendedService;
     private final PurchaseOrderVoucherRelationExtendedRepository purchaseOrderVoucherRelationExtendedRepository;
+    private final MstAccountExtendedRepository mstAccountExtendedRepository;
 
-    public PaymentVoucherExtendedService(PaymentVoucherRepository paymentVoucherRepository, PaymentVoucherMapper paymentVoucherMapper, PaymentVoucherSearchRepository paymentVoucherSearchRepository, PaymentVoucherGeneratorRepository paymentVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, CurrencyQueryService currencyQueryService, DtTransactionMapper dtTransactionMapper, CurrencyExtendedRepository currencyExtendedRepository, SystemAccountMapExtendedRepository systemAccountMapExtendedRepository, SalaryVoucherRelationRepository salaryVoucherRelationRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, JournalVoucherExtendedService journalVoucherExtendedService, PaymentVoucherExtendedRepository paymentVoucherExtendedRepository, PaymentVoucherMapper paymentVoucherMapper1, PurchaseOrderVoucherRelationExtendedService purchaseOrderVoucherRelationExtendedService, PurchaseOrderVoucherRelationExtendedRepository purchaseOrderVoucherRelationExtendedRepository) {
+    public PaymentVoucherExtendedService(PaymentVoucherRepository paymentVoucherRepository, PaymentVoucherMapper paymentVoucherMapper, PaymentVoucherSearchRepository paymentVoucherSearchRepository, PaymentVoucherGeneratorRepository paymentVoucherGeneratorRepository, DtTransactionQueryService dtTransactionQueryService, DtTransactionRepository dtTransactionRepository, DtTransactionExtendedService dtTransactionExtendedService, CurrencyQueryService currencyQueryService, DtTransactionMapper dtTransactionMapper, CurrencyExtendedRepository currencyExtendedRepository, SystemAccountMapExtendedRepository systemAccountMapExtendedRepository, SalaryVoucherRelationRepository salaryVoucherRelationRepository, RequisitionVoucherRelationExtendedService requisitionVoucherRelationService, RequisitionVoucherRelationExtendedRepository requisitionVoucherRelationExtendedRepository, JournalVoucherExtendedService journalVoucherExtendedService, PaymentVoucherExtendedRepository paymentVoucherExtendedRepository, PaymentVoucherMapper paymentVoucherMapper1, PurchaseOrderVoucherRelationExtendedService purchaseOrderVoucherRelationExtendedService, PurchaseOrderVoucherRelationExtendedRepository purchaseOrderVoucherRelationExtendedRepository, MstAccountExtendedRepository mstAccountExtendedRepository) {
         super(paymentVoucherRepository, paymentVoucherMapper, paymentVoucherSearchRepository);
         this.paymentVoucherGeneratorRepository = paymentVoucherGeneratorRepository;
         this.dtTransactionQueryService = dtTransactionQueryService;
@@ -68,6 +69,7 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
         this.paymentVoucherMapper = paymentVoucherMapper1;
         this.purchaseOrderVoucherRelationExtendedService = purchaseOrderVoucherRelationExtendedService;
         this.purchaseOrderVoucherRelationExtendedRepository = purchaseOrderVoucherRelationExtendedRepository;
+        this.mstAccountExtendedRepository = mstAccountExtendedRepository;
     }
 
     @Override
@@ -191,8 +193,8 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
     void createPayrollPaymentVoucherEntry(List<MonthlySalary> monthlySalaries, SalaryVoucherRelation salaryVoucherRelation){
         PaymentVoucherDTO paymentVoucherDTO = new PaymentVoucherDTO();
         Currency baseCurrency = currencyExtendedRepository.findByFlag(CurrencyFlag.BASE);
-        SystemAccountMap salaryBankAccount = systemAccountMapExtendedRepository.findByAccountType(AccountType.SALARY_ACCOUNT);
-        paymentVoucherDTO.setAccountId(salaryBankAccount.getId());
+        SystemAccountMap salaryAccountMap = systemAccountMapExtendedRepository.findByAccountType(AccountType.SALARY_ACCOUNT);
+        paymentVoucherDTO.setAccountId(salaryAccountMap.getAccount().getId());
         paymentVoucherDTO.setVoucherDate(LocalDate.now());
         paymentVoucherDTO = save(paymentVoucherDTO);
 
@@ -206,10 +208,9 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
             .map(s->s.getPayable())
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-
         List<DtTransaction> voucherTransactions = new ArrayList<>();
-        DtTransaction salaryPayableTransaction = new DtTransaction();
         SystemAccountMap salaryPayableAccount = systemAccountMapExtendedRepository.findByAccountType(AccountType.SALARY_PAYABLE);
+        DtTransaction salaryPayableTransaction = new DtTransaction();
         salaryPayableTransaction.setAccount(salaryPayableAccount.getAccount());
         salaryPayableTransaction.setCurrency(baseCurrency);
         salaryPayableTransaction.setAmount(totalAmount);
@@ -224,7 +225,6 @@ public class PaymentVoucherExtendedService extends PaymentVoucherService {
         voucherTransactions.add(salaryPayableTransaction);
 
         dtTransactionRepository.saveAll(voucherTransactions);
-
         paymentVoucherDTO.setPostDate(LocalDate.now());
         save(paymentVoucherDTO);
     }
