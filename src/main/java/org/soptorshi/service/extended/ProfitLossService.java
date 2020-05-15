@@ -2,6 +2,15 @@ package org.soptorshi.service.extended;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.soptorshi.config.JxlsGenerator;
+import org.soptorshi.domain.DtTransaction;
+import org.soptorshi.domain.MstAccount;
+import org.soptorshi.domain.MstGroup;
+import org.soptorshi.domain.SystemGroupMap;
+import org.soptorshi.domain.enumeration.GroupType;
+import org.soptorshi.repository.extended.DtTransactionExtendedRepository;
+import org.soptorshi.repository.extended.MstAccountExtendedRepository;
+import org.soptorshi.repository.extended.MstGroupExtendedRepository;
+import org.soptorshi.repository.extended.SystemGroupMapExtendedRepository;
 import org.soptorshi.service.dto.extended.AccountWithMonthlyBalances;
 import org.soptorshi.service.dto.extended.ProfitLossDto;
 import org.springframework.core.io.Resource;
@@ -21,6 +30,10 @@ public class ProfitLossService {
 
     private ResourceLoader resourceLoader;
     private JxlsGenerator jxlsGenerator;
+    private MstGroupExtendedRepository mstGroupExtendedRepository;
+    private SystemGroupMapExtendedRepository systemGroupMapExtendedRepository;
+    private MstAccountExtendedRepository mstAccountExtendedRepository;
+    private DtTransactionExtendedRepository dtTransactionExtendedRepository;
 
     public ProfitLossService(ResourceLoader resourceLoader, JxlsGenerator jxlsGenerator) {
         this.resourceLoader = resourceLoader;
@@ -28,6 +41,7 @@ public class ProfitLossService {
     }
 
     public ByteArrayInputStream createReport(LocalDate fromDate, LocalDate toDate) throws Exception{
+        toDate = toDate.atTime(23,59).toLocalDate();
         List<ProfitLossDto> revenue = generateRevenues(fromDate, toDate);
         List<ProfitLossDto> expense = generateExpenses(fromDate, toDate);
         AccountWithMonthlyBalances comparingBalances = generateComparingBalances(revenue, expense);
@@ -60,5 +74,27 @@ public class ProfitLossService {
     private List<ProfitLossDto> generateRevenues(LocalDate fromDate, LocalDate toDate) {
         List<ProfitLossDto> revenues = new ArrayList<>();
         return revenues;
+    }
+
+    private List<ProfitLossDto> generateBody(GroupType groupType, LocalDate fromDate, LocalDate toDate){
+        List<ProfitLossDto> profitLossBody = new ArrayList<>();
+        SystemGroupMap systemGroupMap = systemGroupMapExtendedRepository.getByGroupType(groupType);
+        List<MstGroup> childGroups = mstGroupExtendedRepository.findByMainGroup(systemGroupMap.getGroup().getId());
+        for(MstGroup group: childGroups){
+            ProfitLossDto profitLossChildBody = new ProfitLossDto();
+            profitLossChildBody.setGroupName(group.getName());
+
+            List<MstAccount> groupAccounts = mstAccountExtendedRepository.getAllByGroup(group);
+            for(MstAccount account: groupAccounts){
+                AccountWithMonthlyBalances accountWithMonthlyBalances = new AccountWithMonthlyBalances();
+                accountWithMonthlyBalances.setAccountName(account.getName());
+                List<DtTransaction> transactions = dtTransactionExtendedRepository.findByAccountAndVoucherDateBetween(account, fromDate, toDate);
+
+                while(fromDate.getYear()<= toDate.getYear() && fromDate.getMonth().getValue()<=toDate.getMonth().getValue()){
+
+                }
+            }
+        }
+        return profitLossBody;
     }
 }
