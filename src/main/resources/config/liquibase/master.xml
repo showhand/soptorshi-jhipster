@@ -195,23 +195,23 @@
     <include file="config/liquibase/changelog/20200421042444_added_entity_constraints_OverTime.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 
-    <include file="config/liquibase/changelog/20200101083646_changelog.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200101151640_changelog.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200101184342_changelog.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200110053441_changelog.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200110145436_changelog.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200129142928_changelog.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200201162054_changelog.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200219171147_changelog.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200219180531_changelog.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200217184209_changelog.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200219053923_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200101083646_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200101151640_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200101184342_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200110053441_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200110145436_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200129142928_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200201162054_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200219171147_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200219180531_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200217184209_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200219053923_changelog.xml" relativeToChangelogFile="false"/>
    <!-- <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>-->
-    <include file="config/liquibase/changelog/20200421024419_entity_requisitionCommercialIdAdded.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200421124231_changelog_product_category_added_requisition_details.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200421182929_employee_refactored.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200421202452_monthly_salary_refactored.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200421204907_changelog.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200421024419_entity_requisitionCommercialIdAdded.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200421124231_changelog_product_category_added_requisition_details.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200421182929_employee_refactored.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200421202452_monthly_salary_refactored.xml" relativeToChangelogFile="false"/>
+    <include context="prod,dev" file="config/liquibase/changelog/20200421204907_changelog.xml" relativeToChangelogFile="false"/>
 
    <!-- <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>-->
 

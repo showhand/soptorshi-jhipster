@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
-import { JhiPaginationUtil, JhiResolvePagingParams } from 'ng-jhipster';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { JhiResolvePagingParams } from 'ng-jhipster';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { AccountBalance } from 'app/shared/model/account-balance.model';
-import { IAccountBalance } from 'app/shared/model/account-balance.model';
+import { AccountBalance, IAccountBalance } from 'app/shared/model/account-balance.model';
 import {
     AccountBalanceComponent,
     AccountBalanceDeletePopupComponent,
@@ -15,6 +14,7 @@ import {
 } from 'app/entities/account-balance';
 import { AccountBalanceExtendedService } from 'app/entities/account-balance-extended/account-balance-extended.service';
 import { BalanceSheetComponent } from 'app/entities/account-balance-extended/balance-sheet.component';
+import { ProfitAndLossComponent } from 'app/entities/account-balance-extended/profit-and-loss/profit-and-loss.component';
 
 @Injectable({ providedIn: 'root' })
 export class AccountBalanceExtendedResolve implements Resolve<IAccountBalance> {
@@ -73,6 +73,15 @@ export const accountBalanceExtendedRoute: Routes = [
     {
         path: 'balance-sheet',
         component: BalanceSheetComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'AccountBalances'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'profit-and-loss',
+        component: ProfitAndLossComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'AccountBalances'

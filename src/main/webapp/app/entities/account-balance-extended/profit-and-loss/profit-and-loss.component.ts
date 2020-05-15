@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
     selector: 'jhi-profit-and-loss',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
     styles: []
 })
 export class ProfitAndLossComponent implements OnInit {
+    fromDate = moment;
+    toDate = moment;
     constructor() {}
 
     ngOnInit() {}
+
+    generateReport() {}
 }

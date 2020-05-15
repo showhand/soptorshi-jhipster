@@ -629,6 +629,14 @@
                         <span *ngIf="!leftMenuHidden">Balance Sheet</span>
                     </a>
                 </li>
+                <li>
+                    <a class="dropdown-item" routerLink="account-balance/profit-and-loss" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">P&L</span>
+                    </a>
+                </li>
             </ul>
         </li>
 

@@ -2,18 +2,18 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.soptorshi.domain.enumeration.BalanceType;
+import org.soptorshi.domain.enumeration.ReservedFlag;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
-
-import org.soptorshi.domain.enumeration.BalanceType;
-
-import org.soptorshi.domain.enumeration.ReservedFlag;
 
 /**
  * A MstAccount.
@@ -21,10 +21,11 @@ import org.soptorshi.domain.enumeration.ReservedFlag;
 @Entity
 @Table(name = "mst_account")
 @Document(indexName = "mstaccount")
+@EntityListeners(AuditingEntityListener.class)
 public class MstAccount implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -50,9 +51,11 @@ public class MstAccount implements Serializable {
     private ReservedFlag reservedFlag;
 
     @Column(name = "modified_by")
+    @LastModifiedBy
     private String modifiedBy;
 
     @Column(name = "modified_on")
+    @LastModifiedDate
     private LocalDate modifiedOn;
 
     @ManyToOne
