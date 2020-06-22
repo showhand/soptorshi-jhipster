@@ -3,7 +3,7 @@ package org.soptorshi.service;
 import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.SupplyAreaManager;
+import org.soptorshi.domain.*;
 import org.soptorshi.repository.SupplyAreaManagerRepository;
 import org.soptorshi.repository.search.SupplyAreaManagerSearchRepository;
 import org.soptorshi.service.dto.SupplyAreaManagerCriteria;
