@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.enumeration.SupplyOrderStatus;
 import org.soptorshi.service.SupplyOrderQueryService;
+import org.soptorshi.service.extended.SupplyAccumulateOrderReportService;
 import org.soptorshi.service.extended.SupplyOrderExtendedService;
 import org.soptorshi.web.rest.SupplyOrderResource;
 import org.springframework.core.io.InputStreamResource;
@@ -33,9 +34,13 @@ public class SupplyOrderExtendedResource extends SupplyOrderResource {
 
     private final SupplyOrderExtendedService supplyOrderExtendedService;
 
-    public SupplyOrderExtendedResource(SupplyOrderExtendedService supplyOrderExtendedService, SupplyOrderQueryService supplyOrderQueryService) {
+    private final SupplyAccumulateOrderReportService supplyAccumulateOrderReportService;
+
+    public SupplyOrderExtendedResource(SupplyOrderExtendedService supplyOrderExtendedService, SupplyOrderQueryService supplyOrderQueryService,
+                                       SupplyAccumulateOrderReportService supplyAccumulateOrderReportService) {
         super(supplyOrderExtendedService, supplyOrderQueryService);
         this.supplyOrderExtendedService = supplyOrderExtendedService;
+        this.supplyAccumulateOrderReportService = supplyAccumulateOrderReportService;
     }
 
     @GetMapping("/supply-orders/dates")
@@ -53,7 +58,7 @@ public class SupplyOrderExtendedResource extends SupplyOrderResource {
 
     @GetMapping(value = "/supply-orders/download/referenceNo/{refNo}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> downloadAccumulatedOrders(@PathVariable String refNo) throws Exception, DocumentException {
-        ByteArrayInputStream byteArrayInputStream = supplyOrderExtendedService.downloadAccumulatedOrders(refNo);
+        ByteArrayInputStream byteArrayInputStream = supplyAccumulateOrderReportService.downloadAccumulatedOrders(refNo);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "/supply-orders");
         return ResponseEntity

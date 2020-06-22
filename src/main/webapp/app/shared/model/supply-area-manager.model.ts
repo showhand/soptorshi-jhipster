@@ -19,6 +19,7 @@ export interface ISupplyAreaManager {
     supplyAreaId?: number;
     employeeFullName?: string;
     employeeId?: number;
+    supplyZoneManagersId?: number;
 }
 
 export class SupplyAreaManager implements ISupplyAreaManager {
@@ -35,6 +36,7 @@ export class SupplyAreaManager implements ISupplyAreaManager {
         public supplyAreaAreaName?: string,
         public supplyAreaId?: number,
         public employeeFullName?: string,
-        public employeeId?: number
+        public employeeId?: number,
+        public supplyZoneManagersId?: number
     ) {}
 }

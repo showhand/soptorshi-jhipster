@@ -53,7 +53,7 @@ public class HolidayExtendedService extends HolidayService {
         if (holidayDTO.getFromDate().getYear() == holidayDTO.getToDate().getYear()) {
             if(holidayDTO.getToDate().compareTo(holidayDTO.getFromDate()) >= 0) {
                 String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
-                    SecurityUtils.getCurrentUserLogin().toString() : "";
+                    SecurityUtils.getCurrentUserLogin().get() : "";
                 Instant currentDateTime = Instant.now();
 
                 if (holidayDTO.getId() == null) {

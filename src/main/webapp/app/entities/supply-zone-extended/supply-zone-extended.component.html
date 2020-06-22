@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Supply Zones</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-zone" [routerLink]="['/supply-zone/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-zone" [routerLink]="['/supply-zone/new']" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <!--<span class="hidden-sm-down" >
             Create new Supply Zone
@@ -36,7 +36,7 @@
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-            <th></th>
+            <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']"></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
@@ -48,7 +48,7 @@
                 <td>{{supplyZone.createdOn | date:'medium'}}</td>
                 <td>{{supplyZone.updatedBy}}</td>
                 <td>{{supplyZone.updatedOn | date:'medium'}}</td>-->
-                <td class="text-right" width="20%">
+                <td class="text-right" width="20%" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/supply-zone', supplyZone.id, 'view' ]"

@@ -85,7 +85,7 @@ public class StockOutItemExtendedService extends StockOutItemService {
     public StockOutItemDTO save(StockOutItemDTO stockOutItemDTO) {
         log.debug("Request to save StockOutItem : {}", stockOutItemDTO);
         if (stockOutItemDTO.getId() == null && (stockOutItemDTO.getQuantity().compareTo(BigDecimal.ZERO) > 0)) {
-            String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+            String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
             Instant currentDateTime = Instant.now();
 
             Optional<ProductCategoryDTO> productCategoryDTO = productCategoryService.findOne(stockOutItemDTO.getProductCategoriesId());

@@ -64,7 +64,7 @@ public class CommercialProductInfoExtendedService extends CommercialProductInfoS
         Optional<CommercialBudgetDTO> commercialBudgetDTO = commercialBudgetExtendedService.findOne(commercialProductInfoDTO.getCommercialBudgetId());
         if (commercialBudgetDTO.isPresent()) {
             if (!commercialBudgetDTO.get().getBudgetStatus().equals(CommercialBudgetStatus.APPROVED)) {
-                String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+                String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
                 Instant currentDateTime = Instant.now();
 
                 if (commercialProductInfoDTO.getId() == null) {

@@ -47,6 +47,12 @@
                         <a [routerLink]="['/employee', supplyAreaManager.employeeId, 'view']">{{supplyAreaManager.employeeFullName}}</a>
                     </div>
                 </dd>
+                <dt><span>Supply Zone Managers</span></dt>
+                <dd>
+                    <div *ngIf="supplyAreaManager.supplyZoneManagersId">
+                        <a [routerLink]="['/supply-zone-manager', supplyAreaManager.supplyZoneManagersId, 'view']">{{supplyAreaManager.supplyZoneManagersId}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

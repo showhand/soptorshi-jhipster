@@ -1,7 +1,11 @@
 package org.soptorshi.repository.extended;
 
+import org.soptorshi.domain.Employee;
+import org.soptorshi.domain.SupplyZoneManager;
 import org.soptorshi.repository.SupplyZoneManagerRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 /**
@@ -11,4 +15,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SupplyZoneManagerExtendedRepository extends SupplyZoneManagerRepository {
 
+    List<SupplyZoneManager> getAllByEmployee(Employee employee);
 }

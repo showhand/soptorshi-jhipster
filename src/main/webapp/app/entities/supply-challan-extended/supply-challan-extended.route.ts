@@ -20,7 +20,7 @@ export const supplyChallanExtendedRoute: Routes = [
         path: '',
         component: SupplyChallanExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyChallans'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const supplyChallanExtendedRoute: Routes = [
             supplyChallan: SupplyChallanResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyChallans'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const supplyChallanExtendedRoute: Routes = [
             supplyChallan: SupplyChallanResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyChallans'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const supplyChallanExtendedRoute: Routes = [
             supplyChallan: SupplyChallanResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyChallans'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const supplyChallanPopupExtendedRoute: Routes = [
             supplyChallan: SupplyChallanResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyChallans'
         },
         canActivate: [UserRouteAccessService],

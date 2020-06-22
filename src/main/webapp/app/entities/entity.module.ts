@@ -752,10 +752,6 @@ import { MatTabsModule } from '@angular/material';
                     './purchase-order-voucher-relation-extended/purchase-order-voucher-relation-extended.module#SoptorshiPurchaseOrderVoucherRelationExtendedModule'
             },
             {
-                path: 'supply-area-manager',
-                loadChildren: './supply-area-manager/supply-area-manager.module#SoptorshiSupplyAreaManagerModule'
-            },
-            {
                 path: 'supply-sales-representative',
                 loadChildren: './supply-sales-representative/supply-sales-representative.module#SoptorshiSupplySalesRepresentativeModule'
             },
@@ -790,6 +786,14 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'supply-order',
                 loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+            },
+            {
+                path: 'supply-zone-manager',
+                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
+            },
+            {
+                path: 'supply-area-manager',
+                loadChildren: './supply-area-manager/supply-area-manager.module#SoptorshiSupplyAreaManagerModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

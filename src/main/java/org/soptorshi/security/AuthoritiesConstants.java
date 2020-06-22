@@ -62,6 +62,13 @@ public final class AuthoritiesConstants {
     public static final String ACCOUNTS = "ROLE_ACCOUNTS";
 
     public static final String MD = "ROLE_MD";
+
+    public static final String SCM_ADMIN = "ROLE_SCM_ADMIN";
+
+    public static final String SCM_AREA_MANAGER = "ROLE_SCM_AREA_MANAGER";
+
+    public static final String SCM_ZONE_MANAGER = "ROLE_SCM_ZONE_MANAGER";
+
     private AuthoritiesConstants() {
     }
 }

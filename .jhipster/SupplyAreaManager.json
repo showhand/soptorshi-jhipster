@@ -1,5 +1,44 @@
 {
-    "name": "SupplyAreaManager",
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZone",
+            "otherEntityRelationshipName": "supplyAreaManager",
+            "relationshipName": "supplyZone",
+            "otherEntityField": "zoneName",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyArea",
+            "otherEntityRelationshipName": "supplyAreaManager",
+            "relationshipName": "supplyArea",
+            "otherEntityField": "areaName",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "supplyAreaManager",
+            "relationshipValidateRules": "required",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName",
+            "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "supplyZoneManagers",
+            "otherEntityName": "supplyZoneManager",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "supplyAreaManager",
+            "otherEntityRelationshipNameUndefined": true
+        }
+    ],
     "fields": [
         {
             "fieldName": "createdBy",
@@ -30,38 +69,12 @@
             ]
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyZone",
-            "otherEntityRelationshipName": "supplyAreaManager",
-            "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "supplyArea",
-            "otherEntityRelationshipName": "supplyAreaManager",
-            "relationshipName": "supplyArea",
-            "otherEntityField": "areaName"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "employee",
-            "otherEntityRelationshipName": "supplyAreaManager",
-            "relationshipValidateRules": "required",
-            "relationshipName": "employee",
-            "otherEntityField": "fullName"
-        }
-    ],
     "changelogDate": "20191106144401",
-    "entityTableName": "supply_area_manager",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "searchEngine": "elasticsearch",
     "service": "serviceClass",
+    "entityTableName": "supply_area_manager",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*",
-    "searchEngine": "elasticsearch"
+    "pagination": "infinite-scroll"
 }

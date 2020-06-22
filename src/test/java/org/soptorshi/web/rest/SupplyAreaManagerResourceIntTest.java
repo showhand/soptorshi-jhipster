@@ -5,10 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.Employee;
-import org.soptorshi.domain.SupplyArea;
-import org.soptorshi.domain.SupplyAreaManager;
-import org.soptorshi.domain.SupplyZone;
+import org.soptorshi.domain.*;
 import org.soptorshi.domain.enumeration.SupplyAreaManagerStatus;
 import org.soptorshi.repository.SupplyAreaManagerRepository;
 import org.soptorshi.repository.search.SupplyAreaManagerSearchRepository;
@@ -142,6 +139,11 @@ public class SupplyAreaManagerResourceIntTest {
         em.persist(employee);
         em.flush();
         supplyAreaManager.setEmployee(employee);
+        // Add required entity
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyAreaManager.setSupplyZoneManagers(supplyZoneManager);
         return supplyAreaManager;
     }
 
@@ -572,6 +574,25 @@ public class SupplyAreaManagerResourceIntTest {
 
         // Get all the supplyAreaManagerList where employee equals to employeeId + 1
         defaultSupplyAreaManagerShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyAreaManagersBySupplyZoneManagersIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyZoneManager supplyZoneManagers = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManagers);
+        em.flush();
+        supplyAreaManager.setSupplyZoneManagers(supplyZoneManagers);
+        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
+        Long supplyZoneManagersId = supplyZoneManagers.getId();
+
+        // Get all the supplyAreaManagerList where supplyZoneManagers equals to supplyZoneManagersId
+        defaultSupplyAreaManagerShouldBeFound("supplyZoneManagersId.equals=" + supplyZoneManagersId);
+
+        // Get all the supplyAreaManagerList where supplyZoneManagers equals to supplyZoneManagersId + 1
+        defaultSupplyAreaManagerShouldNotBeFound("supplyZoneManagersId.equals=" + (supplyZoneManagersId + 1));
     }
 
     /**

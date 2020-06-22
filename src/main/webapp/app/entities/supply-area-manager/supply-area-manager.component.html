@@ -39,6 +39,7 @@
             <th jhiSortBy="supplyZoneZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyAreaAreaName"><span>Supply Area</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneManagersId"><span>Supply Zone Managers</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -64,6 +65,11 @@
                 <td>
                     <div *ngIf="supplyAreaManager.employeeId">
                         <a [routerLink]="['../employee', supplyAreaManager.employeeId , 'view' ]" >{{supplyAreaManager.employeeFullName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyAreaManager.supplyZoneManagersId">
+                        <a [routerLink]="['../supply-zone-manager', supplyAreaManager.supplyZoneManagersId , 'view' ]" >{{supplyAreaManager.supplyZoneManagersId}}</a>
                     </div>
                 </td>
                 <td class="text-right">

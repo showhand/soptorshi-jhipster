@@ -45,7 +45,7 @@ public class CommercialPoExtendedService extends CommercialPoService {
     public CommercialPoDTO save(CommercialPoDTO commercialPoDTO) {
         log.debug("Request to save CommercialPo : {}", commercialPoDTO);
 
-        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
         if(commercialPoDTO.getId() == null) {

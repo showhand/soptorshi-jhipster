@@ -1461,7 +1461,7 @@ relationship ManyToOne {
   SupplyShop{supplyZone(zoneName)} to SupplyZone,
   SupplyShop{supplyArea(areaName)} to SupplyArea,
   SupplyShop{supplySalesRepresentative(salesRepresentativeName)} to SupplySalesRepresentative,
-  SupplyShop{supplyAreaManager required} to SupplyAreaManager,
+  SupplyShop{supplyAreaManager} to SupplyAreaManager,
   SupplyOrder{supplyZone(zoneName)} to SupplyZone,
   SupplyOrder{supplyArea(areaName)} to SupplyArea,
   SupplyOrder{supplySalesRepresentative(salesRepresentativeName)} to SupplySalesRepresentative,

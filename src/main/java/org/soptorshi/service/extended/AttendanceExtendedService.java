@@ -54,7 +54,7 @@ public class AttendanceExtendedService extends AttendanceService {
         log.debug("Request to save Attendance : {}", attendanceDTO);
 
         String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
-            SecurityUtils.getCurrentUserLogin().toString() : "";
+            SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
         if(attendanceDTO.getId() == null) {

@@ -12,7 +12,7 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
                     <select class="form-control" id="field_supplyZone" name="supplyZone"
-                            [(ngModel)]="supplySalesRepresentative.supplyZoneId">
+                            [(ngModel)]="supplySalesRepresentative.supplyZoneId" (ngModelChange)="filterArea()" required>
                         <option [ngValue]="null"></option>
                         <option [ngValue]="supplyZoneOption.id"
                                 *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.zoneName}}</option>
@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyArea">Supply Area</label>
                     <select class="form-control" id="field_supplyArea" name="supplyArea"
-                            [(ngModel)]="supplySalesRepresentative.supplyAreaId">
+                            [(ngModel)]="supplySalesRepresentative.supplyAreaId" (ngModelChange)="filterAreaManager()" required>
                         <option [ngValue]="null"></option>
                         <option [ngValue]="supplyAreaOption.id"
                                 *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.areaName}}</option>
@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyAreaManager">Supply Area Manager</label>
                     <select class="form-control" id="field_supplyAreaManager" name="supplyAreaManager"
-                            [(ngModel)]="supplySalesRepresentative.supplyAreaManagerId">
+                            [(ngModel)]="supplySalesRepresentative.supplyAreaManagerId" required>
                         <option [ngValue]="null"></option>
                         <option [ngValue]="supplyAreaManagerOption.id"
                                 *ngFor="let supplyAreaManagerOption of supplyareamanagers; trackBy: trackSupplyAreaManagerById">{{supplyAreaManagerOption.employeeFullName}}</option>

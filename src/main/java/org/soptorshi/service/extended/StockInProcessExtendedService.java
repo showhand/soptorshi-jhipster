@@ -58,7 +58,7 @@ public class StockInProcessExtendedService extends StockInProcessService {
     public StockInProcessDTO save(StockInProcessDTO stockInProcessDTO) {
         log.debug("Request to save StockInProcess : {}", stockInProcessDTO);
 
-        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
         if(stockInProcessDTO.getId() == null) {

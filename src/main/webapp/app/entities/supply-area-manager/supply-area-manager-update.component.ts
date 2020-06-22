@@ -14,6 +14,8 @@ import { ISupplyArea } from 'app/shared/model/supply-area.model';
 import { SupplyAreaService } from 'app/entities/supply-area';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee';
+import { ISupplyZoneManager } from 'app/shared/model/supply-zone-manager.model';
+import { SupplyZoneManagerService } from 'app/entities/supply-zone-manager';
 
 @Component({
     selector: 'jhi-supply-area-manager-update',
@@ -28,6 +30,8 @@ export class SupplyAreaManagerUpdateComponent implements OnInit {
     supplyareas: ISupplyArea[];
 
     employees: IEmployee[];
+
+    supplyzonemanagers: ISupplyZoneManager[];
     createdOn: string;
     updatedOn: string;
     endDateDp: any;
@@ -38,6 +42,7 @@ export class SupplyAreaManagerUpdateComponent implements OnInit {
         protected supplyZoneService: SupplyZoneService,
         protected supplyAreaService: SupplyAreaService,
         protected employeeService: EmployeeService,
+        protected supplyZoneManagerService: SupplyZoneManagerService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -69,6 +74,16 @@ export class SupplyAreaManagerUpdateComponent implements OnInit {
                 map((response: HttpResponse<IEmployee[]>) => response.body)
             )
             .subscribe((res: IEmployee[]) => (this.employees = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.supplyZoneManagerService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplyZoneManager[]) => (this.supplyzonemanagers = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     previousState() {
@@ -112,6 +127,10 @@ export class SupplyAreaManagerUpdateComponent implements OnInit {
     }
 
     trackEmployeeById(index: number, item: IEmployee) {
+        return item.id;
+    }
+
+    trackSupplyZoneManagerById(index: number, item: ISupplyZoneManager) {
         return item.id;
     }
 }

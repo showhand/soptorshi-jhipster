@@ -50,7 +50,7 @@ public class OverTimeExtendedService extends OverTimeService {
         log.debug("Request to save OverTime : {}", overTimeDTO);
 
         String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
-            SecurityUtils.getCurrentUserLogin().toString() : "";
+            SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
         if(overTimeDTO.getId() == null) {

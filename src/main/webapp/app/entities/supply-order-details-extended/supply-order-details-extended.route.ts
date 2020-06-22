@@ -20,7 +20,7 @@ export const supplyOrderDetailsExtendedRoute: Routes = [
         path: '',
         component: SupplyOrderDetailsExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrderDetails'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const supplyOrderDetailsExtendedRoute: Routes = [
             supplyOrderDetails: SupplyOrderDetailsResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrderDetails'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const supplyOrderDetailsExtendedRoute: Routes = [
             supplyOrderDetails: SupplyOrderDetailsResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrderDetails'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const supplyOrderDetailsExtendedRoute: Routes = [
             supplyOrderDetails: SupplyOrderDetailsResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrderDetails'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const supplyOrderDetailsPopupExtendedRoute: Routes = [
             supplyOrderDetails: SupplyOrderDetailsResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrderDetails'
         },
         canActivate: [UserRouteAccessService],

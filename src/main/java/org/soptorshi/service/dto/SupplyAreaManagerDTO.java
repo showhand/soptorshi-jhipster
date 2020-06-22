@@ -41,6 +41,8 @@ public class SupplyAreaManagerDTO implements Serializable {
 
     private String employeeFullName;
 
+    private Long supplyZoneManagersId;
+
     public Long getId() {
         return id;
     }
@@ -145,6 +147,14 @@ public class SupplyAreaManagerDTO implements Serializable {
         this.employeeFullName = employeeFullName;
     }
 
+    public Long getSupplyZoneManagersId() {
+        return supplyZoneManagersId;
+    }
+
+    public void setSupplyZoneManagersId(Long supplyZoneManagerId) {
+        this.supplyZoneManagersId = supplyZoneManagerId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -182,6 +192,7 @@ public class SupplyAreaManagerDTO implements Serializable {
             ", supplyArea='" + getSupplyAreaAreaName() + "'" +
             ", employee=" + getEmployeeId() +
             ", employee='" + getEmployeeFullName() + "'" +
+            ", supplyZoneManagers=" + getSupplyZoneManagersId() +
             "}";
     }
 }

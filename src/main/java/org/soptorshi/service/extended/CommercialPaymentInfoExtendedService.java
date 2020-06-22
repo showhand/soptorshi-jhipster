@@ -54,7 +54,7 @@ public class CommercialPaymentInfoExtendedService extends CommercialPaymentInfoS
     public CommercialPaymentInfoDTO save(CommercialPaymentInfoDTO commercialPaymentInfoDTO) {
         log.debug("Request to save CommercialPaymentInfo : {}", commercialPaymentInfoDTO);
 
-        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
         if (commercialPaymentInfoDTO.getId() == null) {

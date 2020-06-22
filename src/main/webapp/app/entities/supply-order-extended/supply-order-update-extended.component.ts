@@ -50,6 +50,66 @@ export class SupplyOrderUpdateExtendedComponent extends SupplyOrderUpdateCompone
         );
     }
 
+    filterArea() {
+        this.supplyAreaService
+            .query({
+                'supplyZoneId.equals': this.supplyOrder.supplyZoneId
+            })
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyArea[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyArea[]>) => response.body)
+            )
+            .subscribe((res: ISupplyArea[]) => (this.supplyareas = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    filterAreaManager() {
+        this.supplyAreaManagerService
+            .query({
+                'supplyZoneId.equals': this.supplyOrder.supplyZoneId,
+                'supplyAreaId.equals': this.supplyOrder.supplyAreaId
+            })
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyAreaManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyAreaManager[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplyAreaManager[]) => (this.supplyareamanagers = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
+
+    filterSalesRepresentative() {
+        this.supplySalesRepresentativeService
+            .query({
+                'supplyZoneId.equals': this.supplyOrder.supplyZoneId,
+                'supplyAreaId.equals': this.supplyOrder.supplyAreaId,
+                'supplyAreaManagerId.equals': this.supplyOrder.supplyAreaManagerId
+            })
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplySalesRepresentative[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplySalesRepresentative[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplySalesRepresentative[]) => (this.supplysalesrepresentatives = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+    }
+
+    filterShop() {
+        this.supplyShopService
+            .query({
+                'supplyZoneId.equals': this.supplyOrder.supplyZoneId,
+                'supplyAreaId.equals': this.supplyOrder.supplyAreaId,
+                'supplyAreaManagerId.equals': this.supplyOrder.supplyAreaManagerId,
+                'supplySalesRepresentativeId.equals': this.supplyOrder.supplySalesRepresentativeId
+            })
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyShop[]>) => response.body)
+            )
+            .subscribe((res: ISupplyShop[]) => (this.supplyshops = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
     ngOnInit() {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ supplyOrder }) => {

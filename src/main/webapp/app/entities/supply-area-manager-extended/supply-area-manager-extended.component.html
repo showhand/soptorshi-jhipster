@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Supply Area Managers</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-area-manager" [routerLink]="['/supply-area-manager/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-area-manager" [routerLink]="['/supply-area-manager/new']" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <!--<span class="hidden-sm-down" >
             Create new Supply Area Manager
@@ -31,6 +31,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="supplyZoneZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="supplyZoneManagersId"><span>Supply Zone Managers</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="supplyAreaAreaName"><span>Supply Area</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <!--<th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -40,7 +41,7 @@
             <th jhiSortBy="endDate"><span>End Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
 
-            <th></th>
+            <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']"></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
@@ -49,6 +50,11 @@
                 <td>
                     <div *ngIf="supplyAreaManager.supplyZoneId">
                         <a [routerLink]="['../supply-zone', supplyAreaManager.supplyZoneId , 'view' ]" >{{supplyAreaManager.supplyZoneZoneName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyAreaManager.supplyZoneManagersId">
+                        <a [routerLink]="['../supply-zone-manager', supplyAreaManager.supplyZoneManagersId , 'view' ]" >{{supplyAreaManager.supplyZoneManagersId}}</a>
                     </div>
                 </td>
                 <td>
@@ -68,7 +74,7 @@
                 <td>{{supplyAreaManager.endDate | date:'mediumDate'}}</td>
                 <td>{{supplyAreaManager.status}}</td>
 
-                <td class="text-right" width="20$">
+                <td class="text-right" width="20%" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/supply-area-manager', supplyAreaManager.id, 'view' ]"

@@ -12,6 +12,12 @@ import { Moment } from 'moment';
 import { SupplyOrderDetailsService } from 'app/entities/supply-order-details';
 import { ISupplyOrderDetails } from 'app/shared/model/supply-order-details.model';
 import { IAccumulate } from 'app/entities/supply-order-extended/Accumulate';
+import { Employee } from 'app/shared/model/employee.model';
+import { ISupplyZoneManager, SupplyZoneManager } from 'app/shared/model/supply-zone-manager.model';
+import { SupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
+import { SupplyZoneManagerExtendedService } from 'app/entities/supply-zone-manager-extended';
+import { EmployeeExtendedService } from 'app/entities/employee-extended';
+import { SupplyAreaManagerExtendedService } from 'app/entities/supply-area-manager-extended';
 
 @Component({
     selector: 'accumulate-order',
@@ -36,6 +42,13 @@ export class AccumulateOrderComponent {
     accumulateOrders: IAccumulate[];
     refNo: string;
 
+    currentEmployee: Employee[];
+    currentZoneManager: SupplyZoneManager[];
+    currentAreaManager: SupplyAreaManager[];
+    hasScmZoneManagerAuthority: boolean = false;
+    hasScmAdminAuthority: boolean = false;
+    hasAdminAuthority: boolean = false;
+
     constructor(
         protected supplyOrderService: SupplyOrderExtendedService,
         protected jhiAlertService: JhiAlertService,
@@ -43,7 +56,10 @@ export class AccumulateOrderComponent {
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService,
-        protected supplyOrderDetailsService: SupplyOrderDetailsService
+        protected supplyOrderDetailsService: SupplyOrderDetailsService,
+        protected supplyZoneManagerService: SupplyZoneManagerExtendedService,
+        protected employeeService: EmployeeExtendedService,
+        protected supplyAreaManagerService: SupplyAreaManagerExtendedService
     ) {
         this.supplyOrders = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -60,45 +76,91 @@ export class AccumulateOrderComponent {
     }
 
     loadAll() {
-        if (this.fromDate && this.toDate && this.status) {
-            this.supplyOrderService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'dateOfOrder.greaterOrEqualThan': moment(this.fromDate).format(DATE_FORMAT),
-                    'dateOfOrder.lessOrEqualThan': moment(this.toDate).format(DATE_FORMAT),
-                    'supplyOrderStatus.equals': this.status
-                })
-                .subscribe(
-                    (res: HttpResponse<ISupplyOrder[]>) => this.paginateSupplyOrders(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        } else if (this.fromDate && this.toDate) {
-            this.supplyOrderService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'dateOfOrder.greaterOrEqualThan': moment(this.fromDate).format(DATE_FORMAT),
-                    'dateOfOrder.lessOrEqualThan': moment(this.toDate).format(DATE_FORMAT)
-                })
-                .subscribe(
-                    (res: HttpResponse<ISupplyOrder[]>) => this.paginateSupplyOrders(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        } else if (this.status) {
-            this.supplyOrderService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'supplyOrderStatus.equals': this.status
-                })
-                .subscribe(
-                    (res: HttpResponse<ISupplyOrder[]>) => this.paginateSupplyOrders(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
+        if (this.hasAdminAuthority || this.hasScmAdminAuthority) {
+            if (this.fromDate && this.toDate && this.status) {
+                this.supplyOrderService
+                    .query({
+                        page: this.page,
+                        size: this.itemsPerPage,
+                        sort: this.sort(),
+                        'dateOfOrder.greaterOrEqualThan': moment(this.fromDate).format(DATE_FORMAT),
+                        'dateOfOrder.lessOrEqualThan': moment(this.toDate).format(DATE_FORMAT),
+                        'supplyOrderStatus.equals': this.status
+                    })
+                    .subscribe(
+                        (res: HttpResponse<ISupplyOrder[]>) => this.paginateSupplyOrders(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            } else if (this.fromDate && this.toDate) {
+                this.supplyOrderService
+                    .query({
+                        page: this.page,
+                        size: this.itemsPerPage,
+                        sort: this.sort(),
+                        'dateOfOrder.greaterOrEqualThan': moment(this.fromDate).format(DATE_FORMAT),
+                        'dateOfOrder.lessOrEqualThan': moment(this.toDate).format(DATE_FORMAT)
+                    })
+                    .subscribe(
+                        (res: HttpResponse<ISupplyOrder[]>) => this.paginateSupplyOrders(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            } else if (this.status) {
+                this.supplyOrderService
+                    .query({
+                        page: this.page,
+                        size: this.itemsPerPage,
+                        sort: this.sort(),
+                        'supplyOrderStatus.equals': this.status
+                    })
+                    .subscribe(
+                        (res: HttpResponse<ISupplyOrder[]>) => this.paginateSupplyOrders(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            }
+        } else if (this.hasScmZoneManagerAuthority) {
+            if (this.fromDate && this.toDate && this.status) {
+                this.supplyOrderService
+                    .query({
+                        page: this.page,
+                        size: this.itemsPerPage,
+                        sort: this.sort(),
+                        'supplyZoneId.equals': this.currentZoneManager[0].supplyZoneId,
+                        'dateOfOrder.greaterOrEqualThan': moment(this.fromDate).format(DATE_FORMAT),
+                        'dateOfOrder.lessOrEqualThan': moment(this.toDate).format(DATE_FORMAT),
+                        'supplyOrderStatus.equals': this.status
+                    })
+                    .subscribe(
+                        (res: HttpResponse<ISupplyOrder[]>) => this.paginateSupplyOrders(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            } else if (this.fromDate && this.toDate) {
+                this.supplyOrderService
+                    .query({
+                        page: this.page,
+                        size: this.itemsPerPage,
+                        sort: this.sort(),
+                        'supplyZoneId.equals': this.currentZoneManager[0].supplyZoneId,
+                        'dateOfOrder.greaterOrEqualThan': moment(this.fromDate).format(DATE_FORMAT),
+                        'dateOfOrder.lessOrEqualThan': moment(this.toDate).format(DATE_FORMAT)
+                    })
+                    .subscribe(
+                        (res: HttpResponse<ISupplyOrder[]>) => this.paginateSupplyOrders(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            } else if (this.status) {
+                this.supplyOrderService
+                    .query({
+                        page: this.page,
+                        size: this.itemsPerPage,
+                        sort: this.sort(),
+                        'supplyZoneId.equals': this.currentZoneManager[0].supplyZoneId,
+                        'supplyOrderStatus.equals': this.status
+                    })
+                    .subscribe(
+                        (res: HttpResponse<ISupplyOrder[]>) => this.paginateSupplyOrders(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            }
         }
     }
 
@@ -141,9 +203,37 @@ export class AccumulateOrderComponent {
     }
 
     ngOnInit() {
-        this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
+            this.employeeService
+                .query({
+                    'employeeId.equals': this.currentAccount.login
+                })
+                .subscribe(
+                    (res: HttpResponse<Employee[]>) => {
+                        this.currentEmployee = res.body;
+                        this.hasAdminAuthority = this.accountService.hasAnyAuthority(['ROLE_ADMIN']);
+                        this.hasScmAdminAuthority = this.accountService.hasAnyAuthority(['ROLE_SCM_ADMIN']);
+                        this.hasScmZoneManagerAuthority = this.accountService.hasAnyAuthority(['ROLE_SCM_ZONE_MANAGER']);
+
+                        if (this.hasScmZoneManagerAuthority) {
+                            this.supplyZoneManagerService
+                                .query({
+                                    'employeeId.equals': this.currentEmployee[0].id
+                                })
+                                .subscribe(
+                                    (res: HttpResponse<ISupplyZoneManager[]>) => {
+                                        this.currentZoneManager = res.body;
+                                        this.loadAll();
+                                    },
+                                    (res: HttpErrorResponse) => this.onError(res.message)
+                                );
+                        } else {
+                            this.loadAll();
+                        }
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         });
         this.registerChangeInSupplyOrders();
 
@@ -242,14 +332,13 @@ export class AccumulateOrderComponent {
     }
 
     proceed() {
-        console.log('asdkijasbdi hasojdh aosdosajd oasdosandojasn donsa ' + this.refNo);
         if (this.refNo) {
             this.supplyOrderService.updateStatusAndReferenceNo(this.refNo, this.fromDate, this.toDate, this.status).subscribe(
                 (res: HttpResponse<number>) => {
                     if (res.body == 1) {
-                        this.jhiAlertService.success('reference number has been updated!!');
+                        this.jhiAlertService.success('Reference Number Has Been Updated!!');
                     } else {
-                        this.jhiAlertService.error('can not update reference number!!');
+                        this.jhiAlertService.error('Can Not Update Reference Number!!');
                     }
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)

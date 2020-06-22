@@ -1,29 +1,31 @@
 package org.soptorshi.service.dto;
 
 import io.github.jhipster.service.filter.*;
-import org.soptorshi.domain.enumeration.SupplyAreaManagerStatus;
+import org.soptorshi.domain.enumeration.SupplyZoneManagerStatus;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Criteria class for the SupplyAreaManager entity. This class is used in SupplyAreaManagerResource to
+ * Criteria class for the SupplyZoneManager entity. This class is used in SupplyZoneManagerResource to
  * receive all the possible filtering options from the Http GET request parameters.
  * For example the following could be a valid requests:
- * <code> /supply-area-managers?id.greaterThan=5&amp;attr1.contains=something&amp;attr2.specified=false</code>
+ * <code> /supply-zone-managers?id.greaterThan=5&amp;attr1.contains=something&amp;attr2.specified=false</code>
  * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
  * fix type specific filters.
  */
-public class SupplyAreaManagerCriteria implements Serializable {
+public class SupplyZoneManagerCriteria implements Serializable {
     /**
-     * Class for filtering SupplyAreaManagerStatus
+     * Class for filtering SupplyZoneManagerStatus
      */
-    public static class SupplyAreaManagerStatusFilter extends Filter<SupplyAreaManagerStatus> {
+    public static class SupplyZoneManagerStatusFilter extends Filter<SupplyZoneManagerStatus> {
     }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
+
+    private LocalDateFilter endDate;
 
     private StringFilter createdBy;
 
@@ -33,17 +35,11 @@ public class SupplyAreaManagerCriteria implements Serializable {
 
     private InstantFilter updatedOn;
 
-    private LocalDateFilter endDate;
-
-    private SupplyAreaManagerStatusFilter status;
+    private SupplyZoneManagerStatusFilter status;
 
     private LongFilter supplyZoneId;
 
-    private LongFilter supplyAreaId;
-
     private LongFilter employeeId;
-
-    private LongFilter supplyZoneManagersId;
 
     public LongFilter getId() {
         return id;
@@ -51,6 +47,14 @@ public class SupplyAreaManagerCriteria implements Serializable {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public LocalDateFilter getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateFilter endDate) {
+        this.endDate = endDate;
     }
 
     public StringFilter getCreatedBy() {
@@ -85,19 +89,11 @@ public class SupplyAreaManagerCriteria implements Serializable {
         this.updatedOn = updatedOn;
     }
 
-    public LocalDateFilter getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDateFilter endDate) {
-        this.endDate = endDate;
-    }
-
-    public SupplyAreaManagerStatusFilter getStatus() {
+    public SupplyZoneManagerStatusFilter getStatus() {
         return status;
     }
 
-    public void setStatus(SupplyAreaManagerStatusFilter status) {
+    public void setStatus(SupplyZoneManagerStatusFilter status) {
         this.status = status;
     }
 
@@ -109,28 +105,12 @@ public class SupplyAreaManagerCriteria implements Serializable {
         this.supplyZoneId = supplyZoneId;
     }
 
-    public LongFilter getSupplyAreaId() {
-        return supplyAreaId;
-    }
-
-    public void setSupplyAreaId(LongFilter supplyAreaId) {
-        this.supplyAreaId = supplyAreaId;
-    }
-
     public LongFilter getEmployeeId() {
         return employeeId;
     }
 
     public void setEmployeeId(LongFilter employeeId) {
         this.employeeId = employeeId;
-    }
-
-    public LongFilter getSupplyZoneManagersId() {
-        return supplyZoneManagersId;
-    }
-
-    public void setSupplyZoneManagersId(LongFilter supplyZoneManagersId) {
-        this.supplyZoneManagersId = supplyZoneManagersId;
     }
 
 
@@ -142,52 +122,46 @@ public class SupplyAreaManagerCriteria implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final SupplyAreaManagerCriteria that = (SupplyAreaManagerCriteria) o;
+        final SupplyZoneManagerCriteria that = (SupplyZoneManagerCriteria) o;
         return
             Objects.equals(id, that.id) &&
+            Objects.equals(endDate, that.endDate) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
-            Objects.equals(endDate, that.endDate) &&
             Objects.equals(status, that.status) &&
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
-            Objects.equals(supplyAreaId, that.supplyAreaId) &&
-            Objects.equals(employeeId, that.employeeId) &&
-            Objects.equals(supplyZoneManagersId, that.supplyZoneManagersId);
+            Objects.equals(employeeId, that.employeeId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
+        endDate,
         createdBy,
         createdOn,
         updatedBy,
         updatedOn,
-        endDate,
         status,
         supplyZoneId,
-        supplyAreaId,
-        employeeId,
-        supplyZoneManagersId
+        employeeId
         );
     }
 
     @Override
     public String toString() {
-        return "SupplyAreaManagerCriteria{" +
+        return "SupplyZoneManagerCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (endDate != null ? "endDate=" + endDate + ", " : "") +
                 (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
-                (endDate != null ? "endDate=" + endDate + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
-                (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
-                (supplyZoneManagersId != null ? "supplyZoneManagersId=" + supplyZoneManagersId + ", " : "") +
             "}";
     }
 

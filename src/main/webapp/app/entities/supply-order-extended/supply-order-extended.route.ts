@@ -21,7 +21,7 @@ export const supplyOrderExtendedRoute: Routes = [
         path: '',
         component: SupplyOrderExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrders'
         },
         canActivate: [UserRouteAccessService]
@@ -33,7 +33,7 @@ export const supplyOrderExtendedRoute: Routes = [
             supplyOrder: SupplyOrderResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrders'
         },
         canActivate: [UserRouteAccessService]
@@ -45,7 +45,7 @@ export const supplyOrderExtendedRoute: Routes = [
             supplyOrder: SupplyOrderResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrders'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +57,7 @@ export const supplyOrderExtendedRoute: Routes = [
             supplyOrder: SupplyOrderResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrders'
         },
         canActivate: [UserRouteAccessService]
@@ -66,7 +66,7 @@ export const supplyOrderExtendedRoute: Routes = [
         path: 'accumulate',
         component: AccumulateOrderComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER'],
             pageTitle: 'AccumulateSupplyOrders'
         },
         canActivate: [UserRouteAccessService]
@@ -81,7 +81,7 @@ export const supplyOrderPopupExtendedRoute: Routes = [
             supplyOrder: SupplyOrderResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyOrders'
         },
         canActivate: [UserRouteAccessService],

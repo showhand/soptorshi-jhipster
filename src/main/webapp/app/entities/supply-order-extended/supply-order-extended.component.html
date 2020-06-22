@@ -2,7 +2,7 @@
     <h2 id="page-heading">
         <span>Supply Orders</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-order"
-                [routerLink]="['/supply-order/new']">
+                [routerLink]="['/supply-order/new']" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <!--<span class="hidden-sm-down" >
             Create new Supply Order
@@ -69,7 +69,7 @@
                     <fa-icon [icon]="'sort'"></fa-icon>
                 </th>
 
-                <th></th>
+                <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']"></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
@@ -107,7 +107,7 @@
                 <td>{{supplyOrder.deliveryDate | date:'mediumDate'}}</td>
                 <td>{{supplyOrder.supplyOrderStatus}}</td>
 
-                <td class="text-right" width="20%">
+                <td class="text-right" width="20%" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/supply-order', supplyOrder.id, 'view' ]"

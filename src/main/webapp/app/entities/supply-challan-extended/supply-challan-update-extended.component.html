@@ -12,7 +12,7 @@
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyOrder">Supply Order</label>
-                    <select class="form-control" id="field_supplyOrder" name="supplyOrder" [(ngModel)]="supplyChallan.supplyOrderId" >
+                    <select class="form-control" id="field_supplyOrder" name="supplyOrder" [(ngModel)]="supplyChallan.supplyOrderId" required>
                         <option [ngValue]="null"></option>
                         <option [ngValue]="supplyOrderOption.id" *ngFor="let supplyOrderOption of supplyorders; trackBy: trackSupplyOrderById">{{supplyOrderOption.orderNo}}</option>
                     </select>
