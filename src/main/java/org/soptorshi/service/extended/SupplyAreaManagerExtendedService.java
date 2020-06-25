@@ -112,7 +112,7 @@ public class SupplyAreaManagerExtendedService extends SupplyAreaManagerService {
     }
 
     private void checkValidityForZone(SupplyAreaManagerDTO supplyAreaManagerDTO) {
-        Optional<SupplyZoneManagerDTO> selectedZoneManager = supplyZoneManagerExtendedService.findOne(supplyAreaManagerDTO.getSupplyZoneManagersId());
+        Optional<SupplyZoneManagerDTO> selectedZoneManager = supplyZoneManagerExtendedService.findOne(supplyAreaManagerDTO.getSupplyZoneManagerId());
         if(selectedZoneManager.isPresent()) {
             if(!selectedZoneManager.get().getSupplyZoneId().equals(supplyAreaManagerDTO.getSupplyZoneId())) {
                 throw new BadRequestAlertException("Invalid Zone Manager Selected", "supplyAreaManager", "invalidaccess");

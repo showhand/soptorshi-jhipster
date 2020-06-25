@@ -90,7 +90,7 @@ public class SupplyAccumulateOrderReportService {
                 table.addCell(cell);*/
 
                 cell = new PdfPCell();
-                cell.addElement(new Paragraph(new Paragraph("Area: " + map1.getKey().getSupplyArea().getAreaName(), SoptorshiUtils.mBigLiteFont)));
+                cell.addElement(new Paragraph(new Paragraph("Area: " + map1.getKey().getSupplyArea().getName(), SoptorshiUtils.mBigLiteFont)));
                 cell.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell);
 
@@ -100,7 +100,7 @@ public class SupplyAccumulateOrderReportService {
                 table.addCell(cell);*/
 
                 cell = new PdfPCell();
-                cell.addElement(new Paragraph(new Paragraph("Zone: " + map1.getKey().getSupplyZone().getZoneName(), SoptorshiUtils.mBigLiteFont)));
+                cell.addElement(new Paragraph(new Paragraph("Zone: " + map1.getKey().getSupplyZone().getName(), SoptorshiUtils.mBigLiteFont)));
                 cell.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell);
 

@@ -1,6 +1,7 @@
 package org.soptorshi.service.dto;
-import java.time.Instant;
+
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -27,19 +28,17 @@ public class SupplyMoneyCollectionDTO implements Serializable {
 
     private Long supplyZoneId;
 
-    private String supplyZoneZoneName;
+    private String supplyZoneName;
 
     private Long supplyAreaId;
 
-    private String supplyAreaAreaName;
+    private String supplyAreaName;
 
     private Long supplyAreaManagerId;
 
-    private String supplyAreaManagerManagerName;
-
     private Long supplySalesRepresentativeId;
 
-    private String supplySalesRepresentativeSalesRepresentativeName;
+    private String supplySalesRepresentativeName;
 
     public Long getId() {
         return id;
@@ -113,12 +112,12 @@ public class SupplyMoneyCollectionDTO implements Serializable {
         this.supplyZoneId = supplyZoneId;
     }
 
-    public String getSupplyZoneZoneName() {
-        return supplyZoneZoneName;
+    public String getSupplyZoneName() {
+        return supplyZoneName;
     }
 
-    public void setSupplyZoneZoneName(String supplyZoneZoneName) {
-        this.supplyZoneZoneName = supplyZoneZoneName;
+    public void setSupplyZoneName(String supplyZoneName) {
+        this.supplyZoneName = supplyZoneName;
     }
 
     public Long getSupplyAreaId() {
@@ -129,12 +128,12 @@ public class SupplyMoneyCollectionDTO implements Serializable {
         this.supplyAreaId = supplyAreaId;
     }
 
-    public String getSupplyAreaAreaName() {
-        return supplyAreaAreaName;
+    public String getSupplyAreaName() {
+        return supplyAreaName;
     }
 
-    public void setSupplyAreaAreaName(String supplyAreaAreaName) {
-        this.supplyAreaAreaName = supplyAreaAreaName;
+    public void setSupplyAreaName(String supplyAreaName) {
+        this.supplyAreaName = supplyAreaName;
     }
 
     public Long getSupplyAreaManagerId() {
@@ -145,14 +144,6 @@ public class SupplyMoneyCollectionDTO implements Serializable {
         this.supplyAreaManagerId = supplyAreaManagerId;
     }
 
-    public String getSupplyAreaManagerManagerName() {
-        return supplyAreaManagerManagerName;
-    }
-
-    public void setSupplyAreaManagerManagerName(String supplyAreaManagerManagerName) {
-        this.supplyAreaManagerManagerName = supplyAreaManagerManagerName;
-    }
-
     public Long getSupplySalesRepresentativeId() {
         return supplySalesRepresentativeId;
     }
@@ -161,12 +152,12 @@ public class SupplyMoneyCollectionDTO implements Serializable {
         this.supplySalesRepresentativeId = supplySalesRepresentativeId;
     }
 
-    public String getSupplySalesRepresentativeSalesRepresentativeName() {
-        return supplySalesRepresentativeSalesRepresentativeName;
+    public String getSupplySalesRepresentativeName() {
+        return supplySalesRepresentativeName;
     }
 
-    public void setSupplySalesRepresentativeSalesRepresentativeName(String supplySalesRepresentativeSalesRepresentativeName) {
-        this.supplySalesRepresentativeSalesRepresentativeName = supplySalesRepresentativeSalesRepresentativeName;
+    public void setSupplySalesRepresentativeName(String supplySalesRepresentativeName) {
+        this.supplySalesRepresentativeName = supplySalesRepresentativeName;
     }
 
     @Override
@@ -202,13 +193,12 @@ public class SupplyMoneyCollectionDTO implements Serializable {
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
-            ", supplyZone='" + getSupplyZoneZoneName() + "'" +
+            ", supplyZone='" + getSupplyZoneName() + "'" +
             ", supplyArea=" + getSupplyAreaId() +
-            ", supplyArea='" + getSupplyAreaAreaName() + "'" +
+            ", supplyArea='" + getSupplyAreaName() + "'" +
             ", supplyAreaManager=" + getSupplyAreaManagerId() +
-            ", supplyAreaManager='" + getSupplyAreaManagerManagerName() + "'" +
             ", supplySalesRepresentative=" + getSupplySalesRepresentativeId() +
-            ", supplySalesRepresentative='" + getSupplySalesRepresentativeSalesRepresentativeName() + "'" +
+            ", supplySalesRepresentative='" + getSupplySalesRepresentativeName() + "'" +
             "}";
     }
 }

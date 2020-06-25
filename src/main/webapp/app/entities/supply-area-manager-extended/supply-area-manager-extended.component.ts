@@ -4,7 +4,7 @@ import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { Account, AccountService } from 'app/core';
 import { SupplyAreaManagerExtendedService } from './supply-area-manager-extended.service';
 import { SupplyAreaManagerComponent } from 'app/entities/supply-area-manager';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ISupplyAreaManager, SupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
 import { ISupplyZoneManager, SupplyZoneManager } from 'app/shared/model/supply-zone-manager.model';
 import { SupplyZoneManagerExtendedService } from 'app/entities/supply-zone-manager-extended';
@@ -20,6 +20,7 @@ export class SupplyAreaManagerExtendedComponent extends SupplyAreaManagerCompone
     currentEmployee: Employee[];
     currentZoneManager: SupplyZoneManager[];
     currentAreaManager: SupplyAreaManager[];
+    supplyZoneManagers: SupplyZoneManager[];
     hasScmAreaManagerAuthority: boolean = false;
     hasScmZoneManagerAuthority: boolean = false;
     hasScmAdminAuthority: boolean = false;
@@ -83,49 +84,70 @@ export class SupplyAreaManagerExtendedComponent extends SupplyAreaManagerCompone
     ngOnInit() {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
-            this.employeeService
-                .query({
-                    'employeeId.equals': this.currentAccount.login
-                })
-                .subscribe(
-                    (res: HttpResponse<Employee[]>) => {
-                        this.currentEmployee = res.body;
-                        this.hasAdminAuthority = this.accountService.hasAnyAuthority(['ROLE_ADMIN']);
-                        this.hasScmAdminAuthority = this.accountService.hasAnyAuthority(['ROLE_SCM_ADMIN']);
-                        this.hasScmAreaManagerAuthority = this.accountService.hasAnyAuthority(['ROLE_SCM_AREA_MANAGER']);
-                        this.hasScmZoneManagerAuthority = this.accountService.hasAnyAuthority(['ROLE_SCM_ZONE_MANAGER']);
+            this.supplyZoneManagerService.query().subscribe(
+                (res: HttpResponse<ISupplyZoneManager[]>) => {
+                    this.supplyZoneManagers = res.body;
 
-                        if (this.hasScmZoneManagerAuthority) {
-                            this.supplyZoneManagerService
-                                .query({
-                                    'employeeId.equals': this.currentEmployee[0].id
-                                })
-                                .subscribe(
-                                    (res: HttpResponse<ISupplyZoneManager[]>) => {
-                                        this.currentZoneManager = res.body;
-                                        this.loadAll();
-                                    },
-                                    (res: HttpErrorResponse) => this.onError(res.message)
-                                );
-                        } else if (this.hasScmAreaManagerAuthority) {
-                            this.supplyAreaManagerService
-                                .query({
-                                    'employeeId.equals': this.currentEmployee[0].id
-                                })
-                                .subscribe(
-                                    (res: HttpResponse<ISupplyAreaManager[]>) => {
-                                        this.currentAreaManager = res.body;
-                                        this.loadAll();
-                                    },
-                                    (res: HttpErrorResponse) => this.onError(res.message)
-                                );
-                        } else {
-                            this.loadAll();
-                        }
-                    },
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
+                    this.employeeService
+                        .query({
+                            'employeeId.equals': this.currentAccount.login
+                        })
+                        .subscribe(
+                            (res: HttpResponse<Employee[]>) => {
+                                this.currentEmployee = res.body;
+                                this.hasAdminAuthority = this.accountService.hasAnyAuthority(['ROLE_ADMIN']);
+                                this.hasScmAdminAuthority = this.accountService.hasAnyAuthority(['ROLE_SCM_ADMIN']);
+                                this.hasScmAreaManagerAuthority = this.accountService.hasAnyAuthority(['ROLE_SCM_AREA_MANAGER']);
+                                this.hasScmZoneManagerAuthority = this.accountService.hasAnyAuthority(['ROLE_SCM_ZONE_MANAGER']);
+
+                                if (this.hasScmZoneManagerAuthority) {
+                                    this.supplyZoneManagerService
+                                        .query({
+                                            'employeeId.equals': this.currentEmployee[0].id
+                                        })
+                                        .subscribe(
+                                            (res: HttpResponse<ISupplyZoneManager[]>) => {
+                                                this.currentZoneManager = res.body;
+                                                this.loadAll();
+                                            },
+                                            (res: HttpErrorResponse) => this.onError(res.message)
+                                        );
+                                } else if (this.hasScmAreaManagerAuthority) {
+                                    this.supplyAreaManagerService
+                                        .query({
+                                            'employeeId.equals': this.currentEmployee[0].id
+                                        })
+                                        .subscribe(
+                                            (res: HttpResponse<ISupplyAreaManager[]>) => {
+                                                this.currentAreaManager = res.body;
+                                                this.loadAll();
+                                            },
+                                            (res: HttpErrorResponse) => this.onError(res.message)
+                                        );
+                                } else {
+                                    this.loadAll();
+                                }
+                            },
+                            (res: HttpErrorResponse) => this.onError(res.message)
+                        );
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
         });
         this.registerChangeInSupplyAreaManagers();
+    }
+
+    protected paginateSupplyAreaManagers(data: ISupplyAreaManager[], headers: HttpHeaders) {
+        this.supplyAreaManagers = [];
+        this.links = this.parseLinks.parse(headers.get('link'));
+        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        for (let i = 0; i < data.length; i++) {
+            for (let j = 0; j < this.supplyZoneManagers.length; j++) {
+                if (data[i].supplyZoneManagerId === this.supplyZoneManagers[j].id) {
+                    data[i].supplyZoneManagerName = this.supplyZoneManagers[j].employeeFullName;
+                }
+            }
+            this.supplyAreaManagers.push(data[i]);
+        }
     }
 }

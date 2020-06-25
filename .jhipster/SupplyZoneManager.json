@@ -37,7 +37,7 @@
             "otherEntityRelationshipName": "supplyZoneManager",
             "relationshipValidateRules": "required",
             "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",

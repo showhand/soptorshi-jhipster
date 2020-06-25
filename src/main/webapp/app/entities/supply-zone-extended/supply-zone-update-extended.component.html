@@ -10,20 +10,26 @@
                            [(ngModel)]="supplyZone.id" readonly/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_zoneName">Zone Name</label>
-                    <input type="text" class="form-control" name="zoneName" id="field_zoneName"
-                           [(ngModel)]="supplyZone.zoneName" required/>
-                    <div [hidden]="!(editForm.controls.zoneName?.dirty && editForm.controls.zoneName?.invalid)">
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           [(ngModel)]="supplyZone.name" required/>
+                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
                         <small class="form-text text-danger"
-                               [hidden]="!editForm.controls.zoneName?.errors?.required">
+                               [hidden]="!editForm.controls.name?.errors?.required">
                             This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_zoneCode">Zone Code</label>
-                    <input type="text" class="form-control" name="zoneCode" id="field_zoneCode"
-                           [(ngModel)]="supplyZone.zoneCode"/>
+                    <label class="form-control-label" for="field_code">Code</label>
+                    <input type="text" class="form-control" name="code" id="field_code"
+                           [(ngModel)]="supplyZone.code" required/>
+                    <div [hidden]="!(editForm.controls.code?.dirty && editForm.controls.code?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.code?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
                 </div>
                 <!--<div class="form-group">
                     <label class="form-control-label" for="field_createdBy">Created By</label>

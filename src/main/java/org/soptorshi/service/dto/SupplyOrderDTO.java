@@ -41,21 +41,21 @@ public class SupplyOrderDTO implements Serializable {
 
     private Long supplyZoneId;
 
-    private String supplyZoneZoneName;
+    private String supplyZoneName;
 
     private Long supplyAreaId;
 
-    private String supplyAreaAreaName;
+    private String supplyAreaName;
 
     private Long supplySalesRepresentativeId;
 
-    private String supplySalesRepresentativeSalesRepresentativeName;
+    private String supplySalesRepresentativeName;
 
     private Long supplyAreaManagerId;
 
     private Long supplyShopId;
 
-    private String supplyShopShopName;
+    private String supplyShopName;
 
     public Long getId() {
         return id;
@@ -153,12 +153,12 @@ public class SupplyOrderDTO implements Serializable {
         this.supplyZoneId = supplyZoneId;
     }
 
-    public String getSupplyZoneZoneName() {
-        return supplyZoneZoneName;
+    public String getSupplyZoneName() {
+        return supplyZoneName;
     }
 
-    public void setSupplyZoneZoneName(String supplyZoneZoneName) {
-        this.supplyZoneZoneName = supplyZoneZoneName;
+    public void setSupplyZoneName(String supplyZoneName) {
+        this.supplyZoneName = supplyZoneName;
     }
 
     public Long getSupplyAreaId() {
@@ -169,12 +169,12 @@ public class SupplyOrderDTO implements Serializable {
         this.supplyAreaId = supplyAreaId;
     }
 
-    public String getSupplyAreaAreaName() {
-        return supplyAreaAreaName;
+    public String getSupplyAreaName() {
+        return supplyAreaName;
     }
 
-    public void setSupplyAreaAreaName(String supplyAreaAreaName) {
-        this.supplyAreaAreaName = supplyAreaAreaName;
+    public void setSupplyAreaName(String supplyAreaName) {
+        this.supplyAreaName = supplyAreaName;
     }
 
     public Long getSupplySalesRepresentativeId() {
@@ -185,12 +185,12 @@ public class SupplyOrderDTO implements Serializable {
         this.supplySalesRepresentativeId = supplySalesRepresentativeId;
     }
 
-    public String getSupplySalesRepresentativeSalesRepresentativeName() {
-        return supplySalesRepresentativeSalesRepresentativeName;
+    public String getSupplySalesRepresentativeName() {
+        return supplySalesRepresentativeName;
     }
 
-    public void setSupplySalesRepresentativeSalesRepresentativeName(String supplySalesRepresentativeSalesRepresentativeName) {
-        this.supplySalesRepresentativeSalesRepresentativeName = supplySalesRepresentativeSalesRepresentativeName;
+    public void setSupplySalesRepresentativeName(String supplySalesRepresentativeName) {
+        this.supplySalesRepresentativeName = supplySalesRepresentativeName;
     }
 
     public Long getSupplyAreaManagerId() {
@@ -209,12 +209,12 @@ public class SupplyOrderDTO implements Serializable {
         this.supplyShopId = supplyShopId;
     }
 
-    public String getSupplyShopShopName() {
-        return supplyShopShopName;
+    public String getSupplyShopName() {
+        return supplyShopName;
     }
 
-    public void setSupplyShopShopName(String supplyShopShopName) {
-        this.supplyShopShopName = supplyShopShopName;
+    public void setSupplyShopName(String supplyShopName) {
+        this.supplyShopName = supplyShopName;
     }
 
     @Override
@@ -253,14 +253,14 @@ public class SupplyOrderDTO implements Serializable {
             ", supplyOrderStatus='" + getSupplyOrderStatus() + "'" +
             ", accumulationReferenceNo='" + getAccumulationReferenceNo() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
-            ", supplyZone='" + getSupplyZoneZoneName() + "'" +
+            ", supplyZone='" + getSupplyZoneName() + "'" +
             ", supplyArea=" + getSupplyAreaId() +
-            ", supplyArea='" + getSupplyAreaAreaName() + "'" +
+            ", supplyArea='" + getSupplyAreaName() + "'" +
             ", supplySalesRepresentative=" + getSupplySalesRepresentativeId() +
-            ", supplySalesRepresentative='" + getSupplySalesRepresentativeSalesRepresentativeName() + "'" +
+            ", supplySalesRepresentative='" + getSupplySalesRepresentativeName() + "'" +
             ", supplyAreaManager=" + getSupplyAreaManagerId() +
             ", supplyShop=" + getSupplyShopId() +
-            ", supplyShop='" + getSupplyShopShopName() + "'" +
+            ", supplyShop='" + getSupplyShopName() + "'" +
             "}";
     }
 }

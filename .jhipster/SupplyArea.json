@@ -2,15 +2,18 @@
     "name": "SupplyArea",
     "fields": [
         {
-            "fieldName": "areaName",
+            "fieldName": "name",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "areaCode",
-            "fieldType": "String"
+            "fieldName": "code",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "createdBy",
@@ -34,8 +37,9 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyZone",
             "otherEntityRelationshipName": "supplyArea",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
+            "otherEntityField": "name"
         }
     ],
     "changelogDate": "20191106144400",

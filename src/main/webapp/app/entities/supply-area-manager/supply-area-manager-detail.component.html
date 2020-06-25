@@ -32,13 +32,13 @@
                 <dt><span>Supply Zone</span></dt>
                 <dd>
                     <div *ngIf="supplyAreaManager.supplyZoneId">
-                        <a [routerLink]="['/supply-zone', supplyAreaManager.supplyZoneId, 'view']">{{supplyAreaManager.supplyZoneZoneName}}</a>
+                        <a [routerLink]="['/supply-zone', supplyAreaManager.supplyZoneId, 'view']">{{supplyAreaManager.supplyZoneName}}</a>
                     </div>
                 </dd>
                 <dt><span>Supply Area</span></dt>
                 <dd>
                     <div *ngIf="supplyAreaManager.supplyAreaId">
-                        <a [routerLink]="['/supply-area', supplyAreaManager.supplyAreaId, 'view']">{{supplyAreaManager.supplyAreaAreaName}}</a>
+                        <a [routerLink]="['/supply-area', supplyAreaManager.supplyAreaId, 'view']">{{supplyAreaManager.supplyAreaName}}</a>
                     </div>
                 </dd>
                 <dt><span>Employee</span></dt>
@@ -47,10 +47,10 @@
                         <a [routerLink]="['/employee', supplyAreaManager.employeeId, 'view']">{{supplyAreaManager.employeeFullName}}</a>
                     </div>
                 </dd>
-                <dt><span>Supply Zone Managers</span></dt>
+                <dt><span>Supply Zone Manager</span></dt>
                 <dd>
-                    <div *ngIf="supplyAreaManager.supplyZoneManagersId">
-                        <a [routerLink]="['/supply-zone-manager', supplyAreaManager.supplyZoneManagersId, 'view']">{{supplyAreaManager.supplyZoneManagersId}}</a>
+                    <div *ngIf="supplyAreaManager.supplyZoneManagerId">
+                        <a [routerLink]="['/supply-zone-manager', supplyAreaManager.supplyZoneManagerId, 'view']">{{supplyAreaManager.supplyZoneManagerId}}</a>
                     </div>
                 </dd>
             </dl>

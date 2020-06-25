@@ -36,28 +36,28 @@
             "otherEntityName": "supplyZone",
             "otherEntityRelationshipName": "supplyMoneyCollection",
             "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyArea",
             "otherEntityRelationshipName": "supplyMoneyCollection",
             "relationshipName": "supplyArea",
-            "otherEntityField": "areaName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyAreaManager",
             "otherEntityRelationshipName": "supplyMoneyCollection",
             "relationshipName": "supplyAreaManager",
-            "otherEntityField": "managerName"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplySalesRepresentative",
             "otherEntityRelationshipName": "supplyMoneyCollection",
             "relationshipName": "supplySalesRepresentative",
-            "otherEntityField": "salesRepresentativeName"
+            "otherEntityField": "name"
         }
     ],
     "changelogDate": "20191106144407",

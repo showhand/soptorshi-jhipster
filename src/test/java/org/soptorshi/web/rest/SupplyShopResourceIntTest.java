@@ -49,8 +49,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = SoptorshiApp.class)
 public class SupplyShopResourceIntTest {
 
-    private static final String DEFAULT_SHOP_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_SHOP_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CONTACT = "AAAAAAAAAA";
+    private static final String UPDATED_CONTACT = "BBBBBBBBBB";
+
+    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
+    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
+
+    private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
+    private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
 
     private static final String DEFAULT_ADDITIONAL_INFORMATION = "AAAAAAAAAA";
     private static final String UPDATED_ADDITIONAL_INFORMATION = "BBBBBBBBBB";
@@ -126,17 +135,40 @@ public class SupplyShopResourceIntTest {
      */
     public static SupplyShop createEntity(EntityManager em) {
         SupplyShop supplyShop = new SupplyShop()
-            .shopName(DEFAULT_SHOP_NAME)
+            .name(DEFAULT_NAME)
+            .contact(DEFAULT_CONTACT)
+            .email(DEFAULT_EMAIL)
+            .address(DEFAULT_ADDRESS)
             .additionalInformation(DEFAULT_ADDITIONAL_INFORMATION)
             .createdBy(DEFAULT_CREATED_BY)
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
         // Add required entity
+        SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
+        em.persist(supplyZone);
+        em.flush();
+        supplyShop.setSupplyZone(supplyZone);
+        // Add required entity
+        SupplyArea supplyArea = SupplyAreaResourceIntTest.createEntity(em);
+        em.persist(supplyArea);
+        em.flush();
+        supplyShop.setSupplyArea(supplyArea);
+        // Add required entity
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyShop.setSupplyZoneManager(supplyZoneManager);
+        // Add required entity
         SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
         em.persist(supplyAreaManager);
         em.flush();
         supplyShop.setSupplyAreaManager(supplyAreaManager);
+        // Add required entity
+        SupplySalesRepresentative supplySalesRepresentative = SupplySalesRepresentativeResourceIntTest.createEntity(em);
+        em.persist(supplySalesRepresentative);
+        em.flush();
+        supplyShop.setSupplySalesRepresentative(supplySalesRepresentative);
         return supplyShop;
     }
 
@@ -161,7 +193,10 @@ public class SupplyShopResourceIntTest {
         List<SupplyShop> supplyShopList = supplyShopRepository.findAll();
         assertThat(supplyShopList).hasSize(databaseSizeBeforeCreate + 1);
         SupplyShop testSupplyShop = supplyShopList.get(supplyShopList.size() - 1);
-        assertThat(testSupplyShop.getShopName()).isEqualTo(DEFAULT_SHOP_NAME);
+        assertThat(testSupplyShop.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testSupplyShop.getContact()).isEqualTo(DEFAULT_CONTACT);
+        assertThat(testSupplyShop.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testSupplyShop.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testSupplyShop.getAdditionalInformation()).isEqualTo(DEFAULT_ADDITIONAL_INFORMATION);
         assertThat(testSupplyShop.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testSupplyShop.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
@@ -197,10 +232,10 @@ public class SupplyShopResourceIntTest {
 
     @Test
     @Transactional
-    public void checkShopNameIsRequired() throws Exception {
+    public void checkNameIsRequired() throws Exception {
         int databaseSizeBeforeTest = supplyShopRepository.findAll().size();
         // set the field null
-        supplyShop.setShopName(null);
+        supplyShop.setName(null);
 
         // Create the SupplyShop, which fails.
         SupplyShopDTO supplyShopDTO = supplyShopMapper.toDto(supplyShop);
@@ -225,7 +260,10 @@ public class SupplyShopResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyShop.getId().intValue())))
-            .andExpect(jsonPath("$.[*].shopName").value(hasItem(DEFAULT_SHOP_NAME.toString())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].contact").value(hasItem(DEFAULT_CONTACT.toString())))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].additionalInformation").value(hasItem(DEFAULT_ADDITIONAL_INFORMATION.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
@@ -244,7 +282,10 @@ public class SupplyShopResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(supplyShop.getId().intValue()))
-            .andExpect(jsonPath("$.shopName").value(DEFAULT_SHOP_NAME.toString()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.contact").value(DEFAULT_CONTACT.toString()))
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL.toString()))
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()))
             .andExpect(jsonPath("$.additionalInformation").value(DEFAULT_ADDITIONAL_INFORMATION.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
@@ -254,41 +295,158 @@ public class SupplyShopResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSupplyShopsByShopNameIsEqualToSomething() throws Exception {
+    public void getAllSupplyShopsByNameIsEqualToSomething() throws Exception {
         // Initialize the database
         supplyShopRepository.saveAndFlush(supplyShop);
 
-        // Get all the supplyShopList where shopName equals to DEFAULT_SHOP_NAME
-        defaultSupplyShopShouldBeFound("shopName.equals=" + DEFAULT_SHOP_NAME);
+        // Get all the supplyShopList where name equals to DEFAULT_NAME
+        defaultSupplyShopShouldBeFound("name.equals=" + DEFAULT_NAME);
 
-        // Get all the supplyShopList where shopName equals to UPDATED_SHOP_NAME
-        defaultSupplyShopShouldNotBeFound("shopName.equals=" + UPDATED_SHOP_NAME);
+        // Get all the supplyShopList where name equals to UPDATED_NAME
+        defaultSupplyShopShouldNotBeFound("name.equals=" + UPDATED_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyShopsByShopNameIsInShouldWork() throws Exception {
+    public void getAllSupplyShopsByNameIsInShouldWork() throws Exception {
         // Initialize the database
         supplyShopRepository.saveAndFlush(supplyShop);
 
-        // Get all the supplyShopList where shopName in DEFAULT_SHOP_NAME or UPDATED_SHOP_NAME
-        defaultSupplyShopShouldBeFound("shopName.in=" + DEFAULT_SHOP_NAME + "," + UPDATED_SHOP_NAME);
+        // Get all the supplyShopList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultSupplyShopShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
 
-        // Get all the supplyShopList where shopName equals to UPDATED_SHOP_NAME
-        defaultSupplyShopShouldNotBeFound("shopName.in=" + UPDATED_SHOP_NAME);
+        // Get all the supplyShopList where name equals to UPDATED_NAME
+        defaultSupplyShopShouldNotBeFound("name.in=" + UPDATED_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyShopsByShopNameIsNullOrNotNull() throws Exception {
+    public void getAllSupplyShopsByNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         supplyShopRepository.saveAndFlush(supplyShop);
 
-        // Get all the supplyShopList where shopName is not null
-        defaultSupplyShopShouldBeFound("shopName.specified=true");
+        // Get all the supplyShopList where name is not null
+        defaultSupplyShopShouldBeFound("name.specified=true");
 
-        // Get all the supplyShopList where shopName is null
-        defaultSupplyShopShouldNotBeFound("shopName.specified=false");
+        // Get all the supplyShopList where name is null
+        defaultSupplyShopShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyShopsByContactIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyShopRepository.saveAndFlush(supplyShop);
+
+        // Get all the supplyShopList where contact equals to DEFAULT_CONTACT
+        defaultSupplyShopShouldBeFound("contact.equals=" + DEFAULT_CONTACT);
+
+        // Get all the supplyShopList where contact equals to UPDATED_CONTACT
+        defaultSupplyShopShouldNotBeFound("contact.equals=" + UPDATED_CONTACT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyShopsByContactIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyShopRepository.saveAndFlush(supplyShop);
+
+        // Get all the supplyShopList where contact in DEFAULT_CONTACT or UPDATED_CONTACT
+        defaultSupplyShopShouldBeFound("contact.in=" + DEFAULT_CONTACT + "," + UPDATED_CONTACT);
+
+        // Get all the supplyShopList where contact equals to UPDATED_CONTACT
+        defaultSupplyShopShouldNotBeFound("contact.in=" + UPDATED_CONTACT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyShopsByContactIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyShopRepository.saveAndFlush(supplyShop);
+
+        // Get all the supplyShopList where contact is not null
+        defaultSupplyShopShouldBeFound("contact.specified=true");
+
+        // Get all the supplyShopList where contact is null
+        defaultSupplyShopShouldNotBeFound("contact.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyShopsByEmailIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyShopRepository.saveAndFlush(supplyShop);
+
+        // Get all the supplyShopList where email equals to DEFAULT_EMAIL
+        defaultSupplyShopShouldBeFound("email.equals=" + DEFAULT_EMAIL);
+
+        // Get all the supplyShopList where email equals to UPDATED_EMAIL
+        defaultSupplyShopShouldNotBeFound("email.equals=" + UPDATED_EMAIL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyShopsByEmailIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyShopRepository.saveAndFlush(supplyShop);
+
+        // Get all the supplyShopList where email in DEFAULT_EMAIL or UPDATED_EMAIL
+        defaultSupplyShopShouldBeFound("email.in=" + DEFAULT_EMAIL + "," + UPDATED_EMAIL);
+
+        // Get all the supplyShopList where email equals to UPDATED_EMAIL
+        defaultSupplyShopShouldNotBeFound("email.in=" + UPDATED_EMAIL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyShopsByEmailIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyShopRepository.saveAndFlush(supplyShop);
+
+        // Get all the supplyShopList where email is not null
+        defaultSupplyShopShouldBeFound("email.specified=true");
+
+        // Get all the supplyShopList where email is null
+        defaultSupplyShopShouldNotBeFound("email.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyShopsByAddressIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyShopRepository.saveAndFlush(supplyShop);
+
+        // Get all the supplyShopList where address equals to DEFAULT_ADDRESS
+        defaultSupplyShopShouldBeFound("address.equals=" + DEFAULT_ADDRESS);
+
+        // Get all the supplyShopList where address equals to UPDATED_ADDRESS
+        defaultSupplyShopShouldNotBeFound("address.equals=" + UPDATED_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyShopsByAddressIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyShopRepository.saveAndFlush(supplyShop);
+
+        // Get all the supplyShopList where address in DEFAULT_ADDRESS or UPDATED_ADDRESS
+        defaultSupplyShopShouldBeFound("address.in=" + DEFAULT_ADDRESS + "," + UPDATED_ADDRESS);
+
+        // Get all the supplyShopList where address equals to UPDATED_ADDRESS
+        defaultSupplyShopShouldNotBeFound("address.in=" + UPDATED_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyShopsByAddressIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyShopRepository.saveAndFlush(supplyShop);
+
+        // Get all the supplyShopList where address is not null
+        defaultSupplyShopShouldBeFound("address.specified=true");
+
+        // Get all the supplyShopList where address is null
+        defaultSupplyShopShouldNotBeFound("address.specified=false");
     }
 
     @Test
@@ -526,20 +684,20 @@ public class SupplyShopResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSupplyShopsBySupplySalesRepresentativeIsEqualToSomething() throws Exception {
+    public void getAllSupplyShopsBySupplyZoneManagerIsEqualToSomething() throws Exception {
         // Initialize the database
-        SupplySalesRepresentative supplySalesRepresentative = SupplySalesRepresentativeResourceIntTest.createEntity(em);
-        em.persist(supplySalesRepresentative);
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
         em.flush();
-        supplyShop.setSupplySalesRepresentative(supplySalesRepresentative);
+        supplyShop.setSupplyZoneManager(supplyZoneManager);
         supplyShopRepository.saveAndFlush(supplyShop);
-        Long supplySalesRepresentativeId = supplySalesRepresentative.getId();
+        Long supplyZoneManagerId = supplyZoneManager.getId();
 
-        // Get all the supplyShopList where supplySalesRepresentative equals to supplySalesRepresentativeId
-        defaultSupplyShopShouldBeFound("supplySalesRepresentativeId.equals=" + supplySalesRepresentativeId);
+        // Get all the supplyShopList where supplyZoneManager equals to supplyZoneManagerId
+        defaultSupplyShopShouldBeFound("supplyZoneManagerId.equals=" + supplyZoneManagerId);
 
-        // Get all the supplyShopList where supplySalesRepresentative equals to supplySalesRepresentativeId + 1
-        defaultSupplyShopShouldNotBeFound("supplySalesRepresentativeId.equals=" + (supplySalesRepresentativeId + 1));
+        // Get all the supplyShopList where supplyZoneManager equals to supplyZoneManagerId + 1
+        defaultSupplyShopShouldNotBeFound("supplyZoneManagerId.equals=" + (supplyZoneManagerId + 1));
     }
 
 
@@ -561,6 +719,25 @@ public class SupplyShopResourceIntTest {
         defaultSupplyShopShouldNotBeFound("supplyAreaManagerId.equals=" + (supplyAreaManagerId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllSupplyShopsBySupplySalesRepresentativeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplySalesRepresentative supplySalesRepresentative = SupplySalesRepresentativeResourceIntTest.createEntity(em);
+        em.persist(supplySalesRepresentative);
+        em.flush();
+        supplyShop.setSupplySalesRepresentative(supplySalesRepresentative);
+        supplyShopRepository.saveAndFlush(supplyShop);
+        Long supplySalesRepresentativeId = supplySalesRepresentative.getId();
+
+        // Get all the supplyShopList where supplySalesRepresentative equals to supplySalesRepresentativeId
+        defaultSupplyShopShouldBeFound("supplySalesRepresentativeId.equals=" + supplySalesRepresentativeId);
+
+        // Get all the supplyShopList where supplySalesRepresentative equals to supplySalesRepresentativeId + 1
+        defaultSupplyShopShouldNotBeFound("supplySalesRepresentativeId.equals=" + (supplySalesRepresentativeId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -569,7 +746,10 @@ public class SupplyShopResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyShop.getId().intValue())))
-            .andExpect(jsonPath("$.[*].shopName").value(hasItem(DEFAULT_SHOP_NAME)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].contact").value(hasItem(DEFAULT_CONTACT)))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].additionalInformation").value(hasItem(DEFAULT_ADDITIONAL_INFORMATION)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
@@ -622,7 +802,10 @@ public class SupplyShopResourceIntTest {
         // Disconnect from session so that the updates on updatedSupplyShop are not directly saved in db
         em.detach(updatedSupplyShop);
         updatedSupplyShop
-            .shopName(UPDATED_SHOP_NAME)
+            .name(UPDATED_NAME)
+            .contact(UPDATED_CONTACT)
+            .email(UPDATED_EMAIL)
+            .address(UPDATED_ADDRESS)
             .additionalInformation(UPDATED_ADDITIONAL_INFORMATION)
             .createdBy(UPDATED_CREATED_BY)
             .createdOn(UPDATED_CREATED_ON)
@@ -639,7 +822,10 @@ public class SupplyShopResourceIntTest {
         List<SupplyShop> supplyShopList = supplyShopRepository.findAll();
         assertThat(supplyShopList).hasSize(databaseSizeBeforeUpdate);
         SupplyShop testSupplyShop = supplyShopList.get(supplyShopList.size() - 1);
-        assertThat(testSupplyShop.getShopName()).isEqualTo(UPDATED_SHOP_NAME);
+        assertThat(testSupplyShop.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testSupplyShop.getContact()).isEqualTo(UPDATED_CONTACT);
+        assertThat(testSupplyShop.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testSupplyShop.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testSupplyShop.getAdditionalInformation()).isEqualTo(UPDATED_ADDITIONAL_INFORMATION);
         assertThat(testSupplyShop.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testSupplyShop.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
@@ -705,7 +891,10 @@ public class SupplyShopResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyShop.getId().intValue())))
-            .andExpect(jsonPath("$.[*].shopName").value(hasItem(DEFAULT_SHOP_NAME)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].contact").value(hasItem(DEFAULT_CONTACT)))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].additionalInformation").value(hasItem(DEFAULT_ADDITIONAL_INFORMATION)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))

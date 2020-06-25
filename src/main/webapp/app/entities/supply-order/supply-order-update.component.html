@@ -94,21 +94,21 @@
                     <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
                     <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyOrder.supplyZoneId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.zoneName}}</option>
+                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyArea">Supply Area</label>
                     <select class="form-control" id="field_supplyArea" name="supplyArea" [(ngModel)]="supplyOrder.supplyAreaId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="supplyAreaOption.id" *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.areaName}}</option>
+                        <option [ngValue]="supplyAreaOption.id" *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplySalesRepresentative">Supply Sales Representative</label>
                     <select class="form-control" id="field_supplySalesRepresentative" name="supplySalesRepresentative" [(ngModel)]="supplyOrder.supplySalesRepresentativeId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="supplySalesRepresentativeOption.id" *ngFor="let supplySalesRepresentativeOption of supplysalesrepresentatives; trackBy: trackSupplySalesRepresentativeById">{{supplySalesRepresentativeOption.salesRepresentativeName}}</option>
+                        <option [ngValue]="supplySalesRepresentativeOption.id" *ngFor="let supplySalesRepresentativeOption of supplysalesrepresentatives; trackBy: trackSupplySalesRepresentativeById">{{supplySalesRepresentativeOption.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -128,7 +128,7 @@
                     <label class="form-control-label" for="field_supplyShop">Supply Shop</label>
                     <select class="form-control" id="field_supplyShop" name="supplyShop" [(ngModel)]="supplyOrder.supplyShopId"  required>
                         <option *ngIf="!editForm.value.supplyShop" [ngValue]="null" selected></option>
-                        <option [ngValue]="supplyShopOption.id" *ngFor="let supplyShopOption of supplyshops; trackBy: trackSupplyShopById">{{supplyShopOption.shopName}}</option>
+                        <option [ngValue]="supplyShopOption.id" *ngFor="let supplyShopOption of supplyshops; trackBy: trackSupplyShopById">{{supplyShopOption.name}}</option>
                     </select>
                 </div>
                 <div [hidden]="!(editForm.controls.supplyShop?.dirty && editForm.controls.supplyShop?.invalid)">

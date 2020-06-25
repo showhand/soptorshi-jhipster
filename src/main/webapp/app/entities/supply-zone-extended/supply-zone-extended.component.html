@@ -30,8 +30,8 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="zoneName"><span>Zone Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="zoneCode"><span>Zone Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="zoneName"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="zoneCode"><span>Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <!--<th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -42,8 +42,8 @@
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let supplyZone of supplyZones ;trackBy: trackId">
                 <td><a [routerLink]="['/supply-zone', supplyZone.id, 'view' ]">{{supplyZone.id}}</a></td>
-                <td>{{supplyZone.zoneName}}</td>
-                <td>{{supplyZone.zoneCode}}</td>
+                <td>{{supplyZone.name}}</td>
+                <td>{{supplyZone.code}}</td>
                 <!--<td>{{supplyZone.createdBy}}</td>
                 <td>{{supplyZone.createdOn | date:'medium'}}</td>
                 <td>{{supplyZone.updatedBy}}</td>

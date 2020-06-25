@@ -12,18 +12,18 @@ import org.soptorshi.service.dto.SupplyAreaManagerDTO;
 public interface SupplyAreaManagerMapper extends EntityMapper<SupplyAreaManagerDTO, SupplyAreaManager> {
 
     @Mapping(source = "supplyZone.id", target = "supplyZoneId")
-    @Mapping(source = "supplyZone.zoneName", target = "supplyZoneZoneName")
+    @Mapping(source = "supplyZone.name", target = "supplyZoneName")
     @Mapping(source = "supplyArea.id", target = "supplyAreaId")
-    @Mapping(source = "supplyArea.areaName", target = "supplyAreaAreaName")
+    @Mapping(source = "supplyArea.name", target = "supplyAreaName")
     @Mapping(source = "employee.id", target = "employeeId")
     @Mapping(source = "employee.fullName", target = "employeeFullName")
-    @Mapping(source = "supplyZoneManagers.id", target = "supplyZoneManagersId")
+    @Mapping(source = "supplyZoneManager.id", target = "supplyZoneManagerId")
     SupplyAreaManagerDTO toDto(SupplyAreaManager supplyAreaManager);
 
     @Mapping(source = "supplyZoneId", target = "supplyZone")
     @Mapping(source = "supplyAreaId", target = "supplyArea")
     @Mapping(source = "employeeId", target = "employee")
-    @Mapping(source = "supplyZoneManagersId", target = "supplyZoneManagers")
+    @Mapping(source = "supplyZoneManagerId", target = "supplyZoneManager")
     SupplyAreaManager toEntity(SupplyAreaManagerDTO supplyAreaManagerDTO);
 
     default SupplyAreaManager fromId(Long id) {

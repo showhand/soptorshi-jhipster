@@ -45,18 +45,18 @@
             </column>
 
             <column name="supply_zone_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="supply_area_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="employee_id" type="bigint">
                 <constraints nullable="false" />
             </column>
 
-            <column name="supply_zone_managers_id" type="bigint">
+            <column name="supply_zone_manager_id" type="bigint">
                 <constraints nullable="false" />
             </column>
 

@@ -661,20 +661,28 @@ entity ContraVoucher {
   modifiedOn LocalDate
 }
 entity SupplyZone {
-  zoneName String required,
-  zoneCode String,
+  name String required,
+  code String required,
   createdBy String,
   createdOn Instant,
   updatedBy String,
   updatedOn Instant
 }
 entity SupplyArea {
-  areaName String required,
-  areaCode String,
+  name String required,
+  code String required,
   createdBy String,
   createdOn Instant,
   updatedBy String,
   updatedOn Instant
+}
+entity SupplyZoneManager {
+  endDate LocalDate,
+  createdBy String,
+  createdOn Instant,
+  updatedBy String,
+  updatedOn Instant,
+  status SupplyZoneManagerStatus required
 }
 entity SupplyAreaManager {
   createdBy String,
@@ -685,15 +693,21 @@ entity SupplyAreaManager {
   status SupplyAreaManagerStatus required
 }
 entity SupplySalesRepresentative {
-  salesRepresentativeName String required,
+  name String required,
+  contact String required,
+  email String,
   additionalInformation String,
   createdBy String,
   createdOn Instant,
   updatedBy String,
   updatedOn Instant
+  status SupplySalesRepresentativeStatus required
 }
 entity SupplyShop {
-  shopName String required,
+  name String required,
+  contact String,
+  email String,
+  address String,
   additionalInformation String,
   createdBy String,
   createdOn Instant,
@@ -902,14 +916,6 @@ entity CommercialPaymentInfo {
   createdBy String,
   updatedOn Instant,
   updatedBy String
-}
-entity SupplyZoneManager {
-  endDate LocalDate,
-  createdBy String,
-  createdOn Instant,
-  updatedBy String,
-  updatedOn Instant,
-  status SupplyZoneManagerStatus required
 }
 entity PurchaseOrderVoucherRelation {
   voucherNo String,
@@ -1260,6 +1266,11 @@ enum SupplyAreaManagerStatus {
   INACTIVE
 }
 
+enum SupplySalesRepresentativeStatus {
+  ACTIVE,
+  INACTIVE
+}
+
 enum SupplyOrderStatus {
   ORDER_RECEIVED,
   PROCESSING_ORDER,
@@ -1477,31 +1488,33 @@ relationship ManyToOne {
   PaymentVoucher{account(name)} to MstAccount,
   ReceiptVoucher{account(name)} to MstAccount,
   ContraVoucher{currency(notation)} to Currency,
-  SupplyArea{supplyZone(zoneName)} to SupplyZone,
-  SupplyAreaManager{supplyZone(zoneName)} to SupplyZone,
-  SupplyAreaManager{supplyArea(areaName)} to SupplyArea,
+  SupplyArea{supplyZone(name) required} to SupplyZone,
+  SupplyAreaManager{supplyZone(name) required} to SupplyZone,
+  SupplyAreaManager{supplyArea(name) required} to SupplyArea,
   SupplyAreaManager{employee(fullName) required} to Employee,
-  SupplyAreaManager{supplyZoneManagers required} to SupplyZoneManager,
-  SupplySalesRepresentative{supplyZone(zoneName)} to SupplyZone,
-  SupplySalesRepresentative{supplyArea(areaName)} to SupplyArea,
+  SupplyAreaManager{supplyZoneManager required} to SupplyZoneManager,
+  SupplySalesRepresentative{supplyZone(name) required} to SupplyZone,
+  SupplySalesRepresentative{supplyArea(name) required} to SupplyArea,
+  SupplySalesRepresentative{supplyZoneManager required} to SupplyZoneManager,
   SupplySalesRepresentative{supplyAreaManager required} to SupplyAreaManager,
-  SupplyShop{supplyZone(zoneName)} to SupplyZone,
-  SupplyShop{supplyArea(areaName)} to SupplyArea,
-  SupplyShop{supplySalesRepresentative(salesRepresentativeName)} to SupplySalesRepresentative,
+  SupplyShop{supplyZone(name) required} to SupplyZone,
+  SupplyShop{supplyArea(name) required} to SupplyArea,
+  SupplyShop{supplyZoneManager required} to SupplyZoneManager,
   SupplyShop{supplyAreaManager required} to SupplyAreaManager,
-  SupplyOrder{supplyZone(zoneName)} to SupplyZone,
-  SupplyOrder{supplyArea(areaName)} to SupplyArea,
-  SupplyOrder{supplySalesRepresentative(salesRepresentativeName)} to SupplySalesRepresentative,
+  SupplyShop{supplySalesRepresentative(name) required} to SupplySalesRepresentative,
+  SupplyOrder{supplyZone(name)} to SupplyZone,
+  SupplyOrder{supplyArea(name)} to SupplyArea,
+  SupplyOrder{supplySalesRepresentative(name)} to SupplySalesRepresentative,
   SupplyOrder{supplyAreaManager required} to SupplyAreaManager,
-  SupplyOrder{supplyShop(shopName) required} to SupplyShop,
+  SupplyOrder{supplyShop(name) required} to SupplyShop,
   SupplyOrderDetails{supplyOrder(orderNo)} to SupplyOrder,
   SupplyOrderDetails{productCategory(name) required} to ProductCategory,
   SupplyOrderDetails{product(name) required} to Product,
   SupplyChallan{supplyOrder(orderNo)} to SupplyOrder,
-  SupplyMoneyCollection{supplyZone(zoneName)} to SupplyZone,
-  SupplyMoneyCollection{supplyArea(areaName)} to SupplyArea,
-  SupplyMoneyCollection{supplyAreaManager(managerName)} to SupplyAreaManager,
-  SupplyMoneyCollection{supplySalesRepresentative(salesRepresentativeName)} to SupplySalesRepresentative,
+  SupplyMoneyCollection{supplyZone(name)} to SupplyZone,
+  SupplyMoneyCollection{supplyArea(name)} to SupplyArea,
+  SupplyMoneyCollection{supplyAreaManager} to SupplyAreaManager,
+  SupplyMoneyCollection{supplySalesRepresentative(name)} to SupplySalesRepresentative,
   SalaryMessages{commenter(fullName)} to Employee,
   SalaryVoucherRelation{office(name)} to Office,
   CommercialProductInfo{commercialBudget(budgetNo)} to CommercialBudget,
@@ -1515,7 +1528,7 @@ relationship ManyToOne {
   Production{productCategories(name)} to ProductCategory,
   Production{products(name)} to Product,
   Production{requisitions(requisitionNo)} to Requisition,
-  SupplyZoneManager{supplyZone(zoneName) required} to SupplyZone,
+  SupplyZoneManager{supplyZone(name) required} to SupplyZone,
   SupplyZoneManager{employee(fullName) required} to Employee,
   PurchaseOrderVoucherRelation{voucher(name)} to Voucher,
   PurchaseOrderVoucherRelation{purchaseOrder(purchaseOrderNo)} to PurchaseOrder,

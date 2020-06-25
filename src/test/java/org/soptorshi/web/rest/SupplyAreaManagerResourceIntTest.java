@@ -135,6 +135,16 @@ public class SupplyAreaManagerResourceIntTest {
             .endDate(DEFAULT_END_DATE)
             .status(DEFAULT_STATUS);
         // Add required entity
+        SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
+        em.persist(supplyZone);
+        em.flush();
+        supplyAreaManager.setSupplyZone(supplyZone);
+        // Add required entity
+        SupplyArea supplyArea = SupplyAreaResourceIntTest.createEntity(em);
+        em.persist(supplyArea);
+        em.flush();
+        supplyAreaManager.setSupplyArea(supplyArea);
+        // Add required entity
         Employee employee = EmployeeResourceIntTest.createEntity(em);
         em.persist(employee);
         em.flush();
@@ -143,7 +153,7 @@ public class SupplyAreaManagerResourceIntTest {
         SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
         em.persist(supplyZoneManager);
         em.flush();
-        supplyAreaManager.setSupplyZoneManagers(supplyZoneManager);
+        supplyAreaManager.setSupplyZoneManager(supplyZoneManager);
         return supplyAreaManager;
     }
 
@@ -579,20 +589,20 @@ public class SupplyAreaManagerResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSupplyAreaManagersBySupplyZoneManagersIsEqualToSomething() throws Exception {
+    public void getAllSupplyAreaManagersBySupplyZoneManagerIsEqualToSomething() throws Exception {
         // Initialize the database
-        SupplyZoneManager supplyZoneManagers = SupplyZoneManagerResourceIntTest.createEntity(em);
-        em.persist(supplyZoneManagers);
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
         em.flush();
-        supplyAreaManager.setSupplyZoneManagers(supplyZoneManagers);
+        supplyAreaManager.setSupplyZoneManager(supplyZoneManager);
         supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
-        Long supplyZoneManagersId = supplyZoneManagers.getId();
+        Long supplyZoneManagerId = supplyZoneManager.getId();
 
-        // Get all the supplyAreaManagerList where supplyZoneManagers equals to supplyZoneManagersId
-        defaultSupplyAreaManagerShouldBeFound("supplyZoneManagersId.equals=" + supplyZoneManagersId);
+        // Get all the supplyAreaManagerList where supplyZoneManager equals to supplyZoneManagerId
+        defaultSupplyAreaManagerShouldBeFound("supplyZoneManagerId.equals=" + supplyZoneManagerId);
 
-        // Get all the supplyAreaManagerList where supplyZoneManagers equals to supplyZoneManagersId + 1
-        defaultSupplyAreaManagerShouldNotBeFound("supplyZoneManagersId.equals=" + (supplyZoneManagersId + 1));
+        // Get all the supplyAreaManagerList where supplyZoneManager equals to supplyZoneManagerId + 1
+        defaultSupplyAreaManagerShouldNotBeFound("supplyZoneManagerId.equals=" + (supplyZoneManagerId + 1));
     }
 
     /**

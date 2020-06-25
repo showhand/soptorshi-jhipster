@@ -55,21 +55,21 @@
             "otherEntityName": "supplyZone",
             "otherEntityRelationshipName": "supplyOrder",
             "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyArea",
             "otherEntityRelationshipName": "supplyOrder",
             "relationshipName": "supplyArea",
-            "otherEntityField": "areaName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplySalesRepresentative",
             "otherEntityRelationshipName": "supplyOrder",
             "relationshipName": "supplySalesRepresentative",
-            "otherEntityField": "salesRepresentativeName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
@@ -85,7 +85,7 @@
             "otherEntityRelationshipName": "supplyOrder",
             "relationshipValidateRules": "required",
             "relationshipName": "supplyShop",
-            "otherEntityField": "shopName"
+            "otherEntityField": "name"
         }
     ],
     "changelogDate": "20191106144404",

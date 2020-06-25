@@ -1,22 +1,19 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.SupplyArea;
-import org.soptorshi.domain.SupplyZone;
-import org.soptorshi.repository.SupplyAreaRepository;
-import org.soptorshi.repository.search.SupplyAreaSearchRepository;
-import org.soptorshi.service.SupplyAreaService;
-import org.soptorshi.service.dto.SupplyAreaDTO;
-import org.soptorshi.service.mapper.SupplyAreaMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.SupplyAreaCriteria;
-import org.soptorshi.service.SupplyAreaQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.SupplyArea;
+import org.soptorshi.domain.SupplyZone;
+import org.soptorshi.repository.SupplyAreaRepository;
+import org.soptorshi.repository.search.SupplyAreaSearchRepository;
+import org.soptorshi.service.SupplyAreaQueryService;
+import org.soptorshi.service.SupplyAreaService;
+import org.soptorshi.service.dto.SupplyAreaDTO;
+import org.soptorshi.service.mapper.SupplyAreaMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -36,12 +33,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -54,11 +50,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = SoptorshiApp.class)
 public class SupplyAreaResourceIntTest {
 
-    private static final String DEFAULT_AREA_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_AREA_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_AREA_CODE = "AAAAAAAAAA";
-    private static final String UPDATED_AREA_CODE = "BBBBBBBBBB";
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
 
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
@@ -131,12 +127,17 @@ public class SupplyAreaResourceIntTest {
      */
     public static SupplyArea createEntity(EntityManager em) {
         SupplyArea supplyArea = new SupplyArea()
-            .areaName(DEFAULT_AREA_NAME)
-            .areaCode(DEFAULT_AREA_CODE)
+            .name(DEFAULT_NAME)
+            .code(DEFAULT_CODE)
             .createdBy(DEFAULT_CREATED_BY)
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
+        // Add required entity
+        SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
+        em.persist(supplyZone);
+        em.flush();
+        supplyArea.setSupplyZone(supplyZone);
         return supplyArea;
     }
 
@@ -161,8 +162,8 @@ public class SupplyAreaResourceIntTest {
         List<SupplyArea> supplyAreaList = supplyAreaRepository.findAll();
         assertThat(supplyAreaList).hasSize(databaseSizeBeforeCreate + 1);
         SupplyArea testSupplyArea = supplyAreaList.get(supplyAreaList.size() - 1);
-        assertThat(testSupplyArea.getAreaName()).isEqualTo(DEFAULT_AREA_NAME);
-        assertThat(testSupplyArea.getAreaCode()).isEqualTo(DEFAULT_AREA_CODE);
+        assertThat(testSupplyArea.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testSupplyArea.getCode()).isEqualTo(DEFAULT_CODE);
         assertThat(testSupplyArea.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testSupplyArea.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testSupplyArea.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
@@ -197,10 +198,29 @@ public class SupplyAreaResourceIntTest {
 
     @Test
     @Transactional
-    public void checkAreaNameIsRequired() throws Exception {
+    public void checkNameIsRequired() throws Exception {
         int databaseSizeBeforeTest = supplyAreaRepository.findAll().size();
         // set the field null
-        supplyArea.setAreaName(null);
+        supplyArea.setName(null);
+
+        // Create the SupplyArea, which fails.
+        SupplyAreaDTO supplyAreaDTO = supplyAreaMapper.toDto(supplyArea);
+
+        restSupplyAreaMockMvc.perform(post("/api/supply-areas")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(supplyAreaDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<SupplyArea> supplyAreaList = supplyAreaRepository.findAll();
+        assertThat(supplyAreaList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkCodeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = supplyAreaRepository.findAll().size();
+        // set the field null
+        supplyArea.setCode(null);
 
         // Create the SupplyArea, which fails.
         SupplyAreaDTO supplyAreaDTO = supplyAreaMapper.toDto(supplyArea);
@@ -225,14 +245,14 @@ public class SupplyAreaResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyArea.getId().intValue())))
-            .andExpect(jsonPath("$.[*].areaName").value(hasItem(DEFAULT_AREA_NAME.toString())))
-            .andExpect(jsonPath("$.[*].areaCode").value(hasItem(DEFAULT_AREA_CODE.toString())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getSupplyArea() throws Exception {
@@ -244,8 +264,8 @@ public class SupplyAreaResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(supplyArea.getId().intValue()))
-            .andExpect(jsonPath("$.areaName").value(DEFAULT_AREA_NAME.toString()))
-            .andExpect(jsonPath("$.areaCode").value(DEFAULT_AREA_CODE.toString()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
@@ -254,80 +274,80 @@ public class SupplyAreaResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSupplyAreasByAreaNameIsEqualToSomething() throws Exception {
+    public void getAllSupplyAreasByNameIsEqualToSomething() throws Exception {
         // Initialize the database
         supplyAreaRepository.saveAndFlush(supplyArea);
 
-        // Get all the supplyAreaList where areaName equals to DEFAULT_AREA_NAME
-        defaultSupplyAreaShouldBeFound("areaName.equals=" + DEFAULT_AREA_NAME);
+        // Get all the supplyAreaList where name equals to DEFAULT_NAME
+        defaultSupplyAreaShouldBeFound("name.equals=" + DEFAULT_NAME);
 
-        // Get all the supplyAreaList where areaName equals to UPDATED_AREA_NAME
-        defaultSupplyAreaShouldNotBeFound("areaName.equals=" + UPDATED_AREA_NAME);
+        // Get all the supplyAreaList where name equals to UPDATED_NAME
+        defaultSupplyAreaShouldNotBeFound("name.equals=" + UPDATED_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyAreasByAreaNameIsInShouldWork() throws Exception {
+    public void getAllSupplyAreasByNameIsInShouldWork() throws Exception {
         // Initialize the database
         supplyAreaRepository.saveAndFlush(supplyArea);
 
-        // Get all the supplyAreaList where areaName in DEFAULT_AREA_NAME or UPDATED_AREA_NAME
-        defaultSupplyAreaShouldBeFound("areaName.in=" + DEFAULT_AREA_NAME + "," + UPDATED_AREA_NAME);
+        // Get all the supplyAreaList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultSupplyAreaShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
 
-        // Get all the supplyAreaList where areaName equals to UPDATED_AREA_NAME
-        defaultSupplyAreaShouldNotBeFound("areaName.in=" + UPDATED_AREA_NAME);
+        // Get all the supplyAreaList where name equals to UPDATED_NAME
+        defaultSupplyAreaShouldNotBeFound("name.in=" + UPDATED_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyAreasByAreaNameIsNullOrNotNull() throws Exception {
+    public void getAllSupplyAreasByNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         supplyAreaRepository.saveAndFlush(supplyArea);
 
-        // Get all the supplyAreaList where areaName is not null
-        defaultSupplyAreaShouldBeFound("areaName.specified=true");
+        // Get all the supplyAreaList where name is not null
+        defaultSupplyAreaShouldBeFound("name.specified=true");
 
-        // Get all the supplyAreaList where areaName is null
-        defaultSupplyAreaShouldNotBeFound("areaName.specified=false");
+        // Get all the supplyAreaList where name is null
+        defaultSupplyAreaShouldNotBeFound("name.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllSupplyAreasByAreaCodeIsEqualToSomething() throws Exception {
+    public void getAllSupplyAreasByCodeIsEqualToSomething() throws Exception {
         // Initialize the database
         supplyAreaRepository.saveAndFlush(supplyArea);
 
-        // Get all the supplyAreaList where areaCode equals to DEFAULT_AREA_CODE
-        defaultSupplyAreaShouldBeFound("areaCode.equals=" + DEFAULT_AREA_CODE);
+        // Get all the supplyAreaList where code equals to DEFAULT_CODE
+        defaultSupplyAreaShouldBeFound("code.equals=" + DEFAULT_CODE);
 
-        // Get all the supplyAreaList where areaCode equals to UPDATED_AREA_CODE
-        defaultSupplyAreaShouldNotBeFound("areaCode.equals=" + UPDATED_AREA_CODE);
+        // Get all the supplyAreaList where code equals to UPDATED_CODE
+        defaultSupplyAreaShouldNotBeFound("code.equals=" + UPDATED_CODE);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyAreasByAreaCodeIsInShouldWork() throws Exception {
+    public void getAllSupplyAreasByCodeIsInShouldWork() throws Exception {
         // Initialize the database
         supplyAreaRepository.saveAndFlush(supplyArea);
 
-        // Get all the supplyAreaList where areaCode in DEFAULT_AREA_CODE or UPDATED_AREA_CODE
-        defaultSupplyAreaShouldBeFound("areaCode.in=" + DEFAULT_AREA_CODE + "," + UPDATED_AREA_CODE);
+        // Get all the supplyAreaList where code in DEFAULT_CODE or UPDATED_CODE
+        defaultSupplyAreaShouldBeFound("code.in=" + DEFAULT_CODE + "," + UPDATED_CODE);
 
-        // Get all the supplyAreaList where areaCode equals to UPDATED_AREA_CODE
-        defaultSupplyAreaShouldNotBeFound("areaCode.in=" + UPDATED_AREA_CODE);
+        // Get all the supplyAreaList where code equals to UPDATED_CODE
+        defaultSupplyAreaShouldNotBeFound("code.in=" + UPDATED_CODE);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyAreasByAreaCodeIsNullOrNotNull() throws Exception {
+    public void getAllSupplyAreasByCodeIsNullOrNotNull() throws Exception {
         // Initialize the database
         supplyAreaRepository.saveAndFlush(supplyArea);
 
-        // Get all the supplyAreaList where areaCode is not null
-        defaultSupplyAreaShouldBeFound("areaCode.specified=true");
+        // Get all the supplyAreaList where code is not null
+        defaultSupplyAreaShouldBeFound("code.specified=true");
 
-        // Get all the supplyAreaList where areaCode is null
-        defaultSupplyAreaShouldNotBeFound("areaCode.specified=false");
+        // Get all the supplyAreaList where code is null
+        defaultSupplyAreaShouldNotBeFound("code.specified=false");
     }
 
     @Test
@@ -512,8 +532,8 @@ public class SupplyAreaResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyArea.getId().intValue())))
-            .andExpect(jsonPath("$.[*].areaName").value(hasItem(DEFAULT_AREA_NAME)))
-            .andExpect(jsonPath("$.[*].areaCode").value(hasItem(DEFAULT_AREA_CODE)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
@@ -565,8 +585,8 @@ public class SupplyAreaResourceIntTest {
         // Disconnect from session so that the updates on updatedSupplyArea are not directly saved in db
         em.detach(updatedSupplyArea);
         updatedSupplyArea
-            .areaName(UPDATED_AREA_NAME)
-            .areaCode(UPDATED_AREA_CODE)
+            .name(UPDATED_NAME)
+            .code(UPDATED_CODE)
             .createdBy(UPDATED_CREATED_BY)
             .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
@@ -582,8 +602,8 @@ public class SupplyAreaResourceIntTest {
         List<SupplyArea> supplyAreaList = supplyAreaRepository.findAll();
         assertThat(supplyAreaList).hasSize(databaseSizeBeforeUpdate);
         SupplyArea testSupplyArea = supplyAreaList.get(supplyAreaList.size() - 1);
-        assertThat(testSupplyArea.getAreaName()).isEqualTo(UPDATED_AREA_NAME);
-        assertThat(testSupplyArea.getAreaCode()).isEqualTo(UPDATED_AREA_CODE);
+        assertThat(testSupplyArea.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testSupplyArea.getCode()).isEqualTo(UPDATED_CODE);
         assertThat(testSupplyArea.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testSupplyArea.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testSupplyArea.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
@@ -648,8 +668,8 @@ public class SupplyAreaResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyArea.getId().intValue())))
-            .andExpect(jsonPath("$.[*].areaName").value(hasItem(DEFAULT_AREA_NAME)))
-            .andExpect(jsonPath("$.[*].areaCode").value(hasItem(DEFAULT_AREA_CODE)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))

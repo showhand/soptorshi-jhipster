@@ -2,11 +2,22 @@
     "name": "SupplySalesRepresentative",
     "fields": [
         {
-            "fieldName": "salesRepresentativeName",
+            "fieldName": "name",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "contact",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String"
         },
         {
             "fieldName": "additionalInformation",
@@ -27,6 +38,14 @@
         {
             "fieldName": "updatedOn",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "SupplySalesRepresentativeStatus",
+            "fieldValues": "ACTIVE,INACTIVE",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [
@@ -34,15 +53,25 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyZone",
             "otherEntityRelationshipName": "supplySalesRepresentative",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyArea",
             "otherEntityRelationshipName": "supplySalesRepresentative",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyArea",
-            "otherEntityField": "areaName"
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZoneManager",
+            "otherEntityRelationshipName": "supplySalesRepresentative",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyZoneManager",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",

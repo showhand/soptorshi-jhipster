@@ -9,7 +9,9 @@ import { SupplySalesRepresentativeUpdateComponent } from 'app/entities/supply-sa
 import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
-import { ISupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
+import { ISupplyAreaManager, SupplyAreaManagerStatus } from 'app/shared/model/supply-area-manager.model';
+import { SupplyZoneManagerService } from 'app/entities/supply-zone-manager';
+import { ISupplyZoneManager, SupplyZoneManagerStatus } from 'app/shared/model/supply-zone-manager.model';
 
 @Component({
     selector: 'jhi-supply-sales-representative-update-extended',
@@ -21,6 +23,7 @@ export class SupplySalesRepresentativeUpdateExtendedComponent extends SupplySale
         protected supplySalesRepresentativeService: SupplySalesRepresentativeExtendedService,
         protected supplyZoneService: SupplyZoneService,
         protected supplyAreaService: SupplyAreaService,
+        protected supplyZoneManagerService: SupplyZoneManagerService,
         protected supplyAreaManagerService: SupplyAreaManagerService,
         protected activatedRoute: ActivatedRoute
     ) {
@@ -29,9 +32,29 @@ export class SupplySalesRepresentativeUpdateExtendedComponent extends SupplySale
             supplySalesRepresentativeService,
             supplyZoneService,
             supplyAreaService,
+            supplyZoneManagerService,
             supplyAreaManagerService,
             activatedRoute
         );
+    }
+
+    filterZoneManager() {
+        this.supplyZoneManagerService
+            .query({
+                'supplyZoneId.equals': this.supplySalesRepresentative.supplyZoneId,
+                'status.equals': SupplyZoneManagerStatus.ACTIVE
+            })
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplyZoneManager[]) => {
+                    this.supplyzonemanagers = res;
+                    this.filterArea();
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     filterArea() {
@@ -50,7 +73,9 @@ export class SupplySalesRepresentativeUpdateExtendedComponent extends SupplySale
         this.supplyAreaManagerService
             .query({
                 'supplyZoneId.equals': this.supplySalesRepresentative.supplyZoneId,
-                'supplyAreaId.equals': this.supplySalesRepresentative.supplyAreaId
+                'supplyAreaId.equals': this.supplySalesRepresentative.supplyAreaId,
+                'supplyZoneManagerId.equals': this.supplySalesRepresentative.supplyZoneManagerId,
+                'status.equals': SupplyAreaManagerStatus.ACTIVE
             })
             .pipe(
                 filter((mayBeOk: HttpResponse<ISupplyAreaManager[]>) => mayBeOk.ok),

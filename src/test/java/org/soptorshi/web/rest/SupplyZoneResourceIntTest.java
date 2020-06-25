@@ -1,21 +1,18 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.SupplyZone;
-import org.soptorshi.repository.SupplyZoneRepository;
-import org.soptorshi.repository.search.SupplyZoneSearchRepository;
-import org.soptorshi.service.SupplyZoneService;
-import org.soptorshi.service.dto.SupplyZoneDTO;
-import org.soptorshi.service.mapper.SupplyZoneMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.SupplyZoneCriteria;
-import org.soptorshi.service.SupplyZoneQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.SupplyZone;
+import org.soptorshi.repository.SupplyZoneRepository;
+import org.soptorshi.repository.search.SupplyZoneSearchRepository;
+import org.soptorshi.service.SupplyZoneQueryService;
+import org.soptorshi.service.SupplyZoneService;
+import org.soptorshi.service.dto.SupplyZoneDTO;
+import org.soptorshi.service.mapper.SupplyZoneMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -35,12 +32,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -53,11 +49,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = SoptorshiApp.class)
 public class SupplyZoneResourceIntTest {
 
-    private static final String DEFAULT_ZONE_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_ZONE_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ZONE_CODE = "AAAAAAAAAA";
-    private static final String UPDATED_ZONE_CODE = "BBBBBBBBBB";
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
 
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
@@ -130,8 +126,8 @@ public class SupplyZoneResourceIntTest {
      */
     public static SupplyZone createEntity(EntityManager em) {
         SupplyZone supplyZone = new SupplyZone()
-            .zoneName(DEFAULT_ZONE_NAME)
-            .zoneCode(DEFAULT_ZONE_CODE)
+            .name(DEFAULT_NAME)
+            .code(DEFAULT_CODE)
             .createdBy(DEFAULT_CREATED_BY)
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
@@ -160,8 +156,8 @@ public class SupplyZoneResourceIntTest {
         List<SupplyZone> supplyZoneList = supplyZoneRepository.findAll();
         assertThat(supplyZoneList).hasSize(databaseSizeBeforeCreate + 1);
         SupplyZone testSupplyZone = supplyZoneList.get(supplyZoneList.size() - 1);
-        assertThat(testSupplyZone.getZoneName()).isEqualTo(DEFAULT_ZONE_NAME);
-        assertThat(testSupplyZone.getZoneCode()).isEqualTo(DEFAULT_ZONE_CODE);
+        assertThat(testSupplyZone.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testSupplyZone.getCode()).isEqualTo(DEFAULT_CODE);
         assertThat(testSupplyZone.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testSupplyZone.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testSupplyZone.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
@@ -196,10 +192,29 @@ public class SupplyZoneResourceIntTest {
 
     @Test
     @Transactional
-    public void checkZoneNameIsRequired() throws Exception {
+    public void checkNameIsRequired() throws Exception {
         int databaseSizeBeforeTest = supplyZoneRepository.findAll().size();
         // set the field null
-        supplyZone.setZoneName(null);
+        supplyZone.setName(null);
+
+        // Create the SupplyZone, which fails.
+        SupplyZoneDTO supplyZoneDTO = supplyZoneMapper.toDto(supplyZone);
+
+        restSupplyZoneMockMvc.perform(post("/api/supply-zones")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(supplyZoneDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<SupplyZone> supplyZoneList = supplyZoneRepository.findAll();
+        assertThat(supplyZoneList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkCodeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = supplyZoneRepository.findAll().size();
+        // set the field null
+        supplyZone.setCode(null);
 
         // Create the SupplyZone, which fails.
         SupplyZoneDTO supplyZoneDTO = supplyZoneMapper.toDto(supplyZone);
@@ -224,14 +239,14 @@ public class SupplyZoneResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyZone.getId().intValue())))
-            .andExpect(jsonPath("$.[*].zoneName").value(hasItem(DEFAULT_ZONE_NAME.toString())))
-            .andExpect(jsonPath("$.[*].zoneCode").value(hasItem(DEFAULT_ZONE_CODE.toString())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getSupplyZone() throws Exception {
@@ -243,8 +258,8 @@ public class SupplyZoneResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(supplyZone.getId().intValue()))
-            .andExpect(jsonPath("$.zoneName").value(DEFAULT_ZONE_NAME.toString()))
-            .andExpect(jsonPath("$.zoneCode").value(DEFAULT_ZONE_CODE.toString()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
@@ -253,80 +268,80 @@ public class SupplyZoneResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSupplyZonesByZoneNameIsEqualToSomething() throws Exception {
+    public void getAllSupplyZonesByNameIsEqualToSomething() throws Exception {
         // Initialize the database
         supplyZoneRepository.saveAndFlush(supplyZone);
 
-        // Get all the supplyZoneList where zoneName equals to DEFAULT_ZONE_NAME
-        defaultSupplyZoneShouldBeFound("zoneName.equals=" + DEFAULT_ZONE_NAME);
+        // Get all the supplyZoneList where name equals to DEFAULT_NAME
+        defaultSupplyZoneShouldBeFound("name.equals=" + DEFAULT_NAME);
 
-        // Get all the supplyZoneList where zoneName equals to UPDATED_ZONE_NAME
-        defaultSupplyZoneShouldNotBeFound("zoneName.equals=" + UPDATED_ZONE_NAME);
+        // Get all the supplyZoneList where name equals to UPDATED_NAME
+        defaultSupplyZoneShouldNotBeFound("name.equals=" + UPDATED_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyZonesByZoneNameIsInShouldWork() throws Exception {
+    public void getAllSupplyZonesByNameIsInShouldWork() throws Exception {
         // Initialize the database
         supplyZoneRepository.saveAndFlush(supplyZone);
 
-        // Get all the supplyZoneList where zoneName in DEFAULT_ZONE_NAME or UPDATED_ZONE_NAME
-        defaultSupplyZoneShouldBeFound("zoneName.in=" + DEFAULT_ZONE_NAME + "," + UPDATED_ZONE_NAME);
+        // Get all the supplyZoneList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultSupplyZoneShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
 
-        // Get all the supplyZoneList where zoneName equals to UPDATED_ZONE_NAME
-        defaultSupplyZoneShouldNotBeFound("zoneName.in=" + UPDATED_ZONE_NAME);
+        // Get all the supplyZoneList where name equals to UPDATED_NAME
+        defaultSupplyZoneShouldNotBeFound("name.in=" + UPDATED_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyZonesByZoneNameIsNullOrNotNull() throws Exception {
+    public void getAllSupplyZonesByNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         supplyZoneRepository.saveAndFlush(supplyZone);
 
-        // Get all the supplyZoneList where zoneName is not null
-        defaultSupplyZoneShouldBeFound("zoneName.specified=true");
+        // Get all the supplyZoneList where name is not null
+        defaultSupplyZoneShouldBeFound("name.specified=true");
 
-        // Get all the supplyZoneList where zoneName is null
-        defaultSupplyZoneShouldNotBeFound("zoneName.specified=false");
+        // Get all the supplyZoneList where name is null
+        defaultSupplyZoneShouldNotBeFound("name.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllSupplyZonesByZoneCodeIsEqualToSomething() throws Exception {
+    public void getAllSupplyZonesByCodeIsEqualToSomething() throws Exception {
         // Initialize the database
         supplyZoneRepository.saveAndFlush(supplyZone);
 
-        // Get all the supplyZoneList where zoneCode equals to DEFAULT_ZONE_CODE
-        defaultSupplyZoneShouldBeFound("zoneCode.equals=" + DEFAULT_ZONE_CODE);
+        // Get all the supplyZoneList where code equals to DEFAULT_CODE
+        defaultSupplyZoneShouldBeFound("code.equals=" + DEFAULT_CODE);
 
-        // Get all the supplyZoneList where zoneCode equals to UPDATED_ZONE_CODE
-        defaultSupplyZoneShouldNotBeFound("zoneCode.equals=" + UPDATED_ZONE_CODE);
+        // Get all the supplyZoneList where code equals to UPDATED_CODE
+        defaultSupplyZoneShouldNotBeFound("code.equals=" + UPDATED_CODE);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyZonesByZoneCodeIsInShouldWork() throws Exception {
+    public void getAllSupplyZonesByCodeIsInShouldWork() throws Exception {
         // Initialize the database
         supplyZoneRepository.saveAndFlush(supplyZone);
 
-        // Get all the supplyZoneList where zoneCode in DEFAULT_ZONE_CODE or UPDATED_ZONE_CODE
-        defaultSupplyZoneShouldBeFound("zoneCode.in=" + DEFAULT_ZONE_CODE + "," + UPDATED_ZONE_CODE);
+        // Get all the supplyZoneList where code in DEFAULT_CODE or UPDATED_CODE
+        defaultSupplyZoneShouldBeFound("code.in=" + DEFAULT_CODE + "," + UPDATED_CODE);
 
-        // Get all the supplyZoneList where zoneCode equals to UPDATED_ZONE_CODE
-        defaultSupplyZoneShouldNotBeFound("zoneCode.in=" + UPDATED_ZONE_CODE);
+        // Get all the supplyZoneList where code equals to UPDATED_CODE
+        defaultSupplyZoneShouldNotBeFound("code.in=" + UPDATED_CODE);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyZonesByZoneCodeIsNullOrNotNull() throws Exception {
+    public void getAllSupplyZonesByCodeIsNullOrNotNull() throws Exception {
         // Initialize the database
         supplyZoneRepository.saveAndFlush(supplyZone);
 
-        // Get all the supplyZoneList where zoneCode is not null
-        defaultSupplyZoneShouldBeFound("zoneCode.specified=true");
+        // Get all the supplyZoneList where code is not null
+        defaultSupplyZoneShouldBeFound("code.specified=true");
 
-        // Get all the supplyZoneList where zoneCode is null
-        defaultSupplyZoneShouldNotBeFound("zoneCode.specified=false");
+        // Get all the supplyZoneList where code is null
+        defaultSupplyZoneShouldNotBeFound("code.specified=false");
     }
 
     @Test
@@ -492,8 +507,8 @@ public class SupplyZoneResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyZone.getId().intValue())))
-            .andExpect(jsonPath("$.[*].zoneName").value(hasItem(DEFAULT_ZONE_NAME)))
-            .andExpect(jsonPath("$.[*].zoneCode").value(hasItem(DEFAULT_ZONE_CODE)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
@@ -545,8 +560,8 @@ public class SupplyZoneResourceIntTest {
         // Disconnect from session so that the updates on updatedSupplyZone are not directly saved in db
         em.detach(updatedSupplyZone);
         updatedSupplyZone
-            .zoneName(UPDATED_ZONE_NAME)
-            .zoneCode(UPDATED_ZONE_CODE)
+            .name(UPDATED_NAME)
+            .code(UPDATED_CODE)
             .createdBy(UPDATED_CREATED_BY)
             .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
@@ -562,8 +577,8 @@ public class SupplyZoneResourceIntTest {
         List<SupplyZone> supplyZoneList = supplyZoneRepository.findAll();
         assertThat(supplyZoneList).hasSize(databaseSizeBeforeUpdate);
         SupplyZone testSupplyZone = supplyZoneList.get(supplyZoneList.size() - 1);
-        assertThat(testSupplyZone.getZoneName()).isEqualTo(UPDATED_ZONE_NAME);
-        assertThat(testSupplyZone.getZoneCode()).isEqualTo(UPDATED_ZONE_CODE);
+        assertThat(testSupplyZone.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testSupplyZone.getCode()).isEqualTo(UPDATED_CODE);
         assertThat(testSupplyZone.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testSupplyZone.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testSupplyZone.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
@@ -628,8 +643,8 @@ public class SupplyZoneResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplyZone.getId().intValue())))
-            .andExpect(jsonPath("$.[*].zoneName").value(hasItem(DEFAULT_ZONE_NAME)))
-            .andExpect(jsonPath("$.[*].zoneCode").value(hasItem(DEFAULT_ZONE_CODE)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))

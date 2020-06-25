@@ -46,11 +46,13 @@ public class SupplyAreaManager implements Serializable {
     @Column(name = "status", nullable = false)
     private SupplyAreaManagerStatus status;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyAreaManagers")
     private SupplyZone supplyZone;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyAreaManagers")
     private SupplyArea supplyArea;
 
@@ -62,7 +64,7 @@ public class SupplyAreaManager implements Serializable {
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("supplyAreaManagers")
-    private SupplyZoneManager supplyZoneManagers;
+    private SupplyZoneManager supplyZoneManager;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -190,17 +192,17 @@ public class SupplyAreaManager implements Serializable {
         this.employee = employee;
     }
 
-    public SupplyZoneManager getSupplyZoneManagers() {
-        return supplyZoneManagers;
+    public SupplyZoneManager getSupplyZoneManager() {
+        return supplyZoneManager;
     }
 
-    public SupplyAreaManager supplyZoneManagers(SupplyZoneManager supplyZoneManager) {
-        this.supplyZoneManagers = supplyZoneManager;
+    public SupplyAreaManager supplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
         return this;
     }
 
-    public void setSupplyZoneManagers(SupplyZoneManager supplyZoneManager) {
-        this.supplyZoneManagers = supplyZoneManager;
+    public void setSupplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

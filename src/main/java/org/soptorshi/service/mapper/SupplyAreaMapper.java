@@ -1,9 +1,9 @@
 package org.soptorshi.service.mapper;
 
-import org.soptorshi.domain.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.soptorshi.domain.SupplyArea;
 import org.soptorshi.service.dto.SupplyAreaDTO;
-
-import org.mapstruct.*;
 
 /**
  * Mapper for the entity SupplyArea and its DTO SupplyAreaDTO.
@@ -12,7 +12,7 @@ import org.mapstruct.*;
 public interface SupplyAreaMapper extends EntityMapper<SupplyAreaDTO, SupplyArea> {
 
     @Mapping(source = "supplyZone.id", target = "supplyZoneId")
-    @Mapping(source = "supplyZone.zoneName", target = "supplyZoneZoneName")
+    @Mapping(source = "supplyZone.name", target = "supplyZoneName")
     SupplyAreaDTO toDto(SupplyArea supplyArea);
 
     @Mapping(source = "supplyZoneId", target = "supplyZone")

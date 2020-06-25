@@ -35,15 +35,17 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyZone",
             "otherEntityRelationshipName": "supplyAreaManager",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyArea",
             "otherEntityRelationshipName": "supplyAreaManager",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyArea",
-            "otherEntityField": "areaName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
@@ -58,7 +60,7 @@
             "otherEntityName": "supplyZoneManager",
             "otherEntityRelationshipName": "supplyAreaManager",
             "relationshipValidateRules": "required",
-            "relationshipName": "supplyZoneManagers",
+            "relationshipName": "supplyZoneManager",
             "otherEntityField": "id"
         }
     ],

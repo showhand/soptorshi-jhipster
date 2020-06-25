@@ -2,6 +2,7 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.soptorshi.domain.enumeration.SupplySalesRepresentativeStatus;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
@@ -25,8 +26,15 @@ public class SupplySalesRepresentative implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "sales_representative_name", nullable = false)
-    private String salesRepresentativeName;
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @NotNull
+    @Column(name = "contact", nullable = false)
+    private String contact;
+
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "additional_information")
     private String additionalInformation;
@@ -43,13 +51,25 @@ public class SupplySalesRepresentative implements Serializable {
     @Column(name = "updated_on")
     private Instant updatedOn;
 
-    @ManyToOne
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private SupplySalesRepresentativeStatus status;
+
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplySalesRepresentatives")
     private SupplyZone supplyZone;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplySalesRepresentatives")
     private SupplyArea supplyArea;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplySalesRepresentatives")
+    private SupplyZoneManager supplyZoneManager;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -65,17 +85,43 @@ public class SupplySalesRepresentative implements Serializable {
         this.id = id;
     }
 
-    public String getSalesRepresentativeName() {
-        return salesRepresentativeName;
+    public String getName() {
+        return name;
     }
 
-    public SupplySalesRepresentative salesRepresentativeName(String salesRepresentativeName) {
-        this.salesRepresentativeName = salesRepresentativeName;
+    public SupplySalesRepresentative name(String name) {
+        this.name = name;
         return this;
     }
 
-    public void setSalesRepresentativeName(String salesRepresentativeName) {
-        this.salesRepresentativeName = salesRepresentativeName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public SupplySalesRepresentative contact(String contact) {
+        this.contact = contact;
+        return this;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public SupplySalesRepresentative email(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getAdditionalInformation() {
@@ -143,6 +189,19 @@ public class SupplySalesRepresentative implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public SupplySalesRepresentativeStatus getStatus() {
+        return status;
+    }
+
+    public SupplySalesRepresentative status(SupplySalesRepresentativeStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(SupplySalesRepresentativeStatus status) {
+        this.status = status;
+    }
+
     public SupplyZone getSupplyZone() {
         return supplyZone;
     }
@@ -167,6 +226,19 @@ public class SupplySalesRepresentative implements Serializable {
 
     public void setSupplyArea(SupplyArea supplyArea) {
         this.supplyArea = supplyArea;
+    }
+
+    public SupplyZoneManager getSupplyZoneManager() {
+        return supplyZoneManager;
+    }
+
+    public SupplySalesRepresentative supplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
+        return this;
+    }
+
+    public void setSupplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
     }
 
     public SupplyAreaManager getSupplyAreaManager() {
@@ -207,12 +279,15 @@ public class SupplySalesRepresentative implements Serializable {
     public String toString() {
         return "SupplySalesRepresentative{" +
             "id=" + getId() +
-            ", salesRepresentativeName='" + getSalesRepresentativeName() + "'" +
+            ", name='" + getName() + "'" +
+            ", contact='" + getContact() + "'" +
+            ", email='" + getEmail() + "'" +
             ", additionalInformation='" + getAdditionalInformation() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", status='" + getStatus() + "'" +
             "}";
     }
 }

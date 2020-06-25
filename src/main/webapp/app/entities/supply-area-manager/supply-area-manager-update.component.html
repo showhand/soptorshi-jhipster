@@ -59,17 +59,29 @@
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
-                    <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyAreaManager.supplyZoneId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.zoneName}}</option>
+                    <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyAreaManager.supplyZoneId"  required>
+                        <option *ngIf="!editForm.value.supplyZone" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.name}}</option>
                     </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyZone?.dirty && editForm.controls.supplyZone?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.supplyZone?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyArea">Supply Area</label>
-                    <select class="form-control" id="field_supplyArea" name="supplyArea" [(ngModel)]="supplyAreaManager.supplyAreaId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="supplyAreaOption.id" *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.areaName}}</option>
+                    <select class="form-control" id="field_supplyArea" name="supplyArea" [(ngModel)]="supplyAreaManager.supplyAreaId"  required>
+                        <option *ngIf="!editForm.value.supplyArea" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyAreaOption.id" *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.name}}</option>
                     </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyArea?.dirty && editForm.controls.supplyArea?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.supplyArea?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_employee">Employee</label>
@@ -85,15 +97,15 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_supplyZoneManagers">Supply Zone Managers</label>
-                    <select class="form-control" id="field_supplyZoneManagers" name="supplyZoneManagers" [(ngModel)]="supplyAreaManager.supplyZoneManagersId"  required>
-                        <option *ngIf="!editForm.value.supplyZoneManagers" [ngValue]="null" selected></option>
+                    <label class="form-control-label" for="field_supplyZoneManager">Supply Zone Manager</label>
+                    <select class="form-control" id="field_supplyZoneManager" name="supplyZoneManager" [(ngModel)]="supplyAreaManager.supplyZoneManagerId"  required>
+                        <option *ngIf="!editForm.value.supplyZoneManager" [ngValue]="null" selected></option>
                         <option [ngValue]="supplyZoneManagerOption.id" *ngFor="let supplyZoneManagerOption of supplyzonemanagers; trackBy: trackSupplyZoneManagerById">{{supplyZoneManagerOption.id}}</option>
                     </select>
                 </div>
-                <div [hidden]="!(editForm.controls.supplyZoneManagers?.dirty && editForm.controls.supplyZoneManagers?.invalid)">
+                <div [hidden]="!(editForm.controls.supplyZoneManager?.dirty && editForm.controls.supplyZoneManager?.invalid)">
                     <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.supplyZoneManagers?.errors?.required">
+                        [hidden]="!editForm.controls.supplyZoneManager?.errors?.required">
                         This field is required.
                     </small>
                 </div>

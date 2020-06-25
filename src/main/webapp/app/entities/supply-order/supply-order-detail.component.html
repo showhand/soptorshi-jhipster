@@ -48,19 +48,19 @@
                 <dt><span>Supply Zone</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplyZoneId">
-                        <a [routerLink]="['/supply-zone', supplyOrder.supplyZoneId, 'view']">{{supplyOrder.supplyZoneZoneName}}</a>
+                        <a [routerLink]="['/supply-zone', supplyOrder.supplyZoneId, 'view']">{{supplyOrder.supplyZoneName}}</a>
                     </div>
                 </dd>
                 <dt><span>Supply Area</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplyAreaId">
-                        <a [routerLink]="['/supply-area', supplyOrder.supplyAreaId, 'view']">{{supplyOrder.supplyAreaAreaName}}</a>
+                        <a [routerLink]="['/supply-area', supplyOrder.supplyAreaId, 'view']">{{supplyOrder.supplyAreaName}}</a>
                     </div>
                 </dd>
                 <dt><span>Supply Sales Representative</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplySalesRepresentativeId">
-                        <a [routerLink]="['/supply-sales-representative', supplyOrder.supplySalesRepresentativeId, 'view']">{{supplyOrder.supplySalesRepresentativeSalesRepresentativeName}}</a>
+                        <a [routerLink]="['/supply-sales-representative', supplyOrder.supplySalesRepresentativeId, 'view']">{{supplyOrder.supplySalesRepresentativeName}}</a>
                     </div>
                 </dd>
                 <dt><span>Supply Area Manager</span></dt>
@@ -72,7 +72,7 @@
                 <dt><span>Supply Shop</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplyShopId">
-                        <a [routerLink]="['/supply-shop', supplyOrder.supplyShopId, 'view']">{{supplyOrder.supplyShopShopName}}</a>
+                        <a [routerLink]="['/supply-shop', supplyOrder.supplyShopId, 'view']">{{supplyOrder.supplyShopName}}</a>
                     </div>
                 </dd>
             </dl>

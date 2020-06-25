@@ -2,11 +2,23 @@
     "name": "SupplyShop",
     "fields": [
         {
-            "fieldName": "shopName",
+            "fieldName": "name",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "contact",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String"
         },
         {
             "fieldName": "additionalInformation",
@@ -34,22 +46,25 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyZone",
             "otherEntityRelationshipName": "supplyShop",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyArea",
             "otherEntityRelationshipName": "supplyShop",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyArea",
-            "otherEntityField": "areaName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "supplySalesRepresentative",
+            "otherEntityName": "supplyZoneManager",
             "otherEntityRelationshipName": "supplyShop",
-            "relationshipName": "supplySalesRepresentative",
-            "otherEntityField": "salesRepresentativeName"
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyZoneManager",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
@@ -58,6 +73,14 @@
             "relationshipValidateRules": "required",
             "relationshipName": "supplyAreaManager",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplySalesRepresentative",
+            "otherEntityRelationshipName": "supplyShop",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplySalesRepresentative",
+            "otherEntityField": "name"
         }
     ],
     "changelogDate": "20191106144403",

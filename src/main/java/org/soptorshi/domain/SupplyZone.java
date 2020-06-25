@@ -1,11 +1,10 @@
 package org.soptorshi.domain;
 
 
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -19,17 +18,18 @@ import java.util.Objects;
 public class SupplyZone implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Column(name = "zone_name", nullable = false)
-    private String zoneName;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "zone_code")
-    private String zoneCode;
+    @NotNull
+    @Column(name = "code", nullable = false)
+    private String code;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -52,30 +52,30 @@ public class SupplyZone implements Serializable {
         this.id = id;
     }
 
-    public String getZoneName() {
-        return zoneName;
+    public String getName() {
+        return name;
     }
 
-    public SupplyZone zoneName(String zoneName) {
-        this.zoneName = zoneName;
+    public SupplyZone name(String name) {
+        this.name = name;
         return this;
     }
 
-    public void setZoneName(String zoneName) {
-        this.zoneName = zoneName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getZoneCode() {
-        return zoneCode;
+    public String getCode() {
+        return code;
     }
 
-    public SupplyZone zoneCode(String zoneCode) {
-        this.zoneCode = zoneCode;
+    public SupplyZone code(String code) {
+        this.code = code;
         return this;
     }
 
-    public void setZoneCode(String zoneCode) {
-        this.zoneCode = zoneCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getCreatedBy() {
@@ -155,8 +155,8 @@ public class SupplyZone implements Serializable {
     public String toString() {
         return "SupplyZone{" +
             "id=" + getId() +
-            ", zoneName='" + getZoneName() + "'" +
-            ", zoneCode='" + getZoneCode() + "'" +
+            ", name='" + getName() + "'" +
+            ", code='" + getCode() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +

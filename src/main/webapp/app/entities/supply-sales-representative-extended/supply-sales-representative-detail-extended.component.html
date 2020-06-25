@@ -5,9 +5,17 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Sales Representative Name</span></dt>
+                <dt><span>Name</span></dt>
                 <dd>
-                    <span>{{supplySalesRepresentative.salesRepresentativeName}}</span>
+                    <span>{{supplySalesRepresentative.name}}</span>
+                </dd>
+                <dt><span>Contact</span></dt>
+                <dd>
+                    <span>{{supplySalesRepresentative.contact}}</span>
+                </dd>
+                <dt><span>Email</span></dt>
+                <dd>
+                    <span>{{supplySalesRepresentative.email}}</span>
                 </dd>
                 <dt><span>Additional Information</span></dt>
                 <dd>
@@ -29,16 +37,26 @@
                 <dd>
                     <span>{{supplySalesRepresentative.updatedOn}}</span>
                 </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{supplySalesRepresentative.status}}</span>
+                </dd>
                 <dt><span>Supply Zone</span></dt>
                 <dd>
                     <div *ngIf="supplySalesRepresentative.supplyZoneId">
-                        <a [routerLink]="['/supply-zone', supplySalesRepresentative.supplyZoneId, 'view']">{{supplySalesRepresentative.supplyZoneZoneName}}</a>
+                        <a [routerLink]="['/supply-zone', supplySalesRepresentative.supplyZoneId, 'view']">{{supplySalesRepresentative.supplyZoneName}}</a>
                     </div>
                 </dd>
                 <dt><span>Supply Area</span></dt>
                 <dd>
                     <div *ngIf="supplySalesRepresentative.supplyAreaId">
-                        <a [routerLink]="['/supply-area', supplySalesRepresentative.supplyAreaId, 'view']">{{supplySalesRepresentative.supplyAreaAreaName}}</a>
+                        <a [routerLink]="['/supply-area', supplySalesRepresentative.supplyAreaId, 'view']">{{supplySalesRepresentative.supplyAreaName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Zone Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplySalesRepresentative.supplyZoneManagerId">
+                        <a [routerLink]="['/supply-zone-manager', supplySalesRepresentative.supplyZoneManagerId, 'view']">{{supplySalesRepresentative.supplyZoneManagerId}}</a>
                     </div>
                 </dd>
                 <dt><span>Supply Area Manager</span></dt>

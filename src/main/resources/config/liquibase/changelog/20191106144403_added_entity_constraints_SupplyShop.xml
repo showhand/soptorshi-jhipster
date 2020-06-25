@@ -20,17 +20,23 @@
                                  referencedColumnNames="id"
                                  referencedTableName="supply_area"/>
 
-        <addForeignKeyConstraint baseColumnNames="supply_sales_representative_id"
+        <addForeignKeyConstraint baseColumnNames="supply_zone_manager_id"
                                  baseTableName="supply_shop"
-                                 constraintName="fk_supply_shop_supply_sales_representative_id"
+                                 constraintName="fk_supply_shop_supply_zone_manager_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="supply_sales_representative"/>
+                                 referencedTableName="supply_zone_manager"/>
 
         <addForeignKeyConstraint baseColumnNames="supply_area_manager_id"
                                  baseTableName="supply_shop"
                                  constraintName="fk_supply_shop_supply_area_manager_id"
                                  referencedColumnNames="id"
                                  referencedTableName="supply_area_manager"/>
+
+        <addForeignKeyConstraint baseColumnNames="supply_sales_representative_id"
+                                 baseTableName="supply_shop"
+                                 constraintName="fk_supply_shop_supply_sales_representative_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_sales_representative"/>
 
     </changeSet>
 </databaseChangeLog>

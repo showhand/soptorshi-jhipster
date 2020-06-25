@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { SupplyArea } from 'app/shared/model/supply-area.model';
+import { ISupplyArea, SupplyArea } from 'app/shared/model/supply-area.model';
 import { SupplyAreaService } from './supply-area.service';
 import { SupplyAreaComponent } from './supply-area.component';
 import { SupplyAreaDetailComponent } from './supply-area-detail.component';
 import { SupplyAreaUpdateComponent } from './supply-area-update.component';
 import { SupplyAreaDeletePopupComponent } from './supply-area-delete-dialog.component';
-import { ISupplyArea } from 'app/shared/model/supply-area.model';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyAreaResolve implements Resolve<ISupplyArea> {

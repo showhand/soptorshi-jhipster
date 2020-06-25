@@ -1,5 +1,7 @@
 package org.soptorshi.service.dto;
 
+import org.soptorshi.domain.enumeration.SupplySalesRepresentativeStatus;
+
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
@@ -13,7 +15,12 @@ public class SupplySalesRepresentativeDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private String salesRepresentativeName;
+    private String name;
+
+    @NotNull
+    private String contact;
+
+    private String email;
 
     private String additionalInformation;
 
@@ -25,14 +32,19 @@ public class SupplySalesRepresentativeDTO implements Serializable {
 
     private Instant updatedOn;
 
+    @NotNull
+    private SupplySalesRepresentativeStatus status;
+
 
     private Long supplyZoneId;
 
-    private String supplyZoneZoneName;
+    private String supplyZoneName;
 
     private Long supplyAreaId;
 
-    private String supplyAreaAreaName;
+    private String supplyAreaName;
+
+    private Long supplyZoneManagerId;
 
     private Long supplyAreaManagerId;
 
@@ -44,12 +56,28 @@ public class SupplySalesRepresentativeDTO implements Serializable {
         this.id = id;
     }
 
-    public String getSalesRepresentativeName() {
-        return salesRepresentativeName;
+    public String getName() {
+        return name;
     }
 
-    public void setSalesRepresentativeName(String salesRepresentativeName) {
-        this.salesRepresentativeName = salesRepresentativeName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getAdditionalInformation() {
@@ -92,6 +120,14 @@ public class SupplySalesRepresentativeDTO implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public SupplySalesRepresentativeStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SupplySalesRepresentativeStatus status) {
+        this.status = status;
+    }
+
     public Long getSupplyZoneId() {
         return supplyZoneId;
     }
@@ -100,12 +136,12 @@ public class SupplySalesRepresentativeDTO implements Serializable {
         this.supplyZoneId = supplyZoneId;
     }
 
-    public String getSupplyZoneZoneName() {
-        return supplyZoneZoneName;
+    public String getSupplyZoneName() {
+        return supplyZoneName;
     }
 
-    public void setSupplyZoneZoneName(String supplyZoneZoneName) {
-        this.supplyZoneZoneName = supplyZoneZoneName;
+    public void setSupplyZoneName(String supplyZoneName) {
+        this.supplyZoneName = supplyZoneName;
     }
 
     public Long getSupplyAreaId() {
@@ -116,12 +152,20 @@ public class SupplySalesRepresentativeDTO implements Serializable {
         this.supplyAreaId = supplyAreaId;
     }
 
-    public String getSupplyAreaAreaName() {
-        return supplyAreaAreaName;
+    public String getSupplyAreaName() {
+        return supplyAreaName;
     }
 
-    public void setSupplyAreaAreaName(String supplyAreaAreaName) {
-        this.supplyAreaAreaName = supplyAreaAreaName;
+    public void setSupplyAreaName(String supplyAreaName) {
+        this.supplyAreaName = supplyAreaName;
+    }
+
+    public Long getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(Long supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
     }
 
     public Long getSupplyAreaManagerId() {
@@ -157,16 +201,20 @@ public class SupplySalesRepresentativeDTO implements Serializable {
     public String toString() {
         return "SupplySalesRepresentativeDTO{" +
             "id=" + getId() +
-            ", salesRepresentativeName='" + getSalesRepresentativeName() + "'" +
+            ", name='" + getName() + "'" +
+            ", contact='" + getContact() + "'" +
+            ", email='" + getEmail() + "'" +
             ", additionalInformation='" + getAdditionalInformation() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", status='" + getStatus() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
-            ", supplyZone='" + getSupplyZoneZoneName() + "'" +
+            ", supplyZone='" + getSupplyZoneName() + "'" +
             ", supplyArea=" + getSupplyAreaId() +
-            ", supplyArea='" + getSupplyAreaAreaName() + "'" +
+            ", supplyArea='" + getSupplyAreaName() + "'" +
+            ", supplyZoneManager=" + getSupplyZoneManagerId() +
             ", supplyAreaManager=" + getSupplyAreaManagerId() +
             "}";
     }

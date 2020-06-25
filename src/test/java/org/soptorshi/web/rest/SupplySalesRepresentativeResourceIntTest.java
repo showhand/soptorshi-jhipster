@@ -5,10 +5,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.SupplyArea;
-import org.soptorshi.domain.SupplyAreaManager;
-import org.soptorshi.domain.SupplySalesRepresentative;
-import org.soptorshi.domain.SupplyZone;
+import org.soptorshi.domain.*;
+import org.soptorshi.domain.enumeration.SupplySalesRepresentativeStatus;
 import org.soptorshi.repository.SupplySalesRepresentativeRepository;
 import org.soptorshi.repository.search.SupplySalesRepresentativeSearchRepository;
 import org.soptorshi.service.SupplySalesRepresentativeQueryService;
@@ -42,7 +40,6 @@ import static org.mockito.Mockito.*;
 import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 /**
  * Test class for the SupplySalesRepresentativeResource REST controller.
  *
@@ -52,8 +49,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = SoptorshiApp.class)
 public class SupplySalesRepresentativeResourceIntTest {
 
-    private static final String DEFAULT_SALES_REPRESENTATIVE_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_SALES_REPRESENTATIVE_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CONTACT = "AAAAAAAAAA";
+    private static final String UPDATED_CONTACT = "BBBBBBBBBB";
+
+    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
+    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
 
     private static final String DEFAULT_ADDITIONAL_INFORMATION = "AAAAAAAAAA";
     private static final String UPDATED_ADDITIONAL_INFORMATION = "BBBBBBBBBB";
@@ -69,6 +72,9 @@ public class SupplySalesRepresentativeResourceIntTest {
 
     private static final Instant DEFAULT_UPDATED_ON = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_UPDATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final SupplySalesRepresentativeStatus DEFAULT_STATUS = SupplySalesRepresentativeStatus.ACTIVE;
+    private static final SupplySalesRepresentativeStatus UPDATED_STATUS = SupplySalesRepresentativeStatus.INACTIVE;
 
     @Autowired
     private SupplySalesRepresentativeRepository supplySalesRepresentativeRepository;
@@ -129,12 +135,30 @@ public class SupplySalesRepresentativeResourceIntTest {
      */
     public static SupplySalesRepresentative createEntity(EntityManager em) {
         SupplySalesRepresentative supplySalesRepresentative = new SupplySalesRepresentative()
-            .salesRepresentativeName(DEFAULT_SALES_REPRESENTATIVE_NAME)
+            .name(DEFAULT_NAME)
+            .contact(DEFAULT_CONTACT)
+            .email(DEFAULT_EMAIL)
             .additionalInformation(DEFAULT_ADDITIONAL_INFORMATION)
             .createdBy(DEFAULT_CREATED_BY)
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
-            .updatedOn(DEFAULT_UPDATED_ON);
+            .updatedOn(DEFAULT_UPDATED_ON)
+            .status(DEFAULT_STATUS);
+        // Add required entity
+        SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
+        em.persist(supplyZone);
+        em.flush();
+        supplySalesRepresentative.setSupplyZone(supplyZone);
+        // Add required entity
+        SupplyArea supplyArea = SupplyAreaResourceIntTest.createEntity(em);
+        em.persist(supplyArea);
+        em.flush();
+        supplySalesRepresentative.setSupplyArea(supplyArea);
+        // Add required entity
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplySalesRepresentative.setSupplyZoneManager(supplyZoneManager);
         // Add required entity
         SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
         em.persist(supplyAreaManager);
@@ -164,12 +188,15 @@ public class SupplySalesRepresentativeResourceIntTest {
         List<SupplySalesRepresentative> supplySalesRepresentativeList = supplySalesRepresentativeRepository.findAll();
         assertThat(supplySalesRepresentativeList).hasSize(databaseSizeBeforeCreate + 1);
         SupplySalesRepresentative testSupplySalesRepresentative = supplySalesRepresentativeList.get(supplySalesRepresentativeList.size() - 1);
-        assertThat(testSupplySalesRepresentative.getSalesRepresentativeName()).isEqualTo(DEFAULT_SALES_REPRESENTATIVE_NAME);
+        assertThat(testSupplySalesRepresentative.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testSupplySalesRepresentative.getContact()).isEqualTo(DEFAULT_CONTACT);
+        assertThat(testSupplySalesRepresentative.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testSupplySalesRepresentative.getAdditionalInformation()).isEqualTo(DEFAULT_ADDITIONAL_INFORMATION);
         assertThat(testSupplySalesRepresentative.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testSupplySalesRepresentative.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testSupplySalesRepresentative.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testSupplySalesRepresentative.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
+        assertThat(testSupplySalesRepresentative.getStatus()).isEqualTo(DEFAULT_STATUS);
 
         // Validate the SupplySalesRepresentative in Elasticsearch
         verify(mockSupplySalesRepresentativeSearchRepository, times(1)).save(testSupplySalesRepresentative);
@@ -200,10 +227,48 @@ public class SupplySalesRepresentativeResourceIntTest {
 
     @Test
     @Transactional
-    public void checkSalesRepresentativeNameIsRequired() throws Exception {
+    public void checkNameIsRequired() throws Exception {
         int databaseSizeBeforeTest = supplySalesRepresentativeRepository.findAll().size();
         // set the field null
-        supplySalesRepresentative.setSalesRepresentativeName(null);
+        supplySalesRepresentative.setName(null);
+
+        // Create the SupplySalesRepresentative, which fails.
+        SupplySalesRepresentativeDTO supplySalesRepresentativeDTO = supplySalesRepresentativeMapper.toDto(supplySalesRepresentative);
+
+        restSupplySalesRepresentativeMockMvc.perform(post("/api/supply-sales-representatives")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(supplySalesRepresentativeDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<SupplySalesRepresentative> supplySalesRepresentativeList = supplySalesRepresentativeRepository.findAll();
+        assertThat(supplySalesRepresentativeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkContactIsRequired() throws Exception {
+        int databaseSizeBeforeTest = supplySalesRepresentativeRepository.findAll().size();
+        // set the field null
+        supplySalesRepresentative.setContact(null);
+
+        // Create the SupplySalesRepresentative, which fails.
+        SupplySalesRepresentativeDTO supplySalesRepresentativeDTO = supplySalesRepresentativeMapper.toDto(supplySalesRepresentative);
+
+        restSupplySalesRepresentativeMockMvc.perform(post("/api/supply-sales-representatives")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(supplySalesRepresentativeDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<SupplySalesRepresentative> supplySalesRepresentativeList = supplySalesRepresentativeRepository.findAll();
+        assertThat(supplySalesRepresentativeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkStatusIsRequired() throws Exception {
+        int databaseSizeBeforeTest = supplySalesRepresentativeRepository.findAll().size();
+        // set the field null
+        supplySalesRepresentative.setStatus(null);
 
         // Create the SupplySalesRepresentative, which fails.
         SupplySalesRepresentativeDTO supplySalesRepresentativeDTO = supplySalesRepresentativeMapper.toDto(supplySalesRepresentative);
@@ -228,12 +293,15 @@ public class SupplySalesRepresentativeResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplySalesRepresentative.getId().intValue())))
-            .andExpect(jsonPath("$.[*].salesRepresentativeName").value(hasItem(DEFAULT_SALES_REPRESENTATIVE_NAME.toString())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].contact").value(hasItem(DEFAULT_CONTACT.toString())))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())))
             .andExpect(jsonPath("$.[*].additionalInformation").value(hasItem(DEFAULT_ADDITIONAL_INFORMATION.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
 
     @Test
@@ -247,51 +315,132 @@ public class SupplySalesRepresentativeResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(supplySalesRepresentative.getId().intValue()))
-            .andExpect(jsonPath("$.salesRepresentativeName").value(DEFAULT_SALES_REPRESENTATIVE_NAME.toString()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.contact").value(DEFAULT_CONTACT.toString()))
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL.toString()))
             .andExpect(jsonPath("$.additionalInformation").value(DEFAULT_ADDITIONAL_INFORMATION.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
-            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()));
+            .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
     @Test
     @Transactional
-    public void getAllSupplySalesRepresentativesBySalesRepresentativeNameIsEqualToSomething() throws Exception {
+    public void getAllSupplySalesRepresentativesByNameIsEqualToSomething() throws Exception {
         // Initialize the database
         supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
 
-        // Get all the supplySalesRepresentativeList where salesRepresentativeName equals to DEFAULT_SALES_REPRESENTATIVE_NAME
-        defaultSupplySalesRepresentativeShouldBeFound("salesRepresentativeName.equals=" + DEFAULT_SALES_REPRESENTATIVE_NAME);
+        // Get all the supplySalesRepresentativeList where name equals to DEFAULT_NAME
+        defaultSupplySalesRepresentativeShouldBeFound("name.equals=" + DEFAULT_NAME);
 
-        // Get all the supplySalesRepresentativeList where salesRepresentativeName equals to UPDATED_SALES_REPRESENTATIVE_NAME
-        defaultSupplySalesRepresentativeShouldNotBeFound("salesRepresentativeName.equals=" + UPDATED_SALES_REPRESENTATIVE_NAME);
+        // Get all the supplySalesRepresentativeList where name equals to UPDATED_NAME
+        defaultSupplySalesRepresentativeShouldNotBeFound("name.equals=" + UPDATED_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllSupplySalesRepresentativesBySalesRepresentativeNameIsInShouldWork() throws Exception {
+    public void getAllSupplySalesRepresentativesByNameIsInShouldWork() throws Exception {
         // Initialize the database
         supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
 
-        // Get all the supplySalesRepresentativeList where salesRepresentativeName in DEFAULT_SALES_REPRESENTATIVE_NAME or UPDATED_SALES_REPRESENTATIVE_NAME
-        defaultSupplySalesRepresentativeShouldBeFound("salesRepresentativeName.in=" + DEFAULT_SALES_REPRESENTATIVE_NAME + "," + UPDATED_SALES_REPRESENTATIVE_NAME);
+        // Get all the supplySalesRepresentativeList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultSupplySalesRepresentativeShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
 
-        // Get all the supplySalesRepresentativeList where salesRepresentativeName equals to UPDATED_SALES_REPRESENTATIVE_NAME
-        defaultSupplySalesRepresentativeShouldNotBeFound("salesRepresentativeName.in=" + UPDATED_SALES_REPRESENTATIVE_NAME);
+        // Get all the supplySalesRepresentativeList where name equals to UPDATED_NAME
+        defaultSupplySalesRepresentativeShouldNotBeFound("name.in=" + UPDATED_NAME);
     }
 
     @Test
     @Transactional
-    public void getAllSupplySalesRepresentativesBySalesRepresentativeNameIsNullOrNotNull() throws Exception {
+    public void getAllSupplySalesRepresentativesByNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
 
-        // Get all the supplySalesRepresentativeList where salesRepresentativeName is not null
-        defaultSupplySalesRepresentativeShouldBeFound("salesRepresentativeName.specified=true");
+        // Get all the supplySalesRepresentativeList where name is not null
+        defaultSupplySalesRepresentativeShouldBeFound("name.specified=true");
 
-        // Get all the supplySalesRepresentativeList where salesRepresentativeName is null
-        defaultSupplySalesRepresentativeShouldNotBeFound("salesRepresentativeName.specified=false");
+        // Get all the supplySalesRepresentativeList where name is null
+        defaultSupplySalesRepresentativeShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplySalesRepresentativesByContactIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
+
+        // Get all the supplySalesRepresentativeList where contact equals to DEFAULT_CONTACT
+        defaultSupplySalesRepresentativeShouldBeFound("contact.equals=" + DEFAULT_CONTACT);
+
+        // Get all the supplySalesRepresentativeList where contact equals to UPDATED_CONTACT
+        defaultSupplySalesRepresentativeShouldNotBeFound("contact.equals=" + UPDATED_CONTACT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplySalesRepresentativesByContactIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
+
+        // Get all the supplySalesRepresentativeList where contact in DEFAULT_CONTACT or UPDATED_CONTACT
+        defaultSupplySalesRepresentativeShouldBeFound("contact.in=" + DEFAULT_CONTACT + "," + UPDATED_CONTACT);
+
+        // Get all the supplySalesRepresentativeList where contact equals to UPDATED_CONTACT
+        defaultSupplySalesRepresentativeShouldNotBeFound("contact.in=" + UPDATED_CONTACT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplySalesRepresentativesByContactIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
+
+        // Get all the supplySalesRepresentativeList where contact is not null
+        defaultSupplySalesRepresentativeShouldBeFound("contact.specified=true");
+
+        // Get all the supplySalesRepresentativeList where contact is null
+        defaultSupplySalesRepresentativeShouldNotBeFound("contact.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplySalesRepresentativesByEmailIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
+
+        // Get all the supplySalesRepresentativeList where email equals to DEFAULT_EMAIL
+        defaultSupplySalesRepresentativeShouldBeFound("email.equals=" + DEFAULT_EMAIL);
+
+        // Get all the supplySalesRepresentativeList where email equals to UPDATED_EMAIL
+        defaultSupplySalesRepresentativeShouldNotBeFound("email.equals=" + UPDATED_EMAIL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplySalesRepresentativesByEmailIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
+
+        // Get all the supplySalesRepresentativeList where email in DEFAULT_EMAIL or UPDATED_EMAIL
+        defaultSupplySalesRepresentativeShouldBeFound("email.in=" + DEFAULT_EMAIL + "," + UPDATED_EMAIL);
+
+        // Get all the supplySalesRepresentativeList where email equals to UPDATED_EMAIL
+        defaultSupplySalesRepresentativeShouldNotBeFound("email.in=" + UPDATED_EMAIL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplySalesRepresentativesByEmailIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
+
+        // Get all the supplySalesRepresentativeList where email is not null
+        defaultSupplySalesRepresentativeShouldBeFound("email.specified=true");
+
+        // Get all the supplySalesRepresentativeList where email is null
+        defaultSupplySalesRepresentativeShouldNotBeFound("email.specified=false");
     }
 
     @Test
@@ -491,6 +640,45 @@ public class SupplySalesRepresentativeResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSupplySalesRepresentativesByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
+
+        // Get all the supplySalesRepresentativeList where status equals to DEFAULT_STATUS
+        defaultSupplySalesRepresentativeShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the supplySalesRepresentativeList where status equals to UPDATED_STATUS
+        defaultSupplySalesRepresentativeShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplySalesRepresentativesByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
+
+        // Get all the supplySalesRepresentativeList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultSupplySalesRepresentativeShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the supplySalesRepresentativeList where status equals to UPDATED_STATUS
+        defaultSupplySalesRepresentativeShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplySalesRepresentativesByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
+
+        // Get all the supplySalesRepresentativeList where status is not null
+        defaultSupplySalesRepresentativeShouldBeFound("status.specified=true");
+
+        // Get all the supplySalesRepresentativeList where status is null
+        defaultSupplySalesRepresentativeShouldNotBeFound("status.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllSupplySalesRepresentativesBySupplyZoneIsEqualToSomething() throws Exception {
         // Initialize the database
         SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
@@ -529,6 +717,25 @@ public class SupplySalesRepresentativeResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSupplySalesRepresentativesBySupplyZoneManagerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplySalesRepresentative.setSupplyZoneManager(supplyZoneManager);
+        supplySalesRepresentativeRepository.saveAndFlush(supplySalesRepresentative);
+        Long supplyZoneManagerId = supplyZoneManager.getId();
+
+        // Get all the supplySalesRepresentativeList where supplyZoneManager equals to supplyZoneManagerId
+        defaultSupplySalesRepresentativeShouldBeFound("supplyZoneManagerId.equals=" + supplyZoneManagerId);
+
+        // Get all the supplySalesRepresentativeList where supplyZoneManager equals to supplyZoneManagerId + 1
+        defaultSupplySalesRepresentativeShouldNotBeFound("supplyZoneManagerId.equals=" + (supplyZoneManagerId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllSupplySalesRepresentativesBySupplyAreaManagerIsEqualToSomething() throws Exception {
         // Initialize the database
         SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
@@ -553,12 +760,15 @@ public class SupplySalesRepresentativeResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplySalesRepresentative.getId().intValue())))
-            .andExpect(jsonPath("$.[*].salesRepresentativeName").value(hasItem(DEFAULT_SALES_REPRESENTATIVE_NAME)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].contact").value(hasItem(DEFAULT_CONTACT)))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
             .andExpect(jsonPath("$.[*].additionalInformation").value(hasItem(DEFAULT_ADDITIONAL_INFORMATION)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
         // Check, that the count call also returns 1
         restSupplySalesRepresentativeMockMvc.perform(get("/api/supply-sales-representatives/count?sort=id,desc&" + filter))
@@ -606,12 +816,15 @@ public class SupplySalesRepresentativeResourceIntTest {
         // Disconnect from session so that the updates on updatedSupplySalesRepresentative are not directly saved in db
         em.detach(updatedSupplySalesRepresentative);
         updatedSupplySalesRepresentative
-            .salesRepresentativeName(UPDATED_SALES_REPRESENTATIVE_NAME)
+            .name(UPDATED_NAME)
+            .contact(UPDATED_CONTACT)
+            .email(UPDATED_EMAIL)
             .additionalInformation(UPDATED_ADDITIONAL_INFORMATION)
             .createdBy(UPDATED_CREATED_BY)
             .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
-            .updatedOn(UPDATED_UPDATED_ON);
+            .updatedOn(UPDATED_UPDATED_ON)
+            .status(UPDATED_STATUS);
         SupplySalesRepresentativeDTO supplySalesRepresentativeDTO = supplySalesRepresentativeMapper.toDto(updatedSupplySalesRepresentative);
 
         restSupplySalesRepresentativeMockMvc.perform(put("/api/supply-sales-representatives")
@@ -623,12 +836,15 @@ public class SupplySalesRepresentativeResourceIntTest {
         List<SupplySalesRepresentative> supplySalesRepresentativeList = supplySalesRepresentativeRepository.findAll();
         assertThat(supplySalesRepresentativeList).hasSize(databaseSizeBeforeUpdate);
         SupplySalesRepresentative testSupplySalesRepresentative = supplySalesRepresentativeList.get(supplySalesRepresentativeList.size() - 1);
-        assertThat(testSupplySalesRepresentative.getSalesRepresentativeName()).isEqualTo(UPDATED_SALES_REPRESENTATIVE_NAME);
+        assertThat(testSupplySalesRepresentative.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testSupplySalesRepresentative.getContact()).isEqualTo(UPDATED_CONTACT);
+        assertThat(testSupplySalesRepresentative.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testSupplySalesRepresentative.getAdditionalInformation()).isEqualTo(UPDATED_ADDITIONAL_INFORMATION);
         assertThat(testSupplySalesRepresentative.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testSupplySalesRepresentative.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testSupplySalesRepresentative.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testSupplySalesRepresentative.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
+        assertThat(testSupplySalesRepresentative.getStatus()).isEqualTo(UPDATED_STATUS);
 
         // Validate the SupplySalesRepresentative in Elasticsearch
         verify(mockSupplySalesRepresentativeSearchRepository, times(1)).save(testSupplySalesRepresentative);
@@ -689,12 +905,15 @@ public class SupplySalesRepresentativeResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supplySalesRepresentative.getId().intValue())))
-            .andExpect(jsonPath("$.[*].salesRepresentativeName").value(hasItem(DEFAULT_SALES_REPRESENTATIVE_NAME)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].contact").value(hasItem(DEFAULT_CONTACT)))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
             .andExpect(jsonPath("$.[*].additionalInformation").value(hasItem(DEFAULT_ADDITIONAL_INFORMATION)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
-            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
 
     @Test

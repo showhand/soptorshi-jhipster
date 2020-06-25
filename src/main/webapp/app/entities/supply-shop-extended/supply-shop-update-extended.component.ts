@@ -10,8 +10,10 @@ import { SupplyShopUpdateComponent } from 'app/entities/supply-shop';
 import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
-import { ISupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
-import { ISupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
+import { ISupplyAreaManager, SupplyAreaManagerStatus } from 'app/shared/model/supply-area-manager.model';
+import { ISupplySalesRepresentative, SupplySalesRepresentativeStatus } from 'app/shared/model/supply-sales-representative.model';
+import { SupplyZoneManagerService } from 'app/entities/supply-zone-manager';
+import { ISupplyZoneManager, SupplyZoneManagerStatus } from 'app/shared/model/supply-zone-manager.model';
 
 @Component({
     selector: 'jhi-supply-shop-update-extended',
@@ -23,8 +25,9 @@ export class SupplyShopUpdateExtendedComponent extends SupplyShopUpdateComponent
         protected supplyShopService: SupplyShopExtendedService,
         protected supplyZoneService: SupplyZoneService,
         protected supplyAreaService: SupplyAreaService,
-        protected supplySalesRepresentativeService: SupplySalesRepresentativeService,
+        protected supplyZoneManagerService: SupplyZoneManagerService,
         protected supplyAreaManagerService: SupplyAreaManagerService,
+        protected supplySalesRepresentativeService: SupplySalesRepresentativeService,
         protected activatedRoute: ActivatedRoute
     ) {
         super(
@@ -32,10 +35,30 @@ export class SupplyShopUpdateExtendedComponent extends SupplyShopUpdateComponent
             supplyShopService,
             supplyZoneService,
             supplyAreaService,
-            supplySalesRepresentativeService,
+            supplyZoneManagerService,
             supplyAreaManagerService,
+            supplySalesRepresentativeService,
             activatedRoute
         );
+    }
+
+    filterZoneManager() {
+        this.supplyZoneManagerService
+            .query({
+                'supplyZoneId.equals': this.supplyShop.supplyZoneId,
+                'status.equals': SupplyZoneManagerStatus.ACTIVE
+            })
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplyZoneManager[]) => {
+                    this.supplyzonemanagers = res;
+                    this.filterArea();
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     filterArea() {
@@ -54,7 +77,9 @@ export class SupplyShopUpdateExtendedComponent extends SupplyShopUpdateComponent
         this.supplyAreaManagerService
             .query({
                 'supplyZoneId.equals': this.supplyShop.supplyZoneId,
-                'supplyAreaId.equals': this.supplyShop.supplyAreaId
+                'supplyAreaId.equals': this.supplyShop.supplyAreaId,
+                'supplyZoneManagerId.equals': this.supplyShop.supplyZoneManagerId,
+                'status.equals': SupplyAreaManagerStatus.ACTIVE
             })
             .pipe(
                 filter((mayBeOk: HttpResponse<ISupplyAreaManager[]>) => mayBeOk.ok),
@@ -71,7 +96,9 @@ export class SupplyShopUpdateExtendedComponent extends SupplyShopUpdateComponent
             .query({
                 'supplyZoneId.equals': this.supplyShop.supplyZoneId,
                 'supplyAreaId.equals': this.supplyShop.supplyAreaId,
-                'supplyAreaManagerId.equals': this.supplyShop.supplyAreaManagerId
+                'supplyAreaManagerId.equals': this.supplyShop.supplyAreaManagerId,
+                'supplyZoneManagerId.equals': this.supplyShop.supplyZoneManagerId,
+                'status.equals': SupplySalesRepresentativeStatus.ACTIVE
             })
             .pipe(
                 filter((mayBeOk: HttpResponse<ISupplySalesRepresentative[]>) => mayBeOk.ok),

@@ -7,52 +7,118 @@
                 <div class="form-group" [hidden]="!supplyShop.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="supplyShop.id" readonly />
+                           [(ngModel)]="supplyShop.id" readonly/>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
-                    <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyShop.supplyZoneId" (ngModelChange)="filterArea()" required>
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.zoneName}}</option>
+                    <select class="form-control" id="field_supplyZone" name="supplyZone"
+                            [(ngModel)]="supplyShop.supplyZoneId" (ngModelChange)="filterZoneManager()" required>
+                        <option *ngIf="!editForm.value.supplyZone" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyZoneOption.id"
+                                *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.name}}</option>
                     </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyZone?.dirty && editForm.controls.supplyZone?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.supplyZone?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyZoneManager">Supply Zone Manager</label>
+                    <select class="form-control" id="field_supplyZoneManager" name="supplyZoneManager"
+                            [(ngModel)]="supplyShop.supplyZoneManagerId" required>
+                        <option *ngIf="!editForm.value.supplyZoneManager" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyZoneManagerOption.id"
+                                *ngFor="let supplyZoneManagerOption of supplyzonemanagers; trackBy: trackSupplyZoneManagerById">{{supplyZoneManagerOption.employeeFullName}}</option>
+                    </select>
+                </div>
+                <div
+                    [hidden]="!(editForm.controls.supplyZoneManager?.dirty && editForm.controls.supplyZoneManager?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.supplyZoneManager?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyArea">Supply Area</label>
-                    <select class="form-control" id="field_supplyArea" name="supplyArea" [(ngModel)]="supplyShop.supplyAreaId" (ngModelChange)="filterAreaManager()" required>
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="supplyAreaOption.id" *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.areaName}}</option>
+                    <select class="form-control" id="field_supplyArea" name="supplyArea"
+                            [(ngModel)]="supplyShop.supplyAreaId" (ngModelChange)="filterAreaManager()" required>
+                        <option *ngIf="!editForm.value.supplyArea" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyAreaOption.id"
+                                *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.name}}</option>
                     </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyArea?.dirty && editForm.controls.supplyArea?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.supplyArea?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyAreaManager">Supply Area Manager</label>
-                    <select class="form-control" id="field_supplyAreaManager" name="supplyAreaManager" [(ngModel)]="supplyShop.supplyAreaManagerId"
-                            (ngModelChange)="filterSalesRepresentative()" required>
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="supplyAreaManagerOption.id" *ngFor="let supplyAreaManagerOption of supplyareamanagers; trackBy: trackSupplyAreaManagerById">{{supplyAreaManagerOption.employeeFullName}}</option>
+                    <select class="form-control" id="field_supplyAreaManager" name="supplyAreaManager"
+                            [(ngModel)]="supplyShop.supplyAreaManagerId" (ngModelChange)="filterSalesRepresentative()" required>
+                        <option *ngIf="!editForm.value.supplyAreaManager" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyAreaManagerOption.id"
+                                *ngFor="let supplyAreaManagerOption of supplyareamanagers; trackBy: trackSupplyAreaManagerById">{{supplyAreaManagerOption.employeeFullName}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_supplySalesRepresentative">Supply Sales Representative</label>
-                    <select class="form-control" id="field_supplySalesRepresentative" name="supplySalesRepresentative" [(ngModel)]="supplyShop.supplySalesRepresentativeId" required>
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="supplySalesRepresentativeOption.id" *ngFor="let supplySalesRepresentativeOption of supplysalesrepresentatives; trackBy: trackSupplySalesRepresentativeById">{{supplySalesRepresentativeOption.salesRepresentativeName}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_shopName">Shop Name</label>
-                    <input type="text" class="form-control" name="shopName" id="field_shopName"
-                        [(ngModel)]="supplyShop.shopName" required/>
-                    <div [hidden]="!(editForm.controls.shopName?.dirty && editForm.controls.shopName?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.shopName?.errors?.required">
+                <div
+                    [hidden]="!(editForm.controls.supplyAreaManager?.dirty && editForm.controls.supplyAreaManager?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.supplyAreaManager?.errors?.required">
                         This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplySalesRepresentative">Supply Sales
+                        Representative</label>
+                    <select class="form-control" id="field_supplySalesRepresentative" name="supplySalesRepresentative"
+                            [(ngModel)]="supplyShop.supplySalesRepresentativeId" required>
+                        <option *ngIf="!editForm.value.supplySalesRepresentative" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplySalesRepresentativeOption.id"
+                                *ngFor="let supplySalesRepresentativeOption of supplysalesrepresentatives; trackBy: trackSupplySalesRepresentativeById">{{supplySalesRepresentativeOption.name}}</option>
+                    </select>
+                </div>
+                <div
+                    [hidden]="!(editForm.controls.supplySalesRepresentative?.dirty && editForm.controls.supplySalesRepresentative?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.supplySalesRepresentative?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           [(ngModel)]="supplyShop.name" required/>
+                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.name?.errors?.required">
+                            This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_contact">Contact</label>
+                    <input type="text" class="form-control" name="contact" id="field_contact"
+                           [(ngModel)]="supplyShop.contact"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_email">Email</label>
+                    <input type="text" class="form-control" name="email" id="field_email"
+                           [(ngModel)]="supplyShop.email"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_address">Address</label>
+                    <input type="text" class="form-control" name="address" id="field_address"
+                           [(ngModel)]="supplyShop.address"/>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_additionalInformation">Additional Information</label>
-                    <input type="text" class="form-control" name="additionalInformation" id="field_additionalInformation"
-                        [(ngModel)]="supplyShop.additionalInformation" />
+                    <input type="text" class="form-control" name="additionalInformation"
+                           id="field_additionalInformation"
+                           [(ngModel)]="supplyShop.additionalInformation"/>
                 </div>
                 <!--<div class="form-group">
                     <label class="form-control-label" for="field_createdBy">Created By</label>
@@ -82,10 +148,11 @@
 
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                        class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                 </button>
             </div>

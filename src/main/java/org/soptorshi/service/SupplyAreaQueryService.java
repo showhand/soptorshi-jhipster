@@ -1,26 +1,24 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.SupplyArea;
+import org.soptorshi.domain.SupplyArea_;
+import org.soptorshi.domain.SupplyZone_;
+import org.soptorshi.repository.SupplyAreaRepository;
+import org.soptorshi.repository.search.SupplyAreaSearchRepository;
+import org.soptorshi.service.dto.SupplyAreaCriteria;
+import org.soptorshi.service.dto.SupplyAreaDTO;
+import org.soptorshi.service.mapper.SupplyAreaMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.SupplyArea;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.SupplyAreaRepository;
-import org.soptorshi.repository.search.SupplyAreaSearchRepository;
-import org.soptorshi.service.dto.SupplyAreaCriteria;
-import org.soptorshi.service.dto.SupplyAreaDTO;
-import org.soptorshi.service.mapper.SupplyAreaMapper;
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for SupplyArea entities in the database.
@@ -93,11 +91,11 @@ public class SupplyAreaQueryService extends QueryService<SupplyArea> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), SupplyArea_.id));
             }
-            if (criteria.getAreaName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAreaName(), SupplyArea_.areaName));
+            if (criteria.getName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getName(), SupplyArea_.name));
             }
-            if (criteria.getAreaCode() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAreaCode(), SupplyArea_.areaCode));
+            if (criteria.getCode() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCode(), SupplyArea_.code));
             }
             if (criteria.getCreatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), SupplyArea_.createdBy));

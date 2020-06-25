@@ -25,8 +25,17 @@ public class SupplyShop implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "shop_name", nullable = false)
-    private String shopName;
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "contact")
+    private String contact;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "additional_information")
     private String additionalInformation;
@@ -43,22 +52,30 @@ public class SupplyShop implements Serializable {
     @Column(name = "updated_on")
     private Instant updatedOn;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyShops")
     private SupplyZone supplyZone;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyShops")
     private SupplyArea supplyArea;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyShops")
-    private SupplySalesRepresentative supplySalesRepresentative;
+    private SupplyZoneManager supplyZoneManager;
 
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("supplyShops")
     private SupplyAreaManager supplyAreaManager;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyShops")
+    private SupplySalesRepresentative supplySalesRepresentative;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -69,17 +86,56 @@ public class SupplyShop implements Serializable {
         this.id = id;
     }
 
-    public String getShopName() {
-        return shopName;
+    public String getName() {
+        return name;
     }
 
-    public SupplyShop shopName(String shopName) {
-        this.shopName = shopName;
+    public SupplyShop name(String name) {
+        this.name = name;
         return this;
     }
 
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public SupplyShop contact(String contact) {
+        this.contact = contact;
+        return this;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public SupplyShop email(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public SupplyShop address(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getAdditionalInformation() {
@@ -173,17 +229,17 @@ public class SupplyShop implements Serializable {
         this.supplyArea = supplyArea;
     }
 
-    public SupplySalesRepresentative getSupplySalesRepresentative() {
-        return supplySalesRepresentative;
+    public SupplyZoneManager getSupplyZoneManager() {
+        return supplyZoneManager;
     }
 
-    public SupplyShop supplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
-        this.supplySalesRepresentative = supplySalesRepresentative;
+    public SupplyShop supplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
         return this;
     }
 
-    public void setSupplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
-        this.supplySalesRepresentative = supplySalesRepresentative;
+    public void setSupplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
     }
 
     public SupplyAreaManager getSupplyAreaManager() {
@@ -197,6 +253,19 @@ public class SupplyShop implements Serializable {
 
     public void setSupplyAreaManager(SupplyAreaManager supplyAreaManager) {
         this.supplyAreaManager = supplyAreaManager;
+    }
+
+    public SupplySalesRepresentative getSupplySalesRepresentative() {
+        return supplySalesRepresentative;
+    }
+
+    public SupplyShop supplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
+        this.supplySalesRepresentative = supplySalesRepresentative;
+        return this;
+    }
+
+    public void setSupplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
+        this.supplySalesRepresentative = supplySalesRepresentative;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -224,7 +293,10 @@ public class SupplyShop implements Serializable {
     public String toString() {
         return "SupplyShop{" +
             "id=" + getId() +
-            ", shopName='" + getShopName() + "'" +
+            ", name='" + getName() + "'" +
+            ", contact='" + getContact() + "'" +
+            ", email='" + getEmail() + "'" +
+            ", address='" + getAddress() + "'" +
             ", additionalInformation='" + getAdditionalInformation() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +

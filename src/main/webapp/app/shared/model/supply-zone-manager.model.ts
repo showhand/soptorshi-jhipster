@@ -13,7 +13,7 @@ export interface ISupplyZoneManager {
     updatedBy?: string;
     updatedOn?: Moment;
     status?: SupplyZoneManagerStatus;
-    supplyZoneZoneName?: string;
+    supplyZoneName?: string;
     supplyZoneId?: number;
     employeeFullName?: string;
     employeeId?: number;
@@ -28,7 +28,7 @@ export class SupplyZoneManager implements ISupplyZoneManager {
         public updatedBy?: string,
         public updatedOn?: Moment,
         public status?: SupplyZoneManagerStatus,
-        public supplyZoneZoneName?: string,
+        public supplyZoneName?: string,
         public supplyZoneId?: number,
         public employeeFullName?: string,
         public employeeId?: number

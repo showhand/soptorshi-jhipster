@@ -1,7 +1,8 @@
 package org.soptorshi.service.dto;
-import java.time.Instant;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -12,9 +13,10 @@ public class SupplyZoneDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private String zoneName;
+    private String name;
 
-    private String zoneCode;
+    @NotNull
+    private String code;
 
     private String createdBy;
 
@@ -33,20 +35,20 @@ public class SupplyZoneDTO implements Serializable {
         this.id = id;
     }
 
-    public String getZoneName() {
-        return zoneName;
+    public String getName() {
+        return name;
     }
 
-    public void setZoneName(String zoneName) {
-        this.zoneName = zoneName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getZoneCode() {
-        return zoneCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setZoneCode(String zoneCode) {
-        this.zoneCode = zoneCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getCreatedBy() {
@@ -106,8 +108,8 @@ public class SupplyZoneDTO implements Serializable {
     public String toString() {
         return "SupplyZoneDTO{" +
             "id=" + getId() +
-            ", zoneName='" + getZoneName() + "'" +
-            ", zoneCode='" + getZoneCode() + "'" +
+            ", name='" + getName() + "'" +
+            ", code='" + getCode() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +

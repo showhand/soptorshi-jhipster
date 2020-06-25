@@ -12,14 +12,14 @@ import org.soptorshi.service.dto.SupplyOrderDTO;
 public interface SupplyOrderMapper extends EntityMapper<SupplyOrderDTO, SupplyOrder> {
 
     @Mapping(source = "supplyZone.id", target = "supplyZoneId")
-    @Mapping(source = "supplyZone.zoneName", target = "supplyZoneZoneName")
+    @Mapping(source = "supplyZone.name", target = "supplyZoneName")
     @Mapping(source = "supplyArea.id", target = "supplyAreaId")
-    @Mapping(source = "supplyArea.areaName", target = "supplyAreaAreaName")
+    @Mapping(source = "supplyArea.name", target = "supplyAreaName")
     @Mapping(source = "supplySalesRepresentative.id", target = "supplySalesRepresentativeId")
-    @Mapping(source = "supplySalesRepresentative.salesRepresentativeName", target = "supplySalesRepresentativeSalesRepresentativeName")
+    @Mapping(source = "supplySalesRepresentative.name", target = "supplySalesRepresentativeName")
     @Mapping(source = "supplyAreaManager.id", target = "supplyAreaManagerId")
     @Mapping(source = "supplyShop.id", target = "supplyShopId")
-    @Mapping(source = "supplyShop.shopName", target = "supplyShopShopName")
+    @Mapping(source = "supplyShop.name", target = "supplyShopName")
     SupplyOrderDTO toDto(SupplyOrder supplyOrder);
 
     @Mapping(source = "supplyZoneId", target = "supplyZone")

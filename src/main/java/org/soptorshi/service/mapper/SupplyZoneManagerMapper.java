@@ -12,7 +12,7 @@ import org.soptorshi.service.dto.SupplyZoneManagerDTO;
 public interface SupplyZoneManagerMapper extends EntityMapper<SupplyZoneManagerDTO, SupplyZoneManager> {
 
     @Mapping(source = "supplyZone.id", target = "supplyZoneId")
-    @Mapping(source = "supplyZone.zoneName", target = "supplyZoneZoneName")
+    @Mapping(source = "supplyZone.name", target = "supplyZoneName")
     @Mapping(source = "employee.id", target = "employeeId")
     @Mapping(source = "employee.fullName", target = "employeeFullName")
     SupplyZoneManagerDTO toDto(SupplyZoneManager supplyZoneManager);

@@ -10,7 +10,7 @@ import { SupplyZoneManagerExtendedService } from 'app/entities/supply-zone-manag
 import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
-import { ISupplyZoneManager } from 'app/shared/model/supply-zone-manager.model';
+import { ISupplyZoneManager, SupplyZoneManagerStatus } from 'app/shared/model/supply-zone-manager.model';
 
 @Component({
     selector: 'jhi-supply-area-manager-update-extended',
@@ -50,7 +50,8 @@ export class SupplyAreaManagerUpdateExtendedComponent extends SupplyAreaManagerU
 
         this.supplyZoneManagerService
             .query({
-                'supplyZoneId.equals': this.supplyAreaManager.supplyZoneId
+                'supplyZoneId.equals': this.supplyAreaManager.supplyZoneId,
+                'status.equals': SupplyZoneManagerStatus.ACTIVE
             })
             .pipe(
                 filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),

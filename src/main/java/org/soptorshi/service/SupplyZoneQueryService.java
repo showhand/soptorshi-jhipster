@@ -1,26 +1,22 @@
 package org.soptorshi.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.SupplyZone;
+import org.soptorshi.domain.SupplyZone_;
+import org.soptorshi.repository.SupplyZoneRepository;
+import org.soptorshi.repository.search.SupplyZoneSearchRepository;
+import org.soptorshi.service.dto.SupplyZoneCriteria;
+import org.soptorshi.service.dto.SupplyZoneDTO;
+import org.soptorshi.service.mapper.SupplyZoneMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.jhipster.service.QueryService;
-
-import org.soptorshi.domain.SupplyZone;
-import org.soptorshi.domain.*; // for static metamodels
-import org.soptorshi.repository.SupplyZoneRepository;
-import org.soptorshi.repository.search.SupplyZoneSearchRepository;
-import org.soptorshi.service.dto.SupplyZoneCriteria;
-import org.soptorshi.service.dto.SupplyZoneDTO;
-import org.soptorshi.service.mapper.SupplyZoneMapper;
+import java.util.List;
 
 /**
  * Service for executing complex queries for SupplyZone entities in the database.
@@ -93,11 +89,11 @@ public class SupplyZoneQueryService extends QueryService<SupplyZone> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), SupplyZone_.id));
             }
-            if (criteria.getZoneName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getZoneName(), SupplyZone_.zoneName));
+            if (criteria.getName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getName(), SupplyZone_.name));
             }
-            if (criteria.getZoneCode() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getZoneCode(), SupplyZone_.zoneCode));
+            if (criteria.getCode() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCode(), SupplyZone_.code));
             }
             if (criteria.getCreatedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), SupplyZone_.createdBy));

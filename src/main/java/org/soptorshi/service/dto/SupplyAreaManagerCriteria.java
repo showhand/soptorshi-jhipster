@@ -43,7 +43,7 @@ public class SupplyAreaManagerCriteria implements Serializable {
 
     private LongFilter employeeId;
 
-    private LongFilter supplyZoneManagersId;
+    private LongFilter supplyZoneManagerId;
 
     public LongFilter getId() {
         return id;
@@ -125,12 +125,12 @@ public class SupplyAreaManagerCriteria implements Serializable {
         this.employeeId = employeeId;
     }
 
-    public LongFilter getSupplyZoneManagersId() {
-        return supplyZoneManagersId;
+    public LongFilter getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
     }
 
-    public void setSupplyZoneManagersId(LongFilter supplyZoneManagersId) {
-        this.supplyZoneManagersId = supplyZoneManagersId;
+    public void setSupplyZoneManagerId(LongFilter supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
     }
 
 
@@ -154,7 +154,7 @@ public class SupplyAreaManagerCriteria implements Serializable {
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
             Objects.equals(supplyAreaId, that.supplyAreaId) &&
             Objects.equals(employeeId, that.employeeId) &&
-            Objects.equals(supplyZoneManagersId, that.supplyZoneManagersId);
+            Objects.equals(supplyZoneManagerId, that.supplyZoneManagerId);
     }
 
     @Override
@@ -170,7 +170,7 @@ public class SupplyAreaManagerCriteria implements Serializable {
         supplyZoneId,
         supplyAreaId,
         employeeId,
-        supplyZoneManagersId
+        supplyZoneManagerId
         );
     }
 
@@ -187,7 +187,7 @@ public class SupplyAreaManagerCriteria implements Serializable {
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
-                (supplyZoneManagersId != null ? "supplyZoneManagersId=" + supplyZoneManagersId + ", " : "") +
+                (supplyZoneManagerId != null ? "supplyZoneManagerId=" + supplyZoneManagerId + ", " : "") +
             "}";
     }
 
