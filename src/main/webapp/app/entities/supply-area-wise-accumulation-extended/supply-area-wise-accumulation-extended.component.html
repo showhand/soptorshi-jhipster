@@ -1,0 +1,123 @@
+<div>
+    <h2 id="page-heading">
+        <span>Supply Area Wise Accumulations</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-area-wise-accumulation" [routerLink]="['/supply-area-wise-accumulation/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Create new Supply Area Wise Accumulation
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="supplyAreaWiseAccumulations">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="areaWiseAccumulationRefNo"><span>Area Wise Accumulation Ref No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="price"><span>Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="zoneWiseAccumulationRefNo"><span>Zone Wise Accumulation Ref No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneManagerId"><span>Supply Zone Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyAreaName"><span>Supply Area</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyAreaManagerId"><span>Supply Area Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productCategoryName"><span>Product Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productName"><span>Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let supplyAreaWiseAccumulation of supplyAreaWiseAccumulations ;trackBy: trackId">
+                <td><a [routerLink]="['/supply-area-wise-accumulation', supplyAreaWiseAccumulation.id, 'view' ]">{{supplyAreaWiseAccumulation.id}}</a></td>
+                <td>{{supplyAreaWiseAccumulation.areaWiseAccumulationRefNo}}</td>
+                <td>{{supplyAreaWiseAccumulation.quantity}}</td>
+                <td>{{supplyAreaWiseAccumulation.price}}</td>
+                <td>{{supplyAreaWiseAccumulation.status}}</td>
+                <td>{{supplyAreaWiseAccumulation.zoneWiseAccumulationRefNo}}</td>
+                <td>{{supplyAreaWiseAccumulation.remarks}}</td>
+                <td>{{supplyAreaWiseAccumulation.createdBy}}</td>
+                <td>{{supplyAreaWiseAccumulation.createdOn | date:'medium'}}</td>
+                <td>{{supplyAreaWiseAccumulation.updatedBy}}</td>
+                <td>{{supplyAreaWiseAccumulation.updatedOn | date:'medium'}}</td>
+                <td>
+                    <div *ngIf="supplyAreaWiseAccumulation.supplyZoneId">
+                        <a [routerLink]="['../supply-zone', supplyAreaWiseAccumulation.supplyZoneId , 'view' ]" >{{supplyAreaWiseAccumulation.supplyZoneName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyAreaWiseAccumulation.supplyZoneManagerId">
+                        <a [routerLink]="['../supply-zone-manager', supplyAreaWiseAccumulation.supplyZoneManagerId , 'view' ]" >{{supplyAreaWiseAccumulation.supplyZoneManagerId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyAreaWiseAccumulation.supplyAreaId">
+                        <a [routerLink]="['../supply-area', supplyAreaWiseAccumulation.supplyAreaId , 'view' ]" >{{supplyAreaWiseAccumulation.supplyAreaName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyAreaWiseAccumulation.supplyAreaManagerId">
+                        <a [routerLink]="['../supply-area-manager', supplyAreaWiseAccumulation.supplyAreaManagerId , 'view' ]" >{{supplyAreaWiseAccumulation.supplyAreaManagerId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyAreaWiseAccumulation.productCategoryId">
+                        <a [routerLink]="['../product-category', supplyAreaWiseAccumulation.productCategoryId , 'view' ]" >{{supplyAreaWiseAccumulation.productCategoryName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyAreaWiseAccumulation.productId">
+                        <a [routerLink]="['../product', supplyAreaWiseAccumulation.productId , 'view' ]" >{{supplyAreaWiseAccumulation.productName}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/supply-area-wise-accumulation', supplyAreaWiseAccumulation.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/supply-area-wise-accumulation', supplyAreaWiseAccumulation.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'supply-area-wise-accumulation', { outlets: { popup: supplyAreaWiseAccumulation.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

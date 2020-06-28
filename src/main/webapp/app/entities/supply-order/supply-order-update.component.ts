@@ -10,14 +10,14 @@ import { ISupplyOrder } from 'app/shared/model/supply-order.model';
 import { SupplyOrderService } from './supply-order.service';
 import { ISupplyZone } from 'app/shared/model/supply-zone.model';
 import { SupplyZoneService } from 'app/entities/supply-zone';
+import { ISupplyZoneManager } from 'app/shared/model/supply-zone-manager.model';
+import { SupplyZoneManagerService } from 'app/entities/supply-zone-manager';
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
 import { SupplyAreaService } from 'app/entities/supply-area';
 import { ISupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
 import { SupplySalesRepresentativeService } from 'app/entities/supply-sales-representative';
 import { ISupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
 import { SupplyAreaManagerService } from 'app/entities/supply-area-manager';
-import { ISupplyShop } from 'app/shared/model/supply-shop.model';
-import { SupplyShopService } from 'app/entities/supply-shop';
 
 @Component({
     selector: 'jhi-supply-order-update',
@@ -29,13 +29,13 @@ export class SupplyOrderUpdateComponent implements OnInit {
 
     supplyzones: ISupplyZone[];
 
+    supplyzonemanagers: ISupplyZoneManager[];
+
     supplyareas: ISupplyArea[];
 
     supplysalesrepresentatives: ISupplySalesRepresentative[];
 
     supplyareamanagers: ISupplyAreaManager[];
-
-    supplyshops: ISupplyShop[];
     dateOfOrderDp: any;
     createdOn: string;
     updatedOn: string;
@@ -45,10 +45,10 @@ export class SupplyOrderUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected supplyOrderService: SupplyOrderService,
         protected supplyZoneService: SupplyZoneService,
+        protected supplyZoneManagerService: SupplyZoneManagerService,
         protected supplyAreaService: SupplyAreaService,
         protected supplySalesRepresentativeService: SupplySalesRepresentativeService,
         protected supplyAreaManagerService: SupplyAreaManagerService,
-        protected supplyShopService: SupplyShopService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -66,6 +66,16 @@ export class SupplyOrderUpdateComponent implements OnInit {
                 map((response: HttpResponse<ISupplyZone[]>) => response.body)
             )
             .subscribe((res: ISupplyZone[]) => (this.supplyzones = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.supplyZoneManagerService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplyZoneManager[]) => (this.supplyzonemanagers = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
         this.supplyAreaService
             .query()
             .pipe(
@@ -93,13 +103,6 @@ export class SupplyOrderUpdateComponent implements OnInit {
                 (res: ISupplyAreaManager[]) => (this.supplyareamanagers = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
-        this.supplyShopService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ISupplyShop[]>) => response.body)
-            )
-            .subscribe((res: ISupplyShop[]) => (this.supplyshops = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -138,6 +141,10 @@ export class SupplyOrderUpdateComponent implements OnInit {
         return item.id;
     }
 
+    trackSupplyZoneManagerById(index: number, item: ISupplyZoneManager) {
+        return item.id;
+    }
+
     trackSupplyAreaById(index: number, item: ISupplyArea) {
         return item.id;
     }
@@ -147,10 +154,6 @@ export class SupplyOrderUpdateComponent implements OnInit {
     }
 
     trackSupplyAreaManagerById(index: number, item: ISupplyAreaManager) {
-        return item.id;
-    }
-
-    trackSupplyShopById(index: number, item: ISupplyShop) {
         return item.id;
     }
 }

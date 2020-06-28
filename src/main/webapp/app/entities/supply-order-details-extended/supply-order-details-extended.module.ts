@@ -10,6 +10,7 @@ import {
     supplyOrderDetailsPopupExtendedRoute,
     SupplyOrderDetailsUpdateExtendedComponent
 } from './';
+import { SupplyOrderAddProductComponent } from 'app/entities/supply-order-details-extended/supply-order-add-product.component';
 
 const ENTITY_STATES = [...supplyOrderDetailsExtendedRoute, ...supplyOrderDetailsPopupExtendedRoute];
 
@@ -20,13 +21,15 @@ const ENTITY_STATES = [...supplyOrderDetailsExtendedRoute, ...supplyOrderDetails
         SupplyOrderDetailsExtendedComponent,
         SupplyOrderDetailsUpdateExtendedComponent,
         SupplyOrderDetailsDeleteDialogExtendedComponent,
-        SupplyOrderDetailsDeletePopupExtendedComponent
+        SupplyOrderDetailsDeletePopupExtendedComponent,
+        SupplyOrderAddProductComponent
     ],
     entryComponents: [
         SupplyOrderDetailsExtendedComponent,
         SupplyOrderDetailsUpdateExtendedComponent,
         SupplyOrderDetailsDeleteDialogExtendedComponent,
-        SupplyOrderDetailsDeletePopupExtendedComponent
+        SupplyOrderDetailsDeletePopupExtendedComponent,
+        SupplyOrderAddProductComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

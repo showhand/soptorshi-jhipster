@@ -15,19 +15,20 @@ export interface ISupplyOrder {
     createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
-    offerAmount?: number;
     deliveryDate?: Moment;
-    supplyOrderStatus?: SupplyOrderStatus;
-    accumulationReferenceNo?: string;
+    status?: SupplyOrderStatus;
+    areaWiseAccumulationRefNo?: string;
+    remarks?: string;
     supplyZoneName?: string;
     supplyZoneId?: number;
+    supplyZoneManagerId?: number;
+    supplyZoneManagerName?: string;
     supplyAreaName?: string;
     supplyAreaId?: number;
     supplySalesRepresentativeName?: string;
     supplySalesRepresentativeId?: number;
     supplyAreaManagerId?: number;
-    supplyShopName?: string;
-    supplyShopId?: number;
+    supplyAreaManagerName?: string;
 }
 
 export class SupplyOrder implements ISupplyOrder {
@@ -39,18 +40,19 @@ export class SupplyOrder implements ISupplyOrder {
         public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
-        public offerAmount?: number,
         public deliveryDate?: Moment,
-        public supplyOrderStatus?: SupplyOrderStatus,
-        public accumulationReferenceNo?: string,
+        public status?: SupplyOrderStatus,
+        public areaWiseAccumulationRefNo?: string,
+        public remarks?: string,
         public supplyZoneName?: string,
         public supplyZoneId?: number,
+        public supplyZoneManagerId?: number,
+        public supplyZoneManagerName?: string,
         public supplyAreaName?: string,
         public supplyAreaId?: number,
         public supplySalesRepresentativeName?: string,
         public supplySalesRepresentativeId?: number,
         public supplyAreaManagerId?: number,
-        public supplyShopName?: string,
-        public supplyShopId?: number
+        public supplyAreaManagerName?: string
     ) {}
 }

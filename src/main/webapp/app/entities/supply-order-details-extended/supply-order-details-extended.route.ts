@@ -7,6 +7,8 @@ import { SupplyOrderDetailsUpdateExtendedComponent } from './supply-order-detail
 import { SupplyOrderDetailsDeletePopupExtendedComponent } from './supply-order-details-delete-dialog-extended.component';
 import { SupplyOrderDetailsResolve } from 'app/entities/supply-order-details';
 import { SupplyOrderDetailsExtendedComponent } from 'app/entities/supply-order-details-extended/supply-order-details-extended.component';
+import { SupplyOrderExtendedResolve } from 'app/entities/supply-order-extended';
+import { SupplyOrderAddProductComponent } from 'app/entities/supply-order-details-extended/supply-order-add-product.component';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyOrderDetailsExtendedResolve extends SupplyOrderDetailsResolve {
@@ -42,6 +44,18 @@ export const supplyOrderDetailsExtendedRoute: Routes = [
         component: SupplyOrderDetailsUpdateExtendedComponent,
         resolve: {
             supplyOrderDetails: SupplyOrderDetailsResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
+            pageTitle: 'SupplyOrderDetails'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':id/new',
+        component: SupplyOrderAddProductComponent,
+        resolve: {
+            supplyOrder: SupplyOrderExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],

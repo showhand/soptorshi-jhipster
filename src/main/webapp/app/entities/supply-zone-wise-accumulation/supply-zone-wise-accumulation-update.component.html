@@ -1,0 +1,160 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-supply-zone-wise-accumulation-heading">Create or edit a Supply Zone Wise Accumulation</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!supplyZoneWiseAccumulation.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="supplyZoneWiseAccumulation.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_zoneWiseAccumulationRefNo">Zone Wise Accumulation Ref No</label>
+                    <input type="text" class="form-control" name="zoneWiseAccumulationRefNo" id="field_zoneWiseAccumulationRefNo"
+                        [(ngModel)]="supplyZoneWiseAccumulation.zoneWiseAccumulationRefNo" required/>
+                    <div [hidden]="!(editForm.controls.zoneWiseAccumulationRefNo?.dirty && editForm.controls.zoneWiseAccumulationRefNo?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.zoneWiseAccumulationRefNo?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_quantity">Quantity</label>
+                    <input type="number" class="form-control" name="quantity" id="field_quantity"
+                        [(ngModel)]="supplyZoneWiseAccumulation.quantity" required/>
+                    <div [hidden]="!(editForm.controls.quantity?.dirty && editForm.controls.quantity?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.quantity?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.quantity?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_price">Price</label>
+                    <input type="number" class="form-control" name="price" id="field_price"
+                        [(ngModel)]="supplyZoneWiseAccumulation.price" required/>
+                    <div [hidden]="!(editForm.controls.price?.dirty && editForm.controls.price?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.price?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.price?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" [(ngModel)]="supplyZoneWiseAccumulation.status" id="field_status"  required>
+                        <option value="PENDING">PENDING</option>
+                        <option value="APPROVED">APPROVED</option>
+                        <option value="REJECTED">REJECTED</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.status?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_remarks">Remarks</label>
+                    <input type="text" class="form-control" name="remarks" id="field_remarks"
+                        [(ngModel)]="supplyZoneWiseAccumulation.remarks" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdBy">Created By</label>
+                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
+                        [(ngModel)]="supplyZoneWiseAccumulation.createdBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdOn">Created On</label>
+                    <div class="d-flex">
+                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
+                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
+                        [(ngModel)]="supplyZoneWiseAccumulation.updatedBy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
+                    <div class="d-flex">
+                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
+                        />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
+                    <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyZoneWiseAccumulation.supplyZoneId"  required>
+                        <option *ngIf="!editForm.value.supplyZone" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.name}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyZone?.dirty && editForm.controls.supplyZone?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.supplyZone?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyZoneManager">Supply Zone Manager</label>
+                    <select class="form-control" id="field_supplyZoneManager" name="supplyZoneManager" [(ngModel)]="supplyZoneWiseAccumulation.supplyZoneManagerId"  required>
+                        <option *ngIf="!editForm.value.supplyZoneManager" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyZoneManagerOption.id" *ngFor="let supplyZoneManagerOption of supplyzonemanagers; trackBy: trackSupplyZoneManagerById">{{supplyZoneManagerOption.id}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyZoneManager?.dirty && editForm.controls.supplyZoneManager?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.supplyZoneManager?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_productCategory">Product Category</label>
+                    <select class="form-control" id="field_productCategory" name="productCategory" [(ngModel)]="supplyZoneWiseAccumulation.productCategoryId"  required>
+                        <option *ngIf="!editForm.value.productCategory" [ngValue]="null" selected></option>
+                        <option [ngValue]="productCategoryOption.id" *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.productCategory?.dirty && editForm.controls.productCategory?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.productCategory?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_product">Product</label>
+                    <select class="form-control" id="field_product" name="product" [(ngModel)]="supplyZoneWiseAccumulation.productId"  required>
+                        <option *ngIf="!editForm.value.product" [ngValue]="null" selected></option>
+                        <option [ngValue]="productOption.id" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.product?.dirty && editForm.controls.product?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.product?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

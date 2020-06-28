@@ -1,0 +1,99 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="supplyAreaWiseAccumulation">
+            <h2><span>Supply Area Wise Accumulation</span> {{supplyAreaWiseAccumulation.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Area Wise Accumulation Ref No</span></dt>
+                <dd>
+                    <span>{{supplyAreaWiseAccumulation.areaWiseAccumulationRefNo}}</span>
+                </dd>
+                <dt><span>Quantity</span></dt>
+                <dd>
+                    <span>{{supplyAreaWiseAccumulation.quantity}}</span>
+                </dd>
+                <dt><span>Price</span></dt>
+                <dd>
+                    <span>{{supplyAreaWiseAccumulation.price}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{supplyAreaWiseAccumulation.status}}</span>
+                </dd>
+                <dt><span>Zone Wise Accumulation Ref No</span></dt>
+                <dd>
+                    <span>{{supplyAreaWiseAccumulation.zoneWiseAccumulationRefNo}}</span>
+                </dd>
+                <dt><span>Remarks</span></dt>
+                <dd>
+                    <span>{{supplyAreaWiseAccumulation.remarks}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{supplyAreaWiseAccumulation.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{supplyAreaWiseAccumulation.createdOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{supplyAreaWiseAccumulation.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{supplyAreaWiseAccumulation.updatedOn}}</span>
+                </dd>
+                <dt><span>Supply Zone</span></dt>
+                <dd>
+                    <div *ngIf="supplyAreaWiseAccumulation.supplyZoneId">
+                        <a [routerLink]="['/supply-zone', supplyAreaWiseAccumulation.supplyZoneId, 'view']">{{supplyAreaWiseAccumulation.supplyZoneName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Zone Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplyAreaWiseAccumulation.supplyZoneManagerId">
+                        <a [routerLink]="['/supply-zone-manager', supplyAreaWiseAccumulation.supplyZoneManagerId, 'view']">{{supplyAreaWiseAccumulation.supplyZoneManagerId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Area</span></dt>
+                <dd>
+                    <div *ngIf="supplyAreaWiseAccumulation.supplyAreaId">
+                        <a [routerLink]="['/supply-area', supplyAreaWiseAccumulation.supplyAreaId, 'view']">{{supplyAreaWiseAccumulation.supplyAreaName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Area Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplyAreaWiseAccumulation.supplyAreaManagerId">
+                        <a [routerLink]="['/supply-area-manager', supplyAreaWiseAccumulation.supplyAreaManagerId, 'view']">{{supplyAreaWiseAccumulation.supplyAreaManagerId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Product Category</span></dt>
+                <dd>
+                    <div *ngIf="supplyAreaWiseAccumulation.productCategoryId">
+                        <a [routerLink]="['/product-category', supplyAreaWiseAccumulation.productCategoryId, 'view']">{{supplyAreaWiseAccumulation.productCategoryName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Product</span></dt>
+                <dd>
+                    <div *ngIf="supplyAreaWiseAccumulation.productId">
+                        <a [routerLink]="['/product', supplyAreaWiseAccumulation.productId, 'view']">{{supplyAreaWiseAccumulation.productName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/supply-area-wise-accumulation', supplyAreaWiseAccumulation.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

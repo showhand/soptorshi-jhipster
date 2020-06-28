@@ -17,7 +17,7 @@ import java.util.Optional;
 @Repository
 public interface SupplyOrderExtendedRepository extends SupplyOrderRepository {
 
-   Optional<List<SupplyOrder>> getByDateOfOrderGreaterThanEqualAndDateOfOrderLessThanEqualAndSupplyOrderStatus(LocalDate fromDate, LocalDate toDate, SupplyOrderStatus status);
+   Optional<List<SupplyOrder>> getByDateOfOrderGreaterThanEqualAndDateOfOrderLessThanEqualAndStatus(LocalDate fromDate, LocalDate toDate, SupplyOrderStatus status);
 
-   Optional<List<SupplyOrder>> getByAccumulationReferenceNo(String refNo);
+   Optional<List<SupplyOrder>> getByAreaWiseAccumulationRefNo(String refNo);
 }

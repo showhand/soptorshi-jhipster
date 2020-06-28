@@ -29,26 +29,32 @@
                 <dd>
                     <span>{{supplyOrder.updatedOn}}</span>
                 </dd>
-                <dt><span>Offer Amount</span></dt>
-                <dd>
-                    <span>{{supplyOrder.offerAmount}}</span>
-                </dd>
                 <dt><span>Delivery Date</span></dt>
                 <dd>
                     <span>{{supplyOrder.deliveryDate}}</span>
                 </dd>
-                <dt><span>Supply Order Status</span></dt>
+                <dt><span>Status</span></dt>
                 <dd>
-                    <span>{{supplyOrder.supplyOrderStatus}}</span>
+                    <span>{{supplyOrder.status}}</span>
                 </dd>
-                <dt><span>Accumulation Reference No</span></dt>
+                <dt><span>Area Wise Accumulation Ref No</span></dt>
                 <dd>
-                    <span>{{supplyOrder.accumulationReferenceNo}}</span>
+                    <span>{{supplyOrder.areaWiseAccumulationRefNo}}</span>
+                </dd>
+                <dt><span>Remarks</span></dt>
+                <dd>
+                    <span>{{supplyOrder.remarks}}</span>
                 </dd>
                 <dt><span>Supply Zone</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplyZoneId">
                         <a [routerLink]="['/supply-zone', supplyOrder.supplyZoneId, 'view']">{{supplyOrder.supplyZoneName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Zone Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplyOrder.supplyZoneManagerId">
+                        <a [routerLink]="['/supply-zone-manager', supplyOrder.supplyZoneManagerId, 'view']">{{supplyOrder.supplyZoneManagerId}}</a>
                     </div>
                 </dd>
                 <dt><span>Supply Area</span></dt>
@@ -67,12 +73,6 @@
                 <dd>
                     <div *ngIf="supplyOrder.supplyAreaManagerId">
                         <a [routerLink]="['/supply-area-manager', supplyOrder.supplyAreaManagerId, 'view']">{{supplyOrder.supplyAreaManagerId}}</a>
-                    </div>
-                </dd>
-                <dt><span>Supply Shop</span></dt>
-                <dd>
-                    <div *ngIf="supplyOrder.supplyShopId">
-                        <a [routerLink]="['/supply-shop', supplyOrder.supplyShopId, 'view']">{{supplyOrder.supplyShopName}}</a>
                     </div>
                 </dd>
             </dl>

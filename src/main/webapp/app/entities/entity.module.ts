@@ -842,6 +842,38 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'supply-money-collection',
                 loadChildren: './supply-money-collection/supply-money-collection.module#SoptorshiSupplyMoneyCollectionModule'
+            },
+            {
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+            },
+            {
+                path: 'supply-order-details',
+                loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
+            },
+            {
+                path: 'supply-area-wise-accumulation',
+                loadChildren:
+                    './supply-area-wise-accumulation/supply-area-wise-accumulation.module#SoptorshiSupplyAreaWiseAccumulationModule'
+            },
+            {
+                path: 'supply-zone-wise-accumulation',
+                loadChildren:
+                    './supply-zone-wise-accumulation/supply-zone-wise-accumulation.module#SoptorshiSupplyZoneWiseAccumulationModule'
+            },
+            {
+                path: 'supply-area-wise-accumulation',
+                loadChildren:
+                    './supply-area-wise-accumulation-extended/supply-area-wise-accumulation-extended.module#SoptorshiSupplyAreaWiseAccumulationExtendedModule'
+            },
+            {
+                path: 'supply-zone-wise-accumulation',
+                loadChildren:
+                    './supply-zone-wise-accumulation-extended/supply-zone-wise-accumulation-extended.module#SoptorshiSupplyZoneWiseAccumulationExtendedModule'
+            },
+            {
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

@@ -1,34 +1,13 @@
 package org.soptorshi.service.extended;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.SupplyOrder;
-import org.soptorshi.domain.SupplyOrderDetails;
-import org.soptorshi.repository.extended.SupplyOrderExtendedRepository;
-import org.soptorshi.repository.search.SupplyOrderSearchRepository;
-import org.soptorshi.security.report.SoptorshiPdfCell;
-import org.soptorshi.service.mapper.SupplyOrderMapper;
-import org.soptorshi.utils.SoptorshiUtils;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class SupplyAccumulateOrderReportService {
 
-    private final Logger log = LoggerFactory.getLogger(SupplyAccumulateOrderReportService.class);
+    /*private final Logger log = LoggerFactory.getLogger(SupplyAccumulateOrderReportService.class);
 
     private final SupplyOrderExtendedRepository supplyOrderExtendedRepository;
 
@@ -84,30 +63,30 @@ public class SupplyAccumulateOrderReportService {
                 cell.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell);
 
-                /*cell = new PdfPCell();
+                *//*cell = new PdfPCell();
                 cell.addElement(new Paragraph(new Paragraph(map1.getKey().getOrderNo(), SoptorshiUtils.mBigLiteFont)));
                 cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);*/
+                table.addCell(cell);*//*
 
                 cell = new PdfPCell();
                 cell.addElement(new Paragraph(new Paragraph("Area: " + map1.getKey().getSupplyArea().getName(), SoptorshiUtils.mBigLiteFont)));
                 cell.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell);
 
-                /*cell = new PdfPCell();
+                *//*cell = new PdfPCell();
                 cell.addElement(new Paragraph(new Paragraph(map1.getKey().getSupplyArea().getAreaName(), SoptorshiUtils.mBigLiteFont)));
                 cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);*/
+                table.addCell(cell);*//*
 
                 cell = new PdfPCell();
                 cell.addElement(new Paragraph(new Paragraph("Zone: " + map1.getKey().getSupplyZone().getName(), SoptorshiUtils.mBigLiteFont)));
                 cell.setBorder(Rectangle.NO_BORDER);
                 table.addCell(cell);
 
-                /*cell = new PdfPCell();
+                *//*cell = new PdfPCell();
                 cell.addElement(new Paragraph(new Paragraph(map1.getKey().getSupplyZone().getZoneName(), SoptorshiUtils.mBigLiteFont)));
                 cell.setBorder(Rectangle.NO_BORDER);
-                table.addCell(cell);*/
+                table.addCell(cell);*//*
 
                 document.add(table);
                 document.add(Chunk.NEWLINE);
@@ -138,7 +117,7 @@ public class SupplyAccumulateOrderReportService {
                     table.addCell(cell);
 
                     cell = new PdfPCell();
-                    cell.addElement(new Paragraph(new Paragraph(supplyOrderDetails.getOfferedPrice() + "", SoptorshiUtils.mBigLiteFont)));
+                    cell.addElement(new Paragraph(new Paragraph(supplyOrderDetails.getPrice() + "", SoptorshiUtils.mBigLiteFont)));
                     table.addCell(cell);
                 }
 
@@ -210,7 +189,7 @@ public class SupplyAccumulateOrderReportService {
 //            document.add(table);
 
 
-            /*document = createAuthorizationSection(document);*/
+            *//*document = createAuthorizationSection(document);*//*
 
             document.close();
             return new ByteArrayInputStream(baos.toByteArray());
@@ -249,5 +228,5 @@ public class SupplyAccumulateOrderReportService {
         pdfPTable.setSpacingBefore(100);
         pDocument.add(pdfPTable);
         return pDocument;
-    }
+    }*/
 }

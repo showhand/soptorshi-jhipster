@@ -58,7 +58,8 @@ public class SupplyOrderExtendedResource extends SupplyOrderResource {
 
     @GetMapping(value = "/supply-orders/download/referenceNo/{refNo}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> downloadAccumulatedOrders(@PathVariable String refNo) throws Exception, DocumentException {
-        ByteArrayInputStream byteArrayInputStream = supplyAccumulateOrderReportService.downloadAccumulatedOrders(refNo);
+        ByteArrayInputStream byteArrayInputStream = null;
+        /*ByteArrayInputStream byteArrayInputStream = supplyAccumulateOrderReportService.downloadAccumulatedOrders(refNo);*/
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "/supply-orders");
         return ResponseEntity

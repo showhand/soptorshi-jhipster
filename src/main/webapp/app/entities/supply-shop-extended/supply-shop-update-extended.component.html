@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-supply-shop-heading">Create or edit a Supply Shop</h2>
+            <h2 id="jhi-supply-shop-heading">Create or edit a Shop</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!supplyShop.id">
@@ -10,7 +10,7 @@
                            [(ngModel)]="supplyShop.id" readonly/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
+                    <label class="form-control-label" for="field_supplyZone">Zone</label>
                     <select class="form-control" id="field_supplyZone" name="supplyZone"
                             [(ngModel)]="supplyShop.supplyZoneId" (ngModelChange)="filterZoneManager()" required>
                         <option *ngIf="!editForm.value.supplyZone" [ngValue]="null" selected></option>
@@ -25,9 +25,9 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_supplyZoneManager">Supply Zone Manager</label>
+                    <label class="form-control-label" for="field_supplyZoneManager">Zone Manager</label>
                     <select class="form-control" id="field_supplyZoneManager" name="supplyZoneManager"
-                            [(ngModel)]="supplyShop.supplyZoneManagerId" required>
+                            [(ngModel)]="supplyShop.supplyZoneManagerId" (ngModelChange)="filterAreaManager()" required>
                         <option *ngIf="!editForm.value.supplyZoneManager" [ngValue]="null" selected></option>
                         <option [ngValue]="supplyZoneManagerOption.id"
                                 *ngFor="let supplyZoneManagerOption of supplyzonemanagers; trackBy: trackSupplyZoneManagerById">{{supplyZoneManagerOption.employeeFullName}}</option>
@@ -41,7 +41,7 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_supplyArea">Supply Area</label>
+                    <label class="form-control-label" for="field_supplyArea">Area</label>
                     <select class="form-control" id="field_supplyArea" name="supplyArea"
                             [(ngModel)]="supplyShop.supplyAreaId" (ngModelChange)="filterAreaManager()" required>
                         <option *ngIf="!editForm.value.supplyArea" [ngValue]="null" selected></option>
@@ -56,7 +56,7 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_supplyAreaManager">Supply Area Manager</label>
+                    <label class="form-control-label" for="field_supplyAreaManager">Area Manager</label>
                     <select class="form-control" id="field_supplyAreaManager" name="supplyAreaManager"
                             [(ngModel)]="supplyShop.supplyAreaManagerId" (ngModelChange)="filterSalesRepresentative()" required>
                         <option *ngIf="!editForm.value.supplyAreaManager" [ngValue]="null" selected></option>
@@ -72,7 +72,7 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_supplySalesRepresentative">Supply Sales
+                    <label class="form-control-label" for="field_supplySalesRepresentative">Sales
                         Representative</label>
                     <select class="form-control" id="field_supplySalesRepresentative" name="supplySalesRepresentative"
                             [(ngModel)]="supplyShop.supplySalesRepresentativeId" required>
@@ -120,32 +120,6 @@
                            id="field_additionalInformation"
                            [(ngModel)]="supplyShop.additionalInformation"/>
                 </div>
-                <!--<div class="form-group">
-                    <label class="form-control-label" for="field_createdBy">Created By</label>
-                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
-                        [(ngModel)]="supplyShop.createdBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_createdOn">Created On</label>
-                    <div class="d-flex">
-                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
-                        />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
-                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
-                        [(ngModel)]="supplyShop.updatedBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
-                    <div class="d-flex">
-                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
-                        />
-                    </div>
-                </div>-->
-
-
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">

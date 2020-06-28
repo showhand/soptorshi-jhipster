@@ -4,7 +4,6 @@ import org.soptorshi.domain.enumeration.SupplyOrderStatus;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -29,19 +28,21 @@ public class SupplyOrderDTO implements Serializable {
 
     private Instant updatedOn;
 
-    private BigDecimal offerAmount;
-
     private LocalDate deliveryDate;
 
     @NotNull
-    private SupplyOrderStatus supplyOrderStatus;
+    private SupplyOrderStatus status;
 
-    private String accumulationReferenceNo;
+    private String areaWiseAccumulationRefNo;
+
+    private String remarks;
 
 
     private Long supplyZoneId;
 
     private String supplyZoneName;
+
+    private Long supplyZoneManagerId;
 
     private Long supplyAreaId;
 
@@ -52,10 +53,6 @@ public class SupplyOrderDTO implements Serializable {
     private String supplySalesRepresentativeName;
 
     private Long supplyAreaManagerId;
-
-    private Long supplyShopId;
-
-    private String supplyShopName;
 
     public Long getId() {
         return id;
@@ -113,14 +110,6 @@ public class SupplyOrderDTO implements Serializable {
         this.updatedOn = updatedOn;
     }
 
-    public BigDecimal getOfferAmount() {
-        return offerAmount;
-    }
-
-    public void setOfferAmount(BigDecimal offerAmount) {
-        this.offerAmount = offerAmount;
-    }
-
     public LocalDate getDeliveryDate() {
         return deliveryDate;
     }
@@ -129,20 +118,28 @@ public class SupplyOrderDTO implements Serializable {
         this.deliveryDate = deliveryDate;
     }
 
-    public SupplyOrderStatus getSupplyOrderStatus() {
-        return supplyOrderStatus;
+    public SupplyOrderStatus getStatus() {
+        return status;
     }
 
-    public void setSupplyOrderStatus(SupplyOrderStatus supplyOrderStatus) {
-        this.supplyOrderStatus = supplyOrderStatus;
+    public void setStatus(SupplyOrderStatus status) {
+        this.status = status;
     }
 
-    public String getAccumulationReferenceNo() {
-        return accumulationReferenceNo;
+    public String getAreaWiseAccumulationRefNo() {
+        return areaWiseAccumulationRefNo;
     }
 
-    public void setAccumulationReferenceNo(String accumulationReferenceNo) {
-        this.accumulationReferenceNo = accumulationReferenceNo;
+    public void setAreaWiseAccumulationRefNo(String areaWiseAccumulationRefNo) {
+        this.areaWiseAccumulationRefNo = areaWiseAccumulationRefNo;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public Long getSupplyZoneId() {
@@ -159,6 +156,14 @@ public class SupplyOrderDTO implements Serializable {
 
     public void setSupplyZoneName(String supplyZoneName) {
         this.supplyZoneName = supplyZoneName;
+    }
+
+    public Long getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(Long supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
     }
 
     public Long getSupplyAreaId() {
@@ -201,22 +206,6 @@ public class SupplyOrderDTO implements Serializable {
         this.supplyAreaManagerId = supplyAreaManagerId;
     }
 
-    public Long getSupplyShopId() {
-        return supplyShopId;
-    }
-
-    public void setSupplyShopId(Long supplyShopId) {
-        this.supplyShopId = supplyShopId;
-    }
-
-    public String getSupplyShopName() {
-        return supplyShopName;
-    }
-
-    public void setSupplyShopName(String supplyShopName) {
-        this.supplyShopName = supplyShopName;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -248,19 +237,18 @@ public class SupplyOrderDTO implements Serializable {
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
-            ", offerAmount=" + getOfferAmount() +
             ", deliveryDate='" + getDeliveryDate() + "'" +
-            ", supplyOrderStatus='" + getSupplyOrderStatus() + "'" +
-            ", accumulationReferenceNo='" + getAccumulationReferenceNo() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", areaWiseAccumulationRefNo='" + getAreaWiseAccumulationRefNo() + "'" +
+            ", remarks='" + getRemarks() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
             ", supplyZone='" + getSupplyZoneName() + "'" +
+            ", supplyZoneManager=" + getSupplyZoneManagerId() +
             ", supplyArea=" + getSupplyAreaId() +
             ", supplyArea='" + getSupplyAreaName() + "'" +
             ", supplySalesRepresentative=" + getSupplySalesRepresentativeId() +
             ", supplySalesRepresentative='" + getSupplySalesRepresentativeName() + "'" +
             ", supplyAreaManager=" + getSupplyAreaManagerId() +
-            ", supplyShop=" + getSupplyShopId() +
-            ", supplyShop='" + getSupplyShopName() + "'" +
             "}";
     }
 }

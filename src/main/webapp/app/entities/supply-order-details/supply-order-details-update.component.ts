@@ -8,6 +8,8 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { ISupplyOrderDetails } from 'app/shared/model/supply-order-details.model';
 import { SupplyOrderDetailsService } from './supply-order-details.service';
+import { ISupplyShop } from 'app/shared/model/supply-shop.model';
+import { SupplyShopService } from 'app/entities/supply-shop';
 import { ISupplyOrder } from 'app/shared/model/supply-order.model';
 import { SupplyOrderService } from 'app/entities/supply-order';
 import { IProductCategory } from 'app/shared/model/product-category.model';
@@ -23,6 +25,8 @@ export class SupplyOrderDetailsUpdateComponent implements OnInit {
     supplyOrderDetails: ISupplyOrderDetails;
     isSaving: boolean;
 
+    supplyshops: ISupplyShop[];
+
     supplyorders: ISupplyOrder[];
 
     productcategories: IProductCategory[];
@@ -34,6 +38,7 @@ export class SupplyOrderDetailsUpdateComponent implements OnInit {
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected supplyOrderDetailsService: SupplyOrderDetailsService,
+        protected supplyShopService: SupplyShopService,
         protected supplyOrderService: SupplyOrderService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
@@ -47,6 +52,13 @@ export class SupplyOrderDetailsUpdateComponent implements OnInit {
             this.createdOn = this.supplyOrderDetails.createdOn != null ? this.supplyOrderDetails.createdOn.format(DATE_TIME_FORMAT) : null;
             this.updatedOn = this.supplyOrderDetails.updatedOn != null ? this.supplyOrderDetails.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
+        this.supplyShopService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyShop[]>) => response.body)
+            )
+            .subscribe((res: ISupplyShop[]) => (this.supplyshops = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.supplyOrderService
             .query()
             .pipe(
@@ -100,6 +112,10 @@ export class SupplyOrderDetailsUpdateComponent implements OnInit {
 
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackSupplyShopById(index: number, item: ISupplyShop) {
+        return item.id;
     }
 
     trackSupplyOrderById(index: number, item: ISupplyOrder) {

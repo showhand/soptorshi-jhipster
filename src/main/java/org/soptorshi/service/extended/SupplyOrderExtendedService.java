@@ -58,6 +58,7 @@ public class SupplyOrderExtendedService extends SupplyOrderService {
         if(supplyOrderDTO.getId() == null) {
             supplyOrderDTO.setCreatedBy(currentUser);
             supplyOrderDTO.setCreatedOn(currentDateTime);
+            supplyOrderDTO.setStatus(SupplyOrderStatus.ORDER_RECEIVED);
         }
         else {
             supplyOrderDTO.setUpdatedBy(currentUser);
@@ -65,7 +66,6 @@ public class SupplyOrderExtendedService extends SupplyOrderService {
         }
 
         SupplyOrder supplyOrder = supplyOrderMapper.toEntity(supplyOrderDTO);
-
         supplyOrder = supplyOrderExtendedRepository.save(supplyOrder);
         SupplyOrderDTO result = supplyOrderMapper.toDto(supplyOrder);
         supplyOrderSearchRepository.save(supplyOrder);
@@ -85,13 +85,13 @@ public class SupplyOrderExtendedService extends SupplyOrderService {
 
     public Long updateReferenceNoAfterFilterByDate(String referenceNo, LocalDate fromDate, LocalDate toDate,
                                                    SupplyOrderStatus status) {
-        Optional<List<SupplyOrder>> supplyOrders = supplyOrderExtendedRepository.getByDateOfOrderGreaterThanEqualAndDateOfOrderLessThanEqualAndSupplyOrderStatus(fromDate, toDate,
+        Optional<List<SupplyOrder>> supplyOrders = supplyOrderExtendedRepository.getByDateOfOrderGreaterThanEqualAndDateOfOrderLessThanEqualAndStatus(fromDate, toDate,
             status);
 
         if (supplyOrders.isPresent()) {
             for (SupplyOrder supplyOrder : supplyOrders.get()) {
-                supplyOrder.setAccumulationReferenceNo(referenceNo);
-                supplyOrder.setSupplyOrderStatus(SupplyOrderStatus.PROCESSING_ORDER);
+                supplyOrder.setAreaWiseAccumulationRefNo(referenceNo);
+                supplyOrder.setStatus(SupplyOrderStatus.PROCESSING_ORDER);
                 SupplyOrderDTO supplyOrderDTO = supplyOrderMapper.toDto(supplyOrder);
                 save(supplyOrderDTO);
             }

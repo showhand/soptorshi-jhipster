@@ -40,7 +40,7 @@ public class SupplyChallanExtendedResource extends SupplyChallanResource {
 
     @GetMapping(value = "/supply-challans/download/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> downloadChallan(@PathVariable Long id) throws Exception, DocumentException {
-        ByteArrayInputStream byteArrayInputStream = supplyChallanService.downloadChallan(id);
+        ByteArrayInputStream byteArrayInputStream = null;
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "/supply-challans");
         return ResponseEntity

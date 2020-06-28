@@ -8,7 +8,6 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -46,23 +45,29 @@ public class SupplyOrder implements Serializable {
     @Column(name = "updated_on")
     private Instant updatedOn;
 
-    @Column(name = "offer_amount", precision = 10, scale = 2)
-    private BigDecimal offerAmount;
-
     @Column(name = "delivery_date")
     private LocalDate deliveryDate;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "supply_order_status", nullable = false)
-    private SupplyOrderStatus supplyOrderStatus;
+    @Column(name = "status", nullable = false)
+    private SupplyOrderStatus status;
 
-    @Column(name = "accumulation_reference_no")
-    private String accumulationReferenceNo;
+    @Column(name = "area_wise_accumulation_ref_no")
+    private String areaWiseAccumulationRefNo;
 
-    @ManyToOne
+    @Column(name = "remarks")
+    private String remarks;
+
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyOrders")
     private SupplyZone supplyZone;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyOrders")
+    private SupplyZoneManager supplyZoneManager;
 
     @ManyToOne
     @JsonIgnoreProperties("supplyOrders")
@@ -76,11 +81,6 @@ public class SupplyOrder implements Serializable {
     @NotNull
     @JsonIgnoreProperties("supplyOrders")
     private SupplyAreaManager supplyAreaManager;
-
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties("supplyOrders")
-    private SupplyShop supplyShop;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -169,19 +169,6 @@ public class SupplyOrder implements Serializable {
         this.updatedOn = updatedOn;
     }
 
-    public BigDecimal getOfferAmount() {
-        return offerAmount;
-    }
-
-    public SupplyOrder offerAmount(BigDecimal offerAmount) {
-        this.offerAmount = offerAmount;
-        return this;
-    }
-
-    public void setOfferAmount(BigDecimal offerAmount) {
-        this.offerAmount = offerAmount;
-    }
-
     public LocalDate getDeliveryDate() {
         return deliveryDate;
     }
@@ -195,30 +182,43 @@ public class SupplyOrder implements Serializable {
         this.deliveryDate = deliveryDate;
     }
 
-    public SupplyOrderStatus getSupplyOrderStatus() {
-        return supplyOrderStatus;
+    public SupplyOrderStatus getStatus() {
+        return status;
     }
 
-    public SupplyOrder supplyOrderStatus(SupplyOrderStatus supplyOrderStatus) {
-        this.supplyOrderStatus = supplyOrderStatus;
+    public SupplyOrder status(SupplyOrderStatus status) {
+        this.status = status;
         return this;
     }
 
-    public void setSupplyOrderStatus(SupplyOrderStatus supplyOrderStatus) {
-        this.supplyOrderStatus = supplyOrderStatus;
+    public void setStatus(SupplyOrderStatus status) {
+        this.status = status;
     }
 
-    public String getAccumulationReferenceNo() {
-        return accumulationReferenceNo;
+    public String getAreaWiseAccumulationRefNo() {
+        return areaWiseAccumulationRefNo;
     }
 
-    public SupplyOrder accumulationReferenceNo(String accumulationReferenceNo) {
-        this.accumulationReferenceNo = accumulationReferenceNo;
+    public SupplyOrder areaWiseAccumulationRefNo(String areaWiseAccumulationRefNo) {
+        this.areaWiseAccumulationRefNo = areaWiseAccumulationRefNo;
         return this;
     }
 
-    public void setAccumulationReferenceNo(String accumulationReferenceNo) {
-        this.accumulationReferenceNo = accumulationReferenceNo;
+    public void setAreaWiseAccumulationRefNo(String areaWiseAccumulationRefNo) {
+        this.areaWiseAccumulationRefNo = areaWiseAccumulationRefNo;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public SupplyOrder remarks(String remarks) {
+        this.remarks = remarks;
+        return this;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public SupplyZone getSupplyZone() {
@@ -232,6 +232,19 @@ public class SupplyOrder implements Serializable {
 
     public void setSupplyZone(SupplyZone supplyZone) {
         this.supplyZone = supplyZone;
+    }
+
+    public SupplyZoneManager getSupplyZoneManager() {
+        return supplyZoneManager;
+    }
+
+    public SupplyOrder supplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
+        return this;
+    }
+
+    public void setSupplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
     }
 
     public SupplyArea getSupplyArea() {
@@ -272,19 +285,6 @@ public class SupplyOrder implements Serializable {
     public void setSupplyAreaManager(SupplyAreaManager supplyAreaManager) {
         this.supplyAreaManager = supplyAreaManager;
     }
-
-    public SupplyShop getSupplyShop() {
-        return supplyShop;
-    }
-
-    public SupplyOrder supplyShop(SupplyShop supplyShop) {
-        this.supplyShop = supplyShop;
-        return this;
-    }
-
-    public void setSupplyShop(SupplyShop supplyShop) {
-        this.supplyShop = supplyShop;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -317,10 +317,10 @@ public class SupplyOrder implements Serializable {
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
-            ", offerAmount=" + getOfferAmount() +
             ", deliveryDate='" + getDeliveryDate() + "'" +
-            ", supplyOrderStatus='" + getSupplyOrderStatus() + "'" +
-            ", accumulationReferenceNo='" + getAccumulationReferenceNo() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", areaWiseAccumulationRefNo='" + getAreaWiseAccumulationRefNo() + "'" +
+            ", remarks='" + getRemarks() + "'" +
             "}";
     }
 }

@@ -1,29 +1,13 @@
 package org.soptorshi.service.extended;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.SupplyOrder;
-import org.soptorshi.domain.SupplyOrderDetails;
 import org.soptorshi.repository.extended.SupplyChallanExtendedRepository;
 import org.soptorshi.repository.search.SupplyChallanSearchRepository;
-import org.soptorshi.security.report.SoptorshiPdfCell;
 import org.soptorshi.service.SupplyChallanService;
-import org.soptorshi.service.dto.SupplyChallanDTO;
-import org.soptorshi.service.dto.SupplyOrderDTO;
 import org.soptorshi.service.mapper.SupplyChallanMapper;
-import org.soptorshi.service.mapper.SupplyOrderMapper;
-import org.soptorshi.utils.SoptorshiUtils;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Service Implementation for managing SupplyChallan.
@@ -40,23 +24,14 @@ public class SupplyChallanExtendedService extends SupplyChallanService {
 
     private final SupplyChallanSearchRepository supplyChallanSearchRepository;
 
-    private final SupplyOrderExtendedService supplyOrderExtendedService;
-
-    private final SupplyOrderDetailsExtendedService supplyOrderDetailsExtendedService;
-
-    private final SupplyOrderMapper supplyOrderMapper;
-
-    public SupplyChallanExtendedService(SupplyChallanExtendedRepository supplyChallanExtendedRepository, SupplyChallanMapper supplyChallanMapper, SupplyChallanSearchRepository supplyChallanSearchRepository, SupplyOrderExtendedService supplyOrderExtendedService, SupplyOrderDetailsExtendedService supplyOrderDetailsExtendedService, SupplyOrderMapper supplyOrderMapper) {
+    public SupplyChallanExtendedService(SupplyChallanExtendedRepository supplyChallanExtendedRepository, SupplyChallanMapper supplyChallanMapper, SupplyChallanSearchRepository supplyChallanSearchRepository) {
         super(supplyChallanExtendedRepository, supplyChallanMapper, supplyChallanSearchRepository);
         this.supplyChallanExtendedRepository = supplyChallanExtendedRepository;
         this.supplyChallanMapper = supplyChallanMapper;
         this.supplyChallanSearchRepository = supplyChallanSearchRepository;
-        this.supplyOrderExtendedService = supplyOrderExtendedService;
-        this.supplyOrderDetailsExtendedService = supplyOrderDetailsExtendedService;
-        this.supplyOrderMapper = supplyOrderMapper;
     }
 
-    @Transactional
+    /*@Transactional
     public ByteArrayInputStream downloadChallan(Long id) throws Exception, DocumentException {
 
         Optional<SupplyChallanDTO> supplyChallanDTO = this.findOne(id);
@@ -132,5 +107,5 @@ public class SupplyChallanExtendedService extends SupplyChallanService {
         pdfPTable.setSpacingBefore(100);
         pDocument.add(pdfPTable);
         return pDocument;
-    }
+    }*/
 }

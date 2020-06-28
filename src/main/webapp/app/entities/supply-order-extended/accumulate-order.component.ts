@@ -322,7 +322,7 @@ export class AccumulateOrderComponent {
                             if (this.accumulateOrders[k].productName === orderDetails[m].productName) {
                                 this.accumulateOrders[k].quantity = this.accumulateOrders[k].quantity + orderDetails[m].quantity;
 
-                                this.accumulateOrders[k].amount = this.accumulateOrders[k].amount + orderDetails[m].offeredPrice;
+                                this.accumulateOrders[k].amount = this.accumulateOrders[k].amount + orderDetails[m].price;
                             }
                         }
                     }

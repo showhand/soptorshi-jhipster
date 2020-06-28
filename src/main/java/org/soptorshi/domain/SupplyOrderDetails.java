@@ -42,8 +42,13 @@ public class SupplyOrderDetails implements Serializable {
     private BigDecimal quantity;
 
     @NotNull
-    @Column(name = "offered_price", precision = 10, scale = 2, nullable = false)
-    private BigDecimal offeredPrice;
+    @Column(name = "price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal price;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyOrderDetails")
+    private SupplyShop supplyShop;
 
     @ManyToOne
     @JsonIgnoreProperties("supplyOrderDetails")
@@ -133,17 +138,30 @@ public class SupplyOrderDetails implements Serializable {
         this.quantity = quantity;
     }
 
-    public BigDecimal getOfferedPrice() {
-        return offeredPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public SupplyOrderDetails offeredPrice(BigDecimal offeredPrice) {
-        this.offeredPrice = offeredPrice;
+    public SupplyOrderDetails price(BigDecimal price) {
+        this.price = price;
         return this;
     }
 
-    public void setOfferedPrice(BigDecimal offeredPrice) {
-        this.offeredPrice = offeredPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public SupplyShop getSupplyShop() {
+        return supplyShop;
+    }
+
+    public SupplyOrderDetails supplyShop(SupplyShop supplyShop) {
+        this.supplyShop = supplyShop;
+        return this;
+    }
+
+    public void setSupplyShop(SupplyShop supplyShop) {
+        this.supplyShop = supplyShop;
     }
 
     public SupplyOrder getSupplyOrder() {
@@ -215,7 +233,7 @@ public class SupplyOrderDetails implements Serializable {
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
             ", quantity=" + getQuantity() +
-            ", offeredPrice=" + getOfferedPrice() +
+            ", price=" + getPrice() +
             "}";
     }
 }

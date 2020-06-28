@@ -756,6 +756,18 @@
                         <span *ngIf="!leftMenuHidden">Supply Order</span>
                     </a>
                 </li>
+                <li>
+                    <a class="dropdown-item" routerLink="supply-area-wise-accumulation" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span>Supply Area Wise Accumulation</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="supply-zone-wise-accumulation" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span>Supply Zone Wise Accumulation</span>
+                    </a>
+                </li>
                 <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']">
                     <a class="dropdown-item" routerLink="supply-order/accumulate" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">

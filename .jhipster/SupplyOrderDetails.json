@@ -25,7 +25,7 @@
             ]
         },
         {
-            "fieldName": "offeredPrice",
+            "fieldName": "price",
             "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
@@ -33,6 +33,14 @@
         }
     ],
     "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyShop",
+            "otherEntityRelationshipName": "supplyOrderDetails",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyShop",
+            "otherEntityField": "name"
+        },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyOrder",

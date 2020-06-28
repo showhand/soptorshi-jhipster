@@ -36,15 +36,15 @@
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="offerAmount"><span>Offer Amount</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="deliveryDate"><span>Delivery Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="supplyOrderStatus"><span>Supply Order Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="accumulationReferenceNo"><span>Accumulation Reference No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="areaWiseAccumulationRefNo"><span>Area Wise Accumulation Ref No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneManagerId"><span>Supply Zone Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyAreaName"><span>Supply Area</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplySalesRepresentativeName"><span>Supply Sales Representative</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyAreaManagerId"><span>Supply Area Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="supplyShopName"><span>Supply Shop</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -57,13 +57,18 @@
                 <td>{{supplyOrder.createdOn | date:'medium'}}</td>
                 <td>{{supplyOrder.updatedBy}}</td>
                 <td>{{supplyOrder.updatedOn | date:'medium'}}</td>
-                <td>{{supplyOrder.offerAmount}}</td>
                 <td>{{supplyOrder.deliveryDate | date:'mediumDate'}}</td>
-                <td>{{supplyOrder.supplyOrderStatus}}</td>
-                <td>{{supplyOrder.accumulationReferenceNo}}</td>
+                <td>{{supplyOrder.status}}</td>
+                <td>{{supplyOrder.areaWiseAccumulationRefNo}}</td>
+                <td>{{supplyOrder.remarks}}</td>
                 <td>
                     <div *ngIf="supplyOrder.supplyZoneId">
                         <a [routerLink]="['../supply-zone', supplyOrder.supplyZoneId , 'view' ]" >{{supplyOrder.supplyZoneName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyOrder.supplyZoneManagerId">
+                        <a [routerLink]="['../supply-zone-manager', supplyOrder.supplyZoneManagerId , 'view' ]" >{{supplyOrder.supplyZoneManagerId}}</a>
                     </div>
                 </td>
                 <td>
@@ -79,11 +84,6 @@
                 <td>
                     <div *ngIf="supplyOrder.supplyAreaManagerId">
                         <a [routerLink]="['../supply-area-manager', supplyOrder.supplyAreaManagerId , 'view' ]" >{{supplyOrder.supplyAreaManagerId}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="supplyOrder.supplyShopId">
-                        <a [routerLink]="['../supply-shop', supplyOrder.supplyShopId , 'view' ]" >{{supplyOrder.supplyShopName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

@@ -44,24 +44,28 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="offer_amount" type="decimal(10,2)">
-                <constraints nullable="true" />
-            </column>
-
             <column name="delivery_date" type="date">
                 <constraints nullable="true" />
             </column>
 
-            <column name="supply_order_status" type="varchar(255)">
+            <column name="status" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
 
-            <column name="accumulation_reference_no" type="varchar(255)">
+            <column name="area_wise_accumulation_ref_no" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="remarks" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
             <column name="supply_zone_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
+            </column>
+
+            <column name="supply_zone_manager_id" type="bigint">
+                <constraints nullable="false" />
             </column>
 
             <column name="supply_area_id" type="bigint">
@@ -76,10 +80,6 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="supply_shop_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="supply_order" columnName="created_on" columnDataType="datetime"/>
@@ -87,4 +87,15 @@
 
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+
+    <changeSet author="kawsu (generated)" id="1593183190905-1">
+        <addColumn tableName="supply_order">
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1593183190905-4">
+        <dropColumn columnName="supply_order_status" tableName="supply_order"/>
+    </changeSet>
 </databaseChangeLog>

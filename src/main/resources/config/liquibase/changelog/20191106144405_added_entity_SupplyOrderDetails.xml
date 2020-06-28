@@ -40,7 +40,11 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="offered_price" type="decimal(10,2)">
+            <column name="price" type="decimal(10,2)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="supply_shop_id" type="bigint">
                 <constraints nullable="false" />
             </column>
 

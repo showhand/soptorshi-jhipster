@@ -25,9 +25,15 @@
                 <dd>
                     <span>{{supplyOrderDetails.quantity}}</span>
                 </dd>
-                <dt><span>Offered Price</span></dt>
+                <dt><span>Price</span></dt>
                 <dd>
-                    <span>{{supplyOrderDetails.offeredPrice}}</span>
+                    <span>{{supplyOrderDetails.price}}</span>
+                </dd>
+                <dt><span>Supply Shop</span></dt>
+                <dd>
+                    <div *ngIf="supplyOrderDetails.supplyShopId">
+                        <a [routerLink]="['/supply-shop', supplyOrderDetails.supplyShopId, 'view']">{{supplyOrderDetails.supplyShopName}}</a>
+                    </div>
                 </dd>
                 <dt><span>Supply Order</span></dt>
                 <dd>

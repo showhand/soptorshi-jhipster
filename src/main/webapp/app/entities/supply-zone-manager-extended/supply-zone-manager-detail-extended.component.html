@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="supplyZoneManager">
-            <h2><span>Supply Zone Manager</span> {{supplyZoneManager.id}}</h2>
+            <h2><span>Zone Manager</span> {{supplyZoneManager.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -29,7 +29,7 @@
                 <dd>
                     <span>{{supplyZoneManager.status}}</span>
                 </dd>
-                <dt><span>Supply Zone</span></dt>
+                <dt><span>Zone</span></dt>
                 <dd>
                     <div *ngIf="supplyZoneManager.supplyZoneId">
                         <a [routerLink]="['/supply-zone', supplyZoneManager.supplyZoneId, 'view']">{{supplyZoneManager.supplyZoneName}}</a>
@@ -48,12 +48,6 @@
                     class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
-
-            <!--<button type="button"
-                    [routerLink]="['/supply-zone-manager', supplyZoneManager.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>-->
         </div>
     </div>
 </div>

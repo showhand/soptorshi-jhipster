@@ -76,7 +76,7 @@ describe('Service Tests', () => {
                         updatedBy: 'BBBBBB',
                         updatedOn: currentDate.format(DATE_TIME_FORMAT),
                         quantity: 1,
-                        offeredPrice: 1
+                        price: 1
                     },
                     elemDefault
                 );
@@ -104,7 +104,7 @@ describe('Service Tests', () => {
                         updatedBy: 'BBBBBB',
                         updatedOn: currentDate.format(DATE_TIME_FORMAT),
                         quantity: 1,
-                        offeredPrice: 1
+                        price: 1
                     },
                     elemDefault
                 );
