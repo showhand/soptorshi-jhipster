@@ -50,7 +50,8 @@ public class SupplyOrderDetails implements Serializable {
     @JsonIgnoreProperties("supplyOrderDetails")
     private SupplyShop supplyShop;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyOrderDetails")
     private SupplyOrder supplyOrder;
 

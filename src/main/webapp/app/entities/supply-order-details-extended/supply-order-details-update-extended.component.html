@@ -79,10 +79,16 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyOrder">Supply Order</label>
-                    <select class="form-control" id="field_supplyOrder" name="supplyOrder" [(ngModel)]="supplyOrderDetails.supplyOrderId" >
-                        <option [ngValue]="null"></option>
+                    <select class="form-control" id="field_supplyOrder" name="supplyOrder" [(ngModel)]="supplyOrderDetails.supplyOrderId"  required>
+                        <option *ngIf="!editForm.value.supplyOrder" [ngValue]="null" selected></option>
                         <option [ngValue]="supplyOrderOption.id" *ngFor="let supplyOrderOption of supplyorders; trackBy: trackSupplyOrderById">{{supplyOrderOption.orderNo}}</option>
                     </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyOrder?.dirty && editForm.controls.supplyOrder?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.supplyOrder?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_productCategory">Product Category</label>

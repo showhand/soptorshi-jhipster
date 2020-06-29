@@ -5,6 +5,7 @@ import { SoptorshiSharedModule } from 'app/shared';
 import {
     SupplyOrderDetailsDeleteDialogExtendedComponent,
     SupplyOrderDetailsDeletePopupExtendedComponent,
+    SupplyOrderDetailsDetailExtendedComponent,
     SupplyOrderDetailsExtendedComponent,
     supplyOrderDetailsExtendedRoute,
     supplyOrderDetailsPopupExtendedRoute,
@@ -18,7 +19,7 @@ const ENTITY_STATES = [...supplyOrderDetailsExtendedRoute, ...supplyOrderDetails
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         SupplyOrderDetailsExtendedComponent,
-        SupplyOrderDetailsExtendedComponent,
+        SupplyOrderDetailsDetailExtendedComponent,
         SupplyOrderDetailsUpdateExtendedComponent,
         SupplyOrderDetailsDeleteDialogExtendedComponent,
         SupplyOrderDetailsDeletePopupExtendedComponent,

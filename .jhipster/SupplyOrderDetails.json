@@ -45,6 +45,7 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyOrder",
             "otherEntityRelationshipName": "supplyOrderDetails",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyOrder",
             "otherEntityField": "orderNo"
         },

@@ -1544,7 +1544,7 @@ relationship ManyToOne {
   SupplyOrder{supplySalesRepresentative(name)} to SupplySalesRepresentative,
   SupplyOrder{supplyAreaManager required} to SupplyAreaManager,
   SupplyOrderDetails{supplyShop(name) required} to SupplyShop,
-  SupplyOrderDetails{supplyOrder(orderNo)} to SupplyOrder,
+  SupplyOrderDetails{supplyOrder(orderNo) required} to SupplyOrder,
   SupplyOrderDetails{productCategory(name) required} to ProductCategory,
   SupplyOrderDetails{product(name) required} to Product,
   SupplyAreaWiseAccumulation{supplyZone(name) required} to SupplyZone,

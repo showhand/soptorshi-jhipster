@@ -46,10 +46,17 @@ export class SupplyOrderAddProductComponent extends SupplyOrderDetailsUpdateExte
 
     ngOnInit() {
         this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ supplyOrder }) => {
-            this.supplyOrder = supplyOrder;
-            this.createdOn = this.supplyOrder.createdOn != null ? this.supplyOrder.createdOn.format(DATE_TIME_FORMAT) : null;
-            this.updatedOn = this.supplyOrder.updatedOn != null ? this.supplyOrder.updatedOn.format(DATE_TIME_FORMAT) : null;
+        /*this.activatedRoute.snapshot.params["orderId"];*/
+        console.log('problem eikhane 00000000000000000');
+        // this.activatedRoute.data.subscribe(({ supplyOrder }) => {
+        //     this.supplyOrder = supplyOrder;
+        //     this.createdOn = this.supplyOrder.createdOn != null ? this.supplyOrder.createdOn.format(DATE_TIME_FORMAT) : null;
+        //     this.updatedOn = this.supplyOrder.updatedOn != null ? this.supplyOrder.updatedOn.format(DATE_TIME_FORMAT) : null;
+        // });
+        this.activatedRoute.data.subscribe(({ supplyOrderDetails }) => {
+            this.supplyOrderDetails = supplyOrderDetails;
+            this.createdOn = this.supplyOrderDetails.createdOn != null ? this.supplyOrderDetails.createdOn.format(DATE_TIME_FORMAT) : null;
+            this.updatedOn = this.supplyOrderDetails.updatedOn != null ? this.supplyOrderDetails.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
         this.supplyShopService
             .query()

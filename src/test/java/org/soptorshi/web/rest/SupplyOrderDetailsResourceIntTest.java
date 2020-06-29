@@ -139,6 +139,11 @@ public class SupplyOrderDetailsResourceIntTest {
         em.flush();
         supplyOrderDetails.setSupplyShop(supplyShop);
         // Add required entity
+        SupplyOrder supplyOrder = SupplyOrderResourceIntTest.createEntity(em);
+        em.persist(supplyOrder);
+        em.flush();
+        supplyOrderDetails.setSupplyOrder(supplyOrder);
+        // Add required entity
         ProductCategory productCategory = ProductCategoryResourceIntTest.createEntity(em);
         em.persist(productCategory);
         em.flush();

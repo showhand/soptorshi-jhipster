@@ -7,8 +7,8 @@ import { SupplyOrderDetailsUpdateExtendedComponent } from './supply-order-detail
 import { SupplyOrderDetailsDeletePopupExtendedComponent } from './supply-order-details-delete-dialog-extended.component';
 import { SupplyOrderDetailsResolve } from 'app/entities/supply-order-details';
 import { SupplyOrderDetailsExtendedComponent } from 'app/entities/supply-order-details-extended/supply-order-details-extended.component';
-import { SupplyOrderExtendedResolve } from 'app/entities/supply-order-extended';
 import { SupplyOrderAddProductComponent } from 'app/entities/supply-order-details-extended/supply-order-add-product.component';
+import { SupplyOrderDetailsDetailExtendedComponent } from 'app/entities/supply-order-details-extended/supply-order-details-detail-extended.component';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyOrderDetailsExtendedResolve extends SupplyOrderDetailsResolve {
@@ -29,9 +29,9 @@ export const supplyOrderDetailsExtendedRoute: Routes = [
     },
     {
         path: ':id/view',
-        component: SupplyOrderDetailsExtendedComponent,
+        component: SupplyOrderDetailsDetailExtendedComponent,
         resolve: {
-            supplyOrderDetails: SupplyOrderDetailsResolve
+            supplyOrderDetails: SupplyOrderDetailsExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
@@ -43,7 +43,7 @@ export const supplyOrderDetailsExtendedRoute: Routes = [
         path: 'new',
         component: SupplyOrderDetailsUpdateExtendedComponent,
         resolve: {
-            supplyOrderDetails: SupplyOrderDetailsResolve
+            supplyOrderDetails: SupplyOrderDetailsExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
@@ -52,10 +52,10 @@ export const supplyOrderDetailsExtendedRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: ':id/new',
+        path: ':orderId/new',
         component: SupplyOrderAddProductComponent,
         resolve: {
-            supplyOrder: SupplyOrderExtendedResolve
+            supplyOrderDetails: SupplyOrderDetailsExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
@@ -67,7 +67,7 @@ export const supplyOrderDetailsExtendedRoute: Routes = [
         path: ':id/edit',
         component: SupplyOrderDetailsUpdateExtendedComponent,
         resolve: {
-            supplyOrderDetails: SupplyOrderDetailsResolve
+            supplyOrderDetails: SupplyOrderDetailsExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
@@ -82,7 +82,7 @@ export const supplyOrderDetailsPopupExtendedRoute: Routes = [
         path: ':id/delete',
         component: SupplyOrderDetailsDeletePopupExtendedComponent,
         resolve: {
-            supplyOrderDetails: SupplyOrderDetailsResolve
+            supplyOrderDetails: SupplyOrderDetailsExtendedResolve
         },
         data: {
             authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],

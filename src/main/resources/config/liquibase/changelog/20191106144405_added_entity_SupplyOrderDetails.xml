@@ -49,7 +49,7 @@
             </column>
 
             <column name="supply_order_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="product_category_id" type="bigint">
@@ -67,4 +67,8 @@
 
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+
+    <changeSet author="kawsu (generated)" id="1593440175285-3">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_order_id" tableName="supply_order_details"/>
+    </changeSet>
 </databaseChangeLog>
