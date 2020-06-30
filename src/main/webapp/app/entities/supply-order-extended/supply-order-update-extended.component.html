@@ -83,9 +83,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
                     <div class="col-3">
                         <div class="form-group">
                             <label class="form-control-label" for="field_orderNo">Order No</label>
@@ -133,6 +131,7 @@
                 </div>
 
                 <div [hidden]="!supplyOrder.id">
+                    <hr>
                     <div class="row" *ngIf="supplyOrderDetails">
                         <div class="col-12">
                             <div class="table-responsive">
@@ -140,6 +139,7 @@
                                     <thead>
                                     <tr>
                                         <th><span>id</span></th>
+                                        <th><span>Shop</span></th>
                                         <th><span>Products Category</span></th>
                                         <th><span>Product</span></th>
                                         <th><span>Quantity (in kg)</span></th>
@@ -150,6 +150,11 @@
                                     <tbody>
                                     <tr *ngFor="let supplyOrderDetail of supplyOrderDetails;">
                                         <td>{{supplyOrderDetail.id}}</td>
+                                        <td>
+                                            <div
+                                                *ngIf="supplyOrderDetail.supplyShopId">{{supplyOrderDetail.supplyShopName}}
+                                            </div>
+                                        </td>
                                         <td>
                                             <div
                                                 *ngIf="supplyOrderDetail.productCategoryName">{{supplyOrderDetail.productCategoryName}}

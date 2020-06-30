@@ -129,6 +129,8 @@ export class SupplyOrderUpdateExtendedComponent extends SupplyOrderUpdateCompone
             this.supplyOrder = supplyOrder;
             this.createdOn = this.supplyOrder.createdOn != null ? this.supplyOrder.createdOn.format(DATE_TIME_FORMAT) : null;
             this.updatedOn = this.supplyOrder.updatedOn != null ? this.supplyOrder.updatedOn.format(DATE_TIME_FORMAT) : null;
+
+            this.getProductInfo();
         });
         this.supplyZoneService
             .query()
