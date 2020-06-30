@@ -21,6 +21,7 @@ import { SupplyOrderDetailsUpdateExtendedComponent } from 'app/entities/supply-o
 })
 export class SupplyOrderAddProductComponent extends SupplyOrderDetailsUpdateExtendedComponent implements OnInit {
     supplyOrder: SupplyOrder;
+    supplyOrderId: number;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -46,32 +47,39 @@ export class SupplyOrderAddProductComponent extends SupplyOrderDetailsUpdateExte
 
     ngOnInit() {
         this.isSaving = false;
-        /*this.activatedRoute.snapshot.params["orderId"];*/
-        console.log('problem eikhane 00000000000000000');
-        // this.activatedRoute.data.subscribe(({ supplyOrder }) => {
-        //     this.supplyOrder = supplyOrder;
-        //     this.createdOn = this.supplyOrder.createdOn != null ? this.supplyOrder.createdOn.format(DATE_TIME_FORMAT) : null;
-        //     this.updatedOn = this.supplyOrder.updatedOn != null ? this.supplyOrder.updatedOn.format(DATE_TIME_FORMAT) : null;
-        // });
         this.activatedRoute.data.subscribe(({ supplyOrderDetails }) => {
             this.supplyOrderDetails = supplyOrderDetails;
             this.createdOn = this.supplyOrderDetails.createdOn != null ? this.supplyOrderDetails.createdOn.format(DATE_TIME_FORMAT) : null;
             this.updatedOn = this.supplyOrderDetails.updatedOn != null ? this.supplyOrderDetails.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
-        this.supplyShopService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ISupplyShop[]>) => response.body)
-            )
-            .subscribe((res: ISupplyShop[]) => (this.supplyshops = res), (res: HttpErrorResponse) => this.onError(res.message));
+
+        const orderId = this.activatedRoute.snapshot.params['orderId'];
         this.supplyOrderService
-            .query()
+            .query({
+                'id.equals': orderId
+            })
             .pipe(
                 filter((mayBeOk: HttpResponse<ISupplyOrder[]>) => mayBeOk.ok),
                 map((response: HttpResponse<ISupplyOrder[]>) => response.body)
             )
-            .subscribe((res: ISupplyOrder[]) => (this.supplyorders = res), (res: HttpErrorResponse) => this.onError(res.message));
+            .subscribe(
+                (res: ISupplyOrder[]) => {
+                    this.supplyorders = res;
+                    this.supplyShopService
+                        .query({
+                            'supplyZoneId.equals': this.supplyorders[0].supplyZoneId,
+                            'supplyZoneManagerId.equals': this.supplyorders[0].supplyZoneManagerId,
+                            'supplyAreaId.equals': this.supplyorders[0].supplyAreaId,
+                            'supplyAreaManagerId.equals': this.supplyorders[0].supplyAreaManagerId
+                        })
+                        .pipe(
+                            filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),
+                            map((response: HttpResponse<ISupplyShop[]>) => response.body)
+                        )
+                        .subscribe((res: ISupplyShop[]) => (this.supplyshops = res), (res: HttpErrorResponse) => this.onError(res.message));
+                },
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
         this.productCategoryService
             .query()
             .pipe(
