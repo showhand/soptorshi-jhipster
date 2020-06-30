@@ -76,6 +76,7 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyArea",
             "otherEntityRelationshipName": "supplyAreaWiseAccumulation",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyArea",
             "otherEntityField": "name"
         },
@@ -91,7 +92,6 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "productCategory",
             "otherEntityRelationshipName": "supplyAreaWiseAccumulation",
-            "relationshipValidateRules": "required",
             "relationshipName": "productCategory",
             "otherEntityField": "name"
         },
@@ -99,7 +99,6 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "product",
             "otherEntityRelationshipName": "supplyAreaWiseAccumulation",
-            "relationshipValidateRules": "required",
             "relationshipName": "product",
             "otherEntityField": "name"
         }

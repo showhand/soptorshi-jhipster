@@ -58,7 +58,7 @@ public class SupplyOrderDetailsExtendedService extends SupplyOrderDetailsService
         SupplyOrderDetails supplyOrderDetails = supplyOrderDetailsMapper.toEntity(supplyOrderDetailsDTO);
         supplyOrderDetails = supplyOrderDetailsExtendedRepository.save(supplyOrderDetails);
         SupplyOrderDetailsDTO result = supplyOrderDetailsMapper.toDto(supplyOrderDetails);
-        supplyOrderDetailsSearchRepository.save(supplyOrderDetails);
+        //supplyOrderDetailsSearchRepository.save(supplyOrderDetails);
         return result;
     }
 

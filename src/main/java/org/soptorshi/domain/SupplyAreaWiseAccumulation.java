@@ -71,7 +71,8 @@ public class SupplyAreaWiseAccumulation implements Serializable {
     @JsonIgnoreProperties("supplyAreaWiseAccumulations")
     private SupplyZoneManager supplyZoneManager;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyAreaWiseAccumulations")
     private SupplyArea supplyArea;
 
@@ -80,13 +81,11 @@ public class SupplyAreaWiseAccumulation implements Serializable {
     @JsonIgnoreProperties("supplyAreaWiseAccumulations")
     private SupplyAreaManager supplyAreaManager;
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne
     @JsonIgnoreProperties("supplyAreaWiseAccumulations")
     private ProductCategory productCategory;
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne
     @JsonIgnoreProperties("supplyAreaWiseAccumulations")
     private Product product;
 

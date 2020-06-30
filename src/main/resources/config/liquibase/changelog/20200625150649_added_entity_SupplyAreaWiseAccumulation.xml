@@ -69,7 +69,7 @@
             </column>
 
             <column name="supply_area_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="supply_area_manager_id" type="bigint">
@@ -77,11 +77,11 @@
             </column>
 
             <column name="product_category_id" type="bigint">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
 
             <column name="product_id" type="bigint">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
@@ -91,4 +91,15 @@
 
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+
+    <changeSet author="kawsu (generated)" id="1593523554334-3">
+        <dropNotNullConstraint columnDataType="bigint" columnName="product_category_id" tableName="supply_area_wise_accumulation"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1593523554334-4">
+        <dropNotNullConstraint columnDataType="bigint" columnName="product_id" tableName="supply_area_wise_accumulation"/>
+    </changeSet>
+
+    <changeSet author="kawsu (generated)" id="1593524438766-5">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_area_id" tableName="supply_area_wise_accumulation"/>
+    </changeSet>
 </databaseChangeLog>

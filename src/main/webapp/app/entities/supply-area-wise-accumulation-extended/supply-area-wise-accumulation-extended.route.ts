@@ -20,7 +20,7 @@ export const supplyAreaWiseAccumulationExtendedRoute: Routes = [
         path: '',
         component: SupplyAreaWiseAccumulationExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyAreaWiseAccumulations'
         },
         canActivate: [UserRouteAccessService]
@@ -29,10 +29,10 @@ export const supplyAreaWiseAccumulationExtendedRoute: Routes = [
         path: ':id/view',
         component: SupplyAreaWiseAccumulationDetailExtendedComponent,
         resolve: {
-            supplyAreaWiseAccumulation: SupplyAreaWiseAccumulationResolve
+            supplyAreaWiseAccumulation: SupplyAreaWiseAccumulationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyAreaWiseAccumulations'
         },
         canActivate: [UserRouteAccessService]
@@ -41,10 +41,10 @@ export const supplyAreaWiseAccumulationExtendedRoute: Routes = [
         path: 'new',
         component: SupplyAreaWiseAccumulationUpdateExtendedComponent,
         resolve: {
-            supplyAreaWiseAccumulation: SupplyAreaWiseAccumulationResolve
+            supplyAreaWiseAccumulation: SupplyAreaWiseAccumulationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyAreaWiseAccumulations'
         },
         canActivate: [UserRouteAccessService]
@@ -53,10 +53,10 @@ export const supplyAreaWiseAccumulationExtendedRoute: Routes = [
         path: ':id/edit',
         component: SupplyAreaWiseAccumulationUpdateExtendedComponent,
         resolve: {
-            supplyAreaWiseAccumulation: SupplyAreaWiseAccumulationResolve
+            supplyAreaWiseAccumulation: SupplyAreaWiseAccumulationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyAreaWiseAccumulations'
         },
         canActivate: [UserRouteAccessService]
@@ -68,10 +68,10 @@ export const supplyAreaWiseAccumulationPopupExtendedRoute: Routes = [
         path: ':id/delete',
         component: SupplyAreaWiseAccumulationDeletePopupExtendedComponent,
         resolve: {
-            supplyAreaWiseAccumulation: SupplyAreaWiseAccumulationResolve
+            supplyAreaWiseAccumulation: SupplyAreaWiseAccumulationExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyAreaWiseAccumulations'
         },
         canActivate: [UserRouteAccessService],

@@ -160,20 +160,15 @@ public class SupplyAreaWiseAccumulationResourceIntTest {
         em.flush();
         supplyAreaWiseAccumulation.setSupplyZoneManager(supplyZoneManager);
         // Add required entity
+        SupplyArea supplyArea = SupplyAreaResourceIntTest.createEntity(em);
+        em.persist(supplyArea);
+        em.flush();
+        supplyAreaWiseAccumulation.setSupplyArea(supplyArea);
+        // Add required entity
         SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
         em.persist(supplyAreaManager);
         em.flush();
         supplyAreaWiseAccumulation.setSupplyAreaManager(supplyAreaManager);
-        // Add required entity
-        ProductCategory productCategory = ProductCategoryResourceIntTest.createEntity(em);
-        em.persist(productCategory);
-        em.flush();
-        supplyAreaWiseAccumulation.setProductCategory(productCategory);
-        // Add required entity
-        Product product = ProductResourceIntTest.createEntity(em);
-        em.persist(product);
-        em.flush();
-        supplyAreaWiseAccumulation.setProduct(product);
         return supplyAreaWiseAccumulation;
     }
 

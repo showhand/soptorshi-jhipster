@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { SupplyOrderDetails } from 'app/shared/model/supply-order-details.model';
 
 export const enum SupplyOrderStatus {
     ORDER_RECEIVED = 'ORDER_RECEIVED',
@@ -29,6 +30,7 @@ export interface ISupplyOrder {
     supplySalesRepresentativeId?: number;
     supplyAreaManagerId?: number;
     supplyAreaManagerName?: string;
+    supplyOrderDetails?: SupplyOrderDetails[];
 }
 
 export class SupplyOrder implements ISupplyOrder {
@@ -53,6 +55,7 @@ export class SupplyOrder implements ISupplyOrder {
         public supplySalesRepresentativeName?: string,
         public supplySalesRepresentativeId?: number,
         public supplyAreaManagerId?: number,
-        public supplyAreaManagerName?: string
+        public supplyAreaManagerName?: string,
+        public supplyOrderDetails?: SupplyOrderDetails[]
     ) {}
 }

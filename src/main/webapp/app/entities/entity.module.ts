@@ -852,11 +852,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
             },
             {
-                path: 'supply-area-wise-accumulation',
-                loadChildren:
-                    './supply-area-wise-accumulation/supply-area-wise-accumulation.module#SoptorshiSupplyAreaWiseAccumulationModule'
-            },
-            {
                 path: 'supply-zone-wise-accumulation',
                 loadChildren:
                     './supply-zone-wise-accumulation/supply-zone-wise-accumulation.module#SoptorshiSupplyZoneWiseAccumulationModule'
@@ -878,6 +873,16 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'supply-order-details',
                 loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
+            },
+            {
+                path: 'supply-area-wise-accumulation',
+                loadChildren:
+                    './supply-area-wise-accumulation/supply-area-wise-accumulation.module#SoptorshiSupplyAreaWiseAccumulationModule'
+            },
+            {
+                path: 'supply-area-wise-accumulation',
+                loadChildren:
+                    './supply-area-wise-accumulation/supply-area-wise-accumulation.module#SoptorshiSupplyAreaWiseAccumulationModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

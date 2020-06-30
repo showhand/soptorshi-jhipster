@@ -70,7 +70,8 @@ export class SupplyOrderAddProductComponent extends SupplyOrderDetailsUpdateExte
                             'supplyZoneId.equals': this.supplyorders[0].supplyZoneId,
                             'supplyZoneManagerId.equals': this.supplyorders[0].supplyZoneManagerId,
                             'supplyAreaId.equals': this.supplyorders[0].supplyAreaId,
-                            'supplyAreaManagerId.equals': this.supplyorders[0].supplyAreaManagerId
+                            'supplyAreaManagerId.equals': this.supplyorders[0].supplyAreaManagerId,
+                            'supplySalesRepresentativeId.equals': this.supplyorders[0].supplySalesRepresentativeId
                         })
                         .pipe(
                             filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),

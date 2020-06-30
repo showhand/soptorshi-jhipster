@@ -50,7 +50,7 @@
                 <td>{{supplyOrderDetails.updatedBy}}</td>
                 <td>{{supplyOrderDetails.updatedOn | date:'medium'}}</td>
                 <td>{{supplyOrderDetails.quantity}}</td>
-                <td>{{supplyOrderDetails.offeredPrice}}</td>
+                <td>{{supplyOrderDetails.price}}</td>
                 <td>
                     <div *ngIf="supplyOrderDetails.supplyOrderId">
                         <a [routerLink]="['../supply-order', supplyOrderDetails.supplyOrderId , 'view' ]" >{{supplyOrderDetails.supplyOrderOrderNo}}</a>
