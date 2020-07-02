@@ -52,6 +52,7 @@ import { CommercialInfoDirComponent } from 'app/entities/requisition-extended/co
 import { RequisitionInfoCommercialDirComponent } from 'app/entities/requisition-extended/requisition-info-commercial-dir/requisition-info-commercial-dir.component';
 import { ScmZoneManagerFilterPipe } from 'app/shared/util/scm-zone-manager-filter.pipe';
 import { ScmAreaManagerFilterPipe } from 'app/shared/util/scm-area-manager-filter.pipe';
+import { ScmOrderDetailsFilterPipe } from 'app/shared/util/scm-order-details-filter.pipe';
 
 @NgModule({
     imports: [SoptorshiSharedLibsModule, SoptorshiSharedCommonModule, RouterModule],
@@ -92,7 +93,8 @@ import { ScmAreaManagerFilterPipe } from 'app/shared/util/scm-area-manager-filte
         CommercialInfoDirComponent,
         RequisitionInfoCommercialDirComponent,
         ScmZoneManagerFilterPipe,
-        ScmAreaManagerFilterPipe
+        ScmAreaManagerFilterPipe,
+        ScmOrderDetailsFilterPipe
     ],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
@@ -132,7 +134,8 @@ import { ScmAreaManagerFilterPipe } from 'app/shared/util/scm-area-manager-filte
         CommercialInfoDirComponent,
         RequisitionInfoCommercialDirComponent,
         ScmZoneManagerFilterPipe,
-        ScmAreaManagerFilterPipe
+        ScmAreaManagerFilterPipe,
+        ScmOrderDetailsFilterPipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

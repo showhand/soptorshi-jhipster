@@ -131,18 +131,19 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
                 .subscribe(
                     (res: HttpResponse<ISupplyOrder[]>) => {
                         this.paginateSupplyOrders(res.body, res.headers);
-                        const map: string = this.supplyOrders.map(val => val.id).join(',');
-                        this.supplyOrderDetailsService
-                            .query({
-                                'supplyOrderId.in': [map]
-                            })
-                            .subscribe(
-                                (res: HttpResponse<ISupplyOrderDetails[]>) => {
-                                    this.paginateSupplyOrderDetails(res.body, res.headers);
-                                    this.mapSupplyOrderAndSupplyOrderDetails();
-                                },
-                                (res: HttpErrorResponse) => this.onError(res.message)
-                            );
+                        if (this.supplyOrders.length > 0) {
+                            const map: string = this.supplyOrders.map(val => val.id).join(',');
+                            this.supplyOrderDetailsService
+                                .query({
+                                    'supplyOrderId.in': [map]
+                                })
+                                .subscribe(
+                                    (res: HttpResponse<ISupplyOrderDetails[]>) => {
+                                        this.paginateSupplyOrderDetails(res.body, res.headers);
+                                    },
+                                    (res: HttpErrorResponse) => this.onError(res.message)
+                                );
+                        }
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
@@ -161,34 +162,6 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
         for (let i = 0; i < data.length; i++) {
             this.supplyOrderDetails.push(data[i]);
         }
-    }
-
-    protected mapSupplyOrderAndSupplyOrderDetails() {
-        for (let a = 0; a < this.supplyOrders.length; a++) {
-            let orderDetails: SupplyOrderDetails[] = [];
-
-            for (let b = 0; b < this.supplyOrderDetails.length; b++) {
-                if (this.supplyOrders[a].id === this.supplyOrderDetails[b].supplyOrderId) {
-                    orderDetails.push(this.supplyOrderDetails[b]);
-                }
-            }
-
-            //this.supplyOrders[a].supplyOrderDetails = orderDetails;
-        }
-    }
-
-    selectOrder(supplyOrder: SupplyOrder) {
-        /*for(let i = 0; i < supplyOrder.supplyOrderDetails.length; i++) {
-            this.supplyAreaWiseAccumulation.quantity = 0;
-            this.supplyAreaWiseAccumulation.price = 0;
-            for (let j = 0; i < supplyOrder.supplyOrderDetails.length; j++) {
-                if (supplyOrder.supplyOrderDetails[i].productCategoryId === supplyOrder.supplyOrderDetails[j].productCategoryId &&
-                    supplyOrder.supplyOrderDetails[i].productId === supplyOrder.supplyOrderDetails[j].productId) {
-                    this.supplyAreaWiseAccumulation.quantity = supplyOrder.supplyOrderDetails[i].quantity;
-                    this.supplyAreaWiseAccumulation.price = supplyOrder.supplyOrderDetails[i].price;
-                }
-            }
-        }*/
     }
 
     protected onSaveSuccess() {
