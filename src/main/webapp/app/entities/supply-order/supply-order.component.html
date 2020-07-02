@@ -45,6 +45,7 @@
             <th jhiSortBy="supplyAreaName"><span>Supply Area</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplySalesRepresentativeName"><span>Supply Sales Representative</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyAreaManagerId"><span>Supply Area Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyShopName"><span>Supply Shop</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -84,6 +85,11 @@
                 <td>
                     <div *ngIf="supplyOrder.supplyAreaManagerId">
                         <a [routerLink]="['../supply-area-manager', supplyOrder.supplyAreaManagerId , 'view' ]" >{{supplyOrder.supplyAreaManagerId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyOrder.supplyShopId">
+                        <a [routerLink]="['../supply-shop', supplyOrder.supplyShopId , 'view' ]" >{{supplyOrder.supplyShopName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

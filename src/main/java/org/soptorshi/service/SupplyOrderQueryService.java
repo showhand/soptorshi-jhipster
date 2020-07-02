@@ -139,6 +139,10 @@ public class SupplyOrderQueryService extends QueryService<SupplyOrder> {
                 specification = specification.and(buildSpecification(criteria.getSupplyAreaManagerId(),
                     root -> root.join(SupplyOrder_.supplyAreaManager, JoinType.LEFT).get(SupplyAreaManager_.id)));
             }
+            if (criteria.getSupplyShopId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyShopId(),
+                    root -> root.join(SupplyOrder_.supplyShop, JoinType.LEFT).get(SupplyShop_.id)));
+            }
         }
         return specification;
     }

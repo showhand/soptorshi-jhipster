@@ -20,7 +20,6 @@ export interface ISupplyAreaManager {
     employeeFullName?: string;
     employeeId?: number;
     supplyZoneManagerId?: number;
-    supplyZoneManagerName?: string;
 }
 
 export class SupplyAreaManager implements ISupplyAreaManager {

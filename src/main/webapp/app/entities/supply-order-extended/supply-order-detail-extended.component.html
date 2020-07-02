@@ -61,6 +61,12 @@
                         <a [routerLink]="['/supply-sales-representative', supplyOrder.supplySalesRepresentativeId, 'view']">{{supplyOrder.supplySalesRepresentativeName}}</a>
                     </div>
                 </dd>
+                <dt><span>Supply Shop</span></dt>
+                <dd>
+                    <div *ngIf="supplyOrder.supplyShopId">
+                        <a [routerLink]="['/supply-shop', supplyOrder.supplyShopId, 'view']">{{supplyOrder.supplyShopName}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

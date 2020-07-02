@@ -55,6 +55,8 @@ public class SupplyOrderCriteria implements Serializable {
 
     private LongFilter supplyAreaManagerId;
 
+    private LongFilter supplyShopId;
+
     public LongFilter getId() {
         return id;
     }
@@ -183,6 +185,14 @@ public class SupplyOrderCriteria implements Serializable {
         this.supplyAreaManagerId = supplyAreaManagerId;
     }
 
+    public LongFilter getSupplyShopId() {
+        return supplyShopId;
+    }
+
+    public void setSupplyShopId(LongFilter supplyShopId) {
+        this.supplyShopId = supplyShopId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -209,7 +219,8 @@ public class SupplyOrderCriteria implements Serializable {
             Objects.equals(supplyZoneManagerId, that.supplyZoneManagerId) &&
             Objects.equals(supplyAreaId, that.supplyAreaId) &&
             Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId) &&
-            Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId);
+            Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId) &&
+            Objects.equals(supplyShopId, that.supplyShopId);
     }
 
     @Override
@@ -230,7 +241,8 @@ public class SupplyOrderCriteria implements Serializable {
         supplyZoneManagerId,
         supplyAreaId,
         supplySalesRepresentativeId,
-        supplyAreaManagerId
+        supplyAreaManagerId,
+        supplyShopId
         );
     }
 
@@ -253,6 +265,7 @@ public class SupplyOrderCriteria implements Serializable {
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
                 (supplySalesRepresentativeId != null ? "supplySalesRepresentativeId=" + supplySalesRepresentativeId + ", " : "") +
                 (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +
+                (supplyShopId != null ? "supplyShopId=" + supplyShopId + ", " : "") +
             "}";
     }
 

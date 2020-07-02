@@ -142,11 +142,6 @@ export class SupplyAreaManagerExtendedComponent extends SupplyAreaManagerCompone
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < this.supplyZoneManagers.length; j++) {
-                if (data[i].supplyZoneManagerId === this.supplyZoneManagers[j].id) {
-                    data[i].supplyZoneManagerName = this.supplyZoneManagers[j].employeeFullName;
-                }
-            }
             this.supplyAreaManagers.push(data[i]);
         }
     }

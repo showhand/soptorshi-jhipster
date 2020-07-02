@@ -113,15 +113,6 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
-                </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
-                        class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-                </button>
-            </div>
         </form>
 
         <div class="row">
@@ -155,11 +146,19 @@
                             <div class="col-3">
                                 Delivery Date: <b>{{supplyOrder.deliveryDate | date:'mediumDate'}}</b>
                             </div>
+
+                            <div class="col-3"></div>
+                            <div class="col-3">
+                                    <button type="button" id="save-entity" (click)="selectOrder(supplyOrder)"
+                                            class="btn btn-primary">
+                                        <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                                    </button>
+                            </div>
                         </div>
 
                         <br />
 
-                        <div class="table-responsive" *ngIf="supplyOrderDetails">
+                        <!--<div class="table-responsive" *ngIf="supplyOrder.supplyOrderDetails">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -198,11 +197,10 @@
                                     </td>
                                     <td>{{supplyOrderDetail.quantity}}</td>
                                     <td>{{supplyOrderDetail.price}}</td>
-
                                 </tr>
                                 </tbody>
                             </table>
-                        </div>
+                        </div>-->
                         <hr >
                     </div>
                 </div>

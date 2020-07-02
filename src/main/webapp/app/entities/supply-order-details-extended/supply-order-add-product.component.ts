@@ -4,12 +4,10 @@ import { JhiAlertService } from 'ng-jhipster';
 import { SupplyOrderDetailsExtendedService } from './supply-order-details-extended.service';
 import { ProductCategoryService } from 'app/entities/product-category';
 import { ProductService } from 'app/entities/product';
-import { SupplyShopExtendedService } from 'app/entities/supply-shop-extended';
 import { SupplyOrderExtendedService } from 'app/entities/supply-order-extended';
 import { DATE_TIME_FORMAT } from 'app/shared';
 import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { ISupplyShop } from 'app/shared/model/supply-shop.model';
 import { ISupplyOrder, SupplyOrder } from 'app/shared/model/supply-order.model';
 import { IProductCategory } from 'app/shared/model/product-category.model';
 import { IProduct } from 'app/shared/model/product.model';
@@ -26,7 +24,6 @@ export class SupplyOrderAddProductComponent extends SupplyOrderDetailsUpdateExte
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected supplyOrderDetailsService: SupplyOrderDetailsExtendedService,
-        protected supplyShopService: SupplyShopExtendedService,
         protected supplyOrderService: SupplyOrderExtendedService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
@@ -36,7 +33,6 @@ export class SupplyOrderAddProductComponent extends SupplyOrderDetailsUpdateExte
         super(
             jhiAlertService,
             supplyOrderDetailsService,
-            supplyShopService,
             supplyOrderService,
             productCategoryService,
             productService,
@@ -65,19 +61,6 @@ export class SupplyOrderAddProductComponent extends SupplyOrderDetailsUpdateExte
             .subscribe(
                 (res: ISupplyOrder[]) => {
                     this.supplyorders = res;
-                    this.supplyShopService
-                        .query({
-                            'supplyZoneId.equals': this.supplyorders[0].supplyZoneId,
-                            'supplyZoneManagerId.equals': this.supplyorders[0].supplyZoneManagerId,
-                            'supplyAreaId.equals': this.supplyorders[0].supplyAreaId,
-                            'supplyAreaManagerId.equals': this.supplyorders[0].supplyAreaManagerId,
-                            'supplySalesRepresentativeId.equals': this.supplyorders[0].supplySalesRepresentativeId
-                        })
-                        .pipe(
-                            filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),
-                            map((response: HttpResponse<ISupplyShop[]>) => response.body)
-                        )
-                        .subscribe((res: ISupplyShop[]) => (this.supplyshops = res), (res: HttpErrorResponse) => this.onError(res.message));
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );

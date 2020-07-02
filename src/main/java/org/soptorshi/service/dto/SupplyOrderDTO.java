@@ -54,6 +54,10 @@ public class SupplyOrderDTO implements Serializable {
 
     private Long supplyAreaManagerId;
 
+    private Long supplyShopId;
+
+    private String supplyShopName;
+
     public Long getId() {
         return id;
     }
@@ -206,6 +210,22 @@ public class SupplyOrderDTO implements Serializable {
         this.supplyAreaManagerId = supplyAreaManagerId;
     }
 
+    public Long getSupplyShopId() {
+        return supplyShopId;
+    }
+
+    public void setSupplyShopId(Long supplyShopId) {
+        this.supplyShopId = supplyShopId;
+    }
+
+    public String getSupplyShopName() {
+        return supplyShopName;
+    }
+
+    public void setSupplyShopName(String supplyShopName) {
+        this.supplyShopName = supplyShopName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -249,6 +269,8 @@ public class SupplyOrderDTO implements Serializable {
             ", supplySalesRepresentative=" + getSupplySalesRepresentativeId() +
             ", supplySalesRepresentative='" + getSupplySalesRepresentativeName() + "'" +
             ", supplyAreaManager=" + getSupplyAreaManagerId() +
+            ", supplyShop=" + getSupplyShopId() +
+            ", supplyShop='" + getSupplyShopName() + "'" +
             "}";
     }
 }

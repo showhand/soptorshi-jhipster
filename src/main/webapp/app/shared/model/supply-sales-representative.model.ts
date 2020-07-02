@@ -21,9 +21,7 @@ export interface ISupplySalesRepresentative {
     supplyAreaName?: string;
     supplyAreaId?: number;
     supplyZoneManagerId?: number;
-    supplyZoneManagerName?: string;
     supplyAreaManagerId?: number;
-    supplyAreaManagerName?: string;
 }
 
 export class SupplySalesRepresentative implements ISupplySalesRepresentative {
@@ -43,8 +41,6 @@ export class SupplySalesRepresentative implements ISupplySalesRepresentative {
         public supplyAreaName?: string,
         public supplyAreaId?: number,
         public supplyZoneManagerId?: number,
-        public supplyZoneManagerName?: string,
-        public supplyAreaManagerId?: number,
-        public supplyAreaManagerName?: string
+        public supplyAreaManagerId?: number
     ) {}
 }

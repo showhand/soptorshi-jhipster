@@ -87,6 +87,14 @@
             "relationshipValidateRules": "required",
             "relationshipName": "supplyAreaManager",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyShop",
+            "otherEntityRelationshipName": "supplyOrder",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyShop",
+            "otherEntityField": "name"
         }
     ],
     "changelogDate": "20191106144404",

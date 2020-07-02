@@ -68,7 +68,7 @@ public class SupplyOrderExtendedService extends SupplyOrderService {
         SupplyOrder supplyOrder = supplyOrderMapper.toEntity(supplyOrderDTO);
         supplyOrder = supplyOrderExtendedRepository.save(supplyOrder);
         SupplyOrderDTO result = supplyOrderMapper.toDto(supplyOrder);
-        supplyOrderSearchRepository.save(supplyOrder);
+        //supplyOrderSearchRepository.save(supplyOrder);
 
         return result;
     }

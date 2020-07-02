@@ -16,9 +16,7 @@ export interface ISupplyShop {
     supplyAreaName?: string;
     supplyAreaId?: number;
     supplyZoneManagerId?: number;
-    supplyZoneManagerName?: string;
     supplyAreaManagerId?: number;
-    supplyAreaManagerName?: string;
     supplySalesRepresentativeName?: string;
     supplySalesRepresentativeId?: number;
 }
@@ -40,9 +38,7 @@ export class SupplyShop implements ISupplyShop {
         public supplyAreaName?: string,
         public supplyAreaId?: number,
         public supplyZoneManagerId?: number,
-        public supplyZoneManagerName?: string,
         public supplyAreaManagerId?: number,
-        public supplyAreaManagerName?: string,
         public supplySalesRepresentativeName?: string,
         public supplySalesRepresentativeId?: number
     ) {}

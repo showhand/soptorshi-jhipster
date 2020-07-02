@@ -168,16 +168,6 @@ export class SupplyShopExtendedComponent extends SupplyShopComponent implements 
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < this.supplyZoneManagers.length; j++) {
-                if (data[i].supplyZoneManagerId === this.supplyZoneManagers[j].id) {
-                    data[i].supplyZoneManagerName = this.supplyZoneManagers[j].employeeFullName;
-                }
-            }
-            for (let k = 0; k < this.supplyAreaManagers.length; k++) {
-                if (data[i].supplyAreaManagerId === this.supplyAreaManagers[k].id) {
-                    data[i].supplyAreaManagerName = this.supplyAreaManagers[k].employeeFullName;
-                }
-            }
             this.supplyShops.push(data[i]);
         }
     }

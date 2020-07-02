@@ -883,6 +883,14 @@ import { MatTabsModule } from '@angular/material';
                 path: 'supply-area-wise-accumulation',
                 loadChildren:
                     './supply-area-wise-accumulation/supply-area-wise-accumulation.module#SoptorshiSupplyAreaWiseAccumulationModule'
+            },
+            {
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+            },
+            {
+                path: 'supply-order-details',
+                loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

@@ -8,8 +8,6 @@ export interface ISupplyOrderDetails {
     updatedOn?: Moment;
     quantity?: number;
     price?: number;
-    supplyShopName?: string;
-    supplyShopId?: number;
     supplyOrderOrderNo?: string;
     supplyOrderId?: number;
     productCategoryName?: string;
@@ -27,8 +25,6 @@ export class SupplyOrderDetails implements ISupplyOrderDetails {
         public updatedOn?: Moment,
         public quantity?: number,
         public price?: number,
-        public supplyShopName?: string,
-        public supplyShopId?: number,
         public supplyOrderOrderNo?: string,
         public supplyOrderId?: number,
         public productCategoryName?: string,

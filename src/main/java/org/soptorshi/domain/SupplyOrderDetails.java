@@ -48,11 +48,6 @@ public class SupplyOrderDetails implements Serializable {
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("supplyOrderDetails")
-    private SupplyShop supplyShop;
-
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties("supplyOrderDetails")
     private SupplyOrder supplyOrder;
 
     @ManyToOne(optional = false)
@@ -150,19 +145,6 @@ public class SupplyOrderDetails implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public SupplyShop getSupplyShop() {
-        return supplyShop;
-    }
-
-    public SupplyOrderDetails supplyShop(SupplyShop supplyShop) {
-        this.supplyShop = supplyShop;
-        return this;
-    }
-
-    public void setSupplyShop(SupplyShop supplyShop) {
-        this.supplyShop = supplyShop;
     }
 
     public SupplyOrder getSupplyOrder() {

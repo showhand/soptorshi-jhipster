@@ -152,16 +152,6 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
     protected paginateSupplyOrders(data: ISupplyOrder[], headers: HttpHeaders) {
         this.supplyOrders = [];
         for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < this.supplyzonemanagers.length; j++) {
-                if (data[i].supplyZoneManagerId === this.supplyzonemanagers[j].id) {
-                    data[i].supplyZoneManagerName = this.supplyzonemanagers[j].employeeFullName;
-                }
-            }
-            for (let k = 0; k < this.supplyareamanagers.length; k++) {
-                if (data[i].supplyAreaManagerId === this.supplyareamanagers[k].id) {
-                    data[i].supplyAreaManagerName = this.supplyareamanagers[k].employeeFullName;
-                }
-            }
             this.supplyOrders.push(data[i]);
         }
     }
@@ -183,8 +173,28 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
                 }
             }
 
-            this.supplyOrders[a].supplyOrderDetails = orderDetails;
+            //this.supplyOrders[a].supplyOrderDetails = orderDetails;
         }
+    }
+
+    selectOrder(supplyOrder: SupplyOrder) {
+        /*for(let i = 0; i < supplyOrder.supplyOrderDetails.length; i++) {
+            this.supplyAreaWiseAccumulation.quantity = 0;
+            this.supplyAreaWiseAccumulation.price = 0;
+            for (let j = 0; i < supplyOrder.supplyOrderDetails.length; j++) {
+                if (supplyOrder.supplyOrderDetails[i].productCategoryId === supplyOrder.supplyOrderDetails[j].productCategoryId &&
+                    supplyOrder.supplyOrderDetails[i].productId === supplyOrder.supplyOrderDetails[j].productId) {
+                    this.supplyAreaWiseAccumulation.quantity = supplyOrder.supplyOrderDetails[i].quantity;
+                    this.supplyAreaWiseAccumulation.price = supplyOrder.supplyOrderDetails[i].price;
+                }
+            }
+        }*/
+    }
+
+    protected onSaveSuccess() {
+        this.isSaving = false;
+        this.filterSupplyOrders();
+        //this.previousState();
     }
 
     trackId(index: number, item: ISupplyOrder) {

@@ -81,28 +81,30 @@ export class SupplyAreaManagerUpdateExtendedComponent extends SupplyAreaManagerU
     }
 
     filterSupplyAreaAndSupplyZoneManager() {
-        this.supplyAreaService
-            .query({
-                'supplyZoneId.equals': this.supplyAreaManager.supplyZoneId
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<ISupplyArea[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ISupplyArea[]>) => response.body)
-            )
-            .subscribe((res: ISupplyArea[]) => (this.supplyareas = res), (res: HttpErrorResponse) => this.onError(res.message));
+        if (this.supplyAreaManager.supplyZoneId) {
+            this.supplyAreaService
+                .query({
+                    'supplyZoneId.equals': this.supplyAreaManager.supplyZoneId
+                })
+                .pipe(
+                    filter((mayBeOk: HttpResponse<ISupplyArea[]>) => mayBeOk.ok),
+                    map((response: HttpResponse<ISupplyArea[]>) => response.body)
+                )
+                .subscribe((res: ISupplyArea[]) => (this.supplyareas = res), (res: HttpErrorResponse) => this.onError(res.message));
 
-        this.supplyZoneManagerService
-            .query({
-                'supplyZoneId.equals': this.supplyAreaManager.supplyZoneId,
-                'status.equals': SupplyZoneManagerStatus.ACTIVE
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
-            )
-            .subscribe(
-                (res: ISupplyZoneManager[]) => (this.supplyzonemanagers = res),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+            this.supplyZoneManagerService
+                .query({
+                    'supplyZoneId.equals': this.supplyAreaManager.supplyZoneId,
+                    'status.equals': SupplyZoneManagerStatus.ACTIVE
+                })
+                .pipe(
+                    filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
+                    map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
+                )
+                .subscribe(
+                    (res: ISupplyZoneManager[]) => (this.supplyzonemanagers = res),
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
     }
 }

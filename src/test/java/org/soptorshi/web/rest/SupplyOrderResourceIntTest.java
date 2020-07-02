@@ -165,6 +165,11 @@ public class SupplyOrderResourceIntTest {
         em.persist(supplyAreaManager);
         em.flush();
         supplyOrder.setSupplyAreaManager(supplyAreaManager);
+        // Add required entity
+        SupplyShop supplyShop = SupplyShopResourceIntTest.createEntity(em);
+        em.persist(supplyShop);
+        em.flush();
+        supplyOrder.setSupplyShop(supplyShop);
         return supplyOrder;
     }
 
@@ -847,6 +852,25 @@ public class SupplyOrderResourceIntTest {
 
         // Get all the supplyOrderList where supplyAreaManager equals to supplyAreaManagerId + 1
         defaultSupplyOrderShouldNotBeFound("supplyAreaManagerId.equals=" + (supplyAreaManagerId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersBySupplyShopIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyShop supplyShop = SupplyShopResourceIntTest.createEntity(em);
+        em.persist(supplyShop);
+        em.flush();
+        supplyOrder.setSupplyShop(supplyShop);
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+        Long supplyShopId = supplyShop.getId();
+
+        // Get all the supplyOrderList where supplyShop equals to supplyShopId
+        defaultSupplyOrderShouldBeFound("supplyShopId.equals=" + supplyShopId);
+
+        // Get all the supplyOrderList where supplyShop equals to supplyShopId + 1
+        defaultSupplyOrderShouldNotBeFound("supplyShopId.equals=" + (supplyShopId + 1));
     }
 
     /**

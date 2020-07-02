@@ -53,7 +53,7 @@
                 </td>
                 <td>
                     <div *ngIf="supplyShop.supplyZoneManagerId">
-                        <a [routerLink]="['../supply-zone-manager', supplyShop.supplyZoneManagerId , 'view' ]">{{supplyShop.supplyZoneManagerName}}</a>
+                        <a [routerLink]="['../supply-zone-manager', supplyShop.supplyZoneManagerId , 'view' ]">{{supplyShop.supplyZoneManagerId | scmZoneManagerFilter: supplyZoneManagers}}</a>
                     </div>
                 </td>
                 <td>
@@ -63,7 +63,7 @@
                 </td>
                 <td>
                     <div *ngIf="supplyShop.supplyAreaManagerId">
-                        <a [routerLink]="['../supply-area-manager', supplyShop.supplyAreaManagerId , 'view' ]">{{supplyShop.supplyAreaManagerName}}</a>
+                        <a [routerLink]="['../supply-area-manager', supplyShop.supplyAreaManagerId , 'view' ]">{{supplyShop.supplyAreaManagerId | scmAreaManagerFilter: supplyAreaManagers}}</a>
                     </div>
                 </td>
                 <td>

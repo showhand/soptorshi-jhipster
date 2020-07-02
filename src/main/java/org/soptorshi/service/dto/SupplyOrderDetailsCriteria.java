@@ -31,8 +31,6 @@ public class SupplyOrderDetailsCriteria implements Serializable {
 
     private BigDecimalFilter price;
 
-    private LongFilter supplyShopId;
-
     private LongFilter supplyOrderId;
 
     private LongFilter productCategoryId;
@@ -95,14 +93,6 @@ public class SupplyOrderDetailsCriteria implements Serializable {
         this.price = price;
     }
 
-    public LongFilter getSupplyShopId() {
-        return supplyShopId;
-    }
-
-    public void setSupplyShopId(LongFilter supplyShopId) {
-        this.supplyShopId = supplyShopId;
-    }
-
     public LongFilter getSupplyOrderId() {
         return supplyOrderId;
     }
@@ -145,7 +135,6 @@ public class SupplyOrderDetailsCriteria implements Serializable {
             Objects.equals(updatedOn, that.updatedOn) &&
             Objects.equals(quantity, that.quantity) &&
             Objects.equals(price, that.price) &&
-            Objects.equals(supplyShopId, that.supplyShopId) &&
             Objects.equals(supplyOrderId, that.supplyOrderId) &&
             Objects.equals(productCategoryId, that.productCategoryId) &&
             Objects.equals(productId, that.productId);
@@ -161,7 +150,6 @@ public class SupplyOrderDetailsCriteria implements Serializable {
         updatedOn,
         quantity,
         price,
-        supplyShopId,
         supplyOrderId,
         productCategoryId,
         productId
@@ -178,7 +166,6 @@ public class SupplyOrderDetailsCriteria implements Serializable {
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
                 (quantity != null ? "quantity=" + quantity + ", " : "") +
                 (price != null ? "price=" + price + ", " : "") +
-                (supplyShopId != null ? "supplyShopId=" + supplyShopId + ", " : "") +
                 (supplyOrderId != null ? "supplyOrderId=" + supplyOrderId + ", " : "") +
                 (productCategoryId != null ? "productCategoryId=" + productCategoryId + ", " : "") +
                 (productId != null ? "productId=" + productId + ", " : "") +

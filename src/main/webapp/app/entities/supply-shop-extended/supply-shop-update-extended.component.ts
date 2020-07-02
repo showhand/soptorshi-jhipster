@@ -98,34 +98,38 @@ export class SupplyShopUpdateExtendedComponent extends SupplyShopUpdateComponent
     }
 
     filterZoneManager() {
-        this.supplyZoneManagerService
-            .query({
-                'supplyZoneId.equals': this.supplyShop.supplyZoneId,
-                'status.equals': SupplyZoneManagerStatus.ACTIVE
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
-            )
-            .subscribe(
-                (res: ISupplyZoneManager[]) => {
-                    this.supplyzonemanagers = res;
-                    this.filterArea();
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        if (this.supplyShop.supplyZoneId) {
+            this.supplyZoneManagerService
+                .query({
+                    'supplyZoneId.equals': this.supplyShop.supplyZoneId,
+                    'status.equals': SupplyZoneManagerStatus.ACTIVE
+                })
+                .pipe(
+                    filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
+                    map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
+                )
+                .subscribe(
+                    (res: ISupplyZoneManager[]) => {
+                        this.supplyzonemanagers = res;
+                        this.filterArea();
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
     }
 
     filterArea() {
-        this.supplyAreaService
-            .query({
-                'supplyZoneId.equals': this.supplyShop.supplyZoneId
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<ISupplyArea[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ISupplyArea[]>) => response.body)
-            )
-            .subscribe((res: ISupplyArea[]) => (this.supplyareas = res), (res: HttpErrorResponse) => this.onError(res.message));
+        if (this.supplyShop.supplyZoneId) {
+            this.supplyAreaService
+                .query({
+                    'supplyZoneId.equals': this.supplyShop.supplyZoneId
+                })
+                .pipe(
+                    filter((mayBeOk: HttpResponse<ISupplyArea[]>) => mayBeOk.ok),
+                    map((response: HttpResponse<ISupplyArea[]>) => response.body)
+                )
+                .subscribe((res: ISupplyArea[]) => (this.supplyareas = res), (res: HttpErrorResponse) => this.onError(res.message));
+        }
     }
 
     filterAreaManager() {

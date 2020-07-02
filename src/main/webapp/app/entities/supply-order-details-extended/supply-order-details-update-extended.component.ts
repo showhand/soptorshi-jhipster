@@ -5,12 +5,10 @@ import { SupplyOrderDetailsExtendedService } from './supply-order-details-extend
 import { ProductCategoryService } from 'app/entities/product-category';
 import { ProductService } from 'app/entities/product';
 import { SupplyOrderDetailsUpdateComponent } from 'app/entities/supply-order-details';
-import { SupplyShopExtendedService } from 'app/entities/supply-shop-extended';
 import { SupplyOrderExtendedService } from 'app/entities/supply-order-extended';
 import { DATE_TIME_FORMAT } from 'app/shared';
 import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { ISupplyShop } from 'app/shared/model/supply-shop.model';
 import { ISupplyOrder, SupplyOrder } from 'app/shared/model/supply-order.model';
 import { IProductCategory } from 'app/shared/model/product-category.model';
 import { IProduct } from 'app/shared/model/product.model';
@@ -25,22 +23,13 @@ export class SupplyOrderDetailsUpdateExtendedComponent extends SupplyOrderDetail
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected supplyOrderDetailsService: SupplyOrderDetailsExtendedService,
-        protected supplyShopService: SupplyShopExtendedService,
         protected supplyOrderService: SupplyOrderExtendedService,
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
         protected activatedRoute: ActivatedRoute,
         protected router: Router
     ) {
-        super(
-            jhiAlertService,
-            supplyOrderDetailsService,
-            supplyShopService,
-            supplyOrderService,
-            productCategoryService,
-            productService,
-            activatedRoute
-        );
+        super(jhiAlertService, supplyOrderDetailsService, supplyOrderService, productCategoryService, productService, activatedRoute);
     }
 
     ngOnInit() {
@@ -50,13 +39,6 @@ export class SupplyOrderDetailsUpdateExtendedComponent extends SupplyOrderDetail
             this.createdOn = this.supplyOrderDetails.createdOn != null ? this.supplyOrderDetails.createdOn.format(DATE_TIME_FORMAT) : null;
             this.updatedOn = this.supplyOrderDetails.updatedOn != null ? this.supplyOrderDetails.updatedOn.format(DATE_TIME_FORMAT) : null;
         });
-        this.supplyShopService
-            .query()
-            .pipe(
-                filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ISupplyShop[]>) => response.body)
-            )
-            .subscribe((res: ISupplyShop[]) => (this.supplyshops = res), (res: HttpErrorResponse) => this.onError(res.message));
         this.supplyOrderService
             .query()
             .pipe(

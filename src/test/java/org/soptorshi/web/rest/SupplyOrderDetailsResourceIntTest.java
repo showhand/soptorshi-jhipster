@@ -5,7 +5,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.*;
+import org.soptorshi.domain.Product;
+import org.soptorshi.domain.ProductCategory;
+import org.soptorshi.domain.SupplyOrder;
+import org.soptorshi.domain.SupplyOrderDetails;
 import org.soptorshi.repository.SupplyOrderDetailsRepository;
 import org.soptorshi.repository.search.SupplyOrderDetailsSearchRepository;
 import org.soptorshi.service.SupplyOrderDetailsQueryService;
@@ -133,11 +136,6 @@ public class SupplyOrderDetailsResourceIntTest {
             .updatedOn(DEFAULT_UPDATED_ON)
             .quantity(DEFAULT_QUANTITY)
             .price(DEFAULT_PRICE);
-        // Add required entity
-        SupplyShop supplyShop = SupplyShopResourceIntTest.createEntity(em);
-        em.persist(supplyShop);
-        em.flush();
-        supplyOrderDetails.setSupplyShop(supplyShop);
         // Add required entity
         SupplyOrder supplyOrder = SupplyOrderResourceIntTest.createEntity(em);
         em.persist(supplyOrder);
@@ -520,25 +518,6 @@ public class SupplyOrderDetailsResourceIntTest {
         // Get all the supplyOrderDetailsList where price is null
         defaultSupplyOrderDetailsShouldNotBeFound("price.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrderDetailsBySupplyShopIsEqualToSomething() throws Exception {
-        // Initialize the database
-        SupplyShop supplyShop = SupplyShopResourceIntTest.createEntity(em);
-        em.persist(supplyShop);
-        em.flush();
-        supplyOrderDetails.setSupplyShop(supplyShop);
-        supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
-        Long supplyShopId = supplyShop.getId();
-
-        // Get all the supplyOrderDetailsList where supplyShop equals to supplyShopId
-        defaultSupplyOrderDetailsShouldBeFound("supplyShopId.equals=" + supplyShopId);
-
-        // Get all the supplyOrderDetailsList where supplyShop equals to supplyShopId + 1
-        defaultSupplyOrderDetailsShouldNotBeFound("supplyShopId.equals=" + (supplyShopId + 1));
-    }
-
 
     @Test
     @Transactional

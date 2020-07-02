@@ -7,7 +7,7 @@ import { DATE_TIME_FORMAT } from 'app/shared';
 import { filter, map } from 'rxjs/operators';
 import { ISupplyZone } from 'app/shared/model/supply-zone.model';
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
-import { ISupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
+import { ISupplySalesRepresentative, SupplySalesRepresentativeStatus } from 'app/shared/model/supply-sales-representative.model';
 import { ISupplyAreaManager, SupplyAreaManagerStatus } from 'app/shared/model/supply-area-manager.model';
 import { SupplyOrderDetailsExtendedService } from 'app/entities/supply-order-details-extended';
 import { ISupplyOrderDetails } from 'app/shared/model/supply-order-details.model';
@@ -20,6 +20,8 @@ import { SupplyZoneManagerExtendedService } from 'app/entities/supply-zone-manag
 import { ISupplyZoneManager, SupplyZoneManagerStatus } from 'app/shared/model/supply-zone-manager.model';
 import * as moment from 'moment';
 import { SupplyOrderStatus } from 'app/shared/model/supply-order.model';
+import { SupplyShopExtendedService } from 'app/entities/supply-shop-extended';
+import { ISupplyShop } from 'app/shared/model/supply-shop.model';
 
 @Component({
     selector: 'jhi-supply-order-update-extended',
@@ -36,6 +38,7 @@ export class SupplyOrderUpdateExtendedComponent extends SupplyOrderUpdateCompone
         protected supplyAreaService: SupplyAreaExtendedService,
         protected supplySalesRepresentativeService: SupplySalesRepresentativeExtendedService,
         protected supplyAreaManagerService: SupplyAreaManagerExtendedService,
+        protected supplyShopService: SupplyShopExtendedService,
         protected activatedRoute: ActivatedRoute,
         protected supplyOrderDetailsService: SupplyOrderDetailsExtendedService,
         protected router: Router
@@ -48,47 +51,53 @@ export class SupplyOrderUpdateExtendedComponent extends SupplyOrderUpdateCompone
             supplyAreaService,
             supplySalesRepresentativeService,
             supplyAreaManagerService,
+            supplyShopService,
             activatedRoute
         );
     }
 
     filterZoneManager() {
-        this.supplyZoneManagerService
-            .query({
-                'supplyZoneId.equals': this.supplyOrder.supplyZoneId,
-                'status.equals': SupplyZoneManagerStatus.ACTIVE
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
-            )
-            .subscribe(
-                (res: ISupplyZoneManager[]) => {
-                    this.supplyzonemanagers = res;
-                    this.filterArea();
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        if (this.supplyOrder.supplyZoneId) {
+            this.supplyZoneManagerService
+                .query({
+                    'supplyZoneId.equals': this.supplyOrder.supplyZoneId,
+                    'status.equals': SupplyZoneManagerStatus.ACTIVE
+                })
+                .pipe(
+                    filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
+                    map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
+                )
+                .subscribe(
+                    (res: ISupplyZoneManager[]) => {
+                        this.supplyzonemanagers = res;
+                        this.filterArea();
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+        }
     }
 
     filterArea() {
-        this.supplyAreaService
-            .query({
-                'supplyZoneId.equals': this.supplyOrder.supplyZoneId
-            })
-            .pipe(
-                filter((mayBeOk: HttpResponse<ISupplyArea[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ISupplyArea[]>) => response.body)
-            )
-            .subscribe((res: ISupplyArea[]) => (this.supplyareas = res), (res: HttpErrorResponse) => this.onError(res.message));
+        if (this.supplyOrder.supplyZoneId) {
+            this.supplyAreaService
+                .query({
+                    'supplyZoneId.equals': this.supplyOrder.supplyZoneId
+                })
+                .pipe(
+                    filter((mayBeOk: HttpResponse<ISupplyArea[]>) => mayBeOk.ok),
+                    map((response: HttpResponse<ISupplyArea[]>) => response.body)
+                )
+                .subscribe((res: ISupplyArea[]) => (this.supplyareas = res), (res: HttpErrorResponse) => this.onError(res.message));
+        }
     }
 
     filterAreaManager() {
-        if (this.supplyOrder.supplyZoneId && this.supplyOrder.supplyAreaId) {
+        if (this.supplyOrder.supplyZoneId && this.supplyOrder.supplyAreaId && this.supplyOrder.supplyZoneManagerId) {
             this.supplyAreaManagerService
                 .query({
                     'supplyZoneId.equals': this.supplyOrder.supplyZoneId,
                     'supplyAreaId.equals': this.supplyOrder.supplyAreaId,
+                    'supplyZoneManagerId.equals': this.supplyOrder.supplyZoneManagerId,
                     'status.equals': SupplyAreaManagerStatus.ACTIVE
                 })
                 .pipe(
@@ -105,12 +114,19 @@ export class SupplyOrderUpdateExtendedComponent extends SupplyOrderUpdateCompone
     }
 
     filterSalesRepresentative() {
-        if (this.supplyOrder.supplyZoneId && this.supplyOrder.supplyAreaId && this.supplyOrder.supplyAreaManagerId) {
+        if (
+            this.supplyOrder.supplyZoneId &&
+            this.supplyOrder.supplyAreaId &&
+            this.supplyOrder.supplyZoneManagerId &&
+            this.supplyOrder.supplyAreaManagerId
+        ) {
             this.supplySalesRepresentativeService
                 .query({
                     'supplyZoneId.equals': this.supplyOrder.supplyZoneId,
                     'supplyAreaId.equals': this.supplyOrder.supplyAreaId,
-                    'supplyAreaManagerId.equals': this.supplyOrder.supplyAreaManagerId
+                    'supplyZoneManagerId.equals': this.supplyOrder.supplyZoneManagerId,
+                    'supplyAreaManagerId.equals': this.supplyOrder.supplyAreaManagerId,
+                    'status.equals': SupplySalesRepresentativeStatus.ACTIVE
                 })
                 .pipe(
                     filter((mayBeOk: HttpResponse<ISupplySalesRepresentative[]>) => mayBeOk.ok),
@@ -120,6 +136,30 @@ export class SupplyOrderUpdateExtendedComponent extends SupplyOrderUpdateCompone
                     (res: ISupplySalesRepresentative[]) => (this.supplysalesrepresentatives = res),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
+        }
+    }
+
+    filterShop() {
+        if (
+            this.supplyOrder.supplyZoneId &&
+            this.supplyOrder.supplyAreaId &&
+            this.supplyOrder.supplyZoneManagerId &&
+            this.supplyOrder.supplyAreaManagerId &&
+            this.supplyOrder.supplySalesRepresentativeId
+        ) {
+            this.supplyShopService
+                .query({
+                    'supplyZoneId.equals': this.supplyOrder.supplyZoneId,
+                    'supplyAreaId.equals': this.supplyOrder.supplyAreaId,
+                    'supplyZoneManagerId.equals': this.supplyOrder.supplyZoneManagerId,
+                    'supplyAreaManagerId.equals': this.supplyOrder.supplyAreaManagerId,
+                    'supplySalesRepresentativeId.equals': this.supplyOrder.supplySalesRepresentativeId
+                })
+                .pipe(
+                    filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),
+                    map((response: HttpResponse<ISupplyShop[]>) => response.body)
+                )
+                .subscribe((res: ISupplyShop[]) => (this.supplyshops = res), (res: HttpErrorResponse) => this.onError(res.message));
         }
     }
 
@@ -176,6 +216,13 @@ export class SupplyOrderUpdateExtendedComponent extends SupplyOrderUpdateCompone
                 (res: ISupplyAreaManager[]) => (this.supplyareamanagers = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.supplyShopService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyShop[]>) => response.body)
+            )
+            .subscribe((res: ISupplyShop[]) => (this.supplyshops = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     getProductInfo() {
