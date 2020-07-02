@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { SoptorshiSharedModule } from 'app/shared';
+import { ScmOrderDetailsFilterPipe, SoptorshiSharedModule } from 'app/shared';
 import {
     SupplyAreaWiseAccumulationDeleteDialogExtendedComponent,
     SupplyAreaWiseAccumulationDeletePopupExtendedComponent,
@@ -16,6 +16,7 @@ const ENTITY_STATES = [...supplyAreaWiseAccumulationExtendedRoute, ...supplyArea
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    providers: [ScmOrderDetailsFilterPipe],
     declarations: [
         SupplyAreaWiseAccumulationExtendedComponent,
         SupplyAreaWiseAccumulationDetailExtendedComponent,

@@ -123,90 +123,137 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="table-responsive" *ngIf="supplyOrders">
-                    <hr>
-                    <h4>Select orders to accumulate</h4>
-                    <hr>
-                    <div *ngFor="let supplyOrder of supplyOrders ;trackBy: trackId">
-                        <div class="row">
-                            <div class="col-3">
-                                Order Id: <b>{{supplyOrder.id}}</b>
+<div *ngIf="accumulatedList.length > 0">
+    <div class="row">
+        <div class="col-12">
+            <hr>
+            <h4>Accumulated Order</h4>
+            <hr>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th><span>Product Category</span>
+                        </th>
+                        <th><span>Product</span>
+                        </th>
+                        <th><span>Total Quantity</span>
+                        </th>
+                        <th><span>Total Price</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let selectedProduct of accumulatedList">
+                        <td>
+                            <div *ngIf="selectedProduct.productCategoryId">
+                                {{selectedProduct.productCategoryName}}
                             </div>
-
-                            <div class="col-3">
-                                Sales Representative: <b>{{supplyOrder.supplySalesRepresentativeName}}</b>
+                        </td>
+                        <td>
+                            <div *ngIf="selectedProduct.productId">
+                                {{selectedProduct.productName}}
                             </div>
+                        </td>
+                        <td>{{selectedProduct.quantity}}</td>
+                        <td>{{selectedProduct.price}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>
 
-                            <div class="col-3">
-                                Order No: <b>{{supplyOrder.orderNo}}</b>
-                            </div>
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive" *ngIf="supplyOrders">
+            <hr>
+            <h4>Select orders to accumulate</h4>
+            <hr>
+            <div *ngFor="let supplyOrder of supplyOrders ;trackBy: trackId">
+                <div class="row">
+                    <div class="col-3">
+                        Order Id: <b>{{supplyOrder.id}}</b>
+                    </div>
 
-                            <div class="col-3">
-                                Area: <b>{{supplyOrder.supplyAreaName}}</b>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-3">
-                                Order Date: <b>{{supplyOrder.dateOfOrder | date:'mediumDate'}}</b>
-                            </div>
-                            <div class="col-3">
-                                Delivery Date: <b>{{supplyOrder.deliveryDate | date:'mediumDate'}}</b>
-                            </div>
+                    <div class="col-3">
+                        Sales Representative: <b>{{supplyOrder.supplySalesRepresentativeName}}</b>
+                    </div>
 
-                            <div class="col-3"></div>
-                        </div>
+                    <div class="col-3">
+                        Order No: <b>{{supplyOrder.orderNo}}</b>
+                    </div>
 
-                        <br />
-
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th><span>ID</span></th>
-                                    <th><span>Order</span>
-                                    </th>
-                                    <th><span>Product Category</span>
-                                    </th>
-                                    <th><span>Product</span>
-                                    </th>
-                                    <th><span>Quantity</span>
-                                    </th>
-                                    <th><span>Price</span>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr *ngFor="let supplyOrderDetail of supplyOrderDetails | scmOrderDetailsFilter: supplyOrder.id">
-                                    <td>
-                                        {{supplyOrderDetail.id}}
-                                    </td>
-                                    <td>
-                                        <div *ngIf="supplyOrderDetail.supplyOrderId">
-                                            {{supplyOrderDetail.supplyOrderOrderNo}}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div *ngIf="supplyOrderDetail.productCategoryId">
-                                            {{supplyOrderDetail.productCategoryName}}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div *ngIf="supplyOrderDetail.productId">
-                                            {{supplyOrderDetail.productName}}
-                                        </div>
-                                    </td>
-                                    <td>{{supplyOrderDetail.quantity}}</td>
-                                    <td>{{supplyOrderDetail.price}}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <hr >
+                    <div class="col-3">
+                        Area: <b>{{supplyOrder.supplyAreaName}}</b>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-3">
+                        Order Date: <b>{{supplyOrder.dateOfOrder | date:'mediumDate'}}</b>
+                    </div>
+                    <div class="col-3">
+                        Delivery Date: <b>{{supplyOrder.deliveryDate | date:'mediumDate'}}</b>
+                    </div>
+
+                    <div class="col-3"></div>
+
+                    <div class="col-3">
+                        <input type="checkbox" (click)="selectItem(supplyOrder)">
+                    </div>
+                </div>
+
+                <br/>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th><span>ID</span></th>
+                            <th><span>Order</span>
+                            </th>
+                            <th><span>Product Category</span>
+                            </th>
+                            <th><span>Product</span>
+                            </th>
+                            <th><span>Quantity</span>
+                            </th>
+                            <th><span>Price</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let supplyOrderDetail of supplyOrderDetails | scmOrderDetailsFilter: supplyOrder.id">
+                            <td>
+                                {{supplyOrderDetail.id}}
+                            </td>
+                            <td>
+                                <div *ngIf="supplyOrderDetail.supplyOrderId">
+                                    {{supplyOrderDetail.supplyOrderOrderNo}}
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="supplyOrderDetail.productCategoryId">
+                                    {{supplyOrderDetail.productName}}
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="supplyOrderDetail.productId">
+                                    {{supplyOrderDetail.productName}}
+                                </div>
+                            </td>
+                            <td>{{supplyOrderDetail.quantity}}</td>
+                            <td>{{supplyOrderDetail.price}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
             </div>
         </div>
     </div>

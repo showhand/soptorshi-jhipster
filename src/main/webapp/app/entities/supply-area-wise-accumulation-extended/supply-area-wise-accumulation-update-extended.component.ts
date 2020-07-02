@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiAlertService } from 'ng-jhipster';
 import { SupplyAreaWiseAccumulationExtendedService } from './supply-area-wise-accumulation-extended.service';
@@ -18,14 +18,21 @@ import { ISupplyOrder, SupplyOrder, SupplyOrderStatus } from 'app/shared/model/s
 import { SupplyOrderExtendedService } from 'app/entities/supply-order-extended';
 import { SupplyOrderDetailsExtendedService } from 'app/entities/supply-order-details-extended';
 import { ISupplyOrderDetails, SupplyOrderDetails } from 'app/shared/model/supply-order-details.model';
+import { ScmAreaWiseSelectedProduct } from 'app/shared/model/scm-area-wise-selected-product.model';
+import { DATE_TIME_FORMAT, ScmOrderDetailsFilterPipe } from 'app/shared';
+import { ISupplyZone } from 'app/shared/model/supply-zone.model';
+import { IProductCategory } from 'app/shared/model/product-category.model';
+import { IProduct } from 'app/shared/model/product.model';
 
 @Component({
     selector: 'jhi-supply-area-wise-accumulation-update-extended',
     templateUrl: './supply-area-wise-accumulation-update-extended.component.html'
 })
-export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAreaWiseAccumulationUpdateComponent {
+export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAreaWiseAccumulationUpdateComponent implements OnInit {
     supplyOrders: SupplyOrder[];
     supplyOrderDetails: SupplyOrderDetails[];
+    accumulatedList: ScmAreaWiseSelectedProduct[];
+    selectedProducts: SupplyOrderDetails[];
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -38,7 +45,8 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
         protected productService: ProductService,
         protected activatedRoute: ActivatedRoute,
         protected supplyOrder: SupplyOrderExtendedService,
-        protected supplyOrderDetailsService: SupplyOrderDetailsExtendedService
+        protected supplyOrderDetailsService: SupplyOrderDetailsExtendedService,
+        protected scmOrderDetailsFilterPipe: ScmOrderDetailsFilterPipe
     ) {
         super(
             jhiAlertService,
@@ -148,6 +156,127 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
         }
+    }
+
+    ngOnInit() {
+        this.accumulatedList = [];
+        this.selectedProducts = [];
+        this.isSaving = false;
+        this.activatedRoute.data.subscribe(({ supplyAreaWiseAccumulation }) => {
+            this.supplyAreaWiseAccumulation = supplyAreaWiseAccumulation;
+            this.createdOn =
+                this.supplyAreaWiseAccumulation.createdOn != null
+                    ? this.supplyAreaWiseAccumulation.createdOn.format(DATE_TIME_FORMAT)
+                    : null;
+            this.updatedOn =
+                this.supplyAreaWiseAccumulation.updatedOn != null
+                    ? this.supplyAreaWiseAccumulation.updatedOn.format(DATE_TIME_FORMAT)
+                    : null;
+        });
+        this.supplyZoneService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyZone[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyZone[]>) => response.body)
+            )
+            .subscribe((res: ISupplyZone[]) => (this.supplyzones = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.supplyZoneManagerService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplyZoneManager[]) => (this.supplyzonemanagers = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        this.supplyAreaService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyArea[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyArea[]>) => response.body)
+            )
+            .subscribe((res: ISupplyArea[]) => (this.supplyareas = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.supplyAreaManagerService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyAreaManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyAreaManager[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplyAreaManager[]) => (this.supplyareamanagers = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        this.productCategoryService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IProductCategory[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProductCategory[]>) => response.body)
+            )
+            .subscribe((res: IProductCategory[]) => (this.productcategories = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.productService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IProduct[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IProduct[]>) => response.body)
+            )
+            .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    selectItem(supplyOrder: SupplyOrder) {
+        let selectedItems: SupplyOrderDetails[];
+        selectedItems = this.scmOrderDetailsFilterPipe.transform(this.supplyOrderDetails, supplyOrder.id);
+
+        for (let i = 0; i < selectedItems.length; i++) {
+            let found: boolean = false;
+            let index: number = 0;
+            for (let j = 0; j < this.selectedProducts.length; j++) {
+                if (selectedItems[i].id === this.selectedProducts[j].id) {
+                    found = true;
+                    index = j;
+                }
+            }
+
+            if (found) {
+                for (let k = 0; k < this.accumulatedList.length; k++) {
+                    if (
+                        selectedItems[i].productCategoryId === this.accumulatedList[k].productCategoryId &&
+                        selectedItems[i].productId === this.accumulatedList[k].productId
+                    ) {
+                        this.accumulatedList[k].quantity = this.accumulatedList[k].quantity - selectedItems[i].quantity;
+                        this.accumulatedList[k].price = this.accumulatedList[k].price - selectedItems[i].price;
+                    }
+                }
+                this.selectedProducts.splice(index, 1);
+            } else {
+                this.selectedProducts.push(selectedItems[i]);
+                let flag: boolean = false;
+                for (let k = 0; k < this.accumulatedList.length; k++) {
+                    if (
+                        selectedItems[i].productCategoryId === this.accumulatedList[k].productCategoryId &&
+                        selectedItems[i].productId === this.accumulatedList[k].productId
+                    ) {
+                        this.accumulatedList[k].quantity = this.accumulatedList[k].quantity + selectedItems[i].quantity;
+                        this.accumulatedList[k].price = this.accumulatedList[k].price + selectedItems[i].price;
+                        flag = true;
+                    }
+                }
+
+                if (!flag) {
+                    let accumulated: ScmAreaWiseSelectedProduct = new ScmAreaWiseSelectedProduct(null, '', null, '', null, null);
+                    accumulated.productCategoryId = selectedItems[i].productCategoryId;
+                    accumulated.productId = selectedItems[i].productId;
+                    accumulated.productCategoryName = selectedItems[i].productCategoryName;
+                    accumulated.productCategoryName = selectedItems[i].productName;
+                    accumulated.quantity = selectedItems[i].quantity;
+                    accumulated.price = selectedItems[i].price;
+                    this.accumulatedList.push(accumulated);
+                }
+            }
+        }
+
+        console.log(this.selectedProducts);
+        console.log(this.accumulatedList);
     }
 
     protected paginateSupplyOrders(data: ISupplyOrder[], headers: HttpHeaders) {
