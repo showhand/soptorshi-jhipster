@@ -23,6 +23,13 @@ import { DATE_TIME_FORMAT, ScmOrderDetailsFilterPipe } from 'app/shared';
 import { ISupplyZone } from 'app/shared/model/supply-zone.model';
 import { IProductCategory } from 'app/shared/model/product-category.model';
 import { IProduct } from 'app/shared/model/product.model';
+import * as moment from 'moment';
+import {
+    ISupplyAreaWiseAccumulation,
+    SupplyAreaWiseAccumulation,
+    SupplyAreaWiseAccumulationStatus
+} from 'app/shared/model/supply-area-wise-accumulation.model';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'jhi-supply-area-wise-accumulation-update-extended',
@@ -33,6 +40,7 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
     supplyOrderDetails: SupplyOrderDetails[];
     accumulatedList: ScmAreaWiseSelectedProduct[];
     selectedProducts: SupplyOrderDetails[];
+    selectedSupplyOrders: SupplyOrder[];
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -44,7 +52,7 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
         protected productCategoryService: ProductCategoryService,
         protected productService: ProductService,
         protected activatedRoute: ActivatedRoute,
-        protected supplyOrder: SupplyOrderExtendedService,
+        protected supplyOrderService: SupplyOrderExtendedService,
         protected supplyOrderDetailsService: SupplyOrderDetailsExtendedService,
         protected scmOrderDetailsFilterPipe: ScmOrderDetailsFilterPipe
     ) {
@@ -128,7 +136,7 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
             this.supplyAreaWiseAccumulation.supplyAreaId &&
             this.supplyAreaWiseAccumulation.supplyAreaManagerId
         ) {
-            this.supplyOrder
+            this.supplyOrderService
                 .query({
                     'supplyZoneId.equals': this.supplyAreaWiseAccumulation.supplyZoneId,
                     'supplyZoneManagerId.equals': this.supplyAreaWiseAccumulation.supplyZoneManagerId,
@@ -139,6 +147,8 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
                 .subscribe(
                     (res: HttpResponse<ISupplyOrder[]>) => {
                         this.paginateSupplyOrders(res.body, res.headers);
+                        this.selectedProducts = [];
+                        this.accumulatedList = [];
                         if (this.supplyOrders.length > 0) {
                             const map: string = this.supplyOrders.map(val => val.id).join(',');
                             this.supplyOrderDetailsService
@@ -161,6 +171,7 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
     ngOnInit() {
         this.accumulatedList = [];
         this.selectedProducts = [];
+        this.selectedSupplyOrders = [];
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ supplyAreaWiseAccumulation }) => {
             this.supplyAreaWiseAccumulation = supplyAreaWiseAccumulation;
@@ -227,6 +238,20 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
         let selectedItems: SupplyOrderDetails[];
         selectedItems = this.scmOrderDetailsFilterPipe.transform(this.supplyOrderDetails, supplyOrder.id);
 
+        let supplyOrderFlag: boolean = false;
+        for (let a = 0; a < this.selectedSupplyOrders.length; a++) {
+            if (supplyOrder.id === this.selectedSupplyOrders[a].id) {
+                this.selectedSupplyOrders.splice(a, 1);
+                supplyOrderFlag = true;
+                break;
+            }
+        }
+        if (!supplyOrderFlag) {
+            supplyOrder.areaWiseAccumulationRefNo = this.supplyAreaWiseAccumulation.areaWiseAccumulationRefNo;
+            supplyOrder.status = SupplyOrderStatus.PROCESSING_ORDER;
+            this.selectedSupplyOrders.push(supplyOrder);
+        }
+
         for (let i = 0; i < selectedItems.length; i++) {
             let found: boolean = false;
             let index: number = 0;
@@ -274,9 +299,6 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
                 }
             }
         }
-
-        console.log(this.selectedProducts);
-        console.log(this.accumulatedList);
     }
 
     protected paginateSupplyOrders(data: ISupplyOrder[], headers: HttpHeaders) {
@@ -293,10 +315,45 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
         }
     }
 
+    save() {
+        this.isSaving = true;
+        this.supplyOrderService.bulkUpdate(this.selectedSupplyOrders).subscribe(
+            (res: HttpResponse<ISupplyOrder[]>) => {
+                let supplyAreaWiseAccumulations: SupplyAreaWiseAccumulation[] = [];
+                for (let i = 0; i < this.accumulatedList.length; i++) {
+                    let areaWiseAccumulation: SupplyAreaWiseAccumulation = {};
+                    areaWiseAccumulation.supplyZoneId = this.supplyAreaWiseAccumulation.supplyZoneId;
+                    areaWiseAccumulation.supplyAreaId = this.supplyAreaWiseAccumulation.supplyAreaId;
+                    areaWiseAccumulation.supplyZoneManagerId = this.supplyAreaWiseAccumulation.supplyZoneManagerId;
+                    areaWiseAccumulation.supplyAreaManagerId = this.supplyAreaWiseAccumulation.supplyAreaManagerId;
+                    areaWiseAccumulation.productCategoryId = this.accumulatedList[i].productCategoryId;
+                    areaWiseAccumulation.productId = this.accumulatedList[i].productId;
+                    areaWiseAccumulation.quantity = this.accumulatedList[i].quantity;
+                    areaWiseAccumulation.price = this.accumulatedList[i].price;
+                    areaWiseAccumulation.areaWiseAccumulationRefNo = this.supplyAreaWiseAccumulation.areaWiseAccumulationRefNo;
+                    areaWiseAccumulation.price = this.accumulatedList[i].price;
+                    areaWiseAccumulation.status = SupplyAreaWiseAccumulationStatus.PENDING;
+                    areaWiseAccumulation.createdOn = this.createdOn != null ? moment(this.createdOn, DATE_TIME_FORMAT) : null;
+                    areaWiseAccumulation.updatedOn = this.updatedOn != null ? moment(this.updatedOn, DATE_TIME_FORMAT) : null;
+
+                    supplyAreaWiseAccumulations.push(areaWiseAccumulation);
+                }
+                this.subscribeToBulkSaveResponse(this.supplyAreaWiseAccumulationService.bulkPost(supplyAreaWiseAccumulations));
+            },
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
+    }
+
+    protected subscribeToBulkSaveResponse(result: Observable<HttpResponse<ISupplyAreaWiseAccumulation[]>>) {
+        result.subscribe(
+            (res: HttpResponse<ISupplyAreaWiseAccumulation[]>) => this.onSaveSuccess(),
+            (res: HttpErrorResponse) => this.onSaveError()
+        );
+    }
+
     protected onSaveSuccess() {
         this.isSaving = false;
-        this.filterSupplyOrders();
-        //this.previousState();
+        this.previousState();
     }
 
     trackId(index: number, item: ISupplyOrder) {

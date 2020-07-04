@@ -39,6 +39,14 @@ export class SupplyOrderExtendedService extends SupplyOrderService {
             .pipe(map((res: HttpResponse<Moment[]>) => this.convertDateArrayFromServerResponse(res)));
     }
 
+    bulkUpdate(supplyOrder: ISupplyOrder[]): Observable<HttpResponse<ISupplyOrder[]>> {
+        let copy: any[] = [];
+        for (let i = 0; i < supplyOrder.length; i++) {
+            copy[i] = this.convertDateFromClient(supplyOrder[i]);
+        }
+        return this.http.put<ISupplyOrder[]>(`${this.resourceUrl}/bulk`, copy, { observe: 'response' });
+    }
+
     protected convertDateArrayFromServerResponse(res: HttpResponse<Moment[]>): HttpResponse<Moment[]> {
         if (res.body) {
             res.body.forEach((m: Moment) => {

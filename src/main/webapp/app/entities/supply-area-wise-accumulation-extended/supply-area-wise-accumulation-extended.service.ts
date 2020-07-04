@@ -4,6 +4,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { SERVER_API_URL } from 'app/app.constants';
 import { ISupplyAreaWiseAccumulation } from 'app/shared/model/supply-area-wise-accumulation.model';
 import { SupplyAreaWiseAccumulationService } from 'app/entities/supply-area-wise-accumulation';
+import { Observable } from 'rxjs';
 
 type EntityResponseType = HttpResponse<ISupplyAreaWiseAccumulation>;
 type EntityArrayResponseType = HttpResponse<ISupplyAreaWiseAccumulation[]>;
@@ -15,5 +16,13 @@ export class SupplyAreaWiseAccumulationExtendedService extends SupplyAreaWiseAcc
 
     constructor(protected http: HttpClient) {
         super(http);
+    }
+
+    bulkPost(supplyAreaWiseAccumulation: ISupplyAreaWiseAccumulation[]): Observable<HttpResponse<ISupplyAreaWiseAccumulation[]>> {
+        let copy: any[] = [];
+        for (let i = 0; i < supplyAreaWiseAccumulation.length; i++) {
+            copy[i] = this.convertDateFromClient(supplyAreaWiseAccumulation[i]);
+        }
+        return this.http.post<ISupplyAreaWiseAccumulation[]>(`${this.resourceUrl}/bulk`, copy, { observe: 'response' });
     }
 }

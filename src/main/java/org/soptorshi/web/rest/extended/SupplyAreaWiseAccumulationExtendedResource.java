@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing SupplyAreaWiseAccumulation.
@@ -69,6 +72,29 @@ public class SupplyAreaWiseAccumulationExtendedResource extends SupplyAreaWiseAc
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, supplyAreaWiseAccumulationDTO.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("/supply-area-wise-accumulations/bulk")
+    public ResponseEntity<List<SupplyAreaWiseAccumulationDTO>> updateBulkSupplyAreaWiseAccumulation(@Valid @RequestBody List<SupplyAreaWiseAccumulationDTO> supplyAreaWiseAccumulationDTOs) throws URISyntaxException {
+        log.debug("REST request to update bulk SupplyAreaWiseAccumulation : {}", supplyAreaWiseAccumulationDTOs);
+        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        for(SupplyAreaWiseAccumulationDTO supplyAreaWiseAccumulationDTO: supplyAreaWiseAccumulationDTOs) {
+            if (supplyAreaWiseAccumulationDTO.getId() != null) {
+                throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            }
+        }
+        List<SupplyAreaWiseAccumulationDTO> results = new ArrayList<>();
+        for(SupplyAreaWiseAccumulationDTO supplyAreaWiseAccumulationDTO: supplyAreaWiseAccumulationDTOs) {
+            SupplyAreaWiseAccumulationDTO result = supplyAreaWiseAccumulationService.save(supplyAreaWiseAccumulationDTO);
+            results.add(result);
+        }
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, supplyAreaWiseAccumulationDTOs.stream()
+                .map(SupplyAreaWiseAccumulationDTO::getId).collect(Collectors.toList()).toString()))
+            .body(results);
     }
 
     @DeleteMapping("/supply-area-wise-accumulations/{id}")
