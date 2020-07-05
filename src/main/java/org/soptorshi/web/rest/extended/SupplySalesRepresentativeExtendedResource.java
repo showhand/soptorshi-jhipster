@@ -46,6 +46,9 @@ public class SupplySalesRepresentativeExtendedResource extends SupplySalesRepres
         if (supplySalesRepresentativeDTO.getId() != null) {
             throw new BadRequestAlertException("A new supplySalesRepresentative cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if(!supplySalesRepresentativeExtendedService.isValidInput(supplySalesRepresentativeDTO)) {
+            throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
+        }
         SupplySalesRepresentativeDTO result = supplySalesRepresentativeExtendedService.save(supplySalesRepresentativeDTO);
         return ResponseEntity.created(new URI("/api/supply-sales-representatives/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -62,6 +65,9 @@ public class SupplySalesRepresentativeExtendedResource extends SupplySalesRepres
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplySalesRepresentativeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if(!supplySalesRepresentativeExtendedService.isValidInput(supplySalesRepresentativeDTO)) {
+            throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
         }
         SupplySalesRepresentativeDTO result = supplySalesRepresentativeExtendedService.save(supplySalesRepresentativeDTO);
         return ResponseEntity.ok()

@@ -11,6 +11,7 @@ import org.soptorshi.domain.enumeration.SupplyZoneManagerStatus;
 import org.soptorshi.repository.extended.EmployeeExtendedRepository;
 import org.soptorshi.repository.extended.SupplySalesRepresentativeExtendedRepository;
 import org.soptorshi.repository.search.SupplySalesRepresentativeSearchRepository;
+import org.soptorshi.security.AuthoritiesConstants;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.SupplySalesRepresentativeService;
 import org.soptorshi.service.dto.SupplyAreaDTO;
@@ -18,7 +19,6 @@ import org.soptorshi.service.dto.SupplyAreaManagerDTO;
 import org.soptorshi.service.dto.SupplySalesRepresentativeDTO;
 import org.soptorshi.service.dto.SupplyZoneManagerDTO;
 import org.soptorshi.service.mapper.SupplySalesRepresentativeMapper;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,15 +84,15 @@ public class SupplySalesRepresentativeExtendedService extends SupplySalesReprese
         return result;
     }
 
-    /*public boolean isValidInput(SupplyAreaManagerDTO supplyAreaManagerDTO) {
+    public boolean isValidInput(SupplySalesRepresentativeDTO supplySalesRepresentativeDTO) {
         String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
         if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER)) {
-            return isValidZoneAsPerZoneManagerRole(supplyAreaManagerDTO, currentUser) && isValidZoneManager(supplyAreaManagerDTO) && isValidArea(supplyAreaManagerDTO);
+            return isValidZoneAsPerZoneManagerRole(supplySalesRepresentativeDTO, currentUser) && isValidZoneManager(supplySalesRepresentativeDTO) && isValidArea(supplySalesRepresentativeDTO) && isValidAreaManager(supplySalesRepresentativeDTO);
         } else if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER)) {
-            return isValidZoneAsPerZoneManagerRole(supplyAreaManagerDTO, currentUser) && isValidZoneManager(supplyAreaManagerDTO) && isValidArea(supplyAreaManagerDTO);
+            return isValidZoneAsPerAreaManagerRole(supplySalesRepresentativeDTO, currentUser) && isValidZoneManager(supplySalesRepresentativeDTO) && isValidArea(supplySalesRepresentativeDTO) && isValidAreaManager(supplySalesRepresentativeDTO);
         }
-        return isValidZoneManager(supplyAreaManagerDTO) && isValidArea(supplyAreaManagerDTO);
-    }*/
+        return isValidZoneManager(supplySalesRepresentativeDTO) && isValidArea(supplySalesRepresentativeDTO) && isValidAreaManager(supplySalesRepresentativeDTO);
+    }
 
     private boolean isValidZoneAsPerZoneManagerRole(SupplySalesRepresentativeDTO supplySalesRepresentativeDTO, String currentUser) {
         Optional<Employee> currentEmployee = employeeExtendedRepository.findByEmployeeId(currentUser);
@@ -107,12 +107,13 @@ public class SupplySalesRepresentativeExtendedService extends SupplySalesReprese
         return false;
     }
 
-    private boolean isValidAreaAsPerAreaManagerRole(SupplySalesRepresentativeDTO supplySalesRepresentativeDTO, String currentUser) {
+    private boolean isValidZoneAsPerAreaManagerRole(SupplySalesRepresentativeDTO supplySalesRepresentativeDTO, String currentUser) {
         Optional<Employee> currentEmployee = employeeExtendedRepository.findByEmployeeId(currentUser);
         if (currentEmployee.isPresent()) {
             List<SupplyAreaManager> supplyAreaManagers = supplyAreaManagerExtendedService.getAreaManagers(currentEmployee.get(), SupplyAreaManagerStatus.ACTIVE);
             for (SupplyAreaManager supplyAreaManager : supplyAreaManagers) {
                 if (supplyAreaManager.getSupplyZone().getId().equals(supplySalesRepresentativeDTO.getSupplyZoneId())
+                    && supplyAreaManager.getSupplyZoneManager().getId().equals(supplySalesRepresentativeDTO.getSupplyZoneManagerId())
                 && supplyAreaManager.getSupplyArea().getId().equals(supplySalesRepresentativeDTO.getSupplyAreaId())) {
                     return true;
                 }
@@ -128,19 +129,14 @@ public class SupplySalesRepresentativeExtendedService extends SupplySalesReprese
 
     private boolean isValidArea(SupplySalesRepresentativeDTO supplySalesRepresentativeDTO) {
         Optional<SupplyAreaDTO> selectedArea = supplyAreaExtendedService.findOne(supplySalesRepresentativeDTO.getSupplyAreaId());
-        return selectedArea.map(supplyAreaDTO -> supplyAreaDTO.getSupplyZoneId().equals(supplySalesRepresentativeDTO.getSupplyZoneId())).orElse(false);
+        return selectedArea.map(supplyAreaDTO -> supplyAreaDTO.getSupplyZoneId().equals(supplySalesRepresentativeDTO.getSupplyZoneId()) &&
+            supplyAreaDTO.getSupplyZoneManagerId().equals(supplySalesRepresentativeDTO.getSupplyZoneManagerId())).orElse(false);
     }
 
     private boolean isValidAreaManager(SupplySalesRepresentativeDTO supplySalesRepresentativeDTO) {
         Optional<SupplyAreaManagerDTO> selectedAreaManager = supplyAreaManagerExtendedService.findOne(supplySalesRepresentativeDTO.getSupplyAreaManagerId());
-        if (selectedAreaManager.isPresent()) {
-            if (!selectedAreaManager.get().getSupplyZoneId().equals(supplySalesRepresentativeDTO.getSupplyZoneId())) {
-                throw new BadRequestAlertException("Invalid Area Manager Selected", "supplySalesRepresentative", "invalidaccess");
-            }
-            if (!selectedAreaManager.get().getSupplyAreaId().equals(supplySalesRepresentativeDTO.getSupplyAreaId())) {
-                throw new BadRequestAlertException("Invalid Area Manager Selected", "supplySalesRepresentative", "invalidaccess");
-            }
-        }
-        return false;
+        return selectedAreaManager.filter(supplyAreaManagerDTO -> supplyAreaManagerDTO.getSupplyZoneId().equals(supplySalesRepresentativeDTO.getSupplyZoneId()) &&
+            supplyAreaManagerDTO.getSupplyZoneManagerId().equals(supplySalesRepresentativeDTO.getSupplyZoneManagerId()) &&
+            supplyAreaManagerDTO.getSupplyAreaId().equals(supplySalesRepresentativeDTO.getSupplyAreaId())).isPresent();
     }
 }

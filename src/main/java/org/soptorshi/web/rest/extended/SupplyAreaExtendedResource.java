@@ -39,10 +39,14 @@ public class SupplyAreaExtendedResource extends SupplyAreaResource {
     public ResponseEntity<SupplyAreaDTO> createSupplyArea(@Valid @RequestBody SupplyAreaDTO supplyAreaDTO) throws URISyntaxException {
         log.debug("REST request to save SupplyArea : {}", supplyAreaDTO);
         if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
-            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN))
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER))
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplyAreaDTO.getId() != null) {
             throw new BadRequestAlertException("A new supplyArea cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if(!supplyAreaExtendedService.isValidInput(supplyAreaDTO)) {
+            throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
         }
         SupplyAreaDTO result = supplyAreaExtendedService.save(supplyAreaDTO);
         return ResponseEntity.created(new URI("/api/supply-areas/" + result.getId()))
@@ -54,10 +58,14 @@ public class SupplyAreaExtendedResource extends SupplyAreaResource {
     public ResponseEntity<SupplyAreaDTO> updateSupplyArea(@Valid @RequestBody SupplyAreaDTO supplyAreaDTO) throws URISyntaxException {
         log.debug("REST request to update SupplyArea : {}", supplyAreaDTO);
         if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
-            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN))
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER))
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplyAreaDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if(!supplyAreaExtendedService.isValidInput(supplyAreaDTO)) {
+            throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
         }
         SupplyAreaDTO result = supplyAreaExtendedService.save(supplyAreaDTO);
         return ResponseEntity.ok()

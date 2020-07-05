@@ -715,17 +715,17 @@
                     </a>
                 </li>
                 <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']">
-                    <a class="dropdown-item" routerLink="supply-area" routerLinkActive="active"
-                       [routerLinkActiveOptions]="{ exact: true }">
-                        <fa-icon icon="sitemap" fixedWidth="true"></fa-icon>
-                        <span *ngIf="!leftMenuHidden">Area</span>
-                    </a>
-                </li>
-                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']">
                     <a class="dropdown-item" routerLink="supply-zone-manager" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="cube" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">Zone Manager</span>
+                    </a>
+                </li>
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']">
+                    <a class="dropdown-item" routerLink="supply-area" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="sitemap" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Area</span>
                     </a>
                 </li>
                 <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER', 'ROLE_SCM_ZONE_MANAGER']">

@@ -16,8 +16,8 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-
                 <th jhiSortBy="supplyZoneZoneName"><span>Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="supplyZoneManagerId"><span>Supply Zone Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="areaName"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="areaCode"><span>Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']"></th>
@@ -29,6 +29,11 @@
                 <td>
                     <div *ngIf="supplyArea.supplyZoneId">
                         <a [routerLink]="['../supply-zone', supplyArea.supplyZoneId , 'view' ]" >{{supplyArea.supplyZoneName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyArea.supplyZoneManagerId">
+                        <a [routerLink]="['../supply-zone-manager', supplyArea.supplyZoneManagerId , 'view' ]" >{{supplyArea.supplyZoneManagerId | scmZoneManagerFilter: supplyzonemanagers}}</a>
                     </div>
                 </td>
                 <td>{{supplyArea.name}}</td>

@@ -101,7 +101,6 @@ public class SupplyAreaManagerExtendedService extends SupplyAreaManagerService {
         return false;
     }
 
-
     private boolean isValidZoneManager(SupplyAreaManagerDTO supplyAreaManagerDTO) {
         Optional<SupplyZoneManagerDTO> selectedZoneManager = supplyZoneManagerExtendedService.findOne(supplyAreaManagerDTO.getSupplyZoneManagerId());
         return selectedZoneManager.map(supplyZoneManagerDTO -> supplyZoneManagerDTO.getSupplyZoneId().equals(supplyAreaManagerDTO.getSupplyZoneId()) && supplyZoneManagerDTO.getStatus().equals(SupplyZoneManagerStatus.ACTIVE)).orElse(false);
@@ -109,7 +108,7 @@ public class SupplyAreaManagerExtendedService extends SupplyAreaManagerService {
 
     private boolean isValidArea(SupplyAreaManagerDTO supplyAreaManagerDTO) {
         Optional<SupplyAreaDTO> selectedArea = supplyAreaExtendedService.findOne(supplyAreaManagerDTO.getSupplyAreaId());
-        return selectedArea.map(supplyAreaDTO -> supplyAreaDTO.getSupplyZoneId().equals(supplyAreaManagerDTO.getSupplyZoneId())).orElse(false);
+        return selectedArea.map(supplyAreaDTO -> supplyAreaDTO.getSupplyZoneId().equals(supplyAreaManagerDTO.getSupplyZoneId()) && supplyAreaDTO.getSupplyZoneManagerId().equals(supplyAreaManagerDTO.getSupplyZoneManagerId())).orElse(false);
     }
 
     public List<SupplyAreaManager> getAreaManagers(Employee employee) {
