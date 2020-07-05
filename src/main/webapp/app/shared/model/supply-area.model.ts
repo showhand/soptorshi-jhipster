@@ -10,6 +10,7 @@ export interface ISupplyArea {
     updatedOn?: Moment;
     supplyZoneName?: string;
     supplyZoneId?: number;
+    supplyZoneManagerId?: number;
 }
 
 export class SupplyArea implements ISupplyArea {
@@ -22,6 +23,7 @@ export class SupplyArea implements ISupplyArea {
         public updatedBy?: string,
         public updatedOn?: Moment,
         public supplyZoneName?: string,
-        public supplyZoneId?: number
+        public supplyZoneId?: number,
+        public supplyZoneManagerId?: number
     ) {}
 }

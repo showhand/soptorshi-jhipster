@@ -48,6 +48,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="supply_zone_manager_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="supply_area" columnName="created_on" columnDataType="datetime"/>

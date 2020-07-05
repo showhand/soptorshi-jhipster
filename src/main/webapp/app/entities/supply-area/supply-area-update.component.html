@@ -7,79 +7,87 @@
                 <div class="form-group" [hidden]="!supplyArea.id">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
-                           [(ngModel)]="supplyArea.id" readonly/>
+                        [(ngModel)]="supplyArea.id" readonly />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_name">Name</label>
                     <input type="text" class="form-control" name="name" id="field_name"
-                           [(ngModel)]="supplyArea.name" required/>
+                        [(ngModel)]="supplyArea.name" required/>
                     <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
                         <small class="form-text text-danger"
-                               [hidden]="!editForm.controls.name?.errors?.required">
-                            This field is required.
+                        [hidden]="!editForm.controls.name?.errors?.required">
+                        This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_code">Code</label>
                     <input type="text" class="form-control" name="code" id="field_code"
-                           [(ngModel)]="supplyArea.code" required/>
+                        [(ngModel)]="supplyArea.code" required/>
                     <div [hidden]="!(editForm.controls.code?.dirty && editForm.controls.code?.invalid)">
                         <small class="form-text text-danger"
-                               [hidden]="!editForm.controls.code?.errors?.required">
-                            This field is required.
+                        [hidden]="!editForm.controls.code?.errors?.required">
+                        This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_createdBy">Created By</label>
                     <input type="text" class="form-control" name="createdBy" id="field_createdBy"
-                           [(ngModel)]="supplyArea.createdBy"/>
+                        [(ngModel)]="supplyArea.createdBy" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_createdOn">Created On</label>
                     <div class="d-flex">
-                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn"
-                               [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
+                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
                         />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_updatedBy">Updated By</label>
                     <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
-                           [(ngModel)]="supplyArea.updatedBy"/>
+                        [(ngModel)]="supplyArea.updatedBy" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_updatedOn">Updated On</label>
                     <div class="d-flex">
-                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn"
-                               [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
+                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
                         />
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
-                    <select class="form-control" id="field_supplyZone" name="supplyZone"
-                            [(ngModel)]="supplyArea.supplyZoneId" required>
+                    <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyArea.supplyZoneId"  required>
                         <option *ngIf="!editForm.value.supplyZone" [ngValue]="null" selected></option>
-                        <option [ngValue]="supplyZoneOption.id"
-                                *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.name}}</option>
+                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.name}}</option>
                     </select>
                 </div>
                 <div [hidden]="!(editForm.controls.supplyZone?.dirty && editForm.controls.supplyZone?.invalid)">
                     <small class="form-text text-danger"
-                           [hidden]="!editForm.controls.supplyZone?.errors?.required">
+                        [hidden]="!editForm.controls.supplyZone?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyZoneManager">Supply Zone Manager</label>
+                    <select class="form-control" id="field_supplyZoneManager" name="supplyZoneManager" [(ngModel)]="supplyArea.supplyZoneManagerId"  required>
+                        <option *ngIf="!editForm.value.supplyZoneManager" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyZoneManagerOption.id" *ngFor="let supplyZoneManagerOption of supplyzonemanagers; trackBy: trackSupplyZoneManagerById">{{supplyZoneManagerOption.id}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyZoneManager?.dirty && editForm.controls.supplyZoneManager?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.supplyZoneManager?.errors?.required">
                         This field is required.
                     </small>
                 </div>
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
-                        class="btn btn-primary">
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
                 </button>
             </div>

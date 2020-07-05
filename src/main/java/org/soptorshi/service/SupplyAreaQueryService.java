@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.SupplyArea;
 import org.soptorshi.domain.SupplyArea_;
+import org.soptorshi.domain.SupplyZoneManager_;
 import org.soptorshi.domain.SupplyZone_;
 import org.soptorshi.repository.SupplyAreaRepository;
 import org.soptorshi.repository.search.SupplyAreaSearchRepository;
@@ -112,6 +113,10 @@ public class SupplyAreaQueryService extends QueryService<SupplyArea> {
             if (criteria.getSupplyZoneId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyZoneId(),
                     root -> root.join(SupplyArea_.supplyZone, JoinType.LEFT).get(SupplyZone_.id)));
+            }
+            if (criteria.getSupplyZoneManagerId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyZoneManagerId(),
+                    root -> root.join(SupplyArea_.supplyZoneManager, JoinType.LEFT).get(SupplyZoneManager_.id)));
             }
         }
         return specification;

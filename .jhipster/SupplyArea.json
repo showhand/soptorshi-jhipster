@@ -40,6 +40,14 @@
             "relationshipValidateRules": "required",
             "relationshipName": "supplyZone",
             "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZoneManager",
+            "otherEntityRelationshipName": "supplyArea",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyZoneManager",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20191106144400",

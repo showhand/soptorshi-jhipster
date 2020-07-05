@@ -49,6 +49,11 @@ public class SupplyArea implements Serializable {
     @JsonIgnoreProperties("supplyAreas")
     private SupplyZone supplyZone;
 
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyAreas")
+    private SupplyZoneManager supplyZoneManager;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -147,6 +152,19 @@ public class SupplyArea implements Serializable {
 
     public void setSupplyZone(SupplyZone supplyZone) {
         this.supplyZone = supplyZone;
+    }
+
+    public SupplyZoneManager getSupplyZoneManager() {
+        return supplyZoneManager;
+    }
+
+    public SupplyArea supplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
+        return this;
+    }
+
+    public void setSupplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -7,6 +7,7 @@ import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
 import org.soptorshi.domain.SupplyArea;
 import org.soptorshi.domain.SupplyZone;
+import org.soptorshi.domain.SupplyZoneManager;
 import org.soptorshi.repository.SupplyAreaRepository;
 import org.soptorshi.repository.search.SupplyAreaSearchRepository;
 import org.soptorshi.service.SupplyAreaQueryService;
@@ -138,6 +139,11 @@ public class SupplyAreaResourceIntTest {
         em.persist(supplyZone);
         em.flush();
         supplyArea.setSupplyZone(supplyZone);
+        // Add required entity
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyArea.setSupplyZoneManager(supplyZoneManager);
         return supplyArea;
     }
 
@@ -522,6 +528,25 @@ public class SupplyAreaResourceIntTest {
 
         // Get all the supplyAreaList where supplyZone equals to supplyZoneId + 1
         defaultSupplyAreaShouldNotBeFound("supplyZoneId.equals=" + (supplyZoneId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyAreasBySupplyZoneManagerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyArea.setSupplyZoneManager(supplyZoneManager);
+        supplyAreaRepository.saveAndFlush(supplyArea);
+        Long supplyZoneManagerId = supplyZoneManager.getId();
+
+        // Get all the supplyAreaList where supplyZoneManager equals to supplyZoneManagerId
+        defaultSupplyAreaShouldBeFound("supplyZoneManagerId.equals=" + supplyZoneManagerId);
+
+        // Get all the supplyAreaList where supplyZoneManager equals to supplyZoneManagerId + 1
+        defaultSupplyAreaShouldNotBeFound("supplyZoneManagerId.equals=" + (supplyZoneManagerId + 1));
     }
 
     /**

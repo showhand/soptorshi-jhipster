@@ -35,6 +35,12 @@
                         <a [routerLink]="['/supply-zone', supplyArea.supplyZoneId, 'view']">{{supplyArea.supplyZoneName}}</a>
                     </div>
                 </dd>
+                <dt><span>Supply Zone Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplyArea.supplyZoneManagerId">
+                        <a [routerLink]="['/supply-zone-manager', supplyArea.supplyZoneManagerId, 'view']">{{supplyArea.supplyZoneManagerId}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"
