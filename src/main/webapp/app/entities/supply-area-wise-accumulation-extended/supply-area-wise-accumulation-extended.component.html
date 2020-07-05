@@ -60,10 +60,10 @@
                 <td><a
                     [routerLink]="['/supply-area-wise-accumulation', supplyAreaWiseAccumulation.id, 'view' ]">{{supplyAreaWiseAccumulation.id}}</a>
                 </td>
-                td>
-                <div *ngIf="supplyAreaWiseAccumulation.supplyZoneId">
-                    <a [routerLink]="['../supply-zone', supplyAreaWiseAccumulation.supplyZoneId , 'view' ]">{{supplyAreaWiseAccumulation.supplyZoneName}}</a>
-                </div>
+                <td>
+                    <div *ngIf="supplyAreaWiseAccumulation.supplyZoneId">
+                        <a [routerLink]="['../supply-zone', supplyAreaWiseAccumulation.supplyZoneId , 'view' ]">{{supplyAreaWiseAccumulation.supplyZoneName}}</a>
+                    </div>
                 </td>
                 <td>
                     <div *ngIf="supplyAreaWiseAccumulation.supplyZoneManagerId">

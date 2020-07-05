@@ -45,6 +45,9 @@ public class SupplyAreaManagerExtendedResource extends SupplyAreaManagerResource
         if (supplyAreaManagerDTO.getId() != null) {
             throw new BadRequestAlertException("A new supplyAreaManager cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if(!supplyAreaManagerExtendedService.isValidInput(supplyAreaManagerDTO)) {
+            throw new BadRequestAlertException("Invalid input", ENTITY_NAME, "invalidaccess");
+        }
         SupplyAreaManagerDTO result = supplyAreaManagerExtendedService.save(supplyAreaManagerDTO);
         return ResponseEntity.created(new URI("/api/supply-area-managers/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -61,6 +64,9 @@ public class SupplyAreaManagerExtendedResource extends SupplyAreaManagerResource
         if (supplyAreaManagerDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        if(!supplyAreaManagerExtendedService.isValidInput(supplyAreaManagerDTO)) {
+            throw new BadRequestAlertException("Invalid input", ENTITY_NAME, "invalidaccess");
+        }
         SupplyAreaManagerDTO result = supplyAreaManagerExtendedService.save(supplyAreaManagerDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, supplyAreaManagerDTO.getId().toString()))
@@ -72,5 +78,4 @@ public class SupplyAreaManagerExtendedResource extends SupplyAreaManagerResource
         log.debug("REST request to delete SupplyAreaManager : {}", id);
         throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
     }
-
 }

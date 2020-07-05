@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.SupplyZoneManager;
+import org.soptorshi.domain.enumeration.SupplyZoneManagerStatus;
 import org.soptorshi.repository.extended.SupplyZoneManagerExtendedRepository;
 import org.soptorshi.repository.search.SupplyZoneManagerSearchRepository;
 import org.soptorshi.security.SecurityUtils;
@@ -62,5 +63,9 @@ public class SupplyZoneManagerExtendedService extends SupplyZoneManagerService {
 
     public List<SupplyZoneManager> getZoneManagers(Employee employee) {
         return supplyZoneManagerExtendedRepository.getAllByEmployee(employee);
+    }
+
+    public List<SupplyZoneManager> getZoneManagers(Employee employee, SupplyZoneManagerStatus supplyZoneManagerStatus) {
+        return supplyZoneManagerExtendedRepository.getAllByEmployeeAndStatus(employee, supplyZoneManagerStatus);
     }
 }
