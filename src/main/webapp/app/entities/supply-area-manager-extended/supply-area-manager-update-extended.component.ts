@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiAlertService } from 'ng-jhipster';
 import { SupplyAreaManagerExtendedService } from './supply-area-manager-extended.service';
-import { SupplyZoneService } from 'app/entities/supply-zone';
-import { SupplyAreaService } from 'app/entities/supply-area';
-import { EmployeeService } from 'app/entities/employee';
 import { SupplyAreaManagerUpdateComponent } from 'app/entities/supply-area-manager';
 import { SupplyZoneManagerExtendedService } from 'app/entities/supply-zone-manager-extended';
 import { filter, map } from 'rxjs/operators';
@@ -14,6 +11,9 @@ import { ISupplyZoneManager, SupplyZoneManagerStatus } from 'app/shared/model/su
 import { DATE_TIME_FORMAT } from 'app/shared';
 import { ISupplyZone } from 'app/shared/model/supply-zone.model';
 import { IEmployee } from 'app/shared/model/employee.model';
+import { SupplyZoneExtendedService } from 'app/entities/supply-zone-extended';
+import { SupplyAreaExtendedService } from 'app/entities/supply-area-extended';
+import { EmployeeExtendedService } from 'app/entities/employee-extended';
 
 @Component({
     selector: 'jhi-supply-area-manager-update-extended',
@@ -23,9 +23,9 @@ export class SupplyAreaManagerUpdateExtendedComponent extends SupplyAreaManagerU
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected supplyAreaManagerService: SupplyAreaManagerExtendedService,
-        protected supplyZoneService: SupplyZoneService,
-        protected supplyAreaService: SupplyAreaService,
-        protected employeeService: EmployeeService,
+        protected supplyZoneService: SupplyZoneExtendedService,
+        protected supplyAreaService: SupplyAreaExtendedService,
+        protected employeeService: EmployeeExtendedService,
         protected supplyZoneManagerService: SupplyZoneManagerExtendedService,
         protected activatedRoute: ActivatedRoute
     ) {

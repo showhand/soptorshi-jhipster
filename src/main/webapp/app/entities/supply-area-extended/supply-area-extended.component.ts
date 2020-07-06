@@ -7,7 +7,7 @@ import { SupplyAreaComponent } from 'app/entities/supply-area';
 import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ISupplyZoneManager, SupplyZoneManager } from 'app/shared/model/supply-zone-manager.model';
-import { SupplyZoneManagerService } from 'app/entities/supply-zone-manager';
+import { SupplyZoneManagerExtendedService } from 'app/entities/supply-zone-manager-extended';
 
 @Component({
     selector: 'jhi-supply-area-extended',
@@ -23,7 +23,7 @@ export class SupplyAreaExtendedComponent extends SupplyAreaComponent implements 
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService,
-        protected supplyZoneManagerService: SupplyZoneManagerService
+        protected supplyZoneManagerService: SupplyZoneManagerExtendedService
     ) {
         super(supplyAreaService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
     }

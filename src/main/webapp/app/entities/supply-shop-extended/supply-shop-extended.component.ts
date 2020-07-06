@@ -8,11 +8,11 @@ import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/ht
 import { ISupplyShop } from 'app/shared/model/supply-shop.model';
 import { Employee } from 'app/shared/model/employee.model';
 import { ISupplyZoneManager, SupplyZoneManager } from 'app/shared/model/supply-zone-manager.model';
-import { EmployeeService } from 'app/entities/employee';
 import { SupplyZoneManagerExtendedService } from 'app/entities/supply-zone-manager-extended';
 import { SupplyAreaManagerExtendedService } from 'app/entities/supply-area-manager-extended';
 import { ISupplyAreaManager, SupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
 import { filter, map } from 'rxjs/operators';
+import { EmployeeExtendedService } from 'app/entities/employee-extended';
 
 @Component({
     selector: 'jhi-supply-shop-extended',
@@ -39,7 +39,7 @@ export class SupplyShopExtendedComponent extends SupplyShopComponent implements 
         protected accountService: AccountService,
         protected supplyZoneManagerService: SupplyZoneManagerExtendedService,
         protected supplyAreaManagerService: SupplyAreaManagerExtendedService,
-        protected employeeService: EmployeeService
+        protected employeeService: EmployeeExtendedService
     ) {
         super(supplyShopService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
     }

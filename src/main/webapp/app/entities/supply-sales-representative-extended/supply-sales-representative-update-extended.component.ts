@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiAlertService } from 'ng-jhipster';
 import { SupplySalesRepresentativeExtendedService } from './supply-sales-representative-extended.service';
-import { SupplyZoneService } from 'app/entities/supply-zone';
-import { SupplyAreaService } from 'app/entities/supply-area';
-import { SupplyAreaManagerService } from 'app/entities/supply-area-manager';
 import { SupplySalesRepresentativeUpdateComponent } from 'app/entities/supply-sales-representative';
 import { filter, map } from 'rxjs/operators';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
 import { ISupplyAreaManager, SupplyAreaManagerStatus } from 'app/shared/model/supply-area-manager.model';
-import { SupplyZoneManagerService } from 'app/entities/supply-zone-manager';
 import { ISupplyZoneManager, SupplyZoneManagerStatus } from 'app/shared/model/supply-zone-manager.model';
 import { DATE_TIME_FORMAT } from 'app/shared';
 import { ISupplyZone } from 'app/shared/model/supply-zone.model';
+import { SupplyZoneExtendedService } from 'app/entities/supply-zone-extended';
+import { SupplyAreaExtendedService } from 'app/entities/supply-area-extended';
+import { SupplyZoneManagerExtendedService } from 'app/entities/supply-zone-manager-extended';
+import { SupplyAreaManagerExtendedService } from 'app/entities/supply-area-manager-extended';
 
 @Component({
     selector: 'jhi-supply-sales-representative-update-extended',
@@ -23,10 +23,10 @@ export class SupplySalesRepresentativeUpdateExtendedComponent extends SupplySale
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected supplySalesRepresentativeService: SupplySalesRepresentativeExtendedService,
-        protected supplyZoneService: SupplyZoneService,
-        protected supplyAreaService: SupplyAreaService,
-        protected supplyZoneManagerService: SupplyZoneManagerService,
-        protected supplyAreaManagerService: SupplyAreaManagerService,
+        protected supplyZoneService: SupplyZoneExtendedService,
+        protected supplyAreaService: SupplyAreaExtendedService,
+        protected supplyZoneManagerService: SupplyZoneManagerExtendedService,
+        protected supplyAreaManagerService: SupplyAreaManagerExtendedService,
         protected activatedRoute: ActivatedRoute
     ) {
         super(
