@@ -6,18 +6,16 @@ import org.soptorshi.domain.Employee;
 import org.soptorshi.domain.SupplyAreaManager;
 import org.soptorshi.domain.SupplyShop;
 import org.soptorshi.domain.SupplyZoneManager;
+import org.soptorshi.domain.enumeration.SupplyAreaManagerStatus;
+import org.soptorshi.domain.enumeration.SupplyZoneManagerStatus;
 import org.soptorshi.repository.extended.EmployeeExtendedRepository;
 import org.soptorshi.repository.extended.SupplyShopExtendedRepository;
 import org.soptorshi.repository.search.SupplyShopSearchRepository;
 import org.soptorshi.security.AuthoritiesConstants;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.SupplyShopService;
-import org.soptorshi.service.dto.SupplyAreaDTO;
-import org.soptorshi.service.dto.SupplyAreaManagerDTO;
-import org.soptorshi.service.dto.SupplySalesRepresentativeDTO;
-import org.soptorshi.service.dto.SupplyShopDTO;
+import org.soptorshi.service.dto.*;
 import org.soptorshi.service.mapper.SupplyShopMapper;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,12 +78,6 @@ public class SupplyShopExtendedService extends SupplyShopService {
             supplyShopDTO.setUpdatedOn(currentDateTime);
         }
 
-        checkZoneValidityForRoleZoneManager(supplyShopDTO, currentUser);
-        checkZoneValidityForRoleAreaManager(supplyShopDTO, currentUser);
-        checkValidityForArea(supplyShopDTO);
-        checkValidityForAreaManager(supplyShopDTO);
-        checkValidityForSalesRepresentative(supplyShopDTO);
-
         SupplyShop supplyShop = supplyShopMapper.toEntity(supplyShopDTO);
         supplyShop = supplyShopExtendedRepository.save(supplyShop);
         SupplyShopDTO result = supplyShopMapper.toDto(supplyShop);
@@ -93,102 +85,67 @@ public class SupplyShopExtendedService extends SupplyShopService {
         return result;
     }
 
-    private void checkZoneValidityForRoleAreaManager(SupplyShopDTO supplyShopDTO, String currentUser) {
-        if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER)) {
-            Optional<Employee> currentEmployee = employeeExtendedRepository.findByEmployeeId(currentUser);
-            if(currentEmployee.isPresent()) {
-                List<SupplyAreaManager> supplyAreaManagers = supplyAreaManagerExtendedService.getAreaManagers(currentEmployee.get());
-                if(supplyAreaManagers.size() > 0) {
-                    boolean found = false;
-                    for(SupplyAreaManager supplyAreaManager: supplyAreaManagers) {
-                        if (supplyAreaManager.getSupplyZone().getId().equals(supplyShopDTO.getSupplyZoneId())) {
-                            found = true;
-                            break;
-                        }
-                    }
-                    if(!found) {
-                        throw new BadRequestAlertException("Invalid Zone Selected", "supplyShop", "invalidaccess");
-                    }
-                }
-                else {
-                    throw new BadRequestAlertException("Permission Denied", "supplyShop", "invalidaccess");
-                }
-            }
-            else {
-                throw new BadRequestAlertException("Permission Denied", "supplyShop", "invalidaccess");
-            }
+    public boolean isValidInput(SupplyShopDTO supplyShopDTO) {
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
+        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER)) {
+            return isValidZoneAsPerZoneManagerRole(supplyShopDTO, currentUser) && isValidZoneManager(supplyShopDTO) && isValidArea(supplyShopDTO) && isValidAreaManager(supplyShopDTO) && isValidSalesRepresentative(supplyShopDTO);
+        } else if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER)) {
+            return isValidZoneAsPerAreaManagerRole(supplyShopDTO, currentUser) && isValidZoneManager(supplyShopDTO) && isValidArea(supplyShopDTO) && isValidAreaManager(supplyShopDTO) && isValidSalesRepresentative(supplyShopDTO);
         }
+        return isValidZoneManager(supplyShopDTO) && isValidArea(supplyShopDTO) && isValidAreaManager(supplyShopDTO) && isValidSalesRepresentative(supplyShopDTO);
     }
 
-    private void checkZoneValidityForRoleZoneManager(SupplyShopDTO supplyShopDTO, String currentUser) {
-        if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER)) {
-            Optional<Employee> currentEmployee = employeeExtendedRepository.findByEmployeeId(currentUser);
-            if(currentEmployee.isPresent()) {
-                List<SupplyZoneManager> supplyZoneManagers = supplyZoneManagerExtendedService.getZoneManagers(currentEmployee.get());
-                if(supplyZoneManagers.size() > 0) {
-                    boolean found = false;
-                    for(SupplyZoneManager supplyZoneManager: supplyZoneManagers) {
-                        if (supplyZoneManager.getSupplyZone().getId().equals(supplyShopDTO.getSupplyZoneId())) {
-                            found = true;
-                            break;
-                        }
-                    }
-                    if(!found) {
-                        throw new BadRequestAlertException("Invalid Zone Selected", "supplyShop", "invalidaccess");
-                    }
+    private boolean isValidZoneAsPerZoneManagerRole(SupplyShopDTO supplyShopDTO, String currentUser) {
+        Optional<Employee> currentEmployee = employeeExtendedRepository.findByEmployeeId(currentUser);
+        if (currentEmployee.isPresent()) {
+            List<SupplyZoneManager> supplyZoneManagers = supplyZoneManagerExtendedService.getZoneManagers(currentEmployee.get(), SupplyZoneManagerStatus.ACTIVE);
+            for (SupplyZoneManager supplyZoneManager : supplyZoneManagers) {
+                if (supplyZoneManager.getSupplyZone().getId().equals(supplyShopDTO.getSupplyZoneId())) {
+                    return true;
                 }
-                else {
-                    throw new BadRequestAlertException("Permission Denied", "supplyShop", "invalidaccess");
-                }
-            }
-            else {
-                throw new BadRequestAlertException("Permission Denied", "supplyShop", "invalidaccess");
             }
         }
+        return false;
     }
 
-    private void checkValidityForArea(SupplyShopDTO supplyShopDTO) {
+    private boolean isValidZoneAsPerAreaManagerRole(SupplyShopDTO supplyShopDTO, String currentUser) {
+        Optional<Employee> currentEmployee = employeeExtendedRepository.findByEmployeeId(currentUser);
+        if (currentEmployee.isPresent()) {
+            List<SupplyAreaManager> supplyAreaManagers = supplyAreaManagerExtendedService.getAreaManagers(currentEmployee.get(), SupplyAreaManagerStatus.ACTIVE);
+            for (SupplyAreaManager supplyAreaManager : supplyAreaManagers) {
+                if (supplyAreaManager.getSupplyZone().getId().equals(supplyShopDTO.getSupplyZoneId())
+                    && supplyAreaManager.getSupplyZoneManager().getId().equals(supplyShopDTO.getSupplyZoneManagerId())
+                    && supplyAreaManager.getSupplyArea().getId().equals(supplyShopDTO.getSupplyAreaId())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isValidZoneManager(SupplyShopDTO supplyShopDTO) {
+        Optional<SupplyZoneManagerDTO> selectedZoneManager = supplyZoneManagerExtendedService.findOne(supplyShopDTO.getSupplyZoneManagerId());
+        return selectedZoneManager.map(supplyZoneManagerDTO -> supplyZoneManagerDTO.getSupplyZoneId().equals(supplyShopDTO.getSupplyZoneId()) && supplyZoneManagerDTO.getStatus().equals(SupplyZoneManagerStatus.ACTIVE)).orElse(false);
+    }
+
+    private boolean isValidArea(SupplyShopDTO supplyShopDTO) {
         Optional<SupplyAreaDTO> selectedArea = supplyAreaExtendedService.findOne(supplyShopDTO.getSupplyAreaId());
-        if(selectedArea.isPresent()) {
-            if(!selectedArea.get().getSupplyZoneId().equals(supplyShopDTO.getSupplyZoneId())) {
-                throw new BadRequestAlertException("Invalid Area Selected", "supplyShop", "invalidaccess");
-            }
-        }
-        else {
-            throw new BadRequestAlertException("Invalid Area Selected", "supplyShop", "invalidaccess");
-        }
+        return selectedArea.map(supplyAreaDTO -> supplyAreaDTO.getSupplyZoneId().equals(supplyShopDTO.getSupplyZoneId()) &&
+            supplyAreaDTO.getSupplyZoneManagerId().equals(supplyShopDTO.getSupplyZoneManagerId())).orElse(false);
     }
 
-    private void checkValidityForAreaManager(SupplyShopDTO supplyShopDTO) {
+    private boolean isValidAreaManager(SupplyShopDTO supplyShopDTO) {
         Optional<SupplyAreaManagerDTO> selectedAreaManager = supplyAreaManagerExtendedService.findOne(supplyShopDTO.getSupplyAreaManagerId());
-        if(selectedAreaManager.isPresent()) {
-            if(!selectedAreaManager.get().getSupplyZoneId().equals(supplyShopDTO.getSupplyZoneId())) {
-                throw new BadRequestAlertException("Invalid Area Manager Selected", "supplyShop", "invalidaccess");
-            }
-            if(!selectedAreaManager.get().getSupplyAreaId().equals(supplyShopDTO.getSupplyAreaId())) {
-                throw new BadRequestAlertException("Invalid Area Manager Selected", "supplyShop", "invalidaccess");
-            }
-        }
-        else {
-            throw new BadRequestAlertException("Invalid Area Selected", "supplyShop", "invalidaccess");
-        }
+        return selectedAreaManager.filter(supplyAreaManagerDTO -> supplyAreaManagerDTO.getSupplyZoneId().equals(supplyShopDTO.getSupplyZoneId()) &&
+            supplyAreaManagerDTO.getSupplyZoneManagerId().equals(supplyShopDTO.getSupplyZoneManagerId()) &&
+            supplyAreaManagerDTO.getSupplyAreaId().equals(supplyShopDTO.getSupplyAreaId())).isPresent();
     }
 
-    private void checkValidityForSalesRepresentative(SupplyShopDTO supplyShopDTO) {
-        Optional<SupplySalesRepresentativeDTO> supplySalesRepresentative = supplySalesRepresentativeExtendedService.findOne(supplyShopDTO.getSupplySalesRepresentativeId());
-        if(supplySalesRepresentative.isPresent()) {
-            if(!supplySalesRepresentative.get().getSupplyZoneId().equals(supplyShopDTO.getSupplyZoneId())) {
-                throw new BadRequestAlertException("Invalid Sales Representative Selected", "supplyShop", "invalidaccess");
-            }
-            if(!supplySalesRepresentative.get().getSupplyAreaId().equals(supplyShopDTO.getSupplyAreaId())) {
-                throw new BadRequestAlertException("nvalid Sales Representative Selected", "supplyShop", "invalidaccess");
-            }
-            if(!supplySalesRepresentative.get().getSupplyAreaManagerId().equals(supplyShopDTO.getSupplyAreaManagerId())) {
-                throw new BadRequestAlertException("nvalid Sales Representative Selected", "supplyShop", "invalidaccess");
-            }
-        }
-        else {
-            throw new BadRequestAlertException("Invalid Area Selected", "supplyShop", "invalidaccess");
-        }
+    private boolean isValidSalesRepresentative(SupplyShopDTO supplyShopDTO) {
+        Optional<SupplySalesRepresentativeDTO> selectedSalesRepresentative = supplySalesRepresentativeExtendedService.findOne(supplyShopDTO.getSupplySalesRepresentativeId());
+        return selectedSalesRepresentative.filter(supplyAreaManagerDTO -> supplyAreaManagerDTO.getSupplyZoneId().equals(supplyShopDTO.getSupplyZoneId()) &&
+            supplyAreaManagerDTO.getSupplyZoneManagerId().equals(supplyShopDTO.getSupplyZoneManagerId()) &&
+            supplyAreaManagerDTO.getSupplyAreaId().equals(supplyShopDTO.getSupplyAreaId()) &&
+            supplyAreaManagerDTO.getSupplyAreaManagerId().equals(supplyShopDTO.getSupplyAreaManagerId())).isPresent();
     }
 }

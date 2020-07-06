@@ -53,12 +53,16 @@ public class SupplyOrderExtendedResource extends SupplyOrderResource {
     @PostMapping("/supply-orders")
     public ResponseEntity<SupplyOrderDTO> createSupplyOrder(@Valid @RequestBody SupplyOrderDTO supplyOrderDTO) throws URISyntaxException {
         log.debug("REST request to save SupplyOrder : {}", supplyOrderDTO);
-        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplyOrderDTO.getId() != null) {
             throw new BadRequestAlertException("A new supplyOrder cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if (!supplyOrderExtendedService.isValidInput(supplyOrderDTO)) {
+            throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
         }
         SupplyOrderDTO result = supplyOrderExtendedService.save(supplyOrderDTO);
         return ResponseEntity.created(new URI("/api/supply-orders/" + result.getId()))
@@ -69,12 +73,16 @@ public class SupplyOrderExtendedResource extends SupplyOrderResource {
     @PutMapping("/supply-orders")
     public ResponseEntity<SupplyOrderDTO> updateSupplyOrder(@Valid @RequestBody SupplyOrderDTO supplyOrderDTO) throws URISyntaxException {
         log.debug("REST request to update SupplyOrder : {}", supplyOrderDTO);
-        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
-        !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplyOrderDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!supplyOrderExtendedService.isValidInput(supplyOrderDTO)) {
+            throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
         }
         SupplyOrderDTO result = supplyOrderExtendedService.save(supplyOrderDTO);
         return ResponseEntity.ok()
@@ -85,12 +93,12 @@ public class SupplyOrderExtendedResource extends SupplyOrderResource {
     @PutMapping("/supply-orders/bulk")
     public ResponseEntity<List<SupplyOrderDTO>> updateBulkSupplyOrder(@Valid @RequestBody List<SupplyOrderDTO> supplyOrderDTOs) throws URISyntaxException {
         log.debug("REST request to update bulk SupplyOrder : {}", supplyOrderDTOs);
-        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
 
-        for(SupplyOrderDTO supplyOrderDTO: supplyOrderDTOs) {
+        for (SupplyOrderDTO supplyOrderDTO : supplyOrderDTOs) {
             if (supplyOrderDTO.getId() == null) {
                 throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
             }
@@ -98,7 +106,7 @@ public class SupplyOrderExtendedResource extends SupplyOrderResource {
 
         List<SupplyOrderDTO> results = new ArrayList<>();
 
-        for(SupplyOrderDTO supplyOrderDTO: supplyOrderDTOs) {
+        for (SupplyOrderDTO supplyOrderDTO : supplyOrderDTOs) {
             SupplyOrderDTO result = supplyOrderExtendedService.save(supplyOrderDTO);
             results.add(result);
         }

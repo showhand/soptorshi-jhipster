@@ -46,6 +46,9 @@ public class SupplyShopExtendedResource extends SupplyShopResource {
         if (supplyShopDTO.getId() != null) {
             throw new BadRequestAlertException("A new supplyShop cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if(!supplyShopExtendedService.isValidInput(supplyShopDTO)) {
+            throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
+        }
         SupplyShopDTO result = supplyShopExtendedService.save(supplyShopDTO);
         return ResponseEntity.created(new URI("/api/supply-shops/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -62,6 +65,9 @@ public class SupplyShopExtendedResource extends SupplyShopResource {
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplyShopDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if(!supplyShopExtendedService.isValidInput(supplyShopDTO)) {
+            throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
         }
         SupplyShopDTO result = supplyShopExtendedService.save(supplyShopDTO);
         return ResponseEntity.ok()
