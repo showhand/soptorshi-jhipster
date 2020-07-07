@@ -21,11 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing SupplyOrder.
@@ -83,7 +80,6 @@ public class SupplyOrderExtendedService extends SupplyOrderService {
         if(supplyOrderDTO.getId() == null) {
             supplyOrderDTO.setCreatedBy(currentUser);
             supplyOrderDTO.setCreatedOn(currentDateTime);
-            supplyOrderDTO.setStatus(SupplyOrderStatus.ORDER_RECEIVED);
         }
         else {
             supplyOrderDTO.setUpdatedBy(currentUser);
@@ -171,31 +167,14 @@ public class SupplyOrderExtendedService extends SupplyOrderService {
             supplyAreaManagerDTO.getSupplySalesRepresentativeId().equals(supplyOrderDTO.getSupplySalesRepresentativeId())).isPresent();
     }
 
-    public List<LocalDate> getAllDistinctSupplyOrderDate() {
-        log.debug("Request to get all Distinct Supply Order Date");
-        List<LocalDate> dates = new ArrayList<>();
-        List<SupplyOrder> supplyOrders = supplyOrderExtendedRepository.findAll();
-        for (SupplyOrder supplyOrder : supplyOrders) {
-            dates.add(supplyOrder.getDateOfOrder());
-        }
-        return dates.stream().distinct().collect(Collectors.toList());
+    public boolean isValidStatus(SupplyOrderDTO supplyOrderDTO) {
+        Optional<SupplyOrderDTO> supplyOrderDTO1 = findOne(supplyOrderDTO.getId());
+        return supplyOrderDTO1.map(orderDTO -> orderDTO.getStatus().equals(SupplyOrderStatus.ORDER_RECEIVED)).orElse(false);
     }
 
-    public Long updateReferenceNoAfterFilterByDate(String referenceNo, LocalDate fromDate, LocalDate toDate,
-                                                   SupplyOrderStatus status) {
-        Optional<List<SupplyOrder>> supplyOrders = supplyOrderExtendedRepository.getByDateOfOrderGreaterThanEqualAndDateOfOrderLessThanEqualAndStatus(fromDate, toDate,
-            status);
-
-        if (supplyOrders.isPresent()) {
-            for (SupplyOrder supplyOrder : supplyOrders.get()) {
-                supplyOrder.setAreaWiseAccumulationRefNo(referenceNo);
-                supplyOrder.setStatus(SupplyOrderStatus.PROCESSING_ORDER);
-                SupplyOrderDTO supplyOrderDTO = supplyOrderMapper.toDto(supplyOrder);
-                save(supplyOrderDTO);
-            }
-            return 1L;
-        } else {
-            return 0L;
-        }
+    public String generateOrderId() {
+        long maxId = supplyOrderExtendedRepository.count();
+        maxId = maxId + 1;
+        return "Order_" + Instant.now().toEpochMilli() + "_" + maxId;
     }
 }

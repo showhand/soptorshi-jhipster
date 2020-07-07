@@ -23,7 +23,6 @@ import javax.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,6 +62,7 @@ public class SupplyOrderExtendedResource extends SupplyOrderResource {
         if (!supplyOrderExtendedService.isValidInput(supplyOrderDTO)) {
             throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
         }
+        supplyOrderDTO.setStatus(SupplyOrderStatus.ORDER_RECEIVED);
         SupplyOrderDTO result = supplyOrderExtendedService.save(supplyOrderDTO);
         return ResponseEntity.created(new URI("/api/supply-orders/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -81,6 +81,9 @@ public class SupplyOrderExtendedResource extends SupplyOrderResource {
         }
         if (!supplyOrderExtendedService.isValidInput(supplyOrderDTO)) {
             throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
+        }
+        if(!supplyOrderExtendedService.isValidStatus(supplyOrderDTO)) {
+            throw new BadRequestAlertException("Invalid Request", ENTITY_NAME, "invalidaccess");
         }
         SupplyOrderDTO result = supplyOrderExtendedService.save(supplyOrderDTO);
         return ResponseEntity.ok()
@@ -114,23 +117,16 @@ public class SupplyOrderExtendedResource extends SupplyOrderResource {
             .body(results);
     }
 
-    @GetMapping("/supply-orders/dates")
-    public ResponseEntity<List<LocalDate>> getSupplyOrderDates() {
-        log.debug("REST request to get distinct Supply Order Dates:");
-        List<LocalDate> supplyOrderDates = supplyOrderExtendedService.getAllDistinctSupplyOrderDate();
-        return ResponseEntity.ok().headers(HttpHeaders.EMPTY).body(supplyOrderDates);
-    }
-
-    @GetMapping("/supply-orders/referenceNo/{refNo}/fromDate/{fromDate}/toDate/{toDate}/status/{status}")
-    public ResponseEntity<Long> saveAndGetSupplyOrders(@PathVariable String refNo, @PathVariable LocalDate fromDate, @PathVariable LocalDate toDate, @PathVariable SupplyOrderStatus status) {
-        log.debug("REST request to save and get values");
-        return ResponseEntity.ok().body(supplyOrderExtendedService.updateReferenceNoAfterFilterByDate(refNo, fromDate, toDate, status));
-    }
-
     @DeleteMapping("/supply-orders/{id}")
     public ResponseEntity<Void> deleteSupplyOrder(@PathVariable Long id) {
         log.debug("REST request to delete SupplyOrder : {}", id);
         throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
+    }
+
+    @GetMapping("/supply-orders/new/orderId")
+    public ResponseEntity<String> countSupplyOrders() {
+        log.debug("REST request to get new Order Id");
+        return ResponseEntity.ok().body(supplyOrderExtendedService.generateOrderId());
     }
 
     @GetMapping(value = "/supply-orders/download/referenceNo/{refNo}", produces = MediaType.APPLICATION_PDF_VALUE)

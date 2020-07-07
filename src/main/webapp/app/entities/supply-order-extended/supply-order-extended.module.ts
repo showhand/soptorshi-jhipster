@@ -11,7 +11,6 @@ import {
     supplyOrderPopupExtendedRoute,
     SupplyOrderUpdateExtendedComponent
 } from './';
-import { AccumulateOrderComponent } from 'app/entities/supply-order-extended/accumulate-order.component';
 
 const ENTITY_STATES = [...supplyOrderExtendedRoute, ...supplyOrderPopupExtendedRoute];
 
@@ -22,15 +21,13 @@ const ENTITY_STATES = [...supplyOrderExtendedRoute, ...supplyOrderPopupExtendedR
         SupplyOrderDetailExtendedComponent,
         SupplyOrderUpdateExtendedComponent,
         SupplyOrderDeleteDialogExtendedComponent,
-        SupplyOrderDeletePopupExtendedComponent,
-        AccumulateOrderComponent
+        SupplyOrderDeletePopupExtendedComponent
     ],
     entryComponents: [
         SupplyOrderExtendedComponent,
         SupplyOrderUpdateExtendedComponent,
         SupplyOrderDeleteDialogExtendedComponent,
-        SupplyOrderDeletePopupExtendedComponent,
-        AccumulateOrderComponent
+        SupplyOrderDeletePopupExtendedComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

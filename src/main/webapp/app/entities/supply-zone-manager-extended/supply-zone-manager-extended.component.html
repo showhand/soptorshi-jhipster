@@ -14,13 +14,12 @@
     <div class="table-responsive" *ngIf="supplyZoneManagers">
         <table class="table table-striped">
             <thead>
-            <tr>
-            <th><span>ID</span></th>
-                <th><span>Zone</span></th>
-                <th><span>Employee</span></th>
-            <th><span>Status</span></th>
-
-            <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']"></th>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="supplyZoneName"><span>Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="employeeFullName"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']"></th>
             </tr>
             </thead>
             <tbody>
