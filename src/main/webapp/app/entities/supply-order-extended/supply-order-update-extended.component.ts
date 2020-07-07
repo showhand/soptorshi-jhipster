@@ -19,7 +19,7 @@ import { SupplyAreaManagerExtendedService } from 'app/entities/supply-area-manag
 import { SupplyZoneManagerExtendedService } from 'app/entities/supply-zone-manager-extended';
 import { ISupplyZoneManager, SupplyZoneManagerStatus } from 'app/shared/model/supply-zone-manager.model';
 import * as moment from 'moment';
-import { SupplyOrderStatus } from 'app/shared/model/supply-order.model';
+import { ISupplyOrder, SupplyOrderStatus } from 'app/shared/model/supply-order.model';
 import { SupplyShopExtendedService } from 'app/entities/supply-shop-extended';
 import { ISupplyShop } from 'app/shared/model/supply-shop.model';
 
@@ -171,6 +171,14 @@ export class SupplyOrderUpdateExtendedComponent extends SupplyOrderUpdateCompone
             this.updatedOn = this.supplyOrder.updatedOn != null ? this.supplyOrder.updatedOn.format(DATE_TIME_FORMAT) : null;
 
             this.getProductInfo();
+            if (!this.supplyOrder.id) {
+                this.supplyOrderService
+                    .query()
+                    .subscribe(
+                        (res: HttpResponse<ISupplyOrder[]>) => this.assignOrderId(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            }
         });
         this.supplyZoneService
             .query()
@@ -234,6 +242,35 @@ export class SupplyOrderUpdateExtendedComponent extends SupplyOrderUpdateCompone
                 (res: HttpResponse<ISupplyOrderDetails[]>) => this.assignProductInfos(res.body, res.headers),
                 (res: HttpErrorResponse) => 'error'
             );
+    }
+
+    assignOrderId(data: ISupplyOrder[], headers: HttpHeaders) {
+        let today = new Date();
+        let year = today
+            .getFullYear()
+            .toString()
+            .substr(-2);
+        let month = today.getMonth() + 1;
+        let day = today.getDate();
+        let hour = today.getHours();
+        let minute = today.getMinutes();
+        let sec = today.getSeconds();
+        let maxId = data.length + 1;
+        this.supplyOrder.orderNo =
+            'O-' +
+            year +
+            ('0' + month).slice(-2) +
+            ('0' + day).slice(-2) +
+            ('0' + hour).slice(-2) +
+            ('0' + minute).slice(-2) +
+            ('0' + sec).slice(-2) +
+            '-' +
+            this.zeroPadding(maxId, 5);
+    }
+
+    zeroPadding(num, places): string {
+        const zero = places - num.toString().length + 1;
+        return Array(+(zero > 0 && zero)).join('0') + num;
     }
 
     protected assignProductInfos(data: ISupplyOrderDetails[], headers: HttpHeaders) {

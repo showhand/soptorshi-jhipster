@@ -6,7 +6,6 @@ import { ISupplyOrder } from 'app/shared/model/supply-order.model';
 import { SupplyOrderService } from 'app/entities/supply-order';
 import { Observable } from 'rxjs';
 import { Moment } from 'moment';
-import { map } from 'rxjs/operators';
 import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 
 type EntityResponseType = HttpResponse<ISupplyOrder>;
@@ -19,12 +18,6 @@ export class SupplyOrderExtendedService extends SupplyOrderService {
 
     constructor(protected http: HttpClient) {
         super(http);
-    }
-
-    getNewOrderId(): Observable<HttpResponse<string>> {
-        return this.http
-            .get<string>(`${this.resourceUrl}/new/orderId`, { observe: 'response' })
-            .pipe(map((res: HttpResponse<string>) => res));
     }
 
     bulkUpdate(supplyOrder: ISupplyOrder[]): Observable<HttpResponse<ISupplyOrder[]>> {

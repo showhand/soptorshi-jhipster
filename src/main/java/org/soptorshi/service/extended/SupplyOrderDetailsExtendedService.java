@@ -4,10 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.SupplyOrder;
 import org.soptorshi.domain.SupplyOrderDetails;
+import org.soptorshi.domain.enumeration.SupplyOrderStatus;
 import org.soptorshi.repository.extended.SupplyOrderDetailsExtendedRepository;
 import org.soptorshi.repository.search.SupplyOrderDetailsSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.SupplyOrderDetailsService;
+import org.soptorshi.service.dto.SupplyOrderDTO;
 import org.soptorshi.service.dto.SupplyOrderDetailsDTO;
 import org.soptorshi.service.mapper.SupplyOrderDetailsMapper;
 import org.springframework.stereotype.Service;
@@ -26,17 +28,20 @@ public class SupplyOrderDetailsExtendedService extends SupplyOrderDetailsService
 
     private final Logger log = LoggerFactory.getLogger(SupplyOrderDetailsExtendedService.class);
 
-    private SupplyOrderDetailsExtendedRepository supplyOrderDetailsExtendedRepository;
+    private final SupplyOrderDetailsExtendedRepository supplyOrderDetailsExtendedRepository;
 
     private final SupplyOrderDetailsMapper supplyOrderDetailsMapper;
 
     private final SupplyOrderDetailsSearchRepository supplyOrderDetailsSearchRepository;
 
-    public SupplyOrderDetailsExtendedService(SupplyOrderDetailsExtendedRepository supplyOrderDetailsExtendedRepository, SupplyOrderDetailsMapper supplyOrderDetailsMapper, SupplyOrderDetailsSearchRepository supplyOrderDetailsSearchRepository) {
+    private final SupplyOrderExtendedService supplyOrderExtendedService;
+
+    public SupplyOrderDetailsExtendedService(SupplyOrderDetailsExtendedRepository supplyOrderDetailsExtendedRepository, SupplyOrderDetailsMapper supplyOrderDetailsMapper, SupplyOrderDetailsSearchRepository supplyOrderDetailsSearchRepository, SupplyOrderExtendedService supplyOrderExtendedService) {
        super(supplyOrderDetailsExtendedRepository, supplyOrderDetailsMapper, supplyOrderDetailsSearchRepository);
        this.supplyOrderDetailsExtendedRepository = supplyOrderDetailsExtendedRepository;
         this.supplyOrderDetailsMapper = supplyOrderDetailsMapper;
         this.supplyOrderDetailsSearchRepository = supplyOrderDetailsSearchRepository;
+        this.supplyOrderExtendedService = supplyOrderExtendedService;
     }
 
     @Transactional
@@ -64,5 +69,10 @@ public class SupplyOrderDetailsExtendedService extends SupplyOrderDetailsService
 
     Optional<List<SupplyOrderDetails>> getAllBySupplyOrder(SupplyOrder supplyOrder) {
         return supplyOrderDetailsExtendedRepository.getAllBySupplyOrder(supplyOrder);
+    }
+
+    public boolean isValidSupplyOrderStatus(SupplyOrderDetailsDTO supplyOrderDetailsDTO) {
+        Optional<SupplyOrderDTO> supplyOrderDTO = supplyOrderExtendedService.findOne(supplyOrderDetailsDTO.getSupplyOrderId());
+        return supplyOrderDTO.map(orderDTO -> orderDTO.getStatus().equals(SupplyOrderStatus.ORDER_RECEIVED)).orElse(false);
     }
 }

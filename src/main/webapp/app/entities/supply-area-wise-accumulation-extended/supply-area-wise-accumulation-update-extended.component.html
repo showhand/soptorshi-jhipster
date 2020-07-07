@@ -101,7 +101,7 @@
                             <label class="form-control-label" for="field_areaWiseAccumulationRefNo">Ref No</label>
                             <input type="text" class="form-control" name="areaWiseAccumulationRefNo"
                                    id="field_areaWiseAccumulationRefNo"
-                                   [(ngModel)]="supplyAreaWiseAccumulation.areaWiseAccumulationRefNo" required/>
+                                   [(ngModel)]="supplyAreaWiseAccumulation.areaWiseAccumulationRefNo" readOnly required/>
                             <div
                                 [hidden]="!(editForm.controls.areaWiseAccumulationRefNo?.dirty && editForm.controls.areaWiseAccumulationRefNo?.invalid)">
                                 <small class="form-text text-danger"

@@ -130,41 +130,43 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
     }
 
     filterSupplyOrders() {
-        if (
-            this.supplyAreaWiseAccumulation.supplyZoneId &&
-            this.supplyAreaWiseAccumulation.supplyZoneManagerId &&
-            this.supplyAreaWiseAccumulation.supplyAreaId &&
-            this.supplyAreaWiseAccumulation.supplyAreaManagerId
-        ) {
-            this.supplyOrderService
-                .query({
-                    'supplyZoneId.equals': this.supplyAreaWiseAccumulation.supplyZoneId,
-                    'supplyZoneManagerId.equals': this.supplyAreaWiseAccumulation.supplyZoneManagerId,
-                    'supplyAreaId.equals': this.supplyAreaWiseAccumulation.supplyAreaId,
-                    'supplyAreaManagerId.equals': this.supplyAreaWiseAccumulation.supplyAreaManagerId,
-                    'status.equals': SupplyOrderStatus.ORDER_RECEIVED
-                })
-                .subscribe(
-                    (res: HttpResponse<ISupplyOrder[]>) => {
-                        this.paginateSupplyOrders(res.body, res.headers);
-                        this.selectedProducts = [];
-                        this.accumulatedList = [];
-                        if (this.supplyOrders.length > 0) {
-                            const map: string = this.supplyOrders.map(val => val.id).join(',');
-                            this.supplyOrderDetailsService
-                                .query({
-                                    'supplyOrderId.in': [map]
-                                })
-                                .subscribe(
-                                    (res: HttpResponse<ISupplyOrderDetails[]>) => {
-                                        this.paginateSupplyOrderDetails(res.body, res.headers);
-                                    },
-                                    (res: HttpErrorResponse) => this.onError(res.message)
-                                );
-                        }
-                    },
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
+        if (this.supplyAreaWiseAccumulation.id) {
+            if (
+                this.supplyAreaWiseAccumulation.supplyZoneId &&
+                this.supplyAreaWiseAccumulation.supplyZoneManagerId &&
+                this.supplyAreaWiseAccumulation.supplyAreaId &&
+                this.supplyAreaWiseAccumulation.supplyAreaManagerId
+            ) {
+                this.supplyOrderService
+                    .query({
+                        'supplyZoneId.equals': this.supplyAreaWiseAccumulation.supplyZoneId,
+                        'supplyZoneManagerId.equals': this.supplyAreaWiseAccumulation.supplyZoneManagerId,
+                        'supplyAreaId.equals': this.supplyAreaWiseAccumulation.supplyAreaId,
+                        'supplyAreaManagerId.equals': this.supplyAreaWiseAccumulation.supplyAreaManagerId,
+                        'status.equals': SupplyOrderStatus.ORDER_RECEIVED
+                    })
+                    .subscribe(
+                        (res: HttpResponse<ISupplyOrder[]>) => {
+                            this.paginateSupplyOrders(res.body, res.headers);
+                            this.selectedProducts = [];
+                            this.accumulatedList = [];
+                            if (this.supplyOrders.length > 0) {
+                                const map: string = this.supplyOrders.map(val => val.id).join(',');
+                                this.supplyOrderDetailsService
+                                    .query({
+                                        'supplyOrderId.in': [map]
+                                    })
+                                    .subscribe(
+                                        (res: HttpResponse<ISupplyOrderDetails[]>) => {
+                                            this.paginateSupplyOrderDetails(res.body, res.headers);
+                                        },
+                                        (res: HttpErrorResponse) => this.onError(res.message)
+                                    );
+                            }
+                        },
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            }
         }
     }
 
@@ -183,6 +185,15 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
                 this.supplyAreaWiseAccumulation.updatedOn != null
                     ? this.supplyAreaWiseAccumulation.updatedOn.format(DATE_TIME_FORMAT)
                     : null;
+            if (!this.supplyAreaWiseAccumulation.id) {
+                this.supplyAreaWiseAccumulationService
+                    .query()
+                    .subscribe(
+                        (res: HttpResponse<ISupplyAreaWiseAccumulation[]>) =>
+                            this.assignAreaWiseAccumulationReferenceNo(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            }
         });
         this.supplyZoneService
             .query()
@@ -232,6 +243,35 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
                 map((response: HttpResponse<IProduct[]>) => response.body)
             )
             .subscribe((res: IProduct[]) => (this.products = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+
+    assignAreaWiseAccumulationReferenceNo(data: ISupplyAreaWiseAccumulation[], headers: HttpHeaders) {
+        let today = new Date();
+        let year = today
+            .getFullYear()
+            .toString()
+            .substr(-2);
+        let month = today.getMonth() + 1;
+        let day = today.getDate();
+        let hour = today.getHours();
+        let minute = today.getMinutes();
+        let sec = today.getSeconds();
+        let maxId = data.length + 1;
+        this.supplyAreaWiseAccumulation.areaWiseAccumulationRefNo =
+            'AAR-' +
+            year +
+            ('0' + month).slice(-2) +
+            ('0' + day).slice(-2) +
+            ('0' + hour).slice(-2) +
+            ('0' + minute).slice(-2) +
+            ('0' + sec).slice(-2) +
+            '-' +
+            this.zeroPadding(maxId, 5);
+    }
+
+    zeroPadding(num, places): string {
+        const zero = places - num.toString().length + 1;
+        return Array(+(zero > 0 && zero)).join('0') + num;
     }
 
     selectItem(supplyOrder: SupplyOrder) {

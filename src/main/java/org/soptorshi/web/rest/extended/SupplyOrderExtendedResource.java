@@ -123,12 +123,6 @@ public class SupplyOrderExtendedResource extends SupplyOrderResource {
         throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
     }
 
-    @GetMapping("/supply-orders/new/orderId")
-    public ResponseEntity<String> countSupplyOrders() {
-        log.debug("REST request to get new Order Id");
-        return ResponseEntity.ok().body(supplyOrderExtendedService.generateOrderId());
-    }
-
     @GetMapping(value = "/supply-orders/download/referenceNo/{refNo}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> downloadAccumulatedOrders(@PathVariable String refNo) throws Exception, DocumentException {
         ByteArrayInputStream byteArrayInputStream = null;

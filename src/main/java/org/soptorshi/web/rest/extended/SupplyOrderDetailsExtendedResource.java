@@ -45,6 +45,9 @@ public class SupplyOrderDetailsExtendedResource extends SupplyOrderDetailsResour
         if (supplyOrderDetailsDTO.getId() != null) {
             throw new BadRequestAlertException("A new supplyOrderDetails cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if(!supplyOrderDetailsExtendedService.isValidSupplyOrderStatus(supplyOrderDetailsDTO)) {
+            throw new BadRequestAlertException("Invalid Request", ENTITY_NAME, "invalidaccess");
+        }
         SupplyOrderDetailsDTO result = supplyOrderDetailsExtendedService.save(supplyOrderDetailsDTO);
         return ResponseEntity.created(new URI("/api/supply-order-details/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -60,6 +63,9 @@ public class SupplyOrderDetailsExtendedResource extends SupplyOrderDetailsResour
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplyOrderDetailsDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if(!supplyOrderDetailsExtendedService.isValidSupplyOrderStatus(supplyOrderDetailsDTO)) {
+            throw new BadRequestAlertException("Invalid Request", ENTITY_NAME, "invalidaccess");
         }
         SupplyOrderDetailsDTO result = supplyOrderDetailsExtendedService.save(supplyOrderDetailsDTO);
         return ResponseEntity.ok()

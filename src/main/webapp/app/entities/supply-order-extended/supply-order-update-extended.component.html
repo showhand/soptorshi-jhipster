@@ -111,7 +111,7 @@
                         <div class="form-group">
                             <label class="form-control-label" for="field_orderNo">Order No</label>
                             <input type="text" class="form-control" name="orderNo" id="field_orderNo"
-                                   [(ngModel)]="supplyOrder.orderNo" required/>
+                                   [(ngModel)]="supplyOrder.orderNo" readOnly required/>
                             <div
                                 [hidden]="!(editForm.controls.orderNo?.dirty && editForm.controls.orderNo?.invalid)">
                                 <small class="form-text text-danger"
