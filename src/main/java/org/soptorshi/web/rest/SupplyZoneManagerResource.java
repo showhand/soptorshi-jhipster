@@ -9,6 +9,10 @@ import org.soptorshi.service.dto.SupplyZoneManagerCriteria;
 import org.soptorshi.service.dto.SupplyZoneManagerDTO;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,14 +85,16 @@ public class SupplyZoneManagerResource {
     /**
      * GET  /supply-zone-managers : get all the supplyZoneManagers.
      *
+     * @param pageable the pagination information
      * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of supplyZoneManagers in body
      */
     @GetMapping("/supply-zone-managers")
-    public ResponseEntity<List<SupplyZoneManagerDTO>> getAllSupplyZoneManagers(SupplyZoneManagerCriteria criteria) {
+    public ResponseEntity<List<SupplyZoneManagerDTO>> getAllSupplyZoneManagers(SupplyZoneManagerCriteria criteria, Pageable pageable) {
         log.debug("REST request to get SupplyZoneManagers by criteria: {}", criteria);
-        List<SupplyZoneManagerDTO> entityList = supplyZoneManagerQueryService.findByCriteria(criteria);
-        return ResponseEntity.ok().body(entityList);
+        Page<SupplyZoneManagerDTO> page = supplyZoneManagerQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/supply-zone-managers");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -134,12 +140,15 @@ public class SupplyZoneManagerResource {
      * to the query.
      *
      * @param query the query of the supplyZoneManager search
+     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/supply-zone-managers")
-    public List<SupplyZoneManagerDTO> searchSupplyZoneManagers(@RequestParam String query) {
-        log.debug("REST request to search SupplyZoneManagers for query {}", query);
-        return supplyZoneManagerService.search(query);
+    public ResponseEntity<List<SupplyZoneManagerDTO>> searchSupplyZoneManagers(@RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for a page of SupplyZoneManagers for query {}", query);
+        Page<SupplyZoneManagerDTO> page = supplyZoneManagerService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/supply-zone-managers");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
 }

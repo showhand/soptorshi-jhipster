@@ -18,6 +18,8 @@ import org.soptorshi.service.mapper.SupplyZoneManagerMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -694,8 +696,8 @@ public class SupplyZoneManagerResourceIntTest {
     public void searchSupplyZoneManager() throws Exception {
         // Initialize the database
         supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
-        when(mockSupplyZoneManagerSearchRepository.search(queryStringQuery("id:" + supplyZoneManager.getId())))
-            .thenReturn(Collections.singletonList(supplyZoneManager));
+        when(mockSupplyZoneManagerSearchRepository.search(queryStringQuery("id:" + supplyZoneManager.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(supplyZoneManager), PageRequest.of(0, 1), 1));
         // Search the supplyZoneManager
         restSupplyZoneManagerMockMvc.perform(get("/api/_search/supply-zone-managers?query=id:" + supplyZoneManager.getId()))
             .andExpect(status().isOk())

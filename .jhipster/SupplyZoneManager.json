@@ -51,7 +51,7 @@
     "changelogDate": "20200417153632",
     "entityTableName": "supply_zone_manager",
     "dto": "mapstruct",
-    "pagination": "no",
+    "pagination": "infinite-scroll",
     "service": "serviceClass",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,

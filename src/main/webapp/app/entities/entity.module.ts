@@ -890,6 +890,10 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'supply-area',
                 loadChildren: './supply-area/supply-area.module#SoptorshiSupplyAreaModule'
+            },
+            {
+                path: 'supply-zone-manager',
+                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
