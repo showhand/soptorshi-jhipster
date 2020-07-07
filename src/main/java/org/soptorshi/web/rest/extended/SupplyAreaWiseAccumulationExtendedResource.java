@@ -31,13 +31,13 @@ public class SupplyAreaWiseAccumulationExtendedResource extends SupplyAreaWiseAc
 
     private static final String ENTITY_NAME = "supplyAreaWiseAccumulation";
 
-    private final SupplyAreaWiseAccumulationExtendedService supplyAreaWiseAccumulationService;
+    private final SupplyAreaWiseAccumulationExtendedService supplyAreaWiseAccumulationExtendedService;
 
     private final SupplyAreaWiseAccumulationQueryService supplyAreaWiseAccumulationQueryService;
 
-    public SupplyAreaWiseAccumulationExtendedResource(SupplyAreaWiseAccumulationExtendedService supplyAreaWiseAccumulationService, SupplyAreaWiseAccumulationQueryService supplyAreaWiseAccumulationQueryService) {
-        super(supplyAreaWiseAccumulationService, supplyAreaWiseAccumulationQueryService);
-        this.supplyAreaWiseAccumulationService = supplyAreaWiseAccumulationService;
+    public SupplyAreaWiseAccumulationExtendedResource(SupplyAreaWiseAccumulationExtendedService supplyAreaWiseAccumulationExtendedService, SupplyAreaWiseAccumulationQueryService supplyAreaWiseAccumulationQueryService) {
+        super(supplyAreaWiseAccumulationExtendedService, supplyAreaWiseAccumulationQueryService);
+        this.supplyAreaWiseAccumulationExtendedService = supplyAreaWiseAccumulationExtendedService;
         this.supplyAreaWiseAccumulationQueryService = supplyAreaWiseAccumulationQueryService;
     }
 
@@ -52,7 +52,10 @@ public class SupplyAreaWiseAccumulationExtendedResource extends SupplyAreaWiseAc
         if (supplyAreaWiseAccumulationDTO.getId() != null) {
             throw new BadRequestAlertException("A new supplyAreaWiseAccumulation cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        SupplyAreaWiseAccumulationDTO result = supplyAreaWiseAccumulationService.save(supplyAreaWiseAccumulationDTO);
+        if(!supplyAreaWiseAccumulationExtendedService.isValidInput(supplyAreaWiseAccumulationDTO)) {
+            throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
+        }
+        SupplyAreaWiseAccumulationDTO result = supplyAreaWiseAccumulationExtendedService.save(supplyAreaWiseAccumulationDTO);
         return ResponseEntity.created(new URI("/api/supply-area-wise-accumulations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -68,7 +71,10 @@ public class SupplyAreaWiseAccumulationExtendedResource extends SupplyAreaWiseAc
         if (supplyAreaWiseAccumulationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        SupplyAreaWiseAccumulationDTO result = supplyAreaWiseAccumulationService.save(supplyAreaWiseAccumulationDTO);
+        if(!supplyAreaWiseAccumulationExtendedService.isValidInput(supplyAreaWiseAccumulationDTO)) {
+            throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
+        }
+        SupplyAreaWiseAccumulationDTO result = supplyAreaWiseAccumulationExtendedService.save(supplyAreaWiseAccumulationDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, supplyAreaWiseAccumulationDTO.getId().toString()))
             .body(result);
@@ -88,7 +94,7 @@ public class SupplyAreaWiseAccumulationExtendedResource extends SupplyAreaWiseAc
         }
         List<SupplyAreaWiseAccumulationDTO> results = new ArrayList<>();
         for(SupplyAreaWiseAccumulationDTO supplyAreaWiseAccumulationDTO: supplyAreaWiseAccumulationDTOs) {
-            SupplyAreaWiseAccumulationDTO result = supplyAreaWiseAccumulationService.save(supplyAreaWiseAccumulationDTO);
+            SupplyAreaWiseAccumulationDTO result = supplyAreaWiseAccumulationExtendedService.save(supplyAreaWiseAccumulationDTO);
             results.add(result);
         }
         return ResponseEntity.ok()

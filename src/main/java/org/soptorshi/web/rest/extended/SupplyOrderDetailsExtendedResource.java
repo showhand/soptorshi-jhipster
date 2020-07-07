@@ -40,7 +40,6 @@ public class SupplyOrderDetailsExtendedResource extends SupplyOrderDetailsResour
         log.debug("REST request to save SupplyOrderDetails : {}", supplyOrderDetailsDTO);
         if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
-            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplyOrderDetailsDTO.getId() != null) {
@@ -57,7 +56,6 @@ public class SupplyOrderDetailsExtendedResource extends SupplyOrderDetailsResour
         log.debug("REST request to update SupplyOrderDetails : {}", supplyOrderDetailsDTO);
         if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
-            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplyOrderDetailsDTO.getId() == null) {

@@ -40,7 +40,6 @@ public class SupplyShopExtendedResource extends SupplyShopResource {
         log.debug("REST request to save SupplyShop : {}", supplyShopDTO);
         if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
-            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplyShopDTO.getId() != null) {
@@ -60,7 +59,6 @@ public class SupplyShopExtendedResource extends SupplyShopResource {
         log.debug("REST request to update SupplyShop : {}", supplyShopDTO);
         if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
-            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplyShopDTO.getId() == null) {

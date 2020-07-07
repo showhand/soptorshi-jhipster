@@ -40,7 +40,6 @@ public class SupplySalesRepresentativeExtendedResource extends SupplySalesRepres
         log.debug("REST request to save SupplySalesRepresentative : {}", supplySalesRepresentativeDTO);
         if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
-            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplySalesRepresentativeDTO.getId() != null) {
@@ -60,7 +59,6 @@ public class SupplySalesRepresentativeExtendedResource extends SupplySalesRepres
         log.debug("REST request to update SupplySalesRepresentative : {}", supplySalesRepresentativeDTO);
         if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
-            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplySalesRepresentativeDTO.getId() == null) {

@@ -48,6 +48,9 @@ public class SupplyZoneWiseAccumulationExtendedResource extends SupplyZoneWiseAc
         if (supplyZoneWiseAccumulationDTO.getId() != null) {
             throw new BadRequestAlertException("A new supplyZoneWiseAccumulation cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if(!supplyZoneWiseAccumulationExtendedService.isValidInput(supplyZoneWiseAccumulationDTO)) {
+            throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
+        }
         SupplyZoneWiseAccumulationDTO result = supplyZoneWiseAccumulationExtendedService.save(supplyZoneWiseAccumulationDTO);
         return ResponseEntity.created(new URI("/api/supply-zone-wise-accumulations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -63,6 +66,9 @@ public class SupplyZoneWiseAccumulationExtendedResource extends SupplyZoneWiseAc
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         if (supplyZoneWiseAccumulationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if(!supplyZoneWiseAccumulationExtendedService.isValidInput(supplyZoneWiseAccumulationDTO)) {
+            throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
         }
         SupplyZoneWiseAccumulationDTO result = supplyZoneWiseAccumulationExtendedService.save(supplyZoneWiseAccumulationDTO);
         return ResponseEntity.ok()
