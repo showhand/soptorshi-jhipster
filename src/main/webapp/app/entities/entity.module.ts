@@ -852,11 +852,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
             },
             {
-                path: 'supply-zone-wise-accumulation',
-                loadChildren:
-                    './supply-zone-wise-accumulation/supply-zone-wise-accumulation.module#SoptorshiSupplyZoneWiseAccumulationModule'
-            },
-            {
                 path: 'supply-area-wise-accumulation',
                 loadChildren:
                     './supply-area-wise-accumulation-extended/supply-area-wise-accumulation-extended.module#SoptorshiSupplyAreaWiseAccumulationExtendedModule'

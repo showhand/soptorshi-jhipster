@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Supply Order Details</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-order-details" [routerLink]="['/supply-order-details/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-order-details" [routerLink]="['/supply-order-details/new']" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Supply Order Details
@@ -39,7 +39,7 @@
             <th jhiSortBy="supplyOrderOrderNo"><span>Supply Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productCategoryName"><span>Product Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productName"><span>Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
+            <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']"></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
@@ -66,7 +66,7 @@
                         <a [routerLink]="['../product', supplyOrderDetails.productId , 'view' ]" >{{supplyOrderDetails.productName}}</a>
                     </div>
                 </td>
-                <td class="text-right">
+                <td class="text-right" width="20%" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/supply-order-details', supplyOrderDetails.id, 'view' ]"
@@ -79,14 +79,6 @@
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', 'supply-order-details', { outlets: { popup: supplyOrderDetails.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
                         </button>
                     </div>
                 </td>

@@ -20,7 +20,7 @@ export const supplyZoneManagerExtendedRoute: Routes = [
         path: '',
         component: SupplyZoneManagerExtendedComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER', 'ROLE_SCM_ZONE_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyZoneManagers'
         },
         canActivate: [UserRouteAccessService]

@@ -3,7 +3,7 @@
         <span>Shop</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-shop"
                 [routerLink]="['/supply-shop/new']"
-                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER', 'ROLE_SCM_AREA_MANAGER']">
+                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']">
             <fa-icon [icon]="'plus'"></fa-icon>
         </button>
     </h2>
@@ -39,7 +39,7 @@
                     <fa-icon [icon]="'sort'"></fa-icon>
                 </th>
 
-                <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER', 'ROLE_SCM_AREA_MANAGER']"></th>
+                <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']"></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
@@ -74,7 +74,7 @@
                 <td>{{supplyShop.name}}</td>
 
                 <td class="text-right" width="20%"
-                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER', 'ROLE_SCM_AREA_MANAGER']">
+                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/supply-shop', supplyShop.id, 'view' ]"

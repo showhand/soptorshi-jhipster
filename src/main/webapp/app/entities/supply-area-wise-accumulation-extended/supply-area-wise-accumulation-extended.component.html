@@ -1,6 +1,6 @@
 <div>
     <h2 id="page-heading">
-        <span>Area</span>
+        <span>Accumulation (Area)</span>
         <button id="jh-create-entity"
                 class="btn btn-primary float-right jh-create-entity create-supply-area-wise-accumulation"
                 [routerLink]="['/supply-area-wise-accumulation/new']"
@@ -51,7 +51,7 @@
                 <th jhiSortBy="status"><span>Status</span>
                     <fa-icon [icon]="'sort'"></fa-icon>
                 </th>
-                <th></th>
+                <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']"></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
@@ -94,7 +94,7 @@
                 <td>{{supplyAreaWiseAccumulation.quantity}}</td>
                 <td>{{supplyAreaWiseAccumulation.price}}</td>
                 <td>{{supplyAreaWiseAccumulation.status}}</td>
-                <td class="text-right">
+                <td class="text-right" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/supply-area-wise-accumulation', supplyAreaWiseAccumulation.id, 'view' ]"
@@ -107,14 +107,6 @@
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', 'supply-area-wise-accumulation', { outlets: { popup: supplyAreaWiseAccumulation.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
                         </button>
                     </div>
                 </td>

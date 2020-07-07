@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Area</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-area" [routerLink]="['/supply-area/new']" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-area" [routerLink]="['/supply-area/new']" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']">
             <fa-icon [icon]="'plus'"></fa-icon>
         </button>
     </h2>
@@ -20,7 +20,7 @@
                 <th jhiSortBy="supplyZoneManagerId"><span>Supply Zone Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="areaName"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="areaCode"><span>Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']"></th>
+            <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']"></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
@@ -38,7 +38,7 @@
                 </td>
                 <td>{{supplyArea.name}}</td>
                 <td>{{supplyArea.code}}</td>
-                <td class="text-right" width="20%" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']">
+                <td class="text-right" width="20%" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/supply-area', supplyArea.id, 'view' ]"

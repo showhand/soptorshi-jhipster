@@ -20,7 +20,7 @@ export const supplyZoneWiseAccumulationExtendedRoute: Routes = [
         path: '',
         component: SupplyZoneWiseAccumulationExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER'],
             pageTitle: 'SupplyZoneWiseAccumulations'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const supplyZoneWiseAccumulationExtendedRoute: Routes = [
             supplyZoneWiseAccumulation: SupplyZoneWiseAccumulationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER'],
             pageTitle: 'SupplyZoneWiseAccumulations'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const supplyZoneWiseAccumulationExtendedRoute: Routes = [
             supplyZoneWiseAccumulation: SupplyZoneWiseAccumulationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER'],
             pageTitle: 'SupplyZoneWiseAccumulations'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const supplyZoneWiseAccumulationExtendedRoute: Routes = [
             supplyZoneWiseAccumulation: SupplyZoneWiseAccumulationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER'],
             pageTitle: 'SupplyZoneWiseAccumulations'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const supplyZoneWiseAccumulationPopupExtendedRoute: Routes = [
             supplyZoneWiseAccumulation: SupplyZoneWiseAccumulationResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER'],
             pageTitle: 'SupplyZoneWiseAccumulations'
         },
         canActivate: [UserRouteAccessService],

@@ -696,7 +696,7 @@
         </li>
 
         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER', 'ROLE_SCM_ZONE_MANAGER']">
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER', 'ROLE_SCM_AREA_MANAGER']">
             <a (click)="supplyChainManagement=!supplyChainManagement" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">
 
@@ -728,79 +728,47 @@
                         <span *ngIf="!leftMenuHidden">Area</span>
                     </a>
                 </li>
-                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER', 'ROLE_SCM_ZONE_MANAGER']">
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER', 'ROLE_SCM_AREA_MANAGER']">
                     <a class="dropdown-item" routerLink="supply-area-manager" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="cube" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">Area Manager</span>
                     </a>
                 </li>
-                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER', 'ROLE_SCM_ZONE_MANAGER']">
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']">
                     <a class="dropdown-item" routerLink="supply-sales-representative" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="cubes" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">Sales Representative</span>
                     </a>
                 </li>
-                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER', 'ROLE_SCM_ZONE_MANAGER']">
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']">
                     <a class="dropdown-item" routerLink="supply-shop" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="building" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">Shop</span>
                     </a>
                 </li>
-                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER', 'ROLE_SCM_ZONE_MANAGER']">
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']">
                     <a class="dropdown-item" routerLink="supply-order" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="plus" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">Supply Order</span>
                     </a>
                 </li>
-                <li>
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']">
                     <a class="dropdown-item" routerLink="supply-area-wise-accumulation" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="tasks" fixedWidth="true"></fa-icon>
                         <span>Accumulation (Area)</span>
                     </a>
                 </li>
-                <li>
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']">
                     <a class="dropdown-item" routerLink="supply-zone-wise-accumulation" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <fa-icon icon="tasks" fixedWidth="true"></fa-icon>
                         <span>Accumulation (Zone)</span>
                     </a>
                 </li>
-                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']">
-                    <a class="dropdown-item" routerLink="supply-order/accumulate" routerLinkActive="active"
-                       [routerLinkActiveOptions]="{ exact: true }">
-                        <fa-icon icon="superscript" fixedWidth="true"></fa-icon>
-                        <span *ngIf="!leftMenuHidden">Accumulate Order</span>
-                    </a>
-                </li>
-                <!--<li>
-                    <a class="dropdown-item" routerLink="supply-order-details" routerLinkActive="active"
-                       [routerLinkActiveOptions]="{ exact: true }">
-                        <fa-icon icon="info-circle" fixedWidth="true"></fa-icon>
-                        <span *ngIf="!leftMenuHidden">Order Details</span>
-                    </a>
-                </li>-->
-                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']">
-                    <a class="dropdown-item" routerLink="supply-challan" routerLinkActive="active"
-                       [routerLinkActiveOptions]="{ exact: true }">
-                        <fa-icon icon="superscript" fixedWidth="true"></fa-icon>
-                        <span *ngIf="!leftMenuHidden">Challan</span>
-                    </a>
-                </li>
-
-                <!--<li>
-                    <a class="dropdown-item" routerLink="supply-money-collection" routerLinkActive="active"
-                       [routerLinkActiveOptions]="{ exact: true }">
-                        <fa-icon icon="money-bill" fixedWidth="true"></fa-icon>
-                        <span *ngIf="!leftMenuHidden">Money Collection</span>
-                    </a>
-                </li>-->
             </ul>
         </li>
-
-
-
     </ul>
 </nav>

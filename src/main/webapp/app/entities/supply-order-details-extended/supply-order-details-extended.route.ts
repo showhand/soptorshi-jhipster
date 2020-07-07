@@ -22,7 +22,7 @@ export const supplyOrderDetailsExtendedRoute: Routes = [
         path: '',
         component: SupplyOrderDetailsExtendedComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER', 'ROLE_SCM_AREA_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyOrderDetails'
         },
         canActivate: [UserRouteAccessService]
@@ -85,7 +85,7 @@ export const supplyOrderDetailsPopupExtendedRoute: Routes = [
             supplyOrderDetails: SupplyOrderDetailsExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyOrderDetails'
         },
         canActivate: [UserRouteAccessService],
