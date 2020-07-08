@@ -35,9 +35,13 @@ public class ProfitLossService {
     private MstAccountExtendedRepository mstAccountExtendedRepository;
     private DtTransactionExtendedRepository dtTransactionExtendedRepository;
 
-    public ProfitLossService(ResourceLoader resourceLoader, JxlsGenerator jxlsGenerator) {
+    public ProfitLossService(ResourceLoader resourceLoader, JxlsGenerator jxlsGenerator, MstGroupExtendedRepository mstGroupExtendedRepository, SystemGroupMapExtendedRepository systemGroupMapExtendedRepository, MstAccountExtendedRepository mstAccountExtendedRepository, DtTransactionExtendedRepository dtTransactionExtendedRepository) {
         this.resourceLoader = resourceLoader;
         this.jxlsGenerator = jxlsGenerator;
+        this.mstGroupExtendedRepository = mstGroupExtendedRepository;
+        this.systemGroupMapExtendedRepository = systemGroupMapExtendedRepository;
+        this.mstAccountExtendedRepository = mstAccountExtendedRepository;
+        this.dtTransactionExtendedRepository = dtTransactionExtendedRepository;
     }
 
     public ByteArrayInputStream createReport(LocalDate fromDate, LocalDate toDate) throws Exception{
@@ -46,7 +50,7 @@ public class ProfitLossService {
         List<ProfitLossDto> expense = generateExpenses(fromDate, toDate);
         AccountWithMonthlyBalances comparingBalances = generateComparingBalances(revenue, expense);
 
-        Resource resource = resourceLoader.getResource("classpath:/templates/jxls/ChartsOfAccounts.xls");// templates/jxls/ChartsOfAccounts.xls
+        Resource resource = resourceLoader.getResource("classpath:/templates/jxls/ProfitLoss.xls");// templates/jxls/ChartsOfAccounts.xls
         HSSFWorkbook workbook = new HSSFWorkbook(resource.getInputStream());
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         workbook.write(bos);
@@ -88,7 +92,6 @@ public class ProfitLossService {
             for(MstAccount account: groupAccounts){
                 AccountWithMonthlyBalances accountWithMonthlyBalances = new AccountWithMonthlyBalances();
                 accountWithMonthlyBalances.setAccountName(account.getName());
-                List<DtTransaction> transactions = dtTransactionExtendedRepository.findByAccountAndVoucherDateBetween(account, fromDate, toDate);
 
                 while(fromDate.getYear()<= toDate.getYear() && fromDate.getMonth().getValue()<=toDate.getMonth().getValue()){
 

@@ -38,9 +38,9 @@ public class JxlsGenerator {
         OutputStream out,
         InputStream templateLocation) throws IOException{
         Context context = new Context();
-        context.putVar("revenue", revenue);
-        context.putVar("expense", expense);
-        context.putVar("comparingBalance", comparingBalance);
+//        context.putVar("revenue", revenue);
+//        context.putVar("expense", expense);
+//        context.putVar("comparingBalance", comparingBalance);
         processTemplate(context, templateLocation, out);
     }
 

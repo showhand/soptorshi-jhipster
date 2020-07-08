@@ -17,6 +17,7 @@ public class AccountsDataGeneratorService {
     private MstGroupRepository mstGroupRepository;
     @Autowired
     private MstAccountExtendedRepository mstAccountRepository;
+    @Autowired
     private SystemGroupMapExtendedRepository systemGroupMapExtendedRepository;
 
     public void createProfitLossTestData(){

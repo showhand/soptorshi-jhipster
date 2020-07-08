@@ -1,5 +1,6 @@
 package org.soptorshi.service.extended;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,13 +58,6 @@ public class ProfitLossServiceTest {
         assertThat(report.read()).isNotEqualTo(0);
 
         File outputFile = new File("D:/profit-and-loss.xls");
-        FileOutputStream fos = new FileOutputStream(outputFile);
-        int data;
-        while((data=report.read())!= -1){
-            char character= (char)data;
-            fos.write(character);
-        }
-        fos.flush();
-        fos.close();
+        IOUtils.copy(report, new FileOutputStream(outputFile));
     }
 }
