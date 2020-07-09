@@ -67,7 +67,7 @@ public class SupplyOrderDetailsExtendedService extends SupplyOrderDetailsService
         return result;
     }
 
-    Optional<List<SupplyOrderDetails>> getAllBySupplyOrder(SupplyOrder supplyOrder) {
+    public List<SupplyOrderDetails> getAllBySupplyOrder(SupplyOrder supplyOrder) {
         return supplyOrderDetailsExtendedRepository.getAllBySupplyOrder(supplyOrder);
     }
 

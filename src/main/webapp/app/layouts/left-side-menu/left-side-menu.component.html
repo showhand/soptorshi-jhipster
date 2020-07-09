@@ -768,6 +768,19 @@
                         <span>Accumulation (Zone)</span>
                     </a>
                 </li>
+
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']">
+                    <a class="dropdown-item" routerLink="supply-challan" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <fa-icon icon="book" fixedWidth="true"></fa-icon>
+                        <span>Challan</span>
+                    </a>
+                </li>
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER']">
+                    <a class="dropdown-item" routerLink="supply-money-collection" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                        <span>Money Collection</span>
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>

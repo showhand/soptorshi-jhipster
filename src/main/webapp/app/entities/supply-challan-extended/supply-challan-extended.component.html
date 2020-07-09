@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span>Supply Challans</span>
+        <span>Challans</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-challan" [routerLink]="['/supply-challan/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <!--<span class="hidden-sm-down" >
-            Create new Supply Challan
+            Create new Challan
             </span>-->
         </button>
     </h2>
@@ -30,7 +30,7 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="supplyOrderOrderNo"><span>Supply Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="supplyOrderOrderNo"><span>Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="challanNo"><span>Challan No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="dateOfChallan"><span>Date Of Challan</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <!--<th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
