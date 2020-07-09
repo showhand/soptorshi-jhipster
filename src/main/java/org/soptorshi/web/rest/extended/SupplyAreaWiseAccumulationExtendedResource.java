@@ -74,6 +74,9 @@ public class SupplyAreaWiseAccumulationExtendedResource extends SupplyAreaWiseAc
         if(!supplyAreaWiseAccumulationExtendedService.isValidInput(supplyAreaWiseAccumulationDTO)) {
             throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
         }
+        if(!supplyAreaWiseAccumulationExtendedService.isValidStatus(supplyAreaWiseAccumulationDTO)) {
+            throw new BadRequestAlertException("Invalid Request", ENTITY_NAME, "invalidaccess");
+        }
         SupplyAreaWiseAccumulationDTO result = supplyAreaWiseAccumulationExtendedService.save(supplyAreaWiseAccumulationDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, supplyAreaWiseAccumulationDTO.getId().toString()))
@@ -81,8 +84,8 @@ public class SupplyAreaWiseAccumulationExtendedResource extends SupplyAreaWiseAc
     }
 
     @PostMapping("/supply-area-wise-accumulations/bulk")
-    public ResponseEntity<List<SupplyAreaWiseAccumulationDTO>> updateBulkSupplyAreaWiseAccumulation(@Valid @RequestBody List<SupplyAreaWiseAccumulationDTO> supplyAreaWiseAccumulationDTOs) throws URISyntaxException {
-        log.debug("REST request to update bulk SupplyAreaWiseAccumulation : {}", supplyAreaWiseAccumulationDTOs);
+    public ResponseEntity<List<SupplyAreaWiseAccumulationDTO>> postBulkSupplyAreaWiseAccumulation(@Valid @RequestBody List<SupplyAreaWiseAccumulationDTO> supplyAreaWiseAccumulationDTOs) throws URISyntaxException {
+        log.debug("REST request to post bulk SupplyAreaWiseAccumulation : {}", supplyAreaWiseAccumulationDTOs);
         if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
@@ -90,6 +93,40 @@ public class SupplyAreaWiseAccumulationExtendedResource extends SupplyAreaWiseAc
         for(SupplyAreaWiseAccumulationDTO supplyAreaWiseAccumulationDTO: supplyAreaWiseAccumulationDTOs) {
             if (supplyAreaWiseAccumulationDTO.getId() != null) {
                 throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            }
+        }
+        for(SupplyAreaWiseAccumulationDTO supplyAreaWiseAccumulationDTO: supplyAreaWiseAccumulationDTOs) {
+            if (!supplyAreaWiseAccumulationExtendedService.isValidInput(supplyAreaWiseAccumulationDTO)) {
+                throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
+            }
+        }
+        List<SupplyAreaWiseAccumulationDTO> results = new ArrayList<>();
+        for(SupplyAreaWiseAccumulationDTO supplyAreaWiseAccumulationDTO: supplyAreaWiseAccumulationDTOs) {
+            SupplyAreaWiseAccumulationDTO result = supplyAreaWiseAccumulationExtendedService.save(supplyAreaWiseAccumulationDTO);
+            results.add(result);
+        }
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, supplyAreaWiseAccumulationDTOs.stream()
+                .map(SupplyAreaWiseAccumulationDTO::getId).collect(Collectors.toList()).toString()))
+            .body(results);
+    }
+
+    @PutMapping("/supply-area-wise-accumulations/bulk")
+    public ResponseEntity<List<SupplyAreaWiseAccumulationDTO>> updateBulkSupplyAreaWiseAccumulation(@Valid @RequestBody List<SupplyAreaWiseAccumulationDTO> supplyAreaWiseAccumulationDTOs) throws URISyntaxException {
+        log.debug("REST request to update bulk SupplyAreaWiseAccumulation : {}", supplyAreaWiseAccumulationDTOs);
+        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER))
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        for(SupplyAreaWiseAccumulationDTO supplyAreaWiseAccumulationDTO: supplyAreaWiseAccumulationDTOs) {
+            if (supplyAreaWiseAccumulationDTO.getId() == null) {
+                throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            }
+        }
+        for(SupplyAreaWiseAccumulationDTO supplyAreaWiseAccumulationDTO: supplyAreaWiseAccumulationDTOs) {
+            if (!supplyAreaWiseAccumulationExtendedService.isValidInput(supplyAreaWiseAccumulationDTO)) {
+                throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
             }
         }
         List<SupplyAreaWiseAccumulationDTO> results = new ArrayList<>();

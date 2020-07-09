@@ -25,4 +25,12 @@ export class SupplyAreaWiseAccumulationExtendedService extends SupplyAreaWiseAcc
         }
         return this.http.post<ISupplyAreaWiseAccumulation[]>(`${this.resourceUrl}/bulk`, copy, { observe: 'response' });
     }
+
+    bulkUpdate(supplyAreaWiseAccumulation: ISupplyAreaWiseAccumulation[]): Observable<HttpResponse<ISupplyAreaWiseAccumulation[]>> {
+        let copy: any[] = [];
+        for (let i = 0; i < supplyAreaWiseAccumulation.length; i++) {
+            copy[i] = this.convertDateFromClient(supplyAreaWiseAccumulation[i]);
+        }
+        return this.http.put<ISupplyAreaWiseAccumulation[]>(`${this.resourceUrl}/bulk`, copy, { observe: 'response' });
+    }
 }

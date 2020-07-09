@@ -10,12 +10,18 @@ import { ISupplyMoneyCollection } from 'app/shared/model/supply-money-collection
 import { SupplyMoneyCollectionService } from './supply-money-collection.service';
 import { ISupplyZone } from 'app/shared/model/supply-zone.model';
 import { SupplyZoneService } from 'app/entities/supply-zone';
+import { ISupplyZoneManager } from 'app/shared/model/supply-zone-manager.model';
+import { SupplyZoneManagerService } from 'app/entities/supply-zone-manager';
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
 import { SupplyAreaService } from 'app/entities/supply-area';
 import { ISupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
 import { SupplyAreaManagerService } from 'app/entities/supply-area-manager';
 import { ISupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
 import { SupplySalesRepresentativeService } from 'app/entities/supply-sales-representative';
+import { ISupplyShop } from 'app/shared/model/supply-shop.model';
+import { SupplyShopService } from 'app/entities/supply-shop';
+import { ISupplyOrder } from 'app/shared/model/supply-order.model';
+import { SupplyOrderService } from 'app/entities/supply-order';
 
 @Component({
     selector: 'jhi-supply-money-collection-update',
@@ -27,11 +33,17 @@ export class SupplyMoneyCollectionUpdateComponent implements OnInit {
 
     supplyzones: ISupplyZone[];
 
+    supplyzonemanagers: ISupplyZoneManager[];
+
     supplyareas: ISupplyArea[];
 
     supplyareamanagers: ISupplyAreaManager[];
 
     supplysalesrepresentatives: ISupplySalesRepresentative[];
+
+    supplyshops: ISupplyShop[];
+
+    supplyorders: ISupplyOrder[];
     createdOn: string;
     updatedOn: string;
 
@@ -39,9 +51,12 @@ export class SupplyMoneyCollectionUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected supplyMoneyCollectionService: SupplyMoneyCollectionService,
         protected supplyZoneService: SupplyZoneService,
+        protected supplyZoneManagerService: SupplyZoneManagerService,
         protected supplyAreaService: SupplyAreaService,
         protected supplyAreaManagerService: SupplyAreaManagerService,
         protected supplySalesRepresentativeService: SupplySalesRepresentativeService,
+        protected supplyShopService: SupplyShopService,
+        protected supplyOrderService: SupplyOrderService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -61,6 +76,16 @@ export class SupplyMoneyCollectionUpdateComponent implements OnInit {
                 map((response: HttpResponse<ISupplyZone[]>) => response.body)
             )
             .subscribe((res: ISupplyZone[]) => (this.supplyzones = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.supplyZoneManagerService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplyZoneManager[]) => (this.supplyzonemanagers = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
         this.supplyAreaService
             .query()
             .pipe(
@@ -88,6 +113,20 @@ export class SupplyMoneyCollectionUpdateComponent implements OnInit {
                 (res: ISupplySalesRepresentative[]) => (this.supplysalesrepresentatives = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
+        this.supplyShopService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyShop[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyShop[]>) => response.body)
+            )
+            .subscribe((res: ISupplyShop[]) => (this.supplyshops = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.supplyOrderService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyOrder[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyOrder[]>) => response.body)
+            )
+            .subscribe((res: ISupplyOrder[]) => (this.supplyorders = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -129,6 +168,10 @@ export class SupplyMoneyCollectionUpdateComponent implements OnInit {
         return item.id;
     }
 
+    trackSupplyZoneManagerById(index: number, item: ISupplyZoneManager) {
+        return item.id;
+    }
+
     trackSupplyAreaById(index: number, item: ISupplyArea) {
         return item.id;
     }
@@ -138,6 +181,14 @@ export class SupplyMoneyCollectionUpdateComponent implements OnInit {
     }
 
     trackSupplySalesRepresentativeById(index: number, item: ISupplySalesRepresentative) {
+        return item.id;
+    }
+
+    trackSupplyShopById(index: number, item: ISupplyShop) {
+        return item.id;
+    }
+
+    trackSupplyOrderById(index: number, item: ISupplyOrder) {
         return item.id;
     }
 }

@@ -3,9 +3,7 @@ package org.soptorshi.service;
 import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.SupplyChallan;
-import org.soptorshi.domain.SupplyChallan_;
-import org.soptorshi.domain.SupplyOrder_;
+import org.soptorshi.domain.*;
 import org.soptorshi.repository.SupplyChallanRepository;
 import org.soptorshi.repository.search.SupplyChallanSearchRepository;
 import org.soptorshi.service.dto.SupplyChallanCriteria;
@@ -111,6 +109,30 @@ public class SupplyChallanQueryService extends QueryService<SupplyChallan> {
             }
             if (criteria.getUpdatedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), SupplyChallan_.updatedOn));
+            }
+            if (criteria.getSupplyZoneId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyZoneId(),
+                    root -> root.join(SupplyChallan_.supplyZone, JoinType.LEFT).get(SupplyZone_.id)));
+            }
+            if (criteria.getSupplyZoneManagerId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyZoneManagerId(),
+                    root -> root.join(SupplyChallan_.supplyZoneManager, JoinType.LEFT).get(SupplyZoneManager_.id)));
+            }
+            if (criteria.getSupplyAreaId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyAreaId(),
+                    root -> root.join(SupplyChallan_.supplyArea, JoinType.LEFT).get(SupplyArea_.id)));
+            }
+            if (criteria.getSupplyAreaManagerId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyAreaManagerId(),
+                    root -> root.join(SupplyChallan_.supplyAreaManager, JoinType.LEFT).get(SupplyAreaManager_.id)));
+            }
+            if (criteria.getSupplySalesRepresentativeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplySalesRepresentativeId(),
+                    root -> root.join(SupplyChallan_.supplySalesRepresentative, JoinType.LEFT).get(SupplySalesRepresentative_.id)));
+            }
+            if (criteria.getSupplyShopId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyShopId(),
+                    root -> root.join(SupplyChallan_.supplyShop, JoinType.LEFT).get(SupplyShop_.id)));
             }
             if (criteria.getSupplyOrderId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyOrderId(),

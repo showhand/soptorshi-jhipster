@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -49,7 +50,7 @@ public class SupplyMoneyCollectionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/supply-money-collections")
-    public ResponseEntity<SupplyMoneyCollectionDTO> createSupplyMoneyCollection(@RequestBody SupplyMoneyCollectionDTO supplyMoneyCollectionDTO) throws URISyntaxException {
+    public ResponseEntity<SupplyMoneyCollectionDTO> createSupplyMoneyCollection(@Valid @RequestBody SupplyMoneyCollectionDTO supplyMoneyCollectionDTO) throws URISyntaxException {
         log.debug("REST request to save SupplyMoneyCollection : {}", supplyMoneyCollectionDTO);
         if (supplyMoneyCollectionDTO.getId() != null) {
             throw new BadRequestAlertException("A new supplyMoneyCollection cannot already have an ID", ENTITY_NAME, "idexists");
@@ -70,7 +71,7 @@ public class SupplyMoneyCollectionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/supply-money-collections")
-    public ResponseEntity<SupplyMoneyCollectionDTO> updateSupplyMoneyCollection(@RequestBody SupplyMoneyCollectionDTO supplyMoneyCollectionDTO) throws URISyntaxException {
+    public ResponseEntity<SupplyMoneyCollectionDTO> updateSupplyMoneyCollection(@Valid @RequestBody SupplyMoneyCollectionDTO supplyMoneyCollectionDTO) throws URISyntaxException {
         log.debug("REST request to update SupplyMoneyCollection : {}", supplyMoneyCollectionDTO);
         if (supplyMoneyCollectionDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

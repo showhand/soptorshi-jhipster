@@ -130,43 +130,41 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
     }
 
     filterSupplyOrders() {
-        if (this.supplyAreaWiseAccumulation.id) {
-            if (
-                this.supplyAreaWiseAccumulation.supplyZoneId &&
-                this.supplyAreaWiseAccumulation.supplyZoneManagerId &&
-                this.supplyAreaWiseAccumulation.supplyAreaId &&
-                this.supplyAreaWiseAccumulation.supplyAreaManagerId
-            ) {
-                this.supplyOrderService
-                    .query({
-                        'supplyZoneId.equals': this.supplyAreaWiseAccumulation.supplyZoneId,
-                        'supplyZoneManagerId.equals': this.supplyAreaWiseAccumulation.supplyZoneManagerId,
-                        'supplyAreaId.equals': this.supplyAreaWiseAccumulation.supplyAreaId,
-                        'supplyAreaManagerId.equals': this.supplyAreaWiseAccumulation.supplyAreaManagerId,
-                        'status.equals': SupplyOrderStatus.ORDER_RECEIVED
-                    })
-                    .subscribe(
-                        (res: HttpResponse<ISupplyOrder[]>) => {
-                            this.paginateSupplyOrders(res.body, res.headers);
-                            this.selectedProducts = [];
-                            this.accumulatedList = [];
-                            if (this.supplyOrders.length > 0) {
-                                const map: string = this.supplyOrders.map(val => val.id).join(',');
-                                this.supplyOrderDetailsService
-                                    .query({
-                                        'supplyOrderId.in': [map]
-                                    })
-                                    .subscribe(
-                                        (res: HttpResponse<ISupplyOrderDetails[]>) => {
-                                            this.paginateSupplyOrderDetails(res.body, res.headers);
-                                        },
-                                        (res: HttpErrorResponse) => this.onError(res.message)
-                                    );
-                            }
-                        },
-                        (res: HttpErrorResponse) => this.onError(res.message)
-                    );
-            }
+        if (
+            this.supplyAreaWiseAccumulation.supplyZoneId &&
+            this.supplyAreaWiseAccumulation.supplyZoneManagerId &&
+            this.supplyAreaWiseAccumulation.supplyAreaId &&
+            this.supplyAreaWiseAccumulation.supplyAreaManagerId
+        ) {
+            this.supplyOrderService
+                .query({
+                    'supplyZoneId.equals': this.supplyAreaWiseAccumulation.supplyZoneId,
+                    'supplyZoneManagerId.equals': this.supplyAreaWiseAccumulation.supplyZoneManagerId,
+                    'supplyAreaId.equals': this.supplyAreaWiseAccumulation.supplyAreaId,
+                    'supplyAreaManagerId.equals': this.supplyAreaWiseAccumulation.supplyAreaManagerId,
+                    'status.equals': SupplyOrderStatus.ORDER_RECEIVED
+                })
+                .subscribe(
+                    (res: HttpResponse<ISupplyOrder[]>) => {
+                        this.paginateSupplyOrders(res.body, res.headers);
+                        this.selectedProducts = [];
+                        this.accumulatedList = [];
+                        if (this.supplyOrders.length > 0) {
+                            const map: string = this.supplyOrders.map(val => val.id).join(',');
+                            this.supplyOrderDetailsService
+                                .query({
+                                    'supplyOrderId.in': [map]
+                                })
+                                .subscribe(
+                                    (res: HttpResponse<ISupplyOrderDetails[]>) => {
+                                        this.paginateSupplyOrderDetails(res.body, res.headers);
+                                    },
+                                    (res: HttpErrorResponse) => this.onError(res.message)
+                                );
+                        }
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
         }
     }
 
@@ -357,31 +355,39 @@ export class SupplyAreaWiseAccumulationUpdateExtendedComponent extends SupplyAre
 
     save() {
         this.isSaving = true;
-        this.supplyOrderService.bulkUpdate(this.selectedSupplyOrders).subscribe(
-            (res: HttpResponse<ISupplyOrder[]>) => {
-                let supplyAreaWiseAccumulations: SupplyAreaWiseAccumulation[] = [];
-                for (let i = 0; i < this.accumulatedList.length; i++) {
-                    let areaWiseAccumulation: SupplyAreaWiseAccumulation = {};
-                    areaWiseAccumulation.supplyZoneId = this.supplyAreaWiseAccumulation.supplyZoneId;
-                    areaWiseAccumulation.supplyAreaId = this.supplyAreaWiseAccumulation.supplyAreaId;
-                    areaWiseAccumulation.supplyZoneManagerId = this.supplyAreaWiseAccumulation.supplyZoneManagerId;
-                    areaWiseAccumulation.supplyAreaManagerId = this.supplyAreaWiseAccumulation.supplyAreaManagerId;
-                    areaWiseAccumulation.productCategoryId = this.accumulatedList[i].productCategoryId;
-                    areaWiseAccumulation.productId = this.accumulatedList[i].productId;
-                    areaWiseAccumulation.quantity = this.accumulatedList[i].quantity;
-                    areaWiseAccumulation.price = this.accumulatedList[i].price;
-                    areaWiseAccumulation.areaWiseAccumulationRefNo = this.supplyAreaWiseAccumulation.areaWiseAccumulationRefNo;
-                    areaWiseAccumulation.price = this.accumulatedList[i].price;
-                    areaWiseAccumulation.status = SupplyAreaWiseAccumulationStatus.PENDING;
-                    areaWiseAccumulation.createdOn = this.createdOn != null ? moment(this.createdOn, DATE_TIME_FORMAT) : null;
-                    areaWiseAccumulation.updatedOn = this.updatedOn != null ? moment(this.updatedOn, DATE_TIME_FORMAT) : null;
+        if (!this.supplyAreaWiseAccumulation.id) {
+            if (this.selectedSupplyOrders.length > 0) {
+                this.supplyOrderService.bulkUpdate(this.selectedSupplyOrders).subscribe(
+                    (res: HttpResponse<ISupplyOrder[]>) => {
+                        let supplyAreaWiseAccumulations: SupplyAreaWiseAccumulation[] = [];
+                        for (let i = 0; i < this.accumulatedList.length; i++) {
+                            let areaWiseAccumulation: SupplyAreaWiseAccumulation = {};
+                            areaWiseAccumulation.supplyZoneId = this.supplyAreaWiseAccumulation.supplyZoneId;
+                            areaWiseAccumulation.supplyAreaId = this.supplyAreaWiseAccumulation.supplyAreaId;
+                            areaWiseAccumulation.supplyZoneManagerId = this.supplyAreaWiseAccumulation.supplyZoneManagerId;
+                            areaWiseAccumulation.supplyAreaManagerId = this.supplyAreaWiseAccumulation.supplyAreaManagerId;
+                            areaWiseAccumulation.productCategoryId = this.accumulatedList[i].productCategoryId;
+                            areaWiseAccumulation.productId = this.accumulatedList[i].productId;
+                            areaWiseAccumulation.quantity = this.accumulatedList[i].quantity;
+                            areaWiseAccumulation.price = this.accumulatedList[i].price;
+                            areaWiseAccumulation.areaWiseAccumulationRefNo = this.supplyAreaWiseAccumulation.areaWiseAccumulationRefNo;
+                            areaWiseAccumulation.price = this.accumulatedList[i].price;
+                            areaWiseAccumulation.status = SupplyAreaWiseAccumulationStatus.FORWARDED;
+                            areaWiseAccumulation.createdOn = this.createdOn != null ? moment(this.createdOn, DATE_TIME_FORMAT) : null;
+                            areaWiseAccumulation.updatedOn = this.updatedOn != null ? moment(this.updatedOn, DATE_TIME_FORMAT) : null;
 
-                    supplyAreaWiseAccumulations.push(areaWiseAccumulation);
-                }
-                this.subscribeToBulkSaveResponse(this.supplyAreaWiseAccumulationService.bulkPost(supplyAreaWiseAccumulations));
-            },
-            (res: HttpErrorResponse) => this.onSaveError()
-        );
+                            supplyAreaWiseAccumulations.push(areaWiseAccumulation);
+                        }
+                        this.subscribeToBulkSaveResponse(this.supplyAreaWiseAccumulationService.bulkPost(supplyAreaWiseAccumulations));
+                    },
+                    (res: HttpErrorResponse) => this.onSaveError()
+                );
+            } else {
+                this.jhiAlertService.error('Nothing selected!!');
+            }
+        } else {
+            this.subscribeToSaveResponse(this.supplyAreaWiseAccumulationService.update(this.supplyAreaWiseAccumulation));
+        }
     }
 
     protected subscribeToBulkSaveResponse(result: Observable<HttpResponse<ISupplyAreaWiseAccumulation[]>>) {

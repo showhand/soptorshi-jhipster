@@ -1,7 +1,10 @@
 package org.soptorshi.repository.extended;
 
+import org.soptorshi.domain.SupplyAreaWiseAccumulation;
 import org.soptorshi.repository.SupplyAreaWiseAccumulationRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 /**
@@ -11,4 +14,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SupplyAreaWiseAccumulationExtendedRepository extends SupplyAreaWiseAccumulationRepository {
 
+    List<SupplyAreaWiseAccumulation> getAllByZoneWiseAccumulationRefNo(String zoneWiseAccumulationRefNo);
 }

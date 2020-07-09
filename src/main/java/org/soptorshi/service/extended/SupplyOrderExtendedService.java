@@ -171,4 +171,8 @@ public class SupplyOrderExtendedService extends SupplyOrderService {
         Optional<SupplyOrderDTO> supplyOrderDTO1 = findOne(supplyOrderDTO.getId());
         return supplyOrderDTO1.map(orderDTO -> orderDTO.getStatus().equals(SupplyOrderStatus.ORDER_RECEIVED)).orElse(false);
     }
+
+    public List<SupplyOrder> getAllByAreaWiseAccumulationRefNo(String areaWiseAccumulationRefNo) {
+        return supplyOrderExtendedRepository.getByAreaWiseAccumulationRefNo(areaWiseAccumulationRefNo);
+    }
 }

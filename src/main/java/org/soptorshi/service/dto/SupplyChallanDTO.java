@@ -29,6 +29,26 @@ public class SupplyChallanDTO implements Serializable {
     private Instant updatedOn;
 
 
+    private Long supplyZoneId;
+
+    private String supplyZoneName;
+
+    private Long supplyZoneManagerId;
+
+    private Long supplyAreaId;
+
+    private String supplyAreaName;
+
+    private Long supplyAreaManagerId;
+
+    private Long supplySalesRepresentativeId;
+
+    private String supplySalesRepresentativeName;
+
+    private Long supplyShopId;
+
+    private String supplyShopName;
+
     private Long supplyOrderId;
 
     private String supplyOrderOrderNo;
@@ -97,6 +117,86 @@ public class SupplyChallanDTO implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public Long getSupplyZoneId() {
+        return supplyZoneId;
+    }
+
+    public void setSupplyZoneId(Long supplyZoneId) {
+        this.supplyZoneId = supplyZoneId;
+    }
+
+    public String getSupplyZoneName() {
+        return supplyZoneName;
+    }
+
+    public void setSupplyZoneName(String supplyZoneName) {
+        this.supplyZoneName = supplyZoneName;
+    }
+
+    public Long getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(Long supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
+    }
+
+    public Long getSupplyAreaId() {
+        return supplyAreaId;
+    }
+
+    public void setSupplyAreaId(Long supplyAreaId) {
+        this.supplyAreaId = supplyAreaId;
+    }
+
+    public String getSupplyAreaName() {
+        return supplyAreaName;
+    }
+
+    public void setSupplyAreaName(String supplyAreaName) {
+        this.supplyAreaName = supplyAreaName;
+    }
+
+    public Long getSupplyAreaManagerId() {
+        return supplyAreaManagerId;
+    }
+
+    public void setSupplyAreaManagerId(Long supplyAreaManagerId) {
+        this.supplyAreaManagerId = supplyAreaManagerId;
+    }
+
+    public Long getSupplySalesRepresentativeId() {
+        return supplySalesRepresentativeId;
+    }
+
+    public void setSupplySalesRepresentativeId(Long supplySalesRepresentativeId) {
+        this.supplySalesRepresentativeId = supplySalesRepresentativeId;
+    }
+
+    public String getSupplySalesRepresentativeName() {
+        return supplySalesRepresentativeName;
+    }
+
+    public void setSupplySalesRepresentativeName(String supplySalesRepresentativeName) {
+        this.supplySalesRepresentativeName = supplySalesRepresentativeName;
+    }
+
+    public Long getSupplyShopId() {
+        return supplyShopId;
+    }
+
+    public void setSupplyShopId(Long supplyShopId) {
+        this.supplyShopId = supplyShopId;
+    }
+
+    public String getSupplyShopName() {
+        return supplyShopName;
+    }
+
+    public void setSupplyShopName(String supplyShopName) {
+        this.supplyShopName = supplyShopName;
+    }
+
     public Long getSupplyOrderId() {
         return supplyOrderId;
     }
@@ -145,6 +245,16 @@ public class SupplyChallanDTO implements Serializable {
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", supplyZone=" + getSupplyZoneId() +
+            ", supplyZone='" + getSupplyZoneName() + "'" +
+            ", supplyZoneManager=" + getSupplyZoneManagerId() +
+            ", supplyArea=" + getSupplyAreaId() +
+            ", supplyArea='" + getSupplyAreaName() + "'" +
+            ", supplyAreaManager=" + getSupplyAreaManagerId() +
+            ", supplySalesRepresentative=" + getSupplySalesRepresentativeId() +
+            ", supplySalesRepresentative='" + getSupplySalesRepresentativeName() + "'" +
+            ", supplyShop=" + getSupplyShopId() +
+            ", supplyShop='" + getSupplyShopName() + "'" +
             ", supplyOrder=" + getSupplyOrderId() +
             ", supplyOrder='" + getSupplyOrderOrderNo() + "'" +
             "}";

@@ -39,6 +39,12 @@
                         <a [routerLink]="['/supply-zone', supplyMoneyCollection.supplyZoneId, 'view']">{{supplyMoneyCollection.supplyZoneName}}</a>
                     </div>
                 </dd>
+                <dt><span>Supply Zone Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplyMoneyCollection.supplyZoneManagerId">
+                        <a [routerLink]="['/supply-zone-manager', supplyMoneyCollection.supplyZoneManagerId, 'view']">{{supplyMoneyCollection.supplyZoneManagerId}}</a>
+                    </div>
+                </dd>
                 <dt><span>Supply Area</span></dt>
                 <dd>
                     <div *ngIf="supplyMoneyCollection.supplyAreaId">
@@ -55,6 +61,18 @@
                 <dd>
                     <div *ngIf="supplyMoneyCollection.supplySalesRepresentativeId">
                         <a [routerLink]="['/supply-sales-representative', supplyMoneyCollection.supplySalesRepresentativeId, 'view']">{{supplyMoneyCollection.supplySalesRepresentativeName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Shop</span></dt>
+                <dd>
+                    <div *ngIf="supplyMoneyCollection.supplyShopId">
+                        <a [routerLink]="['/supply-shop', supplyMoneyCollection.supplyShopId, 'view']">{{supplyMoneyCollection.supplyShopName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Order</span></dt>
+                <dd>
+                    <div *ngIf="supplyMoneyCollection.supplyOrderId">
+                        <a [routerLink]="['/supply-order', supplyMoneyCollection.supplyOrderId, 'view']">{{supplyMoneyCollection.supplyOrderOrderNo}}</a>
                     </div>
                 </dd>
             </dl>

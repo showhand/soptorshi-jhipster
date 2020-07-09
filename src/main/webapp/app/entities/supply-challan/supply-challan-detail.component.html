@@ -33,6 +33,42 @@
                 <dd>
                     <span>{{supplyChallan.updatedOn}}</span>
                 </dd>
+                <dt><span>Supply Zone</span></dt>
+                <dd>
+                    <div *ngIf="supplyChallan.supplyZoneId">
+                        <a [routerLink]="['/supply-zone', supplyChallan.supplyZoneId, 'view']">{{supplyChallan.supplyZoneName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Zone Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplyChallan.supplyZoneManagerId">
+                        <a [routerLink]="['/supply-zone-manager', supplyChallan.supplyZoneManagerId, 'view']">{{supplyChallan.supplyZoneManagerId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Area</span></dt>
+                <dd>
+                    <div *ngIf="supplyChallan.supplyAreaId">
+                        <a [routerLink]="['/supply-area', supplyChallan.supplyAreaId, 'view']">{{supplyChallan.supplyAreaName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Area Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplyChallan.supplyAreaManagerId">
+                        <a [routerLink]="['/supply-area-manager', supplyChallan.supplyAreaManagerId, 'view']">{{supplyChallan.supplyAreaManagerId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Sales Representative</span></dt>
+                <dd>
+                    <div *ngIf="supplyChallan.supplySalesRepresentativeId">
+                        <a [routerLink]="['/supply-sales-representative', supplyChallan.supplySalesRepresentativeId, 'view']">{{supplyChallan.supplySalesRepresentativeName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Shop</span></dt>
+                <dd>
+                    <div *ngIf="supplyChallan.supplyShopId">
+                        <a [routerLink]="['/supply-shop', supplyChallan.supplyShopId, 'view']">{{supplyChallan.supplyShopName}}</a>
+                    </div>
+                </dd>
                 <dt><span>Supply Order</span></dt>
                 <dd>
                     <div *ngIf="supplyChallan.supplyOrderId">

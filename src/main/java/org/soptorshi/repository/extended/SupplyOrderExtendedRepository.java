@@ -19,5 +19,5 @@ public interface SupplyOrderExtendedRepository extends SupplyOrderRepository {
 
    Optional<List<SupplyOrder>> getByDateOfOrderGreaterThanEqualAndDateOfOrderLessThanEqualAndStatus(LocalDate fromDate, LocalDate toDate, SupplyOrderStatus status);
 
-   Optional<List<SupplyOrder>> getByAreaWiseAccumulationRefNo(String refNo);
+   List<SupplyOrder> getByAreaWiseAccumulationRefNo(String areaWiseAccumulationRefNo);
 }

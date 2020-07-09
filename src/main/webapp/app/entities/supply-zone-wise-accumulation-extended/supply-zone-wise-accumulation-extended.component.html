@@ -61,7 +61,7 @@
                 </td>
                 <td>
                     <div *ngIf="supplyZoneWiseAccumulation.supplyZoneManagerId">
-                        <a [routerLink]="['../supply-zone-manager', supplyZoneWiseAccumulation.supplyZoneManagerId , 'view' ]">{{supplyZoneWiseAccumulation.supplyZoneManagerId}}</a>
+                        <a [routerLink]="['../supply-zone-manager', supplyZoneWiseAccumulation.supplyZoneManagerId , 'view' ]">{{supplyZoneWiseAccumulation.supplyZoneManagerId | scmZoneManagerFilter: supplyZoneManagers}}</a>
                     </div>
                 </td>
                 <td>

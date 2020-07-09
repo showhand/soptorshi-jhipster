@@ -30,6 +30,8 @@ public class SupplyMoneyCollectionDTO implements Serializable {
 
     private String supplyZoneName;
 
+    private Long supplyZoneManagerId;
+
     private Long supplyAreaId;
 
     private String supplyAreaName;
@@ -39,6 +41,14 @@ public class SupplyMoneyCollectionDTO implements Serializable {
     private Long supplySalesRepresentativeId;
 
     private String supplySalesRepresentativeName;
+
+    private Long supplyShopId;
+
+    private String supplyShopName;
+
+    private Long supplyOrderId;
+
+    private String supplyOrderOrderNo;
 
     public Long getId() {
         return id;
@@ -120,6 +130,14 @@ public class SupplyMoneyCollectionDTO implements Serializable {
         this.supplyZoneName = supplyZoneName;
     }
 
+    public Long getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(Long supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
+    }
+
     public Long getSupplyAreaId() {
         return supplyAreaId;
     }
@@ -160,6 +178,38 @@ public class SupplyMoneyCollectionDTO implements Serializable {
         this.supplySalesRepresentativeName = supplySalesRepresentativeName;
     }
 
+    public Long getSupplyShopId() {
+        return supplyShopId;
+    }
+
+    public void setSupplyShopId(Long supplyShopId) {
+        this.supplyShopId = supplyShopId;
+    }
+
+    public String getSupplyShopName() {
+        return supplyShopName;
+    }
+
+    public void setSupplyShopName(String supplyShopName) {
+        this.supplyShopName = supplyShopName;
+    }
+
+    public Long getSupplyOrderId() {
+        return supplyOrderId;
+    }
+
+    public void setSupplyOrderId(Long supplyOrderId) {
+        this.supplyOrderId = supplyOrderId;
+    }
+
+    public String getSupplyOrderOrderNo() {
+        return supplyOrderOrderNo;
+    }
+
+    public void setSupplyOrderOrderNo(String supplyOrderOrderNo) {
+        this.supplyOrderOrderNo = supplyOrderOrderNo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -194,11 +244,16 @@ public class SupplyMoneyCollectionDTO implements Serializable {
             ", updatedOn='" + getUpdatedOn() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
             ", supplyZone='" + getSupplyZoneName() + "'" +
+            ", supplyZoneManager=" + getSupplyZoneManagerId() +
             ", supplyArea=" + getSupplyAreaId() +
             ", supplyArea='" + getSupplyAreaName() + "'" +
             ", supplyAreaManager=" + getSupplyAreaManagerId() +
             ", supplySalesRepresentative=" + getSupplySalesRepresentativeId() +
             ", supplySalesRepresentative='" + getSupplySalesRepresentativeName() + "'" +
+            ", supplyShop=" + getSupplyShopId() +
+            ", supplyShop='" + getSupplyShopName() + "'" +
+            ", supplyOrder=" + getSupplyOrderId() +
+            ", supplyOrder='" + getSupplyOrderOrderNo() + "'" +
             "}";
     }
 }

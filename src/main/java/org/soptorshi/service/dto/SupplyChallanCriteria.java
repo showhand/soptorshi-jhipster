@@ -33,6 +33,18 @@ public class SupplyChallanCriteria implements Serializable {
 
     private InstantFilter updatedOn;
 
+    private LongFilter supplyZoneId;
+
+    private LongFilter supplyZoneManagerId;
+
+    private LongFilter supplyAreaId;
+
+    private LongFilter supplyAreaManagerId;
+
+    private LongFilter supplySalesRepresentativeId;
+
+    private LongFilter supplyShopId;
+
     private LongFilter supplyOrderId;
 
     public LongFilter getId() {
@@ -99,6 +111,54 @@ public class SupplyChallanCriteria implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public LongFilter getSupplyZoneId() {
+        return supplyZoneId;
+    }
+
+    public void setSupplyZoneId(LongFilter supplyZoneId) {
+        this.supplyZoneId = supplyZoneId;
+    }
+
+    public LongFilter getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(LongFilter supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
+    }
+
+    public LongFilter getSupplyAreaId() {
+        return supplyAreaId;
+    }
+
+    public void setSupplyAreaId(LongFilter supplyAreaId) {
+        this.supplyAreaId = supplyAreaId;
+    }
+
+    public LongFilter getSupplyAreaManagerId() {
+        return supplyAreaManagerId;
+    }
+
+    public void setSupplyAreaManagerId(LongFilter supplyAreaManagerId) {
+        this.supplyAreaManagerId = supplyAreaManagerId;
+    }
+
+    public LongFilter getSupplySalesRepresentativeId() {
+        return supplySalesRepresentativeId;
+    }
+
+    public void setSupplySalesRepresentativeId(LongFilter supplySalesRepresentativeId) {
+        this.supplySalesRepresentativeId = supplySalesRepresentativeId;
+    }
+
+    public LongFilter getSupplyShopId() {
+        return supplyShopId;
+    }
+
+    public void setSupplyShopId(LongFilter supplyShopId) {
+        this.supplyShopId = supplyShopId;
+    }
+
     public LongFilter getSupplyOrderId() {
         return supplyOrderId;
     }
@@ -126,6 +186,12 @@ public class SupplyChallanCriteria implements Serializable {
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
+            Objects.equals(supplyZoneId, that.supplyZoneId) &&
+            Objects.equals(supplyZoneManagerId, that.supplyZoneManagerId) &&
+            Objects.equals(supplyAreaId, that.supplyAreaId) &&
+            Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId) &&
+            Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId) &&
+            Objects.equals(supplyShopId, that.supplyShopId) &&
             Objects.equals(supplyOrderId, that.supplyOrderId);
     }
 
@@ -140,6 +206,12 @@ public class SupplyChallanCriteria implements Serializable {
         createdOn,
         updatedBy,
         updatedOn,
+        supplyZoneId,
+        supplyZoneManagerId,
+        supplyAreaId,
+        supplyAreaManagerId,
+        supplySalesRepresentativeId,
+        supplyShopId,
         supplyOrderId
         );
     }
@@ -155,6 +227,12 @@ public class SupplyChallanCriteria implements Serializable {
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
+                (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
+                (supplyZoneManagerId != null ? "supplyZoneManagerId=" + supplyZoneManagerId + ", " : "") +
+                (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
+                (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +
+                (supplySalesRepresentativeId != null ? "supplySalesRepresentativeId=" + supplySalesRepresentativeId + ", " : "") +
+                (supplyShopId != null ? "supplyShopId=" + supplyShopId + ", " : "") +
                 (supplyOrderId != null ? "supplyOrderId=" + supplyOrderId + ", " : "") +
             "}";
     }

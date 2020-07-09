@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing SupplyZoneWiseAccumulation.
@@ -55,6 +58,32 @@ public class SupplyZoneWiseAccumulationExtendedResource extends SupplyZoneWiseAc
         return ResponseEntity.created(new URI("/api/supply-zone-wise-accumulations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("/supply-zone-wise-accumulations/bulk")
+    public ResponseEntity<List<SupplyZoneWiseAccumulationDTO>> createBulkSupplyZoneWiseAccumulation(@Valid @RequestBody List<SupplyZoneWiseAccumulationDTO> supplyZoneWiseAccumulationDTOs) throws URISyntaxException {
+        log.debug("REST request to save buil SupplyZoneWiseAccumulation : {}", supplyZoneWiseAccumulationDTOs);
+        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER))
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        for(SupplyZoneWiseAccumulationDTO supplyZoneWiseAccumulationDTO: supplyZoneWiseAccumulationDTOs) {
+            if (supplyZoneWiseAccumulationDTO.getId() != null) {
+                throw new BadRequestAlertException("A new supplyZoneWiseAccumulation cannot already have an ID", ENTITY_NAME, "idexists");
+            }
+            if(!supplyZoneWiseAccumulationExtendedService.isValidInput(supplyZoneWiseAccumulationDTO)) {
+                throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
+            }
+        }
+        List<SupplyZoneWiseAccumulationDTO> results = new ArrayList<>();
+        for(SupplyZoneWiseAccumulationDTO supplyZoneWiseAccumulationDTO: supplyZoneWiseAccumulationDTOs) {
+            SupplyZoneWiseAccumulationDTO result = supplyZoneWiseAccumulationExtendedService.save(supplyZoneWiseAccumulationDTO);
+            results.add(result);
+        }
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, supplyZoneWiseAccumulationDTOs.stream()
+                .map(SupplyZoneWiseAccumulationDTO::getId).collect(Collectors.toList()).toString()))
+            .body(results);
     }
 
     @PutMapping("/supply-zone-wise-accumulations")

@@ -104,6 +104,14 @@ public class SupplyOrderExtendedResource extends SupplyOrderResource {
                 throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
             }
         }
+        for (SupplyOrderDTO supplyOrderDTO : supplyOrderDTOs) {
+            if (!supplyOrderExtendedService.isValidInput(supplyOrderDTO)) {
+                throw new BadRequestAlertException("Invalid Input", ENTITY_NAME, "invalidaccess");
+            }
+            if (!supplyOrderExtendedService.isValidStatus(supplyOrderDTO)) {
+                throw new BadRequestAlertException("Invalid Request", ENTITY_NAME, "invalidaccess");
+            }
+        }
 
         List<SupplyOrderDTO> results = new ArrayList<>();
 

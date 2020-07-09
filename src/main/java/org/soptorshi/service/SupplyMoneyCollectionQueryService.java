@@ -114,6 +114,10 @@ public class SupplyMoneyCollectionQueryService extends QueryService<SupplyMoneyC
                 specification = specification.and(buildSpecification(criteria.getSupplyZoneId(),
                     root -> root.join(SupplyMoneyCollection_.supplyZone, JoinType.LEFT).get(SupplyZone_.id)));
             }
+            if (criteria.getSupplyZoneManagerId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyZoneManagerId(),
+                    root -> root.join(SupplyMoneyCollection_.supplyZoneManager, JoinType.LEFT).get(SupplyZoneManager_.id)));
+            }
             if (criteria.getSupplyAreaId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyAreaId(),
                     root -> root.join(SupplyMoneyCollection_.supplyArea, JoinType.LEFT).get(SupplyArea_.id)));
@@ -125,6 +129,14 @@ public class SupplyMoneyCollectionQueryService extends QueryService<SupplyMoneyC
             if (criteria.getSupplySalesRepresentativeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplySalesRepresentativeId(),
                     root -> root.join(SupplyMoneyCollection_.supplySalesRepresentative, JoinType.LEFT).get(SupplySalesRepresentative_.id)));
+            }
+            if (criteria.getSupplyShopId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyShopId(),
+                    root -> root.join(SupplyMoneyCollection_.supplyShop, JoinType.LEFT).get(SupplyShop_.id)));
+            }
+            if (criteria.getSupplyOrderId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyOrderId(),
+                    root -> root.join(SupplyMoneyCollection_.supplyOrder, JoinType.LEFT).get(SupplyOrder_.id)));
             }
         }
         return specification;

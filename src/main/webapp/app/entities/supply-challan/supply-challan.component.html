@@ -37,6 +37,12 @@
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneManagerId"><span>Supply Zone Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyAreaName"><span>Supply Area</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyAreaManagerId"><span>Supply Area Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplySalesRepresentativeName"><span>Supply Sales Representative</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyShopName"><span>Supply Shop</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyOrderOrderNo"><span>Supply Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -51,6 +57,36 @@
                 <td>{{supplyChallan.createdOn | date:'medium'}}</td>
                 <td>{{supplyChallan.updatedBy}}</td>
                 <td>{{supplyChallan.updatedOn | date:'medium'}}</td>
+                <td>
+                    <div *ngIf="supplyChallan.supplyZoneId">
+                        <a [routerLink]="['../supply-zone', supplyChallan.supplyZoneId , 'view' ]" >{{supplyChallan.supplyZoneName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyChallan.supplyZoneManagerId">
+                        <a [routerLink]="['../supply-zone-manager', supplyChallan.supplyZoneManagerId , 'view' ]" >{{supplyChallan.supplyZoneManagerId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyChallan.supplyAreaId">
+                        <a [routerLink]="['../supply-area', supplyChallan.supplyAreaId , 'view' ]" >{{supplyChallan.supplyAreaName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyChallan.supplyAreaManagerId">
+                        <a [routerLink]="['../supply-area-manager', supplyChallan.supplyAreaManagerId , 'view' ]" >{{supplyChallan.supplyAreaManagerId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyChallan.supplySalesRepresentativeId">
+                        <a [routerLink]="['../supply-sales-representative', supplyChallan.supplySalesRepresentativeId , 'view' ]" >{{supplyChallan.supplySalesRepresentativeName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyChallan.supplyShopId">
+                        <a [routerLink]="['../supply-shop', supplyChallan.supplyShopId , 'view' ]" >{{supplyChallan.supplyShopName}}</a>
+                    </div>
+                </td>
                 <td>
                     <div *ngIf="supplyChallan.supplyOrderId">
                         <a [routerLink]="['../supply-order', supplyChallan.supplyOrderId , 'view' ]" >{{supplyChallan.supplyOrderOrderNo}}</a>

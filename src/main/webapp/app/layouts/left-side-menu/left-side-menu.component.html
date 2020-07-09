@@ -721,14 +721,14 @@
                         <span *ngIf="!leftMenuHidden">Zone Manager</span>
                     </a>
                 </li>
-                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN']">
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']">
                     <a class="dropdown-item" routerLink="supply-area" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="sitemap" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">Area</span>
                     </a>
                 </li>
-                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER', 'ROLE_SCM_AREA_MANAGER']">
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']">
                     <a class="dropdown-item" routerLink="supply-area-manager" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="cube" fixedWidth="true"></fa-icon>

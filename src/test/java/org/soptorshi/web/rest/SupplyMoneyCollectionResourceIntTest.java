@@ -136,6 +136,31 @@ public class SupplyMoneyCollectionResourceIntTest {
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
+        // Add required entity
+        SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
+        em.persist(supplyZone);
+        em.flush();
+        supplyMoneyCollection.setSupplyZone(supplyZone);
+        // Add required entity
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyMoneyCollection.setSupplyZoneManager(supplyZoneManager);
+        // Add required entity
+        SupplyArea supplyArea = SupplyAreaResourceIntTest.createEntity(em);
+        em.persist(supplyArea);
+        em.flush();
+        supplyMoneyCollection.setSupplyArea(supplyArea);
+        // Add required entity
+        SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
+        em.persist(supplyAreaManager);
+        em.flush();
+        supplyMoneyCollection.setSupplyAreaManager(supplyAreaManager);
+        // Add required entity
+        SupplyShop supplyShop = SupplyShopResourceIntTest.createEntity(em);
+        em.persist(supplyShop);
+        em.flush();
+        supplyMoneyCollection.setSupplyShop(supplyShop);
         return supplyMoneyCollection;
     }
 
@@ -529,6 +554,25 @@ public class SupplyMoneyCollectionResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSupplyMoneyCollectionsBySupplyZoneManagerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyMoneyCollection.setSupplyZoneManager(supplyZoneManager);
+        supplyMoneyCollectionRepository.saveAndFlush(supplyMoneyCollection);
+        Long supplyZoneManagerId = supplyZoneManager.getId();
+
+        // Get all the supplyMoneyCollectionList where supplyZoneManager equals to supplyZoneManagerId
+        defaultSupplyMoneyCollectionShouldBeFound("supplyZoneManagerId.equals=" + supplyZoneManagerId);
+
+        // Get all the supplyMoneyCollectionList where supplyZoneManager equals to supplyZoneManagerId + 1
+        defaultSupplyMoneyCollectionShouldNotBeFound("supplyZoneManagerId.equals=" + (supplyZoneManagerId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllSupplyMoneyCollectionsBySupplyAreaIsEqualToSomething() throws Exception {
         // Initialize the database
         SupplyArea supplyArea = SupplyAreaResourceIntTest.createEntity(em);
@@ -581,6 +625,44 @@ public class SupplyMoneyCollectionResourceIntTest {
 
         // Get all the supplyMoneyCollectionList where supplySalesRepresentative equals to supplySalesRepresentativeId + 1
         defaultSupplyMoneyCollectionShouldNotBeFound("supplySalesRepresentativeId.equals=" + (supplySalesRepresentativeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyMoneyCollectionsBySupplyShopIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyShop supplyShop = SupplyShopResourceIntTest.createEntity(em);
+        em.persist(supplyShop);
+        em.flush();
+        supplyMoneyCollection.setSupplyShop(supplyShop);
+        supplyMoneyCollectionRepository.saveAndFlush(supplyMoneyCollection);
+        Long supplyShopId = supplyShop.getId();
+
+        // Get all the supplyMoneyCollectionList where supplyShop equals to supplyShopId
+        defaultSupplyMoneyCollectionShouldBeFound("supplyShopId.equals=" + supplyShopId);
+
+        // Get all the supplyMoneyCollectionList where supplyShop equals to supplyShopId + 1
+        defaultSupplyMoneyCollectionShouldNotBeFound("supplyShopId.equals=" + (supplyShopId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyMoneyCollectionsBySupplyOrderIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyOrder supplyOrder = SupplyOrderResourceIntTest.createEntity(em);
+        em.persist(supplyOrder);
+        em.flush();
+        supplyMoneyCollection.setSupplyOrder(supplyOrder);
+        supplyMoneyCollectionRepository.saveAndFlush(supplyMoneyCollection);
+        Long supplyOrderId = supplyOrder.getId();
+
+        // Get all the supplyMoneyCollectionList where supplyOrder equals to supplyOrderId
+        defaultSupplyMoneyCollectionShouldBeFound("supplyOrderId.equals=" + supplyOrderId);
+
+        // Get all the supplyMoneyCollectionList where supplyOrder equals to supplyOrderId + 1
+        defaultSupplyMoneyCollectionShouldNotBeFound("supplyOrderId.equals=" + (supplyOrderId + 1));
     }
 
     /**

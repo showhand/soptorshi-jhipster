@@ -38,9 +38,12 @@
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneManagerId"><span>Supply Zone Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyAreaName"><span>Supply Area</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyAreaManagerId"><span>Supply Area Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplySalesRepresentativeName"><span>Supply Sales Representative</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyShopName"><span>Supply Shop</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyOrderOrderNo"><span>Supply Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -60,6 +63,11 @@
                     </div>
                 </td>
                 <td>
+                    <div *ngIf="supplyMoneyCollection.supplyZoneManagerId">
+                        <a [routerLink]="['../supply-zone-manager', supplyMoneyCollection.supplyZoneManagerId , 'view' ]" >{{supplyMoneyCollection.supplyZoneManagerId}}</a>
+                    </div>
+                </td>
+                <td>
                     <div *ngIf="supplyMoneyCollection.supplyAreaId">
                         <a [routerLink]="['../supply-area', supplyMoneyCollection.supplyAreaId , 'view' ]" >{{supplyMoneyCollection.supplyAreaName}}</a>
                     </div>
@@ -72,6 +80,16 @@
                 <td>
                     <div *ngIf="supplyMoneyCollection.supplySalesRepresentativeId">
                         <a [routerLink]="['../supply-sales-representative', supplyMoneyCollection.supplySalesRepresentativeId , 'view' ]" >{{supplyMoneyCollection.supplySalesRepresentativeName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyMoneyCollection.supplyShopId">
+                        <a [routerLink]="['../supply-shop', supplyMoneyCollection.supplyShopId , 'view' ]" >{{supplyMoneyCollection.supplyShopName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyMoneyCollection.supplyOrderId">
+                        <a [routerLink]="['../supply-order', supplyMoneyCollection.supplyOrderId , 'view' ]" >{{supplyMoneyCollection.supplyOrderOrderNo}}</a>
                     </div>
                 </td>
                 <td class="text-right">

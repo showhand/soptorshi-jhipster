@@ -35,11 +35,17 @@ public class SupplyMoneyCollectionCriteria implements Serializable {
 
     private LongFilter supplyZoneId;
 
+    private LongFilter supplyZoneManagerId;
+
     private LongFilter supplyAreaId;
 
     private LongFilter supplyAreaManagerId;
 
     private LongFilter supplySalesRepresentativeId;
+
+    private LongFilter supplyShopId;
+
+    private LongFilter supplyOrderId;
 
     public LongFilter getId() {
         return id;
@@ -113,6 +119,14 @@ public class SupplyMoneyCollectionCriteria implements Serializable {
         this.supplyZoneId = supplyZoneId;
     }
 
+    public LongFilter getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(LongFilter supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
+    }
+
     public LongFilter getSupplyAreaId() {
         return supplyAreaId;
     }
@@ -137,6 +151,22 @@ public class SupplyMoneyCollectionCriteria implements Serializable {
         this.supplySalesRepresentativeId = supplySalesRepresentativeId;
     }
 
+    public LongFilter getSupplyShopId() {
+        return supplyShopId;
+    }
+
+    public void setSupplyShopId(LongFilter supplyShopId) {
+        this.supplyShopId = supplyShopId;
+    }
+
+    public LongFilter getSupplyOrderId() {
+        return supplyOrderId;
+    }
+
+    public void setSupplyOrderId(LongFilter supplyOrderId) {
+        this.supplyOrderId = supplyOrderId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -157,9 +187,12 @@ public class SupplyMoneyCollectionCriteria implements Serializable {
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
+            Objects.equals(supplyZoneManagerId, that.supplyZoneManagerId) &&
             Objects.equals(supplyAreaId, that.supplyAreaId) &&
             Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId) &&
-            Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId);
+            Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId) &&
+            Objects.equals(supplyShopId, that.supplyShopId) &&
+            Objects.equals(supplyOrderId, that.supplyOrderId);
     }
 
     @Override
@@ -174,9 +207,12 @@ public class SupplyMoneyCollectionCriteria implements Serializable {
         updatedBy,
         updatedOn,
         supplyZoneId,
+        supplyZoneManagerId,
         supplyAreaId,
         supplyAreaManagerId,
-        supplySalesRepresentativeId
+        supplySalesRepresentativeId,
+        supplyShopId,
+        supplyOrderId
         );
     }
 
@@ -192,9 +228,12 @@ public class SupplyMoneyCollectionCriteria implements Serializable {
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
+                (supplyZoneManagerId != null ? "supplyZoneManagerId=" + supplyZoneManagerId + ", " : "") +
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
                 (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +
                 (supplySalesRepresentativeId != null ? "supplySalesRepresentativeId=" + supplySalesRepresentativeId + ", " : "") +
+                (supplyShopId != null ? "supplyShopId=" + supplyShopId + ", " : "") +
+                (supplyOrderId != null ? "supplyOrderId=" + supplyOrderId + ", " : "") +
             "}";
     }
 

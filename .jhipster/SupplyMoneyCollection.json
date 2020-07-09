@@ -35,13 +35,23 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyZone",
             "otherEntityRelationshipName": "supplyMoneyCollection",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyZone",
             "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZoneManager",
+            "otherEntityRelationshipName": "supplyMoneyCollection",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyZoneManager",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
             "otherEntityName": "supplyArea",
             "otherEntityRelationshipName": "supplyMoneyCollection",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyArea",
             "otherEntityField": "name"
         },
@@ -49,6 +59,7 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyAreaManager",
             "otherEntityRelationshipName": "supplyMoneyCollection",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyAreaManager",
             "otherEntityField": "id"
         },
@@ -58,6 +69,21 @@
             "otherEntityRelationshipName": "supplyMoneyCollection",
             "relationshipName": "supplySalesRepresentative",
             "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyShop",
+            "otherEntityRelationshipName": "supplyMoneyCollection",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyShop",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyOrder",
+            "otherEntityRelationshipName": "supplyMoneyCollection",
+            "relationshipName": "supplyOrder",
+            "otherEntityField": "orderNo"
         }
     ],
     "changelogDate": "20191106144407",

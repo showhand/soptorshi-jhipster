@@ -7,6 +7,7 @@ import org.soptorshi.domain.SupplyAreaManager;
 import org.soptorshi.domain.SupplyAreaWiseAccumulation;
 import org.soptorshi.domain.SupplyZoneManager;
 import org.soptorshi.domain.enumeration.SupplyAreaManagerStatus;
+import org.soptorshi.domain.enumeration.SupplyAreaWiseAccumulationStatus;
 import org.soptorshi.domain.enumeration.SupplyZoneManagerStatus;
 import org.soptorshi.repository.extended.EmployeeExtendedRepository;
 import org.soptorshi.repository.extended.SupplyAreaWiseAccumulationExtendedRepository;
@@ -136,5 +137,14 @@ public class SupplyAreaWiseAccumulationExtendedService extends SupplyAreaWiseAcc
         return selectedAreaManager.filter(supplyAreaManagerDTO -> supplyAreaManagerDTO.getSupplyZoneId().equals(supplyAreaWiseAccumulationDTO.getSupplyZoneId()) &&
             supplyAreaManagerDTO.getSupplyZoneManagerId().equals(supplyAreaWiseAccumulationDTO.getSupplyZoneManagerId()) &&
             supplyAreaManagerDTO.getSupplyAreaId().equals(supplyAreaWiseAccumulationDTO.getSupplyAreaId())).isPresent();
+    }
+
+    public boolean isValidStatus(SupplyAreaWiseAccumulationDTO supplyAreaWiseAccumulationDTO) {
+        Optional<SupplyAreaWiseAccumulationDTO> supplyAreaWiseAccumulationDTO1 = findOne(supplyAreaWiseAccumulationDTO.getId());
+        return supplyAreaWiseAccumulationDTO1.map(areaWiseAccumulationDTO -> areaWiseAccumulationDTO.getStatus().equals(SupplyAreaWiseAccumulationStatus.FORWARDED)).orElse(false);
+    }
+
+    public List<SupplyAreaWiseAccumulation> getAllByZoneWiseAccumulationRefNo(String refNo) {
+        return supplyAreaWiseAccumulationExtendedRepository.getAllByZoneWiseAccumulationRefNo(refNo);
     }
 }
