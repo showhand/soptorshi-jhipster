@@ -1,11 +1,12 @@
 package org.soptorshi.service.extended;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.Employee;
-import org.soptorshi.domain.SupplyAreaManager;
-import org.soptorshi.domain.SupplyChallan;
-import org.soptorshi.domain.SupplyZoneManager;
+import org.soptorshi.domain.*;
 import org.soptorshi.domain.enumeration.SupplyAreaManagerStatus;
 import org.soptorshi.domain.enumeration.SupplyOrderStatus;
 import org.soptorshi.domain.enumeration.SupplyZoneManagerStatus;
@@ -14,12 +15,18 @@ import org.soptorshi.repository.extended.SupplyChallanExtendedRepository;
 import org.soptorshi.repository.search.SupplyChallanSearchRepository;
 import org.soptorshi.security.AuthoritiesConstants;
 import org.soptorshi.security.SecurityUtils;
+import org.soptorshi.security.report.SoptorshiPdfCell;
 import org.soptorshi.service.SupplyChallanService;
 import org.soptorshi.service.dto.*;
 import org.soptorshi.service.mapper.SupplyChallanMapper;
+import org.soptorshi.service.mapper.SupplyOrderMapper;
+import org.soptorshi.utils.SoptorshiUtils;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +60,11 @@ public class SupplyChallanExtendedService extends SupplyChallanService {
 
     private final SupplyOrderExtendedService supplyOrderExtendedService;
 
-    public SupplyChallanExtendedService(SupplyChallanExtendedRepository supplyChallanExtendedRepository, SupplyChallanMapper supplyChallanMapper, SupplyChallanSearchRepository supplyChallanSearchRepository, SupplyZoneManagerExtendedService supplyZoneManagerExtendedService, SupplyAreaManagerExtendedService supplyAreaManagerExtendedService, SupplySalesRepresentativeExtendedService supplySalesRepresentativeExtendedService, SupplyShopExtendedService supplyShopExtendedService, EmployeeExtendedRepository employeeExtendedRepository, SupplyAreaExtendedService supplyAreaExtendedService, SupplyOrderExtendedService supplyOrderExtendedService) {
+    private final SupplyOrderDetailsExtendedService supplyOrderDetailsExtendedService;
+
+    private final SupplyOrderMapper supplyOrderMapper;
+
+    public SupplyChallanExtendedService(SupplyChallanExtendedRepository supplyChallanExtendedRepository, SupplyChallanMapper supplyChallanMapper, SupplyChallanSearchRepository supplyChallanSearchRepository, SupplyZoneManagerExtendedService supplyZoneManagerExtendedService, SupplyAreaManagerExtendedService supplyAreaManagerExtendedService, SupplySalesRepresentativeExtendedService supplySalesRepresentativeExtendedService, SupplyShopExtendedService supplyShopExtendedService, EmployeeExtendedRepository employeeExtendedRepository, SupplyAreaExtendedService supplyAreaExtendedService, SupplyOrderExtendedService supplyOrderExtendedService, SupplyOrderDetailsExtendedService supplyOrderDetailsExtendedService, SupplyOrderMapper supplyOrderMapper) {
         super(supplyChallanExtendedRepository, supplyChallanMapper, supplyChallanSearchRepository);
         this.supplyChallanExtendedRepository = supplyChallanExtendedRepository;
         this.supplyChallanMapper = supplyChallanMapper;
@@ -65,6 +76,8 @@ public class SupplyChallanExtendedService extends SupplyChallanService {
         this.supplyAreaExtendedService = supplyAreaExtendedService;
         this.employeeExtendedRepository = employeeExtendedRepository;
         this.supplyOrderExtendedService = supplyOrderExtendedService;
+        this.supplyOrderDetailsExtendedService = supplyOrderDetailsExtendedService;
+        this.supplyOrderMapper = supplyOrderMapper;
     }
 
     public SupplyChallanDTO save(SupplyChallanDTO supplyChallanDTO) {
@@ -72,11 +85,10 @@ public class SupplyChallanExtendedService extends SupplyChallanService {
         String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
-        if(supplyChallanDTO.getId() == null) {
+        if (supplyChallanDTO.getId() == null) {
             supplyChallanDTO.setCreatedBy(currentUser);
             supplyChallanDTO.setCreatedOn(currentDateTime);
-        }
-        else {
+        } else {
             supplyChallanDTO.setUpdatedBy(currentUser);
             supplyChallanDTO.setUpdatedOn(currentDateTime);
         }
@@ -165,47 +177,67 @@ public class SupplyChallanExtendedService extends SupplyChallanService {
         return supplyOrderDTO1.map(orderDTO -> orderDTO.getStatus().equals(SupplyOrderStatus.ORDER_DELIVERED_AND_WAITING_FOR_MONEY_COLLECTION)).orElse(false);
     }
 
-    /*@Transactional
+    @Transactional
     public ByteArrayInputStream downloadChallan(Long id) throws Exception, DocumentException {
 
-        Optional<SupplyChallanDTO> supplyChallanDTO = this.findOne(id);
-        if(supplyChallanDTO.isPresent()) {
+        Optional<SupplyChallanDTO> supplyChallanDTO = findOne(id);
+        if (supplyChallanDTO.isPresent()) {
 
-            Optional<SupplyOrderDTO> supplyChallanDTO = supplyOrderExtendedService.findOne(supplyChallanDTO.get().getSupplyOrderId());
+            Optional<SupplyOrderDTO> supplyOrderDTO = supplyOrderExtendedService.findOne(supplyChallanDTO.get().getSupplyOrderId());
 
             if (supplyChallanDTO.isPresent()) {
 
-                SupplyOrder supplyOrder = supplyOrderMapper.toEntity(supplyChallanDTO.get());
+                SupplyOrder supplyOrder = supplyOrderMapper.toEntity(supplyOrderDTO.get());
 
-                Optional<List<SupplyOrderDetails>> supplyOrderDetails = supplyOrderDetailsExtendedService.getAllBySupplyOrder(supplyOrder);
+                List<SupplyOrderDetails> supplyOrderDetails = supplyOrderDetailsExtendedService.getAllBySupplyOrder(supplyOrder);
 
-                if (supplyOrderDetails.isPresent()) {
+                Document document = new Document();
+                document.setPageSize(PageSize.A4.rotate());
+                document.addTitle("Challan");
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                PdfWriter writer = PdfWriter.getInstance(document, baos);
+                document.open();
 
-                    Document document = new Document();
-                    document.setPageSize(PageSize.A4.rotate());
-                    document.addTitle("Voucher Report");
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    PdfWriter writer = PdfWriter.getInstance(document, baos);
-                    document.open();
+                Paragraph paragraph = new Paragraph("7 Oceans Ltd.", SoptorshiUtils.mBigBoldFont);
+                paragraph.setAlignment(Element.ALIGN_CENTER);
+                document.add(paragraph);
+                document.add(Chunk.NEWLINE);
 
-                    Paragraph paragraph = new Paragraph("Seven Oceans Fish Processing Ltd.", SoptorshiUtils.mBigBoldFont);
-                    paragraph.setAlignment(Element.ALIGN_CENTER);
-                    document.add(paragraph);
-                    document.add(Chunk.NEWLINE);
-
-                    paragraph = new Paragraph("Order No: " + supplyOrder.getOrderNo(), SoptorshiUtils.mBigLiteFont);
-                    paragraph.setAlignment(Element.ALIGN_LEFT);
-                    document.add(paragraph);
-                    document.add(Chunk.NEWLINE);
+                paragraph = new Paragraph("Order No: " + supplyOrder.getOrderNo(), SoptorshiUtils.mBigLiteFont);
+                paragraph.setAlignment(Element.ALIGN_LEFT);
+                document.add(paragraph);
+                document.add(Chunk.NEWLINE);
 
 
+                PdfPTable table = new PdfPTable(3); // 3 columns.
 
+                PdfPCell cell = new PdfPCell(new Paragraph("Product Category"));
+                table.addCell(cell);
+                cell = new PdfPCell(new Paragraph("Product Name"));
+                table.addCell(cell);
+                cell = new PdfPCell(new Paragraph("Quantity"));
+                table.addCell(cell);
+                cell = new PdfPCell(new Paragraph("Price"));
+                table.addCell(cell);
 
-                    document = createAuthorizationSection(document);
-
-                    document.close();
-                    return new ByteArrayInputStream(baos.toByteArray());
+                for(SupplyOrderDetails supplyOrderDetails1: supplyOrderDetails) {
+                     cell = new PdfPCell(new Paragraph(supplyOrderDetails1.getProductCategory().getName()));
+                    table.addCell(cell);
+                     cell = new PdfPCell(new Paragraph(supplyOrderDetails1.getProduct().getName()));
+                    table.addCell(cell);
+                     cell = new PdfPCell(new Paragraph(supplyOrderDetails1.getQuantity().toString()));
+                    table.addCell(cell);
+                     cell = new PdfPCell(new Paragraph(supplyOrderDetails1.getPrice().toString()));
+                    table.addCell(cell);
                 }
+
+                document.add(table);
+
+
+                document = createAuthorizationSection(document);
+
+                document.close();
+                return new ByteArrayInputStream(baos.toByteArray());
             }
         }
         throw new BadRequestAlertException("Challan not found", "supply-challan", "idnull");
@@ -241,5 +273,5 @@ public class SupplyChallanExtendedService extends SupplyChallanService {
         pdfPTable.setSpacingBefore(100);
         pDocument.add(pdfPTable);
         return pDocument;
-    }*/
+    }
 }
