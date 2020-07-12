@@ -1,9 +1,7 @@
 /* tslint:disable max-line-length */
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { SupplyAreaService } from 'app/entities/supply-area/supply-area.service';
@@ -73,8 +71,8 @@ describe('Service Tests', () => {
             it('should update a SupplyArea', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        areaName: 'BBBBBB',
-                        areaCode: 'BBBBBB',
+                        name: 'BBBBBB',
+                        code: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',
@@ -101,8 +99,8 @@ describe('Service Tests', () => {
             it('should return a list of SupplyArea', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        areaName: 'BBBBBB',
-                        areaCode: 'BBBBBB',
+                        name: 'BBBBBB',
+                        code: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',

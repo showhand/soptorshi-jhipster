@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="autoIncrement" value="true"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity SupplyAreaWiseAccumulation.
+    -->
+    <changeSet id="20200625150649-1" author="jhipster">
+        <createTable tableName="supply_area_wise_accumulation">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="area_wise_accumulation_ref_no" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="quantity" type="decimal(10,2)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="price" type="decimal(10,2)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="zone_wise_accumulation_ref_no" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="remarks" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="created_on" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="updated_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="updated_on" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="supply_zone_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="supply_zone_manager_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="supply_area_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="supply_area_manager_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="product_category_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="product_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+        <dropDefaultValue tableName="supply_area_wise_accumulation" columnName="created_on" columnDataType="datetime"/>
+        <dropDefaultValue tableName="supply_area_wise_accumulation" columnName="updated_on" columnDataType="datetime"/>
+
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+</databaseChangeLog>

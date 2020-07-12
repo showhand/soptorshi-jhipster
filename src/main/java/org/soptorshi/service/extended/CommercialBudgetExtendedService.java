@@ -53,7 +53,7 @@ public class CommercialBudgetExtendedService extends CommercialBudgetService {
     public CommercialBudgetDTO save(CommercialBudgetDTO commercialBudgetDTO) {
         log.debug("Request to save CommercialBudget : {}", commercialBudgetDTO);
 
-        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
         if (commercialBudgetDTO.getId() == null) {

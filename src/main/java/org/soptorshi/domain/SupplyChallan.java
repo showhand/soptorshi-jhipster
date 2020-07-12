@@ -47,6 +47,36 @@ public class SupplyChallan implements Serializable {
     @Column(name = "updated_on")
     private Instant updatedOn;
 
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyChallans")
+    private SupplyZone supplyZone;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyChallans")
+    private SupplyZoneManager supplyZoneManager;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyChallans")
+    private SupplyArea supplyArea;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyChallans")
+    private SupplyAreaManager supplyAreaManager;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyChallans")
+    private SupplySalesRepresentative supplySalesRepresentative;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyChallans")
+    private SupplyShop supplyShop;
+
     @ManyToOne
     @JsonIgnoreProperties("supplyChallans")
     private SupplyOrder supplyOrder;
@@ -149,6 +179,84 @@ public class SupplyChallan implements Serializable {
 
     public void setUpdatedOn(Instant updatedOn) {
         this.updatedOn = updatedOn;
+    }
+
+    public SupplyZone getSupplyZone() {
+        return supplyZone;
+    }
+
+    public SupplyChallan supplyZone(SupplyZone supplyZone) {
+        this.supplyZone = supplyZone;
+        return this;
+    }
+
+    public void setSupplyZone(SupplyZone supplyZone) {
+        this.supplyZone = supplyZone;
+    }
+
+    public SupplyZoneManager getSupplyZoneManager() {
+        return supplyZoneManager;
+    }
+
+    public SupplyChallan supplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
+        return this;
+    }
+
+    public void setSupplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
+    }
+
+    public SupplyArea getSupplyArea() {
+        return supplyArea;
+    }
+
+    public SupplyChallan supplyArea(SupplyArea supplyArea) {
+        this.supplyArea = supplyArea;
+        return this;
+    }
+
+    public void setSupplyArea(SupplyArea supplyArea) {
+        this.supplyArea = supplyArea;
+    }
+
+    public SupplyAreaManager getSupplyAreaManager() {
+        return supplyAreaManager;
+    }
+
+    public SupplyChallan supplyAreaManager(SupplyAreaManager supplyAreaManager) {
+        this.supplyAreaManager = supplyAreaManager;
+        return this;
+    }
+
+    public void setSupplyAreaManager(SupplyAreaManager supplyAreaManager) {
+        this.supplyAreaManager = supplyAreaManager;
+    }
+
+    public SupplySalesRepresentative getSupplySalesRepresentative() {
+        return supplySalesRepresentative;
+    }
+
+    public SupplyChallan supplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
+        this.supplySalesRepresentative = supplySalesRepresentative;
+        return this;
+    }
+
+    public void setSupplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
+        this.supplySalesRepresentative = supplySalesRepresentative;
+    }
+
+    public SupplyShop getSupplyShop() {
+        return supplyShop;
+    }
+
+    public SupplyChallan supplyShop(SupplyShop supplyShop) {
+        this.supplyShop = supplyShop;
+        return this;
+    }
+
+    public void setSupplyShop(SupplyShop supplyShop) {
+        this.supplyShop = supplyShop;
     }
 
     public SupplyOrder getSupplyOrder() {

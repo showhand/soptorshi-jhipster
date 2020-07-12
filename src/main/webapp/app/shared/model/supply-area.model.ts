@@ -2,26 +2,28 @@ import { Moment } from 'moment';
 
 export interface ISupplyArea {
     id?: number;
-    areaName?: string;
-    areaCode?: string;
+    name?: string;
+    code?: string;
     createdBy?: string;
     createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
-    supplyZoneZoneName?: string;
+    supplyZoneName?: string;
     supplyZoneId?: number;
+    supplyZoneManagerId?: number;
 }
 
 export class SupplyArea implements ISupplyArea {
     constructor(
         public id?: number,
-        public areaName?: string,
-        public areaCode?: string,
+        public name?: string,
+        public code?: string,
         public createdBy?: string,
         public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
-        public supplyZoneZoneName?: string,
-        public supplyZoneId?: number
+        public supplyZoneName?: string,
+        public supplyZoneId?: number,
+        public supplyZoneManagerId?: number
     ) {}
 }

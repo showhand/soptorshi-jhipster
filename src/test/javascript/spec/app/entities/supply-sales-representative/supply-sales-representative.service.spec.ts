@@ -5,7 +5,11 @@ import { map, take } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { SupplySalesRepresentativeService } from 'app/entities/supply-sales-representative/supply-sales-representative.service';
-import { ISupplySalesRepresentative, SupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
+import {
+    ISupplySalesRepresentative,
+    SupplySalesRepresentative,
+    SupplySalesRepresentativeStatus
+} from 'app/shared/model/supply-sales-representative.model';
 
 describe('Service Tests', () => {
     describe('SupplySalesRepresentative Service', () => {
@@ -23,7 +27,18 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new SupplySalesRepresentative(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', currentDate);
+            elemDefault = new SupplySalesRepresentative(
+                0,
+                'AAAAAAA',
+                'AAAAAAA',
+                'AAAAAAA',
+                'AAAAAAA',
+                'AAAAAAA',
+                currentDate,
+                'AAAAAAA',
+                currentDate,
+                SupplySalesRepresentativeStatus.ACTIVE
+            );
         });
 
         describe('Service methods', async () => {
@@ -71,12 +86,15 @@ describe('Service Tests', () => {
             it('should update a SupplySalesRepresentative', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        salesRepresentativeName: 'BBBBBB',
+                        name: 'BBBBBB',
+                        contact: 'BBBBBB',
+                        email: 'BBBBBB',
                         additionalInformation: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',
-                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT),
+                        status: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -99,12 +117,15 @@ describe('Service Tests', () => {
             it('should return a list of SupplySalesRepresentative', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        salesRepresentativeName: 'BBBBBB',
+                        name: 'BBBBBB',
+                        contact: 'BBBBBB',
+                        email: 'BBBBBB',
                         additionalInformation: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',
-                        updatedOn: currentDate.format(DATE_TIME_FORMAT)
+                        updatedOn: currentDate.format(DATE_TIME_FORMAT),
+                        status: 'BBBBBB'
                     },
                     elemDefault
                 );

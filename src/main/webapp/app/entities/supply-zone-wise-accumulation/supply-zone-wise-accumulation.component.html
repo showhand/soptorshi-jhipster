@@ -1,0 +1,109 @@
+<div>
+    <h2 id="page-heading">
+        <span>Supply Zone Wise Accumulations</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-zone-wise-accumulation" [routerLink]="['/supply-zone-wise-accumulation/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Create new Supply Zone Wise Accumulation
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="supplyZoneWiseAccumulations">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="zoneWiseAccumulationRefNo"><span>Zone Wise Accumulation Ref No</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="price"><span>Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneManagerId"><span>Supply Zone Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productCategoryName"><span>Product Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="productName"><span>Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let supplyZoneWiseAccumulation of supplyZoneWiseAccumulations ;trackBy: trackId">
+                <td><a [routerLink]="['/supply-zone-wise-accumulation', supplyZoneWiseAccumulation.id, 'view' ]">{{supplyZoneWiseAccumulation.id}}</a></td>
+                <td>{{supplyZoneWiseAccumulation.zoneWiseAccumulationRefNo}}</td>
+                <td>{{supplyZoneWiseAccumulation.quantity}}</td>
+                <td>{{supplyZoneWiseAccumulation.price}}</td>
+                <td>{{supplyZoneWiseAccumulation.status}}</td>
+                <td>{{supplyZoneWiseAccumulation.remarks}}</td>
+                <td>{{supplyZoneWiseAccumulation.createdBy}}</td>
+                <td>{{supplyZoneWiseAccumulation.createdOn | date:'medium'}}</td>
+                <td>{{supplyZoneWiseAccumulation.updatedBy}}</td>
+                <td>{{supplyZoneWiseAccumulation.updatedOn | date:'medium'}}</td>
+                <td>
+                    <div *ngIf="supplyZoneWiseAccumulation.supplyZoneId">
+                        <a [routerLink]="['../supply-zone', supplyZoneWiseAccumulation.supplyZoneId , 'view' ]" >{{supplyZoneWiseAccumulation.supplyZoneName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyZoneWiseAccumulation.supplyZoneManagerId">
+                        <a [routerLink]="['../supply-zone-manager', supplyZoneWiseAccumulation.supplyZoneManagerId , 'view' ]" >{{supplyZoneWiseAccumulation.supplyZoneManagerId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyZoneWiseAccumulation.productCategoryId">
+                        <a [routerLink]="['../product-category', supplyZoneWiseAccumulation.productCategoryId , 'view' ]" >{{supplyZoneWiseAccumulation.productCategoryName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyZoneWiseAccumulation.productId">
+                        <a [routerLink]="['../product', supplyZoneWiseAccumulation.productId , 'view' ]" >{{supplyZoneWiseAccumulation.productName}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/supply-zone-wise-accumulation', supplyZoneWiseAccumulation.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/supply-zone-wise-accumulation', supplyZoneWiseAccumulation.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'supply-zone-wise-accumulation', { outlets: { popup: supplyZoneWiseAccumulation.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

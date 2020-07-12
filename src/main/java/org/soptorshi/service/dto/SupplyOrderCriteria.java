@@ -37,15 +37,17 @@ public class SupplyOrderCriteria implements Serializable {
 
     private InstantFilter updatedOn;
 
-    private BigDecimalFilter offerAmount;
-
     private LocalDateFilter deliveryDate;
 
-    private SupplyOrderStatusFilter supplyOrderStatus;
+    private SupplyOrderStatusFilter status;
 
-    private StringFilter accumulationReferenceNo;
+    private StringFilter areaWiseAccumulationRefNo;
+
+    private StringFilter remarks;
 
     private LongFilter supplyZoneId;
+
+    private LongFilter supplyZoneManagerId;
 
     private LongFilter supplyAreaId;
 
@@ -111,14 +113,6 @@ public class SupplyOrderCriteria implements Serializable {
         this.updatedOn = updatedOn;
     }
 
-    public BigDecimalFilter getOfferAmount() {
-        return offerAmount;
-    }
-
-    public void setOfferAmount(BigDecimalFilter offerAmount) {
-        this.offerAmount = offerAmount;
-    }
-
     public LocalDateFilter getDeliveryDate() {
         return deliveryDate;
     }
@@ -127,20 +121,28 @@ public class SupplyOrderCriteria implements Serializable {
         this.deliveryDate = deliveryDate;
     }
 
-    public SupplyOrderStatusFilter getSupplyOrderStatus() {
-        return supplyOrderStatus;
+    public SupplyOrderStatusFilter getStatus() {
+        return status;
     }
 
-    public void setSupplyOrderStatus(SupplyOrderStatusFilter supplyOrderStatus) {
-        this.supplyOrderStatus = supplyOrderStatus;
+    public void setStatus(SupplyOrderStatusFilter status) {
+        this.status = status;
     }
 
-    public StringFilter getAccumulationReferenceNo() {
-        return accumulationReferenceNo;
+    public StringFilter getAreaWiseAccumulationRefNo() {
+        return areaWiseAccumulationRefNo;
     }
 
-    public void setAccumulationReferenceNo(StringFilter accumulationReferenceNo) {
-        this.accumulationReferenceNo = accumulationReferenceNo;
+    public void setAreaWiseAccumulationRefNo(StringFilter areaWiseAccumulationRefNo) {
+        this.areaWiseAccumulationRefNo = areaWiseAccumulationRefNo;
+    }
+
+    public StringFilter getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(StringFilter remarks) {
+        this.remarks = remarks;
     }
 
     public LongFilter getSupplyZoneId() {
@@ -149,6 +151,14 @@ public class SupplyOrderCriteria implements Serializable {
 
     public void setSupplyZoneId(LongFilter supplyZoneId) {
         this.supplyZoneId = supplyZoneId;
+    }
+
+    public LongFilter getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(LongFilter supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
     }
 
     public LongFilter getSupplyAreaId() {
@@ -201,11 +211,12 @@ public class SupplyOrderCriteria implements Serializable {
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
-            Objects.equals(offerAmount, that.offerAmount) &&
             Objects.equals(deliveryDate, that.deliveryDate) &&
-            Objects.equals(supplyOrderStatus, that.supplyOrderStatus) &&
-            Objects.equals(accumulationReferenceNo, that.accumulationReferenceNo) &&
+            Objects.equals(status, that.status) &&
+            Objects.equals(areaWiseAccumulationRefNo, that.areaWiseAccumulationRefNo) &&
+            Objects.equals(remarks, that.remarks) &&
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
+            Objects.equals(supplyZoneManagerId, that.supplyZoneManagerId) &&
             Objects.equals(supplyAreaId, that.supplyAreaId) &&
             Objects.equals(supplySalesRepresentativeId, that.supplySalesRepresentativeId) &&
             Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId) &&
@@ -222,11 +233,12 @@ public class SupplyOrderCriteria implements Serializable {
         createdOn,
         updatedBy,
         updatedOn,
-        offerAmount,
         deliveryDate,
-        supplyOrderStatus,
-        accumulationReferenceNo,
+        status,
+        areaWiseAccumulationRefNo,
+        remarks,
         supplyZoneId,
+        supplyZoneManagerId,
         supplyAreaId,
         supplySalesRepresentativeId,
         supplyAreaManagerId,
@@ -244,11 +256,12 @@ public class SupplyOrderCriteria implements Serializable {
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
-                (offerAmount != null ? "offerAmount=" + offerAmount + ", " : "") +
                 (deliveryDate != null ? "deliveryDate=" + deliveryDate + ", " : "") +
-                (supplyOrderStatus != null ? "supplyOrderStatus=" + supplyOrderStatus + ", " : "") +
-                (accumulationReferenceNo != null ? "accumulationReferenceNo=" + accumulationReferenceNo + ", " : "") +
+                (status != null ? "status=" + status + ", " : "") +
+                (areaWiseAccumulationRefNo != null ? "areaWiseAccumulationRefNo=" + areaWiseAccumulationRefNo + ", " : "") +
+                (remarks != null ? "remarks=" + remarks + ", " : "") +
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
+                (supplyZoneManagerId != null ? "supplyZoneManagerId=" + supplyZoneManagerId + ", " : "") +
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
                 (supplySalesRepresentativeId != null ? "supplySalesRepresentativeId=" + supplySalesRepresentativeId + ", " : "") +
                 (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +

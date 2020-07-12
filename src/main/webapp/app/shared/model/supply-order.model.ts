@@ -15,18 +15,19 @@ export interface ISupplyOrder {
     createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
-    offerAmount?: number;
     deliveryDate?: Moment;
-    supplyOrderStatus?: SupplyOrderStatus;
-    accumulationReferenceNo?: string;
-    supplyZoneZoneName?: string;
+    status?: SupplyOrderStatus;
+    areaWiseAccumulationRefNo?: string;
+    remarks?: string;
+    supplyZoneName?: string;
     supplyZoneId?: number;
-    supplyAreaAreaName?: string;
+    supplyZoneManagerId?: number;
+    supplyAreaName?: string;
     supplyAreaId?: number;
-    supplySalesRepresentativeSalesRepresentativeName?: string;
+    supplySalesRepresentativeName?: string;
     supplySalesRepresentativeId?: number;
     supplyAreaManagerId?: number;
-    supplyShopShopName?: string;
+    supplyShopName?: string;
     supplyShopId?: number;
 }
 
@@ -39,18 +40,19 @@ export class SupplyOrder implements ISupplyOrder {
         public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
-        public offerAmount?: number,
         public deliveryDate?: Moment,
-        public supplyOrderStatus?: SupplyOrderStatus,
-        public accumulationReferenceNo?: string,
-        public supplyZoneZoneName?: string,
+        public status?: SupplyOrderStatus,
+        public areaWiseAccumulationRefNo?: string,
+        public remarks?: string,
+        public supplyZoneName?: string,
         public supplyZoneId?: number,
-        public supplyAreaAreaName?: string,
+        public supplyZoneManagerId?: number,
+        public supplyAreaName?: string,
         public supplyAreaId?: number,
-        public supplySalesRepresentativeSalesRepresentativeName?: string,
+        public supplySalesRepresentativeName?: string,
         public supplySalesRepresentativeId?: number,
         public supplyAreaManagerId?: number,
-        public supplyShopShopName?: string,
+        public supplyShopName?: string,
         public supplyShopId?: number
     ) {}
 }

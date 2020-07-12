@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { AccountService } from 'app/core';
 import { SupplyZoneManagerExtendedService } from './supply-zone-manager-extended.service';
 import { SupplyZoneManagerComponent } from 'app/entities/supply-zone-manager';
@@ -14,9 +14,10 @@ export class SupplyZoneManagerExtendedComponent extends SupplyZoneManagerCompone
         protected supplyZoneManagerService: SupplyZoneManagerExtendedService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
+        protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
     ) {
-        super(supplyZoneManagerService, jhiAlertService, eventManager, activatedRoute, accountService);
+        super(supplyZoneManagerService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
     }
 }

@@ -23,7 +23,18 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new SupplyShop(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', currentDate);
+            elemDefault = new SupplyShop(
+                0,
+                'AAAAAAA',
+                'AAAAAAA',
+                'AAAAAAA',
+                'AAAAAAA',
+                'AAAAAAA',
+                'AAAAAAA',
+                currentDate,
+                'AAAAAAA',
+                currentDate
+            );
         });
 
         describe('Service methods', async () => {
@@ -71,7 +82,10 @@ describe('Service Tests', () => {
             it('should update a SupplyShop', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        shopName: 'BBBBBB',
+                        name: 'BBBBBB',
+                        contact: 'BBBBBB',
+                        email: 'BBBBBB',
+                        address: 'BBBBBB',
                         additionalInformation: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
@@ -99,7 +113,10 @@ describe('Service Tests', () => {
             it('should return a list of SupplyShop', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        shopName: 'BBBBBB',
+                        name: 'BBBBBB',
+                        contact: 'BBBBBB',
+                        email: 'BBBBBB',
+                        address: 'BBBBBB',
                         additionalInformation: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),

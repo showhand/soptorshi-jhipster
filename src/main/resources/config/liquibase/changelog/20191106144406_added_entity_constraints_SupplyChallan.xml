@@ -8,6 +8,42 @@
     -->
     <changeSet id="20191106144406-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="supply_zone_id"
+                                 baseTableName="supply_challan"
+                                 constraintName="fk_supply_challan_supply_zone_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_zone"/>
+
+        <addForeignKeyConstraint baseColumnNames="supply_zone_manager_id"
+                                 baseTableName="supply_challan"
+                                 constraintName="fk_supply_challan_supply_zone_manager_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_zone_manager"/>
+
+        <addForeignKeyConstraint baseColumnNames="supply_area_id"
+                                 baseTableName="supply_challan"
+                                 constraintName="fk_supply_challan_supply_area_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_area"/>
+
+        <addForeignKeyConstraint baseColumnNames="supply_area_manager_id"
+                                 baseTableName="supply_challan"
+                                 constraintName="fk_supply_challan_supply_area_manager_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_area_manager"/>
+
+        <addForeignKeyConstraint baseColumnNames="supply_sales_representative_id"
+                                 baseTableName="supply_challan"
+                                 constraintName="fk_supply_challan_supply_sales_representative_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_sales_representative"/>
+
+        <addForeignKeyConstraint baseColumnNames="supply_shop_id"
+                                 baseTableName="supply_challan"
+                                 constraintName="fk_supply_challan_supply_shop_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_shop"/>
+
         <addForeignKeyConstraint baseColumnNames="supply_order_id"
                                  baseTableName="supply_challan"
                                  constraintName="fk_supply_challan_supply_order_id"

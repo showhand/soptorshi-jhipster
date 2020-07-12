@@ -104,8 +104,8 @@ public class SupplyOrderDetailsQueryService extends QueryService<SupplyOrderDeta
             if (criteria.getQuantity() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getQuantity(), SupplyOrderDetails_.quantity));
             }
-            if (criteria.getOfferedPrice() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getOfferedPrice(), SupplyOrderDetails_.offeredPrice));
+            if (criteria.getPrice() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPrice(), SupplyOrderDetails_.price));
             }
             if (criteria.getSupplyOrderId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyOrderId(),

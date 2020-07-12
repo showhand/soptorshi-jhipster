@@ -37,7 +37,7 @@
             "otherEntityRelationshipName": "supplyZoneManager",
             "relationshipValidateRules": "required",
             "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
@@ -51,11 +51,10 @@
     "changelogDate": "20200417153632",
     "entityTableName": "supply_zone_manager",
     "dto": "mapstruct",
-    "pagination": "no",
+    "pagination": "infinite-scroll",
     "service": "serviceClass",
-    "jpaMetamodelFiltering": false,
+    "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*",
-    "searchEngine": "elasticsearch"
+    "applications": "*"
 }

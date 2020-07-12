@@ -20,7 +20,7 @@ export const supplyZoneExtendedRoute: Routes = [
         path: '',
         component: SupplyZoneExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyZones'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const supplyZoneExtendedRoute: Routes = [
             supplyZone: SupplyZoneResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyZones'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const supplyZoneExtendedRoute: Routes = [
             supplyZone: SupplyZoneResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyZones'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const supplyZoneExtendedRoute: Routes = [
             supplyZone: SupplyZoneResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyZones'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const supplyZonePopupExtendedRoute: Routes = [
             supplyZone: SupplyZoneResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyZones'
         },
         canActivate: [UserRouteAccessService],

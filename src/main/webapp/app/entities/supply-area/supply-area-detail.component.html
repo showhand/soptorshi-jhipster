@@ -5,13 +5,13 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Area Name</span></dt>
+                <dt><span>Name</span></dt>
                 <dd>
-                    <span>{{supplyArea.areaName}}</span>
+                    <span>{{supplyArea.name}}</span>
                 </dd>
-                <dt><span>Area Code</span></dt>
+                <dt><span>Code</span></dt>
                 <dd>
-                    <span>{{supplyArea.areaCode}}</span>
+                    <span>{{supplyArea.code}}</span>
                 </dd>
                 <dt><span>Created By</span></dt>
                 <dd>
@@ -32,7 +32,13 @@
                 <dt><span>Supply Zone</span></dt>
                 <dd>
                     <div *ngIf="supplyArea.supplyZoneId">
-                        <a [routerLink]="['/supply-zone', supplyArea.supplyZoneId, 'view']">{{supplyArea.supplyZoneZoneName}}</a>
+                        <a [routerLink]="['/supply-zone', supplyArea.supplyZoneId, 'view']">{{supplyArea.supplyZoneName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Zone Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplyArea.supplyZoneManagerId">
+                        <a [routerLink]="['/supply-zone-manager', supplyArea.supplyZoneManagerId, 'view']">{{supplyArea.supplyZoneManagerId}}</a>
                     </div>
                 </dd>
             </dl>

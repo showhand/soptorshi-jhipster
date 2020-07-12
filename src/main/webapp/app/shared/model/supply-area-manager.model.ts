@@ -13,12 +13,13 @@ export interface ISupplyAreaManager {
     updatedOn?: Moment;
     endDate?: Moment;
     status?: SupplyAreaManagerStatus;
-    supplyZoneZoneName?: string;
+    supplyZoneName?: string;
     supplyZoneId?: number;
-    supplyAreaAreaName?: string;
+    supplyAreaName?: string;
     supplyAreaId?: number;
     employeeFullName?: string;
     employeeId?: number;
+    supplyZoneManagerId?: number;
 }
 
 export class SupplyAreaManager implements ISupplyAreaManager {
@@ -30,11 +31,12 @@ export class SupplyAreaManager implements ISupplyAreaManager {
         public updatedOn?: Moment,
         public endDate?: Moment,
         public status?: SupplyAreaManagerStatus,
-        public supplyZoneZoneName?: string,
+        public supplyZoneName?: string,
         public supplyZoneId?: number,
-        public supplyAreaAreaName?: string,
+        public supplyAreaName?: string,
         public supplyAreaId?: number,
         public employeeFullName?: string,
-        public employeeId?: number
+        public employeeId?: number,
+        public supplyZoneManagerId?: number
     ) {}
 }

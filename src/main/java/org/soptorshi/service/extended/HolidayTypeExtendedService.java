@@ -46,7 +46,7 @@ public class HolidayTypeExtendedService extends HolidayTypeService {
         log.debug("Request to save HolidayType : {}", holidayTypeDTO);
 
         String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
-            SecurityUtils.getCurrentUserLogin().toString() : "";
+            SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
         if (holidayTypeDTO.getId() == null) {

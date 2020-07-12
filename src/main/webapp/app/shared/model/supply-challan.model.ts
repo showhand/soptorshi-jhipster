@@ -9,6 +9,16 @@ export interface ISupplyChallan {
     createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
+    supplyZoneName?: string;
+    supplyZoneId?: number;
+    supplyZoneManagerId?: number;
+    supplyAreaName?: string;
+    supplyAreaId?: number;
+    supplyAreaManagerId?: number;
+    supplySalesRepresentativeName?: string;
+    supplySalesRepresentativeId?: number;
+    supplyShopName?: string;
+    supplyShopId?: number;
     supplyOrderOrderNo?: string;
     supplyOrderId?: number;
 }
@@ -23,6 +33,16 @@ export class SupplyChallan implements ISupplyChallan {
         public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
+        public supplyZoneName?: string,
+        public supplyZoneId?: number,
+        public supplyZoneManagerId?: number,
+        public supplyAreaName?: string,
+        public supplyAreaId?: number,
+        public supplyAreaManagerId?: number,
+        public supplySalesRepresentativeName?: string,
+        public supplySalesRepresentativeId?: number,
+        public supplyShopName?: string,
+        public supplyShopId?: number,
         public supplyOrderOrderNo?: string,
         public supplyOrderId?: number
     ) {}

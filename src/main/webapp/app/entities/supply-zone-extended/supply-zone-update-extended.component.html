@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-supply-zone-heading">Create or edit a Supply Zone</h2>
+            <h2 id="jhi-supply-zone-heading">Create or edit a Zone</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!supplyZone.id">
@@ -10,48 +10,27 @@
                            [(ngModel)]="supplyZone.id" readonly/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_zoneName">Zone Name</label>
-                    <input type="text" class="form-control" name="zoneName" id="field_zoneName"
-                           [(ngModel)]="supplyZone.zoneName" required/>
-                    <div [hidden]="!(editForm.controls.zoneName?.dirty && editForm.controls.zoneName?.invalid)">
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           [(ngModel)]="supplyZone.name" required/>
+                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
                         <small class="form-text text-danger"
-                               [hidden]="!editForm.controls.zoneName?.errors?.required">
+                               [hidden]="!editForm.controls.name?.errors?.required">
                             This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_zoneCode">Zone Code</label>
-                    <input type="text" class="form-control" name="zoneCode" id="field_zoneCode"
-                           [(ngModel)]="supplyZone.zoneCode"/>
-                </div>
-                <!--<div class="form-group">
-                    <label class="form-control-label" for="field_createdBy">Created By</label>
-                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
-                           [(ngModel)]="supplyZone.createdBy"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_createdOn">Created On</label>
-                    <div class="d-flex">
-                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn"
-                               [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
-                        />
+                    <label class="form-control-label" for="field_code">Code</label>
+                    <input type="text" class="form-control" name="code" id="field_code"
+                           [(ngModel)]="supplyZone.code" required/>
+                    <div [hidden]="!(editForm.controls.code?.dirty && editForm.controls.code?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.code?.errors?.required">
+                            This field is required.
+                        </small>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
-                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
-                           [(ngModel)]="supplyZone.updatedBy"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
-                    <div class="d-flex">
-                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn"
-                               [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
-                        />
-                    </div>
-                </div>-->
-
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">

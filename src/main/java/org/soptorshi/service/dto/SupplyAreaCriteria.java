@@ -1,15 +1,12 @@
 package org.soptorshi.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.InstantFilter;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the SupplyArea entity. This class is used in SupplyAreaResource to
@@ -25,9 +22,9 @@ public class SupplyAreaCriteria implements Serializable {
 
     private LongFilter id;
 
-    private StringFilter areaName;
+    private StringFilter name;
 
-    private StringFilter areaCode;
+    private StringFilter code;
 
     private StringFilter createdBy;
 
@@ -39,6 +36,8 @@ public class SupplyAreaCriteria implements Serializable {
 
     private LongFilter supplyZoneId;
 
+    private LongFilter supplyZoneManagerId;
+
     public LongFilter getId() {
         return id;
     }
@@ -47,20 +46,20 @@ public class SupplyAreaCriteria implements Serializable {
         this.id = id;
     }
 
-    public StringFilter getAreaName() {
-        return areaName;
+    public StringFilter getName() {
+        return name;
     }
 
-    public void setAreaName(StringFilter areaName) {
-        this.areaName = areaName;
+    public void setName(StringFilter name) {
+        this.name = name;
     }
 
-    public StringFilter getAreaCode() {
-        return areaCode;
+    public StringFilter getCode() {
+        return code;
     }
 
-    public void setAreaCode(StringFilter areaCode) {
-        this.areaCode = areaCode;
+    public void setCode(StringFilter code) {
+        this.code = code;
     }
 
     public StringFilter getCreatedBy() {
@@ -103,6 +102,14 @@ public class SupplyAreaCriteria implements Serializable {
         this.supplyZoneId = supplyZoneId;
     }
 
+    public LongFilter getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(LongFilter supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -115,26 +122,28 @@ public class SupplyAreaCriteria implements Serializable {
         final SupplyAreaCriteria that = (SupplyAreaCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(areaName, that.areaName) &&
-            Objects.equals(areaCode, that.areaCode) &&
+            Objects.equals(name, that.name) &&
+            Objects.equals(code, that.code) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
-            Objects.equals(supplyZoneId, that.supplyZoneId);
+            Objects.equals(supplyZoneId, that.supplyZoneId) &&
+            Objects.equals(supplyZoneManagerId, that.supplyZoneManagerId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        areaName,
-        areaCode,
+        name,
+        code,
         createdBy,
         createdOn,
         updatedBy,
         updatedOn,
-        supplyZoneId
+        supplyZoneId,
+        supplyZoneManagerId
         );
     }
 
@@ -142,13 +151,14 @@ public class SupplyAreaCriteria implements Serializable {
     public String toString() {
         return "SupplyAreaCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (areaName != null ? "areaName=" + areaName + ", " : "") +
-                (areaCode != null ? "areaCode=" + areaCode + ", " : "") +
+                (name != null ? "name=" + name + ", " : "") +
+                (code != null ? "code=" + code + ", " : "") +
                 (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
+                (supplyZoneManagerId != null ? "supplyZoneManagerId=" + supplyZoneManagerId + ", " : "") +
             "}";
     }
 

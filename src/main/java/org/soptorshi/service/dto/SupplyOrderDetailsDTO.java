@@ -25,7 +25,7 @@ public class SupplyOrderDetailsDTO implements Serializable {
     private BigDecimal quantity;
 
     @NotNull
-    private BigDecimal offeredPrice;
+    private BigDecimal price;
 
 
     private Long supplyOrderId;
@@ -88,12 +88,12 @@ public class SupplyOrderDetailsDTO implements Serializable {
         this.quantity = quantity;
     }
 
-    public BigDecimal getOfferedPrice() {
-        return offeredPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setOfferedPrice(BigDecimal offeredPrice) {
-        this.offeredPrice = offeredPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public Long getSupplyOrderId() {
@@ -174,7 +174,7 @@ public class SupplyOrderDetailsDTO implements Serializable {
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
             ", quantity=" + getQuantity() +
-            ", offeredPrice=" + getOfferedPrice() +
+            ", price=" + getPrice() +
             ", supplyOrder=" + getSupplyOrderId() +
             ", supplyOrder='" + getSupplyOrderOrderNo() + "'" +
             ", productCategory=" + getProductCategoryId() +

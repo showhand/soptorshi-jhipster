@@ -7,11 +7,11 @@
             <dl class="row-md jh-entity-details">
                 <dt><span>Area Name</span></dt>
                 <dd>
-                    <span>{{supplyArea.areaName}}</span>
+                    <span>{{supplyArea.name}}</span>
                 </dd>
                 <dt><span>Area Code</span></dt>
                 <dd>
-                    <span>{{supplyArea.areaCode}}</span>
+                    <span>{{supplyArea.code}}</span>
                 </dd>
                 <dt><span>Created By</span></dt>
                 <dd>
@@ -32,7 +32,7 @@
                 <dt><span>Supply Zone</span></dt>
                 <dd>
                     <div *ngIf="supplyArea.supplyZoneId">
-                        <a [routerLink]="['/supply-zone', supplyArea.supplyZoneId, 'view']">{{supplyArea.supplyZoneZoneName}}</a>
+                        <a [routerLink]="['/supply-zone', supplyArea.supplyZoneId, 'view']">{{supplyArea.supplyZoneName}}</a>
                     </div>
                 </dd>
             </dl>
@@ -42,12 +42,6 @@
                     class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
-
-            <!--<button type="button"
-                    [routerLink]="['/supply-area', supplyArea.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>-->
         </div>
     </div>
 </div>

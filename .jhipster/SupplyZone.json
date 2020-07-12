@@ -2,15 +2,18 @@
     "name": "SupplyZone",
     "fields": [
         {
-            "fieldName": "zoneName",
+            "fieldName": "name",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "zoneCode",
-            "fieldType": "String"
+            "fieldName": "code",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "createdBy",

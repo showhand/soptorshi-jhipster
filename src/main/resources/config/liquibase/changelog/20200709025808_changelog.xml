@@ -1,0 +1,102 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1594263538919-1">
+        <addColumn tableName="supply_challan">
+            <column name="supply_area_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-2">
+        <addColumn tableName="supply_challan">
+            <column name="supply_area_manager_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-3">
+        <addColumn tableName="supply_money_collection">
+            <column name="supply_order_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-4">
+        <addColumn tableName="supply_challan">
+            <column name="supply_sales_representative_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-5">
+        <addColumn tableName="supply_challan">
+            <column name="supply_shop_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-6">
+        <addColumn tableName="supply_money_collection">
+            <column name="supply_shop_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-7">
+        <addColumn tableName="supply_challan">
+            <column name="supply_zone_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-8">
+        <addColumn tableName="supply_challan">
+            <column name="supply_zone_manager_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-9">
+        <addColumn tableName="supply_money_collection">
+            <column name="supply_zone_manager_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-10">
+        <addForeignKeyConstraint baseColumnNames="supply_shop_id" baseTableName="supply_money_collection" constraintName="FK4fvbygpuwvmhwiiyx143o7wco" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_shop"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-11">
+        <addForeignKeyConstraint baseColumnNames="supply_area_manager_id" baseTableName="supply_challan" constraintName="FK5rejsbrufmy6e9htt4bqg98vv" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-12">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_id" baseTableName="supply_challan" constraintName="FK6jx303vrfljr3rq6bs0g5jevs" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-13">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_manager_id" baseTableName="supply_money_collection" constraintName="FK6w07d5dimle3rxeiwol67rkxx" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-14">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_manager_id" baseTableName="supply_challan" constraintName="FKewvtkignekgepgfb31dscjk5o" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-15">
+        <addForeignKeyConstraint baseColumnNames="supply_sales_representative_id" baseTableName="supply_challan" constraintName="FKh6tfm1g9o6pe9rr7m38u5fn1a" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_sales_representative"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-16">
+        <addForeignKeyConstraint baseColumnNames="supply_order_id" baseTableName="supply_money_collection" constraintName="FKpwpeavs672090tyvbsqktv7lc" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_order"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-17">
+        <addForeignKeyConstraint baseColumnNames="supply_area_id" baseTableName="supply_challan" constraintName="FKsq5bsy8exevywqtxfifgebpnw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_area"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-18">
+        <addForeignKeyConstraint baseColumnNames="supply_shop_id" baseTableName="supply_challan" constraintName="FKtgr49r1v7sdaf616pv3oi3982" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_shop"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-21">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_area_id" tableName="supply_money_collection"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-22">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_area_manager_id" tableName="supply_money_collection"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1594263538919-23">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_zone_id" tableName="supply_money_collection"/>
+    </changeSet>
+</databaseChangeLog>

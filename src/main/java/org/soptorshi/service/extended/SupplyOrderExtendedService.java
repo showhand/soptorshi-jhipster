@@ -1,32 +1,28 @@
 package org.soptorshi.service.extended;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.domain.Employee;
+import org.soptorshi.domain.SupplyAreaManager;
 import org.soptorshi.domain.SupplyOrder;
-import org.soptorshi.domain.SupplyOrderDetails;
+import org.soptorshi.domain.SupplyZoneManager;
+import org.soptorshi.domain.enumeration.SupplyAreaManagerStatus;
 import org.soptorshi.domain.enumeration.SupplyOrderStatus;
+import org.soptorshi.domain.enumeration.SupplyZoneManagerStatus;
+import org.soptorshi.repository.extended.EmployeeExtendedRepository;
 import org.soptorshi.repository.extended.SupplyOrderExtendedRepository;
 import org.soptorshi.repository.search.SupplyOrderSearchRepository;
-import org.soptorshi.security.report.SoptorshiPdfCell;
+import org.soptorshi.security.AuthoritiesConstants;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.SupplyOrderService;
-import org.soptorshi.service.dto.SupplyOrderDTO;
+import org.soptorshi.service.dto.*;
 import org.soptorshi.service.mapper.SupplyOrderMapper;
-import org.soptorshi.utils.SoptorshiUtils;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.List;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 /**
  * Service Implementation for managing SupplyOrder.
@@ -43,16 +39,30 @@ public class SupplyOrderExtendedService extends SupplyOrderService {
 
     private final SupplyOrderSearchRepository supplyOrderSearchRepository;
 
-    private final SupplyOrderDetailsExtendedService supplyOrderDetailsExtendedService;
+    private final SupplyZoneManagerExtendedService supplyZoneManagerExtendedService;
 
-    public SupplyOrderExtendedService(SupplyOrderExtendedRepository supplyOrderExtendedRepository, SupplyOrderMapper supplyOrderMapper, SupplyOrderSearchRepository supplyOrderSearchRepository, SupplyOrderDetailsExtendedService supplyOrderDetailsExtendedService) {
+    private final SupplyAreaManagerExtendedService supplyAreaManagerExtendedService;
+
+    private final SupplySalesRepresentativeExtendedService supplySalesRepresentativeExtendedService;
+
+    private final SupplyShopExtendedService supplyShopExtendedService;
+
+    private final SupplyAreaExtendedService supplyAreaExtendedService;
+
+    private final EmployeeExtendedRepository employeeExtendedRepository;
+
+    public SupplyOrderExtendedService(SupplyOrderExtendedRepository supplyOrderExtendedRepository, SupplyOrderMapper supplyOrderMapper, SupplyOrderSearchRepository supplyOrderSearchRepository, SupplyZoneManagerExtendedService supplyZoneManagerExtendedService, SupplyAreaManagerExtendedService supplyAreaManagerExtendedService, SupplySalesRepresentativeExtendedService supplySalesRepresentativeExtendedService, SupplyShopExtendedService supplyShopExtendedService, EmployeeExtendedRepository employeeExtendedRepository, SupplyAreaExtendedService supplyAreaExtendedService) {
         super(supplyOrderExtendedRepository, supplyOrderMapper, supplyOrderSearchRepository);
         this.supplyOrderExtendedRepository = supplyOrderExtendedRepository;
         this.supplyOrderMapper = supplyOrderMapper;
         this.supplyOrderSearchRepository = supplyOrderSearchRepository;
-        this.supplyOrderDetailsExtendedService = supplyOrderDetailsExtendedService;
+        this.supplyZoneManagerExtendedService = supplyZoneManagerExtendedService;
+        this.supplyAreaManagerExtendedService = supplyAreaManagerExtendedService;
+        this.supplySalesRepresentativeExtendedService = supplySalesRepresentativeExtendedService;
+        this.supplyShopExtendedService = supplyShopExtendedService;
+        this.supplyAreaExtendedService = supplyAreaExtendedService;
+        this.employeeExtendedRepository = employeeExtendedRepository;
     }
-
 
     /**
      * Save a supplyOrder.
@@ -64,230 +74,105 @@ public class SupplyOrderExtendedService extends SupplyOrderService {
     public SupplyOrderDTO save(SupplyOrderDTO supplyOrderDTO) {
         log.debug("Request to save SupplyOrder : {}", supplyOrderDTO);
 
-        SupplyOrder supplyOrder = supplyOrderMapper.toEntity(supplyOrderDTO);
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
+        Instant currentDateTime = Instant.now();
 
-
-        if (supplyOrderDTO.getId() != null) {
-            Optional<List<SupplyOrderDetails>> supplyOrderDetails = supplyOrderDetailsExtendedService.getAllBySupplyOrder(supplyOrder);
-
-            if (supplyOrderDetails.isPresent()) {
-                BigDecimal total = BigDecimal.ZERO;
-
-                for (SupplyOrderDetails supplyOrderDetail : supplyOrderDetails.get()) {
-                    total = total.add(supplyOrderDetail.getOfferedPrice());
-                }
-
-                supplyOrder.setOfferAmount(total);
-            }
+        if(supplyOrderDTO.getId() == null) {
+            supplyOrderDTO.setCreatedBy(currentUser);
+            supplyOrderDTO.setCreatedOn(currentDateTime);
+        }
+        else {
+            supplyOrderDTO.setUpdatedBy(currentUser);
+            supplyOrderDTO.setUpdatedOn(currentDateTime);
         }
 
-
+        SupplyOrder supplyOrder = supplyOrderMapper.toEntity(supplyOrderDTO);
         supplyOrder = supplyOrderExtendedRepository.save(supplyOrder);
         SupplyOrderDTO result = supplyOrderMapper.toDto(supplyOrder);
-        supplyOrderSearchRepository.save(supplyOrder);
+        //supplyOrderSearchRepository.save(supplyOrder);
 
         return result;
     }
 
-    public List<LocalDate> getAllDistinctSupplyOrderDate() {
-        log.debug("Request to get all Distinct Supply Order Date");
-        List<LocalDate> dates = new ArrayList<>();
-        List<SupplyOrder> supplyOrders = supplyOrderExtendedRepository.findAll();
-        for (SupplyOrder supplyOrder : supplyOrders) {
-            dates.add(supplyOrder.getDateOfOrder());
+    public boolean isValidInput(SupplyOrderDTO supplyOrderDTO) {
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
+        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_ZONE_MANAGER)) {
+            return isValidZoneAsPerZoneManagerRole(supplyOrderDTO, currentUser) && isValidZoneManager(supplyOrderDTO) && isValidArea(supplyOrderDTO) && isValidAreaManager(supplyOrderDTO) && isValidSalesRepresentative(supplyOrderDTO) && isValidShop(supplyOrderDTO);
+        } else if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SCM_AREA_MANAGER)) {
+            return isValidZoneAsPerAreaManagerRole(supplyOrderDTO, currentUser) && isValidZoneManager(supplyOrderDTO) && isValidArea(supplyOrderDTO) && isValidAreaManager(supplyOrderDTO) && isValidSalesRepresentative(supplyOrderDTO) && isValidShop(supplyOrderDTO);
         }
-        return dates.stream().distinct().collect(Collectors.toList());
+        return isValidZoneManager(supplyOrderDTO) && isValidArea(supplyOrderDTO) && isValidAreaManager(supplyOrderDTO) && isValidSalesRepresentative(supplyOrderDTO) && isValidShop(supplyOrderDTO);
     }
 
-    public Long updateReferenceNoAfterFilterByDate(String referenceNo, LocalDate fromDate, LocalDate toDate,
-                                                   SupplyOrderStatus status) {
-        Optional<List<SupplyOrder>> supplyOrders = supplyOrderExtendedRepository.getByDateOfOrderGreaterThanEqualAndDateOfOrderLessThanEqualAndSupplyOrderStatus(fromDate, toDate,
-            status);
-
-        if (supplyOrders.isPresent()) {
-            for (SupplyOrder supplyOrder : supplyOrders.get()) {
-                supplyOrder.setAccumulationReferenceNo(referenceNo);
-                supplyOrder.setSupplyOrderStatus(SupplyOrderStatus.PROCESSING_ORDER);
-                SupplyOrderDTO supplyOrderDTO = supplyOrderMapper.toDto(supplyOrder);
-                save(supplyOrderDTO);
-            }
-            return 1L;
-        } else {
-            return 0L;
-        }
-    }
-
-
-    @Transactional
-    public ByteArrayInputStream downloadAccumulatedOrders(String refNo) throws Exception, DocumentException {
-
-        Map<SupplyOrder, List<SupplyOrderDetails>> map = new HashMap<>();
-
-        Optional<List<SupplyOrder>> supplyOrders = supplyOrderExtendedRepository.getByAccumulationReferenceNo(refNo);
-
-        if (supplyOrders.isPresent()) {
-
-            for (SupplyOrder supplyOrder : supplyOrders.get()) {
-                Optional<List<SupplyOrderDetails>> supplyOrderDetails = supplyOrderDetailsExtendedService.getAllBySupplyOrder(supplyOrder);
-                supplyOrderDetails.ifPresent(orderDetails -> map.put(supplyOrder, orderDetails));
-            }
-
-            Document document = new Document();
-            document.setPageSize(PageSize.A4.rotate());
-            document.addTitle("Voucher Report");
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            PdfWriter writer = PdfWriter.getInstance(document, baos);
-            document.open();
-
-            Paragraph paragraph = new Paragraph("Seven Oceans Fish Processing Ltd.", SoptorshiUtils.mBigBoldFont);
-            paragraph.setAlignment(Element.ALIGN_CENTER);
-            document.add(paragraph);
-            document.add(Chunk.NEWLINE);
-
-            for(Map.Entry<SupplyOrder, List<SupplyOrderDetails>> map1: map.entrySet()) {
-
-                PdfPTable table = new PdfPTable(6);
-                table.setWidthPercentage(100);
-                table.setTotalWidth(new float[]{15, 15, 15, 15, 15, 15});
-
-                PdfPCell cell = new PdfPCell();
-
-                cell.addElement(new Paragraph(new Paragraph("Order No", SoptorshiUtils.mBigLiteFont)));
-                table.addCell(cell);
-
-                cell = new PdfPCell();
-                cell.addElement(new Paragraph(new Paragraph(map1.getKey().getOrderNo(), SoptorshiUtils.mBigLiteFont)));
-                table.addCell(cell);
-
-                cell = new PdfPCell();
-                cell.addElement(new Paragraph(new Paragraph("Area Name", SoptorshiUtils.mBigLiteFont)));
-                table.addCell(cell);
-
-                cell = new PdfPCell();
-                cell.addElement(new Paragraph(new Paragraph(map1.getKey().getSupplyArea().getAreaName(), SoptorshiUtils.mBigLiteFont)));
-                table.addCell(cell);
-
-                cell = new PdfPCell();
-                cell.addElement(new Paragraph(new Paragraph("Zone Name", SoptorshiUtils.mBigLiteFont)));
-                table.addCell(cell);
-
-                cell = new PdfPCell();
-                cell.addElement(new Paragraph(new Paragraph(map1.getKey().getSupplyZone().getZoneName(), SoptorshiUtils.mBigLiteFont)));
-                table.addCell(cell);
-
-                document.add(table);
-
-                table = new PdfPTable(3);
-                table.setWidthPercentage(100);
-                table.setTotalWidth(new float[]{40, 30, 30});
-
-                cell = new PdfPCell();
-                cell.addElement(new Paragraph(new Paragraph("Product", SoptorshiUtils.mBigLiteFont)));
-                table.addCell(cell);
-
-                cell = new PdfPCell();
-                cell.addElement(new Paragraph(new Paragraph("Quantity", SoptorshiUtils.mBigLiteFont)));
-                table.addCell(cell);
-
-                cell = new PdfPCell();
-                cell.addElement(new Paragraph(new Paragraph("Price", SoptorshiUtils.mBigLiteFont)));
-                table.addCell(cell);
-
-                for(SupplyOrderDetails supplyOrderDetails: map1.getValue()) {
-                    cell = new PdfPCell();
-                    cell.addElement(new Paragraph(new Paragraph(supplyOrderDetails.getProduct().getName(), SoptorshiUtils.mBigLiteFont)));
-                    table.addCell(cell);
-
-                    cell = new PdfPCell();
-                    cell.addElement(new Paragraph(new Paragraph(supplyOrderDetails.getQuantity() + "", SoptorshiUtils.mBigLiteFont)));
-                    table.addCell(cell);
-
-                    cell = new PdfPCell();
-                    cell.addElement(new Paragraph(new Paragraph(supplyOrderDetails.getOfferedPrice() + "", SoptorshiUtils.mBigLiteFont)));
-                    table.addCell(cell);
-                }
-
-                document.add(table);
-                document.add(Chunk.NEWLINE);
-                document.add(Chunk.NEWLINE);
-            }
-
-            document.add(new Paragraph("Accumulated Order", SoptorshiUtils.mBigLiteFont));
-            document.add(Chunk.NEWLINE);
-
-
-            PdfPTable table = new PdfPTable(3);
-            table.setWidthPercentage(100);
-            table.setTotalWidth(new float[]{40, 30, 30});
-
-            PdfPCell cell = new PdfPCell();
-            cell.addElement(new Paragraph(new Paragraph("Product", SoptorshiUtils.mBigLiteFont)));
-            table.addCell(cell);
-
-            cell = new PdfPCell();
-            cell.addElement(new Paragraph(new Paragraph("Quantity", SoptorshiUtils.mBigLiteFont)));
-            table.addCell(cell);
-
-            cell = new PdfPCell();
-            cell.addElement(new Paragraph(new Paragraph("Price", SoptorshiUtils.mBigLiteFont)));
-            table.addCell(cell);
-
-            for(Map.Entry<SupplyOrder, List<SupplyOrderDetails>> map1: map.entrySet()) {
-                for (SupplyOrderDetails supplyOrderDetails : map1.getValue()) {
-
-                    cell = new PdfPCell();
-                    cell.addElement(new Paragraph(new Paragraph(supplyOrderDetails.getProduct().getName(), SoptorshiUtils.mBigLiteFont)));
-                    table.addCell(cell);
-
-                    cell = new PdfPCell();
-                    cell.addElement(new Paragraph(new Paragraph(supplyOrderDetails.getQuantity() + "", SoptorshiUtils.mBigLiteFont)));
-                    table.addCell(cell);
-
-                    cell = new PdfPCell();
-                    cell.addElement(new Paragraph(new Paragraph(supplyOrderDetails.getOfferedPrice() + "", SoptorshiUtils.mBigLiteFont)));
-                    table.addCell(cell);
+    private boolean isValidZoneAsPerZoneManagerRole(SupplyOrderDTO supplyOrderDTO, String currentUser) {
+        Optional<Employee> currentEmployee = employeeExtendedRepository.findByEmployeeId(currentUser);
+        if (currentEmployee.isPresent()) {
+            List<SupplyZoneManager> supplyZoneManagers = supplyZoneManagerExtendedService.getZoneManagers(currentEmployee.get(), SupplyZoneManagerStatus.ACTIVE);
+            for (SupplyZoneManager supplyZoneManager : supplyZoneManagers) {
+                if (supplyZoneManager.getSupplyZone().getId().equals(supplyOrderDTO.getSupplyZoneId())) {
+                    return true;
                 }
             }
-
-
-            /*document = createAuthorizationSection(document);*/
-
-            document.close();
-            return new ByteArrayInputStream(baos.toByteArray());
         }
-
-        throw new BadRequestAlertException("Order not found", "supply-orders", "idnull");
+        return false;
     }
 
+    private boolean isValidZoneAsPerAreaManagerRole(SupplyOrderDTO supplyOrderDTO, String currentUser) {
+        Optional<Employee> currentEmployee = employeeExtendedRepository.findByEmployeeId(currentUser);
+        if (currentEmployee.isPresent()) {
+            List<SupplyAreaManager> supplyAreaManagers = supplyAreaManagerExtendedService.getAreaManagers(currentEmployee.get(), SupplyAreaManagerStatus.ACTIVE);
+            for (SupplyAreaManager supplyAreaManager : supplyAreaManagers) {
+                if (supplyAreaManager.getSupplyZone().getId().equals(supplyOrderDTO.getSupplyZoneId())
+                    && supplyAreaManager.getSupplyZoneManager().getId().equals(supplyOrderDTO.getSupplyZoneManagerId())
+                    && supplyAreaManager.getSupplyArea().getId().equals(supplyOrderDTO.getSupplyAreaId())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-    private Document createAuthorizationSection(Document pDocument) throws Exception {
+    private boolean isValidZoneManager(SupplyOrderDTO supplyOrderDTO) {
+        Optional<SupplyZoneManagerDTO> selectedZoneManager = supplyZoneManagerExtendedService.findOne(supplyOrderDTO.getSupplyZoneManagerId());
+        return selectedZoneManager.map(supplyZoneManagerDTO -> supplyZoneManagerDTO.getSupplyZoneId().equals(supplyOrderDTO.getSupplyZoneId()) && supplyZoneManagerDTO.getStatus().equals(SupplyZoneManagerStatus.ACTIVE)).orElse(false);
+    }
 
-        PdfPTable pdfPTable = new PdfPTable(3);
-        pdfPTable.setWidthPercentage(100);
-        SoptorshiPdfCell cell = new SoptorshiPdfCell();
+    private boolean isValidArea(SupplyOrderDTO supplyOrderDTO) {
+        Optional<SupplyAreaDTO> selectedArea = supplyAreaExtendedService.findOne(supplyOrderDTO.getSupplyAreaId());
+        return selectedArea.map(supplyAreaDTO -> supplyAreaDTO.getSupplyZoneId().equals(supplyOrderDTO.getSupplyZoneId()) &&
+            supplyAreaDTO.getSupplyZoneManagerId().equals(supplyOrderDTO.getSupplyZoneManagerId())).orElse(false);
+    }
 
-        Paragraph paragraph = new Paragraph("RECEIVED BY", SoptorshiUtils.mLiteFont);
-        paragraph.setAlignment(Element.ALIGN_CENTER);
-        cell.addElement(paragraph);
-        cell.setBorder(Rectangle.NO_BORDER);
-        pdfPTable.addCell(cell);
+    private boolean isValidAreaManager(SupplyOrderDTO supplyOrderDTO) {
+        Optional<SupplyAreaManagerDTO> selectedAreaManager = supplyAreaManagerExtendedService.findOne(supplyOrderDTO.getSupplyAreaManagerId());
+        return selectedAreaManager.filter(supplyAreaManagerDTO -> supplyAreaManagerDTO.getSupplyZoneId().equals(supplyOrderDTO.getSupplyZoneId()) &&
+            supplyAreaManagerDTO.getSupplyZoneManagerId().equals(supplyOrderDTO.getSupplyZoneManagerId()) &&
+            supplyAreaManagerDTO.getSupplyAreaId().equals(supplyOrderDTO.getSupplyAreaId())).isPresent();
+    }
 
-        cell = new SoptorshiPdfCell();
-        paragraph = new Paragraph("PREPARED BY", SoptorshiUtils.mLiteFont);
-        paragraph.setAlignment(Element.ALIGN_CENTER);
-        cell.addElement(paragraph);
-        cell.setBorder(Rectangle.NO_BORDER);
-        pdfPTable.addCell(cell);
+    private boolean isValidSalesRepresentative(SupplyOrderDTO supplyOrderDTO) {
+        Optional<SupplySalesRepresentativeDTO> selectedSalesRepresentative = supplySalesRepresentativeExtendedService.findOne(supplyOrderDTO.getSupplySalesRepresentativeId());
+        return selectedSalesRepresentative.filter(supplyAreaManagerDTO -> supplyAreaManagerDTO.getSupplyZoneId().equals(supplyOrderDTO.getSupplyZoneId()) &&
+            supplyAreaManagerDTO.getSupplyZoneManagerId().equals(supplyOrderDTO.getSupplyZoneManagerId()) &&
+            supplyAreaManagerDTO.getSupplyAreaId().equals(supplyOrderDTO.getSupplyAreaId()) &&
+            supplyAreaManagerDTO.getSupplyAreaManagerId().equals(supplyOrderDTO.getSupplyAreaManagerId())).isPresent();
+    }
 
-        cell = new SoptorshiPdfCell();
-        paragraph = new Paragraph("AUTHORIZED BY", SoptorshiUtils.mLiteFont);
-        paragraph.setAlignment(Element.ALIGN_CENTER);
-        cell.addElement(paragraph);
-        cell.setBorder(Rectangle.NO_BORDER);
-        pdfPTable.addCell(cell);
+    private boolean isValidShop(SupplyOrderDTO supplyOrderDTO) {
+        Optional<SupplyShopDTO> selectedSupplyShop = supplyShopExtendedService.findOne(supplyOrderDTO.getSupplyShopId());
+        return selectedSupplyShop.filter(supplyAreaManagerDTO -> supplyAreaManagerDTO.getSupplyZoneId().equals(supplyOrderDTO.getSupplyZoneId()) &&
+            supplyAreaManagerDTO.getSupplyZoneManagerId().equals(supplyOrderDTO.getSupplyZoneManagerId()) &&
+            supplyAreaManagerDTO.getSupplyAreaId().equals(supplyOrderDTO.getSupplyAreaId()) &&
+            supplyAreaManagerDTO.getSupplyAreaManagerId().equals(supplyOrderDTO.getSupplyAreaManagerId()) &&
+            supplyAreaManagerDTO.getSupplySalesRepresentativeId().equals(supplyOrderDTO.getSupplySalesRepresentativeId())).isPresent();
+    }
 
-        pdfPTable.setSpacingBefore(100);
-        pDocument.add(pdfPTable);
-        return pDocument;
+    public boolean isValidStatus(SupplyOrderDTO supplyOrderDTO) {
+        Optional<SupplyOrderDTO> supplyOrderDTO1 = findOne(supplyOrderDTO.getId());
+        return supplyOrderDTO1.map(orderDTO -> orderDTO.getStatus().equals(SupplyOrderStatus.ORDER_RECEIVED)).orElse(false);
+    }
+
+    public List<SupplyOrder> getAllByAreaWiseAccumulationRefNo(String areaWiseAccumulationRefNo) {
+        return supplyOrderExtendedRepository.getByAreaWiseAccumulationRefNo(areaWiseAccumulationRefNo);
     }
 }

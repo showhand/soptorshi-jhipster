@@ -35,15 +35,17 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyZone",
             "otherEntityRelationshipName": "supplyAreaManager",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyArea",
             "otherEntityRelationshipName": "supplyAreaManager",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyArea",
-            "otherEntityField": "areaName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
@@ -52,6 +54,14 @@
             "relationshipValidateRules": "required",
             "relationshipName": "employee",
             "otherEntityField": "fullName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZoneManager",
+            "otherEntityRelationshipName": "supplyAreaManager",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyZoneManager",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20191106144401",
@@ -62,6 +72,5 @@
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*",
-    "searchEngine": "elasticsearch"
+    "applications": "*"
 }

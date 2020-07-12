@@ -35,7 +35,7 @@
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="quantity"><span>Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="offeredPrice"><span>Offered Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="price"><span>Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyOrderOrderNo"><span>Supply Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productCategoryName"><span>Product Category</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="productName"><span>Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -50,7 +50,7 @@
                 <td>{{supplyOrderDetails.updatedBy}}</td>
                 <td>{{supplyOrderDetails.updatedOn | date:'medium'}}</td>
                 <td>{{supplyOrderDetails.quantity}}</td>
-                <td>{{supplyOrderDetails.offeredPrice}}</td>
+                <td>{{supplyOrderDetails.price}}</td>
                 <td>
                     <div *ngIf="supplyOrderDetails.supplyOrderId">
                         <a [routerLink]="['../supply-order', supplyOrderDetails.supplyOrderId , 'view' ]" >{{supplyOrderDetails.supplyOrderOrderNo}}</a>

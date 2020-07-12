@@ -2,36 +2,44 @@ import { Moment } from 'moment';
 
 export interface ISupplyShop {
     id?: number;
-    shopName?: string;
+    name?: string;
+    contact?: string;
+    email?: string;
+    address?: string;
     additionalInformation?: string;
     createdBy?: string;
     createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
-    supplyZoneZoneName?: string;
+    supplyZoneName?: string;
     supplyZoneId?: number;
-    supplyAreaAreaName?: string;
+    supplyAreaName?: string;
     supplyAreaId?: number;
-    supplySalesRepresentativeSalesRepresentativeName?: string;
-    supplySalesRepresentativeId?: number;
+    supplyZoneManagerId?: number;
     supplyAreaManagerId?: number;
+    supplySalesRepresentativeName?: string;
+    supplySalesRepresentativeId?: number;
 }
 
 export class SupplyShop implements ISupplyShop {
     constructor(
         public id?: number,
-        public shopName?: string,
+        public name?: string,
+        public contact?: string,
+        public email?: string,
+        public address?: string,
         public additionalInformation?: string,
         public createdBy?: string,
         public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
-        public supplyZoneZoneName?: string,
+        public supplyZoneName?: string,
         public supplyZoneId?: number,
-        public supplyAreaAreaName?: string,
+        public supplyAreaName?: string,
         public supplyAreaId?: number,
-        public supplySalesRepresentativeSalesRepresentativeName?: string,
-        public supplySalesRepresentativeId?: number,
-        public supplyAreaManagerId?: number
+        public supplyZoneManagerId?: number,
+        public supplyAreaManagerId?: number,
+        public supplySalesRepresentativeName?: string,
+        public supplySalesRepresentativeId?: number
     ) {}
 }

@@ -1,29 +1,26 @@
 package org.soptorshi.web.rest;
-import org.soptorshi.service.SupplyMoneyCollectionService;
-import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.soptorshi.web.rest.util.HeaderUtil;
-import org.soptorshi.web.rest.util.PaginationUtil;
-import org.soptorshi.service.dto.SupplyMoneyCollectionDTO;
-import org.soptorshi.service.dto.SupplyMoneyCollectionCriteria;
-import org.soptorshi.service.SupplyMoneyCollectionQueryService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.service.SupplyMoneyCollectionQueryService;
+import org.soptorshi.service.SupplyMoneyCollectionService;
+import org.soptorshi.service.dto.SupplyMoneyCollectionCriteria;
+import org.soptorshi.service.dto.SupplyMoneyCollectionDTO;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.soptorshi.web.rest.util.HeaderUtil;
+import org.soptorshi.web.rest.util.PaginationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing SupplyMoneyCollection.
@@ -53,7 +50,7 @@ public class SupplyMoneyCollectionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/supply-money-collections")
-    public ResponseEntity<SupplyMoneyCollectionDTO> createSupplyMoneyCollection(@RequestBody SupplyMoneyCollectionDTO supplyMoneyCollectionDTO) throws URISyntaxException {
+    public ResponseEntity<SupplyMoneyCollectionDTO> createSupplyMoneyCollection(@Valid @RequestBody SupplyMoneyCollectionDTO supplyMoneyCollectionDTO) throws URISyntaxException {
         log.debug("REST request to save SupplyMoneyCollection : {}", supplyMoneyCollectionDTO);
         if (supplyMoneyCollectionDTO.getId() != null) {
             throw new BadRequestAlertException("A new supplyMoneyCollection cannot already have an ID", ENTITY_NAME, "idexists");
@@ -74,7 +71,7 @@ public class SupplyMoneyCollectionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/supply-money-collections")
-    public ResponseEntity<SupplyMoneyCollectionDTO> updateSupplyMoneyCollection(@RequestBody SupplyMoneyCollectionDTO supplyMoneyCollectionDTO) throws URISyntaxException {
+    public ResponseEntity<SupplyMoneyCollectionDTO> updateSupplyMoneyCollection(@Valid @RequestBody SupplyMoneyCollectionDTO supplyMoneyCollectionDTO) throws URISyntaxException {
         log.debug("REST request to update SupplyMoneyCollection : {}", supplyMoneyCollectionDTO);
         if (supplyMoneyCollectionDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

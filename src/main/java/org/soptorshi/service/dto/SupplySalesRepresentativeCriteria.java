@@ -4,6 +4,7 @@ import io.github.jhipster.service.filter.Filter;
 import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import org.soptorshi.domain.enumeration.SupplySalesRepresentativeStatus;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,12 +18,21 @@ import java.util.Objects;
  * fix type specific filters.
  */
 public class SupplySalesRepresentativeCriteria implements Serializable {
+    /**
+     * Class for filtering SupplySalesRepresentativeStatus
+     */
+    public static class SupplySalesRepresentativeStatusFilter extends Filter<SupplySalesRepresentativeStatus> {
+    }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
-    private StringFilter salesRepresentativeName;
+    private StringFilter name;
+
+    private StringFilter contact;
+
+    private StringFilter email;
 
     private StringFilter additionalInformation;
 
@@ -34,9 +44,13 @@ public class SupplySalesRepresentativeCriteria implements Serializable {
 
     private InstantFilter updatedOn;
 
+    private SupplySalesRepresentativeStatusFilter status;
+
     private LongFilter supplyZoneId;
 
     private LongFilter supplyAreaId;
+
+    private LongFilter supplyZoneManagerId;
 
     private LongFilter supplyAreaManagerId;
 
@@ -48,12 +62,28 @@ public class SupplySalesRepresentativeCriteria implements Serializable {
         this.id = id;
     }
 
-    public StringFilter getSalesRepresentativeName() {
-        return salesRepresentativeName;
+    public StringFilter getName() {
+        return name;
     }
 
-    public void setSalesRepresentativeName(StringFilter salesRepresentativeName) {
-        this.salesRepresentativeName = salesRepresentativeName;
+    public void setName(StringFilter name) {
+        this.name = name;
+    }
+
+    public StringFilter getContact() {
+        return contact;
+    }
+
+    public void setContact(StringFilter contact) {
+        this.contact = contact;
+    }
+
+    public StringFilter getEmail() {
+        return email;
+    }
+
+    public void setEmail(StringFilter email) {
+        this.email = email;
     }
 
     public StringFilter getAdditionalInformation() {
@@ -96,6 +126,14 @@ public class SupplySalesRepresentativeCriteria implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public SupplySalesRepresentativeStatusFilter getStatus() {
+        return status;
+    }
+
+    public void setStatus(SupplySalesRepresentativeStatusFilter status) {
+        this.status = status;
+    }
+
     public LongFilter getSupplyZoneId() {
         return supplyZoneId;
     }
@@ -110,6 +148,14 @@ public class SupplySalesRepresentativeCriteria implements Serializable {
 
     public void setSupplyAreaId(LongFilter supplyAreaId) {
         this.supplyAreaId = supplyAreaId;
+    }
+
+    public LongFilter getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(LongFilter supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
     }
 
     public LongFilter getSupplyAreaManagerId() {
@@ -132,14 +178,18 @@ public class SupplySalesRepresentativeCriteria implements Serializable {
         final SupplySalesRepresentativeCriteria that = (SupplySalesRepresentativeCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(salesRepresentativeName, that.salesRepresentativeName) &&
+            Objects.equals(name, that.name) &&
+            Objects.equals(contact, that.contact) &&
+            Objects.equals(email, that.email) &&
             Objects.equals(additionalInformation, that.additionalInformation) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
+            Objects.equals(status, that.status) &&
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
             Objects.equals(supplyAreaId, that.supplyAreaId) &&
+            Objects.equals(supplyZoneManagerId, that.supplyZoneManagerId) &&
             Objects.equals(supplyAreaManagerId, that.supplyAreaManagerId);
     }
 
@@ -147,14 +197,18 @@ public class SupplySalesRepresentativeCriteria implements Serializable {
     public int hashCode() {
         return Objects.hash(
         id,
-        salesRepresentativeName,
+        name,
+        contact,
+        email,
         additionalInformation,
         createdBy,
         createdOn,
         updatedBy,
         updatedOn,
+        status,
         supplyZoneId,
         supplyAreaId,
+        supplyZoneManagerId,
         supplyAreaManagerId
         );
     }
@@ -163,14 +217,18 @@ public class SupplySalesRepresentativeCriteria implements Serializable {
     public String toString() {
         return "SupplySalesRepresentativeCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (salesRepresentativeName != null ? "salesRepresentativeName=" + salesRepresentativeName + ", " : "") +
+                (name != null ? "name=" + name + ", " : "") +
+                (contact != null ? "contact=" + contact + ", " : "") +
+                (email != null ? "email=" + email + ", " : "") +
                 (additionalInformation != null ? "additionalInformation=" + additionalInformation + ", " : "") +
                 (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
+                (status != null ? "status=" + status + ", " : "") +
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
+                (supplyZoneManagerId != null ? "supplyZoneManagerId=" + supplyZoneManagerId + ", " : "") +
                 (supplyAreaManagerId != null ? "supplyAreaManagerId=" + supplyAreaManagerId + ", " : "") +
             "}";
     }

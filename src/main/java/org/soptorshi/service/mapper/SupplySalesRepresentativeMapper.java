@@ -8,18 +8,20 @@ import org.soptorshi.service.dto.SupplySalesRepresentativeDTO;
 /**
  * Mapper for the entity SupplySalesRepresentative and its DTO SupplySalesRepresentativeDTO.
  */
-@Mapper(componentModel = "spring", uses = {SupplyZoneMapper.class, SupplyAreaMapper.class, SupplyAreaManagerMapper.class})
+@Mapper(componentModel = "spring", uses = {SupplyZoneMapper.class, SupplyAreaMapper.class, SupplyZoneManagerMapper.class, SupplyAreaManagerMapper.class})
 public interface SupplySalesRepresentativeMapper extends EntityMapper<SupplySalesRepresentativeDTO, SupplySalesRepresentative> {
 
     @Mapping(source = "supplyZone.id", target = "supplyZoneId")
-    @Mapping(source = "supplyZone.zoneName", target = "supplyZoneZoneName")
+    @Mapping(source = "supplyZone.name", target = "supplyZoneName")
     @Mapping(source = "supplyArea.id", target = "supplyAreaId")
-    @Mapping(source = "supplyArea.areaName", target = "supplyAreaAreaName")
+    @Mapping(source = "supplyArea.name", target = "supplyAreaName")
+    @Mapping(source = "supplyZoneManager.id", target = "supplyZoneManagerId")
     @Mapping(source = "supplyAreaManager.id", target = "supplyAreaManagerId")
     SupplySalesRepresentativeDTO toDto(SupplySalesRepresentative supplySalesRepresentative);
 
     @Mapping(source = "supplyZoneId", target = "supplyZone")
     @Mapping(source = "supplyAreaId", target = "supplyArea")
+    @Mapping(source = "supplyZoneManagerId", target = "supplyZoneManager")
     @Mapping(source = "supplyAreaManagerId", target = "supplyAreaManager")
     SupplySalesRepresentative toEntity(SupplySalesRepresentativeDTO supplySalesRepresentativeDTO);
 

@@ -1,25 +1,18 @@
 package org.soptorshi.web.rest;
 
-import org.soptorshi.SoptorshiApp;
-
-import org.soptorshi.domain.SupplyMoneyCollection;
-import org.soptorshi.domain.SupplyZone;
-import org.soptorshi.domain.SupplyArea;
-import org.soptorshi.domain.SupplyAreaManager;
-import org.soptorshi.domain.SupplySalesRepresentative;
-import org.soptorshi.repository.SupplyMoneyCollectionRepository;
-import org.soptorshi.repository.search.SupplyMoneyCollectionSearchRepository;
-import org.soptorshi.service.SupplyMoneyCollectionService;
-import org.soptorshi.service.dto.SupplyMoneyCollectionDTO;
-import org.soptorshi.service.mapper.SupplyMoneyCollectionMapper;
-import org.soptorshi.web.rest.errors.ExceptionTranslator;
-import org.soptorshi.service.dto.SupplyMoneyCollectionCriteria;
-import org.soptorshi.service.SupplyMoneyCollectionQueryService;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.soptorshi.SoptorshiApp;
+import org.soptorshi.domain.*;
+import org.soptorshi.repository.SupplyMoneyCollectionRepository;
+import org.soptorshi.repository.search.SupplyMoneyCollectionSearchRepository;
+import org.soptorshi.service.SupplyMoneyCollectionQueryService;
+import org.soptorshi.service.SupplyMoneyCollectionService;
+import org.soptorshi.service.dto.SupplyMoneyCollectionDTO;
+import org.soptorshi.service.mapper.SupplyMoneyCollectionMapper;
+import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
@@ -39,12 +32,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
+import static org.soptorshi.web.rest.TestUtil.createFormattingConversionService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -144,6 +136,31 @@ public class SupplyMoneyCollectionResourceIntTest {
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
+        // Add required entity
+        SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
+        em.persist(supplyZone);
+        em.flush();
+        supplyMoneyCollection.setSupplyZone(supplyZone);
+        // Add required entity
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyMoneyCollection.setSupplyZoneManager(supplyZoneManager);
+        // Add required entity
+        SupplyArea supplyArea = SupplyAreaResourceIntTest.createEntity(em);
+        em.persist(supplyArea);
+        em.flush();
+        supplyMoneyCollection.setSupplyArea(supplyArea);
+        // Add required entity
+        SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
+        em.persist(supplyAreaManager);
+        em.flush();
+        supplyMoneyCollection.setSupplyAreaManager(supplyAreaManager);
+        // Add required entity
+        SupplyShop supplyShop = SupplyShopResourceIntTest.createEntity(em);
+        em.persist(supplyShop);
+        em.flush();
+        supplyMoneyCollection.setSupplyShop(supplyShop);
         return supplyMoneyCollection;
     }
 
@@ -222,7 +239,7 @@ public class SupplyMoneyCollectionResourceIntTest {
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getSupplyMoneyCollection() throws Exception {
@@ -537,6 +554,25 @@ public class SupplyMoneyCollectionResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSupplyMoneyCollectionsBySupplyZoneManagerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyMoneyCollection.setSupplyZoneManager(supplyZoneManager);
+        supplyMoneyCollectionRepository.saveAndFlush(supplyMoneyCollection);
+        Long supplyZoneManagerId = supplyZoneManager.getId();
+
+        // Get all the supplyMoneyCollectionList where supplyZoneManager equals to supplyZoneManagerId
+        defaultSupplyMoneyCollectionShouldBeFound("supplyZoneManagerId.equals=" + supplyZoneManagerId);
+
+        // Get all the supplyMoneyCollectionList where supplyZoneManager equals to supplyZoneManagerId + 1
+        defaultSupplyMoneyCollectionShouldNotBeFound("supplyZoneManagerId.equals=" + (supplyZoneManagerId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllSupplyMoneyCollectionsBySupplyAreaIsEqualToSomething() throws Exception {
         // Initialize the database
         SupplyArea supplyArea = SupplyAreaResourceIntTest.createEntity(em);
@@ -589,6 +625,44 @@ public class SupplyMoneyCollectionResourceIntTest {
 
         // Get all the supplyMoneyCollectionList where supplySalesRepresentative equals to supplySalesRepresentativeId + 1
         defaultSupplyMoneyCollectionShouldNotBeFound("supplySalesRepresentativeId.equals=" + (supplySalesRepresentativeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyMoneyCollectionsBySupplyShopIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyShop supplyShop = SupplyShopResourceIntTest.createEntity(em);
+        em.persist(supplyShop);
+        em.flush();
+        supplyMoneyCollection.setSupplyShop(supplyShop);
+        supplyMoneyCollectionRepository.saveAndFlush(supplyMoneyCollection);
+        Long supplyShopId = supplyShop.getId();
+
+        // Get all the supplyMoneyCollectionList where supplyShop equals to supplyShopId
+        defaultSupplyMoneyCollectionShouldBeFound("supplyShopId.equals=" + supplyShopId);
+
+        // Get all the supplyMoneyCollectionList where supplyShop equals to supplyShopId + 1
+        defaultSupplyMoneyCollectionShouldNotBeFound("supplyShopId.equals=" + (supplyShopId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyMoneyCollectionsBySupplyOrderIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyOrder supplyOrder = SupplyOrderResourceIntTest.createEntity(em);
+        em.persist(supplyOrder);
+        em.flush();
+        supplyMoneyCollection.setSupplyOrder(supplyOrder);
+        supplyMoneyCollectionRepository.saveAndFlush(supplyMoneyCollection);
+        Long supplyOrderId = supplyOrder.getId();
+
+        // Get all the supplyMoneyCollectionList where supplyOrder equals to supplyOrderId
+        defaultSupplyMoneyCollectionShouldBeFound("supplyOrderId.equals=" + supplyOrderId);
+
+        // Get all the supplyMoneyCollectionList where supplyOrder equals to supplyOrderId + 1
+        defaultSupplyMoneyCollectionShouldNotBeFound("supplyOrderId.equals=" + (supplyOrderId + 1));
     }
 
     /**

@@ -2,8 +2,8 @@ import { Moment } from 'moment';
 
 export interface ISupplyZone {
     id?: number;
-    zoneName?: string;
-    zoneCode?: string;
+    name?: string;
+    code?: string;
     createdBy?: string;
     createdOn?: Moment;
     updatedBy?: string;
@@ -13,8 +13,8 @@ export interface ISupplyZone {
 export class SupplyZone implements ISupplyZone {
     constructor(
         public id?: number,
-        public zoneName?: string,
-        public zoneCode?: string,
+        public name?: string,
+        public code?: string,
         public createdBy?: string,
         public createdOn?: Moment,
         public updatedBy?: string,

@@ -5,10 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.Employee;
-import org.soptorshi.domain.SupplyArea;
-import org.soptorshi.domain.SupplyAreaManager;
-import org.soptorshi.domain.SupplyZone;
+import org.soptorshi.domain.*;
 import org.soptorshi.domain.enumeration.SupplyAreaManagerStatus;
 import org.soptorshi.repository.SupplyAreaManagerRepository;
 import org.soptorshi.repository.search.SupplyAreaManagerSearchRepository;
@@ -138,10 +135,25 @@ public class SupplyAreaManagerResourceIntTest {
             .endDate(DEFAULT_END_DATE)
             .status(DEFAULT_STATUS);
         // Add required entity
+        SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
+        em.persist(supplyZone);
+        em.flush();
+        supplyAreaManager.setSupplyZone(supplyZone);
+        // Add required entity
+        SupplyArea supplyArea = SupplyAreaResourceIntTest.createEntity(em);
+        em.persist(supplyArea);
+        em.flush();
+        supplyAreaManager.setSupplyArea(supplyArea);
+        // Add required entity
         Employee employee = EmployeeResourceIntTest.createEntity(em);
         em.persist(employee);
         em.flush();
         supplyAreaManager.setEmployee(employee);
+        // Add required entity
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyAreaManager.setSupplyZoneManager(supplyZoneManager);
         return supplyAreaManager;
     }
 
@@ -572,6 +584,25 @@ public class SupplyAreaManagerResourceIntTest {
 
         // Get all the supplyAreaManagerList where employee equals to employeeId + 1
         defaultSupplyAreaManagerShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyAreaManagersBySupplyZoneManagerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyAreaManager.setSupplyZoneManager(supplyZoneManager);
+        supplyAreaManagerRepository.saveAndFlush(supplyAreaManager);
+        Long supplyZoneManagerId = supplyZoneManager.getId();
+
+        // Get all the supplyAreaManagerList where supplyZoneManager equals to supplyZoneManagerId
+        defaultSupplyAreaManagerShouldBeFound("supplyZoneManagerId.equals=" + supplyZoneManagerId);
+
+        // Get all the supplyAreaManagerList where supplyZoneManager equals to supplyZoneManagerId + 1
+        defaultSupplyAreaManagerShouldNotBeFound("supplyZoneManagerId.equals=" + (supplyZoneManagerId + 1));
     }
 
     /**

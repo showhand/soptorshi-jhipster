@@ -1,8 +1,8 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgbDateMomentAdapter } from './util/datepicker-adapter';
-import { SoptorshiSharedLibsModule, SoptorshiSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective } from './';
+import { HasAnyAuthorityDirective, JhiLoginModalComponent, SoptorshiSharedCommonModule, SoptorshiSharedLibsModule } from './';
 import {
     PurchaseOrderVoucherRelationComponent,
     PurchaseOrderVoucherRelationDeleteDialogComponent,
@@ -20,23 +20,15 @@ import {
 import { RouterModule } from '@angular/router';
 
 import {
-    // @ts-ignore
     PurchaseOrderComponent,
-    // @ts-ignore
     PurchaseOrderDeleteDialogComponent,
-    // @ts-ignore
     PurchaseOrderDeletePopupComponent,
-    // @ts-ignore
     PurchaseOrderDetailComponent,
-    // @ts-ignore
     PurchaseOrderUpdateComponent
 } from 'app/entities/purchase-order';
 import {
-    // @ts-ignore
     PurchaseOrderExtendedComponent,
-    // @ts-ignore
     PurchaseOrderExtendedDetailComponent,
-    // @ts-ignore
     PurchaseOrderExtendedUpdateComponent
 } from 'app/entities/purchase-order-extended';
 // @ts-ignore
@@ -58,6 +50,9 @@ import { QuotationForRequisitionComponent } from 'app/entities/requisition-exten
 import { RequisitionMessagesDirectiveComponent } from 'app/entities/requisition-extended/requisition-messages-directive.component';
 import { CommercialInfoDirComponent } from 'app/entities/requisition-extended/commercial-info-dir/commercial-info-dir.component';
 import { RequisitionInfoCommercialDirComponent } from 'app/entities/requisition-extended/requisition-info-commercial-dir/requisition-info-commercial-dir.component';
+import { ScmZoneManagerFilterPipe } from 'app/shared/util/scm-zone-manager-filter.pipe';
+import { ScmAreaManagerFilterPipe } from 'app/shared/util/scm-area-manager-filter.pipe';
+import { ScmOrderDetailsFilterPipe } from 'app/shared/util/scm-order-details-filter.pipe';
 
 @NgModule({
     imports: [SoptorshiSharedLibsModule, SoptorshiSharedCommonModule, RouterModule],
@@ -96,7 +91,10 @@ import { RequisitionInfoCommercialDirComponent } from 'app/entities/requisition-
         QuotationForRequisitionComponent,
         RequisitionMessagesDirectiveComponent,
         CommercialInfoDirComponent,
-        RequisitionInfoCommercialDirComponent
+        RequisitionInfoCommercialDirComponent,
+        ScmZoneManagerFilterPipe,
+        ScmAreaManagerFilterPipe,
+        ScmOrderDetailsFilterPipe
     ],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
@@ -134,7 +132,10 @@ import { RequisitionInfoCommercialDirComponent } from 'app/entities/requisition-
         QuotationForRequisitionComponent,
         RequisitionMessagesDirectiveComponent,
         CommercialInfoDirComponent,
-        RequisitionInfoCommercialDirComponent
+        RequisitionInfoCommercialDirComponent,
+        ScmZoneManagerFilterPipe,
+        ScmAreaManagerFilterPipe,
+        ScmOrderDetailsFilterPipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -2,10 +2,10 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -19,7 +19,7 @@ import java.util.Objects;
 public class SupplyMoneyCollection implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,21 +45,38 @@ public class SupplyMoneyCollection implements Serializable {
     @Column(name = "updated_on")
     private Instant updatedOn;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyMoneyCollections")
     private SupplyZone supplyZone;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyMoneyCollections")
+    private SupplyZoneManager supplyZoneManager;
+
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyMoneyCollections")
     private SupplyArea supplyArea;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyMoneyCollections")
     private SupplyAreaManager supplyAreaManager;
 
     @ManyToOne
     @JsonIgnoreProperties("supplyMoneyCollections")
     private SupplySalesRepresentative supplySalesRepresentative;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyMoneyCollections")
+    private SupplyShop supplyShop;
+
+    @ManyToOne
+    @JsonIgnoreProperties("supplyMoneyCollections")
+    private SupplyOrder supplyOrder;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -174,6 +191,19 @@ public class SupplyMoneyCollection implements Serializable {
         this.supplyZone = supplyZone;
     }
 
+    public SupplyZoneManager getSupplyZoneManager() {
+        return supplyZoneManager;
+    }
+
+    public SupplyMoneyCollection supplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
+        return this;
+    }
+
+    public void setSupplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
+    }
+
     public SupplyArea getSupplyArea() {
         return supplyArea;
     }
@@ -211,6 +241,32 @@ public class SupplyMoneyCollection implements Serializable {
 
     public void setSupplySalesRepresentative(SupplySalesRepresentative supplySalesRepresentative) {
         this.supplySalesRepresentative = supplySalesRepresentative;
+    }
+
+    public SupplyShop getSupplyShop() {
+        return supplyShop;
+    }
+
+    public SupplyMoneyCollection supplyShop(SupplyShop supplyShop) {
+        this.supplyShop = supplyShop;
+        return this;
+    }
+
+    public void setSupplyShop(SupplyShop supplyShop) {
+        this.supplyShop = supplyShop;
+    }
+
+    public SupplyOrder getSupplyOrder() {
+        return supplyOrder;
+    }
+
+    public SupplyMoneyCollection supplyOrder(SupplyOrder supplyOrder) {
+        this.supplyOrder = supplyOrder;
+        return this;
+    }
+
+    public void setSupplyOrder(SupplyOrder supplyOrder) {
+        this.supplyOrder = supplyOrder;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

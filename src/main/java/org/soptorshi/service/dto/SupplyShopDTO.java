@@ -13,7 +13,13 @@ public class SupplyShopDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private String shopName;
+    private String name;
+
+    private String contact;
+
+    private String email;
+
+    private String address;
 
     private String additionalInformation;
 
@@ -28,17 +34,19 @@ public class SupplyShopDTO implements Serializable {
 
     private Long supplyZoneId;
 
-    private String supplyZoneZoneName;
+    private String supplyZoneName;
 
     private Long supplyAreaId;
 
-    private String supplyAreaAreaName;
+    private String supplyAreaName;
+
+    private Long supplyZoneManagerId;
+
+    private Long supplyAreaManagerId;
 
     private Long supplySalesRepresentativeId;
 
-    private String supplySalesRepresentativeSalesRepresentativeName;
-
-    private Long supplyAreaManagerId;
+    private String supplySalesRepresentativeName;
 
     public Long getId() {
         return id;
@@ -48,12 +56,36 @@ public class SupplyShopDTO implements Serializable {
         this.id = id;
     }
 
-    public String getShopName() {
-        return shopName;
+    public String getName() {
+        return name;
     }
 
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getAdditionalInformation() {
@@ -104,12 +136,12 @@ public class SupplyShopDTO implements Serializable {
         this.supplyZoneId = supplyZoneId;
     }
 
-    public String getSupplyZoneZoneName() {
-        return supplyZoneZoneName;
+    public String getSupplyZoneName() {
+        return supplyZoneName;
     }
 
-    public void setSupplyZoneZoneName(String supplyZoneZoneName) {
-        this.supplyZoneZoneName = supplyZoneZoneName;
+    public void setSupplyZoneName(String supplyZoneName) {
+        this.supplyZoneName = supplyZoneName;
     }
 
     public Long getSupplyAreaId() {
@@ -120,12 +152,28 @@ public class SupplyShopDTO implements Serializable {
         this.supplyAreaId = supplyAreaId;
     }
 
-    public String getSupplyAreaAreaName() {
-        return supplyAreaAreaName;
+    public String getSupplyAreaName() {
+        return supplyAreaName;
     }
 
-    public void setSupplyAreaAreaName(String supplyAreaAreaName) {
-        this.supplyAreaAreaName = supplyAreaAreaName;
+    public void setSupplyAreaName(String supplyAreaName) {
+        this.supplyAreaName = supplyAreaName;
+    }
+
+    public Long getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(Long supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
+    }
+
+    public Long getSupplyAreaManagerId() {
+        return supplyAreaManagerId;
+    }
+
+    public void setSupplyAreaManagerId(Long supplyAreaManagerId) {
+        this.supplyAreaManagerId = supplyAreaManagerId;
     }
 
     public Long getSupplySalesRepresentativeId() {
@@ -136,20 +184,12 @@ public class SupplyShopDTO implements Serializable {
         this.supplySalesRepresentativeId = supplySalesRepresentativeId;
     }
 
-    public String getSupplySalesRepresentativeSalesRepresentativeName() {
-        return supplySalesRepresentativeSalesRepresentativeName;
+    public String getSupplySalesRepresentativeName() {
+        return supplySalesRepresentativeName;
     }
 
-    public void setSupplySalesRepresentativeSalesRepresentativeName(String supplySalesRepresentativeSalesRepresentativeName) {
-        this.supplySalesRepresentativeSalesRepresentativeName = supplySalesRepresentativeSalesRepresentativeName;
-    }
-
-    public Long getSupplyAreaManagerId() {
-        return supplyAreaManagerId;
-    }
-
-    public void setSupplyAreaManagerId(Long supplyAreaManagerId) {
-        this.supplyAreaManagerId = supplyAreaManagerId;
+    public void setSupplySalesRepresentativeName(String supplySalesRepresentativeName) {
+        this.supplySalesRepresentativeName = supplySalesRepresentativeName;
     }
 
     @Override
@@ -177,19 +217,23 @@ public class SupplyShopDTO implements Serializable {
     public String toString() {
         return "SupplyShopDTO{" +
             "id=" + getId() +
-            ", shopName='" + getShopName() + "'" +
+            ", name='" + getName() + "'" +
+            ", contact='" + getContact() + "'" +
+            ", email='" + getEmail() + "'" +
+            ", address='" + getAddress() + "'" +
             ", additionalInformation='" + getAdditionalInformation() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
-            ", supplyZone='" + getSupplyZoneZoneName() + "'" +
+            ", supplyZone='" + getSupplyZoneName() + "'" +
             ", supplyArea=" + getSupplyAreaId() +
-            ", supplyArea='" + getSupplyAreaAreaName() + "'" +
-            ", supplySalesRepresentative=" + getSupplySalesRepresentativeId() +
-            ", supplySalesRepresentative='" + getSupplySalesRepresentativeSalesRepresentativeName() + "'" +
+            ", supplyArea='" + getSupplyAreaName() + "'" +
+            ", supplyZoneManager=" + getSupplyZoneManagerId() +
             ", supplyAreaManager=" + getSupplyAreaManagerId() +
+            ", supplySalesRepresentative=" + getSupplySalesRepresentativeId() +
+            ", supplySalesRepresentative='" + getSupplySalesRepresentativeName() + "'" +
             "}";
     }
 }

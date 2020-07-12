@@ -1,0 +1,83 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="supplyZoneWiseAccumulation">
+            <h2><span>Supply Zone Wise Accumulation</span> {{supplyZoneWiseAccumulation.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Zone Wise Accumulation Ref No</span></dt>
+                <dd>
+                    <span>{{supplyZoneWiseAccumulation.zoneWiseAccumulationRefNo}}</span>
+                </dd>
+                <dt><span>Quantity</span></dt>
+                <dd>
+                    <span>{{supplyZoneWiseAccumulation.quantity}}</span>
+                </dd>
+                <dt><span>Price</span></dt>
+                <dd>
+                    <span>{{supplyZoneWiseAccumulation.price}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{supplyZoneWiseAccumulation.status}}</span>
+                </dd>
+                <dt><span>Remarks</span></dt>
+                <dd>
+                    <span>{{supplyZoneWiseAccumulation.remarks}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{supplyZoneWiseAccumulation.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{supplyZoneWiseAccumulation.createdOn}}</span>
+                </dd>
+                <dt><span>Updated By</span></dt>
+                <dd>
+                    <span>{{supplyZoneWiseAccumulation.updatedBy}}</span>
+                </dd>
+                <dt><span>Updated On</span></dt>
+                <dd>
+                    <span>{{supplyZoneWiseAccumulation.updatedOn}}</span>
+                </dd>
+                <dt><span>Supply Zone</span></dt>
+                <dd>
+                    <div *ngIf="supplyZoneWiseAccumulation.supplyZoneId">
+                        <a [routerLink]="['/supply-zone', supplyZoneWiseAccumulation.supplyZoneId, 'view']">{{supplyZoneWiseAccumulation.supplyZoneName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Supply Zone Manager</span></dt>
+                <dd>
+                    <div *ngIf="supplyZoneWiseAccumulation.supplyZoneManagerId">
+                        <a [routerLink]="['/supply-zone-manager', supplyZoneWiseAccumulation.supplyZoneManagerId, 'view']">{{supplyZoneWiseAccumulation.supplyZoneManagerId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Product Category</span></dt>
+                <dd>
+                    <div *ngIf="supplyZoneWiseAccumulation.productCategoryId">
+                        <a [routerLink]="['/product-category', supplyZoneWiseAccumulation.productCategoryId, 'view']">{{supplyZoneWiseAccumulation.productCategoryName}}</a>
+                    </div>
+                </dd>
+                <dt><span>Product</span></dt>
+                <dd>
+                    <div *ngIf="supplyZoneWiseAccumulation.productId">
+                        <a [routerLink]="['/product', supplyZoneWiseAccumulation.productId, 'view']">{{supplyZoneWiseAccumulation.productName}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/supply-zone-wise-accumulation', supplyZoneWiseAccumulation.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

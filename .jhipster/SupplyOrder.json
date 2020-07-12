@@ -29,15 +29,11 @@
             "fieldType": "Instant"
         },
         {
-            "fieldName": "offerAmount",
-            "fieldType": "BigDecimal"
-        },
-        {
             "fieldName": "deliveryDate",
             "fieldType": "LocalDate"
         },
         {
-            "fieldName": "supplyOrderStatus",
+            "fieldName": "status",
             "fieldType": "SupplyOrderStatus",
             "fieldValues": "ORDER_RECEIVED,PROCESSING_ORDER,ORDER_DELIVERED_AND_WAITING_FOR_MONEY_COLLECTION,ORDER_CLOSE",
             "fieldValidateRules": [
@@ -45,7 +41,11 @@
             ]
         },
         {
-            "fieldName": "accumulationReferenceNo",
+            "fieldName": "areaWiseAccumulationRefNo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "remarks",
             "fieldType": "String"
         }
     ],
@@ -54,22 +54,31 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyZone",
             "otherEntityRelationshipName": "supplyOrder",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZoneManager",
+            "otherEntityRelationshipName": "supplyOrder",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyZoneManager",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyArea",
             "otherEntityRelationshipName": "supplyOrder",
             "relationshipName": "supplyArea",
-            "otherEntityField": "areaName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplySalesRepresentative",
             "otherEntityRelationshipName": "supplyOrder",
             "relationshipName": "supplySalesRepresentative",
-            "otherEntityField": "salesRepresentativeName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
@@ -85,7 +94,7 @@
             "otherEntityRelationshipName": "supplyOrder",
             "relationshipValidateRules": "required",
             "relationshipName": "supplyShop",
-            "otherEntityField": "shopName"
+            "otherEntityField": "name"
         }
     ],
     "changelogDate": "20191106144404",
@@ -96,6 +105,5 @@
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*",
-    "searchEngine": "elasticsearch"
+    "applications": "*"
 }

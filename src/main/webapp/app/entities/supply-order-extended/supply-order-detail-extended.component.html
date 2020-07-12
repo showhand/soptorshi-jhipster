@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="supplyOrder">
-            <h2><span>Supply Order</span> {{supplyOrder.id}}</h2>
+            <h2><span>Order</span> {{supplyOrder.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -29,46 +29,42 @@
                 <dd>
                     <span>{{supplyOrder.updatedOn}}</span>
                 </dd>
-                <dt><span>Offer Amount</span></dt>
-                <dd>
-                    <span>{{supplyOrder.offerAmount}}</span>
-                </dd>
                 <dt><span>Delivery Date</span></dt>
                 <dd>
                     <span>{{supplyOrder.deliveryDate}}</span>
                 </dd>
-                <dt><span>Supply Order Status</span></dt>
+                <dt><span>Order Status</span></dt>
                 <dd>
-                    <span>{{supplyOrder.supplyOrderStatus}}</span>
+                    <span>{{supplyOrder.status}}</span>
                 </dd>
-                <dt><span>Supply Zone</span></dt>
+                <dt><span>Zone</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplyZoneId">
-                        <a [routerLink]="['/supply-zone', supplyOrder.supplyZoneId, 'view']">{{supplyOrder.supplyZoneZoneName}}</a>
+                        <a [routerLink]="['/supply-zone', supplyOrder.supplyZoneId, 'view']">{{supplyOrder.supplyZoneName}}</a>
                     </div>
                 </dd>
-                <dt><span>Supply Area</span></dt>
+                <dt><span>Area</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplyAreaId">
-                        <a [routerLink]="['/supply-area', supplyOrder.supplyAreaId, 'view']">{{supplyOrder.supplyAreaAreaName}}</a>
+                        <a [routerLink]="['/supply-area', supplyOrder.supplyAreaId, 'view']">{{supplyOrder.supplyAreaName}}</a>
                     </div>
                 </dd>
-                <dt><span>Supply Area Manager</span></dt>
+                <dt><span>Area Manager</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplyAreaManagerId">
                         <a [routerLink]="['/supply-area-manager', supplyOrder.supplyAreaManagerId, 'view']">{{supplyOrder.supplyAreaManagerId}}</a>
                     </div>
                 </dd>
-                <dt><span>Supply Sales Representative</span></dt>
+                <dt><span>Sales Representative</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplySalesRepresentativeId">
-                        <a [routerLink]="['/supply-sales-representative', supplyOrder.supplySalesRepresentativeId, 'view']">{{supplyOrder.supplySalesRepresentativeSalesRepresentativeName}}</a>
+                        <a [routerLink]="['/supply-sales-representative', supplyOrder.supplySalesRepresentativeId, 'view']">{{supplyOrder.supplySalesRepresentativeName}}</a>
                     </div>
                 </dd>
                 <dt><span>Supply Shop</span></dt>
                 <dd>
                     <div *ngIf="supplyOrder.supplyShopId">
-                        <a [routerLink]="['/supply-shop', supplyOrder.supplyShopId, 'view']">{{supplyOrder.supplyShopShopName}}</a>
+                        <a [routerLink]="['/supply-shop', supplyOrder.supplyShopId, 'view']">{{supplyOrder.supplyShopName}}</a>
                     </div>
                 </dd>
             </dl>
@@ -78,12 +74,6 @@
                     class="btn btn-info">
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
-
-            <!--<button type="button"
-                    [routerLink]="['/supply-order', supplyOrder.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
-            </button>-->
         </div>
     </div>
 </div>

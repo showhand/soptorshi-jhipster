@@ -12,10 +12,12 @@ import { ISupplyZone } from 'app/shared/model/supply-zone.model';
 import { SupplyZoneService } from 'app/entities/supply-zone';
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
 import { SupplyAreaService } from 'app/entities/supply-area';
-import { ISupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
-import { SupplySalesRepresentativeService } from 'app/entities/supply-sales-representative';
+import { ISupplyZoneManager } from 'app/shared/model/supply-zone-manager.model';
+import { SupplyZoneManagerService } from 'app/entities/supply-zone-manager';
 import { ISupplyAreaManager } from 'app/shared/model/supply-area-manager.model';
 import { SupplyAreaManagerService } from 'app/entities/supply-area-manager';
+import { ISupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
+import { SupplySalesRepresentativeService } from 'app/entities/supply-sales-representative';
 
 @Component({
     selector: 'jhi-supply-shop-update',
@@ -29,9 +31,11 @@ export class SupplyShopUpdateComponent implements OnInit {
 
     supplyareas: ISupplyArea[];
 
-    supplysalesrepresentatives: ISupplySalesRepresentative[];
+    supplyzonemanagers: ISupplyZoneManager[];
 
     supplyareamanagers: ISupplyAreaManager[];
+
+    supplysalesrepresentatives: ISupplySalesRepresentative[];
     createdOn: string;
     updatedOn: string;
 
@@ -40,8 +44,9 @@ export class SupplyShopUpdateComponent implements OnInit {
         protected supplyShopService: SupplyShopService,
         protected supplyZoneService: SupplyZoneService,
         protected supplyAreaService: SupplyAreaService,
-        protected supplySalesRepresentativeService: SupplySalesRepresentativeService,
+        protected supplyZoneManagerService: SupplyZoneManagerService,
         protected supplyAreaManagerService: SupplyAreaManagerService,
+        protected supplySalesRepresentativeService: SupplySalesRepresentativeService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -66,14 +71,14 @@ export class SupplyShopUpdateComponent implements OnInit {
                 map((response: HttpResponse<ISupplyArea[]>) => response.body)
             )
             .subscribe((res: ISupplyArea[]) => (this.supplyareas = res), (res: HttpErrorResponse) => this.onError(res.message));
-        this.supplySalesRepresentativeService
+        this.supplyZoneManagerService
             .query()
             .pipe(
-                filter((mayBeOk: HttpResponse<ISupplySalesRepresentative[]>) => mayBeOk.ok),
-                map((response: HttpResponse<ISupplySalesRepresentative[]>) => response.body)
+                filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
             )
             .subscribe(
-                (res: ISupplySalesRepresentative[]) => (this.supplysalesrepresentatives = res),
+                (res: ISupplyZoneManager[]) => (this.supplyzonemanagers = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
         this.supplyAreaManagerService
@@ -84,6 +89,16 @@ export class SupplyShopUpdateComponent implements OnInit {
             )
             .subscribe(
                 (res: ISupplyAreaManager[]) => (this.supplyareamanagers = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        this.supplySalesRepresentativeService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplySalesRepresentative[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplySalesRepresentative[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplySalesRepresentative[]) => (this.supplysalesrepresentatives = res),
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
@@ -128,11 +143,15 @@ export class SupplyShopUpdateComponent implements OnInit {
         return item.id;
     }
 
-    trackSupplySalesRepresentativeById(index: number, item: ISupplySalesRepresentative) {
+    trackSupplyZoneManagerById(index: number, item: ISupplyZoneManager) {
         return item.id;
     }
 
     trackSupplyAreaManagerById(index: number, item: ISupplyAreaManager) {
+        return item.id;
+    }
+
+    trackSupplySalesRepresentativeById(index: number, item: ISupplySalesRepresentative) {
         return item.id;
     }
 }

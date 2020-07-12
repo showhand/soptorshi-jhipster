@@ -89,8 +89,14 @@ public class SupplySalesRepresentativeQueryService extends QueryService<SupplySa
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), SupplySalesRepresentative_.id));
             }
-            if (criteria.getSalesRepresentativeName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getSalesRepresentativeName(), SupplySalesRepresentative_.salesRepresentativeName));
+            if (criteria.getName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getName(), SupplySalesRepresentative_.name));
+            }
+            if (criteria.getContact() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getContact(), SupplySalesRepresentative_.contact));
+            }
+            if (criteria.getEmail() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getEmail(), SupplySalesRepresentative_.email));
             }
             if (criteria.getAdditionalInformation() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getAdditionalInformation(), SupplySalesRepresentative_.additionalInformation));
@@ -107,6 +113,9 @@ public class SupplySalesRepresentativeQueryService extends QueryService<SupplySa
             if (criteria.getUpdatedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), SupplySalesRepresentative_.updatedOn));
             }
+            if (criteria.getStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getStatus(), SupplySalesRepresentative_.status));
+            }
             if (criteria.getSupplyZoneId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyZoneId(),
                     root -> root.join(SupplySalesRepresentative_.supplyZone, JoinType.LEFT).get(SupplyZone_.id)));
@@ -114,6 +123,10 @@ public class SupplySalesRepresentativeQueryService extends QueryService<SupplySa
             if (criteria.getSupplyAreaId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyAreaId(),
                     root -> root.join(SupplySalesRepresentative_.supplyArea, JoinType.LEFT).get(SupplyArea_.id)));
+            }
+            if (criteria.getSupplyZoneManagerId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyZoneManagerId(),
+                    root -> root.join(SupplySalesRepresentative_.supplyZoneManager, JoinType.LEFT).get(SupplyZoneManager_.id)));
             }
             if (criteria.getSupplyAreaManagerId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyAreaManagerId(),

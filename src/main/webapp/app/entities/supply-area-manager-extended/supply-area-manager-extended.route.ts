@@ -20,7 +20,7 @@ export const supplyAreaManagerExtendedRoute: Routes = [
         path: '',
         component: SupplyAreaManagerExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER'],
             pageTitle: 'SupplyAreaManagers'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const supplyAreaManagerExtendedRoute: Routes = [
             supplyAreaManager: SupplyAreaManagerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER'],
             pageTitle: 'SupplyAreaManagers'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const supplyAreaManagerExtendedRoute: Routes = [
             supplyAreaManager: SupplyAreaManagerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER'],
             pageTitle: 'SupplyAreaManagers'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const supplyAreaManagerExtendedRoute: Routes = [
             supplyAreaManager: SupplyAreaManagerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER'],
             pageTitle: 'SupplyAreaManagers'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const supplyAreaManagerPopupExtendedRoute: Routes = [
             supplyAreaManager: SupplyAreaManagerResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyAreaManagers'
         },
         canActivate: [UserRouteAccessService],

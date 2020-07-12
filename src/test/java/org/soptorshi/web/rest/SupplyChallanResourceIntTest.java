@@ -5,8 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.soptorshi.SoptorshiApp;
-import org.soptorshi.domain.SupplyChallan;
-import org.soptorshi.domain.SupplyOrder;
+import org.soptorshi.domain.*;
 import org.soptorshi.repository.SupplyChallanRepository;
 import org.soptorshi.repository.search.SupplyChallanSearchRepository;
 import org.soptorshi.service.SupplyChallanQueryService;
@@ -139,6 +138,36 @@ public class SupplyChallanResourceIntTest {
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
+        // Add required entity
+        SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
+        em.persist(supplyZone);
+        em.flush();
+        supplyChallan.setSupplyZone(supplyZone);
+        // Add required entity
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyChallan.setSupplyZoneManager(supplyZoneManager);
+        // Add required entity
+        SupplyArea supplyArea = SupplyAreaResourceIntTest.createEntity(em);
+        em.persist(supplyArea);
+        em.flush();
+        supplyChallan.setSupplyArea(supplyArea);
+        // Add required entity
+        SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
+        em.persist(supplyAreaManager);
+        em.flush();
+        supplyChallan.setSupplyAreaManager(supplyAreaManager);
+        // Add required entity
+        SupplySalesRepresentative supplySalesRepresentative = SupplySalesRepresentativeResourceIntTest.createEntity(em);
+        em.persist(supplySalesRepresentative);
+        em.flush();
+        supplyChallan.setSupplySalesRepresentative(supplySalesRepresentative);
+        // Add required entity
+        SupplyShop supplyShop = SupplyShopResourceIntTest.createEntity(em);
+        em.persist(supplyShop);
+        em.flush();
+        supplyChallan.setSupplyShop(supplyShop);
         return supplyChallan;
     }
 
@@ -556,6 +585,120 @@ public class SupplyChallanResourceIntTest {
         // Get all the supplyChallanList where updatedOn is null
         defaultSupplyChallanShouldNotBeFound("updatedOn.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllSupplyChallansBySupplyZoneIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
+        em.persist(supplyZone);
+        em.flush();
+        supplyChallan.setSupplyZone(supplyZone);
+        supplyChallanRepository.saveAndFlush(supplyChallan);
+        Long supplyZoneId = supplyZone.getId();
+
+        // Get all the supplyChallanList where supplyZone equals to supplyZoneId
+        defaultSupplyChallanShouldBeFound("supplyZoneId.equals=" + supplyZoneId);
+
+        // Get all the supplyChallanList where supplyZone equals to supplyZoneId + 1
+        defaultSupplyChallanShouldNotBeFound("supplyZoneId.equals=" + (supplyZoneId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyChallansBySupplyZoneManagerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyChallan.setSupplyZoneManager(supplyZoneManager);
+        supplyChallanRepository.saveAndFlush(supplyChallan);
+        Long supplyZoneManagerId = supplyZoneManager.getId();
+
+        // Get all the supplyChallanList where supplyZoneManager equals to supplyZoneManagerId
+        defaultSupplyChallanShouldBeFound("supplyZoneManagerId.equals=" + supplyZoneManagerId);
+
+        // Get all the supplyChallanList where supplyZoneManager equals to supplyZoneManagerId + 1
+        defaultSupplyChallanShouldNotBeFound("supplyZoneManagerId.equals=" + (supplyZoneManagerId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyChallansBySupplyAreaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyArea supplyArea = SupplyAreaResourceIntTest.createEntity(em);
+        em.persist(supplyArea);
+        em.flush();
+        supplyChallan.setSupplyArea(supplyArea);
+        supplyChallanRepository.saveAndFlush(supplyChallan);
+        Long supplyAreaId = supplyArea.getId();
+
+        // Get all the supplyChallanList where supplyArea equals to supplyAreaId
+        defaultSupplyChallanShouldBeFound("supplyAreaId.equals=" + supplyAreaId);
+
+        // Get all the supplyChallanList where supplyArea equals to supplyAreaId + 1
+        defaultSupplyChallanShouldNotBeFound("supplyAreaId.equals=" + (supplyAreaId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyChallansBySupplyAreaManagerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
+        em.persist(supplyAreaManager);
+        em.flush();
+        supplyChallan.setSupplyAreaManager(supplyAreaManager);
+        supplyChallanRepository.saveAndFlush(supplyChallan);
+        Long supplyAreaManagerId = supplyAreaManager.getId();
+
+        // Get all the supplyChallanList where supplyAreaManager equals to supplyAreaManagerId
+        defaultSupplyChallanShouldBeFound("supplyAreaManagerId.equals=" + supplyAreaManagerId);
+
+        // Get all the supplyChallanList where supplyAreaManager equals to supplyAreaManagerId + 1
+        defaultSupplyChallanShouldNotBeFound("supplyAreaManagerId.equals=" + (supplyAreaManagerId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyChallansBySupplySalesRepresentativeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplySalesRepresentative supplySalesRepresentative = SupplySalesRepresentativeResourceIntTest.createEntity(em);
+        em.persist(supplySalesRepresentative);
+        em.flush();
+        supplyChallan.setSupplySalesRepresentative(supplySalesRepresentative);
+        supplyChallanRepository.saveAndFlush(supplyChallan);
+        Long supplySalesRepresentativeId = supplySalesRepresentative.getId();
+
+        // Get all the supplyChallanList where supplySalesRepresentative equals to supplySalesRepresentativeId
+        defaultSupplyChallanShouldBeFound("supplySalesRepresentativeId.equals=" + supplySalesRepresentativeId);
+
+        // Get all the supplyChallanList where supplySalesRepresentative equals to supplySalesRepresentativeId + 1
+        defaultSupplyChallanShouldNotBeFound("supplySalesRepresentativeId.equals=" + (supplySalesRepresentativeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyChallansBySupplyShopIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyShop supplyShop = SupplyShopResourceIntTest.createEntity(em);
+        em.persist(supplyShop);
+        em.flush();
+        supplyChallan.setSupplyShop(supplyShop);
+        supplyChallanRepository.saveAndFlush(supplyChallan);
+        Long supplyShopId = supplyShop.getId();
+
+        // Get all the supplyChallanList where supplyShop equals to supplyShopId
+        defaultSupplyChallanShouldBeFound("supplyShopId.equals=" + supplyShopId);
+
+        // Get all the supplyChallanList where supplyShop equals to supplyShopId + 1
+        defaultSupplyChallanShouldNotBeFound("supplyShopId.equals=" + (supplyShopId + 1));
+    }
+
 
     @Test
     @Transactional

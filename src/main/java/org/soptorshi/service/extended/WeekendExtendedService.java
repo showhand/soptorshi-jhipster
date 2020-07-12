@@ -57,7 +57,7 @@ public class WeekendExtendedService extends WeekendService {
         log.debug("Request to save Weekend : {}", weekendDTO);
 
         String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
-            SecurityUtils.getCurrentUserLogin().toString() : "";
+            SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
         List<Weekend> weekends = weekendExtendedRepository.findAll();

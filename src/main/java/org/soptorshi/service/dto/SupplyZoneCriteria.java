@@ -1,15 +1,12 @@
 package org.soptorshi.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.InstantFilter;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the SupplyZone entity. This class is used in SupplyZoneResource to
@@ -25,9 +22,9 @@ public class SupplyZoneCriteria implements Serializable {
 
     private LongFilter id;
 
-    private StringFilter zoneName;
+    private StringFilter name;
 
-    private StringFilter zoneCode;
+    private StringFilter code;
 
     private StringFilter createdBy;
 
@@ -45,20 +42,20 @@ public class SupplyZoneCriteria implements Serializable {
         this.id = id;
     }
 
-    public StringFilter getZoneName() {
-        return zoneName;
+    public StringFilter getName() {
+        return name;
     }
 
-    public void setZoneName(StringFilter zoneName) {
-        this.zoneName = zoneName;
+    public void setName(StringFilter name) {
+        this.name = name;
     }
 
-    public StringFilter getZoneCode() {
-        return zoneCode;
+    public StringFilter getCode() {
+        return code;
     }
 
-    public void setZoneCode(StringFilter zoneCode) {
-        this.zoneCode = zoneCode;
+    public void setCode(StringFilter code) {
+        this.code = code;
     }
 
     public StringFilter getCreatedBy() {
@@ -105,8 +102,8 @@ public class SupplyZoneCriteria implements Serializable {
         final SupplyZoneCriteria that = (SupplyZoneCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(zoneName, that.zoneName) &&
-            Objects.equals(zoneCode, that.zoneCode) &&
+            Objects.equals(name, that.name) &&
+            Objects.equals(code, that.code) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
@@ -117,8 +114,8 @@ public class SupplyZoneCriteria implements Serializable {
     public int hashCode() {
         return Objects.hash(
         id,
-        zoneName,
-        zoneCode,
+        name,
+        code,
         createdBy,
         createdOn,
         updatedBy,
@@ -130,8 +127,8 @@ public class SupplyZoneCriteria implements Serializable {
     public String toString() {
         return "SupplyZoneCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (zoneName != null ? "zoneName=" + zoneName + ", " : "") +
-                (zoneCode != null ? "zoneCode=" + zoneCode + ", " : "") +
+                (name != null ? "name=" + name + ", " : "") +
+                (code != null ? "code=" + code + ", " : "") +
                 (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +

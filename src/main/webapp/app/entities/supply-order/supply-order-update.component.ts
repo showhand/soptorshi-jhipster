@@ -10,6 +10,8 @@ import { ISupplyOrder } from 'app/shared/model/supply-order.model';
 import { SupplyOrderService } from './supply-order.service';
 import { ISupplyZone } from 'app/shared/model/supply-zone.model';
 import { SupplyZoneService } from 'app/entities/supply-zone';
+import { ISupplyZoneManager } from 'app/shared/model/supply-zone-manager.model';
+import { SupplyZoneManagerService } from 'app/entities/supply-zone-manager';
 import { ISupplyArea } from 'app/shared/model/supply-area.model';
 import { SupplyAreaService } from 'app/entities/supply-area';
 import { ISupplySalesRepresentative } from 'app/shared/model/supply-sales-representative.model';
@@ -29,6 +31,8 @@ export class SupplyOrderUpdateComponent implements OnInit {
 
     supplyzones: ISupplyZone[];
 
+    supplyzonemanagers: ISupplyZoneManager[];
+
     supplyareas: ISupplyArea[];
 
     supplysalesrepresentatives: ISupplySalesRepresentative[];
@@ -45,6 +49,7 @@ export class SupplyOrderUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected supplyOrderService: SupplyOrderService,
         protected supplyZoneService: SupplyZoneService,
+        protected supplyZoneManagerService: SupplyZoneManagerService,
         protected supplyAreaService: SupplyAreaService,
         protected supplySalesRepresentativeService: SupplySalesRepresentativeService,
         protected supplyAreaManagerService: SupplyAreaManagerService,
@@ -66,6 +71,16 @@ export class SupplyOrderUpdateComponent implements OnInit {
                 map((response: HttpResponse<ISupplyZone[]>) => response.body)
             )
             .subscribe((res: ISupplyZone[]) => (this.supplyzones = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.supplyZoneManagerService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplyZoneManager[]) => (this.supplyzonemanagers = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
         this.supplyAreaService
             .query()
             .pipe(
@@ -135,6 +150,10 @@ export class SupplyOrderUpdateComponent implements OnInit {
     }
 
     trackSupplyZoneById(index: number, item: ISupplyZone) {
+        return item.id;
+    }
+
+    trackSupplyZoneManagerById(index: number, item: ISupplyZoneManager) {
         return item.id;
     }
 

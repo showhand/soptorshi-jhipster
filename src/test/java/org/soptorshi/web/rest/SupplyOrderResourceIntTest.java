@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -70,17 +69,17 @@ public class SupplyOrderResourceIntTest {
     private static final Instant DEFAULT_UPDATED_ON = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_UPDATED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final BigDecimal DEFAULT_OFFER_AMOUNT = new BigDecimal(1);
-    private static final BigDecimal UPDATED_OFFER_AMOUNT = new BigDecimal(2);
-
     private static final LocalDate DEFAULT_DELIVERY_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DELIVERY_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final SupplyOrderStatus DEFAULT_SUPPLY_ORDER_STATUS = SupplyOrderStatus.ORDER_RECEIVED;
-    private static final SupplyOrderStatus UPDATED_SUPPLY_ORDER_STATUS = SupplyOrderStatus.PROCESSING_ORDER;
+    private static final SupplyOrderStatus DEFAULT_STATUS = SupplyOrderStatus.ORDER_RECEIVED;
+    private static final SupplyOrderStatus UPDATED_STATUS = SupplyOrderStatus.PROCESSING_ORDER;
 
-    private static final String DEFAULT_ACCUMULATION_REFERENCE_NO = "AAAAAAAAAA";
-    private static final String UPDATED_ACCUMULATION_REFERENCE_NO = "BBBBBBBBBB";
+    private static final String DEFAULT_AREA_WISE_ACCUMULATION_REF_NO = "AAAAAAAAAA";
+    private static final String UPDATED_AREA_WISE_ACCUMULATION_REF_NO = "BBBBBBBBBB";
+
+    private static final String DEFAULT_REMARKS = "AAAAAAAAAA";
+    private static final String UPDATED_REMARKS = "BBBBBBBBBB";
 
     @Autowired
     private SupplyOrderRepository supplyOrderRepository;
@@ -147,10 +146,20 @@ public class SupplyOrderResourceIntTest {
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON)
-            .offerAmount(DEFAULT_OFFER_AMOUNT)
             .deliveryDate(DEFAULT_DELIVERY_DATE)
-            .supplyOrderStatus(DEFAULT_SUPPLY_ORDER_STATUS)
-            .accumulationReferenceNo(DEFAULT_ACCUMULATION_REFERENCE_NO);
+            .status(DEFAULT_STATUS)
+            .areaWiseAccumulationRefNo(DEFAULT_AREA_WISE_ACCUMULATION_REF_NO)
+            .remarks(DEFAULT_REMARKS);
+        // Add required entity
+        SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
+        em.persist(supplyZone);
+        em.flush();
+        supplyOrder.setSupplyZone(supplyZone);
+        // Add required entity
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyOrder.setSupplyZoneManager(supplyZoneManager);
         // Add required entity
         SupplyAreaManager supplyAreaManager = SupplyAreaManagerResourceIntTest.createEntity(em);
         em.persist(supplyAreaManager);
@@ -191,10 +200,10 @@ public class SupplyOrderResourceIntTest {
         assertThat(testSupplyOrder.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testSupplyOrder.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testSupplyOrder.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
-        assertThat(testSupplyOrder.getOfferAmount()).isEqualTo(DEFAULT_OFFER_AMOUNT);
         assertThat(testSupplyOrder.getDeliveryDate()).isEqualTo(DEFAULT_DELIVERY_DATE);
-        assertThat(testSupplyOrder.getSupplyOrderStatus()).isEqualTo(DEFAULT_SUPPLY_ORDER_STATUS);
-        assertThat(testSupplyOrder.getAccumulationReferenceNo()).isEqualTo(DEFAULT_ACCUMULATION_REFERENCE_NO);
+        assertThat(testSupplyOrder.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testSupplyOrder.getAreaWiseAccumulationRefNo()).isEqualTo(DEFAULT_AREA_WISE_ACCUMULATION_REF_NO);
+        assertThat(testSupplyOrder.getRemarks()).isEqualTo(DEFAULT_REMARKS);
 
         // Validate the SupplyOrder in Elasticsearch
         verify(mockSupplyOrderSearchRepository, times(1)).save(testSupplyOrder);
@@ -244,10 +253,10 @@ public class SupplyOrderResourceIntTest {
 
     @Test
     @Transactional
-    public void checkSupplyOrderStatusIsRequired() throws Exception {
+    public void checkStatusIsRequired() throws Exception {
         int databaseSizeBeforeTest = supplyOrderRepository.findAll().size();
         // set the field null
-        supplyOrder.setSupplyOrderStatus(null);
+        supplyOrder.setStatus(null);
 
         // Create the SupplyOrder, which fails.
         SupplyOrderDTO supplyOrderDTO = supplyOrderMapper.toDto(supplyOrder);
@@ -278,10 +287,10 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
-            .andExpect(jsonPath("$.[*].offerAmount").value(hasItem(DEFAULT_OFFER_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
-            .andExpect(jsonPath("$.[*].supplyOrderStatus").value(hasItem(DEFAULT_SUPPLY_ORDER_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].accumulationReferenceNo").value(hasItem(DEFAULT_ACCUMULATION_REFERENCE_NO.toString())));
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].areaWiseAccumulationRefNo").value(hasItem(DEFAULT_AREA_WISE_ACCUMULATION_REF_NO.toString())))
+            .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())));
     }
 
     @Test
@@ -301,10 +310,10 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
             .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()))
-            .andExpect(jsonPath("$.offerAmount").value(DEFAULT_OFFER_AMOUNT.intValue()))
             .andExpect(jsonPath("$.deliveryDate").value(DEFAULT_DELIVERY_DATE.toString()))
-            .andExpect(jsonPath("$.supplyOrderStatus").value(DEFAULT_SUPPLY_ORDER_STATUS.toString()))
-            .andExpect(jsonPath("$.accumulationReferenceNo").value(DEFAULT_ACCUMULATION_REFERENCE_NO.toString()));
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.areaWiseAccumulationRefNo").value(DEFAULT_AREA_WISE_ACCUMULATION_REF_NO.toString()))
+            .andExpect(jsonPath("$.remarks").value(DEFAULT_REMARKS.toString()));
     }
 
     @Test
@@ -570,45 +579,6 @@ public class SupplyOrderResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSupplyOrdersByOfferAmountIsEqualToSomething() throws Exception {
-        // Initialize the database
-        supplyOrderRepository.saveAndFlush(supplyOrder);
-
-        // Get all the supplyOrderList where offerAmount equals to DEFAULT_OFFER_AMOUNT
-        defaultSupplyOrderShouldBeFound("offerAmount.equals=" + DEFAULT_OFFER_AMOUNT);
-
-        // Get all the supplyOrderList where offerAmount equals to UPDATED_OFFER_AMOUNT
-        defaultSupplyOrderShouldNotBeFound("offerAmount.equals=" + UPDATED_OFFER_AMOUNT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrdersByOfferAmountIsInShouldWork() throws Exception {
-        // Initialize the database
-        supplyOrderRepository.saveAndFlush(supplyOrder);
-
-        // Get all the supplyOrderList where offerAmount in DEFAULT_OFFER_AMOUNT or UPDATED_OFFER_AMOUNT
-        defaultSupplyOrderShouldBeFound("offerAmount.in=" + DEFAULT_OFFER_AMOUNT + "," + UPDATED_OFFER_AMOUNT);
-
-        // Get all the supplyOrderList where offerAmount equals to UPDATED_OFFER_AMOUNT
-        defaultSupplyOrderShouldNotBeFound("offerAmount.in=" + UPDATED_OFFER_AMOUNT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSupplyOrdersByOfferAmountIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        supplyOrderRepository.saveAndFlush(supplyOrder);
-
-        // Get all the supplyOrderList where offerAmount is not null
-        defaultSupplyOrderShouldBeFound("offerAmount.specified=true");
-
-        // Get all the supplyOrderList where offerAmount is null
-        defaultSupplyOrderShouldNotBeFound("offerAmount.specified=false");
-    }
-
-    @Test
-    @Transactional
     public void getAllSupplyOrdersByDeliveryDateIsEqualToSomething() throws Exception {
         // Initialize the database
         supplyOrderRepository.saveAndFlush(supplyOrder);
@@ -675,80 +645,119 @@ public class SupplyOrderResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSupplyOrdersBySupplyOrderStatusIsEqualToSomething() throws Exception {
+    public void getAllSupplyOrdersByStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         supplyOrderRepository.saveAndFlush(supplyOrder);
 
-        // Get all the supplyOrderList where supplyOrderStatus equals to DEFAULT_SUPPLY_ORDER_STATUS
-        defaultSupplyOrderShouldBeFound("supplyOrderStatus.equals=" + DEFAULT_SUPPLY_ORDER_STATUS);
+        // Get all the supplyOrderList where status equals to DEFAULT_STATUS
+        defaultSupplyOrderShouldBeFound("status.equals=" + DEFAULT_STATUS);
 
-        // Get all the supplyOrderList where supplyOrderStatus equals to UPDATED_SUPPLY_ORDER_STATUS
-        defaultSupplyOrderShouldNotBeFound("supplyOrderStatus.equals=" + UPDATED_SUPPLY_ORDER_STATUS);
+        // Get all the supplyOrderList where status equals to UPDATED_STATUS
+        defaultSupplyOrderShouldNotBeFound("status.equals=" + UPDATED_STATUS);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyOrdersBySupplyOrderStatusIsInShouldWork() throws Exception {
+    public void getAllSupplyOrdersByStatusIsInShouldWork() throws Exception {
         // Initialize the database
         supplyOrderRepository.saveAndFlush(supplyOrder);
 
-        // Get all the supplyOrderList where supplyOrderStatus in DEFAULT_SUPPLY_ORDER_STATUS or UPDATED_SUPPLY_ORDER_STATUS
-        defaultSupplyOrderShouldBeFound("supplyOrderStatus.in=" + DEFAULT_SUPPLY_ORDER_STATUS + "," + UPDATED_SUPPLY_ORDER_STATUS);
+        // Get all the supplyOrderList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultSupplyOrderShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
 
-        // Get all the supplyOrderList where supplyOrderStatus equals to UPDATED_SUPPLY_ORDER_STATUS
-        defaultSupplyOrderShouldNotBeFound("supplyOrderStatus.in=" + UPDATED_SUPPLY_ORDER_STATUS);
+        // Get all the supplyOrderList where status equals to UPDATED_STATUS
+        defaultSupplyOrderShouldNotBeFound("status.in=" + UPDATED_STATUS);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyOrdersBySupplyOrderStatusIsNullOrNotNull() throws Exception {
+    public void getAllSupplyOrdersByStatusIsNullOrNotNull() throws Exception {
         // Initialize the database
         supplyOrderRepository.saveAndFlush(supplyOrder);
 
-        // Get all the supplyOrderList where supplyOrderStatus is not null
-        defaultSupplyOrderShouldBeFound("supplyOrderStatus.specified=true");
+        // Get all the supplyOrderList where status is not null
+        defaultSupplyOrderShouldBeFound("status.specified=true");
 
-        // Get all the supplyOrderList where supplyOrderStatus is null
-        defaultSupplyOrderShouldNotBeFound("supplyOrderStatus.specified=false");
+        // Get all the supplyOrderList where status is null
+        defaultSupplyOrderShouldNotBeFound("status.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllSupplyOrdersByAccumulationReferenceNoIsEqualToSomething() throws Exception {
+    public void getAllSupplyOrdersByAreaWiseAccumulationRefNoIsEqualToSomething() throws Exception {
         // Initialize the database
         supplyOrderRepository.saveAndFlush(supplyOrder);
 
-        // Get all the supplyOrderList where accumulationReferenceNo equals to DEFAULT_ACCUMULATION_REFERENCE_NO
-        defaultSupplyOrderShouldBeFound("accumulationReferenceNo.equals=" + DEFAULT_ACCUMULATION_REFERENCE_NO);
+        // Get all the supplyOrderList where areaWiseAccumulationRefNo equals to DEFAULT_AREA_WISE_ACCUMULATION_REF_NO
+        defaultSupplyOrderShouldBeFound("areaWiseAccumulationRefNo.equals=" + DEFAULT_AREA_WISE_ACCUMULATION_REF_NO);
 
-        // Get all the supplyOrderList where accumulationReferenceNo equals to UPDATED_ACCUMULATION_REFERENCE_NO
-        defaultSupplyOrderShouldNotBeFound("accumulationReferenceNo.equals=" + UPDATED_ACCUMULATION_REFERENCE_NO);
+        // Get all the supplyOrderList where areaWiseAccumulationRefNo equals to UPDATED_AREA_WISE_ACCUMULATION_REF_NO
+        defaultSupplyOrderShouldNotBeFound("areaWiseAccumulationRefNo.equals=" + UPDATED_AREA_WISE_ACCUMULATION_REF_NO);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyOrdersByAccumulationReferenceNoIsInShouldWork() throws Exception {
+    public void getAllSupplyOrdersByAreaWiseAccumulationRefNoIsInShouldWork() throws Exception {
         // Initialize the database
         supplyOrderRepository.saveAndFlush(supplyOrder);
 
-        // Get all the supplyOrderList where accumulationReferenceNo in DEFAULT_ACCUMULATION_REFERENCE_NO or UPDATED_ACCUMULATION_REFERENCE_NO
-        defaultSupplyOrderShouldBeFound("accumulationReferenceNo.in=" + DEFAULT_ACCUMULATION_REFERENCE_NO + "," + UPDATED_ACCUMULATION_REFERENCE_NO);
+        // Get all the supplyOrderList where areaWiseAccumulationRefNo in DEFAULT_AREA_WISE_ACCUMULATION_REF_NO or UPDATED_AREA_WISE_ACCUMULATION_REF_NO
+        defaultSupplyOrderShouldBeFound("areaWiseAccumulationRefNo.in=" + DEFAULT_AREA_WISE_ACCUMULATION_REF_NO + "," + UPDATED_AREA_WISE_ACCUMULATION_REF_NO);
 
-        // Get all the supplyOrderList where accumulationReferenceNo equals to UPDATED_ACCUMULATION_REFERENCE_NO
-        defaultSupplyOrderShouldNotBeFound("accumulationReferenceNo.in=" + UPDATED_ACCUMULATION_REFERENCE_NO);
+        // Get all the supplyOrderList where areaWiseAccumulationRefNo equals to UPDATED_AREA_WISE_ACCUMULATION_REF_NO
+        defaultSupplyOrderShouldNotBeFound("areaWiseAccumulationRefNo.in=" + UPDATED_AREA_WISE_ACCUMULATION_REF_NO);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyOrdersByAccumulationReferenceNoIsNullOrNotNull() throws Exception {
+    public void getAllSupplyOrdersByAreaWiseAccumulationRefNoIsNullOrNotNull() throws Exception {
         // Initialize the database
         supplyOrderRepository.saveAndFlush(supplyOrder);
 
-        // Get all the supplyOrderList where accumulationReferenceNo is not null
-        defaultSupplyOrderShouldBeFound("accumulationReferenceNo.specified=true");
+        // Get all the supplyOrderList where areaWiseAccumulationRefNo is not null
+        defaultSupplyOrderShouldBeFound("areaWiseAccumulationRefNo.specified=true");
 
-        // Get all the supplyOrderList where accumulationReferenceNo is null
-        defaultSupplyOrderShouldNotBeFound("accumulationReferenceNo.specified=false");
+        // Get all the supplyOrderList where areaWiseAccumulationRefNo is null
+        defaultSupplyOrderShouldNotBeFound("areaWiseAccumulationRefNo.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersByRemarksIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where remarks equals to DEFAULT_REMARKS
+        defaultSupplyOrderShouldBeFound("remarks.equals=" + DEFAULT_REMARKS);
+
+        // Get all the supplyOrderList where remarks equals to UPDATED_REMARKS
+        defaultSupplyOrderShouldNotBeFound("remarks.equals=" + UPDATED_REMARKS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersByRemarksIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where remarks in DEFAULT_REMARKS or UPDATED_REMARKS
+        defaultSupplyOrderShouldBeFound("remarks.in=" + DEFAULT_REMARKS + "," + UPDATED_REMARKS);
+
+        // Get all the supplyOrderList where remarks equals to UPDATED_REMARKS
+        defaultSupplyOrderShouldNotBeFound("remarks.in=" + UPDATED_REMARKS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersByRemarksIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+
+        // Get all the supplyOrderList where remarks is not null
+        defaultSupplyOrderShouldBeFound("remarks.specified=true");
+
+        // Get all the supplyOrderList where remarks is null
+        defaultSupplyOrderShouldNotBeFound("remarks.specified=false");
     }
 
     @Test
@@ -767,6 +776,25 @@ public class SupplyOrderResourceIntTest {
 
         // Get all the supplyOrderList where supplyZone equals to supplyZoneId + 1
         defaultSupplyOrderShouldNotBeFound("supplyZoneId.equals=" + (supplyZoneId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyOrdersBySupplyZoneManagerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyZoneManager supplyZoneManager = SupplyZoneManagerResourceIntTest.createEntity(em);
+        em.persist(supplyZoneManager);
+        em.flush();
+        supplyOrder.setSupplyZoneManager(supplyZoneManager);
+        supplyOrderRepository.saveAndFlush(supplyOrder);
+        Long supplyZoneManagerId = supplyZoneManager.getId();
+
+        // Get all the supplyOrderList where supplyZoneManager equals to supplyZoneManagerId
+        defaultSupplyOrderShouldBeFound("supplyZoneManagerId.equals=" + supplyZoneManagerId);
+
+        // Get all the supplyOrderList where supplyZoneManager equals to supplyZoneManagerId + 1
+        defaultSupplyOrderShouldNotBeFound("supplyZoneManagerId.equals=" + (supplyZoneManagerId + 1));
     }
 
 
@@ -859,10 +887,10 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
-            .andExpect(jsonPath("$.[*].offerAmount").value(hasItem(DEFAULT_OFFER_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
-            .andExpect(jsonPath("$.[*].supplyOrderStatus").value(hasItem(DEFAULT_SUPPLY_ORDER_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].accumulationReferenceNo").value(hasItem(DEFAULT_ACCUMULATION_REFERENCE_NO)));
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].areaWiseAccumulationRefNo").value(hasItem(DEFAULT_AREA_WISE_ACCUMULATION_REF_NO)))
+            .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)));
 
         // Check, that the count call also returns 1
         restSupplyOrderMockMvc.perform(get("/api/supply-orders/count?sort=id,desc&" + filter))
@@ -916,10 +944,10 @@ public class SupplyOrderResourceIntTest {
             .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
             .updatedOn(UPDATED_UPDATED_ON)
-            .offerAmount(UPDATED_OFFER_AMOUNT)
             .deliveryDate(UPDATED_DELIVERY_DATE)
-            .supplyOrderStatus(UPDATED_SUPPLY_ORDER_STATUS)
-            .accumulationReferenceNo(UPDATED_ACCUMULATION_REFERENCE_NO);
+            .status(UPDATED_STATUS)
+            .areaWiseAccumulationRefNo(UPDATED_AREA_WISE_ACCUMULATION_REF_NO)
+            .remarks(UPDATED_REMARKS);
         SupplyOrderDTO supplyOrderDTO = supplyOrderMapper.toDto(updatedSupplyOrder);
 
         restSupplyOrderMockMvc.perform(put("/api/supply-orders")
@@ -937,10 +965,10 @@ public class SupplyOrderResourceIntTest {
         assertThat(testSupplyOrder.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testSupplyOrder.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testSupplyOrder.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
-        assertThat(testSupplyOrder.getOfferAmount()).isEqualTo(UPDATED_OFFER_AMOUNT);
         assertThat(testSupplyOrder.getDeliveryDate()).isEqualTo(UPDATED_DELIVERY_DATE);
-        assertThat(testSupplyOrder.getSupplyOrderStatus()).isEqualTo(UPDATED_SUPPLY_ORDER_STATUS);
-        assertThat(testSupplyOrder.getAccumulationReferenceNo()).isEqualTo(UPDATED_ACCUMULATION_REFERENCE_NO);
+        assertThat(testSupplyOrder.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testSupplyOrder.getAreaWiseAccumulationRefNo()).isEqualTo(UPDATED_AREA_WISE_ACCUMULATION_REF_NO);
+        assertThat(testSupplyOrder.getRemarks()).isEqualTo(UPDATED_REMARKS);
 
         // Validate the SupplyOrder in Elasticsearch
         verify(mockSupplyOrderSearchRepository, times(1)).save(testSupplyOrder);
@@ -1007,10 +1035,10 @@ public class SupplyOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
-            .andExpect(jsonPath("$.[*].offerAmount").value(hasItem(DEFAULT_OFFER_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
-            .andExpect(jsonPath("$.[*].supplyOrderStatus").value(hasItem(DEFAULT_SUPPLY_ORDER_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].accumulationReferenceNo").value(hasItem(DEFAULT_ACCUMULATION_REFERENCE_NO)));
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].areaWiseAccumulationRefNo").value(hasItem(DEFAULT_AREA_WISE_ACCUMULATION_REF_NO)))
+            .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)));
     }
 
     @Test

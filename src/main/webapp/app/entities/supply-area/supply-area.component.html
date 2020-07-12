@@ -30,28 +30,34 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="areaName"><span>Area Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="areaCode"><span>Area Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="code"><span>Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="supplyZoneZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneManagerId"><span>Supply Zone Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let supplyArea of supplyAreas ;trackBy: trackId">
                 <td><a [routerLink]="['/supply-area', supplyArea.id, 'view' ]">{{supplyArea.id}}</a></td>
-                <td>{{supplyArea.areaName}}</td>
-                <td>{{supplyArea.areaCode}}</td>
+                <td>{{supplyArea.name}}</td>
+                <td>{{supplyArea.code}}</td>
                 <td>{{supplyArea.createdBy}}</td>
                 <td>{{supplyArea.createdOn | date:'medium'}}</td>
                 <td>{{supplyArea.updatedBy}}</td>
                 <td>{{supplyArea.updatedOn | date:'medium'}}</td>
                 <td>
                     <div *ngIf="supplyArea.supplyZoneId">
-                        <a [routerLink]="['../supply-zone', supplyArea.supplyZoneId , 'view' ]" >{{supplyArea.supplyZoneZoneName}}</a>
+                        <a [routerLink]="['../supply-zone', supplyArea.supplyZoneId , 'view' ]" >{{supplyArea.supplyZoneName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplyArea.supplyZoneManagerId">
+                        <a [routerLink]="['../supply-zone-manager', supplyArea.supplyZoneManagerId , 'view' ]" >{{supplyArea.supplyZoneManagerId}}</a>
                     </div>
                 </td>
                 <td class="text-right">

@@ -31,7 +31,7 @@ public class SupplyZoneManagerDTO implements Serializable {
 
     private Long supplyZoneId;
 
-    private String supplyZoneZoneName;
+    private String supplyZoneName;
 
     private Long employeeId;
 
@@ -101,12 +101,12 @@ public class SupplyZoneManagerDTO implements Serializable {
         this.supplyZoneId = supplyZoneId;
     }
 
-    public String getSupplyZoneZoneName() {
-        return supplyZoneZoneName;
+    public String getSupplyZoneName() {
+        return supplyZoneName;
     }
 
-    public void setSupplyZoneZoneName(String supplyZoneZoneName) {
-        this.supplyZoneZoneName = supplyZoneZoneName;
+    public void setSupplyZoneName(String supplyZoneName) {
+        this.supplyZoneName = supplyZoneName;
     }
 
     public Long getEmployeeId() {
@@ -157,7 +157,7 @@ public class SupplyZoneManagerDTO implements Serializable {
             ", updatedOn='" + getUpdatedOn() + "'" +
             ", status='" + getStatus() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
-            ", supplyZone='" + getSupplyZoneZoneName() + "'" +
+            ", supplyZone='" + getSupplyZoneName() + "'" +
             ", employee=" + getEmployeeId() +
             ", employee='" + getEmployeeFullName() + "'" +
             "}";

@@ -752,10 +752,6 @@ import { MatTabsModule } from '@angular/material';
                     './purchase-order-voucher-relation-extended/purchase-order-voucher-relation-extended.module#SoptorshiPurchaseOrderVoucherRelationExtendedModule'
             },
             {
-                path: 'supply-area-manager',
-                loadChildren: './supply-area-manager/supply-area-manager.module#SoptorshiSupplyAreaManagerModule'
-            },
-            {
                 path: 'supply-sales-representative',
                 loadChildren: './supply-sales-representative/supply-sales-representative.module#SoptorshiSupplySalesRepresentativeModule'
             },
@@ -790,6 +786,156 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'supply-order',
                 loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+            },
+            {
+                path: 'supply-zone-manager',
+                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
+            },
+            {
+                path: 'supply-area-manager',
+                loadChildren: './supply-area-manager/supply-area-manager.module#SoptorshiSupplyAreaManagerModule'
+            },
+            {
+                path: 'supply-area-manager',
+                loadChildren: './supply-area-manager/supply-area-manager.module#SoptorshiSupplyAreaManagerModule'
+            },
+            {
+                path: 'supply-zone',
+                loadChildren: './supply-zone/supply-zone.module#SoptorshiSupplyZoneModule'
+            },
+            {
+                path: 'supply-area',
+                loadChildren: './supply-area/supply-area.module#SoptorshiSupplyAreaModule'
+            },
+            {
+                path: 'supply-zone-manager',
+                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
+            },
+            {
+                path: 'supply-area-manager',
+                loadChildren: './supply-area-manager/supply-area-manager.module#SoptorshiSupplyAreaManagerModule'
+            },
+            {
+                path: 'supply-sales-representative',
+                loadChildren: './supply-sales-representative/supply-sales-representative.module#SoptorshiSupplySalesRepresentativeModule'
+            },
+            {
+                path: 'supply-shop',
+                loadChildren: './supply-shop/supply-shop.module#SoptorshiSupplyShopModule'
+            },
+            {
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+            },
+            {
+                path: 'supply-money-collection',
+                loadChildren: './supply-money-collection/supply-money-collection.module#SoptorshiSupplyMoneyCollectionModule'
+            },
+            {
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+            },
+            {
+                path: 'supply-money-collection',
+                loadChildren: './supply-money-collection/supply-money-collection.module#SoptorshiSupplyMoneyCollectionModule'
+            },
+            {
+                path: 'supply-money-collection',
+                loadChildren: './supply-money-collection/supply-money-collection.module#SoptorshiSupplyMoneyCollectionModule'
+            },
+            {
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+            },
+            {
+                path: 'supply-order-details',
+                loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
+            },
+            {
+                path: 'supply-area-wise-accumulation',
+                loadChildren:
+                    './supply-area-wise-accumulation-extended/supply-area-wise-accumulation-extended.module#SoptorshiSupplyAreaWiseAccumulationExtendedModule'
+            },
+            {
+                path: 'supply-zone-wise-accumulation',
+                loadChildren:
+                    './supply-zone-wise-accumulation-extended/supply-zone-wise-accumulation-extended.module#SoptorshiSupplyZoneWiseAccumulationExtendedModule'
+            },
+            {
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+            },
+            {
+                path: 'supply-order-details',
+                loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
+            },
+            {
+                path: 'supply-area-wise-accumulation',
+                loadChildren:
+                    './supply-area-wise-accumulation/supply-area-wise-accumulation.module#SoptorshiSupplyAreaWiseAccumulationModule'
+            },
+            {
+                path: 'supply-area-wise-accumulation',
+                loadChildren:
+                    './supply-area-wise-accumulation/supply-area-wise-accumulation.module#SoptorshiSupplyAreaWiseAccumulationModule'
+            },
+            {
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+            },
+            {
+                path: 'supply-order-details',
+                loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
+            },
+            {
+                path: 'supply-area',
+                loadChildren: './supply-area/supply-area.module#SoptorshiSupplyAreaModule'
+            },
+            {
+                path: 'supply-zone-manager',
+                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
+            },
+            {
+                path: 'supply-zone-manager',
+                loadChildren: './supply-zone-manager/supply-zone-manager.module#SoptorshiSupplyZoneManagerModule'
+            },
+            {
+                path: 'supply-area-manager',
+                loadChildren: './supply-area-manager/supply-area-manager.module#SoptorshiSupplyAreaManagerModule'
+            },
+            {
+                path: 'supply-sales-representative',
+                loadChildren: './supply-sales-representative/supply-sales-representative.module#SoptorshiSupplySalesRepresentativeModule'
+            },
+            {
+                path: 'supply-shop',
+                loadChildren: './supply-shop/supply-shop.module#SoptorshiSupplyShopModule'
+            },
+            {
+                path: 'supply-order',
+                loadChildren: './supply-order/supply-order.module#SoptorshiSupplyOrderModule'
+            },
+            {
+                path: 'supply-order-details',
+                loadChildren: './supply-order-details/supply-order-details.module#SoptorshiSupplyOrderDetailsModule'
+            },
+            {
+                path: 'supply-area-wise-accumulation',
+                loadChildren:
+                    './supply-area-wise-accumulation/supply-area-wise-accumulation.module#SoptorshiSupplyAreaWiseAccumulationModule'
+            },
+            {
+                path: 'supply-zone-wise-accumulation',
+                loadChildren:
+                    './supply-zone-wise-accumulation/supply-zone-wise-accumulation.module#SoptorshiSupplyZoneWiseAccumulationModule'
+            },
+            {
+                path: 'supply-challan',
+                loadChildren: './supply-challan/supply-challan.module#SoptorshiSupplyChallanModule'
+            },
+            {
+                path: 'supply-money-collection',
+                loadChildren: './supply-money-collection/supply-money-collection.module#SoptorshiSupplyMoneyCollectionModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

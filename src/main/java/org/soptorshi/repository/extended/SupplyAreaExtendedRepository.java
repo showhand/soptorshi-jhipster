@@ -10,5 +10,4 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface SupplyAreaExtendedRepository extends SupplyAreaRepository {
-
 }

@@ -107,21 +107,25 @@ public class SupplyOrderQueryService extends QueryService<SupplyOrder> {
             if (criteria.getUpdatedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUpdatedOn(), SupplyOrder_.updatedOn));
             }
-            if (criteria.getOfferAmount() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getOfferAmount(), SupplyOrder_.offerAmount));
-            }
             if (criteria.getDeliveryDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDeliveryDate(), SupplyOrder_.deliveryDate));
             }
-            if (criteria.getSupplyOrderStatus() != null) {
-                specification = specification.and(buildSpecification(criteria.getSupplyOrderStatus(), SupplyOrder_.supplyOrderStatus));
+            if (criteria.getStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getStatus(), SupplyOrder_.status));
             }
-            if (criteria.getAccumulationReferenceNo() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAccumulationReferenceNo(), SupplyOrder_.accumulationReferenceNo));
+            if (criteria.getAreaWiseAccumulationRefNo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAreaWiseAccumulationRefNo(), SupplyOrder_.areaWiseAccumulationRefNo));
+            }
+            if (criteria.getRemarks() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getRemarks(), SupplyOrder_.remarks));
             }
             if (criteria.getSupplyZoneId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyZoneId(),
                     root -> root.join(SupplyOrder_.supplyZone, JoinType.LEFT).get(SupplyZone_.id)));
+            }
+            if (criteria.getSupplyZoneManagerId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSupplyZoneManagerId(),
+                    root -> root.join(SupplyOrder_.supplyZoneManager, JoinType.LEFT).get(SupplyZoneManager_.id)));
             }
             if (criteria.getSupplyAreaId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSupplyAreaId(),

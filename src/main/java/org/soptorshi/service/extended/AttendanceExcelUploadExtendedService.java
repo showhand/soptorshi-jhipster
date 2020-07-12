@@ -77,7 +77,7 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
         log.debug("Request to save AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
 
         String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
-            SecurityUtils.getCurrentUserLogin().toString() : "";
+            SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
         if(attendanceExcelUploadDTO.getId() == null) {

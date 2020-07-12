@@ -20,7 +20,7 @@ export const supplyShopExtendedRoute: Routes = [
         path: '',
         component: SupplyShopExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyShops'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const supplyShopExtendedRoute: Routes = [
             supplyShop: SupplyShopResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyShops'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const supplyShopExtendedRoute: Routes = [
             supplyShop: SupplyShopResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyShops'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const supplyShopExtendedRoute: Routes = [
             supplyShop: SupplyShopResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyShops'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const supplyShopPopupExtendedRoute: Routes = [
             supplyShop: SupplyShopResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyShops'
         },
         canActivate: [UserRouteAccessService],

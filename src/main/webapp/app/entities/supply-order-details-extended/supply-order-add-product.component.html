@@ -1,0 +1,118 @@
+<div class="row">
+    <div class="col-12">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-supply-order-details-heading">Create or edit a Product</h2>
+            <jhi-alert-error></jhi-alert-error>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group" [hidden]="!supplyOrderDetails.id">
+                        <label for="id">ID</label>
+                        <input type="text" class="form-control" id="id" name="id"
+                               [(ngModel)]="supplyOrderDetails.id" readonly/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_supplyOrder">Supply Order</label>
+                        <select class="form-control" id="field_supplyOrder" name="supplyOrder"
+                                [(ngModel)]="supplyOrderDetails.supplyOrderId" required>
+                            <option *ngIf="!editForm.value.supplyOrder" [ngValue]="null" selected></option>
+                            <option [ngValue]="supplyOrderOption.id"
+                                    *ngFor="let supplyOrderOption of supplyorders; trackBy: trackSupplyOrderById">{{supplyOrderOption.orderNo}}</option>
+                        </select>
+                    </div>
+                    <div [hidden]="!(editForm.controls.supplyOrder?.dirty && editForm.controls.supplyOrder?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.supplyOrder?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_productCategory">Product Category</label>
+                        <select class="form-control" id="field_productCategory" name="productCategory"
+                                [(ngModel)]="supplyOrderDetails.productCategoryId" required>
+                            <option *ngIf="!editForm.value.productCategory" [ngValue]="null" selected></option>
+                            <option [ngValue]="productCategoryOption.id"
+                                    *ngFor="let productCategoryOption of productcategories; trackBy: trackProductCategoryById">{{productCategoryOption.name}}</option>
+                        </select>
+                    </div>
+                    <div
+                        [hidden]="!(editForm.controls.productCategory?.dirty && editForm.controls.productCategory?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.productCategory?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_product">Product</label>
+                        <select class="form-control" id="field_product" name="product"
+                                [(ngModel)]="supplyOrderDetails.productId" required>
+                            <option *ngIf="!editForm.value.product" [ngValue]="null" selected></option>
+                            <option [ngValue]="productOption.id"
+                                    *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.name}}</option>
+                        </select>
+                    </div>
+                    <div [hidden]="!(editForm.controls.product?.dirty && editForm.controls.product?.invalid)">
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.product?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_quantity">Quantity</label>
+                        <input type="number" class="form-control" name="quantity" id="field_quantity"
+                               [(ngModel)]="supplyOrderDetails.quantity" required/>
+                        <div [hidden]="!(editForm.controls.quantity?.dirty && editForm.controls.quantity?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.quantity?.errors?.required">
+                                This field is required.
+                            </small>
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.quantity?.errors?.number">
+                                This field should be a number.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_price">Price</label>
+                        <input type="number" class="form-control" name="price" id="field_price"
+                               [(ngModel)]="supplyOrderDetails.price" required/>
+                        <div [hidden]="!(editForm.controls.price?.dirty && editForm.controls.price?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.price?.errors?.required">
+                                This field is required.
+                            </small>
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.price?.errors?.number">
+                                This field should be a number.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                        class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

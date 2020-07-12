@@ -2,11 +2,10 @@ package org.soptorshi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -20,17 +19,18 @@ import java.util.Objects;
 public class SupplyArea implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Column(name = "area_name", nullable = false)
-    private String areaName;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "area_code")
-    private String areaCode;
+    @NotNull
+    @Column(name = "code", nullable = false)
+    private String code;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -44,9 +44,15 @@ public class SupplyArea implements Serializable {
     @Column(name = "updated_on")
     private Instant updatedOn;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyAreas")
     private SupplyZone supplyZone;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("supplyAreas")
+    private SupplyZoneManager supplyZoneManager;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -57,30 +63,30 @@ public class SupplyArea implements Serializable {
         this.id = id;
     }
 
-    public String getAreaName() {
-        return areaName;
+    public String getName() {
+        return name;
     }
 
-    public SupplyArea areaName(String areaName) {
-        this.areaName = areaName;
+    public SupplyArea name(String name) {
+        this.name = name;
         return this;
     }
 
-    public void setAreaName(String areaName) {
-        this.areaName = areaName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAreaCode() {
-        return areaCode;
+    public String getCode() {
+        return code;
     }
 
-    public SupplyArea areaCode(String areaCode) {
-        this.areaCode = areaCode;
+    public SupplyArea code(String code) {
+        this.code = code;
         return this;
     }
 
-    public void setAreaCode(String areaCode) {
-        this.areaCode = areaCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getCreatedBy() {
@@ -147,6 +153,19 @@ public class SupplyArea implements Serializable {
     public void setSupplyZone(SupplyZone supplyZone) {
         this.supplyZone = supplyZone;
     }
+
+    public SupplyZoneManager getSupplyZoneManager() {
+        return supplyZoneManager;
+    }
+
+    public SupplyArea supplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
+        return this;
+    }
+
+    public void setSupplyZoneManager(SupplyZoneManager supplyZoneManager) {
+        this.supplyZoneManager = supplyZoneManager;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -173,8 +192,8 @@ public class SupplyArea implements Serializable {
     public String toString() {
         return "SupplyArea{" +
             "id=" + getId() +
-            ", areaName='" + getAreaName() + "'" +
-            ", areaCode='" + getAreaCode() + "'" +
+            ", name='" + getName() + "'" +
+            ", code='" + getCode() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +

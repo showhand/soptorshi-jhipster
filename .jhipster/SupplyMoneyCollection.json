@@ -35,29 +35,55 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyZone",
             "otherEntityRelationshipName": "supplyMoneyCollection",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyZone",
-            "otherEntityField": "zoneName"
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZoneManager",
+            "otherEntityRelationshipName": "supplyMoneyCollection",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyZoneManager",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyArea",
             "otherEntityRelationshipName": "supplyMoneyCollection",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyArea",
-            "otherEntityField": "areaName"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyAreaManager",
             "otherEntityRelationshipName": "supplyMoneyCollection",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyAreaManager",
-            "otherEntityField": "managerName"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "supplySalesRepresentative",
             "otherEntityRelationshipName": "supplyMoneyCollection",
             "relationshipName": "supplySalesRepresentative",
-            "otherEntityField": "salesRepresentativeName"
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyShop",
+            "otherEntityRelationshipName": "supplyMoneyCollection",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyShop",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyOrder",
+            "otherEntityRelationshipName": "supplyMoneyCollection",
+            "relationshipName": "supplyOrder",
+            "otherEntityField": "orderNo"
         }
     ],
     "changelogDate": "20191106144407",

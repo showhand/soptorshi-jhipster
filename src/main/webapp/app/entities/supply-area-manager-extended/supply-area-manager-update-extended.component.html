@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-supply-area-manager-heading">Create or edit a Supply Area Manager</h2>
+            <h2 id="jhi-supply-area-manager-heading">Create or edit an Area Manager</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!supplyAreaManager.id">
@@ -11,22 +11,44 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
-                    <select class="form-control" id="field_supplyZone" name="supplyZone"
-                            [(ngModel)]="supplyAreaManager.supplyZoneId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="supplyZoneOption.id"
-                                *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.zoneName}}</option>
+                    <label class="form-control-label" for="field_supplyZone">Zone</label>
+                    <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyAreaManager.supplyZoneId" (ngModelChange)="filterSupplyAreaAndSupplyZoneManager()"  required>
+                        <option *ngIf="!editForm.value.supplyZone" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.name}}</option>
                     </select>
                 </div>
+                <div [hidden]="!(editForm.controls.supplyZone?.dirty && editForm.controls.supplyZone?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.supplyZone?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_supplyArea">Supply Area</label>
-                    <select class="form-control" id="field_supplyArea" name="supplyArea"
-                            [(ngModel)]="supplyAreaManager.supplyAreaId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="supplyAreaOption.id"
-                                *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.areaName}}</option>
+                    <label class="form-control-label" for="field_supplyZoneManager">Zone Manager</label>
+                    <select class="form-control" id="field_supplyZoneManager" name="supplyZoneManager" [(ngModel)]="supplyAreaManager.supplyZoneManagerId"  required>
+                        <option *ngIf="!editForm.value.supplyZoneManager" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyZoneManagerOption.id" *ngFor="let supplyZoneManagerOption of supplyzonemanagers; trackBy: trackSupplyZoneManagerById">{{supplyZoneManagerOption.employeeFullName}}</option>
                     </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyZoneManager?.dirty && editForm.controls.supplyZoneManager?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.supplyZoneManager?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_supplyArea">Area</label>
+                    <select class="form-control" id="field_supplyArea" name="supplyArea" [(ngModel)]="supplyAreaManager.supplyAreaId"  required>
+                        <option *ngIf="!editForm.value.supplyArea" [ngValue]="null" selected></option>
+                        <option [ngValue]="supplyAreaOption.id" *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.name}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyArea?.dirty && editForm.controls.supplyArea?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.supplyArea?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_employee">Employee</label>
@@ -43,30 +65,6 @@
                         This field is required.
                     </small>
                 </div>
-                <!--<div class="form-group">
-                    <label class="form-control-label" for="field_createdBy">Created By</label>
-                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
-                        [(ngModel)]="supplyAreaManager.createdBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_createdOn">Created On</label>
-                    <div class="d-flex">
-                        <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
-                        />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_updatedBy">Updated By</label>
-                    <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
-                        [(ngModel)]="supplyAreaManager.updatedBy" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_updatedOn">Updated On</label>
-                    <div class="d-flex">
-                        <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
-                        />
-                    </div>
-                </div>-->
                 <div class="form-group">
                     <label class="form-control-label" for="field_endDate">End Date</label>
                     <div class="input-group">

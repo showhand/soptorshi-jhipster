@@ -1,7 +1,8 @@
 package org.soptorshi.service.dto;
-import java.time.Instant;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -12,9 +13,10 @@ public class SupplyAreaDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private String areaName;
+    private String name;
 
-    private String areaCode;
+    @NotNull
+    private String code;
 
     private String createdBy;
 
@@ -27,7 +29,9 @@ public class SupplyAreaDTO implements Serializable {
 
     private Long supplyZoneId;
 
-    private String supplyZoneZoneName;
+    private String supplyZoneName;
+
+    private Long supplyZoneManagerId;
 
     public Long getId() {
         return id;
@@ -37,20 +41,20 @@ public class SupplyAreaDTO implements Serializable {
         this.id = id;
     }
 
-    public String getAreaName() {
-        return areaName;
+    public String getName() {
+        return name;
     }
 
-    public void setAreaName(String areaName) {
-        this.areaName = areaName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAreaCode() {
-        return areaCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setAreaCode(String areaCode) {
-        this.areaCode = areaCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getCreatedBy() {
@@ -93,12 +97,20 @@ public class SupplyAreaDTO implements Serializable {
         this.supplyZoneId = supplyZoneId;
     }
 
-    public String getSupplyZoneZoneName() {
-        return supplyZoneZoneName;
+    public String getSupplyZoneName() {
+        return supplyZoneName;
     }
 
-    public void setSupplyZoneZoneName(String supplyZoneZoneName) {
-        this.supplyZoneZoneName = supplyZoneZoneName;
+    public void setSupplyZoneName(String supplyZoneName) {
+        this.supplyZoneName = supplyZoneName;
+    }
+
+    public Long getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(Long supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
     }
 
     @Override
@@ -126,14 +138,15 @@ public class SupplyAreaDTO implements Serializable {
     public String toString() {
         return "SupplyAreaDTO{" +
             "id=" + getId() +
-            ", areaName='" + getAreaName() + "'" +
-            ", areaCode='" + getAreaCode() + "'" +
+            ", name='" + getName() + "'" +
+            ", code='" + getCode() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
-            ", supplyZone='" + getSupplyZoneZoneName() + "'" +
+            ", supplyZone='" + getSupplyZoneName() + "'" +
+            ", supplyZoneManager=" + getSupplyZoneManagerId() +
             "}";
     }
 }

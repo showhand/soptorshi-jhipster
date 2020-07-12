@@ -30,14 +30,18 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="salesRepresentativeName"><span>Sales Representative Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="contact"><span>Contact</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="email"><span>Email</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="additionalInformation"><span>Additional Information</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="supplyZoneZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="supplyAreaAreaName"><span>Supply Area</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyAreaName"><span>Supply Area</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="supplyZoneManagerId"><span>Supply Zone Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="supplyAreaManagerId"><span>Supply Area Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -45,20 +49,28 @@
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let supplySalesRepresentative of supplySalesRepresentatives ;trackBy: trackId">
                 <td><a [routerLink]="['/supply-sales-representative', supplySalesRepresentative.id, 'view' ]">{{supplySalesRepresentative.id}}</a></td>
-                <td>{{supplySalesRepresentative.salesRepresentativeName}}</td>
+                <td>{{supplySalesRepresentative.name}}</td>
+                <td>{{supplySalesRepresentative.contact}}</td>
+                <td>{{supplySalesRepresentative.email}}</td>
                 <td>{{supplySalesRepresentative.additionalInformation}}</td>
                 <td>{{supplySalesRepresentative.createdBy}}</td>
                 <td>{{supplySalesRepresentative.createdOn | date:'medium'}}</td>
                 <td>{{supplySalesRepresentative.updatedBy}}</td>
                 <td>{{supplySalesRepresentative.updatedOn | date:'medium'}}</td>
+                <td>{{supplySalesRepresentative.status}}</td>
                 <td>
                     <div *ngIf="supplySalesRepresentative.supplyZoneId">
-                        <a [routerLink]="['../supply-zone', supplySalesRepresentative.supplyZoneId , 'view' ]" >{{supplySalesRepresentative.supplyZoneZoneName}}</a>
+                        <a [routerLink]="['../supply-zone', supplySalesRepresentative.supplyZoneId , 'view' ]" >{{supplySalesRepresentative.supplyZoneName}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="supplySalesRepresentative.supplyAreaId">
-                        <a [routerLink]="['../supply-area', supplySalesRepresentative.supplyAreaId , 'view' ]" >{{supplySalesRepresentative.supplyAreaAreaName}}</a>
+                        <a [routerLink]="['../supply-area', supplySalesRepresentative.supplyAreaId , 'view' ]" >{{supplySalesRepresentative.supplyAreaName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="supplySalesRepresentative.supplyZoneManagerId">
+                        <a [routerLink]="['../supply-zone-manager', supplySalesRepresentative.supplyZoneManagerId , 'view' ]" >{{supplySalesRepresentative.supplyZoneManagerId}}</a>
                     </div>
                 </td>
                 <td>

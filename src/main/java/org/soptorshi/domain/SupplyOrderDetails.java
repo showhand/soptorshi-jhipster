@@ -42,10 +42,11 @@ public class SupplyOrderDetails implements Serializable {
     private BigDecimal quantity;
 
     @NotNull
-    @Column(name = "offered_price", precision = 10, scale = 2, nullable = false)
-    private BigDecimal offeredPrice;
+    @Column(name = "price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal price;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("supplyOrderDetails")
     private SupplyOrder supplyOrder;
 
@@ -133,17 +134,17 @@ public class SupplyOrderDetails implements Serializable {
         this.quantity = quantity;
     }
 
-    public BigDecimal getOfferedPrice() {
-        return offeredPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public SupplyOrderDetails offeredPrice(BigDecimal offeredPrice) {
-        this.offeredPrice = offeredPrice;
+    public SupplyOrderDetails price(BigDecimal price) {
+        this.price = price;
         return this;
     }
 
-    public void setOfferedPrice(BigDecimal offeredPrice) {
-        this.offeredPrice = offeredPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public SupplyOrder getSupplyOrder() {
@@ -215,7 +216,7 @@ public class SupplyOrderDetails implements Serializable {
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
             ", quantity=" + getQuantity() +
-            ", offeredPrice=" + getOfferedPrice() +
+            ", price=" + getPrice() +
             "}";
     }
 }

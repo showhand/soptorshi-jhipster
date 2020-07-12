@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -10,6 +10,8 @@ import { ISupplyArea } from 'app/shared/model/supply-area.model';
 import { SupplyAreaService } from './supply-area.service';
 import { ISupplyZone } from 'app/shared/model/supply-zone.model';
 import { SupplyZoneService } from 'app/entities/supply-zone';
+import { ISupplyZoneManager } from 'app/shared/model/supply-zone-manager.model';
+import { SupplyZoneManagerService } from 'app/entities/supply-zone-manager';
 
 @Component({
     selector: 'jhi-supply-area-update',
@@ -20,6 +22,8 @@ export class SupplyAreaUpdateComponent implements OnInit {
     isSaving: boolean;
 
     supplyzones: ISupplyZone[];
+
+    supplyzonemanagers: ISupplyZoneManager[];
     createdOn: string;
     updatedOn: string;
 
@@ -27,6 +31,7 @@ export class SupplyAreaUpdateComponent implements OnInit {
         protected jhiAlertService: JhiAlertService,
         protected supplyAreaService: SupplyAreaService,
         protected supplyZoneService: SupplyZoneService,
+        protected supplyZoneManagerService: SupplyZoneManagerService,
         protected activatedRoute: ActivatedRoute
     ) {}
 
@@ -44,6 +49,16 @@ export class SupplyAreaUpdateComponent implements OnInit {
                 map((response: HttpResponse<ISupplyZone[]>) => response.body)
             )
             .subscribe((res: ISupplyZone[]) => (this.supplyzones = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.supplyZoneManagerService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ISupplyZoneManager[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ISupplyZoneManager[]>) => response.body)
+            )
+            .subscribe(
+                (res: ISupplyZoneManager[]) => (this.supplyzonemanagers = res),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
     }
 
     previousState() {
@@ -79,6 +94,10 @@ export class SupplyAreaUpdateComponent implements OnInit {
     }
 
     trackSupplyZoneById(index: number, item: ISupplyZone) {
+        return item.id;
+    }
+
+    trackSupplyZoneManagerById(index: number, item: ISupplyZoneManager) {
         return item.id;
     }
 }

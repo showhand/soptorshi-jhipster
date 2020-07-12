@@ -29,7 +29,7 @@ public class SupplyOrderDetailsCriteria implements Serializable {
 
     private BigDecimalFilter quantity;
 
-    private BigDecimalFilter offeredPrice;
+    private BigDecimalFilter price;
 
     private LongFilter supplyOrderId;
 
@@ -85,12 +85,12 @@ public class SupplyOrderDetailsCriteria implements Serializable {
         this.quantity = quantity;
     }
 
-    public BigDecimalFilter getOfferedPrice() {
-        return offeredPrice;
+    public BigDecimalFilter getPrice() {
+        return price;
     }
 
-    public void setOfferedPrice(BigDecimalFilter offeredPrice) {
-        this.offeredPrice = offeredPrice;
+    public void setPrice(BigDecimalFilter price) {
+        this.price = price;
     }
 
     public LongFilter getSupplyOrderId() {
@@ -134,7 +134,7 @@ public class SupplyOrderDetailsCriteria implements Serializable {
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
             Objects.equals(quantity, that.quantity) &&
-            Objects.equals(offeredPrice, that.offeredPrice) &&
+            Objects.equals(price, that.price) &&
             Objects.equals(supplyOrderId, that.supplyOrderId) &&
             Objects.equals(productCategoryId, that.productCategoryId) &&
             Objects.equals(productId, that.productId);
@@ -149,7 +149,7 @@ public class SupplyOrderDetailsCriteria implements Serializable {
         updatedBy,
         updatedOn,
         quantity,
-        offeredPrice,
+        price,
         supplyOrderId,
         productCategoryId,
         productId
@@ -165,7 +165,7 @@ public class SupplyOrderDetailsCriteria implements Serializable {
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
                 (quantity != null ? "quantity=" + quantity + ", " : "") +
-                (offeredPrice != null ? "offeredPrice=" + offeredPrice + ", " : "") +
+                (price != null ? "price=" + price + ", " : "") +
                 (supplyOrderId != null ? "supplyOrderId=" + supplyOrderId + ", " : "") +
                 (productCategoryId != null ? "productCategoryId=" + productCategoryId + ", " : "") +
                 (productId != null ? "productId=" + productId + ", " : "") +

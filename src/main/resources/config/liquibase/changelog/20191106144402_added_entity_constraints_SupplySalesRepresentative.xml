@@ -20,6 +20,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="supply_area"/>
 
+        <addForeignKeyConstraint baseColumnNames="supply_zone_manager_id"
+                                 baseTableName="supply_sales_representative"
+                                 constraintName="fk_supply_sales_representative_supply_zone_manager_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_zone_manager"/>
+
         <addForeignKeyConstraint baseColumnNames="supply_area_manager_id"
                                  baseTableName="supply_sales_representative"
                                  constraintName="fk_supply_sales_representative_supply_area_manager_id"

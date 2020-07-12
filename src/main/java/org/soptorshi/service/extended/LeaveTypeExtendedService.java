@@ -42,7 +42,7 @@ public class LeaveTypeExtendedService extends LeaveTypeService {
     public LeaveTypeDTO save(LeaveTypeDTO leaveTypeDTO) {
         log.debug("Request to save LeaveType : {}", leaveTypeDTO);
         String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
-            SecurityUtils.getCurrentUserLogin().toString() : "";
+            SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
         if (leaveTypeDTO.getId() == null) {

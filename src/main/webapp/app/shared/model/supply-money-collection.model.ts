@@ -9,14 +9,18 @@ export interface ISupplyMoneyCollection {
     createdOn?: Moment;
     updatedBy?: string;
     updatedOn?: Moment;
-    supplyZoneZoneName?: string;
+    supplyZoneName?: string;
     supplyZoneId?: number;
-    supplyAreaAreaName?: string;
+    supplyZoneManagerId?: number;
+    supplyAreaName?: string;
     supplyAreaId?: number;
-    supplyAreaManagerManagerName?: string;
     supplyAreaManagerId?: number;
-    supplySalesRepresentativeSalesRepresentativeName?: string;
+    supplySalesRepresentativeName?: string;
     supplySalesRepresentativeId?: number;
+    supplyShopName?: string;
+    supplyShopId?: number;
+    supplyOrderOrderNo?: string;
+    supplyOrderId?: number;
 }
 
 export class SupplyMoneyCollection implements ISupplyMoneyCollection {
@@ -29,13 +33,17 @@ export class SupplyMoneyCollection implements ISupplyMoneyCollection {
         public createdOn?: Moment,
         public updatedBy?: string,
         public updatedOn?: Moment,
-        public supplyZoneZoneName?: string,
+        public supplyZoneName?: string,
         public supplyZoneId?: number,
-        public supplyAreaAreaName?: string,
+        public supplyZoneManagerId?: number,
+        public supplyAreaName?: string,
         public supplyAreaId?: number,
-        public supplyAreaManagerManagerName?: string,
         public supplyAreaManagerId?: number,
-        public supplySalesRepresentativeSalesRepresentativeName?: string,
-        public supplySalesRepresentativeId?: number
+        public supplySalesRepresentativeName?: string,
+        public supplySalesRepresentativeId?: number,
+        public supplyShopName?: string,
+        public supplyShopId?: number,
+        public supplyOrderOrderNo?: string,
+        public supplyOrderId?: number
     ) {}
 }

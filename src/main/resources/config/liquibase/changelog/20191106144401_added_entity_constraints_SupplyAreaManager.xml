@@ -26,5 +26,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="employee"/>
 
+        <addForeignKeyConstraint baseColumnNames="supply_zone_manager_id"
+                                 baseTableName="supply_area_manager"
+                                 constraintName="fk_supply_area_manager_supply_zone_manager_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="supply_zone_manager"/>
+
     </changeSet>
 </databaseChangeLog>

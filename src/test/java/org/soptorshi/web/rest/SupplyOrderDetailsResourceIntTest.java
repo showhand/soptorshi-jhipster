@@ -68,8 +68,8 @@ public class SupplyOrderDetailsResourceIntTest {
     private static final BigDecimal DEFAULT_QUANTITY = new BigDecimal(1);
     private static final BigDecimal UPDATED_QUANTITY = new BigDecimal(2);
 
-    private static final BigDecimal DEFAULT_OFFERED_PRICE = new BigDecimal(1);
-    private static final BigDecimal UPDATED_OFFERED_PRICE = new BigDecimal(2);
+    private static final BigDecimal DEFAULT_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_PRICE = new BigDecimal(2);
 
     @Autowired
     private SupplyOrderDetailsRepository supplyOrderDetailsRepository;
@@ -135,7 +135,12 @@ public class SupplyOrderDetailsResourceIntTest {
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON)
             .quantity(DEFAULT_QUANTITY)
-            .offeredPrice(DEFAULT_OFFERED_PRICE);
+            .price(DEFAULT_PRICE);
+        // Add required entity
+        SupplyOrder supplyOrder = SupplyOrderResourceIntTest.createEntity(em);
+        em.persist(supplyOrder);
+        em.flush();
+        supplyOrderDetails.setSupplyOrder(supplyOrder);
         // Add required entity
         ProductCategory productCategory = ProductCategoryResourceIntTest.createEntity(em);
         em.persist(productCategory);
@@ -175,7 +180,7 @@ public class SupplyOrderDetailsResourceIntTest {
         assertThat(testSupplyOrderDetails.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
         assertThat(testSupplyOrderDetails.getUpdatedOn()).isEqualTo(DEFAULT_UPDATED_ON);
         assertThat(testSupplyOrderDetails.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
-        assertThat(testSupplyOrderDetails.getOfferedPrice()).isEqualTo(DEFAULT_OFFERED_PRICE);
+        assertThat(testSupplyOrderDetails.getPrice()).isEqualTo(DEFAULT_PRICE);
 
         // Validate the SupplyOrderDetails in Elasticsearch
         verify(mockSupplyOrderDetailsSearchRepository, times(1)).save(testSupplyOrderDetails);
@@ -225,10 +230,10 @@ public class SupplyOrderDetailsResourceIntTest {
 
     @Test
     @Transactional
-    public void checkOfferedPriceIsRequired() throws Exception {
+    public void checkPriceIsRequired() throws Exception {
         int databaseSizeBeforeTest = supplyOrderDetailsRepository.findAll().size();
         // set the field null
-        supplyOrderDetails.setOfferedPrice(null);
+        supplyOrderDetails.setPrice(null);
 
         // Create the SupplyOrderDetails, which fails.
         SupplyOrderDetailsDTO supplyOrderDetailsDTO = supplyOrderDetailsMapper.toDto(supplyOrderDetails);
@@ -258,7 +263,7 @@ public class SupplyOrderDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
-            .andExpect(jsonPath("$.[*].offeredPrice").value(hasItem(DEFAULT_OFFERED_PRICE.intValue())));
+            .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())));
     }
 
     @Test
@@ -277,7 +282,7 @@ public class SupplyOrderDetailsResourceIntTest {
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
             .andExpect(jsonPath("$.updatedOn").value(DEFAULT_UPDATED_ON.toString()))
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY.intValue()))
-            .andExpect(jsonPath("$.offeredPrice").value(DEFAULT_OFFERED_PRICE.intValue()));
+            .andExpect(jsonPath("$.price").value(DEFAULT_PRICE.intValue()));
     }
 
     @Test
@@ -477,41 +482,41 @@ public class SupplyOrderDetailsResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllSupplyOrderDetailsByOfferedPriceIsEqualToSomething() throws Exception {
+    public void getAllSupplyOrderDetailsByPriceIsEqualToSomething() throws Exception {
         // Initialize the database
         supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
 
-        // Get all the supplyOrderDetailsList where offeredPrice equals to DEFAULT_OFFERED_PRICE
-        defaultSupplyOrderDetailsShouldBeFound("offeredPrice.equals=" + DEFAULT_OFFERED_PRICE);
+        // Get all the supplyOrderDetailsList where price equals to DEFAULT_PRICE
+        defaultSupplyOrderDetailsShouldBeFound("price.equals=" + DEFAULT_PRICE);
 
-        // Get all the supplyOrderDetailsList where offeredPrice equals to UPDATED_OFFERED_PRICE
-        defaultSupplyOrderDetailsShouldNotBeFound("offeredPrice.equals=" + UPDATED_OFFERED_PRICE);
+        // Get all the supplyOrderDetailsList where price equals to UPDATED_PRICE
+        defaultSupplyOrderDetailsShouldNotBeFound("price.equals=" + UPDATED_PRICE);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyOrderDetailsByOfferedPriceIsInShouldWork() throws Exception {
+    public void getAllSupplyOrderDetailsByPriceIsInShouldWork() throws Exception {
         // Initialize the database
         supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
 
-        // Get all the supplyOrderDetailsList where offeredPrice in DEFAULT_OFFERED_PRICE or UPDATED_OFFERED_PRICE
-        defaultSupplyOrderDetailsShouldBeFound("offeredPrice.in=" + DEFAULT_OFFERED_PRICE + "," + UPDATED_OFFERED_PRICE);
+        // Get all the supplyOrderDetailsList where price in DEFAULT_PRICE or UPDATED_PRICE
+        defaultSupplyOrderDetailsShouldBeFound("price.in=" + DEFAULT_PRICE + "," + UPDATED_PRICE);
 
-        // Get all the supplyOrderDetailsList where offeredPrice equals to UPDATED_OFFERED_PRICE
-        defaultSupplyOrderDetailsShouldNotBeFound("offeredPrice.in=" + UPDATED_OFFERED_PRICE);
+        // Get all the supplyOrderDetailsList where price equals to UPDATED_PRICE
+        defaultSupplyOrderDetailsShouldNotBeFound("price.in=" + UPDATED_PRICE);
     }
 
     @Test
     @Transactional
-    public void getAllSupplyOrderDetailsByOfferedPriceIsNullOrNotNull() throws Exception {
+    public void getAllSupplyOrderDetailsByPriceIsNullOrNotNull() throws Exception {
         // Initialize the database
         supplyOrderDetailsRepository.saveAndFlush(supplyOrderDetails);
 
-        // Get all the supplyOrderDetailsList where offeredPrice is not null
-        defaultSupplyOrderDetailsShouldBeFound("offeredPrice.specified=true");
+        // Get all the supplyOrderDetailsList where price is not null
+        defaultSupplyOrderDetailsShouldBeFound("price.specified=true");
 
-        // Get all the supplyOrderDetailsList where offeredPrice is null
-        defaultSupplyOrderDetailsShouldNotBeFound("offeredPrice.specified=false");
+        // Get all the supplyOrderDetailsList where price is null
+        defaultSupplyOrderDetailsShouldNotBeFound("price.specified=false");
     }
 
     @Test
@@ -583,7 +588,7 @@ public class SupplyOrderDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
-            .andExpect(jsonPath("$.[*].offeredPrice").value(hasItem(DEFAULT_OFFERED_PRICE.intValue())));
+            .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())));
 
         // Check, that the count call also returns 1
         restSupplyOrderDetailsMockMvc.perform(get("/api/supply-order-details/count?sort=id,desc&" + filter))
@@ -636,7 +641,7 @@ public class SupplyOrderDetailsResourceIntTest {
             .updatedBy(UPDATED_UPDATED_BY)
             .updatedOn(UPDATED_UPDATED_ON)
             .quantity(UPDATED_QUANTITY)
-            .offeredPrice(UPDATED_OFFERED_PRICE);
+            .price(UPDATED_PRICE);
         SupplyOrderDetailsDTO supplyOrderDetailsDTO = supplyOrderDetailsMapper.toDto(updatedSupplyOrderDetails);
 
         restSupplyOrderDetailsMockMvc.perform(put("/api/supply-order-details")
@@ -653,7 +658,7 @@ public class SupplyOrderDetailsResourceIntTest {
         assertThat(testSupplyOrderDetails.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
         assertThat(testSupplyOrderDetails.getUpdatedOn()).isEqualTo(UPDATED_UPDATED_ON);
         assertThat(testSupplyOrderDetails.getQuantity()).isEqualTo(UPDATED_QUANTITY);
-        assertThat(testSupplyOrderDetails.getOfferedPrice()).isEqualTo(UPDATED_OFFERED_PRICE);
+        assertThat(testSupplyOrderDetails.getPrice()).isEqualTo(UPDATED_PRICE);
 
         // Validate the SupplyOrderDetails in Elasticsearch
         verify(mockSupplyOrderDetailsSearchRepository, times(1)).save(testSupplyOrderDetails);
@@ -719,7 +724,7 @@ public class SupplyOrderDetailsResourceIntTest {
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
             .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
-            .andExpect(jsonPath("$.[*].offeredPrice").value(hasItem(DEFAULT_OFFERED_PRICE.intValue())));
+            .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())));
     }
 
     @Test

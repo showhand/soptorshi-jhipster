@@ -36,6 +36,54 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZone",
+            "otherEntityRelationshipName": "supplyChallan",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyZone",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyZoneManager",
+            "otherEntityRelationshipName": "supplyChallan",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyZoneManager",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyArea",
+            "otherEntityRelationshipName": "supplyChallan",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyArea",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyAreaManager",
+            "otherEntityRelationshipName": "supplyChallan",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyAreaManager",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplySalesRepresentative",
+            "otherEntityRelationshipName": "supplyChallan",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplySalesRepresentative",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "supplyShop",
+            "otherEntityRelationshipName": "supplyChallan",
+            "relationshipValidateRules": "required",
+            "relationshipName": "supplyShop",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
             "otherEntityName": "supplyOrder",
             "otherEntityRelationshipName": "supplyChallan",
             "relationshipName": "supplyOrder",

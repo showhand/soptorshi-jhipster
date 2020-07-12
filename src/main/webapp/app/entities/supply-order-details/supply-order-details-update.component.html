@@ -49,16 +49,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_offeredPrice">Offered Price</label>
-                    <input type="number" class="form-control" name="offeredPrice" id="field_offeredPrice"
-                        [(ngModel)]="supplyOrderDetails.offeredPrice" required/>
-                    <div [hidden]="!(editForm.controls.offeredPrice?.dirty && editForm.controls.offeredPrice?.invalid)">
+                    <label class="form-control-label" for="field_price">Price</label>
+                    <input type="number" class="form-control" name="price" id="field_price"
+                        [(ngModel)]="supplyOrderDetails.price" required/>
+                    <div [hidden]="!(editForm.controls.price?.dirty && editForm.controls.price?.invalid)">
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.offeredPrice?.errors?.required">
+                        [hidden]="!editForm.controls.price?.errors?.required">
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.offeredPrice?.errors?.number">
+                            [hidden]="!editForm.controls.price?.errors?.number">
                             This field should be a number.
                         </small>
                     </div>
@@ -66,10 +66,16 @@
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_supplyOrder">Supply Order</label>
-                    <select class="form-control" id="field_supplyOrder" name="supplyOrder" [(ngModel)]="supplyOrderDetails.supplyOrderId" >
-                        <option [ngValue]="null"></option>
+                    <select class="form-control" id="field_supplyOrder" name="supplyOrder" [(ngModel)]="supplyOrderDetails.supplyOrderId"  required>
+                        <option *ngIf="!editForm.value.supplyOrder" [ngValue]="null" selected></option>
                         <option [ngValue]="supplyOrderOption.id" *ngFor="let supplyOrderOption of supplyorders; trackBy: trackSupplyOrderById">{{supplyOrderOption.orderNo}}</option>
                     </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyOrder?.dirty && editForm.controls.supplyOrder?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.supplyOrder?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_productCategory">Product Category</label>

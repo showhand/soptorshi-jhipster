@@ -43,6 +43,8 @@ public class SupplyAreaManagerCriteria implements Serializable {
 
     private LongFilter employeeId;
 
+    private LongFilter supplyZoneManagerId;
+
     public LongFilter getId() {
         return id;
     }
@@ -123,6 +125,14 @@ public class SupplyAreaManagerCriteria implements Serializable {
         this.employeeId = employeeId;
     }
 
+    public LongFilter getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(LongFilter supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -143,7 +153,8 @@ public class SupplyAreaManagerCriteria implements Serializable {
             Objects.equals(status, that.status) &&
             Objects.equals(supplyZoneId, that.supplyZoneId) &&
             Objects.equals(supplyAreaId, that.supplyAreaId) &&
-            Objects.equals(employeeId, that.employeeId);
+            Objects.equals(employeeId, that.employeeId) &&
+            Objects.equals(supplyZoneManagerId, that.supplyZoneManagerId);
     }
 
     @Override
@@ -158,7 +169,8 @@ public class SupplyAreaManagerCriteria implements Serializable {
         status,
         supplyZoneId,
         supplyAreaId,
-        employeeId
+        employeeId,
+        supplyZoneManagerId
         );
     }
 
@@ -175,6 +187,7 @@ public class SupplyAreaManagerCriteria implements Serializable {
                 (supplyZoneId != null ? "supplyZoneId=" + supplyZoneId + ", " : "") +
                 (supplyAreaId != null ? "supplyAreaId=" + supplyAreaId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
+                (supplyZoneManagerId != null ? "supplyZoneManagerId=" + supplyZoneManagerId + ", " : "") +
             "}";
     }
 

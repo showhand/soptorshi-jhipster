@@ -25,7 +25,7 @@
             ]
         },
         {
-            "fieldName": "offeredPrice",
+            "fieldName": "price",
             "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
@@ -37,6 +37,7 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "supplyOrder",
             "otherEntityRelationshipName": "supplyOrderDetails",
+            "relationshipValidateRules": "required",
             "relationshipName": "supplyOrder",
             "otherEntityField": "orderNo"
         },
@@ -65,6 +66,5 @@
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*",
-    "searchEngine": "elasticsearch"
+    "applications": "*"
 }

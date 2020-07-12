@@ -20,7 +20,7 @@ export const supplySalesRepresentativeExtendedRoute: Routes = [
         path: '',
         component: SupplySalesRepresentativeExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplySalesRepresentatives'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const supplySalesRepresentativeExtendedRoute: Routes = [
             supplySalesRepresentative: SupplySalesRepresentativeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplySalesRepresentatives'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const supplySalesRepresentativeExtendedRoute: Routes = [
             supplySalesRepresentative: SupplySalesRepresentativeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplySalesRepresentatives'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const supplySalesRepresentativeExtendedRoute: Routes = [
             supplySalesRepresentative: SupplySalesRepresentativeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplySalesRepresentatives'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const supplySalesRepresentativePopupExtendedRoute: Routes = [
             supplySalesRepresentative: SupplySalesRepresentativeResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplySalesRepresentatives'
         },
         canActivate: [UserRouteAccessService],

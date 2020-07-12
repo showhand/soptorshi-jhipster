@@ -1,0 +1,263 @@
+<div class="row">
+    <div class="col-12">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-supply-area-wise-accumulation-heading">Create or edit a Area Wise Accumulation</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group" [hidden]="!supplyAreaWiseAccumulation.id">
+                            <label for="id">ID</label>
+                            <input type="text" class="form-control" id="id" name="id"
+                                   [(ngModel)]="supplyAreaWiseAccumulation.id" readonly/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_supplyZone">Zone</label>
+                            <select class="form-control" id="field_supplyZone" name="supplyZone"
+                                    [(ngModel)]="supplyAreaWiseAccumulation.supplyZoneId"
+                                    (ngModelChange)="filterZoneManager()" required>
+                                <option *ngIf="!editForm.value.supplyZone" [ngValue]="null" selected></option>
+                                <option [ngValue]="supplyZoneOption.id"
+                                        *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.name}}</option>
+                            </select>
+                        </div>
+                        <div [hidden]="!(editForm.controls.supplyZone?.dirty && editForm.controls.supplyZone?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.supplyZone?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_supplyZoneManager">Zone Manager</label>
+                            <select class="form-control" id="field_supplyZoneManager" name="supplyZoneManager"
+                                    [(ngModel)]="supplyAreaWiseAccumulation.supplyZoneManagerId"
+                                    (ngModelChange)="filterAreaManager()" required>
+                                <option *ngIf="!editForm.value.supplyZoneManager" [ngValue]="null" selected></option>
+                                <option [ngValue]="supplyZoneManagerOption.id"
+                                        *ngFor="let supplyZoneManagerOption of supplyzonemanagers; trackBy: trackSupplyZoneManagerById">{{supplyZoneManagerOption.employeeFullName}}</option>
+                            </select>
+                        </div>
+                        <div
+                            [hidden]="!(editForm.controls.supplyZoneManager?.dirty && editForm.controls.supplyZoneManager?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.supplyZoneManager?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_supplyArea">Supply Area</label>
+                            <select class="form-control" id="field_supplyArea" name="supplyArea"
+                                    [(ngModel)]="supplyAreaWiseAccumulation.supplyAreaId"
+                                    (ngModelChange)="filterAreaManager()" required>
+                                <option *ngIf="!editForm.value.supplyArea" [ngValue]="null" selected></option>
+                                <option [ngValue]="supplyAreaOption.id"
+                                        *ngFor="let supplyAreaOption of supplyareas; trackBy: trackSupplyAreaById">{{supplyAreaOption.name}}</option>
+                            </select>
+                        </div>
+                        <div [hidden]="!(editForm.controls.supplyArea?.dirty && editForm.controls.supplyArea?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.supplyArea?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_supplyAreaManager">Area Manager</label>
+                            <select class="form-control" id="field_supplyAreaManager" name="supplyAreaManager"
+                                    [(ngModel)]="supplyAreaWiseAccumulation.supplyAreaManagerId"
+                                    (ngModelChange)="filterSupplyOrders()" required>
+                                <option *ngIf="!editForm.value.supplyAreaManager" [ngValue]="null" selected></option>
+                                <option [ngValue]="supplyAreaManagerOption.id"
+                                        *ngFor="let supplyAreaManagerOption of supplyareamanagers; trackBy: trackSupplyAreaManagerById">{{supplyAreaManagerOption.employeeFullName}}</option>
+                            </select>
+                        </div>
+                        <div
+                            [hidden]="!(editForm.controls.supplyAreaManager?.dirty && editForm.controls.supplyAreaManager?.invalid)">
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.supplyAreaManager?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_areaWiseAccumulationRefNo">Ref No</label>
+                            <input type="text" class="form-control" name="areaWiseAccumulationRefNo"
+                                   id="field_areaWiseAccumulationRefNo"
+                                   [(ngModel)]="supplyAreaWiseAccumulation.areaWiseAccumulationRefNo" readOnly required/>
+                            <div
+                                [hidden]="!(editForm.controls.areaWiseAccumulationRefNo?.dirty && editForm.controls.areaWiseAccumulationRefNo?.invalid)">
+                                <small class="form-text text-danger"
+                                       [hidden]="!editForm.controls.areaWiseAccumulationRefNo?.errors?.required">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                    </button>
+                    <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
+                            class="btn btn-primary">
+                        <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div *ngIf="accumulatedList.length > 0">
+    <div class="row">
+        <div class="col-12">
+            <hr>
+            <h4>Accumulated Order</h4>
+            <hr>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th><span>Product Category</span>
+                        </th>
+                        <th><span>Product</span>
+                        </th>
+                        <th><span>Total Quantity</span>
+                        </th>
+                        <th><span>Total Price</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let selectedProduct of accumulatedList">
+                        <td>
+                            <div *ngIf="selectedProduct.productCategoryId">
+                                {{selectedProduct.productCategoryName}}
+                            </div>
+                        </td>
+                        <td>
+                            <div *ngIf="selectedProduct.productId">
+                                {{selectedProduct.productName}}
+                            </div>
+                        </td>
+                        <td>{{selectedProduct.quantity}}</td>
+                        <td>{{selectedProduct.price}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive" *ngIf="supplyOrders">
+            <hr>
+            <h4>Select orders to accumulate</h4>
+            <hr>
+            <div *ngFor="let supplyOrder of supplyOrders ;trackBy: trackId">
+                <div style="background-color: lightcyan">
+                    <div class="row">
+                        <div class="col-3">
+                            Order Id: <b>{{supplyOrder.id}}</b>
+                        </div>
+
+                        <div class="col-3">
+                            Sales Representative: <b>{{supplyOrder.supplySalesRepresentativeName}}</b>
+                        </div>
+
+                        <div class="col-3">
+                            Order No: <b>{{supplyOrder.orderNo}}</b>
+                        </div>
+
+                        <div class="col-3">
+                            Area: <b>{{supplyOrder.supplyAreaName}}</b>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            Order Date: <b>{{supplyOrder.dateOfOrder | date:'mediumDate'}}</b>
+                        </div>
+                        <div class="col-3">
+                            Delivery Date: <b>{{supplyOrder.deliveryDate | date:'mediumDate'}}</b>
+                        </div>
+
+                        <div class="col-3"></div>
+
+                        <div class="col-3">
+                            <input type="checkbox" (click)="selectItem(supplyOrder)">
+                        </div>
+                    </div>
+                </div>
+
+                <br/>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th><span>ID</span></th>
+                            <th><span>Order</span>
+                            </th>
+                            <th><span>Product Category</span>
+                            </th>
+                            <th><span>Product</span>
+                            </th>
+                            <th><span>Quantity</span>
+                            </th>
+                            <th><span>Price</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let supplyOrderDetail of supplyOrderDetails | scmOrderDetailsFilter: supplyOrder.id">
+                            <td>
+                                {{supplyOrderDetail.id}}
+                            </td>
+                            <td>
+                                <div *ngIf="supplyOrderDetail.supplyOrderId">
+                                    {{supplyOrderDetail.supplyOrderOrderNo}}
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="supplyOrderDetail.productCategoryId">
+                                    {{supplyOrderDetail.productName}}
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="supplyOrderDetail.productId">
+                                    {{supplyOrderDetail.productName}}
+                                </div>
+                            </td>
+                            <td>{{supplyOrderDetail.quantity}}</td>
+                            <td>{{supplyOrderDetail.price}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
+

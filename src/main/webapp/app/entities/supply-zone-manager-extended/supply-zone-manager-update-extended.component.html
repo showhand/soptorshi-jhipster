@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-supply-zone-manager-heading">Create or edit a Supply Zone Manager</h2>
+            <h2 id="jhi-supply-zone-manager-heading">Create or edit a Zone Manager</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!supplyZoneManager.id">
@@ -10,13 +10,17 @@
                            [(ngModel)]="supplyZoneManager.id" readonly/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_supplyZone">Supply Zone</label>
-                    <select class="form-control" id="field_supplyZone" name="supplyZone"
-                            [(ngModel)]="supplyZoneManager.supplyZoneId" required>
+                    <label class="form-control-label" for="field_supplyZone">Zone</label>
+                    <select class="form-control" id="field_supplyZone" name="supplyZone" [(ngModel)]="supplyZoneManager.supplyZoneId"  required>
                         <option *ngIf="!editForm.value.supplyZone" [ngValue]="null" selected></option>
-                        <option [ngValue]="supplyZoneOption.id"
-                                *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.zoneName}}</option>
+                        <option [ngValue]="supplyZoneOption.id" *ngFor="let supplyZoneOption of supplyzones; trackBy: trackSupplyZoneById">{{supplyZoneOption.name}}</option>
                     </select>
+                </div>
+                <div [hidden]="!(editForm.controls.supplyZone?.dirty && editForm.controls.supplyZone?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.supplyZone?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
                 <div [hidden]="!(editForm.controls.supplyZone?.dirty && editForm.controls.supplyZone?.invalid)">
                     <small class="form-text text-danger"
@@ -52,30 +56,6 @@
                         </span>
                 </div>
             </div>
-            <!--<div class="form-group">
-                <label class="form-control-label" for="field_createdBy">Created By</label>
-                <input type="text" class="form-control" name="createdBy" id="field_createdBy"
-                    [(ngModel)]="supplyZoneManager.createdBy" />
-            </div>
-            <div class="form-group">
-                <label class="form-control-label" for="field_createdOn">Created On</label>
-                <div class="d-flex">
-                    <input id="field_createdOn" type="datetime-local" class="form-control" name="createdOn" [(ngModel)]="createdOn" placeholder="YYYY-MM-DD HH:mm"
-                    />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-control-label" for="field_updatedBy">Updated By</label>
-                <input type="text" class="form-control" name="updatedBy" id="field_updatedBy"
-                    [(ngModel)]="supplyZoneManager.updatedBy" />
-            </div>
-            <div class="form-group">
-                <label class="form-control-label" for="field_updatedOn">Updated On</label>
-                <div class="d-flex">
-                    <input id="field_updatedOn" type="datetime-local" class="form-control" name="updatedOn" [(ngModel)]="updatedOn" placeholder="YYYY-MM-DD HH:mm"
-                    />
-                </div>
-            </div>-->
             <div class="form-group">
                 <label class="form-control-label" for="field_status">Status</label>
                 <select class="form-control" name="status" [(ngModel)]="supplyZoneManager.status" id="field_status"

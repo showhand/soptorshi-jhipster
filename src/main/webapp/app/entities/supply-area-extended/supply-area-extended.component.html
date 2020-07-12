@@ -1,27 +1,13 @@
 <div>
     <h2 id="page-heading">
-        <span>Supply Areas</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-area" [routerLink]="['/supply-area/new']">
+        <span>Area</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-supply-area" [routerLink]="['/supply-area/new']" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <!--<span class="hidden-sm-down" >
-            Create new Supply Area
-            </span>-->
         </button>
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
         <div class="col-sm-12">
-            <!--<form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>-->
         </div>
     </div>
     <br/>
@@ -30,16 +16,11 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-
-                <th jhiSortBy="supplyZoneZoneName"><span>Supply Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="areaName"><span>Area Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="areaCode"><span>Area Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!--<th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updatedBy"><span>Updated By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updatedOn"><span>Updated On</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
-
-            <th></th>
+                <th jhiSortBy="supplyZoneName"><span>Zone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="supplyZoneManagerId"><span>Supply Zone Manager</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="code"><span>Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']"></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
@@ -47,17 +28,17 @@
                 <td><a [routerLink]="['/supply-area', supplyArea.id, 'view' ]">{{supplyArea.id}}</a></td>
                 <td>
                     <div *ngIf="supplyArea.supplyZoneId">
-                        <a [routerLink]="['../supply-zone', supplyArea.supplyZoneId , 'view' ]" >{{supplyArea.supplyZoneZoneName}}</a>
+                        <a [routerLink]="['../supply-zone', supplyArea.supplyZoneId , 'view' ]" >{{supplyArea.supplyZoneName}}</a>
                     </div>
                 </td>
-                <td>{{supplyArea.areaName}}</td>
-                <td>{{supplyArea.areaCode}}</td>
-                <!--<td>{{supplyArea.createdBy}}</td>
-                <td>{{supplyArea.createdOn | date:'medium'}}</td>
-                <td>{{supplyArea.updatedBy}}</td>
-                <td>{{supplyArea.updatedOn | date:'medium'}}</td>-->
-
-                <td class="text-right" width="20%">
+                <td>
+                    <div *ngIf="supplyArea.supplyZoneManagerId">
+                        <a [routerLink]="['../supply-zone-manager', supplyArea.supplyZoneManagerId , 'view' ]" >{{supplyArea.supplyZoneManagerId | scmZoneManagerFilter: supplyzonemanagers}}</a>
+                    </div>
+                </td>
+                <td>{{supplyArea.name}}</td>
+                <td>{{supplyArea.code}}</td>
+                <td class="text-right" width="20%" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_ZONE_MANAGER']">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 [routerLink]="['/supply-area', supplyArea.id, 'view' ]"
@@ -71,14 +52,6 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
-                        <!--<button type="submit"
-                                [routerLink]="['/', 'supply-area', { outlets: { popup: supplyArea.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>-->
                     </div>
                 </td>
             </tr>

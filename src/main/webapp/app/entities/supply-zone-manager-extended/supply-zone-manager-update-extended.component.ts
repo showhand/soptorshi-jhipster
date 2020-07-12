@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JhiAlertService } from 'ng-jhipster';
 import { SupplyZoneManagerExtendedService } from './supply-zone-manager-extended.service';
-import { SupplyZoneService } from 'app/entities/supply-zone';
-import { EmployeeService } from 'app/entities/employee';
 import { SupplyZoneManagerUpdateComponent } from 'app/entities/supply-zone-manager';
+import { SupplyZoneExtendedService } from 'app/entities/supply-zone-extended';
+import { EmployeeExtendedService } from 'app/entities/employee-extended';
 
 @Component({
     selector: 'jhi-supply-zone-manager-update-extended',
@@ -14,8 +14,8 @@ export class SupplyZoneManagerUpdateExtendedComponent extends SupplyZoneManagerU
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected supplyZoneManagerService: SupplyZoneManagerExtendedService,
-        protected supplyZoneService: SupplyZoneService,
-        protected employeeService: EmployeeService,
+        protected supplyZoneService: SupplyZoneExtendedService,
+        protected employeeService: EmployeeExtendedService,
         protected activatedRoute: ActivatedRoute
     ) {
         super(jhiAlertService, supplyZoneManagerService, supplyZoneService, employeeService, activatedRoute);

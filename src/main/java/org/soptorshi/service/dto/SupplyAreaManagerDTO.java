@@ -31,15 +31,17 @@ public class SupplyAreaManagerDTO implements Serializable {
 
     private Long supplyZoneId;
 
-    private String supplyZoneZoneName;
+    private String supplyZoneName;
 
     private Long supplyAreaId;
 
-    private String supplyAreaAreaName;
+    private String supplyAreaName;
 
     private Long employeeId;
 
     private String employeeFullName;
+
+    private Long supplyZoneManagerId;
 
     public Long getId() {
         return id;
@@ -105,12 +107,12 @@ public class SupplyAreaManagerDTO implements Serializable {
         this.supplyZoneId = supplyZoneId;
     }
 
-    public String getSupplyZoneZoneName() {
-        return supplyZoneZoneName;
+    public String getSupplyZoneName() {
+        return supplyZoneName;
     }
 
-    public void setSupplyZoneZoneName(String supplyZoneZoneName) {
-        this.supplyZoneZoneName = supplyZoneZoneName;
+    public void setSupplyZoneName(String supplyZoneName) {
+        this.supplyZoneName = supplyZoneName;
     }
 
     public Long getSupplyAreaId() {
@@ -121,12 +123,12 @@ public class SupplyAreaManagerDTO implements Serializable {
         this.supplyAreaId = supplyAreaId;
     }
 
-    public String getSupplyAreaAreaName() {
-        return supplyAreaAreaName;
+    public String getSupplyAreaName() {
+        return supplyAreaName;
     }
 
-    public void setSupplyAreaAreaName(String supplyAreaAreaName) {
-        this.supplyAreaAreaName = supplyAreaAreaName;
+    public void setSupplyAreaName(String supplyAreaName) {
+        this.supplyAreaName = supplyAreaName;
     }
 
     public Long getEmployeeId() {
@@ -143,6 +145,14 @@ public class SupplyAreaManagerDTO implements Serializable {
 
     public void setEmployeeFullName(String employeeFullName) {
         this.employeeFullName = employeeFullName;
+    }
+
+    public Long getSupplyZoneManagerId() {
+        return supplyZoneManagerId;
+    }
+
+    public void setSupplyZoneManagerId(Long supplyZoneManagerId) {
+        this.supplyZoneManagerId = supplyZoneManagerId;
     }
 
     @Override
@@ -177,11 +187,12 @@ public class SupplyAreaManagerDTO implements Serializable {
             ", endDate='" + getEndDate() + "'" +
             ", status='" + getStatus() + "'" +
             ", supplyZone=" + getSupplyZoneId() +
-            ", supplyZone='" + getSupplyZoneZoneName() + "'" +
+            ", supplyZone='" + getSupplyZoneName() + "'" +
             ", supplyArea=" + getSupplyAreaId() +
-            ", supplyArea='" + getSupplyAreaAreaName() + "'" +
+            ", supplyArea='" + getSupplyAreaName() + "'" +
             ", employee=" + getEmployeeId() +
             ", employee='" + getEmployeeFullName() + "'" +
+            ", supplyZoneManager=" + getSupplyZoneManagerId() +
             "}";
     }
 }

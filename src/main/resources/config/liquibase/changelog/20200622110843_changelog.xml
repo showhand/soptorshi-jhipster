@@ -1,0 +1,168 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1592824160092-1">
+        <addColumn tableName="supply_shop">
+            <column name="address" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-2">
+        <addColumn tableName="supply_area">
+            <column name="code" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-3">
+        <addColumn tableName="supply_zone">
+            <column name="code" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-4">
+        <addColumn tableName="supply_sales_representative">
+            <column name="contact" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-5">
+        <addColumn tableName="supply_shop">
+            <column name="contact" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-6">
+        <addColumn tableName="supply_sales_representative">
+            <column name="email" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-7">
+        <addColumn tableName="supply_shop">
+            <column name="email" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-8">
+        <addColumn tableName="supply_area">
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-9">
+        <addColumn tableName="supply_sales_representative">
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-10">
+        <addColumn tableName="supply_shop">
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-11">
+        <addColumn tableName="supply_zone">
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-12">
+        <addColumn tableName="supply_sales_representative">
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-13">
+        <addColumn tableName="supply_area_manager">
+            <column name="supply_zone_manager_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-14">
+        <addColumn tableName="supply_sales_representative">
+            <column name="supply_zone_manager_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-15">
+        <addColumn tableName="supply_shop">
+            <column name="supply_zone_manager_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-16">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_manager_id" baseTableName="supply_sales_representative" constraintName="FK58sisj3yq2vtytavfxu9k0vo3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-17">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_manager_id" baseTableName="supply_area_manager" constraintName="FKcjnyvbi2v0avj5dkxqkpmsurd" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-18">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_manager_id" baseTableName="supply_shop" constraintName="FKjtyrbafeeitxai8wjhg2ph4pi" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone_manager"/>
+    </changeSet>
+    <!--<changeSet author="kawsu (generated)" id="1592824160092-19">
+        <addForeignKeyConstraint baseColumnNames="product_category_id" baseTableName="requisition_details" constraintName="FKrjl1usc4p3l2qcnfpfhyvirmn" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_category"/>
+    </changeSet>-->
+    <changeSet author="kawsu (generated)" id="1592824160092-20">
+        <dropForeignKeyConstraint baseTableName="supply_area_manager" constraintName="FKlhi161dacg3898ealphbkl2pm"/>
+    </changeSet>
+    <!--<changeSet author="kawsu (generated)" id="1592824160092-21">
+        <dropUniqueConstraint constraintName="unique_financial_year_month_type" tableName="period_close"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-22">
+        <dropUniqueConstraint constraintName="voucher_id" tableName="predefined_narration"/>
+    </changeSet>-->
+    <changeSet author="kawsu (generated)" id="1592824160092-23">
+        <dropColumn columnName="area_code" tableName="supply_area"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-24">
+        <dropColumn columnName="area_name" tableName="supply_area"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-25">
+        <dropColumn columnName="sales_representative_name" tableName="supply_sales_representative"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-26">
+        <dropColumn columnName="shop_name" tableName="supply_shop"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-27">
+        <dropColumn columnName="supply_zone_managers_id" tableName="supply_area_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-28">
+        <dropColumn columnName="zone_code" tableName="supply_zone"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-29">
+        <dropColumn columnName="zone_name" tableName="supply_zone"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-30">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_area_id" tableName="supply_area_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-31">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_area_id" tableName="supply_sales_representative"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-32">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_area_id" tableName="supply_shop"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-33">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_sales_representative_id" tableName="supply_shop"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-34">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_zone_id" tableName="supply_area"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-35">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_zone_id" tableName="supply_area_manager"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-36">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_zone_id" tableName="supply_sales_representative"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592824160092-37">
+        <addNotNullConstraint columnDataType="bigint" columnName="supply_zone_id" tableName="supply_shop"/>
+    </changeSet>
+</databaseChangeLog>

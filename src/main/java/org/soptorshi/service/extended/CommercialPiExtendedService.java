@@ -54,7 +54,7 @@ public class CommercialPiExtendedService extends CommercialPiService {
     public CommercialPiDTO save(CommercialPiDTO commercialPiDTO) {
         log.debug("Request to save CommercialPi : {}", commercialPiDTO);
 
-        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().toString() : "";
+        String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ? SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
         if (commercialPiDTO.getId() == null) {

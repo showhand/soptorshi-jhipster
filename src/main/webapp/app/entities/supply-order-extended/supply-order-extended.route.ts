@@ -7,7 +7,6 @@ import { SupplyOrderDetailExtendedComponent } from './supply-order-detail-extend
 import { SupplyOrderUpdateExtendedComponent } from './supply-order-update-extended.component';
 import { SupplyOrderDeletePopupExtendedComponent } from './supply-order-delete-dialog-extended.component';
 import { SupplyOrderResolve } from 'app/entities/supply-order';
-import { AccumulateOrderComponent } from 'app/entities/supply-order-extended/accumulate-order.component';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyOrderExtendedResolve extends SupplyOrderResolve {
@@ -21,7 +20,7 @@ export const supplyOrderExtendedRoute: Routes = [
         path: '',
         component: SupplyOrderExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrders'
         },
         canActivate: [UserRouteAccessService]
@@ -33,7 +32,7 @@ export const supplyOrderExtendedRoute: Routes = [
             supplyOrder: SupplyOrderResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrders'
         },
         canActivate: [UserRouteAccessService]
@@ -45,7 +44,7 @@ export const supplyOrderExtendedRoute: Routes = [
             supplyOrder: SupplyOrderResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrders'
         },
         canActivate: [UserRouteAccessService]
@@ -57,17 +56,8 @@ export const supplyOrderExtendedRoute: Routes = [
             supplyOrder: SupplyOrderResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN', 'ROLE_SCM_AREA_MANAGER'],
             pageTitle: 'SupplyOrders'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'accumulate',
-        component: AccumulateOrderComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'AccumulateSupplyOrders'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -81,7 +71,7 @@ export const supplyOrderPopupExtendedRoute: Routes = [
             supplyOrder: SupplyOrderResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_SCM_ADMIN'],
             pageTitle: 'SupplyOrders'
         },
         canActivate: [UserRouteAccessService],

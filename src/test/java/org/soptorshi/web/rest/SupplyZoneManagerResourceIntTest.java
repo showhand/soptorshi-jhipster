@@ -11,12 +11,15 @@ import org.soptorshi.domain.SupplyZoneManager;
 import org.soptorshi.domain.enumeration.SupplyZoneManagerStatus;
 import org.soptorshi.repository.SupplyZoneManagerRepository;
 import org.soptorshi.repository.search.SupplyZoneManagerSearchRepository;
+import org.soptorshi.service.SupplyZoneManagerQueryService;
 import org.soptorshi.service.SupplyZoneManagerService;
 import org.soptorshi.service.dto.SupplyZoneManagerDTO;
 import org.soptorshi.service.mapper.SupplyZoneManagerMapper;
 import org.soptorshi.web.rest.errors.ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -86,6 +89,9 @@ public class SupplyZoneManagerResourceIntTest {
     private SupplyZoneManagerSearchRepository mockSupplyZoneManagerSearchRepository;
 
     @Autowired
+    private SupplyZoneManagerQueryService supplyZoneManagerQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -107,7 +113,7 @@ public class SupplyZoneManagerResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final SupplyZoneManagerResource supplyZoneManagerResource = new SupplyZoneManagerResource(supplyZoneManagerService);
+        final SupplyZoneManagerResource supplyZoneManagerResource = new SupplyZoneManagerResource(supplyZoneManagerService, supplyZoneManagerQueryService);
         this.restSupplyZoneManagerMockMvc = MockMvcBuilders.standaloneSetup(supplyZoneManagerResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -257,6 +263,344 @@ public class SupplyZoneManagerResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllSupplyZoneManagersByEndDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where endDate equals to DEFAULT_END_DATE
+        defaultSupplyZoneManagerShouldBeFound("endDate.equals=" + DEFAULT_END_DATE);
+
+        // Get all the supplyZoneManagerList where endDate equals to UPDATED_END_DATE
+        defaultSupplyZoneManagerShouldNotBeFound("endDate.equals=" + UPDATED_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByEndDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where endDate in DEFAULT_END_DATE or UPDATED_END_DATE
+        defaultSupplyZoneManagerShouldBeFound("endDate.in=" + DEFAULT_END_DATE + "," + UPDATED_END_DATE);
+
+        // Get all the supplyZoneManagerList where endDate equals to UPDATED_END_DATE
+        defaultSupplyZoneManagerShouldNotBeFound("endDate.in=" + UPDATED_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByEndDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where endDate is not null
+        defaultSupplyZoneManagerShouldBeFound("endDate.specified=true");
+
+        // Get all the supplyZoneManagerList where endDate is null
+        defaultSupplyZoneManagerShouldNotBeFound("endDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByEndDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where endDate greater than or equals to DEFAULT_END_DATE
+        defaultSupplyZoneManagerShouldBeFound("endDate.greaterOrEqualThan=" + DEFAULT_END_DATE);
+
+        // Get all the supplyZoneManagerList where endDate greater than or equals to UPDATED_END_DATE
+        defaultSupplyZoneManagerShouldNotBeFound("endDate.greaterOrEqualThan=" + UPDATED_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByEndDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where endDate less than or equals to DEFAULT_END_DATE
+        defaultSupplyZoneManagerShouldNotBeFound("endDate.lessThan=" + DEFAULT_END_DATE);
+
+        // Get all the supplyZoneManagerList where endDate less than or equals to UPDATED_END_DATE
+        defaultSupplyZoneManagerShouldBeFound("endDate.lessThan=" + UPDATED_END_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByCreatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where createdBy equals to DEFAULT_CREATED_BY
+        defaultSupplyZoneManagerShouldBeFound("createdBy.equals=" + DEFAULT_CREATED_BY);
+
+        // Get all the supplyZoneManagerList where createdBy equals to UPDATED_CREATED_BY
+        defaultSupplyZoneManagerShouldNotBeFound("createdBy.equals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByCreatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where createdBy in DEFAULT_CREATED_BY or UPDATED_CREATED_BY
+        defaultSupplyZoneManagerShouldBeFound("createdBy.in=" + DEFAULT_CREATED_BY + "," + UPDATED_CREATED_BY);
+
+        // Get all the supplyZoneManagerList where createdBy equals to UPDATED_CREATED_BY
+        defaultSupplyZoneManagerShouldNotBeFound("createdBy.in=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByCreatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where createdBy is not null
+        defaultSupplyZoneManagerShouldBeFound("createdBy.specified=true");
+
+        // Get all the supplyZoneManagerList where createdBy is null
+        defaultSupplyZoneManagerShouldNotBeFound("createdBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByCreatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where createdOn equals to DEFAULT_CREATED_ON
+        defaultSupplyZoneManagerShouldBeFound("createdOn.equals=" + DEFAULT_CREATED_ON);
+
+        // Get all the supplyZoneManagerList where createdOn equals to UPDATED_CREATED_ON
+        defaultSupplyZoneManagerShouldNotBeFound("createdOn.equals=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByCreatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where createdOn in DEFAULT_CREATED_ON or UPDATED_CREATED_ON
+        defaultSupplyZoneManagerShouldBeFound("createdOn.in=" + DEFAULT_CREATED_ON + "," + UPDATED_CREATED_ON);
+
+        // Get all the supplyZoneManagerList where createdOn equals to UPDATED_CREATED_ON
+        defaultSupplyZoneManagerShouldNotBeFound("createdOn.in=" + UPDATED_CREATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByCreatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where createdOn is not null
+        defaultSupplyZoneManagerShouldBeFound("createdOn.specified=true");
+
+        // Get all the supplyZoneManagerList where createdOn is null
+        defaultSupplyZoneManagerShouldNotBeFound("createdOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByUpdatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where updatedBy equals to DEFAULT_UPDATED_BY
+        defaultSupplyZoneManagerShouldBeFound("updatedBy.equals=" + DEFAULT_UPDATED_BY);
+
+        // Get all the supplyZoneManagerList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultSupplyZoneManagerShouldNotBeFound("updatedBy.equals=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByUpdatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where updatedBy in DEFAULT_UPDATED_BY or UPDATED_UPDATED_BY
+        defaultSupplyZoneManagerShouldBeFound("updatedBy.in=" + DEFAULT_UPDATED_BY + "," + UPDATED_UPDATED_BY);
+
+        // Get all the supplyZoneManagerList where updatedBy equals to UPDATED_UPDATED_BY
+        defaultSupplyZoneManagerShouldNotBeFound("updatedBy.in=" + UPDATED_UPDATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByUpdatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where updatedBy is not null
+        defaultSupplyZoneManagerShouldBeFound("updatedBy.specified=true");
+
+        // Get all the supplyZoneManagerList where updatedBy is null
+        defaultSupplyZoneManagerShouldNotBeFound("updatedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByUpdatedOnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where updatedOn equals to DEFAULT_UPDATED_ON
+        defaultSupplyZoneManagerShouldBeFound("updatedOn.equals=" + DEFAULT_UPDATED_ON);
+
+        // Get all the supplyZoneManagerList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultSupplyZoneManagerShouldNotBeFound("updatedOn.equals=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByUpdatedOnIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where updatedOn in DEFAULT_UPDATED_ON or UPDATED_UPDATED_ON
+        defaultSupplyZoneManagerShouldBeFound("updatedOn.in=" + DEFAULT_UPDATED_ON + "," + UPDATED_UPDATED_ON);
+
+        // Get all the supplyZoneManagerList where updatedOn equals to UPDATED_UPDATED_ON
+        defaultSupplyZoneManagerShouldNotBeFound("updatedOn.in=" + UPDATED_UPDATED_ON);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByUpdatedOnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where updatedOn is not null
+        defaultSupplyZoneManagerShouldBeFound("updatedOn.specified=true");
+
+        // Get all the supplyZoneManagerList where updatedOn is null
+        defaultSupplyZoneManagerShouldNotBeFound("updatedOn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where status equals to DEFAULT_STATUS
+        defaultSupplyZoneManagerShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the supplyZoneManagerList where status equals to UPDATED_STATUS
+        defaultSupplyZoneManagerShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultSupplyZoneManagerShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the supplyZoneManagerList where status equals to UPDATED_STATUS
+        defaultSupplyZoneManagerShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+
+        // Get all the supplyZoneManagerList where status is not null
+        defaultSupplyZoneManagerShouldBeFound("status.specified=true");
+
+        // Get all the supplyZoneManagerList where status is null
+        defaultSupplyZoneManagerShouldNotBeFound("status.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersBySupplyZoneIsEqualToSomething() throws Exception {
+        // Initialize the database
+        SupplyZone supplyZone = SupplyZoneResourceIntTest.createEntity(em);
+        em.persist(supplyZone);
+        em.flush();
+        supplyZoneManager.setSupplyZone(supplyZone);
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+        Long supplyZoneId = supplyZone.getId();
+
+        // Get all the supplyZoneManagerList where supplyZone equals to supplyZoneId
+        defaultSupplyZoneManagerShouldBeFound("supplyZoneId.equals=" + supplyZoneId);
+
+        // Get all the supplyZoneManagerList where supplyZone equals to supplyZoneId + 1
+        defaultSupplyZoneManagerShouldNotBeFound("supplyZoneId.equals=" + (supplyZoneId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSupplyZoneManagersByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        supplyZoneManager.setEmployee(employee);
+        supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
+        Long employeeId = employee.getId();
+
+        // Get all the supplyZoneManagerList where employee equals to employeeId
+        defaultSupplyZoneManagerShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the supplyZoneManagerList where employee equals to employeeId + 1
+        defaultSupplyZoneManagerShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultSupplyZoneManagerShouldBeFound(String filter) throws Exception {
+        restSupplyZoneManagerMockMvc.perform(get("/api/supply-zone-managers?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(supplyZoneManager.getId().intValue())))
+            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
+            .andExpect(jsonPath("$.[*].updatedOn").value(hasItem(DEFAULT_UPDATED_ON.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
+
+        // Check, that the count call also returns 1
+        restSupplyZoneManagerMockMvc.perform(get("/api/supply-zone-managers/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultSupplyZoneManagerShouldNotBeFound(String filter) throws Exception {
+        restSupplyZoneManagerMockMvc.perform(get("/api/supply-zone-managers?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restSupplyZoneManagerMockMvc.perform(get("/api/supply-zone-managers/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
+
+    @Test
+    @Transactional
     public void getNonExistingSupplyZoneManager() throws Exception {
         // Get the supplyZoneManager
         restSupplyZoneManagerMockMvc.perform(get("/api/supply-zone-managers/{id}", Long.MAX_VALUE))
@@ -352,8 +696,8 @@ public class SupplyZoneManagerResourceIntTest {
     public void searchSupplyZoneManager() throws Exception {
         // Initialize the database
         supplyZoneManagerRepository.saveAndFlush(supplyZoneManager);
-        when(mockSupplyZoneManagerSearchRepository.search(queryStringQuery("id:" + supplyZoneManager.getId())))
-            .thenReturn(Collections.singletonList(supplyZoneManager));
+        when(mockSupplyZoneManagerSearchRepository.search(queryStringQuery("id:" + supplyZoneManager.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(supplyZoneManager), PageRequest.of(0, 1), 1));
         // Search the supplyZoneManager
         restSupplyZoneManagerMockMvc.perform(get("/api/_search/supply-zone-managers?query=id:" + supplyZoneManager.getId()))
             .andExpect(status().isOk())

@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1592385368592-1">
+        <addColumn tableName="supply_area_manager">
+            <column name="supply_zone_managers_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1592385368592-2">
+        <addForeignKeyConstraint baseColumnNames="supply_zone_managers_id" baseTableName="supply_area_manager" constraintName="FKlhi161dacg3898ealphbkl2pm" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="supply_zone_manager"/>
+    </changeSet>
+</databaseChangeLog>
