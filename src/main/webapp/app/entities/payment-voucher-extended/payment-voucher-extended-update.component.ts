@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { IPaymentVoucher } from 'app/shared/model/payment-voucher.model';
-import { PaymentVoucherService, PaymentVoucherUpdateComponent } from 'app/entities/payment-voucher';
+import { PaymentVoucherUpdateComponent } from 'app/entities/payment-voucher';
 import { PaymentVoucherExtendedService } from 'app/entities/payment-voucher-extended/payment-voucher-extended.service';
 import { JhiAlertService } from 'ng-jhipster';
 import { MstAccountService } from 'app/entities/mst-account';
@@ -17,6 +17,11 @@ import { FinancialYearStatus, IFinancialAccountYear } from 'app/shared/model/fin
 import { SystemGroupMapService } from 'app/entities/system-group-map';
 import { GroupType, ISystemGroupMap } from 'app/shared/model/system-group-map.model';
 import { DtTransactionExtendedService } from 'app/entities/dt-transaction-extended';
+import { ApplicationType } from 'app/shared/model/journal-voucher.model';
+import { RequisitionExtendedService } from 'app/entities/requisition-extended/requisition-extended.service';
+import { PurchaseOrderExtendedService } from 'app/entities/purchase-order-extended';
+import { IPurchaseOrder } from 'app/shared/model/purchase-order.model';
+import { IRequisition } from 'app/shared/model/requisition.model';
 
 @Component({
     selector: 'jhi-payment-voucher-update',
@@ -32,7 +37,9 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
     bankAccountBalance: IAccountBalance;
     openedFinancialAccountYear: IFinancialAccountYear;
     bankAndCashGroupIds: number[];
-
+    purchaseOrder: IPurchaseOrder;
+    purchaseOrders: IPurchaseOrder[];
+    requisition: IRequisition;
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected paymentVoucherService: PaymentVoucherExtendedService,
@@ -41,7 +48,9 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
         protected accountBalanceService: AccountBalanceService,
         protected financialAccountYearService: FinancialAccountYearExtendedService,
         protected systemGroupMapService: SystemGroupMapService,
-        protected dtTransactionService: DtTransactionExtendedService
+        protected dtTransactionService: DtTransactionExtendedService,
+        private requisitionService: RequisitionExtendedService,
+        private purchaseOrderService: PurchaseOrderExtendedService
     ) {
         super(jhiAlertService, paymentVoucherService, mstAccountService, activatedRoute);
     }
@@ -83,6 +92,17 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ paymentVoucher }) => {
             this.paymentVoucher = paymentVoucher;
+            if (this.paymentVoucher.applicationType.toUpperCase() === 'REQUISITION') {
+                forkJoin(
+                    this.requisitionService.find(this.paymentVoucher.applicationId),
+                    this.purchaseOrderService.query({
+                        'requisitionId.equals': this.paymentVoucher.applicationId
+                    })
+                ).subscribe(res => {
+                    this.requisition = res[0].body;
+                    this.purchaseOrders = res[1].body;
+                });
+            }
         });
         this.loadAll();
     }
@@ -116,6 +136,9 @@ export class PaymentVoucherExtendedUpdateComponent extends PaymentVoucherUpdateC
     post() {
         this.paymentVoucher.postDate = moment();
         this.save();
+    }
+    protected onSaveSuccess() {
+        this.isSaving = false;
     }
 
     downloadVoucherReport() {

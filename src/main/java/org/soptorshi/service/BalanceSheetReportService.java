@@ -63,11 +63,13 @@ public class BalanceSheetReportService {
         List<DtTransaction> dtTransactions = dtTransactionExtendedRepository.findByVoucherDateBetween(openedFinancialAccountYear.getStartDate(), asOnDate);
         Map<Long, List<DtTransaction>> accountMapTotalDebitBalance = dtTransactions
             .stream()
+            .filter(t->t.getAccount()!=null)
             .filter(t->t.getBalanceType().equals(BalanceType.DEBIT))
             .collect(Collectors.groupingBy(t->t.getAccount().getId()));
 
         Map<Long, List<DtTransaction>> accountMapTotalCreditBalance = dtTransactions
             .stream()
+            .filter(t->t.getAccount()!=null)
             .filter(t->t.getBalanceType().equals(BalanceType.CREDIT))
             .collect(Collectors.groupingBy(t->t.getAccount().getId()));
 
@@ -107,6 +109,7 @@ public class BalanceSheetReportService {
 
         PdfPTable assetTable = new PdfPTable(1);
         cell = new PdfPCell(new Paragraph("Asset", mBoldFont));
+        cell.setPaddingTop(20f);
         cell.setBorder(Rectangle.NO_BORDER);
         assetTable.addCell(cell);
 
@@ -116,6 +119,7 @@ public class BalanceSheetReportService {
         PdfPTable assetGroupTable = new PdfPTable(innerTableCellWidth);
         BigDecimal assetTotalAmount = createGroupSection(GroupType.ASSETS, groupTypeSystemAccountMapMap, balanceSheetFetchType, groupMapWithAccounts, accountMapTotalDebitBalance, accountMapTotalCreditBalance, assetGroupTable);
         cell = new PdfPCell(new Paragraph("Total", mBoldFont));
+        cell.setPaddingTop(20f);
         cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
         assetGroupTable.addCell(cell);
         cell = new PdfPCell(new Paragraph(SoptorshiUtils.getFormattedBalance(assetTotalAmount), mBoldFont));
@@ -137,6 +141,7 @@ public class BalanceSheetReportService {
 
         PdfPTable rightTable = new PdfPTable(1);
         cell = new PdfPCell(new Paragraph("Liabilities", mBoldFont));
+        cell.setPaddingTop(20f);
         cell.setBorder(Rectangle.NO_BORDER);
         rightTable.addCell(cell);
         PdfPTable liabilitiesGroupTable = new PdfPTable(innerTableCellWidth);
@@ -153,7 +158,12 @@ public class BalanceSheetReportService {
         cell.setBorder(Rectangle.NO_BORDER);
         rightTable.addCell(cell);
 
-        cell = new PdfPCell(new Paragraph("Income", mBoldFont));
+
+
+        BigDecimal incomeAmount = BigDecimal.ZERO;
+
+
+      /*  cell = new PdfPCell(new Paragraph("Income", mBoldFont));
         cell.setBorder(Rectangle.NO_BORDER);
         rightTable.addCell(cell);
         PdfPTable incomeGroupTable = new PdfPTable(innerTableCellWidth);
@@ -170,10 +180,12 @@ public class BalanceSheetReportService {
         cell = new PdfPCell();
         cell.setBorder(Rectangle.NO_BORDER);
         cell.addElement(incomeGroupTable);
-        rightTable.addCell(cell);
+        rightTable.addCell(cell);*/
+
 
         cell = new PdfPCell(new Paragraph("Expenditure", mBoldFont));
         cell.setBorder(Rectangle.NO_BORDER);
+        cell.setPaddingTop(20f);
         rightTable.addCell(cell);
         PdfPTable expenseGroupTable = new PdfPTable(innerTableCellWidth);
         BigDecimal expenseAmount = createGroupSection(GroupType.EXPENSES, groupTypeSystemAccountMapMap, balanceSheetFetchType, groupMapWithAccounts, accountMapTotalDebitBalance, accountMapTotalCreditBalance, expenseGroupTable);

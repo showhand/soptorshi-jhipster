@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
@@ -26,7 +26,8 @@ export class SalaryVoucherRelationExtendedComponent extends SalaryVoucherRelatio
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
-        protected accountService: AccountService
+        protected accountService: AccountService,
+        private router: Router
     ) {
         super(salaryVoucherRelationService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
     }
@@ -56,6 +57,13 @@ export class SalaryVoucherRelationExtendedComponent extends SalaryVoucherRelatio
             this.salaryVoucherRelation = salaryVoucherRelation;
             this.loadAll();
         });
+    }
+
+    gotoVoucher(salaryVoucherRelation: ISalaryVoucherRelation): void {
+        if (salaryVoucherRelation.voucherNo.includes('JN'))
+            this.router.navigate(['/journal-voucher/voucher-no', salaryVoucherRelation.voucherNo, 'edit']);
+        else if (salaryVoucherRelation.voucherNo.includes('BP'))
+            this.router.navigate(['/payment-voucher/voucher-no', salaryVoucherRelation.voucherNo, 'edit']);
     }
 
     ngOnDestroy() {

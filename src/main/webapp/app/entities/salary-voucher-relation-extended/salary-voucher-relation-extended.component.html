@@ -44,7 +44,7 @@
                 <td><a [routerLink]="['/salary-voucher-relation', salaryVoucherRelation.id, 'view' ]">{{salaryVoucherRelation.id}}</a></td>
                 <td>{{salaryVoucherRelation.year}}</td>
                 <td>{{salaryVoucherRelation.month}}</td>
-                <td>{{salaryVoucherRelation.voucherNo}}</td>
+                <td style="cursor: pointer;" (click)="gotoVoucher(salaryVoucherRelation)">{{salaryVoucherRelation.voucherNo}}</td>
                 <td>{{salaryVoucherRelation.modifiedBy}}</td>
                 <td>{{salaryVoucherRelation.modifiedOn | date:'mediumDate'}}</td>
                 <td>
