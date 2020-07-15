@@ -1,3 +1,4 @@
+/*
 import { AfterContentInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -279,3 +280,4 @@ export class EmployeeManagementComponent implements OnInit, AfterContentInit {
 
     disablePersonalInformationEdit() {}
 }
+*/
