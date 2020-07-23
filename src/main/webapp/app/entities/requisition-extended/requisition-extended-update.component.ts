@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { JhiAlertService, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
 import { IRequisition, RequisitionStatus } from 'app/shared/model/requisition.model';
@@ -16,7 +16,7 @@ import { DepartmentService } from 'app/entities/department';
 import { AccountService } from 'app/core';
 import { PurchaseOrderService } from 'app/entities/purchase-order';
 import { IPurchaseOrder, PurchaseOrderStatus } from 'app/shared/model/purchase-order.model';
-import { RequisitionService, RequisitionUpdateComponent } from 'app/entities/requisition';
+import { RequisitionUpdateComponent } from 'app/entities/requisition';
 import { NgbModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { RequisitionDetailsService } from 'app/entities/requisition-details';
 import { QuotationService } from 'app/entities/quotation';
@@ -294,7 +294,7 @@ export class RequisitionExtendedUpdateComponent extends RequisitionUpdateCompone
             });
     }
 
-    private createPurchaseOrder(): void {
+    public createPurchaseOrder(): void {
         const requisitionId = this.requisition.id;
         this.router.navigate(['/purchase-order', requisitionId, 'create']);
     }
