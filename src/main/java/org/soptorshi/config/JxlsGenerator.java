@@ -43,15 +43,17 @@ public class JxlsGenerator {
 
 
     public void profitAndLossBuilder(
+        List<String> months,
         List<ProfitLossDto> revenue,
         List<ProfitLossDto> expense,
         AccountWithMonthlyBalances comparingBalance,
         OutputStream out,
         InputStream templateLocation) throws IOException{
         Context context = new Context();
-//        context.putVar("revenue", revenue);
-//        context.putVar("expense", expense);
-//        context.putVar("comparingBalance", comparingBalance);
+        context.putVar("months", months);
+        context.putVar("revenue", revenue);
+        context.putVar("expense", expense);
+        context.putVar("comparingBalance", comparingBalance);
         processTemplate(context, templateLocation, out);
     }
 

@@ -53,9 +53,10 @@ import { RequisitionInfoCommercialDirComponent } from 'app/entities/requisition-
 import { ScmZoneManagerFilterPipe } from 'app/shared/util/scm-zone-manager-filter.pipe';
 import { ScmAreaManagerFilterPipe } from 'app/shared/util/scm-area-manager-filter.pipe';
 import { ScmOrderDetailsFilterPipe } from 'app/shared/util/scm-order-details-filter.pipe';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-    imports: [SoptorshiSharedLibsModule, SoptorshiSharedCommonModule, RouterModule],
+    imports: [SoptorshiSharedLibsModule, SoptorshiSharedCommonModule, RouterModule, ToastrModule.forRoot()],
     declarations: [
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,

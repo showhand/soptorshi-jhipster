@@ -46,11 +46,12 @@ public class ProfitLossService {
 
     public ByteArrayInputStream createReport(LocalDate fromDate, LocalDate toDate) throws Exception{
         toDate = toDate.atTime(23,59).toLocalDate();
+        List<String> months = generateMonths(fromDate, toDate);
         List<ProfitLossDto> revenue = generateRevenues(fromDate, toDate);
         List<ProfitLossDto> expense = generateExpenses(fromDate, toDate);
         AccountWithMonthlyBalances comparingBalances = generateComparingBalances(revenue, expense);
 
-        Resource resource = resourceLoader.getResource("classpath:/templates/jxls/ProfitLoss.xls");// templates/jxls/ChartsOfAccounts.xls
+        Resource resource = resourceLoader.getResource("classpath:/templates/jxls/ProfitAndLoss.xls");// templates/jxls/ChartsOfAccounts.xls
         HSSFWorkbook workbook = new HSSFWorkbook(resource.getInputStream());
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         workbook.write(bos);
@@ -58,11 +59,25 @@ public class ProfitLossService {
         InputStream is = new ByteArrayInputStream(barray);
         InputStream template = resource.getInputStream();
         OutputStream outputStream = new ByteArrayOutputStream() ; // new FileOutputStream(outputResource.getFile());
-        jxlsGenerator.profitAndLossBuilder( revenue, expense, comparingBalances, outputStream, template);
+        jxlsGenerator.profitAndLossBuilder( months, revenue, expense, comparingBalances, outputStream, template);
         ByteArrayOutputStream baos =(ByteArrayOutputStream) outputStream; //(ByteArrayOutputStream) outputStream; //new ByteArrayOutputStream();
         byte[] data = baos.toByteArray();
         outputStream.write(data);
         return new ByteArrayInputStream(baos.toByteArray());
+    }
+
+    public List<String> generateMonths(LocalDate fromDate, LocalDate toDate){
+        List<String> months = new ArrayList<>();
+        LocalDate lastDate = LocalDate.now();
+
+        while(!fromDate.isAfter(toDate)){
+            lastDate = LocalDate.of(fromDate.getYear(), fromDate.getMonthValue(), fromDate.lengthOfMonth());
+            String month = lastDate.getMonth().name()+"-"+fromDate.getYear();
+            months.add(month);
+            fromDate = lastDate;
+            fromDate = fromDate.plusDays(1);
+        }
+        return months;
     }
 
     private AccountWithMonthlyBalances generateComparingBalances(List<ProfitLossDto> revenue, List<ProfitLossDto> expense) {

@@ -41,4 +41,12 @@ export class MstAccountExtendedService extends MstAccountService {
             SoptorshiUtil.writeFileContent(data, 'application/vnd.ms-excel', 'ChartsofAccounts');
         });
     }
+
+    profitAndLoss(fromDate: any, toDate: any): any {
+        return this.http
+            .get(`${this.resourceExtendedUrl}/profit-and-loss/excel/${fromDate}/${toDate}`, { responseType: 'blob' })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/vnd.ms-excel', 'ProfitAndLoss');
+            });
+    }
 }

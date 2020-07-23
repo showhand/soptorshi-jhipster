@@ -9,6 +9,7 @@ import org.soptorshi.service.MstAccountQueryService;
 import org.soptorshi.service.MstAccountService;
 import org.soptorshi.service.dto.MstAccountDTO;
 import org.soptorshi.service.extended.MstAccountExtendedService;
+import org.soptorshi.service.extended.ProfitLossService;
 import org.soptorshi.web.rest.MstAccountResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.soptorshi.web.rest.util.HeaderUtil;
@@ -18,9 +19,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/api/extended")
@@ -36,12 +40,14 @@ public class MstAccountExtendedResource {
     private final ChartsOfAccountReportService chartsOfAccountReportService;
 
     private final ChartOfAccountsExcelReportService chartOfAccountsExcelReportService;
+    private ProfitLossService profitLossService;
 
-    public MstAccountExtendedResource(MstAccountExtendedService mstAccountService, MstAccountQueryService mstAccountQueryService, ChartsOfAccountReportService chartsOfAccountReportService, ChartOfAccountsExcelReportService chartOfAccountsExcelReportService) {
+    public MstAccountExtendedResource(MstAccountExtendedService mstAccountService, MstAccountQueryService mstAccountQueryService, ChartsOfAccountReportService chartsOfAccountReportService, ChartOfAccountsExcelReportService chartOfAccountsExcelReportService, ProfitLossService profitLossService) {
         this.mstAccountService = mstAccountService;
         this.mstAccountQueryService = mstAccountQueryService;
         this.chartsOfAccountReportService = chartsOfAccountReportService;
         this.chartOfAccountsExcelReportService = chartOfAccountsExcelReportService;
+        this.profitLossService = profitLossService;
     }
 
     /**
@@ -98,6 +104,20 @@ public class MstAccountExtendedResource {
     @GetMapping(value = "/mst-accounts/charts-of-account/excel", produces = MediaType.ALL_VALUE)
     public ResponseEntity<InputStreamResource> generateChartsOfAccountsExcelFormat() throws Exception, DocumentException {
         ByteArrayInputStream byteArrayInputStream = chartOfAccountsExcelReportService.createChartsOrAccountReport();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "/api/extended/charts-of-account");
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+            .body(new InputStreamResource(byteArrayInputStream));
+    }
+
+
+    @GetMapping(value = "/mst-accounts/profit-and-loss/excel/{fromDate}/{toDate}", produces = MediaType.ALL_VALUE)
+    public ResponseEntity<InputStreamResource> generateProfitAndLossExcelFormat(@PathVariable("fromDate")String fromDate, @PathVariable("toDate") String toDate) throws Exception, DocumentException {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        ByteArrayInputStream byteArrayInputStream = profitLossService.createReport(LocalDate.parse(fromDate, dateTimeFormatter), LocalDate.parse(toDate,dateTimeFormatter));
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "/api/extended/charts-of-account");
         return ResponseEntity

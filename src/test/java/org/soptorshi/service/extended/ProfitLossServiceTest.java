@@ -60,4 +60,12 @@ public class ProfitLossServiceTest {
         File outputFile = new File("D:/profit-and-loss.xls");
         IOUtils.copy(report, new FileOutputStream(outputFile));
     }
+
+    @Test
+    public void testGenerateMonths() throws Exception{
+        LocalDate fromDate = LocalDate.of(2020, Month.JANUARY, 1);
+        LocalDate toDate = LocalDate.of(2021, Month.MAY, 31);
+        List<String> months = profitLossService.generateMonths(fromDate, toDate);
+        System.out.println(months.toString());
+    }
 }
