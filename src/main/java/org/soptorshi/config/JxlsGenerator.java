@@ -6,6 +6,7 @@ import org.jxls.transform.Transformer;
 import org.jxls.util.JxlsHelper;
 import org.soptorshi.service.dto.ChartsOfAccountsDTO;
 import org.soptorshi.service.dto.extended.AccountWithMonthlyBalances;
+import org.soptorshi.service.dto.extended.ProfitAndLossGroupDTO;
 import org.soptorshi.service.dto.extended.ProfitLossDto;
 import org.springframework.stereotype.Service;
 
@@ -44,15 +45,15 @@ public class JxlsGenerator {
 
     public void profitAndLossBuilder(
         List<String> months,
-        List<ProfitLossDto> revenue,
-        List<ProfitLossDto> expense,
+        List<ProfitAndLossGroupDTO> revenue,
+        List<ProfitAndLossGroupDTO> expense,
         AccountWithMonthlyBalances comparingBalance,
         OutputStream out,
         InputStream templateLocation) throws IOException{
         Context context = new Context();
         context.putVar("months", months);
         context.putVar("revenue", revenue);
-        context.putVar("expense", expense);
+        context.putVar("expenditure", expense);
         context.putVar("comparingBalance", comparingBalance);
         processTemplate(context, templateLocation, out);
     }

@@ -7,11 +7,13 @@ import org.soptorshi.domain.MstAccount;
 import org.soptorshi.domain.MstGroup;
 import org.soptorshi.domain.SystemGroupMap;
 import org.soptorshi.domain.enumeration.GroupType;
+import org.soptorshi.repository.MstAccountRepository;
 import org.soptorshi.repository.extended.DtTransactionExtendedRepository;
 import org.soptorshi.repository.extended.MstAccountExtendedRepository;
 import org.soptorshi.repository.extended.MstGroupExtendedRepository;
 import org.soptorshi.repository.extended.SystemGroupMapExtendedRepository;
 import org.soptorshi.service.dto.extended.AccountWithMonthlyBalances;
+import org.soptorshi.service.dto.extended.ProfitAndLossGroupDTO;
 import org.soptorshi.service.dto.extended.ProfitLossDto;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -24,6 +26,8 @@ import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ProfitLossService {
@@ -35,7 +39,18 @@ public class ProfitLossService {
     private MstAccountExtendedRepository mstAccountExtendedRepository;
     private DtTransactionExtendedRepository dtTransactionExtendedRepository;
 
-    public ProfitLossService(ResourceLoader resourceLoader, JxlsGenerator jxlsGenerator, MstGroupExtendedRepository mstGroupExtendedRepository, SystemGroupMapExtendedRepository systemGroupMapExtendedRepository, MstAccountExtendedRepository mstAccountExtendedRepository, DtTransactionExtendedRepository dtTransactionExtendedRepository) {
+
+    List<SystemGroupMap> systemGroupMaps;
+    Map<GroupType, Long> groupTypeSystemAccountMapMap;
+    List<MstAccount> accounts;
+    Map<Long, List<MstAccount>> groupMapWithAccounts;
+
+    public ProfitLossService(ResourceLoader resourceLoader,
+                             JxlsGenerator jxlsGenerator,
+                             MstGroupExtendedRepository mstGroupExtendedRepository,
+                             SystemGroupMapExtendedRepository systemGroupMapExtendedRepository,
+                             MstAccountExtendedRepository mstAccountExtendedRepository,
+                             DtTransactionExtendedRepository dtTransactionExtendedRepository) {
         this.resourceLoader = resourceLoader;
         this.jxlsGenerator = jxlsGenerator;
         this.mstGroupExtendedRepository = mstGroupExtendedRepository;
@@ -45,8 +60,19 @@ public class ProfitLossService {
     }
 
     public ByteArrayInputStream createReport(LocalDate fromDate, LocalDate toDate) throws Exception{
+        accounts = mstAccountExtendedRepository.findAll();
+        systemGroupMaps = systemGroupMapExtendedRepository.findAll();
+        groupTypeSystemAccountMapMap = systemGroupMaps.stream().collect(Collectors.toMap(s->s.getGroupType(), s->s.getGroup().getId()));
+        groupMapWithAccounts = accounts.stream().collect(Collectors.groupingBy(a->a.getGroup().getId()));
+
+
+
         toDate = toDate.atTime(23,59).toLocalDate();
         List<String> months = generateMonths(fromDate, toDate);
+        List<ProfitAndLossGroupDTO> revenueGroups = generateGroupsAndSubgroups(GroupType.INCOME);
+        List<ProfitAndLossGroupDTO> expenseGroups = generateGroupsAndSubgroups(GroupType.EXPENSES);
+
+
         List<ProfitLossDto> revenue = generateRevenues(fromDate, toDate);
         List<ProfitLossDto> expense = generateExpenses(fromDate, toDate);
         AccountWithMonthlyBalances comparingBalances = generateComparingBalances(revenue, expense);
@@ -59,11 +85,34 @@ public class ProfitLossService {
         InputStream is = new ByteArrayInputStream(barray);
         InputStream template = resource.getInputStream();
         OutputStream outputStream = new ByteArrayOutputStream() ; // new FileOutputStream(outputResource.getFile());
-        jxlsGenerator.profitAndLossBuilder( months, revenue, expense, comparingBalances, outputStream, template);
+        jxlsGenerator.profitAndLossBuilder( months, revenueGroups, expenseGroups, comparingBalances, outputStream, template);
         ByteArrayOutputStream baos =(ByteArrayOutputStream) outputStream; //(ByteArrayOutputStream) outputStream; //new ByteArrayOutputStream();
         byte[] data = baos.toByteArray();
         outputStream.write(data);
         return new ByteArrayInputStream(baos.toByteArray());
+    }
+
+    public List<ProfitAndLossGroupDTO> generateGroupsAndSubgroups(GroupType groupType){
+        List<ProfitAndLossGroupDTO> profitAndLossGroupsAndSubGroups = new ArrayList<>();
+        List<MstGroup> groups = mstGroupExtendedRepository.findByMainGroup(groupTypeSystemAccountMapMap.get(groupType));
+
+        for(MstGroup group: groups){
+            ProfitAndLossGroupDTO  profitAndLossGroupAndSubGroup = new ProfitAndLossGroupDTO();
+            profitAndLossGroupAndSubGroup.setGroupName(group.getName());
+
+            List<String> accounts = new ArrayList<>();
+            if(groupMapWithAccounts.containsKey(group.getId())){
+                for(MstAccount account: groupMapWithAccounts.get(group.getId())){
+                    accounts.add(account.getName());
+                }
+            }
+
+            profitAndLossGroupAndSubGroup.setAccounts(accounts);
+            profitAndLossGroupAndSubGroup.setTotalAmount(group.getName()+" Total");
+
+            profitAndLossGroupsAndSubGroups.add(profitAndLossGroupAndSubGroup);
+        }
+        return profitAndLossGroupsAndSubGroups;
     }
 
     public List<String> generateMonths(LocalDate fromDate, LocalDate toDate){
