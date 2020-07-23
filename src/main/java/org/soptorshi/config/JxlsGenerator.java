@@ -31,6 +31,17 @@ public class JxlsGenerator {
         processTemplate(context, templateLocation, out);
     }
 
+    public void buildProfitAndLoss(
+        ProfitLossDto income,
+        ProfitLossDto expenditure,
+        OutputStream out,
+        InputStream templateLocation) throws Exception{
+
+        Context context = new Context();
+        context.putVar("income", income);
+    }
+
+
     public void profitAndLossBuilder(
         List<ProfitLossDto> revenue,
         List<ProfitLossDto> expense,

@@ -16,9 +16,9 @@
                     <div class="form-group row">
                         <label class="form-control col-md-4">To</label>
                         <div class="input-group col-md-6">
-                            <input id="field_toDate" type="date" class="form-control" name="todate" ngbDatepicker  #voucherDateDp="ngbDatepicker" [(ngModel)]="toDate"/>
+                            <input id="field_toDate" type="date" class="form-control" name="toDate" ngbDatepicker  #voucherFromDateDp="ngbDatepicker" [(ngModel)]="toDate"/>
                             <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="voucherDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                            <button type="button" class="btn btn-secondary" (click)="voucherFromDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
                         </div>
                     </div>
