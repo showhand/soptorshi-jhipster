@@ -1,20 +1,24 @@
 package org.soptorshi.service.extended;
 
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.soptorshi.config.JxlsGenerator;
 import org.soptorshi.domain.DtTransaction;
 import org.soptorshi.domain.MstAccount;
 import org.soptorshi.domain.MstGroup;
 import org.soptorshi.domain.SystemGroupMap;
+import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.GroupType;
 import org.soptorshi.repository.MstAccountRepository;
 import org.soptorshi.repository.extended.DtTransactionExtendedRepository;
 import org.soptorshi.repository.extended.MstAccountExtendedRepository;
 import org.soptorshi.repository.extended.MstGroupExtendedRepository;
 import org.soptorshi.repository.extended.SystemGroupMapExtendedRepository;
-import org.soptorshi.service.dto.extended.AccountWithMonthlyBalances;
-import org.soptorshi.service.dto.extended.ProfitAndLossGroupDTO;
-import org.soptorshi.service.dto.extended.ProfitLossDto;
+import org.soptorshi.security.report.SoptorshiPdfCell;
+import org.soptorshi.service.dto.extended.*;
+import org.soptorshi.utils.SoptorshiUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -23,11 +27,15 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.security.acl.Group;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static org.soptorshi.utils.SoptorshiUtils.mLiteFont;
 
 @Service
 public class ProfitLossService {
@@ -75,7 +83,11 @@ public class ProfitLossService {
 
         List<ProfitLossDto> revenue = generateRevenues(fromDate, toDate);
         List<ProfitLossDto> expense = generateExpenses(fromDate, toDate);
-        AccountWithMonthlyBalances comparingBalances = generateComparingBalances(revenue, expense);
+
+        List<MonthWithProfitAndLossAmountDTO> revenueGroupAmount = generateProfitAndLossAmount(GroupType.INCOME , fromDate, toDate);
+        List<MonthWithProfitAndLossAmountDTO> expenseGroupAmount = generateProfitAndLossAmount(GroupType.EXPENSES , fromDate, toDate);
+
+        List<BigDecimal> differences = calculateDifference(revenueGroupAmount, expenseGroupAmount);
 
         Resource resource = resourceLoader.getResource("classpath:/templates/jxls/ProfitAndLoss.xls");// templates/jxls/ChartsOfAccounts.xls
         HSSFWorkbook workbook = new HSSFWorkbook(resource.getInputStream());
@@ -85,11 +97,108 @@ public class ProfitLossService {
         InputStream is = new ByteArrayInputStream(barray);
         InputStream template = resource.getInputStream();
         OutputStream outputStream = new ByteArrayOutputStream() ; // new FileOutputStream(outputResource.getFile());
-        jxlsGenerator.profitAndLossBuilder( months, revenueGroups, expenseGroups, comparingBalances, outputStream, template);
+        jxlsGenerator.profitAndLossBuilder( months, revenueGroups, expenseGroups, revenueGroupAmount, expenseGroupAmount, differences, outputStream, template);
         ByteArrayOutputStream baos =(ByteArrayOutputStream) outputStream; //(ByteArrayOutputStream) outputStream; //new ByteArrayOutputStream();
         byte[] data = baos.toByteArray();
         outputStream.write(data);
         return new ByteArrayInputStream(baos.toByteArray());
+    }
+
+    public List<BigDecimal> calculateDifference(List<MonthWithProfitAndLossAmountDTO> revenueGroupAmount, List<MonthWithProfitAndLossAmountDTO> expenseGroupAmount){
+        List<BigDecimal> differences = new ArrayList<>();
+        for(int i=0; i<revenueGroupAmount.size();i++){
+            BigDecimal difference = revenueGroupAmount.get(i).getGroupTypeTotal().subtract(expenseGroupAmount.get(i).getGroupTypeTotal());
+            differences.add(difference);
+        }
+        return differences;
+    }
+
+
+    public List<MonthWithProfitAndLossAmountDTO> generateProfitAndLossAmount(GroupType groupType, LocalDate fromDate, LocalDate toDate){
+        List<MonthWithProfitAndLossAmountDTO> monthWithProfitAndLossAmountDTOS = new ArrayList<>();
+
+        LocalDate lastDate = LocalDate.now();
+        LocalDate initialFromDate = fromDate;
+
+        while(!fromDate.isAfter(toDate)){
+            lastDate = LocalDate.of(fromDate.getYear(), fromDate.getMonthValue(), fromDate.lengthOfMonth());
+            String month = lastDate.getMonth().name()+"-"+fromDate.getYear();
+            fromDate = lastDate;
+            MonthWithProfitAndLossAmountDTO monthWithProfitAndLossAmountDTO = new MonthWithProfitAndLossAmountDTO();
+            monthWithProfitAndLossAmountDTO.setMonth(month);
+
+            List<ProfitAndLossGroupAmountDTO> profitAndLossGroupAmountDTOS = new ArrayList<>();
+            BigDecimal totalMonthGroupTypeAmount = BigDecimal.ZERO;
+            List<MstGroup> groups = mstGroupExtendedRepository.findByMainGroup(groupTypeSystemAccountMapMap.get(groupType));
+            List<DtTransaction> dtTransactions = dtTransactionExtendedRepository.findByVoucherDateBetween(initialFromDate, fromDate);
+            Map<Long, List<DtTransaction>> accountMapTotalDebitBalance = dtTransactions
+                .stream()
+                .filter(t->t.getAccount()!=null)
+                .filter(t->t.getBalanceType().equals(BalanceType.DEBIT))
+                .collect(Collectors.groupingBy(t->t.getAccount().getId()));
+
+            Map<Long, List<DtTransaction>> accountMapTotalCreditBalance = dtTransactions
+                .stream()
+                .filter(t->t.getAccount()!=null)
+                .filter(t->t.getBalanceType().equals(BalanceType.CREDIT))
+                .collect(Collectors.groupingBy(t->t.getAccount().getId()));
+
+            for(MstGroup group: groups){
+                ProfitAndLossGroupAmountDTO profitAndLossGroupAmountDTO = new ProfitAndLossGroupAmountDTO();
+                profitAndLossGroupAmountDTO.setGroup(null);
+
+                BigDecimal totalDebit = BigDecimal.ZERO;
+                BigDecimal totalCredit = BigDecimal.ZERO;
+                List<BigDecimal> accountBalances = new ArrayList<>();
+                if(groupMapWithAccounts.containsKey(group.getId())){
+                    for(MstAccount account: groupMapWithAccounts.get(group.getId())){
+                        BigDecimal totalAccDebit = BigDecimal.ZERO;
+                        BigDecimal totalAccCredit = BigDecimal.ZERO;
+
+
+                        if(accountMapTotalDebitBalance.containsKey(account.getId()) || accountMapTotalCreditBalance.containsKey(account.getId())){
+                            if(accountMapTotalDebitBalance.containsKey(account.getId()))
+                                totalAccDebit = accountMapTotalDebitBalance.get(account.getId())
+                                    .stream()
+                                    .map(a-> a.getAmount())
+                                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+                            if(accountMapTotalCreditBalance.containsKey(account.getId()))
+                                totalAccCredit = accountMapTotalCreditBalance.get(account.getId())
+                                    .stream()
+                                    .map(a-> a.getAmount())
+                                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+                            totalDebit = totalDebit.add(totalAccDebit);
+                            totalCredit = totalCredit.add(totalAccCredit);
+                            if(groupType.equals(GroupType.INCOME))
+                                accountBalances.add(totalAccCredit.subtract(totalAccDebit));
+                            else
+                                accountBalances.add(totalAccDebit.subtract(totalAccCredit));
+                        }else{
+                            accountBalances.add(BigDecimal.ZERO);
+                        }
+                    }
+                }
+
+                profitAndLossGroupAmountDTO.setAccountAmounts(accountBalances);
+                if(groupType.equals(GroupType.INCOME))
+                    profitAndLossGroupAmountDTO.setTotalAmount(totalCredit.subtract(totalDebit));
+                else
+                    profitAndLossGroupAmountDTO.setTotalAmount(totalDebit.subtract(totalCredit));
+                totalMonthGroupTypeAmount = totalMonthGroupTypeAmount.add(profitAndLossGroupAmountDTO.getTotalAmount());
+                profitAndLossGroupAmountDTOS.add(profitAndLossGroupAmountDTO);
+
+            }
+
+
+            fromDate = fromDate.plusDays(1);
+//            BigDecimal monthTotalGroupAmount = monthWithProfitAndLossAmountDTO.getGroupTypeTotal()==null? BigDecimal.ZERO: monthWithProfitAndLossAmountDTO.getGroupTypeTotal();
+//            monthTotalGroupAmount = monthTotalGroupAmount
+            monthWithProfitAndLossAmountDTO.setGroupAmounts(profitAndLossGroupAmountDTOS);
+            monthWithProfitAndLossAmountDTO.setGroupTypeTotal(totalMonthGroupTypeAmount);
+            monthWithProfitAndLossAmountDTOS.add(monthWithProfitAndLossAmountDTO);
+        }
+
+        return monthWithProfitAndLossAmountDTOS;
     }
 
     public List<ProfitAndLossGroupDTO> generateGroupsAndSubgroups(GroupType groupType){
