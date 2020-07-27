@@ -163,11 +163,11 @@ public class BalanceSheetReportService {
         BigDecimal incomeAmount = BigDecimal.ZERO;
 
 
-      /*  cell = new PdfPCell(new Paragraph("Income", mBoldFont));
+        cell = new PdfPCell(new Paragraph("Income", mBoldFont));
         cell.setBorder(Rectangle.NO_BORDER);
         rightTable.addCell(cell);
         PdfPTable incomeGroupTable = new PdfPTable(innerTableCellWidth);
-        BigDecimal incomeAmount = createGroupSection(GroupType.INCOME, groupTypeSystemAccountMapMap, balanceSheetFetchType, groupMapWithAccounts, accountMapTotalDebitBalance, accountMapTotalCreditBalance, incomeGroupTable);
+        incomeAmount = createGroupSection(GroupType.INCOME, groupTypeSystemAccountMapMap, balanceSheetFetchType, groupMapWithAccounts, accountMapTotalDebitBalance, accountMapTotalCreditBalance, incomeGroupTable);
 
         cell = new PdfPCell(new Paragraph("Total", mBoldFont));
         cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM);
@@ -180,7 +180,7 @@ public class BalanceSheetReportService {
         cell = new PdfPCell();
         cell.setBorder(Rectangle.NO_BORDER);
         cell.addElement(incomeGroupTable);
-        rightTable.addCell(cell);*/
+        rightTable.addCell(cell);
 
 
         cell = new PdfPCell(new Paragraph("Expenditure", mBoldFont));
