@@ -5,6 +5,7 @@ import org.soptorshi.domain.AccountBalance;
 import org.soptorshi.domain.FinancialAccountYear;
 import org.soptorshi.domain.MstAccount;
 import org.soptorshi.domain.MstGroup;
+import org.soptorshi.domain.enumeration.AccountType;
 import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.FinancialYearStatus;
 import org.soptorshi.domain.enumeration.GroupType;
@@ -35,6 +36,7 @@ public class FinancialAccountYearExtendedService extends FinancialAccountYearSer
     private final MstGroupExtendedRepository mstGroupExtendedRepository;
     private final MstAccountExtendedRepository mstAccountExtendedRepository;
     private final AccountBalanceExtendedRepository accountBalanceExtendedRepository;
+    private final SystemAccountMapExtendedRepository systemAccountMapExtendedRepository;
 
     public FinancialAccountYearExtendedService(FinancialAccountYearRepository financialAccountYearRepository,
                                                FinancialAccountYearMapper financialAccountYearMapper,
@@ -44,7 +46,8 @@ public class FinancialAccountYearExtendedService extends FinancialAccountYearSer
                                                SystemGroupMapExtendedRepository systemGroupMapExtendedRepository,
                                                MstGroupExtendedRepository mstGroupExtendedRepository,
                                                MstAccountExtendedRepository mstAccountExtendedRepository,
-                                               AccountBalanceExtendedRepository accountBalanceExtendedRepository) {
+                                               AccountBalanceExtendedRepository accountBalanceExtendedRepository,
+                                               SystemAccountMapExtendedRepository systemAccountMapExtendedRepository) {
         super(financialAccountYearRepository, financialAccountYearMapper, financialAccountYearSearchRepository);
         this.financialAccountYearExtendedRepository = financialAccountYearExtendedRepository;
         this.accountBalanceRepository = accountBalanceRepository;
@@ -52,6 +55,7 @@ public class FinancialAccountYearExtendedService extends FinancialAccountYearSer
         this.mstGroupExtendedRepository = mstGroupExtendedRepository;
         this.mstAccountExtendedRepository = mstAccountExtendedRepository;
         this.accountBalanceExtendedRepository = accountBalanceExtendedRepository;
+        this.systemAccountMapExtendedRepository = systemAccountMapExtendedRepository;
     }
 
     @Override
@@ -187,7 +191,7 @@ public class FinancialAccountYearExtendedService extends FinancialAccountYearSer
 
     private AccountBalance configureRetailEarningForNewFinancialAccountYear(BigDecimal totalIncome,
                                                                                    BigDecimal totalExpense, FinancialAccountYear financialAccountYear) {
-        MstAccount retailEarningsAccount = new MstAccount(); //= mstAccountExtendedRepository.getRetailedAccount();
+        MstAccount retailEarningsAccount = systemAccountMapExtendedRepository.findByAccountType(AccountType.RETAILED_EARNING).getAccount(); //= mstAccountExtendedRepository.getRetailedAccount();
         AccountBalance accountBalance = accountBalanceExtendedRepository.findByFinancialAccountYear_StatusAndAccount_Id(FinancialYearStatus.ACTIVE, retailEarningsAccount.getId());
         accountBalance.setId(null);
         accountBalance.setFinancialAccountYear(financialAccountYear);

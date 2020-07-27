@@ -81,9 +81,6 @@ public class ProfitLossService {
         List<ProfitAndLossGroupDTO> expenseGroups = generateGroupsAndSubgroups(GroupType.EXPENSES);
 
 
-        List<ProfitLossDto> revenue = generateRevenues(fromDate, toDate);
-        List<ProfitLossDto> expense = generateExpenses(fromDate, toDate);
-
         List<MonthWithProfitAndLossAmountDTO> revenueGroupAmount = generateProfitAndLossAmount(GroupType.INCOME , fromDate, toDate);
         List<MonthWithProfitAndLossAmountDTO> expenseGroupAmount = generateProfitAndLossAmount(GroupType.EXPENSES , fromDate, toDate);
 
