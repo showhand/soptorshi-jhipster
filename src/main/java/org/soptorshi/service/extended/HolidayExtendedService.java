@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -102,5 +103,23 @@ public class HolidayExtendedService extends HolidayService {
             }
         }
         return holidayDates;
+    }
+
+    public List<Holiday> getAll() {
+        return holidayExtendedRepository.findAll();
+    }
+
+    public List<Holiday> getHolidays(int pYear) {
+        return holidayExtendedRepository.getHolidaysByHolidayYear(pYear);
+    }
+
+    public List<Integer> getAllHolidayYears() {
+        List<Holiday> holidays = getAll();
+        return holidays.stream()
+            .map(Holiday::getHolidayYear)
+            .collect(Collectors.toList())
+            .stream()
+            .distinct()
+            .collect(Collectors.toList());
     }
 }

@@ -48,4 +48,8 @@ export class HolidayTypeExtendedComponent extends HolidayTypeComponent {
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
     }
+
+    generateReport() {
+        this.holidayTypeService.generateReport();
+    }
 }

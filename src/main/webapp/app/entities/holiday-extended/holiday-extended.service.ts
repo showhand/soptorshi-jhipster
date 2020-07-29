@@ -4,6 +4,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { SERVER_API_URL } from 'app/app.constants';
 import { IHoliday } from 'app/shared/model/holiday.model';
 import { HolidayService } from 'app/entities/holiday';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 
 type EntityResponseType = HttpResponse<IHoliday>;
 type EntityArrayResponseType = HttpResponse<IHoliday[]>;
@@ -15,5 +16,25 @@ export class HolidayExtendedService extends HolidayService {
 
     constructor(protected http: HttpClient) {
         super(http);
+    }
+
+    generateReport() {
+        return this.http
+            .get(`${this.resourceUrl}/report/all`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Holiday');
+            });
+    }
+
+    generateReportByYear(pYear: number) {
+        return this.http
+            .get(`${this.resourceUrl}/report/year/${pYear}`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Holiday');
+            });
     }
 }
