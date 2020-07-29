@@ -69,6 +69,10 @@ public final class AuthoritiesConstants {
 
     public static final String SCM_ZONE_MANAGER = "ROLE_SCM_ZONE_MANAGER";
 
+    public static final String HOLIDAY_MANAGER = "ROLE_HOLIDAY_MANAGER";
+
+    public static final String WEEKEND_MANAGER = "ROLE_WEEKEND_MANAGER";
+
     private AuthoritiesConstants() {
     }
 }

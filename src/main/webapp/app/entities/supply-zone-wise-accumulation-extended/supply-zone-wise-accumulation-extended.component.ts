@@ -13,6 +13,8 @@ import { EmployeeExtendedService } from 'app/entities/employee-extended';
 import { SupplyAreaManagerExtendedService } from 'app/entities/supply-area-manager-extended';
 import { SupplyZoneManagerExtendedService } from 'app/entities/supply-zone-manager-extended';
 import { filter, map } from 'rxjs/operators';
+import { Moment } from 'moment';
+import { DATE_FORMAT } from 'app/shared';
 
 @Component({
     selector: 'jhi-supply-zone-wise-accumulation-extended',
@@ -28,6 +30,9 @@ export class SupplyZoneWiseAccumulationExtendedComponent extends SupplyZoneWiseA
     currentZoneManager: ISupplyZoneManager[];
     supplyZoneManagers: ISupplyZoneManager[];
     supplyAreaManagers: ISupplyAreaManager[];
+
+    dateOfOrderFrom: Moment;
+    dateOfOrderTo: Moment;
 
     constructor(
         protected supplyZoneWiseAccumulationService: SupplyZoneWiseAccumulationExtendedService,
@@ -146,5 +151,14 @@ export class SupplyZoneWiseAccumulationExtendedComponent extends SupplyZoneWiseA
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
         this.registerChangeInSupplyZoneWiseAccumulations();
+    }
+
+    downloadReport() {
+        if (this.dateOfOrderFrom && this.dateOfOrderTo) {
+            this.supplyZoneWiseAccumulationService.downloadReport(
+                this.dateOfOrderFrom.format(DATE_FORMAT),
+                this.dateOfOrderTo.format(DATE_FORMAT)
+            );
+        }
     }
 }

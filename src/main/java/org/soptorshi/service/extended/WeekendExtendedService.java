@@ -64,7 +64,7 @@ public class WeekendExtendedService extends WeekendService {
 
         if (weekendDTO.getId() == null) {
             if (hasActiveWeekend(weekends)) {
-                throw new BadRequestAlertException("there is an active weekend!!", "weekend", "idnull");
+                throw new BadRequestAlertException("There is an active weekend!!", "weekend", "idnull");
             } else {
                 weekendDTO.setCreatedBy(currentUser);
                 weekendDTO.setCreatedOn(currentDateTime);

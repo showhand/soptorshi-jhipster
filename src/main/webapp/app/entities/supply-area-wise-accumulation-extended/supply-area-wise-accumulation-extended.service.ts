@@ -5,6 +5,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { ISupplyAreaWiseAccumulation } from 'app/shared/model/supply-area-wise-accumulation.model';
 import { SupplyAreaWiseAccumulationService } from 'app/entities/supply-area-wise-accumulation';
 import { Observable } from 'rxjs';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 
 type EntityResponseType = HttpResponse<ISupplyAreaWiseAccumulation>;
 type EntityArrayResponseType = HttpResponse<ISupplyAreaWiseAccumulation[]>;
@@ -32,5 +33,15 @@ export class SupplyAreaWiseAccumulationExtendedService extends SupplyAreaWiseAcc
             copy[i] = this.convertDateFromClient(supplyAreaWiseAccumulation[i]);
         }
         return this.http.put<ISupplyAreaWiseAccumulation[]>(`${this.resourceUrl}/bulk`, copy, { observe: 'response' });
+    }
+
+    downloadReport(from: string, to: string) {
+        return this.http
+            .get(`api/extended/supply-report/download/from/${from}/to/${to}`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Summary Report');
+            });
     }
 }
