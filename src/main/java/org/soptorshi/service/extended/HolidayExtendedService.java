@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,28 +54,43 @@ public class HolidayExtendedService extends HolidayService {
 
         if (holidayDTO.getFromDate().getYear() == holidayDTO.getToDate().getYear()) {
             if(holidayDTO.getToDate().compareTo(holidayDTO.getFromDate()) >= 0) {
-                String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
-                    SecurityUtils.getCurrentUserLogin().get() : "";
-                Instant currentDateTime = Instant.now();
+                if(!isPresent(holidayDTO)) {
+                    String currentUser = SecurityUtils.getCurrentUserLogin().isPresent() ?
+                        SecurityUtils.getCurrentUserLogin().get() : "";
+                    Instant currentDateTime = Instant.now();
 
-                if (holidayDTO.getId() == null) {
-                    holidayDTO.setCreatedBy(currentUser);
-                    holidayDTO.setCreatedOn(currentDateTime);
-                } else {
-                    holidayDTO.setUpdatedBy(currentUser);
-                    holidayDTO.setUpdatedOn(currentDateTime);
+                    if (holidayDTO.getId() == null) {
+                        holidayDTO.setCreatedBy(currentUser);
+                        holidayDTO.setCreatedOn(currentDateTime);
+                    } else {
+                        holidayDTO.setUpdatedBy(currentUser);
+                        holidayDTO.setUpdatedOn(currentDateTime);
+                    }
+
+                    holidayDTO.setHolidayYear(holidayDTO.getFromDate().getYear());
+                    Holiday holiday = holidayMapper.toEntity(holidayDTO);
+                    holiday = holidayExtendedRepository.save(holiday);
+                    HolidayDTO result = holidayMapper.toDto(holiday);
+                    holidaySearchRepository.save(holiday);
+                    return result;
                 }
-
-                holidayDTO.setHolidayYear(holidayDTO.getFromDate().getYear());
-                Holiday holiday = holidayMapper.toEntity(holidayDTO);
-                holiday = holidayExtendedRepository.save(holiday);
-                HolidayDTO result = holidayMapper.toDto(holiday);
-                holidaySearchRepository.save(holiday);
-                return result;
+                throw new BadRequestAlertException("holiday already present for the year", "holiday", "idnull");
             }
-            throw new BadRequestAlertException("fromDate is greater than toDate year!!", "holiday", "idnull");
+            throw new BadRequestAlertException("fromDate is greater than toDate year", "holiday", "idnull");
         }
-        throw new BadRequestAlertException("fromDate and toDate year should be same!!", "holiday", "idnull");
+        throw new BadRequestAlertException("fromDate and toDate year should be same", "holiday", "idnull");
+    }
+
+    private boolean isPresent(HolidayDTO pHolidayDTO) {
+        int year = pHolidayDTO.getFromDate().getYear();
+        List<Holiday> holidays = getHolidays(year);
+
+        for(Holiday holiday: holidays) {
+            if(holiday.getHolidayType().getId().equals(pHolidayDTO.getHolidayTypeId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public ArrayList<LocalDate> getAllHolidayDates(int holidayYear) {
@@ -110,7 +126,10 @@ public class HolidayExtendedService extends HolidayService {
     }
 
     public List<Holiday> getHolidays(int pYear) {
-        return holidayExtendedRepository.getHolidaysByHolidayYear(pYear);
+        return holidayExtendedRepository.getHolidaysByHolidayYear(pYear)
+            .stream()
+            .sorted(Comparator.comparing(Holiday::getFromDate))
+            .collect(Collectors.toList());
     }
 
     public List<Integer> getAllHolidayYears() {
@@ -120,6 +139,9 @@ public class HolidayExtendedService extends HolidayService {
             .collect(Collectors.toList())
             .stream()
             .distinct()
+            .collect(Collectors.toList())
+            .stream()
+            .sorted()
             .collect(Collectors.toList());
     }
 }
