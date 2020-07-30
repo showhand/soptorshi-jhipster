@@ -24,7 +24,7 @@ export class HolidayExtendedService extends HolidayService {
                 responseType: 'blob'
             })
             .subscribe((data: any) => {
-                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Holiday');
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Holidays');
             });
     }
 
@@ -34,7 +34,7 @@ export class HolidayExtendedService extends HolidayService {
                 responseType: 'blob'
             })
             .subscribe((data: any) => {
-                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Holiday');
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', `Holidays of ${pYear}`);
             });
     }
 }

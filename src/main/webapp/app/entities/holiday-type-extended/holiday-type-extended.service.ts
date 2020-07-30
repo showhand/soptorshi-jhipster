@@ -24,7 +24,7 @@ export class HolidayTypeExtendedService extends HolidayTypeService {
                 responseType: 'blob'
             })
             .subscribe((data: any) => {
-                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Holiday Type');
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'Holiday Types');
             });
     }
 }

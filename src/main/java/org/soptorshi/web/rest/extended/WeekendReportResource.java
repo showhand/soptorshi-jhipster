@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.security.AuthoritiesConstants;
 import org.soptorshi.security.SecurityUtils;
-import org.soptorshi.service.extended.HolidayTypeReportService;
+import org.soptorshi.service.extended.WeekendReportService;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -19,25 +19,25 @@ import java.io.ByteArrayInputStream;
 
 @RestController
 @RequestMapping("/api/extended")
-public class HolidayTypeReportResource {
+public class WeekendReportResource {
 
-    private final Logger log = LoggerFactory.getLogger(HolidayTypeReportResource.class);
+    private final Logger log = LoggerFactory.getLogger(WeekendReportResource.class);
 
-    private final HolidayTypeReportService holidayTypeReportService;
+    private final WeekendReportService weekendReportService;
 
-    public HolidayTypeReportResource(HolidayTypeReportService holidayTypeReportService) {
-        this.holidayTypeReportService = holidayTypeReportService;
+    public WeekendReportResource(WeekendReportService weekendReportService) {
+        this.weekendReportService = weekendReportService;
     }
 
-    @GetMapping(value = "/holiday-types/report/all", produces = MediaType.APPLICATION_PDF_VALUE)
+    @GetMapping(value = "/weekends/report/all", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getAllHolidayTypes() throws Exception, DocumentException {
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
-            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_MANAGER)) {
-            throw new BadRequestAlertException("Access Denied", "HolidayTypes", "invalidaccess");
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.WEEKEND_MANAGER)) {
+            throw new BadRequestAlertException("Access Denied", "Weekends", "invalidaccess");
         }
-        ByteArrayInputStream byteArrayInputStream = holidayTypeReportService.getAllHolidayTypes();
+        ByteArrayInputStream byteArrayInputStream = weekendReportService.getAllWeekends();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "/holiday-types/report/all");
+        headers.add("Content-Disposition", "/weekends/report/all");
         return ResponseEntity
             .ok()
             .headers(headers)

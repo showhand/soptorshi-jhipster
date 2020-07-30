@@ -38,7 +38,7 @@ public class HolidayReportResource {
         }
         ByteArrayInputStream byteArrayInputStream = holidayReportService.getAllHolidays();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "/holidays/all");
+        headers.add("Content-Disposition", "/holidays/report/all");
         return ResponseEntity
             .ok()
             .headers(headers)
@@ -54,7 +54,7 @@ public class HolidayReportResource {
         }
         ByteArrayInputStream byteArrayInputStream = holidayReportService.getHolidays(year);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "/holidays/all");
+        headers.add("Content-Disposition", "/holidays/report/year/" + year);
         return ResponseEntity
             .ok()
             .headers(headers)
