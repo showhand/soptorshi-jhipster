@@ -8,27 +8,24 @@ import org.soptorshi.domain.Attendance;
 import org.soptorshi.domain.AttendanceExcelParser;
 import org.soptorshi.domain.AttendanceExcelUpload;
 import org.soptorshi.domain.Employee;
-import org.soptorshi.repository.AttendanceExcelUploadRepository;
+import org.soptorshi.repository.extended.AttendanceExcelUploadExtendedRepository;
 import org.soptorshi.repository.extended.EmployeeExtendedRepository;
 import org.soptorshi.repository.search.AttendanceExcelUploadSearchRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.AttendanceExcelUploadService;
-import org.soptorshi.service.EmployeeService;
 import org.soptorshi.service.dto.AttendanceDTO;
 import org.soptorshi.service.dto.AttendanceExcelUploadDTO;
 import org.soptorshi.service.mapper.AttendanceExcelUploadMapper;
 import org.soptorshi.service.mapper.AttendanceMapper;
+import org.soptorshi.web.rest.errors.BadRequestAlertException;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.InputStream;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -38,39 +35,29 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
 
     private final Logger log = LoggerFactory.getLogger(AttendanceExcelUploadExtendedService.class);
 
-    private final AttendanceExcelUploadRepository attendanceExcelUploadRepository;
+    private final AttendanceExcelUploadExtendedRepository attendanceExcelUploadExtendedRepository;
 
     private final AttendanceExcelUploadMapper attendanceExcelUploadMapper;
-
-    private final AttendanceExcelUploadSearchRepository attendanceExcelUploadSearchRepository;
 
     private final AttendanceMapper attendanceMapper;
 
     private final AttendanceExtendedService attendanceExtendedService;
 
-    private final EmployeeService employeeService;
-
     private final EmployeeExtendedRepository employeeExtendedRepository;
 
-    public AttendanceExcelUploadExtendedService(AttendanceExcelUploadRepository attendanceExcelUploadRepository, AttendanceExcelUploadMapper attendanceExcelUploadMapper, AttendanceExcelUploadSearchRepository attendanceExcelUploadSearchRepository, AttendanceMapper attendanceMapper,
-                                                AttendanceExtendedService attendanceExtendedService, EmployeeService employeeService,
-                                                EmployeeExtendedRepository employeeExtendedRepository) {
-        super(attendanceExcelUploadRepository, attendanceExcelUploadMapper, attendanceExcelUploadSearchRepository);
-        this.attendanceExcelUploadRepository = attendanceExcelUploadRepository;
+    private final ResourceLoader resourceLoader;
+
+    public AttendanceExcelUploadExtendedService(AttendanceExcelUploadExtendedRepository attendanceExcelUploadExtendedRepository, AttendanceExcelUploadMapper attendanceExcelUploadMapper, AttendanceExcelUploadSearchRepository attendanceExcelUploadSearchRepository, AttendanceMapper attendanceMapper,
+                                                AttendanceExtendedService attendanceExtendedService,
+                                                EmployeeExtendedRepository employeeExtendedRepository, ResourceLoader resourceLoader) {
+        super(attendanceExcelUploadExtendedRepository, attendanceExcelUploadMapper, attendanceExcelUploadSearchRepository);
+        this.attendanceExcelUploadExtendedRepository = attendanceExcelUploadExtendedRepository;
         this.attendanceExcelUploadMapper = attendanceExcelUploadMapper;
-        this.attendanceExcelUploadSearchRepository = attendanceExcelUploadSearchRepository;
         this.attendanceMapper = attendanceMapper;
         this.attendanceExtendedService = attendanceExtendedService;
-        this.employeeService = employeeService;
         this.employeeExtendedRepository = employeeExtendedRepository;
+        this.resourceLoader = resourceLoader;
     }
-
-    /**
-     * Save a attendanceExcelUpload.
-     *
-     * @param attendanceExcelUploadDTO the entity to save
-     * @return the persisted entity
-     */
 
     @Transactional
     public AttendanceExcelUploadDTO save(AttendanceExcelUploadDTO attendanceExcelUploadDTO) {
@@ -80,11 +67,10 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
             SecurityUtils.getCurrentUserLogin().get() : "";
         Instant currentDateTime = Instant.now();
 
-        if(attendanceExcelUploadDTO.getId() == null) {
+        if (attendanceExcelUploadDTO.getId() == null) {
             attendanceExcelUploadDTO.setCreatedBy(currentUser);
             attendanceExcelUploadDTO.setCreatedOn(currentDateTime);
-        }
-        else {
+        } else {
             attendanceExcelUploadDTO.setUpdatedBy(currentUser);
             attendanceExcelUploadDTO.setUpdatedOn(currentDateTime);
         }
@@ -95,22 +81,21 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
 
         log.debug("Parsing excel before processing request to save AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
         List<AttendanceExcelParser> attendanceExcelParsers = parseExcel(attendanceExcelUploadDTO.getFile());
-        if (attendanceExcelParsers == null) return null;
-        else {
-            attendanceExcelUpload = attendanceExcelUploadRepository.save(attendanceExcelUpload);
-            result = attendanceExcelUploadMapper.toDto(attendanceExcelUpload);
-            log.debug("Deleting previous data AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
-            attendanceExtendedService.deleteByAttendanceExcelUpload(attendanceExcelUpload);
-            log.debug("Saving new data AttendanceExcelUpload : {}", attendanceExcelUploadDTO);
-            parseExcelValueToAttendanceObjectAndSave(attendanceExcelParsers, attendanceExcelUpload);
+        if (attendanceExcelParsers == null) {
+            throw new BadRequestAlertException("Parsing operation failed", "attendanceExcelUpload", "idnull");
         }
+
+        attendanceExcelUpload = attendanceExcelUploadExtendedRepository.save(attendanceExcelUpload);
+        result = attendanceExcelUploadMapper.toDto(attendanceExcelUpload);
+        parseExcelValueToAttendanceObjectAndSave(attendanceExcelParsers, attendanceExcelUpload);
+
         return result;
     }
 
     private List<AttendanceExcelParser> parseExcel(byte[] bytes) {
         try {
             XLSReader xlsReader = null;
-            xlsReader = ReaderBuilder.buildFromXML(new File("/home/soptorshi/Documents/attendance-reader.xml"));
+            xlsReader = ReaderBuilder.buildFromXML(resourceLoader.getResource("classpath:/templates/jxls/attendance-reader.xml").getFile());
             List<AttendanceExcelParser> result = new ArrayList<>();
             Map<String, Object> beans = new HashMap<>();
             beans.put("attendances", result);
@@ -130,7 +115,7 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
         List<Attendance> attendances = new ArrayList<>();
         for (AttendanceExcelParser attendanceExcelParser : attendanceExcelParsers) {
             Optional<Employee> employee = employeeExtendedRepository.findByEmployeeId(attendanceExcelParser.getEmployeeId());
-            if(employee.isPresent()) {
+            if (employee.isPresent()) {
                 if (!attendanceExcelParser.getAttendanceDate().isEmpty()) {
                     Attendance attendance = new Attendance();
                     attendance.setEmployee(employee.get());
@@ -144,7 +129,7 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
                         attendance.setOutTime(Instant.from(formatter.parse(attendanceExcelParser.getAttendanceDate() + " " + inOut[inOut.length - 1])));
                     }
 
-                    if(attendance.getInTime() != null && attendance.getOutTime() != null) {
+                    if (attendance.getInTime() != null && attendance.getOutTime() != null) {
                         Duration between = Duration.between(attendance.getOutTime(), attendance.getInTime());
                         attendance.setDuration(between.toString());
                     }
@@ -154,7 +139,37 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
             }
         }
 
-        for(Attendance attendance: attendances){
+        for(Attendance attendance: attendances) {
+            LocalDate currentDate = LocalDate.now();
+            if(attendance.getAttendanceDate().compareTo(currentDate) > 0) {
+                throw new BadRequestAlertException("Please check the dates", "attendanceExcelUpload", "idexists");
+            }
+            LocalDate ld1 = null;
+            LocalDate ld2 = null;
+            if(attendance.getInTime() != null) {
+                ld1 = LocalDateTime.ofInstant(attendance.getInTime(), ZoneId.systemDefault()).toLocalDate();
+            }
+            if(attendance.getOutTime() != null) {
+                ld2 = LocalDateTime.ofInstant(attendance.getOutTime(), ZoneId.systemDefault()).toLocalDate();
+            }
+            if(ld1 != null && ld2 != null) {
+                if (!(ld1.isEqual(attendance.getAttendanceDate()) && ld2.isEqual(attendance.getAttendanceDate()))) {
+                    throw new BadRequestAlertException("Please check the attendance date with in and out dates", "attendanceExcelUpload", "idexists");
+                }
+            }
+            else if(ld1 != null) {
+                if (!(ld1.isEqual(attendance.getAttendanceDate()))) {
+                    throw new BadRequestAlertException("Please check the attendance date with in and out dates", "attendanceExcelUpload", "idexists");
+                }
+            }
+            else if(ld2 != null) {
+                if (!(ld2.isEqual(attendance.getAttendanceDate()))) {
+                    throw new BadRequestAlertException("Please check the attendance date with in and out dates", "attendanceExcelUpload", "idexists");
+                }
+            }
+        }
+
+        for (Attendance attendance : attendances) {
             AttendanceDTO attendanceDTO = attendanceMapper.toDto(attendance);
             attendanceExtendedService.save(attendanceDTO);
         }

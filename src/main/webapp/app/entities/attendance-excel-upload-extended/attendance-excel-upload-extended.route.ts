@@ -20,7 +20,7 @@ export const attendanceExcelUploadExtendedRoute: Routes = [
         path: '',
         component: AttendanceExcelUploadExtendedComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'AttendanceExcelUploads'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const attendanceExcelUploadExtendedRoute: Routes = [
             attendanceExcelUpload: AttendanceExcelUploadExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'AttendanceExcelUploads'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const attendanceExcelUploadExtendedRoute: Routes = [
             attendanceExcelUpload: AttendanceExcelUploadExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'AttendanceExcelUploads'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const attendanceExcelUploadExtendedRoute: Routes = [
             attendanceExcelUpload: AttendanceExcelUploadExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'AttendanceExcelUploads'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const attendanceExcelUploadPopupExtendedRoute: Routes = [
             attendanceExcelUpload: AttendanceExcelUploadExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_ADMIN'],
+            authorities: ['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER'],
             pageTitle: 'AttendanceExcelUploads'
         },
         canActivate: [UserRouteAccessService],

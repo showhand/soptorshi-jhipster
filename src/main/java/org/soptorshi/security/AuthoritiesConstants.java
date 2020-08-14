@@ -73,6 +73,8 @@ public final class AuthoritiesConstants {
 
     public static final String WEEKEND_MANAGER = "ROLE_WEEKEND_MANAGER";
 
+    public static final String ATTENDANCE_MANAGER = "ROLE_ATTENDANCE_MANAGER";
+
     private AuthoritiesConstants() {
     }
 }

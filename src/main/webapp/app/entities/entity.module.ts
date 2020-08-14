@@ -665,10 +665,6 @@ import { MatTabsModule } from '@angular/material';
                 loadChildren: './holiday/holiday.module#SoptorshiHolidayModule'
             },
             {
-                path: 'attendance',
-                loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
-            },
-            {
                 path: 'leave-type',
                 loadChildren: './leave-type/leave-type.module#SoptorshiLeaveTypeModule'
             },

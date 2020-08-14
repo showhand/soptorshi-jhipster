@@ -4,13 +4,13 @@ import { Subscription } from 'rxjs';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute } from '@angular/router';
 import { Account, AccountService } from 'app/core';
-import { DATE_FORMAT, ITEMS_PER_PAGE } from 'app/shared';
+import { DATE_FORMAT, DAYS, ITEMS_PER_PAGE, MONTHS, YEARS } from 'app/shared';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
-import { Moment } from 'moment';
 import { AttendanceExtendedService } from 'app/entities/attendance-extended/attendance-extended.service';
 import { EmployeeService } from 'app/entities/employee';
 import { IEmployee } from 'app/shared/model/employee.model';
+import { IConstantsModel } from 'app/shared/model/constants-model';
 
 @Component({
     selector: 'jhi-my-attendance',
@@ -28,11 +28,26 @@ export class MyAttendanceComponent implements OnInit {
     reverse: any;
     totalItems: number;
     currentSearch: string;
-    distinctAttendanceDate: Moment[];
     currentEmployee: IEmployee;
 
+    days: IConstantsModel[] = DAYS;
+    months: IConstantsModel[] = MONTHS;
+    years: IConstantsModel[] = YEARS();
+
+    fromDate: {
+        day: number;
+        month: number;
+        year: number;
+    } = { day: new Date().getDate(), month: new Date().getMonth() + 1, year: new Date().getFullYear() };
+
+    toDate: {
+        day: number;
+        month: number;
+        year: number;
+    } = { day: new Date().getDate(), month: new Date().getMonth() + 1, year: new Date().getFullYear() };
+
     constructor(
-        protected attendanceService: AttendanceExtendedService,
+        protected attendanceExtendedService: AttendanceExtendedService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
@@ -52,42 +67,43 @@ export class MyAttendanceComponent implements OnInit {
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
                 : '';
-
-        this.attendanceService
-            .getDistinctAttendanceDate()
-            .subscribe(
-                (res: HttpResponse<Moment[]>) => this.addDistinctAttendances(res.body),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     loadAll() {
-        this.employeeService
-            .query({
-                'employeeId.equals': this.currentAccount.login
-            })
-            .subscribe(
-                (res: HttpResponse<IEmployee[]>) => {
-                    this.currentEmployee = res.body[0];
-                    this.attendanceService
-                        .query({
-                            page: this.page,
-                            size: this.itemsPerPage,
-                            sort: this.sort(),
-                            'attendanceDate.equals': this.currentSearch
-                                ? moment(this.currentSearch).format(DATE_FORMAT)
-                                : moment(new Date())
-                                      .add(0, 'days')
-                                      .format(DATE_FORMAT),
-                            'employeeId.equals': this.currentEmployee.id
-                        })
-                        .subscribe(
-                            (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
-                            (res: HttpErrorResponse) => this.onError(res.message)
-                        );
-                },
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
+        if (this.fromDate.day && this.fromDate.month && this.fromDate.year && this.toDate.day && this.toDate.month && this.toDate.year) {
+            let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
+            let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
+
+            if (from.isBefore(to.add(1))) {
+                this.employeeService
+                    .query({
+                        'employeeId.equals': this.currentAccount.login
+                    })
+                    .subscribe(
+                        (res: HttpResponse<IEmployee[]>) => {
+                            this.currentEmployee = res.body[0];
+                            this.attendanceExtendedService
+                                .query({
+                                    page: this.page,
+                                    size: this.itemsPerPage,
+                                    sort: this.sort(),
+                                    'attendanceDate.greaterOrEqualThan': from.format(DATE_FORMAT),
+                                    'attendanceDate.lessOrEqualThan': to.format(DATE_FORMAT),
+                                    'employeeId.equals': this.currentEmployee.id
+                                })
+                                .subscribe(
+                                    (res: HttpResponse<IAttendance[]>) => this.paginateAttendances(res.body, res.headers),
+                                    (res: HttpErrorResponse) => this.onError(res.message)
+                                );
+                        },
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            } else {
+                this.onError('Invalid dates');
+            }
+        } else {
+            this.onError('Invalid dates');
+        }
     }
 
     reset() {
@@ -124,7 +140,7 @@ export class MyAttendanceComponent implements OnInit {
             last: 0
         };
         this.page = 0;
-        this.predicate = '_score';
+        this.predicate = 'id';
         this.reverse = false;
         this.currentSearch = query;
         this.loadAll();
@@ -159,18 +175,38 @@ export class MyAttendanceComponent implements OnInit {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
-            /*data[i].diff = moment
-                .utc(moment(data[i].outTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(data[i].inTime, 'DD/MM/YYYY HH:mm:ss')))
-                .format('HH:mm:ss');*/
             this.attendances.push(data[i]);
         }
     }
 
-    protected addDistinctAttendances(data: Moment[]) {
-        this.distinctAttendanceDate = data;
-    }
-
     protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackDayId(index: number, item: IConstantsModel) {
+        return item.id;
+    }
+
+    trackMonthId(index: number, item: IConstantsModel) {
+        return item.id;
+    }
+
+    trackYearId(index: number, item: IConstantsModel) {
+        return item.id;
+    }
+
+    generateReport() {
+        if (this.fromDate.day && this.fromDate.month && this.fromDate.year && this.toDate.day && this.toDate.month && this.toDate.year) {
+            let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
+            let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
+
+            if (from.isBefore(to.add(1))) {
+                this.attendanceExtendedService.generateReportByFromDateAndToDateAndCurrentLoggedInUser(from, to);
+            } else {
+                this.onError('Invalid dates');
+            }
+        } else {
+            this.onError('Invalid input');
+        }
     }
 }

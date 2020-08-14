@@ -2,16 +2,22 @@ package org.soptorshi.web.rest.extended;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soptorshi.security.AuthoritiesConstants;
+import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.service.AttendanceQueryService;
+import org.soptorshi.service.dto.AttendanceDTO;
 import org.soptorshi.service.extended.AttendanceExtendedService;
 import org.soptorshi.web.rest.AttendanceResource;
 import org.soptorshi.web.rest.errors.BadRequestAlertException;
-import org.springframework.http.HttpHeaders;
+import org.soptorshi.web.rest.util.HeaderUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @RestController
 @RequestMapping("/api/extended")
@@ -28,19 +34,56 @@ public class AttendanceExtendedResource extends AttendanceResource {
         this.attendanceExtendedService = attendanceExtendedService;
     }
 
-    @GetMapping("/attendances/dates")
-    public ResponseEntity<List<LocalDate>> getAttendanceDates() {
-        log.debug("REST request to get distinct Attendances:");
-        List<LocalDate> attendanceDTOS = attendanceExtendedService.getAllDistinctAttendanceDate();
-        return ResponseEntity.ok().headers(HttpHeaders.EMPTY).body(attendanceDTOS);
+    @PostMapping("/attendances")
+    public ResponseEntity<AttendanceDTO> createAttendance(@RequestBody AttendanceDTO attendanceDTO) throws URISyntaxException {
+        log.debug("REST request to save Attendance : {}", attendanceDTO);
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ATTENDANCE_MANAGER)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        if (attendanceDTO.getId() != null) {
+            throw new BadRequestAlertException("A new attendance cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        LocalDate currentDate = LocalDate.now();
+        if(attendanceDTO.getAttendanceDate().compareTo(currentDate) > 0) {
+            throw new BadRequestAlertException("Please check the attendance date", ENTITY_NAME, "idexists");
+        }
+        LocalDate ld1 = LocalDateTime.ofInstant(attendanceDTO.getInTime(), ZoneId.systemDefault()).toLocalDate();
+        LocalDate ld2 = LocalDateTime.ofInstant(attendanceDTO.getOutTime(), ZoneId.systemDefault()).toLocalDate();
+        if(!ld1.isEqual(attendanceDTO.getAttendanceDate()) && !ld2.isEqual(attendanceDTO.getAttendanceDate())) {
+            throw new BadRequestAlertException("Please check the attendance date with in and out dates", ENTITY_NAME, "idexists");
+        }
+        AttendanceDTO result = attendanceExtendedService.save(attendanceDTO);
+        return ResponseEntity.created(new URI("/api/attendances/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
-    /**
-     * DELETE  /attendances/:id : delete the "id" attendance.
-     *
-     * @param id the id of the attendanceDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
+    @PutMapping("/attendances")
+    public ResponseEntity<AttendanceDTO> updateAttendance(@RequestBody AttendanceDTO attendanceDTO) throws URISyntaxException {
+        log.debug("REST request to update Attendance : {}", attendanceDTO);
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ATTENDANCE_MANAGER)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        if (attendanceDTO.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        LocalDate currentDate = LocalDate.now();
+        if(attendanceDTO.getAttendanceDate().compareTo(currentDate) > 0) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "idexists");
+        }
+        LocalDate ld1 = LocalDateTime.ofInstant(attendanceDTO.getInTime(), ZoneId.systemDefault()).toLocalDate();
+        LocalDate ld2 = LocalDateTime.ofInstant(attendanceDTO.getOutTime(), ZoneId.systemDefault()).toLocalDate();
+        if(!(ld1.isEqual(attendanceDTO.getAttendanceDate()) && ld2.isEqual(attendanceDTO.getAttendanceDate()))) {
+            throw new BadRequestAlertException("Please check the attendance date with in and out dates", ENTITY_NAME, "idexists");
+        }
+        AttendanceDTO result = attendanceExtendedService.save(attendanceDTO);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, attendanceDTO.getId().toString()))
+            .body(result);
+    }
+
     @DeleteMapping("/attendances/{id}")
     public ResponseEntity<Void> deleteAttendance(@PathVariable Long id) {
         log.debug("REST request to delete Attendance : {}", id);
