@@ -57,6 +57,14 @@ public class HolidayTypeReportService {
         document.add(paragraph);
         document.add(Chunk.NEWLINE);
 
+        paragraph = new Paragraph(new Chunk("Holiday Types", TIMES_BOLD_11));
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        document.add(paragraph);
+
+        paragraph = new Paragraph();
+        lineBreak(paragraph, 1);
+        document.add(paragraph);
+
         List<HolidayType> holidayTypes = holidayTypeExtendedService.getAll();
 
         pdfPTable = new PdfPTable(2);

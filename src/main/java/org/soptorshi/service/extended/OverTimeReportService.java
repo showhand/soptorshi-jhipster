@@ -4,8 +4,8 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.soptorshi.domain.Attendance;
 import org.soptorshi.domain.Employee;
+import org.soptorshi.domain.OverTime;
 import org.soptorshi.repository.extended.EmployeeExtendedRepository;
 import org.soptorshi.security.SecurityUtils;
 import org.soptorshi.utils.SoptorshiUtils;
@@ -27,11 +27,11 @@ import static java.util.stream.Collectors.groupingBy;
 
 @Service
 @Transactional
-public class AttendanceReportService {
+public class OverTimeReportService {
 
-    private final Logger log = LoggerFactory.getLogger(AttendanceReportService.class);
+    private final Logger log = LoggerFactory.getLogger(OverTimeReportService.class);
 
-    private final AttendanceExtendedService attendanceExtendedService;
+    private final OverTimeExtendedService overTimeExtendedService;
 
     private final EmployeeExtendedRepository employeeExtendedRepository;
 
@@ -43,16 +43,16 @@ public class AttendanceReportService {
     static Font TIME_BOLD_12 = FontFactory.getFont(FontFactory.TIMES_BOLD, 12);
     static Font TIMES_BOLD_14 = FontFactory.getFont(FontFactory.TIMES_BOLD, 14);
 
-    public AttendanceReportService(AttendanceExtendedService attendanceExtendedService, EmployeeExtendedRepository employeeExtendedRepository) {
-        this.attendanceExtendedService = attendanceExtendedService;
+    public OverTimeReportService(OverTimeExtendedService overTimeExtendedService, EmployeeExtendedRepository employeeExtendedRepository) {
+        this.overTimeExtendedService = overTimeExtendedService;
         this.employeeExtendedRepository = employeeExtendedRepository;
     }
 
-    public ByteArrayInputStream getAttendances(LocalDate from, LocalDate to, String employeeId) throws DocumentException {
+    public ByteArrayInputStream getOverTimes(LocalDate from, LocalDate to, String employeeId) throws DocumentException {
         Document document = new Document();
         document.setPageSize(PageSize.A4);
         document.setMargins(20, 20, 40, 40);
-        document.addTitle("Attendances");
+        document.addTitle("OverTimes");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PdfWriter writer = PdfWriter.getInstance(document, baos);
         writer.setPageEvent(new headerAndFooter());
@@ -68,7 +68,7 @@ public class AttendanceReportService {
         document.add(paragraph);
         document.add(Chunk.NEWLINE);
 
-        paragraph = new Paragraph(new Chunk("Attendances", TIMES_BOLD_11));
+        paragraph = new Paragraph(new Chunk("Over-Times", TIMES_BOLD_11));
         paragraph.setAlignment(Element.ALIGN_CENTER);
         document.add(paragraph);
 
@@ -86,8 +86,8 @@ public class AttendanceReportService {
         Optional<Employee> employee = employeeExtendedRepository.findByEmployeeId(employeeId);
 
         if (employee.isPresent()) {
-            List<Attendance> attendances = attendanceExtendedService.getAttendances(from, to, employee.get());
-            createAttendanceTable(document, attendances, employee.get());
+            List<OverTime> overTimes = overTimeExtendedService.getOverTimes(from, to, employee.get());
+            createOverTimeTable(document, overTimes, employee.get());
         }
         else {
             paragraph = new Paragraph(new Chunk("No records found.", TIME_ROMAN_11));
@@ -98,11 +98,11 @@ public class AttendanceReportService {
         return new ByteArrayInputStream(baos.toByteArray());
     }
 
-    public ByteArrayInputStream getAttendances(LocalDate from, LocalDate to) throws DocumentException {
+    public ByteArrayInputStream getOverTimes(LocalDate from, LocalDate to) throws DocumentException {
         Document document = new Document();
         document.setPageSize(PageSize.A4);
         document.setMargins(20, 20, 40, 40);
-        document.addTitle("Attendances");
+        document.addTitle("OverTimes");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PdfWriter writer = PdfWriter.getInstance(document, baos);
         writer.setPageEvent(new headerAndFooter());
@@ -118,7 +118,7 @@ public class AttendanceReportService {
         document.add(paragraph);
         document.add(Chunk.NEWLINE);
 
-        paragraph = new Paragraph(new Chunk("Attendances", TIMES_BOLD_11));
+        paragraph = new Paragraph(new Chunk("Over-Times", TIMES_BOLD_11));
         paragraph.setAlignment(Element.ALIGN_CENTER);
         document.add(paragraph);
 
@@ -133,16 +133,16 @@ public class AttendanceReportService {
         lineBreak(paragraph, 1);
         document.add(paragraph);
 
-        List<Attendance> attendances = attendanceExtendedService.getAttendances(from, to);
+        List<OverTime> overTimes = overTimeExtendedService.getOverTimes(from, to);
 
-        if (attendances.size() > 0) {
-            Map<Employee, List<Attendance>> listMap = attendances.stream()
-                .collect(groupingBy(Attendance::getEmployee));
+        if (overTimes.size() > 0) {
+            Map<Employee, List<OverTime>> listMap = overTimes.stream()
+                .collect(groupingBy(OverTime::getEmployee));
             int len = listMap.size();
             int i = 0;
-            for(Map.Entry<Employee, List<Attendance>> map: listMap.entrySet()) {
+            for(Map.Entry<Employee, List<OverTime>> map: listMap.entrySet()) {
                 i++;
-                createAttendanceTable(document, map.getValue(), map.getKey());
+                createOverTimeTable(document, map.getValue(), map.getKey());
 
                 if(i < len) {
                     document.newPage();
@@ -158,11 +158,11 @@ public class AttendanceReportService {
         return new ByteArrayInputStream(baos.toByteArray());
     }
 
-    public ByteArrayInputStream getAttendances(String employeeId) throws DocumentException {
+    public ByteArrayInputStream getOverTimes(String employeeId) throws DocumentException {
         Document document = new Document();
         document.setPageSize(PageSize.A4);
         document.setMargins(20, 20, 40, 40);
-        document.addTitle("Attendances");
+        document.addTitle("OverTimes");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PdfWriter writer = PdfWriter.getInstance(document, baos);
         writer.setPageEvent(new headerAndFooter());
@@ -178,7 +178,7 @@ public class AttendanceReportService {
         document.add(paragraph);
         document.add(Chunk.NEWLINE);
 
-        paragraph = new Paragraph(new Chunk("Attendances", TIMES_BOLD_11));
+        paragraph = new Paragraph(new Chunk("Over-Times", TIMES_BOLD_11));
         paragraph.setAlignment(Element.ALIGN_CENTER);
         document.add(paragraph);
 
@@ -189,8 +189,8 @@ public class AttendanceReportService {
         Optional<Employee> employee = employeeExtendedRepository.findByEmployeeId(employeeId);
 
         if (employee.isPresent()) {
-            List<Attendance> attendances = attendanceExtendedService.getAttendances(employee.get());
-            createAttendanceTable(document, attendances, employee.get());
+            List<OverTime> overTimes = overTimeExtendedService.getOverTimes(employee.get());
+            createOverTimeTable(document, overTimes, employee.get());
         }
         else {
             paragraph = new Paragraph(new Chunk("No records found.", TIME_ROMAN_11));
@@ -201,7 +201,7 @@ public class AttendanceReportService {
         return new ByteArrayInputStream(baos.toByteArray());
     }
 
-    private void createAttendanceTable(Document document, List<Attendance> attendances, Employee employee) throws DocumentException {
+    private void createOverTimeTable(Document document, List<OverTime> overTimes, Employee employee) throws DocumentException {
         PdfPTable pdfPTable;
         PdfPCell pdfPCell;
 
@@ -212,16 +212,16 @@ public class AttendanceReportService {
         lineBreak(paragraph, 1);
         document.add(paragraph);
 
-        if (attendances.size() > 0) {
+        if (overTimes.size() > 0) {
 
             DateTimeFormatter formatter =
                 DateTimeFormatter.ofLocalizedDateTime( FormatStyle.SHORT )
                     .withLocale( Locale.getDefault() )
                     .withZone( ZoneId.systemDefault() );
 
-            pdfPTable = new PdfPTable(6);
+            pdfPTable = new PdfPTable(5);
             pdfPTable.setWidthPercentage(100);
-            pdfPTable.setTotalWidth(new float[]{10, 15, 17.5f, 17.5f, 20, 20});
+            pdfPTable.setTotalWidth(new float[]{10, 20, 25, 25, 20});
 
             pdfPCell = new PdfPCell(new Paragraph("#", TIMES_BOLD_11));
             pdfPCell.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
@@ -232,49 +232,41 @@ public class AttendanceReportService {
             pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
             pdfPTable.addCell(pdfPCell);
 
-            pdfPCell = new PdfPCell(new Paragraph("In Time", TIMES_BOLD_11));
+            pdfPCell = new PdfPCell(new Paragraph("From", TIMES_BOLD_11));
             pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
             pdfPTable.addCell(pdfPCell);
 
-            pdfPCell = new PdfPCell(new Paragraph("Out Time", TIMES_BOLD_11));
+            pdfPCell = new PdfPCell(new Paragraph("To", TIMES_BOLD_11));
             pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
             pdfPTable.addCell(pdfPCell);
 
             pdfPCell = new PdfPCell(new Paragraph("Duration", TIMES_BOLD_11));
-            pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
-            pdfPTable.addCell(pdfPCell);
-
-            pdfPCell = new PdfPCell(new Paragraph("Entry Type", TIMES_BOLD_11));
             pdfPCell.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
             pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
             pdfPTable.addCell(pdfPCell);
 
             int counter = 0;
 
-            for (Attendance attendance : attendances) {
+            for (OverTime overTime : overTimes) {
                 counter = counter + 1;
                 pdfPCell = new PdfPCell(new Paragraph(counter + "", TIME_ROMAN_11));
                 pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
                 pdfPCell.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
                 pdfPTable.addCell(pdfPCell);
 
-                pdfPCell = new PdfPCell(new Paragraph(attendance.getAttendanceDate().format(DateTimeFormatter.ofPattern("dd MMMM, yyyy")), TIME_ROMAN_11));
+                pdfPCell = new PdfPCell(new Paragraph(overTime.getOverTimeDate().format(DateTimeFormatter.ofPattern("dd MMMM, yyyy")), TIME_ROMAN_11));
                 pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
                 pdfPTable.addCell(pdfPCell);
 
-                pdfPCell = new PdfPCell(new Paragraph(attendance.getInTime() == null ? "" : formatter.format(attendance.getInTime()), TIME_ROMAN_11));
+                pdfPCell = new PdfPCell(new Paragraph(overTime.getFromTime() == null ? "" : formatter.format(overTime.getFromTime()), TIME_ROMAN_11));
                 pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
                 pdfPTable.addCell(pdfPCell);
 
-                pdfPCell = new PdfPCell(new Paragraph(attendance.getOutTime() == null ? "" : formatter.format(attendance.getOutTime()), TIME_ROMAN_11));
+                pdfPCell = new PdfPCell(new Paragraph(overTime.getToTime() == null ? "" : formatter.format(overTime.getToTime()), TIME_ROMAN_11));
                 pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
                 pdfPTable.addCell(pdfPCell);
 
-                pdfPCell = new PdfPCell(new Paragraph(attendance.getDuration() == null ? "" : attendance.getDuration(), TIME_ROMAN_11));
-                pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
-                pdfPTable.addCell(pdfPCell);
-
-                pdfPCell = new PdfPCell(new Paragraph(attendance.getAttendanceExcelUpload() == null ? "Individual" : "Excel", TIME_ROMAN_11));
+                pdfPCell = new PdfPCell(new Paragraph(overTime.getDuration() == null ? "" : overTime.getDuration(), TIME_ROMAN_11));
                 pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
                 pdfPCell.setHorizontalAlignment(Rectangle.ALIGN_CENTER);
                 pdfPTable.addCell(pdfPCell);

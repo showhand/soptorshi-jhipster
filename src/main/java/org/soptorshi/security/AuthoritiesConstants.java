@@ -75,6 +75,8 @@ public final class AuthoritiesConstants {
 
     public static final String ATTENDANCE_MANAGER = "ROLE_ATTENDANCE_MANAGER";
 
+    public static final String OVERTIME_MANAGER = "ROLE_OVERTIME_MANAGER";
+
     private AuthoritiesConstants() {
     }
 }

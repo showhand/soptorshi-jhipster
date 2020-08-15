@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -19,7 +19,7 @@ import { IConstantsModel } from 'app/shared/model/constants-model';
     selector: 'jhi-attendance-extended',
     templateUrl: './attendance-extended.component.html'
 })
-export class AttendanceExtendedComponent extends AttendanceComponent {
+export class AttendanceExtendedComponent extends AttendanceComponent implements OnInit {
     attendances: IAttendance[];
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -59,13 +59,6 @@ export class AttendanceExtendedComponent extends AttendanceComponent {
         protected employeeService: EmployeeExtendedService
     ) {
         super(attendanceServiceExtended, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
-
-        this.employeeService
-            .query()
-            .subscribe(
-                (res: HttpResponse<IEmployee[]>) => this.addEmployees(res.body),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
     }
 
     loadAll() {
@@ -159,6 +152,20 @@ export class AttendanceExtendedComponent extends AttendanceComponent {
         this.reverse = false;
         this.currentSearch = query;
         this.loadAll();
+    }
+
+    ngOnInit() {
+        this.loadAll();
+        this.accountService.identity().then(account => {
+            this.currentAccount = account;
+        });
+        this.employeeService
+            .query()
+            .subscribe(
+                (res: HttpResponse<IEmployee[]>) => this.addEmployees(res.body),
+                (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        this.registerChangeInAttendances();
     }
 
     protected addEmployees(data: IEmployee[]) {

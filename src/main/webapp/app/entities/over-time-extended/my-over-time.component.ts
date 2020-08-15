@@ -16,10 +16,10 @@ import { IConstantsModel } from 'app/shared/model/constants-model';
 import { EmployeeExtendedService } from 'app/entities/employee-extended';
 
 @Component({
-    selector: 'jhi-over-time-extended',
-    templateUrl: './over-time-extended.component.html'
+    selector: 'jhi-my-over-time',
+    templateUrl: './my-over-time.component.html'
 })
-export class OverTimeExtendedComponent extends OverTimeComponent {
+export class MyOverTimeComponent extends OverTimeComponent {
     distinctDates: Moment[];
     currentAccount: Account;
     currentEmployee: IEmployee;
@@ -58,11 +58,12 @@ export class OverTimeExtendedComponent extends OverTimeComponent {
     }
 
     ngOnInit() {
-        this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
             this.employeeService
-                .query()
+                .query({
+                    'employeeId.equals': this.currentAccount.login
+                })
                 .subscribe(
                     (res: HttpResponse<IEmployee[]>) => this.addEmployees(res.body),
                     (res: HttpErrorResponse) => this.onError(res.message)
@@ -72,47 +73,7 @@ export class OverTimeExtendedComponent extends OverTimeComponent {
     }
 
     loadAll() {
-        if (
-            this.fromDate.day &&
-            this.fromDate.month &&
-            this.fromDate.year &&
-            this.toDate.day &&
-            this.toDate.month &&
-            this.toDate.year &&
-            this.employee
-        ) {
-            let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
-            let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
-
-            if (from.isBefore(to.add(1))) {
-                this.overTimeExtendedService
-                    .query({
-                        page: this.page,
-                        size: this.itemsPerPage,
-                        sort: this.sort(),
-                        'employeeId.equals': this.employee.id,
-                        'overTimeDate.greaterOrEqualThan': moment(
-                            new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`)
-                        ).format(DATE_FORMAT),
-                        'overTimeDate.lessOrEqualThan': moment(
-                            new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`)
-                        ).format(DATE_FORMAT)
-                    })
-                    .subscribe(
-                        (res: HttpResponse<IOverTime[]>) => this.paginateOverTimes(res.body, res.headers),
-                        (res: HttpErrorResponse) => this.onError(res.message)
-                    );
-            } else {
-                this.onError('Invalid dates');
-            }
-        } else if (
-            this.fromDate.day &&
-            this.fromDate.month &&
-            this.fromDate.year &&
-            this.toDate.day &&
-            this.toDate.month &&
-            this.toDate.year
-        ) {
+        if (this.fromDate.day && this.fromDate.month && this.fromDate.year && this.toDate.day && this.toDate.month && this.toDate.year) {
             let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
             let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
 
@@ -127,7 +88,8 @@ export class OverTimeExtendedComponent extends OverTimeComponent {
                         ).format(DATE_FORMAT),
                         'overTimeDate.lessOrEqualThan': moment(
                             new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`)
-                        ).format(DATE_FORMAT)
+                        ).format(DATE_FORMAT),
+                        'employeeId.equals': this.employees[0].id
                     })
                     .subscribe(
                         (res: HttpResponse<IOverTime[]>) => this.paginateOverTimes(res.body, res.headers),
@@ -136,18 +98,6 @@ export class OverTimeExtendedComponent extends OverTimeComponent {
             } else {
                 this.onError('Invalid dates');
             }
-        } else if (this.employee) {
-            this.overTimeExtendedService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'employeeId.equals': this.employee.id
-                })
-                .subscribe(
-                    (res: HttpResponse<IOverTime[]>) => this.paginateOverTimes(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
         } else {
             this.onError('Invalid input');
         }
@@ -186,41 +136,15 @@ export class OverTimeExtendedComponent extends OverTimeComponent {
     }
 
     generateReport() {
-        if (
-            this.fromDate.day &&
-            this.fromDate.month &&
-            this.fromDate.year &&
-            this.toDate.day &&
-            this.toDate.month &&
-            this.toDate.year &&
-            this.employee
-        ) {
+        if (this.fromDate.day && this.fromDate.month && this.fromDate.year && this.toDate.day && this.toDate.month && this.toDate.year) {
             let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
             let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
 
             if (from.isBefore(to.add(1))) {
-                this.overTimeExtendedService.generateReportByFromDateAndToDateAndEmployeeId(from, to, this.employee.employeeId);
+                this.overTimeExtendedService.generateReportByFromDateAndToDateAndCurrentLoggedInUser(from, to);
             } else {
                 this.onError('Invalid dates');
             }
-        } else if (
-            this.fromDate.day &&
-            this.fromDate.month &&
-            this.fromDate.year &&
-            this.toDate.day &&
-            this.toDate.month &&
-            this.toDate.year
-        ) {
-            let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
-            let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
-
-            if (from.isBefore(to.add(1))) {
-                this.overTimeExtendedService.generateReportByFromDateAndToDate(from, to);
-            } else {
-                this.onError('Invalid dates');
-            }
-        } else if (this.employee) {
-            this.overTimeExtendedService.generateReportByEmployeeId(this.employee.employeeId);
         } else {
             this.onError('Invalid input');
         }

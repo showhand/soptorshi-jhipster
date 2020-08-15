@@ -60,6 +60,14 @@ public class WeekendReportService {
         document.add(paragraph);
         document.add(Chunk.NEWLINE);
 
+        paragraph = new Paragraph(new Chunk("Weekends", TIMES_BOLD_11));
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        document.add(paragraph);
+
+        paragraph = new Paragraph();
+        lineBreak(paragraph, 1);
+        document.add(paragraph);
+
         List<Weekend> weekends = weekendExtendedService.getAll()
             .stream()
             .sorted(Comparator.comparing(Weekend::getActiveFrom))

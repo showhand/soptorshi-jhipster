@@ -167,6 +167,17 @@ public class AttendanceExcelUploadExtendedService extends AttendanceExcelUploadS
                     throw new BadRequestAlertException("Please check the attendance date with in and out dates", "attendanceExcelUpload", "idexists");
                 }
             }
+            Instant currentTime = Instant.now();
+            if(attendance.getInTime() != null) {
+                if (!(attendance.getInTime().isBefore(currentTime))) {
+                    throw new BadRequestAlertException("Please check the in and out time. It should be less than current time", "attendanceExcelUpload", "idexists");
+                }
+            }
+            if(attendance.getOutTime() != null) {
+                if (!(attendance.getOutTime().isBefore(currentTime))) {
+                    throw new BadRequestAlertException("Please check the in and out time. It should be less than current time", "attendanceExcelUpload", "idexists");
+                }
+            }
         }
 
         for (Attendance attendance : attendances) {

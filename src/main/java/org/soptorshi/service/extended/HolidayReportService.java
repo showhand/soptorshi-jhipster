@@ -59,6 +59,14 @@ public class HolidayReportService {
         document.add(paragraph);
         document.add(Chunk.NEWLINE);
 
+        paragraph = new Paragraph(new Chunk("Holidays", TIMES_BOLD_11));
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        document.add(paragraph);
+
+        paragraph = new Paragraph();
+        lineBreak(paragraph, 1);
+        document.add(paragraph);
+
         List<Integer> years = holidayExtendedService.getAllHolidayYears();
 
         for(int i = 0; i < years.size(); i++) {
@@ -174,6 +182,14 @@ public class HolidayReportService {
         paragraph.setAlignment(Element.ALIGN_CENTER);
         document.add(paragraph);
         document.add(Chunk.NEWLINE);
+
+        paragraph = new Paragraph(new Chunk("Holidays", TIMES_BOLD_11));
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        document.add(paragraph);
+
+        paragraph = new Paragraph();
+        lineBreak(paragraph, 1);
+        document.add(paragraph);
 
         createHolidayTable(document, pYear);
 

@@ -4,9 +4,9 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { SERVER_API_URL } from 'app/app.constants';
 import { IOverTime } from 'app/shared/model/over-time.model';
 import { OverTimeService } from 'app/entities/over-time';
-import { Observable } from 'rxjs';
 import { Moment } from 'moment';
-import { map } from 'rxjs/operators';
+import { DATE_FORMAT } from 'app/shared';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
 
 type EntityResponseType = HttpResponse<IOverTime>;
 type EntityArrayResponseType = HttpResponse<IOverTime[]>;
@@ -20,18 +20,48 @@ export class OverTimeExtendedService extends OverTimeService {
         super(http);
     }
 
-    getDistinctOverTimeDate(): Observable<HttpResponse<Moment[]>> {
+    generateReportByFromDateAndToDateAndEmployeeId(fromDate: Moment, toDate: Moment, employeeId: string) {
         return this.http
-            .get<Moment[]>(`${this.resourceUrl}/dates`, { observe: 'response' })
-            .pipe(map((res: HttpResponse<Moment[]>) => this.convertDateArrayFromServerResponse(res)));
+            .get(
+                `${this.resourceUrl}/report/fromDate/${fromDate.format(DATE_FORMAT)}/toDate/${toDate.format(
+                    DATE_FORMAT
+                )}/employeeId/${employeeId}`,
+                {
+                    responseType: 'blob'
+                }
+            )
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', `OverTime`);
+            });
     }
 
-    protected convertDateArrayFromServerResponse(res: HttpResponse<Moment[]>): HttpResponse<Moment[]> {
-        if (res.body) {
-            res.body.forEach((m: Moment) => {
-                m = m != null ? m : null;
+    generateReportByFromDateAndToDate(fromDate: Moment, toDate: Moment) {
+        return this.http
+            .get(`${this.resourceUrl}/report/fromDate/${fromDate.format(DATE_FORMAT)}/toDate/${toDate.format(DATE_FORMAT)}`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', `OverTime`);
             });
-        }
-        return res;
+    }
+
+    generateReportByEmployeeId(employeeId: string) {
+        return this.http
+            .get(`${this.resourceUrl}/report/employeeId/${employeeId}`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', `OverTime`);
+            });
+    }
+
+    generateReportByFromDateAndToDateAndCurrentLoggedInUser(fromDate: Moment, toDate: Moment) {
+        return this.http
+            .get(`${this.resourceUrl}/report/fromDate/${fromDate.format(DATE_FORMAT)}/toDate/${toDate.format(DATE_FORMAT)}/loggedInUser`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', `OverTime`);
+            });
     }
 }

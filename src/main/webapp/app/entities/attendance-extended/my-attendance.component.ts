@@ -149,7 +149,6 @@ export class MyAttendanceComponent implements OnInit {
     ngOnInit() {
         this.accountService.identity().then(account => {
             this.currentAccount = account;
-            this.loadAll();
         });
         this.registerChangeInAttendances();
     }
