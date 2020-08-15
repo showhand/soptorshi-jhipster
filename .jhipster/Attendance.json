@@ -3,11 +3,17 @@
     "fields": [
         {
             "fieldName": "attendanceDate",
-            "fieldType": "LocalDate"
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "inTime",
-            "fieldType": "Instant"
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "outTime",
@@ -15,6 +21,10 @@
         },
         {
             "fieldName": "duration",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "remarks",
             "fieldType": "String"
         },
         {
@@ -37,17 +47,18 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "employee",
-            "otherEntityRelationshipName": "attendance",
-            "relationshipName": "employee",
-            "otherEntityField": "fullName"
-        },
-        {
-            "relationshipType": "many-to-one",
             "otherEntityName": "attendanceExcelUpload",
             "otherEntityRelationshipName": "attendance",
             "relationshipName": "attendanceExcelUpload",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "attendance",
+            "relationshipValidateRules": "required",
+            "relationshipName": "employee",
+            "otherEntityField": "fullName"
         }
     ],
     "changelogDate": "20190702135954",

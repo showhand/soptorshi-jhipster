@@ -8,16 +8,16 @@ import org.soptorshi.service.dto.AttendanceDTO;
 /**
  * Mapper for the entity Attendance and its DTO AttendanceDTO.
  */
-@Mapper(componentModel = "spring", uses = {EmployeeMapper.class, AttendanceExcelUploadMapper.class})
+@Mapper(componentModel = "spring", uses = {AttendanceExcelUploadMapper.class, EmployeeMapper.class})
 public interface AttendanceMapper extends EntityMapper<AttendanceDTO, Attendance> {
 
+    @Mapping(source = "attendanceExcelUpload.id", target = "attendanceExcelUploadId")
     @Mapping(source = "employee.id", target = "employeeId")
     @Mapping(source = "employee.fullName", target = "employeeFullName")
-    @Mapping(source = "attendanceExcelUpload.id", target = "attendanceExcelUploadId")
     AttendanceDTO toDto(Attendance attendance);
 
-    @Mapping(source = "employeeId", target = "employee")
     @Mapping(source = "attendanceExcelUploadId", target = "attendanceExcelUpload")
+    @Mapping(source = "employeeId", target = "employee")
     Attendance toEntity(AttendanceDTO attendanceDTO);
 
     default Attendance fromId(Long id) {

@@ -69,6 +69,7 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "holidayType",
             "otherEntityRelationshipName": "holiday",
+            "relationshipValidateRules": "required",
             "relationshipName": "holidayType",
             "otherEntityField": "name"
         }

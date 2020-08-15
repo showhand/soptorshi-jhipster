@@ -13,17 +13,33 @@
                     <label class="form-control-label" for="field_attendanceDate">Attendance Date</label>
                     <div class="input-group">
                         <input id="field_attendanceDate" type="text" class="form-control" name="attendanceDate" ngbDatepicker  #attendanceDateDp="ngbDatepicker" [(ngModel)]="attendance.attendanceDate"
-                        />
+                        required/>
                         <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="attendanceDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
                         </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.attendanceDate?.dirty && editForm.controls.attendanceDate?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.attendanceDate?.errors?.required">
+                        This field is required.
+                        </small>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_inTime">In Time</label>
                     <div class="d-flex">
                         <input id="field_inTime" type="datetime-local" class="form-control" name="inTime" [(ngModel)]="inTime" placeholder="YYYY-MM-DD HH:mm"
-                        />
+                        required/>
+                    </div>
+                    <div [hidden]="!(editForm.controls.inTime?.dirty && editForm.controls.inTime?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.inTime?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.inTime?.errors?.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
                     </div>
                 </div>
                 <div class="form-group">
@@ -37,6 +53,11 @@
                     <label class="form-control-label" for="field_duration">Duration</label>
                     <input type="text" class="form-control" name="duration" id="field_duration"
                         [(ngModel)]="attendance.duration" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_remarks">Remarks</label>
+                    <input type="text" class="form-control" name="remarks" id="field_remarks"
+                        [(ngModel)]="attendance.remarks" />
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_createdBy">Created By</label>
@@ -64,18 +85,24 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_employee">Employee</label>
-                    <select class="form-control" id="field_employee" name="employee" [(ngModel)]="attendance.employeeId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="field_attendanceExcelUpload">Attendance Excel Upload</label>
                     <select class="form-control" id="field_attendanceExcelUpload" name="attendanceExcelUpload" [(ngModel)]="attendance.attendanceExcelUploadId" >
                         <option [ngValue]="null"></option>
                         <option [ngValue]="attendanceExcelUploadOption.id" *ngFor="let attendanceExcelUploadOption of attendanceexceluploads; trackBy: trackAttendanceExcelUploadById">{{attendanceExcelUploadOption.id}}</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" [(ngModel)]="attendance.employeeId"  required>
+                        <option *ngIf="!editForm.value.employee" [ngValue]="null" selected></option>
+                        <option [ngValue]="employeeOption.id" *ngFor="let employeeOption of employees; trackBy: trackEmployeeById">{{employeeOption.fullName}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.employee?.dirty && editForm.controls.employee?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.employee?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
             </div>
             <div>

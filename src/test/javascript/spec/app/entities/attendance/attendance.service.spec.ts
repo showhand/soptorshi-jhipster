@@ -30,6 +30,7 @@ describe('Service Tests', () => {
                 currentDate,
                 'AAAAAAA',
                 'AAAAAAA',
+                'AAAAAAA',
                 currentDate,
                 'AAAAAAA',
                 currentDate
@@ -94,6 +95,7 @@ describe('Service Tests', () => {
                         inTime: currentDate.format(DATE_TIME_FORMAT),
                         outTime: currentDate.format(DATE_TIME_FORMAT),
                         duration: 'BBBBBB',
+                        remarks: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',
@@ -127,6 +129,7 @@ describe('Service Tests', () => {
                         inTime: currentDate.format(DATE_TIME_FORMAT),
                         outTime: currentDate.format(DATE_TIME_FORMAT),
                         duration: 'BBBBBB',
+                        remarks: 'BBBBBB',
                         createdBy: 'BBBBBB',
                         createdOn: currentDate.format(DATE_TIME_FORMAT),
                         updatedBy: 'BBBBBB',

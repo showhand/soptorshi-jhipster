@@ -14,10 +14,10 @@ export class AttendanceUpdateExtendedComponent extends AttendanceUpdateComponent
     constructor(
         protected jhiAlertService: JhiAlertService,
         protected attendanceService: AttendanceExtendedService,
-        protected employeeService: EmployeeExtendedService,
         protected attendanceExcelUploadService: AttendanceExcelUploadExtendedService,
+        protected employeeService: EmployeeExtendedService,
         protected activatedRoute: ActivatedRoute
     ) {
-        super(jhiAlertService, attendanceService, employeeService, attendanceExcelUploadService, activatedRoute);
+        super(jhiAlertService, attendanceService, attendanceExcelUploadService, employeeService, activatedRoute);
     }
 }

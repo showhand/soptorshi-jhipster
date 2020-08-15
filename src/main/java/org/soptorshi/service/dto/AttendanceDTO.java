@@ -1,5 +1,6 @@
 package org.soptorshi.service.dto;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -12,13 +13,17 @@ public class AttendanceDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private LocalDate attendanceDate;
 
+    @NotNull
     private Instant inTime;
 
     private Instant outTime;
 
     private String duration;
+
+    private String remarks;
 
     private String createdBy;
 
@@ -29,11 +34,11 @@ public class AttendanceDTO implements Serializable {
     private Instant updatedOn;
 
 
+    private Long attendanceExcelUploadId;
+
     private Long employeeId;
 
     private String employeeFullName;
-
-    private Long attendanceExcelUploadId;
 
     public Long getId() {
         return id;
@@ -75,6 +80,14 @@ public class AttendanceDTO implements Serializable {
         this.duration = duration;
     }
 
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -107,6 +120,14 @@ public class AttendanceDTO implements Serializable {
         this.updatedOn = updatedOn;
     }
 
+    public Long getAttendanceExcelUploadId() {
+        return attendanceExcelUploadId;
+    }
+
+    public void setAttendanceExcelUploadId(Long attendanceExcelUploadId) {
+        this.attendanceExcelUploadId = attendanceExcelUploadId;
+    }
+
     public Long getEmployeeId() {
         return employeeId;
     }
@@ -121,14 +142,6 @@ public class AttendanceDTO implements Serializable {
 
     public void setEmployeeFullName(String employeeFullName) {
         this.employeeFullName = employeeFullName;
-    }
-
-    public Long getAttendanceExcelUploadId() {
-        return attendanceExcelUploadId;
-    }
-
-    public void setAttendanceExcelUploadId(Long attendanceExcelUploadId) {
-        this.attendanceExcelUploadId = attendanceExcelUploadId;
     }
 
     @Override
@@ -160,13 +173,14 @@ public class AttendanceDTO implements Serializable {
             ", inTime='" + getInTime() + "'" +
             ", outTime='" + getOutTime() + "'" +
             ", duration='" + getDuration() + "'" +
+            ", remarks='" + getRemarks() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +
             ", updatedOn='" + getUpdatedOn() + "'" +
+            ", attendanceExcelUpload=" + getAttendanceExcelUploadId() +
             ", employee=" + getEmployeeId() +
             ", employee='" + getEmployeeFullName() + "'" +
-            ", attendanceExcelUpload=" + getAttendanceExcelUploadId() +
             "}";
     }
 }

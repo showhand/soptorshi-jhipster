@@ -21,11 +21,11 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="attendance_date" type="date">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="in_time" type="datetime">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="out_time" type="datetime">
@@ -33,6 +33,10 @@
             </column>
 
             <column name="duration" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="remarks" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
@@ -52,12 +56,12 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="employee_id" type="bigint">
+            <column name="attendance_excel_upload_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
-            <column name="attendance_excel_upload_id" type="bigint">
-                <constraints nullable="true" />
+            <column name="employee_id" type="bigint">
+                <constraints nullable="false" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->

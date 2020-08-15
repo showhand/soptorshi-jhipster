@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -24,10 +25,12 @@ public class Attendance implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "attendance_date")
+    @NotNull
+    @Column(name = "attendance_date", nullable = false)
     private LocalDate attendanceDate;
 
-    @Column(name = "in_time")
+    @NotNull
+    @Column(name = "in_time", nullable = false)
     private Instant inTime;
 
     @Column(name = "out_time")
@@ -35,6 +38,9 @@ public class Attendance implements Serializable {
 
     @Column(name = "duration")
     private String duration;
+
+    @Column(name = "remarks")
+    private String remarks;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -50,11 +56,12 @@ public class Attendance implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("attendances")
-    private Employee employee;
-
-    @ManyToOne
-    @JsonIgnoreProperties("attendances")
     private AttendanceExcelUpload attendanceExcelUpload;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties("attendances")
+    private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -117,6 +124,19 @@ public class Attendance implements Serializable {
         this.duration = duration;
     }
 
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public Attendance remarks(String remarks) {
+        this.remarks = remarks;
+        return this;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -169,19 +189,6 @@ public class Attendance implements Serializable {
         this.updatedOn = updatedOn;
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public Attendance employee(Employee employee) {
-        this.employee = employee;
-        return this;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
     public AttendanceExcelUpload getAttendanceExcelUpload() {
         return attendanceExcelUpload;
     }
@@ -193,6 +200,19 @@ public class Attendance implements Serializable {
 
     public void setAttendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload) {
         this.attendanceExcelUpload = attendanceExcelUpload;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public Attendance employee(Employee employee) {
+        this.employee = employee;
+        return this;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -224,6 +244,7 @@ public class Attendance implements Serializable {
             ", inTime='" + getInTime() + "'" +
             ", outTime='" + getOutTime() + "'" +
             ", duration='" + getDuration() + "'" +
+            ", remarks='" + getRemarks() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdOn='" + getCreatedOn() + "'" +
             ", updatedBy='" + getUpdatedBy() + "'" +

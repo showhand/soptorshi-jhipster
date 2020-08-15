@@ -27,6 +27,8 @@ public class AttendanceCriteria implements Serializable {
 
     private StringFilter duration;
 
+    private StringFilter remarks;
+
     private StringFilter createdBy;
 
     private InstantFilter createdOn;
@@ -35,9 +37,9 @@ public class AttendanceCriteria implements Serializable {
 
     private InstantFilter updatedOn;
 
-    private LongFilter employeeId;
-
     private LongFilter attendanceExcelUploadId;
+
+    private LongFilter employeeId;
 
     public LongFilter getId() {
         return id;
@@ -79,6 +81,14 @@ public class AttendanceCriteria implements Serializable {
         this.duration = duration;
     }
 
+    public StringFilter getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(StringFilter remarks) {
+        this.remarks = remarks;
+    }
+
     public StringFilter getCreatedBy() {
         return createdBy;
     }
@@ -111,20 +121,20 @@ public class AttendanceCriteria implements Serializable {
         this.updatedOn = updatedOn;
     }
 
-    public LongFilter getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(LongFilter employeeId) {
-        this.employeeId = employeeId;
-    }
-
     public LongFilter getAttendanceExcelUploadId() {
         return attendanceExcelUploadId;
     }
 
     public void setAttendanceExcelUploadId(LongFilter attendanceExcelUploadId) {
         this.attendanceExcelUploadId = attendanceExcelUploadId;
+    }
+
+    public LongFilter getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(LongFilter employeeId) {
+        this.employeeId = employeeId;
     }
 
 
@@ -143,12 +153,13 @@ public class AttendanceCriteria implements Serializable {
             Objects.equals(inTime, that.inTime) &&
             Objects.equals(outTime, that.outTime) &&
             Objects.equals(duration, that.duration) &&
+            Objects.equals(remarks, that.remarks) &&
             Objects.equals(createdBy, that.createdBy) &&
             Objects.equals(createdOn, that.createdOn) &&
             Objects.equals(updatedBy, that.updatedBy) &&
             Objects.equals(updatedOn, that.updatedOn) &&
-            Objects.equals(employeeId, that.employeeId) &&
-            Objects.equals(attendanceExcelUploadId, that.attendanceExcelUploadId);
+            Objects.equals(attendanceExcelUploadId, that.attendanceExcelUploadId) &&
+            Objects.equals(employeeId, that.employeeId);
     }
 
     @Override
@@ -159,12 +170,13 @@ public class AttendanceCriteria implements Serializable {
         inTime,
         outTime,
         duration,
+        remarks,
         createdBy,
         createdOn,
         updatedBy,
         updatedOn,
-        employeeId,
-        attendanceExcelUploadId
+        attendanceExcelUploadId,
+        employeeId
         );
     }
 
@@ -176,12 +188,13 @@ public class AttendanceCriteria implements Serializable {
                 (inTime != null ? "inTime=" + inTime + ", " : "") +
                 (outTime != null ? "outTime=" + outTime + ", " : "") +
                 (duration != null ? "duration=" + duration + ", " : "") +
+                (remarks != null ? "remarks=" + remarks + ", " : "") +
                 (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
                 (createdOn != null ? "createdOn=" + createdOn + ", " : "") +
                 (updatedBy != null ? "updatedBy=" + updatedBy + ", " : "") +
                 (updatedOn != null ? "updatedOn=" + updatedOn + ", " : "") +
-                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
                 (attendanceExcelUploadId != null ? "attendanceExcelUploadId=" + attendanceExcelUploadId + ", " : "") +
+                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }
 

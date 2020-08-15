@@ -21,6 +21,10 @@
                 <dd>
                     <span>{{attendance.duration}}</span>
                 </dd>
+                <dt><span>Remarks</span></dt>
+                <dd>
+                    <span>{{attendance.remarks}}</span>
+                </dd>
                 <dt><span>Created By</span></dt>
                 <dd>
                     <span>{{attendance.createdBy}}</span>
@@ -37,16 +41,16 @@
                 <dd>
                     <span>{{attendance.updatedOn}}</span>
                 </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="attendance.employeeId">
-                        <a [routerLink]="['/employee', attendance.employeeId, 'view']">{{attendance.employeeFullName}}</a>
-                    </div>
-                </dd>
                 <dt><span>Attendance Excel Upload</span></dt>
                 <dd>
                     <div *ngIf="attendance.attendanceExcelUploadId">
                         <a [routerLink]="['/attendance-excel-upload', attendance.attendanceExcelUploadId, 'view']">{{attendance.attendanceExcelUploadId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="attendance.employeeId">
+                        <a [routerLink]="['/employee', attendance.employeeId, 'view']">{{attendance.employeeFullName}}</a>
                     </div>
                 </dd>
             </dl>
