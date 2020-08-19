@@ -25,6 +25,6 @@ export class BalanceSheetComponent implements OnInit, OnDestroy {
     }
 
     downloadBalanceSheet() {
-        this.accountBalanceExtendedService.downloadBalanceSheet(this.fetchType, this.asOnDate);
+        this.accountBalanceExtendedService.downloadBalanceSheet(this.asOnDate);
     }
 }

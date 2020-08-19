@@ -24,12 +24,12 @@ export class AccountBalanceExtendedService extends AccountBalanceService {
         super(http);
     }
 
-    downloadBalanceSheet(fetchType: BalanceSheetFetchType, asOnDate: any) {
+    downloadBalanceSheet(asOnDate: any) {
         const asOnDateStr = moment(asOnDate).format('YYYY-MM-DD');
         return this.http
-            .get(`${this.resourceUrlExtended}/balance-sheet/${fetchType.valueOf()}/${asOnDateStr}`, { responseType: 'blob' })
+            .get(`${this.resourceUrlExtended}/balance-sheet/${asOnDateStr}`, { responseType: 'blob' })
             .subscribe((data: any) => {
-                SoptorshiUtil.writeFileContent(data, 'application/pdf', 'BalanceSheet');
+                SoptorshiUtil.writeFileContent(data, 'application/vnd.ms-excel', 'BalanceSheet');
             });
     }
 }

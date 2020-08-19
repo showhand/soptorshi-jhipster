@@ -81,16 +81,16 @@ public class BalanceSheetExcelReportService {
         toDate = toDate.atTime(23,59).toLocalDate();
 
         List<String> months = profitLossService.generateMonths(openedFinancialAccountYear.getStartDate(), toDate);
-        List<ProfitAndLossGroupDTO> assetGroups = profitLossService.generateGroupsAndSubgroups(GroupType.ASSETS);
-        List<ProfitAndLossGroupDTO> liabilityGroups = profitLossService.generateGroupsAndSubgroups(GroupType.LIABILITIES);
-        List<ProfitAndLossGroupDTO> incomeGroups = profitLossService.generateGroupsAndSubgroups(GroupType.INCOME);
-        List<ProfitAndLossGroupDTO> expenseGroups = profitLossService.generateGroupsAndSubgroups(GroupType.EXPENSES);
+        List<ProfitAndLossGroupDTO> assetGroups = profitLossService.generateGroupsAndSubgroups(GroupType.ASSETS, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<ProfitAndLossGroupDTO> liabilityGroups = profitLossService.generateGroupsAndSubgroups(GroupType.LIABILITIES, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<ProfitAndLossGroupDTO> incomeGroups = profitLossService.generateGroupsAndSubgroups(GroupType.INCOME, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<ProfitAndLossGroupDTO> expenseGroups = profitLossService.generateGroupsAndSubgroups(GroupType.EXPENSES, groupTypeSystemAccountMapMap, groupMapWithAccounts);
 
 
-        List<MonthWithProfitAndLossAmountDTO> assetGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.ASSETS, openedFinancialAccountYear.getStartDate(), toDate);
-        List<MonthWithProfitAndLossAmountDTO> liabilityGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.LIABILITIES, openedFinancialAccountYear.getStartDate(), toDate);
-        List<MonthWithProfitAndLossAmountDTO> incomeGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.INCOME, openedFinancialAccountYear.getStartDate(), toDate);
-        List<MonthWithProfitAndLossAmountDTO> expenditureGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.EXPENSES, openedFinancialAccountYear.getStartDate(), toDate);
+        List<MonthWithProfitAndLossAmountDTO> assetGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.ASSETS, openedFinancialAccountYear.getStartDate(), toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<MonthWithProfitAndLossAmountDTO> liabilityGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.LIABILITIES, openedFinancialAccountYear.getStartDate(), toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<MonthWithProfitAndLossAmountDTO> incomeGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.INCOME, openedFinancialAccountYear.getStartDate(), toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<MonthWithProfitAndLossAmountDTO> expenditureGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.EXPENSES, openedFinancialAccountYear.getStartDate(), toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
 
         List<BigDecimal> differences = calculateDifference(liabilityGroupAmount, incomeGroupAmount, expenditureGroupAmount);
 

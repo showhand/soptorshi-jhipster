@@ -77,12 +77,12 @@ public class ProfitLossService {
 
         toDate = toDate.atTime(23,59).toLocalDate();
         List<String> months = generateMonths(fromDate, toDate);
-        List<ProfitAndLossGroupDTO> revenueGroups = generateGroupsAndSubgroups(GroupType.INCOME);
-        List<ProfitAndLossGroupDTO> expenseGroups = generateGroupsAndSubgroups(GroupType.EXPENSES);
+        List<ProfitAndLossGroupDTO> revenueGroups = generateGroupsAndSubgroups(GroupType.INCOME, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<ProfitAndLossGroupDTO> expenseGroups = generateGroupsAndSubgroups(GroupType.EXPENSES, groupTypeSystemAccountMapMap, groupMapWithAccounts);
 
 
-        List<MonthWithProfitAndLossAmountDTO> revenueGroupAmount = generateProfitAndLossAmount(GroupType.INCOME , fromDate, toDate);
-        List<MonthWithProfitAndLossAmountDTO> expenseGroupAmount = generateProfitAndLossAmount(GroupType.EXPENSES , fromDate, toDate);
+        List<MonthWithProfitAndLossAmountDTO> revenueGroupAmount = generateProfitAndLossAmount(GroupType.INCOME , fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts );
+        List<MonthWithProfitAndLossAmountDTO> expenseGroupAmount = generateProfitAndLossAmount(GroupType.EXPENSES , fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
 
         List<BigDecimal> differences = calculateDifference(revenueGroupAmount, expenseGroupAmount);
 
@@ -111,7 +111,7 @@ public class ProfitLossService {
     }
 
 
-    public List<MonthWithProfitAndLossAmountDTO> generateProfitAndLossAmount(GroupType groupType, LocalDate fromDate, LocalDate toDate){
+    public List<MonthWithProfitAndLossAmountDTO> generateProfitAndLossAmount(GroupType groupType, LocalDate fromDate, LocalDate toDate,     Map<GroupType, Long> groupTypeSystemAccountMapMap, Map<Long, List<MstAccount>> groupMapWithAccounts){
         List<MonthWithProfitAndLossAmountDTO> monthWithProfitAndLossAmountDTOS = new ArrayList<>();
 
         LocalDate lastDate = LocalDate.now();
@@ -198,7 +198,7 @@ public class ProfitLossService {
         return monthWithProfitAndLossAmountDTOS;
     }
 
-    public List<ProfitAndLossGroupDTO> generateGroupsAndSubgroups(GroupType groupType){
+    public List<ProfitAndLossGroupDTO> generateGroupsAndSubgroups(GroupType groupType, Map<GroupType, Long> groupTypeSystemAccountMapMap,     Map<Long, List<MstAccount>> groupMapWithAccounts){
         List<ProfitAndLossGroupDTO> profitAndLossGroupsAndSubGroups = new ArrayList<>();
         List<MstGroup> groups = mstGroupExtendedRepository.findByMainGroup(groupTypeSystemAccountMapMap.get(groupType));
 
