@@ -83,16 +83,18 @@ public class BalanceSheetExcelReportService {
         List<String> months = profitLossService.generateMonths(openedFinancialAccountYear.getStartDate(), toDate);
         List<ProfitAndLossGroupDTO> assetGroups = profitLossService.generateGroupsAndSubgroups(GroupType.ASSETS, groupTypeSystemAccountMapMap, groupMapWithAccounts);
         List<ProfitAndLossGroupDTO> liabilityGroups = profitLossService.generateGroupsAndSubgroups(GroupType.LIABILITIES, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<ProfitAndLossGroupDTO> equitiesGroups = profitLossService.generateGroupsAndSubgroups(GroupType.EQUITIES, groupTypeSystemAccountMapMap, groupMapWithAccounts);
         List<ProfitAndLossGroupDTO> incomeGroups = profitLossService.generateGroupsAndSubgroups(GroupType.INCOME, groupTypeSystemAccountMapMap, groupMapWithAccounts);
         List<ProfitAndLossGroupDTO> expenseGroups = profitLossService.generateGroupsAndSubgroups(GroupType.EXPENSES, groupTypeSystemAccountMapMap, groupMapWithAccounts);
 
 
         List<MonthWithProfitAndLossAmountDTO> assetGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.ASSETS, openedFinancialAccountYear.getStartDate(), toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
         List<MonthWithProfitAndLossAmountDTO> liabilityGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.LIABILITIES, openedFinancialAccountYear.getStartDate(), toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<MonthWithProfitAndLossAmountDTO> equitiesGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.EQUITIES, openedFinancialAccountYear.getStartDate(), toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
         List<MonthWithProfitAndLossAmountDTO> incomeGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.INCOME, openedFinancialAccountYear.getStartDate(), toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
         List<MonthWithProfitAndLossAmountDTO> expenditureGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.EXPENSES, openedFinancialAccountYear.getStartDate(), toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
 
-        List<BigDecimal> differences = calculateDifference(liabilityGroupAmount, incomeGroupAmount, expenditureGroupAmount);
+        List<BigDecimal> differences = calculateDifference(liabilityGroupAmount, equitiesGroupAmount);
 
         Resource resource = resourceLoader.getResource("classpath:/templates/jxls/BalanceSheet.xls");// templates/jxls/BalanceSheet.xls
         HSSFWorkbook workbook = new HSSFWorkbook(resource.getInputStream());
@@ -102,7 +104,7 @@ public class BalanceSheetExcelReportService {
         InputStream is = new ByteArrayInputStream(barray);
         InputStream template = resource.getInputStream();
         OutputStream outputStream = new ByteArrayOutputStream() ; // new FileOutputStream(outputResource.getFile());
-        jxlsGenerator.balanceSheetBuilder( months, assetGroups, liabilityGroups, incomeGroups, expenseGroups, assetGroupAmount, liabilityGroupAmount, incomeGroupAmount, expenditureGroupAmount, differences, outputStream, template);
+        jxlsGenerator.balanceSheetBuilder( months, assetGroups, liabilityGroups, equitiesGroups, incomeGroups, expenseGroups, assetGroupAmount, equitiesGroupAmount, liabilityGroupAmount, incomeGroupAmount, expenditureGroupAmount, differences, outputStream, template);
         ByteArrayOutputStream baos =(ByteArrayOutputStream) outputStream; //(ByteArrayOutputStream) outputStream; //new ByteArrayOutputStream();
         byte[] data = baos.toByteArray();
         outputStream.write(data);
@@ -110,10 +112,10 @@ public class BalanceSheetExcelReportService {
     }
 
 
-    public List<BigDecimal> calculateDifference(List<MonthWithProfitAndLossAmountDTO> liabilityGroupAmount, List<MonthWithProfitAndLossAmountDTO> revenueGroupAmount, List<MonthWithProfitAndLossAmountDTO> expenseGroupAmount){
+    public List<BigDecimal> calculateDifference(List<MonthWithProfitAndLossAmountDTO> liabilityGroupAmount, List<MonthWithProfitAndLossAmountDTO> equitiesGroiupAmount){
         List<BigDecimal> differences = new ArrayList<>();
-        for(int i=0; i<revenueGroupAmount.size();i++){
-            BigDecimal difference = ( liabilityGroupAmount.get(i).getGroupTypeTotal().add(revenueGroupAmount.get(i).getGroupTypeTotal())).subtract(expenseGroupAmount.get(i).getGroupTypeTotal());
+        for(int i=0; i<equitiesGroiupAmount.size();i++){
+            BigDecimal difference = ( liabilityGroupAmount.get(i).getGroupTypeTotal().add(equitiesGroiupAmount.get(i).getGroupTypeTotal()));
             differences.add(difference);
         }
         return differences;

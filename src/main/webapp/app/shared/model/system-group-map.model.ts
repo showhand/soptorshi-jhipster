@@ -3,6 +3,7 @@ import { Moment } from 'moment';
 export const enum GroupType {
     ASSETS = 'ASSETS',
     LIABILITIES = 'LIABILITIES',
+    EQUITIES = 'EQUITIES',
     INCOME = 'INCOME',
     EXPENSES = 'EXPENSES',
     BANK_ACCOUNTS = 'BANK_ACCOUNTS',

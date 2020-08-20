@@ -644,6 +644,7 @@ enum AccountType{
 enum GroupType{
     ASSETS,
     LIABILITIES,
+    EQUITIES,
     INCOME,
     EXPENSES,
     BANK_ACCOUNTS,
