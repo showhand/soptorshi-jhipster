@@ -124,14 +124,6 @@
             </a>
             <ul [ngbCollapse]="!attendanceManagement" class="list-unstyled" id="attendance-management">
                 <li>
-                    <a class="dropdown-item" routerLink="attendance-excel-upload" routerLinkActive="active"
-                       [routerLinkActiveOptions]="{ exact: true }"
-                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
-                        <fa-icon icon="file-excel" fixedWidth="true"></fa-icon>
-                        <span *ngIf="!leftMenuHidden">Excel Upload</span>
-                    </a>
-                </li>
-                <li>
                     <a class="dropdown-item" routerLink="attendance" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }"
                        *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_ATTENDANCE_MANAGER']">
@@ -148,8 +140,16 @@
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" routerLink="over-time" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                        <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                    <a class="dropdown-item" routerLink="over-time" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER']">
+                        <fa-icon icon="star" fixedWidth="true"></fa-icon>
+                        <span>Employee Over Time</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="over-time/my-over-time" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER', 'ROLE_USER']">
+                        <fa-icon icon="star" fixedWidth="true"></fa-icon>
                         <span>Over Time</span>
                     </a>
                 </li>

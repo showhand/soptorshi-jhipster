@@ -11,6 +11,7 @@ import {
     overTimePopupExtendedRoute,
     OverTimeUpdateExtendedComponent
 } from './';
+import { MyOverTimeComponent } from 'app/entities/over-time-extended/my-over-time.component';
 
 const ENTITY_STATES = [...overTimeExtendedRoute, ...overTimePopupExtendedRoute];
 
@@ -21,7 +22,8 @@ const ENTITY_STATES = [...overTimeExtendedRoute, ...overTimePopupExtendedRoute];
         OverTimeDetailExtendedComponent,
         OverTimeUpdateExtendedComponent,
         OverTimeDeleteDialogExtendedComponent,
-        OverTimeDeletePopupExtendedComponent
+        OverTimeDeletePopupExtendedComponent,
+        MyOverTimeComponent
     ],
     entryComponents: [
         OverTimeExtendedComponent,

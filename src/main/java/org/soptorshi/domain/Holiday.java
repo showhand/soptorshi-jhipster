@@ -68,7 +68,8 @@ public class Holiday implements Serializable {
     @Column(name = "holiday_year")
     private Integer holidayYear;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("holidays")
     private HolidayType holidayType;
 

@@ -27,7 +27,7 @@ export class HolidayExtendedComponent extends HolidayComponent {
         .format(DATE_FORMAT);
 
     constructor(
-        protected holidayService: HolidayExtendedService,
+        protected holidayExtendedService: HolidayExtendedService,
         protected jhiAlertService: JhiAlertService,
         protected dataUtils: JhiDataUtils,
         protected eventManager: JhiEventManager,
@@ -35,14 +35,14 @@ export class HolidayExtendedComponent extends HolidayComponent {
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService
     ) {
-        super(holidayService, jhiAlertService, dataUtils, eventManager, parseLinks, activatedRoute, accountService);
+        super(holidayExtendedService, jhiAlertService, dataUtils, eventManager, parseLinks, activatedRoute, accountService);
 
         this.predicate = 'fromDate';
     }
 
     loadAll() {
         if (this.currentSearch) {
-            this.holidayService
+            this.holidayExtendedService
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
@@ -55,7 +55,7 @@ export class HolidayExtendedComponent extends HolidayComponent {
                 );
             return;
         }
-        this.holidayService
+        this.holidayExtendedService
             .query({
                 page: this.page,
                 size: this.itemsPerPage,
@@ -82,5 +82,13 @@ export class HolidayExtendedComponent extends HolidayComponent {
         this.reverse = false;
         this.currentSearch = query;
         this.loadAll();
+    }
+
+    generateReport() {
+        if (this.currentSearch) {
+            this.holidayExtendedService.generateReportByYear(+this.currentSearch);
+        } else {
+            this.holidayExtendedService.generateReport();
+        }
     }
 }

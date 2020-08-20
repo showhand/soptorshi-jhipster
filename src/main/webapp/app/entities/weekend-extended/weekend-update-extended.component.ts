@@ -8,7 +8,7 @@ import { WeekendUpdateComponent } from 'app/entities/weekend';
     templateUrl: './weekend-update-extended.component.html'
 })
 export class WeekendUpdateExtendedComponent extends WeekendUpdateComponent {
-    constructor(protected weekendService: WeekendExtendedService, protected activatedRoute: ActivatedRoute) {
-        super(weekendService, activatedRoute);
+    constructor(protected weekendExtendedService: WeekendExtendedService, protected activatedRoute: ActivatedRoute) {
+        super(weekendExtendedService, activatedRoute);
     }
 }

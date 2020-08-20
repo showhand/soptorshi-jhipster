@@ -52,7 +52,8 @@ public class OverTime implements Serializable {
     @Column(name = "updated_on")
     private Instant updatedOn;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("overTimes")
     private Employee employee;
 

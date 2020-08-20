@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { JhiDataUtils } from 'ng-jhipster';
 import { AttendanceExcelUploadExtendedService } from './attendance-excel-upload-extended.service';
 import { AttendanceExcelUploadUpdateComponent } from 'app/entities/attendance-excel-upload';
@@ -12,8 +12,13 @@ export class AttendanceExcelUploadUpdateExtendedComponent extends AttendanceExce
     constructor(
         protected dataUtils: JhiDataUtils,
         protected attendanceExcelUploadService: AttendanceExcelUploadExtendedService,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        protected router: Router
     ) {
         super(dataUtils, attendanceExcelUploadService, activatedRoute);
+    }
+
+    previousState() {
+        this.router.navigate(['/attendance']);
     }
 }

@@ -143,6 +143,11 @@ public class OverTimeResourceIntTest {
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
+        // Add required entity
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        overTime.setEmployee(employee);
         return overTime;
     }
 

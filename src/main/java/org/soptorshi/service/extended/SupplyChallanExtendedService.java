@@ -209,7 +209,7 @@ public class SupplyChallanExtendedService extends SupplyChallanService {
                 document.add(Chunk.NEWLINE);
 
 
-                PdfPTable table = new PdfPTable(3); // 3 columns.
+                PdfPTable table = new PdfPTable(4); // 3 columns.
 
                 PdfPCell cell = new PdfPCell(new Paragraph("Product Category"));
                 table.addCell(cell);

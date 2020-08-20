@@ -3,7 +3,7 @@ package org.soptorshi.service.extended;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.soptorshi.domain.Attendance;
-import org.soptorshi.domain.AttendanceExcelUpload;
+import org.soptorshi.domain.Employee;
 import org.soptorshi.repository.EmployeeRepository;
 import org.soptorshi.repository.extended.AttendanceExtendedRepository;
 import org.soptorshi.repository.search.AttendanceSearchRepository;
@@ -16,9 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -73,23 +71,15 @@ public class AttendanceExtendedService extends AttendanceService {
         return result;
     }
 
-    public List<LocalDate> getAllDistinctAttendanceDate() {
-        log.debug("Request to get all Distinct Attendances Date");
-        List<LocalDate> dates = new ArrayList<>();
-        List<Attendance> attendances = attendanceExtendedRepository.findAll();
-        for(Attendance attendance: attendances) {
-            dates.add(attendance.getAttendanceDate());
-        }
-
-        return dates.stream().distinct().collect(Collectors.toList());
+    public List<Attendance> getAttendances(LocalDate from, LocalDate to, Employee employee) {
+        return attendanceExtendedRepository.getAllByAttendanceDateGreaterThanEqualAndAttendanceDateIsLessThanEqualAndEmployeeEqualsOrderByAttendanceDateDesc(from, to, employee);
     }
 
-    public void deleteByAttendanceExcelUpload(AttendanceExcelUpload attendanceExcelUpload) {
-        log.debug("Request to delete Attendance : {}", attendanceExcelUpload);
-        List<Attendance> attendances = attendanceExtendedRepository.getByAttendanceExcelUpload(attendanceExcelUpload);
-        for(Attendance attendance: attendances) {
-            attendanceExtendedRepository.deleteById(attendance.getId());
-            attendanceSearchRepository.deleteById(attendance.getId());
-        }
+    public List<Attendance> getAttendances(LocalDate from, LocalDate to) {
+        return attendanceExtendedRepository.getAllByAttendanceDateGreaterThanEqualAndAttendanceDateIsLessThanEqualOrderByAttendanceDateDesc(from, to);
+    }
+
+    public List<Attendance> getAttendances(Employee employee) {
+        return attendanceExtendedRepository.getAllByEmployeeEqualsOrderByAttendanceDateDesc(employee);
     }
 }

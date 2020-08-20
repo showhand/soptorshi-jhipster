@@ -90,6 +90,7 @@ import 'quill/dist/quill.js';
 import '../../../../node_modules/fullcalendar/dist/fullcalendar.js';
 import 'chart.js/src/chart.js';
 import '../../../../node_modules/jquery/dist/jquery.min.js';
+import { faDownload } from '@fortawesome/free-solid-svg-icons/faDownload';
 
 // Imports all fontawesome core and solid icons
 
@@ -178,5 +179,6 @@ library.add(faRandom);
 library.add(faBoxOpen);
 library.add(faFilePdf);
 library.add(faLink);
+library.add(faDownload);
 
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

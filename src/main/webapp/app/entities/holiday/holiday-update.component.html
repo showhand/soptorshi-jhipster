@@ -121,10 +121,16 @@
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_holidayType">Holiday Type</label>
-                    <select class="form-control" id="field_holidayType" name="holidayType" [(ngModel)]="holiday.holidayTypeId" >
-                        <option [ngValue]="null"></option>
+                    <select class="form-control" id="field_holidayType" name="holidayType" [(ngModel)]="holiday.holidayTypeId"  required>
+                        <option *ngIf="!editForm.value.holidayType" [ngValue]="null" selected></option>
                         <option [ngValue]="holidayTypeOption.id" *ngFor="let holidayTypeOption of holidaytypes; trackBy: trackHolidayTypeById">{{holidayTypeOption.name}}</option>
                     </select>
+                </div>
+                <div [hidden]="!(editForm.controls.holidayType?.dirty && editForm.controls.holidayType?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.holidayType?.errors?.required">
+                        This field is required.
+                    </small>
                 </div>
             </div>
             <div>

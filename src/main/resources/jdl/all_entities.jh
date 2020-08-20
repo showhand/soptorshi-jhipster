@@ -386,10 +386,11 @@ entity AttendanceExcelUpload {
   updatedOn Instant
 }
 entity Attendance {
-  attendanceDate LocalDate,
-  inTime Instant,
+  attendanceDate LocalDate required,
+  inTime Instant required,
   outTime Instant,
   duration String,
+  remarks String,
   createdBy String,
   createdOn Instant,
   updatedBy String,
@@ -1417,7 +1418,6 @@ relationship OneToOne {
   CommercialPaymentInfo{commercialPi(proformaNo) required} to CommercialPi
 }
 relationship OneToMany {
-  AttendanceExcelUpload{attendance} to Attendance{attendanceExcelUpload},
   MonthlySalary{comments} to SalaryMessages{monthlySalary},
   Requisition{comments} to RequisitionMessages{requisition},
   PurchaseOrder{comments} to PurchaseOrderMessages{purchaseOrder}
@@ -1445,7 +1445,8 @@ relationship ManyToOne {
   Advance{employee(fullName)} to Employee,
   Fine{employee(fullName)} to Employee,
   Loan{employee(fullName)} to Employee,
-  Holiday{holidayType(name)} to HolidayType,
+  Holiday{holidayType(name) required} to HolidayType,
+  Attendance to AttendanceExcelUpload,
   LeaveApplication{leaveTypes(name)} to LeaveType,
   LeaveApplication{employees(fullName)} to Employee,
   LeaveApplication{appliedById(fullName)} to Employee,
@@ -1479,7 +1480,7 @@ relationship ManyToOne {
   TermsAndConditions{purchaseOrder(purchaseOrderNo)} to PurchaseOrder,
   PurchaseOrder{requisition(requisitionNo)} to Requisition,
   PurchaseOrder{quotation(quotationNo)} to Quotation,
-  Attendance{employee(fullName)} to Employee,
+  Attendance{employee(fullName) required} to Employee,
   InventorySubLocation{inventoryLocations(name)} to InventoryLocation,
   StockInProcess{productCategories(name)} to ProductCategory,
   StockInProcess{products(name)} to Product,
@@ -1580,7 +1581,7 @@ relationship ManyToOne {
   SupplyZoneManager{employee(fullName) required} to Employee,
   PurchaseOrderVoucherRelation{voucher(name)} to Voucher,
   PurchaseOrderVoucherRelation{purchaseOrder(purchaseOrderNo)} to PurchaseOrder,
-  OverTime{employee(fullName)} to Employee,
+  OverTime{employee(fullName) required} to Employee,
   SupplyAreaWiseAccumulation{supplyZone(name) required} to SupplyZone,
   SupplyAreaWiseAccumulation{supplyZoneManager required} to SupplyZoneManager,
   SupplyAreaWiseAccumulation{supplyArea(name) required} to SupplyArea,

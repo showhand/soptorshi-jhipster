@@ -13,6 +13,8 @@ import { SupplyAreaManagerExtendedService } from 'app/entities/supply-area-manag
 import { filter, map } from 'rxjs/operators';
 import { ISupplyZoneManager } from 'app/shared/model/supply-zone-manager.model';
 import { SupplyZoneManagerExtendedService } from 'app/entities/supply-zone-manager-extended';
+import { Moment } from 'moment';
+import { DATE_FORMAT } from 'app/shared';
 
 @Component({
     selector: 'jhi-supply-area-wise-accumulation-extended',
@@ -28,6 +30,9 @@ export class SupplyAreaWiseAccumulationExtendedComponent extends SupplyAreaWiseA
     currentZoneManager: ISupplyZoneManager[];
     supplyZoneManagers: ISupplyZoneManager[];
     supplyAreaManagers: ISupplyAreaManager[];
+
+    dateOfOrderFrom: Moment;
+    dateOfOrderTo: Moment;
 
     constructor(
         protected supplyAreaWiseAccumulationService: SupplyAreaWiseAccumulationExtendedService,
@@ -147,5 +152,14 @@ export class SupplyAreaWiseAccumulationExtendedComponent extends SupplyAreaWiseA
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
         this.registerChangeInSupplyAreaWiseAccumulations();
+    }
+
+    downloadReport() {
+        if (this.dateOfOrderFrom && this.dateOfOrderTo) {
+            this.supplyAreaWiseAccumulationService.downloadReport(
+                this.dateOfOrderFrom.format(DATE_FORMAT),
+                this.dateOfOrderTo.format(DATE_FORMAT)
+            );
+        }
     }
 }

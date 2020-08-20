@@ -48,6 +48,7 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "employee",
             "otherEntityRelationshipName": "overTime",
+            "relationshipValidateRules": "required",
             "relationshipName": "employee",
             "otherEntityField": "fullName"
         }

@@ -7,6 +7,7 @@ import { OverTimeDetailExtendedComponent } from './over-time-detail-extended.com
 import { OverTimeUpdateExtendedComponent } from './over-time-update-extended.component';
 import { OverTimeDeletePopupExtendedComponent } from './over-time-delete-dialog-extended.component';
 import { OverTimeResolve } from 'app/entities/over-time';
+import { MyOverTimeComponent } from 'app/entities/over-time-extended/my-over-time.component';
 
 @Injectable({ providedIn: 'root' })
 export class OverTimeExtendedResolve extends OverTimeResolve {
@@ -20,7 +21,7 @@ export const overTimeExtendedRoute: Routes = [
         path: '',
         component: OverTimeExtendedComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER'],
             pageTitle: 'OverTimes'
         },
         canActivate: [UserRouteAccessService]
@@ -29,10 +30,10 @@ export const overTimeExtendedRoute: Routes = [
         path: ':id/view',
         component: OverTimeDetailExtendedComponent,
         resolve: {
-            overTime: OverTimeResolve
+            overTime: OverTimeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER'],
             pageTitle: 'OverTimes'
         },
         canActivate: [UserRouteAccessService]
@@ -41,10 +42,22 @@ export const overTimeExtendedRoute: Routes = [
         path: 'new',
         component: OverTimeUpdateExtendedComponent,
         resolve: {
-            overTime: OverTimeResolve
+            overTime: OverTimeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER'],
+            pageTitle: 'OverTimes'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'my-over-time',
+        component: MyOverTimeComponent,
+        resolve: {
+            overTime: OverTimeExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER', 'ROLE_USER'],
             pageTitle: 'OverTimes'
         },
         canActivate: [UserRouteAccessService]
@@ -53,10 +66,10 @@ export const overTimeExtendedRoute: Routes = [
         path: ':id/edit',
         component: OverTimeUpdateExtendedComponent,
         resolve: {
-            overTime: OverTimeResolve
+            overTime: OverTimeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER'],
             pageTitle: 'OverTimes'
         },
         canActivate: [UserRouteAccessService]
@@ -68,10 +81,10 @@ export const overTimePopupExtendedRoute: Routes = [
         path: ':id/delete',
         component: OverTimeDeletePopupExtendedComponent,
         resolve: {
-            overTime: OverTimeResolve
+            overTime: OverTimeExtendedResolve
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_OVERTIME_MANAGER'],
             pageTitle: 'OverTimes'
         },
         canActivate: [UserRouteAccessService],

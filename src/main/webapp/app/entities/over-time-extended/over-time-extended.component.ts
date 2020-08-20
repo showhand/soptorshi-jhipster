@@ -11,8 +11,9 @@ import { Moment } from 'moment';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { IManager } from 'app/shared/model/manager.model';
 import { ManagerService } from 'app/entities/manager';
-import { EmployeeService } from 'app/entities/employee';
-import { DATE_FORMAT } from 'app/shared';
+import { DATE_FORMAT, DAYS, MONTHS, YEARS } from 'app/shared';
+import { IConstantsModel } from 'app/shared/model/constants-model';
+import { EmployeeExtendedService } from 'app/entities/employee-extended';
 
 @Component({
     selector: 'jhi-over-time-extended',
@@ -27,99 +28,116 @@ export class OverTimeExtendedComponent extends OverTimeComponent {
     employee: IEmployee;
     distinctDate: Moment;
 
+    days: IConstantsModel[] = DAYS;
+    months: IConstantsModel[] = MONTHS;
+    years: IConstantsModel[] = YEARS();
+
+    fromDate: {
+        day: number;
+        month: number;
+        year: number;
+    } = { day: new Date().getDate(), month: new Date().getMonth() + 1, year: new Date().getFullYear() };
+
+    toDate: {
+        day: number;
+        month: number;
+        year: number;
+    } = { day: new Date().getDate(), month: new Date().getMonth() + 1, year: new Date().getFullYear() };
+
     constructor(
-        protected overTimeService: OverTimeExtendedService,
+        protected overTimeExtendedService: OverTimeExtendedService,
         protected jhiAlertService: JhiAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         protected activatedRoute: ActivatedRoute,
         protected accountService: AccountService,
         protected managerService: ManagerService,
-        protected employeeService: EmployeeService
+        protected employeeService: EmployeeExtendedService
     ) {
-        super(overTimeService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
+        super(overTimeExtendedService, jhiAlertService, eventManager, parseLinks, activatedRoute, accountService);
     }
 
     ngOnInit() {
         this.loadAll();
         this.accountService.identity().then(account => {
             this.currentAccount = account;
-        });
-        this.registerChangeInOverTimes();
-
-        this.overTimeService
-            .getDistinctOverTimeDate()
-            .subscribe(
-                (res: HttpResponse<Moment[]>) => this.addDistinctOverTimeDates(res.body),
-                (res: HttpErrorResponse) => this.onError(res.message)
-            );
-
-        this.accountService.identity().then(account => {
-            this.currentAccount = account;
             this.employeeService
-                .query({
-                    'employeeId.equals': this.currentAccount.login
-                })
+                .query()
                 .subscribe(
-                    (res: HttpResponse<IEmployee[]>) => {
-                        this.currentEmployee = res.body[0];
-                        this.managerService
-                            .query({
-                                'employeeId.equals': this.currentEmployee.id
-                            })
-                            .subscribe(
-                                (res: HttpResponse<IManager[]>) => {
-                                    this.employeesUnderSupervisor = res.body;
-                                    const map: string = this.employeesUnderSupervisor.map(val => val.parentEmployeeId).join(',');
-                                    this.employeeService
-                                        .query({
-                                            'id.in': [map]
-                                        })
-                                        .subscribe(
-                                            (res: HttpResponse<IEmployee[]>) => (this.employees = res.body),
-                                            (res: HttpErrorResponse) => this.onError(res.message)
-                                        );
-                                },
-                                (res: HttpErrorResponse) => this.onError(res.message)
-                            );
-                    },
+                    (res: HttpResponse<IEmployee[]>) => this.addEmployees(res.body),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
         });
-    }
-
-    protected addDistinctOverTimeDates(data: Moment[]) {
-        this.distinctDates = data;
+        this.registerChangeInOverTimes();
     }
 
     loadAll() {
-        if (this.currentSearch && this.employee) {
-            this.overTimeService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'employeeId.equals': this.employee.id,
-                    'overTimeDate.equals': moment(this.currentSearch).format(DATE_FORMAT)
-                })
-                .subscribe(
-                    (res: HttpResponse<IOverTime[]>) => this.paginateOverTimes(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-        } else if (this.currentSearch) {
-            this.overTimeService
-                .query({
-                    page: this.page,
-                    size: this.itemsPerPage,
-                    sort: this.sort(),
-                    'overTimeDate.equals': moment(this.currentSearch).format(DATE_FORMAT)
-                })
-                .subscribe(
-                    (res: HttpResponse<IOverTime[]>) => this.paginateOverTimes(res.body, res.headers),
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
+        if (
+            this.fromDate.day &&
+            this.fromDate.month &&
+            this.fromDate.year &&
+            this.toDate.day &&
+            this.toDate.month &&
+            this.toDate.year &&
+            this.employee
+        ) {
+            let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
+            let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
+
+            if (from.isBefore(to.add(1))) {
+                this.overTimeExtendedService
+                    .query({
+                        page: this.page,
+                        size: this.itemsPerPage,
+                        sort: this.sort(),
+                        'employeeId.equals': this.employee.id,
+                        'overTimeDate.greaterOrEqualThan': moment(
+                            new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`)
+                        ).format(DATE_FORMAT),
+                        'overTimeDate.lessOrEqualThan': moment(
+                            new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`)
+                        ).format(DATE_FORMAT)
+                    })
+                    .subscribe(
+                        (res: HttpResponse<IOverTime[]>) => this.paginateOverTimes(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            } else {
+                this.onError('Invalid dates');
+            }
+        } else if (
+            this.fromDate.day &&
+            this.fromDate.month &&
+            this.fromDate.year &&
+            this.toDate.day &&
+            this.toDate.month &&
+            this.toDate.year
+        ) {
+            let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
+            let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
+
+            if (from.isBefore(to.add(1))) {
+                this.overTimeExtendedService
+                    .query({
+                        page: this.page,
+                        size: this.itemsPerPage,
+                        sort: this.sort(),
+                        'overTimeDate.greaterOrEqualThan': moment(
+                            new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`)
+                        ).format(DATE_FORMAT),
+                        'overTimeDate.lessOrEqualThan': moment(
+                            new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`)
+                        ).format(DATE_FORMAT)
+                    })
+                    .subscribe(
+                        (res: HttpResponse<IOverTime[]>) => this.paginateOverTimes(res.body, res.headers),
+                        (res: HttpErrorResponse) => this.onError(res.message)
+                    );
+            } else {
+                this.onError('Invalid dates');
+            }
         } else if (this.employee) {
-            this.overTimeService
+            this.overTimeExtendedService
                 .query({
                     page: this.page,
                     size: this.itemsPerPage,
@@ -130,7 +148,14 @@ export class OverTimeExtendedComponent extends OverTimeComponent {
                     (res: HttpResponse<IOverTime[]>) => this.paginateOverTimes(res.body, res.headers),
                     (res: HttpErrorResponse) => this.onError(res.message)
                 );
+        } else {
+            this.onError('Invalid input');
         }
+    }
+
+    protected addEmployees(data: IEmployee[]) {
+        this.employees = [];
+        this.employees = data;
     }
 
     search(query) {
@@ -146,5 +171,58 @@ export class OverTimeExtendedComponent extends OverTimeComponent {
         this.reverse = false;
         this.currentSearch = query;
         this.loadAll();
+    }
+
+    trackDayId(index: number, item: IConstantsModel) {
+        return item.id;
+    }
+
+    trackMonthId(index: number, item: IConstantsModel) {
+        return item.id;
+    }
+
+    trackYearId(index: number, item: IConstantsModel) {
+        return item.id;
+    }
+
+    generateReport() {
+        if (
+            this.fromDate.day &&
+            this.fromDate.month &&
+            this.fromDate.year &&
+            this.toDate.day &&
+            this.toDate.month &&
+            this.toDate.year &&
+            this.employee
+        ) {
+            let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
+            let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
+
+            if (from.isBefore(to.add(1))) {
+                this.overTimeExtendedService.generateReportByFromDateAndToDateAndEmployeeId(from, to, this.employee.employeeId);
+            } else {
+                this.onError('Invalid dates');
+            }
+        } else if (
+            this.fromDate.day &&
+            this.fromDate.month &&
+            this.fromDate.year &&
+            this.toDate.day &&
+            this.toDate.month &&
+            this.toDate.year
+        ) {
+            let from = moment(new Date(`${this.fromDate.month}-${this.fromDate.day}-${this.fromDate.year}`));
+            let to = moment(new Date(`${this.toDate.month}-${this.toDate.day}-${this.toDate.year}`));
+
+            if (from.isBefore(to.add(1))) {
+                this.overTimeExtendedService.generateReportByFromDateAndToDate(from, to);
+            } else {
+                this.onError('Invalid dates');
+            }
+        } else if (this.employee) {
+            this.overTimeExtendedService.generateReportByEmployeeId(this.employee.employeeId);
+        } else {
+            this.onError('Invalid input');
+        }
     }
 }

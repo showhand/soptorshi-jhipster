@@ -65,6 +65,9 @@ public class AttendanceResourceIntTest {
     private static final String DEFAULT_DURATION = "AAAAAAAAAA";
     private static final String UPDATED_DURATION = "BBBBBBBBBB";
 
+    private static final String DEFAULT_REMARKS = "AAAAAAAAAA";
+    private static final String UPDATED_REMARKS = "BBBBBBBBBB";
+
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
@@ -140,10 +143,16 @@ public class AttendanceResourceIntTest {
             .inTime(DEFAULT_IN_TIME)
             .outTime(DEFAULT_OUT_TIME)
             .duration(DEFAULT_DURATION)
+            .remarks(DEFAULT_REMARKS)
             .createdBy(DEFAULT_CREATED_BY)
             .createdOn(DEFAULT_CREATED_ON)
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON);
+        // Add required entity
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        attendance.setEmployee(employee);
         return attendance;
     }
 
@@ -172,6 +181,7 @@ public class AttendanceResourceIntTest {
         assertThat(testAttendance.getInTime()).isEqualTo(DEFAULT_IN_TIME);
         assertThat(testAttendance.getOutTime()).isEqualTo(DEFAULT_OUT_TIME);
         assertThat(testAttendance.getDuration()).isEqualTo(DEFAULT_DURATION);
+        assertThat(testAttendance.getRemarks()).isEqualTo(DEFAULT_REMARKS);
         assertThat(testAttendance.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testAttendance.getCreatedOn()).isEqualTo(DEFAULT_CREATED_ON);
         assertThat(testAttendance.getUpdatedBy()).isEqualTo(DEFAULT_UPDATED_BY);
@@ -206,6 +216,44 @@ public class AttendanceResourceIntTest {
 
     @Test
     @Transactional
+    public void checkAttendanceDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = attendanceRepository.findAll().size();
+        // set the field null
+        attendance.setAttendanceDate(null);
+
+        // Create the Attendance, which fails.
+        AttendanceDTO attendanceDTO = attendanceMapper.toDto(attendance);
+
+        restAttendanceMockMvc.perform(post("/api/attendances")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(attendanceDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Attendance> attendanceList = attendanceRepository.findAll();
+        assertThat(attendanceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkInTimeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = attendanceRepository.findAll().size();
+        // set the field null
+        attendance.setInTime(null);
+
+        // Create the Attendance, which fails.
+        AttendanceDTO attendanceDTO = attendanceMapper.toDto(attendance);
+
+        restAttendanceMockMvc.perform(post("/api/attendances")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(attendanceDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Attendance> attendanceList = attendanceRepository.findAll();
+        assertThat(attendanceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllAttendances() throws Exception {
         // Initialize the database
         attendanceRepository.saveAndFlush(attendance);
@@ -219,6 +267,7 @@ public class AttendanceResourceIntTest {
             .andExpect(jsonPath("$.[*].inTime").value(hasItem(DEFAULT_IN_TIME.toString())))
             .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())))
             .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION.toString())))
+            .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.toString())))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY.toString())))
@@ -240,6 +289,7 @@ public class AttendanceResourceIntTest {
             .andExpect(jsonPath("$.inTime").value(DEFAULT_IN_TIME.toString()))
             .andExpect(jsonPath("$.outTime").value(DEFAULT_OUT_TIME.toString()))
             .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION.toString()))
+            .andExpect(jsonPath("$.remarks").value(DEFAULT_REMARKS.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.toString()))
             .andExpect(jsonPath("$.createdOn").value(DEFAULT_CREATED_ON.toString()))
             .andExpect(jsonPath("$.updatedBy").value(DEFAULT_UPDATED_BY.toString()))
@@ -431,6 +481,45 @@ public class AttendanceResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllAttendancesByRemarksIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where remarks equals to DEFAULT_REMARKS
+        defaultAttendanceShouldBeFound("remarks.equals=" + DEFAULT_REMARKS);
+
+        // Get all the attendanceList where remarks equals to UPDATED_REMARKS
+        defaultAttendanceShouldNotBeFound("remarks.equals=" + UPDATED_REMARKS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByRemarksIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where remarks in DEFAULT_REMARKS or UPDATED_REMARKS
+        defaultAttendanceShouldBeFound("remarks.in=" + DEFAULT_REMARKS + "," + UPDATED_REMARKS);
+
+        // Get all the attendanceList where remarks equals to UPDATED_REMARKS
+        defaultAttendanceShouldNotBeFound("remarks.in=" + UPDATED_REMARKS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByRemarksIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where remarks is not null
+        defaultAttendanceShouldBeFound("remarks.specified=true");
+
+        // Get all the attendanceList where remarks is null
+        defaultAttendanceShouldNotBeFound("remarks.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllAttendancesByCreatedByIsEqualToSomething() throws Exception {
         // Initialize the database
         attendanceRepository.saveAndFlush(attendance);
@@ -587,25 +676,6 @@ public class AttendanceResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllAttendancesByEmployeeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Employee employee = EmployeeResourceIntTest.createEntity(em);
-        em.persist(employee);
-        em.flush();
-        attendance.setEmployee(employee);
-        attendanceRepository.saveAndFlush(attendance);
-        Long employeeId = employee.getId();
-
-        // Get all the attendanceList where employee equals to employeeId
-        defaultAttendanceShouldBeFound("employeeId.equals=" + employeeId);
-
-        // Get all the attendanceList where employee equals to employeeId + 1
-        defaultAttendanceShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllAttendancesByAttendanceExcelUploadIsEqualToSomething() throws Exception {
         // Initialize the database
         AttendanceExcelUpload attendanceExcelUpload = AttendanceExcelUploadResourceIntTest.createEntity(em);
@@ -622,6 +692,25 @@ public class AttendanceResourceIntTest {
         defaultAttendanceShouldNotBeFound("attendanceExcelUploadId.equals=" + (attendanceExcelUploadId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Employee employee = EmployeeResourceIntTest.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        attendance.setEmployee(employee);
+        attendanceRepository.saveAndFlush(attendance);
+        Long employeeId = employee.getId();
+
+        // Get all the attendanceList where employee equals to employeeId
+        defaultAttendanceShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the attendanceList where employee equals to employeeId + 1
+        defaultAttendanceShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -634,6 +723,7 @@ public class AttendanceResourceIntTest {
             .andExpect(jsonPath("$.[*].inTime").value(hasItem(DEFAULT_IN_TIME.toString())))
             .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())))
             .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)))
+            .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))
@@ -689,6 +779,7 @@ public class AttendanceResourceIntTest {
             .inTime(UPDATED_IN_TIME)
             .outTime(UPDATED_OUT_TIME)
             .duration(UPDATED_DURATION)
+            .remarks(UPDATED_REMARKS)
             .createdBy(UPDATED_CREATED_BY)
             .createdOn(UPDATED_CREATED_ON)
             .updatedBy(UPDATED_UPDATED_BY)
@@ -708,6 +799,7 @@ public class AttendanceResourceIntTest {
         assertThat(testAttendance.getInTime()).isEqualTo(UPDATED_IN_TIME);
         assertThat(testAttendance.getOutTime()).isEqualTo(UPDATED_OUT_TIME);
         assertThat(testAttendance.getDuration()).isEqualTo(UPDATED_DURATION);
+        assertThat(testAttendance.getRemarks()).isEqualTo(UPDATED_REMARKS);
         assertThat(testAttendance.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testAttendance.getCreatedOn()).isEqualTo(UPDATED_CREATED_ON);
         assertThat(testAttendance.getUpdatedBy()).isEqualTo(UPDATED_UPDATED_BY);
@@ -776,6 +868,7 @@ public class AttendanceResourceIntTest {
             .andExpect(jsonPath("$.[*].inTime").value(hasItem(DEFAULT_IN_TIME.toString())))
             .andExpect(jsonPath("$.[*].outTime").value(hasItem(DEFAULT_OUT_TIME.toString())))
             .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)))
+            .andExpect(jsonPath("$.[*].remarks").value(hasItem(DEFAULT_REMARKS)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdOn").value(hasItem(DEFAULT_CREATED_ON.toString())))
             .andExpect(jsonPath("$.[*].updatedBy").value(hasItem(DEFAULT_UPDATED_BY)))

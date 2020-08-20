@@ -63,33 +63,56 @@ public class WeekendExtendedService extends WeekendService {
         List<Weekend> weekends = weekendExtendedRepository.findAll();
 
         if (weekendDTO.getId() == null) {
-            if (hasActiveWeekend(weekends)) {
-                throw new BadRequestAlertException("there is an active weekend!!", "weekend", "idnull");
-            } else {
-                weekendDTO.setCreatedBy(currentUser);
-                weekendDTO.setCreatedOn(currentDateTime);
-                Weekend weekend = weekendMapper.toEntity(weekendDTO);
-                weekend = weekendExtendedRepository.save(weekend);
-                WeekendDTO result = weekendMapper.toDto(weekend);
-                weekendSearchRepository.save(weekend);
-                return result;
-            }
+            weekendDTO.setCreatedBy(currentUser);
+            weekendDTO.setCreatedOn(currentDateTime);
         } else {
             weekends.removeIf(weekend -> weekend.getId().equals(weekendDTO.getId()));
-            if (hasActiveWeekend(weekends)) {
-                throw new BadRequestAlertException("there is an active weekend!!", "weekend", "idnull");
-            } else {
-                weekendDTO.setUpdatedBy(currentUser);
-                weekendDTO.setUpdatedOn(currentDateTime);
-                Weekend weekend = weekendMapper.toEntity(weekendDTO);
-                weekend = weekendExtendedRepository.save(weekend);
-                WeekendDTO result = weekendMapper.toDto(weekend);
-                weekendSearchRepository.save(weekend);
-                return result;
+            weekendDTO.setUpdatedBy(currentUser);
+            weekendDTO.setUpdatedOn(currentDateTime);
+        }
+        if (hasActiveWeekend(weekends)) {
+            throw new BadRequestAlertException("There is an active weekend!!", "weekend", "idnull");
+        }
+        if (weekendDTO.getNumberOfDays() == 1) {
+            if (weekendDTO.getDay1() == null) {
+                throw new BadRequestAlertException("Day1 not selected", "weekend", "idnull");
+            }
+            weekendDTO.setDay2(null);
+            weekendDTO.setDay3(null);
+        }
+        else if (weekendDTO.getNumberOfDays() == 2) {
+            if (weekendDTO.getDay1() == null) {
+                throw new BadRequestAlertException("Day1 not selected", "weekend", "idnull");
+            }
+            if (weekendDTO.getDay2() == null) {
+                throw new BadRequestAlertException("Day2 not selected", "weekend", "idnull");
+            }
+            if(weekendDTO.getDay1().equals(weekendDTO.getDay2())) {
+                throw new BadRequestAlertException("Same days selected", "weekend", "idnull");
+            }
+            weekendDTO.setDay3(null);
+        }
+        else if (weekendDTO.getNumberOfDays() == 3) {
+            if (weekendDTO.getDay1() == null) {
+                throw new BadRequestAlertException("Day1 not selected", "weekend", "idnull");
+            }
+            if (weekendDTO.getDay2() == null) {
+                throw new BadRequestAlertException("Day2 not selected", "weekend", "idnull");
+            }
+            if (weekendDTO.getDay3() == null) {
+                throw new BadRequestAlertException("Day3 not selected", "weekend", "idnull");
+            }
+            if(weekendDTO.getDay1().equals(weekendDTO.getDay2()) || weekendDTO.getDay1().equals(weekendDTO.getDay3()) || weekendDTO.getDay2().equals(weekendDTO.getDay3())) {
+                throw new BadRequestAlertException("Same days selected", "weekend", "idnull");
             }
         }
-    }
 
+        Weekend weekend = weekendMapper.toEntity(weekendDTO);
+        weekend = weekendExtendedRepository.save(weekend);
+        WeekendDTO result = weekendMapper.toDto(weekend);
+        weekendSearchRepository.save(weekend);
+        return result;
+    }
 
     public Optional<Weekend> getWeekendByStatus(WeekendStatus weekendStatus) {
         return weekendExtendedRepository.getByStatus(weekendStatus);
@@ -115,7 +138,7 @@ public class WeekendExtendedService extends WeekendService {
         LocalDate lastOfMonth = yearMonth.atEndOfMonth();
 
         Optional<Weekend> weekend = getWeekendByStatus(WeekendStatus.ACTIVE);
-        if(weekend.isPresent()) {
+        if (weekend.isPresent()) {
 
             while (firstOfMonth.isBefore(lastOfMonth)) {
                 DayOfWeek dayOfWeek = firstOfMonth.getDayOfWeek();
@@ -136,4 +159,10 @@ public class WeekendExtendedService extends WeekendService {
         }
         return localDates;
     }
+
+    public List<Weekend> getAll() {
+        return weekendExtendedRepository.findAll();
+    }
+
+
 }

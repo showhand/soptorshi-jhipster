@@ -1,0 +1,38 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kawsu (generated)" id="1597476798303-1">
+        <addColumn tableName="attendance">
+            <column name="remarks" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1597476798303-4">
+        <addNotNullConstraint columnDataType="blob" columnName="attendance_date" tableName="attendance"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1597476798303-5">
+        <addNotNullConstraint columnDataType="varchar(255)" columnName="duration" tableName="attendance"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1597476798303-6">
+        <addNotNullConstraint columnDataType="bigint" columnName="employee_id" tableName="attendance"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1597476798303-7">
+        <addNotNullConstraint columnDataType="bigint" columnName="employee_id" tableName="over_time"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1597476798303-8">
+        <addNotNullConstraint columnDataType="bigint" columnName="holiday_type_id" tableName="holiday"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1597476798303-9">
+        <addNotNullConstraint columnDataType="blob" columnName="in_time" tableName="attendance"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1597476798303-10">
+        <addNotNullConstraint columnDataType="blob" columnName="out_time" tableName="attendance"/>
+    </changeSet>
+
+    <changeSet author="kawsu (generated)" id="1597483520950-3">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="duration" tableName="attendance"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1597483520950-4">
+        <dropNotNullConstraint columnDataType="blob" columnName="out_time" tableName="attendance"/>
+    </changeSet>
+</databaseChangeLog>

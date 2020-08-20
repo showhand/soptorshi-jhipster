@@ -115,3 +115,50 @@
         </table>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dateOfOrderFrom">From</label>
+                    <div class="input-group">
+                        <input id="field_dateOfOrderFrom" type="text" class="form-control" name="dateOfOrder"
+                               ngbDatepicker
+                               #dateOfOrderFromDp="ngbDatepicker" [(ngModel)]="dateOfOrderFrom"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateOfOrderFromDp.toggle()"><fa-icon
+                                [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dateOfOrderTo">To</label>
+                    <div class="input-group">
+                        <input id="field_dateOfOrderTo" type="text" class="form-control" name="dateOfOrder"
+                               ngbDatepicker
+                               #dateOfOrderToDp="ngbDatepicker" [(ngModel)]="dateOfOrderTo"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateOfOrderToDp.toggle()"><fa-icon
+                                [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-3">
+                <button type="button"
+                        class="btn btn-primary btn-sm" (click)="downloadReport()">
+                    <span class="d-none d-md-inline">Download</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

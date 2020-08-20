@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { IAttendance } from 'app/shared/model/attendance.model';
 import { AttendanceService } from 'app/entities/attendance';
 import { Moment } from 'moment';
+import { SoptorshiUtil } from 'app/shared/util/SoptorshiUtil';
+import { DATE_FORMAT } from 'app/shared';
 
 type EntityResponseType = HttpResponse<IAttendance>;
 type EntityArrayResponseType = HttpResponse<IAttendance[]>;
@@ -20,18 +20,48 @@ export class AttendanceExtendedService extends AttendanceService {
         super(http);
     }
 
-    getDistinctAttendanceDate(): Observable<HttpResponse<Moment[]>> {
+    generateReportByFromDateAndToDateAndEmployeeId(fromDate: Moment, toDate: Moment, employeeId: string) {
         return this.http
-            .get<Moment[]>(`${this.resourceUrl}/dates`, { observe: 'response' })
-            .pipe(map((res: HttpResponse<Moment[]>) => this.convertDateArrayFromServerResponse(res)));
+            .get(
+                `${this.resourceUrl}/report/fromDate/${fromDate.format(DATE_FORMAT)}/toDate/${toDate.format(
+                    DATE_FORMAT
+                )}/employeeId/${employeeId}`,
+                {
+                    responseType: 'blob'
+                }
+            )
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', `Attendances`);
+            });
     }
 
-    protected convertDateArrayFromServerResponse(res: HttpResponse<Moment[]>): HttpResponse<Moment[]> {
-        if (res.body) {
-            res.body.forEach((m: Moment) => {
-                m = m != null ? m : null;
+    generateReportByFromDateAndToDate(fromDate: Moment, toDate: Moment) {
+        return this.http
+            .get(`${this.resourceUrl}/report/fromDate/${fromDate.format(DATE_FORMAT)}/toDate/${toDate.format(DATE_FORMAT)}`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', `Attendances`);
             });
-        }
-        return res;
+    }
+
+    generateReportByEmployeeId(employeeId: string) {
+        return this.http
+            .get(`${this.resourceUrl}/report/employeeId/${employeeId}`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', `Attendances`);
+            });
+    }
+
+    generateReportByFromDateAndToDateAndCurrentLoggedInUser(fromDate: Moment, toDate: Moment) {
+        return this.http
+            .get(`${this.resourceUrl}/report/fromDate/${fromDate.format(DATE_FORMAT)}/toDate/${toDate.format(DATE_FORMAT)}/loggedInUser`, {
+                responseType: 'blob'
+            })
+            .subscribe((data: any) => {
+                SoptorshiUtil.writeFileContent(data, 'application/pdf', `Attendances`);
+            });
     }
 }

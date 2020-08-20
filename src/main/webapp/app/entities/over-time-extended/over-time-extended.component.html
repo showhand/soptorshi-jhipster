@@ -5,7 +5,7 @@
 </div>
 <div class="row justify-content-center">
     <div class="col-6">
-        <h2 id="page-heading">Over Times</h2>
+        <h2 id="page-heading">Over Time</h2>
     </div>
     <div class="col-6">
         <!--<form name="searchForm" class="form-inline">
@@ -29,36 +29,74 @@
     </div>
 </div>
 
-<br />
+<br/>
 
 <div class="row">
-    <div class="col-3">
-        <select class="form-control" id="field_DistinctOverTimeDate" name="distinctOverTimeDate"
-                [(ngModel)]="currentSearch">
-            <option [ngValue]="null">Select a date</option>
-            <option [ngValue]="distinctDate"
-                    *ngFor="let distinctDate of distinctDates">{{distinctDate | date:'mediumDate'}}</option>
-        </select>
+    <div class="col-5">
+        <label class="form-control-label">From</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">DD/MM/YYYY</span>
+            </div>
+            <select class="form-control" name="dayFrom" [(ngModel)]="fromDate.day" id="field_DayFrom">
+                <option [ngValue]="null">Day</option>
+                <option [ngValue]="day.id" *ngFor="let day of days; trackBy: trackDayId">{{day.name}}</option>
+            </select>
+            <select class="form-control" name="monthFrom" [(ngModel)]="fromDate.month" id="field_MonthFrom">
+                <option [ngValue]="null">Month</option>
+                <option [ngValue]="month.id"
+                        *ngFor="let month of months; trackBy: trackMonthId">{{month.name}}</option>
+            </select>
+
+            <select class="form-control" name="yearFrom" [(ngModel)]="fromDate.year" id="field_YearFrom">
+                <option [ngValue]="null">Year</option>
+                <option [ngValue]="year.id" *ngFor="let year of years; trackBy: trackYearId">{{year.name}}</option>
+            </select>
+        </div>
     </div>
-    <div class="col-3">
-        <select class="form-control" id="field_EmployeeId" name="employeeId"
-                [(ngModel)]="employee">
-            <option [ngValue]="null">Select an Employee</option>
-            <option [ngValue]="emp"
-                    *ngFor="let emp of employees">{{emp.fullName + " [" + emp.departmentName + "] "}}</option>
-        </select>
+    <div class="col-5">
+        <label class="form-control-label">To</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">DD/MM/YYYY</span>
+            </div>
+            <select class="form-control" name="dayTo" [(ngModel)]="toDate.day" id="field_DayTo">
+                <option [ngValue]="null">Day</option>
+                <option [ngValue]="day.id" *ngFor="let day of days; trackBy: trackDayId">{{day.name}}</option>
+            </select>
+            <select class="form-control" name="monthTo" [(ngModel)]="toDate.month" id="field_MonthTo">
+                <option [ngValue]="null">Month</option>
+                <option [ngValue]="month.id"
+                        *ngFor="let month of months; trackBy: trackMonthId">{{month.name}}</option>
+            </select>
+
+            <select class="form-control" name="yearTo" [(ngModel)]="toDate.year" id="field_YearTo">
+                <option [ngValue]="null">Year</option>
+                <option [ngValue]="year.id" *ngFor="let year of years; trackBy: trackYearId">{{year.name}}</option>
+            </select>
+        </div>
     </div>
-    <div class="col-2">
-        <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-            <fa-icon [icon]="'search'"></fa-icon>
-        </button>
+</div>
+<br/>
+<div class="row">
+    <div class="col-6">
+        <div class="input-group">
+            <select class="form-control" id="field_EmployeeId" name="employeeId"
+                    [(ngModel)]="employee">
+                <option [ngValue]="null">Select an Employee</option>
+                <option [ngValue]="emp"
+                        *ngFor="let emp of employees">{{emp.fullName + " [" + emp.departmentName + "] "}}</option>
+            </select>
+            <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                <fa-icon [icon]="'search'"></fa-icon>
+            </button>
+        </div>
     </div>
 </div>
 
 <div class="row justify-content-center">
     <div class="col-12 ">
         <br/>
-
         <div class="table-responsive" *ngIf="overTimes">
             <table class="table table-striped">
                 <thead>
@@ -94,7 +132,13 @@
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>-->
 
-                    <th></th>
+                    <th>
+                        <button type="button" style="float: right"
+                                class="btn btn-info btn-sm"
+                                (click)="generateReport()">
+                            <fa-icon [icon]="'download'"></fa-icon>
+                        </button>
+                    </th>
                 </tr>
                 </thead>
                 <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * Service Implementation for managing HolidayType.
@@ -66,5 +67,9 @@ public class HolidayTypeExtendedService extends HolidayTypeService {
 
     private boolean exists(HolidayTypeDTO holidayTypeDTO) {
         return holidayTypeExtendedRepository.existsByName(holidayTypeDTO.getName());
+    }
+
+    public List<HolidayType> getAll() {
+        return holidayTypeExtendedRepository.findAll();
     }
 }

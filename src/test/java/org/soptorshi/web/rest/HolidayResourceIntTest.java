@@ -156,6 +156,11 @@ public class HolidayResourceIntTest {
             .updatedBy(DEFAULT_UPDATED_BY)
             .updatedOn(DEFAULT_UPDATED_ON)
             .holidayYear(DEFAULT_HOLIDAY_YEAR);
+        // Add required entity
+        HolidayType holidayType = HolidayTypeResourceIntTest.createEntity(em);
+        em.persist(holidayType);
+        em.flush();
+        holiday.setHolidayType(holidayType);
         return holiday;
     }
 
