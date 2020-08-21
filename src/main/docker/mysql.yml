@@ -3,7 +3,7 @@ services:
     soptorshi-mysql:
         image: mysql:8.0.16
         volumes:
-            - ~/volumes/jhipster/soptorshi/mysql/:/var/lib/mysql/
+            - ~/volumes/jhipster/soptorshi/mysqlv1/:/var/lib/mysql/
         environment:
             - MYSQL_USER=root
             - MYSQL_ALLOW_EMPTY_PASSWORD=yes

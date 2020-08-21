@@ -48,6 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.ReservedFlag;
+import org.soptorshi.domain.enumeration.DepreciationType;
 /**
  * Test class for the MstAccountResource REST controller.
  *
@@ -80,6 +81,12 @@ public class MstAccountResourceIntTest {
 
     private static final LocalDate DEFAULT_MODIFIED_ON = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_MODIFIED_ON = LocalDate.now(ZoneId.systemDefault());
+
+    private static final BigDecimal DEFAULT_DEPRECIATION_RATE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_DEPRECIATION_RATE = new BigDecimal(2);
+
+    private static final DepreciationType DEFAULT_DEPRECIATION_TYPE = DepreciationType.MONTHLY;
+    private static final DepreciationType UPDATED_DEPRECIATION_TYPE = DepreciationType.YEARLY;
 
     @Autowired
     private MstAccountRepository mstAccountRepository;
@@ -147,7 +154,9 @@ public class MstAccountResourceIntTest {
             .yearCloseBalance(DEFAULT_YEAR_CLOSE_BALANCE)
             .reservedFlag(DEFAULT_RESERVED_FLAG)
             .modifiedBy(DEFAULT_MODIFIED_BY)
-            .modifiedOn(DEFAULT_MODIFIED_ON);
+            .modifiedOn(DEFAULT_MODIFIED_ON)
+            .depreciationRate(DEFAULT_DEPRECIATION_RATE)
+            .depreciationType(DEFAULT_DEPRECIATION_TYPE);
         return mstAccount;
     }
 
@@ -180,6 +189,8 @@ public class MstAccountResourceIntTest {
         assertThat(testMstAccount.getReservedFlag()).isEqualTo(DEFAULT_RESERVED_FLAG);
         assertThat(testMstAccount.getModifiedBy()).isEqualTo(DEFAULT_MODIFIED_BY);
         assertThat(testMstAccount.getModifiedOn()).isEqualTo(DEFAULT_MODIFIED_ON);
+        assertThat(testMstAccount.getDepreciationRate()).isEqualTo(DEFAULT_DEPRECIATION_RATE);
+        assertThat(testMstAccount.getDepreciationType()).isEqualTo(DEFAULT_DEPRECIATION_TYPE);
 
         // Validate the MstAccount in Elasticsearch
         verify(mockMstAccountSearchRepository, times(1)).save(testMstAccount);
@@ -226,7 +237,9 @@ public class MstAccountResourceIntTest {
             .andExpect(jsonPath("$.[*].yearCloseBalance").value(hasItem(DEFAULT_YEAR_CLOSE_BALANCE.intValue())))
             .andExpect(jsonPath("$.[*].reservedFlag").value(hasItem(DEFAULT_RESERVED_FLAG.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY.toString())))
-            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())))
+            .andExpect(jsonPath("$.[*].depreciationRate").value(hasItem(DEFAULT_DEPRECIATION_RATE.intValue())))
+            .andExpect(jsonPath("$.[*].depreciationType").value(hasItem(DEFAULT_DEPRECIATION_TYPE.toString())));
     }
     
     @Test
@@ -247,7 +260,9 @@ public class MstAccountResourceIntTest {
             .andExpect(jsonPath("$.yearCloseBalance").value(DEFAULT_YEAR_CLOSE_BALANCE.intValue()))
             .andExpect(jsonPath("$.reservedFlag").value(DEFAULT_RESERVED_FLAG.toString()))
             .andExpect(jsonPath("$.modifiedBy").value(DEFAULT_MODIFIED_BY.toString()))
-            .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()));
+            .andExpect(jsonPath("$.modifiedOn").value(DEFAULT_MODIFIED_ON.toString()))
+            .andExpect(jsonPath("$.depreciationRate").value(DEFAULT_DEPRECIATION_RATE.intValue()))
+            .andExpect(jsonPath("$.depreciationType").value(DEFAULT_DEPRECIATION_TYPE.toString()));
     }
 
     @Test
@@ -591,6 +606,84 @@ public class MstAccountResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllMstAccountsByDepreciationRateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        mstAccountRepository.saveAndFlush(mstAccount);
+
+        // Get all the mstAccountList where depreciationRate equals to DEFAULT_DEPRECIATION_RATE
+        defaultMstAccountShouldBeFound("depreciationRate.equals=" + DEFAULT_DEPRECIATION_RATE);
+
+        // Get all the mstAccountList where depreciationRate equals to UPDATED_DEPRECIATION_RATE
+        defaultMstAccountShouldNotBeFound("depreciationRate.equals=" + UPDATED_DEPRECIATION_RATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMstAccountsByDepreciationRateIsInShouldWork() throws Exception {
+        // Initialize the database
+        mstAccountRepository.saveAndFlush(mstAccount);
+
+        // Get all the mstAccountList where depreciationRate in DEFAULT_DEPRECIATION_RATE or UPDATED_DEPRECIATION_RATE
+        defaultMstAccountShouldBeFound("depreciationRate.in=" + DEFAULT_DEPRECIATION_RATE + "," + UPDATED_DEPRECIATION_RATE);
+
+        // Get all the mstAccountList where depreciationRate equals to UPDATED_DEPRECIATION_RATE
+        defaultMstAccountShouldNotBeFound("depreciationRate.in=" + UPDATED_DEPRECIATION_RATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMstAccountsByDepreciationRateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        mstAccountRepository.saveAndFlush(mstAccount);
+
+        // Get all the mstAccountList where depreciationRate is not null
+        defaultMstAccountShouldBeFound("depreciationRate.specified=true");
+
+        // Get all the mstAccountList where depreciationRate is null
+        defaultMstAccountShouldNotBeFound("depreciationRate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMstAccountsByDepreciationTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        mstAccountRepository.saveAndFlush(mstAccount);
+
+        // Get all the mstAccountList where depreciationType equals to DEFAULT_DEPRECIATION_TYPE
+        defaultMstAccountShouldBeFound("depreciationType.equals=" + DEFAULT_DEPRECIATION_TYPE);
+
+        // Get all the mstAccountList where depreciationType equals to UPDATED_DEPRECIATION_TYPE
+        defaultMstAccountShouldNotBeFound("depreciationType.equals=" + UPDATED_DEPRECIATION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMstAccountsByDepreciationTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        mstAccountRepository.saveAndFlush(mstAccount);
+
+        // Get all the mstAccountList where depreciationType in DEFAULT_DEPRECIATION_TYPE or UPDATED_DEPRECIATION_TYPE
+        defaultMstAccountShouldBeFound("depreciationType.in=" + DEFAULT_DEPRECIATION_TYPE + "," + UPDATED_DEPRECIATION_TYPE);
+
+        // Get all the mstAccountList where depreciationType equals to UPDATED_DEPRECIATION_TYPE
+        defaultMstAccountShouldNotBeFound("depreciationType.in=" + UPDATED_DEPRECIATION_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMstAccountsByDepreciationTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        mstAccountRepository.saveAndFlush(mstAccount);
+
+        // Get all the mstAccountList where depreciationType is not null
+        defaultMstAccountShouldBeFound("depreciationType.specified=true");
+
+        // Get all the mstAccountList where depreciationType is null
+        defaultMstAccountShouldNotBeFound("depreciationType.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllMstAccountsByGroupIsEqualToSomething() throws Exception {
         // Initialize the database
         MstGroup group = MstGroupResourceIntTest.createEntity(em);
@@ -622,7 +715,9 @@ public class MstAccountResourceIntTest {
             .andExpect(jsonPath("$.[*].yearCloseBalance").value(hasItem(DEFAULT_YEAR_CLOSE_BALANCE.intValue())))
             .andExpect(jsonPath("$.[*].reservedFlag").value(hasItem(DEFAULT_RESERVED_FLAG.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
-            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())))
+            .andExpect(jsonPath("$.[*].depreciationRate").value(hasItem(DEFAULT_DEPRECIATION_RATE.intValue())))
+            .andExpect(jsonPath("$.[*].depreciationType").value(hasItem(DEFAULT_DEPRECIATION_TYPE.toString())));
 
         // Check, that the count call also returns 1
         restMstAccountMockMvc.perform(get("/api/mst-accounts/count?sort=id,desc&" + filter))
@@ -677,7 +772,9 @@ public class MstAccountResourceIntTest {
             .yearCloseBalance(UPDATED_YEAR_CLOSE_BALANCE)
             .reservedFlag(UPDATED_RESERVED_FLAG)
             .modifiedBy(UPDATED_MODIFIED_BY)
-            .modifiedOn(UPDATED_MODIFIED_ON);
+            .modifiedOn(UPDATED_MODIFIED_ON)
+            .depreciationRate(UPDATED_DEPRECIATION_RATE)
+            .depreciationType(UPDATED_DEPRECIATION_TYPE);
         MstAccountDTO mstAccountDTO = mstAccountMapper.toDto(updatedMstAccount);
 
         restMstAccountMockMvc.perform(put("/api/mst-accounts")
@@ -697,6 +794,8 @@ public class MstAccountResourceIntTest {
         assertThat(testMstAccount.getReservedFlag()).isEqualTo(UPDATED_RESERVED_FLAG);
         assertThat(testMstAccount.getModifiedBy()).isEqualTo(UPDATED_MODIFIED_BY);
         assertThat(testMstAccount.getModifiedOn()).isEqualTo(UPDATED_MODIFIED_ON);
+        assertThat(testMstAccount.getDepreciationRate()).isEqualTo(UPDATED_DEPRECIATION_RATE);
+        assertThat(testMstAccount.getDepreciationType()).isEqualTo(UPDATED_DEPRECIATION_TYPE);
 
         // Validate the MstAccount in Elasticsearch
         verify(mockMstAccountSearchRepository, times(1)).save(testMstAccount);
@@ -764,7 +863,9 @@ public class MstAccountResourceIntTest {
             .andExpect(jsonPath("$.[*].yearCloseBalance").value(hasItem(DEFAULT_YEAR_CLOSE_BALANCE.intValue())))
             .andExpect(jsonPath("$.[*].reservedFlag").value(hasItem(DEFAULT_RESERVED_FLAG.toString())))
             .andExpect(jsonPath("$.[*].modifiedBy").value(hasItem(DEFAULT_MODIFIED_BY)))
-            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())));
+            .andExpect(jsonPath("$.[*].modifiedOn").value(hasItem(DEFAULT_MODIFIED_ON.toString())))
+            .andExpect(jsonPath("$.[*].depreciationRate").value(hasItem(DEFAULT_DEPRECIATION_RATE.intValue())))
+            .andExpect(jsonPath("$.[*].depreciationType").value(hasItem(DEFAULT_DEPRECIATION_TYPE.toString())));
     }
 
     @Test
