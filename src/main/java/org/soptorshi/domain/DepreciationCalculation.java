@@ -5,12 +5,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
 import org.soptorshi.domain.enumeration.MonthType;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * A DepreciationCalculation.
@@ -18,10 +23,11 @@ import org.soptorshi.domain.enumeration.MonthType;
 @Entity
 @Table(name = "depreciation_calculation")
 @Document(indexName = "depreciationcalculation")
+@EntityListeners(AuditingEntityListener.class)
 public class DepreciationCalculation implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,15 +40,19 @@ public class DepreciationCalculation implements Serializable {
     private Boolean isExecuted;
 
     @Column(name = "created_by")
+    @CreatedBy
     private String createdBy;
 
     @Column(name = "created_on")
+    @CreatedDate
     private Instant createdOn;
 
     @Column(name = "modified_by")
+    @LastModifiedBy
     private String modifiedBy;
 
     @Column(name = "modified_on")
+    @LastModifiedDate
     private Instant modifiedOn;
 
     @ManyToOne

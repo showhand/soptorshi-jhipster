@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Depreciation Calculations Extended</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-depreciation-calculation" [routerLink]="['/depreciation-calculation/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-depreciation-calculation" (click)="addNew()">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
             Create new Depreciation Calculation
@@ -10,18 +10,11 @@
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
+        <div class="col-sm-6">
+            <select class="form-control" id="field_financialAccountYear" name="financialAccountYear" [(ngModel)]="selectedFinancialAccountYear" >
+                <option [ngValue]="undefined">Select Financial Account Year</option>
+                <option [ngValue]="financialAccountYearOption" *ngFor="let financialAccountYearOption of financialAccountYears">{{financialAccountYearOption.startDate | date: 'dd-MMM-yyyy'}} - {{financialAccountYearOption.endDate | date: 'dd-MMM-yyyy'}}</option>
+            </select>
         </div>
     </div>
     <br/>
@@ -36,7 +29,6 @@
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="financialAccountYearId"><span>Financial Account Year</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -49,11 +41,6 @@
                 <td>{{depreciationCalculation.createdOn | date:'medium'}}</td>
                 <td>{{depreciationCalculation.modifiedBy}}</td>
                 <td>{{depreciationCalculation.modifiedOn | date:'medium'}}</td>
-                <td>
-                    <div *ngIf="depreciationCalculation.financialAccountYearId">
-                        <a [routerLink]="['../financial-account-year', depreciationCalculation.financialAccountYearId , 'view' ]" >{{depreciationCalculation.financialAccountYearId}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

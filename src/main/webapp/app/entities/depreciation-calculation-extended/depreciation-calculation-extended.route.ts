@@ -18,11 +18,17 @@ export class DepreciationCalculationExtendedResolve implements Resolve<IDeprecia
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IDepreciationCalculation> {
         const id = route.params['id'] ? route.params['id'] : null;
+        const financialAccountYearId = route.params['financialAccountYearId'] ? route.params['financialAccountYearId'] : null;
         if (id) {
             return this.service.find(id).pipe(
                 filter((response: HttpResponse<DepreciationCalculation>) => response.ok),
                 map((depreciationCalculation: HttpResponse<DepreciationCalculation>) => depreciationCalculation.body)
             );
+        }
+        if (financialAccountYearId) {
+            const depreciationCalculation = new DepreciationCalculation();
+            depreciationCalculation.financialAccountYearId = financialAccountYearId;
+            return of(depreciationCalculation);
         }
         return of(new DepreciationCalculation());
     }
@@ -52,6 +58,18 @@ export const depreciationCalculationExtendedRoute: Routes = [
     },
     {
         path: 'new',
+        component: DepreciationCalculationExtendedUpdateComponent,
+        resolve: {
+            depreciationCalculation: DepreciationCalculationExtendedResolve
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'DepreciationCalculations'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: ':financialAccountYearId/new',
         component: DepreciationCalculationExtendedUpdateComponent,
         resolve: {
             depreciationCalculation: DepreciationCalculationExtendedResolve

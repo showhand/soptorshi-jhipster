@@ -15,7 +15,7 @@ type EntityArrayResponseType = HttpResponse<IDepreciationCalculation[]>;
 
 @Injectable({ providedIn: 'root' })
 export class DepreciationCalculationExtendedService extends DepreciationCalculationService {
-    public resourceUrl = SERVER_API_URL + 'api/depreciation-calculations';
+    public resourceUrl = SERVER_API_URL + 'api/extended/depreciation-calculations';
     public resourceSearchUrl = SERVER_API_URL + 'api/_search/depreciation-calculations';
 
     constructor(protected http: HttpClient) {
