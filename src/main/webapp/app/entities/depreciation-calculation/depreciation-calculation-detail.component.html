@@ -1,0 +1,53 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="depreciationCalculation">
+            <h2><span>Depreciation Calculation</span> {{depreciationCalculation.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Month Type</span></dt>
+                <dd>
+                    <span>{{depreciationCalculation.monthType}}</span>
+                </dd>
+                <dt><span>Is Executed</span></dt>
+                <dd>
+                    <span>{{depreciationCalculation.isExecuted}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{depreciationCalculation.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{depreciationCalculation.createdOn}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{depreciationCalculation.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{depreciationCalculation.modifiedOn}}</span>
+                </dd>
+                <dt><span>Financial Account Year</span></dt>
+                <dd>
+                    <div *ngIf="depreciationCalculation.financialAccountYearId">
+                        <a [routerLink]="['/financial-account-year', depreciationCalculation.financialAccountYearId, 'view']">{{depreciationCalculation.financialAccountYearId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/depreciation-calculation', depreciationCalculation.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
