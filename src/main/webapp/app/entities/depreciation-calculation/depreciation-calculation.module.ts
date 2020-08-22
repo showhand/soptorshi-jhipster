@@ -16,19 +16,19 @@ const ENTITY_STATES = [...depreciationCalculationRoute, ...depreciationCalculati
 
 @NgModule({
     imports: [SoptorshiSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
-        DepreciationCalculationComponent,
-        DepreciationCalculationDetailComponent,
-        DepreciationCalculationUpdateComponent,
-        DepreciationCalculationDeleteDialogComponent,
+    /* declarations: [
+        DepreciationCalculationExtendedComponent,
+        DepreciationCalculationExtendedDetailComponent,
+        DepreciationCalculationExtendedUpdateComponent,
+        DepreciationCalculationExtendedDeleteDialogComponent,
         DepreciationCalculationDeletePopupComponent
     ],
     entryComponents: [
-        DepreciationCalculationComponent,
-        DepreciationCalculationUpdateComponent,
-        DepreciationCalculationDeleteDialogComponent,
+        DepreciationCalculationExtendedComponent,
+        DepreciationCalculationExtendedUpdateComponent,
+        DepreciationCalculationExtendedDeleteDialogComponent,
         DepreciationCalculationDeletePopupComponent
-    ],
+    ],*/
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SoptorshiDepreciationCalculationModule {}

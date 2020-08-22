@@ -951,7 +951,8 @@ import { MatTabsModule } from '@angular/material';
             },
             {
                 path: 'depreciation-calculation',
-                loadChildren: './depreciation-calculation/depreciation-calculation.module#SoptorshiDepreciationCalculationModule'
+                loadChildren:
+                    './depreciation-calculation-extended/depreciation-calculation-extended.module#SoptorshiDepreciationCalculationModule'
             },
             {
                 path: 'depreciation-map',
