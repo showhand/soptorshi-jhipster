@@ -15,6 +15,7 @@ import {
 import { AccountBalanceExtendedService } from 'app/entities/account-balance-extended/account-balance-extended.service';
 import { BalanceSheetComponent } from 'app/entities/account-balance-extended/balance-sheet.component';
 import { ProfitAndLossComponent } from 'app/entities/account-balance-extended/profit-and-loss/profit-and-loss.component';
+import { CashFlowComponent } from 'app/entities/account-balance-extended/cash-flow/cash-flow.component';
 
 @Injectable({ providedIn: 'root' })
 export class AccountBalanceExtendedResolve implements Resolve<IAccountBalance> {
@@ -82,6 +83,15 @@ export const accountBalanceExtendedRoute: Routes = [
     {
         path: 'profit-and-loss',
         component: ProfitAndLossComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'AccountBalances'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'cash-flow',
+        component: CashFlowComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'AccountBalances'

@@ -637,6 +637,15 @@
                         <span *ngIf="!leftMenuHidden">P&L</span>
                     </a>
                 </li>
+
+                <li>
+                    <a class="dropdown-item" routerLink="account-balance/cash-flow" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Cash Flow</span>
+                    </a>
+                </li>
             </ul>
         </li>
 

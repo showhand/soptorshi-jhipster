@@ -126,5 +126,19 @@ public class MstAccountExtendedResource {
             .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
             .body(new InputStreamResource(byteArrayInputStream));
     }
+
+
+    @GetMapping(value = "/mst-accounts/cash-flow/excel/{fromDate}/{toDate}", produces = MediaType.ALL_VALUE)
+    public ResponseEntity<InputStreamResource> generateCashFlowExcelFormat(@PathVariable("fromDate")String fromDate, @PathVariable("toDate") String toDate) throws Exception, DocumentException {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        ByteArrayInputStream byteArrayInputStream = profitLossService.createReport(LocalDate.parse(fromDate, dateTimeFormatter), LocalDate.parse(toDate,dateTimeFormatter));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "/api/extended/charts-of-account");
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+            .body(new InputStreamResource(byteArrayInputStream));
+    }
 }
 

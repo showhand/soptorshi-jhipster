@@ -226,4 +226,7 @@
 
    <!-- <include file="config/liquibase/changelog/20200415141837_changelog.xml" relativeToChangelogFile="false"/>-->
 
+    <include context="prod,dev" file="config/liquibase/changelog/20200821154659_changelog_depreciation_added_MstAccount.xml" relativeToChangelogFile="false"/>
+
+
 </databaseChangeLog>

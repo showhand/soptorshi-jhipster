@@ -44,6 +44,38 @@ public class JxlsGenerator {
         context.putVar("income", income);
     }
 
+
+    public void cashFlowBuilder(
+        List<String> months,
+        List<ProfitAndLossGroupDTO> asset,
+        List<ProfitAndLossGroupDTO> liability,
+        List<ProfitAndLossGroupDTO> equity,
+        List<ProfitAndLossGroupDTO> revenue,
+        List<ProfitAndLossGroupDTO> expense,
+        List<MonthWithProfitAndLossAmountDTO> assetGroupAmount,
+        List<MonthWithProfitAndLossAmountDTO> equityGroupAmount,
+        List<MonthWithProfitAndLossAmountDTO> liabilityGroupAmount,
+        List<MonthWithProfitAndLossAmountDTO> revenueGroupAmount,
+        List<MonthWithProfitAndLossAmountDTO> expenseGroupAmount,
+        List<BigDecimal> differences,
+        OutputStream out,
+        InputStream templateLocation) throws IOException{
+        Context context = new Context();
+        context.putVar("months", months);
+        context.putVar("asset", asset);
+        context.putVar("liability", liability);
+        context.putVar("equity", equity);
+        context.putVar("revenue", revenue);
+        context.putVar("expenditure", expense);
+        context.putVar("assetGroupAmount", assetGroupAmount);
+        context.putVar("equityGroupAmount", equityGroupAmount);
+        context.putVar("liabilityGroupAmount", liabilityGroupAmount);
+        context.putVar("revenueGroupAmount", revenueGroupAmount);
+        context.putVar("expenseGroupAmount", expenseGroupAmount);
+        context.putVar("differences", differences);
+        processTemplate(context, templateLocation, out);
+    }
+
     public void balanceSheetBuilder(
         List<String> months,
         List<ProfitAndLossGroupDTO> asset,
