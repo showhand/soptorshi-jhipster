@@ -4,7 +4,13 @@ package org.soptorshi.domain;
 
 import javax.persistence.*;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -15,10 +21,11 @@ import java.util.Objects;
 @Entity
 @Table(name = "depreciation_map")
 @Document(indexName = "depreciationmap")
+@EntityListeners(AuditingEntityListener.class)
 public class DepreciationMap implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,15 +43,19 @@ public class DepreciationMap implements Serializable {
     private String accountName;
 
     @Column(name = "created_by")
+    @CreatedBy
     private String createdBy;
 
     @Column(name = "created_on")
+    @CreatedDate
     private Instant createdOn;
 
     @Column(name = "modified_by")
+    @LastModifiedBy
     private String modifiedBy;
 
     @Column(name = "modified_on")
+    @LastModifiedDate
     private Instant modifiedOn;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

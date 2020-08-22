@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span>Depreciation Maps</span>
+        <span>Depreciation-Account Map</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-depreciation-map" [routerLink]="['/depreciation-map/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
-            Create new Depreciation Map
+            Add New Map
             </span>
         </button>
     </h2>
@@ -30,9 +30,7 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="depreciationAccountId"><span>Depreciation Account Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="depreciationAccountName"><span>Depreciation Account Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="accountId"><span>Account Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="accountName"><span>Account Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -44,9 +42,7 @@
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let depreciationMap of depreciationMaps ;trackBy: trackId">
                 <td><a [routerLink]="['/depreciation-map', depreciationMap.id, 'view' ]">{{depreciationMap.id}}</a></td>
-                <td>{{depreciationMap.depreciationAccountId}}</td>
                 <td>{{depreciationMap.depreciationAccountName}}</td>
-                <td>{{depreciationMap.accountId}}</td>
                 <td>{{depreciationMap.accountName}}</td>
                 <td>{{depreciationMap.createdBy}}</td>
                 <td>{{depreciationMap.createdOn | date:'medium'}}</td>
