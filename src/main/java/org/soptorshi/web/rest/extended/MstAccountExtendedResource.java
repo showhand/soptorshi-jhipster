@@ -8,6 +8,7 @@ import org.soptorshi.service.ChartsOfAccountReportService;
 import org.soptorshi.service.MstAccountQueryService;
 import org.soptorshi.service.MstAccountService;
 import org.soptorshi.service.dto.MstAccountDTO;
+import org.soptorshi.service.extended.CashFlowService;
 import org.soptorshi.service.extended.MstAccountExtendedService;
 import org.soptorshi.service.extended.ProfitLossService;
 import org.soptorshi.web.rest.MstAccountResource;
@@ -40,14 +41,16 @@ public class MstAccountExtendedResource {
     private final ChartsOfAccountReportService chartsOfAccountReportService;
 
     private final ChartOfAccountsExcelReportService chartOfAccountsExcelReportService;
-    private ProfitLossService profitLossService;
+    private final ProfitLossService profitLossService;
+    private final CashFlowService cashFlowService;
 
-    public MstAccountExtendedResource(MstAccountExtendedService mstAccountService, MstAccountQueryService mstAccountQueryService, ChartsOfAccountReportService chartsOfAccountReportService, ChartOfAccountsExcelReportService chartOfAccountsExcelReportService, ProfitLossService profitLossService) {
+    public MstAccountExtendedResource(MstAccountExtendedService mstAccountService, MstAccountQueryService mstAccountQueryService, ChartsOfAccountReportService chartsOfAccountReportService, ChartOfAccountsExcelReportService chartOfAccountsExcelReportService, ProfitLossService profitLossService, CashFlowService cashFlowService) {
         this.mstAccountService = mstAccountService;
         this.mstAccountQueryService = mstAccountQueryService;
         this.chartsOfAccountReportService = chartsOfAccountReportService;
         this.chartOfAccountsExcelReportService = chartOfAccountsExcelReportService;
         this.profitLossService = profitLossService;
+        this.cashFlowService = cashFlowService;
     }
 
     /**
@@ -131,7 +134,7 @@ public class MstAccountExtendedResource {
     @GetMapping(value = "/mst-accounts/cash-flow/excel/{fromDate}/{toDate}", produces = MediaType.ALL_VALUE)
     public ResponseEntity<InputStreamResource> generateCashFlowExcelFormat(@PathVariable("fromDate")String fromDate, @PathVariable("toDate") String toDate) throws Exception, DocumentException {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        ByteArrayInputStream byteArrayInputStream = profitLossService.createReport(LocalDate.parse(fromDate, dateTimeFormatter), LocalDate.parse(toDate,dateTimeFormatter));
+        ByteArrayInputStream byteArrayInputStream = cashFlowService.createReport(LocalDate.parse(fromDate, dateTimeFormatter), LocalDate.parse(toDate,dateTimeFormatter));
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "/api/extended/charts-of-account");
         return ResponseEntity
