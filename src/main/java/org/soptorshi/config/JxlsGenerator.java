@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.time.Month;
 import java.util.List;
 
 @Service
@@ -52,11 +53,23 @@ public class JxlsGenerator {
         List<ProfitAndLossGroupDTO> equity,
         List<ProfitAndLossGroupDTO> revenue,
         List<ProfitAndLossGroupDTO> expense,
+        List<ProfitAndLossGroupDTO> depreciation,
+        List<ProfitAndLossGroupDTO> currentAsset,
+        List<ProfitAndLossGroupDTO> fixedAsset,
+        List<ProfitAndLossGroupDTO> currentLiability,
+        List<ProfitAndLossGroupDTO> loan,
+        List<ProfitAndLossGroupDTO> shareCapital,
         List<MonthWithProfitAndLossAmountDTO> assetGroupAmount,
         List<MonthWithProfitAndLossAmountDTO> equityGroupAmount,
         List<MonthWithProfitAndLossAmountDTO> liabilityGroupAmount,
         List<MonthWithProfitAndLossAmountDTO> revenueGroupAmount,
         List<MonthWithProfitAndLossAmountDTO> expenseGroupAmount,
+        List<MonthWithProfitAndLossAmountDTO> depreciationGroupAmount,
+        List<MonthWithProfitAndLossAmountDTO> currentAssetGroupAmount,
+        List<MonthWithProfitAndLossAmountDTO> fixedAssetGroupAmount,
+        List<MonthWithProfitAndLossAmountDTO> currentLiabilityGroupAmount,
+        List<MonthWithProfitAndLossAmountDTO> loanGroupAmount,
+        List<MonthWithProfitAndLossAmountDTO> shareCapitalGroupAmount,
         List<BigDecimal> differences,
         OutputStream out,
         InputStream templateLocation) throws IOException{
@@ -67,11 +80,23 @@ public class JxlsGenerator {
         context.putVar("equity", equity);
         context.putVar("revenue", revenue);
         context.putVar("expenditure", expense);
+        context.putVar("depreciation", depreciation);
+        context.putVar("currentAsset", currentAsset);
+        context.putVar("fixedAsset", fixedAsset);
+        context.putVar("currentLiability", currentLiability);
+        context.putVar("loan", loan);
+        context.putVar("shareCapital", shareCapital);
         context.putVar("assetGroupAmount", assetGroupAmount);
         context.putVar("equityGroupAmount", equityGroupAmount);
         context.putVar("liabilityGroupAmount", liabilityGroupAmount);
         context.putVar("revenueGroupAmount", revenueGroupAmount);
         context.putVar("expenseGroupAmount", expenseGroupAmount);
+        context.putVar("depreciationGroupAmount", depreciationGroupAmount);
+        context.putVar("currentAssetGroupAmount", currentAssetGroupAmount);
+        context.putVar("fixedAssetGroupAmount", fixedAssetGroupAmount);
+        context.putVar("currentLiabilityGroupAmount", currentLiabilityGroupAmount);
+        context.putVar("loanGroupAmount", loanGroupAmount);
+        context.putVar("shareCapitalGroupAmount", shareCapitalGroupAmount);
         context.putVar("differences", differences);
         processTemplate(context, templateLocation, out);
     }

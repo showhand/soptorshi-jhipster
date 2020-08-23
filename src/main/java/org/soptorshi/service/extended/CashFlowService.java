@@ -64,6 +64,14 @@ public class CashFlowService {
         List<ProfitAndLossGroupDTO> equitiesGroups = profitLossService.generateGroupsAndSubgroups(GroupType.EQUITIES, groupTypeSystemAccountMapMap, groupMapWithAccounts);
         List<ProfitAndLossGroupDTO> incomeGroups = profitLossService.generateGroupsAndSubgroups(GroupType.INCOME, groupTypeSystemAccountMapMap, groupMapWithAccounts);
         List<ProfitAndLossGroupDTO> expenseGroups = profitLossService.generateGroupsAndSubgroups(GroupType.EXPENSES, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<ProfitAndLossGroupDTO> depreciationGroups = profitLossService.generateGroupsAndSubgroups(GroupType.DEPRECIATION, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<ProfitAndLossGroupDTO> currentAssetGroups = profitLossService.generateGroupsAndSubgroups(GroupType.CURRENT_ASSETS, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<ProfitAndLossGroupDTO> fixedAssetGroups = profitLossService.generateGroupsAndSubgroups(GroupType.FIXED_ASSETS, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<ProfitAndLossGroupDTO> currentLiabilityGroups = profitLossService.generateGroupsAndSubgroups(GroupType.CURRENT_LIABILITIES, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<ProfitAndLossGroupDTO> loanGroups = profitLossService.generateGroupsAndSubgroups(GroupType.LOAN, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<ProfitAndLossGroupDTO> shareCapitalGroups = profitLossService.generateGroupsAndSubgroups(GroupType.SHARE_CAPITAL, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+
+
 
 
         List<MonthWithProfitAndLossAmountDTO> assetGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.ASSETS, fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
@@ -71,10 +79,16 @@ public class CashFlowService {
         List<MonthWithProfitAndLossAmountDTO> equitiesGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.EQUITIES, fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
         List<MonthWithProfitAndLossAmountDTO> incomeGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.INCOME, fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
         List<MonthWithProfitAndLossAmountDTO> expenditureGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.EXPENSES, fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<MonthWithProfitAndLossAmountDTO> depreciationGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.DEPRECIATION, fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<MonthWithProfitAndLossAmountDTO> currentAssetGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.CURRENT_ASSETS, fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<MonthWithProfitAndLossAmountDTO> fixedAssetGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.FIXED_ASSETS, fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<MonthWithProfitAndLossAmountDTO> currentLiabilityGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.CURRENT_LIABILITIES, fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<MonthWithProfitAndLossAmountDTO> loanGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.LOAN, fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
+        List<MonthWithProfitAndLossAmountDTO> shareCapitalGroupAmount = profitLossService.generateProfitAndLossAmount(GroupType.SHARE_CAPITAL, fromDate, toDate, groupTypeSystemAccountMapMap, groupMapWithAccounts);
 
 
 
-        List<BigDecimal> differences = calculateDifference(liabilityGroupAmount, equitiesGroupAmount);
+        List<BigDecimal> differences = profitLossService.calculateDifference(incomeGroupAmount, expenditureGroupAmount);
 
         Resource resource = resourceLoader.getResource("classpath:/templates/jxls/CashFlow.xls");
         HSSFWorkbook workbook = new HSSFWorkbook(resource.getInputStream());
@@ -84,7 +98,8 @@ public class CashFlowService {
         InputStream is = new ByteArrayInputStream(barray);
         InputStream template = resource.getInputStream();
         OutputStream outputStream = new ByteArrayOutputStream() ; // new FileOutputStream(outputResource.getFile());
-        jxlsGenerator.cashFlowBuilder( months, assetGroups, liabilityGroups, equitiesGroups, incomeGroups, expenseGroups, assetGroupAmount, equitiesGroupAmount, liabilityGroupAmount, incomeGroupAmount, expenditureGroupAmount, differences, outputStream, template);
+        jxlsGenerator.cashFlowBuilder( months, assetGroups, liabilityGroups, equitiesGroups, incomeGroups, expenseGroups,depreciationGroups, currentAssetGroups, fixedAssetGroups, currentLiabilityGroups, loanGroups,
+            shareCapitalGroups, assetGroupAmount, equitiesGroupAmount, liabilityGroupAmount, incomeGroupAmount, expenditureGroupAmount, depreciationGroupAmount, currentAssetGroupAmount, fixedAssetGroupAmount, currentLiabilityGroupAmount, loanGroupAmount, shareCapitalGroupAmount, differences, outputStream, template);
         ByteArrayOutputStream baos =(ByteArrayOutputStream) outputStream; //(ByteArrayOutputStream) outputStream; //new ByteArrayOutputStream();
         byte[] data = baos.toByteArray();
         outputStream.write(data);
