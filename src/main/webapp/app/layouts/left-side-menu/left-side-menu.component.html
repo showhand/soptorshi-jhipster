@@ -534,6 +534,22 @@
                     </a>
                 </li>
                 <li>
+                    <a class="dropdown-item" routerLink="depreciation-map" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Depreciation map</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="depreciation-calculation" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="address-book" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Depreciation Calculation</span>
+                    </a>
+                </li>
+                <li>
                     <a class="dropdown-item" routerLink="currency" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }"
                        *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
@@ -635,6 +651,15 @@
                        *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
                         <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">P&L</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="dropdown-item" routerLink="account-balance/cash-flow" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }"
+                       *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                        <fa-icon icon="briefcase" fixedWidth="true"></fa-icon>
+                        <span *ngIf="!leftMenuHidden">Cash Flow</span>
                     </a>
                 </li>
             </ul>

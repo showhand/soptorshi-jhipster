@@ -948,6 +948,15 @@ import { MatTabsModule } from '@angular/material';
             {
                 path: 'attendance',
                 loadChildren: './attendance/attendance.module#SoptorshiAttendanceModule'
+            },
+            {
+                path: 'depreciation-calculation',
+                loadChildren:
+                    './depreciation-calculation-extended/depreciation-calculation-extended.module#SoptorshiDepreciationCalculationModule'
+            },
+            {
+                path: 'depreciation-map',
+                loadChildren: './depreciation-map/depreciation-map.module#SoptorshiDepreciationMapModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

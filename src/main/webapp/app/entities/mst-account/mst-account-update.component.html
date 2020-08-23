@@ -58,6 +58,18 @@
                         </span>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_depreciationRate">Depreciation Rate</label>
+                    <input type="number" class="form-control" name="depreciationRate" id="field_depreciationRate"
+                        [(ngModel)]="mstAccount.depreciationRate" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_depreciationType">Depreciation Type</label>
+                    <select class="form-control" name="depreciationType" [(ngModel)]="mstAccount.depreciationType" id="field_depreciationType" >
+                        <option value="MONTHLY">MONTHLY</option>
+                        <option value="YEARLY">YEARLY</option>
+                    </select>
+                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_group">Group</label>

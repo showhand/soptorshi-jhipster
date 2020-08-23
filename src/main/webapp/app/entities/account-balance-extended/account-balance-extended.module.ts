@@ -17,6 +17,7 @@ import { FixedAssetComponent } from './fixed-asset/fixed-asset.component';
 import { ChangesInEquityComponent } from './changes-in-equity/changes-in-equity.component';
 import { OverviewOfDebtComponent } from './overview-of-debt/overview-of-debt.component';
 import { CapexDetailsComponent } from './capex-details/capex-details.component';
+import { CashFlowComponent } from './cash-flow/cash-flow.component';
 
 const ENTITY_STATES = [...accountBalanceExtendedRoute, ...accountBalancePopupRoute];
 
@@ -33,7 +34,8 @@ const ENTITY_STATES = [...accountBalanceExtendedRoute, ...accountBalancePopupRou
         FixedAssetComponent,
         ChangesInEquityComponent,
         OverviewOfDebtComponent,
-        CapexDetailsComponent
+        CapexDetailsComponent,
+        CashFlowComponent
     ],
     entryComponents: [
         AccountBalanceComponent,

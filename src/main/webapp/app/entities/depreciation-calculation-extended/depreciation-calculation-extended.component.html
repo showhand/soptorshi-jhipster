@@ -1,0 +1,72 @@
+<div>
+    <h2 id="page-heading">
+        <span>Depreciation Calculations Extended</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-depreciation-calculation" (click)="addNew()">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span class="hidden-sm-down" >
+            Create new Depreciation Calculation
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-6">
+            <select class="form-control" id="field_financialAccountYear" name="financialAccountYear" [(ngModel)]="selectedFinancialAccountYear" (ngModelChange)="fetchDepreciationCalculationRecords()" >
+                <option [ngValue]="undefined">Select Financial Account Year</option>
+                <option [ngValue]="financialAccountYearOption" *ngFor="let financialAccountYearOption of financialAccountYears">{{financialAccountYearOption.startDate | date: 'dd-MMM-yyyy'}} - {{financialAccountYearOption.endDate | date: 'dd-MMM-yyyy'}}</option>
+            </select>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="depreciationCalculations">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="monthType"><span>Month Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="isExecuted"><span>Is Executed</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdBy"><span>Created By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdOn"><span>Created On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let depreciationCalculation of depreciationCalculations ;trackBy: trackId">
+                <td><a [routerLink]="['/depreciation-calculation', depreciationCalculation.id, 'view' ]">{{depreciationCalculation.id}}</a></td>
+                <td>{{depreciationCalculation.monthType}}</td>
+                <td>{{depreciationCalculation.isExecuted}}</td>
+                <td>{{depreciationCalculation.createdBy}}</td>
+                <td>{{depreciationCalculation.createdOn | date:'medium'}}</td>
+                <td>{{depreciationCalculation.modifiedBy}}</td>
+                <td>{{depreciationCalculation.modifiedOn | date:'medium'}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/depreciation-calculation', depreciationCalculation.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/depreciation-calculation', depreciationCalculation.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'depreciation-calculation', { outlets: { popup: depreciationCalculation.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -38,6 +38,8 @@
             <th jhiSortBy="reservedFlag"><span>Reserved Flag</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedBy"><span>Modified By</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="modifiedOn"><span>Modified On</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="depreciationRate"><span>Depreciation Rate</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="depreciationType"><span>Depreciation Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="groupName"><span>Group</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -53,6 +55,8 @@
                 <td>{{mstAccount.reservedFlag}}</td>
                 <td>{{mstAccount.modifiedBy}}</td>
                 <td>{{mstAccount.modifiedOn | date:'mediumDate'}}</td>
+                <td>{{mstAccount.depreciationRate}}</td>
+                <td>{{mstAccount.depreciationType}}</td>
                 <td>
                     <div *ngIf="mstAccount.groupId">
                         <a [routerLink]="['../mst-group', mstAccount.groupId , 'view' ]" >{{mstAccount.groupName}}</a>

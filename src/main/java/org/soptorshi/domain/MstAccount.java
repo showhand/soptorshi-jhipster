@@ -10,10 +10,18 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+
+import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import org.soptorshi.domain.enumeration.BalanceType;
+
+import org.soptorshi.domain.enumeration.ReservedFlag;
+
+import org.soptorshi.domain.enumeration.DepreciationType;
 
 /**
  * A MstAccount.
@@ -57,6 +65,13 @@ public class MstAccount implements Serializable {
     @Column(name = "modified_on")
     @LastModifiedDate
     private LocalDate modifiedOn;
+
+    @Column(name = "depreciation_rate", precision = 10, scale = 2)
+    private BigDecimal depreciationRate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "depreciation_type")
+    private DepreciationType depreciationType;
 
     @ManyToOne
     @JsonIgnoreProperties("mstAccounts")
@@ -175,6 +190,32 @@ public class MstAccount implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public BigDecimal getDepreciationRate() {
+        return depreciationRate;
+    }
+
+    public MstAccount depreciationRate(BigDecimal depreciationRate) {
+        this.depreciationRate = depreciationRate;
+        return this;
+    }
+
+    public void setDepreciationRate(BigDecimal depreciationRate) {
+        this.depreciationRate = depreciationRate;
+    }
+
+    public DepreciationType getDepreciationType() {
+        return depreciationType;
+    }
+
+    public MstAccount depreciationType(DepreciationType depreciationType) {
+        this.depreciationType = depreciationType;
+        return this;
+    }
+
+    public void setDepreciationType(DepreciationType depreciationType) {
+        this.depreciationType = depreciationType;
+    }
+
     public MstGroup getGroup() {
         return group;
     }
@@ -221,6 +262,8 @@ public class MstAccount implements Serializable {
             ", reservedFlag='" + getReservedFlag() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
+            ", depreciationRate=" + getDepreciationRate() +
+            ", depreciationType='" + getDepreciationType() + "'" +
             "}";
     }
 }

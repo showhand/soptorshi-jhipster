@@ -1,0 +1,47 @@
+{
+    "name": "DepreciationMap",
+    "fields": [
+        {
+            "fieldName": "depreciationAccountId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "depreciationAccountName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "accountId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "accountName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdOn",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "modifiedBy",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiedOn",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20200822103725",
+    "entityTableName": "depreciation_map",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

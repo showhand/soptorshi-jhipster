@@ -117,6 +117,12 @@ public class MstAccountQueryService extends QueryService<MstAccount> {
             if (criteria.getModifiedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModifiedOn(), MstAccount_.modifiedOn));
             }
+            if (criteria.getDepreciationRate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDepreciationRate(), MstAccount_.depreciationRate));
+            }
+            if (criteria.getDepreciationType() != null) {
+                specification = specification.and(buildSpecification(criteria.getDepreciationType(), MstAccount_.depreciationType));
+            }
             if (criteria.getGroupId() != null) {
                 specification = specification.and(buildSpecification(criteria.getGroupId(),
                     root -> root.join(MstAccount_.group, JoinType.LEFT).get(MstGroup_.id)));

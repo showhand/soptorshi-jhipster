@@ -1,5 +1,16 @@
 {
-    "name": "MstAccount",
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "mstGroup",
+            "otherEntityRelationshipName": "mstAccount",
+            "relationshipName": "group",
+            "otherEntityField": "name",
+            "otherEntityRelationshipNameUndefined": false
+        }
+    ],
     "fields": [
         {
             "fieldName": "code",
@@ -34,25 +45,23 @@
         {
             "fieldName": "modifiedOn",
             "fieldType": "LocalDate"
-        }
-    ],
-    "relationships": [
+        },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "mstGroup",
-            "otherEntityRelationshipName": "mstAccount",
-            "relationshipName": "group",
-            "otherEntityField": "name"
+            "fieldName": "depreciationRate",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "depreciationType",
+            "fieldType": "DepreciationType",
+            "fieldValues": "MONTHLY,YEARLY"
         }
     ],
     "changelogDate": "20190906083828",
-    "entityTableName": "mst_account",
     "dto": "mapstruct",
-    "pagination": "pager",
+    "searchEngine": "elasticsearch",
     "service": "serviceClass",
+    "entityTableName": "mst_account",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": true,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*",
-    "searchEngine": "elasticsearch"
+    "pagination": "pager"
 }

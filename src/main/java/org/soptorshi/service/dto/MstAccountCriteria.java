@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.ReservedFlag;
+import org.soptorshi.domain.enumeration.DepreciationType;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -33,6 +34,11 @@ public class MstAccountCriteria implements Serializable {
      */
     public static class ReservedFlagFilter extends Filter<ReservedFlag> {
     }
+    /**
+     * Class for filtering DepreciationType
+     */
+    public static class DepreciationTypeFilter extends Filter<DepreciationType> {
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -53,6 +59,10 @@ public class MstAccountCriteria implements Serializable {
     private StringFilter modifiedBy;
 
     private LocalDateFilter modifiedOn;
+
+    private BigDecimalFilter depreciationRate;
+
+    private DepreciationTypeFilter depreciationType;
 
     private LongFilter groupId;
 
@@ -128,6 +138,22 @@ public class MstAccountCriteria implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public BigDecimalFilter getDepreciationRate() {
+        return depreciationRate;
+    }
+
+    public void setDepreciationRate(BigDecimalFilter depreciationRate) {
+        this.depreciationRate = depreciationRate;
+    }
+
+    public DepreciationTypeFilter getDepreciationType() {
+        return depreciationType;
+    }
+
+    public void setDepreciationType(DepreciationTypeFilter depreciationType) {
+        this.depreciationType = depreciationType;
+    }
+
     public LongFilter getGroupId() {
         return groupId;
     }
@@ -156,6 +182,8 @@ public class MstAccountCriteria implements Serializable {
             Objects.equals(reservedFlag, that.reservedFlag) &&
             Objects.equals(modifiedBy, that.modifiedBy) &&
             Objects.equals(modifiedOn, that.modifiedOn) &&
+            Objects.equals(depreciationRate, that.depreciationRate) &&
+            Objects.equals(depreciationType, that.depreciationType) &&
             Objects.equals(groupId, that.groupId);
     }
 
@@ -171,6 +199,8 @@ public class MstAccountCriteria implements Serializable {
         reservedFlag,
         modifiedBy,
         modifiedOn,
+        depreciationRate,
+        depreciationType,
         groupId
         );
     }
@@ -187,6 +217,8 @@ public class MstAccountCriteria implements Serializable {
                 (reservedFlag != null ? "reservedFlag=" + reservedFlag + ", " : "") +
                 (modifiedBy != null ? "modifiedBy=" + modifiedBy + ", " : "") +
                 (modifiedOn != null ? "modifiedOn=" + modifiedOn + ", " : "") +
+                (depreciationRate != null ? "depreciationRate=" + depreciationRate + ", " : "") +
+                (depreciationType != null ? "depreciationType=" + depreciationType + ", " : "") +
                 (groupId != null ? "groupId=" + groupId + ", " : "") +
             "}";
     }

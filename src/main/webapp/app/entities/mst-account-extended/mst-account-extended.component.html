@@ -44,6 +44,8 @@
                 <th jhiSortBy="yearOpenBalance"><span>Year Open Balance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="yearOpenBalanceType"><span>Year Open Balance Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="yearCloseBalance"><span>Year Close Balance</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="depreciationRate"><span>Depreciation Rate</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="depreciationType"><span>Depreciation Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th jhiSortBy="reservedFlag"><span>Reserved Flag</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                 <th></th>
             </tr>
@@ -60,6 +62,8 @@
                 <td>{{mstAccount.yearOpenBalance}}</td>
                 <td>{{mstAccount.yearOpenBalanceType}}</td>
                 <td>{{mstAccount.yearCloseBalance}}</td>
+                <td>{{mstAccount.depreciationRate}}</td>
+                <td>{{mstAccount.depreciationType}}</td>
                 <td>{{mstAccount.reservedFlag}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">

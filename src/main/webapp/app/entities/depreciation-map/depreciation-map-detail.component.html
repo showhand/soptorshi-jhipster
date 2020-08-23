@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="depreciationMap">
+            <h2><span>Depreciation Map</span> {{depreciationMap.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+
+                <dt><span>Depreciation Account Name</span></dt>
+                <dd>
+                    <span>{{depreciationMap.depreciationAccountName}}</span>
+                </dd>
+
+                <dt><span>Account Name</span></dt>
+                <dd>
+                    <span>{{depreciationMap.accountName}}</span>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{depreciationMap.createdBy}}</span>
+                </dd>
+                <dt><span>Created On</span></dt>
+                <dd>
+                    <span>{{depreciationMap.createdOn}}</span>
+                </dd>
+                <dt><span>Modified By</span></dt>
+                <dd>
+                    <span>{{depreciationMap.modifiedBy}}</span>
+                </dd>
+                <dt><span>Modified On</span></dt>
+                <dd>
+                    <span>{{depreciationMap.modifiedOn}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/depreciation-map', depreciationMap.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

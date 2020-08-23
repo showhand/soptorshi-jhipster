@@ -10,6 +10,11 @@ export const enum ReservedFlag {
     NOT_RESERVED = 'NOT_RESERVED'
 }
 
+export const enum DepreciationType {
+    MONTHLY = 'MONTHLY',
+    YEARLY = 'YEARLY'
+}
+
 export interface IMstAccount {
     id?: number;
     code?: string;
@@ -20,6 +25,8 @@ export interface IMstAccount {
     reservedFlag?: ReservedFlag;
     modifiedBy?: string;
     modifiedOn?: Moment;
+    depreciationRate?: number;
+    depreciationType?: DepreciationType;
     groupName?: string;
     groupId?: number;
 }
@@ -35,6 +42,8 @@ export class MstAccount implements IMstAccount {
         public reservedFlag?: ReservedFlag,
         public modifiedBy?: string,
         public modifiedOn?: Moment,
+        public depreciationRate?: number,
+        public depreciationType?: DepreciationType,
         public groupName?: string,
         public groupId?: number
     ) {}

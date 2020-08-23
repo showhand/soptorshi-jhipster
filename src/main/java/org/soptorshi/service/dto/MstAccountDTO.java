@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.ReservedFlag;
+import org.soptorshi.domain.enumeration.DepreciationType;
 
 /**
  * A DTO for the MstAccount entity.
@@ -28,6 +29,10 @@ public class MstAccountDTO implements Serializable {
     private String modifiedBy;
 
     private LocalDate modifiedOn;
+
+    private BigDecimal depreciationRate;
+
+    private DepreciationType depreciationType;
 
 
     private Long groupId;
@@ -106,6 +111,22 @@ public class MstAccountDTO implements Serializable {
         this.modifiedOn = modifiedOn;
     }
 
+    public BigDecimal getDepreciationRate() {
+        return depreciationRate;
+    }
+
+    public void setDepreciationRate(BigDecimal depreciationRate) {
+        this.depreciationRate = depreciationRate;
+    }
+
+    public DepreciationType getDepreciationType() {
+        return depreciationType;
+    }
+
+    public void setDepreciationType(DepreciationType depreciationType) {
+        this.depreciationType = depreciationType;
+    }
+
     public Long getGroupId() {
         return groupId;
     }
@@ -155,6 +176,8 @@ public class MstAccountDTO implements Serializable {
             ", reservedFlag='" + getReservedFlag() + "'" +
             ", modifiedBy='" + getModifiedBy() + "'" +
             ", modifiedOn='" + getModifiedOn() + "'" +
+            ", depreciationRate=" + getDepreciationRate() +
+            ", depreciationType='" + getDepreciationType() + "'" +
             ", group=" + getGroupId() +
             ", group='" + getGroupName() + "'" +
             "}";
