@@ -11,7 +11,7 @@
     <jhi-alert></jhi-alert>
     <div class="row">
         <div class="col-sm-6">
-            <select class="form-control" id="field_financialAccountYear" name="financialAccountYear" [(ngModel)]="selectedFinancialAccountYear" >
+            <select class="form-control" id="field_financialAccountYear" name="financialAccountYear" [(ngModel)]="selectedFinancialAccountYear" (ngModelChange)="fetchDepreciationCalculationRecords()" >
                 <option [ngValue]="undefined">Select Financial Account Year</option>
                 <option [ngValue]="financialAccountYearOption" *ngFor="let financialAccountYearOption of financialAccountYears">{{financialAccountYearOption.startDate | date: 'dd-MMM-yyyy'}} - {{financialAccountYearOption.endDate | date: 'dd-MMM-yyyy'}}</option>
             </select>

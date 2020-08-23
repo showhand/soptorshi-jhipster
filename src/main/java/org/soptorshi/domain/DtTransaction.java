@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,6 +18,7 @@ import org.soptorshi.domain.enumeration.BalanceType;
 import org.soptorshi.domain.enumeration.VoucherType;
 
 import org.soptorshi.domain.enumeration.InstrumentType;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * A DtTransaction.
@@ -23,10 +26,11 @@ import org.soptorshi.domain.enumeration.InstrumentType;
 @Entity
 @Table(name = "dt_transaction")
 @Document(indexName = "dttransaction")
+@EntityListeners(AuditingEntityListener.class)
 public class DtTransaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -80,9 +84,11 @@ public class DtTransaction implements Serializable {
     private String narration;
 
     @Column(name = "modified_by")
+    @LastModifiedBy
     private String modifiedBy;
 
     @Column(name = "modified_on")
+    @LastModifiedDate
     private LocalDate modifiedOn;
 
     @Column(name = "reference")

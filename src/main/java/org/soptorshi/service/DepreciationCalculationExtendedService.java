@@ -21,6 +21,8 @@ public class DepreciationCalculationExtendedService  extends DepreciationCalcula
 
     @Override
     public DepreciationCalculationDTO save(DepreciationCalculationDTO depreciationCalculationDTO) {
+        if(depreciationCalculationDTO.isIsExecuted())
+            voucherTransactionService.calculateDepreciation(depreciationCalculationDTO.getMonthType(), depreciationCalculationDTO.getFinancialAccountYearId());
         return super.save(depreciationCalculationDTO);
     }
 }
