@@ -48,6 +48,7 @@ public class DtTransactionService {
         log.debug("Request to save DtTransaction : {}", dtTransactionDTO);
         DtTransaction dtTransaction = dtTransactionMapper.toEntity(dtTransactionDTO);
         dtTransaction = dtTransactionRepository.save(dtTransaction);
+        dtTransactionRepository.flush();
         DtTransactionDTO result = dtTransactionMapper.toDto(dtTransaction);
         dtTransactionSearchRepository.save(dtTransaction);
         return result;

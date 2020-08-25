@@ -47,7 +47,7 @@ public class JournalVoucherService {
     public JournalVoucherDTO save(JournalVoucherDTO journalVoucherDTO) {
         log.debug("Request to save JournalVoucher : {}", journalVoucherDTO);
         JournalVoucher journalVoucher = journalVoucherMapper.toEntity(journalVoucherDTO);
-        journalVoucher = journalVoucherRepository.save(journalVoucher);
+        journalVoucher = journalVoucherRepository.saveAndFlush(journalVoucher);
         JournalVoucherDTO result = journalVoucherMapper.toDto(journalVoucher);
         journalVoucherSearchRepository.save(journalVoucher);
         return result;

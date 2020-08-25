@@ -17,6 +17,7 @@ import org.soptorshi.service.dto.RequisitionVoucherRelationDTO;
 import org.soptorshi.service.mapper.DtTransactionMapper;
 import org.soptorshi.service.mapper.JournalVoucherMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -100,6 +101,7 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
         }
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateTransactions(JournalVoucherDTO journalVoucherDTO){
         DtTransactionCriteria criteria = new DtTransactionCriteria();
         StringFilter voucherFilter = new StringFilter();
@@ -111,6 +113,7 @@ public class JournalVoucherExtendedService extends JournalVoucherService {
         criteria.setVoucherDate(localDateFilter);
 
         List<DtTransactionDTO> transactionDTOS =  dtTransactionQueryService.findByCriteria(criteria);
+
         transactionDTOS.forEach(t->{
             t.setCurrencyId(journalVoucherDTO.getCurrencyId());
             t.setConvFactor(journalVoucherDTO.getConversionFactor());

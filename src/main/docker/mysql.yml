@@ -3,7 +3,7 @@ services:
     soptorshi-mysql:
         image: mysql:8.0.16
         volumes:
-            - ~/volumes/jhipster/soptorshi/mysqlv1/:/var/lib/mysql/
+            - ~/volumes/jhipster/soptorshi/mysql/:/var/lib/mysql/
         environment:
             - MYSQL_USER=root
             - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -11,3 +11,5 @@ services:
         ports:
             - 3306:3306
         command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp --innodb_log_file_size=2000
+
+

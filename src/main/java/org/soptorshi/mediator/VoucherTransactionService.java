@@ -14,6 +14,7 @@ import org.soptorshi.service.mapper.DtTransactionMapper;
 import org.soptorshi.utils.SoptorshiUtils;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ import java.util.List;
 @Transactional
 public class VoucherTransactionService {
     private final JournalVoucherExtendedService journalVoucherExtendedService;
+    private final JournalVoucherExtendedRepository journalVoucherExtendedRepository;
     private final DepreciationMapRepository depreciationMapRepository;
     private final MstGroupExtendedRepository groupExtendedRepository;
     private final MstAccountExtendedRepository mstAccountExtendedRepository;
@@ -34,9 +36,11 @@ public class VoucherTransactionService {
     private final DtTransactionExtendedRepository dtTransactionExtendedRepository;
     private final DtTransactionMapper dtTransactionMapper;
     private final FinancialAccountYearExtendedRepository financialAccountYearExtendedRepository;
+    private final EntityManager entityManager;
 
-    public VoucherTransactionService(JournalVoucherExtendedService journalVoucherExtendedService, DepreciationMapRepository depreciationMapRepository, MstGroupExtendedRepository groupExtendedRepository, MstAccountExtendedRepository mstAccountExtendedRepository, CurrencyExtendedRepository currencyExtendedRepository, AccountBalanceExtendedRepository accountBalanceExtendedRepository, DtTransactionExtendedService dtTransactionExtendedService, DtTransactionExtendedRepository dtTransactionExtendedRepository, DtTransactionMapper dtTransactionMapper, FinancialAccountYearExtendedRepository financialAccountYearExtendedRepository) {
+    public VoucherTransactionService(JournalVoucherExtendedService journalVoucherExtendedService, JournalVoucherExtendedRepository journalVoucherExtendedRepository, DepreciationMapRepository depreciationMapRepository, MstGroupExtendedRepository groupExtendedRepository, MstAccountExtendedRepository mstAccountExtendedRepository, CurrencyExtendedRepository currencyExtendedRepository, AccountBalanceExtendedRepository accountBalanceExtendedRepository, DtTransactionExtendedService dtTransactionExtendedService, DtTransactionExtendedRepository dtTransactionExtendedRepository, DtTransactionMapper dtTransactionMapper, FinancialAccountYearExtendedRepository financialAccountYearExtendedRepository, EntityManager entityManager) {
         this.journalVoucherExtendedService = journalVoucherExtendedService;
+        this.journalVoucherExtendedRepository = journalVoucherExtendedRepository;
         this.depreciationMapRepository = depreciationMapRepository;
         this.groupExtendedRepository = groupExtendedRepository;
         this.mstAccountExtendedRepository = mstAccountExtendedRepository;
@@ -46,6 +50,7 @@ public class VoucherTransactionService {
         this.dtTransactionExtendedRepository = dtTransactionExtendedRepository;
         this.dtTransactionMapper = dtTransactionMapper;
         this.financialAccountYearExtendedRepository = financialAccountYearExtendedRepository;
+        this.entityManager = entityManager;
     }
 
     public void calculateDepreciation(MonthType monthType, Long financialAccountYearId){
@@ -55,6 +60,11 @@ public class VoucherTransactionService {
 
         JournalVoucherDTO journalVoucherDTO = createJournalVoucher(monthType, financialAccountYear);
 
+        createDepreciatinTransactions(monthType, financialAccountYear, depreciationMapList, journalVoucherDTO);
+
+    }
+
+    private void createDepreciatinTransactions(MonthType monthType, FinancialAccountYear financialAccountYear, List<DepreciationMap> depreciationMapList, JournalVoucherDTO journalVoucherDTO) {
         List<DtTransactionDTO> transactionDTOS = new ArrayList<>();
 
         for(DepreciationMap depreciationMap: depreciationMapList){
@@ -63,28 +73,34 @@ public class VoucherTransactionService {
             drTransaction.setAccountName(depreciationMap.getAccountName());
             AccountBalance accountBalance = accountBalanceExtendedRepository.findByFinancialAccountYear_StatusAndAccount_Id(financialAccountYear.getStatus(), depreciationMap.getAccountId());
             BigDecimal percentage = accountBalance.getAccount().getDepreciationRate().divide(new BigDecimal(100));
-            drTransaction.setAmount(accountBalance.getTotCreditTrans().multiply(percentage));
+            drTransaction.setAmount(accountBalance.getTotDebitTrans().multiply(percentage));
             drTransaction.setBalanceType(BalanceType.DEBIT);
-            drTransaction.setVoucherId(journalVoucherDTO.getId());
+//            drTransaction.setVoucherId(journalVoucherDTO.getId());
+            drTransaction.setVoucherNo(journalVoucherDTO.getVoucherNo());
+            drTransaction.setVoucherDate(journalVoucherDTO.getVoucherDate());
             transactionDTOS.add(drTransaction);
+            dtTransactionExtendedRepository.saveAndFlush(dtTransactionMapper.toEntity(drTransaction));
 
             DtTransactionDTO crTransaction = new DtTransactionDTO();
             crTransaction.setAccountId(depreciationMap.getDepreciationAccountId());
             crTransaction.setAccountName(depreciationMap.getDepreciationAccountName());
             crTransaction.setAmount(drTransaction.getAmount());
             crTransaction.setBalanceType(BalanceType.CREDIT);
-            crTransaction.setVoucherId(journalVoucherDTO.getId());
+            crTransaction.setVoucherDate(journalVoucherDTO.getVoucherDate());
+//            crTransaction.setVoucherId(journalVoucherDTO.getId());
+            crTransaction.setVoucherNo(journalVoucherDTO.getVoucherNo());
+            dtTransactionExtendedRepository.saveAndFlush(dtTransactionMapper.toEntity(crTransaction));
             transactionDTOS.add(crTransaction);
         }
 
-        dtTransactionExtendedRepository.saveAll(dtTransactionMapper.toEntity(transactionDTOS));
-        dtTransactionExtendedRepository.flush();
+
+
+
+        entityManager.flush();
 
         // this is for posting
-        LocalDate postDate = getTempDate(monthType, financialAccountYear);
-        journalVoucherDTO.setPostDate(postDate);
+        journalVoucherDTO.setPostDate(journalVoucherDTO.getVoucherDate());
         journalVoucherExtendedService.save(journalVoucherDTO);
-
     }
 
     private LocalDate getTempDate(MonthType monthType, FinancialAccountYear financialAccountYear){
@@ -109,6 +125,7 @@ public class VoucherTransactionService {
         Currency currency = currencyExtendedRepository.findByFlag(CurrencyFlag.BASE);
         journalVoucherDTO.setCurrencyId(currency.getId());
         journalVoucherDTO.setCurrencyNotation(currency.getNotation());
-        return journalVoucherExtendedService.save(journalVoucherDTO);
+        journalVoucherDTO = journalVoucherExtendedService.save(journalVoucherDTO);
+        return journalVoucherDTO;
     }
 }
