@@ -26,7 +26,9 @@
         </form>-->
         <div style="float: right">
             <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-weekend"
-                    [routerLink]="['/weekend/new']">
+                    [routerLink]="['/weekend/new']"
+                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_WEEKEND_ADMIN', 'ROLE_WEEKEND_MANAGER']"
+            >
                 <fa-icon [icon]="'plus'"></fa-icon>
             </button>
         </div>
@@ -79,6 +81,7 @@
                     </th>-->
                     <th>
                         <button type="button" style="float: right"
+                                *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_WEEKEND_ADMIN', 'ROLE_WEEKEND_MANAGER']"
                                 class="btn btn-info btn-sm"
                                 (click)="generateReport()">
                             <fa-icon [icon]="'download'"></fa-icon>
@@ -104,25 +107,28 @@
                     <td class="text-right" width="20%">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_WEEKEND_ADMIN', 'ROLE_WEEKEND_MANAGER']"
                                     [routerLink]="['/weekend', weekend.id, 'view' ]"
                                     class="btn btn-info btn-sm">
                                 <fa-icon [icon]="'eye'"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
                             <button type="submit"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_WEEKEND_ADMIN', 'ROLE_WEEKEND_MANAGER']"
                                     [routerLink]="['/weekend', weekend.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
-                            <!--<button type="submit"
+                            <button type="submit"
                                     [routerLink]="['/', 'weekend', { outlets: { popup: weekend.id + '/delete'} }]"
                                     replaceUrl="true"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_WEEKEND_ADMIN']"
                                     queryParamsHandling="merge"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>
-                            </button>-->
+                            </button>
                         </div>
                     </td>
                 </tr>

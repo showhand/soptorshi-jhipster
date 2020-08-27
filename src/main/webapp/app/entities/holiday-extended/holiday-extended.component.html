@@ -19,7 +19,7 @@
                     <fa-icon [icon]="'trash-alt'"></fa-icon>
                 </button>
                 <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-holiday"
-                        [routerLink]="['/holiday/new']" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER']">
+                        [routerLink]="['/holiday/new']" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN', 'ROLE_HOLIDAY_MANAGER']">
                     <fa-icon [icon]="'plus'"></fa-icon>
                 </button>
             </div>

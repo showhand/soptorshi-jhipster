@@ -39,7 +39,8 @@ public class WeekendExtendedResource extends WeekendResource {
     public ResponseEntity<WeekendDTO> createWeekend(@Valid @RequestBody WeekendDTO weekendDTO) throws URISyntaxException {
         log.debug("REST request to save Weekend : {}", weekendDTO);
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
-            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.WEEKEND_MANAGER)) {
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.WEEKEND_ADMIN) &&
+        !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.WEEKEND_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         }
         if (weekendDTO.getId() != null) {
@@ -55,6 +56,7 @@ public class WeekendExtendedResource extends WeekendResource {
     public ResponseEntity<WeekendDTO> updateWeekend(@Valid @RequestBody WeekendDTO weekendDTO) throws URISyntaxException {
         log.debug("REST request to update Weekend : {}", weekendDTO);
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.WEEKEND_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.WEEKEND_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         }
@@ -70,6 +72,11 @@ public class WeekendExtendedResource extends WeekendResource {
     @DeleteMapping("/weekends/{id}")
     public ResponseEntity<Void> deleteWeekend(@PathVariable Long id) {
         log.debug("REST request to delete Weekend : {}", id);
-        throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.WEEKEND_ADMIN)) {
+            throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
+        }
+        weekendExtendedService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

@@ -101,7 +101,7 @@
                         <span *ngIf="!leftMenuHidden">Holiday</span>
                     </a>
                 </li>
-                <li>
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_WEEKEND_ADMIN', 'ROLE_WEEKEND_MANAGER']">
                     <a class="dropdown-item" routerLink="weekend" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
