@@ -39,6 +39,7 @@ public class HolidayExtendedResource extends HolidayResource {
     public ResponseEntity<HolidayDTO> createHoliday(@Valid @RequestBody HolidayDTO holidayDTO) throws URISyntaxException {
         log.debug("REST request to save Holiday : {}", holidayDTO);
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         }
@@ -55,6 +56,7 @@ public class HolidayExtendedResource extends HolidayResource {
     public ResponseEntity<HolidayDTO> updateHoliday(@Valid @RequestBody HolidayDTO holidayDTO) throws URISyntaxException {
         log.debug("REST request to update Holiday : {}", holidayDTO);
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         }
@@ -70,6 +72,11 @@ public class HolidayExtendedResource extends HolidayResource {
     @DeleteMapping("/holidays/{id}")
     public ResponseEntity<Void> deleteHoliday(@PathVariable Long id) {
         log.debug("REST request to delete Holiday : {}", id);
-        throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_ADMIN)) {
+            throw new BadRequestAlertException("Delete operation is not allowed", ENTITY_NAME, "idnull");
+        }
+        holidayExtendedService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

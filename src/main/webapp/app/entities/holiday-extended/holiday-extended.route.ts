@@ -20,7 +20,7 @@ export const holidayExtendedRoute: Routes = [
         path: '',
         component: HolidayExtendedComponent,
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER', 'ROLE_USER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN', 'ROLE_HOLIDAY_MANAGER', 'ROLE_USER'],
             pageTitle: 'Holidays'
         },
         canActivate: [UserRouteAccessService]
@@ -32,7 +32,7 @@ export const holidayExtendedRoute: Routes = [
             holiday: HolidayExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
             pageTitle: 'Holidays'
         },
         canActivate: [UserRouteAccessService]
@@ -44,7 +44,7 @@ export const holidayExtendedRoute: Routes = [
             holiday: HolidayExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
             pageTitle: 'Holidays'
         },
         canActivate: [UserRouteAccessService]
@@ -56,7 +56,7 @@ export const holidayExtendedRoute: Routes = [
             holiday: HolidayExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
             pageTitle: 'Holidays'
         },
         canActivate: [UserRouteAccessService]
@@ -71,7 +71,7 @@ export const holidayPopupExtendedRoute: Routes = [
             holiday: HolidayExtendedResolve
         },
         data: {
-            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER'],
+            authorities: ['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN'],
             pageTitle: 'Holidays'
         },
         canActivate: [UserRouteAccessService],

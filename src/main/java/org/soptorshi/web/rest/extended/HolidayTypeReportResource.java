@@ -32,6 +32,7 @@ public class HolidayTypeReportResource {
     @GetMapping(value = "/holiday-types/report/all", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getAllHolidayTypes() throws Exception, DocumentException {
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", "HolidayTypes", "invalidaccess");
         }

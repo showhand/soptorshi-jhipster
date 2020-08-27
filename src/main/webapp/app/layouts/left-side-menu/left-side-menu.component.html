@@ -76,7 +76,7 @@
         </li>
 
         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER', 'ROLE_USER']">
+            *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN', 'ROLE_HOLIDAY_MANAGER', 'ROLE_USER']">
             <a (click)="holidayManagement=!holidayManagement" data-toggle="collapse" class="dropdown-toggle"
                [attr.aria-expanded]="false">
 
@@ -87,14 +87,14 @@
 
             </a>
             <ul [ngbCollapse]="!holidayManagement" class="list-unstyled" id="holiday-management">
-                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER']">
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN', 'ROLE_HOLIDAY_MANAGER']">
                     <a class="dropdown-item" routerLink="holiday-type" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="bars" fixedWidth="true"></fa-icon>
                         <span *ngIf="!leftMenuHidden">Holiday Type</span>
                     </a>
                 </li>
-                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER', 'ROLE_USER']">
+                <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN', 'ROLE_HOLIDAY_MANAGER', 'ROLE_USER']">
                     <a class="dropdown-item" routerLink="holiday" routerLinkActive="active"
                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="plane" fixedWidth="true"></fa-icon>

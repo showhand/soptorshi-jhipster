@@ -46,7 +46,7 @@
                     <th>
                         <button type="button" style="float: right"
                                 class="btn btn-info btn-sm"
-                                (click)="generateReport()">
+                                (click)="generateReport()" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN', 'ROLE_HOLIDAY_MANAGER']">
                             <fa-icon [icon]="'download'"></fa-icon>
                         </button>
                     </th>
@@ -57,28 +57,31 @@
                 <tr *ngFor="let holidayType of holidayTypes ;trackBy: trackId">
                     <td><a [routerLink]="['/holiday-type', holidayType.id, 'view' ]">{{holidayType.id}}</a></td>
                     <td>{{holidayType.name}}</td>
-                    <td class="text-right" width="20%" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_MANAGER']">
+                    <td class="text-right" width="20%">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     [routerLink]="['/holiday-type', holidayType.id, 'view' ]"
-                                    class="btn btn-info btn-sm">
+                                    class="btn btn-info btn-sm"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN', 'ROLE_HOLIDAY_MANAGER']">
                                 <fa-icon [icon]="'eye'"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
                             <button type="submit"
                                     [routerLink]="['/holiday-type', holidayType.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
+                                    class="btn btn-primary btn-sm"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN', 'ROLE_HOLIDAY_MANAGER']">
                                 <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
-                            <!--<button type="submit"
+                            <button type="submit"
                                     [routerLink]="['/', 'holiday-type', { outlets: { popup: holidayType.id + '/delete'} }]"
                                     replaceUrl="true"
                                     queryParamsHandling="merge"
-                                    class="btn btn-danger btn-sm">
+                                    class="btn btn-danger btn-sm"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_HOLIDAY_ADMIN']">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>
-                            </button>-->
+                            </button>
                         </div>
                     </td>
                 </tr>

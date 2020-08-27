@@ -28,4 +28,26 @@ export class HolidayDeletePopupExtendedComponent extends HolidayDeletePopupCompo
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
         super(activatedRoute, router, modalService);
     }
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ holiday }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(HolidayDeleteDialogExtendedComponent as Component, {
+                    size: 'lg',
+                    backdrop: 'static'
+                });
+                this.ngbModalRef.componentInstance.holiday = holiday;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate(['/holiday', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    },
+                    reason => {
+                        this.router.navigate(['/holiday', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    }
+                );
+            }, 0);
+        });
+    }
 }

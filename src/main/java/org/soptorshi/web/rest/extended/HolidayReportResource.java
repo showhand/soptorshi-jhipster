@@ -33,6 +33,7 @@ public class HolidayReportResource {
     @GetMapping(value = "/holidays/report/all", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getAllHolidays() throws Exception, DocumentException {
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", "Holidays", "invalidaccess");
         }
@@ -49,6 +50,7 @@ public class HolidayReportResource {
     @GetMapping(value = "/holidays/report/year/{year}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getHolidays(@PathVariable int year) throws Exception, DocumentException {
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.HOLIDAY_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", "Holidays", "invalidaccess");
         }
