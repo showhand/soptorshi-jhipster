@@ -27,4 +27,26 @@ export class AttendanceDeletePopupExtendedComponent extends AttendanceDeletePopu
     constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {
         super(activatedRoute, router, modalService);
     }
+
+    ngOnInit() {
+        this.activatedRoute.data.subscribe(({ attendance }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(AttendanceDeleteDialogExtendedComponent as Component, {
+                    size: 'lg',
+                    backdrop: 'static'
+                });
+                this.ngbModalRef.componentInstance.attendance = attendance;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate(['/attendance', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    },
+                    reason => {
+                        this.router.navigate(['/attendance', { outlets: { popup: null } }]);
+                        this.ngbModalRef = null;
+                    }
+                );
+            }, 0);
+        });
+    }
 }

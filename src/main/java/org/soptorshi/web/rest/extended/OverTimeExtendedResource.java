@@ -45,6 +45,7 @@ public class OverTimeExtendedResource extends OverTimeResource {
     public ResponseEntity<OverTimeDTO> createOverTime(@Valid @RequestBody OverTimeDTO overTimeDTO) throws URISyntaxException {
         log.debug("REST request to save OverTime : {}", overTimeDTO);
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.OVERTIME_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.OVERTIME_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         }
@@ -73,6 +74,7 @@ public class OverTimeExtendedResource extends OverTimeResource {
     public ResponseEntity<OverTimeDTO> updateOverTime(@Valid @RequestBody OverTimeDTO overTimeDTO) throws URISyntaxException {
         log.debug("REST request to update OverTime : {}", overTimeDTO);
         if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.OVERTIME_ADMIN) &&
             !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.OVERTIME_MANAGER)) {
             throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
         }
@@ -100,6 +102,11 @@ public class OverTimeExtendedResource extends OverTimeResource {
     @DeleteMapping("/over-times/{id}")
     public ResponseEntity<Void> deleteOverTime(@PathVariable Long id) {
         log.debug("REST request to delete OverTime : {}", id);
-        throw new BadRequestAlertException("Delete operation not allowed", ENTITY_NAME, "idnull");
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN) &&
+            !SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.OVERTIME_ADMIN)) {
+            throw new BadRequestAlertException("Access Denied", ENTITY_NAME, "invalidaccess");
+        }
+        overTimeExtendedService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }
